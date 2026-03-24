@@ -20,26 +20,26 @@
 
 <title>2025-10: The Long Tail of Property Conversion | Azure Service Operator</title>
 <meta name="description" content="Context We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we’re encountering the “long tail” - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.
-The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinatlity of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
+The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinality of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
 In the past, as each case of incompatibility has arisen, we’ve enhanced the code generator to handle the new case, taking the stance that it’s better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2025-10-28-property-conversion-long-tail/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="2025-10: The Long Tail of Property Conversion">
   <meta property="og:description" content="Context We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we’re encountering the “long tail” - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.
-The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinatlity of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
+The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinality of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
 In the past, as each case of incompatibility has arisen, we’ve enhanced the code generator to handle the new case, taking the stance that it’s better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
   <meta itemprop="name" content="2025-10: The Long Tail of Property Conversion">
   <meta itemprop="description" content="Context We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we’re encountering the “long tail” - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.
-The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinatlity of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
+The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinality of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
 In the past, as each case of incompatibility has arisen, we’ve enhanced the code generator to handle the new case, taking the stance that it’s better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).">
   <meta itemprop="wordCount" content="511">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="2025-10: The Long Tail of Property Conversion">
   <meta name="twitter:description" content="Context We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we’re encountering the “long tail” - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.
-The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinatlity of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
+The most recent example affects preview versions of ManagedClustersAgentPool (a child resource of ManagedCluster) where the cardinality of ScaleProfile has changed from plural (AutoScaleProfile[]) to singular (AutoScaleProfile).
 In the past, as each case of incompatibility has arisen, we’ve enhanced the code generator to handle the new case, taking the stance that it’s better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
@@ -156,7 +156,9 @@ In the past, as each case of incompatibility has arisen, we’ve enhanced the co
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2190-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.19.0/" title="v2.19.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2190"><span class="">v2.19.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/" title="v2.16.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160"><span class="">v2.16.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2180-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.18.0/" title="v2.18.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2180"><span class="">v2.18.0</span></a>
@@ -410,9 +412,7 @@ In the past, as each case of incompatibility has arisen, we’ve enhanced the co
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview-li">
-  <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/" title="containerservice.azure.com/v1api20240402preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240402preview"><span class="">v1api20240402preview</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20240901/" title="containerservice.azure.com/v1api20240901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20240901"><span class="">v1api20240901</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20250301-li">
   <a href="/azure-service-operator/reference/containerservice/v1api20250301/" title="containerservice.azure.com/v1api20250301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev1api20250301"><span class="">v1api20250301</span></a>
@@ -980,10 +980,10 @@ In the past, as each case of incompatibility has arisen, we’ve enhanced the co
 </header>
 	<h2 id="context">Context</h2>
 <p>We are successfully generating conversion code for inter-version transformation of resources across a wide range of resources. However, we&rsquo;re encountering the &ldquo;long tail&rdquo; - increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator.</p>
-<p>The most recent example affects preview versions of <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/#ManagedClustersAgentPool"><code>ManagedClustersAgentPool</code></a> (a child resource of <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/#ManagedCluster"><code>ManagedCluster</code></a>) where the cardinatlity of <a href="/azure-service-operator/reference/containerservice/v1api20240402preview/#ScaleProfile">ScaleProfile</a> has changed from plural (<code>AutoScaleProfile[]</code>) to singular (<code>AutoScaleProfile</code>).</p>
+<p>The most recent example affects preview versions of <code>ManagedClustersAgentPool</code> (a child resource of <code>ManagedCluster</code>) where the cardinality of <code>ScaleProfile</code> has changed from plural (<code>AutoScaleProfile[]</code>) to singular (<code>AutoScaleProfile</code>).</p>
 <p>In the past, as each case of incompatibility has arisen, we&rsquo;ve enhanced the code generator to handle the new case, taking the stance that it&rsquo;s better to handle these cases once (by enhancing the generator) than to handle them many times (by writing custom conversion code for each resource that needs it).</p>
 <h3 id="option-1-continue-to-extend-the-generator-status-quo">Option 1: Continue to extend the generator (status quo)</h3>
-<p>As new cases that aren&rsquo;t yet handled arise, enhance the code generator to handle the required conviersions automatically. This is the status quo approach.</p>
+<p>As new cases that aren&rsquo;t yet handled arise, enhance the code generator to handle the required conversions automatically. This is the status quo approach.</p>
 <h4 id="pros">Pros</h4>
 <ul>
 <li>Once a case is handled, it is handled for all resources, so we don&rsquo;t need to write custom conversion code for each resource that needs it.</li>

@@ -8,6 +8,13 @@
     <language>en-us</language>
     <atom:link href="https://azure.github.io/azure-service-operator/guide/breaking-changes/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>v2.19.0 Breaking Changes</title>
+      <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.19.0/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.19.0/</guid>
+      <description>&lt;h2 id=&#34;breaking-changes&#34;&gt;Breaking changes&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Removed containerservice v1api20240402preview versions of ManagedCluster, ManagedClustersAgentPool, and TrustedAccessRoleBinding resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via &lt;code&gt;--crd-pattern&lt;/code&gt;, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you&amp;rsquo;ll need to run &lt;a href=&#34;https://azure.github.io/azure-service-operator/tools/asoctl/#clean-crds&#34;&gt;asoctl clean crds&lt;/a&gt; before upgrading.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;upcoming-breaking-changes&#34;&gt;Upcoming breaking changes&lt;/h2&gt;</description>
+    </item>
+    <item>
       <title>v2.16.0 Breaking Changes</title>
       <link>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
