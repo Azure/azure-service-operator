@@ -3,6 +3,9 @@ version: '3.7'
 run: when_changed
 output: prefixed
 
+includes:
+  ci: ./ci/Taskfile.yml
+
 vars:
   PACKAGE: github.com/Azure/azure-service-operator/v2
 
@@ -27,8 +30,7 @@ vars:
   HEADER_FILE:
     sh: 'realpath v2/boilerplate.go.txt'
 
-  TEST_OUT:
-    sh: 'realpath reports'
+  TEST_OUT: '{{joinPath .ROOT_DIR "reports"}}'
 
   VERSION:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
@@ -61,6 +63,21 @@ vars:
   AKS_WORKLOAD_IDENTITY_PATH: "v2/out/aks-identity"
 
 tasks:
+
+  debug:
+    silent: true
+    cmds:
+      - echo "FEE {{.FEE}}"
+      - echo "FEX {{.FEX}}"
+      - echo "FIE {{.FIE}}"
+      - echo "FOE {{.FOE}}"
+      - echo "FUM {{.FUM}}"
+      - echo "GUM {{.GUM}}"
+      - echo "TSTx {{.TEST_OUT}}"
+      - echo "LCL {{.LOCAL}}"
+    vars:
+      LOCAL: '{{joinPath .ROOT_DIR "reports"}}'
+
   default:
     cmds:
       - task: format-code # Run before quick-checks to avoid racing with generated file creation
@@ -78,7 +95,8 @@ tasks:
   setup:
     desc: Perform setup tasks
     cmds:
-      - "mkdir -p {{.TEST_OUT}}"
+      - echo "Tests output to {{.TEST_OUT}}"
+      - mkdir -p {{.TEST_OUT}}
 
   ci:
     desc: Run all CI checks.

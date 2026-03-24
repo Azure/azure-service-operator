@@ -1,0 +1,138 @@
+#
+# Taskfile for CI pipeline tasks.
+# Not intended for standalone use, but only when imported into the main Taskfile.yml.
+#
+
+version: '3.7'
+
+tasks:
+
+  test-controllers:
+    desc: Run tests of controllers with envtest
+    summary: |
+      Run tests of controllers with envtest, deliberately skipping dependencies that may result in a long setup time. 
+      This is intended to be used in the CI pipeline, and not for local development.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: 
+      - setup
+      - run-kustomize-for-envtest
+    cmds:
+      - defer: # want to run even on failure
+          task: produce-markdown-summary
+          vars:
+            INPUT_FILE: '{{.TEST_OUTPUT}}'
+            OUTPUT_FILE: '{{.TEST_REPORT}}'
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers -json > {{.TEST_OUTPUT}}
+    vars:
+      VERBOSE:
+        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+      TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
+      TEST_OUTPUT: '{{joinPath .TEST_OUT "test-controllers.json"}}'
+      TEST_REPORT: '{{joinPath .TEST_OUT "test-controllers.md"}}'
+
+  test-samples:
+    desc: Run tests of samples with envtest
+    summary: |
+      Run tests of samples with envtest, deliberately skipping dependencies that may result in a long setup time. 
+      This is intended to be used in the CI pipeline, and not for local development.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: 
+      - setup
+      - run-kustomize-for-envtest
+    cmds:
+      - defer: # want to run even on failure
+          task: produce-markdown-summary
+          vars:
+            INPUT_FILE: '{{.TEST_OUTPUT}}'
+            OUTPUT_FILE: '{{.TEST_REPORT}}'
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples -json > {{.TEST_OUTPUT}}
+    vars:
+      VERBOSE:
+        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+      TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
+      TEST_OUTPUT: '{{joinPath .TEST_OUT "test-samples.json"}}'
+      TEST_REPORT: '{{joinPath .TEST_OUT "test-samples.md"}}'
+
+  run-kustomize-for-envtest:
+    desc: Generates the CRDs for use in envtest
+    deps: 
+      - generate-kustomize
+    dir: "v2/"
+    sources:
+      - config/crd/**/*.yaml
+    generates:
+      - out/envtest/crds/azureserviceoperator.yaml
+    cmds:
+      - mkdir -p out/envtest/crds
+      - find "out/envtest/crds" -type f -delete
+      - kustomize build config/crd/generated > out/envtest/crds/azureserviceoperator.yaml
+
+  generate-kustomize:
+    desc: Run {{.GENERATOR_APP}} to generate the Kustomize file for registering CRDs.
+    deps: 
+      - generate-crds
+      - build-generator
+    dir: v2
+    sources:
+      - bin/{{.GENERATOR_APP}}
+      - config/crd/generated/bases/**/*.yaml
+    generates:
+      - config/crd/generated/kustomization.yaml
+      - config/crd/generated/patches/**/*.yaml
+    cmds:
+      - bin/{{.GENERATOR_APP}} gen-kustomize config/crd/generated
+
+  generate-crds:
+    desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.
+    deps: 
+      - build-python-venv
+    sources:
+      - "v2/api/**/*.go" # depends on all API types
+      - "v2/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
+    cmds:
+      - mkdir -p v2/api
+      - find v2/api -type f -name "zz_generated.*" -delete
+      - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" -type f -delete; fi
+      - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" -type f -delete; fi
+      - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./...
+      - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+      - "{{.SCRIPTS_ROOT}}/venv/bin/python3 {{.SCRIPTS_ROOT}}/generate-webhooks-per-group.py --api-dir v2/api --output-dir {{.CONTROLLER_OUTPUT}}/webhook/generated"
+      - cmd: cd v2/api && gofumpt -l -w . # format all generated code
+        ignore_error: true # Just in case the code doesn't build
+    vars:
+      OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
+      CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/generated/bases
+      RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CONTROLLER_OUTPUT}}/rbac
+
+  setup:
+    internal: true
+    cmds:
+      - echo "Tests output to {{.TEST_OUT}}"
+      - mkdir -p {{.TEST_OUT}}
+
+  build-python-venv:
+    desc: Creates a Python virtual env
+    dir: "{{.SCRIPTS_ROOT}}"
+    internal: true
+    cmds:
+      - python3 -m virtualenv venv
+      - venv/bin/pip3 install -r requirements.txt
+
+  build-generator:
+    desc: Generate the {{.GENERATOR_APP}} binary.
+    dir: '{{.GENERATOR_ROOT}}'
+    cmds:
+      - go build {{.LDFLAGS}} -o ../../bin/{{.GENERATOR_APP}} .
+
+  build-mangle-test:
+    desc: Builds the tool we use for mangling test results
+    dir: '{{joinPath .TASKFILE_DIR ".."  "v2" "tools" "mangle-test-json"}}' 
+    cmds:
+      - go build
+
+  produce-markdown-summary:
+    desc: Builds a test output summary for Github
+    deps: 
+       - build-mangle-test
+    cmds:
+      - cmd: ./v2/tools/mangle-test-json/mangle-test-json "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"

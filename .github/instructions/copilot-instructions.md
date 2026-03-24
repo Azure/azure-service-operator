@@ -1,3 +1,7 @@
+---
+applyTo: "**"
+---
+
 # Copilot Instructions for Azure Service Operator
 
 You are an expert Go developer and an AI assistant helping to maintain the Azure Service Operator (ASO) project. Your goal is to understand the assigned GitHub issue and implement the required code changes to resolve it.
@@ -65,7 +69,8 @@ If an issue seems too complex to fix, please stop and ask for clarification.
 
 Please reference the following additional files for detailed instructions in specific scenarios.
 
-* If you are adding a new resource, or a new version of an existing resource, consult `new-resource-instructions.md`.
+* If you are adding a new resource, or a new version of an existing resource, consult `new-resource.instructions.md`.
+* If you are reviewing a change, consult `code-review.instructions.md`.
 
 ## Reference Documentation
 

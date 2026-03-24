@@ -242,12 +242,11 @@ if should-install "$TOOL_DEST/golangci-lint"; then
 fi
 
 # Install Task
-#doc# | Task | v3.44.0 | https://taskfile.dev/ |
-# not using 3.44.1+ due to https://github.com/go-task/task/issues/2355
+#doc# | Task | v3.49.1 | https://taskfile.dev/ |
 write-verbose "Checking for $TOOL_DEST/go-task"
 if should-install "$TOOL_DEST/task"; then 
     write-info "Installing go-task"
-    curl -sL "https://github.com/go-task/task/releases/download/v3.44.0/task_${os}_${arch}.tar.gz" | tar xz -C "$TOOL_DEST" task
+    curl -sL "https://github.com/go-task/task/releases/download/v3.49.1/task_${os}_${arch}.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
 
 # Install Trivy
