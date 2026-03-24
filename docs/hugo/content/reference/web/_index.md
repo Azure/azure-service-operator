@@ -8,6 +8,16 @@ To install the CRDs for these resources, your ASO configuration must include `we
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+| Resource                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
+|------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
+| [ServerFarm]({{< relref "/reference/web/v20220301#ServerFarm" >}})                 | 2022-03-01  | v20220301   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_serverfarm.yaml)         |
+| [Site]({{< relref "/reference/web/v20220301#Site" >}})                             | 2022-03-01  | v20220301   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_site.yaml)               |
+| [SitesSourcecontrol]({{< relref "/reference/web/v20220301#SitesSourcecontrol" >}}) | 2022-03-01  | v20220301   | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_sitessourcecontrol.yaml) |
+
+### Deprecated
+
+These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See [Breaking Changes](https://azure.github.io/azure-service-operator/guide/breaking-changes/) for more information.
+
 | Resource                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                               |
 |----------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
 | [ServerFarm]({{< relref "/reference/web/v1api20220301#ServerFarm" >}})                 | 2022-03-01  | v1api20220301 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v1api20220301/v1api20220301_serverfarm.yaml)         |

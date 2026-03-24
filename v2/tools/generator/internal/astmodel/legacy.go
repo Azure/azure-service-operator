@@ -97,7 +97,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 
 	"subscription": VersionMigrationModeLegacy,
 	"synapse":      VersionMigrationModeLegacy,
-	"web":          VersionMigrationModeLegacy,
+	"web":          VersionMigrationModeHybrid,
 }
 
 // VersionPrefixForGroup returns the version prefix to use for the specified group.

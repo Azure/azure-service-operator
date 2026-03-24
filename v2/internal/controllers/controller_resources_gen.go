@@ -430,9 +430,12 @@ import (
 	synapse_v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
 	synapse_v20210601w "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/webhook"
 	web_customizations "github.com/Azure/azure-service-operator/v2/api/web/customizations"
-	web_v20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
-	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
-	web_v20220301w "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/webhook"
+	web_v1api20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
+	web_v1api20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
+	web_v1api20220301w "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/webhook"
+	web_v20220301 "github.com/Azure/azure-service-operator/v2/api/web/v20220301"
+	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v20220301/storage"
+	web_v20220301w "github.com/Azure/azure-service-operator/v2/api/web/v20220301/webhook"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 	"k8s.io/api/core/v1"
@@ -6263,6 +6266,28 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(web_v1api20220301.ServerFarm),
+			Defaulter: &web_v1api20220301w.ServerFarm{},
+			Validator: &web_v1api20220301w.ServerFarm{},
+		},
+		&registration.KnownType{
+			Obj:       new(web_v1api20220301.Site),
+			Defaulter: &web_v1api20220301w.Site{},
+			Validator: &web_v1api20220301w.Site{},
+		},
+		&registration.KnownType{
+			Obj:       new(web_v1api20220301.SitesSourcecontrol),
+			Defaulter: &web_v1api20220301w.SitesSourcecontrol{},
+			Validator: &web_v1api20220301w.SitesSourcecontrol{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(web_v1api20220301s.ServerFarm)},
+		&registration.KnownType{Obj: new(web_v1api20220301s.Site)},
+		&registration.KnownType{Obj: new(web_v1api20220301s.SitesSourcecontrol)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(web_v20220301.ServerFarm),
 			Defaulter: &web_v20220301w.ServerFarm{},
 			Validator: &web_v20220301w.ServerFarm{},
@@ -6543,6 +6568,8 @@ func createScheme() *runtime.Scheme {
 	_ = subscription_v20211001s.AddToScheme(scheme)
 	_ = synapse_v20210601.AddToScheme(scheme)
 	_ = synapse_v20210601s.AddToScheme(scheme)
+	_ = web_v1api20220301.AddToScheme(scheme)
+	_ = web_v1api20220301s.AddToScheme(scheme)
 	_ = web_v20220301.AddToScheme(scheme)
 	_ = web_v20220301s.AddToScheme(scheme)
 	return scheme
