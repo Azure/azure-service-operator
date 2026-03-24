@@ -262,10 +262,12 @@ func (replayer *replayRoundTripper) invalidateCachedGets(mutationPath string) {
 func (replayer *replayRoundTripper) hashOfBody(request *http.Request) string {
 	// Read all the content of the request body
 	var body bytes.Buffer
-	_, err := body.ReadFrom(request.Body)
-	if err != nil {
-		// Should never fail
-		panic(fmt.Sprintf("reading request.Body failed: %s", err))
+	if request.Body != nil {
+		_, err := body.ReadFrom(request.Body)
+		if err != nil {
+			// Should never fail
+			panic(fmt.Sprintf("reading request.Body failed: %s", err))
+		}
 	}
 
 	// Apply the same body filtering that we do in recordings so that the hash is consistent
