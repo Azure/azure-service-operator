@@ -14,14 +14,14 @@
 
 All files are in `v2/internal/testcommon/vcr/v4/`:
 
-| File | Action | Responsibility |
-|------|--------|----------------|
-| `barrier_matcher.go` | Create | Stateful matcher that tracks mutation barriers during cassette scans |
-| `barrier_matcher_test.go` | Create | Unit tests for barrier matching behaviour |
-| `replay_roundtripper.go` | Modify | Add POST/PATCH/DELETE caches, GET invalidation on mutation, shared helpers |
+| File                          | Action | Responsibility                                                             |
+| ----------------------------- | ------ | -------------------------------------------------------------------------- |
+| `barrier_matcher.go`          | Create | Stateful matcher that tracks mutation barriers during cassette scans       |
+| `barrier_matcher_test.go`     | Create | Unit tests for barrier matching behaviour                                  |
+| `replay_roundtripper.go`      | Modify | Add POST/PATCH/DELETE caches, GET invalidation on mutation, shared helpers |
 | `replay_roundtripper_test.go` | Modify | New tests for expanded verbs and cache invalidation, update existing tests |
-| `test_recorder.go` | Modify | Wire barrier matcher, remove CountHeader check from matching |
-| `tracking_roundtripper.go` | Modify | Remove count header logic, keep hash headers for PUT/POST/PATCH |
+| `test_recorder.go`            | Modify | Wire barrier matcher, remove CountHeader check from matching               |
+| `tracking_roundtripper.go`    | Modify | Remove count header logic, keep hash headers for PUT/POST/PATCH            |
 
 ---
 
