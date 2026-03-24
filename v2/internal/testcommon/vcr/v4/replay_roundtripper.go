@@ -139,7 +139,7 @@ func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.R
 }
 
 func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.Response, error) {
-	hash := replayer.hashOfBody(request)
+	hash := replayer.hashOfCanonicalBody(request)
 
 	response, err := replayer.inner.RoundTrip(request)
 	if err != nil {
@@ -156,7 +156,7 @@ func (replayer *replayRoundTripper) roundTripPut(request *http.Request) (*http.R
 }
 
 func (replayer *replayRoundTripper) roundTripPost(request *http.Request) (*http.Response, error) {
-	hash := replayer.hashOfBody(request)
+	hash := replayer.hashOfCanonicalBody(request)
 
 	response, err := replayer.inner.RoundTrip(request)
 	if err != nil {
@@ -173,7 +173,7 @@ func (replayer *replayRoundTripper) roundTripPost(request *http.Request) (*http.
 }
 
 func (replayer *replayRoundTripper) roundTripPatch(request *http.Request) (*http.Response, error) {
-	hash := replayer.hashOfBody(request)
+	hash := replayer.hashOfCanonicalBody(request)
 
 	response, err := replayer.inner.RoundTrip(request)
 	if err != nil {
@@ -257,26 +257,22 @@ func (replayer *replayRoundTripper) invalidateCachedGets(mutationPath string) {
 	}
 }
 
-// hashOfBody calculates a hash of the body of a request, for use as a cache key.
-// The body is sanitised before calculating the hash to ensure that the same request body always results in the same hash.
-func (replayer *replayRoundTripper) hashOfBody(request *http.Request) string {
-	// Read all the content of the request body
+// hashOfCanonicalBody calculates a hash of the canonicalized body of a request, for use as a cache key.
+// JSON bodies are canonicalized (keys sorted) before hashing to ensure deterministic results regardless
+// of map key ordering in the serialized JSON.
+func (replayer *replayRoundTripper) hashOfCanonicalBody(request *http.Request) string {
 	var body bytes.Buffer
 	if request.Body != nil {
 		_, err := body.ReadFrom(request.Body)
 		if err != nil {
-			// Should never fail
 			panic(fmt.Sprintf("reading request.Body failed: %s", err))
 		}
 	}
 
-	// Apply the same body filtering that we do in recordings so that the hash is consistent
 	bodyString := replayer.redactor.HideRecordingData(body.String())
-
-	// Calculate a hash based on body string
+	bodyString = canonicalizeJSON(bodyString)
 	hash := sha256.Sum256([]byte(bodyString))
 
-	// Reset the body so it can be read again
 	request.Body = io.NopCloser(&body)
 
 	return fmt.Sprintf("%x", hash)

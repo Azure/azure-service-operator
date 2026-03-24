@@ -177,11 +177,22 @@ func matchOnHeadersAndBody(log logr.Logger) recorder.MatcherFunc {
 			return false
 		}
 
-		// verify custom body hash header matches, if present
+		// Verify body hash headers match, if present.
+		// We check both the raw hash and the canonical hash. A match on either is sufficient.
+		// The raw hash provides backward compatibility with existing recordings.
+		// The canonical hash handles non-deterministic JSON key ordering from Go map serialization.
 		if header := r.Header.Get(HashHeader); header != "" {
-			interactionHeader := i.Headers.Get(HashHeader)
-			if header != interactionHeader {
-				log.Info("Request body hash header mismatch", HashHeader, header, "interaction", interactionHeader)
+			rawMatch := header == i.Headers.Get(HashHeader)
+			canonicalMatch := r.Header.Get(CanonicalHashHeader) == i.Headers.Get(CanonicalHashHeader)
+
+			if !rawMatch && !canonicalMatch {
+				log.Info(
+					"Request body hash header mismatch",
+					HashHeader, header,
+					"interaction", i.Headers.Get(HashHeader),
+					CanonicalHashHeader, r.Header.Get(CanonicalHashHeader),
+					"interactionCanonical", i.Headers.Get(CanonicalHashHeader),
+				)
 				return false
 			}
 		}
