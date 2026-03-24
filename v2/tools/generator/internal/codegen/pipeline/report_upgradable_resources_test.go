@@ -85,7 +85,7 @@ func TestGolden_ReportUpgradableResources(t *testing.T) {
 	)
 
 	cfg := config.NewUpgradableResourcesReport(config.NewConfiguration())
-	report := newUpgradableResourcesReport(allKnown, supported, cfg)
+	report := NewUpgradableResourcesReport(allKnown, supported, cfg)
 
 	var buffer strings.Builder
 	// Use a fixed time so the golden file is deterministic.
@@ -174,7 +174,7 @@ func TestNewUpgradableResourcesReport_RecommendStableUpgrade(t *testing.T) {
 	)
 
 	cfg := config.NewUpgradableResourcesReport(config.NewConfiguration())
-	report := newUpgradableResourcesReport(allKnown, supported, cfg)
+	report := NewUpgradableResourcesReport(allKnown, supported, cfg)
 
 	g.Expect(report.items).To(HaveLen(1))
 	g.Expect(report.items[0].resource).To(Equal("StorageAccount"))
@@ -208,7 +208,7 @@ func TestNewUpgradableResourcesReport_ListsResourcesEvenWhenNotRecommended(t *te
 	)
 
 	cfg := config.NewUpgradableResourcesReport(config.NewConfiguration())
-	report := newUpgradableResourcesReport(allKnown, supported, cfg)
+	report := NewUpgradableResourcesReport(allKnown, supported, cfg)
 
 	// The resource has a newer version so it should be listed
 	g.Expect(report.items).To(HaveLen(1))
@@ -233,7 +233,7 @@ func TestNewUpgradableResourcesReport_NoUpgradeAvailable(t *testing.T) {
 	)
 
 	cfg := config.NewUpgradableResourcesReport(config.NewConfiguration())
-	report := newUpgradableResourcesReport(allKnown, supported, cfg)
+	report := NewUpgradableResourcesReport(allKnown, supported, cfg)
 
 	g.Expect(report.items).To(BeEmpty())
 }
@@ -256,7 +256,7 @@ func TestNewUpgradableResourcesReport_RecommendPreviewUpgrade(t *testing.T) {
 	)
 
 	cfg := config.NewUpgradableResourcesReport(config.NewConfiguration())
-	report := newUpgradableResourcesReport(allKnown, supported, cfg)
+	report := NewUpgradableResourcesReport(allKnown, supported, cfg)
 
 	g.Expect(report.items).To(HaveLen(1))
 	g.Expect(report.items[0].resource).To(Equal("ManagedCluster"))
@@ -289,7 +289,7 @@ func TestNewUpgradableResourcesReport_SortsByGroupThenResource(t *testing.T) {
 	)
 
 	cfg := config.NewUpgradableResourcesReport(config.NewConfiguration())
-	report := newUpgradableResourcesReport(allKnown, supported, cfg)
+	report := NewUpgradableResourcesReport(allKnown, supported, cfg)
 
 	g.Expect(report.items).To(HaveLen(3))
 	// Sorted: batch/BatchAccount, storage/BlobContainer, storage/StorageAccount

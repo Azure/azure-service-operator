@@ -55,7 +55,7 @@ func ReportUpgradableResources(configuration *config.Configuration) *Stage {
 				return nil, eris.Wrap(err, "retrieving known resources from pipeline state")
 			}
 
-			report := newUpgradableResourcesReport(allKnownResources, state.Definitions(), configuration.UpgradableResourcesReport)
+			report := NewUpgradableResourcesReport(allKnownResources, state.Definitions(), configuration.UpgradableResourcesReport)
 
 			outputFile := reportCfg.FullOutputPath()
 			err = report.SaveTo(outputFile)
@@ -214,11 +214,11 @@ type UpgradableResourcesReport struct {
 	items []upgradableResourcesReportItem
 }
 
-// newUpgradableResourcesReport creates a new UpgradableResourcesReport.
+// NewUpgradableResourcesReport creates a new UpgradableResourcesReport.
 // allKnownResources is the full catalog of resources before export filters (from CatalogKnownResources stage).
 // supported is the set of type definitions that passed through the export filter.
 // cfg is the report configuration.
-func newUpgradableResourcesReport(
+func NewUpgradableResourcesReport(
 	allKnownResources map[string]astmodel.TypeNameSet,
 	supported astmodel.TypeDefinitionSet,
 	cfg *config.UpgradableResourcesReport,
