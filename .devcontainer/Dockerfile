@@ -26,21 +26,18 @@ COPY .devcontainer/install-dependencies.sh .
 RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh
 
 # Pre-download Go modules for faster builds
+# Some of these go.mod files have replace directives that point to local directories, so we need to be careful to 
+# maintain the same relative positions as we copy them into the container.
 # v2 first (largest, most stable, needed by replace directives)
 COPY v2/go.mod v2/go.sum /tmp/mod-download/v2/
-RUN cd /tmp/mod-download/v2 && go mod download
-
 # asoctl (has replace => ../../ which resolves to v2/)
 COPY v2/cmd/asoctl/go.mod v2/cmd/asoctl/go.sum /tmp/mod-download/v2/cmd/asoctl/
-RUN cd /tmp/mod-download/v2/cmd/asoctl && go mod download
-
 # generator (has replace => ../../ which resolves to v2/)
 COPY v2/tools/generator/go.mod v2/tools/generator/go.sum /tmp/mod-download/v2/tools/generator/
-RUN cd /tmp/mod-download/v2/tools/generator && go mod download
-
 # mangle-test-json (standalone, no replace directives)
 COPY v2/tools/mangle-test-json/go.mod v2/tools/mangle-test-json/go.sum /tmp/mod-download/v2/tools/mangle-test-json/
-RUN cd /tmp/mod-download/v2/tools/mangle-test-json && go mod download
+# Now do all the downloads
+RUN find /tmp/mod-download -name go.mod -execdir pwd \; -execdir go mod download \;
 
 # Clean up temporary module download directory
 RUN rm -rf /tmp/mod-download
