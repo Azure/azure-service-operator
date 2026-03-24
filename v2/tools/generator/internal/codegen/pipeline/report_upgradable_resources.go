@@ -23,8 +23,16 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/reporting"
 )
 
-// ReportUpgradableResourcesStageID is the unique identifier of this stage
-const ReportUpgradableResourcesStageID = "reportUpgradableResources"
+const (
+	// ReportUpgradableResourcesStageID is the unique identifier of this stage
+	ReportUpgradableResourcesStageID = "reportUpgradableResources"
+	// defaultStableVersionExpiryMonths is the default number of months before a stable version is considered expired
+	defaultStableVersionExpiryMonths = 12
+	// defaultLatestVersionThresholdMonths is the default number of months before a latest version is considered outdated
+	defaultLatestVersionThresholdMonths = 24
+	// defaultPreviewVersionExpiryMonths is the default number of months before a preview version is considered expired
+	defaultPreviewVersionExpiryMonths = 6
+)
 
 // armVersionDateRegex matches date-based ARM API versions like 2023-01-01 or 2023-01-01-preview
 var armVersionDateRegex = regexp.MustCompile(`^(\d{4}-\d{2}-\d{2})(-[a-z]+)?$`)
@@ -47,7 +55,7 @@ func ReportUpgradableResources(configuration *config.Configuration) *Stage {
 				return nil, eris.Wrap(err, "retrieving known resources from pipeline state")
 			}
 
-			report := NewUpgradableResourcesReport(allKnownResources, state.Definitions(), configuration.UpgradableResourcesReport)
+			report := newUpgradableResourcesReport(allKnownResources, state.Definitions(), configuration.UpgradableResourcesReport)
 
 			outputFile := reportCfg.FullOutputPath()
 			err = report.SaveTo(outputFile)
@@ -112,17 +120,24 @@ type upgradableResourcesReportItem struct {
 // hasStableUpgrade returns true if there is a newer stable version available.
 // If the resource has no supported stable version, stable upgrades are not shown.
 func (i upgradableResourcesReportItem) hasStableUpgrade() bool {
-	return i.supportedStable != nil && i.availableStable != nil && isVersionNewer(i.availableStable.PackageName(), i.supportedStable.PackageName())
+	return i.supportedStable != nil &&
+		i.availableStable != nil &&
+		isVersionNewer(i.availableStable.PackageName(), i.supportedStable.PackageName())
 }
 
 // hasPreviewUpgrade returns true if there is a newer preview version available.
 // If the resource has no supported preview version, preview upgrades are not shown.
 func (i upgradableResourcesReportItem) hasPreviewUpgrade() bool {
-	return i.supportedPreview != nil && i.availablePreview != nil && isVersionNewer(i.availablePreview.PackageName(), i.supportedPreview.PackageName())
+	return i.supportedPreview != nil &&
+		i.availablePreview != nil &&
+		isVersionNewer(i.availablePreview.PackageName(), i.supportedPreview.PackageName())
 }
 
 // isStableUpgradeRecommended returns true if a stable upgrade is recommended based on configured thresholds.
-func (i upgradableResourcesReportItem) isStableUpgradeRecommended(cfg *config.UpgradableResourcesReport, now time.Time) bool {
+func (i upgradableResourcesReportItem) isStableUpgradeRecommended(
+	cfg *config.UpgradableResourcesReport,
+	now time.Time,
+) bool {
 	if !i.hasStableUpgrade() {
 		return false
 	}
@@ -144,12 +159,12 @@ func (i upgradableResourcesReportItem) isStableUpgradeRecommended(cfg *config.Up
 
 	stableUpgradeThreshold := cfg.StableVersionsExpiry
 	if stableUpgradeThreshold == 0 {
-		stableUpgradeThreshold = 12
+		stableUpgradeThreshold = defaultStableVersionExpiryMonths
 	}
 
 	latestThreshold := cfg.LatestVersionThreshold
 	if latestThreshold == 0 {
-		latestThreshold = 24
+		latestThreshold = defaultLatestVersionThresholdMonths
 	}
 
 	// Condition: available is more than stableUpgradeThreshold months newer than supported
@@ -187,7 +202,7 @@ func (i upgradableResourcesReportItem) isPreviewUpgradeRecommended(cfg *config.U
 
 	previewUpgradeThreshold := cfg.PreviewVersionsExpiry
 	if previewUpgradeThreshold == 0 {
-		previewUpgradeThreshold = 6
+		previewUpgradeThreshold = defaultPreviewVersionExpiryMonths
 	}
 
 	return monthsBetween(supportedDate, availableDate) > previewUpgradeThreshold
@@ -199,11 +214,11 @@ type UpgradableResourcesReport struct {
 	items []upgradableResourcesReportItem
 }
 
-// NewUpgradableResourcesReport creates a new UpgradableResourcesReport.
+// newUpgradableResourcesReport creates a new UpgradableResourcesReport.
 // allKnownResources is the full catalog of resources before export filters (from CatalogKnownResources stage).
 // supported is the set of type definitions that passed through the export filter.
 // cfg is the report configuration.
-func NewUpgradableResourcesReport(
+func newUpgradableResourcesReport(
 	allKnownResources map[string]astmodel.TypeNameSet,
 	supported astmodel.TypeDefinitionSet,
 	cfg *config.UpgradableResourcesReport,
