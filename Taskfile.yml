@@ -585,18 +585,11 @@ tasks:
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - defer: # want to run even on failure
-          task: produce-markdown-summary
-          vars:
-            INPUT_FILE: '{{.TEST_OUT}}/controllers-test.json'
-            OUTPUT_FILE: '{{.TEST_OUT}}/controllers-test.md'
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers > '{{.TEST_OUT}}/controllers-test.json'
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
-    sources:
-      - '{{joinPath .CONTROLLER_ROOT "samples"}}'
 
   controller:test-samples:
     desc: Run tests of samples with envtest using record/replay.
@@ -605,18 +598,11 @@ tasks:
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - defer: # want to run even on failure
-          task: produce-markdown-summary
-          vars:
-            INPUT_FILE: '{{.TEST_OUT}}/samples-test.json'
-            OUTPUT_FILE: '{{.TEST_OUT}}/samples-test.md'
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} -json ./internal/testsamples > '{{.TEST_OUT}}/samples-test.json'
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ];  then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
-    sources:
-      - '{{joinPath .CONTROLLER_ROOT "samples"}}'
 
   # Once we've finished integrating go-vcr-tidy into our test framework, we won't need these tasks anymore as the
   # tidying will be automatic.
@@ -849,6 +835,7 @@ tasks:
     deps: 
       - controller:generate-types
       - controller:generate-genruntime-deepcopy
+      - scripts:build-python-venv
     sources:
       - "v2/api/**/*.go" # depends on all API types
       - "v2/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
@@ -858,13 +845,13 @@ tasks:
       - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" -type f -delete; fi
       - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" -type f -delete; fi
       - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./...
-      - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+      - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+      - "{{.SCRIPTS_ROOT}}/venv/bin/python3 {{.SCRIPTS_ROOT}}/generate-webhooks-per-group.py --api-dir v2/api --output-dir {{.CONTROLLER_OUTPUT}}/webhook/generated"
       - cmd: cd v2/api && gofumpt -l -w . # format all generated code
         ignore_error: true # Just in case the code doesn't build
     vars:
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
       CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/generated/bases
-      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CONTROLLER_OUTPUT}}/webhook
       RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CONTROLLER_OUTPUT}}/rbac
 
   controller:check-crd-size:

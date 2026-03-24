@@ -79,7 +79,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # pinned to v3.7.0
+        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # pinned to v4.0.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -141,14 +141,14 @@ jobs:
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: test-output
           path: reports/*.json
 
       - name: Save memory monitor log
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: memory-monitor
           path: reports/memory-monitor.log
@@ -162,7 +162,7 @@ jobs:
         if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Archive outputs
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: output
           path: v2/bin/*
@@ -193,7 +193,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # pinned to v3.7.0
+        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # pinned to v4.0.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -223,17 +223,11 @@ jobs:
           set +e # don't exit instantly on failure, we need to produce Markdown summary
           docker exec "$container_id" task controller:test-controllers
 
-          EXIT_CODE=$?
-          set -e
-
-          # generate summary Markdown file for display in Actions
-          cat reports/*.md > $GITHUB_STEP_SUMMARY
-          exit $EXIT_CODE
         if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: test-output
           path: reports/*.json
@@ -258,7 +252,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # pinned to v3.7.0
+        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # pinned to v4.0.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -288,17 +282,11 @@ jobs:
           set +e # don't exit instantly on failure, we need to produce Markdown summary
           docker exec "$container_id" task controller:test-samples
 
-          EXIT_CODE=$?
-          set -e
-
-          # generate summary Markdown file for display in Actions
-          cat reports/*.md > $GITHUB_STEP_SUMMARY
-          exit $EXIT_CODE
         if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v4.4.3
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: test-output
           path: reports/*.json
@@ -331,7 +319,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # pinned to v3.7.0
+        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # pinned to v4.0.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -378,7 +366,7 @@ jobs:
     
       # Update check run called "integration-tests-fork"
       - name: update-integration-tests-result
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # pinned to v7.0.1
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # pinned to v8.0.0
         id: update-check-run
         if: ${{ always() }}
         env:

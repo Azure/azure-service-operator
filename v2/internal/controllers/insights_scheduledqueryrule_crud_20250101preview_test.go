@@ -64,6 +64,8 @@ func Test_Insights_ScheduledQueryRule_20250101preview_CRUD(t *testing.T) {
 				Key:  principalIdKey,
 			},
 			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
+				// ASO allows you to specify Azure built-in roles by name instead of the published GUID. Lookup is case insensitive.
+				// For a roleDefinition you've created yourself, use either group/kind/name or armID.
 				WellKnownName: "Owner",
 			},
 		},

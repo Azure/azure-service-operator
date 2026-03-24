@@ -21,6 +21,15 @@ To install the CRDs for these resources, your ASO configuration must include `al
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+| Resource                                                                                                | ARM Version | CRD Version | Supported From | Sample                                                                                                                                        |
+|---------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| [PrometheusRuleGroup]({{< relref "/reference/alertsmanagement/v20230301#PrometheusRuleGroup" >}})       | 2023-03-01  | v20230301   | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/alertsmanagement/v20230301/v20230301_prometheusrulegroup.yaml)    |
+| [SmartDetectorAlertRule]({{< relref "/reference/alertsmanagement/v20210401#SmartDetectorAlertRule" >}}) | 2021-04-01  | v20210401   | v2.11.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/alertsmanagement/v20210401/v20210401_smartdetectoralertrule.yaml) |
+
+### Deprecated
+
+These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See [Breaking Changes](https://azure.github.io/azure-service-operator/guide/breaking-changes/) for more information.
+
 | Resource                                                                                                    | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                |
 |-------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [PrometheusRuleGroup]({{< relref "/reference/alertsmanagement/v1api20230301#PrometheusRuleGroup" >}})       | 2023-03-01  | v1api20230301 | v2.8.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/alertsmanagement/v1api20230301/v1api20230301_prometheusrulegroup.yaml)    |
@@ -418,6 +427,23 @@ To install the CRDs for these resources, your ASO configuration must include `db
 Azure Database for MySQL - Single Server is on the retirement path and is [scheduled for retirement by September 16, 2024](https://learn.microsoft.com/en-us/azure/mysql/single-server/whats-happening-to-mysql-single-server). We will not be supporting it in ASO v2.
 
 Existing instances of *Single Server* can be migrated to *Azure Database for MySQL - Flexible Server* using the [Azure Database migration Service](https://azure.microsoft.com/en-us/products/database-migration).
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                     | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                                      |
+|------------------------------|--------------------|------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FlexibleServer               | 2025-06-01-preview | v20250601preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20250601preview/v20250601preview_flexibleserver.yaml)               |
+| FlexibleServer               | 2024-12-30         | v20241230        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserver.yaml)                             |
+| FlexibleServersAdministrator | 2025-06-01-preview | v20250601preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20250601preview/v20250601preview_flexibleserversadministrator.yaml) |
+| FlexibleServersAdministrator | 2024-12-30         | v20241230        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversadministrator.yaml)               |
+| FlexibleServersConfiguration | 2025-06-01-preview | v20250601preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20250601preview/v20250601preview_flexibleserversconfiguration.yaml) |
+| FlexibleServersConfiguration | 2024-12-30         | v20241230        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversconfiguration.yaml)               |
+| FlexibleServersDatabase      | 2025-06-01-preview | v20250601preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20250601preview/v20250601preview_flexibleserversdatabase.yaml)      |
+| FlexibleServersDatabase      | 2024-12-30         | v20241230        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversdatabase.yaml)                    |
+| FlexibleServersFirewallRule  | 2025-06-01-preview | v20250601preview | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20250601preview/v20250601preview_flexibleserversfirewallrule.yaml)  |
+| FlexibleServersFirewallRule  | 2024-12-30         | v20241230        | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversfirewallrule.yaml)                |
 
 ### Latest Released Versions
 

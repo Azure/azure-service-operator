@@ -80,7 +80,7 @@ func createSharedEnvTest(
 	}
 
 	crdPath := filepath.Join(root, "v2/out/envtest/crds")
-	webhookPath := filepath.Join(root, "v2/config/webhook")
+	webhookPath := filepath.Join(root, "v2/config/webhook/generated/bases")
 
 	environment := envtest.Environment{
 		ErrorIfCRDPathMissing: true,

@@ -5,12 +5,18 @@ package controllers
 
 import (
 	alertsmanagement_customizations "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/customizations"
-	alertsmanagement_v20210401 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401"
-	alertsmanagement_v20210401s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/storage"
-	alertsmanagement_v20210401w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/webhook"
-	alertsmanagement_v20230301 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301"
-	alertsmanagement_v20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/storage"
-	alertsmanagement_v20230301w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/webhook"
+	alertsmanagement_v1api20210401 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401"
+	alertsmanagement_v1api20210401s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/storage"
+	alertsmanagement_v1api20210401w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/webhook"
+	alertsmanagement_v1api20230301 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301"
+	alertsmanagement_v1api20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/storage"
+	alertsmanagement_v1api20230301w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20230301/webhook"
+	alertsmanagement_v20210401 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20210401"
+	alertsmanagement_v20210401s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20210401/storage"
+	alertsmanagement_v20210401w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20210401/webhook"
+	alertsmanagement_v20230301 "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20230301"
+	alertsmanagement_v20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20230301/storage"
+	alertsmanagement_v20230301w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20230301/webhook"
 	apimanagement_customizations "github.com/Azure/azure-service-operator/v2/api/apimanagement/customizations"
 	apimanagement_v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
 	apimanagement_v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
@@ -168,6 +174,12 @@ import (
 	dbformysql_v20231230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230"
 	dbformysql_v20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
 	dbformysql_v20231230w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/webhook"
+	dbformysql_v20241230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230"
+	dbformysql_v20241230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/storage"
+	dbformysql_v20241230w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/webhook"
+	dbformysql_v20250601p "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20250601preview"
+	dbformysql_v20250601ps "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20250601preview/storage"
+	dbformysql_v20250601pw "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20250601preview/webhook"
 	dbforpostgresql_customizations "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/customizations"
 	dbforpostgresql_v20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601"
 	dbforpostgresql_v20210601s "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1api20210601/storage"
@@ -1154,7 +1166,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbformysql_v20231230s.FlexibleServer),
+		Obj: new(dbformysql_v20241230s.FlexibleServer),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.administratorLoginPassword",
@@ -1173,12 +1185,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.administratorLoginPassword",
 						".spec.importSourceProperties.sasToken",
 					},
-					&dbformysql_v20231230s.FlexibleServerList{}),
+					&dbformysql_v20241230s.FlexibleServerList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbformysql_v20231230s.FlexibleServersAdministrator),
+		Obj: new(dbformysql_v20241230s.FlexibleServersAdministrator),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.sidFromConfig",
@@ -1197,13 +1209,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.sidFromConfig",
 						".spec.tenantIdFromConfig",
 					},
-					&dbformysql_v20231230s.FlexibleServersAdministratorList{}),
+					&dbformysql_v20241230s.FlexibleServersAdministratorList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20231230s.FlexibleServersConfiguration)})
-	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20231230s.FlexibleServersDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20231230s.FlexibleServersFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20241230s.FlexibleServersConfiguration)})
+	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20241230s.FlexibleServersDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(dbformysql_v20241230s.FlexibleServersFirewallRule)})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbforpostgresql_v20250801s.FlexibleServer),
 		Indexes: []registration.Index{
@@ -2866,6 +2878,18 @@ func getKnownStorageTypes() []*registration.StorageType {
 func getKnownTypes() []*registration.KnownType {
 	var result []*registration.KnownType
 	result = append(result, &registration.KnownType{
+		Obj:       new(alertsmanagement_v1api20210401.SmartDetectorAlertRule),
+		Defaulter: &alertsmanagement_v1api20210401w.SmartDetectorAlertRule{},
+		Validator: &alertsmanagement_v1api20210401w.SmartDetectorAlertRule{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(alertsmanagement_v1api20210401s.SmartDetectorAlertRule)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(alertsmanagement_v1api20230301.PrometheusRuleGroup),
+		Defaulter: &alertsmanagement_v1api20230301w.PrometheusRuleGroup{},
+		Validator: &alertsmanagement_v1api20230301w.PrometheusRuleGroup{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(alertsmanagement_v1api20230301s.PrometheusRuleGroup)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(alertsmanagement_v20210401.SmartDetectorAlertRule),
 		Defaulter: &alertsmanagement_v20210401w.SmartDetectorAlertRule{},
 		Validator: &alertsmanagement_v20210401w.SmartDetectorAlertRule{},
@@ -3959,6 +3983,74 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(dbformysql_v20231230s.FlexibleServersConfiguration)},
 		&registration.KnownType{Obj: new(dbformysql_v20231230s.FlexibleServersDatabase)},
 		&registration.KnownType{Obj: new(dbformysql_v20231230s.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbformysql_v20241230.FlexibleServer),
+			Defaulter: &dbformysql_v20241230w.FlexibleServer{},
+			Validator: &dbformysql_v20241230w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v20241230.FlexibleServersAdministrator),
+			Defaulter: &dbformysql_v20241230w.FlexibleServersAdministrator{},
+			Validator: &dbformysql_v20241230w.FlexibleServersAdministrator{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v20241230.FlexibleServersConfiguration),
+			Defaulter: &dbformysql_v20241230w.FlexibleServersConfiguration{},
+			Validator: &dbformysql_v20241230w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v20241230.FlexibleServersDatabase),
+			Defaulter: &dbformysql_v20241230w.FlexibleServersDatabase{},
+			Validator: &dbformysql_v20241230w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v20241230.FlexibleServersFirewallRule),
+			Defaulter: &dbformysql_v20241230w.FlexibleServersFirewallRule{},
+			Validator: &dbformysql_v20241230w.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbformysql_v20241230s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbformysql_v20241230s.FlexibleServersAdministrator)},
+		&registration.KnownType{Obj: new(dbformysql_v20241230s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbformysql_v20241230s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbformysql_v20241230s.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbformysql_v20250601p.FlexibleServer),
+			Defaulter: &dbformysql_v20250601pw.FlexibleServer{},
+			Validator: &dbformysql_v20250601pw.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v20250601p.FlexibleServersAdministrator),
+			Defaulter: &dbformysql_v20250601pw.FlexibleServersAdministrator{},
+			Validator: &dbformysql_v20250601pw.FlexibleServersAdministrator{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v20250601p.FlexibleServersConfiguration),
+			Defaulter: &dbformysql_v20250601pw.FlexibleServersConfiguration{},
+			Validator: &dbformysql_v20250601pw.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v20250601p.FlexibleServersDatabase),
+			Defaulter: &dbformysql_v20250601pw.FlexibleServersDatabase{},
+			Validator: &dbformysql_v20250601pw.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v20250601p.FlexibleServersFirewallRule),
+			Defaulter: &dbformysql_v20250601pw.FlexibleServersFirewallRule{},
+			Validator: &dbformysql_v20250601pw.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbformysql_v20250601ps.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbformysql_v20250601ps.FlexibleServersAdministrator)},
+		&registration.KnownType{Obj: new(dbformysql_v20250601ps.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbformysql_v20250601ps.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbformysql_v20250601ps.FlexibleServersFirewallRule)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6186,6 +6278,10 @@ func getKnownTypes() []*registration.KnownType {
 func createScheme() *runtime.Scheme {
 	scheme := runtime.NewScheme()
 	_ = clientgoscheme.AddToScheme(scheme)
+	_ = alertsmanagement_v1api20210401.AddToScheme(scheme)
+	_ = alertsmanagement_v1api20210401s.AddToScheme(scheme)
+	_ = alertsmanagement_v1api20230301.AddToScheme(scheme)
+	_ = alertsmanagement_v1api20230301s.AddToScheme(scheme)
 	_ = alertsmanagement_v20210401.AddToScheme(scheme)
 	_ = alertsmanagement_v20210401s.AddToScheme(scheme)
 	_ = alertsmanagement_v20230301.AddToScheme(scheme)
@@ -6284,6 +6380,10 @@ func createScheme() *runtime.Scheme {
 	_ = dbformysql_v20230630s.AddToScheme(scheme)
 	_ = dbformysql_v20231230.AddToScheme(scheme)
 	_ = dbformysql_v20231230s.AddToScheme(scheme)
+	_ = dbformysql_v20241230.AddToScheme(scheme)
+	_ = dbformysql_v20241230s.AddToScheme(scheme)
+	_ = dbformysql_v20250601p.AddToScheme(scheme)
+	_ = dbformysql_v20250601ps.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601.AddToScheme(scheme)
 	_ = dbforpostgresql_v20210601s.AddToScheme(scheme)
 	_ = dbforpostgresql_v20220120p.AddToScheme(scheme)
@@ -7716,9 +7816,9 @@ func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []s
 	return obj.Spec.Properties.Default.AdministratorLoginPassword.Index()
 }
 
-// indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20231230s.FlexibleServer .spec.administratorLoginPassword
+// indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20241230s.FlexibleServer .spec.administratorLoginPassword
 func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v20231230s.FlexibleServer)
+	obj, ok := rawObj.(*dbformysql_v20241230s.FlexibleServer)
 	if !ok {
 		return nil
 	}
@@ -7728,9 +7828,9 @@ func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Objec
 	return obj.Spec.AdministratorLoginPassword.Index()
 }
 
-// indexDbformysqlFlexibleServerSasToken an index function for dbformysql_v20231230s.FlexibleServer .spec.importSourceProperties.sasToken
+// indexDbformysqlFlexibleServerSasToken an index function for dbformysql_v20241230s.FlexibleServer .spec.importSourceProperties.sasToken
 func indexDbformysqlFlexibleServerSasToken(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v20231230s.FlexibleServer)
+	obj, ok := rawObj.(*dbformysql_v20241230s.FlexibleServer)
 	if !ok {
 		return nil
 	}
@@ -7743,9 +7843,9 @@ func indexDbformysqlFlexibleServerSasToken(rawObj client.Object) []string {
 	return obj.Spec.ImportSourceProperties.SasToken.Index()
 }
 
-// indexDbformysqlFlexibleServersAdministratorSidFromConfig an index function for dbformysql_v20231230s.FlexibleServersAdministrator .spec.sidFromConfig
+// indexDbformysqlFlexibleServersAdministratorSidFromConfig an index function for dbformysql_v20241230s.FlexibleServersAdministrator .spec.sidFromConfig
 func indexDbformysqlFlexibleServersAdministratorSidFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v20231230s.FlexibleServersAdministrator)
+	obj, ok := rawObj.(*dbformysql_v20241230s.FlexibleServersAdministrator)
 	if !ok {
 		return nil
 	}
@@ -7755,9 +7855,9 @@ func indexDbformysqlFlexibleServersAdministratorSidFromConfig(rawObj client.Obje
 	return obj.Spec.SidFromConfig.Index()
 }
 
-// indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbformysql_v20231230s.FlexibleServersAdministrator .spec.tenantIdFromConfig
+// indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig an index function for dbformysql_v20241230s.FlexibleServersAdministrator .spec.tenantIdFromConfig
 func indexDbformysqlFlexibleServersAdministratorTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformysql_v20231230s.FlexibleServersAdministrator)
+	obj, ok := rawObj.(*dbformysql_v20241230s.FlexibleServersAdministrator)
 	if !ok {
 		return nil
 	}

@@ -87,17 +87,15 @@ func (extension *RoleAssignmentExtension) ModifyARMResource(
 			return nil, eris.Wrapf(err, "resolving built in role definition %q", roleDefinitionName)
 		}
 
-		if roleDefinitionId != roleDefinitionName {
-			log.V(1).Info("Resolved built-in role", "roleName", roleDefinitionName, "roleId", roleDefinitionId)
+		log.V(1).Info("Resolved built-in role", "roleName", roleDefinitionName, "roleId", roleDefinitionId)
 
-			spec := armObj.Spec()
-			err = reflecthelpers.SetProperty(spec, "Properties.RoleDefinitionId", &roleDefinitionId)
-			if err != nil {
-				return nil, eris.Wrapf(err, "error setting RoleDefinitionId to %s", roleDefinitionId)
-			}
-
-			return armObj, nil
+		spec := armObj.Spec()
+		err = reflecthelpers.SetProperty(spec, "Properties.RoleDefinitionId", &roleDefinitionId)
+		if err != nil {
+			return nil, eris.Wrapf(err, "error setting RoleDefinitionId to %s", roleDefinitionId)
 		}
+
+		return armObj, nil
 	}
 
 	return armObj, nil
@@ -124,8 +122,11 @@ func resolveBuiltInRoleDefinition(
 	// Look up the role ID by well-known name (case insensitive)
 	roleId, ok := defs[strings.ToLower(roleDefinitionName)]
 	if !ok {
-		// If we can't resolve, it, leave it intact
-		return roleDefinitionName, nil
+		// If we can't resolve, return an error
+		return "", eris.Errorf(
+			"unable to find Azure built-in role-definition with well-known name %q (see %s)",
+			roleDefinitionName,
+			"https://learn.microsoft.com/azure/role-based-access-control/built-in-roles")
 	}
 
 	// We need the subscription ID from the resource to construct the ARM ID for a well known role
