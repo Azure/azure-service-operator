@@ -9,12 +9,16 @@ When creating new samples, modifying existing samples, implementing resource ext
 
 ## Workflow
 
+### Preflight check
+
+Before running tests, verify there are no hardcoded test filters in `v2/internal/testsamples/samples_test.go`. The `Test_Samples_CreationAndDeletion` function walks the samples directory and dynamically creates subtests. Sometimes a developer will temporarily add a filter (e.g. an `if strings.Contains(testName, "...")` guard around the `t.Run` call) to run only specific tests during development and forget to remove it. If such a filter is present, remove it so that all sample tests run. The `t.Run` block should execute unconditionally for every discovered sample version directory.
+
 ### Run tests
 
 Start by running all the tests:
 
 ```bash
-task controller:test-integration-envtest
+./hack/tools/task controller:test-samples
 ```
 
 * If recordings for all tests exist, this will run in about 25m. Do not interrupt the test, just wait for it to complete.
@@ -26,8 +30,10 @@ task controller:test-integration-envtest
 Variation: if you've been asked to run tests only for a specific group of resources, add the TEST_FILTER environment variable on the command line:
 
 ```bash
-TEST_FILTER="Test_Samples_CreationAndDeletion/Test_<test-group-here>.*" task controller:test-integration-envtest
+TEST_FILTER="Test_Samples_CreationAndDeletion/Test_<test-group-here>.*" ./hack/tools/task controller:test-samples
 ```
+
+The test name pattern is constructed from the sample directory structure: for a sample at `v2/samples/<group>/<subgroup>/<version>/`, the test name is `Test_<TitleCasedGroup><TitleCasedSubgroup>_<version>_CreationAndDeletion`. For example, `v2/samples/documentdb/mongodb/v1api20231115/` produces `Test_Mongodb_v1api20231115_CreationAndDeletion`. (Note: only the last path segment before the version is used — `documentdb` is the parent directory and `mongodb` becomes `Mongodb`.)
 
 ### Identify test failures
 
@@ -48,26 +54,35 @@ Here's a list of known failure modes and how to address them. Go through the new
 
 **Timeout while recording** - if a test fails with a timeout during recording, you may need to extend the time allowed for the recording by adjusting the `TIMEOUT` at the start of the test command. If the test still fails, investigate further to identify the problem and provide a detailed report to the user.
 
-**Lack of capacity or quota** - if a test fails during recording with an error indicating that capacity or quota has been exceeded, you will need to investigate further to identify the specific resource and region that is affected. Once you have this information, provide a detailed report to the user and ask for further instructions.
+**Lack of capacity or quota** - if a test fails during recording with an error indicating that capacity or quota has been exceeded (e.g. `ServiceUnavailable` with a message about "high demand" in a region), take the following steps:
+
+1. Look at the sample YAML that declares the resource (e.g. the `DatabaseAccount` sample) and note the `location`/`locationName` fields.
+2. Check what regions other samples in the same resource group use — prefer consistency.
+3. Update the sample YAML to use a different Azure region (e.g. change `eastus` to `australiaeast` or `westus2`).
+4. Delete the failed/partial recording if one exists, and re-run the test to create a new recording.
+5. If the new region also fails with a capacity error, try another region and repeat.
 
 ### Update a recording
 
 Once you've identified a test that needs to be rerecorded, delete the recording file and run this command to create a new recording:
 
 ```bash
-TIMEOUT=60m TEST_FILTER="Test_Samples_CreationAndDeletion/<your-test-here>" task controller:test-integration-envtest
+TIMEOUT=60m TEST_FILTER="Test_Samples_CreationAndDeletion/<your-test-here>" ./hack/tools/task controller:test-samples
 ```
 
 Recordings should be updated one at a time to make it easier to identify problems. If you try to update multiple recordings at once, it will be harder to identify the source of any problems that arise.
 
 After you have successfully updated a recording, run the test again to test that playback of that recording works correctly. The command to use is the same.
 
+NEVER modify recording files by hand. They are machine-generated and must only be created by running the tests.
 
 ## Key information
 
 Samples are found in the folder `v2/samples` in groups by resource group.
 
-Recordings of samples tests are found in `v2/internals/testsamples/recordings`, named by group and version.
+Recordings of samples tests are found in `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/`, named by group and version.
+
+The test source file is `v2/internal/testsamples/samples_test.go`. The test suite setup (envtest bootstrap, global test context) is in `v2/internal/testsamples/suite_test.go`.
 
 Test runs are CPU and time intensive, and are known to cause other processes to be memory or CPU starved. Be sure to keep detailed notes about your progress to allow you to pick up where you left off if this happens to you.
 
@@ -83,6 +98,10 @@ DO NOT interrupt a test run, even if it looks like it's taking a long time. Inte
 When investigating test failures, be sure to look at the logs carefully to identify the specific error messages and any relevant context. This will help you to understand the problem and provide a detailed report to the user.
 
 When updating a recording, be sure to only update one recording at a time to make it easier to identify any problems that arise. If you try to update multiple recordings at once, it will be harder to identify the source of any problems that arise.
+
+DO NOT analyze recording YAML files to debug mismatches. Recording files are large and machine-generated — manual inspection is not productive. Instead, delete stale recordings and re-record.
+
+DO NOT use `task` directly — always use `./hack/tools/task` to ensure the correct version is used.
 
 
 ## Postrequisites
