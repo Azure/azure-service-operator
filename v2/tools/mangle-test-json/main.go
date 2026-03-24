@@ -216,8 +216,10 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 				// when running `task ci`, and that full logs are available if they get trimmed
 				fmt.Fprintln(os.Stderr, "=== PACKAGE OUTPUT ===")
 				for _, line := range packageLevel.Output {
+					//nolint:gosec // Output is already escaped for HTML, see escapeOutput() above
 					fmt.Fprint(os.Stderr, line)
 				}
+
 				fmt.Fprintln(os.Stderr, "=== END PACKAGE OUTPUT ===")
 			}
 		}
@@ -248,11 +250,14 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 
 			// Output info on stderr, so that test failure isn’t silent on console
 			// when running `task ci`, and that full logs are available if they get trimmed
+			//nolint:gosec // Output is already escaped for HTML, see escapeOutput() above
 			fmt.Fprintf(os.Stderr, "- Test failed: %s\n", test.Test.Value())
 			fmt.Fprintln(os.Stderr, "=== TEST OUTPUT ===")
 			for _, outputLine := range test.Output {
+				//nolint:gosec // Output is already escaped for HTML, see escapeOutput() above
 				fmt.Fprint(os.Stderr, outputLine) // note that line already has newline attached
 			}
+
 			fmt.Fprintln(os.Stderr, "=== END TEST OUTPUT ===")
 		}
 

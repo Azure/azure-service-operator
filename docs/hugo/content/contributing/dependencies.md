@@ -27,7 +27,7 @@ If you prefer to install those dependencies manually (instead of using the `.dev
 | Pip3 | latest | https://pip.pypa.io/en/stable/installation/ |
 | PostCSS | latest | https://postcss.org/ |
 | setup-envtest | v0.23.1 | https://book.kubebuilder.io/reference/envtest.html |
-| Task | v3.44.0 | https://taskfile.dev/ |
+| Task | v3.49.1 | https://taskfile.dev/ |
 | Trivy | v0.67.2 | https://trivy.dev/ |
 | YQ | v4.48.1 | https://github.com/mikefarah/yq/ |
 
