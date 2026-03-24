@@ -4,7 +4,7 @@ metadata:
   name: mongodb-acc-v20210515
   namespace: default
 spec:
-  location: eastus
+  location: australiaeast
   owner:
     name: aso-sample-rg
   kind: MongoDB
@@ -12,4 +12,4 @@ spec:
     - name: EnableMongo
   databaseAccountOfferType: Standard
   locations:
-    - locationName: eastus
+    - locationName: australiaeast
