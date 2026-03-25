@@ -1,24 +1,20 @@
 ---
-name: verify-aso-samples
-description: Use when you need to verify that ASO samples are correct and functional.
+name: verify-aso-controllers
+description: Use when you need to verify that ASO CRUD tests of controllers are correct and functional.
 ---
 
-# Verify ASO samples
+# Verify ASO controller tests
 
-When creating new samples, modifying existing samples, implementing resource extensions, or making other changes that change the sequence or content of HTTP requests made to Azure, we can need to replay and/or rerecord tests of our samples.
+When creating new resources, importing new resource versions, implementing or modifying resource extensions, or making other changes that change the sequence or content of HTTP requests made to Azure, we can need to replay and/or rerecord tests of our controllers.
 
 ## Workflow
-
-### Preflight check
-
-Before running tests, verify there are no hardcoded test filters in `v2/internal/testsamples/samples_test.go`. The `Test_Samples_CreationAndDeletion` function walks the samples directory and dynamically creates subtests. Sometimes a developer will temporarily add a filter (e.g. an `if strings.Contains(testName, "...")` guard around the `t.Run` call) to run only specific tests during development and forget to remove it. If such a filter is present, remove it so that all sample tests run. The `t.Run` block should execute unconditionally for every discovered sample version directory.
 
 ### Run tests
 
 Start by running all the tests:
 
 ```bash
-./hack/tools/task controller:test-samples
+./hack/tools/task controller:test-controllers
 ```
 
 * If recordings for all tests exist, this will run in about 25m. Do not interrupt the test, just wait for it to complete.
@@ -26,20 +22,12 @@ Start by running all the tests:
 * If any recordings are missing, each will result in a live test will automatically be run against Azure to create the missing recording. For most resources, this will take under 20m, but for some resources a recording may take 60m or more.
 
 * If all the tests pass, then you're done and can stop working.
-
-Variation: if you've been asked to run tests only for a specific group of resources, add the TEST_FILTER environment variable on the command line:
-
-```bash
-TEST_FILTER="Test_Samples_CreationAndDeletion/Test_<test-group-here>.*" ./hack/tools/task controller:test-samples
-```
-
-The test name pattern is constructed from the sample directory structure: for a sample at `v2/samples/<group>/<subgroup>/<version>/`, the test name is `Test_<TitleCasedGroup><TitleCasedSubgroup>_<version>_CreationAndDeletion`. For example, `v2/samples/documentdb/mongodb/v1api20231115/` produces `Test_Mongodb_v1api20231115_CreationAndDeletion`. (Note: only the last path segment before the version is used — `documentdb` is the parent directory and `mongodb` becomes `Mongodb`.)
-
+  
 ### Identify test failures
 
 If the test run fails, look through the logs to identify which tests failed, and why. 
 
-* Logs are likely to overflow the terminal buffer, so they get written to 'reports/test-samples.log' as well. 
+* Logs are likely to overflow the terminal buffer, so they get written to 'reports/test-controllers.log' as well. 
 * Test failures can be identified by searching for "FAIL:" in the logs (the trailing colon is important to avoid false positives).
 * For each tests, work out why the test failed. Note that initial failures tend to result in a cascade of following failures, so it's important to identify the first problem.
 
@@ -67,7 +55,7 @@ Here's a list of known failure modes and how to address them. Go through the new
 Once you've identified a test that needs to be rerecorded, delete the recording file and run this command to create a new recording:
 
 ```bash
-TIMEOUT=60m TEST_FILTER="Test_Samples_CreationAndDeletion/<your-test-here>" ./hack/tools/task controller:test-samples
+TIMEOUT=60m TEST_FILTER="<your-test-here>" ./hack/tools/task controller:test-controllers
 ```
 
 Recordings should be updated one at a time to make it easier to identify problems. If you try to update multiple recordings at once, it will be harder to identify the source of any problems that arise.
@@ -78,18 +66,15 @@ NEVER modify recording files by hand. They are machine-generated and must only b
 
 ## Key information
 
-Samples are found in the folder `v2/samples` in groups by resource group.
+Recordings of samples tests are found in `v2/internal/controllers/recordings/`, named for the test being executed.
 
-Recordings of samples tests are found in `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/`, named by group and version.
-
-The test source file is `v2/internal/testsamples/samples_test.go`. The test suite setup (envtest bootstrap, global test context) is in `v2/internal/testsamples/suite_test.go`.
+The test source files are in `v2/internal/controllers/`. The test suite setup (envtest bootstrap, global test context) is in `v2/internal/controllers/suite_test.go`.
 
 Test runs are CPU and time intensive, and are known to cause other processes to be memory or CPU starved. Be sure to keep detailed notes about your progress to allow you to pick up where you left off if this happens to you.
 
 ## Prerequisites
 
 **Environment Variables:** You MUST have the following environment variables set to record the tests: `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, and `ENTRA_APP_ID`. If any are missing, do not proceed because the tests will fail. Tell the user what is missing and stop the process.
-
 
 ## Guidance
 
