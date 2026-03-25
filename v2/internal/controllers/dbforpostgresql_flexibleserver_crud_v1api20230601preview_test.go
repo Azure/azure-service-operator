@@ -129,10 +129,13 @@ func Test_DBForPostgreSQL_FlexibleServer_20230601Preview_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(flexibleServer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(ctx, armId, string(postgresql.APIVersion_Value))
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(retryAfter).To(BeZero())
-	g.Expect(exists).To(BeFalse())
+	g.Eventually(
+		func(g Gomega) bool {
+			exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(ctx, armId, string(postgresql.APIVersion_Value))
+			g.Expect(err).ToNot(HaveOccurred())
+			g.Expect(retryAfter).To(BeZero())
+			return exists
+		}).Should(BeFalse())
 }
 
 func FlexibleServer_20230601Preview_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
