@@ -29,22 +29,25 @@ func TestAzureDeploymentReconcilerInstance_CheckSubscription_GivenResourceID_Ret
 		"valid resource group ID": {
 			resourceID: "/subscriptions/{expectedSub}/resourceGroups/asotest-rg",
 		},
+		"valid resource group ID (lowercase)": {
+			resourceID: "/subscriptions/{expectedSubLower}/resourceGroups/asotest-rg",
+		},
 		"invalid resource group ID": {
 			resourceID:             "/subscriptions/{unexpectedSub}/resourceGroups/asotest-rg",
 			expectedErrorSubstring: "resource does not match with Client Credential",
 		},
 		"Subscription aliases have no subscription ID to check, so should always succeed": {
-			resourceID: "/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm?api-version=2021-10-01",
+			resourceID: "/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm",
 		},
 		"Role assignment to resource group with matching subscription": {
-			resourceID: "/{expectedSub}/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/ed3c9f84-ae20-5aea-8602-58ed2eeffef1?api-version=2022-04-01",
+			resourceID: "/subscriptions/{expectedSub}/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/ed3c9f84-ae20-5aea-8602-58ed2eeffef1",
 		},
 		"Role assignment to resource group with non-matching subscription": {
 			resourceID:             "/subscriptions/{unexpectedSub}/resourceGroups/asotest-rg/providers/Microsoft.Authorization/roleAssignments/asotest-role-assignment",
 			expectedErrorSubstring: "resource does not match with Client Credential",
 		},
 		"Role assignment to subscription with matching subscription": {
-			resourceID: "/{expectedSub}/providers/Microsoft.Authorization/roleAssignments/ed3c9f84-ae20-5aea-8602-58ed2eeffef1?api-version=2022-04-01",
+			resourceID: "/subscriptions/{expectedSub}/providers/Microsoft.Authorization/roleAssignments/ed3c9f84-ae20-5aea-8602-58ed2eeffef1",
 		},
 		"Role assignment to subscription with non-matching subscription": {
 			resourceID:             "/subscriptions/{unexpectedSub}/providers/Microsoft.Authorization/roleAssignments/asotest-role-assignment",
@@ -52,7 +55,8 @@ func TestAzureDeploymentReconcilerInstance_CheckSubscription_GivenResourceID_Ret
 		},
 	}
 
-	expectedSub := "00000000-0000-0000-0000-000000000000"
+	expectedSub := "00000000-0000-DEAD-C0DE-000000000000"
+	expectedSubLower := "00000000-0000-dead-c0de-000000000000"
 	unexpectedSub := "11111111-1111-1111-1111-111111111111"
 
 	for name, c := range cases {
@@ -70,6 +74,7 @@ func TestAzureDeploymentReconcilerInstance_CheckSubscription_GivenResourceID_Ret
 			resourceID := c.resourceID
 			resourceID = strings.ReplaceAll(resourceID, "{expectedSub}", expectedSub)
 			resourceID = strings.ReplaceAll(resourceID, "{unexpectedSub}", unexpectedSub)
+			resourceID = strings.ReplaceAll(resourceID, "{expectedSubLower}", expectedSubLower)
 
 			err := reconciler.checkSubscription(resourceID)
 			if c.expectedErrorSubstring == "" {
