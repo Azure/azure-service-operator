@@ -430,14 +430,22 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 // Which prevents users to modify subscription in their credential.
 func (r *azureDeploymentReconcilerInstance) checkSubscription(resourceID string) error {
 	parsedRID, err := arm.ParseResourceID(resourceID)
-	// Some resources like '/providers/Microsoft.Subscription/aliases' do not have subscriptionID, so we need to make sure subscriptionID exists before we check.
+	// Some resources like '/providers/Microsoft.Subscription/aliases' do not have subscriptionID,
+	// so we need to make sure subscriptionID exists before we check.
 	// TODO: we need a better way?
 	if err == nil {
-		if parsedRID.ResourceGroupName != "" && parsedRID.SubscriptionID != r.ARMConnection.SubscriptionID() {
-			err = eris.Errorf("SubscriptionID %q for %q resource does not match with Client Credential: %q", parsedRID.SubscriptionID, resourceID, r.ARMConnection.SubscriptionID())
-			return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonSubscriptionMismatch)
+		if parsedRID.SubscriptionID != "" && parsedRID.SubscriptionID != r.ARMConnection.SubscriptionID() {
+			err = eris.Errorf(
+				"SubscriptionID %q for %q resource does not match with Client Credential: %q",
+				parsedRID.SubscriptionID,
+				resourceID,
+				r.ARMConnection.SubscriptionID())
+
+			return conditions.NewReadyConditionImpactingError(
+				err, conditions.ConditionSeverityError, conditions.ReasonSubscriptionMismatch)
 		}
 	}
+
 	return nil
 }
 
