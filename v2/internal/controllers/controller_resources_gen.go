@@ -426,9 +426,12 @@ import (
 	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
 	subscription_v20211001w "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/webhook"
 	synapse_customizations "github.com/Azure/azure-service-operator/v2/api/synapse/customizations"
-	synapse_v20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
-	synapse_v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
-	synapse_v20210601w "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/webhook"
+	synapse_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
+	synapse_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
+	synapse_v1api20210601w "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/webhook"
+	synapse_v20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v20210601"
+	synapse_v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v20210601/storage"
+	synapse_v20210601w "github.com/Azure/azure-service-operator/v2/api/synapse/v20210601/webhook"
 	web_customizations "github.com/Azure/azure-service-operator/v2/api/web/customizations"
 	web_v1api20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
 	web_v1api20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
@@ -6254,6 +6257,16 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(subscription_v20211001s.Alias)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(synapse_v1api20210601.Workspace),
+		Defaulter: &synapse_v1api20210601w.Workspace{},
+		Validator: &synapse_v1api20210601w.Workspace{},
+	}, &registration.KnownType{
+		Obj:       new(synapse_v1api20210601.WorkspacesBigDataPool),
+		Defaulter: &synapse_v1api20210601w.WorkspacesBigDataPool{},
+		Validator: &synapse_v1api20210601w.WorkspacesBigDataPool{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(synapse_v1api20210601s.Workspace)}, &registration.KnownType{Obj: new(synapse_v1api20210601s.WorkspacesBigDataPool)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(synapse_v20210601.Workspace),
 		Defaulter: &synapse_v20210601w.Workspace{},
 		Validator: &synapse_v20210601w.Workspace{},
@@ -6566,6 +6579,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_v20250601s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
 	_ = subscription_v20211001s.AddToScheme(scheme)
+	_ = synapse_v1api20210601.AddToScheme(scheme)
+	_ = synapse_v1api20210601s.AddToScheme(scheme)
 	_ = synapse_v20210601.AddToScheme(scheme)
 	_ = synapse_v20210601s.AddToScheme(scheme)
 	_ = web_v1api20220301.AddToScheme(scheme)
