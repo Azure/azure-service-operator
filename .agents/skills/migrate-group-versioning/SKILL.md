@@ -200,6 +200,7 @@ Run the full verification sequence as specified in the project's copilot instruc
 task format-code
 task generator:quick-checks
 task controller:quick-checks
+task doc:crd-api
 ```
 
 Fix any issues and re-run from the beginning if anything fails.
