@@ -255,6 +255,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cognitiveservices/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/communication/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/containerinstance/</loc>
