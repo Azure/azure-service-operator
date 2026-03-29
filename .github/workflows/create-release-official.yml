@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
 
     permissions:
       contents: write # Required to write a release
