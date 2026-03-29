@@ -18,9 +18,9 @@ These resource(s) are the latest versions available for use in the current relea
 ### Other Supported Versions
 
 These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource           | ARM Version | CRD Version | Supported From | Sample                                                                                                                                    |
-|--------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
-| ConfigurationStore | 2022-05-01  | v20220501   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20220501/v20220501_configurationstore.yaml) |
+| Resource                                                                                        | ARM Version | CRD Version | Supported From | Sample                                                                                                                                    |
+|-------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| [ConfigurationStore]({{< relref "/reference/appconfiguration/v20220501#ConfigurationStore" >}}) | 2022-05-01  | v20220501   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20220501/v20220501_configurationstore.yaml) |
 
 ### Deprecated
 

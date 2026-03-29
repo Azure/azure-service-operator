@@ -134,9 +134,9 @@ These resource(s) are the latest versions available for use in the current relea
 ### Other Supported Versions
 
 These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource           | ARM Version | CRD Version | Supported From | Sample                                                                                                                                    |
-|--------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
-| ConfigurationStore | 2022-05-01  | v20220501   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20220501/v20220501_configurationstore.yaml) |
+| Resource                                                                                        | ARM Version | CRD Version | Supported From | Sample                                                                                                                                    |
+|-------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| [ConfigurationStore]({{< relref "/reference/appconfiguration/v20220501#ConfigurationStore" >}}) | 2022-05-01  | v20220501   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20220501/v20220501_configurationstore.yaml) |
 
 ### Deprecated
 
@@ -281,12 +281,12 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource             | ARM Version | CRD Version | Supported From | Sample                                                                                                                                   |
-|----------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
-| CommunicationService | 2023-04-01  | v20230401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/communication/v20230401/v20230401_communicationservice.yaml) |
-| Domain               | 2023-04-01  | v20230401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/communication/v20230401/v20230401_domain.yaml)               |
-| EmailService         | 2023-04-01  | v20230401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/communication/v20230401/v20230401_emailservice.yaml)         |
-| SenderUsername       | 2023-04-01  | v20230401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/communication/v20230401/v20230401_senderusername.yaml)       |
+| Resource                                                                                         | ARM Version | CRD Version | Supported From | Sample                                                                                                                                   |
+|--------------------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| [CommunicationService]({{< relref "/reference/communication/v20230401#CommunicationService" >}}) | 2023-04-01  | v20230401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/communication/v20230401/v20230401_communicationservice.yaml) |
+| [Domain]({{< relref "/reference/communication/v20230401#Domain" >}})                             | 2023-04-01  | v20230401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/communication/v20230401/v20230401_domain.yaml)               |
+| [EmailService]({{< relref "/reference/communication/v20230401#EmailService" >}})                 | 2023-04-01  | v20230401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/communication/v20230401/v20230401_emailservice.yaml)         |
+| [SenderUsername]({{< relref "/reference/communication/v20230401#SenderUsername" >}})             | 2023-04-01  | v20230401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/communication/v20230401/v20230401_senderusername.yaml)       |
 
 ## Compute
 
