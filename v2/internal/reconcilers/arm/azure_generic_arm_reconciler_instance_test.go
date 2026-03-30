@@ -11,8 +11,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"k8s.io/apimachinery/pkg/types"
+
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
 func TestAzureDeploymentReconcilerInstance_CheckSubscription_GivenResourceID_ReturnsExpectedResult(t *testing.T) {
