@@ -4,7 +4,7 @@
 package storage
 
 import (
-	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20230630/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
