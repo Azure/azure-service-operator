@@ -1,4 +1,5 @@
 ---
+name: migrate-group-versioning
 description: "**WORKFLOW SKILL** — Migrate an Azure resource group from legacy to hybrid versioning mode in ASO. USE FOR: moving a group (e.g., appconfiguration, cache, network) from VersionMigrationModeLegacy to VersionMigrationModeHybrid in the code generator, updating samples, renaming CRUD tests, and re-recording sample tests. DO NOT USE FOR: adding new resources (use new-resource.instructions.md), general debugging, or code review."
 ---
 
