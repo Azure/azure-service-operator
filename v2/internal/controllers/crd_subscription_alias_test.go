@@ -8,6 +8,7 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/google/uuid"
 	. "github.com/onsi/gomega"
 
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
@@ -66,6 +67,10 @@ func Test_SubscriptionAndAlias_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(sub)
 	tc.Expect(sub.Status.Id).ToNot(BeNil())
 	armId := *sub.Status.Id
+
+	// Redact the subscription name in the test recordings, as it contains a GUID which changes every time
+	nilUUID := uuid.Nil.String()
+	tc.WithLiteralRedaction(*sub.Status.Name, nilUUID)
 
 	// Assign an identity to a new role
 	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
