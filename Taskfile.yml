@@ -1514,7 +1514,12 @@ tasks:
     deps: 
        - build-mangle-test
     cmds:
-      - cmd: ./v2/tools/mangle-test-json/mangle-test-json "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
+      - cmd: ./v2/tools/mangle-test-json/mangle-test-json "{{.INPUT}}" > "{{.OUTPUT}}"
+    vars:
+      # Have to use relative paths because mangle-test-json objects to absolute paths in the output
+      # (a consequence of the security changes in PR#5260 )
+      INPUT: "{{relPath .ROOT_DIR .INPUT_FILE}}"
+      OUTPUT: "{{relPath .ROOT_DIR .OUTPUT_FILE}}"
 
   build-mangle-test:
     desc: Builds the tool we use for mangling test results
