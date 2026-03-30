@@ -41,7 +41,8 @@ jobs:
       - name: Build & push Devcontainer image 
         uses: docker/build-push-action@v7
         with:
-          context: .devcontainer
+          context: .
+          file: .devcontainer/Dockerfile
           push: true
           # Embed inline cache metadata so consumers can use --cache-from
           cache-to: type=inline

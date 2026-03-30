@@ -35,9 +35,12 @@ import (
 	app_v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
 	app_v20250101w "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/webhook"
 	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
-	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
-	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
-	appconfiguration_v20220501w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/webhook"
+	appconfiguration_v1api20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
+	appconfiguration_v1api20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
+	appconfiguration_v1api20220501w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/webhook"
+	appconfiguration_v20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20220501"
+	appconfiguration_v20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20220501/storage"
+	appconfiguration_v20220501w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20220501/webhook"
 	appconfiguration_v20240601 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601"
 	appconfiguration_v20240601s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/storage"
 	appconfiguration_v20240601w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/webhook"
@@ -91,6 +94,10 @@ import (
 	cognitiveservices_v20250601 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601"
 	cognitiveservices_v20250601s "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/storage"
 	cognitiveservices_v20250601w "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/webhook"
+	communication_customizations "github.com/Azure/azure-service-operator/v2/api/communication/customizations"
+	communication_v20230401 "github.com/Azure/azure-service-operator/v2/api/communication/v20230401"
+	communication_v20230401s "github.com/Azure/azure-service-operator/v2/api/communication/v20230401/storage"
+	communication_v20230401w "github.com/Azure/azure-service-operator/v2/api/communication/v20230401/webhook"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
 	compute_v20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
 	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
@@ -128,9 +135,6 @@ import (
 	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
 	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
-	containerservice_v20240402p "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
-	containerservice_v20240402ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/storage"
-	containerservice_v20240402pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview/webhook"
 	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
 	containerservice_v20240901w "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/webhook"
@@ -912,6 +916,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(communication_v20230401s.CommunicationService)})
+	result = append(result, &registration.StorageType{Obj: new(communication_v20230401s.Domain)})
+	result = append(result, &registration.StorageType{Obj: new(communication_v20230401s.EmailService)})
+	result = append(result, &registration.StorageType{Obj: new(communication_v20230401s.SenderUsername)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.Image)})
 	result = append(result, &registration.StorageType{
 		Obj: new(compute_v20220301s.VirtualMachine),
@@ -3219,6 +3227,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(app_v20250101s.Job)},
 		&registration.KnownType{Obj: new(app_v20250101s.ManagedEnvironment)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(appconfiguration_v1api20220501.ConfigurationStore),
+		Defaulter: &appconfiguration_v1api20220501w.ConfigurationStore{},
+		Validator: &appconfiguration_v1api20220501w.ConfigurationStore{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(appconfiguration_v1api20220501s.ConfigurationStore)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(appconfiguration_v20220501.ConfigurationStore),
 		Defaulter: &appconfiguration_v20220501w.ConfigurationStore{},
 		Validator: &appconfiguration_v20220501w.ConfigurationStore{},
@@ -3524,6 +3538,34 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &cognitiveservices_v20250601w.Deployment{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v20250601s.Account)}, &registration.KnownType{Obj: new(cognitiveservices_v20250601s.Deployment)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(communication_v20230401.CommunicationService),
+			Defaulter: &communication_v20230401w.CommunicationService{},
+			Validator: &communication_v20230401w.CommunicationService{},
+		},
+		&registration.KnownType{
+			Obj:       new(communication_v20230401.Domain),
+			Defaulter: &communication_v20230401w.Domain{},
+			Validator: &communication_v20230401w.Domain{},
+		},
+		&registration.KnownType{
+			Obj:       new(communication_v20230401.EmailService),
+			Defaulter: &communication_v20230401w.EmailService{},
+			Validator: &communication_v20230401w.EmailService{},
+		},
+		&registration.KnownType{
+			Obj:       new(communication_v20230401.SenderUsername),
+			Defaulter: &communication_v20230401w.SenderUsername{},
+			Validator: &communication_v20230401w.SenderUsername{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(communication_v20230401s.CommunicationService)},
+		&registration.KnownType{Obj: new(communication_v20230401s.Domain)},
+		&registration.KnownType{Obj: new(communication_v20230401s.EmailService)},
+		&registration.KnownType{Obj: new(communication_v20230401s.SenderUsername)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(compute_v20200930.Disk),
 		Defaulter: &compute_v20200930w.Disk{},
@@ -3674,28 +3716,6 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &containerregistry_v20230701w.RegistryReplication{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20230701s.Registry)}, &registration.KnownType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
-	result = append(
-		result,
-		&registration.KnownType{
-			Obj:       new(containerservice_v20240402p.ManagedCluster),
-			Defaulter: &containerservice_v20240402pw.ManagedCluster{},
-			Validator: &containerservice_v20240402pw.ManagedCluster{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20240402p.ManagedClustersAgentPool),
-			Defaulter: &containerservice_v20240402pw.ManagedClustersAgentPool{},
-			Validator: &containerservice_v20240402pw.ManagedClustersAgentPool{},
-		},
-		&registration.KnownType{
-			Obj:       new(containerservice_v20240402p.TrustedAccessRoleBinding),
-			Defaulter: &containerservice_v20240402pw.TrustedAccessRoleBinding{},
-			Validator: &containerservice_v20240402pw.TrustedAccessRoleBinding{},
-		})
-	result = append(
-		result,
-		&registration.KnownType{Obj: new(containerservice_v20240402ps.ManagedCluster)},
-		&registration.KnownType{Obj: new(containerservice_v20240402ps.ManagedClustersAgentPool)},
-		&registration.KnownType{Obj: new(containerservice_v20240402ps.TrustedAccessRoleBinding)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6287,6 +6307,8 @@ func createScheme() *runtime.Scheme {
 	_ = app_v20240301s.AddToScheme(scheme)
 	_ = app_v20250101.AddToScheme(scheme)
 	_ = app_v20250101s.AddToScheme(scheme)
+	_ = appconfiguration_v1api20220501.AddToScheme(scheme)
+	_ = appconfiguration_v1api20220501s.AddToScheme(scheme)
 	_ = appconfiguration_v20220501.AddToScheme(scheme)
 	_ = appconfiguration_v20220501s.AddToScheme(scheme)
 	_ = appconfiguration_v20240601.AddToScheme(scheme)
@@ -6321,6 +6343,8 @@ func createScheme() *runtime.Scheme {
 	_ = cdn_v20230501s.AddToScheme(scheme)
 	_ = cognitiveservices_v20250601.AddToScheme(scheme)
 	_ = cognitiveservices_v20250601s.AddToScheme(scheme)
+	_ = communication_v20230401.AddToScheme(scheme)
+	_ = communication_v20230401s.AddToScheme(scheme)
 	_ = compute_v20200930.AddToScheme(scheme)
 	_ = compute_v20200930s.AddToScheme(scheme)
 	_ = compute_v20201201.AddToScheme(scheme)
@@ -6343,8 +6367,6 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20230701.AddToScheme(scheme)
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
-	_ = containerservice_v20240402p.AddToScheme(scheme)
-	_ = containerservice_v20240402ps.AddToScheme(scheme)
 	_ = containerservice_v20240901.AddToScheme(scheme)
 	_ = containerservice_v20240901s.AddToScheme(scheme)
 	_ = containerservice_v20250301.AddToScheme(scheme)
@@ -6577,6 +6599,10 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cdn_customizations.SecurityPolicyExtension{})
 	result = append(result, &cognitiveservices_customizations.AccountExtension{})
 	result = append(result, &cognitiveservices_customizations.DeploymentExtension{})
+	result = append(result, &communication_customizations.CommunicationServiceExtension{})
+	result = append(result, &communication_customizations.DomainExtension{})
+	result = append(result, &communication_customizations.EmailServiceExtension{})
+	result = append(result, &communication_customizations.SenderUsernameExtension{})
 	result = append(result, &compute_customizations.AvailabilitySetExtension{})
 	result = append(result, &compute_customizations.CapacityReservationExtension{})
 	result = append(result, &compute_customizations.CapacityReservationGroupExtension{})

@@ -1,0 +1,13 @@
+apiVersion: communication.azure.com/v20230401
+kind: SenderUsername
+metadata:
+  name: aso-sample-senderusername
+  namespace: default
+spec:
+  # azureName must match username - Azure requires the resource name in the URL
+  # to match the username field in the request body.
+  azureName: aso-sample
+  owner:
+    name: azuremanageddomain
+  username: aso-sample
+  displayName: ASO Sample Sender

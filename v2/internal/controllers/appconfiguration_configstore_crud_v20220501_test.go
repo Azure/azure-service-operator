@@ -11,7 +11,7 @@ import (
 	"github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	appconfig "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
+	appconfig "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20220501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -20,7 +20,7 @@ import (
 // If recording this test, might need to manually purge the old App config: az appconfig purge --name <name>
 // Through the portal, search for "App Conifguration" and then "Manage deleted stores"
 
-func Test_AppConfiguration_ConfigurationStore_20220501_CRUD(t *testing.T) {
+func Test_AppConfiguration_ConfigurationStore_v20220501_CRUD(t *testing.T) {
 	t.Parallel()
 
 	if *isLive {

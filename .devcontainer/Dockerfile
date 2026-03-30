@@ -1,6 +1,7 @@
 # See here for image contents: https://github.com/devcontainers/images/blob/main/src/go/.devcontainer/Dockerfile
 
-# This is pinned to a particular version of go:
+# Compound versioning - v2 of the devcontainer, v1.26 of Go. 
+# Should be automatically kept up to date by dependabot.
 FROM mcr.microsoft.com/devcontainers/go:2-1.26
 
 # https://docs.docker.com/engine/reference/builder/#automatic-platform-args-in-the-global-scope
@@ -22,8 +23,25 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
     && apt-get -y install azure-cli=2.76.0-1~bookworm \
     && rm -rf /var/lib/apt/lists/*
 
-COPY install-dependencies.sh .
+COPY .devcontainer/install-dependencies.sh .
 RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh
+
+# Pre-download Go modules for faster builds
+# Some of these go.mod files have replace directives that point to local directories, so we need to be careful to 
+# maintain the same relative positions as we copy them into the container.
+# v2 first (largest, most stable, needed by replace directives)
+COPY v2/go.mod v2/go.sum /tmp/mod-download/v2/
+# asoctl (has replace => ../../ which resolves to v2/)
+COPY v2/cmd/asoctl/go.mod v2/cmd/asoctl/go.sum /tmp/mod-download/v2/cmd/asoctl/
+# generator (has replace => ../../ which resolves to v2/)
+COPY v2/tools/generator/go.mod v2/tools/generator/go.sum /tmp/mod-download/v2/tools/generator/
+# mangle-test-json (standalone, no replace directives)
+COPY v2/tools/mangle-test-json/go.mod v2/tools/mangle-test-json/go.sum /tmp/mod-download/v2/tools/mangle-test-json/
+# Now do all the downloads
+RUN find /tmp/mod-download -name go.mod -execdir pwd \; -execdir go mod download \;
+
+# Clean up temporary module download directory
+RUN rm -rf /tmp/mod-download
 
 # Setup envtest
 # NB: if you change this, dev.sh also likely needs updating, also need to update the env below

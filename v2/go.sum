@@ -57,6 +57,8 @@ github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthoriza
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization/v2 v2.2.0/go.mod h1:/pz8dyNQe+Ey3yBp/XuYz7oqX8YDNWVpPB0hH3XWfbc=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cognitiveservices/armcognitiveservices v1.8.0 h1:ZMGAqCZov8+7iFUPWKVcTaLgNXUeTlz20sIuWkQWNfg=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cognitiveservices/armcognitiveservices v1.8.0/go.mod h1:BElPQ/GZtrdQ2i5uDZw3OKLE1we75W0AEWyeBR1TWQA=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/communication/armcommunication v1.0.0 h1:cdWpTwgJAmPCNfDaPEKrEpdL3nN3Et1fsgHa7da25Fc=
+github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/communication/armcommunication v1.0.0/go.mod h1:FIr7kpDk2wZgREROjbQGkKE0yVPtvOndfJ+WxBtoPQY=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice v1.0.0 h1:figxyQZXzZQIcP3njhC68bYUiTw45J8/SsHaLW8Ax0M=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice v1.0.0/go.mod h1:TmlMW4W5OvXOmOyKNnor8nlMMiO1ctIyzmHme/VHsrA=
 github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos v1.0.0 h1:Fv8iibGn1eSw0lt2V3cTsuokBEnOP+M//n8OiMcCgTM=

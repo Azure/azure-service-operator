@@ -14,8 +14,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
-	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240402preview"
-	akscluster "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
 	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
 	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
@@ -40,8 +39,8 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 	clusterConfigMapName := "cluster-configmap"
 	clusterPrincipalIdKey := "principalId"
 	cluster := newBackupInstanceManagedCluster(tc, rg)
-	cluster.Spec.OperatorSpec = &akscluster.ManagedClusterOperatorSpec{
-		ConfigMaps: &akscluster.ManagedClusterOperatorConfigMaps{
+	cluster.Spec.OperatorSpec = &aks.ManagedClusterOperatorSpec{
+		ConfigMaps: &aks.ManagedClusterOperatorConfigMaps{
 			PrincipalId: &genruntime.ConfigMapDestination{Name: clusterConfigMapName, Key: clusterPrincipalIdKey},
 		},
 	}
@@ -241,7 +240,7 @@ func newRoleAssignment(tc *testcommon.KubePerTestContext, owner client.Object, n
 	return roleAssignment
 }
 
-func newBackupInstanceTrustedAccessRoleinding(tc *testcommon.KubePerTestContext, cluster *akscluster.ManagedCluster, backupVault *dataprotection.BackupVault) *aks.TrustedAccessRoleBinding {
+func newBackupInstanceTrustedAccessRoleinding(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster, backupVault *dataprotection.BackupVault) *aks.TrustedAccessRoleBinding {
 	trustedAccessRoleBinding := &aks.TrustedAccessRoleBinding{
 		ObjectMeta: tc.MakeObjectMetaWithName("tarb"),
 		Spec: aks.TrustedAccessRoleBinding_Spec{
@@ -255,7 +254,7 @@ func newBackupInstanceTrustedAccessRoleinding(tc *testcommon.KubePerTestContext,
 	return trustedAccessRoleBinding
 }
 
-func newBackupInstanceKubernetesExtension(tc *testcommon.KubePerTestContext, cluster *akscluster.ManagedCluster, blobContainer *storage.StorageAccountsBlobServicesContainer, rg *resources.ResourceGroup, acct *storage.StorageAccount) *kubernetesconfiguration.Extension {
+func newBackupInstanceKubernetesExtension(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster, blobContainer *storage.StorageAccountsBlobServicesContainer, rg *resources.ResourceGroup, acct *storage.StorageAccount) *kubernetesconfiguration.Extension {
 	extension := &kubernetesconfiguration.Extension{
 		ObjectMeta: tc.MakeObjectMeta("extension"),
 		Spec: kubernetesconfiguration.Extension_Spec{
@@ -279,31 +278,31 @@ func newBackupInstanceKubernetesExtension(tc *testcommon.KubePerTestContext, clu
 	return extension
 }
 
-func newBackupInstanceManagedCluster(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *akscluster.ManagedCluster {
-	cluster := &akscluster.ManagedCluster{
+func newBackupInstanceManagedCluster(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *aks.ManagedCluster {
+	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
-		Spec: akscluster.ManagedCluster_Spec{
+		Spec: aks.ManagedCluster_Spec{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
 			DnsPrefix: to.Ptr("aso"),
-			AgentPoolProfiles: []akscluster.ManagedClusterAgentPoolProfile{
+			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
 				{
 					Name:   to.Ptr("agentpool"),
 					Count:  to.Ptr(3),
 					VmSize: to.Ptr("Standard_DS2_v2"),
-					OsType: to.Ptr(akscluster.OSType_Linux),
-					OsSKU:  to.Ptr(akscluster.OSSKU_AzureLinux),
-					Mode:   to.Ptr(akscluster.AgentPoolMode_System),
+					OsType: to.Ptr(aks.OSType_Linux),
+					OsSKU:  to.Ptr(aks.OSSKU_AzureLinux),
+					Mode:   to.Ptr(aks.AgentPoolMode_System),
 				},
 			},
-			Identity: &akscluster.ManagedClusterIdentity{
-				Type: to.Ptr(akscluster.ManagedClusterIdentity_Type_SystemAssigned),
+			Identity: &aks.ManagedClusterIdentity{
+				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
 			},
-			AutoUpgradeProfile: &akscluster.ManagedClusterAutoUpgradeProfile{
-				UpgradeChannel: to.Ptr(akscluster.ManagedClusterAutoUpgradeProfile_UpgradeChannel_NodeImage),
+			AutoUpgradeProfile: &aks.ManagedClusterAutoUpgradeProfile{
+				UpgradeChannel: to.Ptr(aks.ManagedClusterAutoUpgradeProfile_UpgradeChannel_NodeImage),
 			},
 			EnableRBAC: to.Ptr(true),
-			AddonProfiles: map[string]akscluster.ManagedClusterAddonProfile{
+			AddonProfiles: map[string]aks.ManagedClusterAddonProfile{
 				"azurepolicy": {
 					Enabled: to.Ptr(true),
 				},

@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-push:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
 
     permissions:
       contents: write # Required to write a release
@@ -30,7 +30,7 @@ jobs:
         # NB: if you update this also update live-validation.yml, pre-release-tests.yaml and create-release-experimental.yml
         id: devcontainer
         run: |
-          docker build --tag devcontainer:latest .devcontainer
+          docker build --tag devcontainer:latest -f .devcontainer/Dockerfile .
           mkdir -p $HOME/.docker # in case it doesn't exist
           container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
           docker start "$container_id"
@@ -42,7 +42,7 @@ jobs:
           docker exec "$container_id" task make-release-artifacts
 
       - name: Upload release assets
-        uses: svenstaro/upload-release-action@29e53e917877a24fad85510ded594ab3c9ca12de # this is v2.9.0, but pinned
+        uses: svenstaro/upload-release-action@29e53e917877a24fad85510ded594ab3c9ca12de # pinned to 2.11.5
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
