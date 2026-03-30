@@ -10,8 +10,9 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/go-logr/logr"
 	. "github.com/onsi/gomega"
+
+	"github.com/go-logr/logr"
 	"gopkg.in/dnaeon/go-vcr.v4/pkg/cassette"
 )
 

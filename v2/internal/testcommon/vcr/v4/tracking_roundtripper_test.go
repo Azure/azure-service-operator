@@ -13,6 +13,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	"gopkg.in/dnaeon/go-vcr.v4/pkg/cassette"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/creds"
