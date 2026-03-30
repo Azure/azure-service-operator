@@ -94,6 +94,10 @@ import (
 	cognitiveservices_v20250601 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601"
 	cognitiveservices_v20250601s "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/storage"
 	cognitiveservices_v20250601w "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/webhook"
+	communication_customizations "github.com/Azure/azure-service-operator/v2/api/communication/customizations"
+	communication_v20230401 "github.com/Azure/azure-service-operator/v2/api/communication/v20230401"
+	communication_v20230401s "github.com/Azure/azure-service-operator/v2/api/communication/v20230401/storage"
+	communication_v20230401w "github.com/Azure/azure-service-operator/v2/api/communication/v20230401/webhook"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
 	compute_v20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
 	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
@@ -912,6 +916,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(communication_v20230401s.CommunicationService)})
+	result = append(result, &registration.StorageType{Obj: new(communication_v20230401s.Domain)})
+	result = append(result, &registration.StorageType{Obj: new(communication_v20230401s.EmailService)})
+	result = append(result, &registration.StorageType{Obj: new(communication_v20230401s.SenderUsername)})
 	result = append(result, &registration.StorageType{Obj: new(compute_v20220301s.Image)})
 	result = append(result, &registration.StorageType{
 		Obj: new(compute_v20220301s.VirtualMachine),
@@ -3530,6 +3538,34 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &cognitiveservices_v20250601w.Deployment{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v20250601s.Account)}, &registration.KnownType{Obj: new(cognitiveservices_v20250601s.Deployment)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(communication_v20230401.CommunicationService),
+			Defaulter: &communication_v20230401w.CommunicationService{},
+			Validator: &communication_v20230401w.CommunicationService{},
+		},
+		&registration.KnownType{
+			Obj:       new(communication_v20230401.Domain),
+			Defaulter: &communication_v20230401w.Domain{},
+			Validator: &communication_v20230401w.Domain{},
+		},
+		&registration.KnownType{
+			Obj:       new(communication_v20230401.EmailService),
+			Defaulter: &communication_v20230401w.EmailService{},
+			Validator: &communication_v20230401w.EmailService{},
+		},
+		&registration.KnownType{
+			Obj:       new(communication_v20230401.SenderUsername),
+			Defaulter: &communication_v20230401w.SenderUsername{},
+			Validator: &communication_v20230401w.SenderUsername{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(communication_v20230401s.CommunicationService)},
+		&registration.KnownType{Obj: new(communication_v20230401s.Domain)},
+		&registration.KnownType{Obj: new(communication_v20230401s.EmailService)},
+		&registration.KnownType{Obj: new(communication_v20230401s.SenderUsername)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(compute_v20200930.Disk),
 		Defaulter: &compute_v20200930w.Disk{},
@@ -6307,6 +6343,8 @@ func createScheme() *runtime.Scheme {
 	_ = cdn_v20230501s.AddToScheme(scheme)
 	_ = cognitiveservices_v20250601.AddToScheme(scheme)
 	_ = cognitiveservices_v20250601s.AddToScheme(scheme)
+	_ = communication_v20230401.AddToScheme(scheme)
+	_ = communication_v20230401s.AddToScheme(scheme)
 	_ = compute_v20200930.AddToScheme(scheme)
 	_ = compute_v20200930s.AddToScheme(scheme)
 	_ = compute_v20201201.AddToScheme(scheme)
@@ -6561,6 +6599,10 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cdn_customizations.SecurityPolicyExtension{})
 	result = append(result, &cognitiveservices_customizations.AccountExtension{})
 	result = append(result, &cognitiveservices_customizations.DeploymentExtension{})
+	result = append(result, &communication_customizations.CommunicationServiceExtension{})
+	result = append(result, &communication_customizations.DomainExtension{})
+	result = append(result, &communication_customizations.EmailServiceExtension{})
+	result = append(result, &communication_customizations.SenderUsernameExtension{})
 	result = append(result, &compute_customizations.AvailabilitySetExtension{})
 	result = append(result, &compute_customizations.CapacityReservationExtension{})
 	result = append(result, &compute_customizations.CapacityReservationGroupExtension{})

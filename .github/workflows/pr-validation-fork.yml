@@ -6,7 +6,7 @@ on:
 
 jobs:
   integration-tests-fork:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     if:
       github.event_name == 'repository_dispatch' &&
       github.event.client_payload.slash_command.args.named.sha != '' &&
@@ -70,7 +70,7 @@ jobs:
       # Note: Changes to this step must also be mirrored into pr-validation.yaml
       - name: Build devcontainer image
         run: |
-          docker build --cache-from ghcr.io/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+          docker build --cache-from ghcr.io/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest -f .devcontainer/Dockerfile .
         env:
           DOCKER_BUILDKIT: 1
         if: steps.check-changes.outputs.code-changed == 'true'

@@ -2177,6 +2177,30 @@ objectModelConfiguration:
       SubResource:
         Id:
           $referenceType: arm
+  communication:
+    2023-04-01:
+      CommunicationService:
+        $exportAs: CommunicationService
+        $supportedFrom: v2.19.0
+        $azureGeneratedSecrets:
+          - PrimaryKey
+          - SecondaryKey
+          - PrimaryConnectionString
+          - SecondaryConnectionString
+        $generatedConfigs:
+          HostName: $.Status.HostName
+      CommunicationServiceProperties:
+        LinkedDomains:
+          $referenceType: arm
+      EmailService:
+        $exportAs: EmailService
+        $supportedFrom: v2.19.0
+      EmailServices_Domain:
+        $exportAs: Domain
+        $supportedFrom: v2.19.0
+      EmailServices_Domains_SenderUsername:
+        $exportAs: SenderUsername
+        $supportedFrom: v2.19.0
   containerinstance:
     2021-10-01:
       ContainerGroup:

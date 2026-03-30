@@ -1,0 +1,13 @@
+apiVersion: communication.azure.com/v20230401
+kind: Domain
+metadata:
+  name: azuremanageddomain
+  namespace: default
+spec:
+  # Azure requires the resource name to be exactly "AzureManagedDomain" for AzureManaged domains.
+  azureName: AzureManagedDomain
+  location: global
+  owner:
+    name: aso-sample-emailservice
+  domainManagement: AzureManaged
+  userEngagementTracking: Disabled
