@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
+	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20230630/storage"
 	v20241230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdministrator(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231230s.FlexibleServersAdministrator
+	var other v20230630s.FlexibleServersAdministrator
 	err := copied.AssignProperties_To_FlexibleServersAdministrator(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdministratorOperatorSpec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231230s.FlexibleServersAdministratorOperatorSpec
+	var other v20230630s.FlexibleServersAdministratorOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServersAdministratorOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -280,7 +280,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdministrator_STATUS(subject Fle
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231230s.FlexibleServersAdministrator_STATUS
+	var other v20230630s.FlexibleServersAdministrator_STATUS
 	err := copied.AssignProperties_To_FlexibleServersAdministrator_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -404,7 +404,7 @@ func RunPropertyAssignmentTestForFlexibleServersAdministrator_Spec(subject Flexi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20231230s.FlexibleServersAdministrator_Spec
+	var other v20230630s.FlexibleServersAdministrator_Spec
 	err := copied.AssignProperties_To_FlexibleServersAdministrator_Spec(&other)
 	if err != nil {
 		return err.Error()

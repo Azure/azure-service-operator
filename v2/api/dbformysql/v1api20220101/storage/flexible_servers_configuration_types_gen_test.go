@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20220101/storage"
 	v20241230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForFlexibleServersConfiguration(subject FlexibleSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServersConfiguration
+	var other v20220101s.FlexibleServersConfiguration
 	err := copied.AssignProperties_To_FlexibleServersConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForFlexibleServersConfigurationOperatorSpec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServersConfigurationOperatorSpec
+	var other v20220101s.FlexibleServersConfigurationOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServersConfigurationOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -280,7 +280,7 @@ func RunPropertyAssignmentTestForFlexibleServersConfiguration_STATUS(subject Fle
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServersConfiguration_STATUS
+	var other v20220101s.FlexibleServersConfiguration_STATUS
 	err := copied.AssignProperties_To_FlexibleServersConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -410,7 +410,7 @@ func RunPropertyAssignmentTestForFlexibleServersConfiguration_Spec(subject Flexi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServersConfiguration_Spec
+	var other v20220101s.FlexibleServersConfiguration_Spec
 	err := copied.AssignProperties_To_FlexibleServersConfiguration_Spec(&other)
 	if err != nil {
 		return err.Error()

@@ -163,18 +163,30 @@ import (
 	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
 	dbformariadb_v20180601w "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/webhook"
 	dbformysql_customizations "github.com/Azure/azure-service-operator/v2/api/dbformysql/customizations"
-	dbformysql_v20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
-	dbformysql_v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage"
-	dbformysql_v20210501w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/webhook"
-	dbformysql_v20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
-	dbformysql_v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
-	dbformysql_v20220101w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/webhook"
-	dbformysql_v20230630 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630"
-	dbformysql_v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
-	dbformysql_v20230630w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/webhook"
-	dbformysql_v20231230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230"
-	dbformysql_v20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
-	dbformysql_v20231230w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/webhook"
+	dbformysql_v1api20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
+	dbformysql_v1api20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage"
+	dbformysql_v1api20210501w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/webhook"
+	dbformysql_v1api20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
+	dbformysql_v1api20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
+	dbformysql_v1api20220101w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/webhook"
+	dbformysql_v1api20230630 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630"
+	dbformysql_v1api20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	dbformysql_v1api20230630w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/webhook"
+	dbformysql_v1api20231230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230"
+	dbformysql_v1api20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
+	dbformysql_v1api20231230w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/webhook"
+	dbformysql_v20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20210501"
+	dbformysql_v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20210501/storage"
+	dbformysql_v20210501w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20210501/webhook"
+	dbformysql_v20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20220101"
+	dbformysql_v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20220101/storage"
+	dbformysql_v20220101w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20220101/webhook"
+	dbformysql_v20230630 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20230630"
+	dbformysql_v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20230630/storage"
+	dbformysql_v20230630w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20230630/webhook"
+	dbformysql_v20231230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20231230"
+	dbformysql_v20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20231230/storage"
+	dbformysql_v20231230w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20231230/webhook"
 	dbformysql_v20241230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230"
 	dbformysql_v20241230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/storage"
 	dbformysql_v20241230w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/webhook"
@@ -3897,6 +3909,106 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20210501.FlexibleServer),
+			Defaulter: &dbformysql_v1api20210501w.FlexibleServer{},
+			Validator: &dbformysql_v1api20210501w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20210501.FlexibleServersDatabase),
+			Defaulter: &dbformysql_v1api20210501w.FlexibleServersDatabase{},
+			Validator: &dbformysql_v1api20210501w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20210501.FlexibleServersFirewallRule),
+			Defaulter: &dbformysql_v1api20210501w.FlexibleServersFirewallRule{},
+			Validator: &dbformysql_v1api20210501w.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbformysql_v1api20210501s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20210501s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20210501s.FlexibleServersFirewallRule)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(dbformysql_v1api20220101.FlexibleServersAdministrator),
+		Defaulter: &dbformysql_v1api20220101w.FlexibleServersAdministrator{},
+		Validator: &dbformysql_v1api20220101w.FlexibleServersAdministrator{},
+	}, &registration.KnownType{
+		Obj:       new(dbformysql_v1api20220101.FlexibleServersConfiguration),
+		Defaulter: &dbformysql_v1api20220101w.FlexibleServersConfiguration{},
+		Validator: &dbformysql_v1api20220101w.FlexibleServersConfiguration{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(dbformysql_v1api20220101s.FlexibleServersAdministrator)}, &registration.KnownType{Obj: new(dbformysql_v1api20220101s.FlexibleServersConfiguration)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20230630.FlexibleServer),
+			Defaulter: &dbformysql_v1api20230630w.FlexibleServer{},
+			Validator: &dbformysql_v1api20230630w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20230630.FlexibleServersAdministrator),
+			Defaulter: &dbformysql_v1api20230630w.FlexibleServersAdministrator{},
+			Validator: &dbformysql_v1api20230630w.FlexibleServersAdministrator{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20230630.FlexibleServersConfiguration),
+			Defaulter: &dbformysql_v1api20230630w.FlexibleServersConfiguration{},
+			Validator: &dbformysql_v1api20230630w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20230630.FlexibleServersDatabase),
+			Defaulter: &dbformysql_v1api20230630w.FlexibleServersDatabase{},
+			Validator: &dbformysql_v1api20230630w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20230630.FlexibleServersFirewallRule),
+			Defaulter: &dbformysql_v1api20230630w.FlexibleServersFirewallRule{},
+			Validator: &dbformysql_v1api20230630w.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbformysql_v1api20230630s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20230630s.FlexibleServersAdministrator)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20230630s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20230630s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20230630s.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20231230.FlexibleServer),
+			Defaulter: &dbformysql_v1api20231230w.FlexibleServer{},
+			Validator: &dbformysql_v1api20231230w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20231230.FlexibleServersAdministrator),
+			Defaulter: &dbformysql_v1api20231230w.FlexibleServersAdministrator{},
+			Validator: &dbformysql_v1api20231230w.FlexibleServersAdministrator{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20231230.FlexibleServersConfiguration),
+			Defaulter: &dbformysql_v1api20231230w.FlexibleServersConfiguration{},
+			Validator: &dbformysql_v1api20231230w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20231230.FlexibleServersDatabase),
+			Defaulter: &dbformysql_v1api20231230w.FlexibleServersDatabase{},
+			Validator: &dbformysql_v1api20231230w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20231230.FlexibleServersFirewallRule),
+			Defaulter: &dbformysql_v1api20231230w.FlexibleServersFirewallRule{},
+			Validator: &dbformysql_v1api20231230w.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbformysql_v1api20231230s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20231230s.FlexibleServersAdministrator)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20231230s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20231230s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20231230s.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(dbformysql_v20210501.FlexibleServer),
 			Defaulter: &dbformysql_v20210501w.FlexibleServer{},
 			Validator: &dbformysql_v20210501w.FlexibleServer{},
@@ -6383,6 +6495,14 @@ func createScheme() *runtime.Scheme {
 	_ = dataprotection_v20231101s.AddToScheme(scheme)
 	_ = dbformariadb_v20180601.AddToScheme(scheme)
 	_ = dbformariadb_v20180601s.AddToScheme(scheme)
+	_ = dbformysql_v1api20210501.AddToScheme(scheme)
+	_ = dbformysql_v1api20210501s.AddToScheme(scheme)
+	_ = dbformysql_v1api20220101.AddToScheme(scheme)
+	_ = dbformysql_v1api20220101s.AddToScheme(scheme)
+	_ = dbformysql_v1api20230630.AddToScheme(scheme)
+	_ = dbformysql_v1api20230630s.AddToScheme(scheme)
+	_ = dbformysql_v1api20231230.AddToScheme(scheme)
+	_ = dbformysql_v1api20231230s.AddToScheme(scheme)
 	_ = dbformysql_v20210501.AddToScheme(scheme)
 	_ = dbformysql_v20210501s.AddToScheme(scheme)
 	_ = dbformysql_v20220101.AddToScheme(scheme)
