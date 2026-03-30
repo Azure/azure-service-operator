@@ -8,8 +8,9 @@ package controllers_test
 import (
 	"testing"
 
-	"github.com/google/uuid"
 	. "github.com/onsi/gomega"
+
+	"github.com/google/uuid"
 
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
 	subscription "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
