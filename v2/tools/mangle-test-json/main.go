@@ -238,7 +238,6 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 				// when running `task ci`, and that full logs are available if they get trimmed
 				fmt.Fprintln(os.Stderr, "=== PACKAGE OUTPUT ===")
 				for _, line := range packageLevel.Output {
-
 					fmt.Fprint(os.Stderr, line)
 				}
 
@@ -276,7 +275,6 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 			fmt.Fprintf(os.Stderr, "- Test failed: %s\n", test.Test.Value())
 			fmt.Fprintln(os.Stderr, "=== TEST OUTPUT ===")
 			for _, outputLine := range test.Output {
-
 				fmt.Fprint(os.Stderr, outputLine) // note that line already has newline attached
 			}
 
