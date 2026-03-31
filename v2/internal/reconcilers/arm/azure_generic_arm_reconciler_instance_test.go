@@ -27,13 +27,13 @@ func TestAzureDeploymentReconcilerInstance_CheckSubscription_GivenResourceID_Ret
 		resourceID             string
 		expectedErrorSubstring string
 	}{
-		"valid resource group ID": {
+		"resource group in expected subscription": {
 			resourceID: "/subscriptions/{expectedSub}/resourceGroups/asotest-rg",
 		},
-		"valid resource group ID (lowercase)": {
+		"resource group in expected subscription (lowercase)": {
 			resourceID: "/subscriptions/{expectedSubLower}/resourceGroups/asotest-rg",
 		},
-		"invalid resource group ID": {
+		"resource group in different subscription": {
 			resourceID:             "/subscriptions/{unexpectedSub}/resourceGroups/asotest-rg",
 			expectedErrorSubstring: "resource does not match with Client Credential",
 		},
