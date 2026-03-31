@@ -27,17 +27,15 @@ func urlPath(rawURL string) string {
 
 // barrierMatcher wraps a delegate MatcherFunc to add mutation-barrier awareness.
 //
-// During cassette scanning, go-vcr calls the matcher for each candidate interaction in
-// cassette order within a single GetInteraction() call. This matcher tracks when it
-// encounters mutating operations (PUT/POST/PATCH/DELETE) and prevents subsequent GET
-// candidates for the same URL path from matching. This stops timing jitter from causing
-// GETs to match responses recorded after a mutation.
+// During cassette scanning, go-vcr calls the matcher for each unused candidate interaction in cassette order within a
+// single GetInteraction() call. This matcher tracks when it encounters mutating operations (PUT/POST/PATCH/DELETE) and
+// prevents subsequent GET candidates for the same URL path from matching. This stops timing jitter from causing GETs to
+// match responses recorded after a mutation.
 //
-// Concurrency safety: go-vcr holds the cassette mutex (c.Lock()) for the entire
-// interaction scan loop in cassette.getInteraction(). All matcher invocations within
-// a scan are serialized, and concurrent goroutines calling GetInteraction will have
-// their scans fully serialized. The barrier state maintained here is therefore safe
-// from concurrent access without additional synchronization.
+// Concurrency safety: go-vcr holds the cassette mutex (c.Lock()) for the entire interaction scan loop in
+// cassette.getInteraction(). All matcher invocations within a scan are serialized, and concurrent goroutines calling
+// GetInteraction will have their scans fully serialized. The barrier state maintained here is therefore safe from
+// concurrent access without additional synchronization.
 type barrierMatcher struct {
 	delegate    cassette.MatcherFunc
 	lastRequest *http.Request
@@ -54,6 +52,8 @@ func newBarrierMatcher(delegate cassette.MatcherFunc, log logr.Logger) *barrierM
 }
 
 // Match implements the matching logic with mutation barriers.
+// Only unused candidates are passed to the matcher, they're passed strictly in cassette order, and a lock within
+// cassette.getInteraction() ensures that concurrent scans are fully serialized.
 func (m *barrierMatcher) Match(r *http.Request, i cassette.Request) bool {
 	// Detect new scan by comparing request pointer identity.
 	// go-vcr passes the same *http.Request for every candidate in a single scan.

@@ -59,7 +59,7 @@ func TestBarrierMatcher_GivenGETWithNoBarrier_DelegatesToInner(t *testing.T) {
 	g.Expect(matcher.Match(req, candidate)).To(BeTrue())
 }
 
-func TestBarrierMatcher_GivenGETPastMutation_RejectsGET(t *testing.T) {
+func TestBarrierMatcher_GivenGETPastMutation_DoesNotMatchGET(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -73,7 +73,7 @@ func TestBarrierMatcher_GivenGETPastMutation_RejectsGET(t *testing.T) {
 	g.Expect(matcher.Match(req, getCandidate)).To(BeFalse())
 }
 
-func TestBarrierMatcher_GivenGETPastMutationForDifferentPath_AllowsGET(t *testing.T) {
+func TestBarrierMatcher_GivenGETPastMutationForDifferentPath_MatchesGET(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 

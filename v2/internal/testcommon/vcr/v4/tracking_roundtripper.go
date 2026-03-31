@@ -18,9 +18,6 @@ import (
 )
 
 const (
-	// CountHeader is the name of the header used to record the sequence number of a request
-	CountHeader = "TEST-REQUEST-ATTEMPT"
-
 	// HashHeader is the name of the header used to record the hash of a request body
 	HashHeader = "TEST-REQUEST-HASH"
 

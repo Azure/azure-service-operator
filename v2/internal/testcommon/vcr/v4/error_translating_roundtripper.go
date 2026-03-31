@@ -38,7 +38,7 @@ func translateErrors(
 	redactor *vcr.Redactor,
 	t *testing.T,
 ) http.RoundTripper {
-	return errorTranslation{
+	return &errorTranslation{
 		recorder:     r,
 		cassetteName: cassetteName,
 		redactor:     redactor,
@@ -55,11 +55,13 @@ type errorTranslation struct {
 	t        *testing.T
 }
 
-func (w errorTranslation) ensureCassette() *cassette.Cassette {
+func (w *errorTranslation) ensureCassette() *cassette.Cassette {
 	if w.cassette == nil {
 		cassette, err := cassette.Load(w.cassetteName)
 		if err != nil {
-			panic(fmt.Sprintf("unable to load cassette %q", w.cassetteName))
+			panic(eris.Wrapf(
+				err, "unable to load cassette %q", w.cassetteName,
+			))
 		}
 
 		w.cassette = cassette
@@ -68,7 +70,7 @@ func (w errorTranslation) ensureCassette() *cassette.Cassette {
 	return w.cassette
 }
 
-func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
+func (w *errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 	resp, originalErr := w.recorder.RoundTrip(req)
 	// sorry, go-vcr doesn't expose the error type or message
 	if originalErr == nil || !strings.Contains(originalErr.Error(), "interaction not found") {
@@ -93,9 +95,7 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 
 	if len(matchingBodies) == 0 {
 		var discriminator string
-		if header := req.Header.Get(CountHeader); header != "" {
-			discriminator = fmt.Sprintf(" (attempt: %s)", header)
-		} else if header := req.Header.Get(HashHeader); header != "" {
+		if header := req.Header.Get(HashHeader); header != "" {
 			discriminator = fmt.Sprintf(" (hash: %s)", header)
 		}
 
@@ -133,13 +133,13 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 		conditions.ReasonReconciliationFailedPermanently)
 }
 
-// finds bodies for interactions where request method, URL, and COUNT_HEADER match
-func (w errorTranslation) findMatchingBodies(r *http.Request) []string {
+// finds bodies for interactions where request method and URL match
+func (w *errorTranslation) findMatchingBodies(r *http.Request) []string {
 	urlString := r.URL.String()
 	var result []string
 	for _, interaction := range w.ensureCassette().Interactions {
-		if urlString == interaction.Request.URL && r.Method == interaction.Request.Method &&
-			r.Header.Get(CountHeader) == interaction.Request.Headers.Get(CountHeader) {
+		if urlString == interaction.Request.URL &&
+			r.Method == interaction.Request.Method {
 			result = append(result, interaction.Request.Body)
 		}
 	}

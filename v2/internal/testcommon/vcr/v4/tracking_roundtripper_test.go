@@ -38,7 +38,6 @@ func TestTrackingRoundTripper_GivenGETRequest_AddsNoTrackingHeader(t *testing.T)
 	//nolint:bodyclose
 	_, _ = tracker.RoundTrip(req)
 
-	g.Expect(req.Header.Get(CountHeader)).To(BeEmpty())
 	g.Expect(req.Header.Get(HashHeader)).To(BeEmpty())
 }
 
@@ -61,7 +60,6 @@ func TestTrackingRoundTripper_GivenPUTRequest_AddsHashHeader(t *testing.T) {
 	_, _ = tracker.RoundTrip(req)
 
 	g.Expect(req.Header.Get(HashHeader)).ToNot(BeEmpty())
-	g.Expect(req.Header.Get(CountHeader)).To(BeEmpty())
 }
 
 func TestTrackingRoundTripper_GivenDELETERequest_AddsNoTrackingHeader(t *testing.T) {
@@ -82,7 +80,6 @@ func TestTrackingRoundTripper_GivenDELETERequest_AddsNoTrackingHeader(t *testing
 	//nolint:bodyclose
 	_, _ = tracker.RoundTrip(req)
 
-	g.Expect(req.Header.Get(CountHeader)).To(BeEmpty())
 	g.Expect(req.Header.Get(HashHeader)).To(BeEmpty())
 }
 

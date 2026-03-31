@@ -57,6 +57,7 @@ func TestRecorder_WhenRecordingAndRecordingDoesNotExist_MakesRecording(t *testin
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write([]byte("Hello World"))
 	}))
+	defer server.Close()
 
 	client := recorder.CreateClient(t)
 

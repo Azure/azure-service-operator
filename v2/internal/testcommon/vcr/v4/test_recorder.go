@@ -21,7 +21,7 @@ import (
 	asocloud "github.com/Azure/azure-service-operator/v2/pkg/common/cloud"
 )
 
-// recorderDetails is an implementation of testRecorder using go-vcr v3.
+// recorderDetails is an implementation of testRecorder using go-vcr v4.
 type recorderDetails struct {
 	cassetteName string
 	creds        azcore.TokenCredential
