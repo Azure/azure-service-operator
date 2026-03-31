@@ -50,22 +50,36 @@ var _ conversion.Convertible = &HcpOpenShiftClustersExternalAuth{}
 
 // ConvertFrom populates our HcpOpenShiftClustersExternalAuth from the provided hub HcpOpenShiftClustersExternalAuth
 func (auth *HcpOpenShiftClustersExternalAuth) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.HcpOpenShiftClustersExternalAuth)
-	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v1api20240610preview/storage/HcpOpenShiftClustersExternalAuth but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.HcpOpenShiftClustersExternalAuth
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return auth.AssignProperties_From_HcpOpenShiftClustersExternalAuth(source)
+	err = auth.AssignProperties_From_HcpOpenShiftClustersExternalAuth(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to auth")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub HcpOpenShiftClustersExternalAuth from our HcpOpenShiftClustersExternalAuth
 func (auth *HcpOpenShiftClustersExternalAuth) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.HcpOpenShiftClustersExternalAuth)
-	if !ok {
-		return fmt.Errorf("expected redhatopenshift/v1api20240610preview/storage/HcpOpenShiftClustersExternalAuth but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.HcpOpenShiftClustersExternalAuth
+	err := auth.AssignProperties_To_HcpOpenShiftClustersExternalAuth(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from auth")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return auth.AssignProperties_To_HcpOpenShiftClustersExternalAuth(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &HcpOpenShiftClustersExternalAuth{}
@@ -86,17 +100,6 @@ func (auth *HcpOpenShiftClustersExternalAuth) SecretDestinationExpressions() []*
 		return nil
 	}
 	return auth.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &HcpOpenShiftClustersExternalAuth{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (auth *HcpOpenShiftClustersExternalAuth) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*HcpOpenShiftClustersExternalAuth_STATUS); ok {
-		return auth.Spec.Initialize_From_HcpOpenShiftClustersExternalAuth_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type HcpOpenShiftClustersExternalAuth_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &HcpOpenShiftClustersExternalAuth{}
@@ -467,25 +470,6 @@ func (auth *HcpOpenShiftClustersExternalAuth_Spec) AssignProperties_To_HcpOpenSh
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HcpOpenShiftClustersExternalAuth_STATUS populates our HcpOpenShiftClustersExternalAuth_Spec from the provided source HcpOpenShiftClustersExternalAuth_STATUS
-func (auth *HcpOpenShiftClustersExternalAuth_Spec) Initialize_From_HcpOpenShiftClustersExternalAuth_STATUS(source *HcpOpenShiftClustersExternalAuth_STATUS) error {
-
-	// Properties
-	if source.Properties != nil {
-		var property ExternalAuthProperties
-		err := property.Initialize_From_ExternalAuthProperties_STATUS(source.Properties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExternalAuthProperties_STATUS() to populate field Properties")
-		}
-		auth.Properties = &property
-	} else {
-		auth.Properties = nil
 	}
 
 	// No error
@@ -934,55 +918,6 @@ func (properties *ExternalAuthProperties) AssignProperties_To_ExternalAuthProper
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ExternalAuthProperties_STATUS populates our ExternalAuthProperties from the provided source ExternalAuthProperties_STATUS
-func (properties *ExternalAuthProperties) Initialize_From_ExternalAuthProperties_STATUS(source *ExternalAuthProperties_STATUS) error {
-
-	// Claim
-	if source.Claim != nil {
-		var claim ExternalAuthClaimProfile
-		err := claim.Initialize_From_ExternalAuthClaimProfile_STATUS(source.Claim)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExternalAuthClaimProfile_STATUS() to populate field Claim")
-		}
-		properties.Claim = &claim
-	} else {
-		properties.Claim = nil
-	}
-
-	// Clients
-	if source.Clients != nil {
-		clientList := make([]ExternalAuthClientProfile, len(source.Clients))
-		for clientIndex, clientItem := range source.Clients {
-			// Shadow the loop variable to avoid aliasing
-			clientItem := clientItem
-			var client ExternalAuthClientProfile
-			err := client.Initialize_From_ExternalAuthClientProfile_STATUS(&clientItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ExternalAuthClientProfile_STATUS() to populate field Clients")
-			}
-			clientList[clientIndex] = client
-		}
-		properties.Clients = clientList
-	} else {
-		properties.Clients = nil
-	}
-
-	// Issuer
-	if source.Issuer != nil {
-		var issuer TokenIssuerProfile
-		err := issuer.Initialize_From_TokenIssuerProfile_STATUS(source.Issuer)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_TokenIssuerProfile_STATUS() to populate field Issuer")
-		}
-		properties.Issuer = &issuer
-	} else {
-		properties.Issuer = nil
 	}
 
 	// No error
@@ -1490,43 +1425,6 @@ func (profile *ExternalAuthClaimProfile) AssignProperties_To_ExternalAuthClaimPr
 	return nil
 }
 
-// Initialize_From_ExternalAuthClaimProfile_STATUS populates our ExternalAuthClaimProfile from the provided source ExternalAuthClaimProfile_STATUS
-func (profile *ExternalAuthClaimProfile) Initialize_From_ExternalAuthClaimProfile_STATUS(source *ExternalAuthClaimProfile_STATUS) error {
-
-	// Mappings
-	if source.Mappings != nil {
-		var mapping TokenClaimMappingsProfile
-		err := mapping.Initialize_From_TokenClaimMappingsProfile_STATUS(source.Mappings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_TokenClaimMappingsProfile_STATUS() to populate field Mappings")
-		}
-		profile.Mappings = &mapping
-	} else {
-		profile.Mappings = nil
-	}
-
-	// ValidationRules
-	if source.ValidationRules != nil {
-		validationRuleList := make([]TokenClaimValidationRule, len(source.ValidationRules))
-		for validationRuleIndex, validationRuleItem := range source.ValidationRules {
-			// Shadow the loop variable to avoid aliasing
-			validationRuleItem := validationRuleItem
-			var validationRule TokenClaimValidationRule
-			err := validationRule.Initialize_From_TokenClaimValidationRule_STATUS(&validationRuleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_TokenClaimValidationRule_STATUS() to populate field ValidationRules")
-			}
-			validationRuleList[validationRuleIndex] = validationRule
-		}
-		profile.ValidationRules = validationRuleList
-	} else {
-		profile.ValidationRules = nil
-	}
-
-	// No error
-	return nil
-}
-
 // External Auth claim profile
 type ExternalAuthClaimProfile_STATUS struct {
 	// Mappings: The claim mappings
@@ -1839,39 +1737,6 @@ func (profile *ExternalAuthClientProfile) AssignProperties_To_ExternalAuthClient
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ExternalAuthClientProfile_STATUS populates our ExternalAuthClientProfile from the provided source ExternalAuthClientProfile_STATUS
-func (profile *ExternalAuthClientProfile) Initialize_From_ExternalAuthClientProfile_STATUS(source *ExternalAuthClientProfile_STATUS) error {
-
-	// ClientId
-	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// Component
-	if source.Component != nil {
-		var component ExternalAuthClientComponentProfile
-		err := component.Initialize_From_ExternalAuthClientComponentProfile_STATUS(source.Component)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExternalAuthClientComponentProfile_STATUS() to populate field Component")
-		}
-		profile.Component = &component
-	} else {
-		profile.Component = nil
-	}
-
-	// ExtraScopes
-	profile.ExtraScopes = genruntime.CloneSliceOfString(source.ExtraScopes)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), externalAuthClientType_Values)
-		profile.Type = &typeVar
-	} else {
-		profile.Type = nil
 	}
 
 	// No error
@@ -2328,22 +2193,6 @@ func (profile *TokenIssuerProfile) AssignProperties_To_TokenIssuerProfile(destin
 	return nil
 }
 
-// Initialize_From_TokenIssuerProfile_STATUS populates our TokenIssuerProfile from the provided source TokenIssuerProfile_STATUS
-func (profile *TokenIssuerProfile) Initialize_From_TokenIssuerProfile_STATUS(source *TokenIssuerProfile_STATUS) error {
-
-	// Audiences
-	profile.Audiences = genruntime.CloneSliceOfString(source.Audiences)
-
-	// Ca
-	profile.Ca = genruntime.ClonePointerToString(source.Ca)
-
-	// Url
-	profile.Url = genruntime.ClonePointerToString(source.Url)
-
-	// No error
-	return nil
-}
-
 // Token issuer profile
 // This configures how the platform interacts with the identity provider and
 // how tokens issued from
@@ -2546,19 +2395,6 @@ func (profile *ExternalAuthClientComponentProfile) AssignProperties_To_ExternalA
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ExternalAuthClientComponentProfile_STATUS populates our ExternalAuthClientComponentProfile from the provided source ExternalAuthClientComponentProfile_STATUS
-func (profile *ExternalAuthClientComponentProfile) Initialize_From_ExternalAuthClientComponentProfile_STATUS(source *ExternalAuthClientComponentProfile_STATUS) error {
-
-	// AuthClientNamespace
-	profile.AuthClientNamespace = genruntime.ClonePointerToString(source.AuthClientNamespace)
-
-	// Name
-	profile.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -2864,37 +2700,6 @@ func (profile *TokenClaimMappingsProfile) AssignProperties_To_TokenClaimMappings
 	return nil
 }
 
-// Initialize_From_TokenClaimMappingsProfile_STATUS populates our TokenClaimMappingsProfile from the provided source TokenClaimMappingsProfile_STATUS
-func (profile *TokenClaimMappingsProfile) Initialize_From_TokenClaimMappingsProfile_STATUS(source *TokenClaimMappingsProfile_STATUS) error {
-
-	// Groups
-	if source.Groups != nil {
-		var group GroupClaimProfile
-		err := group.Initialize_From_GroupClaimProfile_STATUS(source.Groups)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_GroupClaimProfile_STATUS() to populate field Groups")
-		}
-		profile.Groups = &group
-	} else {
-		profile.Groups = nil
-	}
-
-	// Username
-	if source.Username != nil {
-		var username UsernameClaimProfile
-		err := username.Initialize_From_UsernameClaimProfile_STATUS(source.Username)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UsernameClaimProfile_STATUS() to populate field Username")
-		}
-		profile.Username = &username
-	} else {
-		profile.Username = nil
-	}
-
-	// No error
-	return nil
-}
-
 // External Auth claim mappings profile.
 // At a minimum username or groups must be defined.
 type TokenClaimMappingsProfile_STATUS struct {
@@ -3154,33 +2959,6 @@ func (rule *TokenClaimValidationRule) AssignProperties_To_TokenClaimValidationRu
 	return nil
 }
 
-// Initialize_From_TokenClaimValidationRule_STATUS populates our TokenClaimValidationRule from the provided source TokenClaimValidationRule_STATUS
-func (rule *TokenClaimValidationRule) Initialize_From_TokenClaimValidationRule_STATUS(source *TokenClaimValidationRule_STATUS) error {
-
-	// RequiredClaim
-	if source.RequiredClaim != nil {
-		var requiredClaim TokenRequiredClaim
-		err := requiredClaim.Initialize_From_TokenRequiredClaim_STATUS(source.RequiredClaim)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_TokenRequiredClaim_STATUS() to populate field RequiredClaim")
-		}
-		rule.RequiredClaim = &requiredClaim
-	} else {
-		rule.RequiredClaim = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), tokenClaimValidationRule_Type_Values)
-		rule.Type = &typeVar
-	} else {
-		rule.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // External Auth claim validation rule
 type TokenClaimValidationRule_STATUS struct {
 	// RequiredClaim: The required claim rule to be applied.
@@ -3399,19 +3177,6 @@ func (profile *GroupClaimProfile) AssignProperties_To_GroupClaimProfile(destinat
 	return nil
 }
 
-// Initialize_From_GroupClaimProfile_STATUS populates our GroupClaimProfile from the provided source GroupClaimProfile_STATUS
-func (profile *GroupClaimProfile) Initialize_From_GroupClaimProfile_STATUS(source *GroupClaimProfile_STATUS) error {
-
-	// Claim
-	profile.Claim = genruntime.ClonePointerToString(source.Claim)
-
-	// Prefix
-	profile.Prefix = genruntime.ClonePointerToString(source.Prefix)
-
-	// No error
-	return nil
-}
-
 // External Auth claim profile
 // This configures how the groups of a cluster identity should be constructed
 // from the claims
@@ -3613,19 +3378,6 @@ func (claim *TokenRequiredClaim) AssignProperties_To_TokenRequiredClaim(destinat
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_TokenRequiredClaim_STATUS populates our TokenRequiredClaim from the provided source TokenRequiredClaim_STATUS
-func (claim *TokenRequiredClaim) Initialize_From_TokenRequiredClaim_STATUS(source *TokenRequiredClaim_STATUS) error {
-
-	// Claim
-	claim.Claim = genruntime.ClonePointerToString(source.Claim)
-
-	// RequiredValue
-	claim.RequiredValue = genruntime.ClonePointerToString(source.RequiredValue)
 
 	// No error
 	return nil
@@ -3857,27 +3609,6 @@ func (profile *UsernameClaimProfile) AssignProperties_To_UsernameClaimProfile(de
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UsernameClaimProfile_STATUS populates our UsernameClaimProfile from the provided source UsernameClaimProfile_STATUS
-func (profile *UsernameClaimProfile) Initialize_From_UsernameClaimProfile_STATUS(source *UsernameClaimProfile_STATUS) error {
-
-	// Claim
-	profile.Claim = genruntime.ClonePointerToString(source.Claim)
-
-	// Prefix
-	profile.Prefix = genruntime.ClonePointerToString(source.Prefix)
-
-	// PrefixPolicy
-	if source.PrefixPolicy != nil {
-		prefixPolicy := genruntime.ToEnum(string(*source.PrefixPolicy), usernameClaimPrefixPolicy_Values)
-		profile.PrefixPolicy = &prefixPolicy
-	} else {
-		profile.PrefixPolicy = nil
 	}
 
 	// No error

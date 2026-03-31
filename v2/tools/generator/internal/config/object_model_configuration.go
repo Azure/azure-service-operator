@@ -30,6 +30,7 @@ type ObjectModelConfiguration struct {
 	typoAdvisor *typo.Advisor
 
 	// Group access fields here (alphabetical, please)
+	HubVersion  groupAccess[string]
 	PayloadType propertyAccess[PayloadType]
 
 	// Type access fields here (alphabetical, please)
@@ -66,6 +67,11 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	}
 
 	// Initialize group access fields here (alphabetical, please)
+	result.HubVersion = makeGroupAccess[string](
+		result,
+		func(c *GroupConfiguration) *configurable[string] { return &c.HubVersion },
+	)
+
 	// Initialize multi-level access fields here (alphabetical, please)
 	result.PayloadType = makeGroupAccess[PayloadType](
 		result,

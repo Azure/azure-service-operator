@@ -145,3 +145,11 @@ OpenShiftCluster: Resource
         ├── SubnetId: *string
         └── VmSize: *string
 
+augmentConversionForConsoleProfile_STATUS: Interface
+
+augmentConversionForNetworkProfile: Interface
+
+augmentConversionForNetworkProfile_STATUS: Interface
+
+augmentConversionForSystemData_STATUS: Interface
+

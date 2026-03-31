@@ -5,7 +5,6 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20240610preview/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,48 +16,6 @@ import (
 	"reflect"
 	"testing"
 )
-
-func Test_ExternalAuthClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExternalAuthClaimProfile to ExternalAuthClaimProfile via AssignProperties_To_ExternalAuthClaimProfile & AssignProperties_From_ExternalAuthClaimProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExternalAuthClaimProfile, ExternalAuthClaimProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExternalAuthClaimProfile tests if a specific instance of ExternalAuthClaimProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExternalAuthClaimProfile(subject ExternalAuthClaimProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ExternalAuthClaimProfile
-	err := copied.AssignProperties_To_ExternalAuthClaimProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExternalAuthClaimProfile
-	err = actual.AssignProperties_From_ExternalAuthClaimProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
 
 func Test_ExternalAuthClaimProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -120,48 +77,6 @@ func ExternalAuthClaimProfileGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForExternalAuthClaimProfile(gens map[string]gopter.Gen) {
 	gens["Mappings"] = gen.PtrOf(TokenClaimMappingsProfileGenerator())
 	gens["ValidationRules"] = gen.SliceOf(TokenClaimValidationRuleGenerator())
-}
-
-func Test_ExternalAuthClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExternalAuthClaimProfile_STATUS to ExternalAuthClaimProfile_STATUS via AssignProperties_To_ExternalAuthClaimProfile_STATUS & AssignProperties_From_ExternalAuthClaimProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExternalAuthClaimProfile_STATUS, ExternalAuthClaimProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExternalAuthClaimProfile_STATUS tests if a specific instance of ExternalAuthClaimProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExternalAuthClaimProfile_STATUS(subject ExternalAuthClaimProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ExternalAuthClaimProfile_STATUS
-	err := copied.AssignProperties_To_ExternalAuthClaimProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExternalAuthClaimProfile_STATUS
-	err = actual.AssignProperties_From_ExternalAuthClaimProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_ExternalAuthClaimProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -226,48 +141,6 @@ func AddRelatedPropertyGeneratorsForExternalAuthClaimProfile_STATUS(gens map[str
 	gens["ValidationRules"] = gen.SliceOf(TokenClaimValidationRule_STATUSGenerator())
 }
 
-func Test_ExternalAuthClientComponentProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExternalAuthClientComponentProfile to ExternalAuthClientComponentProfile via AssignProperties_To_ExternalAuthClientComponentProfile & AssignProperties_From_ExternalAuthClientComponentProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExternalAuthClientComponentProfile, ExternalAuthClientComponentProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExternalAuthClientComponentProfile tests if a specific instance of ExternalAuthClientComponentProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExternalAuthClientComponentProfile(subject ExternalAuthClientComponentProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ExternalAuthClientComponentProfile
-	err := copied.AssignProperties_To_ExternalAuthClientComponentProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExternalAuthClientComponentProfile
-	err = actual.AssignProperties_From_ExternalAuthClientComponentProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_ExternalAuthClientComponentProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -330,48 +203,6 @@ func AddIndependentPropertyGeneratorsForExternalAuthClientComponentProfile(gens 
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ExternalAuthClientComponentProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExternalAuthClientComponentProfile_STATUS to ExternalAuthClientComponentProfile_STATUS via AssignProperties_To_ExternalAuthClientComponentProfile_STATUS & AssignProperties_From_ExternalAuthClientComponentProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExternalAuthClientComponentProfile_STATUS, ExternalAuthClientComponentProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExternalAuthClientComponentProfile_STATUS tests if a specific instance of ExternalAuthClientComponentProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExternalAuthClientComponentProfile_STATUS(subject ExternalAuthClientComponentProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ExternalAuthClientComponentProfile_STATUS
-	err := copied.AssignProperties_To_ExternalAuthClientComponentProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExternalAuthClientComponentProfile_STATUS
-	err = actual.AssignProperties_From_ExternalAuthClientComponentProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_ExternalAuthClientComponentProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -432,48 +263,6 @@ func ExternalAuthClientComponentProfile_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForExternalAuthClientComponentProfile_STATUS(gens map[string]gopter.Gen) {
 	gens["AuthClientNamespace"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ExternalAuthClientProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExternalAuthClientProfile to ExternalAuthClientProfile via AssignProperties_To_ExternalAuthClientProfile & AssignProperties_From_ExternalAuthClientProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExternalAuthClientProfile, ExternalAuthClientProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExternalAuthClientProfile tests if a specific instance of ExternalAuthClientProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExternalAuthClientProfile(subject ExternalAuthClientProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ExternalAuthClientProfile
-	err := copied.AssignProperties_To_ExternalAuthClientProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExternalAuthClientProfile
-	err = actual.AssignProperties_From_ExternalAuthClientProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_ExternalAuthClientProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -553,48 +342,6 @@ func AddRelatedPropertyGeneratorsForExternalAuthClientProfile(gens map[string]go
 	gens["Component"] = gen.PtrOf(ExternalAuthClientComponentProfileGenerator())
 }
 
-func Test_ExternalAuthClientProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExternalAuthClientProfile_STATUS to ExternalAuthClientProfile_STATUS via AssignProperties_To_ExternalAuthClientProfile_STATUS & AssignProperties_From_ExternalAuthClientProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExternalAuthClientProfile_STATUS, ExternalAuthClientProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExternalAuthClientProfile_STATUS tests if a specific instance of ExternalAuthClientProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExternalAuthClientProfile_STATUS(subject ExternalAuthClientProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ExternalAuthClientProfile_STATUS
-	err := copied.AssignProperties_To_ExternalAuthClientProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExternalAuthClientProfile_STATUS
-	err = actual.AssignProperties_From_ExternalAuthClientProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_ExternalAuthClientProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -672,48 +419,6 @@ func AddRelatedPropertyGeneratorsForExternalAuthClientProfile_STATUS(gens map[st
 	gens["Component"] = gen.PtrOf(ExternalAuthClientComponentProfile_STATUSGenerator())
 }
 
-func Test_ExternalAuthCondition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExternalAuthCondition_STATUS to ExternalAuthCondition_STATUS via AssignProperties_To_ExternalAuthCondition_STATUS & AssignProperties_From_ExternalAuthCondition_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExternalAuthCondition_STATUS, ExternalAuthCondition_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExternalAuthCondition_STATUS tests if a specific instance of ExternalAuthCondition_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExternalAuthCondition_STATUS(subject ExternalAuthCondition_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ExternalAuthCondition_STATUS
-	err := copied.AssignProperties_To_ExternalAuthCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExternalAuthCondition_STATUS
-	err = actual.AssignProperties_From_ExternalAuthCondition_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_ExternalAuthCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -779,48 +484,6 @@ func AddIndependentPropertyGeneratorsForExternalAuthCondition_STATUS(gens map[st
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ExternalAuthProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExternalAuthProperties to ExternalAuthProperties via AssignProperties_To_ExternalAuthProperties & AssignProperties_From_ExternalAuthProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExternalAuthProperties, ExternalAuthPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExternalAuthProperties tests if a specific instance of ExternalAuthProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExternalAuthProperties(subject ExternalAuthProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ExternalAuthProperties
-	err := copied.AssignProperties_To_ExternalAuthProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExternalAuthProperties
-	err = actual.AssignProperties_From_ExternalAuthProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_ExternalAuthProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -882,48 +545,6 @@ func AddRelatedPropertyGeneratorsForExternalAuthProperties(gens map[string]gopte
 	gens["Claim"] = gen.PtrOf(ExternalAuthClaimProfileGenerator())
 	gens["Clients"] = gen.SliceOf(ExternalAuthClientProfileGenerator())
 	gens["Issuer"] = gen.PtrOf(TokenIssuerProfileGenerator())
-}
-
-func Test_ExternalAuthProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ExternalAuthProperties_STATUS to ExternalAuthProperties_STATUS via AssignProperties_To_ExternalAuthProperties_STATUS & AssignProperties_From_ExternalAuthProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForExternalAuthProperties_STATUS, ExternalAuthProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForExternalAuthProperties_STATUS tests if a specific instance of ExternalAuthProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForExternalAuthProperties_STATUS(subject ExternalAuthProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ExternalAuthProperties_STATUS
-	err := copied.AssignProperties_To_ExternalAuthProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ExternalAuthProperties_STATUS
-	err = actual.AssignProperties_From_ExternalAuthProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_ExternalAuthProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1004,48 +625,6 @@ func AddRelatedPropertyGeneratorsForExternalAuthProperties_STATUS(gens map[strin
 	gens["Issuer"] = gen.PtrOf(TokenIssuerProfile_STATUSGenerator())
 }
 
-func Test_GroupClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from GroupClaimProfile to GroupClaimProfile via AssignProperties_To_GroupClaimProfile & AssignProperties_From_GroupClaimProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForGroupClaimProfile, GroupClaimProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForGroupClaimProfile tests if a specific instance of GroupClaimProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForGroupClaimProfile(subject GroupClaimProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GroupClaimProfile
-	err := copied.AssignProperties_To_GroupClaimProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual GroupClaimProfile
-	err = actual.AssignProperties_From_GroupClaimProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_GroupClaimProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1105,48 +684,6 @@ func GroupClaimProfileGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForGroupClaimProfile(gens map[string]gopter.Gen) {
 	gens["Claim"] = gen.PtrOf(gen.AlphaString())
 	gens["Prefix"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_GroupClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from GroupClaimProfile_STATUS to GroupClaimProfile_STATUS via AssignProperties_To_GroupClaimProfile_STATUS & AssignProperties_From_GroupClaimProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForGroupClaimProfile_STATUS, GroupClaimProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForGroupClaimProfile_STATUS tests if a specific instance of GroupClaimProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForGroupClaimProfile_STATUS(subject GroupClaimProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GroupClaimProfile_STATUS
-	err := copied.AssignProperties_To_GroupClaimProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual GroupClaimProfile_STATUS
-	err = actual.AssignProperties_From_GroupClaimProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_GroupClaimProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1211,91 +748,6 @@ func AddIndependentPropertyGeneratorsForGroupClaimProfile_STATUS(gens map[string
 	gens["Prefix"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_HcpOpenShiftClustersExternalAuth_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HcpOpenShiftClustersExternalAuth to hub returns original",
-		prop.ForAll(RunResourceConversionTestForHcpOpenShiftClustersExternalAuth, HcpOpenShiftClustersExternalAuthGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForHcpOpenShiftClustersExternalAuth tests if a specific instance of HcpOpenShiftClustersExternalAuth round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForHcpOpenShiftClustersExternalAuth(subject HcpOpenShiftClustersExternalAuth) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.HcpOpenShiftClustersExternalAuth
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual HcpOpenShiftClustersExternalAuth
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_HcpOpenShiftClustersExternalAuth_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HcpOpenShiftClustersExternalAuth to HcpOpenShiftClustersExternalAuth via AssignProperties_To_HcpOpenShiftClustersExternalAuth & AssignProperties_From_HcpOpenShiftClustersExternalAuth returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuth, HcpOpenShiftClustersExternalAuthGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuth tests if a specific instance of HcpOpenShiftClustersExternalAuth can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuth(subject HcpOpenShiftClustersExternalAuth) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HcpOpenShiftClustersExternalAuth
-	err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuth(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HcpOpenShiftClustersExternalAuth
-	err = actual.AssignProperties_From_HcpOpenShiftClustersExternalAuth(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_HcpOpenShiftClustersExternalAuth_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1358,48 +810,6 @@ func AddRelatedPropertyGeneratorsForHcpOpenShiftClustersExternalAuth(gens map[st
 	gens["Status"] = HcpOpenShiftClustersExternalAuth_STATUSGenerator()
 }
 
-func Test_HcpOpenShiftClustersExternalAuthOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HcpOpenShiftClustersExternalAuthOperatorSpec to HcpOpenShiftClustersExternalAuthOperatorSpec via AssignProperties_To_HcpOpenShiftClustersExternalAuthOperatorSpec & AssignProperties_From_HcpOpenShiftClustersExternalAuthOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuthOperatorSpec, HcpOpenShiftClustersExternalAuthOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuthOperatorSpec tests if a specific instance of HcpOpenShiftClustersExternalAuthOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuthOperatorSpec(subject HcpOpenShiftClustersExternalAuthOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HcpOpenShiftClustersExternalAuthOperatorSpec
-	err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuthOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HcpOpenShiftClustersExternalAuthOperatorSpec
-	err = actual.AssignProperties_From_HcpOpenShiftClustersExternalAuthOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_HcpOpenShiftClustersExternalAuthOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1453,48 +863,6 @@ func HcpOpenShiftClustersExternalAuthOperatorSpecGenerator() gopter.Gen {
 	hcpOpenShiftClustersExternalAuthOperatorSpecGenerator = gen.Struct(reflect.TypeOf(HcpOpenShiftClustersExternalAuthOperatorSpec{}), generators)
 
 	return hcpOpenShiftClustersExternalAuthOperatorSpecGenerator
-}
-
-func Test_HcpOpenShiftClustersExternalAuth_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HcpOpenShiftClustersExternalAuth_STATUS to HcpOpenShiftClustersExternalAuth_STATUS via AssignProperties_To_HcpOpenShiftClustersExternalAuth_STATUS & AssignProperties_From_HcpOpenShiftClustersExternalAuth_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuth_STATUS, HcpOpenShiftClustersExternalAuth_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuth_STATUS tests if a specific instance of HcpOpenShiftClustersExternalAuth_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuth_STATUS(subject HcpOpenShiftClustersExternalAuth_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HcpOpenShiftClustersExternalAuth_STATUS
-	err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuth_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HcpOpenShiftClustersExternalAuth_STATUS
-	err = actual.AssignProperties_From_HcpOpenShiftClustersExternalAuth_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_HcpOpenShiftClustersExternalAuth_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1575,48 +943,6 @@ func AddRelatedPropertyGeneratorsForHcpOpenShiftClustersExternalAuth_STATUS(gens
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_HcpOpenShiftClustersExternalAuth_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HcpOpenShiftClustersExternalAuth_Spec to HcpOpenShiftClustersExternalAuth_Spec via AssignProperties_To_HcpOpenShiftClustersExternalAuth_Spec & AssignProperties_From_HcpOpenShiftClustersExternalAuth_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuth_Spec, HcpOpenShiftClustersExternalAuth_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuth_Spec tests if a specific instance of HcpOpenShiftClustersExternalAuth_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForHcpOpenShiftClustersExternalAuth_Spec(subject HcpOpenShiftClustersExternalAuth_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HcpOpenShiftClustersExternalAuth_Spec
-	err := copied.AssignProperties_To_HcpOpenShiftClustersExternalAuth_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HcpOpenShiftClustersExternalAuth_Spec
-	err = actual.AssignProperties_From_HcpOpenShiftClustersExternalAuth_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_HcpOpenShiftClustersExternalAuth_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1694,48 +1020,6 @@ func AddRelatedPropertyGeneratorsForHcpOpenShiftClustersExternalAuth_Spec(gens m
 	gens["Properties"] = gen.PtrOf(ExternalAuthPropertiesGenerator())
 }
 
-func Test_TokenClaimMappingsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from TokenClaimMappingsProfile to TokenClaimMappingsProfile via AssignProperties_To_TokenClaimMappingsProfile & AssignProperties_From_TokenClaimMappingsProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTokenClaimMappingsProfile, TokenClaimMappingsProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForTokenClaimMappingsProfile tests if a specific instance of TokenClaimMappingsProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTokenClaimMappingsProfile(subject TokenClaimMappingsProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TokenClaimMappingsProfile
-	err := copied.AssignProperties_To_TokenClaimMappingsProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual TokenClaimMappingsProfile
-	err = actual.AssignProperties_From_TokenClaimMappingsProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_TokenClaimMappingsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1798,48 +1082,6 @@ func AddRelatedPropertyGeneratorsForTokenClaimMappingsProfile(gens map[string]go
 	gens["Username"] = gen.PtrOf(UsernameClaimProfileGenerator())
 }
 
-func Test_TokenClaimMappingsProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from TokenClaimMappingsProfile_STATUS to TokenClaimMappingsProfile_STATUS via AssignProperties_To_TokenClaimMappingsProfile_STATUS & AssignProperties_From_TokenClaimMappingsProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTokenClaimMappingsProfile_STATUS, TokenClaimMappingsProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForTokenClaimMappingsProfile_STATUS tests if a specific instance of TokenClaimMappingsProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTokenClaimMappingsProfile_STATUS(subject TokenClaimMappingsProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TokenClaimMappingsProfile_STATUS
-	err := copied.AssignProperties_To_TokenClaimMappingsProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual TokenClaimMappingsProfile_STATUS
-	err = actual.AssignProperties_From_TokenClaimMappingsProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_TokenClaimMappingsProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1900,48 +1142,6 @@ func TokenClaimMappingsProfile_STATUSGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForTokenClaimMappingsProfile_STATUS(gens map[string]gopter.Gen) {
 	gens["Groups"] = gen.PtrOf(GroupClaimProfile_STATUSGenerator())
 	gens["Username"] = gen.PtrOf(UsernameClaimProfile_STATUSGenerator())
-}
-
-func Test_TokenClaimValidationRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from TokenClaimValidationRule to TokenClaimValidationRule via AssignProperties_To_TokenClaimValidationRule & AssignProperties_From_TokenClaimValidationRule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTokenClaimValidationRule, TokenClaimValidationRuleGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForTokenClaimValidationRule tests if a specific instance of TokenClaimValidationRule can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTokenClaimValidationRule(subject TokenClaimValidationRule) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TokenClaimValidationRule
-	err := copied.AssignProperties_To_TokenClaimValidationRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual TokenClaimValidationRule
-	err = actual.AssignProperties_From_TokenClaimValidationRule(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_TokenClaimValidationRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2019,48 +1219,6 @@ func AddRelatedPropertyGeneratorsForTokenClaimValidationRule(gens map[string]gop
 	gens["RequiredClaim"] = gen.PtrOf(TokenRequiredClaimGenerator())
 }
 
-func Test_TokenClaimValidationRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from TokenClaimValidationRule_STATUS to TokenClaimValidationRule_STATUS via AssignProperties_To_TokenClaimValidationRule_STATUS & AssignProperties_From_TokenClaimValidationRule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTokenClaimValidationRule_STATUS, TokenClaimValidationRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForTokenClaimValidationRule_STATUS tests if a specific instance of TokenClaimValidationRule_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTokenClaimValidationRule_STATUS(subject TokenClaimValidationRule_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TokenClaimValidationRule_STATUS
-	err := copied.AssignProperties_To_TokenClaimValidationRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual TokenClaimValidationRule_STATUS
-	err = actual.AssignProperties_From_TokenClaimValidationRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_TokenClaimValidationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2136,48 +1294,6 @@ func AddRelatedPropertyGeneratorsForTokenClaimValidationRule_STATUS(gens map[str
 	gens["RequiredClaim"] = gen.PtrOf(TokenRequiredClaim_STATUSGenerator())
 }
 
-func Test_TokenIssuerProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from TokenIssuerProfile to TokenIssuerProfile via AssignProperties_To_TokenIssuerProfile & AssignProperties_From_TokenIssuerProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTokenIssuerProfile, TokenIssuerProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForTokenIssuerProfile tests if a specific instance of TokenIssuerProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTokenIssuerProfile(subject TokenIssuerProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TokenIssuerProfile
-	err := copied.AssignProperties_To_TokenIssuerProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual TokenIssuerProfile
-	err = actual.AssignProperties_From_TokenIssuerProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_TokenIssuerProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2238,48 +1354,6 @@ func AddIndependentPropertyGeneratorsForTokenIssuerProfile(gens map[string]gopte
 	gens["Audiences"] = gen.SliceOf(gen.AlphaString())
 	gens["Ca"] = gen.PtrOf(gen.AlphaString())
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_TokenIssuerProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from TokenIssuerProfile_STATUS to TokenIssuerProfile_STATUS via AssignProperties_To_TokenIssuerProfile_STATUS & AssignProperties_From_TokenIssuerProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTokenIssuerProfile_STATUS, TokenIssuerProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForTokenIssuerProfile_STATUS tests if a specific instance of TokenIssuerProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTokenIssuerProfile_STATUS(subject TokenIssuerProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TokenIssuerProfile_STATUS
-	err := copied.AssignProperties_To_TokenIssuerProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual TokenIssuerProfile_STATUS
-	err = actual.AssignProperties_From_TokenIssuerProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_TokenIssuerProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2345,48 +1419,6 @@ func AddIndependentPropertyGeneratorsForTokenIssuerProfile_STATUS(gens map[strin
 	gens["Url"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_TokenRequiredClaim_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from TokenRequiredClaim to TokenRequiredClaim via AssignProperties_To_TokenRequiredClaim & AssignProperties_From_TokenRequiredClaim returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTokenRequiredClaim, TokenRequiredClaimGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForTokenRequiredClaim tests if a specific instance of TokenRequiredClaim can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTokenRequiredClaim(subject TokenRequiredClaim) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TokenRequiredClaim
-	err := copied.AssignProperties_To_TokenRequiredClaim(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual TokenRequiredClaim
-	err = actual.AssignProperties_From_TokenRequiredClaim(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_TokenRequiredClaim_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2446,48 +1478,6 @@ func TokenRequiredClaimGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForTokenRequiredClaim(gens map[string]gopter.Gen) {
 	gens["Claim"] = gen.PtrOf(gen.AlphaString())
 	gens["RequiredValue"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_TokenRequiredClaim_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from TokenRequiredClaim_STATUS to TokenRequiredClaim_STATUS via AssignProperties_To_TokenRequiredClaim_STATUS & AssignProperties_From_TokenRequiredClaim_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTokenRequiredClaim_STATUS, TokenRequiredClaim_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForTokenRequiredClaim_STATUS tests if a specific instance of TokenRequiredClaim_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForTokenRequiredClaim_STATUS(subject TokenRequiredClaim_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TokenRequiredClaim_STATUS
-	err := copied.AssignProperties_To_TokenRequiredClaim_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual TokenRequiredClaim_STATUS
-	err = actual.AssignProperties_From_TokenRequiredClaim_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_TokenRequiredClaim_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2552,48 +1542,6 @@ func AddIndependentPropertyGeneratorsForTokenRequiredClaim_STATUS(gens map[strin
 	gens["RequiredValue"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_UsernameClaimProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UsernameClaimProfile to UsernameClaimProfile via AssignProperties_To_UsernameClaimProfile & AssignProperties_From_UsernameClaimProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUsernameClaimProfile, UsernameClaimProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForUsernameClaimProfile tests if a specific instance of UsernameClaimProfile can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUsernameClaimProfile(subject UsernameClaimProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UsernameClaimProfile
-	err := copied.AssignProperties_To_UsernameClaimProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UsernameClaimProfile
-	err = actual.AssignProperties_From_UsernameClaimProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_UsernameClaimProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2655,48 +1603,6 @@ func AddIndependentPropertyGeneratorsForUsernameClaimProfile(gens map[string]gop
 	gens["Claim"] = gen.PtrOf(gen.AlphaString())
 	gens["Prefix"] = gen.PtrOf(gen.AlphaString())
 	gens["PrefixPolicy"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_UsernameClaimProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UsernameClaimProfile_STATUS to UsernameClaimProfile_STATUS via AssignProperties_To_UsernameClaimProfile_STATUS & AssignProperties_From_UsernameClaimProfile_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUsernameClaimProfile_STATUS, UsernameClaimProfile_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForUsernameClaimProfile_STATUS tests if a specific instance of UsernameClaimProfile_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForUsernameClaimProfile_STATUS(subject UsernameClaimProfile_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UsernameClaimProfile_STATUS
-	err := copied.AssignProperties_To_UsernameClaimProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UsernameClaimProfile_STATUS
-	err = actual.AssignProperties_From_UsernameClaimProfile_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_UsernameClaimProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
