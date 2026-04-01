@@ -5,6 +5,7 @@ package v1api20240301
 
 import (
 	"fmt"
+
 	arm "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/arm"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -2149,7 +2150,7 @@ type PrivateLinkServiceConnection struct {
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// PrivateLinkServiceReference: The resource id of private link service.
-	PrivateLinkServiceReference *genruntime.ResourceReference `armReference:"PrivateLinkServiceId" json:"privateLinkServiceReference,omitempty"`
+	PrivateLinkServiceReference *genruntime.WellKnownResourceReference `armReference:"PrivateLinkServiceId" json:"privateLinkServiceReference,omitempty"`
 
 	// RequestMessage: A message passed to the owner of the remote resource with this connection request. Restricted to 140
 	// chars.
@@ -2190,11 +2191,19 @@ func (connection *PrivateLinkServiceConnection) ConvertToARM(resolved genruntime
 		result.Properties.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	}
 	if connection.PrivateLinkServiceReference != nil {
-		privateLinkServiceIdARMID, err := resolved.ResolvedReferences.Lookup(*connection.PrivateLinkServiceReference)
-		if err != nil {
-			return nil, err
+		var privateLinkServiceIdTemp string
+		if connection.PrivateLinkServiceReference.WellKnownName != "" {
+			privateLinkServiceIdTemp = connection.PrivateLinkServiceReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(connection.PrivateLinkServiceReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			privateLinkServiceIdTemp = armID
 		}
-		privateLinkServiceId := privateLinkServiceIdARMID
+
+		privateLinkServiceId := privateLinkServiceIdTemp
 		result.Properties.PrivateLinkServiceId = &privateLinkServiceId
 	}
 	if connection.RequestMessage != nil {
@@ -2335,6 +2344,42 @@ func (connection *PrivateLinkServiceConnection) AssignProperties_To_PrivateLinkS
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_PrivateLinkServiceConnection_STATUS populates our PrivateLinkServiceConnection from the provided source PrivateLinkServiceConnection_STATUS
+func (connection *PrivateLinkServiceConnection) Initialize_From_PrivateLinkServiceConnection_STATUS(source *PrivateLinkServiceConnection_STATUS) error {
+
+	// GroupIds
+	connection.GroupIds = genruntime.CloneSliceOfString(source.GroupIds)
+
+	// Name
+	connection.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PrivateLinkServiceConnectionState
+	if source.PrivateLinkServiceConnectionState != nil {
+		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState
+		err := privateLinkServiceConnectionState.Initialize_From_PrivateLinkServiceConnectionState_STATUS(source.PrivateLinkServiceConnectionState)
+		if err != nil {
+			return eris.Wrap(err, "calling Initialize_From_PrivateLinkServiceConnectionState_STATUS() to populate field PrivateLinkServiceConnectionState")
+		}
+		connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
+	} else {
+		connection.PrivateLinkServiceConnectionState = nil
+	}
+
+	// PrivateLinkServiceReference
+	if source.PrivateLinkServiceId != nil {
+		privateLinkServiceReference := genruntime.CreateWellKnownResourceReferenceFromARMID(*source.PrivateLinkServiceId)
+		connection.PrivateLinkServiceReference = &privateLinkServiceReference
+	} else {
+		connection.PrivateLinkServiceReference = nil
+	}
+
+	// RequestMessage
+	connection.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
 
 	// No error
 	return nil

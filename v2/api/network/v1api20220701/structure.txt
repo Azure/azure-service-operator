@@ -1042,7 +1042,7 @@ PrivateEndpoint: Resource
 │   │   │   ├── ActionsRequired: *string
 │   │   │   ├── Description: *string
 │   │   │   └── Status: *string
-│   │   ├── PrivateLinkServiceReference: *genruntime.ResourceReference
+│   │   ├── PrivateLinkServiceReference: *genruntime.WellKnownResourceReference
 │   │   └── RequestMessage: *string
 │   ├── OperatorSpec: *Object (3 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
@@ -1057,7 +1057,7 @@ PrivateEndpoint: Resource
 │   │   │   ├── ActionsRequired: *string
 │   │   │   ├── Description: *string
 │   │   │   └── Status: *string
-│   │   ├── PrivateLinkServiceReference: *genruntime.ResourceReference
+│   │   ├── PrivateLinkServiceReference: *genruntime.WellKnownResourceReference
 │   │   └── RequestMessage: *string
 │   ├── Subnet: *Object (1 property)
 │   │   └── Reference: *genruntime.ResourceReference

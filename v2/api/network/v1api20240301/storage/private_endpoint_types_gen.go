@@ -1706,9 +1706,9 @@ type PrivateLinkServiceConnection struct {
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// PrivateLinkServiceReference: The resource id of private link service.
-	PrivateLinkServiceReference *genruntime.ResourceReference `armReference:"PrivateLinkServiceId" json:"privateLinkServiceReference,omitempty"`
-	PropertyBag                 genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	RequestMessage              *string                       `json:"requestMessage,omitempty"`
+	PrivateLinkServiceReference *genruntime.WellKnownResourceReference `armReference:"PrivateLinkServiceId" json:"privateLinkServiceReference,omitempty"`
+	PropertyBag                 genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	RequestMessage              *string                                `json:"requestMessage,omitempty"`
 }
 
 // AssignProperties_From_PrivateLinkServiceConnection populates our PrivateLinkServiceConnection from the provided source PrivateLinkServiceConnection
