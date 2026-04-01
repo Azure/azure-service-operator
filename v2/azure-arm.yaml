@@ -3207,7 +3207,7 @@ objectModelConfiguration:
     2025-10-15:
       CassandraCluster:
         $exportAs: CassandraCluster
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
       CassandraCluster_Properties_Spec:
         DelegatedManagementSubnetId:
           $referenceType: arm
@@ -3217,7 +3217,7 @@ objectModelConfiguration:
           $referenceType: arm
       CassandraClusters_DataCenter:
         $exportAs: CassandraDataCenter
-        $supportedFrom: v2.18.0
+        $supportedFrom: v2.19.0
       CassandraClusters_DataCenter_Properties_Spec:
         DelegatedSubnetId:
           $referenceType: arm

@@ -554,8 +554,8 @@ Development of these new resources is complete and they will be available in the
 
 | Resource            | ARM Version | CRD Version | Supported From | Sample                                                                                                                                         |
 |---------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| CassandraCluster    | 2025-10-15  | v20251015   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20251015/v20251015_cassandracluster.yaml)    |
-| CassandraDataCenter | 2025-10-15  | v20251015   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20251015/v20251015_cassandradatacenter.yaml) |
+| CassandraCluster    | 2025-10-15  | v20251015   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20251015/v20251015_cassandracluster.yaml)    |
+| CassandraDataCenter | 2025-10-15  | v20251015   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20251015/v20251015_cassandradatacenter.yaml) |
 
 ### Latest Released Versions
 
