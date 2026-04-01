@@ -19,6 +19,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
+
 // Example is from https://learn.microsoft.com/en-us/azure/private-link/create-private-endpoint-bicep?tabs=CLI#review-the-bicep-file
 // We've replaced SQLServers with StorageAccount in the test.
 func Test_Networking_PrivateEndpoint_20250301_CRUD(t *testing.T) {
@@ -114,9 +115,11 @@ func newPrivateEndpoint20250301(tc *testcommon.KubePerTestContext, rg *resources
 			Owner:    testcommon.AsOwner(rg),
 			PrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
 				{
-					Name:                        to.Ptr("testEndpoint"),
-					PrivateLinkServiceReference: tc.MakeReferenceFromResource(sa),
-					GroupIds:                    []string{"blob"}, // TODO: This is a bit weird that user has to figure out the group ID(s).
+					Name: to.Ptr("testEndpoint"),
+					PrivateLinkServiceReference: &genruntime.WellKnownResourceReference{
+						ResourceReference: *tc.MakeReferenceFromResource(sa),
+					},
+					GroupIds: []string{"blob"}, // TODO: This is a bit weird that user has to figure out the group ID(s).
 				},
 			},
 			Subnet: &network.Subnet_PrivateEndpoint_SubResourceEmbedded{

@@ -14,6 +14,7 @@ import (
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_Compute_DiskAccess_20240302_CRUD(t *testing.T) {
@@ -53,9 +54,11 @@ func Test_Compute_DiskAccess_20240302_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			PrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
 				{
-					Name:                        to.Ptr("diskEndpoint"),
-					PrivateLinkServiceReference: tc.MakeReferenceFromResource(diskAccess),
-					GroupIds:                    []string{"disks"},
+					Name: to.Ptr("diskEndpoint"),
+					PrivateLinkServiceReference: &genruntime.WellKnownResourceReference{
+						ResourceReference: *tc.MakeReferenceFromResource(diskAccess),
+					},
+					GroupIds: []string{"disks"},
 				},
 			},
 			Subnet: &network.Subnet_PrivateEndpoint_SubResourceEmbedded{
