@@ -98,13 +98,16 @@ func Test_Networking_PrivateEndpoint_Alias_20220701_CRUD(t *testing.T) {
 	}
 	tc.CreateResourceAndWait(peSubnet)
 
-	// Create a PrivateEndpoint using the PLS alias as wellKnownName
+	// Create a PrivateEndpoint using the PLS alias as wellKnownName.
+	// Aliases must use ManualPrivateLinkServiceConnections (not PrivateLinkServiceConnections) —
+	// Azure requires the manual path when connecting by alias.
+	// Because we set AutoApproval on the PLS, this will be auto-approved despite using the manual path.
 	endpoint := &network.PrivateEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("endpoint"),
 		Spec: network.PrivateEndpoint_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			PrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
+			ManualPrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
 				{
 					Name: to.Ptr("aliasConnection"),
 					PrivateLinkServiceReference: &genruntime.WellKnownResourceReference{
