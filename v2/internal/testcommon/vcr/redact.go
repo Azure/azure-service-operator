@@ -63,6 +63,12 @@ func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 		`;${accesskey}={KEY}`,
 	)
 
+	// Cassandra style gossip certificates
+	redactor.AddRegexRedaction(
+		`-----BEGIN CERTIFICATE-----[A-Za-z0-9\\+/=]+-----END CERTIFICATE-----`,
+		`-----BEGIN CERTIFICATE-----REDACTED-----END CERTIFICATE-----`,
+	)
+
 	return redactor
 }
 
