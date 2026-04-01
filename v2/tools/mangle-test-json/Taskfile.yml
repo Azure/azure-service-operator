@@ -17,7 +17,7 @@ tasks:
     - 'echo "TASK_DIR: {{.TASK_DIR}}"'
 
   produce-markdown-summary:
-    desc: Builds a test output summary for Github
+    desc: Builds a test output summary for GitHub
     deps: 
        - build
     cmds:
