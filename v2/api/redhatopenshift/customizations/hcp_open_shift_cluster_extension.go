@@ -5,6 +5,7 @@ package customizations
 import (
 	"context"
 	"strings"
+	"time"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -70,27 +71,6 @@ func (ext *HcpOpenShiftClusterExtension) PreReconcileCheck(ctx context.Context,
 
 var _ genruntime.KubernetesSecretExporter = &HcpOpenShiftClusterExtension{}
 
-const (
-	BackupInstancePollerResumeTokenAnnotation = "serviceoperator.azure.com/bi-poller-resume-token"
-)
-
-func GetPollerResumeToken(obj genruntime.MetaObject, log logr.Logger) (string, bool) {
-	log.V(Debug).Info("GetPollerResumeToken")
-	token, hasResumeToken := obj.GetAnnotations()[BackupInstancePollerResumeTokenAnnotation]
-	return token, hasResumeToken
-}
-
-func SetPollerResumeToken(obj genruntime.MetaObject, token string, log logr.Logger) {
-	log.V(Debug).Info("SetPollerResumeToken")
-	genruntime.AddAnnotation(obj, BackupInstancePollerResumeTokenAnnotation, token)
-}
-
-// ClearPollerResumeToken clears the poller resume token and ID annotations
-func ClearPollerResumeToken(obj genruntime.MetaObject, log logr.Logger) {
-	log.V(Debug).Info("ClearPollerResumeToken")
-	genruntime.RemoveAnnotation(obj, BackupInstancePollerResumeTokenAnnotation)
-}
-
 func (ext *HcpOpenShiftClusterExtension) ExportKubernetesSecrets(
 	ctx context.Context,
 	obj genruntime.MetaObject,
@@ -133,37 +113,35 @@ func (ext *HcpOpenShiftClusterExtension) ExportKubernetesSecrets(
 
 	var adminCredentials string
 	if requestedSecrets.Contains(adminCredentialsKey) {
-		resumeToken, _ := GetPollerResumeToken(typedObj, log)
-		opts := &armstorage.HcpOpenShiftClustersClientBeginRequestAdminCredentialOptions{ResumeToken: resumeToken}
 		log.V(Debug).Info("Starting BeginRequestAdminCredential")
 		var poller *runtime.Poller[armstorage.HcpOpenShiftClustersClientRequestAdminCredentialResponse]
-		poller, err = clusterClient.BeginRequestAdminCredential(ctx, id.ResourceGroupName, typedObj.AzureName(), opts)
+		poller, err = clusterClient.BeginRequestAdminCredential(ctx, id.ResourceGroupName, typedObj.AzureName(), nil)
 		if err != nil {
 			return nil, eris.Wrapf(err, "failed creating admin credentials")
 		}
-		if resumeToken == "" {
-			resumeToken, resumeTokenErr := poller.ResumeToken()
-			if resumeTokenErr != nil {
-				return nil, eris.Wrapf(resumeTokenErr, "couldn't create PUT resume token for resource")
-			} else {
-				SetPollerResumeToken(obj, resumeToken, log)
-			}
-		}
-		_, pollErr := poller.Poll(ctx)
+
+		log.V(Debug).Info("Waiting for admin credential request to complete")
+		pollCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+		defer cancel()
+		resp, pollErr := poller.PollUntilDone(pollCtx, &runtime.PollUntilDoneOptions{
+			Frequency: 15 * time.Second,
+		})
 		if pollErr != nil {
-			return nil, eris.Wrapf(pollErr, "couldn't poll with PUT resume token for resource")
+			if ctx.Err() != nil {
+				return nil, eris.Wrapf(pollErr, "parent context cancelled while waiting for admin credentials")
+			}
+			if pollCtx.Err() == context.DeadlineExceeded {
+				return nil, eris.Wrapf(pollErr, "timed out after 5 minutes waiting for admin credentials to be ready")
+			}
+			return nil, eris.Wrapf(pollErr, "failed waiting for admin credentials to be ready")
 		}
 
-		if poller.Done() {
-			log.V(Debug).Info("Polling is completed")
-			ClearPollerResumeToken(obj, log)
-			resp, err := poller.Result(ctx)
-			if err != nil {
-				return nil, eris.Wrapf(err, "couldn't get result with PUT resume token for resource")
-			}
-			adminCredentials = to.Value(resp.HcpOpenShiftClusterAdminCredential.Kubeconfig)
-		} else {
-			log.V(Debug).Info("Polling is in-progress")
+		log.V(Debug).Info("Admin credential request completed")
+		adminCredentials = to.Value(resp.HcpOpenShiftClusterAdminCredential.Kubeconfig)
+		if adminCredentials == "" {
+			return nil, eris.Errorf(
+				"admin credential response for cluster %s in resource group %s contained an empty kubeconfig",
+				typedObj.AzureName(), id.ResourceGroupName)
 		}
 	}
 

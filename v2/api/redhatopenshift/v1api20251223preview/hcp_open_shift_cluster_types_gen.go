@@ -3609,11 +3609,39 @@ type ImageDigestMirror struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxItems=255
 	// +kubebuilder:validation:MinItems=1
-	// Mirrors: Mirrors are one or more image repositories that may also contain the same images.
+	// Mirrors: mirrors is zero or more locations that may also contain the same images. No mirror will
+	// be configured if not specified. Images can be pulled from these mirrors only if they are
+	// referenced by their digests. The mirrored location is obtained by replacing the part of
+	// the input reference that matches source by the mirrors entry, e.g. for
+	// registry.redhat.io/product/repo reference, a (source, mirror) pair *.redhat.io,
+	// mirror.local/redhat causes a mirror.local/redhat/product/repo repository to be used.
+	// The order of mirrors in this list is treated as the user's desired priority, while source
+	// is by default considered lower priority than all mirrors.
+	// If no mirror is specified or all image pulls from the mirror list fail, the image will
+	// continue to be pulled from the repository in the pull spec.
+	// Other cluster configuration, including (but not limited to) other imageDigestMirrors
+	// objects, may impact the exact order mirrors are contacted in, or some mirrors may be
+	// contacted in parallel, so this should be considered a preference rather than a guarantee
+	// of ordering.
+	// mirrors uses one of the following formats:
+	// * host[:port]
+	// * host[:port]/namespace[/namespace...]
+	// * host[:port]/namespace[/namespace...]/repo
+	// for more information about the format, see:
+	// https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table
 	Mirrors []ImageRepository `json:"mirrors,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Source: Source is the image repository that users refer to, e.g. in image pull specifications.
+	// Source: source matches the repository that users refer to, e.g. in image pull specifications.
+	// Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io,
+	// will match the image pull specification of the corresponding registry.
+	// source uses one of the following formats:
+	// * host[:port]
+	// * host[:port]/namespace[/namespace...]
+	// * host[:port]/namespace[/namespace...]/repo
+	// * [*.]host
+	// for more information about the format, see:
+	// https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table
 	Source *ImageRepository `json:"source,omitempty"`
 }
 
@@ -3737,11 +3765,39 @@ type ImageDigestMirror_STATUS struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxItems=255
 	// +kubebuilder:validation:MinItems=1
-	// Mirrors: Mirrors are one or more image repositories that may also contain the same images.
+	// Mirrors: mirrors is zero or more locations that may also contain the same images. No mirror will
+	// be configured if not specified. Images can be pulled from these mirrors only if they are
+	// referenced by their digests. The mirrored location is obtained by replacing the part of
+	// the input reference that matches source by the mirrors entry, e.g. for
+	// registry.redhat.io/product/repo reference, a (source, mirror) pair *.redhat.io,
+	// mirror.local/redhat causes a mirror.local/redhat/product/repo repository to be used.
+	// The order of mirrors in this list is treated as the user's desired priority, while source
+	// is by default considered lower priority than all mirrors.
+	// If no mirror is specified or all image pulls from the mirror list fail, the image will
+	// continue to be pulled from the repository in the pull spec.
+	// Other cluster configuration, including (but not limited to) other imageDigestMirrors
+	// objects, may impact the exact order mirrors are contacted in, or some mirrors may be
+	// contacted in parallel, so this should be considered a preference rather than a guarantee
+	// of ordering.
+	// mirrors uses one of the following formats:
+	// * host[:port]
+	// * host[:port]/namespace[/namespace...]
+	// * host[:port]/namespace[/namespace...]/repo
+	// for more information about the format, see:
+	// https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table
 	Mirrors []ImageRepository_STATUS `json:"mirrors,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Source: Source is the image repository that users refer to, e.g. in image pull specifications.
+	// Source: source matches the repository that users refer to, e.g. in image pull specifications.
+	// Setting source to a registry hostname, e.g. docker.io, quay.io, or registry.redhat.io,
+	// will match the image pull specification of the corresponding registry.
+	// source uses one of the following formats:
+	// * host[:port]
+	// * host[:port]/namespace[/namespace...]
+	// * host[:port]/namespace[/namespace...]/repo
+	// * [*.]host
+	// for more information about the format, see:
+	// https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table
 	Source *ImageRepository_STATUS `json:"source,omitempty"`
 }
 
