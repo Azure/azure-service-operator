@@ -13,6 +13,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
+	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
 	documentdb "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -49,9 +50,11 @@ func Test_DocumentDB_CassandraCluster_v1api20251015_CRUD(t *testing.T) {
 
 	// Create the management subnet (for DelegatedManagementSubnetId)
 	mgmtSubnet := newCassandraManagementSubnet(tc, testcommon.AsOwner(vnet))
+	mgmtSubnetRoleAssignment := newCassandraRoleAssignment(tc, "mgmtsubnetroleassignment", mgmtSubnet)
 
 	// Create the data center subnet (for DelegatedSubnetId) with delegation
 	dcSubnet := newCassandraDataCenterSubnet(tc, testcommon.AsOwner(vnet))
+	dcSubnetRoleAssignment := newCassandraRoleAssignment(tc, "dcsubnetroleassignment", dcSubnet)
 
 	// Declare the CassandraCluster
 	clusterName := tc.Namer.GenerateName("cassandracluster")
@@ -73,8 +76,19 @@ func Test_DocumentDB_CassandraCluster_v1api20251015_CRUD(t *testing.T) {
 		},
 	}
 
+	// Create a data center for the Cassandra cluster
+	dataCenter := newCassandraDataCenter(tc, cassandraCluster, dcSubnet)
+
 	// Create all resources together, mirroring what a user experiences when applying a YAML file
-	tc.CreateResourcesAndWait(secret, vnet, mgmtSubnet, dcSubnet, cassandraCluster)
+	tc.CreateResourcesAndWait(
+		secret,
+		vnet,
+		mgmtSubnet,
+		dcSubnet,
+		mgmtSubnetRoleAssignment,
+		dcSubnetRoleAssignment,
+		cassandraCluster,
+		dataCenter)
 
 	// Perform some assertions on the cluster we just created
 	tc.Expect(cassandraCluster.Status.Id).ToNot(BeNil())
@@ -83,15 +97,14 @@ func Test_DocumentDB_CassandraCluster_v1api20251015_CRUD(t *testing.T) {
 	tc.Expect(cassandraCluster.Status.Properties).ToNot(BeNil())
 	tc.Expect(cassandraCluster.Status.Properties.ProvisioningState).ToNot(BeNil())
 
-	// Run sub-tests that create child resources
-	tc.RunParallelSubtests(
-		testcommon.Subtest{
-			Name: "CassandraDataCenter_CRUD",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				DocumentDB_CassandraCluster_DataCenter_v1api20251015_CRUD(tc, cassandraCluster, dcSubnet)
-			},
-		},
-	)
+	// Verify the data center was created correctly
+	tc.Expect(dataCenter.Status.Id).ToNot(BeNil())
+	tc.Expect(dataCenter.Status.Name).ToNot(BeNil())
+	tc.Expect(*dataCenter.Status.Name).To(Equal(dataCenter.Name))
+	tc.Expect(dataCenter.Status.Properties).ToNot(BeNil())
+	tc.Expect(dataCenter.Status.Properties.ProvisioningState).ToNot(BeNil())
+	tc.Expect(dataCenter.Status.Properties.NodeCount).ToNot(BeNil())
+	tc.Expect(*dataCenter.Status.Properties.NodeCount).To(Equal(3))
 
 	// Delete the cluster and make sure it goes away
 	armId := *cassandraCluster.Status.Id
@@ -110,7 +123,9 @@ func DocumentDB_CassandraCluster_DataCenter_v1api20251015_CRUD(
 	cassandraCluster client.Object,
 	dcSubnet *network.VirtualNetworksSubnet,
 ) {
-	// Create a data center for the Cassandra cluster
+}
+
+func newCassandraDataCenter(tc *testcommon.KubePerTestContext, cassandraCluster client.Object, dcSubnet *network.VirtualNetworksSubnet) *documentdb.CassandraDataCenter {
 	dcName := tc.Namer.GenerateName("dc")
 	dataCenter := &documentdb.CassandraDataCenter{
 		ObjectMeta: tc.MakeObjectMetaWithName(dcName),
@@ -128,21 +143,7 @@ func DocumentDB_CassandraCluster_DataCenter_v1api20251015_CRUD(
 		},
 	}
 
-	tc.T.Log("creating Cassandra data center")
-	tc.CreateResourceAndWait(dataCenter)
-	defer func() {
-		tc.LogSectionf("Cleaning up Cassandra data center")
-		tc.DeleteResourceAndWait(dataCenter)
-	}()
-
-	// Verify the data center was created correctly
-	tc.Expect(dataCenter.Status.Id).ToNot(BeNil())
-	tc.Expect(dataCenter.Status.Name).ToNot(BeNil())
-	tc.Expect(*dataCenter.Status.Name).To(Equal(dcName))
-	tc.Expect(dataCenter.Status.Properties).ToNot(BeNil())
-	tc.Expect(dataCenter.Status.Properties.ProvisioningState).ToNot(BeNil())
-	tc.Expect(dataCenter.Status.Properties.NodeCount).ToNot(BeNil())
-	tc.Expect(*dataCenter.Status.Properties.NodeCount).To(Equal(3))
+	return dataCenter
 }
 
 func newCassandraVirtualNetwork(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetwork {
@@ -182,4 +183,31 @@ func newCassandraDataCenterSubnet(tc *testcommon.KubePerTestContext, owner *genr
 			},
 		},
 	}
+}
+
+func newCassandraRoleAssignment(
+	tc *testcommon.KubePerTestContext,
+	name string,
+	owner client.Object,
+) *authorization.RoleAssignment {
+	result := &authorization.RoleAssignment{
+		ObjectMeta: tc.MakeObjectMetaWithName(name),
+		Spec: authorization.RoleAssignment_Spec{
+			Owner: tc.AsExtensionOwner(owner),
+			// Needs to be the principle within the current subscription
+			// Hard coded for testing, because ASO doesn't currently allow looking this up automatically
+			// TODO: Remove this once ASO can do the lookup.
+			PrincipalId:   to.Ptr("e5007d2c-4b13-4a74-9b6a-605d99f03501"),
+			PrincipalType: to.Ptr(authorization.RoleAssignmentProperties_PrincipalType_ServicePrincipal),
+			RoleDefinitionReference: &genruntime.WellKnownResourceReference{
+				WellKnownName: "Network Contributor",
+			},
+		},
+	}
+
+	// Don't try to delete directly, we get authorization denied errors doing this.
+	// Instead, use this annotation, knowing the assignment will be cleaned up when the subnet is deleted.
+	tc.AddAnnotation(&result.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
+	return result
 }
