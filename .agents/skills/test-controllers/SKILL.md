@@ -9,21 +9,31 @@ When creating new resources, importing new resource versions, implementing or mo
 
 ## Workflow
 
+### Preflight check
+
+Before running tests:
+
+1. **Check environment variables.** Verify that `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, and `ENTRA_APP_ID` are set (or that the user has provided a `test.env` file to source). These are required for recording new tests against live Azure. If any are missing and recordings may need to be created, do not proceed — tell the user what is missing and stop. Note: environment variables are only needed for **recording** (creating new recordings against live Azure). Playback runs do not need them.
+
 ### Run tests
 
-Start by running all the tests:
+Start by running all the tests as a background terminal command:
 
 ```bash
-./hack/tools/task controller:test-controllers
+source test.env && ./hack/tools/task controller:test-controllers
 ```
+
+(If you're confident all recordings exist and no new ones will be created, you can omit `source test.env`.)
 
 * Do NOT add `| tee` or other output redirection — the taskfile already handles piping output to `reports/test-controllers.log`.
 
-* If recordings for all tests exist, this typically completes in about 6-10 minutes. Do not interrupt the test, just wait for it to complete.
+Use `await_terminal` to wait for completion (see the **Monitoring long-running tests** guidance below for timeout recommendations).
+
+* If recordings for all tests exist, playback typically completes in about 6-10 minutes. Do not interrupt the test, just wait for it to complete.
 
 * If any recordings are missing, each will result in a live test automatically run against Azure to create the missing recording. For most resources, this will take under 20m, but for some resources a recording may take 60m or more.
 
-* The test command may produce no visible output for several minutes while tests run — this is normal. Use `read_bash` with a generous delay (300-600 seconds) to wait for output rather than assuming it's stuck.
+* The test command may produce no visible output for several minutes while tests run — this is normal.
 
 ### Verify success
 
@@ -78,17 +88,17 @@ IMPORTANT: Before deleting a recording and re-recording, always investigate WHY 
 
 ### Update a recording
 
-Once you've identified a test that needs to be rerecorded, delete the recording file and run this command to create a new recording:
+Once you've identified a test that needs to be rerecorded, delete the recording file and run this command as a **background terminal** to create a new recording:
 
 ```bash
-TIMEOUT=60m TEST_FILTER="<your-test-here>" ./hack/tools/task controller:test-controllers
+source test.env && TIMEOUT=60m TEST_FILTER="<your-test-here>" ./hack/tools/task controller:test-controllers
 ```
 
 For tests involving slow-provisioning resources (e.g. ApiManagement, Kusto), use `TIMEOUT=90m`.
 
-Recordings should be updated one at a time to make it easier to identify problems. If you try to update multiple recordings at once, it will be harder to identify the source of any problems that arise.
+Recordings should be updated one at a time to make it easier to identify problems.
 
-After you have successfully updated a recording, run the test again (same command) to verify that playback works correctly. If playback fails but recording succeeded, this indicates a systemic issue with the VCR infrastructure (e.g. non-deterministic request serialization), NOT a stale recording. Do not keep re-recording — investigate and report to the user.
+After you have successfully updated a recording, run the test again (same command, **without** `source test.env`) to verify that playback works correctly. Playback is much faster than recording — typically 1-3 minutes. If playback fails but recording succeeded, this indicates a systemic issue with the VCR infrastructure (e.g. non-deterministic request serialization), NOT a stale recording. Do not keep re-recording — investigate and report to the user.
 
 NEVER modify recording files by hand. They are machine-generated and must only be created by running the tests.
 
@@ -100,6 +110,12 @@ When a recording attempt fails (timeout, assertion error, Azure quota), be aware
 
 2. **Azure debris**: A failed recording run can leave resources in Azure (resource groups, Entra security groups, etc.) that were created but not cleaned up. On the next recording attempt, the test may find these pre-existing resources and adopt them instead of creating new ones, causing the test to fail with unexpected behavior. If a re-recording fails unexpectedly (e.g. the test skips creation steps or finds resources it didn't create), wait a few minutes for Azure cleanup to complete, delete the partial recording, and try again.
 
+### Confirmation
+
+Once you've updated one or more recordings and the tests pass, start over from the top of this workflow and run all the tests again to confirm that everything is working correctly. If you find new failures, investigate and address them as described above until you have a clean test run with no failures.
+
+Why do this? A tests run winds up as soon as one test fails, leaving later tests unexecuted. By starting over and running all the tests, you can confirm that all problems are fully resolved and that there are no other hidden issues.
+
 ## Key information
 
 Recordings of samples tests are found in `v2/internal/controllers/recordings/`, named for the test being executed.
@@ -108,17 +124,19 @@ The test source files are in `v2/internal/controllers/`. The test suite setup (e
 
 Test runs are CPU and time intensive, and are known to cause other processes to be memory or CPU starved. Be sure to keep detailed notes about your progress to allow you to pick up where you left off if this happens to you.
 
-## Prerequisites
-
-**Environment Variables:** You MUST have the following environment variables set to record the tests: `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, and `ENTRA_APP_ID`. If any are missing, do not proceed because the tests will fail. Tell the user what is missing and stop the process.
-
 ## Guidance
 
 DO NOT interrupt a test run, even if it looks like it's taking a long time. Interrupting a test run can cause problems with the recordings and make it harder to identify the source of any problems. (For example, you can end up leaving debris in Azure that will pollute the next recording attempt.)
 
-When investigating test failures, be sure to look at the logs carefully to identify the specific error messages and any relevant context. This will help you to understand the problem and provide a detailed report to the user.
+**Monitoring long-running tests:** Always run test commands as background terminals and use `await_terminal` with appropriate timeouts to wait for completion. DO NOT poll the log file with `tail`, `grep`, or similar commands in a loop — this wastes tool calls and clutters the conversation. Recommended `await_terminal` timeouts:
+- Playback-only (full suite): 10 minutes (600000ms) — typically completes in 6-10 minutes
+- Playback-only (single test): 5 minutes (300000ms) — typically completes in 1-3 minutes
+- Recording (single test): 10 minutes (600000ms), then repeat — recordings routinely take 20-30 minutes, some up to 60+ minutes
+- Resource group deletion during recording: 15-25 minutes for groups with nested resources (this is the slowest phase)
 
-When updating a recording, be sure to only update one recording at a time to make it easier to identify any problems that arise. If you try to update multiple recordings at once, it will be harder to identify the source of any problems that arise.
+If `await_terminal` times out, just call it again — the terminal keeps running.
+
+When investigating test failures, look at the logs carefully to identify the specific error messages and any relevant context.
 
 DO NOT analyze recording YAML files to debug mismatches. Recording files are large and machine-generated — manual inspection is not productive. Instead, delete stale recordings and re-record.
 
