@@ -32,7 +32,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <meta itemprop="name" content="Supported Resources">
   <meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-  <meta itemprop="wordCount" content="7544">
+  <meta itemprop="wordCount" content="7639">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Supported Resources">
   <meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -756,6 +756,8 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
   <a href="/azure-service-operator/reference/synapse/v1api20210601/" title="synapse.azure.com/v1api20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev1api20210601"><span class="">v1api20210601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev20210601-li">
+  <a href="/azure-service-operator/reference/synapse/v20210601/" title="synapse.azure.com/v20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev20210601"><span class="">v20210601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
@@ -763,6 +765,8 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
   <a href="/azure-service-operator/reference/web/v1api20220301/" title="web.azure.com/v1api20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1api20220301"><span class="">v1api20220301</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv20220301-li">
+  <a href="/azure-service-operator/reference/web/v20220301/" title="web.azure.com/v20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv20220301"><span class="">v20220301</span></a>
 </li>
   </ul>
 </li>
@@ -1198,11 +1202,13 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     <li><a href="#synapse">Synapse</a>
       <ul>
         <li><a href="#released-16">Released</a></li>
+        <li><a href="#deprecated-4">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#web">Web</a>
       <ul>
         <li><a href="#released-17">Released</a></li>
+        <li><a href="#deprecated-5">Deprecated</a></li>
       </ul>
     </li>
   </ul>
@@ -6176,18 +6182,47 @@ grouped by the originating ARM service.
   </thead>
   <tbody>
       <tr>
+          <td><a href="/azure-service-operator/reference/synapse/v20210601/#Workspace">Workspace</a></td>
+          <td>2021-06-01</td>
+          <td>v20210601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/synapse/v20210601/v20210601_workspace.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/synapse/v20210601/#WorkspacesBigDataPool">WorkspacesBigDataPool</a></td>
+          <td>2021-06-01</td>
+          <td>v20210601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/synapse/v20210601/v20210601_workspacesbigdatapool.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="deprecated-4">Deprecated</h3>
+<p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
           <td><a href="/azure-service-operator/reference/synapse/v1api20210601/#Workspace">Workspace</a></td>
           <td>2021-06-01</td>
           <td>v1api20210601</td>
           <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/synapse/v1api/v1api20210601_workspace.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/synapse/v1api20210601/v1api20210601_workspace.yaml">View</a></td>
       </tr>
       <tr>
           <td><a href="/azure-service-operator/reference/synapse/v1api20210601/#WorkspacesBigDataPool">WorkspacesBigDataPool</a></td>
           <td>2021-06-01</td>
           <td>v1api20210601</td>
           <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/synapse/v1api/v1api20210601_workspacesbigdatapool.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/synapse/v1api20210601/v1api20210601_workspacesbigdatapool.yaml">View</a></td>
       </tr>
   </tbody>
 </table>
@@ -6195,6 +6230,42 @@ grouped by the originating ARM service.
 <p>To install the CRDs for these resources, your ASO configuration must include <code>web.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
 <h3 id="released-17">Released</h3>
 <p>These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="/azure-service-operator/reference/web/v20220301/#ServerFarm">ServerFarm</a></td>
+          <td>2022-03-01</td>
+          <td>v20220301</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_serverfarm.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/web/v20220301/#Site">Site</a></td>
+          <td>2022-03-01</td>
+          <td>v20220301</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_site.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/web/v20220301/#SitesSourcecontrol">SitesSourcecontrol</a></td>
+          <td>2022-03-01</td>
+          <td>v20220301</td>
+          <td>v2.12.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/web/v20220301/v20220301_sitessourcecontrol.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="deprecated-5">Deprecated</h3>
+<p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
       <tr>
