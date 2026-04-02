@@ -15,8 +15,9 @@ RedisEnterpriseDatabaseAccessPolicyAssignment: Resource
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
-│   └── User: *Object (1 property)
-│       └── ObjectId: *string
+│   └── User: *Object (2 properties)
+│       ├── ObjectId: *string
+│       └── ObjectIdFromConfig: *genruntime.ConfigMapReference
 └── Status: Object (7 properties)
     ├── AccessPolicyName: *string
     ├── Conditions: conditions.Condition[]

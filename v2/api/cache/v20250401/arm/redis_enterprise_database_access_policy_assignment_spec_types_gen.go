@@ -41,5 +41,5 @@ type AccessPolicyAssignmentProperties struct {
 
 type AccessPolicyAssignmentProperties_User struct {
 	// ObjectId: The object ID of the user.
-	ObjectId *string `json:"objectId,omitempty"`
+	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
 }

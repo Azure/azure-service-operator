@@ -121,6 +121,7 @@ func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) createValidatio
 		assignment.validateOwnerReference,
 		assignment.validateSecretDestinations,
 		assignment.validateConfigMapDestinations,
+		assignment.validateOptionalConfigMapReferences,
 	}
 }
 
@@ -145,6 +146,9 @@ func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) updateValidatio
 		func(ctx context.Context, oldObj *v20250401.RedisEnterpriseDatabaseAccessPolicyAssignment, newObj *v20250401.RedisEnterpriseDatabaseAccessPolicyAssignment) (admission.Warnings, error) {
 			return assignment.validateConfigMapDestinations(ctx, newObj)
 		},
+		func(ctx context.Context, oldObj *v20250401.RedisEnterpriseDatabaseAccessPolicyAssignment, newObj *v20250401.RedisEnterpriseDatabaseAccessPolicyAssignment) (admission.Warnings, error) {
+			return assignment.validateOptionalConfigMapReferences(ctx, newObj)
+		},
 	}
 }
 
@@ -154,6 +158,15 @@ func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) validateConfigM
 		return nil, nil
 	}
 	return configmaps.ValidateDestinations(obj, nil, obj.Spec.OperatorSpec.ConfigMapExpressions)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) validateOptionalConfigMapReferences(ctx context.Context, obj *v20250401.RedisEnterpriseDatabaseAccessPolicyAssignment) (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&obj.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field

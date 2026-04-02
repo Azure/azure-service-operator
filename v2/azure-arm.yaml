@@ -1777,6 +1777,9 @@ objectModelConfiguration:
       RedisEnterprise_Databases_AccessPolicyAssignment:
         $exportAs: RedisEnterpriseDatabaseAccessPolicyAssignment
         $supportedFrom: v2.19.0
+      AccessPolicyAssignmentProperties_User:
+        ObjectId:
+          $importConfigMapMode: optional
   cdn:
     2021-06-01:
       # DeepCreatedOriginGroup actually is a resource, for some CDN SKUs it's required to be specified on the CDN endpoint

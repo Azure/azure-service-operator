@@ -788,7 +788,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cache_v1api20241101s.RedisPatchSchedule)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v1api20250401s.RedisEnterprise)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v1api20250401s.RedisEnterpriseDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment)})
+	result = append(result, &registration.StorageType{
+		Obj: new(cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.user.objectIdFromConfig",
+				Func: indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.user.objectIdFromConfig",
+					},
+					&cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignmentList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.ProfilesEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdCustomDomain)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdEndpoint)})
@@ -7290,6 +7308,21 @@ func indexCacheRedisAccessPolicyAssignmentObjectIdFromConfig(rawObj client.Objec
 		return nil
 	}
 	return obj.Spec.ObjectIdFromConfig.Index()
+}
+
+// indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig an index function for cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment .spec.user.objectIdFromConfig
+func indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.User == nil {
+		return nil
+	}
+	if obj.Spec.User.ObjectIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.User.ObjectIdFromConfig.Index()
 }
 
 // indexCdnAfdOriginHostNameFromConfig an index function for cdn_v20230501s.AfdOrigin .spec.hostNameFromConfig

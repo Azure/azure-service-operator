@@ -245,8 +245,9 @@ func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) ConvertS
 
 // Storage version of v20250401.AccessPolicyAssignmentProperties_User
 type AccessPolicyAssignmentProperties_User struct {
-	ObjectId    *string                `json:"objectId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ObjectId           *string                        `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
+	ObjectIdFromConfig *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
+	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20250401.AccessPolicyAssignmentProperties_User_STATUS

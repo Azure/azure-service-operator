@@ -786,7 +786,10 @@ func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) AssignPr
 
 type AccessPolicyAssignmentProperties_User struct {
 	// ObjectId: The object ID of the user.
-	ObjectId *string `json:"objectId,omitempty"`
+	ObjectId *string `json:"objectId,omitempty" optionalConfigMapPair:"ObjectId"`
+
+	// ObjectIdFromConfig: The object ID of the user.
+	ObjectIdFromConfig *genruntime.ConfigMapReference `json:"objectIdFromConfig,omitempty" optionalConfigMapPair:"ObjectId"`
 }
 
 var _ genruntime.ARMTransformer = &AccessPolicyAssignmentProperties_User{}
@@ -801,6 +804,14 @@ func (user *AccessPolicyAssignmentProperties_User) ConvertToARM(resolved genrunt
 	// Set property "ObjectId":
 	if user.ObjectId != nil {
 		objectId := *user.ObjectId
+		result.ObjectId = &objectId
+	}
+	if user.ObjectIdFromConfig != nil {
+		objectIdValue, err := resolved.ResolvedConfigMaps.Lookup(*user.ObjectIdFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property ObjectId")
+		}
+		objectId := objectIdValue
 		result.ObjectId = &objectId
 	}
 	return result, nil
@@ -824,6 +835,8 @@ func (user *AccessPolicyAssignmentProperties_User) PopulateFromARM(owner genrunt
 		user.ObjectId = &objectId
 	}
 
+	// no assignment for property "ObjectIdFromConfig"
+
 	// No error
 	return nil
 }
@@ -833,6 +846,14 @@ func (user *AccessPolicyAssignmentProperties_User) AssignProperties_From_AccessP
 
 	// ObjectId
 	user.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// ObjectIdFromConfig
+	if source.ObjectIdFromConfig != nil {
+		objectIdFromConfig := source.ObjectIdFromConfig.Copy()
+		user.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		user.ObjectIdFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -845,6 +866,14 @@ func (user *AccessPolicyAssignmentProperties_User) AssignProperties_To_AccessPol
 
 	// ObjectId
 	destination.ObjectId = genruntime.ClonePointerToString(user.ObjectId)
+
+	// ObjectIdFromConfig
+	if user.ObjectIdFromConfig != nil {
+		objectIdFromConfig := user.ObjectIdFromConfig.Copy()
+		destination.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		destination.ObjectIdFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -16,8 +16,9 @@ RedisEnterpriseDatabaseAccessPolicyAssignment: Resource
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
-│   └── User: *Object (2 properties)
+│   └── User: *Object (3 properties)
 │       ├── ObjectId: *string
+│       ├── ObjectIdFromConfig: *genruntime.ConfigMapReference
 │       └── PropertyBag: genruntime.PropertyBag
 └── Status: Object (8 properties)
     ├── AccessPolicyName: *string
