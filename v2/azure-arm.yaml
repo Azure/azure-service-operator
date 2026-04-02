@@ -1774,6 +1774,9 @@ objectModelConfiguration:
         $azureGeneratedSecrets:
           - PrimaryKey
           - SecondaryKey
+      RedisEnterprise_Databases_AccessPolicyAssignment:
+        $exportAs: RedisEnterpriseDatabaseAccessPolicyAssignment
+        $supportedFrom: v2.19.0
   cdn:
     2021-06-01:
       # DeepCreatedOriginGroup actually is a resource, for some CDN SKUs it's required to be specified on the CDN endpoint

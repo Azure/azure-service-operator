@@ -6,17 +6,25 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
+	"os"
 	"testing"
 
+	"github.com/google/uuid"
 	. "github.com/onsi/gomega"
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
+	cache20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v20250401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+)
+
+const (
+	redisEnterpriseAssignmentObjectIDEnvVar   = "TEST_REDIS_ENTERPRISE_ASSIGNMENT_OBJECT_ID"
+	redisEnterpriseAssignmentObjectIDSentinel = "00000000-0000-0000-0000-000000000000"
 )
 
 func Test_Cache_RedisEnterprise_20250401_CRUD(t *testing.T) {
@@ -76,12 +84,19 @@ func Test_Cache_RedisEnterprise_20250401_CRUD(t *testing.T) {
 	tc.Expect(redis.Status.Sku.Name).ToNot(BeNil())
 	tc.Expect(*redis.Status.Sku.Name).To(Equal(cache.Sku_Name_STATUS_Balanced_B0))
 
-	// Run parallel subtests to exercise different aspects of the cluster
-	tc.RunParallelSubtests(
+	// Run subtests sequentially because the assignment scenario also uses a database named "default"
+	// beneath the same Redis Enterprise owner.
+	tc.RunSubtests(
 		testcommon.Subtest{
-			Name: "Database creation",
+			Name: "RedisEnterprise database CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				RedisEnterprise_Database_20250401(tc, &redis)
+				RedisEnterprise_Database_20250401_CRUD(tc, &redis)
+			},
+		},
+		testcommon.Subtest{
+			Name: "RedisEnterprise database access policy assignment CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc, &redis)
 			},
 		},
 	)
@@ -95,13 +110,8 @@ func Test_Cache_RedisEnterprise_20250401_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func RedisEnterprise_Database_20250401(tc *testcommon.KubePerTestContext, redis *cache.RedisEnterprise) {
+func RedisEnterprise_Database_20250401_CRUD(tc *testcommon.KubePerTestContext, redis *cache.RedisEnterprise) {
 	// Create a redis database on the newly-created cluster
-	objectKey := client.ObjectKeyFromObject(redis)
-
-	var redisCurrent cache.RedisEnterprise
-	tc.GetResource(objectKey, &redisCurrent)
-
 	secretName := "redissecret"
 
 	db := cache.RedisEnterpriseDatabase{
@@ -141,4 +151,80 @@ func RedisEnterprise_Database_20250401(tc *testcommon.KubePerTestContext, redis 
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc *testcommon.KubePerTestContext, redis *cache.RedisEnterprise) {
+	assignmentObjectID := getRedisEnterpriseAssignmentObjectID(tc)
+	assignmentName := tc.NoSpaceNamer.GenerateName("assign")
+	accessKeysAuthenticationDisabled := cache.DatabaseProperties_AccessKeysAuthentication_Disabled
+
+	db := cache.RedisEnterpriseDatabase{
+		ObjectMeta: tc.MakeObjectMeta("redisdbassign"),
+		Spec: cache.RedisEnterpriseDatabase_Spec{
+			Owner:                    testcommon.AsOwner(redis),
+			AzureName:                "default",
+			ClusteringPolicy:         to.Ptr(cache.DatabaseProperties_ClusteringPolicy_OSSCluster),
+			AccessKeysAuthentication: &accessKeysAuthenticationDisabled,
+		},
+	}
+
+	assignment := cache20250401.RedisEnterpriseDatabaseAccessPolicyAssignment{
+		ObjectMeta: tc.MakeObjectMetaWithName(assignmentName),
+		Spec: cache20250401.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec{
+			Owner:            testcommon.AsOwner(&db),
+			AccessPolicyName: to.Ptr("default"),
+			User: &cache20250401.AccessPolicyAssignmentProperties_User{
+				ObjectId: to.Ptr(assignmentObjectID),
+			},
+		},
+	}
+
+	tc.CreateResourcesAndWait(&db, &assignment)
+	defer tc.DeleteResourceAndWait(&db)
+
+	tc.Expect(db.Status.Id).ToNot(BeNil())
+	tc.Expect(db.Status.AccessKeysAuthentication).ToNot(BeNil())
+	tc.Expect(*db.Status.AccessKeysAuthentication).To(Equal(cache.DatabaseProperties_AccessKeysAuthentication_STATUS_Disabled))
+
+	tc.Expect(assignment.Status.Id).ToNot(BeNil())
+	tc.Expect(assignment.Status.AccessPolicyName).ToNot(BeNil())
+	tc.Expect(*assignment.Status.AccessPolicyName).To(Equal("default"))
+	tc.Expect(assignment.Status.User).ToNot(BeNil())
+	tc.Expect(assignment.Status.User.ObjectId).ToNot(BeNil())
+	if tc.AzureClientRecorder.IsReplaying() {
+		tc.Expect(*assignment.Status.User.ObjectId).To(Equal(redisEnterpriseAssignmentObjectIDSentinel))
+	} else {
+		tc.Expect(*assignment.Status.User.ObjectId).To(Equal(assignmentObjectID))
+	}
+	assignmentARMID := *assignment.Status.Id
+
+	tc.DeleteResourceAndWait(&assignment)
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, assignmentARMID, string(cache20250401.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
+}
+
+func getRedisEnterpriseAssignmentObjectID(tc *testcommon.KubePerTestContext) string {
+	if tc.AzureClientRecorder.IsReplaying() {
+		return redisEnterpriseAssignmentObjectIDSentinel
+	}
+
+	assignmentObjectID := os.Getenv(redisEnterpriseAssignmentObjectIDEnvVar)
+	if assignmentObjectID == "" {
+		tc.T.Skipf("%s must be set to a real Microsoft Entra object ID when recording this test", redisEnterpriseAssignmentObjectIDEnvVar)
+	}
+
+	parsed, err := uuid.Parse(assignmentObjectID)
+	if err != nil {
+		tc.T.Fatalf("%s must be a valid GUID, got %q: %s", redisEnterpriseAssignmentObjectIDEnvVar, assignmentObjectID, err)
+	}
+
+	if parsed == uuid.Nil {
+		tc.T.Fatalf("%s must not use the placeholder object ID %s", redisEnterpriseAssignmentObjectIDEnvVar, redisEnterpriseAssignmentObjectIDSentinel)
+	}
+
+	tc.WithLiteralRedaction(assignmentObjectID, redisEnterpriseAssignmentObjectIDSentinel)
+
+	return assignmentObjectID
 }
