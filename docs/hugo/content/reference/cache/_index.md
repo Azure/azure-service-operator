@@ -13,7 +13,7 @@ Development of these new resources is complete and they will be available in the
 
 | Resource                                      | ARM Version | CRD Version | Supported From | Sample                                                                                                                                                    |
 |-----------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| RedisEnterpriseDatabaseAccessPolicyAssignment | 2025-04-01  | v20250401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250401/v20250401_redisenterprisedatabaseaccesspolicyassignment.yaml) |
+| [RedisEnterpriseDatabaseAccessPolicyAssignment]({{< relref "/reference/cache/v20250401#RedisEnterpriseDatabaseAccessPolicyAssignment" >}}) | 2025-04-01  | v20250401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250401/v20250401_redisenterprisedatabaseaccesspolicyassignment.yaml) |
 
 ### Latest Released Versions
 
