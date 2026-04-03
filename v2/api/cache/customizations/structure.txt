@@ -5,6 +5,8 @@ RedisAccessPolicyAssignmentExtension: Object (0 properties)
 
 RedisAccessPolicyExtension: Object (0 properties)
 
+RedisEnterpriseDatabaseAccessPolicyAssignmentExtension: Object (0 properties)
+
 RedisEnterpriseDatabaseExtension: Object (0 properties)
 
 RedisEnterpriseExtension: Object (0 properties)
