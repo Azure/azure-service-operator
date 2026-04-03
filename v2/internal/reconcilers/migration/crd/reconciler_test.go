@@ -196,6 +196,7 @@ func testSetup(t *testing.T) *testData {
 
 	crdManager := crdmanagement.NewManager(logger, kubeClient, nil)
 	crdPath := "../../../../out/crds"
+	g.Expect(testcommon.CheckBundledCRDsDirectory(crdPath)).To(Succeed())
 	namespace := "azureserviceoperator-system"
 
 	testData := &testData{
@@ -206,7 +207,7 @@ func testSetup(t *testing.T) *testData {
 		crdManager: crdManager,
 	}
 
-	goalCRDs, err := crdManager.LoadOperatorCRDs(crdPath, namespace)
+	goalCRDs, err := crdManager.LoadOperatorCRDs(crdPath, namespace, crdManager.BuildCRDFileFilter("*", nil))
 	g.Expect(err).ToNot(HaveOccurred())
 
 	for _, crd := range goalCRDs {
