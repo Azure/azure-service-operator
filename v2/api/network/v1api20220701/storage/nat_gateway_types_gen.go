@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -52,22 +51,36 @@ var _ conversion.Convertible = &NatGateway{}
 
 // ConvertFrom populates our NatGateway from the provided hub NatGateway
 func (gateway *NatGateway) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20240301s.NatGateway)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/NatGateway but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20240301s.NatGateway
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return gateway.AssignProperties_From_NatGateway(source)
+	err = gateway.AssignProperties_From_NatGateway(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to gateway")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NatGateway from our NatGateway
 func (gateway *NatGateway) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20240301s.NatGateway)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/NatGateway but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20240301s.NatGateway
+	err := gateway.AssignProperties_To_NatGateway(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from gateway")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return gateway.AssignProperties_To_NatGateway(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NatGateway{}

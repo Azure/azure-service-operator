@@ -5,7 +5,8 @@ package v1api20240301
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForApplicationRule(subject ApplicationRule) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationRule
+	var other v20240301s.ApplicationRule
 	err := copied.AssignProperties_To_ApplicationRule(&other)
 	if err != nil {
 		return err.Error()
@@ -162,7 +163,7 @@ func RunPropertyAssignmentTestForApplicationRule_STATUS(subject ApplicationRule_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationRule_STATUS
+	var other v20240301s.ApplicationRule_STATUS
 	err := copied.AssignProperties_To_ApplicationRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -291,7 +292,7 @@ func RunResourceConversionTestForFirewallPoliciesRuleCollectionGroup(subject Fir
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.FirewallPoliciesRuleCollectionGroup
+	var hub v20250301s.FirewallPoliciesRuleCollectionGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -333,7 +334,7 @@ func RunPropertyAssignmentTestForFirewallPoliciesRuleCollectionGroup(subject Fir
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPoliciesRuleCollectionGroup
+	var other v20240301s.FirewallPoliciesRuleCollectionGroup
 	err := copied.AssignProperties_To_FirewallPoliciesRuleCollectionGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -437,7 +438,7 @@ func RunPropertyAssignmentTestForFirewallPoliciesRuleCollectionGroupOperatorSpec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPoliciesRuleCollectionGroupOperatorSpec
+	var other v20240301s.FirewallPoliciesRuleCollectionGroupOperatorSpec
 	err := copied.AssignProperties_To_FirewallPoliciesRuleCollectionGroupOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -534,7 +535,7 @@ func RunPropertyAssignmentTestForFirewallPoliciesRuleCollectionGroup_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPoliciesRuleCollectionGroup_STATUS
+	var other v20240301s.FirewallPoliciesRuleCollectionGroup_STATUS
 	err := copied.AssignProperties_To_FirewallPoliciesRuleCollectionGroup_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -661,7 +662,7 @@ func RunPropertyAssignmentTestForFirewallPoliciesRuleCollectionGroup_Spec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPoliciesRuleCollectionGroup_Spec
+	var other v20240301s.FirewallPoliciesRuleCollectionGroup_Spec
 	err := copied.AssignProperties_To_FirewallPoliciesRuleCollectionGroup_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -780,7 +781,7 @@ func RunPropertyAssignmentTestForFirewallPolicyFilterRuleCollection(subject Fire
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyFilterRuleCollection
+	var other v20240301s.FirewallPolicyFilterRuleCollection
 	err := copied.AssignProperties_To_FirewallPolicyFilterRuleCollection(&other)
 	if err != nil {
 		return err.Error()
@@ -900,7 +901,7 @@ func RunPropertyAssignmentTestForFirewallPolicyFilterRuleCollectionAction(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyFilterRuleCollectionAction
+	var other v20240301s.FirewallPolicyFilterRuleCollectionAction
 	err := copied.AssignProperties_To_FirewallPolicyFilterRuleCollectionAction(&other)
 	if err != nil {
 		return err.Error()
@@ -1003,7 +1004,7 @@ func RunPropertyAssignmentTestForFirewallPolicyFilterRuleCollectionAction_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyFilterRuleCollectionAction_STATUS
+	var other v20240301s.FirewallPolicyFilterRuleCollectionAction_STATUS
 	err := copied.AssignProperties_To_FirewallPolicyFilterRuleCollectionAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1106,7 +1107,7 @@ func RunPropertyAssignmentTestForFirewallPolicyFilterRuleCollection_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyFilterRuleCollection_STATUS
+	var other v20240301s.FirewallPolicyFilterRuleCollection_STATUS
 	err := copied.AssignProperties_To_FirewallPolicyFilterRuleCollection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1226,7 +1227,7 @@ func RunPropertyAssignmentTestForFirewallPolicyHttpHeaderToInsert(subject Firewa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyHttpHeaderToInsert
+	var other v20240301s.FirewallPolicyHttpHeaderToInsert
 	err := copied.AssignProperties_To_FirewallPolicyHttpHeaderToInsert(&other)
 	if err != nil {
 		return err.Error()
@@ -1330,7 +1331,7 @@ func RunPropertyAssignmentTestForFirewallPolicyHttpHeaderToInsert_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyHttpHeaderToInsert_STATUS
+	var other v20240301s.FirewallPolicyHttpHeaderToInsert_STATUS
 	err := copied.AssignProperties_To_FirewallPolicyHttpHeaderToInsert_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1434,7 +1435,7 @@ func RunPropertyAssignmentTestForFirewallPolicyNatRuleCollection(subject Firewal
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyNatRuleCollection
+	var other v20240301s.FirewallPolicyNatRuleCollection
 	err := copied.AssignProperties_To_FirewallPolicyNatRuleCollection(&other)
 	if err != nil {
 		return err.Error()
@@ -1554,7 +1555,7 @@ func RunPropertyAssignmentTestForFirewallPolicyNatRuleCollectionAction(subject F
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyNatRuleCollectionAction
+	var other v20240301s.FirewallPolicyNatRuleCollectionAction
 	err := copied.AssignProperties_To_FirewallPolicyNatRuleCollectionAction(&other)
 	if err != nil {
 		return err.Error()
@@ -1657,7 +1658,7 @@ func RunPropertyAssignmentTestForFirewallPolicyNatRuleCollectionAction_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyNatRuleCollectionAction_STATUS
+	var other v20240301s.FirewallPolicyNatRuleCollectionAction_STATUS
 	err := copied.AssignProperties_To_FirewallPolicyNatRuleCollectionAction_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1760,7 +1761,7 @@ func RunPropertyAssignmentTestForFirewallPolicyNatRuleCollection_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyNatRuleCollection_STATUS
+	var other v20240301s.FirewallPolicyNatRuleCollection_STATUS
 	err := copied.AssignProperties_To_FirewallPolicyNatRuleCollection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1880,7 +1881,7 @@ func RunPropertyAssignmentTestForFirewallPolicyRule(subject FirewallPolicyRule) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyRule
+	var other v20240301s.FirewallPolicyRule
 	err := copied.AssignProperties_To_FirewallPolicyRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1997,7 +1998,7 @@ func RunPropertyAssignmentTestForFirewallPolicyRuleApplicationProtocol(subject F
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyRuleApplicationProtocol
+	var other v20240301s.FirewallPolicyRuleApplicationProtocol
 	err := copied.AssignProperties_To_FirewallPolicyRuleApplicationProtocol(&other)
 	if err != nil {
 		return err.Error()
@@ -2101,7 +2102,7 @@ func RunPropertyAssignmentTestForFirewallPolicyRuleApplicationProtocol_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyRuleApplicationProtocol_STATUS
+	var other v20240301s.FirewallPolicyRuleApplicationProtocol_STATUS
 	err := copied.AssignProperties_To_FirewallPolicyRuleApplicationProtocol_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2205,7 +2206,7 @@ func RunPropertyAssignmentTestForFirewallPolicyRuleCollection(subject FirewallPo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyRuleCollection
+	var other v20240301s.FirewallPolicyRuleCollection
 	err := copied.AssignProperties_To_FirewallPolicyRuleCollection(&other)
 	if err != nil {
 		return err.Error()
@@ -2320,7 +2321,7 @@ func RunPropertyAssignmentTestForFirewallPolicyRuleCollection_STATUS(subject Fir
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyRuleCollection_STATUS
+	var other v20240301s.FirewallPolicyRuleCollection_STATUS
 	err := copied.AssignProperties_To_FirewallPolicyRuleCollection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2435,7 +2436,7 @@ func RunPropertyAssignmentTestForFirewallPolicyRule_STATUS(subject FirewallPolic
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FirewallPolicyRule_STATUS
+	var other v20240301s.FirewallPolicyRule_STATUS
 	err := copied.AssignProperties_To_FirewallPolicyRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2553,7 +2554,7 @@ func RunPropertyAssignmentTestForNatRule(subject NatRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NatRule
+	var other v20240301s.NatRule
 	err := copied.AssignProperties_To_NatRule(&other)
 	if err != nil {
 		return err.Error()
@@ -2669,7 +2670,7 @@ func RunPropertyAssignmentTestForNatRule_STATUS(subject NatRule_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NatRule_STATUS
+	var other v20240301s.NatRule_STATUS
 	err := copied.AssignProperties_To_NatRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2785,7 +2786,7 @@ func RunPropertyAssignmentTestForNetworkRule(subject NetworkRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkRule
+	var other v20240301s.NetworkRule
 	err := copied.AssignProperties_To_NetworkRule(&other)
 	if err != nil {
 		return err.Error()
@@ -2900,7 +2901,7 @@ func RunPropertyAssignmentTestForNetworkRule_STATUS(subject NetworkRule_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkRule_STATUS
+	var other v20240301s.NetworkRule_STATUS
 	err := copied.AssignProperties_To_NetworkRule_STATUS(&other)
 	if err != nil {
 		return err.Error()

@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &NetworkSecurityGroup{}
 
 // ConvertFrom populates our NetworkSecurityGroup from the provided hub NetworkSecurityGroup
 func (group *NetworkSecurityGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NetworkSecurityGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/NetworkSecurityGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NetworkSecurityGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_NetworkSecurityGroup(source)
+	err = group.AssignProperties_From_NetworkSecurityGroup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NetworkSecurityGroup from our NetworkSecurityGroup
 func (group *NetworkSecurityGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NetworkSecurityGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/NetworkSecurityGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NetworkSecurityGroup
+	err := group.AssignProperties_To_NetworkSecurityGroup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_NetworkSecurityGroup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NetworkSecurityGroup{}

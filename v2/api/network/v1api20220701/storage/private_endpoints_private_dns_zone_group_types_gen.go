@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &PrivateEndpointsPrivateDnsZoneGroup{}
 
 // ConvertFrom populates our PrivateEndpointsPrivateDnsZoneGroup from the provided hub PrivateEndpointsPrivateDnsZoneGroup
 func (group *PrivateEndpointsPrivateDnsZoneGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.PrivateEndpointsPrivateDnsZoneGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PrivateEndpointsPrivateDnsZoneGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.PrivateEndpointsPrivateDnsZoneGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroup(source)
+	err = group.AssignProperties_From_PrivateEndpointsPrivateDnsZoneGroup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PrivateEndpointsPrivateDnsZoneGroup from our PrivateEndpointsPrivateDnsZoneGroup
 func (group *PrivateEndpointsPrivateDnsZoneGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.PrivateEndpointsPrivateDnsZoneGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PrivateEndpointsPrivateDnsZoneGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.PrivateEndpointsPrivateDnsZoneGroup
+	err := group.AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_PrivateEndpointsPrivateDnsZoneGroup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &PrivateEndpointsPrivateDnsZoneGroup{}

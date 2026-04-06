@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
@@ -53,22 +52,36 @@ var _ conversion.Convertible = &LoadBalancer{}
 
 // ConvertFrom populates our LoadBalancer from the provided hub LoadBalancer
 func (balancer *LoadBalancer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20240301s.LoadBalancer)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/LoadBalancer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20240301s.LoadBalancer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return balancer.AssignProperties_From_LoadBalancer(source)
+	err = balancer.AssignProperties_From_LoadBalancer(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to balancer")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub LoadBalancer from our LoadBalancer
 func (balancer *LoadBalancer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20240301s.LoadBalancer)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/LoadBalancer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20240301s.LoadBalancer
+	err := balancer.AssignProperties_To_LoadBalancer(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from balancer")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return balancer.AssignProperties_To_LoadBalancer(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &LoadBalancer{}

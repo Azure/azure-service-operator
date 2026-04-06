@@ -5,6 +5,34 @@ no_list: true
 ---
 To install the CRDs for these resources, your ASO configuration must include `network.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                             | ARM Version | CRD Version | Supported From | Sample                                                                                                                                             |
+|--------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| AzureFirewall                        | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_azurefirewall.yaml)                        |
+| BastionHost                          | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_bastionhost.yaml)                          |
+| FirewallPoliciesRuleCollectionGroup  | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_firewallpoliciesrulecollectiongroup.yaml)  |
+| FirewallPolicy                       | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_firewallpolicy.yaml)                       |
+| LoadBalancer                         | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_loadbalancer.yaml)                         |
+| LoadBalancersInboundNatRule          | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_loadbalancersinboundnatrule.yaml)          |
+| NatGateway                           | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_natgateway.yaml)                           |
+| NetworkInterface                     | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_networkinterface.yaml)                     |
+| NetworkSecurityGroup                 | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_networksecuritygroup.yaml)                 |
+| NetworkSecurityGroupsSecurityRule    | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_networksecuritygroupssecurityrule.yaml)    |
+| PrivateEndpoint                      | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_privateendpoint.yaml)                      |
+| PrivateEndpointsPrivateDnsZoneGroup  | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_privateendpointsprivatednszonegroup.yaml)  |
+| PrivateLinkService                   | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_privatelinkservice.yaml)                   |
+| PublicIPAddress                      | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_publicipaddress.yaml)                      |
+| PublicIPPrefix                       | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_publicipprefix.yaml)                       |
+| RouteTable                           | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_routetable.yaml)                           |
+| RouteTablesRoute                     | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_routetablesroute.yaml)                     |
+| VirtualNetwork                       | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_virtualnetwork.yaml)                       |
+| VirtualNetworkGateway                | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_virtualnetworkgateway.yaml)                |
+| VirtualNetworksSubnet                | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_virtualnetworkssubnet.yaml)                |
+| VirtualNetworksVirtualNetworkPeering | 2025-03-01  | v20250301   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v20250301/v20250301_virtualnetworksvirtualnetworkpeering.yaml) |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.

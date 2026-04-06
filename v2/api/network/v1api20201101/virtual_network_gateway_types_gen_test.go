@@ -6,7 +6,7 @@ package v1api20201101
 import (
 	"encoding/json"
 	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
-	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -874,7 +874,6 @@ func RadiusServerGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRadiusServer(gens map[string]gopter.Gen) {
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerScore"] = gen.PtrOf(gen.Int())
-	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_RadiusServer_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -979,7 +978,6 @@ func RadiusServer_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRadiusServer_STATUS(gens map[string]gopter.Gen) {
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerScore"] = gen.PtrOf(gen.Int())
-	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualNetworkGateway_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
@@ -1000,7 +998,7 @@ func RunResourceConversionTestForVirtualNetworkGateway(subject VirtualNetworkGat
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20240301s.VirtualNetworkGateway
+	var hub v20250301s.VirtualNetworkGateway
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -2142,7 +2140,6 @@ func AddIndependentPropertyGeneratorsForVpnClientConfiguration(gens map[string]g
 	gens["AadIssuer"] = gen.PtrOf(gen.AlphaString())
 	gens["AadTenant"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
 	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_VpnAuthenticationTypes_AAD, VpnClientConfiguration_VpnAuthenticationTypes_Certificate, VpnClientConfiguration_VpnAuthenticationTypes_Radius))
 	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_VpnClientProtocols_IkeV2, VpnClientConfiguration_VpnClientProtocols_OpenVPN, VpnClientConfiguration_VpnClientProtocols_SSTP))
 }
@@ -2269,7 +2266,6 @@ func AddIndependentPropertyGeneratorsForVpnClientConfiguration_STATUS(gens map[s
 	gens["AadIssuer"] = gen.PtrOf(gen.AlphaString())
 	gens["AadTenant"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
 	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_VpnAuthenticationTypes_STATUS_AAD, VpnClientConfiguration_VpnAuthenticationTypes_STATUS_Certificate, VpnClientConfiguration_VpnAuthenticationTypes_STATUS_Radius))
 	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_VpnClientProtocols_STATUS_IkeV2, VpnClientConfiguration_VpnClientProtocols_STATUS_OpenVPN, VpnClientConfiguration_VpnClientProtocols_STATUS_SSTP))
 }

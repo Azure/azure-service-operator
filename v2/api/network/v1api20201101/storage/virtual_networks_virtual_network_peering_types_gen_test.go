@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForVirtualNetworksVirtualNetworkPeering(subject Vi
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.VirtualNetworksVirtualNetworkPeering
+	var hub v20250301s.VirtualNetworksVirtualNetworkPeering
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering(subject Vi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworksVirtualNetworkPeering
+	var other v20240301s.VirtualNetworksVirtualNetworkPeering
 	err := copied.AssignProperties_To_VirtualNetworksVirtualNetworkPeering(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeeringOperatorSpe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworksVirtualNetworkPeeringOperatorSpec
+	var other v20240301s.VirtualNetworksVirtualNetworkPeeringOperatorSpec
 	err := copied.AssignProperties_To_VirtualNetworksVirtualNetworkPeeringOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering_STATUS(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworksVirtualNetworkPeering_STATUS
+	var other v20240301s.VirtualNetworksVirtualNetworkPeering_STATUS
 	err := copied.AssignProperties_To_VirtualNetworksVirtualNetworkPeering_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -409,7 +410,7 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering_Spec(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworksVirtualNetworkPeering_Spec
+	var other v20240301s.VirtualNetworksVirtualNetworkPeering_Spec
 	err := copied.AssignProperties_To_VirtualNetworksVirtualNetworkPeering_Spec(&other)
 	if err != nil {
 		return err.Error()
