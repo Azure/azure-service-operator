@@ -63,7 +63,8 @@ jobs:
           exit $FAILED
 
   test-generator:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testgenerator-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+
     permissions:
       packages: read
 
@@ -162,7 +163,7 @@ jobs:
 
   # TODO: Changing this name requires changing the github API calls in pr-validation-fork.yml
   integration-tests:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testcontrollers-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     if: 
       # Run on pull requests in this repository that are not from @dependabot, run for merge groups, and run for workflow_dispatch
       github.event_name == 'merge_group' ||
