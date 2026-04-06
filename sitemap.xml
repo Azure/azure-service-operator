@@ -635,7 +635,11 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20210401/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20210501/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/synapse/v20210601/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20220101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/web/v20220301/</loc>
   </url><url>
@@ -648,6 +652,10 @@
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v20230301/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/communication/v20230401/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20230630/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20231230/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v20240601/</loc>
   </url><url>
