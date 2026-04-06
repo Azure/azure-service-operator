@@ -60,7 +60,7 @@ jobs:
           exit $FAILED
 
   test-generator:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testgenerator-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
       packages: read
 
@@ -174,7 +174,7 @@ jobs:
         run: sudo chown -R $USER:$USER .
 
   test-controllers:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testcontrollers-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
       packages: read
 
@@ -232,7 +232,7 @@ jobs:
           path: reports/*.json
 
   test-samples:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testsamples-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
       packages: read
 
@@ -291,7 +291,7 @@ jobs:
 
   # TODO: Changing this name requires changing the github API calls in pr-validation-fork.yml
   integration-tests:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testintegration-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     if: 
       # Run on pull requests in this repository that are not from @dependabot, and run for merge groups
       github.event_name == 'merge_group' ||

@@ -24,7 +24,7 @@ jobs:
   analyze:
     name: Analyze (${{ matrix.language }})
     # We moved CodeQL to our self-hosted pool because the self hosted runners are not big enough - CodeQL gets OOM killed on those.
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=codeql-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
       # required for all workflows
       security-events: write

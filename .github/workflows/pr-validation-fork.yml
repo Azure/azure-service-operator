@@ -6,7 +6,7 @@ on:
 
 jobs:
   integration-tests-fork:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=integrationfork-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     if:
       github.event_name == 'repository_dispatch' &&
       github.event.client_payload.slash_command.args.named.sha != '' &&
