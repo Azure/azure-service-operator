@@ -11,10 +11,10 @@ For running tests and understanding the test suites, see the **testing-aso-recor
 
 ## Quick Reference
 
-| | Controllers | Samples |
-|---|---|---|
-| **Task command** | `controller:test-controllers` | `controller:test-samples` |
-| **Log file** | `reports/test-controllers.log` | `reports/test-samples.log` |
+|                    | Controllers                           | Samples                                                                |
+| ------------------ | ------------------------------------- | ---------------------------------------------------------------------- |
+| **Task command**   | `controller:test-controllers`         | `controller:test-samples`                                              |
+| **Log file**       | `reports/test-controllers.log`        | `reports/test-samples.log`                                             |
 | **Recordings dir** | `v2/internal/controllers/recordings/` | `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/` |
 
 ## Identifying Failures
@@ -45,14 +45,14 @@ The test made an HTTP request that doesn't exist in the recording.
 The test found the right URL in the recording but the request body differs.
 
 - Recording **unmodified** → stale, re-record.
-- Recording **just created** (you literally just recorded it) → non-deterministic serialization. The request body is being serialized differently across runs. This is a **systemic issue**. Do NOT keep re-recording — investigate the VCR matching/hashing code and report to user.
+- Recording **just created** (you literally just recorded it) → non-deterministic serialization. The request body is being serialized differently across runs. This is a **systemic issue**. Do NOT keep re-recording — report to user.
 
 ### Test assertion failure
 
 **Signature:** assertion error from test code (e.g. "Expected true to be false", "Expected ... to have length"), NOT a go-vcr error.
 
 - **During recording** (live Azure) → likely a real bug in the controller or test code. Report to user.
-- **During playback** → typically means the replay roundtripper is returning stale cached responses that don't reflect the current resource state. The recording may need re-creating, but first check if it's a known issue with the replay infrastructure. Report the specific assertion and context to user.
+- **During playback** → typically means the replay roundtripper is returning stale cached responses that don't reflect the current resource state. The recording may need re-creating, but if not, report the specific assertion and context to user.
 
 ### Timeout while recording
 
@@ -84,18 +84,21 @@ Delete the recording file for the failing test from the appropriate recordings d
 Run as a **background terminal**:
 
 **Controllers:**
+
 ```bash
-source test.env && TIMEOUT=60m TEST_FILTER="<your-test-here>" ./hack/tools/task controller:test-controllers
+source test.env && TIMEOUT=60m TEST_FILTER="<your-test-here>" task controller:test-controllers
 ```
 
 **Samples** (note the `Test_Samples_CreationAndDeletion/` prefix is required):
+
 ```bash
-source test.env && TIMEOUT=60m TEST_FILTER="Test_Samples_CreationAndDeletion/<your-test-here>" ./hack/tools/task controller:test-samples
+source test.env && TIMEOUT=60m TEST_FILTER="Test_Samples_CreationAndDeletion/<your-test-here>" task controller:test-samples
 ```
 
 Example: to re-record `Test_Redis_v1api20230801_CreationAndDeletion`:
+
 ```bash
-source test.env && TIMEOUT=60m TEST_FILTER="Test_Samples_CreationAndDeletion/Test_Redis_v1api20230801_CreationAndDeletion" ./hack/tools/task controller:test-samples
+source test.env && TIMEOUT=60m TEST_FILTER="Test_Samples_CreationAndDeletion/Test_Redis_v1api20230801_CreationAndDeletion" task controller:test-samples
 ```
 
 For slow-provisioning resources, use `TIMEOUT=90m`. Record one test at a time to isolate problems.
@@ -105,7 +108,7 @@ For slow-provisioning resources, use `TIMEOUT=90m`. Record one test at a time to
 Run the **same command without `source test.env`**:
 
 ```bash
-TIMEOUT=60m TEST_FILTER="<your-test-here>" ./hack/tools/task controller:<SUITE>
+TIMEOUT=60m TEST_FILTER="<your-test-here>" task controller:<SUITE>
 ```
 
 Playback takes 1–3 min. If playback fails but recording succeeded, this is a systemic VCR issue (e.g. non-deterministic request serialization) — do NOT keep re-recording. Investigate and report.
@@ -114,9 +117,7 @@ Playback takes 1–3 min. If playback fails but recording succeeded, this is a s
 
 When a recording attempt fails, watch for:
 
-1. **Partial recording files** — a failed test may write a partial recording. Always delete it before retrying.
-
-2. **Azure debris** — failed runs can leave resources in Azure (resource groups, Entra security groups, etc.) that weren't cleaned up. On retry, the test may adopt these pre-existing resources instead of creating new ones, causing unexpected behavior. Wait a few minutes for Azure cleanup, delete the partial recording, and try again.
+1. **Azure debris** — failed runs can leave resources in Azure (resource groups, Entra security groups, etc.) that weren't cleaned up. On retry, the test may adopt these pre-existing resources instead of creating new ones, causing unexpected behavior. Wait a few minutes for Azure cleanup, delete the partial recording, and try again. Sometimes the quickest fix is to run a live test (which will delete everything in the resource group) and then re-record.
 
 ### Step 5: Run the full suite
 
@@ -129,7 +130,7 @@ If new failures appear, loop back to the top and diagnose them.
 - **DO NOT interrupt a test run**, even if slow. Interrupting can leave Azure debris that pollutes the next recording attempt.
 - **NEVER modify recording files by hand.** They are machine-generated and must only be created by running the tests.
 - **DO NOT analyze recording YAML files** to debug mismatches. They're large and machine-generated — manual inspection is not productive. Delete and re-record instead.
-- **DO NOT use `task` directly** — always use `./hack/tools/task`.
+- **ALWAYS use `task` directly** — never use `./hack/tools/task`. If `task` is not on the PATH, your environment is not set up correctly for testing. Stop and ask the user to fix your environment.
 - **Monitoring:** Run as background terminals and use `await_terminal`. DO NOT poll logs in a loop. Timeouts:
   - Playback (single): 5 min (300000ms)
   - Recording (single): 10 min (600000ms), then repeat — can take 20–60+ min

@@ -14,15 +14,15 @@ The test framework automatically chooses: if a recording file exists, it replays
 
 ## Test Suites
 
-| | Controllers | Samples |
-|---|---|---|
-| **Task command** | `controller:test-controllers` | `controller:test-samples` |
-| **Log file** | `reports/test-controllers.log` | `reports/test-samples.log` |
-| **Test source** | `v2/internal/controllers/` | `v2/internal/testsamples/samples_test.go` |
-| **Suite setup** | `v2/internal/controllers/suite_test.go` | `v2/internal/testsamples/suite_test.go` |
-| **Recordings dir** | `v2/internal/controllers/recordings/` | `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/` |
-| **Playback (full suite)** | 6–10 min | 5–10 min |
-| **Playback (single test)** | 1–3 min | 2–3 min |
+|                            | Controllers                             | Samples                                                                |
+| -------------------------- | --------------------------------------- | ---------------------------------------------------------------------- |
+| **Task command**           | `controller:test-controllers`           | `controller:test-samples`                                              |
+| **Log file**               | `reports/test-controllers.log`          | `reports/test-samples.log`                                             |
+| **Test source**            | `v2/internal/controllers/`              | `v2/internal/testsamples/samples_test.go`                              |
+| **Suite setup**            | `v2/internal/controllers/suite_test.go` | `v2/internal/testsamples/suite_test.go`                                |
+| **Recordings dir**         | `v2/internal/controllers/recordings/`   | `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/` |
+| **Playback (full suite)**  | 6–10 min                                | 5–10 min                                                               |
+| **Playback (single test)** | 1–3 min                                 | 2–3 min                                                                |
 
 **When to run which suite:**
 
@@ -43,14 +43,12 @@ Before running tests:
 
 1. **Check environment variables.** Verify that `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, and `ENTRA_APP_ID` are set (or that the user has provided a `test.env` file to source). These are required for **recording** (live Azure calls). If any are missing and recordings may need to be created, do not proceed — tell the user what is missing and stop. **Playback runs do not need them.**
 
-2. **Samples only — check for hardcoded test filters.** Verify there are no hardcoded test filters in `v2/internal/testsamples/samples_test.go`. The `Test_Samples_CreationAndDeletion` function walks the samples directory and dynamically creates subtests. Sometimes a developer temporarily adds a filter (e.g. an `if strings.Contains(testName, "...")` guard around the `t.Run` call) and forgets to remove it. If present, remove it so all sample tests run.
-
 ### Run tests
 
 Run all tests as a background terminal command:
 
 ```bash
-source test.env && ./hack/tools/task controller:<SUITE>
+source test.env && task controller:<SUITE>
 ```
 
 Replace `<SUITE>` with `test-controllers` or `test-samples`. For playback-only runs (all recordings exist), omit `source test.env`.
@@ -68,11 +66,13 @@ Use `await_terminal` to wait for completion (see **Monitoring** in the Guidance 
 Add `TEST_FILTER` to run a subset:
 
 **Controllers:**
+
 ```bash
-TEST_FILTER="<your-test-here>" ./hack/tools/task controller:test-controllers
+TEST_FILTER="<your-test-here>" task controller:test-controllers
 ```
 
 **Samples:**
+
 ```bash
 TEST_FILTER="Test_Samples_CreationAndDeletion/<your-test-here>" ./hack/tools/task controller:test-samples
 ```
@@ -99,7 +99,7 @@ Replace `<LOG-FILE>` with the appropriate log file from the Test Suites table.
   - Recording (single test): 10 min (600000ms), then repeat — recordings take 20–60+ min
   - Resource group deletion: 15–25 min for groups with nested resources
   - If `await_terminal` times out, just call it again — the terminal keeps running.
-- **DO NOT use `task` directly** — always use `./hack/tools/task`.
+- **ALWAYS use `task` directly** — never use `./hack/tools/task`. If `task` is not on the PATH, your environment is not set up correctly for testing. Stop and ask the user to fix your environment.
 - **Test runs are CPU/time intensive** and can starve other processes. Keep detailed notes about progress to allow recovery if this happens.
 
 ## Postrequisites
