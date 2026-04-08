@@ -634,6 +634,42 @@ typeTransformers:
     remove: true
     because: This property is documented as a string but returned as an int. See https://github.com/Azure/azure-service-operator/issues/4559 and https://github.com/Azure/azure-rest-api-specs/issues/23062.
 
+  - group: documentdb
+    name: CassandraCluster_Properties_Spec
+    property: Deallocated
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+
+  - group: documentdb
+    name: CassandraCluster_Properties_Spec
+    property: ProvisionError
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+
+  - group: documentdb
+    name: CassandraCluster_Properties_Spec
+    property: ProvisioningState
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+
+  - group: documentdb
+    name: CassandraClusters_DataCenter_Properties_Spec
+    property: Deallocated
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+
+  - group: documentdb
+    name: CassandraClusters_DataCenter_Properties_Spec
+    property: ProvisionError
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+
+  - group: documentdb
+    name: CassandraClusters_DataCenter_Properties_Spec
+    property: ProvisioningState
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+
   - group: compute
     name: DiskProperties  # This type is subsequently flattened into Disks_Spec
     property: DiskState
@@ -3205,6 +3241,9 @@ objectModelConfiguration:
         password:
           $isSecret: true
     2025-10-15:
+      AuthenticationMethodLdapProperties:
+        ServiceUserPassword:
+          $isSecret: true
       CassandraCluster:
         $exportAs: CassandraCluster
         $supportedFrom: v2.19.0
@@ -3219,11 +3258,20 @@ objectModelConfiguration:
         $exportAs: CassandraDataCenter
         $supportedFrom: v2.19.0
       CassandraClusters_DataCenter_Properties_Spec:
+        BackupStorageCustomerKeyUri:
+          $importConfigMapMode: optional
         DelegatedSubnetId:
           $referenceType: arm
-      AuthenticationMethodLdapProperties:
-        ServiceUserPassword:
+        ManagedDiskCustomerKeyUri:
+          $referenceType: arm
+        PrivateEndpointIpAddress:
+          $importConfigMapMode: optional
+      Certificate:
+        Pem:
           $isSecret: true
+      SeedNode:
+        IpAddress:
+          $importConfigMapMode: optional
   entra:
     v1: # Handcrafted
       SecurityGroup:
