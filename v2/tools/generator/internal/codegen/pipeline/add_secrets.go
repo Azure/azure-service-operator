@@ -283,7 +283,10 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 			}
 
 			if !isTypeSecretReferenceCandidate(propType) {
-				return nil, eris.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %q", prop.PropertyName(), astmodel.DebugDescription(propType))
+				return nil, eris.Errorf(
+					"expected property %q to be a string, optional string, map[string]string, or []string, but was: %s",
+					prop.PropertyName(),
+					astmodel.DebugDescription(propType))
 			}
 
 			it = it.WithoutProperty(prop.PropertyName())
@@ -299,7 +302,10 @@ func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.Object
 			propType := prop.PropertyType()
 
 			if !isTypeSecretReferenceCandidate(propType) {
-				return nil, eris.Errorf("expected property %q to be a string, optional string, map[string]string, or []string, but was: %T", prop.PropertyName(), astmodel.DebugDescription(propType))
+				return nil, eris.Errorf(
+					"expected property %q to be a string, optional string, map[string]string, or []string, but was: %s",
+					prop.PropertyName(),
+					astmodel.DebugDescription(propType))
 			}
 
 			var newType astmodel.Type
