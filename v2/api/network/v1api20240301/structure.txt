@@ -2253,11 +2253,11 @@ VirtualNetworkGateway: Resource
 │   │   ├── AadIssuer: *string
 │   │   ├── AadTenant: *string
 │   │   ├── RadiusServerAddress: *string
-│   │   ├── RadiusServerSecret: *string
+│   │   ├── RadiusServerSecret: *genruntime.SecretReference
 │   │   ├── RadiusServers: Object (3 properties)[]
 │   │   │   ├── RadiusServerAddress: *string
 │   │   │   ├── RadiusServerScore: *int
-│   │   │   └── RadiusServerSecret: *string
+│   │   │   └── RadiusServerSecret: *genruntime.SecretReference
 │   │   ├── VngClientConnectionConfigurations: Object (1 property)[]
 │   │   │   └── Reference: *genruntime.ResourceReference
 │   │   ├── VpnAuthenticationTypes: Enum (3 values)[]
@@ -2503,16 +2503,14 @@ VirtualNetworkGateway: Resource
     │   │   └── "Updating"
     │   └── VngClientConnectionConfigurations: Object (1 property)[]
     │       └── Id: *string
-    ├── VpnClientConfiguration: *Object (13 properties)
+    ├── VpnClientConfiguration: *Object (12 properties)
     │   ├── AadAudience: *string
     │   ├── AadIssuer: *string
     │   ├── AadTenant: *string
     │   ├── RadiusServerAddress: *string
-    │   ├── RadiusServerSecret: *string
-    │   ├── RadiusServers: Object (3 properties)[]
+    │   ├── RadiusServers: Object (2 properties)[]
     │   │   ├── RadiusServerAddress: *string
-    │   │   ├── RadiusServerScore: *int
-    │   │   └── RadiusServerSecret: *string
+    │   │   └── RadiusServerScore: *int
     │   ├── VngClientConnectionConfigurations: Object (1 property)[]
     │   │   └── Id: *string
     │   ├── VpnAuthenticationTypes: Enum (3 values)[]

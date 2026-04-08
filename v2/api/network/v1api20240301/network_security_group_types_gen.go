@@ -51,22 +51,36 @@ var _ conversion.Convertible = &NetworkSecurityGroup{}
 
 // ConvertFrom populates our NetworkSecurityGroup from the provided hub NetworkSecurityGroup
 func (group *NetworkSecurityGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NetworkSecurityGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/NetworkSecurityGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.NetworkSecurityGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_NetworkSecurityGroup(source)
+	err = group.AssignProperties_From_NetworkSecurityGroup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NetworkSecurityGroup from our NetworkSecurityGroup
 func (group *NetworkSecurityGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NetworkSecurityGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/NetworkSecurityGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.NetworkSecurityGroup
+	err := group.AssignProperties_To_NetworkSecurityGroup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_NetworkSecurityGroup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NetworkSecurityGroup{}
@@ -87,17 +101,6 @@ func (group *NetworkSecurityGroup) SecretDestinationExpressions() []*core.Destin
 		return nil
 	}
 	return group.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &NetworkSecurityGroup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *NetworkSecurityGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*NetworkSecurityGroup_STATUS); ok {
-		return group.Spec.Initialize_From_NetworkSecurityGroup_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type NetworkSecurityGroup_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &NetworkSecurityGroup{}
@@ -504,27 +507,6 @@ func (group *NetworkSecurityGroup_Spec) AssignProperties_To_NetworkSecurityGroup
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_NetworkSecurityGroup_STATUS populates our NetworkSecurityGroup_Spec from the provided source NetworkSecurityGroup_STATUS
-func (group *NetworkSecurityGroup_Spec) Initialize_From_NetworkSecurityGroup_STATUS(source *NetworkSecurityGroup_STATUS) error {
-
-	// FlushConnection
-	if source.FlushConnection != nil {
-		flushConnection := *source.FlushConnection
-		group.FlushConnection = &flushConnection
-	} else {
-		group.FlushConnection = nil
-	}
-
-	// Location
-	group.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Tags
-	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil

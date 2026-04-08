@@ -7,13 +7,12 @@ package vcr
 
 import (
 	"net/http"
-
-	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 )
 
 // FakeRoundTripper is a fake implementation of http.RoundTripper used in testing.
 type FakeRoundTripper struct {
 	responses map[string][]fakeRoundTripResponse
+	notFound  error // Error to return when no response is found
 }
 
 type fakeRoundTripResponse struct {
@@ -23,9 +22,10 @@ type fakeRoundTripResponse struct {
 
 var _ http.RoundTripper = &FakeRoundTripper{}
 
-func NewFakeRoundTripper() *FakeRoundTripper {
+func NewFakeRoundTripper(notFound error) *FakeRoundTripper {
 	return &FakeRoundTripper{
 		responses: make(map[string][]fakeRoundTripResponse),
+		notFound:  notFound,
 	}
 }
 
@@ -39,10 +39,10 @@ func (fake *FakeRoundTripper) RoundTrip(request *http.Request) (*http.Response, 
 			return response.response, response.err
 		}
 
-		return nil, cassette.ErrInteractionNotFound
+		return nil, fake.notFound
 	}
 
-	return nil, cassette.ErrInteractionNotFound
+	return nil, fake.notFound
 }
 
 // AddResponse adds a response to the fake round tripper.

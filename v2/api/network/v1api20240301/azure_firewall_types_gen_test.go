@@ -5,7 +5,8 @@ package v1api20240301
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForAzureFirewall(subject AzureFirewall) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.AzureFirewall
+	var hub v20250301s.AzureFirewall
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForAzureFirewall(subject AzureFirewall) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewall
+	var other v20240301s.AzureFirewall
 	err := copied.AssignProperties_To_AzureFirewall(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForAzureFirewallApplicationRule(subject AzureFirew
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallApplicationRule
+	var other v20240301s.AzureFirewallApplicationRule
 	err := copied.AssignProperties_To_AzureFirewallApplicationRule(&other)
 	if err != nil {
 		return err.Error()
@@ -303,7 +304,7 @@ func RunPropertyAssignmentTestForAzureFirewallApplicationRuleCollection(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallApplicationRuleCollection
+	var other v20240301s.AzureFirewallApplicationRuleCollection
 	err := copied.AssignProperties_To_AzureFirewallApplicationRuleCollection(&other)
 	if err != nil {
 		return err.Error()
@@ -422,7 +423,7 @@ func RunPropertyAssignmentTestForAzureFirewallApplicationRuleCollection_STATUS(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallApplicationRuleCollection_STATUS
+	var other v20240301s.AzureFirewallApplicationRuleCollection_STATUS
 	err := copied.AssignProperties_To_AzureFirewallApplicationRuleCollection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -525,7 +526,7 @@ func RunPropertyAssignmentTestForAzureFirewallApplicationRuleProtocol(subject Az
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallApplicationRuleProtocol
+	var other v20240301s.AzureFirewallApplicationRuleProtocol
 	err := copied.AssignProperties_To_AzureFirewallApplicationRuleProtocol(&other)
 	if err != nil {
 		return err.Error()
@@ -629,7 +630,7 @@ func RunPropertyAssignmentTestForAzureFirewallAutoscaleConfiguration(subject Azu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallAutoscaleConfiguration
+	var other v20240301s.AzureFirewallAutoscaleConfiguration
 	err := copied.AssignProperties_To_AzureFirewallAutoscaleConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -733,7 +734,7 @@ func RunPropertyAssignmentTestForAzureFirewallAutoscaleConfiguration_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallAutoscaleConfiguration_STATUS
+	var other v20240301s.AzureFirewallAutoscaleConfiguration_STATUS
 	err := copied.AssignProperties_To_AzureFirewallAutoscaleConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -837,7 +838,7 @@ func RunPropertyAssignmentTestForAzureFirewallIPConfiguration(subject AzureFirew
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallIPConfiguration
+	var other v20240301s.AzureFirewallIPConfiguration
 	err := copied.AssignProperties_To_AzureFirewallIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -955,7 +956,7 @@ func RunPropertyAssignmentTestForAzureFirewallIPConfiguration_STATUS(subject Azu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallIPConfiguration_STATUS
+	var other v20240301s.AzureFirewallIPConfiguration_STATUS
 	err := copied.AssignProperties_To_AzureFirewallIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1058,7 +1059,7 @@ func RunPropertyAssignmentTestForAzureFirewallIpGroups_STATUS(subject AzureFirew
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallIpGroups_STATUS
+	var other v20240301s.AzureFirewallIpGroups_STATUS
 	err := copied.AssignProperties_To_AzureFirewallIpGroups_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1162,7 +1163,7 @@ func RunPropertyAssignmentTestForAzureFirewallNatRCAction(subject AzureFirewallN
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallNatRCAction
+	var other v20240301s.AzureFirewallNatRCAction
 	err := copied.AssignProperties_To_AzureFirewallNatRCAction(&other)
 	if err != nil {
 		return err.Error()
@@ -1265,7 +1266,7 @@ func RunPropertyAssignmentTestForAzureFirewallNatRule(subject AzureFirewallNatRu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallNatRule
+	var other v20240301s.AzureFirewallNatRule
 	err := copied.AssignProperties_To_AzureFirewallNatRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1381,7 +1382,7 @@ func RunPropertyAssignmentTestForAzureFirewallNatRuleCollection(subject AzureFir
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallNatRuleCollection
+	var other v20240301s.AzureFirewallNatRuleCollection
 	err := copied.AssignProperties_To_AzureFirewallNatRuleCollection(&other)
 	if err != nil {
 		return err.Error()
@@ -1500,7 +1501,7 @@ func RunPropertyAssignmentTestForAzureFirewallNatRuleCollection_STATUS(subject A
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallNatRuleCollection_STATUS
+	var other v20240301s.AzureFirewallNatRuleCollection_STATUS
 	err := copied.AssignProperties_To_AzureFirewallNatRuleCollection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1603,7 +1604,7 @@ func RunPropertyAssignmentTestForAzureFirewallNetworkRule(subject AzureFirewallN
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallNetworkRule
+	var other v20240301s.AzureFirewallNetworkRule
 	err := copied.AssignProperties_To_AzureFirewallNetworkRule(&other)
 	if err != nil {
 		return err.Error()
@@ -1718,7 +1719,7 @@ func RunPropertyAssignmentTestForAzureFirewallNetworkRuleCollection(subject Azur
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallNetworkRuleCollection
+	var other v20240301s.AzureFirewallNetworkRuleCollection
 	err := copied.AssignProperties_To_AzureFirewallNetworkRuleCollection(&other)
 	if err != nil {
 		return err.Error()
@@ -1837,7 +1838,7 @@ func RunPropertyAssignmentTestForAzureFirewallNetworkRuleCollection_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallNetworkRuleCollection_STATUS
+	var other v20240301s.AzureFirewallNetworkRuleCollection_STATUS
 	err := copied.AssignProperties_To_AzureFirewallNetworkRuleCollection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1940,7 +1941,7 @@ func RunPropertyAssignmentTestForAzureFirewallOperatorSpec(subject AzureFirewall
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallOperatorSpec
+	var other v20240301s.AzureFirewallOperatorSpec
 	err := copied.AssignProperties_To_AzureFirewallOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -2037,7 +2038,7 @@ func RunPropertyAssignmentTestForAzureFirewallPublicIPAddress(subject AzureFirew
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallPublicIPAddress
+	var other v20240301s.AzureFirewallPublicIPAddress
 	err := copied.AssignProperties_To_AzureFirewallPublicIPAddress(&other)
 	if err != nil {
 		return err.Error()
@@ -2140,7 +2141,7 @@ func RunPropertyAssignmentTestForAzureFirewallPublicIPAddress_STATUS(subject Azu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallPublicIPAddress_STATUS
+	var other v20240301s.AzureFirewallPublicIPAddress_STATUS
 	err := copied.AssignProperties_To_AzureFirewallPublicIPAddress_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2243,7 +2244,7 @@ func RunPropertyAssignmentTestForAzureFirewallRCAction(subject AzureFirewallRCAc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallRCAction
+	var other v20240301s.AzureFirewallRCAction
 	err := copied.AssignProperties_To_AzureFirewallRCAction(&other)
 	if err != nil {
 		return err.Error()
@@ -2346,7 +2347,7 @@ func RunPropertyAssignmentTestForAzureFirewallSku(subject AzureFirewallSku) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallSku
+	var other v20240301s.AzureFirewallSku
 	err := copied.AssignProperties_To_AzureFirewallSku(&other)
 	if err != nil {
 		return err.Error()
@@ -2449,7 +2450,7 @@ func RunPropertyAssignmentTestForAzureFirewallSku_STATUS(subject AzureFirewallSk
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewallSku_STATUS
+	var other v20240301s.AzureFirewallSku_STATUS
 	err := copied.AssignProperties_To_AzureFirewallSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2553,7 +2554,7 @@ func RunPropertyAssignmentTestForAzureFirewall_STATUS(subject AzureFirewall_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewall_STATUS
+	var other v20240301s.AzureFirewall_STATUS
 	err := copied.AssignProperties_To_AzureFirewall_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2697,7 +2698,7 @@ func RunPropertyAssignmentTestForAzureFirewall_Spec(subject AzureFirewall_Spec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AzureFirewall_Spec
+	var other v20240301s.AzureFirewall_Spec
 	err := copied.AssignProperties_To_AzureFirewall_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -2832,7 +2833,7 @@ func RunPropertyAssignmentTestForHubIPAddresses(subject HubIPAddresses) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HubIPAddresses
+	var other v20240301s.HubIPAddresses
 	err := copied.AssignProperties_To_HubIPAddresses(&other)
 	if err != nil {
 		return err.Error()
@@ -2948,7 +2949,7 @@ func RunPropertyAssignmentTestForHubIPAddresses_STATUS(subject HubIPAddresses_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HubIPAddresses_STATUS
+	var other v20240301s.HubIPAddresses_STATUS
 	err := copied.AssignProperties_To_HubIPAddresses_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3065,7 +3066,7 @@ func RunPropertyAssignmentTestForHubPublicIPAddresses(subject HubPublicIPAddress
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HubPublicIPAddresses
+	var other v20240301s.HubPublicIPAddresses
 	err := copied.AssignProperties_To_HubPublicIPAddresses(&other)
 	if err != nil {
 		return err.Error()
@@ -3182,7 +3183,7 @@ func RunPropertyAssignmentTestForHubPublicIPAddresses_STATUS(subject HubPublicIP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HubPublicIPAddresses_STATUS
+	var other v20240301s.HubPublicIPAddresses_STATUS
 	err := copied.AssignProperties_To_HubPublicIPAddresses_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3299,7 +3300,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource
+	var other v20240301s.SubResource
 	err := copied.AssignProperties_To_SubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -3395,7 +3396,7 @@ func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource_STATUS
+	var other v20240301s.SubResource_STATUS
 	err := copied.AssignProperties_To_SubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()

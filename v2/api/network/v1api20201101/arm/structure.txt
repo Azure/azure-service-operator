@@ -915,16 +915,14 @@ VirtualNetworkGateway_STATUS: Object (8 properties)
 │   │       ├── "VpnGw5"
 │   │       └── "VpnGw5AZ"
 │   ├── VNetExtendedLocationResourceId: *string
-│   ├── VpnClientConfiguration: *Object (12 properties)
+│   ├── VpnClientConfiguration: *Object (11 properties)
 │   │   ├── AadAudience: *string
 │   │   ├── AadIssuer: *string
 │   │   ├── AadTenant: *string
 │   │   ├── RadiusServerAddress: *string
-│   │   ├── RadiusServerSecret: *string
-│   │   ├── RadiusServers: Object (3 properties)[]
+│   │   ├── RadiusServers: Object (2 properties)[]
 │   │   │   ├── RadiusServerAddress: *string
-│   │   │   ├── RadiusServerScore: *int
-│   │   │   └── RadiusServerSecret: *string
+│   │   │   └── RadiusServerScore: *int
 │   │   ├── VpnAuthenticationTypes: Enum (3 values)[]
 │   │   │   ├── "AAD"
 │   │   │   ├── "Certificate"

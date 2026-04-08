@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
@@ -53,22 +52,36 @@ var _ conversion.Convertible = &VirtualNetwork{}
 
 // ConvertFrom populates our VirtualNetwork from the provided hub VirtualNetwork
 func (network *VirtualNetwork) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20240301s.VirtualNetwork)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/VirtualNetwork but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20240301s.VirtualNetwork
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return network.AssignProperties_From_VirtualNetwork(source)
+	err = network.AssignProperties_From_VirtualNetwork(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to network")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualNetwork from our VirtualNetwork
 func (network *VirtualNetwork) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20240301s.VirtualNetwork)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/VirtualNetwork but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20240301s.VirtualNetwork
+	err := network.AssignProperties_To_VirtualNetwork(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from network")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return network.AssignProperties_To_VirtualNetwork(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &VirtualNetwork{}

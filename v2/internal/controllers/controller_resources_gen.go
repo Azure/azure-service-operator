@@ -163,18 +163,30 @@ import (
 	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
 	dbformariadb_v20180601w "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/webhook"
 	dbformysql_customizations "github.com/Azure/azure-service-operator/v2/api/dbformysql/customizations"
-	dbformysql_v20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
-	dbformysql_v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage"
-	dbformysql_v20210501w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/webhook"
-	dbformysql_v20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
-	dbformysql_v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
-	dbformysql_v20220101w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/webhook"
-	dbformysql_v20230630 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630"
-	dbformysql_v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
-	dbformysql_v20230630w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/webhook"
-	dbformysql_v20231230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230"
-	dbformysql_v20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
-	dbformysql_v20231230w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/webhook"
+	dbformysql_v1api20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
+	dbformysql_v1api20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/storage"
+	dbformysql_v1api20210501w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501/webhook"
+	dbformysql_v1api20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
+	dbformysql_v1api20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
+	dbformysql_v1api20220101w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/webhook"
+	dbformysql_v1api20230630 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630"
+	dbformysql_v1api20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	dbformysql_v1api20230630w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/webhook"
+	dbformysql_v1api20231230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230"
+	dbformysql_v1api20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
+	dbformysql_v1api20231230w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/webhook"
+	dbformysql_v20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20210501"
+	dbformysql_v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20210501/storage"
+	dbformysql_v20210501w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20210501/webhook"
+	dbformysql_v20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20220101"
+	dbformysql_v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20220101/storage"
+	dbformysql_v20220101w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20220101/webhook"
+	dbformysql_v20230630 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20230630"
+	dbformysql_v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20230630/storage"
+	dbformysql_v20230630w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20230630/webhook"
+	dbformysql_v20231230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20231230"
+	dbformysql_v20231230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20231230/storage"
+	dbformysql_v20231230w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20231230/webhook"
 	dbformysql_v20241230 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230"
 	dbformysql_v20241230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/storage"
 	dbformysql_v20241230w "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/webhook"
@@ -348,6 +360,9 @@ import (
 	network_v20241001 "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001"
 	network_v20241001s "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001/storage"
 	network_v20241001w "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001/webhook"
+	network_v20250301 "github.com/Azure/azure-service-operator/v2/api/network/v20250301"
+	network_v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
+	network_v20250301w "github.com/Azure/azure-service-operator/v2/api/network/v20250301/webhook"
 	notificationhubs_customizations "github.com/Azure/azure-service-operator/v2/api/notificationhubs/customizations"
 	notificationhubs_v20230901 "github.com/Azure/azure-service-operator/v2/api/notificationhubs/v1api20230901"
 	notificationhubs_v20230901s "github.com/Azure/azure-service-operator/v2/api/notificationhubs/v1api20230901/storage"
@@ -429,9 +444,12 @@ import (
 	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
 	subscription_v20211001w "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/webhook"
 	synapse_customizations "github.com/Azure/azure-service-operator/v2/api/synapse/customizations"
-	synapse_v20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
-	synapse_v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
-	synapse_v20210601w "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/webhook"
+	synapse_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
+	synapse_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
+	synapse_v1api20210601w "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/webhook"
+	synapse_v20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v20210601"
+	synapse_v20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v20210601/storage"
+	synapse_v20210601w "github.com/Azure/azure-service-operator/v2/api/synapse/v20210601/webhook"
 	web_customizations "github.com/Azure/azure-service-operator/v2/api/web/customizations"
 	web_v1api20220301 "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301"
 	web_v1api20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
@@ -2056,27 +2074,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolversOutboundEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.ApplicationSecurityGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.WebApplicationFirewallPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.AzureFirewall)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.BastionHost)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.FirewallPoliciesRuleCollectionGroup)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.FirewallPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.LoadBalancer)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.LoadBalancersInboundNatRule)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NatGateway)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NetworkInterface)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NetworkSecurityGroup)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.NetworkSecurityGroupsSecurityRule)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PrivateEndpoint)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PrivateEndpointsPrivateDnsZoneGroup)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PrivateLinkService)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PublicIPAddress)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.PublicIPPrefix)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.RouteTable)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.RouteTablesRoute)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetwork)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworkGateway)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworksSubnet)})
-	result = append(result, &registration.StorageType{Obj: new(network_v20240301s.VirtualNetworksVirtualNetworkPeering)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZone)})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v20240601s.PrivateDnsZonesAAAARecord),
@@ -2249,6 +2246,50 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZonesVirtualNetworkLink)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20241001s.NetworkWatcher)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20241001s.NetworkWatchersFlowLog)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.AzureFirewall)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.BastionHost)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.FirewallPoliciesRuleCollectionGroup)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.FirewallPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.LoadBalancer)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.LoadBalancersInboundNatRule)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.NatGateway)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.NetworkInterface)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.NetworkSecurityGroup)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.NetworkSecurityGroupsSecurityRule)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.PrivateEndpoint)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.PrivateEndpointsPrivateDnsZoneGroup)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.PrivateLinkService)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.PublicIPAddress)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.PublicIPPrefix)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.RouteTable)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.RouteTablesRoute)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.VirtualNetwork)})
+	result = append(result, &registration.StorageType{
+		Obj: new(network_v20250301s.VirtualNetworkGateway),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.vpnClientConfiguration.radiusServerSecret",
+				Func: indexNetworkVirtualNetworkGatewayVpnClientConfigurationRadiusServerSecret,
+			},
+			{
+				Key:  ".spec.vpnClientConfiguration.radiusServers.radiusServerSecret",
+				Func: indexNetworkVirtualNetworkGatewayVpnClientConfigurationRadiusServersRadiusServerSecret,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.vpnClientConfiguration.radiusServerSecret",
+						".spec.vpnClientConfiguration.radiusServers.radiusServerSecret",
+					},
+					&network_v20250301s.VirtualNetworkGatewayList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.VirtualNetworksSubnet)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.VirtualNetworksVirtualNetworkPeering)})
 	result = append(result, &registration.StorageType{Obj: new(networkfrontdoor_v20220501s.WebApplicationFirewallPolicy)})
 	result = append(result, &registration.StorageType{
 		Obj: new(notificationhubs_v20230901s.Namespace),
@@ -3990,6 +4031,106 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20210501.FlexibleServer),
+			Defaulter: &dbformysql_v1api20210501w.FlexibleServer{},
+			Validator: &dbformysql_v1api20210501w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20210501.FlexibleServersDatabase),
+			Defaulter: &dbformysql_v1api20210501w.FlexibleServersDatabase{},
+			Validator: &dbformysql_v1api20210501w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20210501.FlexibleServersFirewallRule),
+			Defaulter: &dbformysql_v1api20210501w.FlexibleServersFirewallRule{},
+			Validator: &dbformysql_v1api20210501w.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbformysql_v1api20210501s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20210501s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20210501s.FlexibleServersFirewallRule)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(dbformysql_v1api20220101.FlexibleServersAdministrator),
+		Defaulter: &dbformysql_v1api20220101w.FlexibleServersAdministrator{},
+		Validator: &dbformysql_v1api20220101w.FlexibleServersAdministrator{},
+	}, &registration.KnownType{
+		Obj:       new(dbformysql_v1api20220101.FlexibleServersConfiguration),
+		Defaulter: &dbformysql_v1api20220101w.FlexibleServersConfiguration{},
+		Validator: &dbformysql_v1api20220101w.FlexibleServersConfiguration{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(dbformysql_v1api20220101s.FlexibleServersAdministrator)}, &registration.KnownType{Obj: new(dbformysql_v1api20220101s.FlexibleServersConfiguration)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20230630.FlexibleServer),
+			Defaulter: &dbformysql_v1api20230630w.FlexibleServer{},
+			Validator: &dbformysql_v1api20230630w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20230630.FlexibleServersAdministrator),
+			Defaulter: &dbformysql_v1api20230630w.FlexibleServersAdministrator{},
+			Validator: &dbformysql_v1api20230630w.FlexibleServersAdministrator{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20230630.FlexibleServersConfiguration),
+			Defaulter: &dbformysql_v1api20230630w.FlexibleServersConfiguration{},
+			Validator: &dbformysql_v1api20230630w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20230630.FlexibleServersDatabase),
+			Defaulter: &dbformysql_v1api20230630w.FlexibleServersDatabase{},
+			Validator: &dbformysql_v1api20230630w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20230630.FlexibleServersFirewallRule),
+			Defaulter: &dbformysql_v1api20230630w.FlexibleServersFirewallRule{},
+			Validator: &dbformysql_v1api20230630w.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbformysql_v1api20230630s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20230630s.FlexibleServersAdministrator)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20230630s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20230630s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20230630s.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20231230.FlexibleServer),
+			Defaulter: &dbformysql_v1api20231230w.FlexibleServer{},
+			Validator: &dbformysql_v1api20231230w.FlexibleServer{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20231230.FlexibleServersAdministrator),
+			Defaulter: &dbformysql_v1api20231230w.FlexibleServersAdministrator{},
+			Validator: &dbformysql_v1api20231230w.FlexibleServersAdministrator{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20231230.FlexibleServersConfiguration),
+			Defaulter: &dbformysql_v1api20231230w.FlexibleServersConfiguration{},
+			Validator: &dbformysql_v1api20231230w.FlexibleServersConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20231230.FlexibleServersDatabase),
+			Defaulter: &dbformysql_v1api20231230w.FlexibleServersDatabase{},
+			Validator: &dbformysql_v1api20231230w.FlexibleServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(dbformysql_v1api20231230.FlexibleServersFirewallRule),
+			Defaulter: &dbformysql_v1api20231230w.FlexibleServersFirewallRule{},
+			Validator: &dbformysql_v1api20231230w.FlexibleServersFirewallRule{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dbformysql_v1api20231230s.FlexibleServer)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20231230s.FlexibleServersAdministrator)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20231230s.FlexibleServersConfiguration)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20231230s.FlexibleServersDatabase)},
+		&registration.KnownType{Obj: new(dbformysql_v1api20231230s.FlexibleServersFirewallRule)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(dbformysql_v20210501.FlexibleServer),
 			Defaulter: &dbformysql_v20210501w.FlexibleServer{},
 			Validator: &dbformysql_v20210501w.FlexibleServer{},
@@ -5535,6 +5676,136 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &network_v20241001w.NetworkWatchersFlowLog{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(network_v20241001s.NetworkWatcher)}, &registration.KnownType{Obj: new(network_v20241001s.NetworkWatchersFlowLog)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(network_v20250301.AzureFirewall),
+			Defaulter: &network_v20250301w.AzureFirewall{},
+			Validator: &network_v20250301w.AzureFirewall{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.BastionHost),
+			Defaulter: &network_v20250301w.BastionHost{},
+			Validator: &network_v20250301w.BastionHost{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.FirewallPoliciesRuleCollectionGroup),
+			Defaulter: &network_v20250301w.FirewallPoliciesRuleCollectionGroup{},
+			Validator: &network_v20250301w.FirewallPoliciesRuleCollectionGroup{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.FirewallPolicy),
+			Defaulter: &network_v20250301w.FirewallPolicy{},
+			Validator: &network_v20250301w.FirewallPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.LoadBalancer),
+			Defaulter: &network_v20250301w.LoadBalancer{},
+			Validator: &network_v20250301w.LoadBalancer{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.LoadBalancersInboundNatRule),
+			Defaulter: &network_v20250301w.LoadBalancersInboundNatRule{},
+			Validator: &network_v20250301w.LoadBalancersInboundNatRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.NatGateway),
+			Defaulter: &network_v20250301w.NatGateway{},
+			Validator: &network_v20250301w.NatGateway{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.NetworkInterface),
+			Defaulter: &network_v20250301w.NetworkInterface{},
+			Validator: &network_v20250301w.NetworkInterface{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.NetworkSecurityGroup),
+			Defaulter: &network_v20250301w.NetworkSecurityGroup{},
+			Validator: &network_v20250301w.NetworkSecurityGroup{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.NetworkSecurityGroupsSecurityRule),
+			Defaulter: &network_v20250301w.NetworkSecurityGroupsSecurityRule{},
+			Validator: &network_v20250301w.NetworkSecurityGroupsSecurityRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.PrivateEndpoint),
+			Defaulter: &network_v20250301w.PrivateEndpoint{},
+			Validator: &network_v20250301w.PrivateEndpoint{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.PrivateEndpointsPrivateDnsZoneGroup),
+			Defaulter: &network_v20250301w.PrivateEndpointsPrivateDnsZoneGroup{},
+			Validator: &network_v20250301w.PrivateEndpointsPrivateDnsZoneGroup{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.PrivateLinkService),
+			Defaulter: &network_v20250301w.PrivateLinkService{},
+			Validator: &network_v20250301w.PrivateLinkService{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.PublicIPAddress),
+			Defaulter: &network_v20250301w.PublicIPAddress{},
+			Validator: &network_v20250301w.PublicIPAddress{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.PublicIPPrefix),
+			Defaulter: &network_v20250301w.PublicIPPrefix{},
+			Validator: &network_v20250301w.PublicIPPrefix{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.RouteTable),
+			Defaulter: &network_v20250301w.RouteTable{},
+			Validator: &network_v20250301w.RouteTable{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.RouteTablesRoute),
+			Defaulter: &network_v20250301w.RouteTablesRoute{},
+			Validator: &network_v20250301w.RouteTablesRoute{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.VirtualNetwork),
+			Defaulter: &network_v20250301w.VirtualNetwork{},
+			Validator: &network_v20250301w.VirtualNetwork{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.VirtualNetworkGateway),
+			Defaulter: &network_v20250301w.VirtualNetworkGateway{},
+			Validator: &network_v20250301w.VirtualNetworkGateway{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.VirtualNetworksSubnet),
+			Defaulter: &network_v20250301w.VirtualNetworksSubnet{},
+			Validator: &network_v20250301w.VirtualNetworksSubnet{},
+		},
+		&registration.KnownType{
+			Obj:       new(network_v20250301.VirtualNetworksVirtualNetworkPeering),
+			Defaulter: &network_v20250301w.VirtualNetworksVirtualNetworkPeering{},
+			Validator: &network_v20250301w.VirtualNetworksVirtualNetworkPeering{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(network_v20250301s.AzureFirewall)},
+		&registration.KnownType{Obj: new(network_v20250301s.BastionHost)},
+		&registration.KnownType{Obj: new(network_v20250301s.FirewallPoliciesRuleCollectionGroup)},
+		&registration.KnownType{Obj: new(network_v20250301s.FirewallPolicy)},
+		&registration.KnownType{Obj: new(network_v20250301s.LoadBalancer)},
+		&registration.KnownType{Obj: new(network_v20250301s.LoadBalancersInboundNatRule)},
+		&registration.KnownType{Obj: new(network_v20250301s.NatGateway)},
+		&registration.KnownType{Obj: new(network_v20250301s.NetworkInterface)},
+		&registration.KnownType{Obj: new(network_v20250301s.NetworkSecurityGroup)},
+		&registration.KnownType{Obj: new(network_v20250301s.NetworkSecurityGroupsSecurityRule)},
+		&registration.KnownType{Obj: new(network_v20250301s.PrivateEndpoint)},
+		&registration.KnownType{Obj: new(network_v20250301s.PrivateEndpointsPrivateDnsZoneGroup)},
+		&registration.KnownType{Obj: new(network_v20250301s.PrivateLinkService)},
+		&registration.KnownType{Obj: new(network_v20250301s.PublicIPAddress)},
+		&registration.KnownType{Obj: new(network_v20250301s.PublicIPPrefix)},
+		&registration.KnownType{Obj: new(network_v20250301s.RouteTable)},
+		&registration.KnownType{Obj: new(network_v20250301s.RouteTablesRoute)},
+		&registration.KnownType{Obj: new(network_v20250301s.VirtualNetwork)},
+		&registration.KnownType{Obj: new(network_v20250301s.VirtualNetworkGateway)},
+		&registration.KnownType{Obj: new(network_v20250301s.VirtualNetworksSubnet)},
+		&registration.KnownType{Obj: new(network_v20250301s.VirtualNetworksVirtualNetworkPeering)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(networkfrontdoor_v20220501.WebApplicationFirewallPolicy),
 		Defaulter: &networkfrontdoor_v20220501w.WebApplicationFirewallPolicy{},
@@ -6354,6 +6625,16 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(subscription_v20211001s.Alias)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(synapse_v1api20210601.Workspace),
+		Defaulter: &synapse_v1api20210601w.Workspace{},
+		Validator: &synapse_v1api20210601w.Workspace{},
+	}, &registration.KnownType{
+		Obj:       new(synapse_v1api20210601.WorkspacesBigDataPool),
+		Defaulter: &synapse_v1api20210601w.WorkspacesBigDataPool{},
+		Validator: &synapse_v1api20210601w.WorkspacesBigDataPool{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(synapse_v1api20210601s.Workspace)}, &registration.KnownType{Obj: new(synapse_v1api20210601s.WorkspacesBigDataPool)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(synapse_v20210601.Workspace),
 		Defaulter: &synapse_v20210601w.Workspace{},
 		Validator: &synapse_v20210601w.Workspace{},
@@ -6508,6 +6789,14 @@ func createScheme() *runtime.Scheme {
 	_ = dataprotection_v20231101s.AddToScheme(scheme)
 	_ = dbformariadb_v20180601.AddToScheme(scheme)
 	_ = dbformariadb_v20180601s.AddToScheme(scheme)
+	_ = dbformysql_v1api20210501.AddToScheme(scheme)
+	_ = dbformysql_v1api20210501s.AddToScheme(scheme)
+	_ = dbformysql_v1api20220101.AddToScheme(scheme)
+	_ = dbformysql_v1api20220101s.AddToScheme(scheme)
+	_ = dbformysql_v1api20230630.AddToScheme(scheme)
+	_ = dbformysql_v1api20230630s.AddToScheme(scheme)
+	_ = dbformysql_v1api20231230.AddToScheme(scheme)
+	_ = dbformysql_v1api20231230s.AddToScheme(scheme)
 	_ = dbformysql_v20210501.AddToScheme(scheme)
 	_ = dbformysql_v20210501s.AddToScheme(scheme)
 	_ = dbformysql_v20220101.AddToScheme(scheme)
@@ -6620,6 +6909,8 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20240601s.AddToScheme(scheme)
 	_ = network_v20241001.AddToScheme(scheme)
 	_ = network_v20241001s.AddToScheme(scheme)
+	_ = network_v20250301.AddToScheme(scheme)
+	_ = network_v20250301s.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501.AddToScheme(scheme)
 	_ = networkfrontdoor_v20220501s.AddToScheme(scheme)
 	_ = notificationhubs_v20230901.AddToScheme(scheme)
@@ -6668,6 +6959,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_v20250601s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
 	_ = subscription_v20211001s.AddToScheme(scheme)
+	_ = synapse_v1api20210601.AddToScheme(scheme)
+	_ = synapse_v1api20210601s.AddToScheme(scheme)
 	_ = synapse_v20210601.AddToScheme(scheme)
 	_ = synapse_v20210601s.AddToScheme(scheme)
 	_ = web_v1api20220301.AddToScheme(scheme)
@@ -9883,6 +10176,40 @@ func indexNetworkPrivateDnsZonesTXTRecordIpv6AddressFromConfig(rawObj client.Obj
 			continue
 		}
 		result = append(result, aaaaRecordItem.Ipv6AddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexNetworkVirtualNetworkGatewayVpnClientConfigurationRadiusServerSecret an index function for network_v20250301s.VirtualNetworkGateway .spec.vpnClientConfiguration.radiusServerSecret
+func indexNetworkVirtualNetworkGatewayVpnClientConfigurationRadiusServerSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20250301s.VirtualNetworkGateway)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.VpnClientConfiguration == nil {
+		return nil
+	}
+	if obj.Spec.VpnClientConfiguration.RadiusServerSecret == nil {
+		return nil
+	}
+	return obj.Spec.VpnClientConfiguration.RadiusServerSecret.Index()
+}
+
+// indexNetworkVirtualNetworkGatewayVpnClientConfigurationRadiusServersRadiusServerSecret an index function for network_v20250301s.VirtualNetworkGateway .spec.vpnClientConfiguration.radiusServers.radiusServerSecret
+func indexNetworkVirtualNetworkGatewayVpnClientConfigurationRadiusServersRadiusServerSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*network_v20250301s.VirtualNetworkGateway)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.VpnClientConfiguration == nil {
+		return nil
+	}
+	for _, radiusServerItem := range obj.Spec.VpnClientConfiguration.RadiusServers {
+		if radiusServerItem.RadiusServerSecret == nil {
+			continue
+		}
+		result = append(result, radiusServerItem.RadiusServerSecret.Index()...)
 	}
 	return result
 }

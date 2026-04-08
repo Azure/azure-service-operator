@@ -5,7 +5,9 @@ set -x # log commands as they run
 
 # Note: You must run az login before executing this script
 
-[[ -z "${AZURE_SUBSCRIPTION_ID}" ]] && echo "AZURE_SUBSCRIPTION_ID is not set" && exit 1
+[[ -z "${AZURE_SUBSCRIPTION_ID:-}" ]] && echo "AZURE_SUBSCRIPTION_ID is not set" && exit 1
+
+az account set -s "${AZURE_SUBSCRIPTION_ID}"
 
 ROOT=$(dirname "${BASH_SOURCE[0]}")
 

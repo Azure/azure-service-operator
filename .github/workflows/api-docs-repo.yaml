@@ -35,7 +35,7 @@ jobs:
           ref: main
 
       - name: Create Branch
-        uses: peterjgrainger/action-create-branch@10c7d268152480ae859347db45dc69086cef1d9c # pinned to v3.0.0
+        uses: peterjgrainger/action-create-branch@4b81ce657e255acd677cc6c55c9c763654be3aef # pinned to v4.0.0
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
@@ -49,7 +49,7 @@ jobs:
           submodules: "true"
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # pinned to v4.0.0
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}

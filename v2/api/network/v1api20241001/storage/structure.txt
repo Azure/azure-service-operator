@@ -109,3 +109,11 @@ NetworkWatchersFlowLog: Resource
     ├── TargetResourceId: *string
     └── Type: *string
 
+augmentConversionForManagedServiceIdentity: Interface
+
+augmentConversionForManagedServiceIdentity_STATUS: Interface
+
+augmentConversionForManagedServiceIdentity_UserAssignedIdentities_STATUS: Interface
+
+augmentConversionForUserAssignedIdentityDetails: Interface
+

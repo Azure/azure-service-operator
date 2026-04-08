@@ -5,6 +5,9 @@
 
 version: '3.7'
 
+includes:
+  mangle-test: ../v2/tools/mangle-test-json/Taskfile.yml
+
 tasks:
 
   test-controllers:
@@ -18,7 +21,7 @@ tasks:
       - run-kustomize-for-envtest
     cmds:
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUTPUT}}'
             OUTPUT_FILE: '{{.TEST_REPORT}}'
@@ -41,7 +44,7 @@ tasks:
       - run-kustomize-for-envtest
     cmds:
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUTPUT}}'
             OUTPUT_FILE: '{{.TEST_REPORT}}'
@@ -123,21 +126,3 @@ tasks:
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
       - go build {{.LDFLAGS}} -o ../../bin/{{.GENERATOR_APP}} .
-
-  build-mangle-test:
-    desc: Builds the tool we use for mangling test results
-    dir: '{{joinPath .TASKFILE_DIR ".."  "v2" "tools" "mangle-test-json"}}' 
-    cmds:
-      - go build
-
-  produce-markdown-summary:
-    desc: Builds a test output summary for Github
-    deps: 
-       - build-mangle-test
-    cmds:
-      - cmd: ./v2/tools/mangle-test-json/mangle-test-json "{{.INPUT}}" > "{{.OUTPUT}}"
-    vars:
-      # Have to use relative paths because mangle-test-json objects to absolute paths in the output
-      # (a consequence of the security changes in PR#5260 )
-      INPUT: "{{relPath .ROOT_DIR .INPUT_FILE}}"
-      OUTPUT: "{{relPath .ROOT_DIR .OUTPUT_FILE}}"

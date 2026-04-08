@@ -55,22 +55,36 @@ var _ conversion.Convertible = &PrivateLinkService{}
 
 // ConvertFrom populates our PrivateLinkService from the provided hub PrivateLinkService
 func (service *PrivateLinkService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.PrivateLinkService)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PrivateLinkService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.PrivateLinkService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_PrivateLinkService(source)
+	err = service.AssignProperties_From_PrivateLinkService(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PrivateLinkService from our PrivateLinkService
 func (service *PrivateLinkService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.PrivateLinkService)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PrivateLinkService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.PrivateLinkService
+	err := service.AssignProperties_To_PrivateLinkService(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_PrivateLinkService(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &PrivateLinkService{}
@@ -91,17 +105,6 @@ func (service *PrivateLinkService) SecretDestinationExpressions() []*core.Destin
 		return nil
 	}
 	return service.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &PrivateLinkService{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (service *PrivateLinkService) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*PrivateLinkService_STATUS); ok {
-		return service.Spec.Initialize_From_PrivateLinkService_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type PrivateLinkService_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesConfigExporter = &PrivateLinkService{}
@@ -833,101 +836,6 @@ func (service *PrivateLinkService_Spec) AssignProperties_To_PrivateLinkService_S
 	return nil
 }
 
-// Initialize_From_PrivateLinkService_STATUS populates our PrivateLinkService_Spec from the provided source PrivateLinkService_STATUS
-func (service *PrivateLinkService_Spec) Initialize_From_PrivateLinkService_STATUS(source *PrivateLinkService_STATUS) error {
-
-	// AutoApproval
-	if source.AutoApproval != nil {
-		var autoApproval ResourceSet
-		err := autoApproval.Initialize_From_ResourceSet_STATUS(source.AutoApproval)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceSet_STATUS() to populate field AutoApproval")
-		}
-		service.AutoApproval = &autoApproval
-	} else {
-		service.AutoApproval = nil
-	}
-
-	// DestinationIPAddress
-	service.DestinationIPAddress = genruntime.ClonePointerToString(source.DestinationIPAddress)
-
-	// EnableProxyProtocol
-	if source.EnableProxyProtocol != nil {
-		enableProxyProtocol := *source.EnableProxyProtocol
-		service.EnableProxyProtocol = &enableProxyProtocol
-	} else {
-		service.EnableProxyProtocol = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		service.ExtendedLocation = &extendedLocation
-	} else {
-		service.ExtendedLocation = nil
-	}
-
-	// Fqdns
-	service.Fqdns = genruntime.CloneSliceOfString(source.Fqdns)
-
-	// IpConfigurations
-	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]PrivateLinkServiceIpConfiguration, len(source.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			var ipConfiguration PrivateLinkServiceIpConfiguration
-			err := ipConfiguration.Initialize_From_PrivateLinkServiceIpConfiguration_STATUS(&ipConfigurationItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_PrivateLinkServiceIpConfiguration_STATUS() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		service.IpConfigurations = ipConfigurationList
-	} else {
-		service.IpConfigurations = nil
-	}
-
-	// LoadBalancerFrontendIpConfigurations
-	if source.LoadBalancerFrontendIpConfigurations != nil {
-		loadBalancerFrontendIpConfigurationList := make([]FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded, len(source.LoadBalancerFrontendIpConfigurations))
-		for loadBalancerFrontendIpConfigurationIndex, loadBalancerFrontendIpConfigurationItem := range source.LoadBalancerFrontendIpConfigurations {
-			var loadBalancerFrontendIpConfiguration FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded
-			err := loadBalancerFrontendIpConfiguration.Initialize_From_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded(&loadBalancerFrontendIpConfigurationItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded() to populate field LoadBalancerFrontendIpConfigurations")
-			}
-			loadBalancerFrontendIpConfigurationList[loadBalancerFrontendIpConfigurationIndex] = loadBalancerFrontendIpConfiguration
-		}
-		service.LoadBalancerFrontendIpConfigurations = loadBalancerFrontendIpConfigurationList
-	} else {
-		service.LoadBalancerFrontendIpConfigurations = nil
-	}
-
-	// Location
-	service.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Tags
-	service.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Visibility
-	if source.Visibility != nil {
-		var visibility ResourceSet
-		err := visibility.Initialize_From_ResourceSet_STATUS(source.Visibility)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceSet_STATUS() to populate field Visibility")
-		}
-		service.Visibility = &visibility
-	} else {
-		service.Visibility = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (service *PrivateLinkService_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1641,21 +1549,6 @@ func (embedded *FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded) 
 	return nil
 }
 
-// Initialize_From_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded populates our FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded from the provided source FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded
-func (embedded *FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded) Initialize_From_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded(source *FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Frontend IP address of the load balancer.
 type FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded struct {
 	// Id: Resource ID.
@@ -2087,55 +1980,6 @@ func (configuration *PrivateLinkServiceIpConfiguration) AssignProperties_To_Priv
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PrivateLinkServiceIpConfiguration_STATUS populates our PrivateLinkServiceIpConfiguration from the provided source PrivateLinkServiceIpConfiguration_STATUS
-func (configuration *PrivateLinkServiceIpConfiguration) Initialize_From_PrivateLinkServiceIpConfiguration_STATUS(source *PrivateLinkServiceIpConfiguration_STATUS) error {
-
-	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		configuration.Primary = &primary
-	} else {
-		configuration.Primary = nil
-	}
-
-	// PrivateIPAddress
-	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
-
-	// PrivateIPAddressVersion
-	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := genruntime.ToEnum(string(*source.PrivateIPAddressVersion), iPVersion_Values)
-		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		configuration.PrivateIPAddressVersion = nil
-	}
-
-	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := genruntime.ToEnum(string(*source.PrivateIPAllocationMethod), iPAllocationMethod_Values)
-		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		configuration.PrivateIPAllocationMethod = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet Subnet_PrivateLinkService_SubResourceEmbedded
-		err := subnet.Initialize_From_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded(source.Subnet)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded() to populate field Subnet")
-		}
-		configuration.Subnet = &subnet
-	} else {
-		configuration.Subnet = nil
 	}
 
 	// No error
@@ -2621,16 +2465,6 @@ func (resourceSet *ResourceSet) AssignProperties_To_ResourceSet(destination *sto
 	return nil
 }
 
-// Initialize_From_ResourceSet_STATUS populates our ResourceSet from the provided source ResourceSet_STATUS
-func (resourceSet *ResourceSet) Initialize_From_ResourceSet_STATUS(source *ResourceSet_STATUS) error {
-
-	// Subscriptions
-	resourceSet.Subscriptions = genruntime.CloneSliceOfString(source.Subscriptions)
-
-	// No error
-	return nil
-}
-
 // The base resource set for visibility and auto-approval.
 type ResourceSet_STATUS struct {
 	// Subscriptions: The list of subscriptions.
@@ -2811,21 +2645,6 @@ func (embedded *Subnet_PrivateLinkService_SubResourceEmbedded) AssignProperties_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded populates our Subnet_PrivateLinkService_SubResourceEmbedded from the provided source Subnet_STATUS_PrivateLinkService_SubResourceEmbedded
-func (embedded *Subnet_PrivateLinkService_SubResourceEmbedded) Initialize_From_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded(source *Subnet_STATUS_PrivateLinkService_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
 	}
 
 	// No error

@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
+	v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,6 +18,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_AzureFirewall_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewall to hub returns original",
+		prop.ForAll(RunResourceConversionTestForAzureFirewall, AzureFirewallGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForAzureFirewall tests if a specific instance of AzureFirewall round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForAzureFirewall(subject AzureFirewall) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v20250301s.AzureFirewall
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual AzureFirewall
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_AzureFirewall_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewall to AzureFirewall via AssignProperties_To_AzureFirewall & AssignProperties_From_AzureFirewall returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewall, AzureFirewallGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewall tests if a specific instance of AzureFirewall can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewall(subject AzureFirewall) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewall
+	err := copied.AssignProperties_To_AzureFirewall(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewall
+	err = actual.AssignProperties_From_AzureFirewall(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_AzureFirewall_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func AzureFirewallGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForAzureFirewall(gens map[string]gopter.Gen) {
 	gens["Spec"] = AzureFirewall_SpecGenerator()
 	gens["Status"] = AzureFirewall_STATUSGenerator()
+}
+
+func Test_AzureFirewallApplicationRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallApplicationRule to AzureFirewallApplicationRule via AssignProperties_To_AzureFirewallApplicationRule & AssignProperties_From_AzureFirewallApplicationRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallApplicationRule, AzureFirewallApplicationRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallApplicationRule tests if a specific instance of AzureFirewallApplicationRule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallApplicationRule(subject AzureFirewallApplicationRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallApplicationRule
+	err := copied.AssignProperties_To_AzureFirewallApplicationRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallApplicationRule
+	err = actual.AssignProperties_From_AzureFirewallApplicationRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewallApplicationRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -159,6 +287,48 @@ func AddRelatedPropertyGeneratorsForAzureFirewallApplicationRule(gens map[string
 	gens["Protocols"] = gen.SliceOf(AzureFirewallApplicationRuleProtocolGenerator())
 }
 
+func Test_AzureFirewallApplicationRuleCollection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallApplicationRuleCollection to AzureFirewallApplicationRuleCollection via AssignProperties_To_AzureFirewallApplicationRuleCollection & AssignProperties_From_AzureFirewallApplicationRuleCollection returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallApplicationRuleCollection, AzureFirewallApplicationRuleCollectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallApplicationRuleCollection tests if a specific instance of AzureFirewallApplicationRuleCollection can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallApplicationRuleCollection(subject AzureFirewallApplicationRuleCollection) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallApplicationRuleCollection
+	err := copied.AssignProperties_To_AzureFirewallApplicationRuleCollection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallApplicationRuleCollection
+	err = actual.AssignProperties_From_AzureFirewallApplicationRuleCollection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewallApplicationRuleCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -236,6 +406,48 @@ func AddRelatedPropertyGeneratorsForAzureFirewallApplicationRuleCollection(gens 
 	gens["Rules"] = gen.SliceOf(AzureFirewallApplicationRuleGenerator())
 }
 
+func Test_AzureFirewallApplicationRuleCollection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallApplicationRuleCollection_STATUS to AzureFirewallApplicationRuleCollection_STATUS via AssignProperties_To_AzureFirewallApplicationRuleCollection_STATUS & AssignProperties_From_AzureFirewallApplicationRuleCollection_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallApplicationRuleCollection_STATUS, AzureFirewallApplicationRuleCollection_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallApplicationRuleCollection_STATUS tests if a specific instance of AzureFirewallApplicationRuleCollection_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallApplicationRuleCollection_STATUS(subject AzureFirewallApplicationRuleCollection_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallApplicationRuleCollection_STATUS
+	err := copied.AssignProperties_To_AzureFirewallApplicationRuleCollection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallApplicationRuleCollection_STATUS
+	err = actual.AssignProperties_From_AzureFirewallApplicationRuleCollection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewallApplicationRuleCollection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -295,6 +507,48 @@ func AzureFirewallApplicationRuleCollection_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAzureFirewallApplicationRuleCollection_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureFirewallApplicationRuleCollection_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AzureFirewallApplicationRuleProtocol_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallApplicationRuleProtocol to AzureFirewallApplicationRuleProtocol via AssignProperties_To_AzureFirewallApplicationRuleProtocol & AssignProperties_From_AzureFirewallApplicationRuleProtocol returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallApplicationRuleProtocol, AzureFirewallApplicationRuleProtocolGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallApplicationRuleProtocol tests if a specific instance of AzureFirewallApplicationRuleProtocol can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallApplicationRuleProtocol(subject AzureFirewallApplicationRuleProtocol) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallApplicationRuleProtocol
+	err := copied.AssignProperties_To_AzureFirewallApplicationRuleProtocol(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallApplicationRuleProtocol
+	err = actual.AssignProperties_From_AzureFirewallApplicationRuleProtocol(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewallApplicationRuleProtocol_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -359,6 +613,48 @@ func AddIndependentPropertyGeneratorsForAzureFirewallApplicationRuleProtocol(gen
 	gens["ProtocolType"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_AzureFirewallAutoscaleConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallAutoscaleConfiguration to AzureFirewallAutoscaleConfiguration via AssignProperties_To_AzureFirewallAutoscaleConfiguration & AssignProperties_From_AzureFirewallAutoscaleConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallAutoscaleConfiguration, AzureFirewallAutoscaleConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallAutoscaleConfiguration tests if a specific instance of AzureFirewallAutoscaleConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallAutoscaleConfiguration(subject AzureFirewallAutoscaleConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallAutoscaleConfiguration
+	err := copied.AssignProperties_To_AzureFirewallAutoscaleConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallAutoscaleConfiguration
+	err = actual.AssignProperties_From_AzureFirewallAutoscaleConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewallAutoscaleConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -421,6 +717,48 @@ func AddIndependentPropertyGeneratorsForAzureFirewallAutoscaleConfiguration(gens
 	gens["MinCapacity"] = gen.PtrOf(gen.Int())
 }
 
+func Test_AzureFirewallAutoscaleConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallAutoscaleConfiguration_STATUS to AzureFirewallAutoscaleConfiguration_STATUS via AssignProperties_To_AzureFirewallAutoscaleConfiguration_STATUS & AssignProperties_From_AzureFirewallAutoscaleConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallAutoscaleConfiguration_STATUS, AzureFirewallAutoscaleConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallAutoscaleConfiguration_STATUS tests if a specific instance of AzureFirewallAutoscaleConfiguration_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallAutoscaleConfiguration_STATUS(subject AzureFirewallAutoscaleConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallAutoscaleConfiguration_STATUS
+	err := copied.AssignProperties_To_AzureFirewallAutoscaleConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallAutoscaleConfiguration_STATUS
+	err = actual.AssignProperties_From_AzureFirewallAutoscaleConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewallAutoscaleConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -481,6 +819,48 @@ func AzureFirewallAutoscaleConfiguration_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAzureFirewallAutoscaleConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["MaxCapacity"] = gen.PtrOf(gen.Int())
 	gens["MinCapacity"] = gen.PtrOf(gen.Int())
+}
+
+func Test_AzureFirewallIPConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallIPConfiguration to AzureFirewallIPConfiguration via AssignProperties_To_AzureFirewallIPConfiguration & AssignProperties_From_AzureFirewallIPConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallIPConfiguration, AzureFirewallIPConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallIPConfiguration tests if a specific instance of AzureFirewallIPConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallIPConfiguration(subject AzureFirewallIPConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallIPConfiguration
+	err := copied.AssignProperties_To_AzureFirewallIPConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallIPConfiguration
+	err = actual.AssignProperties_From_AzureFirewallIPConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewallIPConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -559,6 +939,48 @@ func AddRelatedPropertyGeneratorsForAzureFirewallIPConfiguration(gens map[string
 	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
 }
 
+func Test_AzureFirewallIPConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallIPConfiguration_STATUS to AzureFirewallIPConfiguration_STATUS via AssignProperties_To_AzureFirewallIPConfiguration_STATUS & AssignProperties_From_AzureFirewallIPConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallIPConfiguration_STATUS, AzureFirewallIPConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallIPConfiguration_STATUS tests if a specific instance of AzureFirewallIPConfiguration_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallIPConfiguration_STATUS(subject AzureFirewallIPConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallIPConfiguration_STATUS
+	err := copied.AssignProperties_To_AzureFirewallIPConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallIPConfiguration_STATUS
+	err = actual.AssignProperties_From_AzureFirewallIPConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewallIPConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -618,6 +1040,48 @@ func AzureFirewallIPConfiguration_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAzureFirewallIPConfiguration_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureFirewallIPConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AzureFirewallIpGroups_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallIpGroups_STATUS to AzureFirewallIpGroups_STATUS via AssignProperties_To_AzureFirewallIpGroups_STATUS & AssignProperties_From_AzureFirewallIpGroups_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallIpGroups_STATUS, AzureFirewallIpGroups_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallIpGroups_STATUS tests if a specific instance of AzureFirewallIpGroups_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallIpGroups_STATUS(subject AzureFirewallIpGroups_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallIpGroups_STATUS
+	err := copied.AssignProperties_To_AzureFirewallIpGroups_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallIpGroups_STATUS
+	err = actual.AssignProperties_From_AzureFirewallIpGroups_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewallIpGroups_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -682,6 +1146,48 @@ func AddIndependentPropertyGeneratorsForAzureFirewallIpGroups_STATUS(gens map[st
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_AzureFirewallNatRCAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallNatRCAction to AzureFirewallNatRCAction via AssignProperties_To_AzureFirewallNatRCAction & AssignProperties_From_AzureFirewallNatRCAction returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallNatRCAction, AzureFirewallNatRCActionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallNatRCAction tests if a specific instance of AzureFirewallNatRCAction can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallNatRCAction(subject AzureFirewallNatRCAction) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallNatRCAction
+	err := copied.AssignProperties_To_AzureFirewallNatRCAction(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallNatRCAction
+	err = actual.AssignProperties_From_AzureFirewallNatRCAction(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewallNatRCAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -741,6 +1247,48 @@ func AzureFirewallNatRCActionGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAzureFirewallNatRCAction is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureFirewallNatRCAction(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AzureFirewallNatRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallNatRule to AzureFirewallNatRule via AssignProperties_To_AzureFirewallNatRule & AssignProperties_From_AzureFirewallNatRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallNatRule, AzureFirewallNatRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallNatRule tests if a specific instance of AzureFirewallNatRule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallNatRule(subject AzureFirewallNatRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallNatRule
+	err := copied.AssignProperties_To_AzureFirewallNatRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallNatRule
+	err = actual.AssignProperties_From_AzureFirewallNatRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewallNatRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -811,6 +1359,48 @@ func AddIndependentPropertyGeneratorsForAzureFirewallNatRule(gens map[string]gop
 	gens["TranslatedAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["TranslatedFqdn"] = gen.PtrOf(gen.AlphaString())
 	gens["TranslatedPort"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AzureFirewallNatRuleCollection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallNatRuleCollection to AzureFirewallNatRuleCollection via AssignProperties_To_AzureFirewallNatRuleCollection & AssignProperties_From_AzureFirewallNatRuleCollection returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallNatRuleCollection, AzureFirewallNatRuleCollectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallNatRuleCollection tests if a specific instance of AzureFirewallNatRuleCollection can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallNatRuleCollection(subject AzureFirewallNatRuleCollection) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallNatRuleCollection
+	err := copied.AssignProperties_To_AzureFirewallNatRuleCollection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallNatRuleCollection
+	err = actual.AssignProperties_From_AzureFirewallNatRuleCollection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewallNatRuleCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -890,6 +1480,48 @@ func AddRelatedPropertyGeneratorsForAzureFirewallNatRuleCollection(gens map[stri
 	gens["Rules"] = gen.SliceOf(AzureFirewallNatRuleGenerator())
 }
 
+func Test_AzureFirewallNatRuleCollection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallNatRuleCollection_STATUS to AzureFirewallNatRuleCollection_STATUS via AssignProperties_To_AzureFirewallNatRuleCollection_STATUS & AssignProperties_From_AzureFirewallNatRuleCollection_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallNatRuleCollection_STATUS, AzureFirewallNatRuleCollection_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallNatRuleCollection_STATUS tests if a specific instance of AzureFirewallNatRuleCollection_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallNatRuleCollection_STATUS(subject AzureFirewallNatRuleCollection_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallNatRuleCollection_STATUS
+	err := copied.AssignProperties_To_AzureFirewallNatRuleCollection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallNatRuleCollection_STATUS
+	err = actual.AssignProperties_From_AzureFirewallNatRuleCollection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewallNatRuleCollection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -949,6 +1581,48 @@ func AzureFirewallNatRuleCollection_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAzureFirewallNatRuleCollection_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureFirewallNatRuleCollection_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AzureFirewallNetworkRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallNetworkRule to AzureFirewallNetworkRule via AssignProperties_To_AzureFirewallNetworkRule & AssignProperties_From_AzureFirewallNetworkRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallNetworkRule, AzureFirewallNetworkRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallNetworkRule tests if a specific instance of AzureFirewallNetworkRule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallNetworkRule(subject AzureFirewallNetworkRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallNetworkRule
+	err := copied.AssignProperties_To_AzureFirewallNetworkRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallNetworkRule
+	err = actual.AssignProperties_From_AzureFirewallNetworkRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewallNetworkRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1018,6 +1692,48 @@ func AddIndependentPropertyGeneratorsForAzureFirewallNetworkRule(gens map[string
 	gens["Protocols"] = gen.SliceOf(gen.AlphaString())
 	gens["SourceAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["SourceIpGroups"] = gen.SliceOf(gen.AlphaString())
+}
+
+func Test_AzureFirewallNetworkRuleCollection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallNetworkRuleCollection to AzureFirewallNetworkRuleCollection via AssignProperties_To_AzureFirewallNetworkRuleCollection & AssignProperties_From_AzureFirewallNetworkRuleCollection returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallNetworkRuleCollection, AzureFirewallNetworkRuleCollectionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallNetworkRuleCollection tests if a specific instance of AzureFirewallNetworkRuleCollection can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallNetworkRuleCollection(subject AzureFirewallNetworkRuleCollection) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallNetworkRuleCollection
+	err := copied.AssignProperties_To_AzureFirewallNetworkRuleCollection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallNetworkRuleCollection
+	err = actual.AssignProperties_From_AzureFirewallNetworkRuleCollection(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewallNetworkRuleCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1097,6 +1813,48 @@ func AddRelatedPropertyGeneratorsForAzureFirewallNetworkRuleCollection(gens map[
 	gens["Rules"] = gen.SliceOf(AzureFirewallNetworkRuleGenerator())
 }
 
+func Test_AzureFirewallNetworkRuleCollection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallNetworkRuleCollection_STATUS to AzureFirewallNetworkRuleCollection_STATUS via AssignProperties_To_AzureFirewallNetworkRuleCollection_STATUS & AssignProperties_From_AzureFirewallNetworkRuleCollection_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallNetworkRuleCollection_STATUS, AzureFirewallNetworkRuleCollection_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallNetworkRuleCollection_STATUS tests if a specific instance of AzureFirewallNetworkRuleCollection_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallNetworkRuleCollection_STATUS(subject AzureFirewallNetworkRuleCollection_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallNetworkRuleCollection_STATUS
+	err := copied.AssignProperties_To_AzureFirewallNetworkRuleCollection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallNetworkRuleCollection_STATUS
+	err = actual.AssignProperties_From_AzureFirewallNetworkRuleCollection_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewallNetworkRuleCollection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1158,6 +1916,48 @@ func AddIndependentPropertyGeneratorsForAzureFirewallNetworkRuleCollection_STATU
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_AzureFirewallOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallOperatorSpec to AzureFirewallOperatorSpec via AssignProperties_To_AzureFirewallOperatorSpec & AssignProperties_From_AzureFirewallOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallOperatorSpec, AzureFirewallOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallOperatorSpec tests if a specific instance of AzureFirewallOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallOperatorSpec(subject AzureFirewallOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallOperatorSpec
+	err := copied.AssignProperties_To_AzureFirewallOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallOperatorSpec
+	err = actual.AssignProperties_From_AzureFirewallOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewallOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1211,6 +2011,48 @@ func AzureFirewallOperatorSpecGenerator() gopter.Gen {
 	azureFirewallOperatorSpecGenerator = gen.Struct(reflect.TypeOf(AzureFirewallOperatorSpec{}), generators)
 
 	return azureFirewallOperatorSpecGenerator
+}
+
+func Test_AzureFirewallPublicIPAddress_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallPublicIPAddress to AzureFirewallPublicIPAddress via AssignProperties_To_AzureFirewallPublicIPAddress & AssignProperties_From_AzureFirewallPublicIPAddress returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallPublicIPAddress, AzureFirewallPublicIPAddressGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallPublicIPAddress tests if a specific instance of AzureFirewallPublicIPAddress can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallPublicIPAddress(subject AzureFirewallPublicIPAddress) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallPublicIPAddress
+	err := copied.AssignProperties_To_AzureFirewallPublicIPAddress(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallPublicIPAddress
+	err = actual.AssignProperties_From_AzureFirewallPublicIPAddress(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewallPublicIPAddress_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1274,6 +2116,48 @@ func AddIndependentPropertyGeneratorsForAzureFirewallPublicIPAddress(gens map[st
 	gens["Address"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_AzureFirewallPublicIPAddress_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallPublicIPAddress_STATUS to AzureFirewallPublicIPAddress_STATUS via AssignProperties_To_AzureFirewallPublicIPAddress_STATUS & AssignProperties_From_AzureFirewallPublicIPAddress_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallPublicIPAddress_STATUS, AzureFirewallPublicIPAddress_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallPublicIPAddress_STATUS tests if a specific instance of AzureFirewallPublicIPAddress_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallPublicIPAddress_STATUS(subject AzureFirewallPublicIPAddress_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallPublicIPAddress_STATUS
+	err := copied.AssignProperties_To_AzureFirewallPublicIPAddress_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallPublicIPAddress_STATUS
+	err = actual.AssignProperties_From_AzureFirewallPublicIPAddress_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewallPublicIPAddress_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1333,6 +2217,48 @@ func AzureFirewallPublicIPAddress_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForAzureFirewallPublicIPAddress_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureFirewallPublicIPAddress_STATUS(gens map[string]gopter.Gen) {
 	gens["Address"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AzureFirewallRCAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallRCAction to AzureFirewallRCAction via AssignProperties_To_AzureFirewallRCAction & AssignProperties_From_AzureFirewallRCAction returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallRCAction, AzureFirewallRCActionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallRCAction tests if a specific instance of AzureFirewallRCAction can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallRCAction(subject AzureFirewallRCAction) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallRCAction
+	err := copied.AssignProperties_To_AzureFirewallRCAction(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallRCAction
+	err = actual.AssignProperties_From_AzureFirewallRCAction(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewallRCAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1396,6 +2322,48 @@ func AddIndependentPropertyGeneratorsForAzureFirewallRCAction(gens map[string]go
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_AzureFirewallSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallSku to AzureFirewallSku via AssignProperties_To_AzureFirewallSku & AssignProperties_From_AzureFirewallSku returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallSku, AzureFirewallSkuGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallSku tests if a specific instance of AzureFirewallSku can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallSku(subject AzureFirewallSku) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallSku
+	err := copied.AssignProperties_To_AzureFirewallSku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallSku
+	err = actual.AssignProperties_From_AzureFirewallSku(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewallSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1455,6 +2423,48 @@ func AzureFirewallSkuGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAzureFirewallSku(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AzureFirewallSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewallSku_STATUS to AzureFirewallSku_STATUS via AssignProperties_To_AzureFirewallSku_STATUS & AssignProperties_From_AzureFirewallSku_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewallSku_STATUS, AzureFirewallSku_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewallSku_STATUS tests if a specific instance of AzureFirewallSku_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewallSku_STATUS(subject AzureFirewallSku_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewallSku_STATUS
+	err := copied.AssignProperties_To_AzureFirewallSku_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewallSku_STATUS
+	err = actual.AssignProperties_From_AzureFirewallSku_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewallSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1517,6 +2527,48 @@ func AzureFirewallSku_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAzureFirewallSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AzureFirewall_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewall_STATUS to AzureFirewall_STATUS via AssignProperties_To_AzureFirewall_STATUS & AssignProperties_From_AzureFirewall_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewall_STATUS, AzureFirewall_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewall_STATUS tests if a specific instance of AzureFirewall_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewall_STATUS(subject AzureFirewall_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewall_STATUS
+	err := copied.AssignProperties_To_AzureFirewall_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewall_STATUS
+	err = actual.AssignProperties_From_AzureFirewall_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AzureFirewall_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1617,6 +2669,48 @@ func AddRelatedPropertyGeneratorsForAzureFirewall_STATUS(gens map[string]gopter.
 	gens["VirtualHub"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
+func Test_AzureFirewall_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AzureFirewall_Spec to AzureFirewall_Spec via AssignProperties_To_AzureFirewall_Spec & AssignProperties_From_AzureFirewall_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAzureFirewall_Spec, AzureFirewall_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAzureFirewall_Spec tests if a specific instance of AzureFirewall_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAzureFirewall_Spec(subject AzureFirewall_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.AzureFirewall_Spec
+	err := copied.AssignProperties_To_AzureFirewall_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AzureFirewall_Spec
+	err = actual.AssignProperties_From_AzureFirewall_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AzureFirewall_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1711,6 +2805,48 @@ func AddRelatedPropertyGeneratorsForAzureFirewall_Spec(gens map[string]gopter.Ge
 	gens["VirtualHub"] = gen.PtrOf(SubResourceGenerator())
 }
 
+func Test_HubIPAddresses_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HubIPAddresses to HubIPAddresses via AssignProperties_To_HubIPAddresses & AssignProperties_From_HubIPAddresses returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHubIPAddresses, HubIPAddressesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHubIPAddresses tests if a specific instance of HubIPAddresses can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForHubIPAddresses(subject HubIPAddresses) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.HubIPAddresses
+	err := copied.AssignProperties_To_HubIPAddresses(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HubIPAddresses
+	err = actual.AssignProperties_From_HubIPAddresses(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_HubIPAddresses_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1783,6 +2919,48 @@ func AddIndependentPropertyGeneratorsForHubIPAddresses(gens map[string]gopter.Ge
 // AddRelatedPropertyGeneratorsForHubIPAddresses is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForHubIPAddresses(gens map[string]gopter.Gen) {
 	gens["PublicIPs"] = gen.PtrOf(HubPublicIPAddressesGenerator())
+}
+
+func Test_HubIPAddresses_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HubIPAddresses_STATUS to HubIPAddresses_STATUS via AssignProperties_To_HubIPAddresses_STATUS & AssignProperties_From_HubIPAddresses_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHubIPAddresses_STATUS, HubIPAddresses_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHubIPAddresses_STATUS tests if a specific instance of HubIPAddresses_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForHubIPAddresses_STATUS(subject HubIPAddresses_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.HubIPAddresses_STATUS
+	err := copied.AssignProperties_To_HubIPAddresses_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HubIPAddresses_STATUS
+	err = actual.AssignProperties_From_HubIPAddresses_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_HubIPAddresses_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1860,6 +3038,48 @@ func AddRelatedPropertyGeneratorsForHubIPAddresses_STATUS(gens map[string]gopter
 	gens["PublicIPs"] = gen.PtrOf(HubPublicIPAddresses_STATUSGenerator())
 }
 
+func Test_HubPublicIPAddresses_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HubPublicIPAddresses to HubPublicIPAddresses via AssignProperties_To_HubPublicIPAddresses & AssignProperties_From_HubPublicIPAddresses returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHubPublicIPAddresses, HubPublicIPAddressesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHubPublicIPAddresses tests if a specific instance of HubPublicIPAddresses can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForHubPublicIPAddresses(subject HubPublicIPAddresses) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.HubPublicIPAddresses
+	err := copied.AssignProperties_To_HubPublicIPAddresses(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HubPublicIPAddresses
+	err = actual.AssignProperties_From_HubPublicIPAddresses(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_HubPublicIPAddresses_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1933,6 +3153,48 @@ func AddIndependentPropertyGeneratorsForHubPublicIPAddresses(gens map[string]gop
 // AddRelatedPropertyGeneratorsForHubPublicIPAddresses is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForHubPublicIPAddresses(gens map[string]gopter.Gen) {
 	gens["Addresses"] = gen.SliceOf(AzureFirewallPublicIPAddressGenerator())
+}
+
+func Test_HubPublicIPAddresses_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HubPublicIPAddresses_STATUS to HubPublicIPAddresses_STATUS via AssignProperties_To_HubPublicIPAddresses_STATUS & AssignProperties_From_HubPublicIPAddresses_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHubPublicIPAddresses_STATUS, HubPublicIPAddresses_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHubPublicIPAddresses_STATUS tests if a specific instance of HubPublicIPAddresses_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForHubPublicIPAddresses_STATUS(subject HubPublicIPAddresses_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20250301s.HubPublicIPAddresses_STATUS
+	err := copied.AssignProperties_To_HubPublicIPAddresses_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HubPublicIPAddresses_STATUS
+	err = actual.AssignProperties_From_HubPublicIPAddresses_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_HubPublicIPAddresses_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2027,7 +3289,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource
+	var other v20240601s.SubResource
 	err := copied.AssignProperties_To_SubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -2123,7 +3385,7 @@ func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource_STATUS
+	var other v20240601s.SubResource_STATUS
 	err := copied.AssignProperties_To_SubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()

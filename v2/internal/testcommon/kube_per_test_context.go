@@ -311,17 +311,40 @@ func (tc *KubePerTestContext) PollingInterval() time.Duration {
 // the current task stacks to output. If gomega.Eventually hits its
 // timeout it will produce a nicer error message and stack trace.)
 func (tc *KubePerTestContext) OperationTimeout() time.Duration {
+	deadlineTimeout := tc.deadlineTimeout()
+
+	// return lesser of (operation timeout, deadline timeout)
+	if tc.DefaultOperationTimeout() < deadlineTimeout {
+		return tc.DefaultOperationTimeout()
+	}
+
+	return deadlineTimeout
+}
+
+func (tc *KubePerTestContext) CustomOperationTimeout(t time.Duration) time.Duration {
+	deadlineTimeout := tc.deadlineTimeout()
+
+	timeout := t
+	if tc.AzureClientRecorder.IsReplaying() {
+		// if we're replaying, always use the replay timeout
+		timeout = OperationTimeoutReplaying
+	}
+
+	// return lesser of (operation timeout, deadline timeout)
+	if timeout < deadlineTimeout {
+		return timeout
+	}
+
+	return deadlineTimeout
+}
+
+func (tc *KubePerTestContext) deadlineTimeout() time.Duration {
 	// how long until overall test timeout is hit
 	deadlineTimeout := time.Duration(math.MaxInt64)
 
 	deadline, hasDeadline := tc.T.Deadline()
 	if hasDeadline {
 		deadlineTimeout = time.Until(deadline) - time.Second // give us 1 second to clean up
-	}
-
-	// return lesser of (operation timeout, deadline timeout)
-	if tc.DefaultOperationTimeout() < deadlineTimeout {
-		return tc.DefaultOperationTimeout()
 	}
 
 	return deadlineTimeout

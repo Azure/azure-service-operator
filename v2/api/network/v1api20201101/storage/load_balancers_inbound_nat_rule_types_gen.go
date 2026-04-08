@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
@@ -53,22 +52,36 @@ var _ conversion.Convertible = &LoadBalancersInboundNatRule{}
 
 // ConvertFrom populates our LoadBalancersInboundNatRule from the provided hub LoadBalancersInboundNatRule
 func (rule *LoadBalancersInboundNatRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20240301s.LoadBalancersInboundNatRule)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/LoadBalancersInboundNatRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20240301s.LoadBalancersInboundNatRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_LoadBalancersInboundNatRule(source)
+	err = rule.AssignProperties_From_LoadBalancersInboundNatRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub LoadBalancersInboundNatRule from our LoadBalancersInboundNatRule
 func (rule *LoadBalancersInboundNatRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20240301s.LoadBalancersInboundNatRule)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/LoadBalancersInboundNatRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20240301s.LoadBalancersInboundNatRule
+	err := rule.AssignProperties_To_LoadBalancersInboundNatRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_LoadBalancersInboundNatRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &LoadBalancersInboundNatRule{}

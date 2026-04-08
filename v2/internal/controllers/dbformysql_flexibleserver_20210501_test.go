@@ -12,8 +12,8 @@ import (
 
 	"github.com/kr/pretty"
 
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
-	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20210501"
+	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20220101"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
