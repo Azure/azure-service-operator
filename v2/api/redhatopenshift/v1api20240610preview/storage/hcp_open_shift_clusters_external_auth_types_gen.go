@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/redhatopenshift/v1api20251223preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,14 +14,11 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=redhatopenshift.azure.com,resources=hcpopenshiftclustersexternalauths,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=redhatopenshift.azure.com,resources={hcpopenshiftclustersexternalauths/status,hcpopenshiftclustersexternalauths/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +44,28 @@ func (auth *HcpOpenShiftClustersExternalAuth) GetConditions() conditions.Conditi
 // SetConditions sets the conditions on the resource status
 func (auth *HcpOpenShiftClustersExternalAuth) SetConditions(conditions conditions.Conditions) {
 	auth.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &HcpOpenShiftClustersExternalAuth{}
+
+// ConvertFrom populates our HcpOpenShiftClustersExternalAuth from the provided hub HcpOpenShiftClustersExternalAuth
+func (auth *HcpOpenShiftClustersExternalAuth) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.HcpOpenShiftClustersExternalAuth)
+	if !ok {
+		return fmt.Errorf("expected redhatopenshift/v1api20251223preview/storage/HcpOpenShiftClustersExternalAuth but received %T instead", hub)
+	}
+
+	return auth.AssignProperties_From_HcpOpenShiftClustersExternalAuth(source)
+}
+
+// ConvertTo populates the provided hub HcpOpenShiftClustersExternalAuth from our HcpOpenShiftClustersExternalAuth
+func (auth *HcpOpenShiftClustersExternalAuth) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.HcpOpenShiftClustersExternalAuth)
+	if !ok {
+		return fmt.Errorf("expected redhatopenshift/v1api20251223preview/storage/HcpOpenShiftClustersExternalAuth but received %T instead", hub)
+	}
+
+	return auth.AssignProperties_To_HcpOpenShiftClustersExternalAuth(destination)
 }
 
 var _ configmaps.Exporter = &HcpOpenShiftClustersExternalAuth{}
@@ -142,8 +163,75 @@ func (auth *HcpOpenShiftClustersExternalAuth) SetStatus(status genruntime.Conver
 	return nil
 }
 
-// Hub marks that this HcpOpenShiftClustersExternalAuth is the hub type for conversion
-func (auth *HcpOpenShiftClustersExternalAuth) Hub() {}
+// AssignProperties_From_HcpOpenShiftClustersExternalAuth populates our HcpOpenShiftClustersExternalAuth from the provided source HcpOpenShiftClustersExternalAuth
+func (auth *HcpOpenShiftClustersExternalAuth) AssignProperties_From_HcpOpenShiftClustersExternalAuth(source *storage.HcpOpenShiftClustersExternalAuth) error {
+
+	// ObjectMeta
+	auth.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec HcpOpenShiftClustersExternalAuth_Spec
+	err := spec.AssignProperties_From_HcpOpenShiftClustersExternalAuth_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_HcpOpenShiftClustersExternalAuth_Spec() to populate field Spec")
+	}
+	auth.Spec = spec
+
+	// Status
+	var status HcpOpenShiftClustersExternalAuth_STATUS
+	err = status.AssignProperties_From_HcpOpenShiftClustersExternalAuth_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_HcpOpenShiftClustersExternalAuth_STATUS() to populate field Status")
+	}
+	auth.Status = status
+
+	// Invoke the augmentConversionForHcpOpenShiftClustersExternalAuth interface (if implemented) to customize the conversion
+	var authAsAny any = auth
+	if augmentedAuth, ok := authAsAny.(augmentConversionForHcpOpenShiftClustersExternalAuth); ok {
+		err := augmentedAuth.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HcpOpenShiftClustersExternalAuth populates the provided destination HcpOpenShiftClustersExternalAuth from our HcpOpenShiftClustersExternalAuth
+func (auth *HcpOpenShiftClustersExternalAuth) AssignProperties_To_HcpOpenShiftClustersExternalAuth(destination *storage.HcpOpenShiftClustersExternalAuth) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *auth.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.HcpOpenShiftClustersExternalAuth_Spec
+	err := auth.Spec.AssignProperties_To_HcpOpenShiftClustersExternalAuth_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_HcpOpenShiftClustersExternalAuth_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.HcpOpenShiftClustersExternalAuth_STATUS
+	err = auth.Status.AssignProperties_To_HcpOpenShiftClustersExternalAuth_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_HcpOpenShiftClustersExternalAuth_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForHcpOpenShiftClustersExternalAuth interface (if implemented) to customize the conversion
+	var authAsAny any = auth
+	if augmentedAuth, ok := authAsAny.(augmentConversionForHcpOpenShiftClustersExternalAuth); ok {
+		err := augmentedAuth.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (auth *HcpOpenShiftClustersExternalAuth) OriginalGVK() *schema.GroupVersionKind {
@@ -163,6 +251,11 @@ type HcpOpenShiftClustersExternalAuthList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []HcpOpenShiftClustersExternalAuth `json:"items"`
+}
+
+type augmentConversionForHcpOpenShiftClustersExternalAuth interface {
+	AssignPropertiesFrom(src *storage.HcpOpenShiftClustersExternalAuth) error
+	AssignPropertiesTo(dst *storage.HcpOpenShiftClustersExternalAuth) error
 }
 
 // Storage version of v1api20240610preview.HcpOpenShiftClustersExternalAuth_Spec
@@ -186,20 +279,176 @@ var _ genruntime.ConvertibleSpec = &HcpOpenShiftClustersExternalAuth_Spec{}
 
 // ConvertSpecFrom populates our HcpOpenShiftClustersExternalAuth_Spec from the provided source
 func (auth *HcpOpenShiftClustersExternalAuth_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == auth {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.HcpOpenShiftClustersExternalAuth_Spec)
+	if ok {
+		// Populate our instance from source
+		return auth.AssignProperties_From_HcpOpenShiftClustersExternalAuth_Spec(src)
 	}
 
-	return source.ConvertSpecTo(auth)
+	// Convert to an intermediate form
+	src = &storage.HcpOpenShiftClustersExternalAuth_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = auth.AssignProperties_From_HcpOpenShiftClustersExternalAuth_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our HcpOpenShiftClustersExternalAuth_Spec
 func (auth *HcpOpenShiftClustersExternalAuth_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == auth {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.HcpOpenShiftClustersExternalAuth_Spec)
+	if ok {
+		// Populate destination from our instance
+		return auth.AssignProperties_To_HcpOpenShiftClustersExternalAuth_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(auth)
+	// Convert to an intermediate form
+	dst = &storage.HcpOpenShiftClustersExternalAuth_Spec{}
+	err := auth.AssignProperties_To_HcpOpenShiftClustersExternalAuth_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_HcpOpenShiftClustersExternalAuth_Spec populates our HcpOpenShiftClustersExternalAuth_Spec from the provided source HcpOpenShiftClustersExternalAuth_Spec
+func (auth *HcpOpenShiftClustersExternalAuth_Spec) AssignProperties_From_HcpOpenShiftClustersExternalAuth_Spec(source *storage.HcpOpenShiftClustersExternalAuth_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	auth.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec HcpOpenShiftClustersExternalAuthOperatorSpec
+		err := operatorSpec.AssignProperties_From_HcpOpenShiftClustersExternalAuthOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_HcpOpenShiftClustersExternalAuthOperatorSpec() to populate field OperatorSpec")
+		}
+		auth.OperatorSpec = &operatorSpec
+	} else {
+		auth.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	auth.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		auth.Owner = &owner
+	} else {
+		auth.Owner = nil
+	}
+
+	// Properties
+	if source.Properties != nil {
+		var property ExternalAuthProperties
+		err := property.AssignProperties_From_ExternalAuthProperties(source.Properties)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ExternalAuthProperties() to populate field Properties")
+		}
+		auth.Properties = &property
+	} else {
+		auth.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		auth.PropertyBag = propertyBag
+	} else {
+		auth.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClustersExternalAuth_Spec interface (if implemented) to customize the conversion
+	var authAsAny any = auth
+	if augmentedAuth, ok := authAsAny.(augmentConversionForHcpOpenShiftClustersExternalAuth_Spec); ok {
+		err := augmentedAuth.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HcpOpenShiftClustersExternalAuth_Spec populates the provided destination HcpOpenShiftClustersExternalAuth_Spec from our HcpOpenShiftClustersExternalAuth_Spec
+func (auth *HcpOpenShiftClustersExternalAuth_Spec) AssignProperties_To_HcpOpenShiftClustersExternalAuth_Spec(destination *storage.HcpOpenShiftClustersExternalAuth_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(auth.PropertyBag)
+
+	// AzureName
+	destination.AzureName = auth.AzureName
+
+	// OperatorSpec
+	if auth.OperatorSpec != nil {
+		var operatorSpec storage.HcpOpenShiftClustersExternalAuthOperatorSpec
+		err := auth.OperatorSpec.AssignProperties_To_HcpOpenShiftClustersExternalAuthOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_HcpOpenShiftClustersExternalAuthOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = auth.OriginalVersion
+
+	// Owner
+	if auth.Owner != nil {
+		owner := auth.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Properties
+	if auth.Properties != nil {
+		var property storage.ExternalAuthProperties
+		err := auth.Properties.AssignProperties_To_ExternalAuthProperties(&property)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ExternalAuthProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClustersExternalAuth_Spec interface (if implemented) to customize the conversion
+	var authAsAny any = auth
+	if augmentedAuth, ok := authAsAny.(augmentConversionForHcpOpenShiftClustersExternalAuth_Spec); ok {
+		err := augmentedAuth.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20240610preview.HcpOpenShiftClustersExternalAuth_STATUS
@@ -217,20 +466,182 @@ var _ genruntime.ConvertibleStatus = &HcpOpenShiftClustersExternalAuth_STATUS{}
 
 // ConvertStatusFrom populates our HcpOpenShiftClustersExternalAuth_STATUS from the provided source
 func (auth *HcpOpenShiftClustersExternalAuth_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == auth {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.HcpOpenShiftClustersExternalAuth_STATUS)
+	if ok {
+		// Populate our instance from source
+		return auth.AssignProperties_From_HcpOpenShiftClustersExternalAuth_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(auth)
+	// Convert to an intermediate form
+	src = &storage.HcpOpenShiftClustersExternalAuth_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = auth.AssignProperties_From_HcpOpenShiftClustersExternalAuth_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our HcpOpenShiftClustersExternalAuth_STATUS
 func (auth *HcpOpenShiftClustersExternalAuth_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == auth {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.HcpOpenShiftClustersExternalAuth_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return auth.AssignProperties_To_HcpOpenShiftClustersExternalAuth_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(auth)
+	// Convert to an intermediate form
+	dst = &storage.HcpOpenShiftClustersExternalAuth_STATUS{}
+	err := auth.AssignProperties_To_HcpOpenShiftClustersExternalAuth_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_HcpOpenShiftClustersExternalAuth_STATUS populates our HcpOpenShiftClustersExternalAuth_STATUS from the provided source HcpOpenShiftClustersExternalAuth_STATUS
+func (auth *HcpOpenShiftClustersExternalAuth_STATUS) AssignProperties_From_HcpOpenShiftClustersExternalAuth_STATUS(source *storage.HcpOpenShiftClustersExternalAuth_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	auth.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	auth.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	auth.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property ExternalAuthProperties_STATUS
+		err := property.AssignProperties_From_ExternalAuthProperties_STATUS(source.Properties)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ExternalAuthProperties_STATUS() to populate field Properties")
+		}
+		auth.Properties = &property
+	} else {
+		auth.Properties = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		auth.SystemData = &systemDatum
+	} else {
+		auth.SystemData = nil
+	}
+
+	// Type
+	auth.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		auth.PropertyBag = propertyBag
+	} else {
+		auth.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClustersExternalAuth_STATUS interface (if implemented) to customize the conversion
+	var authAsAny any = auth
+	if augmentedAuth, ok := authAsAny.(augmentConversionForHcpOpenShiftClustersExternalAuth_STATUS); ok {
+		err := augmentedAuth.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HcpOpenShiftClustersExternalAuth_STATUS populates the provided destination HcpOpenShiftClustersExternalAuth_STATUS from our HcpOpenShiftClustersExternalAuth_STATUS
+func (auth *HcpOpenShiftClustersExternalAuth_STATUS) AssignProperties_To_HcpOpenShiftClustersExternalAuth_STATUS(destination *storage.HcpOpenShiftClustersExternalAuth_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(auth.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(auth.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(auth.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(auth.Name)
+
+	// Properties
+	if auth.Properties != nil {
+		var property storage.ExternalAuthProperties_STATUS
+		err := auth.Properties.AssignProperties_To_ExternalAuthProperties_STATUS(&property)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ExternalAuthProperties_STATUS() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// SystemData
+	if auth.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := auth.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(auth.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClustersExternalAuth_STATUS interface (if implemented) to customize the conversion
+	var authAsAny any = auth
+	if augmentedAuth, ok := authAsAny.(augmentConversionForHcpOpenShiftClustersExternalAuth_STATUS); ok {
+		err := augmentedAuth.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForHcpOpenShiftClustersExternalAuth_Spec interface {
+	AssignPropertiesFrom(src *storage.HcpOpenShiftClustersExternalAuth_Spec) error
+	AssignPropertiesTo(dst *storage.HcpOpenShiftClustersExternalAuth_Spec) error
+}
+
+type augmentConversionForHcpOpenShiftClustersExternalAuth_STATUS interface {
+	AssignPropertiesFrom(src *storage.HcpOpenShiftClustersExternalAuth_STATUS) error
+	AssignPropertiesTo(dst *storage.HcpOpenShiftClustersExternalAuth_STATUS) error
 }
 
 // Storage version of v1api20240610preview.ExternalAuthProperties
@@ -240,6 +651,140 @@ type ExternalAuthProperties struct {
 	Clients     []ExternalAuthClientProfile `json:"clients,omitempty"`
 	Issuer      *TokenIssuerProfile         `json:"issuer,omitempty"`
 	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ExternalAuthProperties populates our ExternalAuthProperties from the provided source ExternalAuthProperties
+func (properties *ExternalAuthProperties) AssignProperties_From_ExternalAuthProperties(source *storage.ExternalAuthProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Claim
+	if source.Claim != nil {
+		var claim ExternalAuthClaimProfile
+		err := claim.AssignProperties_From_ExternalAuthClaimProfile(source.Claim)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ExternalAuthClaimProfile() to populate field Claim")
+		}
+		properties.Claim = &claim
+	} else {
+		properties.Claim = nil
+	}
+
+	// Clients
+	if source.Clients != nil {
+		clientList := make([]ExternalAuthClientProfile, len(source.Clients))
+		for clientIndex, clientItem := range source.Clients {
+			// Shadow the loop variable to avoid aliasing
+			clientItem := clientItem
+			var client ExternalAuthClientProfile
+			err := client.AssignProperties_From_ExternalAuthClientProfile(&clientItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ExternalAuthClientProfile() to populate field Clients")
+			}
+			clientList[clientIndex] = client
+		}
+		properties.Clients = clientList
+	} else {
+		properties.Clients = nil
+	}
+
+	// Issuer
+	if source.Issuer != nil {
+		var issuer TokenIssuerProfile
+		err := issuer.AssignProperties_From_TokenIssuerProfile(source.Issuer)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TokenIssuerProfile() to populate field Issuer")
+		}
+		properties.Issuer = &issuer
+	} else {
+		properties.Issuer = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForExternalAuthProperties); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExternalAuthProperties populates the provided destination ExternalAuthProperties from our ExternalAuthProperties
+func (properties *ExternalAuthProperties) AssignProperties_To_ExternalAuthProperties(destination *storage.ExternalAuthProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// Claim
+	if properties.Claim != nil {
+		var claim storage.ExternalAuthClaimProfile
+		err := properties.Claim.AssignProperties_To_ExternalAuthClaimProfile(&claim)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ExternalAuthClaimProfile() to populate field Claim")
+		}
+		destination.Claim = &claim
+	} else {
+		destination.Claim = nil
+	}
+
+	// Clients
+	if properties.Clients != nil {
+		clientList := make([]storage.ExternalAuthClientProfile, len(properties.Clients))
+		for clientIndex, clientItem := range properties.Clients {
+			// Shadow the loop variable to avoid aliasing
+			clientItem := clientItem
+			var client storage.ExternalAuthClientProfile
+			err := clientItem.AssignProperties_To_ExternalAuthClientProfile(&client)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ExternalAuthClientProfile() to populate field Clients")
+			}
+			clientList[clientIndex] = client
+		}
+		destination.Clients = clientList
+	} else {
+		destination.Clients = nil
+	}
+
+	// Issuer
+	if properties.Issuer != nil {
+		var issuer storage.TokenIssuerProfile
+		err := properties.Issuer.AssignProperties_To_TokenIssuerProfile(&issuer)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TokenIssuerProfile() to populate field Issuer")
+		}
+		destination.Issuer = &issuer
+	} else {
+		destination.Issuer = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForExternalAuthProperties); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20240610preview.ExternalAuthProperties_STATUS
@@ -253,12 +798,313 @@ type ExternalAuthProperties_STATUS struct {
 	ProvisioningState *string                            `json:"provisioningState,omitempty"`
 }
 
+// AssignProperties_From_ExternalAuthProperties_STATUS populates our ExternalAuthProperties_STATUS from the provided source ExternalAuthProperties_STATUS
+func (properties *ExternalAuthProperties_STATUS) AssignProperties_From_ExternalAuthProperties_STATUS(source *storage.ExternalAuthProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Claim
+	if source.Claim != nil {
+		var claim ExternalAuthClaimProfile_STATUS
+		err := claim.AssignProperties_From_ExternalAuthClaimProfile_STATUS(source.Claim)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ExternalAuthClaimProfile_STATUS() to populate field Claim")
+		}
+		properties.Claim = &claim
+	} else {
+		properties.Claim = nil
+	}
+
+	// Clients
+	if source.Clients != nil {
+		clientList := make([]ExternalAuthClientProfile_STATUS, len(source.Clients))
+		for clientIndex, clientItem := range source.Clients {
+			// Shadow the loop variable to avoid aliasing
+			clientItem := clientItem
+			var client ExternalAuthClientProfile_STATUS
+			err := client.AssignProperties_From_ExternalAuthClientProfile_STATUS(&clientItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ExternalAuthClientProfile_STATUS() to populate field Clients")
+			}
+			clientList[clientIndex] = client
+		}
+		properties.Clients = clientList
+	} else {
+		properties.Clients = nil
+	}
+
+	// Condition
+	if source.Condition != nil {
+		var condition ExternalAuthCondition_STATUS
+		err := condition.AssignProperties_From_ExternalAuthCondition_STATUS(source.Condition)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ExternalAuthCondition_STATUS() to populate field Condition")
+		}
+		properties.Condition = &condition
+	} else {
+		properties.Condition = nil
+	}
+
+	// Issuer
+	if source.Issuer != nil {
+		var issuer TokenIssuerProfile_STATUS
+		err := issuer.AssignProperties_From_TokenIssuerProfile_STATUS(source.Issuer)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TokenIssuerProfile_STATUS() to populate field Issuer")
+		}
+		properties.Issuer = &issuer
+	} else {
+		properties.Issuer = nil
+	}
+
+	// ProvisioningState
+	properties.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForExternalAuthProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExternalAuthProperties_STATUS populates the provided destination ExternalAuthProperties_STATUS from our ExternalAuthProperties_STATUS
+func (properties *ExternalAuthProperties_STATUS) AssignProperties_To_ExternalAuthProperties_STATUS(destination *storage.ExternalAuthProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// Claim
+	if properties.Claim != nil {
+		var claim storage.ExternalAuthClaimProfile_STATUS
+		err := properties.Claim.AssignProperties_To_ExternalAuthClaimProfile_STATUS(&claim)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ExternalAuthClaimProfile_STATUS() to populate field Claim")
+		}
+		destination.Claim = &claim
+	} else {
+		destination.Claim = nil
+	}
+
+	// Clients
+	if properties.Clients != nil {
+		clientList := make([]storage.ExternalAuthClientProfile_STATUS, len(properties.Clients))
+		for clientIndex, clientItem := range properties.Clients {
+			// Shadow the loop variable to avoid aliasing
+			clientItem := clientItem
+			var client storage.ExternalAuthClientProfile_STATUS
+			err := clientItem.AssignProperties_To_ExternalAuthClientProfile_STATUS(&client)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ExternalAuthClientProfile_STATUS() to populate field Clients")
+			}
+			clientList[clientIndex] = client
+		}
+		destination.Clients = clientList
+	} else {
+		destination.Clients = nil
+	}
+
+	// Condition
+	if properties.Condition != nil {
+		var condition storage.ExternalAuthCondition_STATUS
+		err := properties.Condition.AssignProperties_To_ExternalAuthCondition_STATUS(&condition)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ExternalAuthCondition_STATUS() to populate field Condition")
+		}
+		destination.Condition = &condition
+	} else {
+		destination.Condition = nil
+	}
+
+	// Issuer
+	if properties.Issuer != nil {
+		var issuer storage.TokenIssuerProfile_STATUS
+		err := properties.Issuer.AssignProperties_To_TokenIssuerProfile_STATUS(&issuer)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TokenIssuerProfile_STATUS() to populate field Issuer")
+		}
+		destination.Issuer = &issuer
+	} else {
+		destination.Issuer = nil
+	}
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(properties.ProvisioningState)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForExternalAuthProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.HcpOpenShiftClustersExternalAuthOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type HcpOpenShiftClustersExternalAuthOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_HcpOpenShiftClustersExternalAuthOperatorSpec populates our HcpOpenShiftClustersExternalAuthOperatorSpec from the provided source HcpOpenShiftClustersExternalAuthOperatorSpec
+func (operator *HcpOpenShiftClustersExternalAuthOperatorSpec) AssignProperties_From_HcpOpenShiftClustersExternalAuthOperatorSpec(source *storage.HcpOpenShiftClustersExternalAuthOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClustersExternalAuthOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForHcpOpenShiftClustersExternalAuthOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HcpOpenShiftClustersExternalAuthOperatorSpec populates the provided destination HcpOpenShiftClustersExternalAuthOperatorSpec from our HcpOpenShiftClustersExternalAuthOperatorSpec
+func (operator *HcpOpenShiftClustersExternalAuthOperatorSpec) AssignProperties_To_HcpOpenShiftClustersExternalAuthOperatorSpec(destination *storage.HcpOpenShiftClustersExternalAuthOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			// Shadow the loop variable to avoid aliasing
+			configMapExpressionItem := configMapExpressionItem
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			// Shadow the loop variable to avoid aliasing
+			secretExpressionItem := secretExpressionItem
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHcpOpenShiftClustersExternalAuthOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForHcpOpenShiftClustersExternalAuthOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForExternalAuthProperties interface {
+	AssignPropertiesFrom(src *storage.ExternalAuthProperties) error
+	AssignPropertiesTo(dst *storage.ExternalAuthProperties) error
+}
+
+type augmentConversionForExternalAuthProperties_STATUS interface {
+	AssignPropertiesFrom(src *storage.ExternalAuthProperties_STATUS) error
+	AssignPropertiesTo(dst *storage.ExternalAuthProperties_STATUS) error
+}
+
+type augmentConversionForHcpOpenShiftClustersExternalAuthOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.HcpOpenShiftClustersExternalAuthOperatorSpec) error
+	AssignPropertiesTo(dst *storage.HcpOpenShiftClustersExternalAuthOperatorSpec) error
 }
 
 // Storage version of v1api20240610preview.ExternalAuthClaimProfile
@@ -269,12 +1115,232 @@ type ExternalAuthClaimProfile struct {
 	ValidationRules []TokenClaimValidationRule `json:"validationRules,omitempty"`
 }
 
+// AssignProperties_From_ExternalAuthClaimProfile populates our ExternalAuthClaimProfile from the provided source ExternalAuthClaimProfile
+func (profile *ExternalAuthClaimProfile) AssignProperties_From_ExternalAuthClaimProfile(source *storage.ExternalAuthClaimProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Mappings
+	if source.Mappings != nil {
+		var mapping TokenClaimMappingsProfile
+		err := mapping.AssignProperties_From_TokenClaimMappingsProfile(source.Mappings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TokenClaimMappingsProfile() to populate field Mappings")
+		}
+		profile.Mappings = &mapping
+	} else {
+		profile.Mappings = nil
+	}
+
+	// ValidationRules
+	if source.ValidationRules != nil {
+		validationRuleList := make([]TokenClaimValidationRule, len(source.ValidationRules))
+		for validationRuleIndex, validationRuleItem := range source.ValidationRules {
+			// Shadow the loop variable to avoid aliasing
+			validationRuleItem := validationRuleItem
+			var validationRule TokenClaimValidationRule
+			err := validationRule.AssignProperties_From_TokenClaimValidationRule(&validationRuleItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_TokenClaimValidationRule() to populate field ValidationRules")
+			}
+			validationRuleList[validationRuleIndex] = validationRule
+		}
+		profile.ValidationRules = validationRuleList
+	} else {
+		profile.ValidationRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClaimProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClaimProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExternalAuthClaimProfile populates the provided destination ExternalAuthClaimProfile from our ExternalAuthClaimProfile
+func (profile *ExternalAuthClaimProfile) AssignProperties_To_ExternalAuthClaimProfile(destination *storage.ExternalAuthClaimProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Mappings
+	if profile.Mappings != nil {
+		var mapping storage.TokenClaimMappingsProfile
+		err := profile.Mappings.AssignProperties_To_TokenClaimMappingsProfile(&mapping)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TokenClaimMappingsProfile() to populate field Mappings")
+		}
+		destination.Mappings = &mapping
+	} else {
+		destination.Mappings = nil
+	}
+
+	// ValidationRules
+	if profile.ValidationRules != nil {
+		validationRuleList := make([]storage.TokenClaimValidationRule, len(profile.ValidationRules))
+		for validationRuleIndex, validationRuleItem := range profile.ValidationRules {
+			// Shadow the loop variable to avoid aliasing
+			validationRuleItem := validationRuleItem
+			var validationRule storage.TokenClaimValidationRule
+			err := validationRuleItem.AssignProperties_To_TokenClaimValidationRule(&validationRule)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_TokenClaimValidationRule() to populate field ValidationRules")
+			}
+			validationRuleList[validationRuleIndex] = validationRule
+		}
+		destination.ValidationRules = validationRuleList
+	} else {
+		destination.ValidationRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClaimProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClaimProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.ExternalAuthClaimProfile_STATUS
 // External Auth claim profile
 type ExternalAuthClaimProfile_STATUS struct {
 	Mappings        *TokenClaimMappingsProfile_STATUS `json:"mappings,omitempty"`
 	PropertyBag     genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	ValidationRules []TokenClaimValidationRule_STATUS `json:"validationRules,omitempty"`
+}
+
+// AssignProperties_From_ExternalAuthClaimProfile_STATUS populates our ExternalAuthClaimProfile_STATUS from the provided source ExternalAuthClaimProfile_STATUS
+func (profile *ExternalAuthClaimProfile_STATUS) AssignProperties_From_ExternalAuthClaimProfile_STATUS(source *storage.ExternalAuthClaimProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Mappings
+	if source.Mappings != nil {
+		var mapping TokenClaimMappingsProfile_STATUS
+		err := mapping.AssignProperties_From_TokenClaimMappingsProfile_STATUS(source.Mappings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TokenClaimMappingsProfile_STATUS() to populate field Mappings")
+		}
+		profile.Mappings = &mapping
+	} else {
+		profile.Mappings = nil
+	}
+
+	// ValidationRules
+	if source.ValidationRules != nil {
+		validationRuleList := make([]TokenClaimValidationRule_STATUS, len(source.ValidationRules))
+		for validationRuleIndex, validationRuleItem := range source.ValidationRules {
+			// Shadow the loop variable to avoid aliasing
+			validationRuleItem := validationRuleItem
+			var validationRule TokenClaimValidationRule_STATUS
+			err := validationRule.AssignProperties_From_TokenClaimValidationRule_STATUS(&validationRuleItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_TokenClaimValidationRule_STATUS() to populate field ValidationRules")
+			}
+			validationRuleList[validationRuleIndex] = validationRule
+		}
+		profile.ValidationRules = validationRuleList
+	} else {
+		profile.ValidationRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClaimProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClaimProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExternalAuthClaimProfile_STATUS populates the provided destination ExternalAuthClaimProfile_STATUS from our ExternalAuthClaimProfile_STATUS
+func (profile *ExternalAuthClaimProfile_STATUS) AssignProperties_To_ExternalAuthClaimProfile_STATUS(destination *storage.ExternalAuthClaimProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Mappings
+	if profile.Mappings != nil {
+		var mapping storage.TokenClaimMappingsProfile_STATUS
+		err := profile.Mappings.AssignProperties_To_TokenClaimMappingsProfile_STATUS(&mapping)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TokenClaimMappingsProfile_STATUS() to populate field Mappings")
+		}
+		destination.Mappings = &mapping
+	} else {
+		destination.Mappings = nil
+	}
+
+	// ValidationRules
+	if profile.ValidationRules != nil {
+		validationRuleList := make([]storage.TokenClaimValidationRule_STATUS, len(profile.ValidationRules))
+		for validationRuleIndex, validationRuleItem := range profile.ValidationRules {
+			// Shadow the loop variable to avoid aliasing
+			validationRuleItem := validationRuleItem
+			var validationRule storage.TokenClaimValidationRule_STATUS
+			err := validationRuleItem.AssignProperties_To_TokenClaimValidationRule_STATUS(&validationRule)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_TokenClaimValidationRule_STATUS() to populate field ValidationRules")
+			}
+			validationRuleList[validationRuleIndex] = validationRule
+		}
+		destination.ValidationRules = validationRuleList
+	} else {
+		destination.ValidationRules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClaimProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClaimProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20240610preview.ExternalAuthClientProfile
@@ -289,6 +1355,98 @@ type ExternalAuthClientProfile struct {
 	Type        *string                             `json:"type,omitempty"`
 }
 
+// AssignProperties_From_ExternalAuthClientProfile populates our ExternalAuthClientProfile from the provided source ExternalAuthClientProfile
+func (profile *ExternalAuthClientProfile) AssignProperties_From_ExternalAuthClientProfile(source *storage.ExternalAuthClientProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ClientId
+	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// Component
+	if source.Component != nil {
+		var component ExternalAuthClientComponentProfile
+		err := component.AssignProperties_From_ExternalAuthClientComponentProfile(source.Component)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ExternalAuthClientComponentProfile() to populate field Component")
+		}
+		profile.Component = &component
+	} else {
+		profile.Component = nil
+	}
+
+	// ExtraScopes
+	profile.ExtraScopes = genruntime.CloneSliceOfString(source.ExtraScopes)
+
+	// Type
+	profile.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClientProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClientProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExternalAuthClientProfile populates the provided destination ExternalAuthClientProfile from our ExternalAuthClientProfile
+func (profile *ExternalAuthClientProfile) AssignProperties_To_ExternalAuthClientProfile(destination *storage.ExternalAuthClientProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(profile.ClientId)
+
+	// Component
+	if profile.Component != nil {
+		var component storage.ExternalAuthClientComponentProfile
+		err := profile.Component.AssignProperties_To_ExternalAuthClientComponentProfile(&component)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ExternalAuthClientComponentProfile() to populate field Component")
+		}
+		destination.Component = &component
+	} else {
+		destination.Component = nil
+	}
+
+	// ExtraScopes
+	destination.ExtraScopes = genruntime.CloneSliceOfString(profile.ExtraScopes)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(profile.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClientProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClientProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.ExternalAuthClientProfile_STATUS
 // External Auth client profile
 // This configures how on-cluster, platform clients should request tokens from the identity
@@ -301,6 +1459,98 @@ type ExternalAuthClientProfile_STATUS struct {
 	Type        *string                                    `json:"type,omitempty"`
 }
 
+// AssignProperties_From_ExternalAuthClientProfile_STATUS populates our ExternalAuthClientProfile_STATUS from the provided source ExternalAuthClientProfile_STATUS
+func (profile *ExternalAuthClientProfile_STATUS) AssignProperties_From_ExternalAuthClientProfile_STATUS(source *storage.ExternalAuthClientProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ClientId
+	profile.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// Component
+	if source.Component != nil {
+		var component ExternalAuthClientComponentProfile_STATUS
+		err := component.AssignProperties_From_ExternalAuthClientComponentProfile_STATUS(source.Component)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ExternalAuthClientComponentProfile_STATUS() to populate field Component")
+		}
+		profile.Component = &component
+	} else {
+		profile.Component = nil
+	}
+
+	// ExtraScopes
+	profile.ExtraScopes = genruntime.CloneSliceOfString(source.ExtraScopes)
+
+	// Type
+	profile.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClientProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClientProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExternalAuthClientProfile_STATUS populates the provided destination ExternalAuthClientProfile_STATUS from our ExternalAuthClientProfile_STATUS
+func (profile *ExternalAuthClientProfile_STATUS) AssignProperties_To_ExternalAuthClientProfile_STATUS(destination *storage.ExternalAuthClientProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(profile.ClientId)
+
+	// Component
+	if profile.Component != nil {
+		var component storage.ExternalAuthClientComponentProfile_STATUS
+		err := profile.Component.AssignProperties_To_ExternalAuthClientComponentProfile_STATUS(&component)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ExternalAuthClientComponentProfile_STATUS() to populate field Component")
+		}
+		destination.Component = &component
+	} else {
+		destination.Component = nil
+	}
+
+	// ExtraScopes
+	destination.ExtraScopes = genruntime.CloneSliceOfString(profile.ExtraScopes)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(profile.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClientProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClientProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.ExternalAuthCondition_STATUS
 // Condition defines an observation of the external auth state.
 type ExternalAuthCondition_STATUS struct {
@@ -310,6 +1560,86 @@ type ExternalAuthCondition_STATUS struct {
 	Reason             *string                `json:"reason,omitempty"`
 	Status             *string                `json:"status,omitempty"`
 	Type               *string                `json:"type,omitempty"`
+}
+
+// AssignProperties_From_ExternalAuthCondition_STATUS populates our ExternalAuthCondition_STATUS from the provided source ExternalAuthCondition_STATUS
+func (condition *ExternalAuthCondition_STATUS) AssignProperties_From_ExternalAuthCondition_STATUS(source *storage.ExternalAuthCondition_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// LastTransitionTime
+	condition.LastTransitionTime = genruntime.ClonePointerToString(source.LastTransitionTime)
+
+	// Message
+	condition.Message = genruntime.ClonePointerToString(source.Message)
+
+	// Reason
+	condition.Reason = genruntime.ClonePointerToString(source.Reason)
+
+	// Status
+	condition.Status = genruntime.ClonePointerToString(source.Status)
+
+	// Type
+	condition.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		condition.PropertyBag = propertyBag
+	} else {
+		condition.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthCondition_STATUS interface (if implemented) to customize the conversion
+	var conditionAsAny any = condition
+	if augmentedCondition, ok := conditionAsAny.(augmentConversionForExternalAuthCondition_STATUS); ok {
+		err := augmentedCondition.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExternalAuthCondition_STATUS populates the provided destination ExternalAuthCondition_STATUS from our ExternalAuthCondition_STATUS
+func (condition *ExternalAuthCondition_STATUS) AssignProperties_To_ExternalAuthCondition_STATUS(destination *storage.ExternalAuthCondition_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(condition.PropertyBag)
+
+	// LastTransitionTime
+	destination.LastTransitionTime = genruntime.ClonePointerToString(condition.LastTransitionTime)
+
+	// Message
+	destination.Message = genruntime.ClonePointerToString(condition.Message)
+
+	// Reason
+	destination.Reason = genruntime.ClonePointerToString(condition.Reason)
+
+	// Status
+	destination.Status = genruntime.ClonePointerToString(condition.Status)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(condition.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthCondition_STATUS interface (if implemented) to customize the conversion
+	var conditionAsAny any = condition
+	if augmentedCondition, ok := conditionAsAny.(augmentConversionForExternalAuthCondition_STATUS); ok {
+		err := augmentedCondition.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20240610preview.TokenIssuerProfile
@@ -324,6 +1654,74 @@ type TokenIssuerProfile struct {
 	Url         *string                `json:"url,omitempty"`
 }
 
+// AssignProperties_From_TokenIssuerProfile populates our TokenIssuerProfile from the provided source TokenIssuerProfile
+func (profile *TokenIssuerProfile) AssignProperties_From_TokenIssuerProfile(source *storage.TokenIssuerProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Audiences
+	profile.Audiences = genruntime.CloneSliceOfString(source.Audiences)
+
+	// Ca
+	profile.Ca = genruntime.ClonePointerToString(source.Ca)
+
+	// Url
+	profile.Url = genruntime.ClonePointerToString(source.Url)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenIssuerProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForTokenIssuerProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TokenIssuerProfile populates the provided destination TokenIssuerProfile from our TokenIssuerProfile
+func (profile *TokenIssuerProfile) AssignProperties_To_TokenIssuerProfile(destination *storage.TokenIssuerProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Audiences
+	destination.Audiences = genruntime.CloneSliceOfString(profile.Audiences)
+
+	// Ca
+	destination.Ca = genruntime.ClonePointerToString(profile.Ca)
+
+	// Url
+	destination.Url = genruntime.ClonePointerToString(profile.Url)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenIssuerProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForTokenIssuerProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.TokenIssuerProfile_STATUS
 // Token issuer profile
 // This configures how the platform interacts with the identity provider and
@@ -336,6 +1734,109 @@ type TokenIssuerProfile_STATUS struct {
 	Url         *string                `json:"url,omitempty"`
 }
 
+// AssignProperties_From_TokenIssuerProfile_STATUS populates our TokenIssuerProfile_STATUS from the provided source TokenIssuerProfile_STATUS
+func (profile *TokenIssuerProfile_STATUS) AssignProperties_From_TokenIssuerProfile_STATUS(source *storage.TokenIssuerProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Audiences
+	profile.Audiences = genruntime.CloneSliceOfString(source.Audiences)
+
+	// Ca
+	profile.Ca = genruntime.ClonePointerToString(source.Ca)
+
+	// Url
+	profile.Url = genruntime.ClonePointerToString(source.Url)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenIssuerProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForTokenIssuerProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TokenIssuerProfile_STATUS populates the provided destination TokenIssuerProfile_STATUS from our TokenIssuerProfile_STATUS
+func (profile *TokenIssuerProfile_STATUS) AssignProperties_To_TokenIssuerProfile_STATUS(destination *storage.TokenIssuerProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Audiences
+	destination.Audiences = genruntime.CloneSliceOfString(profile.Audiences)
+
+	// Ca
+	destination.Ca = genruntime.ClonePointerToString(profile.Ca)
+
+	// Url
+	destination.Url = genruntime.ClonePointerToString(profile.Url)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenIssuerProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForTokenIssuerProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForExternalAuthClaimProfile interface {
+	AssignPropertiesFrom(src *storage.ExternalAuthClaimProfile) error
+	AssignPropertiesTo(dst *storage.ExternalAuthClaimProfile) error
+}
+
+type augmentConversionForExternalAuthClaimProfile_STATUS interface {
+	AssignPropertiesFrom(src *storage.ExternalAuthClaimProfile_STATUS) error
+	AssignPropertiesTo(dst *storage.ExternalAuthClaimProfile_STATUS) error
+}
+
+type augmentConversionForExternalAuthClientProfile interface {
+	AssignPropertiesFrom(src *storage.ExternalAuthClientProfile) error
+	AssignPropertiesTo(dst *storage.ExternalAuthClientProfile) error
+}
+
+type augmentConversionForExternalAuthClientProfile_STATUS interface {
+	AssignPropertiesFrom(src *storage.ExternalAuthClientProfile_STATUS) error
+	AssignPropertiesTo(dst *storage.ExternalAuthClientProfile_STATUS) error
+}
+
+type augmentConversionForExternalAuthCondition_STATUS interface {
+	AssignPropertiesFrom(src *storage.ExternalAuthCondition_STATUS) error
+	AssignPropertiesTo(dst *storage.ExternalAuthCondition_STATUS) error
+}
+
+type augmentConversionForTokenIssuerProfile interface {
+	AssignPropertiesFrom(src *storage.TokenIssuerProfile) error
+	AssignPropertiesTo(dst *storage.TokenIssuerProfile) error
+}
+
+type augmentConversionForTokenIssuerProfile_STATUS interface {
+	AssignPropertiesFrom(src *storage.TokenIssuerProfile_STATUS) error
+	AssignPropertiesTo(dst *storage.TokenIssuerProfile_STATUS) error
+}
+
 // Storage version of v1api20240610preview.ExternalAuthClientComponentProfile
 // External Auth component profile
 // Must have unique namespace/name pairs.
@@ -343,6 +1844,68 @@ type ExternalAuthClientComponentProfile struct {
 	AuthClientNamespace *string                `json:"authClientNamespace,omitempty"`
 	Name                *string                `json:"name,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ExternalAuthClientComponentProfile populates our ExternalAuthClientComponentProfile from the provided source ExternalAuthClientComponentProfile
+func (profile *ExternalAuthClientComponentProfile) AssignProperties_From_ExternalAuthClientComponentProfile(source *storage.ExternalAuthClientComponentProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuthClientNamespace
+	profile.AuthClientNamespace = genruntime.ClonePointerToString(source.AuthClientNamespace)
+
+	// Name
+	profile.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClientComponentProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClientComponentProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExternalAuthClientComponentProfile populates the provided destination ExternalAuthClientComponentProfile from our ExternalAuthClientComponentProfile
+func (profile *ExternalAuthClientComponentProfile) AssignProperties_To_ExternalAuthClientComponentProfile(destination *storage.ExternalAuthClientComponentProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// AuthClientNamespace
+	destination.AuthClientNamespace = genruntime.ClonePointerToString(profile.AuthClientNamespace)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(profile.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClientComponentProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClientComponentProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20240610preview.ExternalAuthClientComponentProfile_STATUS
@@ -354,6 +1917,68 @@ type ExternalAuthClientComponentProfile_STATUS struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_ExternalAuthClientComponentProfile_STATUS populates our ExternalAuthClientComponentProfile_STATUS from the provided source ExternalAuthClientComponentProfile_STATUS
+func (profile *ExternalAuthClientComponentProfile_STATUS) AssignProperties_From_ExternalAuthClientComponentProfile_STATUS(source *storage.ExternalAuthClientComponentProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuthClientNamespace
+	profile.AuthClientNamespace = genruntime.ClonePointerToString(source.AuthClientNamespace)
+
+	// Name
+	profile.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClientComponentProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClientComponentProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExternalAuthClientComponentProfile_STATUS populates the provided destination ExternalAuthClientComponentProfile_STATUS from our ExternalAuthClientComponentProfile_STATUS
+func (profile *ExternalAuthClientComponentProfile_STATUS) AssignProperties_To_ExternalAuthClientComponentProfile_STATUS(destination *storage.ExternalAuthClientComponentProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// AuthClientNamespace
+	destination.AuthClientNamespace = genruntime.ClonePointerToString(profile.AuthClientNamespace)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(profile.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForExternalAuthClientComponentProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForExternalAuthClientComponentProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.TokenClaimMappingsProfile
 // External Auth claim mappings profile.
 // At a minimum username or groups must be defined.
@@ -361,6 +1986,104 @@ type TokenClaimMappingsProfile struct {
 	Groups      *GroupClaimProfile     `json:"groups,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Username    *UsernameClaimProfile  `json:"username,omitempty"`
+}
+
+// AssignProperties_From_TokenClaimMappingsProfile populates our TokenClaimMappingsProfile from the provided source TokenClaimMappingsProfile
+func (profile *TokenClaimMappingsProfile) AssignProperties_From_TokenClaimMappingsProfile(source *storage.TokenClaimMappingsProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Groups
+	if source.Groups != nil {
+		var group GroupClaimProfile
+		err := group.AssignProperties_From_GroupClaimProfile(source.Groups)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_GroupClaimProfile() to populate field Groups")
+		}
+		profile.Groups = &group
+	} else {
+		profile.Groups = nil
+	}
+
+	// Username
+	if source.Username != nil {
+		var username UsernameClaimProfile
+		err := username.AssignProperties_From_UsernameClaimProfile(source.Username)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UsernameClaimProfile() to populate field Username")
+		}
+		profile.Username = &username
+	} else {
+		profile.Username = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenClaimMappingsProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForTokenClaimMappingsProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TokenClaimMappingsProfile populates the provided destination TokenClaimMappingsProfile from our TokenClaimMappingsProfile
+func (profile *TokenClaimMappingsProfile) AssignProperties_To_TokenClaimMappingsProfile(destination *storage.TokenClaimMappingsProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Groups
+	if profile.Groups != nil {
+		var group storage.GroupClaimProfile
+		err := profile.Groups.AssignProperties_To_GroupClaimProfile(&group)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_GroupClaimProfile() to populate field Groups")
+		}
+		destination.Groups = &group
+	} else {
+		destination.Groups = nil
+	}
+
+	// Username
+	if profile.Username != nil {
+		var username storage.UsernameClaimProfile
+		err := profile.Username.AssignProperties_To_UsernameClaimProfile(&username)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UsernameClaimProfile() to populate field Username")
+		}
+		destination.Username = &username
+	} else {
+		destination.Username = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenClaimMappingsProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForTokenClaimMappingsProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20240610preview.TokenClaimMappingsProfile_STATUS
@@ -372,6 +2095,104 @@ type TokenClaimMappingsProfile_STATUS struct {
 	Username    *UsernameClaimProfile_STATUS `json:"username,omitempty"`
 }
 
+// AssignProperties_From_TokenClaimMappingsProfile_STATUS populates our TokenClaimMappingsProfile_STATUS from the provided source TokenClaimMappingsProfile_STATUS
+func (profile *TokenClaimMappingsProfile_STATUS) AssignProperties_From_TokenClaimMappingsProfile_STATUS(source *storage.TokenClaimMappingsProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Groups
+	if source.Groups != nil {
+		var group GroupClaimProfile_STATUS
+		err := group.AssignProperties_From_GroupClaimProfile_STATUS(source.Groups)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_GroupClaimProfile_STATUS() to populate field Groups")
+		}
+		profile.Groups = &group
+	} else {
+		profile.Groups = nil
+	}
+
+	// Username
+	if source.Username != nil {
+		var username UsernameClaimProfile_STATUS
+		err := username.AssignProperties_From_UsernameClaimProfile_STATUS(source.Username)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UsernameClaimProfile_STATUS() to populate field Username")
+		}
+		profile.Username = &username
+	} else {
+		profile.Username = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenClaimMappingsProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForTokenClaimMappingsProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TokenClaimMappingsProfile_STATUS populates the provided destination TokenClaimMappingsProfile_STATUS from our TokenClaimMappingsProfile_STATUS
+func (profile *TokenClaimMappingsProfile_STATUS) AssignProperties_To_TokenClaimMappingsProfile_STATUS(destination *storage.TokenClaimMappingsProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Groups
+	if profile.Groups != nil {
+		var group storage.GroupClaimProfile_STATUS
+		err := profile.Groups.AssignProperties_To_GroupClaimProfile_STATUS(&group)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_GroupClaimProfile_STATUS() to populate field Groups")
+		}
+		destination.Groups = &group
+	} else {
+		destination.Groups = nil
+	}
+
+	// Username
+	if profile.Username != nil {
+		var username storage.UsernameClaimProfile_STATUS
+		err := profile.Username.AssignProperties_To_UsernameClaimProfile_STATUS(&username)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UsernameClaimProfile_STATUS() to populate field Username")
+		}
+		destination.Username = &username
+	} else {
+		destination.Username = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenClaimMappingsProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForTokenClaimMappingsProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.TokenClaimValidationRule
 // External Auth claim validation rule
 type TokenClaimValidationRule struct {
@@ -380,12 +2201,202 @@ type TokenClaimValidationRule struct {
 	Type          *string                `json:"type,omitempty"`
 }
 
+// AssignProperties_From_TokenClaimValidationRule populates our TokenClaimValidationRule from the provided source TokenClaimValidationRule
+func (rule *TokenClaimValidationRule) AssignProperties_From_TokenClaimValidationRule(source *storage.TokenClaimValidationRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// RequiredClaim
+	if source.RequiredClaim != nil {
+		var requiredClaim TokenRequiredClaim
+		err := requiredClaim.AssignProperties_From_TokenRequiredClaim(source.RequiredClaim)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TokenRequiredClaim() to populate field RequiredClaim")
+		}
+		rule.RequiredClaim = &requiredClaim
+	} else {
+		rule.RequiredClaim = nil
+	}
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenClaimValidationRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForTokenClaimValidationRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TokenClaimValidationRule populates the provided destination TokenClaimValidationRule from our TokenClaimValidationRule
+func (rule *TokenClaimValidationRule) AssignProperties_To_TokenClaimValidationRule(destination *storage.TokenClaimValidationRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// RequiredClaim
+	if rule.RequiredClaim != nil {
+		var requiredClaim storage.TokenRequiredClaim
+		err := rule.RequiredClaim.AssignProperties_To_TokenRequiredClaim(&requiredClaim)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TokenRequiredClaim() to populate field RequiredClaim")
+		}
+		destination.RequiredClaim = &requiredClaim
+	} else {
+		destination.RequiredClaim = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenClaimValidationRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForTokenClaimValidationRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.TokenClaimValidationRule_STATUS
 // External Auth claim validation rule
 type TokenClaimValidationRule_STATUS struct {
 	PropertyBag   genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	RequiredClaim *TokenRequiredClaim_STATUS `json:"requiredClaim,omitempty"`
 	Type          *string                    `json:"type,omitempty"`
+}
+
+// AssignProperties_From_TokenClaimValidationRule_STATUS populates our TokenClaimValidationRule_STATUS from the provided source TokenClaimValidationRule_STATUS
+func (rule *TokenClaimValidationRule_STATUS) AssignProperties_From_TokenClaimValidationRule_STATUS(source *storage.TokenClaimValidationRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// RequiredClaim
+	if source.RequiredClaim != nil {
+		var requiredClaim TokenRequiredClaim_STATUS
+		err := requiredClaim.AssignProperties_From_TokenRequiredClaim_STATUS(source.RequiredClaim)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_TokenRequiredClaim_STATUS() to populate field RequiredClaim")
+		}
+		rule.RequiredClaim = &requiredClaim
+	} else {
+		rule.RequiredClaim = nil
+	}
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenClaimValidationRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForTokenClaimValidationRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TokenClaimValidationRule_STATUS populates the provided destination TokenClaimValidationRule_STATUS from our TokenClaimValidationRule_STATUS
+func (rule *TokenClaimValidationRule_STATUS) AssignProperties_To_TokenClaimValidationRule_STATUS(destination *storage.TokenClaimValidationRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// RequiredClaim
+	if rule.RequiredClaim != nil {
+		var requiredClaim storage.TokenRequiredClaim_STATUS
+		err := rule.RequiredClaim.AssignProperties_To_TokenRequiredClaim_STATUS(&requiredClaim)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_TokenRequiredClaim_STATUS() to populate field RequiredClaim")
+		}
+		destination.RequiredClaim = &requiredClaim
+	} else {
+		destination.RequiredClaim = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenClaimValidationRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForTokenClaimValidationRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForExternalAuthClientComponentProfile interface {
+	AssignPropertiesFrom(src *storage.ExternalAuthClientComponentProfile) error
+	AssignPropertiesTo(dst *storage.ExternalAuthClientComponentProfile) error
+}
+
+type augmentConversionForExternalAuthClientComponentProfile_STATUS interface {
+	AssignPropertiesFrom(src *storage.ExternalAuthClientComponentProfile_STATUS) error
+	AssignPropertiesTo(dst *storage.ExternalAuthClientComponentProfile_STATUS) error
+}
+
+type augmentConversionForTokenClaimMappingsProfile interface {
+	AssignPropertiesFrom(src *storage.TokenClaimMappingsProfile) error
+	AssignPropertiesTo(dst *storage.TokenClaimMappingsProfile) error
+}
+
+type augmentConversionForTokenClaimMappingsProfile_STATUS interface {
+	AssignPropertiesFrom(src *storage.TokenClaimMappingsProfile_STATUS) error
+	AssignPropertiesTo(dst *storage.TokenClaimMappingsProfile_STATUS) error
+}
+
+type augmentConversionForTokenClaimValidationRule interface {
+	AssignPropertiesFrom(src *storage.TokenClaimValidationRule) error
+	AssignPropertiesTo(dst *storage.TokenClaimValidationRule) error
+}
+
+type augmentConversionForTokenClaimValidationRule_STATUS interface {
+	AssignPropertiesFrom(src *storage.TokenClaimValidationRule_STATUS) error
+	AssignPropertiesTo(dst *storage.TokenClaimValidationRule_STATUS) error
 }
 
 // Storage version of v1api20240610preview.GroupClaimProfile
@@ -404,6 +2415,68 @@ type GroupClaimProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_GroupClaimProfile populates our GroupClaimProfile from the provided source GroupClaimProfile
+func (profile *GroupClaimProfile) AssignProperties_From_GroupClaimProfile(source *storage.GroupClaimProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Claim
+	profile.Claim = genruntime.ClonePointerToString(source.Claim)
+
+	// Prefix
+	profile.Prefix = genruntime.ClonePointerToString(source.Prefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForGroupClaimProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForGroupClaimProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_GroupClaimProfile populates the provided destination GroupClaimProfile from our GroupClaimProfile
+func (profile *GroupClaimProfile) AssignProperties_To_GroupClaimProfile(destination *storage.GroupClaimProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Claim
+	destination.Claim = genruntime.ClonePointerToString(profile.Claim)
+
+	// Prefix
+	destination.Prefix = genruntime.ClonePointerToString(profile.Prefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForGroupClaimProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForGroupClaimProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.GroupClaimProfile_STATUS
 // External Auth claim profile
 // This configures how the groups of a cluster identity should be constructed
@@ -420,6 +2493,68 @@ type GroupClaimProfile_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_GroupClaimProfile_STATUS populates our GroupClaimProfile_STATUS from the provided source GroupClaimProfile_STATUS
+func (profile *GroupClaimProfile_STATUS) AssignProperties_From_GroupClaimProfile_STATUS(source *storage.GroupClaimProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Claim
+	profile.Claim = genruntime.ClonePointerToString(source.Claim)
+
+	// Prefix
+	profile.Prefix = genruntime.ClonePointerToString(source.Prefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForGroupClaimProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForGroupClaimProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_GroupClaimProfile_STATUS populates the provided destination GroupClaimProfile_STATUS from our GroupClaimProfile_STATUS
+func (profile *GroupClaimProfile_STATUS) AssignProperties_To_GroupClaimProfile_STATUS(destination *storage.GroupClaimProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Claim
+	destination.Claim = genruntime.ClonePointerToString(profile.Claim)
+
+	// Prefix
+	destination.Prefix = genruntime.ClonePointerToString(profile.Prefix)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForGroupClaimProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForGroupClaimProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.TokenRequiredClaim
 // Token required claim validation rule.
 type TokenRequiredClaim struct {
@@ -428,12 +2563,136 @@ type TokenRequiredClaim struct {
 	RequiredValue *string                `json:"requiredValue,omitempty"`
 }
 
+// AssignProperties_From_TokenRequiredClaim populates our TokenRequiredClaim from the provided source TokenRequiredClaim
+func (claim *TokenRequiredClaim) AssignProperties_From_TokenRequiredClaim(source *storage.TokenRequiredClaim) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Claim
+	claim.Claim = genruntime.ClonePointerToString(source.Claim)
+
+	// RequiredValue
+	claim.RequiredValue = genruntime.ClonePointerToString(source.RequiredValue)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		claim.PropertyBag = propertyBag
+	} else {
+		claim.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenRequiredClaim interface (if implemented) to customize the conversion
+	var claimAsAny any = claim
+	if augmentedClaim, ok := claimAsAny.(augmentConversionForTokenRequiredClaim); ok {
+		err := augmentedClaim.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TokenRequiredClaim populates the provided destination TokenRequiredClaim from our TokenRequiredClaim
+func (claim *TokenRequiredClaim) AssignProperties_To_TokenRequiredClaim(destination *storage.TokenRequiredClaim) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(claim.PropertyBag)
+
+	// Claim
+	destination.Claim = genruntime.ClonePointerToString(claim.Claim)
+
+	// RequiredValue
+	destination.RequiredValue = genruntime.ClonePointerToString(claim.RequiredValue)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenRequiredClaim interface (if implemented) to customize the conversion
+	var claimAsAny any = claim
+	if augmentedClaim, ok := claimAsAny.(augmentConversionForTokenRequiredClaim); ok {
+		err := augmentedClaim.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.TokenRequiredClaim_STATUS
 // Token required claim validation rule.
 type TokenRequiredClaim_STATUS struct {
 	Claim         *string                `json:"claim,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RequiredValue *string                `json:"requiredValue,omitempty"`
+}
+
+// AssignProperties_From_TokenRequiredClaim_STATUS populates our TokenRequiredClaim_STATUS from the provided source TokenRequiredClaim_STATUS
+func (claim *TokenRequiredClaim_STATUS) AssignProperties_From_TokenRequiredClaim_STATUS(source *storage.TokenRequiredClaim_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Claim
+	claim.Claim = genruntime.ClonePointerToString(source.Claim)
+
+	// RequiredValue
+	claim.RequiredValue = genruntime.ClonePointerToString(source.RequiredValue)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		claim.PropertyBag = propertyBag
+	} else {
+		claim.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenRequiredClaim_STATUS interface (if implemented) to customize the conversion
+	var claimAsAny any = claim
+	if augmentedClaim, ok := claimAsAny.(augmentConversionForTokenRequiredClaim_STATUS); ok {
+		err := augmentedClaim.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_TokenRequiredClaim_STATUS populates the provided destination TokenRequiredClaim_STATUS from our TokenRequiredClaim_STATUS
+func (claim *TokenRequiredClaim_STATUS) AssignProperties_To_TokenRequiredClaim_STATUS(destination *storage.TokenRequiredClaim_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(claim.PropertyBag)
+
+	// Claim
+	destination.Claim = genruntime.ClonePointerToString(claim.Claim)
+
+	// RequiredValue
+	destination.RequiredValue = genruntime.ClonePointerToString(claim.RequiredValue)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForTokenRequiredClaim_STATUS interface (if implemented) to customize the conversion
+	var claimAsAny any = claim
+	if augmentedClaim, ok := claimAsAny.(augmentConversionForTokenRequiredClaim_STATUS); ok {
+		err := augmentedClaim.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20240610preview.UsernameClaimProfile
@@ -448,6 +2707,74 @@ type UsernameClaimProfile struct {
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_UsernameClaimProfile populates our UsernameClaimProfile from the provided source UsernameClaimProfile
+func (profile *UsernameClaimProfile) AssignProperties_From_UsernameClaimProfile(source *storage.UsernameClaimProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Claim
+	profile.Claim = genruntime.ClonePointerToString(source.Claim)
+
+	// Prefix
+	profile.Prefix = genruntime.ClonePointerToString(source.Prefix)
+
+	// PrefixPolicy
+	profile.PrefixPolicy = genruntime.ClonePointerToString(source.PrefixPolicy)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUsernameClaimProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForUsernameClaimProfile); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UsernameClaimProfile populates the provided destination UsernameClaimProfile from our UsernameClaimProfile
+func (profile *UsernameClaimProfile) AssignProperties_To_UsernameClaimProfile(destination *storage.UsernameClaimProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Claim
+	destination.Claim = genruntime.ClonePointerToString(profile.Claim)
+
+	// Prefix
+	destination.Prefix = genruntime.ClonePointerToString(profile.Prefix)
+
+	// PrefixPolicy
+	destination.PrefixPolicy = genruntime.ClonePointerToString(profile.PrefixPolicy)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUsernameClaimProfile interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForUsernameClaimProfile); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20240610preview.UsernameClaimProfile_STATUS
 // External Auth claim profile
 // This configures how the username of a cluster identity should be constructed
@@ -458,6 +2785,104 @@ type UsernameClaimProfile_STATUS struct {
 	Prefix       *string                `json:"prefix,omitempty"`
 	PrefixPolicy *string                `json:"prefixPolicy,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_UsernameClaimProfile_STATUS populates our UsernameClaimProfile_STATUS from the provided source UsernameClaimProfile_STATUS
+func (profile *UsernameClaimProfile_STATUS) AssignProperties_From_UsernameClaimProfile_STATUS(source *storage.UsernameClaimProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Claim
+	profile.Claim = genruntime.ClonePointerToString(source.Claim)
+
+	// Prefix
+	profile.Prefix = genruntime.ClonePointerToString(source.Prefix)
+
+	// PrefixPolicy
+	profile.PrefixPolicy = genruntime.ClonePointerToString(source.PrefixPolicy)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUsernameClaimProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForUsernameClaimProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UsernameClaimProfile_STATUS populates the provided destination UsernameClaimProfile_STATUS from our UsernameClaimProfile_STATUS
+func (profile *UsernameClaimProfile_STATUS) AssignProperties_To_UsernameClaimProfile_STATUS(destination *storage.UsernameClaimProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// Claim
+	destination.Claim = genruntime.ClonePointerToString(profile.Claim)
+
+	// Prefix
+	destination.Prefix = genruntime.ClonePointerToString(profile.Prefix)
+
+	// PrefixPolicy
+	destination.PrefixPolicy = genruntime.ClonePointerToString(profile.PrefixPolicy)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUsernameClaimProfile_STATUS interface (if implemented) to customize the conversion
+	var profileAsAny any = profile
+	if augmentedProfile, ok := profileAsAny.(augmentConversionForUsernameClaimProfile_STATUS); ok {
+		err := augmentedProfile.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForGroupClaimProfile interface {
+	AssignPropertiesFrom(src *storage.GroupClaimProfile) error
+	AssignPropertiesTo(dst *storage.GroupClaimProfile) error
+}
+
+type augmentConversionForGroupClaimProfile_STATUS interface {
+	AssignPropertiesFrom(src *storage.GroupClaimProfile_STATUS) error
+	AssignPropertiesTo(dst *storage.GroupClaimProfile_STATUS) error
+}
+
+type augmentConversionForTokenRequiredClaim interface {
+	AssignPropertiesFrom(src *storage.TokenRequiredClaim) error
+	AssignPropertiesTo(dst *storage.TokenRequiredClaim) error
+}
+
+type augmentConversionForTokenRequiredClaim_STATUS interface {
+	AssignPropertiesFrom(src *storage.TokenRequiredClaim_STATUS) error
+	AssignPropertiesTo(dst *storage.TokenRequiredClaim_STATUS) error
+}
+
+type augmentConversionForUsernameClaimProfile interface {
+	AssignPropertiesFrom(src *storage.UsernameClaimProfile) error
+	AssignPropertiesTo(dst *storage.UsernameClaimProfile) error
+}
+
+type augmentConversionForUsernameClaimProfile_STATUS interface {
+	AssignPropertiesFrom(src *storage.UsernameClaimProfile_STATUS) error
+	AssignPropertiesTo(dst *storage.UsernameClaimProfile_STATUS) error
 }
 
 func init() {

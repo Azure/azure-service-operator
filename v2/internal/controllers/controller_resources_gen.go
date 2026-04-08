@@ -1694,9 +1694,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftCluster)})
-	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftClustersExternalAuth)})
-	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20240610ps.HcpOpenShiftClustersNodePool)})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20251223ps.HcpOpenShiftCluster)})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20251223ps.HcpOpenShiftClustersExternalAuth)})
+	result = append(result, &registration.StorageType{Obj: new(redhatopenshift_v20251223ps.HcpOpenShiftClustersNodePool)})
 	result = append(result, &registration.StorageType{Obj: new(resources_v20200601s.ResourceGroup)})
 	result = append(result, &registration.StorageType{Obj: new(search_v20220901s.SearchService)})
 	result = append(result, &registration.StorageType{Obj: new(servicebus_v20240101s.Namespace)})

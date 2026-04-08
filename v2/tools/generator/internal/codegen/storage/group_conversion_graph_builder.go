@@ -97,6 +97,14 @@ func (b *GroupConversionGraphBuilder) getSubBuilder(name astmodel.TypeName) *Res
 	subBuilder, ok := b.subBuilders[n]
 	if !ok {
 		subBuilder = NewResourceConversionGraphBuilder(n, b.versionPrefix)
+
+		// If a hub version override is configured for this group, pass it to the resource builder
+		if itn, ok := name.(astmodel.InternalTypeName); ok {
+			if hubVersion, ok := b.configuration.HubVersion.Lookup(itn.InternalPackageReference()); ok {
+				subBuilder.SetHubVersion(hubVersion)
+			}
+		}
+
 		b.subBuilders[n] = subBuilder
 	}
 

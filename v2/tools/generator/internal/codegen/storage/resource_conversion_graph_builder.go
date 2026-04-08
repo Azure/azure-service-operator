@@ -19,6 +19,7 @@ import (
 type ResourceConversionGraphBuilder struct {
 	name          string                       // Name of the resources needing conversions
 	versionPrefix string                       // Prefix expected on core LocalPackageReferences
+	hubVersion    string                       // Optional override for which version should be the hub
 	references    astmodel.InternalTypeNameSet // Set of all Type Names that make up this group
 	links         astmodel.TypeAssociation     // A collection of links that make up the graph
 }
@@ -31,6 +32,13 @@ func NewResourceConversionGraphBuilder(name string, versionPrefix string) *Resou
 		references:    astmodel.NewInternalTypeNameSet(),
 		links:         make(astmodel.TypeAssociation),
 	}
+}
+
+// SetHubVersion configures which version should be treated as the hub/storage version,
+// overriding the default behavior where preview versions link backward (making the oldest preview the hub).
+// When set, all preview versions link forward instead, making the newest (specified) version the hub.
+func (b *ResourceConversionGraphBuilder) SetHubVersion(hubVersion string) {
+	b.hubVersion = hubVersion
 }
 
 // Add includes the supplied package reference(s) in the conversion graph for this group
@@ -108,7 +116,15 @@ func (b *ResourceConversionGraphBuilder) apiReferencesConvertToStorage(names []a
 
 // previewReferencesConvertBackward links each preview version to the immediately prior version, no matter whether it's
 // preview or GA.
+// When a hubVersion override is configured, preview versions are skipped entirely and left for
+// nonPreviewReferencesConvertForward, which links them forward so the newest version becomes the hub.
 func (b *ResourceConversionGraphBuilder) previewReferencesConvertBackward(names []astmodel.InternalTypeName) {
+	if b.hubVersion != "" {
+		// Hub version override is set; skip backward-linking for preview versions so they
+		// fall through to nonPreviewReferencesConvertForward and the newest becomes the hub.
+		return
+	}
+
 	for i, name := range names {
 		if i == 0 || !name.InternalPackageReference().IsPreview() {
 			continue
