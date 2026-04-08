@@ -899,9 +899,6 @@ type CassandraCluster_Properties_Spec struct {
 	// name of the cluster, set the value to use on this property.
 	ClusterNameOverride *string `json:"clusterNameOverride,omitempty"`
 
-	// Deallocated: Whether the cluster and associated data centers has been deallocated.
-	Deallocated *bool `json:"deallocated,omitempty"`
-
 	// DelegatedManagementSubnetReference: Resource id of a subnet that this cluster's management service should have its
 	// network interface attached to. The subnet must be routable to all subnets that will be delegated to data centers. The
 	// resource id must be of the form '/subscriptions/<subscription id>/resourceGroups/<resource
@@ -927,12 +924,6 @@ type CassandraCluster_Properties_Spec struct {
 	// PrometheusEndpoint: Hostname or IP address where the Prometheus endpoint containing data about the managed Cassandra
 	// nodes can be reached.
 	PrometheusEndpoint *SeedNode `json:"prometheusEndpoint,omitempty"`
-
-	// ProvisionError: Error related to resource provisioning.
-	ProvisionError *CassandraError `json:"provisionError,omitempty"`
-
-	// ProvisioningState: The status of the resource at the time the operation was called.
-	ProvisioningState *ManagedCassandraProvisioningState `json:"provisioningState,omitempty"`
 
 	// RepairEnabled: Should automatic repairs run on this cluster? If omitted, this is true, and should stay true unless you
 	// are running a hybrid cluster where you are already doing your own repairs.
@@ -995,12 +986,6 @@ func (properties *CassandraCluster_Properties_Spec) ConvertToARM(resolved genrun
 		result.ClusterNameOverride = &clusterNameOverride
 	}
 
-	// Set property "Deallocated":
-	if properties.Deallocated != nil {
-		deallocated := *properties.Deallocated
-		result.Deallocated = &deallocated
-	}
-
 	// Set property "DelegatedManagementSubnetId":
 	if properties.DelegatedManagementSubnetReference != nil {
 		delegatedManagementSubnetReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.DelegatedManagementSubnetReference)
@@ -1053,24 +1038,6 @@ func (properties *CassandraCluster_Properties_Spec) ConvertToARM(resolved genrun
 		}
 		prometheusEndpoint := *prometheusEndpoint_ARM.(*arm.SeedNode)
 		result.PrometheusEndpoint = &prometheusEndpoint
-	}
-
-	// Set property "ProvisionError":
-	if properties.ProvisionError != nil {
-		provisionError_ARM, err := properties.ProvisionError.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		provisionError := *provisionError_ARM.(*arm.CassandraError)
-		result.ProvisionError = &provisionError
-	}
-
-	// Set property "ProvisioningState":
-	if properties.ProvisioningState != nil {
-		var temp string
-		temp = string(*properties.ProvisioningState)
-		provisioningState := arm.ManagedCassandraProvisioningState(temp)
-		result.ProvisioningState = &provisioningState
 	}
 
 	// Set property "RepairEnabled":
@@ -1147,12 +1114,6 @@ func (properties *CassandraCluster_Properties_Spec) PopulateFromARM(owner genrun
 		properties.ClusterNameOverride = &clusterNameOverride
 	}
 
-	// Set property "Deallocated":
-	if typedInput.Deallocated != nil {
-		deallocated := *typedInput.Deallocated
-		properties.Deallocated = &deallocated
-	}
-
 	// no assignment for property "DelegatedManagementSubnetReference"
 
 	// Set property "ExternalGossipCertificates":
@@ -1192,25 +1153,6 @@ func (properties *CassandraCluster_Properties_Spec) PopulateFromARM(owner genrun
 		}
 		prometheusEndpoint := prometheusEndpoint1
 		properties.PrometheusEndpoint = &prometheusEndpoint
-	}
-
-	// Set property "ProvisionError":
-	if typedInput.ProvisionError != nil {
-		var provisionError1 CassandraError
-		err := provisionError1.PopulateFromARM(owner, *typedInput.ProvisionError)
-		if err != nil {
-			return err
-		}
-		provisionError := provisionError1
-		properties.ProvisionError = &provisionError
-	}
-
-	// Set property "ProvisioningState":
-	if typedInput.ProvisioningState != nil {
-		var temp string
-		temp = string(*typedInput.ProvisioningState)
-		provisioningState := ManagedCassandraProvisioningState(temp)
-		properties.ProvisioningState = &provisioningState
 	}
 
 	// Set property "RepairEnabled":
@@ -1276,14 +1218,6 @@ func (properties *CassandraCluster_Properties_Spec) AssignProperties_From_Cassan
 	// ClusterNameOverride
 	properties.ClusterNameOverride = genruntime.ClonePointerToString(source.ClusterNameOverride)
 
-	// Deallocated
-	if source.Deallocated != nil {
-		deallocated := *source.Deallocated
-		properties.Deallocated = &deallocated
-	} else {
-		properties.Deallocated = nil
-	}
-
 	// DelegatedManagementSubnetReference
 	if source.DelegatedManagementSubnetReference != nil {
 		delegatedManagementSubnetReference := source.DelegatedManagementSubnetReference.Copy()
@@ -1345,27 +1279,6 @@ func (properties *CassandraCluster_Properties_Spec) AssignProperties_From_Cassan
 		properties.PrometheusEndpoint = &prometheusEndpoint
 	} else {
 		properties.PrometheusEndpoint = nil
-	}
-
-	// ProvisionError
-	if source.ProvisionError != nil {
-		var provisionError CassandraError
-		err := provisionError.AssignProperties_From_CassandraError(source.ProvisionError)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_CassandraError() to populate field ProvisionError")
-		}
-		properties.ProvisionError = &provisionError
-	} else {
-		properties.ProvisionError = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := *source.ProvisioningState
-		provisioningStateTemp := genruntime.ToEnum(provisioningState, managedCassandraProvisioningState_Values)
-		properties.ProvisioningState = &provisioningStateTemp
-	} else {
-		properties.ProvisioningState = nil
 	}
 
 	// RepairEnabled
@@ -1439,14 +1352,6 @@ func (properties *CassandraCluster_Properties_Spec) AssignProperties_To_Cassandr
 	// ClusterNameOverride
 	destination.ClusterNameOverride = genruntime.ClonePointerToString(properties.ClusterNameOverride)
 
-	// Deallocated
-	if properties.Deallocated != nil {
-		deallocated := *properties.Deallocated
-		destination.Deallocated = &deallocated
-	} else {
-		destination.Deallocated = nil
-	}
-
 	// DelegatedManagementSubnetReference
 	if properties.DelegatedManagementSubnetReference != nil {
 		delegatedManagementSubnetReference := properties.DelegatedManagementSubnetReference.Copy()
@@ -1508,26 +1413,6 @@ func (properties *CassandraCluster_Properties_Spec) AssignProperties_To_Cassandr
 		destination.PrometheusEndpoint = &prometheusEndpoint
 	} else {
 		destination.PrometheusEndpoint = nil
-	}
-
-	// ProvisionError
-	if properties.ProvisionError != nil {
-		var provisionError storage.CassandraError
-		err := properties.ProvisionError.AssignProperties_To_CassandraError(&provisionError)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_CassandraError() to populate field ProvisionError")
-		}
-		destination.ProvisionError = &provisionError
-	} else {
-		destination.ProvisionError = nil
-	}
-
-	// ProvisioningState
-	if properties.ProvisioningState != nil {
-		provisioningState := string(*properties.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
 	}
 
 	// RepairEnabled
@@ -1606,14 +1491,6 @@ func (properties *CassandraCluster_Properties_Spec) Initialize_From_CassandraClu
 	// ClusterNameOverride
 	properties.ClusterNameOverride = genruntime.ClonePointerToString(source.ClusterNameOverride)
 
-	// Deallocated
-	if source.Deallocated != nil {
-		deallocated := *source.Deallocated
-		properties.Deallocated = &deallocated
-	} else {
-		properties.Deallocated = nil
-	}
-
 	// DelegatedManagementSubnetReference
 	if source.DelegatedManagementSubnetId != nil {
 		delegatedManagementSubnetReference := genruntime.CreateResourceReferenceFromARMID(*source.DelegatedManagementSubnetId)
@@ -1667,26 +1544,6 @@ func (properties *CassandraCluster_Properties_Spec) Initialize_From_CassandraClu
 		properties.PrometheusEndpoint = &prometheusEndpoint
 	} else {
 		properties.PrometheusEndpoint = nil
-	}
-
-	// ProvisionError
-	if source.ProvisionError != nil {
-		var provisionError CassandraError
-		err := provisionError.Initialize_From_CassandraError_STATUS(source.ProvisionError)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CassandraError_STATUS() to populate field ProvisionError")
-		}
-		properties.ProvisionError = &provisionError
-	} else {
-		properties.ProvisionError = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := genruntime.ToEnum(string(*source.ProvisioningState), managedCassandraProvisioningState_Values)
-		properties.ProvisioningState = &provisioningState
-	} else {
-		properties.ProvisioningState = nil
 	}
 
 	// RepairEnabled
@@ -2681,161 +2538,6 @@ var cassandraCluster_Properties_AzureConnectionMethod_STATUS_Values = map[string
 	"vpn":  CassandraCluster_Properties_AzureConnectionMethod_STATUS_VPN,
 }
 
-type CassandraError struct {
-	// AdditionalErrorInfo: Additional information about the error.
-	AdditionalErrorInfo *string `json:"additionalErrorInfo,omitempty"`
-
-	// Code: The code of error that occurred.
-	Code *string `json:"code,omitempty"`
-
-	// Message: The message of the error.
-	Message *string `json:"message,omitempty"`
-
-	// Target: The target resource of the error.
-	Target *string `json:"target,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &CassandraError{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (error *CassandraError) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if error == nil {
-		return nil, nil
-	}
-	result := &arm.CassandraError{}
-
-	// Set property "AdditionalErrorInfo":
-	if error.AdditionalErrorInfo != nil {
-		additionalErrorInfo := *error.AdditionalErrorInfo
-		result.AdditionalErrorInfo = &additionalErrorInfo
-	}
-
-	// Set property "Code":
-	if error.Code != nil {
-		code := *error.Code
-		result.Code = &code
-	}
-
-	// Set property "Message":
-	if error.Message != nil {
-		message := *error.Message
-		result.Message = &message
-	}
-
-	// Set property "Target":
-	if error.Target != nil {
-		target := *error.Target
-		result.Target = &target
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (error *CassandraError) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.CassandraError{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (error *CassandraError) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.CassandraError)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.CassandraError, got %T", armInput)
-	}
-
-	// Set property "AdditionalErrorInfo":
-	if typedInput.AdditionalErrorInfo != nil {
-		additionalErrorInfo := *typedInput.AdditionalErrorInfo
-		error.AdditionalErrorInfo = &additionalErrorInfo
-	}
-
-	// Set property "Code":
-	if typedInput.Code != nil {
-		code := *typedInput.Code
-		error.Code = &code
-	}
-
-	// Set property "Message":
-	if typedInput.Message != nil {
-		message := *typedInput.Message
-		error.Message = &message
-	}
-
-	// Set property "Target":
-	if typedInput.Target != nil {
-		target := *typedInput.Target
-		error.Target = &target
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_CassandraError populates our CassandraError from the provided source CassandraError
-func (error *CassandraError) AssignProperties_From_CassandraError(source *storage.CassandraError) error {
-
-	// AdditionalErrorInfo
-	error.AdditionalErrorInfo = genruntime.ClonePointerToString(source.AdditionalErrorInfo)
-
-	// Code
-	error.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Message
-	error.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Target
-	error.Target = genruntime.ClonePointerToString(source.Target)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_CassandraError populates the provided destination CassandraError from our CassandraError
-func (error *CassandraError) AssignProperties_To_CassandraError(destination *storage.CassandraError) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AdditionalErrorInfo
-	destination.AdditionalErrorInfo = genruntime.ClonePointerToString(error.AdditionalErrorInfo)
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(error.Code)
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(error.Message)
-
-	// Target
-	destination.Target = genruntime.ClonePointerToString(error.Target)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CassandraError_STATUS populates our CassandraError from the provided source CassandraError_STATUS
-func (error *CassandraError) Initialize_From_CassandraError_STATUS(source *CassandraError_STATUS) error {
-
-	// AdditionalErrorInfo
-	error.AdditionalErrorInfo = genruntime.ClonePointerToString(source.AdditionalErrorInfo)
-
-	// Code
-	error.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Message
-	error.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Target
-	error.Target = genruntime.ClonePointerToString(source.Target)
-
-	// No error
-	return nil
-}
-
 type CassandraError_STATUS struct {
 	// AdditionalErrorInfo: Additional information about the error.
 	AdditionalErrorInfo *string `json:"additionalErrorInfo,omitempty"`
@@ -2941,7 +2643,7 @@ func (error *CassandraError_STATUS) AssignProperties_To_CassandraError_STATUS(de
 
 type Certificate struct {
 	// Pem: PEM formatted public key.
-	Pem *string `json:"pem,omitempty"`
+	Pem *genruntime.SecretReference `json:"pem,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Certificate{}
@@ -2955,7 +2657,11 @@ func (certificate *Certificate) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Pem":
 	if certificate.Pem != nil {
-		pem := *certificate.Pem
+		pemSecret, err := resolved.ResolvedSecrets.Lookup(*certificate.Pem)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up secret for property Pem")
+		}
+		pem := pemSecret
 		result.Pem = &pem
 	}
 	return result, nil
@@ -2968,16 +2674,12 @@ func (certificate *Certificate) NewEmptyARMValue() genruntime.ARMResourceStatus 
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *Certificate) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Certificate)
+	_, ok := armInput.(arm.Certificate)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Certificate, got %T", armInput)
 	}
 
-	// Set property "Pem":
-	if typedInput.Pem != nil {
-		pem := *typedInput.Pem
-		certificate.Pem = &pem
-	}
+	// no assignment for property "Pem"
 
 	// No error
 	return nil
@@ -2987,7 +2689,12 @@ func (certificate *Certificate) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (certificate *Certificate) AssignProperties_From_Certificate(source *storage.Certificate) error {
 
 	// Pem
-	certificate.Pem = genruntime.ClonePointerToString(source.Pem)
+	if source.Pem != nil {
+		pem := source.Pem.Copy()
+		certificate.Pem = &pem
+	} else {
+		certificate.Pem = nil
+	}
 
 	// No error
 	return nil
@@ -2999,7 +2706,12 @@ func (certificate *Certificate) AssignProperties_To_Certificate(destination *sto
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Pem
-	destination.Pem = genruntime.ClonePointerToString(certificate.Pem)
+	if certificate.Pem != nil {
+		pem := certificate.Pem.Copy()
+		destination.Pem = &pem
+	} else {
+		destination.Pem = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3015,16 +2727,11 @@ func (certificate *Certificate) AssignProperties_To_Certificate(destination *sto
 // Initialize_From_Certificate_STATUS populates our Certificate from the provided source Certificate_STATUS
 func (certificate *Certificate) Initialize_From_Certificate_STATUS(source *Certificate_STATUS) error {
 
-	// Pem
-	certificate.Pem = genruntime.ClonePointerToString(source.Pem)
-
 	// No error
 	return nil
 }
 
 type Certificate_STATUS struct {
-	// Pem: PEM formatted public key.
-	Pem *string `json:"pem,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Certificate_STATUS{}
@@ -3036,15 +2743,9 @@ func (certificate *Certificate_STATUS) NewEmptyARMValue() genruntime.ARMResource
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (certificate *Certificate_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Certificate_STATUS)
+	_, ok := armInput.(arm.Certificate_STATUS)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Certificate_STATUS, got %T", armInput)
-	}
-
-	// Set property "Pem":
-	if typedInput.Pem != nil {
-		pem := *typedInput.Pem
-		certificate.Pem = &pem
 	}
 
 	// No error
@@ -3054,9 +2755,6 @@ func (certificate *Certificate_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 // AssignProperties_From_Certificate_STATUS populates our Certificate_STATUS from the provided source Certificate_STATUS
 func (certificate *Certificate_STATUS) AssignProperties_From_Certificate_STATUS(source *storage.Certificate_STATUS) error {
 
-	// Pem
-	certificate.Pem = genruntime.ClonePointerToString(source.Pem)
-
 	// No error
 	return nil
 }
@@ -3065,9 +2763,6 @@ func (certificate *Certificate_STATUS) AssignProperties_From_Certificate_STATUS(
 func (certificate *Certificate_STATUS) AssignProperties_To_Certificate_STATUS(destination *storage.Certificate_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// Pem
-	destination.Pem = genruntime.ClonePointerToString(certificate.Pem)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3108,29 +2803,6 @@ var managedCassandraManagedServiceIdentity_Type_STATUS_Values = map[string]Manag
 }
 
 // The status of the resource at the time the operation was called.
-// +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","Succeeded","Updating"}
-type ManagedCassandraProvisioningState string
-
-const (
-	ManagedCassandraProvisioningState_Canceled  = ManagedCassandraProvisioningState("Canceled")
-	ManagedCassandraProvisioningState_Creating  = ManagedCassandraProvisioningState("Creating")
-	ManagedCassandraProvisioningState_Deleting  = ManagedCassandraProvisioningState("Deleting")
-	ManagedCassandraProvisioningState_Failed    = ManagedCassandraProvisioningState("Failed")
-	ManagedCassandraProvisioningState_Succeeded = ManagedCassandraProvisioningState("Succeeded")
-	ManagedCassandraProvisioningState_Updating  = ManagedCassandraProvisioningState("Updating")
-)
-
-// Mapping from string to ManagedCassandraProvisioningState
-var managedCassandraProvisioningState_Values = map[string]ManagedCassandraProvisioningState{
-	"canceled":  ManagedCassandraProvisioningState_Canceled,
-	"creating":  ManagedCassandraProvisioningState_Creating,
-	"deleting":  ManagedCassandraProvisioningState_Deleting,
-	"failed":    ManagedCassandraProvisioningState_Failed,
-	"succeeded": ManagedCassandraProvisioningState_Succeeded,
-	"updating":  ManagedCassandraProvisioningState_Updating,
-}
-
-// The status of the resource at the time the operation was called.
 type ManagedCassandraProvisioningState_STATUS string
 
 const (
@@ -3154,7 +2826,10 @@ var managedCassandraProvisioningState_STATUS_Values = map[string]ManagedCassandr
 
 type SeedNode struct {
 	// IpAddress: IP address of this seed node.
-	IpAddress *string `json:"ipAddress,omitempty"`
+	IpAddress *string `json:"ipAddress,omitempty" optionalConfigMapPair:"IpAddress"`
+
+	// IpAddressFromConfig: IP address of this seed node.
+	IpAddressFromConfig *genruntime.ConfigMapReference `json:"ipAddressFromConfig,omitempty" optionalConfigMapPair:"IpAddress"`
 }
 
 var _ genruntime.ARMTransformer = &SeedNode{}
@@ -3169,6 +2844,14 @@ func (node *SeedNode) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	// Set property "IpAddress":
 	if node.IpAddress != nil {
 		ipAddress := *node.IpAddress
+		result.IpAddress = &ipAddress
+	}
+	if node.IpAddressFromConfig != nil {
+		ipAddressValue, err := resolved.ResolvedConfigMaps.Lookup(*node.IpAddressFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property IpAddress")
+		}
+		ipAddress := ipAddressValue
 		result.IpAddress = &ipAddress
 	}
 	return result, nil
@@ -3192,6 +2875,8 @@ func (node *SeedNode) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		node.IpAddress = &ipAddress
 	}
 
+	// no assignment for property "IpAddressFromConfig"
+
 	// No error
 	return nil
 }
@@ -3201,6 +2886,14 @@ func (node *SeedNode) AssignProperties_From_SeedNode(source *storage.SeedNode) e
 
 	// IpAddress
 	node.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
+
+	// IpAddressFromConfig
+	if source.IpAddressFromConfig != nil {
+		ipAddressFromConfig := source.IpAddressFromConfig.Copy()
+		node.IpAddressFromConfig = &ipAddressFromConfig
+	} else {
+		node.IpAddressFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -3213,6 +2906,14 @@ func (node *SeedNode) AssignProperties_To_SeedNode(destination *storage.SeedNode
 
 	// IpAddress
 	destination.IpAddress = genruntime.ClonePointerToString(node.IpAddress)
+
+	// IpAddressFromConfig
+	if node.IpAddressFromConfig != nil {
+		ipAddressFromConfig := node.IpAddressFromConfig.Copy()
+		destination.IpAddressFromConfig = &ipAddressFromConfig
+	} else {
+		destination.IpAddressFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

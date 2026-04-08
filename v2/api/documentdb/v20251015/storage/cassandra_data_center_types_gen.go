@@ -235,28 +235,30 @@ func (center *CassandraDataCenter_STATUS) ConvertStatusTo(destination genruntime
 
 // Storage version of v20251015.CassandraClusters_DataCenter_Properties_Spec
 type CassandraClusters_DataCenter_Properties_Spec struct {
-	AuthenticationMethodLdapProperties *AuthenticationMethodLdapProperties `json:"authenticationMethodLdapProperties,omitempty"`
-	AvailabilityZone                   *bool                               `json:"availabilityZone,omitempty"`
-	BackupStorageCustomerKeyUri        *string                             `json:"backupStorageCustomerKeyUri,omitempty"`
-	Base64EncodedCassandraYamlFragment *string                             `json:"base64EncodedCassandraYamlFragment,omitempty"`
-	DataCenterLocation                 *string                             `json:"dataCenterLocation,omitempty"`
-	Deallocated                        *bool                               `json:"deallocated,omitempty"`
+	AuthenticationMethodLdapProperties    *AuthenticationMethodLdapProperties `json:"authenticationMethodLdapProperties,omitempty"`
+	AvailabilityZone                      *bool                               `json:"availabilityZone,omitempty"`
+	BackupStorageCustomerKeyUri           *string                             `json:"backupStorageCustomerKeyUri,omitempty" optionalConfigMapPair:"BackupStorageCustomerKeyUri"`
+	BackupStorageCustomerKeyUriFromConfig *genruntime.ConfigMapReference      `json:"backupStorageCustomerKeyUriFromConfig,omitempty" optionalConfigMapPair:"BackupStorageCustomerKeyUri"`
+	Base64EncodedCassandraYamlFragment    *string                             `json:"base64EncodedCassandraYamlFragment,omitempty"`
+	DataCenterLocation                    *string                             `json:"dataCenterLocation,omitempty"`
 
 	// DelegatedSubnetReference: Resource id of a subnet the nodes in this data center should have their network interfaces
 	// connected to. The subnet must be in the same region specified in 'dataCenterLocation' and must be able to route to the
 	// subnet specified in the cluster's 'delegatedManagementSubnetId' property. This resource id will be of the form
 	// '/subscriptions/<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual
 	// network>/subnets/<subnet>'.
-	DelegatedSubnetReference  *genruntime.ResourceReference `armReference:"DelegatedSubnetId" json:"delegatedSubnetReference,omitempty"`
-	DiskCapacity              *int                          `json:"diskCapacity,omitempty"`
-	DiskSku                   *string                       `json:"diskSku,omitempty"`
-	ManagedDiskCustomerKeyUri *string                       `json:"managedDiskCustomerKeyUri,omitempty"`
-	NodeCount                 *int                          `json:"nodeCount,omitempty"`
-	PrivateEndpointIpAddress  *string                       `json:"privateEndpointIpAddress,omitempty"`
-	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ProvisionError            *CassandraError               `json:"provisionError,omitempty"`
-	ProvisioningState         *string                       `json:"provisioningState,omitempty"`
-	Sku                       *string                       `json:"sku,omitempty"`
+	DelegatedSubnetReference *genruntime.ResourceReference `armReference:"DelegatedSubnetId" json:"delegatedSubnetReference,omitempty"`
+	DiskCapacity             *int                          `json:"diskCapacity,omitempty"`
+	DiskSku                  *string                       `json:"diskSku,omitempty"`
+
+	// ManagedDiskCustomerKeyUriReference: Key uri to use for encryption of managed disks. Ensure the system assigned identity
+	// of the cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key.
+	ManagedDiskCustomerKeyUriReference *genruntime.ResourceReference  `armReference:"ManagedDiskCustomerKeyUri" json:"managedDiskCustomerKeyUriReference,omitempty"`
+	NodeCount                          *int                           `json:"nodeCount,omitempty"`
+	PrivateEndpointIpAddress           *string                        `json:"privateEndpointIpAddress,omitempty" optionalConfigMapPair:"PrivateEndpointIpAddress"`
+	PrivateEndpointIpAddressFromConfig *genruntime.ConfigMapReference `json:"privateEndpointIpAddressFromConfig,omitempty" optionalConfigMapPair:"PrivateEndpointIpAddress"`
+	PropertyBag                        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Sku                                *string                        `json:"sku,omitempty"`
 }
 
 // Storage version of v20251015.CassandraClusters_DataCenter_Properties_STATUS

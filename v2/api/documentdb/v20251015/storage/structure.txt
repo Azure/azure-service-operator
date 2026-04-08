@@ -18,36 +18,30 @@ CassandraCluster: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Properties: *Object (18 properties)
+│   ├── Properties: *Object (15 properties)
 │   │   ├── AuthenticationMethod: *string
 │   │   ├── AzureConnectionMethod: *string
 │   │   ├── CassandraAuditLoggingEnabled: *bool
 │   │   ├── CassandraVersion: *string
 │   │   ├── ClientCertificates: Object (2 properties)[]
-│   │   │   ├── Pem: *string
+│   │   │   ├── Pem: *genruntime.SecretReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── ClusterNameOverride: *string
-│   │   ├── Deallocated: *bool
 │   │   ├── DelegatedManagementSubnetReference: *genruntime.ResourceReference
 │   │   ├── ExternalGossipCertificates: Object (2 properties)[]
-│   │   │   ├── Pem: *string
+│   │   │   ├── Pem: *genruntime.SecretReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
-│   │   ├── ExternalSeedNodes: Object (2 properties)[]
+│   │   ├── ExternalSeedNodes: Object (3 properties)[]
 │   │   │   ├── IpAddress: *string
+│   │   │   ├── IpAddressFromConfig: *genruntime.ConfigMapReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── HoursBetweenBackups: *int
 │   │   ├── InitialCassandraAdminPassword: *genruntime.SecretReference
-│   │   ├── PrometheusEndpoint: *Object (2 properties)
+│   │   ├── PrometheusEndpoint: *Object (3 properties)
 │   │   │   ├── IpAddress: *string
+│   │   │   ├── IpAddressFromConfig: *genruntime.ConfigMapReference
 │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── ProvisionError: *Object (5 properties)
-│   │   │   ├── AdditionalErrorInfo: *string
-│   │   │   ├── Code: *string
-│   │   │   ├── Message: *string
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Target: *string
-│   │   ├── ProvisioningState: *string
 │   │   ├── RepairEnabled: *bool
 │   │   └── RestoreFromBackupReference: *genruntime.ResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
@@ -67,20 +61,17 @@ CassandraCluster: Resource
     │   ├── AzureConnectionMethod: *string
     │   ├── CassandraAuditLoggingEnabled: *bool
     │   ├── CassandraVersion: *string
-    │   ├── ClientCertificates: Object (2 properties)[]
-    │   │   ├── Pem: *string
+    │   ├── ClientCertificates: Object (1 property)[]
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── ClusterNameOverride: *string
     │   ├── Deallocated: *bool
     │   ├── DelegatedManagementSubnetId: *string
-    │   ├── ExternalGossipCertificates: Object (2 properties)[]
-    │   │   ├── Pem: *string
+    │   ├── ExternalGossipCertificates: Object (1 property)[]
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── ExternalSeedNodes: Object (2 properties)[]
     │   │   ├── IpAddress: *string
     │   │   └── PropertyBag: genruntime.PropertyBag
-    │   ├── GossipCertificates: Object (2 properties)[]
-    │   │   ├── Pem: *string
+    │   ├── GossipCertificates: Object (1 property)[]
     │   │   └── PropertyBag: genruntime.PropertyBag
     │   ├── HoursBetweenBackups: *int
     │   ├── PrivateLinkResourceId: *string
@@ -114,14 +105,14 @@ CassandraDataCenter: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Properties: *Object (16 properties)
+│   ├── Properties: *Object (15 properties)
 │   │   ├── AuthenticationMethodLdapProperties: *Object (9 properties)
 │   │   │   ├── ConnectionTimeoutInMs: *int
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── SearchBaseDistinguishedName: *string
 │   │   │   ├── SearchFilterTemplate: *string
 │   │   │   ├── ServerCertificates: Object (2 properties)[]
-│   │   │   │   ├── Pem: *string
+│   │   │   │   ├── Pem: *genruntime.SecretReference
 │   │   │   │   └── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── ServerHostname: *string
 │   │   │   ├── ServerPort: *int
@@ -129,23 +120,17 @@ CassandraDataCenter: Resource
 │   │   │   └── ServiceUserPassword: *genruntime.SecretReference
 │   │   ├── AvailabilityZone: *bool
 │   │   ├── BackupStorageCustomerKeyUri: *string
+│   │   ├── BackupStorageCustomerKeyUriFromConfig: *genruntime.ConfigMapReference
 │   │   ├── Base64EncodedCassandraYamlFragment: *string
 │   │   ├── DataCenterLocation: *string
-│   │   ├── Deallocated: *bool
 │   │   ├── DelegatedSubnetReference: *genruntime.ResourceReference
 │   │   ├── DiskCapacity: *int
 │   │   ├── DiskSku: *string
-│   │   ├── ManagedDiskCustomerKeyUri: *string
+│   │   ├── ManagedDiskCustomerKeyUriReference: *genruntime.ResourceReference
 │   │   ├── NodeCount: *int
 │   │   ├── PrivateEndpointIpAddress: *string
+│   │   ├── PrivateEndpointIpAddressFromConfig: *genruntime.ConfigMapReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── ProvisionError: *Object (5 properties)
-│   │   │   ├── AdditionalErrorInfo: *string
-│   │   │   ├── Code: *string
-│   │   │   ├── Message: *string
-│   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Target: *string
-│   │   ├── ProvisioningState: *string
 │   │   └── Sku: *string
 │   └── PropertyBag: genruntime.PropertyBag
 └── Status: Object (6 properties)
@@ -158,8 +143,7 @@ CassandraDataCenter: Resource
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   ├── SearchBaseDistinguishedName: *string
     │   │   ├── SearchFilterTemplate: *string
-    │   │   ├── ServerCertificates: Object (2 properties)[]
-    │   │   │   ├── Pem: *string
+    │   │   ├── ServerCertificates: Object (1 property)[]
     │   │   │   └── PropertyBag: genruntime.PropertyBag
     │   │   ├── ServerHostname: *string
     │   │   ├── ServerPort: *int

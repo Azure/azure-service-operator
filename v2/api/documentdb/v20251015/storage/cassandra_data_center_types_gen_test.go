@@ -337,20 +337,16 @@ func AddIndependentPropertyGeneratorsForCassandraClusters_DataCenter_Properties_
 	gens["BackupStorageCustomerKeyUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Base64EncodedCassandraYamlFragment"] = gen.PtrOf(gen.AlphaString())
 	gens["DataCenterLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["Deallocated"] = gen.PtrOf(gen.Bool())
 	gens["DiskCapacity"] = gen.PtrOf(gen.Int())
 	gens["DiskSku"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedDiskCustomerKeyUri"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeCount"] = gen.PtrOf(gen.Int())
 	gens["PrivateEndpointIpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Sku"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForCassandraClusters_DataCenter_Properties_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForCassandraClusters_DataCenter_Properties_Spec(gens map[string]gopter.Gen) {
 	gens["AuthenticationMethodLdapProperties"] = gen.PtrOf(AuthenticationMethodLdapPropertiesGenerator())
-	gens["ProvisionError"] = gen.PtrOf(CassandraErrorGenerator())
 }
 
 func Test_CassandraDataCenter_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

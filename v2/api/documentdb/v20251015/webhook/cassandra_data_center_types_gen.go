@@ -121,6 +121,7 @@ func (center *CassandraDataCenter) createValidations() []func(ctx context.Contex
 		center.validateOwnerReference,
 		center.validateSecretDestinations,
 		center.validateConfigMapDestinations,
+		center.validateOptionalConfigMapReferences,
 	}
 }
 
@@ -145,6 +146,9 @@ func (center *CassandraDataCenter) updateValidations() []func(ctx context.Contex
 		func(ctx context.Context, oldObj *v20251015.CassandraDataCenter, newObj *v20251015.CassandraDataCenter) (admission.Warnings, error) {
 			return center.validateConfigMapDestinations(ctx, newObj)
 		},
+		func(ctx context.Context, oldObj *v20251015.CassandraDataCenter, newObj *v20251015.CassandraDataCenter) (admission.Warnings, error) {
+			return center.validateOptionalConfigMapReferences(ctx, newObj)
+		},
 	}
 }
 
@@ -154,6 +158,15 @@ func (center *CassandraDataCenter) validateConfigMapDestinations(ctx context.Con
 		return nil, nil
 	}
 	return configmaps.ValidateDestinations(obj, nil, obj.Spec.OperatorSpec.ConfigMapExpressions)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (center *CassandraDataCenter) validateOptionalConfigMapReferences(ctx context.Context, obj *v20251015.CassandraDataCenter) (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&obj.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field

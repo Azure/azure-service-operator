@@ -700,7 +700,11 @@ type CassandraClusters_DataCenter_Properties_Spec struct {
 
 	// BackupStorageCustomerKeyUri: Indicates the Key Uri of the customer key to use for encryption of the backup storage
 	// account.
-	BackupStorageCustomerKeyUri *string `json:"backupStorageCustomerKeyUri,omitempty"`
+	BackupStorageCustomerKeyUri *string `json:"backupStorageCustomerKeyUri,omitempty" optionalConfigMapPair:"BackupStorageCustomerKeyUri"`
+
+	// BackupStorageCustomerKeyUriFromConfig: Indicates the Key Uri of the customer key to use for encryption of the backup
+	// storage account.
+	BackupStorageCustomerKeyUriFromConfig *genruntime.ConfigMapReference `json:"backupStorageCustomerKeyUriFromConfig,omitempty" optionalConfigMapPair:"BackupStorageCustomerKeyUri"`
 
 	// Base64EncodedCassandraYamlFragment: A fragment of a cassandra.yaml configuration file to be included in the
 	// cassandra.yaml for all nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys are
@@ -709,9 +713,6 @@ type CassandraClusters_DataCenter_Properties_Spec struct {
 
 	// DataCenterLocation: The region this data center should be created in.
 	DataCenterLocation *string `json:"dataCenterLocation,omitempty"`
-
-	// Deallocated: Whether the data center has been deallocated.
-	Deallocated *bool `json:"deallocated,omitempty"`
 
 	// DelegatedSubnetReference: Resource id of a subnet the nodes in this data center should have their network interfaces
 	// connected to. The subnet must be in the same region specified in 'dataCenterLocation' and must be able to route to the
@@ -726,9 +727,9 @@ type CassandraClusters_DataCenter_Properties_Spec struct {
 	// DiskSku: Disk SKU used for data centers. Default value is P30.
 	DiskSku *string `json:"diskSku,omitempty"`
 
-	// ManagedDiskCustomerKeyUri: Key uri to use for encryption of managed disks. Ensure the system assigned identity of the
-	// cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key.
-	ManagedDiskCustomerKeyUri *string `json:"managedDiskCustomerKeyUri,omitempty"`
+	// ManagedDiskCustomerKeyUriReference: Key uri to use for encryption of managed disks. Ensure the system assigned identity
+	// of the cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key.
+	ManagedDiskCustomerKeyUriReference *genruntime.ResourceReference `armReference:"ManagedDiskCustomerKeyUri" json:"managedDiskCustomerKeyUriReference,omitempty"`
 
 	// NodeCount: The number of nodes the data center should have. This is the desired number. After it is set, it may take
 	// some time for the data center to be scaled to match. To monitor the number of nodes and their status, use the
@@ -736,13 +737,10 @@ type CassandraClusters_DataCenter_Properties_Spec struct {
 	NodeCount *int `json:"nodeCount,omitempty"`
 
 	// PrivateEndpointIpAddress: Ip of the VPN Endpoint for this data center.
-	PrivateEndpointIpAddress *string `json:"privateEndpointIpAddress,omitempty"`
+	PrivateEndpointIpAddress *string `json:"privateEndpointIpAddress,omitempty" optionalConfigMapPair:"PrivateEndpointIpAddress"`
 
-	// ProvisionError: Error related to resource provisioning.
-	ProvisionError *CassandraError `json:"provisionError,omitempty"`
-
-	// ProvisioningState: The status of the resource at the time the operation was called.
-	ProvisioningState *ManagedCassandraProvisioningState `json:"provisioningState,omitempty"`
+	// PrivateEndpointIpAddressFromConfig: Ip of the VPN Endpoint for this data center.
+	PrivateEndpointIpAddressFromConfig *genruntime.ConfigMapReference `json:"privateEndpointIpAddressFromConfig,omitempty" optionalConfigMapPair:"PrivateEndpointIpAddress"`
 
 	// Sku: Virtual Machine SKU used for data centers. Default value is Standard_DS14_v2
 	Sku *string `json:"sku,omitempty"`
@@ -778,6 +776,14 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) ConvertToARM(res
 		backupStorageCustomerKeyUri := *properties.BackupStorageCustomerKeyUri
 		result.BackupStorageCustomerKeyUri = &backupStorageCustomerKeyUri
 	}
+	if properties.BackupStorageCustomerKeyUriFromConfig != nil {
+		backupStorageCustomerKeyUriValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.BackupStorageCustomerKeyUriFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property BackupStorageCustomerKeyUri")
+		}
+		backupStorageCustomerKeyUri := backupStorageCustomerKeyUriValue
+		result.BackupStorageCustomerKeyUri = &backupStorageCustomerKeyUri
+	}
 
 	// Set property "Base64EncodedCassandraYamlFragment":
 	if properties.Base64EncodedCassandraYamlFragment != nil {
@@ -789,12 +795,6 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) ConvertToARM(res
 	if properties.DataCenterLocation != nil {
 		dataCenterLocation := *properties.DataCenterLocation
 		result.DataCenterLocation = &dataCenterLocation
-	}
-
-	// Set property "Deallocated":
-	if properties.Deallocated != nil {
-		deallocated := *properties.Deallocated
-		result.Deallocated = &deallocated
 	}
 
 	// Set property "DelegatedSubnetId":
@@ -820,9 +820,13 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) ConvertToARM(res
 	}
 
 	// Set property "ManagedDiskCustomerKeyUri":
-	if properties.ManagedDiskCustomerKeyUri != nil {
-		managedDiskCustomerKeyUri := *properties.ManagedDiskCustomerKeyUri
-		result.ManagedDiskCustomerKeyUri = &managedDiskCustomerKeyUri
+	if properties.ManagedDiskCustomerKeyUriReference != nil {
+		managedDiskCustomerKeyUriReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.ManagedDiskCustomerKeyUriReference)
+		if err != nil {
+			return nil, err
+		}
+		managedDiskCustomerKeyUriReference := managedDiskCustomerKeyUriReferenceARMID
+		result.ManagedDiskCustomerKeyUri = &managedDiskCustomerKeyUriReference
 	}
 
 	// Set property "NodeCount":
@@ -836,23 +840,13 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) ConvertToARM(res
 		privateEndpointIpAddress := *properties.PrivateEndpointIpAddress
 		result.PrivateEndpointIpAddress = &privateEndpointIpAddress
 	}
-
-	// Set property "ProvisionError":
-	if properties.ProvisionError != nil {
-		provisionError_ARM, err := properties.ProvisionError.ConvertToARM(resolved)
+	if properties.PrivateEndpointIpAddressFromConfig != nil {
+		privateEndpointIpAddressValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.PrivateEndpointIpAddressFromConfig)
 		if err != nil {
-			return nil, err
+			return nil, eris.Wrap(err, "looking up configmap for property PrivateEndpointIpAddress")
 		}
-		provisionError := *provisionError_ARM.(*arm.CassandraError)
-		result.ProvisionError = &provisionError
-	}
-
-	// Set property "ProvisioningState":
-	if properties.ProvisioningState != nil {
-		var temp string
-		temp = string(*properties.ProvisioningState)
-		provisioningState := arm.ManagedCassandraProvisioningState(temp)
-		result.ProvisioningState = &provisioningState
+		privateEndpointIpAddress := privateEndpointIpAddressValue
+		result.PrivateEndpointIpAddress = &privateEndpointIpAddress
 	}
 
 	// Set property "Sku":
@@ -898,6 +892,8 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) PopulateFromARM(
 		properties.BackupStorageCustomerKeyUri = &backupStorageCustomerKeyUri
 	}
 
+	// no assignment for property "BackupStorageCustomerKeyUriFromConfig"
+
 	// Set property "Base64EncodedCassandraYamlFragment":
 	if typedInput.Base64EncodedCassandraYamlFragment != nil {
 		base64EncodedCassandraYamlFragment := *typedInput.Base64EncodedCassandraYamlFragment
@@ -908,12 +904,6 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) PopulateFromARM(
 	if typedInput.DataCenterLocation != nil {
 		dataCenterLocation := *typedInput.DataCenterLocation
 		properties.DataCenterLocation = &dataCenterLocation
-	}
-
-	// Set property "Deallocated":
-	if typedInput.Deallocated != nil {
-		deallocated := *typedInput.Deallocated
-		properties.Deallocated = &deallocated
 	}
 
 	// no assignment for property "DelegatedSubnetReference"
@@ -930,11 +920,7 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) PopulateFromARM(
 		properties.DiskSku = &diskSku
 	}
 
-	// Set property "ManagedDiskCustomerKeyUri":
-	if typedInput.ManagedDiskCustomerKeyUri != nil {
-		managedDiskCustomerKeyUri := *typedInput.ManagedDiskCustomerKeyUri
-		properties.ManagedDiskCustomerKeyUri = &managedDiskCustomerKeyUri
-	}
+	// no assignment for property "ManagedDiskCustomerKeyUriReference"
 
 	// Set property "NodeCount":
 	if typedInput.NodeCount != nil {
@@ -948,24 +934,7 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) PopulateFromARM(
 		properties.PrivateEndpointIpAddress = &privateEndpointIpAddress
 	}
 
-	// Set property "ProvisionError":
-	if typedInput.ProvisionError != nil {
-		var provisionError1 CassandraError
-		err := provisionError1.PopulateFromARM(owner, *typedInput.ProvisionError)
-		if err != nil {
-			return err
-		}
-		provisionError := provisionError1
-		properties.ProvisionError = &provisionError
-	}
-
-	// Set property "ProvisioningState":
-	if typedInput.ProvisioningState != nil {
-		var temp string
-		temp = string(*typedInput.ProvisioningState)
-		provisioningState := ManagedCassandraProvisioningState(temp)
-		properties.ProvisioningState = &provisioningState
-	}
+	// no assignment for property "PrivateEndpointIpAddressFromConfig"
 
 	// Set property "Sku":
 	if typedInput.Sku != nil {
@@ -1003,19 +972,19 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) AssignProperties
 	// BackupStorageCustomerKeyUri
 	properties.BackupStorageCustomerKeyUri = genruntime.ClonePointerToString(source.BackupStorageCustomerKeyUri)
 
+	// BackupStorageCustomerKeyUriFromConfig
+	if source.BackupStorageCustomerKeyUriFromConfig != nil {
+		backupStorageCustomerKeyUriFromConfig := source.BackupStorageCustomerKeyUriFromConfig.Copy()
+		properties.BackupStorageCustomerKeyUriFromConfig = &backupStorageCustomerKeyUriFromConfig
+	} else {
+		properties.BackupStorageCustomerKeyUriFromConfig = nil
+	}
+
 	// Base64EncodedCassandraYamlFragment
 	properties.Base64EncodedCassandraYamlFragment = genruntime.ClonePointerToString(source.Base64EncodedCassandraYamlFragment)
 
 	// DataCenterLocation
 	properties.DataCenterLocation = genruntime.ClonePointerToString(source.DataCenterLocation)
-
-	// Deallocated
-	if source.Deallocated != nil {
-		deallocated := *source.Deallocated
-		properties.Deallocated = &deallocated
-	} else {
-		properties.Deallocated = nil
-	}
 
 	// DelegatedSubnetReference
 	if source.DelegatedSubnetReference != nil {
@@ -1031,8 +1000,13 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) AssignProperties
 	// DiskSku
 	properties.DiskSku = genruntime.ClonePointerToString(source.DiskSku)
 
-	// ManagedDiskCustomerKeyUri
-	properties.ManagedDiskCustomerKeyUri = genruntime.ClonePointerToString(source.ManagedDiskCustomerKeyUri)
+	// ManagedDiskCustomerKeyUriReference
+	if source.ManagedDiskCustomerKeyUriReference != nil {
+		managedDiskCustomerKeyUriReference := source.ManagedDiskCustomerKeyUriReference.Copy()
+		properties.ManagedDiskCustomerKeyUriReference = &managedDiskCustomerKeyUriReference
+	} else {
+		properties.ManagedDiskCustomerKeyUriReference = nil
+	}
 
 	// NodeCount
 	properties.NodeCount = genruntime.ClonePointerToInt(source.NodeCount)
@@ -1040,25 +1014,12 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) AssignProperties
 	// PrivateEndpointIpAddress
 	properties.PrivateEndpointIpAddress = genruntime.ClonePointerToString(source.PrivateEndpointIpAddress)
 
-	// ProvisionError
-	if source.ProvisionError != nil {
-		var provisionError CassandraError
-		err := provisionError.AssignProperties_From_CassandraError(source.ProvisionError)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_CassandraError() to populate field ProvisionError")
-		}
-		properties.ProvisionError = &provisionError
+	// PrivateEndpointIpAddressFromConfig
+	if source.PrivateEndpointIpAddressFromConfig != nil {
+		privateEndpointIpAddressFromConfig := source.PrivateEndpointIpAddressFromConfig.Copy()
+		properties.PrivateEndpointIpAddressFromConfig = &privateEndpointIpAddressFromConfig
 	} else {
-		properties.ProvisionError = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := *source.ProvisioningState
-		provisioningStateTemp := genruntime.ToEnum(provisioningState, managedCassandraProvisioningState_Values)
-		properties.ProvisioningState = &provisioningStateTemp
-	} else {
-		properties.ProvisioningState = nil
+		properties.PrivateEndpointIpAddressFromConfig = nil
 	}
 
 	// Sku
@@ -1096,19 +1057,19 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) AssignProperties
 	// BackupStorageCustomerKeyUri
 	destination.BackupStorageCustomerKeyUri = genruntime.ClonePointerToString(properties.BackupStorageCustomerKeyUri)
 
+	// BackupStorageCustomerKeyUriFromConfig
+	if properties.BackupStorageCustomerKeyUriFromConfig != nil {
+		backupStorageCustomerKeyUriFromConfig := properties.BackupStorageCustomerKeyUriFromConfig.Copy()
+		destination.BackupStorageCustomerKeyUriFromConfig = &backupStorageCustomerKeyUriFromConfig
+	} else {
+		destination.BackupStorageCustomerKeyUriFromConfig = nil
+	}
+
 	// Base64EncodedCassandraYamlFragment
 	destination.Base64EncodedCassandraYamlFragment = genruntime.ClonePointerToString(properties.Base64EncodedCassandraYamlFragment)
 
 	// DataCenterLocation
 	destination.DataCenterLocation = genruntime.ClonePointerToString(properties.DataCenterLocation)
-
-	// Deallocated
-	if properties.Deallocated != nil {
-		deallocated := *properties.Deallocated
-		destination.Deallocated = &deallocated
-	} else {
-		destination.Deallocated = nil
-	}
 
 	// DelegatedSubnetReference
 	if properties.DelegatedSubnetReference != nil {
@@ -1124,8 +1085,13 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) AssignProperties
 	// DiskSku
 	destination.DiskSku = genruntime.ClonePointerToString(properties.DiskSku)
 
-	// ManagedDiskCustomerKeyUri
-	destination.ManagedDiskCustomerKeyUri = genruntime.ClonePointerToString(properties.ManagedDiskCustomerKeyUri)
+	// ManagedDiskCustomerKeyUriReference
+	if properties.ManagedDiskCustomerKeyUriReference != nil {
+		managedDiskCustomerKeyUriReference := properties.ManagedDiskCustomerKeyUriReference.Copy()
+		destination.ManagedDiskCustomerKeyUriReference = &managedDiskCustomerKeyUriReference
+	} else {
+		destination.ManagedDiskCustomerKeyUriReference = nil
+	}
 
 	// NodeCount
 	destination.NodeCount = genruntime.ClonePointerToInt(properties.NodeCount)
@@ -1133,24 +1099,12 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) AssignProperties
 	// PrivateEndpointIpAddress
 	destination.PrivateEndpointIpAddress = genruntime.ClonePointerToString(properties.PrivateEndpointIpAddress)
 
-	// ProvisionError
-	if properties.ProvisionError != nil {
-		var provisionError storage.CassandraError
-		err := properties.ProvisionError.AssignProperties_To_CassandraError(&provisionError)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_CassandraError() to populate field ProvisionError")
-		}
-		destination.ProvisionError = &provisionError
+	// PrivateEndpointIpAddressFromConfig
+	if properties.PrivateEndpointIpAddressFromConfig != nil {
+		privateEndpointIpAddressFromConfig := properties.PrivateEndpointIpAddressFromConfig.Copy()
+		destination.PrivateEndpointIpAddressFromConfig = &privateEndpointIpAddressFromConfig
 	} else {
-		destination.ProvisionError = nil
-	}
-
-	// ProvisioningState
-	if properties.ProvisioningState != nil {
-		provisioningState := string(*properties.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
+		destination.PrivateEndpointIpAddressFromConfig = nil
 	}
 
 	// Sku
@@ -1199,14 +1153,6 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) Initialize_From_
 	// DataCenterLocation
 	properties.DataCenterLocation = genruntime.ClonePointerToString(source.DataCenterLocation)
 
-	// Deallocated
-	if source.Deallocated != nil {
-		deallocated := *source.Deallocated
-		properties.Deallocated = &deallocated
-	} else {
-		properties.Deallocated = nil
-	}
-
 	// DelegatedSubnetReference
 	if source.DelegatedSubnetId != nil {
 		delegatedSubnetReference := genruntime.CreateResourceReferenceFromARMID(*source.DelegatedSubnetId)
@@ -1221,34 +1167,11 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) Initialize_From_
 	// DiskSku
 	properties.DiskSku = genruntime.ClonePointerToString(source.DiskSku)
 
-	// ManagedDiskCustomerKeyUri
-	properties.ManagedDiskCustomerKeyUri = genruntime.ClonePointerToString(source.ManagedDiskCustomerKeyUri)
-
 	// NodeCount
 	properties.NodeCount = genruntime.ClonePointerToInt(source.NodeCount)
 
 	// PrivateEndpointIpAddress
 	properties.PrivateEndpointIpAddress = genruntime.ClonePointerToString(source.PrivateEndpointIpAddress)
-
-	// ProvisionError
-	if source.ProvisionError != nil {
-		var provisionError CassandraError
-		err := provisionError.Initialize_From_CassandraError_STATUS(source.ProvisionError)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CassandraError_STATUS() to populate field ProvisionError")
-		}
-		properties.ProvisionError = &provisionError
-	} else {
-		properties.ProvisionError = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := genruntime.ToEnum(string(*source.ProvisioningState), managedCassandraProvisioningState_Values)
-		properties.ProvisioningState = &provisioningState
-	} else {
-		properties.ProvisioningState = nil
-	}
 
 	// Sku
 	properties.Sku = genruntime.ClonePointerToString(source.Sku)

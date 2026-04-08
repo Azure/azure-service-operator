@@ -297,9 +297,7 @@ func AddIndependentPropertyGeneratorsForCassandraCluster_Properties_Spec(gens ma
 	gens["CassandraAuditLoggingEnabled"] = gen.PtrOf(gen.Bool())
 	gens["CassandraVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ClusterNameOverride"] = gen.PtrOf(gen.AlphaString())
-	gens["Deallocated"] = gen.PtrOf(gen.Bool())
 	gens["HoursBetweenBackups"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RepairEnabled"] = gen.PtrOf(gen.Bool())
 }
 
@@ -309,7 +307,6 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_Properties_Spec(gens map[st
 	gens["ExternalGossipCertificates"] = gen.SliceOf(CertificateGenerator())
 	gens["ExternalSeedNodes"] = gen.SliceOf(SeedNodeGenerator())
 	gens["PrometheusEndpoint"] = gen.PtrOf(SeedNodeGenerator())
-	gens["ProvisionError"] = gen.PtrOf(CassandraErrorGenerator())
 }
 
 func Test_CassandraCluster_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -476,69 +473,6 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_Spec(gens map[string]gopter
 	gens["Properties"] = gen.PtrOf(CassandraCluster_Properties_SpecGenerator())
 }
 
-func Test_CassandraError_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CassandraError via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCassandraError, CassandraErrorGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCassandraError runs a test to see if a specific instance of CassandraError round trips to JSON and back losslessly
-func RunJSONSerializationTestForCassandraError(subject CassandraError) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CassandraError
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CassandraError instances for property testing - lazily instantiated by CassandraErrorGenerator()
-var cassandraErrorGenerator gopter.Gen
-
-// CassandraErrorGenerator returns a generator of CassandraError instances for property testing.
-func CassandraErrorGenerator() gopter.Gen {
-	if cassandraErrorGenerator != nil {
-		return cassandraErrorGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCassandraError(generators)
-	cassandraErrorGenerator = gen.Struct(reflect.TypeOf(CassandraError{}), generators)
-
-	return cassandraErrorGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCassandraError is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCassandraError(gens map[string]gopter.Gen) {
-	gens["AdditionalErrorInfo"] = gen.PtrOf(gen.AlphaString())
-	gens["Code"] = gen.PtrOf(gen.AlphaString())
-	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Target"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_CassandraError_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -652,15 +586,9 @@ func CertificateGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCertificate(generators)
 	certificateGenerator = gen.Struct(reflect.TypeOf(Certificate{}), generators)
 
 	return certificateGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCertificate is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCertificate(gens map[string]gopter.Gen) {
-	gens["Pem"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Certificate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -712,15 +640,9 @@ func Certificate_STATUSGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCertificate_STATUS(generators)
 	certificate_STATUSGenerator = gen.Struct(reflect.TypeOf(Certificate_STATUS{}), generators)
 
 	return certificate_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCertificate_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCertificate_STATUS(gens map[string]gopter.Gen) {
-	gens["Pem"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedCassandraManagedServiceIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

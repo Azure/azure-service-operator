@@ -39,7 +39,7 @@ type CassandraClusters_DataCenter_Properties_Spec struct {
 
 	// BackupStorageCustomerKeyUri: Indicates the Key Uri of the customer key to use for encryption of the backup storage
 	// account.
-	BackupStorageCustomerKeyUri *string `json:"backupStorageCustomerKeyUri,omitempty"`
+	BackupStorageCustomerKeyUri *string `json:"backupStorageCustomerKeyUri,omitempty" optionalConfigMapPair:"BackupStorageCustomerKeyUri"`
 
 	// Base64EncodedCassandraYamlFragment: A fragment of a cassandra.yaml configuration file to be included in the
 	// cassandra.yaml for all nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys are
@@ -48,9 +48,6 @@ type CassandraClusters_DataCenter_Properties_Spec struct {
 
 	// DataCenterLocation: The region this data center should be created in.
 	DataCenterLocation *string `json:"dataCenterLocation,omitempty"`
-
-	// Deallocated: Whether the data center has been deallocated.
-	Deallocated *bool `json:"deallocated,omitempty"`
 
 	// DelegatedSubnetId: Resource id of a subnet the nodes in this data center should have their network interfaces connected
 	// to. The subnet must be in the same region specified in 'dataCenterLocation' and must be able to route to the subnet
@@ -75,13 +72,7 @@ type CassandraClusters_DataCenter_Properties_Spec struct {
 	NodeCount *int `json:"nodeCount,omitempty"`
 
 	// PrivateEndpointIpAddress: Ip of the VPN Endpoint for this data center.
-	PrivateEndpointIpAddress *string `json:"privateEndpointIpAddress,omitempty"`
-
-	// ProvisionError: Error related to resource provisioning.
-	ProvisionError *CassandraError `json:"provisionError,omitempty"`
-
-	// ProvisioningState: The status of the resource at the time the operation was called.
-	ProvisioningState *ManagedCassandraProvisioningState `json:"provisioningState,omitempty"`
+	PrivateEndpointIpAddress *string `json:"privateEndpointIpAddress,omitempty" optionalConfigMapPair:"PrivateEndpointIpAddress"`
 
 	// Sku: Virtual Machine SKU used for data centers. Default value is Standard_DS14_v2
 	Sku *string `json:"sku,omitempty"`

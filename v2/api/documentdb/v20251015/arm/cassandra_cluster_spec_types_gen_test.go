@@ -89,17 +89,9 @@ func AddIndependentPropertyGeneratorsForCassandraCluster_Properties_Spec(gens ma
 	gens["CassandraAuditLoggingEnabled"] = gen.PtrOf(gen.Bool())
 	gens["CassandraVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ClusterNameOverride"] = gen.PtrOf(gen.AlphaString())
-	gens["Deallocated"] = gen.PtrOf(gen.Bool())
 	gens["DelegatedManagementSubnetId"] = gen.PtrOf(gen.AlphaString())
 	gens["HoursBetweenBackups"] = gen.PtrOf(gen.Int())
 	gens["InitialCassandraAdminPassword"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ManagedCassandraProvisioningState_Canceled,
-		ManagedCassandraProvisioningState_Creating,
-		ManagedCassandraProvisioningState_Deleting,
-		ManagedCassandraProvisioningState_Failed,
-		ManagedCassandraProvisioningState_Succeeded,
-		ManagedCassandraProvisioningState_Updating))
 	gens["RepairEnabled"] = gen.PtrOf(gen.Bool())
 	gens["RestoreFromBackupId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -110,7 +102,6 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_Properties_Spec(gens map[st
 	gens["ExternalGossipCertificates"] = gen.SliceOf(CertificateGenerator())
 	gens["ExternalSeedNodes"] = gen.SliceOf(SeedNodeGenerator())
 	gens["PrometheusEndpoint"] = gen.PtrOf(SeedNodeGenerator())
-	gens["ProvisionError"] = gen.PtrOf(CassandraErrorGenerator())
 }
 
 func Test_CassandraCluster_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -191,69 +182,6 @@ func AddIndependentPropertyGeneratorsForCassandraCluster_Spec(gens map[string]go
 func AddRelatedPropertyGeneratorsForCassandraCluster_Spec(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(ManagedCassandraManagedServiceIdentityGenerator())
 	gens["Properties"] = gen.PtrOf(CassandraCluster_Properties_SpecGenerator())
-}
-
-func Test_CassandraError_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CassandraError via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCassandraError, CassandraErrorGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCassandraError runs a test to see if a specific instance of CassandraError round trips to JSON and back losslessly
-func RunJSONSerializationTestForCassandraError(subject CassandraError) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CassandraError
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CassandraError instances for property testing - lazily instantiated by CassandraErrorGenerator()
-var cassandraErrorGenerator gopter.Gen
-
-// CassandraErrorGenerator returns a generator of CassandraError instances for property testing.
-func CassandraErrorGenerator() gopter.Gen {
-	if cassandraErrorGenerator != nil {
-		return cassandraErrorGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCassandraError(generators)
-	cassandraErrorGenerator = gen.Struct(reflect.TypeOf(CassandraError{}), generators)
-
-	return cassandraErrorGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCassandraError is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCassandraError(gens map[string]gopter.Gen) {
-	gens["AdditionalErrorInfo"] = gen.PtrOf(gen.AlphaString())
-	gens["Code"] = gen.PtrOf(gen.AlphaString())
-	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Target"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Certificate_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

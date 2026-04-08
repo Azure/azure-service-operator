@@ -310,15 +310,9 @@ func Certificate_STATUSGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCertificate_STATUS(generators)
 	certificate_STATUSGenerator = gen.Struct(reflect.TypeOf(Certificate_STATUS{}), generators)
 
 	return certificate_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCertificate_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCertificate_STATUS(gens map[string]gopter.Gen) {
-	gens["Pem"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ManagedCassandraManagedServiceIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

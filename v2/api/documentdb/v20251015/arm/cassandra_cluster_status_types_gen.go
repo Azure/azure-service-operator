@@ -157,8 +157,6 @@ type CassandraError_STATUS struct {
 }
 
 type Certificate_STATUS struct {
-	// Pem: PEM formatted public key.
-	Pem *string `json:"pem,omitempty"`
 }
 
 type ManagedCassandraManagedServiceIdentity_Type_STATUS string

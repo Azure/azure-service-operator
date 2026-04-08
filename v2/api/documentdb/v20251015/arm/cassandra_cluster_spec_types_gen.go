@@ -61,9 +61,6 @@ type CassandraCluster_Properties_Spec struct {
 	// name of the cluster, set the value to use on this property.
 	ClusterNameOverride *string `json:"clusterNameOverride,omitempty"`
 
-	// Deallocated: Whether the cluster and associated data centers has been deallocated.
-	Deallocated *bool `json:"deallocated,omitempty"`
-
 	// DelegatedManagementSubnetId: Resource id of a subnet that this cluster's management service should have its network
 	// interface attached to. The subnet must be routable to all subnets that will be delegated to data centers. The resource
 	// id must be of the form '/subscriptions/<subscription id>/resourceGroups/<resource
@@ -89,12 +86,6 @@ type CassandraCluster_Properties_Spec struct {
 	// PrometheusEndpoint: Hostname or IP address where the Prometheus endpoint containing data about the managed Cassandra
 	// nodes can be reached.
 	PrometheusEndpoint *SeedNode `json:"prometheusEndpoint,omitempty"`
-
-	// ProvisionError: Error related to resource provisioning.
-	ProvisionError *CassandraError `json:"provisionError,omitempty"`
-
-	// ProvisioningState: The status of the resource at the time the operation was called.
-	ProvisioningState *ManagedCassandraProvisioningState `json:"provisioningState,omitempty"`
 
 	// RepairEnabled: Should automatic repairs run on this cluster? If omitted, this is true, and should stay true unless you
 	// are running a hybrid cluster where you are already doing your own repairs.
@@ -141,20 +132,6 @@ var cassandraCluster_Properties_AzureConnectionMethod_Spec_Values = map[string]C
 	"vpn":  CassandraCluster_Properties_AzureConnectionMethod_Spec_VPN,
 }
 
-type CassandraError struct {
-	// AdditionalErrorInfo: Additional information about the error.
-	AdditionalErrorInfo *string `json:"additionalErrorInfo,omitempty"`
-
-	// Code: The code of error that occurred.
-	Code *string `json:"code,omitempty"`
-
-	// Message: The message of the error.
-	Message *string `json:"message,omitempty"`
-
-	// Target: The target resource of the error.
-	Target *string `json:"target,omitempty"`
-}
-
 type Certificate struct {
 	// Pem: PEM formatted public key.
 	Pem *string `json:"pem,omitempty"`
@@ -174,30 +151,7 @@ var managedCassandraManagedServiceIdentity_Type_Values = map[string]ManagedCassa
 	"systemassigned": ManagedCassandraManagedServiceIdentity_Type_SystemAssigned,
 }
 
-// The status of the resource at the time the operation was called.
-// +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","Succeeded","Updating"}
-type ManagedCassandraProvisioningState string
-
-const (
-	ManagedCassandraProvisioningState_Canceled  = ManagedCassandraProvisioningState("Canceled")
-	ManagedCassandraProvisioningState_Creating  = ManagedCassandraProvisioningState("Creating")
-	ManagedCassandraProvisioningState_Deleting  = ManagedCassandraProvisioningState("Deleting")
-	ManagedCassandraProvisioningState_Failed    = ManagedCassandraProvisioningState("Failed")
-	ManagedCassandraProvisioningState_Succeeded = ManagedCassandraProvisioningState("Succeeded")
-	ManagedCassandraProvisioningState_Updating  = ManagedCassandraProvisioningState("Updating")
-)
-
-// Mapping from string to ManagedCassandraProvisioningState
-var managedCassandraProvisioningState_Values = map[string]ManagedCassandraProvisioningState{
-	"canceled":  ManagedCassandraProvisioningState_Canceled,
-	"creating":  ManagedCassandraProvisioningState_Creating,
-	"deleting":  ManagedCassandraProvisioningState_Deleting,
-	"failed":    ManagedCassandraProvisioningState_Failed,
-	"succeeded": ManagedCassandraProvisioningState_Succeeded,
-	"updating":  ManagedCassandraProvisioningState_Updating,
-}
-
 type SeedNode struct {
 	// IpAddress: IP address of this seed node.
-	IpAddress *string `json:"ipAddress,omitempty"`
+	IpAddress *string `json:"ipAddress,omitempty" optionalConfigMapPair:"IpAddress"`
 }

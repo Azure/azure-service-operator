@@ -94,9 +94,7 @@ func (in *AuthenticationMethodLdapProperties_STATUS) DeepCopyInto(out *Authentic
 	if in.ServerCertificates != nil {
 		in, out := &in.ServerCertificates, &out.ServerCertificates
 		*out = make([]Certificate_STATUS, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		copy(*out, *in)
 	}
 	if in.ServerHostname != nil {
 		in, out := &in.ServerHostname, &out.ServerHostname
@@ -247,9 +245,7 @@ func (in *CassandraCluster_Properties_STATUS) DeepCopyInto(out *CassandraCluster
 	if in.ClientCertificates != nil {
 		in, out := &in.ClientCertificates, &out.ClientCertificates
 		*out = make([]Certificate_STATUS, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		copy(*out, *in)
 	}
 	if in.ClusterNameOverride != nil {
 		in, out := &in.ClusterNameOverride, &out.ClusterNameOverride
@@ -269,9 +265,7 @@ func (in *CassandraCluster_Properties_STATUS) DeepCopyInto(out *CassandraCluster
 	if in.ExternalGossipCertificates != nil {
 		in, out := &in.ExternalGossipCertificates, &out.ExternalGossipCertificates
 		*out = make([]Certificate_STATUS, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		copy(*out, *in)
 	}
 	if in.ExternalSeedNodes != nil {
 		in, out := &in.ExternalSeedNodes, &out.ExternalSeedNodes
@@ -283,9 +277,7 @@ func (in *CassandraCluster_Properties_STATUS) DeepCopyInto(out *CassandraCluster
 	if in.GossipCertificates != nil {
 		in, out := &in.GossipCertificates, &out.GossipCertificates
 		*out = make([]Certificate_STATUS, len(*in))
-		for i := range *in {
-			(*in)[i].DeepCopyInto(&(*out)[i])
-		}
+		copy(*out, *in)
 	}
 	if in.HoursBetweenBackups != nil {
 		in, out := &in.HoursBetweenBackups, &out.HoursBetweenBackups
@@ -376,11 +368,6 @@ func (in *CassandraCluster_Properties_Spec) DeepCopyInto(out *CassandraCluster_P
 		*out = new(string)
 		**out = **in
 	}
-	if in.Deallocated != nil {
-		in, out := &in.Deallocated, &out.Deallocated
-		*out = new(bool)
-		**out = **in
-	}
 	if in.DelegatedManagementSubnetReference != nil {
 		in, out := &in.DelegatedManagementSubnetReference, &out.DelegatedManagementSubnetReference
 		*out = new(genruntime.ResourceReference)
@@ -414,16 +401,6 @@ func (in *CassandraCluster_Properties_Spec) DeepCopyInto(out *CassandraCluster_P
 		in, out := &in.PrometheusEndpoint, &out.PrometheusEndpoint
 		*out = new(SeedNode)
 		(*in).DeepCopyInto(*out)
-	}
-	if in.ProvisionError != nil {
-		in, out := &in.ProvisionError, &out.ProvisionError
-		*out = new(CassandraError)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProvisioningState != nil {
-		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ManagedCassandraProvisioningState)
-		**out = **in
 	}
 	if in.RepairEnabled != nil {
 		in, out := &in.RepairEnabled, &out.RepairEnabled
@@ -668,6 +645,11 @@ func (in *CassandraClusters_DataCenter_Properties_Spec) DeepCopyInto(out *Cassan
 		*out = new(string)
 		**out = **in
 	}
+	if in.BackupStorageCustomerKeyUriFromConfig != nil {
+		in, out := &in.BackupStorageCustomerKeyUriFromConfig, &out.BackupStorageCustomerKeyUriFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.Base64EncodedCassandraYamlFragment != nil {
 		in, out := &in.Base64EncodedCassandraYamlFragment, &out.Base64EncodedCassandraYamlFragment
 		*out = new(string)
@@ -676,11 +658,6 @@ func (in *CassandraClusters_DataCenter_Properties_Spec) DeepCopyInto(out *Cassan
 	if in.DataCenterLocation != nil {
 		in, out := &in.DataCenterLocation, &out.DataCenterLocation
 		*out = new(string)
-		**out = **in
-	}
-	if in.Deallocated != nil {
-		in, out := &in.Deallocated, &out.Deallocated
-		*out = new(bool)
 		**out = **in
 	}
 	if in.DelegatedSubnetReference != nil {
@@ -698,9 +675,9 @@ func (in *CassandraClusters_DataCenter_Properties_Spec) DeepCopyInto(out *Cassan
 		*out = new(string)
 		**out = **in
 	}
-	if in.ManagedDiskCustomerKeyUri != nil {
-		in, out := &in.ManagedDiskCustomerKeyUri, &out.ManagedDiskCustomerKeyUri
-		*out = new(string)
+	if in.ManagedDiskCustomerKeyUriReference != nil {
+		in, out := &in.ManagedDiskCustomerKeyUriReference, &out.ManagedDiskCustomerKeyUriReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 	if in.NodeCount != nil {
@@ -713,14 +690,9 @@ func (in *CassandraClusters_DataCenter_Properties_Spec) DeepCopyInto(out *Cassan
 		*out = new(string)
 		**out = **in
 	}
-	if in.ProvisionError != nil {
-		in, out := &in.ProvisionError, &out.ProvisionError
-		*out = new(CassandraError)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.ProvisioningState != nil {
-		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(ManagedCassandraProvisioningState)
+	if in.PrivateEndpointIpAddressFromConfig != nil {
+		in, out := &in.PrivateEndpointIpAddressFromConfig, &out.PrivateEndpointIpAddressFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -909,41 +881,6 @@ func (in *CassandraDataCenter_Spec) DeepCopy() *CassandraDataCenter_Spec {
 }
 
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *CassandraError) DeepCopyInto(out *CassandraError) {
-	*out = *in
-	if in.AdditionalErrorInfo != nil {
-		in, out := &in.AdditionalErrorInfo, &out.AdditionalErrorInfo
-		*out = new(string)
-		**out = **in
-	}
-	if in.Code != nil {
-		in, out := &in.Code, &out.Code
-		*out = new(string)
-		**out = **in
-	}
-	if in.Message != nil {
-		in, out := &in.Message, &out.Message
-		*out = new(string)
-		**out = **in
-	}
-	if in.Target != nil {
-		in, out := &in.Target, &out.Target
-		*out = new(string)
-		**out = **in
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new CassandraError.
-func (in *CassandraError) DeepCopy() *CassandraError {
-	if in == nil {
-		return nil
-	}
-	out := new(CassandraError)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *CassandraError_STATUS) DeepCopyInto(out *CassandraError_STATUS) {
 	*out = *in
 	if in.AdditionalErrorInfo != nil {
@@ -983,7 +920,7 @@ func (in *Certificate) DeepCopyInto(out *Certificate) {
 	*out = *in
 	if in.Pem != nil {
 		in, out := &in.Pem, &out.Pem
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 }
@@ -1001,11 +938,6 @@ func (in *Certificate) DeepCopy() *Certificate {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *Certificate_STATUS) DeepCopyInto(out *Certificate_STATUS) {
 	*out = *in
-	if in.Pem != nil {
-		in, out := &in.Pem, &out.Pem
-		*out = new(string)
-		**out = **in
-	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Certificate_STATUS.
@@ -1074,6 +1006,11 @@ func (in *SeedNode) DeepCopyInto(out *SeedNode) {
 	if in.IpAddress != nil {
 		in, out := &in.IpAddress, &out.IpAddress
 		*out = new(string)
+		**out = **in
+	}
+	if in.IpAddressFromConfig != nil {
+		in, out := &in.IpAddressFromConfig, &out.IpAddressFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 }

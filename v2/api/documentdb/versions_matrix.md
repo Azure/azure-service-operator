@@ -49,7 +49,6 @@
 | CassandraDataCenter                                                       |               |               |               |               | v20251015 |
 | CassandraDataCenter_STATUS                                                |               |               |               |               | v20251015 |
 | CassandraDataCenter_Spec                                                  |               |               |               |               | v20251015 |
-| CassandraError                                                            |               |               |               |               | v20251015 |
 | CassandraError_STATUS                                                     |               |               |               |               | v20251015 |
 | Certificate                                                               |               |               |               |               | v20251015 |
 | Certificate_STATUS                                                        |               |               |               |               | v20251015 |
@@ -142,7 +141,6 @@
 | ManagedCassandraManagedServiceIdentity_STATUS                             |               |               |               |               | v20251015 |
 | ManagedCassandraManagedServiceIdentity_Type                               |               |               |               |               | v20251015 |
 | ManagedCassandraManagedServiceIdentity_Type_STATUS                        |               |               |               |               | v20251015 |
-| ManagedCassandraProvisioningState                                         |               |               |               |               | v20251015 |
 | ManagedCassandraProvisioningState_STATUS                                  |               |               |               |               | v20251015 |
 | ManagedServiceIdentity                                                    | v1api20210515 | v1api20231115 |               | v1api20240815 |           |
 | ManagedServiceIdentity_STATUS                                             | v1api20210515 | v1api20231115 |               | v1api20240815 |           |

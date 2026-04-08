@@ -253,7 +253,6 @@ type CassandraCluster_Properties_Spec struct {
 	CassandraVersion             *string       `json:"cassandraVersion,omitempty"`
 	ClientCertificates           []Certificate `json:"clientCertificates,omitempty"`
 	ClusterNameOverride          *string       `json:"clusterNameOverride,omitempty"`
-	Deallocated                  *bool         `json:"deallocated,omitempty"`
 
 	// DelegatedManagementSubnetReference: Resource id of a subnet that this cluster's management service should have its
 	// network interface attached to. The subnet must be routable to all subnets that will be delegated to data centers. The
@@ -266,8 +265,6 @@ type CassandraCluster_Properties_Spec struct {
 	InitialCassandraAdminPassword      *genruntime.SecretReference   `json:"initialCassandraAdminPassword,omitempty"`
 	PrometheusEndpoint                 *SeedNode                     `json:"prometheusEndpoint,omitempty"`
 	PropertyBag                        genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ProvisionError                     *CassandraError               `json:"provisionError,omitempty"`
-	ProvisioningState                  *string                       `json:"provisioningState,omitempty"`
 	RepairEnabled                      *bool                         `json:"repairEnabled,omitempty"`
 
 	// RestoreFromBackupReference: To create an empty cluster, omit this field or set it to null. To restore a backup into a
@@ -323,15 +320,6 @@ type ManagedCassandraManagedServiceIdentity_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v20251015.CassandraError
-type CassandraError struct {
-	AdditionalErrorInfo *string                `json:"additionalErrorInfo,omitempty"`
-	Code                *string                `json:"code,omitempty"`
-	Message             *string                `json:"message,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Target              *string                `json:"target,omitempty"`
-}
-
 // Storage version of v20251015.CassandraError_STATUS
 type CassandraError_STATUS struct {
 	AdditionalErrorInfo *string                `json:"additionalErrorInfo,omitempty"`
@@ -343,20 +331,20 @@ type CassandraError_STATUS struct {
 
 // Storage version of v20251015.Certificate
 type Certificate struct {
-	Pem         *string                `json:"pem,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Pem         *genruntime.SecretReference `json:"pem,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20251015.Certificate_STATUS
 type Certificate_STATUS struct {
-	Pem         *string                `json:"pem,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20251015.SeedNode
 type SeedNode struct {
-	IpAddress   *string                `json:"ipAddress,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	IpAddress           *string                        `json:"ipAddress,omitempty" optionalConfigMapPair:"IpAddress"`
+	IpAddressFromConfig *genruntime.ConfigMapReference `json:"ipAddressFromConfig,omitempty" optionalConfigMapPair:"IpAddress"`
+	PropertyBag         genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20251015.SeedNode_STATUS
