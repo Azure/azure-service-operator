@@ -41,7 +41,8 @@ The test framework automatically chooses: if a recording file exists, it replays
 
 Before running tests:
 
-1. **Check environment variables.** Verify that `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, and `ENTRA_APP_ID` are set (or that the user has provided a `test.env` file to source). These are required for **recording** (live Azure calls). If any are missing and recordings may need to be created, do not proceed — tell the user what is missing and stop. **Playback runs do not need them.**
+1. **Check environment variables.** Verify that `AZURE_SUBSCRIPTION_ID` and `AZURE_TENANT_ID` are set (or that the user has provided a `test.env` file to source). These are required for **recording** (live Azure calls). `ENTRA_APP_ID` may also be needed depending on the test — check whether the test references it before requiring it. If required variables are missing and recordings need to be created, do not proceed — tell the user what is missing and stop. **Playback runs do not need them.**
+2. **Check whether a recording already exists.** Look in the appropriate recordings directory for a file matching the test name. If a recording exists, this will be a playback run (fast). If not, this will be a recording run (slow, live Azure calls).
 
 ### Run tests
 
@@ -55,7 +56,13 @@ Replace `<SUITE>` with `test-controllers` or `test-samples`. For playback-only r
 
 Do NOT add `| tee` or other output redirection — the taskfile already pipes output to the log file.
 
-Use `await_terminal` to wait for completion (see **Monitoring** in the Guidance section for timeout recommendations).
+For recording runs of slow resources, override the default Go test timeout:
+
+```bash
+source test.env && TIMEOUT=60m TEST_FILTER="<test>" task controller:test-controllers
+```
+
+Run the command in async mode. Monitor progress using `sleep` + `tail` on the log file (see **Monitoring** below).
 
 - If all recordings exist, playback completes in the times shown in the Test Suites table. Do not interrupt.
 - If recordings are missing, each triggers a live Azure recording. Most take 20–30 min; some take 60+ min.
@@ -93,12 +100,16 @@ Replace `<LOG-FILE>` with the appropriate log file from the Test Suites table.
 ## Guidance
 
 - **DO NOT interrupt a test run**, even if slow. Interrupting can leave Azure debris that pollutes the next recording attempt.
-- **Monitoring long-running tests:** Run as background terminals and use `await_terminal`. DO NOT poll logs with `tail`/`grep` in a loop. Recommended timeouts:
-  - Playback (full suite): 10 min (600000ms)
-  - Playback (single test): 5 min (300000ms)
-  - Recording (single test): 10 min (600000ms), then repeat — recordings take 20–60+ min
-  - Resource group deletion: 15–25 min for groups with nested resources
-  - If `await_terminal` times out, just call it again — the terminal keeps running.
+- **Monitoring long-running tests:** Run the test command in async mode, then use `sleep <seconds> && tail -3 reports/<LOG-FILE>` to check progress at intervals. DO NOT poll in a tight loop — use 300-second (5 min) sleeps between checks. Key log markers to watch for:
+  - Log Section messages — test reached a new phase 
+  - `"MonitorDelete"` — test in cleanup
+  - `"PASS"` / `"FAIL"` — test completed
+  - `"saving ARM client recorder"` — recording was written to disk
+- **Expected durations:**
+  - Playback (full suite): 6–10 min
+  - Playback (single test): 1–3 min
+  - Recording (single test): 20–60+ min depending on resource type
+  - Resource group deletion: 15–25 min for groups with nested resources (e.g., Cassandra clusters, AKS)
 - **ALWAYS use `task` directly** — never use `./hack/tools/task`. If `task` is not on the PATH, your environment is not set up correctly for testing. Stop and ask the user to fix your environment.
 - **Test runs are CPU/time intensive** and can starve other processes. Keep detailed notes about progress to allow recovery if this happens.
 
