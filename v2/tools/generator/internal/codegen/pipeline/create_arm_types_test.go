@@ -298,7 +298,7 @@ func TestCreateARMTypeWithSecret_CreatesExpectedConversions(t *testing.T) {
 			specProperties.Name(),
 			test.FullNameProperty.PropertyName(),
 			func(pc *config.PropertyConfiguration) error {
-				pc.IsSecret.Set(true)
+				pc.Secrecy.Set(astmodel.SecrecyAlways)
 				return nil
 			})).
 		To(Succeed())
@@ -307,7 +307,7 @@ func TestCreateARMTypeWithSecret_CreatesExpectedConversions(t *testing.T) {
 			specProperties.Name(),
 			secretDataProperty.PropertyName(),
 			func(pc *config.PropertyConfiguration) error {
-				pc.IsSecret.Set(true)
+				pc.Secrecy.Set(astmodel.SecrecyAlways)
 				return nil
 			})).
 		To(Succeed())
@@ -316,7 +316,7 @@ func TestCreateARMTypeWithSecret_CreatesExpectedConversions(t *testing.T) {
 			specProperties.Name(),
 			secretSliceProperty.PropertyName(),
 			func(pc *config.PropertyConfiguration) error {
-				pc.IsSecret.Set(true)
+				pc.Secrecy.Set(astmodel.SecrecyAlways)
 				return nil
 			})).
 		To(Succeed())
