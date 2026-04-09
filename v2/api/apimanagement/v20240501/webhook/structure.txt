@@ -3,6 +3,10 @@ github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/webhook
 ------------------------------------------------------------------------------
 Api: Object (0 properties)
 
+ApiDiagnostic: Object (0 properties)
+
+ApiPolicy: Object (0 properties)
+
 ApiVersionSet: Object (0 properties)
 
 AuthorizationProvider: Object (0 properties)
@@ -12,6 +16,18 @@ AuthorizationProvidersAuthorization: Object (0 properties)
 AuthorizationProvidersAuthorizationsAccessPolicy: Object (0 properties)
 
 Backend: Object (0 properties)
+
+Certificate: Object (0 properties)
+
+GatewayApi: Object (0 properties)
+
+GatewayCertificateAuthority: Object (0 properties)
+
+GatewayHostnameConfiguration: Object (0 properties)
+
+Group: Object (0 properties)
+
+Logger: Object (0 properties)
 
 NamedValue: Object (0 properties)
 
@@ -27,5 +43,9 @@ ProductPolicy: Object (0 properties)
 
 Service: Object (0 properties)
 
+Service_Gateway: Object (0 properties)
+
 Subscription: Object (0 properties)
+
+User: Object (0 properties)
 

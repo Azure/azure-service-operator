@@ -483,6 +483,8 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(alertsmanagement_v20210401s.SmartDetectorAlertRule)})
 	result = append(result, &registration.StorageType{Obj: new(alertsmanagement_v20230301s.PrometheusRuleGroup)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Api)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ApiDiagnostic)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ApiPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ApiVersionSet)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20240501s.AuthorizationProvider),
@@ -570,6 +572,42 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20240501s.Certificate),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.keyVault.identityClientIdFromConfig",
+				Func: indexApimanagementCertificateIdentityClientIdFromConfig,
+			},
+			{
+				Key:  ".spec.password",
+				Func: indexApimanagementCertificatePassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.password",
+					},
+					&apimanagement_v20240501s.CertificateList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.keyVault.identityClientIdFromConfig",
+					},
+					&apimanagement_v20240501s.CertificateList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.GatewayApi)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.GatewayCertificateAuthority)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.GatewayHostnameConfiguration)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Group)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Logger)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20240501s.NamedValue),
 		Indexes: []registration.Index{
@@ -660,6 +698,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Service_Gateway)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20240501s.Subscription),
 		Indexes: []registration.Index{
@@ -681,6 +720,25 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.secondaryKey",
 					},
 					&apimanagement_v20240501s.SubscriptionList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20240501s.User),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.password",
+				Func: indexApimanagementUserPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.password",
+					},
+					&apimanagement_v20240501s.UserList{}),
 			},
 		},
 	})
@@ -3519,6 +3577,16 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &apimanagement_v20240501w.Api{},
 		},
 		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.ApiDiagnostic),
+			Defaulter: &apimanagement_v20240501w.ApiDiagnostic{},
+			Validator: &apimanagement_v20240501w.ApiDiagnostic{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.ApiPolicy),
+			Defaulter: &apimanagement_v20240501w.ApiPolicy{},
+			Validator: &apimanagement_v20240501w.ApiPolicy{},
+		},
+		&registration.KnownType{
 			Obj:       new(apimanagement_v20240501.ApiVersionSet),
 			Defaulter: &apimanagement_v20240501w.ApiVersionSet{},
 			Validator: &apimanagement_v20240501w.ApiVersionSet{},
@@ -3542,6 +3610,36 @@ func getKnownTypes() []*registration.KnownType {
 			Obj:       new(apimanagement_v20240501.Backend),
 			Defaulter: &apimanagement_v20240501w.Backend{},
 			Validator: &apimanagement_v20240501w.Backend{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Certificate),
+			Defaulter: &apimanagement_v20240501w.Certificate{},
+			Validator: &apimanagement_v20240501w.Certificate{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.GatewayApi),
+			Defaulter: &apimanagement_v20240501w.GatewayApi{},
+			Validator: &apimanagement_v20240501w.GatewayApi{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.GatewayCertificateAuthority),
+			Defaulter: &apimanagement_v20240501w.GatewayCertificateAuthority{},
+			Validator: &apimanagement_v20240501w.GatewayCertificateAuthority{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.GatewayHostnameConfiguration),
+			Defaulter: &apimanagement_v20240501w.GatewayHostnameConfiguration{},
+			Validator: &apimanagement_v20240501w.GatewayHostnameConfiguration{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Group),
+			Defaulter: &apimanagement_v20240501w.Group{},
+			Validator: &apimanagement_v20240501w.Group{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Logger),
+			Defaulter: &apimanagement_v20240501w.Logger{},
+			Validator: &apimanagement_v20240501w.Logger{},
 		},
 		&registration.KnownType{
 			Obj:       new(apimanagement_v20240501.NamedValue),
@@ -3579,18 +3677,36 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &apimanagement_v20240501w.Service{},
 		},
 		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Service_Gateway),
+			Defaulter: &apimanagement_v20240501w.Service_Gateway{},
+			Validator: &apimanagement_v20240501w.Service_Gateway{},
+		},
+		&registration.KnownType{
 			Obj:       new(apimanagement_v20240501.Subscription),
 			Defaulter: &apimanagement_v20240501w.Subscription{},
 			Validator: &apimanagement_v20240501w.Subscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.User),
+			Defaulter: &apimanagement_v20240501w.User{},
+			Validator: &apimanagement_v20240501w.User{},
 		})
 	result = append(
 		result,
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Api)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.ApiDiagnostic)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.ApiPolicy)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.ApiVersionSet)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.AuthorizationProvider)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.AuthorizationProvidersAuthorization)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.AuthorizationProvidersAuthorizationsAccessPolicy)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Backend)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Certificate)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.GatewayApi)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.GatewayCertificateAuthority)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.GatewayHostnameConfiguration)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Group)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Logger)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.NamedValue)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Policy)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.PolicyFragment)},
@@ -3598,7 +3714,9 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.ProductApi)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.ProductPolicy)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Service)},
-		&registration.KnownType{Obj: new(apimanagement_v20240501s.Subscription)})
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Service_Gateway)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Subscription)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.User)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -7284,12 +7402,20 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
 	result = append(result, &alertsmanagement_customizations.PrometheusRuleGroupExtension{})
 	result = append(result, &alertsmanagement_customizations.SmartDetectorAlertRuleExtension{})
+	result = append(result, &apimanagement_customizations.ApiDiagnosticExtension{})
 	result = append(result, &apimanagement_customizations.ApiExtension{})
+	result = append(result, &apimanagement_customizations.ApiPolicyExtension{})
 	result = append(result, &apimanagement_customizations.ApiVersionSetExtension{})
 	result = append(result, &apimanagement_customizations.AuthorizationProviderExtension{})
 	result = append(result, &apimanagement_customizations.AuthorizationProvidersAuthorizationExtension{})
 	result = append(result, &apimanagement_customizations.AuthorizationProvidersAuthorizationsAccessPolicyExtension{})
 	result = append(result, &apimanagement_customizations.BackendExtension{})
+	result = append(result, &apimanagement_customizations.CertificateExtension{})
+	result = append(result, &apimanagement_customizations.GatewayApiExtension{})
+	result = append(result, &apimanagement_customizations.GatewayCertificateAuthorityExtension{})
+	result = append(result, &apimanagement_customizations.GatewayHostnameConfigurationExtension{})
+	result = append(result, &apimanagement_customizations.GroupExtension{})
+	result = append(result, &apimanagement_customizations.LoggerExtension{})
 	result = append(result, &apimanagement_customizations.NamedValueExtension{})
 	result = append(result, &apimanagement_customizations.PolicyExtension{})
 	result = append(result, &apimanagement_customizations.PolicyFragmentExtension{})
@@ -7297,7 +7423,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.ProductExtension{})
 	result = append(result, &apimanagement_customizations.ProductPolicyExtension{})
 	result = append(result, &apimanagement_customizations.ServiceExtension{})
+	result = append(result, &apimanagement_customizations.Service_GatewayExtension{})
 	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
+	result = append(result, &apimanagement_customizations.UserExtension{})
 	result = append(result, &app_customizations.AuthConfigExtension{})
 	result = append(result, &app_customizations.ContainerAppExtension{})
 	result = append(result, &app_customizations.JobExtension{})
@@ -7639,6 +7767,33 @@ func indexApimanagementBackendPassword(rawObj client.Object) []string {
 	return obj.Spec.Proxy.Password.Index()
 }
 
+// indexApimanagementCertificateIdentityClientIdFromConfig an index function for apimanagement_v20240501s.Certificate .spec.keyVault.identityClientIdFromConfig
+func indexApimanagementCertificateIdentityClientIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20240501s.Certificate)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.KeyVault == nil {
+		return nil
+	}
+	if obj.Spec.KeyVault.IdentityClientIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.KeyVault.IdentityClientIdFromConfig.Index()
+}
+
+// indexApimanagementCertificatePassword an index function for apimanagement_v20240501s.Certificate .spec.password
+func indexApimanagementCertificatePassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20240501s.Certificate)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Password == nil {
+		return nil
+	}
+	return obj.Spec.Password.Index()
+}
+
 // indexApimanagementNamedValueIdentityClientIdFromConfig an index function for apimanagement_v20240501s.NamedValue .spec.keyVault.identityClientIdFromConfig
 func indexApimanagementNamedValueIdentityClientIdFromConfig(rawObj client.Object) []string {
 	obj, ok := rawObj.(*apimanagement_v20240501s.NamedValue)
@@ -7838,6 +7993,18 @@ func indexApimanagementSubscriptionSecondaryKey(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.SecondaryKey.Index()
+}
+
+// indexApimanagementUserPassword an index function for apimanagement_v20240501s.User .spec.password
+func indexApimanagementUserPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20240501s.User)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Password == nil {
+		return nil
+	}
+	return obj.Spec.Password.Index()
 }
 
 // indexAppContainerAppValue an index function for app_v20250101s.ContainerApp .spec.configuration.secrets.value

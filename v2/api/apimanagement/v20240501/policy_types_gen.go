@@ -700,41 +700,6 @@ func (policy *Policy_STATUS) AssignProperties_To_Policy_STATUS(destination *stor
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"rawxml","rawxml-link","xml","xml-link"}
-type PolicyContractProperties_Format string
-
-const (
-	PolicyContractProperties_Format_Rawxml     = PolicyContractProperties_Format("rawxml")
-	PolicyContractProperties_Format_RawxmlLink = PolicyContractProperties_Format("rawxml-link")
-	PolicyContractProperties_Format_Xml        = PolicyContractProperties_Format("xml")
-	PolicyContractProperties_Format_XmlLink    = PolicyContractProperties_Format("xml-link")
-)
-
-// Mapping from string to PolicyContractProperties_Format
-var policyContractProperties_Format_Values = map[string]PolicyContractProperties_Format{
-	"rawxml":      PolicyContractProperties_Format_Rawxml,
-	"rawxml-link": PolicyContractProperties_Format_RawxmlLink,
-	"xml":         PolicyContractProperties_Format_Xml,
-	"xml-link":    PolicyContractProperties_Format_XmlLink,
-}
-
-type PolicyContractProperties_Format_STATUS string
-
-const (
-	PolicyContractProperties_Format_STATUS_Rawxml     = PolicyContractProperties_Format_STATUS("rawxml")
-	PolicyContractProperties_Format_STATUS_RawxmlLink = PolicyContractProperties_Format_STATUS("rawxml-link")
-	PolicyContractProperties_Format_STATUS_Xml        = PolicyContractProperties_Format_STATUS("xml")
-	PolicyContractProperties_Format_STATUS_XmlLink    = PolicyContractProperties_Format_STATUS("xml-link")
-)
-
-// Mapping from string to PolicyContractProperties_Format_STATUS
-var policyContractProperties_Format_STATUS_Values = map[string]PolicyContractProperties_Format_STATUS{
-	"rawxml":      PolicyContractProperties_Format_STATUS_Rawxml,
-	"rawxml-link": PolicyContractProperties_Format_STATUS_RawxmlLink,
-	"xml":         PolicyContractProperties_Format_STATUS_Xml,
-	"xml-link":    PolicyContractProperties_Format_STATUS_XmlLink,
-}
-
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type PolicyOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).

@@ -19,6 +19,9 @@
 | ApiCreateOrUpdateProperties_TranslateRequiredQueryParameters | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ApiCreateOrUpdateProperties_Type                             | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ApiCreateOrUpdateProperties_WsdlSelector                     | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| ApiDiagnostic                                                |               |                      |               |           |                  | v20240501 |
+| ApiDiagnostic_STATUS                                         |               |                      |               |           |                  | v20240501 |
+| ApiDiagnostic_Spec                                           |               |                      |               |           |                  | v20240501 |
 | ApiLicenseInformation                                        | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ApiLicenseInformation_STATUS                                 | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ApiManagementServiceIdentity                                 | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
@@ -42,6 +45,9 @@
 | ApiManagementServiceSkuProperties_Name                       | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ApiManagementServiceSkuProperties_Name_STATUS                | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ApiManagementServiceSkuProperties_STATUS                     | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| ApiPolicy                                                    |               |                      |               |           |                  | v20240501 |
+| ApiPolicy_STATUS                                             |               |                      |               |           |                  | v20240501 |
+| ApiPolicy_Spec                                               |               |                      |               |           |                  | v20240501 |
 | ApiVersionConstraint                                         | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ApiVersionConstraint_STATUS                                  | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | ApiVersionSet                                                | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
@@ -113,12 +119,19 @@
 | Backend_Spec                                                 | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | BearerTokenSendingMethodsContract                            | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | BearerTokenSendingMethodsContract_STATUS                     | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| BodyDiagnosticSettings                                       |               |                      |               |           |                  | v20240501 |
+| BodyDiagnosticSettings_STATUS                                |               |                      |               |           |                  | v20240501 |
+| Certificate                                                  |               |                      |               |           |                  | v20240501 |
 | CertificateConfiguration                                     | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | CertificateConfiguration_STATUS                              | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | CertificateConfiguration_StoreName                           | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | CertificateConfiguration_StoreName_STATUS                    | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| CertificateContractProperties_STATUS                         |               |                      |               |           |                  | v20240501 |
+| CertificateCreateOrUpdateProperties                          |               |                      |               |           |                  | v20240501 |
 | CertificateInformation                                       | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | CertificateInformation_STATUS                                | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| Certificate_STATUS                                           |               |                      |               |           |                  | v20240501 |
+| Certificate_Spec                                             |               |                      |               |           |                  | v20240501 |
 | CircuitBreakerFailureCondition                               |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | CircuitBreakerFailureCondition_ErrorReasons                  |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | CircuitBreakerFailureCondition_ErrorReasons_STATUS           |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
@@ -129,8 +142,46 @@
 | ConfigurationApi_LegacyApi                                   |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | ConfigurationApi_LegacyApi_STATUS                            |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | ConfigurationApi_STATUS                                      |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
+| DataMasking                                                  |               |                      |               |           |                  | v20240501 |
+| DataMaskingEntity                                            |               |                      |               |           |                  | v20240501 |
+| DataMaskingEntity_Mode                                       |               |                      |               |           |                  | v20240501 |
+| DataMaskingEntity_Mode_STATUS                                |               |                      |               |           |                  | v20240501 |
+| DataMaskingEntity_STATUS                                     |               |                      |               |           |                  | v20240501 |
+| DataMasking_STATUS                                           |               |                      |               |           |                  | v20240501 |
+| DiagnosticContractProperties                                 |               |                      |               |           |                  | v20240501 |
+| DiagnosticContractProperties_AlwaysLog                       |               |                      |               |           |                  | v20240501 |
+| DiagnosticContractProperties_AlwaysLog_STATUS                |               |                      |               |           |                  | v20240501 |
+| DiagnosticContractProperties_HttpCorrelationProtocol         |               |                      |               |           |                  | v20240501 |
+| DiagnosticContractProperties_HttpCorrelationProtocol_STATUS  |               |                      |               |           |                  | v20240501 |
+| DiagnosticContractProperties_OperationNameFormat             |               |                      |               |           |                  | v20240501 |
+| DiagnosticContractProperties_OperationNameFormat_STATUS      |               |                      |               |           |                  | v20240501 |
+| DiagnosticContractProperties_STATUS                          |               |                      |               |           |                  | v20240501 |
+| DiagnosticContractProperties_Verbosity                       |               |                      |               |           |                  | v20240501 |
+| DiagnosticContractProperties_Verbosity_STATUS                |               |                      |               |           |                  | v20240501 |
 | FailureStatusCodeRange                                       |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | FailureStatusCodeRange_STATUS                                |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
+| GatewayApi                                                   |               |                      |               |           |                  | v20240501 |
+| GatewayApi_STATUS                                            |               |                      |               |           |                  | v20240501 |
+| GatewayApi_Spec                                              |               |                      |               |           |                  | v20240501 |
+| GatewayCertificateAuthority                                  |               |                      |               |           |                  | v20240501 |
+| GatewayCertificateAuthorityContractProperties                |               |                      |               |           |                  | v20240501 |
+| GatewayCertificateAuthorityContractProperties_STATUS         |               |                      |               |           |                  | v20240501 |
+| GatewayCertificateAuthority_STATUS                           |               |                      |               |           |                  | v20240501 |
+| GatewayCertificateAuthority_Spec                             |               |                      |               |           |                  | v20240501 |
+| GatewayContractProperties                                    |               |                      |               |           |                  | v20240501 |
+| GatewayContractProperties_STATUS                             |               |                      |               |           |                  | v20240501 |
+| GatewayHostnameConfiguration                                 |               |                      |               |           |                  | v20240501 |
+| GatewayHostnameConfigurationContractProperties               |               |                      |               |           |                  | v20240501 |
+| GatewayHostnameConfigurationContractProperties_STATUS        |               |                      |               |           |                  | v20240501 |
+| GatewayHostnameConfiguration_STATUS                          |               |                      |               |           |                  | v20240501 |
+| GatewayHostnameConfiguration_Spec                            |               |                      |               |           |                  | v20240501 |
+| Group                                                        |               |                      |               |           |                  | v20240501 |
+| GroupContractProperties_STATUS                               |               |                      |               |           |                  | v20240501 |
+| GroupContractProperties_Type_STATUS                          |               |                      |               |           |                  | v20240501 |
+| GroupCreateParametersProperties                              |               |                      |               |           |                  | v20240501 |
+| GroupCreateParametersProperties_Type                         |               |                      |               |           |                  | v20240501 |
+| Group_STATUS                                                 |               |                      |               |           |                  | v20240501 |
+| Group_Spec                                                   |               |                      |               |           |                  | v20240501 |
 | HostnameConfiguration                                        | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | HostnameConfiguration_CertificateSource                      | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | HostnameConfiguration_CertificateSource_STATUS               | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
@@ -139,9 +190,18 @@
 | HostnameConfiguration_STATUS                                 | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | HostnameConfiguration_Type                                   | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | HostnameConfiguration_Type_STATUS                            | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| HttpMessageDiagnostic                                        |               |                      |               |           |                  | v20240501 |
+| HttpMessageDiagnostic_STATUS                                 |               |                      |               |           |                  | v20240501 |
 | KeyVaultContractCreateProperties                             | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | KeyVaultContractProperties_STATUS                            | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | KeyVaultLastAccessStatusContractProperties_STATUS            | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| Logger                                                       |               |                      |               |           |                  | v20240501 |
+| LoggerContractProperties                                     |               |                      |               |           |                  | v20240501 |
+| LoggerContractProperties_LoggerType                          |               |                      |               |           |                  | v20240501 |
+| LoggerContractProperties_LoggerType_STATUS                   |               |                      |               |           |                  | v20240501 |
+| LoggerContractProperties_STATUS                              |               |                      |               |           |                  | v20240501 |
+| Logger_STATUS                                                |               |                      |               |           |                  | v20240501 |
+| Logger_Spec                                                  |               |                      |               |           |                  | v20240501 |
 | NamedValue                                                   | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | NamedValueContractProperties_STATUS                          | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | NamedValueCreateContractProperties                           | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
@@ -151,6 +211,8 @@
 | OAuth2AuthenticationSettingsContract_STATUS                  | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | OpenIdAuthenticationSettingsContract                         | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | OpenIdAuthenticationSettingsContract_STATUS                  | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| PipelineDiagnosticSettings                                   |               |                      |               |           |                  | v20240501 |
+| PipelineDiagnosticSettings_STATUS                            |               |                      |               |           |                  | v20240501 |
 | Policy                                                       | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | PolicyContractProperties                                     | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | PolicyContractProperties_Format                              | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
@@ -182,7 +244,19 @@
 | Product_STATUS                                               | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | Product_Spec                                                 | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | RemotePrivateEndpointConnectionWrapper_STATUS                | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| ResourceLocationDataContract                                 |               |                      |               |           |                  | v20240501 |
+| ResourceLocationDataContract_STATUS                          |               |                      |               |           |                  | v20240501 |
+| SamplingSettings                                             |               |                      |               |           |                  | v20240501 |
+| SamplingSettings_STATUS                                      |               |                      |               |           |                  | v20240501 |
+| SamplingSettings_SamplingType                                |               |                      |               |           |                  | v20240501 |
+| SamplingSettings_SamplingType_STATUS                         |               |                      |               |           |                  | v20240501 |
 | Service                                                      | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| Service_Apis_Policy_Name_Spec                                |               |                      |               |           |                  | v20240501 |
+| Service_Gateway                                              |               |                      |               |           |                  | v20240501 |
+| Service_Gateway_STATUS                                       |               |                      |               |           |                  | v20240501 |
+| Service_Gateway_Spec                                         |               |                      |               |           |                  | v20240501 |
+| Service_Gateways_Api_Properties_ProvisioningState_Spec       |               |                      |               |           |                  | v20240501 |
+| Service_Gateways_Api_Properties_Spec                         |               |                      |               |           |                  | v20240501 |
 | Service_Policy_Name_Spec                                     | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | Service_Products_Policy_Name_Spec                            | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | Service_STATUS                                               | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
@@ -199,8 +273,19 @@
 | SystemData_CreatedByType_STATUS                              | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | SystemData_LastModifiedByType_STATUS                         | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | SystemData_STATUS                                            | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| User                                                         |               |                      |               |           |                  | v20240501 |
 | UserAssignedIdentityDetails                                  | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| UserContractProperties_STATUS                                |               |                      |               |           |                  | v20240501 |
+| UserContractProperties_State_STATUS                          |               |                      |               |           |                  | v20240501 |
+| UserCreateParameterProperties                                |               |                      |               |           |                  | v20240501 |
+| UserCreateParameterProperties_AppType                        |               |                      |               |           |                  | v20240501 |
+| UserCreateParameterProperties_Confirmation                   |               |                      |               |           |                  | v20240501 |
+| UserCreateParameterProperties_State                          |               |                      |               |           |                  | v20240501 |
+| UserIdentityContract                                         |               |                      |               |           |                  | v20240501 |
+| UserIdentityContract_STATUS                                  |               |                      |               |           |                  | v20240501 |
 | UserIdentityProperties_STATUS                                | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| User_STATUS                                                  |               |                      |               |           |                  | v20240501 |
+| User_Spec                                                    |               |                      |               |           |                  | v20240501 |
 | VirtualNetworkConfiguration                                  | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | VirtualNetworkConfiguration_STATUS                           | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | X509CertificateName                                          | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |

@@ -28,30 +28,3 @@ func (policy *Policy_Spec) GetName() string {
 func (policy *Policy_Spec) GetType() string {
 	return "Microsoft.ApiManagement/service/policies"
 }
-
-// Policy contract Properties.
-type PolicyContractProperties struct {
-	// Format: Format of the policyContent.
-	Format *PolicyContractProperties_Format `json:"format,omitempty"`
-
-	// Value: Contents of the Policy as defined by the format.
-	Value *string `json:"value,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"rawxml","rawxml-link","xml","xml-link"}
-type PolicyContractProperties_Format string
-
-const (
-	PolicyContractProperties_Format_Rawxml     = PolicyContractProperties_Format("rawxml")
-	PolicyContractProperties_Format_RawxmlLink = PolicyContractProperties_Format("rawxml-link")
-	PolicyContractProperties_Format_Xml        = PolicyContractProperties_Format("xml")
-	PolicyContractProperties_Format_XmlLink    = PolicyContractProperties_Format("xml-link")
-)
-
-// Mapping from string to PolicyContractProperties_Format
-var policyContractProperties_Format_Values = map[string]PolicyContractProperties_Format{
-	"rawxml":      PolicyContractProperties_Format_Rawxml,
-	"rawxml-link": PolicyContractProperties_Format_RawxmlLink,
-	"xml":         PolicyContractProperties_Format_Xml,
-	"xml-link":    PolicyContractProperties_Format_XmlLink,
-}

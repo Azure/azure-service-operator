@@ -17,29 +17,3 @@ type Policy_STATUS struct {
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
-
-// Policy contract Properties.
-type PolicyContractProperties_STATUS struct {
-	// Format: Format of the policyContent.
-	Format *PolicyContractProperties_Format_STATUS `json:"format,omitempty"`
-
-	// Value: Contents of the Policy as defined by the format.
-	Value *string `json:"value,omitempty"`
-}
-
-type PolicyContractProperties_Format_STATUS string
-
-const (
-	PolicyContractProperties_Format_STATUS_Rawxml     = PolicyContractProperties_Format_STATUS("rawxml")
-	PolicyContractProperties_Format_STATUS_RawxmlLink = PolicyContractProperties_Format_STATUS("rawxml-link")
-	PolicyContractProperties_Format_STATUS_Xml        = PolicyContractProperties_Format_STATUS("xml")
-	PolicyContractProperties_Format_STATUS_XmlLink    = PolicyContractProperties_Format_STATUS("xml-link")
-)
-
-// Mapping from string to PolicyContractProperties_Format_STATUS
-var policyContractProperties_Format_STATUS_Values = map[string]PolicyContractProperties_Format_STATUS{
-	"rawxml":      PolicyContractProperties_Format_STATUS_Rawxml,
-	"rawxml-link": PolicyContractProperties_Format_STATUS_RawxmlLink,
-	"xml":         PolicyContractProperties_Format_STATUS_Xml,
-	"xml-link":    PolicyContractProperties_Format_STATUS_XmlLink,
-}

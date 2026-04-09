@@ -39,30 +39,3 @@ type NamedValueContractProperties_STATUS struct {
 	// property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value.
 	Value *string `json:"value,omitempty"`
 }
-
-// KeyVault contract details.
-type KeyVaultContractProperties_STATUS struct {
-	// IdentityClientId: Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access
-	// key vault secret.
-	IdentityClientId *string `json:"identityClientId,omitempty"`
-
-	// LastStatus: Last time sync and refresh status of secret from key vault.
-	LastStatus *KeyVaultLastAccessStatusContractProperties_STATUS `json:"lastStatus,omitempty"`
-
-	// SecretIdentifier: Key vault secret identifier for fetching secret. Providing a versioned secret will prevent
-	// auto-refresh. This requires API Management service to be configured with aka.ms/apimmsi
-	SecretIdentifier *string `json:"secretIdentifier,omitempty"`
-}
-
-// Issue contract Update Properties.
-type KeyVaultLastAccessStatusContractProperties_STATUS struct {
-	// Code: Last status code for sync and refresh of secret from key vault.
-	Code *string `json:"code,omitempty"`
-
-	// Message: Details of the error else empty.
-	Message *string `json:"message,omitempty"`
-
-	// TimeStampUtc: Last time secret was accessed. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as
-	// specified by the ISO 8601 standard.
-	TimeStampUtc *string `json:"timeStampUtc,omitempty"`
-}

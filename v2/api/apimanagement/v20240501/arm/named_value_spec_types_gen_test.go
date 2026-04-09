@@ -17,68 +17,6 @@ import (
 	"testing"
 )
 
-func Test_KeyVaultContractCreateProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of KeyVaultContractCreateProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKeyVaultContractCreateProperties, KeyVaultContractCreatePropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForKeyVaultContractCreateProperties runs a test to see if a specific instance of KeyVaultContractCreateProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForKeyVaultContractCreateProperties(subject KeyVaultContractCreateProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual KeyVaultContractCreateProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of KeyVaultContractCreateProperties instances for property testing - lazily instantiated by
-// KeyVaultContractCreatePropertiesGenerator()
-var keyVaultContractCreatePropertiesGenerator gopter.Gen
-
-// KeyVaultContractCreatePropertiesGenerator returns a generator of KeyVaultContractCreateProperties instances for property testing.
-func KeyVaultContractCreatePropertiesGenerator() gopter.Gen {
-	if keyVaultContractCreatePropertiesGenerator != nil {
-		return keyVaultContractCreatePropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties(generators)
-	keyVaultContractCreatePropertiesGenerator = gen.Struct(reflect.TypeOf(KeyVaultContractCreateProperties{}), generators)
-
-	return keyVaultContractCreatePropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKeyVaultContractCreateProperties(gens map[string]gopter.Gen) {
-	gens["IdentityClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["SecretIdentifier"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_NamedValueCreateContractProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()

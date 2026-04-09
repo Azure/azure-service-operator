@@ -243,39 +243,12 @@ func (value *NamedValue_STATUS) ConvertStatusTo(destination genruntime.Convertib
 	return destination.ConvertStatusFrom(value)
 }
 
-// Storage version of v20240501.KeyVaultContractCreateProperties
-// Create keyVault contract details.
-type KeyVaultContractCreateProperties struct {
-	IdentityClientId           *string                        `json:"identityClientId,omitempty" optionalConfigMapPair:"IdentityClientId"`
-	IdentityClientIdFromConfig *genruntime.ConfigMapReference `json:"identityClientIdFromConfig,omitempty" optionalConfigMapPair:"IdentityClientId"`
-	PropertyBag                genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	SecretIdentifier           *string                        `json:"secretIdentifier,omitempty"`
-}
-
-// Storage version of v20240501.KeyVaultContractProperties_STATUS
-// KeyVault contract details.
-type KeyVaultContractProperties_STATUS struct {
-	IdentityClientId *string                                            `json:"identityClientId,omitempty"`
-	LastStatus       *KeyVaultLastAccessStatusContractProperties_STATUS `json:"lastStatus,omitempty"`
-	PropertyBag      genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
-	SecretIdentifier *string                                            `json:"secretIdentifier,omitempty"`
-}
-
 // Storage version of v20240501.NamedValueOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type NamedValueOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
-}
-
-// Storage version of v20240501.KeyVaultLastAccessStatusContractProperties_STATUS
-// Issue contract Update Properties.
-type KeyVaultLastAccessStatusContractProperties_STATUS struct {
-	Code         *string                `json:"code,omitempty"`
-	Message      *string                `json:"message,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TimeStampUtc *string                `json:"timeStampUtc,omitempty"`
 }
 
 func init() {
