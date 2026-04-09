@@ -1,0 +1,16 @@
+apiVersion: apimanagement.azure.com/v20240501
+kind: ApiDiagnostic
+metadata:
+  name: applicationinsights
+  namespace: default
+spec:
+  loggerReference:
+    group: apimanagement.azure.com
+    kind: Logger
+    name: samplelogger
+  sampling:
+    percentage: 100
+    samplingType: "fixed"
+  verbosity: "information"
+  owner:
+    name: sampleapi

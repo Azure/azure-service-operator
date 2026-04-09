@@ -1,0 +1,9 @@
+apiVersion: apimanagement.azure.com/v20240501
+kind: ApiPolicy
+metadata:
+  name: sampleapipolicy
+  namespace: default
+spec:
+  value: "<policies><inbound><set-variable name=\"asoTest\" value=\"ApiPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"
+  owner:
+    name: sampleapi

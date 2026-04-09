@@ -1,0 +1,14 @@
+apiVersion: apimanagement.azure.com/v20240501
+kind: Logger
+metadata:
+  name: samplelogger
+  namespace: default
+spec:
+  loggerType: "applicationInsights"
+  description: "A sample Application Insights logger"
+  resourceReference:
+    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Insights/components/sampleappinsights
+  credentials:
+    instrumentationKey: "00000000-0000-0000-0000-000000000000"
+  owner:
+    name: sampleapimservice
