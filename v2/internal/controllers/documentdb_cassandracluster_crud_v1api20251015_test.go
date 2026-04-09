@@ -106,6 +106,13 @@ func Test_DocumentDB_CassandraCluster_v1api20251015_CRUD(t *testing.T) {
 	tc.Expect(dataCenter.Status.Properties.NodeCount).ToNot(BeNil())
 	tc.Expect(*dataCenter.Status.Properties.NodeCount).To(Equal(3))
 
+	// No test for Cluster Updates as it appears every property is read/only once after creation as the RP silently rejects changes
+
+	// Update the data center to ensure that works
+	oldDataCenter := dataCenter.DeepCopy()
+	dataCenter.Spec.Properties.NodeCount = to.Ptr(5)
+	tc.PatchResourceAndWait(oldDataCenter, dataCenter)
+
 	// Delete the cluster and make sure it goes away
 	armId := *cassandraCluster.Status.Id
 	tc.DeleteResourceAndWait(cassandraCluster)
