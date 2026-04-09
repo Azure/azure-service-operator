@@ -65,27 +65,23 @@ func applyConfigSecretOverrides(
 		for _, prop := range it.Properties().Copy() {
 			maybeSecret := mightBeSecretProperty(prop, definitions)
 
-			isSecret, isSecretConfigured := config.ObjectModelConfiguration.IsSecret.Lookup(ctx, prop.PropertyName())
-			if ctx.IsStatus() && !isSecretConfigured {
-				isSecret, isSecretConfigured = config.ObjectModelConfiguration.IsSecret.Lookup(strippedTypeName, prop.PropertyName())
+			secrecy, secrecyConfigured := config.ObjectModelConfiguration.Secrecy.Lookup(ctx, prop.PropertyName())
+			if ctx.IsStatus() && !secrecyConfigured {
+				secrecy, secrecyConfigured = config.ObjectModelConfiguration.Secrecy.Lookup(strippedTypeName, prop.PropertyName())
 			}
 
 			// If it's not a secret, but it looks like a secret, and we don't have any configuration to tell us for
 			// sure, request configuration so we know for sure.
-			if !prop.IsSecret() && maybeSecret && !isSecretConfigured {
+			if !prop.IsSecret() && maybeSecret && !secrecyConfigured {
 				// Property might be a secret, but isn't already configured as one,
 				// and we don't have config to tell us for sure
 				return nil, eris.Errorf(
-					"property %s might be a secret and must be configured with $isSecret",
+					"property %s might be a secret and must be configured with $secret",
 					prop.PropertyName())
 			}
 
-			if isSecretConfigured {
-				secrecyValue := astmodel.SecrecyNever
-				if isSecret {
-					secrecyValue = astmodel.SecrecyAlways
-				}
-				it = it.WithProperty(prop.WithSecrecy(secrecyValue))
+			if secrecyConfigured {
+				it = it.WithProperty(prop.WithSecrecy(secrecy))
 			}
 		}
 
@@ -119,11 +115,11 @@ func applyConfigSecretOverrides(
 	}
 
 	// Verify that all 'isSecret' modifiers are consumed before returning the result
-	err := config.ObjectModelConfiguration.IsSecret.VerifyConsumed()
+	err := config.ObjectModelConfiguration.Secrecy.VerifyConsumed()
 	if err != nil {
 		return nil, eris.Wrap(
 			err,
-			"Found unused $isSecret configurations; these need to be fixed or removed.")
+			"Found unused $secret configurations; these need to be fixed or removed.")
 	}
 
 	return result, nil
