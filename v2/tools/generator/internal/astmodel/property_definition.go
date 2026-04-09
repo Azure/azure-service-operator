@@ -50,7 +50,7 @@ type PropertyDefinition struct {
 	// originalName is the original name of this property, prior to any renames
 	originalName PropertyName
 
-	isSecret bool
+	secrecy  Secrecy
 	readOnly bool
 
 	tags readonly.Map[string, []string] // Note: have to be careful about not mutating inner []string
@@ -146,14 +146,14 @@ func (property *PropertyDefinition) WithReadOnly(readOnly bool) *PropertyDefinit
 	return result
 }
 
-// WithIsSecret returns a new PropertyDefinition with IsSecret set to the specified value
-func (property *PropertyDefinition) WithIsSecret(secret bool) *PropertyDefinition {
-	if secret == property.isSecret {
+// WithSecrecy returns a new PropertyDefinition with the Secrecy classification set to the specified value
+func (property *PropertyDefinition) WithSecrecy(secrecy Secrecy) *PropertyDefinition {
+	if secrecy == property.secrecy {
 		return property
 	}
 
 	result := property.copy()
-	result.isSecret = secret
+	result.secrecy = secrecy
 	return result
 }
 
@@ -388,7 +388,7 @@ func (property *PropertyDefinition) ReadOnly() bool {
 
 // IsSecret returns true iff the property is a secret.
 func (property *PropertyDefinition) IsSecret() bool {
-	return property.isSecret
+	return property.secrecy == SecrecyAlways
 }
 
 func (property *PropertyDefinition) renderedTags() string {
@@ -490,7 +490,7 @@ func (property *PropertyDefinition) Equals(o *PropertyDefinition, overrides Equa
 		property.propertyType.Equals(o.propertyType, overrides) &&
 		property.flatten == o.flatten &&
 		propertyNameSlicesEqual(property.flattenedFrom, o.flattenedFrom) &&
-		property.isSecret == o.isSecret &&
+		property.secrecy == o.secrecy &&
 		property.tagsEqual(o) &&
 		property.hasKubebuilderRequiredValidation == o.hasKubebuilderRequiredValidation &&
 		property.description == o.description)

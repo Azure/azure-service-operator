@@ -81,8 +81,11 @@ func applyConfigSecretOverrides(
 			}
 
 			if isSecretConfigured {
-				propWithSecret := prop.WithIsSecret(isSecret)
-				it = it.WithProperty(propWithSecret)
+				secrecyValue := astmodel.SecrecyNever
+				if isSecret {
+					secrecyValue = astmodel.SecrecyAlways
+				}
+				it = it.WithProperty(prop.WithSecrecy(secrecyValue))
 			}
 		}
 
@@ -278,7 +281,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 			// redact the ones that are secret. Since it's hard to know statically what will be returned for any given service, we
 			// default to having the map[string]string on the Status type and letting the service return what it wants.
 			if isTypeSecretMapCandidate(propType) {
-				it = it.WithProperty(prop.WithIsSecret(false))
+				it = it.WithProperty(prop.WithSecrecy(astmodel.SecrecyNever))
 				continue
 			}
 
