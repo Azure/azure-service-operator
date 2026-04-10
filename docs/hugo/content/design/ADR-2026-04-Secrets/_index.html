@@ -23,9 +23,19 @@ For some users, a webhook service URI is a plain text field with nothing sensiti
 But for others, the URI necessarily contains credentials (a password, api key, or similar) and they want to treat it as
 a secret, pulling it from a secret at runtime.
 
+## Requirements
+
 To support this, we need more flexibility than a simple true/false answer to the question "is this property a secret?" -
 we need the ability to handle a property which is an optional secret, i.e. it can be treated as a secret if the user
 chooses to do so, but it doesn't have to be.
+
+For properties already marked as secrets, we want to continue treating them as secrets, preserving the existing
+generated CRD structure exactly as it is. No breaking changes.
+
+We want to keep configuration, code generation, and CRD use as simple as possible, but are willing to accept some
+complexity if it leads to a cleaner overall result, expecially if it's simpler for end users.
+
+## Options
 
 The problem falls into two natural parts:
 
@@ -119,7 +129,7 @@ suffix `Secret` for the secret reference property
 
 ### Pros
 
-Consistent with existing patterns for optional ConfigMap properties.
+* Consistent with existing patterns for optional ConfigMap properties.
 
 ### Cons
 
@@ -150,9 +160,16 @@ Generation Option 1: Parallel Properties.
 
 ## Status
 
+Proposed.
 
 ## Consequences
 
+TBC.
+
 ## Experience Report
 
+TBC.
+
 ## References
+
+None.
