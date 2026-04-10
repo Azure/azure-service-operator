@@ -319,9 +319,21 @@ func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.Object
 					astmodel.DebugDescription(propType))
 			}
 
+			// Work out the secret reference type
+			var newType astmodel.Type
+			if isTypeSecretSliceCandidate(propType) {
+				newType = astmodel.NewArrayType(astmodel.SecretReferenceType)
+			} else if isTypeSecretMapCandidate(propType) {
+				newType = astmodel.OptionalSecretMapReferenceType
+			} else if _, ok := astmodel.AsOptionalType(propType); ok {
+				newType = astmodel.NewOptionalType(astmodel.SecretReferenceType)
+			} else {
+				newType = astmodel.SecretReferenceType
+			}
+
 			if prop.Secrecy() == astmodel.SecrecyOptional {
-				// For optional secrets, create a dual-field pair: original string + new SecretReference
-				updatedProp, newProp, err := createNewSecretReference(prop)
+				// For optional secrets, create a dual-field pair: original value + new SecretReference
+				updatedProp, newProp, err := createNewSecretReference(prop, newType)
 				if err != nil {
 					return nil, eris.Wrapf(err, "failed to create optional secret pair for property %s", prop.PropertyName())
 				}
@@ -337,19 +349,8 @@ func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.Object
 
 				it = it.WithProperty(newProp)
 			} else {
-				var newType astmodel.Type
-				if isTypeSecretSliceCandidate(prop.PropertyType()) {
-					newType = astmodel.NewArrayType(astmodel.SecretReferenceType)
-				} else if isTypeSecretMapCandidate(prop.PropertyType()) {
-					newType = astmodel.OptionalSecretMapReferenceType
-				} else if _, ok := astmodel.AsOptionalType(prop.PropertyType()); ok {
-					newType = astmodel.NewOptionalType(astmodel.SecretReferenceType)
-				} else {
-					newType = astmodel.SecretReferenceType
-				}
-
-				updatedProp := prop.WithType(newType)
-				it = it.WithProperty(updatedProp)
+				// For always-secret properties, replace with the secret reference type
+				it = it.WithProperty(prop.WithType(newType))
 			}
 		case astmodel.SecrecyNever:
 			// Not a secret, nothing to do
@@ -361,13 +362,8 @@ func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.Object
 
 func createNewSecretReference(
 	prop *astmodel.PropertyDefinition,
+	newType astmodel.Type,
 ) (*astmodel.PropertyDefinition, *astmodel.PropertyDefinition, error) {
-	// The expectation is that this is a string (optional or required)
-	propType := prop.PropertyType()
-	if !astmodel.TypeEquals(astmodel.Unwrap(propType), astmodel.StringType) {
-		return nil, nil, eris.Errorf("expected property %q to be a string, but was: %s", prop.PropertyName(), astmodel.DebugDescription(propType))
-	}
-
 	jsonName, ok := prop.JSONName()
 	if !ok {
 		return nil, nil, eris.Errorf("property %s didn't have a JSON name", prop.PropertyName())
@@ -382,7 +378,7 @@ func createNewSecretReference(
 
 	newProp := prop.
 		WithName(prop.PropertyName()+astmodel.OptionalSecretReferenceSuffix).
-		WithType(astmodel.SecretReferenceType).
+		WithType(newType).
 		WithJSONName(jsonName+astmodel.OptionalSecretReferenceSuffix).
 		WithTag(astmodel.OptionalSecretPairTag, string(prop.PropertyName())).
 		WithSecrecy(astmodel.SecrecyNever). // The FromSecret property is a reference, not itself a secret
