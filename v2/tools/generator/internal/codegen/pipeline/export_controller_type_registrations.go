@@ -248,7 +248,7 @@ func (b *indexFunctionBuilder) catalogSecretProperties(
 	ctx *propertyChain,
 ) (astmodel.Type, error) {
 	it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
-		if prop.IsSecret() {
+		if prop.Secrecy() == astmodel.SecrecyAlways || prop.Secrecy() == astmodel.SecrecyOptional {
 			b.propChains = append(b.propChains, ctx.add(prop))
 		}
 	})
