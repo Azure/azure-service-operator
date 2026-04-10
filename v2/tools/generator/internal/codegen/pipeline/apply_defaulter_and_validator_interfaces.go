@@ -159,6 +159,19 @@ func getValidations(
 			functions.NewValidateOptionalConfigMapReferenceFunction(resourceDef, idFactory))
 	}
 
+	hasSecretReferencePairs, err := hasOptionalSecretReferencePairs(resourceDef, defs)
+	if err != nil {
+		return nil, err
+	}
+	if hasSecretReferencePairs {
+		validations[functions.ValidationKindCreate] = append(
+			validations[functions.ValidationKindCreate],
+			functions.NewValidateOptionalSecretReferenceFunction(resourceDef, idFactory))
+		validations[functions.ValidationKindUpdate] = append(
+			validations[functions.ValidationKindUpdate],
+			functions.NewValidateOptionalSecretReferenceFunction(resourceDef, idFactory))
+	}
+
 	return validations, nil
 }
 
@@ -534,6 +547,29 @@ func hasOptionalConfigMapReferencePairs(resourceDef astmodel.TypeDefinition, def
 		VisitObjectType: astmodel.MakeIdentityVisitOfObjectType(
 			func(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx any) (any, error) {
 				if prop.HasTag(astmodel.OptionalConfigMapPairTag) {
+					result = true
+				}
+
+				return ctx, nil
+			}),
+	}.Build()
+
+	walker := astmodel.NewTypeWalker(defs, visitor)
+	_, err := walker.Walk(resourceDef)
+	if err != nil {
+		return false, err
+	}
+
+	return result, nil
+}
+
+// hasOptionalSecretReferencePairs returns true if the type has optional genruntime.SecretReference pairs
+func hasOptionalSecretReferencePairs(resourceDef astmodel.TypeDefinition, defs astmodel.TypeDefinitionSet) (bool, error) {
+	result := false
+	visitor := astmodel.TypeVisitorBuilder[any]{
+		VisitObjectType: astmodel.MakeIdentityVisitOfObjectType(
+			func(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx any) (any, error) {
+				if prop.HasTag(astmodel.OptionalSecretPairTag) {
 					result = true
 				}
 

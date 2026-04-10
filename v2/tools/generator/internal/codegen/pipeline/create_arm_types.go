@@ -497,6 +497,18 @@ func (c *armTypeCreator) createSecretReferenceProperty(
 	prop *astmodel.PropertyDefinition,
 	_ *armPropertyTypeConversionContext,
 ) (*astmodel.PropertyDefinition, error) {
+	// For optional secret pair properties tagged with OptionalSecretPairTag:
+	// - The "FromSecret" property should be skipped entirely (it doesn't go to ARM)
+	// - The plain string property should remain as-is (it's already a string)
+	if prop.HasTag(astmodel.OptionalSecretPairTag) {
+		if astmodel.IsTypeSecretReference(prop.PropertyType()) {
+			// This is the FromSecret property - skip it in the ARM type
+			return nil, skipError{}
+		}
+		// This is the plain string property - it's already correct, let it fall through to createARMProperty
+		return nil, nil
+	}
+
 	if !astmodel.IsTypeSecretReference(prop.PropertyType()) {
 		return nil, nil
 	}

@@ -134,6 +134,8 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				pc.Secrecy.Set(astmodel.SecrecyAlways)
 			case string(astmodel.SecrecyNever):
 				pc.Secrecy.Set(astmodel.SecrecyNever)
+			case string(astmodel.SecrecyOptional):
+				pc.Secrecy.Set(astmodel.SecrecyOptional)
 			default:
 				return eris.Errorf("unknown %s value: %s.", secretTag, c.Value)
 			}

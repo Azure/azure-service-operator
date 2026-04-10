@@ -1044,13 +1044,18 @@ status:
 #               the existing property. The new property is called <propName>FromConfig.
 #     Required: The property must be specified from a config map, it cannot be given as a raw string.
 #
-# $secret: always | never
+# $secret: always | never | optional
 #     Specifies the secrecy classification of a property.
 #     Secrets are string values read from a secure storage by ASO when needed.
 #     Set to `always` to flag this property as a secret. This is an override for when the Swagger
 #     is incomplete. If you specify $secret: always, you should also open a PR to update the
 #     upstream Swagger repo spec with the x-ms-secret annotation.
 #     Here's a reference PR: https://github.com/Azure/azure-rest-api-specs/pull/19399
+#     Set to `optional` to allow the property to be specified as either a plain string value or
+#     as a reference to a Kubernetes Secret. This creates two fields: the original property
+#     (as a string) and a new <propName>FromSecret field (as a genruntime.SecretReference).
+#     Only one of the two fields may be set at a time. When creating the ARM payload, the
+#     secret reference is used if defined, otherwise the plain string value is used.
 #
 # $nameInNextVersion: <string>
 #     Gives the name this property has in the next version of the resource

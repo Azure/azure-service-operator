@@ -78,6 +78,7 @@ func newConvertToARMFunctionBuilder(
 		skipPropertiesFlaggedWithNoARMConversion,
 		result.namePropertyHandler,
 		result.operatorSpecPropertyHandler,
+		result.optionalSecretPropertyHandler,
 		result.configMapReferencePropertyHandler,
 		// Generic handlers come second
 		result.referencePropertyHandler,
@@ -236,6 +237,98 @@ func (builder *convertToARMBuilder) operatorSpecPropertyHandler(
 
 	// Do nothing with this property, it exists for the operator only and is not sent to Azure
 	return handledWithNoOp, nil
+}
+
+func (builder *convertToARMBuilder) optionalSecretPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	fromType *astmodel.ObjectType,
+) (propertyConversionHandlerResult, error) {
+	// This is just an optimization to avoid scanning excess properties collections
+	_, isString := astmodel.AsPrimitiveType(toProp.PropertyType())
+	if !isString {
+		return notHandled, nil
+	}
+
+	fromProps := fromType.FindAllPropertiesWithTagValue(astmodel.OptionalSecretPairTag, string(toProp.PropertyName()))
+	if len(fromProps) == 0 {
+		return notHandled, nil
+	}
+
+	if len(fromProps) != 2 {
+		// We expect exactly 2 paired properties
+		return notHandled, nil
+	}
+
+	// Figure out which property is which type. There should be 1 string and 1 genruntime.SecretReference
+	var strProp *astmodel.PropertyDefinition
+	var refProp *astmodel.PropertyDefinition
+	if propType, ok := astmodel.AsPrimitiveType(fromProps[0].PropertyType()); ok && propType == astmodel.StringType {
+		strProp = fromProps[0]
+		refProp = fromProps[1]
+	} else {
+		strProp = fromProps[1]
+		refProp = fromProps[0]
+	}
+
+	optionalType, isOptional := astmodel.AsOptionalType(strProp.PropertyType())
+	if !isOptional || !astmodel.TypeEquals(optionalType, astmodel.OptionalStringType) {
+		return notHandled, nil
+	}
+	if !astmodel.TypeEquals(refProp.PropertyType(), astmodel.NewOptionalType(astmodel.SecretReferenceType)) {
+		return notHandled, nil
+	}
+
+	strPropSource := astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(strProp.PropertyName()))
+	refPropSource := astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(refProp.PropertyName()))
+
+	destination := astbuilder.Selector(dst.NewIdent(builder.resultIdent), string(toProp.PropertyName()))
+
+	// Generate conversion for the plain string property
+	strStmts, err := builder.typeConversionBuilder.BuildConversion(
+		astmodel.ConversionParameters{
+			Source:              strPropSource,
+			SourceType:          strProp.PropertyType(),
+			Destination:         destination,
+			DestinationType:     toProp.PropertyType(),
+			NameHint:            string(strProp.PropertyName()),
+			ConversionContext:   nil,
+			Locals:              builder.locals,
+			SourceProperty:      strProp,
+			DestinationProperty: toProp,
+		},
+	)
+	if err != nil {
+		return notHandled,
+			eris.Wrapf(err,
+				"unable to build conversion for property %s",
+				strProp.PropertyName())
+	}
+
+	// Generate conversion for the SecretReference property
+	refStmts, err := builder.typeConversionBuilder.BuildConversion(
+		astmodel.ConversionParameters{
+			Source:              refPropSource,
+			SourceType:          refProp.PropertyType(),
+			Destination:         destination,
+			DestinationType:     toProp.PropertyType(),
+			NameHint:            string(strProp.PropertyName()),
+			ConversionContext:   nil,
+			Locals:              builder.locals,
+			SourceProperty:      refProp,
+			DestinationProperty: toProp,
+		},
+	)
+	if err != nil {
+		return notHandled,
+			eris.Wrapf(err,
+				"unable to build conversion for property %s",
+				refProp.PropertyName())
+	}
+
+	return handleWith(
+		strStmts,
+		refStmts,
+	), nil
 }
 
 func (builder *convertToARMBuilder) configMapReferencePropertyHandler(

@@ -80,6 +80,25 @@ func NewValidateOptionalConfigMapReferenceFunction(resource astmodel.TypeDefinit
 		astmodel.ReflectHelpersReference)
 }
 
+// NewValidateOptionalSecretReferenceFunction creates a function for validating optional secret references
+//
+//	func (obj *<obj>) validateOptionalSecretReferences(ctx context.Context, obj *<obj>) (admission.Warnings, error) {
+//		refs, err := reflecthelpers.FindOptionalSecretReferences(&obj.Spec)
+//		if err != nil {
+//			return nil, err
+//		}
+//		return secrets.ValidateOptionalReferences(refs)
+//	}
+func NewValidateOptionalSecretReferenceFunction(resource astmodel.TypeDefinition, idFactory astmodel.IdentifierFactory) *ValidateFunction {
+	return NewValidateFunction(
+		"validateOptionalSecretReferences",
+		resource.Name(),
+		idFactory,
+		validateOptionalSecretReferences,
+		astmodel.GenRuntimeSecretsReference,
+		astmodel.ReflectHelpersReference)
+}
+
 func validateResourceReferences(
 	k *ValidateFunction,
 	codeGenerationContext *astmodel.CodeGenerationContext,
@@ -352,6 +371,80 @@ func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.Cod
 		astbuilder.Returns(
 			astbuilder.CallQualifiedFunc(
 				genRuntimeConfigMaps,
+				"ValidateOptionalReferences",
+				dst.NewIdent("refs"))))
+
+	return body
+}
+
+func validateOptionalSecretReferences(
+	k *ValidateFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
+	objectIdent := "obj"
+	contextIdent := "ctx"
+
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating receiver type expression")
+	}
+
+	fn := &astbuilder.FuncDetails{
+		Name:          methodName,
+		ReceiverIdent: receiverIdent,
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
+		Body:          validateOptionalSecretReferencesBody(codeGenerationContext, objectIdent),
+	}
+
+	contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating context type expression")
+	}
+	fn.AddParameter(contextIdent, contextTypeExpr)
+
+	typedObjExpr, err := k.data.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating object type expression")
+	}
+	fn.AddParameter(objectIdent, astbuilder.PointerTo(typedObjExpr))
+
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
+	fn.AddComments("validates all optional secret reference pairs to ensure that at most 1 is set")
+	return fn.DefineFunc(), nil
+}
+
+// validateOptionalSecretReferencesBody helps generate the body of the validateOptionalSecretReferences function:
+//
+//	refs, err := reflecthelpers.FindOptionalSecretReferences(&<resource>.Spec)
+//	if err != nil {
+//		return nil, err
+//	}
+//	return secrets.ValidateOptionalReferences(refs)
+func validateOptionalSecretReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, objIdent string) []dst.Stmt {
+	reflectHelpers := codeGenerationContext.MustGetImportedPackageName(astmodel.ReflectHelpersReference)
+	genRuntimeSecrets := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeSecretsReference)
+
+	body := make([]dst.Stmt, 0, 3)
+
+	body = append(
+		body,
+		astbuilder.SimpleAssignmentWithErr(
+			dst.NewIdent("refs"),
+			token.DEFINE,
+			astbuilder.CallQualifiedFunc(
+				reflectHelpers,
+				"FindOptionalSecretReferences",
+				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(objIdent), "Spec")))))
+	body = append(body, astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
+	body = append(
+		body,
+		astbuilder.Returns(
+			astbuilder.CallQualifiedFunc(
+				genRuntimeSecrets,
 				"ValidateOptionalReferences",
 				dst.NewIdent("refs"))))
 

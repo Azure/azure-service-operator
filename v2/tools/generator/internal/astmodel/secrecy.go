@@ -9,6 +9,7 @@ package astmodel
 type Secrecy string
 
 const (
-	SecrecyAlways = Secrecy("always") // Property always contains a secret
-	SecrecyNever  = Secrecy("never")  // Property never contains a secret
+	SecrecyAlways   = Secrecy("always")   // Property always contains a secret
+	SecrecyNever    = Secrecy("never")    // Property never contains a secret
+	SecrecyOptional = Secrecy("optional") // Property may optionally be specified as a secret
 )

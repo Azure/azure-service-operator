@@ -388,7 +388,12 @@ func (property *PropertyDefinition) ReadOnly() bool {
 
 // IsSecret returns true iff the property is a secret.
 func (property *PropertyDefinition) IsSecret() bool {
-	return property.secrecy == SecrecyAlways
+	return property.secrecy == SecrecyAlways || property.secrecy == SecrecyOptional
+}
+
+// IsOptionalSecret returns true iff the property is an optional secret (can be a plain value or a secret reference).
+func (property *PropertyDefinition) IsOptionalSecret() bool {
+	return property.secrecy == SecrecyOptional
 }
 
 func (property *PropertyDefinition) renderedTags() string {

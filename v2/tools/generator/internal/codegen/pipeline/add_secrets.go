@@ -271,6 +271,14 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 		if prop.IsSecret() {
 			propType := prop.PropertyType()
 
+			if prop.IsOptionalSecret() {
+				// For optional secrets on status types, we keep the plain string value on status
+				// (the value is not actually secret in this direction - it comes from Azure)
+				// We just clear the secret marker.
+				it = it.WithProperty(prop.WithSecrecy(astmodel.SecrecyNever))
+				continue
+			}
+
 			// We only remove pure secret references here. For the case of secret maps, different services seem to treat them
 			// differently. Some services (such as Microsoft.KubernetesConfiguration/extensions) will return the keys of the map
 			// but not the values. Other services (such as APIM) will return certain keys and values that it knows are non-secret, but
@@ -307,21 +315,73 @@ func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.Object
 					astmodel.DebugDescription(propType))
 			}
 
-			var newType astmodel.Type
-			if isTypeSecretSliceCandidate(prop.PropertyType()) {
-				newType = astmodel.NewArrayType(astmodel.SecretReferenceType)
-			} else if isTypeSecretMapCandidate(prop.PropertyType()) {
-				newType = astmodel.OptionalSecretMapReferenceType
-			} else if _, ok := astmodel.AsOptionalType(prop.PropertyType()); ok {
-				newType = astmodel.NewOptionalType(astmodel.SecretReferenceType)
-			} else {
-				newType = astmodel.SecretReferenceType
-			}
+			if prop.IsOptionalSecret() {
+				// For optional secrets, create a dual-field pair: original string + new SecretReference
+				updatedProp, newProp, err := createNewSecretReference(prop)
+				if err != nil {
+					return nil, eris.Wrapf(err, "failed to create optional secret pair for property %s", prop.PropertyName())
+				}
 
-			updatedProp := prop.WithType(newType)
-			it = it.WithProperty(updatedProp)
+				it = it.WithProperty(updatedProp)
+
+				// If the property we're about to add already exists, that's bad!
+				if _, ok := it.Property(newProp.PropertyName()); ok {
+					return nil, eris.Errorf(
+						"property %q already exists on type, can't create optional secret pair",
+						newProp.PropertyName())
+				}
+
+				it = it.WithProperty(newProp)
+			} else {
+				var newType astmodel.Type
+				if isTypeSecretSliceCandidate(prop.PropertyType()) {
+					newType = astmodel.NewArrayType(astmodel.SecretReferenceType)
+				} else if isTypeSecretMapCandidate(prop.PropertyType()) {
+					newType = astmodel.OptionalSecretMapReferenceType
+				} else if _, ok := astmodel.AsOptionalType(prop.PropertyType()); ok {
+					newType = astmodel.NewOptionalType(astmodel.SecretReferenceType)
+				} else {
+					newType = astmodel.SecretReferenceType
+				}
+
+				updatedProp := prop.WithType(newType)
+				it = it.WithProperty(updatedProp)
+			}
 		}
 	}
 
 	return it, nil
+}
+
+func createNewSecretReference(
+	prop *astmodel.PropertyDefinition,
+) (*astmodel.PropertyDefinition, *astmodel.PropertyDefinition, error) {
+	// The expectation is that this is a string (optional or required)
+	propType := prop.PropertyType()
+	if !astmodel.TypeEquals(astmodel.Unwrap(propType), astmodel.StringType) {
+		return nil, nil, eris.Errorf("expected property %q to be a string, but was: %s", prop.PropertyName(), astmodel.DebugDescription(propType))
+	}
+
+	jsonName, ok := prop.JSONName()
+	if !ok {
+		return nil, nil, eris.Errorf("property %s didn't have a JSON name", prop.PropertyName())
+	}
+
+	// Neither property can be required anymore.
+	updatedProp := prop.
+		WithTag(astmodel.OptionalSecretPairTag, string(prop.PropertyName())).
+		WithSecrecy(astmodel.SecrecyNever). // Clear secret flag on the plain value property
+		MakeOptional().
+		MakeTypeOptional()
+
+	newProp := prop.
+		WithName(prop.PropertyName()+astmodel.OptionalSecretReferenceSuffix).
+		WithType(astmodel.SecretReferenceType).
+		WithJSONName(jsonName+astmodel.OptionalSecretReferenceSuffix).
+		WithTag(astmodel.OptionalSecretPairTag, string(prop.PropertyName())).
+		WithSecrecy(astmodel.SecrecyNever). // The FromSecret property is a reference, not itself a secret
+		MakeOptional().
+		MakeTypeOptional()
+
+	return updatedProp, newProp, nil
 }
