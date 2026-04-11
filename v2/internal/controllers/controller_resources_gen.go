@@ -18,15 +18,24 @@ import (
 	alertsmanagement_v20230301s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20230301/storage"
 	alertsmanagement_v20230301w "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20230301/webhook"
 	apimanagement_customizations "github.com/Azure/azure-service-operator/v2/api/apimanagement/customizations"
-	apimanagement_v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
-	apimanagement_v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
-	apimanagement_v20220801w "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/webhook"
-	apimanagement_v20230501p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview"
-	apimanagement_v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
-	apimanagement_v20230501pw "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/webhook"
-	apimanagement_v20240501 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501"
-	apimanagement_v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
-	apimanagement_v20240501w "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/webhook"
+	apimanagement_v1api20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801"
+	apimanagement_v1api20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	apimanagement_v1api20220801w "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/webhook"
+	apimanagement_v1api20230501p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview"
+	apimanagement_v1api20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/storage"
+	apimanagement_v1api20230501pw "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview/webhook"
+	apimanagement_v1api20240501 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501"
+	apimanagement_v1api20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	apimanagement_v1api20240501w "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/webhook"
+	apimanagement_v20220801 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20220801"
+	apimanagement_v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20220801/storage"
+	apimanagement_v20220801w "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20220801/webhook"
+	apimanagement_v20230501p "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview"
+	apimanagement_v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview/storage"
+	apimanagement_v20230501pw "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview/webhook"
+	apimanagement_v20240501 "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501"
+	apimanagement_v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
+	apimanagement_v20240501w "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/webhook"
 	app_customizations "github.com/Azure/azure-service-operator/v2/api/app/customizations"
 	app_v20240301 "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
 	app_v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
@@ -2950,6 +2959,270 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &alertsmanagement_v20230301w.PrometheusRuleGroup{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(alertsmanagement_v20230301s.PrometheusRuleGroup)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.Api),
+			Defaulter: &apimanagement_v1api20220801w.Api{},
+			Validator: &apimanagement_v1api20220801w.Api{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.ApiVersionSet),
+			Defaulter: &apimanagement_v1api20220801w.ApiVersionSet{},
+			Validator: &apimanagement_v1api20220801w.ApiVersionSet{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.AuthorizationProvider),
+			Defaulter: &apimanagement_v1api20220801w.AuthorizationProvider{},
+			Validator: &apimanagement_v1api20220801w.AuthorizationProvider{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.AuthorizationProvidersAuthorization),
+			Defaulter: &apimanagement_v1api20220801w.AuthorizationProvidersAuthorization{},
+			Validator: &apimanagement_v1api20220801w.AuthorizationProvidersAuthorization{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.AuthorizationProvidersAuthorizationsAccessPolicy),
+			Defaulter: &apimanagement_v1api20220801w.AuthorizationProvidersAuthorizationsAccessPolicy{},
+			Validator: &apimanagement_v1api20220801w.AuthorizationProvidersAuthorizationsAccessPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.Backend),
+			Defaulter: &apimanagement_v1api20220801w.Backend{},
+			Validator: &apimanagement_v1api20220801w.Backend{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.NamedValue),
+			Defaulter: &apimanagement_v1api20220801w.NamedValue{},
+			Validator: &apimanagement_v1api20220801w.NamedValue{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.Policy),
+			Defaulter: &apimanagement_v1api20220801w.Policy{},
+			Validator: &apimanagement_v1api20220801w.Policy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.PolicyFragment),
+			Defaulter: &apimanagement_v1api20220801w.PolicyFragment{},
+			Validator: &apimanagement_v1api20220801w.PolicyFragment{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.Product),
+			Defaulter: &apimanagement_v1api20220801w.Product{},
+			Validator: &apimanagement_v1api20220801w.Product{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.ProductApi),
+			Defaulter: &apimanagement_v1api20220801w.ProductApi{},
+			Validator: &apimanagement_v1api20220801w.ProductApi{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.ProductPolicy),
+			Defaulter: &apimanagement_v1api20220801w.ProductPolicy{},
+			Validator: &apimanagement_v1api20220801w.ProductPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.Service),
+			Defaulter: &apimanagement_v1api20220801w.Service{},
+			Validator: &apimanagement_v1api20220801w.Service{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20220801.Subscription),
+			Defaulter: &apimanagement_v1api20220801w.Subscription{},
+			Validator: &apimanagement_v1api20220801w.Subscription{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.Api)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.ApiVersionSet)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.AuthorizationProvider)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.AuthorizationProvidersAuthorization)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.AuthorizationProvidersAuthorizationsAccessPolicy)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.Backend)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.NamedValue)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.Policy)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.PolicyFragment)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.Product)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.ProductApi)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.ProductPolicy)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.Service)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20220801s.Subscription)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.Api),
+			Defaulter: &apimanagement_v1api20230501pw.Api{},
+			Validator: &apimanagement_v1api20230501pw.Api{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.ApiVersionSet),
+			Defaulter: &apimanagement_v1api20230501pw.ApiVersionSet{},
+			Validator: &apimanagement_v1api20230501pw.ApiVersionSet{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.AuthorizationProvider),
+			Defaulter: &apimanagement_v1api20230501pw.AuthorizationProvider{},
+			Validator: &apimanagement_v1api20230501pw.AuthorizationProvider{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.AuthorizationProvidersAuthorization),
+			Defaulter: &apimanagement_v1api20230501pw.AuthorizationProvidersAuthorization{},
+			Validator: &apimanagement_v1api20230501pw.AuthorizationProvidersAuthorization{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.AuthorizationProvidersAuthorizationsAccessPolicy),
+			Defaulter: &apimanagement_v1api20230501pw.AuthorizationProvidersAuthorizationsAccessPolicy{},
+			Validator: &apimanagement_v1api20230501pw.AuthorizationProvidersAuthorizationsAccessPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.Backend),
+			Defaulter: &apimanagement_v1api20230501pw.Backend{},
+			Validator: &apimanagement_v1api20230501pw.Backend{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.NamedValue),
+			Defaulter: &apimanagement_v1api20230501pw.NamedValue{},
+			Validator: &apimanagement_v1api20230501pw.NamedValue{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.Policy),
+			Defaulter: &apimanagement_v1api20230501pw.Policy{},
+			Validator: &apimanagement_v1api20230501pw.Policy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.PolicyFragment),
+			Defaulter: &apimanagement_v1api20230501pw.PolicyFragment{},
+			Validator: &apimanagement_v1api20230501pw.PolicyFragment{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.Product),
+			Defaulter: &apimanagement_v1api20230501pw.Product{},
+			Validator: &apimanagement_v1api20230501pw.Product{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.ProductApi),
+			Defaulter: &apimanagement_v1api20230501pw.ProductApi{},
+			Validator: &apimanagement_v1api20230501pw.ProductApi{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.ProductPolicy),
+			Defaulter: &apimanagement_v1api20230501pw.ProductPolicy{},
+			Validator: &apimanagement_v1api20230501pw.ProductPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.Service),
+			Defaulter: &apimanagement_v1api20230501pw.Service{},
+			Validator: &apimanagement_v1api20230501pw.Service{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20230501p.Subscription),
+			Defaulter: &apimanagement_v1api20230501pw.Subscription{},
+			Validator: &apimanagement_v1api20230501pw.Subscription{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.Api)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.ApiVersionSet)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.AuthorizationProvider)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.AuthorizationProvidersAuthorization)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.AuthorizationProvidersAuthorizationsAccessPolicy)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.Backend)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.NamedValue)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.Policy)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.PolicyFragment)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.Product)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.ProductApi)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.ProductPolicy)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.Service)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20230501ps.Subscription)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.Api),
+			Defaulter: &apimanagement_v1api20240501w.Api{},
+			Validator: &apimanagement_v1api20240501w.Api{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.ApiVersionSet),
+			Defaulter: &apimanagement_v1api20240501w.ApiVersionSet{},
+			Validator: &apimanagement_v1api20240501w.ApiVersionSet{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.AuthorizationProvider),
+			Defaulter: &apimanagement_v1api20240501w.AuthorizationProvider{},
+			Validator: &apimanagement_v1api20240501w.AuthorizationProvider{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.AuthorizationProvidersAuthorization),
+			Defaulter: &apimanagement_v1api20240501w.AuthorizationProvidersAuthorization{},
+			Validator: &apimanagement_v1api20240501w.AuthorizationProvidersAuthorization{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.AuthorizationProvidersAuthorizationsAccessPolicy),
+			Defaulter: &apimanagement_v1api20240501w.AuthorizationProvidersAuthorizationsAccessPolicy{},
+			Validator: &apimanagement_v1api20240501w.AuthorizationProvidersAuthorizationsAccessPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.Backend),
+			Defaulter: &apimanagement_v1api20240501w.Backend{},
+			Validator: &apimanagement_v1api20240501w.Backend{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.NamedValue),
+			Defaulter: &apimanagement_v1api20240501w.NamedValue{},
+			Validator: &apimanagement_v1api20240501w.NamedValue{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.Policy),
+			Defaulter: &apimanagement_v1api20240501w.Policy{},
+			Validator: &apimanagement_v1api20240501w.Policy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.PolicyFragment),
+			Defaulter: &apimanagement_v1api20240501w.PolicyFragment{},
+			Validator: &apimanagement_v1api20240501w.PolicyFragment{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.Product),
+			Defaulter: &apimanagement_v1api20240501w.Product{},
+			Validator: &apimanagement_v1api20240501w.Product{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.ProductApi),
+			Defaulter: &apimanagement_v1api20240501w.ProductApi{},
+			Validator: &apimanagement_v1api20240501w.ProductApi{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.ProductPolicy),
+			Defaulter: &apimanagement_v1api20240501w.ProductPolicy{},
+			Validator: &apimanagement_v1api20240501w.ProductPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.Service),
+			Defaulter: &apimanagement_v1api20240501w.Service{},
+			Validator: &apimanagement_v1api20240501w.Service{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v1api20240501.Subscription),
+			Defaulter: &apimanagement_v1api20240501w.Subscription{},
+			Validator: &apimanagement_v1api20240501w.Subscription{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.Api)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.ApiVersionSet)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.AuthorizationProvider)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.AuthorizationProvidersAuthorization)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.AuthorizationProvidersAuthorizationsAccessPolicy)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.Backend)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.NamedValue)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.Policy)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.PolicyFragment)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.Product)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.ProductApi)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.ProductPolicy)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.Service)},
+		&registration.KnownType{Obj: new(apimanagement_v1api20240501s.Subscription)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6603,6 +6876,12 @@ func createScheme() *runtime.Scheme {
 	_ = alertsmanagement_v20210401s.AddToScheme(scheme)
 	_ = alertsmanagement_v20230301.AddToScheme(scheme)
 	_ = alertsmanagement_v20230301s.AddToScheme(scheme)
+	_ = apimanagement_v1api20220801.AddToScheme(scheme)
+	_ = apimanagement_v1api20220801s.AddToScheme(scheme)
+	_ = apimanagement_v1api20230501p.AddToScheme(scheme)
+	_ = apimanagement_v1api20230501ps.AddToScheme(scheme)
+	_ = apimanagement_v1api20240501.AddToScheme(scheme)
+	_ = apimanagement_v1api20240501s.AddToScheme(scheme)
 	_ = apimanagement_v20220801.AddToScheme(scheme)
 	_ = apimanagement_v20220801s.AddToScheme(scheme)
 	_ = apimanagement_v20230501p.AddToScheme(scheme)

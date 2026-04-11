@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -350,17 +350,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) AssignPrope
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AppIds
-	if propertyBag.Contains("AppIds") {
-		var appId []string
-		err := propertyBag.Pull("AppIds", &appId)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AppIds' from propertyBag")
-		}
-
-		policy.AppIds = appId
-	} else {
-		policy.AppIds = nil
-	}
+	policy.AppIds = genruntime.CloneSliceOfString(source.AppIds)
 
 	// AzureName
 	policy.AzureName = source.AzureName
@@ -436,11 +426,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) AssignPrope
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
 	// AppIds
-	if len(policy.AppIds) > 0 {
-		propertyBag.Add("AppIds", policy.AppIds)
-	} else {
-		propertyBag.Remove("AppIds")
-	}
+	destination.AppIds = genruntime.CloneSliceOfString(policy.AppIds)
 
 	// AzureName
 	destination.AzureName = policy.AzureName
@@ -578,17 +564,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) AssignPro
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AppIds
-	if propertyBag.Contains("AppIds") {
-		var appId []string
-		err := propertyBag.Pull("AppIds", &appId)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AppIds' from propertyBag")
-		}
-
-		policy.AppIds = appId
-	} else {
-		policy.AppIds = nil
-	}
+	policy.AppIds = genruntime.CloneSliceOfString(source.AppIds)
 
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -634,11 +610,7 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) AssignPro
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
 	// AppIds
-	if len(policy.AppIds) > 0 {
-		propertyBag.Add("AppIds", policy.AppIds)
-	} else {
-		propertyBag.Remove("AppIds")
-	}
+	destination.AppIds = genruntime.CloneSliceOfString(policy.AppIds)
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(policy.Conditions)

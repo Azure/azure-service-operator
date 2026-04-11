@@ -49,8 +49,9 @@ const (
 var versionMigrationModes = map[string]VersionMigrationMode{
 	"alertsmanagement": VersionMigrationModeHybrid,
 
-	"apimanagement": VersionMigrationModeLegacy,
-	"app":           VersionMigrationModeLegacy,
+	"apimanagement": VersionMigrationModeHybrid,
+
+	"app": VersionMigrationModeLegacy,
 
 	"appconfiguration": VersionMigrationModeHybrid,
 

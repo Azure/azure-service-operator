@@ -5,9 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
-	v20220801sc "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage/compat"
-	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -80,7 +79,7 @@ func RunPropertyAssignmentTestForBackend(subject Backend) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.Backend
+	var other v20230501ps.Backend
 	err := copied.AssignProperties_To_Backend(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +182,7 @@ func RunPropertyAssignmentTestForBackendAuthorizationHeaderCredentials(subject B
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendAuthorizationHeaderCredentials
+	var other v20230501ps.BackendAuthorizationHeaderCredentials
 	err := copied.AssignProperties_To_BackendAuthorizationHeaderCredentials(&other)
 	if err != nil {
 		return err.Error()
@@ -287,7 +286,7 @@ func RunPropertyAssignmentTestForBackendAuthorizationHeaderCredentials_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendAuthorizationHeaderCredentials_STATUS
+	var other v20230501ps.BackendAuthorizationHeaderCredentials_STATUS
 	err := copied.AssignProperties_To_BackendAuthorizationHeaderCredentials_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -385,13 +384,13 @@ func Test_BackendCircuitBreaker_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendCircuitBreaker tests if a specific instance of BackendCircuitBreaker can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForBackendCircuitBreaker tests if a specific instance of BackendCircuitBreaker can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendCircuitBreaker(subject BackendCircuitBreaker) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.BackendCircuitBreaker
+	var other v20230501ps.BackendCircuitBreaker
 	err := copied.AssignProperties_To_BackendCircuitBreaker(&other)
 	if err != nil {
 		return err.Error()
@@ -488,13 +487,13 @@ func Test_BackendCircuitBreaker_STATUS_WhenPropertiesConverted_RoundTripsWithout
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendCircuitBreaker_STATUS tests if a specific instance of BackendCircuitBreaker_STATUS can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForBackendCircuitBreaker_STATUS tests if a specific instance of BackendCircuitBreaker_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendCircuitBreaker_STATUS(subject BackendCircuitBreaker_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.BackendCircuitBreaker_STATUS
+	var other v20230501ps.BackendCircuitBreaker_STATUS
 	err := copied.AssignProperties_To_BackendCircuitBreaker_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -597,7 +596,7 @@ func RunPropertyAssignmentTestForBackendCredentialsContract(subject BackendCrede
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendCredentialsContract
+	var other v20230501ps.BackendCredentialsContract
 	err := copied.AssignProperties_To_BackendCredentialsContract(&other)
 	if err != nil {
 		return err.Error()
@@ -721,7 +720,7 @@ func RunPropertyAssignmentTestForBackendCredentialsContract_STATUS(subject Backe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendCredentialsContract_STATUS
+	var other v20230501ps.BackendCredentialsContract_STATUS
 	err := copied.AssignProperties_To_BackendCredentialsContract_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -845,7 +844,7 @@ func RunPropertyAssignmentTestForBackendOperatorSpec(subject BackendOperatorSpec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendOperatorSpec
+	var other v20230501ps.BackendOperatorSpec
 	err := copied.AssignProperties_To_BackendOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -936,13 +935,13 @@ func Test_BackendPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendPool tests if a specific instance of BackendPool can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForBackendPool tests if a specific instance of BackendPool can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendPool(subject BackendPool) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.BackendPool
+	var other v20230501ps.BackendPool
 	err := copied.AssignProperties_To_BackendPool(&other)
 	if err != nil {
 		return err.Error()
@@ -1038,13 +1037,13 @@ func Test_BackendPoolItem_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendPoolItem tests if a specific instance of BackendPoolItem can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForBackendPoolItem tests if a specific instance of BackendPoolItem can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendPoolItem(subject BackendPoolItem) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.BackendPoolItem
+	var other v20230501ps.BackendPoolItem
 	err := copied.AssignProperties_To_BackendPoolItem(&other)
 	if err != nil {
 		return err.Error()
@@ -1134,13 +1133,13 @@ func Test_BackendPoolItem_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendPoolItem_STATUS tests if a specific instance of BackendPoolItem_STATUS can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForBackendPoolItem_STATUS tests if a specific instance of BackendPoolItem_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendPoolItem_STATUS(subject BackendPoolItem_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.BackendPoolItem_STATUS
+	var other v20230501ps.BackendPoolItem_STATUS
 	err := copied.AssignProperties_To_BackendPoolItem_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1237,13 +1236,13 @@ func Test_BackendPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendPool_STATUS tests if a specific instance of BackendPool_STATUS can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForBackendPool_STATUS tests if a specific instance of BackendPool_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForBackendPool_STATUS(subject BackendPool_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.BackendPool_STATUS
+	var other v20230501ps.BackendPool_STATUS
 	err := copied.AssignProperties_To_BackendPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1345,7 +1344,7 @@ func RunPropertyAssignmentTestForBackendProperties(subject BackendProperties) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendProperties
+	var other v20230501ps.BackendProperties
 	err := copied.AssignProperties_To_BackendProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1447,7 +1446,7 @@ func RunPropertyAssignmentTestForBackendProperties_STATUS(subject BackendPropert
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendProperties_STATUS
+	var other v20230501ps.BackendProperties_STATUS
 	err := copied.AssignProperties_To_BackendProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1550,7 +1549,7 @@ func RunPropertyAssignmentTestForBackendProxyContract(subject BackendProxyContra
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendProxyContract
+	var other v20230501ps.BackendProxyContract
 	err := copied.AssignProperties_To_BackendProxyContract(&other)
 	if err != nil {
 		return err.Error()
@@ -1654,7 +1653,7 @@ func RunPropertyAssignmentTestForBackendProxyContract_STATUS(subject BackendProx
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendProxyContract_STATUS
+	var other v20230501ps.BackendProxyContract_STATUS
 	err := copied.AssignProperties_To_BackendProxyContract_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1758,7 +1757,7 @@ func RunPropertyAssignmentTestForBackendServiceFabricClusterProperties(subject B
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendServiceFabricClusterProperties
+	var other v20230501ps.BackendServiceFabricClusterProperties
 	err := copied.AssignProperties_To_BackendServiceFabricClusterProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1879,7 +1878,7 @@ func RunPropertyAssignmentTestForBackendServiceFabricClusterProperties_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendServiceFabricClusterProperties_STATUS
+	var other v20230501ps.BackendServiceFabricClusterProperties_STATUS
 	err := copied.AssignProperties_To_BackendServiceFabricClusterProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2000,7 +1999,7 @@ func RunPropertyAssignmentTestForBackendTlsProperties(subject BackendTlsProperti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendTlsProperties
+	var other v20230501ps.BackendTlsProperties
 	err := copied.AssignProperties_To_BackendTlsProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -2104,7 +2103,7 @@ func RunPropertyAssignmentTestForBackendTlsProperties_STATUS(subject BackendTlsP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.BackendTlsProperties_STATUS
+	var other v20230501ps.BackendTlsProperties_STATUS
 	err := copied.AssignProperties_To_BackendTlsProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2208,7 +2207,7 @@ func RunPropertyAssignmentTestForBackend_STATUS(subject Backend_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.Backend_STATUS
+	var other v20230501ps.Backend_STATUS
 	err := copied.AssignProperties_To_Backend_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2337,7 +2336,7 @@ func RunPropertyAssignmentTestForBackend_Spec(subject Backend_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.Backend_Spec
+	var other v20230501ps.Backend_Spec
 	err := copied.AssignProperties_To_Backend_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -2459,13 +2458,13 @@ func Test_CircuitBreakerFailureCondition_WhenPropertiesConverted_RoundTripsWitho
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCircuitBreakerFailureCondition tests if a specific instance of CircuitBreakerFailureCondition can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForCircuitBreakerFailureCondition tests if a specific instance of CircuitBreakerFailureCondition can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCircuitBreakerFailureCondition(subject CircuitBreakerFailureCondition) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.CircuitBreakerFailureCondition
+	var other v20230501ps.CircuitBreakerFailureCondition
 	err := copied.AssignProperties_To_CircuitBreakerFailureCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -2579,13 +2578,13 @@ func Test_CircuitBreakerFailureCondition_STATUS_WhenPropertiesConverted_RoundTri
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCircuitBreakerFailureCondition_STATUS tests if a specific instance of CircuitBreakerFailureCondition_STATUS can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForCircuitBreakerFailureCondition_STATUS tests if a specific instance of CircuitBreakerFailureCondition_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCircuitBreakerFailureCondition_STATUS(subject CircuitBreakerFailureCondition_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.CircuitBreakerFailureCondition_STATUS
+	var other v20230501ps.CircuitBreakerFailureCondition_STATUS
 	err := copied.AssignProperties_To_CircuitBreakerFailureCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2699,13 +2698,13 @@ func Test_CircuitBreakerRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCircuitBreakerRule tests if a specific instance of CircuitBreakerRule can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForCircuitBreakerRule tests if a specific instance of CircuitBreakerRule can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCircuitBreakerRule(subject CircuitBreakerRule) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.CircuitBreakerRule
+	var other v20230501ps.CircuitBreakerRule
 	err := copied.AssignProperties_To_CircuitBreakerRule(&other)
 	if err != nil {
 		return err.Error()
@@ -2816,13 +2815,13 @@ func Test_CircuitBreakerRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForCircuitBreakerRule_STATUS tests if a specific instance of CircuitBreakerRule_STATUS can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForCircuitBreakerRule_STATUS tests if a specific instance of CircuitBreakerRule_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForCircuitBreakerRule_STATUS(subject CircuitBreakerRule_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.CircuitBreakerRule_STATUS
+	var other v20230501ps.CircuitBreakerRule_STATUS
 	err := copied.AssignProperties_To_CircuitBreakerRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2934,13 +2933,13 @@ func Test_FailureStatusCodeRange_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFailureStatusCodeRange tests if a specific instance of FailureStatusCodeRange can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForFailureStatusCodeRange tests if a specific instance of FailureStatusCodeRange can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFailureStatusCodeRange(subject FailureStatusCodeRange) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.FailureStatusCodeRange
+	var other v20230501ps.FailureStatusCodeRange
 	err := copied.AssignProperties_To_FailureStatusCodeRange(&other)
 	if err != nil {
 		return err.Error()
@@ -3038,13 +3037,13 @@ func Test_FailureStatusCodeRange_STATUS_WhenPropertiesConverted_RoundTripsWithou
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForFailureStatusCodeRange_STATUS tests if a specific instance of FailureStatusCodeRange_STATUS can be assigned to compat and back losslessly
+// RunPropertyAssignmentTestForFailureStatusCodeRange_STATUS tests if a specific instance of FailureStatusCodeRange_STATUS can be assigned to storage and back losslessly
 func RunPropertyAssignmentTestForFailureStatusCodeRange_STATUS(subject FailureStatusCodeRange_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801sc.FailureStatusCodeRange_STATUS
+	var other v20230501ps.FailureStatusCodeRange_STATUS
 	err := copied.AssignProperties_To_FailureStatusCodeRange_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3148,7 +3147,7 @@ func RunPropertyAssignmentTestForX509CertificateName(subject X509CertificateName
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.X509CertificateName
+	var other v20230501ps.X509CertificateName
 	err := copied.AssignProperties_To_X509CertificateName(&other)
 	if err != nil {
 		return err.Error()
@@ -3252,7 +3251,7 @@ func RunPropertyAssignmentTestForX509CertificateName_STATUS(subject X509Certific
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.X509CertificateName_STATUS
+	var other v20230501ps.X509CertificateName_STATUS
 	err := copied.AssignProperties_To_X509CertificateName_STATUS(&other)
 	if err != nil {
 		return err.Error()

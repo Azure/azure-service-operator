@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &Service{}
 
 // ConvertFrom populates our Service from the provided hub Service
 func (service *Service) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Service)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20240501/storage/Service but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Service
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_Service(source)
+	err = service.AssignProperties_From_Service(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Service from our Service
 func (service *Service) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Service)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20240501/storage/Service but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Service
+	err := service.AssignProperties_To_Service(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_Service(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Service{}
@@ -402,22 +415,8 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *storage.
 		service.Certificates = nil
 	}
 
-	// ConfigurationApi
-	if source.ConfigurationApi != nil {
-		propertyBag.Add("ConfigurationApi", *source.ConfigurationApi)
-	} else {
-		propertyBag.Remove("ConfigurationApi")
-	}
-
 	// CustomProperties
 	service.CustomProperties = genruntime.CloneMapOfStringToString(source.CustomProperties)
-
-	// DeveloperPortalStatus
-	if source.DeveloperPortalStatus != nil {
-		propertyBag.Add("DeveloperPortalStatus", *source.DeveloperPortalStatus)
-	} else {
-		propertyBag.Remove("DeveloperPortalStatus")
-	}
 
 	// DisableGateway
 	if source.DisableGateway != nil {
@@ -461,13 +460,6 @@ func (service *Service_Spec) AssignProperties_From_Service_Spec(source *storage.
 		service.Identity = &identity
 	} else {
 		service.Identity = nil
-	}
-
-	// LegacyPortalStatus
-	if source.LegacyPortalStatus != nil {
-		propertyBag.Add("LegacyPortalStatus", *source.LegacyPortalStatus)
-	} else {
-		propertyBag.Remove("LegacyPortalStatus")
 	}
 
 	// Location
@@ -632,34 +624,8 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *stora
 		destination.Certificates = nil
 	}
 
-	// ConfigurationApi
-	if propertyBag.Contains("ConfigurationApi") {
-		var configurationApi storage.ConfigurationApi
-		err := propertyBag.Pull("ConfigurationApi", &configurationApi)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ConfigurationApi' from propertyBag")
-		}
-
-		destination.ConfigurationApi = &configurationApi
-	} else {
-		destination.ConfigurationApi = nil
-	}
-
 	// CustomProperties
 	destination.CustomProperties = genruntime.CloneMapOfStringToString(service.CustomProperties)
-
-	// DeveloperPortalStatus
-	if propertyBag.Contains("DeveloperPortalStatus") {
-		var developerPortalStatus string
-		err := propertyBag.Pull("DeveloperPortalStatus", &developerPortalStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DeveloperPortalStatus' from propertyBag")
-		}
-
-		destination.DeveloperPortalStatus = &developerPortalStatus
-	} else {
-		destination.DeveloperPortalStatus = nil
-	}
 
 	// DisableGateway
 	if service.DisableGateway != nil {
@@ -703,19 +669,6 @@ func (service *Service_Spec) AssignProperties_To_Service_Spec(destination *stora
 		destination.Identity = &identity
 	} else {
 		destination.Identity = nil
-	}
-
-	// LegacyPortalStatus
-	if propertyBag.Contains("LegacyPortalStatus") {
-		var legacyPortalStatus string
-		err := propertyBag.Pull("LegacyPortalStatus", &legacyPortalStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'LegacyPortalStatus' from propertyBag")
-		}
-
-		destination.LegacyPortalStatus = &legacyPortalStatus
-	} else {
-		destination.LegacyPortalStatus = nil
 	}
 
 	// Location
@@ -976,25 +929,11 @@ func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *stor
 	// Conditions
 	service.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
-	// ConfigurationApi
-	if source.ConfigurationApi != nil {
-		propertyBag.Add("ConfigurationApi", *source.ConfigurationApi)
-	} else {
-		propertyBag.Remove("ConfigurationApi")
-	}
-
 	// CreatedAtUtc
 	service.CreatedAtUtc = genruntime.ClonePointerToString(source.CreatedAtUtc)
 
 	// CustomProperties
 	service.CustomProperties = genruntime.CloneMapOfStringToString(source.CustomProperties)
-
-	// DeveloperPortalStatus
-	if source.DeveloperPortalStatus != nil {
-		propertyBag.Add("DeveloperPortalStatus", *source.DeveloperPortalStatus)
-	} else {
-		propertyBag.Remove("DeveloperPortalStatus")
-	}
 
 	// DeveloperPortalUrl
 	service.DeveloperPortalUrl = genruntime.ClonePointerToString(source.DeveloperPortalUrl)
@@ -1053,13 +992,6 @@ func (service *Service_STATUS) AssignProperties_From_Service_STATUS(source *stor
 		service.Identity = &identity
 	} else {
 		service.Identity = nil
-	}
-
-	// LegacyPortalStatus
-	if source.LegacyPortalStatus != nil {
-		propertyBag.Add("LegacyPortalStatus", *source.LegacyPortalStatus)
-	} else {
-		propertyBag.Remove("LegacyPortalStatus")
 	}
 
 	// Location
@@ -1257,37 +1189,11 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *s
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(service.Conditions)
 
-	// ConfigurationApi
-	if propertyBag.Contains("ConfigurationApi") {
-		var configurationApi storage.ConfigurationApi_STATUS
-		err := propertyBag.Pull("ConfigurationApi", &configurationApi)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ConfigurationApi' from propertyBag")
-		}
-
-		destination.ConfigurationApi = &configurationApi
-	} else {
-		destination.ConfigurationApi = nil
-	}
-
 	// CreatedAtUtc
 	destination.CreatedAtUtc = genruntime.ClonePointerToString(service.CreatedAtUtc)
 
 	// CustomProperties
 	destination.CustomProperties = genruntime.CloneMapOfStringToString(service.CustomProperties)
-
-	// DeveloperPortalStatus
-	if propertyBag.Contains("DeveloperPortalStatus") {
-		var developerPortalStatus string
-		err := propertyBag.Pull("DeveloperPortalStatus", &developerPortalStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DeveloperPortalStatus' from propertyBag")
-		}
-
-		destination.DeveloperPortalStatus = &developerPortalStatus
-	} else {
-		destination.DeveloperPortalStatus = nil
-	}
 
 	// DeveloperPortalUrl
 	destination.DeveloperPortalUrl = genruntime.ClonePointerToString(service.DeveloperPortalUrl)
@@ -1346,19 +1252,6 @@ func (service *Service_STATUS) AssignProperties_To_Service_STATUS(destination *s
 		destination.Identity = &identity
 	} else {
 		destination.Identity = nil
-	}
-
-	// LegacyPortalStatus
-	if propertyBag.Contains("LegacyPortalStatus") {
-		var legacyPortalStatus string
-		err := propertyBag.Pull("LegacyPortalStatus", &legacyPortalStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'LegacyPortalStatus' from propertyBag")
-		}
-
-		destination.LegacyPortalStatus = &legacyPortalStatus
-	} else {
-		destination.LegacyPortalStatus = nil
 	}
 
 	// Location

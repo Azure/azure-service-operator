@@ -1,0 +1,14 @@
+apiVersion: apimanagement.azure.com/v20220801
+kind: AuthorizationProvidersAuthorizationsAccessPolicy
+metadata:
+  name: sampleapimauthorizationaccesspolicy
+  namespace: default
+spec:
+  owner:
+    name: sampleapimauthorization
+  objectIdFromConfig:
+    name: identity-settings
+    key: principalId
+  tenantIdFromConfig:
+    name: identity-settings
+    key: tenantId
