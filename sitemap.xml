@@ -663,6 +663,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20241230/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/network/v20250301/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20250601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20250601preview/</loc>
