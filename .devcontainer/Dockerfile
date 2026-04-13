@@ -38,13 +38,12 @@ COPY v2/tools/generator/go.mod v2/tools/generator/go.sum /tmp/mod-download/v2/to
 # mangle-test-json (standalone, no replace directives)
 COPY v2/tools/mangle-test-json/go.mod v2/tools/mangle-test-json/go.sum /tmp/mod-download/v2/tools/mangle-test-json/
 # Now do all the downloads
-RUN find /tmp/mod-download -name go.mod -execdir pwd \; -execdir go mod download \;
+RUN mkdir -p /go/pkg/mod && \
+    chown -R vscode:vscode /go/pkg/mod && \
+    find /tmp/mod-download -name go.mod -execdir pwd \; -execdir go mod download \;
 
 # Clean up temporary module download directory
 RUN rm -rf /tmp/mod-download
-
-# Fix permissions so the vscode user can write to the module cache
-RUN chown -R vscode:vscode /go/pkg/mod
 
 # Setup envtest
 # NB: if you change this, dev.sh also likely needs updating, also need to update the env below
