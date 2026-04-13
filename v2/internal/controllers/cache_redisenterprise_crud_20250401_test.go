@@ -9,8 +9,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/google/uuid"
 	. "github.com/onsi/gomega"
+	"github.com/google/uuid"
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
