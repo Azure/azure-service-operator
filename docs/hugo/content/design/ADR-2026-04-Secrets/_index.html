@@ -75,8 +75,8 @@ understand that it can take a non-boolean value.
 
 ## Configuration Option 3: Change to new Enum
 
-Replace the existing `$isSecret` boolean with a new enum property, say `$secret` with values `always`, `never`, and
-`optional`.
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`.
 
 ### Pros
 
@@ -95,9 +95,9 @@ in progress.
 
 ## Configuration Option 4: Change to new Enum, with backward compatibility
 
-Replace the existing `$isSecret` boolean with a new enum property, say `$secret` with values `always`, `never`, and
-`optional`. Handle `$isSecret` as a legacy property for backward compatibility, mapping `true` to `always` and `false`
-to `never`.
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`. Handle `$isSecret` as a legacy property for backward compatibility, mapping `true` to
+`Required` and `false` to `Never`.
 
 ### Pros
 
