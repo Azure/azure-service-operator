@@ -4,6 +4,7 @@ metadata:
   name: sampleapi
   namespace: default
 spec:
+  azureName: sampleapi  # Force a stable name for testing purposes
   apiVersion: "2020-08-01"
   apiRevision: "2"
   apiRevisionDescription: Second Revision

@@ -69,14 +69,29 @@ var exclusions = []*regexp.Regexp{
 	// TODO: we don't support Keyvault/Keys to automate the process
 	regexp.MustCompile(`compute/.*_diskencryptionset.yaml`),
 
-	// Excluding APIM Product and Subscription as we need to pass deleteSubscription flag to delete the subscription
-	// when we delete the Product. https://github.com/Azure/azure-service-operator/issues/3408
-	regexp.MustCompile(`apimanagement/.*_api.yaml`),
-	regexp.MustCompile(`apimanagement/.*_apiversionset.yaml`),
-	regexp.MustCompile(`apimanagement/.*_product.yaml`),
-	regexp.MustCompile(`apimanagement/.*_subscription.yaml`),
-	regexp.MustCompile(`apimanagement/.*_productpolicy.yaml`),
-	regexp.MustCompile(`apimanagement/.*_productapi.yaml`),
+	// Don't test these for the old API as it doesn't support basicv2 and is much slower to allocate
+	// as well as has some other issues with these APIs that cause them to be flaky
+	regexp.MustCompile(`apimanagement/.*20220801.*_api.yaml`),
+	regexp.MustCompile(`apimanagement/.*20220801.*_apiversionset.yaml`),
+	regexp.MustCompile(`apimanagement/.*20220801.*_product.yaml`),
+	regexp.MustCompile(`apimanagement/.*20220801.*_subscription.yaml`),
+	regexp.MustCompile(`apimanagement/.*20220801.*_productpolicy.yaml`),
+	regexp.MustCompile(`apimanagement/.*20220801.*_productapi.yaml`),
+
+	// TODO: we should remove this later, but for some reason when re-recording the v1api20240501 variant
+	// I kept getting this error when creating the apimanagement_authorizationprovider
+	// "cannot create API management account cf-f22a30e54c59452994eb4a91319fd87e-asotestwqfwhe
+	// since another account is using the same apim service name asotestwqfwhe."
+	// The weird thing is the apim service (which has the name asotestwqfwhe) is created fine. I _think_
+	// this is some caching/staleness issue on the APIM side as all the other samples recorded fine and
+	// so did this one a few days ago, but in the meantime we just go with the recording we had
+	// that worked and hopefully time will resolve whatever issue was happening on the APIM side.
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_api.yaml`),
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_apiversionset.yaml`),
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_product.yaml`),
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_subscription.yaml`),
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_productpolicy.yaml`),
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_productapi.yaml`),
 
 	// Excluding cdn secret as it requires KV secrets
 	regexp.MustCompile(`cdn/.*_secret.yaml`),

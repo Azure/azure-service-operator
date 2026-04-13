@@ -68,6 +68,10 @@ func (extension *ProductExtension) Delete(
 			DeleteSubscriptions: to.Ptr(true),
 		})
 	if err != nil {
+		// If the product (or its parent) is already gone, treat as success
+		if genericarmclient.IsNotFoundError(err) {
+			return next(ctx, log, resolver, armClient, obj)
+		}
 		return ctrl.Result{}, eris.Wrapf(err, "failed to delete product %q", productName)
 	}
 
