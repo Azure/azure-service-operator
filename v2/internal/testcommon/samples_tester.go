@@ -97,6 +97,12 @@ var exclusions = []*regexp.Regexp{
 	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversadministrator.yaml`),
 }
 
+// referenceKey identifies a resource by its Kind and Name for rename tracking.
+type referenceKey struct {
+	Kind string
+	Name string
+}
+
 type SamplesTester struct {
 	noSpaceNamer      ResourceNamer
 	scheme            *runtime.Scheme
@@ -106,6 +112,7 @@ type SamplesTester struct {
 	rgName            string
 	azureSubscription string
 	azureTenant       string
+	nameRenames       map[referenceKey]string // maps (Kind, OldName) -> NewName for renamed resources
 }
 
 type SampleObject struct {
@@ -143,6 +150,9 @@ func NewSamplesTester(
 		rgName:            rgName,
 		azureSubscription: azureSubscription,
 		azureTenant:       azureTenant,
+		nameRenames: map[referenceKey]string{
+			{Kind: resolver.ResourceGroupKind, Name: defaultResourceGroup}: rgName,
+		},
 	}
 }
 
@@ -165,7 +175,11 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 					t.handleObject(sample, samples.RefsMap)
 				} else {
 					if t.useRandomName {
-						sample.SetName(t.noSpaceNamer.GenerateName(""))
+						oldName := sample.GetName()
+						kind := sample.GetObjectKind().GroupVersionKind().Kind
+						newName := t.noSpaceNamer.GenerateName("")
+						t.nameRenames[referenceKey{Kind: kind, Name: oldName}] = newName
+						sample.SetName(newName)
 					}
 
 					t.handleObject(sample, samples.SamplesMap)
@@ -370,7 +384,7 @@ func (t *SamplesTester) updateFieldsForTest(obj genruntime.ARMMetaObject) error 
 	visitor := reflecthelpers.NewReflectVisitor()
 	visitor.VisitStruct = t.visitStruct
 
-	err := visitor.Visit(obj, t.rgName)
+	err := visitor.Visit(obj, nil)
 	if err != nil {
 		return eris.Wrapf(err, "updating fields for test")
 	}
@@ -438,14 +452,13 @@ func (t *SamplesTester) replaceString(field reflect.Value, old string, new strin
 	field.SetString(val)
 }
 
-// visitResourceReference checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
-func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor, it reflect.Value, ctx any) error {
+// visitResourceReference checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values,
+// and updates Kubernetes-style resource references whose targets were renamed.
+func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor, it reflect.Value, _ any) error {
 	if !it.CanInterface() {
 		// This should be impossible given how the visitor works
 		panic("genruntime.ResourceReference field was unexpectedly nil")
 	}
-
-	ownersName := ctx.(string)
 
 	reference := it.Interface().(genruntime.ResourceReference)
 	if reference.ARMID != "" {
@@ -459,16 +472,17 @@ func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor,
 		armIDString = subRegex.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription))
 
 		armIDField.SetString(armIDString)
-	} else if reference.Kind == "ResourceGroup" && ownersName != "" { // If we're referring to a resourceGroup, it needs to be updated to refer to the random one
-		// TODO: We're making the assumption that every reference of type ResourceGroup is by definition referring
-		// TODO: to the randomly generated RG name, but it's possible at some future date we have multiple resourceGroups
-		// TODO: floating around. If that happens we may need to update this logic to be a bit more discerning.
-		nameField := it.FieldByName("Name")
-		if !nameField.CanSet() {
-			return eris.New("cannot set 'Name' field of 'genruntime.ResourceReference'")
-		}
+	} else if reference.Name != "" {
+		// Check if this reference points to a resource that was renamed
+		key := referenceKey{Kind: reference.Kind, Name: reference.Name}
+		if newName, ok := t.nameRenames[key]; ok {
+			nameField := it.FieldByName("Name")
+			if !nameField.CanSet() {
+				return eris.New("cannot set 'Name' field of 'genruntime.ResourceReference'")
+			}
 
-		nameField.SetString(ownersName)
+			nameField.SetString(newName)
+		}
 	}
 
 	return nil
