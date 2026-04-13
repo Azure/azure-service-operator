@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"go/token"
+	"maps"
 	"sort"
 	"strings"
 
@@ -589,9 +590,7 @@ func (objectType *ObjectType) copy() *ObjectType {
 	}
 
 	result.embedded = make(map[TypeName]*PropertyDefinition, len(objectType.embedded))
-	for k, v := range objectType.embedded {
-		result.embedded[k] = v
-	}
+	maps.Copy(result.embedded, objectType.embedded)
 
 	result.InterfaceImplementer = objectType.InterfaceImplementer.copy()
 	result.isResource = objectType.isResource

@@ -7,6 +7,7 @@ package astmodel
 
 import (
 	"fmt"
+	"maps"
 
 	"github.com/rotisserie/eris"
 )
@@ -155,9 +156,7 @@ func (ctx *CodeGenerationContext) GetAllReachableDefinitions() TypeDefinitionSet
 		}
 		defs, found := ctx.GetDefinitionsInPackage(ipr)
 		if found {
-			for k, v := range defs {
-				result[k] = v
-			}
+			maps.Copy(result, defs)
 		}
 	}
 

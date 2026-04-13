@@ -5,7 +5,10 @@
 
 package readonly
 
-import "golang.org/x/exp/maps"
+import (
+	"maps"
+	"slices"
+)
 
 type Map[K comparable, V any] struct {
 	inner map[K]V
@@ -51,9 +54,7 @@ func (m Map[K, V]) Clone() map[K]V {
 // maps.Clone doesn’t work correctly, see: https://github.com/golang/go/issues/53087
 func Clone[K comparable, V any](m map[K]V) map[K]V {
 	r := make(map[K]V, len(m))
-	for k, v := range m {
-		r[k] = v
-	}
+	maps.Copy(r, m)
 	return r
 }
 
@@ -75,11 +76,11 @@ func (m Map[K, V]) ContainsKey(key K) bool {
 }
 
 func (m Map[K, V]) Keys() []K {
-	return maps.Keys(m.inner)
+	return slices.Collect(maps.Keys(m.inner))
 }
 
 func (m Map[K, V]) Values() []V {
-	return maps.Values(m.inner)
+	return slices.Collect(maps.Values(m.inner))
 }
 
 func (m Map[K, V]) IsEmpty() bool {

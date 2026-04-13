@@ -8,12 +8,13 @@ package astmodel
 import (
 	"fmt"
 	"go/token"
+	"maps"
+	"slices"
 	"sort"
 	"strings"
 
 	"github.com/dave/dst"
 	"github.com/rotisserie/eris"
-	"golang.org/x/exp/maps"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
@@ -333,7 +334,7 @@ func (resource *ResourceType) WithAPIVersion(
 
 // TestCases returns a new slice containing all the test cases associated with this resource
 func (resource *ResourceType) TestCases() []TestCase {
-	result := maps.Values(resource.testcases)
+	result := slices.Collect(maps.Values(resource.testcases))
 
 	sort.Slice(result, func(i int, j int) bool {
 		return result[i].Name() < result[j].Name()
@@ -497,7 +498,7 @@ func (resource *ResourceType) APIVersionEnumValue() EnumValue {
 // Functions returns all the function implementations
 // A sorted slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) Functions() []Function {
-	functions := maps.Values(resource.functions)
+	functions := slices.Collect(maps.Values(resource.functions))
 
 	sort.Slice(functions, func(i int, j int) bool {
 		return functions[i].Name() < functions[j].Name()
@@ -815,17 +816,11 @@ func (resource *ResourceType) copy() *ResourceType {
 		InterfaceImplementer: resource.InterfaceImplementer.copy(),
 	}
 
-	for key, property := range resource.properties {
-		result.properties[key] = property
-	}
+	maps.Copy(result.properties, resource.properties)
 
-	for key, testcase := range resource.testcases {
-		result.testcases[key] = testcase
-	}
+	maps.Copy(result.testcases, resource.testcases)
 
-	for key, fn := range resource.functions {
-		result.functions[key] = fn
-	}
+	maps.Copy(result.functions, resource.functions)
 
 	result.supportedOperations.AddAll(resource.supportedOperations)
 

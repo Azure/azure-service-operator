@@ -6,9 +6,10 @@
 package astmodel
 
 import (
+	"maps"
+	"slices"
 	"sort"
 
-	"golang.org/x/exp/maps"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 )
 
@@ -125,7 +126,7 @@ func (p PropertySet) Len() int {
 
 // AsSlice returns all the properties in a slice, sorted alphabetically by name
 func (p PropertySet) AsSlice() []*PropertyDefinition {
-	result := maps.Values(p)
+	result := slices.Collect(maps.Values(p))
 
 	// Sort it so that it's always consistent
 	sort.Slice(result, func(left int, right int) bool {
@@ -151,9 +152,7 @@ func (p PropertySet) AddSet(properties PropertySet) {
 // Copy returns a new property set with the same properties as this one
 func (p PropertySet) Copy() PropertySet {
 	result := make(PropertySet, len(p))
-	for name, prop := range p {
-		result[name] = prop
-	}
+	maps.Copy(result, p)
 
 	return result
 }

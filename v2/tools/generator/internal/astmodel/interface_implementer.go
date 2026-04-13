@@ -7,11 +7,12 @@ package astmodel
 
 import (
 	"go/token"
+	"maps"
+	"slices"
 	"sort"
 
 	"github.com/dave/dst"
 	"github.com/rotisserie/eris"
-	"golang.org/x/exp/maps"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -87,7 +88,7 @@ func (i InterfaceImplementer) AsDeclarations(
 	for _, iface := range interfaces {
 		result = append(result, i.generateInterfaceImplAssertion(codeGenerationContext, iface, typeName))
 
-		functions := maps.Values(iface.functions)
+		functions := slices.Collect(maps.Values(iface.functions))
 		sort.Slice(functions, func(i int, j int) bool {
 			return functions[i].Name() < functions[j].Name()
 		})
@@ -190,9 +191,7 @@ func (i InterfaceImplementer) copy() InterfaceImplementer {
 	result := i
 
 	result.interfaces = make(map[TypeName]*InterfaceImplementation, len(i.interfaces))
-	for k, v := range i.interfaces {
-		result.interfaces[k] = v
-	}
+	maps.Copy(result.interfaces, i.interfaces)
 
 	return result
 }

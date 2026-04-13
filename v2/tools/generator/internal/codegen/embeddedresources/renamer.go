@@ -7,6 +7,7 @@ package embeddedresources
 
 import (
 	"fmt"
+	"maps"
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
@@ -215,9 +216,7 @@ func simplifyTypeNames(
 
 			if result != nil {
 				// Add renames
-				for oldName, newName := range result {
-					renames[oldName] = newName
-				}
+				maps.Copy(renames, result)
 				break
 			}
 		}
