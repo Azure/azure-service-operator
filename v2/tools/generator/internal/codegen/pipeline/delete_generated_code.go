@@ -133,7 +133,7 @@ func isFileGenerated(filename string) (bool, error) {
 	defer f.Close()
 
 	reader := bufio.NewReader(f)
-	for i := 0; i < maxLinesToCheck; i++ {
+	for range maxLinesToCheck {
 		line, err := reader.ReadString('\n')
 		if eris.Is(err, io.EOF) {
 			return false, nil
