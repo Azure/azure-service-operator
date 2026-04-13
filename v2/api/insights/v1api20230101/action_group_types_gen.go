@@ -2486,7 +2486,10 @@ type AutomationRunbookReceiver struct {
 	RunbookName *string `json:"runbookName,omitempty"`
 
 	// ServiceUri: The URI where webhooks should be sent.
-	ServiceUri *string `json:"serviceUri,omitempty"`
+	ServiceUri *string `json:"serviceUri,omitempty" optionalSecretPair:"ServiceUri"`
+
+	// ServiceUriFromSecret: The URI where webhooks should be sent.
+	ServiceUriFromSecret *genruntime.SecretReference `json:"serviceUriFromSecret,omitempty" optionalSecretPair:"ServiceUri"`
 
 	// UseCommonAlertSchema: Indicates whether to use common alert schema.
 	UseCommonAlertSchema *bool `json:"useCommonAlertSchema,omitempty"`
@@ -2532,6 +2535,14 @@ func (receiver *AutomationRunbookReceiver) ConvertToARM(resolved genruntime.Conv
 	// Set property "ServiceUri":
 	if receiver.ServiceUri != nil {
 		serviceUri := *receiver.ServiceUri
+		result.ServiceUri = &serviceUri
+	}
+	if receiver.ServiceUriFromSecret != nil {
+		serviceUriSecret, err := resolved.ResolvedSecrets.Lookup(*receiver.ServiceUriFromSecret)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up secret for property ServiceUri")
+		}
+		serviceUri := serviceUriSecret
 		result.ServiceUri = &serviceUri
 	}
 
@@ -2595,6 +2606,8 @@ func (receiver *AutomationRunbookReceiver) PopulateFromARM(owner genruntime.Arbi
 		receiver.ServiceUri = &serviceUri
 	}
 
+	// no assignment for property "ServiceUriFromSecret"
+
 	// Set property "UseCommonAlertSchema":
 	if typedInput.UseCommonAlertSchema != nil {
 		useCommonAlertSchema := *typedInput.UseCommonAlertSchema
@@ -2629,6 +2642,14 @@ func (receiver *AutomationRunbookReceiver) AssignProperties_From_AutomationRunbo
 
 	// ServiceUri
 	receiver.ServiceUri = genruntime.ClonePointerToString(source.ServiceUri)
+
+	// ServiceUriFromSecret
+	if source.ServiceUriFromSecret != nil {
+		serviceUriFromSecret := source.ServiceUriFromSecret.Copy()
+		receiver.ServiceUriFromSecret = &serviceUriFromSecret
+	} else {
+		receiver.ServiceUriFromSecret = nil
+	}
 
 	// UseCommonAlertSchema
 	if source.UseCommonAlertSchema != nil {
@@ -2674,6 +2695,14 @@ func (receiver *AutomationRunbookReceiver) AssignProperties_To_AutomationRunbook
 
 	// ServiceUri
 	destination.ServiceUri = genruntime.ClonePointerToString(receiver.ServiceUri)
+
+	// ServiceUriFromSecret
+	if receiver.ServiceUriFromSecret != nil {
+		serviceUriFromSecret := receiver.ServiceUriFromSecret.Copy()
+		destination.ServiceUriFromSecret = &serviceUriFromSecret
+	} else {
+		destination.ServiceUriFromSecret = nil
+	}
 
 	// UseCommonAlertSchema
 	if receiver.UseCommonAlertSchema != nil {
@@ -5183,9 +5212,11 @@ type WebhookReceiver struct {
 	// ObjectId: Indicates the webhook app object Id for aad auth.
 	ObjectId *string `json:"objectId,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// ServiceUri: The URI where webhooks should be sent.
-	ServiceUri *string `json:"serviceUri,omitempty"`
+	ServiceUri *string `json:"serviceUri,omitempty" optionalSecretPair:"ServiceUri"`
+
+	// ServiceUriFromSecret: The URI where webhooks should be sent.
+	ServiceUriFromSecret *genruntime.SecretReference `json:"serviceUriFromSecret,omitempty" optionalSecretPair:"ServiceUri"`
 
 	// TenantId: Indicates the tenant id for aad auth.
 	TenantId *string `json:"tenantId,omitempty"`
@@ -5227,6 +5258,14 @@ func (receiver *WebhookReceiver) ConvertToARM(resolved genruntime.ConvertToARMRe
 	// Set property "ServiceUri":
 	if receiver.ServiceUri != nil {
 		serviceUri := *receiver.ServiceUri
+		result.ServiceUri = &serviceUri
+	}
+	if receiver.ServiceUriFromSecret != nil {
+		serviceUriSecret, err := resolved.ResolvedSecrets.Lookup(*receiver.ServiceUriFromSecret)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up secret for property ServiceUri")
+		}
+		serviceUri := serviceUriSecret
 		result.ServiceUri = &serviceUri
 	}
 
@@ -5286,6 +5325,8 @@ func (receiver *WebhookReceiver) PopulateFromARM(owner genruntime.ArbitraryOwner
 		receiver.ServiceUri = &serviceUri
 	}
 
+	// no assignment for property "ServiceUriFromSecret"
+
 	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
@@ -5322,6 +5363,14 @@ func (receiver *WebhookReceiver) AssignProperties_From_WebhookReceiver(source *s
 
 	// ServiceUri
 	receiver.ServiceUri = genruntime.ClonePointerToString(source.ServiceUri)
+
+	// ServiceUriFromSecret
+	if source.ServiceUriFromSecret != nil {
+		serviceUriFromSecret := source.ServiceUriFromSecret.Copy()
+		receiver.ServiceUriFromSecret = &serviceUriFromSecret
+	} else {
+		receiver.ServiceUriFromSecret = nil
+	}
 
 	// TenantId
 	receiver.TenantId = genruntime.ClonePointerToString(source.TenantId)
@@ -5362,6 +5411,14 @@ func (receiver *WebhookReceiver) AssignProperties_To_WebhookReceiver(destination
 
 	// ServiceUri
 	destination.ServiceUri = genruntime.ClonePointerToString(receiver.ServiceUri)
+
+	// ServiceUriFromSecret
+	if receiver.ServiceUriFromSecret != nil {
+		serviceUriFromSecret := receiver.ServiceUriFromSecret.Copy()
+		destination.ServiceUriFromSecret = &serviceUriFromSecret
+	} else {
+		destination.ServiceUriFromSecret = nil
+	}
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(receiver.TenantId)

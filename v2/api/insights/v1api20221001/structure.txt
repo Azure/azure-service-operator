@@ -18,9 +18,10 @@ AutoscaleSetting: Resource
 │   │   │   └── SendToSubscriptionCoAdministrators: *bool
 │   │   ├── Operation: *Enum (1 value)
 │   │   │   └── "Scale"
-│   │   └── Webhooks: Object (2 properties)[]
+│   │   └── Webhooks: Object (3 properties)[]
 │   │       ├── Properties: map[string]string
-│   │       └── ServiceUri: *string
+│   │       ├── ServiceUri: *string
+│   │       └── ServiceUriFromSecret: *genruntime.SecretReference
 │   ├── OperatorSpec: *Object (2 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]

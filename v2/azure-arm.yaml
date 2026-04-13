@@ -3545,6 +3545,9 @@ objectModelConfiguration:
       MetricTrigger:
         MetricResourceUri:
           $referenceType: arm
+      WebhookNotification:
+        ServiceUri:
+          $secret: optional
     2022-06-15:
       ScheduledQueryRule:
         $exportAs: ScheduledQueryRule
@@ -3569,6 +3572,8 @@ objectModelConfiguration:
         $exportAs: ActionGroup
         $supportedFrom: v2.4.0
       AutomationRunbookReceiver:
+        ServiceUri:
+          $secret: optional
         WebhookResourceId:
           $referenceType: arm
       AzureFunctionReceiver:
@@ -3577,6 +3582,9 @@ objectModelConfiguration:
       LogicAppReceiver:
         ResourceId:
           $referenceType: arm
+      WebhookReceiver:
+        ServiceUri:
+          $secret: optional
     2023-03-11:
       DataCollectionRule:
         $exportAs: DataCollectionRule
