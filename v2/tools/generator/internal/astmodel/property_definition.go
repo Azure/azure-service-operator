@@ -7,12 +7,11 @@ package astmodel
 
 import (
 	"fmt"
-	"sort"
+	"slices"
 	"strings"
 
 	"github.com/dave/dst"
 	"github.com/rotisserie/eris"
-	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/readonly"
@@ -394,9 +393,7 @@ func (property *PropertyDefinition) IsSecret() bool {
 func (property *PropertyDefinition) renderedTags() string {
 	orderedKeys := property.tags.Keys()
 
-	sort.Slice(orderedKeys, func(i, j int) bool {
-		return orderedKeys[i] < orderedKeys[j]
-	})
+	slices.Sort(orderedKeys)
 
 	tags := make([]string, 0, len(orderedKeys))
 	for _, key := range orderedKeys {
