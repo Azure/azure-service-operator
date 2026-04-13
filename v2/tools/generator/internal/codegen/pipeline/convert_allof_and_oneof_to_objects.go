@@ -230,14 +230,6 @@ func simplifyPropNames(names []propertyNames) []propertyNames {
 	return result
 }
 
-func min(x, y int) int {
-	if x < y {
-		return x
-	}
-
-	return y
-}
-
 // commonUppercasedSuffix returns the longest common suffix that
 // starts with an uppercase letter
 func commonUppercasedSuffix(x, y string) string {
@@ -595,14 +587,6 @@ func (s synthesizer) handleArrayArray(leftArray *astmodel.ArrayType, rightArray 
 	}
 
 	return leftArray.WithElement(intersected), nil
-}
-
-func max(left, right int) int {
-	if left > right {
-		return left
-	}
-
-	return right
 }
 
 func (s synthesizer) handleObjectObject(
