@@ -175,7 +175,7 @@ func (set TypeDefinitionSet) AddAllowDuplicates(def TypeDefinition) error {
 	return nil
 }
 
-func DiffTypes(x, y interface{}) string {
+func DiffTypes(x, y any) string {
 	allowAll := cmp.AllowUnexported(
 		AllOfType{},
 		ObjectType{},

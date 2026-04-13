@@ -878,7 +878,7 @@ func (extractor *SwaggerTypeExtractor) extractLastPathParam(operationPath string
 				Description: "The name",
 			},
 			CommonValidations: spec.CommonValidations{
-				Enum: []interface{}{
+				Enum: []any{
 					rawLastParam,
 				},
 			},

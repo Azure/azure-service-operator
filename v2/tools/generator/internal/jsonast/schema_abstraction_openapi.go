@@ -291,7 +291,7 @@ func (schema *OpenAPISchema) additionalPropertiesSchema() Schema {
 // enumValuesToLiterals converts interface{}-typed values to their
 // literal go-lang representations
 // if you update this you might also need to update "codegen.enumValuesToStrings"
-func enumValuesToLiterals(enumValues []interface{}) []string {
+func enumValuesToLiterals(enumValues []any) []string {
 	result := make([]string, len(enumValues))
 	for i, enumValue := range enumValues {
 		if enumString, ok := enumValue.(string); ok {
@@ -426,7 +426,7 @@ func loadRef(
 	ref spec.Ref,
 	relativeToSchemaPath string,
 	loader OpenAPIFileLoader,
-) (string, interface{}, PackageAndSwagger) {
+) (string, any, PackageAndSwagger) {
 	absPath, err := findFileForRef(relativeToSchemaPath, ref)
 	if err != nil {
 		panic(err)

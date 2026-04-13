@@ -70,47 +70,47 @@ type CountingTypeVisitor struct {
 func MakeCountingTypeVisitor() *CountingTypeVisitor {
 	result := &CountingTypeVisitor{}
 
-	countEachInternalName := func(this *TypeVisitor[any], it InternalTypeName, ctx interface{}) (Type, error) {
+	countEachInternalName := func(this *TypeVisitor[any], it InternalTypeName, ctx any) (Type, error) {
 		result.VisitCount++
 		return IdentityVisitOfTypeName(this, it, ctx)
 	}
 
-	countEachExternalName := func(this *TypeVisitor[any], it ExternalTypeName, ctx interface{}) (Type, error) {
+	countEachExternalName := func(this *TypeVisitor[any], it ExternalTypeName, ctx any) (Type, error) {
 		result.VisitCount++
 		return IdentityVisitOfTypeName(this, it, ctx)
 	}
 
-	countEachArray := func(this *TypeVisitor[any], it *ArrayType, ctx interface{}) (Type, error) {
+	countEachArray := func(this *TypeVisitor[any], it *ArrayType, ctx any) (Type, error) {
 		result.VisitCount++
 		return IdentityVisitOfArrayType(this, it, ctx)
 	}
 
-	countEachPrimitive := func(this *TypeVisitor[any], it *PrimitiveType, ctx interface{}) (Type, error) {
+	countEachPrimitive := func(this *TypeVisitor[any], it *PrimitiveType, ctx any) (Type, error) {
 		result.VisitCount++
 		return IdentityVisitOfPrimitiveType(this, it, ctx)
 	}
 
-	countEachObject := func(this *TypeVisitor[any], it *ObjectType, ctx interface{}) (Type, error) {
+	countEachObject := func(this *TypeVisitor[any], it *ObjectType, ctx any) (Type, error) {
 		result.VisitCount++
 		return IdentityVisitOfObjectType(this, it, ctx)
 	}
 
-	countEachMap := func(this *TypeVisitor[any], it *MapType, ctx interface{}) (Type, error) {
+	countEachMap := func(this *TypeVisitor[any], it *MapType, ctx any) (Type, error) {
 		result.VisitCount++
 		return IdentityVisitOfMapType(this, it, ctx)
 	}
 
-	countEachEnum := func(this *TypeVisitor[any], it *EnumType, ctx interface{}) (Type, error) {
+	countEachEnum := func(this *TypeVisitor[any], it *EnumType, ctx any) (Type, error) {
 		result.VisitCount++
 		return IdentityVisitOfEnumType(this, it, ctx)
 	}
 
-	countEachOptional := func(this *TypeVisitor[any], it *OptionalType, ctx interface{}) (Type, error) {
+	countEachOptional := func(this *TypeVisitor[any], it *OptionalType, ctx any) (Type, error) {
 		result.VisitCount++
 		return IdentityVisitOfOptionalType(this, it, ctx)
 	}
 
-	countEachResource := func(this *TypeVisitor[any], it *ResourceType, ctx interface{}) (Type, error) {
+	countEachResource := func(this *TypeVisitor[any], it *ResourceType, ctx any) (Type, error) {
 		result.VisitCount++
 		return IdentityVisitOfResourceType(this, it, ctx)
 	}
@@ -217,7 +217,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"PrimitiveTypeHandler",
 			StringType,
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitPrimitive = func(tv *TypeVisitor[any], p *PrimitiveType, _ interface{}) (Type, error) {
+				builder.VisitPrimitive = func(tv *TypeVisitor[any], p *PrimitiveType, _ any) (Type, error) {
 					return p, eris.New(p.name)
 				}
 			},
@@ -239,7 +239,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"OptionalTypeHandler",
 			OptionalIntType,
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitOptionalType = func(tv *TypeVisitor[any], ot *OptionalType, _ interface{}) (Type, error) {
+				builder.VisitOptionalType = func(tv *TypeVisitor[any], ot *OptionalType, _ any) (Type, error) {
 					return ot, eris.New(ot.String())
 				}
 			},
@@ -261,7 +261,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"EnumTypeHandler",
 			NewEnumType(StringType),
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitEnumType = func(tv *TypeVisitor[any], et *EnumType, _ interface{}) (Type, error) {
+				builder.VisitEnumType = func(tv *TypeVisitor[any], et *EnumType, _ any) (Type, error) {
 					return et, eris.New(et.String())
 				}
 			},
@@ -283,7 +283,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"ObjectTypeHandler",
 			NewObjectType(),
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitObjectType = func(tv *TypeVisitor[any], ot *ObjectType, _ interface{}) (Type, error) {
+				builder.VisitObjectType = func(tv *TypeVisitor[any], ot *ObjectType, _ any) (Type, error) {
 					return ot, eris.New(ot.String())
 				}
 			},
@@ -305,7 +305,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"OneOfTypeHandler",
 			NewOneOfType("x", BoolType, StringType),
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitOneOfType = func(tv *TypeVisitor[any], ot *OneOfType, _ interface{}) (Type, error) {
+				builder.VisitOneOfType = func(tv *TypeVisitor[any], ot *OneOfType, _ any) (Type, error) {
 					return ot, eris.New(ot.String())
 				}
 			},
@@ -327,7 +327,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"ErroredTypeHandler",
 			NewErroredType(StringType, nil, nil),
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitErroredType = func(tv *TypeVisitor[any], et *ErroredType, _ interface{}) (Type, error) {
+				builder.VisitErroredType = func(tv *TypeVisitor[any], et *ErroredType, _ any) (Type, error) {
 					return et, eris.New(et.String())
 				}
 			},
@@ -349,7 +349,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"ValidatedTypeHandler",
 			NewValidatedType(StringType, StringValidations{}),
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitValidatedType = func(tv *TypeVisitor[any], vt *ValidatedType, _ interface{}) (Type, error) {
+				builder.VisitValidatedType = func(tv *TypeVisitor[any], vt *ValidatedType, _ any) (Type, error) {
 					return vt, eris.New(vt.String())
 				}
 			},
@@ -371,7 +371,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"ResourceTypeHandler",
 			NewResourceType(StringType, StringType),
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitResourceType = func(tv *TypeVisitor[any], rt *ResourceType, _ interface{}) (Type, error) {
+				builder.VisitResourceType = func(tv *TypeVisitor[any], rt *ResourceType, _ any) (Type, error) {
 					return rt, eris.New(rt.String())
 				}
 			},
@@ -393,7 +393,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"AllOfTypeHandler",
 			NewAllOfType(),
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitAllOfType = func(tv *TypeVisitor[any], at *AllOfType, _ interface{}) (Type, error) {
+				builder.VisitAllOfType = func(tv *TypeVisitor[any], at *AllOfType, _ any) (Type, error) {
 					return at, eris.New(at.String())
 				}
 			},
@@ -415,7 +415,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"MapTypeHandler",
 			NewMapType(StringType, IntType),
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitMapType = func(tv *TypeVisitor[any], mt *MapType, _ interface{}) (Type, error) {
+				builder.VisitMapType = func(tv *TypeVisitor[any], mt *MapType, _ any) (Type, error) {
 					return mt, eris.New(mt.String())
 				}
 			},
@@ -437,7 +437,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"ArrayTypeHandler",
 			NewArrayType(StringType),
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitArrayType = func(tv *TypeVisitor[any], at *ArrayType, _ interface{}) (Type, error) {
+				builder.VisitArrayType = func(tv *TypeVisitor[any], at *ArrayType, _ any) (Type, error) {
 					return at, eris.New(at.String())
 				}
 			},
@@ -459,7 +459,7 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 			"FlaggedTypeHandler",
 			StorageFlag.ApplyTo(StringType),
 			func(builder *TypeVisitorBuilder[any]) {
-				builder.VisitFlaggedType = func(tv *TypeVisitor[any], ft *FlaggedType, _ interface{}) (Type, error) {
+				builder.VisitFlaggedType = func(tv *TypeVisitor[any], ft *FlaggedType, _ any) (Type, error) {
 					return ft, eris.New(ft.String())
 				}
 			},

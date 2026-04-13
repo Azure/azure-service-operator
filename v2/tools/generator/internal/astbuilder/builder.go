@@ -342,7 +342,7 @@ func ReturnNoError() dst.Stmt {
 // errors.Wrap(err, <message>)
 //
 // (actual package name will be used, which will usually be 'errors')
-func WrappedErrorf(errorsPackage string, template string, args ...interface{}) dst.Expr {
+func WrappedErrorf(errorsPackage string, template string, args ...any) dst.Expr {
 	return CallQualifiedFunc(
 		errorsPackage,
 		"Wrap",
@@ -463,7 +463,7 @@ func BinaryExpr(lhs dst.Expr, op token.Token, rhs dst.Expr) *dst.BinaryExpr {
 // Expression creates a slice of dst.Expr by combining the given expressions.
 // Pass any combination of dst.Expr and []dst.Expr as arguments; anything else will
 // result in a runtime panic.
-func Expressions(expressions ...interface{}) []dst.Expr {
+func Expressions(expressions ...any) []dst.Expr {
 	// Calculate the final size required
 	size := 0
 	for _, s := range expressions {

@@ -279,7 +279,7 @@ func (enum *EnumType) Options() []EnumValue {
 
 // CreateValidation creates the validation annotation for this Enum
 func (enum *EnumType) CreateValidation() KubeBuilderValidation {
-	values := make([]interface{}, 0, len(enum.options))
+	values := make([]any, 0, len(enum.options))
 	for _, opt := range enum.options {
 		values = append(values, opt.Value)
 	}

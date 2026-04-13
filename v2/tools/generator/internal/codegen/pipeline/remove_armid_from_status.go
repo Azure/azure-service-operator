@@ -39,7 +39,7 @@ func FixIDFields() *Stage {
 
 func removeSpecIDField(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	removeIDVisitor := astmodel.TypeVisitorBuilder[any]{
-		VisitObjectType: func(this *astmodel.TypeVisitor[any], it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+		VisitObjectType: func(this *astmodel.TypeVisitor[any], it *astmodel.ObjectType, ctx any) (astmodel.Type, error) {
 			it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 				prim, isPrimitive := astmodel.AsPrimitiveType(prop.PropertyType())
 				if prop.HasName("Id") && isPrimitive && prim == astmodel.ARMIDType {
@@ -61,14 +61,14 @@ func removeSpecIDField(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinition
 
 func replaceStatusARMIDWithString(defs astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
 	replaceARMIDWithStringVisitor := astmodel.TypeVisitorBuilder[any]{
-		VisitPrimitive: func(_ *astmodel.TypeVisitor[any], it *astmodel.PrimitiveType, _ interface{}) (astmodel.Type, error) {
+		VisitPrimitive: func(_ *astmodel.TypeVisitor[any], it *astmodel.PrimitiveType, _ any) (astmodel.Type, error) {
 			if it == astmodel.ARMIDType {
 				return astmodel.StringType, nil
 			}
 
 			return it, nil
 		},
-		VisitFlaggedType: func(this *astmodel.TypeVisitor[any], it *astmodel.FlaggedType, ctx interface{}) (astmodel.Type, error) {
+		VisitFlaggedType: func(this *astmodel.TypeVisitor[any], it *astmodel.FlaggedType, ctx any) (astmodel.Type, error) {
 			// Remove WellKnown and Compatibility flags
 			return it.WithoutFlags(astmodel.WellKnownReferenceFlag, astmodel.CompatibleReferenceFlag), nil
 		},

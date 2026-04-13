@@ -51,7 +51,7 @@ func newTypeWalker(
 	visitor := astmodel.TypeVisitorBuilder[any]{}.Build()
 	walker := astmodel.NewTypeWalker(definitions, visitor)
 
-	walker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx interface{}) (astmodel.TypeDefinition, error) {
+	walker.AfterVisit = func(original astmodel.TypeDefinition, updated astmodel.TypeDefinition, ctx any) (astmodel.TypeDefinition, error) {
 		if !resourceName.PackageReference().Equals(updated.Name().PackageReference()) {
 
 			newName := astmodel.MakeInternalTypeName(resourceName.InternalPackageReference(), updated.Name().Name())
