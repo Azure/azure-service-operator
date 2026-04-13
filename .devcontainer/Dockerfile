@@ -43,6 +43,9 @@ RUN find /tmp/mod-download -name go.mod -execdir pwd \; -execdir go mod download
 # Clean up temporary module download directory
 RUN rm -rf /tmp/mod-download
 
+# Fix permissions so the vscode user can write to the module cache
+RUN chown -R vscode:vscode /go/pkg/mod
+
 # Setup envtest
 # NB: if you change this, dev.sh also likely needs updating, also need to update the env below
 RUN setup-envtest use 1.35.0 --bin-dir /usr/local/envtest/bin
