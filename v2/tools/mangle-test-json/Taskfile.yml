@@ -9,13 +9,6 @@ vars:
   MANGLE_ROOT: "{{.TASKFILE_DIR}}"
 
 tasks:
-  debug:
-    silent: true
-    cmds:
-    - 'echo "ROOT_DIR: {{.ROOT_DIR}}"'
-    - 'echo "TASKFILE_DIR: {{.TASKFILE_DIR}}"'
-    - 'echo "TASK_DIR: {{.TASK_DIR}}"'
-
   produce-markdown-summary:
     desc: Builds a test output summary for GitHub
     deps: 
