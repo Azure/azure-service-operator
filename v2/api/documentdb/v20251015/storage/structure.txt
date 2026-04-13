@@ -105,7 +105,7 @@ CassandraDataCenter: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Properties: *Object (15 properties)
+│   ├── Properties: *Object (14 properties)
 │   │   ├── AuthenticationMethodLdapProperties: *Object (9 properties)
 │   │   │   ├── ConnectionTimeoutInMs: *int
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
@@ -119,8 +119,7 @@ CassandraDataCenter: Resource
 │   │   │   ├── ServiceUserDistinguishedName: *string
 │   │   │   └── ServiceUserPassword: *genruntime.SecretReference
 │   │   ├── AvailabilityZone: *bool
-│   │   ├── BackupStorageCustomerKeyUri: *string
-│   │   ├── BackupStorageCustomerKeyUriFromConfig: *genruntime.ConfigMapReference
+│   │   ├── BackupStorageCustomerKeyUriReference: *genruntime.ResourceReference
 │   │   ├── Base64EncodedCassandraYamlFragment: *string
 │   │   ├── DataCenterLocation: *string
 │   │   ├── DelegatedSubnetReference: *genruntime.ResourceReference

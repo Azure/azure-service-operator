@@ -39,7 +39,7 @@ type CassandraClusters_DataCenter_Properties_Spec struct {
 
 	// BackupStorageCustomerKeyUri: Indicates the Key Uri of the customer key to use for encryption of the backup storage
 	// account.
-	BackupStorageCustomerKeyUri *string `json:"backupStorageCustomerKeyUri,omitempty" optionalConfigMapPair:"BackupStorageCustomerKeyUri"`
+	BackupStorageCustomerKeyUri *string `json:"backupStorageCustomerKeyUri,omitempty"`
 
 	// Base64EncodedCassandraYamlFragment: A fragment of a cassandra.yaml configuration file to be included in the
 	// cassandra.yaml for all nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys are

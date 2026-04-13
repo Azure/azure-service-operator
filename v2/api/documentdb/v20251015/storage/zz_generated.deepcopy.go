@@ -704,14 +704,9 @@ func (in *CassandraClusters_DataCenter_Properties_Spec) DeepCopyInto(out *Cassan
 		*out = new(bool)
 		**out = **in
 	}
-	if in.BackupStorageCustomerKeyUri != nil {
-		in, out := &in.BackupStorageCustomerKeyUri, &out.BackupStorageCustomerKeyUri
-		*out = new(string)
-		**out = **in
-	}
-	if in.BackupStorageCustomerKeyUriFromConfig != nil {
-		in, out := &in.BackupStorageCustomerKeyUriFromConfig, &out.BackupStorageCustomerKeyUriFromConfig
-		*out = new(genruntime.ConfigMapReference)
+	if in.BackupStorageCustomerKeyUriReference != nil {
+		in, out := &in.BackupStorageCustomerKeyUriReference, &out.BackupStorageCustomerKeyUriReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 	if in.Base64EncodedCassandraYamlFragment != nil {
