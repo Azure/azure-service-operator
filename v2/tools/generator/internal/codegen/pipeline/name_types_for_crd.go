@@ -202,8 +202,8 @@ func newNameHint(name astmodel.TypeName) nameHint {
 	for !done {
 		done = true
 		for _, s := range suffixesToFloat {
-			if strings.HasSuffix(baseName, s) {
-				baseName = strings.TrimSuffix(baseName, s)
+			if before, ok := strings.CutSuffix(baseName, s); ok {
+				baseName = before
 				suffixes = append(
 					[]string{strings.TrimPrefix(s, "_")},
 					suffixes...)

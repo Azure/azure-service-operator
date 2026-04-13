@@ -99,10 +99,10 @@ func makeLegacyReferencePropertyName(existing *astmodel.PropertyDefinition, isSl
 	// a reference.
 	if existing.PropertyName() == "Id" {
 		referencePropertyName = propertyNameSuffix
-	} else if strings.HasSuffix(string(existing.PropertyName()), "Id") {
-		referencePropertyName = strings.TrimSuffix(string(existing.PropertyName()), "Id") + propertyNameSuffix
-	} else if strings.HasSuffix(string(existing.PropertyName()), "Ids") {
-		referencePropertyName = strings.TrimSuffix(string(existing.PropertyName()), "Ids") + propertyNameSuffix
+	} else if before, ok := strings.CutSuffix(string(existing.PropertyName()), "Id"); ok {
+		referencePropertyName = before + propertyNameSuffix
+	} else if before, ok := strings.CutSuffix(string(existing.PropertyName()), "Ids"); ok {
+		referencePropertyName = before + propertyNameSuffix
 	} else {
 		referencePropertyName = string(existing.PropertyName()) + propertyNameSuffix
 	}

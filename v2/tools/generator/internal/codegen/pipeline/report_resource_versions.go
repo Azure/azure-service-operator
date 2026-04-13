@@ -882,11 +882,11 @@ func (report *ResourceVersionsReport) groupInfo(
 		provider := parts[0]
 
 		const prefix = "Microsoft."
-		if strings.HasPrefix(provider, prefix) {
+		if after, ok := strings.CutPrefix(provider, prefix); ok {
 			// If the provider starts with exactly "Microsoft." (with a case-sensitive check),
 			// that's our best bet for a properly cased provider name
 			saveCandidate(
-				strings.TrimPrefix(provider, prefix),
+				after,
 				provider,
 				best)
 		} else if strings.HasPrefix(strings.ToLower(provider), strings.ToLower(prefix)) {
