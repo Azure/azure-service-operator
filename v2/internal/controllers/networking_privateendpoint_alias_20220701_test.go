@@ -10,17 +10,16 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	network20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
-	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701"
+	network "github.com/Azure/azure-service-operator/v2/api/network/v20250301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-// Test_Networking_PrivateEndpoint_Alias_20220701_CRUD verifies that a PrivateEndpoint can be created
+// Test_Networking_PrivateEndpoint_Alias_20250301_CRUD verifies that a PrivateEndpoint can be created
 // using a PrivateLinkService alias (wellKnownName) instead of an ARM ID or Kubernetes resource reference.
 // See https://github.com/Azure/azure-service-operator/issues/4531
-func Test_Networking_PrivateEndpoint_Alias_20220701_CRUD(t *testing.T) {
+func Test_Networking_PrivateEndpoint_Alias_20250301_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -28,13 +27,13 @@ func Test_Networking_PrivateEndpoint_Alias_20220701_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create networking prerequisites for the PrivateLinkService
-	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
+	vnet := newVirtualNetwork20250301(tc, testcommon.AsOwner(rg))
 
-	privateLinkServiceNetworkPolicies := network20201101.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Disabled
-	plsSubnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
+	privateLinkServiceNetworkPolicies := network.SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Disabled
+	plsSubnet := newSubnet20250301(tc, vnet, "10.0.0.0/24")
 	plsSubnet.Spec.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicies
 
-	lb, frontendIPConfigurationARMID := newLoadBalancerForPLS20201101(tc, rg, plsSubnet)
+	lb, frontendIPConfigurationARMID := newLoadBalancerForPLS20250301(tc, rg, plsSubnet)
 
 	tc.CreateResourcesAndWait(vnet, plsSubnet, lb)
 
@@ -89,9 +88,9 @@ func Test_Networking_PrivateEndpoint_Alias_20220701_CRUD(t *testing.T) {
 	tc.T.Logf("PrivateLinkService alias: %s", plsAlias)
 
 	// Create a second subnet for the PrivateEndpoint (can't reuse the PLS subnet)
-	peSubnet := &network20201101.VirtualNetworksSubnet{
+	peSubnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("pesubnet"),
-		Spec: network20201101.VirtualNetworksSubnet_Spec{
+		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
 			AddressPrefix: to.Ptr("10.0.1.0/24"),
 		},
@@ -132,4 +131,17 @@ func Test_Networking_PrivateEndpoint_Alias_20220701_CRUD(t *testing.T) {
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func newVirtualNetwork20250301(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetwork {
+	return &network.VirtualNetwork{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
+		Spec: network.VirtualNetwork_Spec{
+			Owner:    owner,
+			Location: tc.AzureRegion,
+			AddressSpace: &network.AddressSpace{
+				AddressPrefixes: []string{"10.0.0.0/16"},
+			},
+		},
+	}
 }
