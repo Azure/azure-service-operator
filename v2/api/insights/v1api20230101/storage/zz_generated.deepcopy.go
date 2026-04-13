@@ -559,11 +559,6 @@ func (in *AutomationRunbookReceiver_STATUS) DeepCopyInto(out *AutomationRunbookR
 		*out = new(string)
 		**out = **in
 	}
-	if in.ServiceUri != nil {
-		in, out := &in.ServiceUri, &out.ServiceUri
-		*out = new(string)
-		**out = **in
-	}
 	if in.UseCommonAlertSchema != nil {
 		in, out := &in.UseCommonAlertSchema, &out.UseCommonAlertSchema
 		*out = new(bool)
@@ -1344,11 +1339,6 @@ func (in *WebhookReceiver_STATUS) DeepCopyInto(out *WebhookReceiver_STATUS) {
 		for key, val := range *in {
 			(*out)[key] = val
 		}
-	}
-	if in.ServiceUri != nil {
-		in, out := &in.ServiceUri, &out.ServiceUri
-		*out = new(string)
-		**out = **in
 	}
 	if in.TenantId != nil {
 		in, out := &in.TenantId, &out.TenantId

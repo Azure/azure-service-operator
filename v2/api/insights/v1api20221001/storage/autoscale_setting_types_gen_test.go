@@ -2162,5 +2162,4 @@ func AddIndependentPropertyGeneratorsForWebhookNotification_STATUS(gens map[stri
 	gens["Properties"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
-	gens["ServiceUri"] = gen.PtrOf(gen.AlphaString())
 }

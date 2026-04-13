@@ -2751,9 +2751,6 @@ func (receiver *AutomationRunbookReceiver) Initialize_From_AutomationRunbookRece
 	// RunbookName
 	receiver.RunbookName = genruntime.ClonePointerToString(source.RunbookName)
 
-	// ServiceUri
-	receiver.ServiceUri = genruntime.ClonePointerToString(source.ServiceUri)
-
 	// UseCommonAlertSchema
 	if source.UseCommonAlertSchema != nil {
 		useCommonAlertSchema := *source.UseCommonAlertSchema
@@ -2787,9 +2784,6 @@ type AutomationRunbookReceiver_STATUS struct {
 
 	// RunbookName: The name for this runbook.
 	RunbookName *string `json:"runbookName,omitempty"`
-
-	// ServiceUri: The URI where webhooks should be sent.
-	ServiceUri *string `json:"serviceUri,omitempty"`
 
 	// UseCommonAlertSchema: Indicates whether to use common alert schema.
 	UseCommonAlertSchema *bool `json:"useCommonAlertSchema,omitempty"`
@@ -2836,12 +2830,6 @@ func (receiver *AutomationRunbookReceiver_STATUS) PopulateFromARM(owner genrunti
 		receiver.RunbookName = &runbookName
 	}
 
-	// Set property "ServiceUri":
-	if typedInput.ServiceUri != nil {
-		serviceUri := *typedInput.ServiceUri
-		receiver.ServiceUri = &serviceUri
-	}
-
 	// Set property "UseCommonAlertSchema":
 	if typedInput.UseCommonAlertSchema != nil {
 		useCommonAlertSchema := *typedInput.UseCommonAlertSchema
@@ -2877,9 +2865,6 @@ func (receiver *AutomationRunbookReceiver_STATUS) AssignProperties_From_Automati
 
 	// RunbookName
 	receiver.RunbookName = genruntime.ClonePointerToString(source.RunbookName)
-
-	// ServiceUri
-	receiver.ServiceUri = genruntime.ClonePointerToString(source.ServiceUri)
 
 	// UseCommonAlertSchema
 	if source.UseCommonAlertSchema != nil {
@@ -2917,9 +2902,6 @@ func (receiver *AutomationRunbookReceiver_STATUS) AssignProperties_To_Automation
 
 	// RunbookName
 	destination.RunbookName = genruntime.ClonePointerToString(receiver.RunbookName)
-
-	// ServiceUri
-	destination.ServiceUri = genruntime.ClonePointerToString(receiver.ServiceUri)
 
 	// UseCommonAlertSchema
 	if receiver.UseCommonAlertSchema != nil {
@@ -5462,9 +5444,6 @@ func (receiver *WebhookReceiver) Initialize_From_WebhookReceiver_STATUS(source *
 	// ObjectId
 	receiver.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
 
-	// ServiceUri
-	receiver.ServiceUri = genruntime.ClonePointerToString(source.ServiceUri)
-
 	// TenantId
 	receiver.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
@@ -5498,9 +5477,6 @@ type WebhookReceiver_STATUS struct {
 
 	// ObjectId: Indicates the webhook app object Id for aad auth.
 	ObjectId *string `json:"objectId,omitempty"`
-
-	// ServiceUri: The URI where webhooks should be sent.
-	ServiceUri *string `json:"serviceUri,omitempty"`
 
 	// TenantId: Indicates the tenant id for aad auth.
 	TenantId *string `json:"tenantId,omitempty"`
@@ -5544,12 +5520,6 @@ func (receiver *WebhookReceiver_STATUS) PopulateFromARM(owner genruntime.Arbitra
 		receiver.ObjectId = &objectId
 	}
 
-	// Set property "ServiceUri":
-	if typedInput.ServiceUri != nil {
-		serviceUri := *typedInput.ServiceUri
-		receiver.ServiceUri = &serviceUri
-	}
-
 	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
@@ -5583,9 +5553,6 @@ func (receiver *WebhookReceiver_STATUS) AssignProperties_From_WebhookReceiver_ST
 
 	// ObjectId
 	receiver.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
-
-	// ServiceUri
-	receiver.ServiceUri = genruntime.ClonePointerToString(source.ServiceUri)
 
 	// TenantId
 	receiver.TenantId = genruntime.ClonePointerToString(source.TenantId)
@@ -5623,9 +5590,6 @@ func (receiver *WebhookReceiver_STATUS) AssignProperties_To_WebhookReceiver_STAT
 
 	// ObjectId
 	destination.ObjectId = genruntime.ClonePointerToString(receiver.ObjectId)
-
-	// ServiceUri
-	destination.ServiceUri = genruntime.ClonePointerToString(receiver.ServiceUri)
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(receiver.TenantId)

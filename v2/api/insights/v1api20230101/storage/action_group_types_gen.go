@@ -320,7 +320,6 @@ type AutomationRunbookReceiver_STATUS struct {
 	Name                 *string                `json:"name,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RunbookName          *string                `json:"runbookName,omitempty"`
-	ServiceUri           *string                `json:"serviceUri,omitempty"`
 	UseCommonAlertSchema *bool                  `json:"useCommonAlertSchema,omitempty"`
 	WebhookResourceId    *string                `json:"webhookResourceId,omitempty"`
 }
@@ -511,7 +510,6 @@ type WebhookReceiver_STATUS struct {
 	Name                 *string                `json:"name,omitempty"`
 	ObjectId             *string                `json:"objectId,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ServiceUri           *string                `json:"serviceUri,omitempty"`
 	TenantId             *string                `json:"tenantId,omitempty"`
 	UseAadAuth           *bool                  `json:"useAadAuth,omitempty"`
 	UseCommonAlertSchema *bool                  `json:"useCommonAlertSchema,omitempty"`

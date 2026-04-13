@@ -272,14 +272,6 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 		case astmodel.SecrecyAlways, astmodel.SecrecyOptional:
 			propType := prop.PropertyType()
 
-			if prop.Secrecy() == astmodel.SecrecyOptional {
-				// For optional secrets on status types, we keep the plain string value on status
-				// (the value is not actually secret in this direction - it comes from Azure)
-				// We just clear the secret marker.
-				it = it.WithProperty(prop.WithSecrecy(astmodel.SecrecyNever))
-				continue
-			}
-
 			// We only remove pure secret references here. For the case of secret maps, different services seem to treat them
 			// differently. Some services (such as Microsoft.KubernetesConfiguration/extensions) will return the keys of the map
 			// but not the values. Other services (such as APIM) will return certain keys and values that it knows are non-secret, but

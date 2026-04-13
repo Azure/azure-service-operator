@@ -526,7 +526,6 @@ type WebhookNotification struct {
 type WebhookNotification_STATUS struct {
 	Properties  map[string]string      `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ServiceUri  *string                `json:"serviceUri,omitempty"`
 }
 
 // Storage version of v1api20221001.MetricTrigger
