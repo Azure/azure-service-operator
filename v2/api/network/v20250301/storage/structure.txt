@@ -1472,7 +1472,7 @@ PrivateEndpoint: Resource
 │   │   │   ├── Description: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Status: *string
-│   │   ├── PrivateLinkServiceReference: *genruntime.ResourceReference
+│   │   ├── PrivateLinkServiceReference: *genruntime.WellKnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── RequestMessage: *string
 │   ├── OperatorSpec: *Object (4 properties)
@@ -1492,7 +1492,7 @@ PrivateEndpoint: Resource
 │   │   │   ├── Description: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Status: *string
-│   │   ├── PrivateLinkServiceReference: *genruntime.ResourceReference
+│   │   ├── PrivateLinkServiceReference: *genruntime.WellKnownResourceReference
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── RequestMessage: *string
 │   ├── PropertyBag: genruntime.PropertyBag

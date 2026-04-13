@@ -4687,7 +4687,7 @@ objectModelConfiguration:
         $resourceEmbeddedInParent: PrivateEndpoint
       PrivateLinkServiceConnectionProperties:
         PrivateLinkServiceId:
-          $referenceType: arm
+          $referenceType: arm+wellknown # permits aliases as an alternative to ARM IDs (see #4531)
       PrivateLinkServiceIpConfiguration:
         $resourceEmbeddedInParent: PrivateLinkService
       PrivateLinkServiceIpConfiguration_STATUS:

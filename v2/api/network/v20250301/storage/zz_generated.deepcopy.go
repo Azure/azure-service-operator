@@ -10911,7 +10911,7 @@ func (in *PrivateLinkServiceConnection) DeepCopyInto(out *PrivateLinkServiceConn
 	}
 	if in.PrivateLinkServiceReference != nil {
 		in, out := &in.PrivateLinkServiceReference, &out.PrivateLinkServiceReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellKnownResourceReference)
 		**out = **in
 	}
 	if in.PropertyBag != nil {
