@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/rotisserie/eris"
@@ -107,14 +108,7 @@ func (stage *Stage) IsUsedFor(target Target) bool {
 		return true
 	}
 
-	for _, t := range stage.targets {
-		if t == target {
-			// Stage should be used for this target
-			return true
-		}
-	}
-
-	return false
+	return slices.Contains(stage.targets, target)
 }
 
 // ID returns the unique identifier for this stage

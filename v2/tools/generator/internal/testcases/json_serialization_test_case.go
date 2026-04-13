@@ -8,7 +8,7 @@ package testcases
 import (
 	"fmt"
 	"go/token"
-	"sort"
+	"slices"
 
 	"github.com/dave/dst"
 	"github.com/rotisserie/eris"
@@ -745,9 +745,7 @@ func (o *JSONSerializationTestCase) createGenerators(
 	for name := range properties {
 		toGenerate = append(toGenerate, name)
 	}
-	sort.Slice(toGenerate, func(i, j int) bool {
-		return toGenerate[i] < toGenerate[j]
-	})
+	slices.Sort(toGenerate)
 
 	// Iterate over all properties, creating generators where possible
 	for _, name := range toGenerate {

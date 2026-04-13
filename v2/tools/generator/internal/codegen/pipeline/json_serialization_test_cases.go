@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"slices"
 
 	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -86,13 +87,7 @@ func (s *objectSerializationTestCaseFactory) NeedsTest(def astmodel.TypeDefiniti
 	//
 	// See https://github.com/Azure/azure-service-operator/issues/1721 for more information
 	//
-	result := true
-	for _, s := range s.suppressions {
-		if def.Name().Name() == s {
-			result = false
-			break
-		}
-	}
+	result := !slices.Contains(s.suppressions, def.Name().Name())
 
 	return result
 }

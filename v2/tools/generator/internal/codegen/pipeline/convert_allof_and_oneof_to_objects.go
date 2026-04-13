@@ -8,11 +8,11 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/rotisserie/eris"
 	"golang.org/x/exp/maps"
-	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -665,11 +665,8 @@ func (s synthesizer) handleEnumEnum(leftEnum *astmodel.EnumType, rightEnum *astm
 	leftOptions := leftEnum.Options()
 	inBoth := make([]astmodel.EnumValue, 0, len(leftOptions))
 	for _, option := range leftOptions {
-		for _, otherOption := range rightEnum.Options() {
-			if option == otherOption {
-				inBoth = append(inBoth, option)
-				break
-			}
+		if slices.Contains(rightEnum.Options(), option) {
+			inBoth = append(inBoth, option)
 		}
 	}
 

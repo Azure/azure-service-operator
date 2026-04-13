@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"go/token"
+	"slices"
 	"sort"
 
 	"github.com/dave/dst"
@@ -548,9 +549,7 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 	}
 
 	// Sort the slice for reproducibility
-	sort.Slice(importedPackageNames, func(left int, right int) bool {
-		return importedPackageNames[left] < importedPackageNames[right]
-	})
+	slices.Sort(importedPackageNames)
 
 	groupVersionAssignments := make([]dst.Stmt, 0, len(importedPackageNames))
 	for _, group := range importedPackageNames {

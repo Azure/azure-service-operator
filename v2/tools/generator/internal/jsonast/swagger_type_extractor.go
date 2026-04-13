@@ -11,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/go-logr/logr"
@@ -563,10 +564,8 @@ func isMarkedAsARMResource(schema Schema) bool {
 		}
 
 		if schema.hasAllOf() {
-			for _, allOf := range schema.allOf() {
-				if recurse(allOf) {
-					return true
-				}
+			if slices.ContainsFunc(schema.allOf(), recurse) {
+				return true
 			}
 		}
 

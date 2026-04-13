@@ -12,6 +12,7 @@ import (
 	"math/big"
 	"net/url"
 	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/devigned/tab"
@@ -544,13 +545,7 @@ func getProperties(
 		}
 
 		// add validations
-		isRequired := false
-		for _, required := range schema.requiredProperties() {
-			if propName == required {
-				isRequired = true
-				break
-			}
-		}
+		isRequired := slices.Contains(schema.requiredProperties(), propName)
 
 		// All types are optional (regardless of if the property is required or not) because of
 		// non-optional types (int, string, MyType, etc) interaction with omitempty.
