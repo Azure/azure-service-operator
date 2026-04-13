@@ -49,7 +49,6 @@ func Test_CreateIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.T) {
 	idFactory := NewIdentifierFactory()
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -77,7 +76,6 @@ func Test_CreateStringIdentifier_GivenName_ReturnsExpectedIdentifier(t *testing.
 	idFactory := NewIdentifierFactory()
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -113,7 +111,6 @@ func Test_SliceIntoWords_GivenIdentifier_ReturnsExpectedSlice(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.identifier, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -146,7 +143,6 @@ func Test_TransformToSnakeCase_ReturnsExpectedString(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.string, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -181,7 +177,6 @@ func Test_SimplifyIdentifier_GivenContextAndName_ReturnsExpectedResult(t *testin
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.identifier, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -228,7 +223,6 @@ func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
 
 	factory := NewIdentifierFactory()
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)

@@ -107,7 +107,6 @@ func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
 	ctx := context.Background()
 
 	for _, p := range testConfig.Pipelines {
-		p := p
 		testName := strings.TrimPrefix(t.Name(), "TestGolden/")
 
 		// Append pipeline name at the end of file name if there is more than one pipeline under test
@@ -411,7 +410,6 @@ func TestGolden(t *testing.T) {
 	}
 
 	for groupName, fs := range testGroups {
-		groupName := groupName
 
 		configPath := fmt.Sprintf("%s/%s/config.yaml", testDataRoot, groupName)
 
@@ -428,7 +426,6 @@ func TestGolden(t *testing.T) {
 			}
 
 			for _, f := range fs {
-				f := f
 				testConfig := testConfig
 				t.Run(f.name, func(t *testing.T) {
 					t.Parallel()

@@ -47,8 +47,6 @@ func TestCallFunc_GivenArguments_GeneratesExpectedCode(t *testing.T) {
 	}
 
 	for name, c := range cases {
-		c := c
-		name := name
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			call := CallFunc(name, c.arguments...)

@@ -25,7 +25,6 @@ func TestGolden_MakeMap_GivenKeyAndValueTypes_GeneratesExpectedCode(t *testing.T
 	}
 
 	for _, c := range cases {
-		c := c
 		name := c.key + "_" + c.val
 		t.Run(
 			name,

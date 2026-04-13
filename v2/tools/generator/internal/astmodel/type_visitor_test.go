@@ -48,7 +48,6 @@ func Test_Visit_GivenCountingTypeVisitor_ReturnsExpectedCounts(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -185,7 +184,6 @@ func TestIdentityVisitorReturnsEqualResult(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -483,7 +481,6 @@ func TestMakeTypeVisitorWithInjectedFunctions(t *testing.T) {
 	// visitTypeName:
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)

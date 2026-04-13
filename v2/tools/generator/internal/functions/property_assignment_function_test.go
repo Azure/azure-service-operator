@@ -499,7 +499,6 @@ func TestGolden_PropertyAssignmentFunction_AsFunc(t *testing.T) {
 
 	factory := newStorageConversionPropertyTestCaseFactory()
 	for n, c := range factory.CreatePropertyAssignmentFunctionTestCases() {
-		c := c
 		t.Run(n, func(t *testing.T) {
 			t.Parallel()
 			runTestPropertyAssignmentFunctionAsFunc(c, t)

@@ -413,7 +413,6 @@ func Test_PropertyDefinitionMakeTypeRequired_PropertyTypeArrayAndMap(t *testing.
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -480,7 +479,6 @@ func Test_PropertyDefinitionMakeTypeOptional_PropertyTypeArrayAndMap(t *testing.
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
@@ -559,7 +557,6 @@ func TestPropertyDefinition_Equals_WhenGivenPropertyDefinition_ReturnsExpectedRe
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)

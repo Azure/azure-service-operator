@@ -123,7 +123,6 @@ func TestConversionGraph_GivenTypeName_ReturnsExpectedHubTypeName(t *testing.T) 
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(c.name, func(t *testing.T) {
 			g := NewGomegaWithT(t)
 			t.Parallel()
@@ -318,7 +317,6 @@ func TestConversionGraph_WithAResourceOnlyInPreviewVersions_HasExpectedTransitio
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(
 			fmt.Sprintf("%s to %s", c.from, c.to),
 			func(t *testing.T) {
@@ -428,7 +426,6 @@ func Test_ConversionGraph_FindInPath_ReturnsExpectedResult(t *testing.T) {
 	}
 
 	for _, c := range cases {
-		c := c
 		t.Run(
 			fmt.Sprintf("%s to %s", c.start, c.end),
 			func(t *testing.T) {
