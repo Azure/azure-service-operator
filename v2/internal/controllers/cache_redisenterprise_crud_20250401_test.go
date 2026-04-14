@@ -10,8 +10,8 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"github.com/google/uuid"
 
+	"github.com/google/uuid"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
