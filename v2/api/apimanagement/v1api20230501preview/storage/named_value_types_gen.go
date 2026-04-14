@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -599,17 +599,7 @@ func (value *NamedValue_STATUS) AssignProperties_From_NamedValue_STATUS(source *
 	value.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if propertyBag.Contains("ProvisioningState") {
-		var provisioningState string
-		err := propertyBag.Pull("ProvisioningState", &provisioningState)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProvisioningState' from propertyBag")
-		}
-
-		value.ProvisioningState = &provisioningState
-	} else {
-		value.ProvisioningState = nil
-	}
+	value.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Secret
 	if source.Secret != nil {
@@ -678,11 +668,7 @@ func (value *NamedValue_STATUS) AssignProperties_To_NamedValue_STATUS(destinatio
 	destination.Name = genruntime.ClonePointerToString(value.Name)
 
 	// ProvisioningState
-	if value.ProvisioningState != nil {
-		propertyBag.Add("ProvisioningState", *value.ProvisioningState)
-	} else {
-		propertyBag.Remove("ProvisioningState")
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(value.ProvisioningState)
 
 	// Secret
 	if value.Secret != nil {

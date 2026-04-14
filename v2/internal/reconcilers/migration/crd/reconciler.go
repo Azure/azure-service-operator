@@ -130,7 +130,7 @@ func (r *Reconciler) Reconcile(ctx context.Context) (ctrl.Result, error) {
 func (r *Reconciler) areAllInstancesMigrated(ctx context.Context, crd *apiextensions.CustomResourceDefinition) (bool, error) {
 	log := log.FromContext(ctx).WithValues("crd", crd.Name)
 
-	// Pick the latest supported version in the CRD. Since we're using PartialObjectMetadata it doesn't really matter.
+	// Pick the latest supported version in the CRD.
 	gvk, err := r.getStorageVersion(crd)
 	if err != nil {
 		return false, eris.Wrapf(err, "failed to get storage version for CRD %s", crd.Name)
@@ -153,6 +153,9 @@ func (r *Reconciler) areAllInstancesMigrated(ctx context.Context, crd *apiextens
 	// Use the full type, not partialObjectMetadata, as controller-runtime caches per-type
 	// (where the types are Unstructured, PartialObjectMetadata, and Structured). We do NOT want to
 	// have a separate cache for these, so we use the full type to re-use the cache we've already got.
+	// Worth noting that we've disabled the cache for CRDs because holding them in memory is expensive,
+	// and this controller should eventually migrate everything at which point we don't need to make any calls
+	// anymore.
 	scheme := r.kubeClient.Scheme()
 	// Create an instance of the type to get the type name
 	obj, err := scheme.New(gvk)

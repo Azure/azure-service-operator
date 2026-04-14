@@ -295,9 +295,6 @@ type VpnClientConfiguration_STATUS struct {
 	// RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
-	// RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
-	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
-
 	// RadiusServers: The radiusServers property for multiple radius server configuration.
 	RadiusServers []RadiusServer_STATUS `json:"radiusServers,omitempty"`
 
@@ -374,9 +371,6 @@ type RadiusServer_STATUS struct {
 
 	// RadiusServerScore: The initial score assigned to this radius server.
 	RadiusServerScore *int `json:"radiusServerScore,omitempty"`
-
-	// RadiusServerSecret: The secret used for this radius server.
-	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 }
 
 type VirtualNetworkGatewayAutoScaleBounds_STATUS struct {

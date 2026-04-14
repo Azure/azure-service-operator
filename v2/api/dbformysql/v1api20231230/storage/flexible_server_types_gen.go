@@ -5,8 +5,7 @@ package storage
 
 import (
 	"context"
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20231230/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -56,22 +55,36 @@ var _ conversion.Convertible = &FlexibleServer{}
 
 // ConvertFrom populates our FlexibleServer from the provided hub FlexibleServer
 func (server *FlexibleServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v20241230/storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_FlexibleServer(source)
+	err = server.AssignProperties_From_FlexibleServer(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServer from our FlexibleServer
 func (server *FlexibleServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v20241230/storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServer
+	err := server.AssignProperties_To_FlexibleServer(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_FlexibleServer(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServer{}
@@ -429,13 +442,6 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 		server.DataEncryption = nil
 	}
 
-	// DatabasePort
-	if source.DatabasePort != nil {
-		propertyBag.Add("DatabasePort", *source.DatabasePort)
-	} else {
-		propertyBag.Remove("DatabasePort")
-	}
-
 	// HighAvailability
 	if source.HighAvailability != nil {
 		var highAvailability HighAvailability
@@ -474,13 +480,6 @@ func (server *FlexibleServer_Spec) AssignProperties_From_FlexibleServer_Spec(sou
 
 	// Location
 	server.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MaintenancePolicy
-	if source.MaintenancePolicy != nil {
-		propertyBag.Add("MaintenancePolicy", *source.MaintenancePolicy)
-	} else {
-		propertyBag.Remove("MaintenancePolicy")
-	}
 
 	// MaintenanceWindow
 	if source.MaintenanceWindow != nil {
@@ -642,19 +641,6 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 		destination.DataEncryption = nil
 	}
 
-	// DatabasePort
-	if propertyBag.Contains("DatabasePort") {
-		var databasePort int
-		err := propertyBag.Pull("DatabasePort", &databasePort)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DatabasePort' from propertyBag")
-		}
-
-		destination.DatabasePort = &databasePort
-	} else {
-		destination.DatabasePort = nil
-	}
-
 	// HighAvailability
 	if server.HighAvailability != nil {
 		var highAvailability storage.HighAvailability
@@ -693,19 +679,6 @@ func (server *FlexibleServer_Spec) AssignProperties_To_FlexibleServer_Spec(desti
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(server.Location)
-
-	// MaintenancePolicy
-	if propertyBag.Contains("MaintenancePolicy") {
-		var maintenancePolicy storage.MaintenancePolicy
-		err := propertyBag.Pull("MaintenancePolicy", &maintenancePolicy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MaintenancePolicy' from propertyBag")
-		}
-
-		destination.MaintenancePolicy = &maintenancePolicy
-	} else {
-		destination.MaintenancePolicy = nil
-	}
 
 	// MaintenanceWindow
 	if server.MaintenanceWindow != nil {
@@ -941,20 +914,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 		server.DataEncryption = nil
 	}
 
-	// DatabasePort
-	if source.DatabasePort != nil {
-		propertyBag.Add("DatabasePort", *source.DatabasePort)
-	} else {
-		propertyBag.Remove("DatabasePort")
-	}
-
-	// FullVersion
-	if source.FullVersion != nil {
-		propertyBag.Add("FullVersion", *source.FullVersion)
-	} else {
-		propertyBag.Remove("FullVersion")
-	}
-
 	// FullyQualifiedDomainName
 	server.FullyQualifiedDomainName = genruntime.ClonePointerToString(source.FullyQualifiedDomainName)
 
@@ -999,13 +958,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_From_FlexibleServer_STATUS
 
 	// Location
 	server.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MaintenancePolicy
-	if source.MaintenancePolicy != nil {
-		propertyBag.Add("MaintenancePolicy", *source.MaintenancePolicy)
-	} else {
-		propertyBag.Remove("MaintenancePolicy")
-	}
 
 	// MaintenanceWindow
 	if source.MaintenanceWindow != nil {
@@ -1171,32 +1123,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 		destination.DataEncryption = nil
 	}
 
-	// DatabasePort
-	if propertyBag.Contains("DatabasePort") {
-		var databasePort int
-		err := propertyBag.Pull("DatabasePort", &databasePort)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DatabasePort' from propertyBag")
-		}
-
-		destination.DatabasePort = &databasePort
-	} else {
-		destination.DatabasePort = nil
-	}
-
-	// FullVersion
-	if propertyBag.Contains("FullVersion") {
-		var fullVersion string
-		err := propertyBag.Pull("FullVersion", &fullVersion)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'FullVersion' from propertyBag")
-		}
-
-		destination.FullVersion = &fullVersion
-	} else {
-		destination.FullVersion = nil
-	}
-
 	// FullyQualifiedDomainName
 	destination.FullyQualifiedDomainName = genruntime.ClonePointerToString(server.FullyQualifiedDomainName)
 
@@ -1241,19 +1167,6 @@ func (server *FlexibleServer_STATUS) AssignProperties_To_FlexibleServer_STATUS(d
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(server.Location)
-
-	// MaintenancePolicy
-	if propertyBag.Contains("MaintenancePolicy") {
-		var maintenancePolicy storage.MaintenancePolicy_STATUS
-		err := propertyBag.Pull("MaintenancePolicy", &maintenancePolicy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'MaintenancePolicy' from propertyBag")
-		}
-
-		destination.MaintenancePolicy = &maintenancePolicy
-	} else {
-		destination.MaintenancePolicy = nil
-	}
 
 	// MaintenanceWindow
 	if server.MaintenanceWindow != nil {
@@ -2261,13 +2174,6 @@ func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source 
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// BatchOfMaintenance
-	if source.BatchOfMaintenance != nil {
-		propertyBag.Add("BatchOfMaintenance", *source.BatchOfMaintenance)
-	} else {
-		propertyBag.Remove("BatchOfMaintenance")
-	}
-
 	// CustomWindow
 	window.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
 
@@ -2304,19 +2210,6 @@ func (window *MaintenanceWindow) AssignProperties_From_MaintenanceWindow(source 
 func (window *MaintenanceWindow) AssignProperties_To_MaintenanceWindow(destination *storage.MaintenanceWindow) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(window.PropertyBag)
-
-	// BatchOfMaintenance
-	if propertyBag.Contains("BatchOfMaintenance") {
-		var batchOfMaintenance string
-		err := propertyBag.Pull("BatchOfMaintenance", &batchOfMaintenance)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'BatchOfMaintenance' from propertyBag")
-		}
-
-		destination.BatchOfMaintenance = &batchOfMaintenance
-	} else {
-		destination.BatchOfMaintenance = nil
-	}
 
 	// CustomWindow
 	destination.CustomWindow = genruntime.ClonePointerToString(window.CustomWindow)
@@ -2365,13 +2258,6 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_From_MaintenanceWindow_
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// BatchOfMaintenance
-	if source.BatchOfMaintenance != nil {
-		propertyBag.Add("BatchOfMaintenance", *source.BatchOfMaintenance)
-	} else {
-		propertyBag.Remove("BatchOfMaintenance")
-	}
-
 	// CustomWindow
 	window.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
 
@@ -2408,19 +2294,6 @@ func (window *MaintenanceWindow_STATUS) AssignProperties_From_MaintenanceWindow_
 func (window *MaintenanceWindow_STATUS) AssignProperties_To_MaintenanceWindow_STATUS(destination *storage.MaintenanceWindow_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(window.PropertyBag)
-
-	// BatchOfMaintenance
-	if propertyBag.Contains("BatchOfMaintenance") {
-		var batchOfMaintenance string
-		err := propertyBag.Pull("BatchOfMaintenance", &batchOfMaintenance)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'BatchOfMaintenance' from propertyBag")
-		}
-
-		destination.BatchOfMaintenance = &batchOfMaintenance
-	} else {
-		destination.BatchOfMaintenance = nil
-	}
 
 	// CustomWindow
 	destination.CustomWindow = genruntime.ClonePointerToString(window.CustomWindow)
@@ -2574,6 +2447,17 @@ func (identity *MySQLServerIdentity_STATUS) AssignProperties_From_MySQLServerIde
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
 
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+		}
+		identity.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		identity.UserAssignedIdentities = nil
+	}
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		identity.PropertyBag = propertyBag
@@ -2607,6 +2491,17 @@ func (identity *MySQLServerIdentity_STATUS) AssignProperties_To_MySQLServerIdent
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
+
+	// UserAssignedIdentities
+	if identity.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
+			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+		}
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3036,13 +2931,6 @@ func (storage *Storage) AssignProperties_From_Storage(source *storage.Storage) e
 	// LogOnDisk
 	storage.LogOnDisk = genruntime.ClonePointerToString(source.LogOnDisk)
 
-	// StorageRedundancy
-	if source.StorageRedundancy != nil {
-		propertyBag.Add("StorageRedundancy", *source.StorageRedundancy)
-	} else {
-		propertyBag.Remove("StorageRedundancy")
-	}
-
 	// StorageSizeGB
 	storage.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
 
@@ -3082,19 +2970,6 @@ func (storage *Storage) AssignProperties_To_Storage(destination *storage.Storage
 
 	// LogOnDisk
 	destination.LogOnDisk = genruntime.ClonePointerToString(storage.LogOnDisk)
-
-	// StorageRedundancy
-	if propertyBag.Contains("StorageRedundancy") {
-		var storageRedundancy string
-		err := propertyBag.Pull("StorageRedundancy", &storageRedundancy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'StorageRedundancy' from propertyBag")
-		}
-
-		destination.StorageRedundancy = &storageRedundancy
-	} else {
-		destination.StorageRedundancy = nil
-	}
 
 	// StorageSizeGB
 	destination.StorageSizeGB = genruntime.ClonePointerToInt(storage.StorageSizeGB)
@@ -3148,13 +3023,6 @@ func (storage *Storage_STATUS) AssignProperties_From_Storage_STATUS(source *stor
 	// LogOnDisk
 	storage.LogOnDisk = genruntime.ClonePointerToString(source.LogOnDisk)
 
-	// StorageRedundancy
-	if source.StorageRedundancy != nil {
-		propertyBag.Add("StorageRedundancy", *source.StorageRedundancy)
-	} else {
-		propertyBag.Remove("StorageRedundancy")
-	}
-
 	// StorageSizeGB
 	storage.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
 
@@ -3197,19 +3065,6 @@ func (storage *Storage_STATUS) AssignProperties_To_Storage_STATUS(destination *s
 
 	// LogOnDisk
 	destination.LogOnDisk = genruntime.ClonePointerToString(storage.LogOnDisk)
-
-	// StorageRedundancy
-	if propertyBag.Contains("StorageRedundancy") {
-		var storageRedundancy string
-		err := propertyBag.Pull("StorageRedundancy", &storageRedundancy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'StorageRedundancy' from propertyBag")
-		}
-
-		destination.StorageRedundancy = &storageRedundancy
-	} else {
-		destination.StorageRedundancy = nil
-	}
 
 	// StorageSizeGB
 	destination.StorageSizeGB = genruntime.ClonePointerToInt(storage.StorageSizeGB)

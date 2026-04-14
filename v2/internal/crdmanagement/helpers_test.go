@@ -5,6 +5,7 @@ package crdmanagement_test
 
 import (
 	"context"
+	"os"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -41,9 +42,10 @@ func Test_AllCRDsReady_NoneAreFiltered(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	testData := testSetup(t)
+	g.Expect(testcommon.CheckBundledCRDsDirectory(testData.crdPath)).To(Succeed())
 
 	// load crds
-	goalCRDs, err := testData.crdManager.LoadOperatorCRDs(testData.crdPath, testData.namespace)
+	goalCRDs, err := testData.crdManager.LoadOperatorCRDs(testData.crdPath, testData.namespace, testData.crdManager.BuildCRDFileFilter("*", nil))
 	g.Expect(err).ToNot(HaveOccurred())
 
 	readyResources := crdmanagement.MakeCRDMap(goalCRDs)
@@ -63,9 +65,10 @@ func Test_FiveCRDsReady_AllOthersAreFiltered(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	testData := testSetup(t)
+	g.Expect(testcommon.CheckBundledCRDsDirectory(testData.crdPath)).To(Succeed())
 
 	// load crds
-	goalCRDs, err := testData.crdManager.LoadOperatorCRDs(testData.crdPath, testData.namespace)
+	goalCRDs, err := testData.crdManager.LoadOperatorCRDs(testData.crdPath, testData.namespace, testData.crdManager.BuildCRDFileFilter("*", nil))
 	g.Expect(err).ToNot(HaveOccurred())
 
 	// Filter all but the first 5 CRDs
@@ -86,6 +89,54 @@ func Test_FiveCRDsReady_AllOthersAreFiltered(t *testing.T) {
 	objs, err := crdmanagement.FilterStorageTypesByReadyCRDs(testData.logger, testData.s.GetScheme(), readyResources, knownTypes)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(objs).To(HaveLen(5))
+}
+
+// This test requires that the task target `bundle-crds` has been run
+func Test_ResourceGroupPattern_AllOthersAreFiltered(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	testData := testSetup(t)
+	g.Expect(testcommon.CheckBundledCRDsDirectory(testData.crdPath)).To(Succeed())
+
+	// load crds
+	shouldLoad := testData.crdManager.BuildCRDFileFilter("resources.azure.com/ResourceGroup", nil)
+	goalCRDs, err := testData.crdManager.LoadOperatorCRDs(testData.crdPath, testData.namespace, shouldLoad)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	readyResources := crdmanagement.MakeCRDMap(goalCRDs)
+
+	knownTypes, err := testData.getKnownStorageTypes()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	// Filter the types to register
+	objs, err := crdmanagement.FilterStorageTypesByReadyCRDs(testData.logger, testData.s.GetScheme(), readyResources, knownTypes)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(objs).To(HaveLen(1))
+}
+
+// This test requires that the task target `bundle-crds` has been run
+func Test_AllCRDFilenames_MatchExpectedPattern(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	testData := testSetup(t)
+	g.Expect(testcommon.CheckBundledCRDsDirectory(testData.crdPath)).To(Succeed())
+
+	entries, err := os.ReadDir(testData.crdPath)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(entries).ToNot(BeEmpty())
+
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+		filename := entry.Name()
+
+		// Every file should have the expected prefix and .yaml suffix
+		g.Expect(filename).To(HavePrefix(crdmanagement.CRDFilePrefix), "file %q missing expected prefix", filename)
+		g.Expect(filename).To(HaveSuffix(".yaml"), "file %q missing .yaml suffix", filename)
+	}
 }
 
 /*

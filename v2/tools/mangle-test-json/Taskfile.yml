@@ -1,0 +1,60 @@
+# https://taskfile.dev
+
+version: '3.7'
+
+run: when_changed
+output: prefixed
+
+vars:
+  MANGLE_ROOT: "{{.TASKFILE_DIR}}"
+
+tasks:
+  debug:
+    silent: true
+    cmds:
+    - 'echo "ROOT_DIR: {{.ROOT_DIR}}"'
+    - 'echo "TASKFILE_DIR: {{.TASKFILE_DIR}}"'
+    - 'echo "TASK_DIR: {{.TASK_DIR}}"'
+
+  produce-markdown-summary:
+    desc: Builds a test output summary for GitHub
+    deps: 
+       - build
+    cmds:
+      - cmd: '{{.MANGLE_ROOT}}/mangle-test-json "{{.INPUT}}" > "{{.OUTPUT}}"'
+    vars:
+      # Have to use relative paths because mangle-test-json objects to absolute paths in the output
+      # (a consequence of the security changes in PR#5260 )
+      INPUT: "{{relPath .ROOT_DIR .INPUT_FILE}}"
+      OUTPUT: "{{relPath .ROOT_DIR .OUTPUT_FILE}}"
+
+  build:
+    desc: Builds the tool we use for mangling test results
+    dir: "{{.MANGLE_ROOT}}"
+    cmds:
+      - go build
+
+  quick-checks:
+    cmds:
+      - task: lint
+
+  lint:
+    desc: Run mangle-test fast lint checks.
+    dir: '{{.MANGLE_ROOT}}'
+    cmds:
+      - golangci-lint run --verbose --fix --timeout 5m ./...
+
+  format-code:
+    desc: Ensure all code for mangle-test is formatted
+    dir: '{{.MANGLE_ROOT}}'
+    cmds:
+      - cmd: gofumpt -l -w .
+        ignore_error: true # Just in case the code doesn't build
+      - cmd: go fix ./...
+        ignore_error: true # Just in case the code doesn't build
+
+  go-mod-tidy:
+    desc: Tidy the go.mod file
+    dir : '{{.MANGLE_ROOT}}'
+    cmds:
+      - go mod tidy

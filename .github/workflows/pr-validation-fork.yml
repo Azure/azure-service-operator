@@ -6,7 +6,7 @@ on:
 
 jobs:
   integration-tests-fork:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=integrationfork-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     if:
       github.event_name == 'repository_dispatch' &&
       github.event.client_payload.slash_command.args.named.sha != '' &&
@@ -60,7 +60,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # pinned to v4.0.0
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}

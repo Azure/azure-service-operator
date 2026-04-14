@@ -5,7 +5,9 @@ package customizations
 
 import (
 	v20240301 "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20250301 "github.com/Azure/azure-service-operator/v2/api/network/v20250301"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +18,7 @@ type AzureFirewallExtension struct {
 func (extension *AzureFirewallExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20240301.AzureFirewall{},
-		&storage.AzureFirewall{}}
+		&v20240301s.AzureFirewall{},
+		&v20250301.AzureFirewall{},
+		&v20250301s.AzureFirewall{}}
 }

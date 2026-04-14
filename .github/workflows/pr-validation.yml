@@ -60,7 +60,7 @@ jobs:
           exit $FAILED
 
   test-generator:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testgenerator-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
       packages: read
 
@@ -79,7 +79,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # pinned to v4.0.0
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -141,14 +141,14 @@ jobs:
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
         with:
           name: test-output
           path: reports/*.json
 
       - name: Save memory monitor log
         if: ${{ always() }}
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
         with:
           name: memory-monitor
           path: reports/memory-monitor.log
@@ -162,7 +162,7 @@ jobs:
         if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Archive outputs
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
         with:
           name: output
           path: v2/bin/*
@@ -174,7 +174,7 @@ jobs:
         run: sudo chown -R $USER:$USER .
 
   test-controllers:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testcontrollers-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
       packages: read
 
@@ -193,7 +193,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # pinned to v4.0.0
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -226,13 +226,13 @@ jobs:
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
         with:
           name: test-output
           path: reports/*.json
 
   test-samples:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testsamples-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
       packages: read
 
@@ -251,7 +251,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # pinned to v4.0.0
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -284,14 +284,14 @@ jobs:
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
         with:
           name: test-output
           path: reports/*.json
 
   # TODO: Changing this name requires changing the github API calls in pr-validation-fork.yml
   integration-tests:
-    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=aso-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testintegration-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     if: 
       # Run on pull requests in this repository that are not from @dependabot, and run for merge groups
       github.event_name == 'merge_group' ||
@@ -317,7 +317,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # pinned to v4.0.0
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}

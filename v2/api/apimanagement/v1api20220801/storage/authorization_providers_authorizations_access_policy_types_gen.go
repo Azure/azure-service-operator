@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &AuthorizationProvidersAuthorizationsAccessPolicy
 
 // ConvertFrom populates our AuthorizationProvidersAuthorizationsAccessPolicy from the provided hub AuthorizationProvidersAuthorizationsAccessPolicy
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.AuthorizationProvidersAuthorizationsAccessPolicy)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20240501/storage/AuthorizationProvidersAuthorizationsAccessPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.AuthorizationProvidersAuthorizationsAccessPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy(source)
+	err = policy.AssignProperties_From_AuthorizationProvidersAuthorizationsAccessPolicy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub AuthorizationProvidersAuthorizationsAccessPolicy from our AuthorizationProvidersAuthorizationsAccessPolicy
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.AuthorizationProvidersAuthorizationsAccessPolicy)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20240501/storage/AuthorizationProvidersAuthorizationsAccessPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.AuthorizationProvidersAuthorizationsAccessPolicy
+	err := policy.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &AuthorizationProvidersAuthorizationsAccessPolicy{}
@@ -334,13 +347,6 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) AssignPrope
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AppIds
-	if len(source.AppIds) > 0 {
-		propertyBag.Add("AppIds", source.AppIds)
-	} else {
-		propertyBag.Remove("AppIds")
-	}
-
 	// AzureName
 	policy.AzureName = source.AzureName
 
@@ -413,19 +419,6 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) AssignPrope
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_Spec) AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_Spec(destination *storage.AuthorizationProvidersAuthorizationsAccessPolicy_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
-
-	// AppIds
-	if propertyBag.Contains("AppIds") {
-		var appId []string
-		err := propertyBag.Pull("AppIds", &appId)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AppIds' from propertyBag")
-		}
-
-		destination.AppIds = appId
-	} else {
-		destination.AppIds = nil
-	}
 
 	// AzureName
 	destination.AzureName = policy.AzureName
@@ -561,13 +554,6 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) AssignPro
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AppIds
-	if len(source.AppIds) > 0 {
-		propertyBag.Add("AppIds", source.AppIds)
-	} else {
-		propertyBag.Remove("AppIds")
-	}
-
 	// Conditions
 	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
@@ -610,19 +596,6 @@ func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) AssignPro
 func (policy *AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) AssignProperties_To_AuthorizationProvidersAuthorizationsAccessPolicy_STATUS(destination *storage.AuthorizationProvidersAuthorizationsAccessPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
-
-	// AppIds
-	if propertyBag.Contains("AppIds") {
-		var appId []string
-		err := propertyBag.Pull("AppIds", &appId)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AppIds' from propertyBag")
-		}
-
-		destination.AppIds = appId
-	} else {
-		destination.AppIds = nil
-	}
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(policy.Conditions)

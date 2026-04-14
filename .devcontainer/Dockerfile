@@ -38,7 +38,10 @@ COPY v2/tools/generator/go.mod v2/tools/generator/go.sum /tmp/mod-download/v2/to
 # mangle-test-json (standalone, no replace directives)
 COPY v2/tools/mangle-test-json/go.mod v2/tools/mangle-test-json/go.sum /tmp/mod-download/v2/tools/mangle-test-json/
 # Now do all the downloads
-RUN find /tmp/mod-download -name go.mod -execdir pwd \; -execdir go mod download \;
+ENV GOFLAGS=-modcacherw
+RUN mkdir -p /go/pkg/mod && \
+    find /tmp/mod-download -name go.mod -execdir pwd \; -execdir go mod download \; && \
+    chmod -R a+rwX /go/pkg/mod
 
 # Clean up temporary module download directory
 RUN rm -rf /tmp/mod-download

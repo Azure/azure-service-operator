@@ -5,8 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20220101s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101/storage"
-	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20210501/storage"
 	v20241230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -37,7 +36,7 @@ func RunPropertyAssignmentTestForBackup(subject Backup) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.Backup
+	var other v20210501s.Backup
 	err := copied.AssignProperties_To_Backup(&other)
 	if err != nil {
 		return err.Error()
@@ -140,7 +139,7 @@ func RunPropertyAssignmentTestForBackup_STATUS(subject Backup_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.Backup_STATUS
+	var other v20210501s.Backup_STATUS
 	err := copied.AssignProperties_To_Backup_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -244,7 +243,7 @@ func RunPropertyAssignmentTestForDataEncryption(subject DataEncryption) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.DataEncryption
+	var other v20210501s.DataEncryption
 	err := copied.AssignProperties_To_DataEncryption(&other)
 	if err != nil {
 		return err.Error()
@@ -348,7 +347,7 @@ func RunPropertyAssignmentTestForDataEncryption_STATUS(subject DataEncryption_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.DataEncryption_STATUS
+	var other v20210501s.DataEncryption_STATUS
 	err := copied.AssignProperties_To_DataEncryption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -498,7 +497,7 @@ func RunPropertyAssignmentTestForFlexibleServer(subject FlexibleServer) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServer
+	var other v20210501s.FlexibleServer
 	err := copied.AssignProperties_To_FlexibleServer(&other)
 	if err != nil {
 		return err.Error()
@@ -601,7 +600,7 @@ func RunPropertyAssignmentTestForFlexibleServerOperatorConfigMaps(subject Flexib
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServerOperatorConfigMaps
+	var other v20210501s.FlexibleServerOperatorConfigMaps
 	err := copied.AssignProperties_To_FlexibleServerOperatorConfigMaps(&other)
 	if err != nil {
 		return err.Error()
@@ -698,7 +697,7 @@ func RunPropertyAssignmentTestForFlexibleServerOperatorSecrets(subject FlexibleS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServerOperatorSecrets
+	var other v20210501s.FlexibleServerOperatorSecrets
 	err := copied.AssignProperties_To_FlexibleServerOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
@@ -795,7 +794,7 @@ func RunPropertyAssignmentTestForFlexibleServerOperatorSpec(subject FlexibleServ
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServerOperatorSpec
+	var other v20210501s.FlexibleServerOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServerOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -899,7 +898,7 @@ func RunPropertyAssignmentTestForFlexibleServer_STATUS(subject FlexibleServer_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServer_STATUS
+	var other v20210501s.FlexibleServer_STATUS
 	err := copied.AssignProperties_To_FlexibleServer_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1040,7 +1039,7 @@ func RunPropertyAssignmentTestForFlexibleServer_Spec(subject FlexibleServer_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServer_Spec
+	var other v20210501s.FlexibleServer_Spec
 	err := copied.AssignProperties_To_FlexibleServer_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1177,7 +1176,7 @@ func RunPropertyAssignmentTestForHighAvailability(subject HighAvailability) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.HighAvailability
+	var other v20210501s.HighAvailability
 	err := copied.AssignProperties_To_HighAvailability(&other)
 	if err != nil {
 		return err.Error()
@@ -1280,7 +1279,7 @@ func RunPropertyAssignmentTestForHighAvailability_STATUS(subject HighAvailabilit
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.HighAvailability_STATUS
+	var other v20210501s.HighAvailability_STATUS
 	err := copied.AssignProperties_To_HighAvailability_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1374,7 +1373,7 @@ func Test_Identity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Identity to MySQLServerIdentity via AssignProperties_To_MySQLServerIdentity & AssignProperties_From_MySQLServerIdentity returns original",
+		"Round trip from Identity to Identity via AssignProperties_To_Identity & AssignProperties_From_Identity returns original",
 		prop.ForAll(RunPropertyAssignmentTestForIdentity, IdentityGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1385,15 +1384,15 @@ func RunPropertyAssignmentTestForIdentity(subject Identity) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.MySQLServerIdentity
-	err := copied.AssignProperties_To_MySQLServerIdentity(&other)
+	var other v20210501s.Identity
+	err := copied.AssignProperties_To_Identity(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Identity
-	err = actual.AssignProperties_From_MySQLServerIdentity(&other)
+	err = actual.AssignProperties_From_Identity(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1490,7 +1489,7 @@ func Test_Identity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Identity_STATUS to MySQLServerIdentity_STATUS via AssignProperties_To_MySQLServerIdentity_STATUS & AssignProperties_From_MySQLServerIdentity_STATUS returns original",
+		"Round trip from Identity_STATUS to Identity_STATUS via AssignProperties_To_Identity_STATUS & AssignProperties_From_Identity_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForIdentity_STATUS, Identity_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1501,15 +1500,15 @@ func RunPropertyAssignmentTestForIdentity_STATUS(subject Identity_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.MySQLServerIdentity_STATUS
-	err := copied.AssignProperties_To_MySQLServerIdentity_STATUS(&other)
+	var other v20210501s.Identity_STATUS
+	err := copied.AssignProperties_To_Identity_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Identity_STATUS
-	err = actual.AssignProperties_From_MySQLServerIdentity_STATUS(&other)
+	err = actual.AssignProperties_From_Identity_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1605,7 +1604,7 @@ func RunPropertyAssignmentTestForMaintenanceWindow(subject MaintenanceWindow) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.MaintenanceWindow
+	var other v20210501s.MaintenanceWindow
 	err := copied.AssignProperties_To_MaintenanceWindow(&other)
 	if err != nil {
 		return err.Error()
@@ -1710,7 +1709,7 @@ func RunPropertyAssignmentTestForMaintenanceWindow_STATUS(subject MaintenanceWin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.MaintenanceWindow_STATUS
+	var other v20210501s.MaintenanceWindow_STATUS
 	err := copied.AssignProperties_To_MaintenanceWindow_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1816,7 +1815,7 @@ func RunPropertyAssignmentTestForNetwork(subject Network) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.Network
+	var other v20210501s.Network
 	err := copied.AssignProperties_To_Network(&other)
 	if err != nil {
 		return err.Error()
@@ -1912,7 +1911,7 @@ func RunPropertyAssignmentTestForNetwork_STATUS(subject Network_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.Network_STATUS
+	var other v20210501s.Network_STATUS
 	err := copied.AssignProperties_To_Network_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2005,7 +2004,7 @@ func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Sku to MySQLServerSku via AssignProperties_To_MySQLServerSku & AssignProperties_From_MySQLServerSku returns original",
+		"Round trip from Sku to Sku via AssignProperties_To_Sku & AssignProperties_From_Sku returns original",
 		prop.ForAll(RunPropertyAssignmentTestForSku, SkuGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2016,15 +2015,15 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.MySQLServerSku
-	err := copied.AssignProperties_To_MySQLServerSku(&other)
+	var other v20210501s.Sku
+	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Sku
-	err = actual.AssignProperties_From_MySQLServerSku(&other)
+	err = actual.AssignProperties_From_Sku(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2108,7 +2107,7 @@ func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Sku_STATUS to MySQLServerSku_STATUS via AssignProperties_To_MySQLServerSku_STATUS & AssignProperties_From_MySQLServerSku_STATUS returns original",
+		"Round trip from Sku_STATUS to Sku_STATUS via AssignProperties_To_Sku_STATUS & AssignProperties_From_Sku_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForSku_STATUS, Sku_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -2119,15 +2118,15 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.MySQLServerSku_STATUS
-	err := copied.AssignProperties_To_MySQLServerSku_STATUS(&other)
+	var other v20210501s.Sku_STATUS
+	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Sku_STATUS
-	err = actual.AssignProperties_From_MySQLServerSku_STATUS(&other)
+	err = actual.AssignProperties_From_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2222,7 +2221,7 @@ func RunPropertyAssignmentTestForStorage(subject Storage) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.Storage
+	var other v20210501s.Storage
 	err := copied.AssignProperties_To_Storage(&other)
 	if err != nil {
 		return err.Error()
@@ -2326,7 +2325,7 @@ func RunPropertyAssignmentTestForStorage_STATUS(subject Storage_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.Storage_STATUS
+	var other v20210501s.Storage_STATUS
 	err := copied.AssignProperties_To_Storage_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2431,7 +2430,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220101s.SystemData_STATUS
+	var other v20210501s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2538,7 +2537,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.UserAssignedIdentityDetails
+	var other v20210501s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()

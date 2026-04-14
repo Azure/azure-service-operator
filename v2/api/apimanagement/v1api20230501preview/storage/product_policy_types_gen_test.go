@@ -5,8 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
-	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForProductPolicy(subject ProductPolicy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ProductPolicy
+	var other v20230501ps.ProductPolicy
 	err := copied.AssignProperties_To_ProductPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForProductPolicyOperatorSpec(subject ProductPolicy
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ProductPolicyOperatorSpec
+	var other v20230501ps.ProductPolicyOperatorSpec
 	err := copied.AssignProperties_To_ProductPolicyOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +279,7 @@ func RunPropertyAssignmentTestForProductPolicy_STATUS(subject ProductPolicy_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ProductPolicy_STATUS
+	var other v20230501ps.ProductPolicy_STATUS
 	err := copied.AssignProperties_To_ProductPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -386,7 +386,7 @@ func RunPropertyAssignmentTestForProductPolicy_Spec(subject ProductPolicy_Spec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ProductPolicy_Spec
+	var other v20230501ps.ProductPolicy_Spec
 	err := copied.AssignProperties_To_ProductPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()

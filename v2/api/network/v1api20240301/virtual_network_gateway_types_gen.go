@@ -51,22 +51,36 @@ var _ conversion.Convertible = &VirtualNetworkGateway{}
 
 // ConvertFrom populates our VirtualNetworkGateway from the provided hub VirtualNetworkGateway
 func (gateway *VirtualNetworkGateway) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.VirtualNetworkGateway)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/VirtualNetworkGateway but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.VirtualNetworkGateway
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return gateway.AssignProperties_From_VirtualNetworkGateway(source)
+	err = gateway.AssignProperties_From_VirtualNetworkGateway(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to gateway")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualNetworkGateway from our VirtualNetworkGateway
 func (gateway *VirtualNetworkGateway) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.VirtualNetworkGateway)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/VirtualNetworkGateway but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.VirtualNetworkGateway
+	err := gateway.AssignProperties_To_VirtualNetworkGateway(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from gateway")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return gateway.AssignProperties_To_VirtualNetworkGateway(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &VirtualNetworkGateway{}
@@ -87,17 +101,6 @@ func (gateway *VirtualNetworkGateway) SecretDestinationExpressions() []*core.Des
 		return nil
 	}
 	return gateway.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &VirtualNetworkGateway{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (gateway *VirtualNetworkGateway) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*VirtualNetworkGateway_STATUS); ok {
-		return gateway.Spec.Initialize_From_VirtualNetworkGateway_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type VirtualNetworkGateway_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &VirtualNetworkGateway{}
@@ -1531,275 +1534,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignProperties_To_VirtualNetworkGat
 	return nil
 }
 
-// Initialize_From_VirtualNetworkGateway_STATUS populates our VirtualNetworkGateway_Spec from the provided source VirtualNetworkGateway_STATUS
-func (gateway *VirtualNetworkGateway_Spec) Initialize_From_VirtualNetworkGateway_STATUS(source *VirtualNetworkGateway_STATUS) error {
-
-	// ActiveActive
-	if source.ActiveActive != nil {
-		activeActive := *source.ActiveActive
-		gateway.ActiveActive = &activeActive
-	} else {
-		gateway.ActiveActive = nil
-	}
-
-	// AdminState
-	if source.AdminState != nil {
-		adminState := genruntime.ToEnum(string(*source.AdminState), virtualNetworkGatewayPropertiesFormat_AdminState_Values)
-		gateway.AdminState = &adminState
-	} else {
-		gateway.AdminState = nil
-	}
-
-	// AllowRemoteVnetTraffic
-	if source.AllowRemoteVnetTraffic != nil {
-		allowRemoteVnetTraffic := *source.AllowRemoteVnetTraffic
-		gateway.AllowRemoteVnetTraffic = &allowRemoteVnetTraffic
-	} else {
-		gateway.AllowRemoteVnetTraffic = nil
-	}
-
-	// AllowVirtualWanTraffic
-	if source.AllowVirtualWanTraffic != nil {
-		allowVirtualWanTraffic := *source.AllowVirtualWanTraffic
-		gateway.AllowVirtualWanTraffic = &allowVirtualWanTraffic
-	} else {
-		gateway.AllowVirtualWanTraffic = nil
-	}
-
-	// AutoScaleConfiguration
-	if source.AutoScaleConfiguration != nil {
-		var autoScaleConfiguration VirtualNetworkGatewayAutoScaleConfiguration
-		err := autoScaleConfiguration.Initialize_From_VirtualNetworkGatewayAutoScaleConfiguration_STATUS(source.AutoScaleConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualNetworkGatewayAutoScaleConfiguration_STATUS() to populate field AutoScaleConfiguration")
-		}
-		gateway.AutoScaleConfiguration = &autoScaleConfiguration
-	} else {
-		gateway.AutoScaleConfiguration = nil
-	}
-
-	// BgpSettings
-	if source.BgpSettings != nil {
-		var bgpSetting BgpSettings
-		err := bgpSetting.Initialize_From_BgpSettings_STATUS(source.BgpSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BgpSettings_STATUS() to populate field BgpSettings")
-		}
-		gateway.BgpSettings = &bgpSetting
-	} else {
-		gateway.BgpSettings = nil
-	}
-
-	// CustomRoutes
-	if source.CustomRoutes != nil {
-		var customRoute AddressSpace
-		err := customRoute.Initialize_From_AddressSpace_STATUS(source.CustomRoutes)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AddressSpace_STATUS() to populate field CustomRoutes")
-		}
-		gateway.CustomRoutes = &customRoute
-	} else {
-		gateway.CustomRoutes = nil
-	}
-
-	// DisableIPSecReplayProtection
-	if source.DisableIPSecReplayProtection != nil {
-		disableIPSecReplayProtection := *source.DisableIPSecReplayProtection
-		gateway.DisableIPSecReplayProtection = &disableIPSecReplayProtection
-	} else {
-		gateway.DisableIPSecReplayProtection = nil
-	}
-
-	// EnableBgp
-	if source.EnableBgp != nil {
-		enableBgp := *source.EnableBgp
-		gateway.EnableBgp = &enableBgp
-	} else {
-		gateway.EnableBgp = nil
-	}
-
-	// EnableBgpRouteTranslationForNat
-	if source.EnableBgpRouteTranslationForNat != nil {
-		enableBgpRouteTranslationForNat := *source.EnableBgpRouteTranslationForNat
-		gateway.EnableBgpRouteTranslationForNat = &enableBgpRouteTranslationForNat
-	} else {
-		gateway.EnableBgpRouteTranslationForNat = nil
-	}
-
-	// EnableDnsForwarding
-	if source.EnableDnsForwarding != nil {
-		enableDnsForwarding := *source.EnableDnsForwarding
-		gateway.EnableDnsForwarding = &enableDnsForwarding
-	} else {
-		gateway.EnableDnsForwarding = nil
-	}
-
-	// EnablePrivateIpAddress
-	if source.EnablePrivateIpAddress != nil {
-		enablePrivateIpAddress := *source.EnablePrivateIpAddress
-		gateway.EnablePrivateIpAddress = &enablePrivateIpAddress
-	} else {
-		gateway.EnablePrivateIpAddress = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		gateway.ExtendedLocation = &extendedLocation
-	} else {
-		gateway.ExtendedLocation = nil
-	}
-
-	// GatewayDefaultSite
-	if source.GatewayDefaultSite != nil {
-		var gatewayDefaultSite SubResource
-		err := gatewayDefaultSite.Initialize_From_SubResource_STATUS(source.GatewayDefaultSite)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field GatewayDefaultSite")
-		}
-		gateway.GatewayDefaultSite = &gatewayDefaultSite
-	} else {
-		gateway.GatewayDefaultSite = nil
-	}
-
-	// GatewayType
-	if source.GatewayType != nil {
-		gatewayType := genruntime.ToEnum(string(*source.GatewayType), virtualNetworkGatewayPropertiesFormat_GatewayType_Values)
-		gateway.GatewayType = &gatewayType
-	} else {
-		gateway.GatewayType = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		gateway.Identity = &identity
-	} else {
-		gateway.Identity = nil
-	}
-
-	// IpConfigurations
-	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]VirtualNetworkGatewayIPConfiguration, len(source.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			var ipConfiguration VirtualNetworkGatewayIPConfiguration
-			err := ipConfiguration.Initialize_From_VirtualNetworkGatewayIPConfiguration_STATUS(&ipConfigurationItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VirtualNetworkGatewayIPConfiguration_STATUS() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		gateway.IpConfigurations = ipConfigurationList
-	} else {
-		gateway.IpConfigurations = nil
-	}
-
-	// Location
-	gateway.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NatRules
-	if source.NatRules != nil {
-		natRuleList := make([]VirtualNetworkGatewayNatRule, len(source.NatRules))
-		for natRuleIndex, natRuleItem := range source.NatRules {
-			var natRule VirtualNetworkGatewayNatRule
-			err := natRule.Initialize_From_VirtualNetworkGatewayNatRule_STATUS(&natRuleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VirtualNetworkGatewayNatRule_STATUS() to populate field NatRules")
-			}
-			natRuleList[natRuleIndex] = natRule
-		}
-		gateway.NatRules = natRuleList
-	} else {
-		gateway.NatRules = nil
-	}
-
-	// ResiliencyModel
-	if source.ResiliencyModel != nil {
-		resiliencyModel := genruntime.ToEnum(string(*source.ResiliencyModel), virtualNetworkGatewayPropertiesFormat_ResiliencyModel_Values)
-		gateway.ResiliencyModel = &resiliencyModel
-	} else {
-		gateway.ResiliencyModel = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku VirtualNetworkGatewaySku
-		err := sku.Initialize_From_VirtualNetworkGatewaySku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualNetworkGatewaySku_STATUS() to populate field Sku")
-		}
-		gateway.Sku = &sku
-	} else {
-		gateway.Sku = nil
-	}
-
-	// Tags
-	gateway.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// VNetExtendedLocationResourceReference
-	if source.VNetExtendedLocationResourceId != nil {
-		vNetExtendedLocationResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.VNetExtendedLocationResourceId)
-		gateway.VNetExtendedLocationResourceReference = &vNetExtendedLocationResourceReference
-	} else {
-		gateway.VNetExtendedLocationResourceReference = nil
-	}
-
-	// VirtualNetworkGatewayPolicyGroups
-	if source.VirtualNetworkGatewayPolicyGroups != nil {
-		virtualNetworkGatewayPolicyGroupList := make([]VirtualNetworkGatewayPolicyGroup, len(source.VirtualNetworkGatewayPolicyGroups))
-		for virtualNetworkGatewayPolicyGroupIndex, virtualNetworkGatewayPolicyGroupItem := range source.VirtualNetworkGatewayPolicyGroups {
-			var virtualNetworkGatewayPolicyGroup VirtualNetworkGatewayPolicyGroup
-			err := virtualNetworkGatewayPolicyGroup.Initialize_From_VirtualNetworkGatewayPolicyGroup_STATUS(&virtualNetworkGatewayPolicyGroupItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VirtualNetworkGatewayPolicyGroup_STATUS() to populate field VirtualNetworkGatewayPolicyGroups")
-			}
-			virtualNetworkGatewayPolicyGroupList[virtualNetworkGatewayPolicyGroupIndex] = virtualNetworkGatewayPolicyGroup
-		}
-		gateway.VirtualNetworkGatewayPolicyGroups = virtualNetworkGatewayPolicyGroupList
-	} else {
-		gateway.VirtualNetworkGatewayPolicyGroups = nil
-	}
-
-	// VpnClientConfiguration
-	if source.VpnClientConfiguration != nil {
-		var vpnClientConfiguration VpnClientConfiguration
-		err := vpnClientConfiguration.Initialize_From_VpnClientConfiguration_STATUS(source.VpnClientConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VpnClientConfiguration_STATUS() to populate field VpnClientConfiguration")
-		}
-		gateway.VpnClientConfiguration = &vpnClientConfiguration
-	} else {
-		gateway.VpnClientConfiguration = nil
-	}
-
-	// VpnGatewayGeneration
-	if source.VpnGatewayGeneration != nil {
-		vpnGatewayGeneration := genruntime.ToEnum(string(*source.VpnGatewayGeneration), virtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Values)
-		gateway.VpnGatewayGeneration = &vpnGatewayGeneration
-	} else {
-		gateway.VpnGatewayGeneration = nil
-	}
-
-	// VpnType
-	if source.VpnType != nil {
-		vpnType := genruntime.ToEnum(string(*source.VpnType), virtualNetworkGatewayPropertiesFormat_VpnType_Values)
-		gateway.VpnType = &vpnType
-	} else {
-		gateway.VpnType = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (gateway *VirtualNetworkGateway_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -3125,43 +2859,6 @@ func (settings *BgpSettings) AssignProperties_To_BgpSettings(destination *storag
 	return nil
 }
 
-// Initialize_From_BgpSettings_STATUS populates our BgpSettings from the provided source BgpSettings_STATUS
-func (settings *BgpSettings) Initialize_From_BgpSettings_STATUS(source *BgpSettings_STATUS) error {
-
-	// Asn
-	if source.Asn != nil {
-		asn := *source.Asn
-		settings.Asn = &asn
-	} else {
-		settings.Asn = nil
-	}
-
-	// BgpPeeringAddress
-	settings.BgpPeeringAddress = genruntime.ClonePointerToString(source.BgpPeeringAddress)
-
-	// BgpPeeringAddresses
-	if source.BgpPeeringAddresses != nil {
-		bgpPeeringAddressList := make([]IPConfigurationBgpPeeringAddress, len(source.BgpPeeringAddresses))
-		for bgpPeeringAddressIndex, bgpPeeringAddressItem := range source.BgpPeeringAddresses {
-			var bgpPeeringAddress IPConfigurationBgpPeeringAddress
-			err := bgpPeeringAddress.Initialize_From_IPConfigurationBgpPeeringAddress_STATUS(&bgpPeeringAddressItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_IPConfigurationBgpPeeringAddress_STATUS() to populate field BgpPeeringAddresses")
-			}
-			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
-		}
-		settings.BgpPeeringAddresses = bgpPeeringAddressList
-	} else {
-		settings.BgpPeeringAddresses = nil
-	}
-
-	// PeerWeight
-	settings.PeerWeight = genruntime.ClonePointerToInt(source.PeerWeight)
-
-	// No error
-	return nil
-}
-
 // BGP settings details.
 type BgpSettings_STATUS struct {
 	// Asn: The BGP speaker's ASN.
@@ -3401,25 +3098,6 @@ func (configuration *VirtualNetworkGatewayAutoScaleConfiguration) AssignProperti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualNetworkGatewayAutoScaleConfiguration_STATUS populates our VirtualNetworkGatewayAutoScaleConfiguration from the provided source VirtualNetworkGatewayAutoScaleConfiguration_STATUS
-func (configuration *VirtualNetworkGatewayAutoScaleConfiguration) Initialize_From_VirtualNetworkGatewayAutoScaleConfiguration_STATUS(source *VirtualNetworkGatewayAutoScaleConfiguration_STATUS) error {
-
-	// Bounds
-	if source.Bounds != nil {
-		var bound VirtualNetworkGatewayAutoScaleBounds
-		err := bound.Initialize_From_VirtualNetworkGatewayAutoScaleBounds_STATUS(source.Bounds)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualNetworkGatewayAutoScaleBounds_STATUS() to populate field Bounds")
-		}
-		configuration.Bounds = &bound
-	} else {
-		configuration.Bounds = nil
 	}
 
 	// No error
@@ -3718,48 +3396,6 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignProperties_To_V
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualNetworkGatewayIPConfiguration_STATUS populates our VirtualNetworkGatewayIPConfiguration from the provided source VirtualNetworkGatewayIPConfiguration_STATUS
-func (configuration *VirtualNetworkGatewayIPConfiguration) Initialize_From_VirtualNetworkGatewayIPConfiguration_STATUS(source *VirtualNetworkGatewayIPConfiguration_STATUS) error {
-
-	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateIPAllocationMethod
-	if source.PrivateIPAllocationMethod != nil {
-		privateIPAllocationMethod := genruntime.ToEnum(string(*source.PrivateIPAllocationMethod), iPAllocationMethod_Values)
-		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
-	} else {
-		configuration.PrivateIPAllocationMethod = nil
-	}
-
-	// PublicIPAddress
-	if source.PublicIPAddress != nil {
-		var publicIPAddress SubResource
-		err := publicIPAddress.Initialize_From_SubResource_STATUS(source.PublicIPAddress)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field PublicIPAddress")
-		}
-		configuration.PublicIPAddress = &publicIPAddress
-	} else {
-		configuration.PublicIPAddress = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet SubResource
-		err := subnet.Initialize_From_SubResource_STATUS(source.Subnet)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Subnet")
-		}
-		configuration.Subnet = &subnet
-	} else {
-		configuration.Subnet = nil
 	}
 
 	// No error
@@ -4300,67 +3936,6 @@ func (rule *VirtualNetworkGatewayNatRule) AssignProperties_To_VirtualNetworkGate
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualNetworkGatewayNatRule_STATUS populates our VirtualNetworkGatewayNatRule from the provided source VirtualNetworkGatewayNatRule_STATUS
-func (rule *VirtualNetworkGatewayNatRule) Initialize_From_VirtualNetworkGatewayNatRule_STATUS(source *VirtualNetworkGatewayNatRule_STATUS) error {
-
-	// ExternalMappings
-	if source.ExternalMappings != nil {
-		externalMappingList := make([]VpnNatRuleMapping, len(source.ExternalMappings))
-		for externalMappingIndex, externalMappingItem := range source.ExternalMappings {
-			var externalMapping VpnNatRuleMapping
-			err := externalMapping.Initialize_From_VpnNatRuleMapping_STATUS(&externalMappingItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VpnNatRuleMapping_STATUS() to populate field ExternalMappings")
-			}
-			externalMappingList[externalMappingIndex] = externalMapping
-		}
-		rule.ExternalMappings = externalMappingList
-	} else {
-		rule.ExternalMappings = nil
-	}
-
-	// InternalMappings
-	if source.InternalMappings != nil {
-		internalMappingList := make([]VpnNatRuleMapping, len(source.InternalMappings))
-		for internalMappingIndex, internalMappingItem := range source.InternalMappings {
-			var internalMapping VpnNatRuleMapping
-			err := internalMapping.Initialize_From_VpnNatRuleMapping_STATUS(&internalMappingItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VpnNatRuleMapping_STATUS() to populate field InternalMappings")
-			}
-			internalMappingList[internalMappingIndex] = internalMapping
-		}
-		rule.InternalMappings = internalMappingList
-	} else {
-		rule.InternalMappings = nil
-	}
-
-	// IpConfigurationId
-	rule.IpConfigurationId = genruntime.ClonePointerToString(source.IpConfigurationId)
-
-	// Mode
-	if source.Mode != nil {
-		mode := genruntime.ToEnum(string(*source.Mode), virtualNetworkGatewayNatRuleProperties_Mode_Values)
-		rule.Mode = &mode
-	} else {
-		rule.Mode = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	if source.PropertiesType != nil {
-		typeVar := genruntime.ToEnum(string(*source.PropertiesType), virtualNetworkGatewayNatRuleProperties_Type_Values)
-		rule.Type = &typeVar
-	} else {
-		rule.Type = nil
 	}
 
 	// No error
@@ -4967,43 +4542,6 @@ func (group *VirtualNetworkGatewayPolicyGroup) AssignProperties_To_VirtualNetwor
 	return nil
 }
 
-// Initialize_From_VirtualNetworkGatewayPolicyGroup_STATUS populates our VirtualNetworkGatewayPolicyGroup from the provided source VirtualNetworkGatewayPolicyGroup_STATUS
-func (group *VirtualNetworkGatewayPolicyGroup) Initialize_From_VirtualNetworkGatewayPolicyGroup_STATUS(source *VirtualNetworkGatewayPolicyGroup_STATUS) error {
-
-	// IsDefault
-	if source.IsDefault != nil {
-		isDefault := *source.IsDefault
-		group.IsDefault = &isDefault
-	} else {
-		group.IsDefault = nil
-	}
-
-	// Name
-	group.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PolicyMembers
-	if source.PolicyMembers != nil {
-		policyMemberList := make([]VirtualNetworkGatewayPolicyGroupMember, len(source.PolicyMembers))
-		for policyMemberIndex, policyMemberItem := range source.PolicyMembers {
-			var policyMember VirtualNetworkGatewayPolicyGroupMember
-			err := policyMember.Initialize_From_VirtualNetworkGatewayPolicyGroupMember_STATUS(&policyMemberItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VirtualNetworkGatewayPolicyGroupMember_STATUS() to populate field PolicyMembers")
-			}
-			policyMemberList[policyMemberIndex] = policyMember
-		}
-		group.PolicyMembers = policyMemberList
-	} else {
-		group.PolicyMembers = nil
-	}
-
-	// Priority
-	group.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// No error
-	return nil
-}
-
 // Parameters for VirtualNetworkGatewayPolicyGroup.
 type VirtualNetworkGatewayPolicyGroup_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
@@ -5534,29 +5072,6 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignProperties_To_VirtualNetworkGa
 	return nil
 }
 
-// Initialize_From_VirtualNetworkGatewaySku_STATUS populates our VirtualNetworkGatewaySku from the provided source VirtualNetworkGatewaySku_STATUS
-func (gatewaySku *VirtualNetworkGatewaySku) Initialize_From_VirtualNetworkGatewaySku_STATUS(source *VirtualNetworkGatewaySku_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), virtualNetworkGatewaySku_Name_Values)
-		gatewaySku.Name = &name
-	} else {
-		gatewaySku.Name = nil
-	}
-
-	// Tier
-	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), virtualNetworkGatewaySku_Tier_Values)
-		gatewaySku.Tier = &tier
-	} else {
-		gatewaySku.Tier = nil
-	}
-
-	// No error
-	return nil
-}
-
 // VirtualNetworkGatewaySku details.
 type VirtualNetworkGatewaySku_STATUS struct {
 	// Capacity: The capacity.
@@ -5690,7 +5205,7 @@ type VpnClientConfiguration struct {
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
 
 	// RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
-	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
+	RadiusServerSecret *genruntime.SecretReference `json:"radiusServerSecret,omitempty"`
 
 	// RadiusServers: The radiusServers property for multiple radius server configuration.
 	RadiusServers []RadiusServer `json:"radiusServers,omitempty"`
@@ -5752,7 +5267,11 @@ func (configuration *VpnClientConfiguration) ConvertToARM(resolved genruntime.Co
 
 	// Set property "RadiusServerSecret":
 	if configuration.RadiusServerSecret != nil {
-		radiusServerSecret := *configuration.RadiusServerSecret
+		radiusServerSecretSecret, err := resolved.ResolvedSecrets.Lookup(*configuration.RadiusServerSecret)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up secret for property RadiusServerSecret")
+		}
+		radiusServerSecret := radiusServerSecretSecret
 		result.RadiusServerSecret = &radiusServerSecret
 	}
 
@@ -5863,11 +5382,7 @@ func (configuration *VpnClientConfiguration) PopulateFromARM(owner genruntime.Ar
 		configuration.RadiusServerAddress = &radiusServerAddress
 	}
 
-	// Set property "RadiusServerSecret":
-	if typedInput.RadiusServerSecret != nil {
-		radiusServerSecret := *typedInput.RadiusServerSecret
-		configuration.RadiusServerSecret = &radiusServerSecret
-	}
+	// no assignment for property "RadiusServerSecret"
 
 	// Set property "RadiusServers":
 	for _, item := range typedInput.RadiusServers {
@@ -5964,7 +5479,12 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 	configuration.RadiusServerAddress = genruntime.ClonePointerToString(source.RadiusServerAddress)
 
 	// RadiusServerSecret
-	configuration.RadiusServerSecret = genruntime.ClonePointerToString(source.RadiusServerSecret)
+	if source.RadiusServerSecret != nil {
+		radiusServerSecret := source.RadiusServerSecret.Copy()
+		configuration.RadiusServerSecret = &radiusServerSecret
+	} else {
+		configuration.RadiusServerSecret = nil
+	}
 
 	// RadiusServers
 	if source.RadiusServers != nil {
@@ -6102,7 +5622,12 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	destination.RadiusServerAddress = genruntime.ClonePointerToString(configuration.RadiusServerAddress)
 
 	// RadiusServerSecret
-	destination.RadiusServerSecret = genruntime.ClonePointerToString(configuration.RadiusServerSecret)
+	if configuration.RadiusServerSecret != nil {
+		radiusServerSecret := configuration.RadiusServerSecret.Copy()
+		destination.RadiusServerSecret = &radiusServerSecret
+	} else {
+		destination.RadiusServerSecret = nil
+	}
 
 	// RadiusServers
 	if configuration.RadiusServers != nil {
@@ -6229,144 +5754,6 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	return nil
 }
 
-// Initialize_From_VpnClientConfiguration_STATUS populates our VpnClientConfiguration from the provided source VpnClientConfiguration_STATUS
-func (configuration *VpnClientConfiguration) Initialize_From_VpnClientConfiguration_STATUS(source *VpnClientConfiguration_STATUS) error {
-
-	// AadAudience
-	configuration.AadAudience = genruntime.ClonePointerToString(source.AadAudience)
-
-	// AadIssuer
-	configuration.AadIssuer = genruntime.ClonePointerToString(source.AadIssuer)
-
-	// AadTenant
-	configuration.AadTenant = genruntime.ClonePointerToString(source.AadTenant)
-
-	// RadiusServerAddress
-	configuration.RadiusServerAddress = genruntime.ClonePointerToString(source.RadiusServerAddress)
-
-	// RadiusServerSecret
-	configuration.RadiusServerSecret = genruntime.ClonePointerToString(source.RadiusServerSecret)
-
-	// RadiusServers
-	if source.RadiusServers != nil {
-		radiusServerList := make([]RadiusServer, len(source.RadiusServers))
-		for radiusServerIndex, radiusServerItem := range source.RadiusServers {
-			var radiusServer RadiusServer
-			err := radiusServer.Initialize_From_RadiusServer_STATUS(&radiusServerItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_RadiusServer_STATUS() to populate field RadiusServers")
-			}
-			radiusServerList[radiusServerIndex] = radiusServer
-		}
-		configuration.RadiusServers = radiusServerList
-	} else {
-		configuration.RadiusServers = nil
-	}
-
-	// VngClientConnectionConfigurations
-	if source.VngClientConnectionConfigurations != nil {
-		vngClientConnectionConfigurationList := make([]VngClientConnectionConfiguration, len(source.VngClientConnectionConfigurations))
-		for vngClientConnectionConfigurationIndex, vngClientConnectionConfigurationItem := range source.VngClientConnectionConfigurations {
-			var vngClientConnectionConfiguration VngClientConnectionConfiguration
-			err := vngClientConnectionConfiguration.Initialize_From_VngClientConnectionConfiguration_STATUS(&vngClientConnectionConfigurationItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VngClientConnectionConfiguration_STATUS() to populate field VngClientConnectionConfigurations")
-			}
-			vngClientConnectionConfigurationList[vngClientConnectionConfigurationIndex] = vngClientConnectionConfiguration
-		}
-		configuration.VngClientConnectionConfigurations = vngClientConnectionConfigurationList
-	} else {
-		configuration.VngClientConnectionConfigurations = nil
-	}
-
-	// VpnAuthenticationTypes
-	if source.VpnAuthenticationTypes != nil {
-		vpnAuthenticationTypeList := make([]VpnClientConfiguration_VpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
-		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
-			vpnAuthenticationType := genruntime.ToEnum(string(vpnAuthenticationTypeItem), vpnClientConfiguration_VpnAuthenticationTypes_Values)
-			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = vpnAuthenticationType
-		}
-		configuration.VpnAuthenticationTypes = vpnAuthenticationTypeList
-	} else {
-		configuration.VpnAuthenticationTypes = nil
-	}
-
-	// VpnClientAddressPool
-	if source.VpnClientAddressPool != nil {
-		var vpnClientAddressPool AddressSpace
-		err := vpnClientAddressPool.Initialize_From_AddressSpace_STATUS(source.VpnClientAddressPool)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AddressSpace_STATUS() to populate field VpnClientAddressPool")
-		}
-		configuration.VpnClientAddressPool = &vpnClientAddressPool
-	} else {
-		configuration.VpnClientAddressPool = nil
-	}
-
-	// VpnClientIpsecPolicies
-	if source.VpnClientIpsecPolicies != nil {
-		vpnClientIpsecPolicyList := make([]IpsecPolicy, len(source.VpnClientIpsecPolicies))
-		for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range source.VpnClientIpsecPolicies {
-			var vpnClientIpsecPolicy IpsecPolicy
-			err := vpnClientIpsecPolicy.Initialize_From_IpsecPolicy_STATUS(&vpnClientIpsecPolicyItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_IpsecPolicy_STATUS() to populate field VpnClientIpsecPolicies")
-			}
-			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
-		}
-		configuration.VpnClientIpsecPolicies = vpnClientIpsecPolicyList
-	} else {
-		configuration.VpnClientIpsecPolicies = nil
-	}
-
-	// VpnClientProtocols
-	if source.VpnClientProtocols != nil {
-		vpnClientProtocolList := make([]VpnClientConfiguration_VpnClientProtocols, len(source.VpnClientProtocols))
-		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
-			vpnClientProtocol := genruntime.ToEnum(string(vpnClientProtocolItem), vpnClientConfiguration_VpnClientProtocols_Values)
-			vpnClientProtocolList[vpnClientProtocolIndex] = vpnClientProtocol
-		}
-		configuration.VpnClientProtocols = vpnClientProtocolList
-	} else {
-		configuration.VpnClientProtocols = nil
-	}
-
-	// VpnClientRevokedCertificates
-	if source.VpnClientRevokedCertificates != nil {
-		vpnClientRevokedCertificateList := make([]VpnClientRevokedCertificate, len(source.VpnClientRevokedCertificates))
-		for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range source.VpnClientRevokedCertificates {
-			var vpnClientRevokedCertificate VpnClientRevokedCertificate
-			err := vpnClientRevokedCertificate.Initialize_From_VpnClientRevokedCertificate_STATUS(&vpnClientRevokedCertificateItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VpnClientRevokedCertificate_STATUS() to populate field VpnClientRevokedCertificates")
-			}
-			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
-		}
-		configuration.VpnClientRevokedCertificates = vpnClientRevokedCertificateList
-	} else {
-		configuration.VpnClientRevokedCertificates = nil
-	}
-
-	// VpnClientRootCertificates
-	if source.VpnClientRootCertificates != nil {
-		vpnClientRootCertificateList := make([]VpnClientRootCertificate, len(source.VpnClientRootCertificates))
-		for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range source.VpnClientRootCertificates {
-			var vpnClientRootCertificate VpnClientRootCertificate
-			err := vpnClientRootCertificate.Initialize_From_VpnClientRootCertificate_STATUS(&vpnClientRootCertificateItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VpnClientRootCertificate_STATUS() to populate field VpnClientRootCertificates")
-			}
-			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
-		}
-		configuration.VpnClientRootCertificates = vpnClientRootCertificateList
-	} else {
-		configuration.VpnClientRootCertificates = nil
-	}
-
-	// No error
-	return nil
-}
-
 // VpnClientConfiguration for P2S client.
 type VpnClientConfiguration_STATUS struct {
 	// AadAudience: The AADAudience property of the VirtualNetworkGateway resource for vpn client connection used for AAD
@@ -6383,9 +5770,6 @@ type VpnClientConfiguration_STATUS struct {
 
 	// RadiusServerAddress: The radius server address property of the VirtualNetworkGateway resource for vpn client connection.
 	RadiusServerAddress *string `json:"radiusServerAddress,omitempty"`
-
-	// RadiusServerSecret: The radius secret property of the VirtualNetworkGateway resource for vpn client connection.
-	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 
 	// RadiusServers: The radiusServers property for multiple radius server configuration.
 	RadiusServers []RadiusServer_STATUS `json:"radiusServers,omitempty"`
@@ -6448,12 +5832,6 @@ func (configuration *VpnClientConfiguration_STATUS) PopulateFromARM(owner genrun
 	if typedInput.RadiusServerAddress != nil {
 		radiusServerAddress := *typedInput.RadiusServerAddress
 		configuration.RadiusServerAddress = &radiusServerAddress
-	}
-
-	// Set property "RadiusServerSecret":
-	if typedInput.RadiusServerSecret != nil {
-		radiusServerSecret := *typedInput.RadiusServerSecret
-		configuration.RadiusServerSecret = &radiusServerSecret
 	}
 
 	// Set property "RadiusServers":
@@ -6549,9 +5927,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 
 	// RadiusServerAddress
 	configuration.RadiusServerAddress = genruntime.ClonePointerToString(source.RadiusServerAddress)
-
-	// RadiusServerSecret
-	configuration.RadiusServerSecret = genruntime.ClonePointerToString(source.RadiusServerSecret)
 
 	// RadiusServers
 	if source.RadiusServers != nil {
@@ -6687,9 +6062,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 
 	// RadiusServerAddress
 	destination.RadiusServerAddress = genruntime.ClonePointerToString(configuration.RadiusServerAddress)
-
-	// RadiusServerSecret
-	destination.RadiusServerSecret = genruntime.ClonePointerToString(configuration.RadiusServerSecret)
 
 	// RadiusServers
 	if configuration.RadiusServers != nil {
@@ -6904,19 +6276,6 @@ func (address *IPConfigurationBgpPeeringAddress) AssignProperties_To_IPConfigura
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IPConfigurationBgpPeeringAddress_STATUS populates our IPConfigurationBgpPeeringAddress from the provided source IPConfigurationBgpPeeringAddress_STATUS
-func (address *IPConfigurationBgpPeeringAddress) Initialize_From_IPConfigurationBgpPeeringAddress_STATUS(source *IPConfigurationBgpPeeringAddress_STATUS) error {
-
-	// CustomBgpIpAddresses
-	address.CustomBgpIpAddresses = genruntime.CloneSliceOfString(source.CustomBgpIpAddresses)
-
-	// IpconfigurationId
-	address.IpconfigurationId = genruntime.ClonePointerToString(source.IpconfigurationId)
 
 	// No error
 	return nil
@@ -7344,67 +6703,6 @@ func (policy *IpsecPolicy) AssignProperties_To_IpsecPolicy(destination *storage.
 	return nil
 }
 
-// Initialize_From_IpsecPolicy_STATUS populates our IpsecPolicy from the provided source IpsecPolicy_STATUS
-func (policy *IpsecPolicy) Initialize_From_IpsecPolicy_STATUS(source *IpsecPolicy_STATUS) error {
-
-	// DhGroup
-	if source.DhGroup != nil {
-		dhGroup := genruntime.ToEnum(string(*source.DhGroup), dhGroup_Values)
-		policy.DhGroup = &dhGroup
-	} else {
-		policy.DhGroup = nil
-	}
-
-	// IkeEncryption
-	if source.IkeEncryption != nil {
-		ikeEncryption := genruntime.ToEnum(string(*source.IkeEncryption), ikeEncryption_Values)
-		policy.IkeEncryption = &ikeEncryption
-	} else {
-		policy.IkeEncryption = nil
-	}
-
-	// IkeIntegrity
-	if source.IkeIntegrity != nil {
-		ikeIntegrity := genruntime.ToEnum(string(*source.IkeIntegrity), ikeIntegrity_Values)
-		policy.IkeIntegrity = &ikeIntegrity
-	} else {
-		policy.IkeIntegrity = nil
-	}
-
-	// IpsecEncryption
-	if source.IpsecEncryption != nil {
-		ipsecEncryption := genruntime.ToEnum(string(*source.IpsecEncryption), ipsecEncryption_Values)
-		policy.IpsecEncryption = &ipsecEncryption
-	} else {
-		policy.IpsecEncryption = nil
-	}
-
-	// IpsecIntegrity
-	if source.IpsecIntegrity != nil {
-		ipsecIntegrity := genruntime.ToEnum(string(*source.IpsecIntegrity), ipsecIntegrity_Values)
-		policy.IpsecIntegrity = &ipsecIntegrity
-	} else {
-		policy.IpsecIntegrity = nil
-	}
-
-	// PfsGroup
-	if source.PfsGroup != nil {
-		pfsGroup := genruntime.ToEnum(string(*source.PfsGroup), pfsGroup_Values)
-		policy.PfsGroup = &pfsGroup
-	} else {
-		policy.PfsGroup = nil
-	}
-
-	// SaDataSizeKilobytes
-	policy.SaDataSizeKilobytes = genruntime.ClonePointerToInt(source.SaDataSizeKilobytes)
-
-	// SaLifeTimeSeconds
-	policy.SaLifeTimeSeconds = genruntime.ClonePointerToInt(source.SaLifeTimeSeconds)
-
-	// No error
-	return nil
-}
-
 // An IPSec Policy configuration for a virtual network gateway connection.
 type IpsecPolicy_STATUS struct {
 	// DhGroup: The DH Group used in IKE Phase 1 for initial SA.
@@ -7659,7 +6957,7 @@ type RadiusServer struct {
 	RadiusServerScore *int `json:"radiusServerScore,omitempty"`
 
 	// RadiusServerSecret: The secret used for this radius server.
-	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
+	RadiusServerSecret *genruntime.SecretReference `json:"radiusServerSecret,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RadiusServer{}
@@ -7685,7 +6983,11 @@ func (server *RadiusServer) ConvertToARM(resolved genruntime.ConvertToARMResolve
 
 	// Set property "RadiusServerSecret":
 	if server.RadiusServerSecret != nil {
-		radiusServerSecret := *server.RadiusServerSecret
+		radiusServerSecretSecret, err := resolved.ResolvedSecrets.Lookup(*server.RadiusServerSecret)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up secret for property RadiusServerSecret")
+		}
+		radiusServerSecret := radiusServerSecretSecret
 		result.RadiusServerSecret = &radiusServerSecret
 	}
 	return result, nil
@@ -7715,11 +7017,7 @@ func (server *RadiusServer) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		server.RadiusServerScore = &radiusServerScore
 	}
 
-	// Set property "RadiusServerSecret":
-	if typedInput.RadiusServerSecret != nil {
-		radiusServerSecret := *typedInput.RadiusServerSecret
-		server.RadiusServerSecret = &radiusServerSecret
-	}
+	// no assignment for property "RadiusServerSecret"
 
 	// No error
 	return nil
@@ -7735,7 +7033,12 @@ func (server *RadiusServer) AssignProperties_From_RadiusServer(source *storage.R
 	server.RadiusServerScore = genruntime.ClonePointerToInt(source.RadiusServerScore)
 
 	// RadiusServerSecret
-	server.RadiusServerSecret = genruntime.ClonePointerToString(source.RadiusServerSecret)
+	if source.RadiusServerSecret != nil {
+		radiusServerSecret := source.RadiusServerSecret.Copy()
+		server.RadiusServerSecret = &radiusServerSecret
+	} else {
+		server.RadiusServerSecret = nil
+	}
 
 	// No error
 	return nil
@@ -7753,7 +7056,12 @@ func (server *RadiusServer) AssignProperties_To_RadiusServer(destination *storag
 	destination.RadiusServerScore = genruntime.ClonePointerToInt(server.RadiusServerScore)
 
 	// RadiusServerSecret
-	destination.RadiusServerSecret = genruntime.ClonePointerToString(server.RadiusServerSecret)
+	if server.RadiusServerSecret != nil {
+		radiusServerSecret := server.RadiusServerSecret.Copy()
+		destination.RadiusServerSecret = &radiusServerSecret
+	} else {
+		destination.RadiusServerSecret = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7766,22 +7074,6 @@ func (server *RadiusServer) AssignProperties_To_RadiusServer(destination *storag
 	return nil
 }
 
-// Initialize_From_RadiusServer_STATUS populates our RadiusServer from the provided source RadiusServer_STATUS
-func (server *RadiusServer) Initialize_From_RadiusServer_STATUS(source *RadiusServer_STATUS) error {
-
-	// RadiusServerAddress
-	server.RadiusServerAddress = genruntime.ClonePointerToString(source.RadiusServerAddress)
-
-	// RadiusServerScore
-	server.RadiusServerScore = genruntime.ClonePointerToInt(source.RadiusServerScore)
-
-	// RadiusServerSecret
-	server.RadiusServerSecret = genruntime.ClonePointerToString(source.RadiusServerSecret)
-
-	// No error
-	return nil
-}
-
 // Radius Server Settings.
 type RadiusServer_STATUS struct {
 	// RadiusServerAddress: The address of this radius server.
@@ -7789,9 +7081,6 @@ type RadiusServer_STATUS struct {
 
 	// RadiusServerScore: The initial score assigned to this radius server.
 	RadiusServerScore *int `json:"radiusServerScore,omitempty"`
-
-	// RadiusServerSecret: The secret used for this radius server.
-	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RadiusServer_STATUS{}
@@ -7820,12 +7109,6 @@ func (server *RadiusServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		server.RadiusServerScore = &radiusServerScore
 	}
 
-	// Set property "RadiusServerSecret":
-	if typedInput.RadiusServerSecret != nil {
-		radiusServerSecret := *typedInput.RadiusServerSecret
-		server.RadiusServerSecret = &radiusServerSecret
-	}
-
 	// No error
 	return nil
 }
@@ -7838,9 +7121,6 @@ func (server *RadiusServer_STATUS) AssignProperties_From_RadiusServer_STATUS(sou
 
 	// RadiusServerScore
 	server.RadiusServerScore = genruntime.ClonePointerToInt(source.RadiusServerScore)
-
-	// RadiusServerSecret
-	server.RadiusServerSecret = genruntime.ClonePointerToString(source.RadiusServerSecret)
 
 	// No error
 	return nil
@@ -7856,9 +7136,6 @@ func (server *RadiusServer_STATUS) AssignProperties_To_RadiusServer_STATUS(desti
 
 	// RadiusServerScore
 	destination.RadiusServerScore = genruntime.ClonePointerToInt(server.RadiusServerScore)
-
-	// RadiusServerSecret
-	destination.RadiusServerSecret = genruntime.ClonePointerToString(server.RadiusServerSecret)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7960,19 +7237,6 @@ func (bounds *VirtualNetworkGatewayAutoScaleBounds) AssignProperties_To_VirtualN
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualNetworkGatewayAutoScaleBounds_STATUS populates our VirtualNetworkGatewayAutoScaleBounds from the provided source VirtualNetworkGatewayAutoScaleBounds_STATUS
-func (bounds *VirtualNetworkGatewayAutoScaleBounds) Initialize_From_VirtualNetworkGatewayAutoScaleBounds_STATUS(source *VirtualNetworkGatewayAutoScaleBounds_STATUS) error {
-
-	// Max
-	bounds.Max = genruntime.ClonePointerToInt(source.Max)
-
-	// Min
-	bounds.Min = genruntime.ClonePointerToInt(source.Min)
 
 	// No error
 	return nil
@@ -8231,27 +7495,6 @@ func (member *VirtualNetworkGatewayPolicyGroupMember) AssignProperties_To_Virtua
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualNetworkGatewayPolicyGroupMember_STATUS populates our VirtualNetworkGatewayPolicyGroupMember from the provided source VirtualNetworkGatewayPolicyGroupMember_STATUS
-func (member *VirtualNetworkGatewayPolicyGroupMember) Initialize_From_VirtualNetworkGatewayPolicyGroupMember_STATUS(source *VirtualNetworkGatewayPolicyGroupMember_STATUS) error {
-
-	// AttributeType
-	if source.AttributeType != nil {
-		attributeType := genruntime.ToEnum(string(*source.AttributeType), virtualNetworkGatewayPolicyGroupMember_AttributeType_Values)
-		member.AttributeType = &attributeType
-	} else {
-		member.AttributeType = nil
-	}
-
-	// AttributeValue
-	member.AttributeValue = genruntime.ClonePointerToString(source.AttributeValue)
-
-	// Name
-	member.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -8625,21 +7868,6 @@ func (configuration *VngClientConnectionConfiguration) AssignProperties_To_VngCl
 	return nil
 }
 
-// Initialize_From_VngClientConnectionConfiguration_STATUS populates our VngClientConnectionConfiguration from the provided source VngClientConnectionConfiguration_STATUS
-func (configuration *VngClientConnectionConfiguration) Initialize_From_VngClientConnectionConfiguration_STATUS(source *VngClientConnectionConfiguration_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		configuration.Reference = &reference
-	} else {
-		configuration.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // A vpn client connection configuration for client connection configuration.
 type VngClientConnectionConfiguration_STATUS struct {
 	// Id: Resource ID.
@@ -8857,19 +8085,6 @@ func (certificate *VpnClientRevokedCertificate) AssignProperties_To_VpnClientRev
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VpnClientRevokedCertificate_STATUS populates our VpnClientRevokedCertificate from the provided source VpnClientRevokedCertificate_STATUS
-func (certificate *VpnClientRevokedCertificate) Initialize_From_VpnClientRevokedCertificate_STATUS(source *VpnClientRevokedCertificate_STATUS) error {
-
-	// Name
-	certificate.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Thumbprint
-	certificate.Thumbprint = genruntime.ClonePointerToString(source.Thumbprint)
 
 	// No error
 	return nil
@@ -9115,19 +8330,6 @@ func (certificate *VpnClientRootCertificate) AssignProperties_To_VpnClientRootCe
 	return nil
 }
 
-// Initialize_From_VpnClientRootCertificate_STATUS populates our VpnClientRootCertificate from the provided source VpnClientRootCertificate_STATUS
-func (certificate *VpnClientRootCertificate) Initialize_From_VpnClientRootCertificate_STATUS(source *VpnClientRootCertificate_STATUS) error {
-
-	// Name
-	certificate.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PublicCertData
-	certificate.PublicCertData = genruntime.ClonePointerToString(source.PublicCertData)
-
-	// No error
-	return nil
-}
-
 // VPN client root certificate of virtual network gateway.
 type VpnClientRootCertificate_STATUS struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
@@ -9356,19 +8558,6 @@ func (mapping *VpnNatRuleMapping) AssignProperties_To_VpnNatRuleMapping(destinat
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VpnNatRuleMapping_STATUS populates our VpnNatRuleMapping from the provided source VpnNatRuleMapping_STATUS
-func (mapping *VpnNatRuleMapping) Initialize_From_VpnNatRuleMapping_STATUS(source *VpnNatRuleMapping_STATUS) error {
-
-	// AddressSpace
-	mapping.AddressSpace = genruntime.ClonePointerToString(source.AddressSpace)
-
-	// PortRange
-	mapping.PortRange = genruntime.ClonePointerToString(source.PortRange)
 
 	// No error
 	return nil

@@ -49,8 +49,9 @@ const (
 var versionMigrationModes = map[string]VersionMigrationMode{
 	"alertsmanagement": VersionMigrationModeHybrid,
 
-	"apimanagement": VersionMigrationModeLegacy,
-	"app":           VersionMigrationModeLegacy,
+	"apimanagement": VersionMigrationModeHybrid,
+
+	"app": VersionMigrationModeLegacy,
 
 	"appconfiguration": VersionMigrationModeHybrid,
 
@@ -58,17 +59,19 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 
 	"batch": VersionMigrationModeHybrid,
 
-	"cache":                   VersionMigrationModeLegacy,
-	"cdn":                     VersionMigrationModeLegacy,
-	"cognitiveservices":       VersionMigrationModeLegacy,
-	"compute":                 VersionMigrationModeLegacy,
-	"containerinstance":       VersionMigrationModeLegacy,
-	"containerregistry":       VersionMigrationModeLegacy,
-	"containerservice":        VersionMigrationModeLegacy,
-	"datafactory":             VersionMigrationModeLegacy,
-	"dataprotection":          VersionMigrationModeLegacy,
-	"dbformariadb":            VersionMigrationModeLegacy,
-	"dbformysql":              VersionMigrationModeLegacy,
+	"cache":             VersionMigrationModeLegacy,
+	"cdn":               VersionMigrationModeLegacy,
+	"cognitiveservices": VersionMigrationModeLegacy,
+	"compute":           VersionMigrationModeLegacy,
+	"containerinstance": VersionMigrationModeLegacy,
+	"containerregistry": VersionMigrationModeLegacy,
+	"containerservice":  VersionMigrationModeLegacy,
+	"datafactory":       VersionMigrationModeLegacy,
+	"dataprotection":    VersionMigrationModeLegacy,
+	"dbformariadb":      VersionMigrationModeLegacy,
+
+	"dbformysql": VersionMigrationModeHybrid,
+
 	"dbforpostgresql":         VersionMigrationModeLegacy,
 	"devices":                 VersionMigrationModeLegacy,
 	"documentdb":              VersionMigrationModeLegacy,
@@ -96,7 +99,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"storage": VersionMigrationModeHybrid,
 
 	"subscription": VersionMigrationModeLegacy,
-	"synapse":      VersionMigrationModeLegacy,
+	"synapse":      VersionMigrationModeHybrid,
 	"web":          VersionMigrationModeHybrid,
 }
 

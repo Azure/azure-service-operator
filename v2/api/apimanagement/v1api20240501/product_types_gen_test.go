@@ -5,7 +5,8 @@ package v1api20240501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	apimanagement_v1api20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	apimanagement_v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForProduct(subject Product) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Product
+	var hub apimanagement_v20240501s.Product
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForProduct(subject Product) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Product
+	var other apimanagement_v1api20240501s.Product
 	err := copied.AssignProperties_To_Product(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForProductOperatorSpec(subject ProductOperatorSpec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProductOperatorSpec
+	var other apimanagement_v1api20240501s.ProductOperatorSpec
 	err := copied.AssignProperties_To_ProductOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForProduct_STATUS(subject Product_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Product_STATUS
+	var other apimanagement_v1api20240501s.Product_STATUS
 	err := copied.AssignProperties_To_Product_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -389,7 +390,7 @@ func RunPropertyAssignmentTestForProduct_Spec(subject Product_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Product_Spec
+	var other apimanagement_v1api20240501s.Product_Spec
 	err := copied.AssignProperties_To_Product_Spec(&other)
 	if err != nil {
 		return err.Error()

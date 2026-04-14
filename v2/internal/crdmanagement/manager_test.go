@@ -41,12 +41,13 @@ func Test_LoadCRDs(t *testing.T) {
 	bytes, err := yaml.Marshal(crd)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	crdPath := filepath.Join(dir, "crd.yaml")
+	crdFilename := crdmanagement.CRDFilePrefix + crd.Name + ".yaml"
+	crdPath := filepath.Join(dir, crdFilename)
 	g.Expect(os.WriteFile(crdPath, bytes, 0o600)).To(Succeed())
 
 	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
-	loadedCRDs, err := crdManager.LoadOperatorCRDs(dir, "azureserviceoperator-system")
+	loadedCRDs, err := crdManager.LoadOperatorCRDs(dir, "azureserviceoperator-system", crdManager.BuildCRDFileFilter("*", nil))
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(loadedCRDs).To(HaveLen(1))
@@ -80,12 +81,13 @@ func Test_LoadCRDs_FixesNamespace(t *testing.T) {
 	bytes, err := yaml.Marshal(crd)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	crdPath := filepath.Join(dir, "crd.yaml")
+	crdFilename := crdmanagement.CRDFilePrefix + crd.Name + ".yaml"
+	crdPath := filepath.Join(dir, crdFilename)
 	g.Expect(os.WriteFile(crdPath, bytes, 0o600)).To(Succeed())
 
 	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
-	loadedCRDs, err := crdManager.LoadOperatorCRDs(dir, "other-namespace")
+	loadedCRDs, err := crdManager.LoadOperatorCRDs(dir, "other-namespace", crdManager.BuildCRDFileFilter("*", nil))
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(loadedCRDs).To(HaveLen(1))
@@ -110,7 +112,7 @@ func Test_FindMatchingCRDs_EqualCRDsCompareAsEqual(t *testing.T) {
 	logger := testcommon.NewTestLogger(t)
 	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
-	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
+	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
 
 	g.Expect(matching).To(HaveLen(1))
 }
@@ -119,65 +121,16 @@ func Test_FindMatchingCRDs_MissingCRD(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	goalCRD := makeBasicCRD("test")
+	goalCRD := makeBasicCRDWithVersion("test", "v1.0.0")
 	var existing []apiextensions.CustomResourceDefinition
 	goal := []apiextensions.CustomResourceDefinition{goalCRD}
 
 	logger := testcommon.NewTestLogger(t)
 	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
-	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
+	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
 
 	g.Expect(matching).To(BeEmpty())
-}
-
-func Test_FindMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	var port int32 = 443
-
-	existingCRD := makeBasicCRD("test")
-	existingCRD.Spec.Conversion = &apiextensions.CustomResourceConversion{
-		Strategy: apiextensions.WebhookConverter,
-		Webhook: &apiextensions.WebhookConversion{
-			ClientConfig: &apiextensions.WebhookClientConfig{
-				Service: &apiextensions.ServiceReference{
-					Name:      "azureserviceoperator-webhook-service",
-					Namespace: "azureserviceoperator-system",
-					Path:      to.Ptr("/convert"),
-					Port:      to.Ptr(port),
-				},
-				CABundle: makeFakeCABundle(),
-			},
-		},
-	}
-
-	goalCRD := makeBasicCRD("test")
-	goalCRD.Spec.Conversion = &apiextensions.CustomResourceConversion{
-		Strategy: apiextensions.WebhookConverter,
-		Webhook: &apiextensions.WebhookConversion{
-			ClientConfig: &apiextensions.WebhookClientConfig{
-				Service: &apiextensions.ServiceReference{
-					Name:      "azureserviceoperator-webhook-service",
-					Namespace: "azureserviceoperator-system",
-					Path:      to.Ptr("/convert"),
-					Port:      to.Ptr(port),
-				},
-			},
-		},
-	}
-	existing := []apiextensions.CustomResourceDefinition{existingCRD}
-	goal := []apiextensions.CustomResourceDefinition{goalCRD}
-
-	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil, nil)
-
-	matching := crdManager.FindMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
-
-	g.Expect(matching).To(HaveLen(1))
-	// Ensure that we still have CABundle set here
-	g.Expect(existing[0].Spec.Conversion.Webhook.ClientConfig.CABundle).ToNot(BeEmpty())
 }
 
 /*
@@ -196,7 +149,7 @@ func Test_FindNonMatchingCRDs_EqualCRDsCompareAsEqual(t *testing.T) {
 	logger := testcommon.NewTestLogger(t)
 	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
-	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
+	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
 
 	g.Expect(nonMatching).To(BeEmpty())
 }
@@ -205,65 +158,16 @@ func Test_FindNonMatchingCRDs_MissingCRD(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	goalCRD := makeBasicCRD("test")
+	goalCRD := makeBasicCRDWithVersion("test", "v1.0.0")
 	var existing []apiextensions.CustomResourceDefinition
 	goal := []apiextensions.CustomResourceDefinition{goalCRD}
 
 	logger := testcommon.NewTestLogger(t)
 	crdManager := crdmanagement.NewManager(logger, nil, nil)
 
-	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
+	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.VersionEqual)
 
 	g.Expect(nonMatching).To(HaveLen(1))
-}
-
-func Test_FindNonMatchingCRDs_CRDsWithDifferentConversionsCompareAsEqual(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	var port int32 = 443
-
-	existingCRD := makeBasicCRD("test")
-	existingCRD.Spec.Conversion = &apiextensions.CustomResourceConversion{
-		Strategy: apiextensions.WebhookConverter,
-		Webhook: &apiextensions.WebhookConversion{
-			ClientConfig: &apiextensions.WebhookClientConfig{
-				Service: &apiextensions.ServiceReference{
-					Name:      "azureserviceoperator-webhook-service",
-					Namespace: "azureserviceoperator-system",
-					Path:      to.Ptr("/convert"),
-					Port:      to.Ptr(port),
-				},
-				CABundle: makeFakeCABundle(),
-			},
-		},
-	}
-
-	goalCRD := makeBasicCRD("test")
-	goalCRD.Spec.Conversion = &apiextensions.CustomResourceConversion{
-		Strategy: apiextensions.WebhookConverter,
-		Webhook: &apiextensions.WebhookConversion{
-			ClientConfig: &apiextensions.WebhookClientConfig{
-				Service: &apiextensions.ServiceReference{
-					Name:      "azureserviceoperator-webhook-service",
-					Namespace: "azureserviceoperator-system",
-					Path:      to.Ptr("/convert"),
-					Port:      to.Ptr(port),
-				},
-			},
-		},
-	}
-	existing := []apiextensions.CustomResourceDefinition{existingCRD}
-	goal := []apiextensions.CustomResourceDefinition{goalCRD}
-
-	logger := testcommon.NewTestLogger(t)
-	crdManager := crdmanagement.NewManager(logger, nil, nil)
-
-	nonMatching := crdManager.FindNonMatchingCRDs(existing, goal, crdmanagement.SpecEqual)
-
-	g.Expect(nonMatching).To(BeEmpty())
-	// Ensure that we still have CABundle set here
-	g.Expect(existing[0].Spec.Conversion.Webhook.ClientConfig.CABundle).ToNot(BeEmpty())
 }
 
 /*
@@ -295,14 +199,14 @@ func Test_DetermineCRDsToInstallOrUpgrade(t *testing.T) {
 		},
 		{
 			name:     "Matches CRDs if pattern matches",
-			goal:     []apiextensions.CustomResourceDefinition{makeBasicCRD("test")},
+			goal:     []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test", "v1.0.0")},
 			existing: nil,
 			patterns: "testrp.azure.com/*",
 			validate: func(g *WithT, instructions []*crdmanagement.CRDInstallationInstruction) {
 				g.Expect(instructions).To(HaveLen(1))
 				g.Expect(instructions[0].FilterResult).To(Equal(crdmanagement.MatchedPattern))
 				g.Expect(instructions[0].FilterReason).To(Equal("CRD named \"testrp.azure.com/test\" matched pattern \"testrp.azure.com/*\""))
-				g.Expect(instructions[0].DiffResult).To(Equal(crdmanagement.SpecDifferent))
+				g.Expect(instructions[0].DiffResult).To(Equal(crdmanagement.VersionDifferent))
 				apply, _ := instructions[0].ShouldApply()
 				g.Expect(apply).To(BeTrue())
 			},
@@ -351,7 +255,7 @@ func Test_DetermineCRDsToInstallOrUpgrade(t *testing.T) {
 		},
 		{
 			name:     "Pattern matches subset of CRDs from group, only that subset is installed",
-			goal:     []apiextensions.CustomResourceDefinition{makeBasicCRD("test1"), makeBasicCRD("test2")},
+			goal:     []apiextensions.CustomResourceDefinition{makeBasicCRDWithVersion("test1", "v1.0.0"), makeBasicCRDWithVersion("test2", "v1.0.0")},
 			existing: nil,
 			patterns: "testrp.azure.com/test1",
 			validate: func(g *WithT, instructions []*crdmanagement.CRDInstallationInstruction) {
@@ -362,7 +266,7 @@ func Test_DetermineCRDsToInstallOrUpgrade(t *testing.T) {
 					if instruction.CRD.Name == "test1.testrp.azure.com" {
 						g.Expect(instruction.FilterResult).To(Equal(crdmanagement.MatchedPattern))
 						g.Expect(instruction.FilterReason).To(Equal("CRD named \"testrp.azure.com/test1\" matched pattern \"testrp.azure.com/test1\""))
-						g.Expect(instruction.DiffResult).To(Equal(crdmanagement.SpecDifferent))
+						g.Expect(instruction.DiffResult).To(Equal(crdmanagement.VersionDifferent))
 						apply, _ := instruction.ShouldApply()
 						g.Expect(apply).To(BeTrue())
 					} else {
@@ -427,8 +331,9 @@ func Test_BundledCRDs_HaveExactlyTwoInstancesOfNamespace(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	testData := testSetup(t)
+	g.Expect(testcommon.CheckBundledCRDsDirectory(testData.crdPath)).To(Succeed())
 
-	loadedCRDs, err := testData.crdManager.LoadOperatorCRDs(testData.crdPath, testData.namespace)
+	loadedCRDs, err := testData.crdManager.LoadOperatorCRDs(testData.crdPath, testData.namespace, testData.crdManager.BuildCRDFileFilter("*", nil))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(loadedCRDs).ToNot(BeEmpty())
 	// The raw JSON should contain exactly 2 locations where the namespace is referenced. If this changes, we need
@@ -440,6 +345,122 @@ func Test_BundledCRDs_HaveExactlyTwoInstancesOfNamespace(t *testing.T) {
 
 	count := strings.Count(string(bytes), testData.namespace)
 	g.Expect(count).To(Equal(2))
+}
+
+func Test_BuildCRDFileFilter(t *testing.T) {
+	t.Parallel()
+
+	const (
+		networkVNets       = "apiextensions.k8s.io_v1_customresourcedefinition_virtualnetworks.network.azure.com.yaml"
+		computeDisks       = "apiextensions.k8s.io_v1_customresourcedefinition_disks.compute.azure.com.yaml"
+		storageAccounts    = "apiextensions.k8s.io_v1_customresourcedefinition_storageaccounts.storage.azure.com.yaml"
+		containerSvcFleets = "apiextensions.k8s.io_v1_customresourcedefinition_fleets.containerservice.azure.com.yaml"
+		invalidFilename    = "not_a_yaml_file.txt"
+		noUnderscores      = "nounderscores.yaml"
+	)
+
+	computeDisksExisting := []apiextensions.CustomResourceDefinition{
+		{ObjectMeta: metav1.ObjectMeta{Name: "disks.compute.azure.com"}},
+	}
+
+	type fileCheck struct {
+		filename       string
+		expected       bool
+		expectedErrStr string
+	}
+
+	tests := []struct {
+		name     string
+		pattern  string
+		existing []apiextensions.CustomResourceDefinition
+		checks   []fileCheck
+	}{
+		{
+			name:    "no patterns no existing loads nothing",
+			pattern: "",
+			checks: []fileCheck{
+				{filename: networkVNets, expected: false},
+			},
+		},
+		{
+			name:    "pattern filters by group",
+			pattern: "network.azure.com/*",
+			checks: []fileCheck{
+				{filename: networkVNets, expected: true},
+				{filename: computeDisks, expected: false},
+				{filename: containerSvcFleets, expected: false},
+			},
+		},
+		{
+			name:     "existing CRDs are always loaded",
+			pattern:  "network.azure.com/*",
+			existing: computeDisksExisting,
+			checks: []fileCheck{
+				{filename: networkVNets, expected: true},
+				{filename: computeDisks, expected: true},
+				{filename: storageAccounts, expected: false},
+			},
+		},
+		{
+			name:    "multiple patterns",
+			pattern: "network.azure.com/*;compute.azure.com/*",
+			checks: []fileCheck{
+				{filename: networkVNets, expected: true},
+				{filename: computeDisks, expected: true},
+				{filename: storageAccounts, expected: false},
+			},
+		},
+		{
+			name:     "no patterns only existing",
+			pattern:  "",
+			existing: computeDisksExisting,
+			checks: []fileCheck{
+				{filename: computeDisks, expected: true},
+				{filename: networkVNets, expected: false},
+			},
+		},
+		{
+			name:    "wildcard group pattern loads everything",
+			pattern: "*",
+			checks: []fileCheck{
+				{filename: networkVNets, expected: true},
+				{filename: computeDisks, expected: true},
+			},
+		},
+		{
+			name:    "invalid filename returns error",
+			pattern: "network.azure.com/*",
+			checks: []fileCheck{
+				{filename: invalidFilename, expectedErrStr: "does not have expected prefix"},
+				{filename: noUnderscores, expectedErrStr: "does not have expected prefix"},
+				{filename: "", expectedErrStr: "does not have expected prefix"},
+			},
+		},
+	}
+
+	logger := testcommon.NewTestLogger(t)
+	m := crdmanagement.NewManager(logger, nil, nil)
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			filter := m.BuildCRDFileFilter(tt.pattern, tt.existing)
+			g.Expect(filter).ToNot(BeNil())
+
+			for _, check := range tt.checks {
+				result, err := filter(check.filename)
+				if check.expectedErrStr != "" {
+					g.Expect(err).To(HaveOccurred())
+					g.Expect(err.Error()).To(ContainSubstring(check.expectedErrStr))
+				} else {
+					g.Expect(err).ToNot(HaveOccurred())
+					g.Expect(result).To(Equal(check.expected), "filename: %s", check.filename)
+				}
+			}
+		})
+	}
 }
 
 /*
@@ -508,7 +529,8 @@ func makeBasicCRD(name string) apiextensions.CustomResourceDefinition {
 func makeBasicCRDWithVersion(name string, version string) apiextensions.CustomResourceDefinition {
 	crd := makeBasicCRD(name)
 	crd.Labels = map[string]string{
-		crdmanagement.ServiceOperatorVersionLabelOld: version,
+		crdmanagement.ServiceOperatorVersionLabel: version,
+		crdmanagement.ServiceOperatorAppLabel:     crdmanagement.ServiceOperatorAppValue,
 	}
 
 	return crd

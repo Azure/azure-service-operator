@@ -1,0 +1,9 @@
+apiVersion: apimanagement.azure.com/v20220801
+kind: ProductApi
+metadata:
+  name: sampleproductapi
+  namespace: default
+spec:
+  azureName: sampleapi
+  owner:
+    name: sampleapimproduct

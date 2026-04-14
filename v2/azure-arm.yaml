@@ -4236,6 +4236,12 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.0.0-alpha.1
+      VpnClientConfiguration:
+        RadiusServerSecret:
+          $isSecret: true
+      RadiusServer:
+        RadiusServerSecret:
+          $isSecret: true
     2022-04-01:
       # Note that this is versioned separately from other networking resources (https://github.com/Azure/azure-rest-api-specs/tree/main/specification/trafficmanager/resource-manager/Microsoft.Network/stable)
       TrafficManagerProfile:
@@ -4570,6 +4576,12 @@ objectModelConfiguration:
       VirtualNetworks_VirtualNetworkPeering:
         $exportAs: VirtualNetworksVirtualNetworkPeering
         $supportedFrom: v2.11.0
+      VpnClientConfiguration:
+        RadiusServerSecret:
+          $isSecret: true
+      RadiusServer:
+        RadiusServerSecret:
+          $isSecret: true
     2024-06-01:
       # Private DNS Zone + related -- this is versioned separately than most of the rest of Microsoft.Network (https://github.com/Azure/azure-rest-api-specs/tree/main/specification/privatedns/resource-manager/Microsoft.Network/stable)
       PrivateDnsZone:
@@ -4623,6 +4635,189 @@ objectModelConfiguration:
       TrafficAnalyticsConfigurationProperties:
         WorkspaceResourceId:
           $referenceType: arm
+    2025-03-01:
+      AzureFirewall:
+        $exportAs: AzureFirewall
+        $supportedFrom: v2.19.0
+      FirewallPolicy:
+        $exportAs: FirewallPolicy
+        $supportedFrom: v2.19.0
+      AzureFirewallIPConfiguration:
+        $resourceEmbeddedInParent: AzureFirewall
+      AzureFirewallApplicationRuleCollection:
+        $resourceEmbeddedInParent: AzureFirewall
+      AzureFirewallNatRuleCollection:
+        $resourceEmbeddedInParent: AzureFirewall
+      AzureFirewallNetworkRuleCollection:
+        $resourceEmbeddedInParent: AzureFirewall
+      FirewallPolicies_RuleCollectionGroup:
+        $exportAs: FirewallPoliciesRuleCollectionGroup
+        $supportedFrom: v2.19.0
+      # Tested this but it didn't seem to work in tests, always got an ERROR CODE UNAVAILABLE
+      # FirewallPolicies_SignatureOverride:
+      #   $exportAs: FirewallPoliciesSignatureOverride
+      #   $supportedFrom: v2.19.0
+      FirewallPolicyIntrusionDetectionSignatureSpecification:
+        Id:
+          $referenceType: simple
+      BastionHost:
+        $exportAs: BastionHost
+        $supportedFrom: v2.19.0
+      BastionHostIPConfiguration:
+        $resourceEmbeddedInParent: BastionHost
+      NatGateway:
+        $exportAs: NatGateway
+        $supportedFrom: v2.19.0
+      PublicIPPrefix:
+        $exportAs: PublicIPPrefix
+        $supportedFrom: v2.19.0
+      PrivateEndpoint:
+        $exportAs: PrivateEndpoint
+        $supportedFrom: v2.19.0
+        $manualConfigs:
+          - PrimaryNicPrivateIpAddress
+      PrivateLinkService:
+        $exportAs: PrivateLinkService
+        $supportedFrom: v2.19.0
+        $generatedConfigs:
+          Alias: $.Status.Alias
+      PrivateLinkServiceConnection:
+        $resourceEmbeddedInParent: PrivateEndpoint
+      PrivateLinkServiceConnection_STATUS:
+        $resourceEmbeddedInParent: PrivateEndpoint
+      PrivateLinkServiceConnectionProperties:
+        PrivateLinkServiceId:
+          $referenceType: arm
+      PrivateLinkServiceIpConfiguration:
+        $resourceEmbeddedInParent: PrivateLinkService
+      PrivateLinkServiceIpConfiguration_STATUS:
+        $resourceEmbeddedInParent: PrivateLinkService
+      PrivateEndpoints_PrivateDnsZoneGroup:
+        $exportAs: PrivateEndpointsPrivateDnsZoneGroup
+        $supportedFrom: v2.19.0
+      PrivateDnsZonePropertiesFormat:
+        PrivateDnsZoneId:
+          $referenceType: arm
+      BackendAddressPool:
+        # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
+        # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
+        $resourceEmbeddedInParent: LoadBalancer
+      BackendAddressPool_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      Delegation:
+        $isResource: false
+        #$resourceEmbeddedInParent: VirtualNetworks_Subnet
+      Delegation_STATUS:
+        $isResource: false
+        #$resourceEmbeddedInParent: VirtualNetworks_Subnet
+      FrontendIPConfiguration:
+        $resourceEmbeddedInParent: LoadBalancer # Can GET (has ID) but can't create
+      FrontendIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      LoadBalancers_InboundNatRule: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
+        $exportAs: LoadBalancersInboundNatRule
+        $supportedFrom: v2.19.0
+      InboundNatRule:
+        # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
+        # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
+        $resourceEmbeddedInParent: LoadBalancer
+      InboundNatRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      InboundNatPool:
+        $resourceEmbeddedInParent: LoadBalancer # This is not a real resource
+      InboundNatPool_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      LoadBalancer:
+        $exportAs: LoadBalancer
+        $supportedFrom: v2.19.0
+      LoadBalancingRule:
+        $resourceEmbeddedInParent: LoadBalancer # This is not a real resource, can GET but can't PUT
+      LoadBalancingRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      NetworkInterface:
+        $exportAs: NetworkInterface
+        $supportedFrom: v2.19.0
+      NetworkInterfaceIPConfiguration:
+        $resourceEmbeddedInParent: NetworkInterface  # Not a real resource, can GET but not PUT
+      NetworkInterfaceIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: NetworkInterface
+      NetworkSecurityGroup:
+        $exportAs: NetworkSecurityGroup
+        $supportedFrom: v2.19.0
+      NetworkSecurityGroups_SecurityRule:
+        $exportAs: NetworkSecurityGroupsSecurityRule
+        $supportedFrom: v2.19.0
+      NetworkSecurityGroupPropertiesFormat:
+        SecurityRules:
+          $resourceLifecycleOwnedByParent: NetworkSecurityGroup
+      NetworkSecurityGroupPropertiesFormat_STATUS:
+        FlowLogs:
+          $resourceLifecycleOwnedByParent: NetworkSecurityGroup
+      OutboundRule:
+        $resourceEmbeddedInParent: LoadBalancer  # Not a real resource, can GET but not PUT
+      OutboundRule_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      Probe:
+        $resourceEmbeddedInParent: LoadBalancer  # Not a real resource, can GET but not PUT
+      Probe_STATUS:
+        $resourceEmbeddedInParent: LoadBalancer
+      PublicIPAddress:
+        $exportAs: PublicIPAddress
+        $supportedFrom: v2.19.0
+      RouteTable:
+        $exportAs: RouteTable
+        $supportedFrom: v2.19.0
+      RouteTablePropertiesFormat:
+        Routes:
+          $resourceLifecycleOwnedByParent: RouteTable
+      RouteTables_Route: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
+        $exportAs: RouteTablesRoute
+        $supportedFrom: v2.19.0
+      VirtualNetwork:
+        $exportAs: VirtualNetwork
+        $supportedFrom: v2.19.0
+      VirtualNetworkGateway:
+        $exportAs: VirtualNetworkGateway
+        $supportedFrom: v2.19.0
+      VirtualNetworkGatewayPropertiesFormat:
+        VNetExtendedLocationResourceId:
+          $referenceType: arm
+      VirtualNetworkGatewayIPConfiguration:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayIPConfiguration_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRevokedCertificate:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRevokedCertificate_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRootCertificate:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VpnClientRootCertificate_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayNatRule:  # TODO: New resource, should add?
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayNatRule_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayPolicyGroup:  # TODO: New resource, should add?
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkGatewayPolicyGroup_STATUS:
+        $resourceEmbeddedInParent: VirtualNetworkGateway
+      VirtualNetworkPropertiesFormat:
+        Subnets:
+          $resourceLifecycleOwnedByParent: VirtualNetwork
+        VirtualNetworkPeerings:
+          # Technically this resource behaves fine (updating the vnet doesn't delete these if they
+          # aren't included in the payload). Marking it here so that the pruning takes effect.
+          $resourceLifecycleOwnedByParent: VirtualNetwork
+      VirtualNetworks_Subnet: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
+        $exportAs: VirtualNetworksSubnet
+        $supportedFrom: v2.19.0
+      VirtualNetworksSubnet_STATUS:
+        IpConfigurations:
+          $description: "An array of references to the network interface IP configurations using subnet. This field is not included if there are more than 2000 entries."
+      VirtualNetworks_VirtualNetworkPeering:
+        $exportAs: VirtualNetworksVirtualNetworkPeering
+        $supportedFrom: v2.19.0
   network.frontdoor:
     2022-05-01:
       FrontDoorWebApplicationFirewallPolicy:

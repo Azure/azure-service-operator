@@ -5,7 +5,6 @@ package storage
 
 import (
 	"context"
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -55,22 +54,36 @@ var _ conversion.Convertible = &PrivateLinkService{}
 
 // ConvertFrom populates our PrivateLinkService from the provided hub PrivateLinkService
 func (service *PrivateLinkService) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.PrivateLinkService)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PrivateLinkService but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.PrivateLinkService
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return service.AssignProperties_From_PrivateLinkService(source)
+	err = service.AssignProperties_From_PrivateLinkService(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to service")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PrivateLinkService from our PrivateLinkService
 func (service *PrivateLinkService) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.PrivateLinkService)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PrivateLinkService but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.PrivateLinkService
+	err := service.AssignProperties_To_PrivateLinkService(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from service")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return service.AssignProperties_To_PrivateLinkService(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &PrivateLinkService{}
