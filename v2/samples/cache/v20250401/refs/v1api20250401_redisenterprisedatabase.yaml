@@ -1,0 +1,10 @@
+apiVersion: cache.azure.com/v1api20250401
+kind: RedisEnterpriseDatabase
+metadata:
+  name: default
+  namespace: default
+spec:
+  owner:
+    name: sampleredisent
+  accessKeysAuthentication: Disabled
+  clusteringPolicy: OSSCluster

@@ -8,4 +8,6 @@ spec:
     name: default
   accessPolicyName: default
   user:
-    objectId: "00000000-0000-0000-0000-000000000001" # Replace with a real Microsoft Entra object ID for live use
+    objectIdFromConfig:
+      name: identity-settings
+      key: principalId
