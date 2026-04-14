@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/index.xml">
+<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/adr-2026-04-secrets/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,21 +18,697 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Design &amp; Specifications | Azure Service Operator</title>
-<meta name="description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/">
+<title>2026-04: Optional Secrets | Azure Service Operator</title>
+<meta name="description" content="## Context
+
+We have explicit configuration to control whether a property is considered a secret or not - we can specify `$isSecret`
+as either `true` or `false`.
+
+Specifying `$isSecret: true` has been required because the Azure REST API specs don&#39;t always call out which properties
+are secrets; our config allows us to address omissions.
+
+We&#39;ve also used some heuristics to detect properties which might be secrets, requiring an explicit decision to be made.
+Supporting `$isSecret: false` allows us to configure false positives in these cases.
+
+To date, this has covered all of our needs - but we now have an interesting case (identified in
+[#5095](https://github.com/Azure/azure-service-operator/issues/5095)) where a property is _sometimes_ a secret but not
+always.
+
+For some users, a webhook service URI is a plain text field with nothing sensitive.
+
+But for others, the URI necessarily contains credentials (a password, api key, or similar) and they want to treat it as
+a secret, pulling it from a secret at runtime.
+
+## Requirements
+
+To support this, we need more flexibility than a simple true/false answer to the question &#34;is this property a secret?&#34; -
+we need the ability to handle a property which is an optional secret, i.e. it can be treated as a secret if the user
+chooses to do so, but it doesn&#39;t have to be.
+
+For properties already marked as secrets, we want to continue treating them as secrets, preserving the existing
+generated CRD structure exactly as it is. No breaking changes.
+
+We want to keep configuration, code generation, and CRD use as simple as possible, but are willing to accept some
+complexity if it leads to a cleaner overall result, expecially if it&#39;s simpler for end users.
+
+## Options
+
+The problem falls into two natural parts:
+
+* How do we represent this in our configuration?
+* How do we transform the property in our code generator?
+
+## Configuration Option 1: Additional Property
+
+Add new custom configuration for this situation, something mutually exclusive with `$isSecret`, say `$isOptionalSecret:
+true/false`.
+
+### Pros
+
+* Minimal Change
+
+### Cons
+
+* Adds complexity to the configuration, and to the code which processes it.
+* Doesn&#39;t really capture the idea that this is a single property with three states (secret, not secret, or optional
+secret) - instead it has two properties which are mutually exclusive, which is a bit awkward.
+
+## Configuration Option 2: Trivalued Boolean
+
+Keep the existing true/false property but allow it to take a third value, say `optional`, to indicate that the property
+is an optional secret.
+
+### Pros
+
+* Simpler configuration - just one property to indicate the secret status of a property, with three possible values.
+* More directly captures the idea that this is a single property with three states.
+
+### Cons
+
+* More significant change to the configuration and code, as we need to support a new value for an existing property.
+* Significantly less intuitive for users who are used to thinking of `$isSecret` as a boolean - they now need to
+understand that it can take a non-boolean value.
+
+## Configuration Option 3: Change to new Enum
+
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`.
+
+### Pros
+
+* Cleanest solution - we have a new property that clearly indicates the three possible states without overloading the
+meaning of an existing property.
+* Avoids confusion for users who are used to thinking of `$isSecret` as a boolean, as we have a new property with a
+clear name that indicates its purpose.
+* Well defined in scope, potentially achievable with Copilot.
+
+### Cons
+
+* Most significant change to the configuration and code, as we need to replace an existing property with a new one and
+update all references to it.
+* Requires users to update their configuration to use the new property, which is a breaking change to any work currently
+in progress.
+
+## Configuration Option 4: Change to new Enum, with backward compatibility
+
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`. Handle `$isSecret` as a legacy property for backward compatibility, mapping `true` to
+`Required` and `false` to `Never`.
+
+### Pros
+
+* Provides a clear path forward with the new enum property while maintaining backward compatibility for existing
+configurations.
+* Allows users to transition to the new configuration at their own pace without breaking existing work.
+* Clean solution that clearly indicates the three possible states without overloading the meaning of an existing
+property
+* Avoids confusion for users who are used to thinking of `$isSecret` as a boolean, as we have a new property with a
+clear name that indicates its purpose.
+
+### Cons
+
+* Still requires a significant change to the configuration and code to introduce the new enum property and handle the
+legacy `$isSecret` property.
+* Adds some complexity to the code to support both the new and legacy properties, though this is mitigated by the clear
+mapping between them.
+* Users will need to update their configuration to use the new property eventually, which is a breaking change to any
+work currently in progress, though they can continue using the old property in the meantime.
+
+## Generation Option 1: Parallel Properties
+
+As we&#39;ve done for properties that can be optionally populated from ConfigMaps, we could have two properties in the
+generated code - one for the plain text value and one for the secret reference. They&#39;d be mutually exclusive, and the
+user would populate one or the other.
+
+For consistency with the way we&#39;ve handled properties that can be optionally populated from ConfigMaps, we could use the
+suffix `Secret` for the secret reference property
+
+### Pros
+
+* Consistent with existing patterns for optional ConfigMap properties.
+
+### Cons
+
+* Adds complexity to the generated code, as we now have two properties for each optional secret, and we need to ensure
+they are mutually exclusive.
+
+## Generation Option 2: Single Property with Union Type
+
+We could have a single property in the generated code that can accept either a plain text value or a secret reference,
+using a union type to allow for both possibilities.
+
+### Pros
+
+* Simplifies the generated code by having a single property for each optional secret.
+* Reduces the risk of user error by eliminating the need to ensure mutual exclusivity between two properties.
+
+### Cons
+
+* Less consistent with existing patterns for optional ConfigMap properties.
+* Contrary to Kubernetes conventions, which explicitly recommend avoiding union/polymorphic properties.
+
+
+## Decision
+
+Configuration Option 4: Change to new Enum, with backward compatibility.
+
+Generation Option 1: Parallel Properties.
+
+## Status
+
+Proposed.
+
+## Consequences
+
+TBC.
+
+## Experience Report
+
+TBC.
+
+## References
+
+None.">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2026-04-secrets/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Design & Specifications">
-  <meta property="og:description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
+  <meta property="og:title" content="2026-04: Optional Secrets">
+  <meta property="og:description" content="## Context
+
+We have explicit configuration to control whether a property is considered a secret or not - we can specify `$isSecret`
+as either `true` or `false`.
+
+Specifying `$isSecret: true` has been required because the Azure REST API specs don&#39;t always call out which properties
+are secrets; our config allows us to address omissions.
+
+We&#39;ve also used some heuristics to detect properties which might be secrets, requiring an explicit decision to be made.
+Supporting `$isSecret: false` allows us to configure false positives in these cases.
+
+To date, this has covered all of our needs - but we now have an interesting case (identified in
+[#5095](https://github.com/Azure/azure-service-operator/issues/5095)) where a property is _sometimes_ a secret but not
+always.
+
+For some users, a webhook service URI is a plain text field with nothing sensitive.
+
+But for others, the URI necessarily contains credentials (a password, api key, or similar) and they want to treat it as
+a secret, pulling it from a secret at runtime.
+
+## Requirements
+
+To support this, we need more flexibility than a simple true/false answer to the question &#34;is this property a secret?&#34; -
+we need the ability to handle a property which is an optional secret, i.e. it can be treated as a secret if the user
+chooses to do so, but it doesn&#39;t have to be.
+
+For properties already marked as secrets, we want to continue treating them as secrets, preserving the existing
+generated CRD structure exactly as it is. No breaking changes.
+
+We want to keep configuration, code generation, and CRD use as simple as possible, but are willing to accept some
+complexity if it leads to a cleaner overall result, expecially if it&#39;s simpler for end users.
+
+## Options
+
+The problem falls into two natural parts:
+
+* How do we represent this in our configuration?
+* How do we transform the property in our code generator?
+
+## Configuration Option 1: Additional Property
+
+Add new custom configuration for this situation, something mutually exclusive with `$isSecret`, say `$isOptionalSecret:
+true/false`.
+
+### Pros
+
+* Minimal Change
+
+### Cons
+
+* Adds complexity to the configuration, and to the code which processes it.
+* Doesn&#39;t really capture the idea that this is a single property with three states (secret, not secret, or optional
+secret) - instead it has two properties which are mutually exclusive, which is a bit awkward.
+
+## Configuration Option 2: Trivalued Boolean
+
+Keep the existing true/false property but allow it to take a third value, say `optional`, to indicate that the property
+is an optional secret.
+
+### Pros
+
+* Simpler configuration - just one property to indicate the secret status of a property, with three possible values.
+* More directly captures the idea that this is a single property with three states.
+
+### Cons
+
+* More significant change to the configuration and code, as we need to support a new value for an existing property.
+* Significantly less intuitive for users who are used to thinking of `$isSecret` as a boolean - they now need to
+understand that it can take a non-boolean value.
+
+## Configuration Option 3: Change to new Enum
+
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`.
+
+### Pros
+
+* Cleanest solution - we have a new property that clearly indicates the three possible states without overloading the
+meaning of an existing property.
+* Avoids confusion for users who are used to thinking of `$isSecret` as a boolean, as we have a new property with a
+clear name that indicates its purpose.
+* Well defined in scope, potentially achievable with Copilot.
+
+### Cons
+
+* Most significant change to the configuration and code, as we need to replace an existing property with a new one and
+update all references to it.
+* Requires users to update their configuration to use the new property, which is a breaking change to any work currently
+in progress.
+
+## Configuration Option 4: Change to new Enum, with backward compatibility
+
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`. Handle `$isSecret` as a legacy property for backward compatibility, mapping `true` to
+`Required` and `false` to `Never`.
+
+### Pros
+
+* Provides a clear path forward with the new enum property while maintaining backward compatibility for existing
+configurations.
+* Allows users to transition to the new configuration at their own pace without breaking existing work.
+* Clean solution that clearly indicates the three possible states without overloading the meaning of an existing
+property
+* Avoids confusion for users who are used to thinking of `$isSecret` as a boolean, as we have a new property with a
+clear name that indicates its purpose.
+
+### Cons
+
+* Still requires a significant change to the configuration and code to introduce the new enum property and handle the
+legacy `$isSecret` property.
+* Adds some complexity to the code to support both the new and legacy properties, though this is mitigated by the clear
+mapping between them.
+* Users will need to update their configuration to use the new property eventually, which is a breaking change to any
+work currently in progress, though they can continue using the old property in the meantime.
+
+## Generation Option 1: Parallel Properties
+
+As we&#39;ve done for properties that can be optionally populated from ConfigMaps, we could have two properties in the
+generated code - one for the plain text value and one for the secret reference. They&#39;d be mutually exclusive, and the
+user would populate one or the other.
+
+For consistency with the way we&#39;ve handled properties that can be optionally populated from ConfigMaps, we could use the
+suffix `Secret` for the secret reference property
+
+### Pros
+
+* Consistent with existing patterns for optional ConfigMap properties.
+
+### Cons
+
+* Adds complexity to the generated code, as we now have two properties for each optional secret, and we need to ensure
+they are mutually exclusive.
+
+## Generation Option 2: Single Property with Union Type
+
+We could have a single property in the generated code that can accept either a plain text value or a secret reference,
+using a union type to allow for both possibilities.
+
+### Pros
+
+* Simplifies the generated code by having a single property for each optional secret.
+* Reduces the risk of user error by eliminating the need to ensure mutual exclusivity between two properties.
+
+### Cons
+
+* Less consistent with existing patterns for optional ConfigMap properties.
+* Contrary to Kubernetes conventions, which explicitly recommend avoiding union/polymorphic properties.
+
+
+## Decision
+
+Configuration Option 4: Change to new Enum, with backward compatibility.
+
+Generation Option 1: Parallel Properties.
+
+## Status
+
+Proposed.
+
+## Consequences
+
+TBC.
+
+## Experience Report
+
+TBC.
+
+## References
+
+None.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
-  <meta itemprop="name" content="Design & Specifications">
-  <meta itemprop="description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
-  <meta itemprop="wordCount" content="1506">
+  <meta itemprop="name" content="2026-04: Optional Secrets">
+  <meta itemprop="description" content="## Context
+
+We have explicit configuration to control whether a property is considered a secret or not - we can specify `$isSecret`
+as either `true` or `false`.
+
+Specifying `$isSecret: true` has been required because the Azure REST API specs don&#39;t always call out which properties
+are secrets; our config allows us to address omissions.
+
+We&#39;ve also used some heuristics to detect properties which might be secrets, requiring an explicit decision to be made.
+Supporting `$isSecret: false` allows us to configure false positives in these cases.
+
+To date, this has covered all of our needs - but we now have an interesting case (identified in
+[#5095](https://github.com/Azure/azure-service-operator/issues/5095)) where a property is _sometimes_ a secret but not
+always.
+
+For some users, a webhook service URI is a plain text field with nothing sensitive.
+
+But for others, the URI necessarily contains credentials (a password, api key, or similar) and they want to treat it as
+a secret, pulling it from a secret at runtime.
+
+## Requirements
+
+To support this, we need more flexibility than a simple true/false answer to the question &#34;is this property a secret?&#34; -
+we need the ability to handle a property which is an optional secret, i.e. it can be treated as a secret if the user
+chooses to do so, but it doesn&#39;t have to be.
+
+For properties already marked as secrets, we want to continue treating them as secrets, preserving the existing
+generated CRD structure exactly as it is. No breaking changes.
+
+We want to keep configuration, code generation, and CRD use as simple as possible, but are willing to accept some
+complexity if it leads to a cleaner overall result, expecially if it&#39;s simpler for end users.
+
+## Options
+
+The problem falls into two natural parts:
+
+* How do we represent this in our configuration?
+* How do we transform the property in our code generator?
+
+## Configuration Option 1: Additional Property
+
+Add new custom configuration for this situation, something mutually exclusive with `$isSecret`, say `$isOptionalSecret:
+true/false`.
+
+### Pros
+
+* Minimal Change
+
+### Cons
+
+* Adds complexity to the configuration, and to the code which processes it.
+* Doesn&#39;t really capture the idea that this is a single property with three states (secret, not secret, or optional
+secret) - instead it has two properties which are mutually exclusive, which is a bit awkward.
+
+## Configuration Option 2: Trivalued Boolean
+
+Keep the existing true/false property but allow it to take a third value, say `optional`, to indicate that the property
+is an optional secret.
+
+### Pros
+
+* Simpler configuration - just one property to indicate the secret status of a property, with three possible values.
+* More directly captures the idea that this is a single property with three states.
+
+### Cons
+
+* More significant change to the configuration and code, as we need to support a new value for an existing property.
+* Significantly less intuitive for users who are used to thinking of `$isSecret` as a boolean - they now need to
+understand that it can take a non-boolean value.
+
+## Configuration Option 3: Change to new Enum
+
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`.
+
+### Pros
+
+* Cleanest solution - we have a new property that clearly indicates the three possible states without overloading the
+meaning of an existing property.
+* Avoids confusion for users who are used to thinking of `$isSecret` as a boolean, as we have a new property with a
+clear name that indicates its purpose.
+* Well defined in scope, potentially achievable with Copilot.
+
+### Cons
+
+* Most significant change to the configuration and code, as we need to replace an existing property with a new one and
+update all references to it.
+* Requires users to update their configuration to use the new property, which is a breaking change to any work currently
+in progress.
+
+## Configuration Option 4: Change to new Enum, with backward compatibility
+
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`. Handle `$isSecret` as a legacy property for backward compatibility, mapping `true` to
+`Required` and `false` to `Never`.
+
+### Pros
+
+* Provides a clear path forward with the new enum property while maintaining backward compatibility for existing
+configurations.
+* Allows users to transition to the new configuration at their own pace without breaking existing work.
+* Clean solution that clearly indicates the three possible states without overloading the meaning of an existing
+property
+* Avoids confusion for users who are used to thinking of `$isSecret` as a boolean, as we have a new property with a
+clear name that indicates its purpose.
+
+### Cons
+
+* Still requires a significant change to the configuration and code to introduce the new enum property and handle the
+legacy `$isSecret` property.
+* Adds some complexity to the code to support both the new and legacy properties, though this is mitigated by the clear
+mapping between them.
+* Users will need to update their configuration to use the new property eventually, which is a breaking change to any
+work currently in progress, though they can continue using the old property in the meantime.
+
+## Generation Option 1: Parallel Properties
+
+As we&#39;ve done for properties that can be optionally populated from ConfigMaps, we could have two properties in the
+generated code - one for the plain text value and one for the secret reference. They&#39;d be mutually exclusive, and the
+user would populate one or the other.
+
+For consistency with the way we&#39;ve handled properties that can be optionally populated from ConfigMaps, we could use the
+suffix `Secret` for the secret reference property
+
+### Pros
+
+* Consistent with existing patterns for optional ConfigMap properties.
+
+### Cons
+
+* Adds complexity to the generated code, as we now have two properties for each optional secret, and we need to ensure
+they are mutually exclusive.
+
+## Generation Option 2: Single Property with Union Type
+
+We could have a single property in the generated code that can accept either a plain text value or a secret reference,
+using a union type to allow for both possibilities.
+
+### Pros
+
+* Simplifies the generated code by having a single property for each optional secret.
+* Reduces the risk of user error by eliminating the need to ensure mutual exclusivity between two properties.
+
+### Cons
+
+* Less consistent with existing patterns for optional ConfigMap properties.
+* Contrary to Kubernetes conventions, which explicitly recommend avoiding union/polymorphic properties.
+
+
+## Decision
+
+Configuration Option 4: Change to new Enum, with backward compatibility.
+
+Generation Option 1: Parallel Properties.
+
+## Status
+
+Proposed.
+
+## Consequences
+
+TBC.
+
+## Experience Report
+
+TBC.
+
+## References
+
+None.">
+  <meta itemprop="wordCount" content="1107">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Design & Specifications">
-  <meta name="twitter:description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
+  <meta name="twitter:title" content="2026-04: Optional Secrets">
+  <meta name="twitter:description" content="## Context
+
+We have explicit configuration to control whether a property is considered a secret or not - we can specify `$isSecret`
+as either `true` or `false`.
+
+Specifying `$isSecret: true` has been required because the Azure REST API specs don&#39;t always call out which properties
+are secrets; our config allows us to address omissions.
+
+We&#39;ve also used some heuristics to detect properties which might be secrets, requiring an explicit decision to be made.
+Supporting `$isSecret: false` allows us to configure false positives in these cases.
+
+To date, this has covered all of our needs - but we now have an interesting case (identified in
+[#5095](https://github.com/Azure/azure-service-operator/issues/5095)) where a property is _sometimes_ a secret but not
+always.
+
+For some users, a webhook service URI is a plain text field with nothing sensitive.
+
+But for others, the URI necessarily contains credentials (a password, api key, or similar) and they want to treat it as
+a secret, pulling it from a secret at runtime.
+
+## Requirements
+
+To support this, we need more flexibility than a simple true/false answer to the question &#34;is this property a secret?&#34; -
+we need the ability to handle a property which is an optional secret, i.e. it can be treated as a secret if the user
+chooses to do so, but it doesn&#39;t have to be.
+
+For properties already marked as secrets, we want to continue treating them as secrets, preserving the existing
+generated CRD structure exactly as it is. No breaking changes.
+
+We want to keep configuration, code generation, and CRD use as simple as possible, but are willing to accept some
+complexity if it leads to a cleaner overall result, expecially if it&#39;s simpler for end users.
+
+## Options
+
+The problem falls into two natural parts:
+
+* How do we represent this in our configuration?
+* How do we transform the property in our code generator?
+
+## Configuration Option 1: Additional Property
+
+Add new custom configuration for this situation, something mutually exclusive with `$isSecret`, say `$isOptionalSecret:
+true/false`.
+
+### Pros
+
+* Minimal Change
+
+### Cons
+
+* Adds complexity to the configuration, and to the code which processes it.
+* Doesn&#39;t really capture the idea that this is a single property with three states (secret, not secret, or optional
+secret) - instead it has two properties which are mutually exclusive, which is a bit awkward.
+
+## Configuration Option 2: Trivalued Boolean
+
+Keep the existing true/false property but allow it to take a third value, say `optional`, to indicate that the property
+is an optional secret.
+
+### Pros
+
+* Simpler configuration - just one property to indicate the secret status of a property, with three possible values.
+* More directly captures the idea that this is a single property with three states.
+
+### Cons
+
+* More significant change to the configuration and code, as we need to support a new value for an existing property.
+* Significantly less intuitive for users who are used to thinking of `$isSecret` as a boolean - they now need to
+understand that it can take a non-boolean value.
+
+## Configuration Option 3: Change to new Enum
+
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`.
+
+### Pros
+
+* Cleanest solution - we have a new property that clearly indicates the three possible states without overloading the
+meaning of an existing property.
+* Avoids confusion for users who are used to thinking of `$isSecret` as a boolean, as we have a new property with a
+clear name that indicates its purpose.
+* Well defined in scope, potentially achievable with Copilot.
+
+### Cons
+
+* Most significant change to the configuration and code, as we need to replace an existing property with a new one and
+update all references to it.
+* Requires users to update their configuration to use the new property, which is a breaking change to any work currently
+in progress.
+
+## Configuration Option 4: Change to new Enum, with backward compatibility
+
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`. Handle `$isSecret` as a legacy property for backward compatibility, mapping `true` to
+`Required` and `false` to `Never`.
+
+### Pros
+
+* Provides a clear path forward with the new enum property while maintaining backward compatibility for existing
+configurations.
+* Allows users to transition to the new configuration at their own pace without breaking existing work.
+* Clean solution that clearly indicates the three possible states without overloading the meaning of an existing
+property
+* Avoids confusion for users who are used to thinking of `$isSecret` as a boolean, as we have a new property with a
+clear name that indicates its purpose.
+
+### Cons
+
+* Still requires a significant change to the configuration and code to introduce the new enum property and handle the
+legacy `$isSecret` property.
+* Adds some complexity to the code to support both the new and legacy properties, though this is mitigated by the clear
+mapping between them.
+* Users will need to update their configuration to use the new property eventually, which is a breaking change to any
+work currently in progress, though they can continue using the old property in the meantime.
+
+## Generation Option 1: Parallel Properties
+
+As we&#39;ve done for properties that can be optionally populated from ConfigMaps, we could have two properties in the
+generated code - one for the plain text value and one for the secret reference. They&#39;d be mutually exclusive, and the
+user would populate one or the other.
+
+For consistency with the way we&#39;ve handled properties that can be optionally populated from ConfigMaps, we could use the
+suffix `Secret` for the secret reference property
+
+### Pros
+
+* Consistent with existing patterns for optional ConfigMap properties.
+
+### Cons
+
+* Adds complexity to the generated code, as we now have two properties for each optional secret, and we need to ensure
+they are mutually exclusive.
+
+## Generation Option 2: Single Property with Union Type
+
+We could have a single property in the generated code that can accept either a plain text value or a secret reference,
+using a union type to allow for both possibilities.
+
+### Pros
+
+* Simplifies the generated code by having a single property for each optional secret.
+* Reduces the risk of user error by eliminating the need to ensure mutual exclusivity between two properties.
+
+### Cons
+
+* Less consistent with existing patterns for optional ConfigMap properties.
+* Contrary to Kubernetes conventions, which explicitly recommend avoiding union/polymorphic properties.
+
+
+## Decision
+
+Configuration Option 4: Change to new Enum, with backward compatibility.
+
+Generation Option 1: Parallel Properties.
+
+## Status
+
+Proposed.
+
+## Consequences
+
+TBC.
+
+## Experience Report
+
+TBC.
+
+## References
+
+None.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -845,7 +1521,7 @@
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
-  <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="td-sidebar-nav-active-item">Design</span></a>
+  <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
@@ -950,26 +1626,7 @@
 
 </div>
 
-            <div class="td-toc">
-        <nav id="TableOfContents">
-  <ul>
-    <li><a href="#in-progress">In progress</a></li>
-    <li><a href="#completed-changes">Completed Changes</a>
-      <ul>
-        <li><a href="#2025">2025</a></li>
-        <li><a href="#2024">2024</a></li>
-        <li><a href="#2023">2023</a></li>
-        <li><a href="#2022">2022</a></li>
-        <li><a href="#2021">2021</a></li>
-        <li><a href="#2020">2020</a></li>
-        <li><a href="#earlier">Earlier</a></li>
-      </ul>
-    </li>
-    <li><a href="#format">Format</a></li>
-  </ul>
-</nav>
-      </div>
-    
+            
             
 
           </aside>
@@ -977,312 +1634,196 @@
             
   
 
-            <nav aria-label="breadcrumb" class="td-breadcrumbs td-breadcrumbs__single">
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/design/">Design</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Design</li>
+    2026-04: Optional Secrets</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Design &amp; Specifications</h1>
-	<div class="lead">Design discussions, decisions, and specifications for Azure Service Operator v2</div>
+	<h1>2026-04: Optional Secrets</h1>
+  
 	<header class="article-meta">
 		
 </header>
-	<p>Significant changes to Azure Service Operator should be captured by an ADR (architecture design record) in this
-folder. ADRs are listed reverse chronologically by year. <a href="#format">See below</a> for the structure each ADR uses.</p>
-<h2 id="in-progress">In progress</h2>
-<p>These ADRs reflect work that is being discussed, has been proposed, or is currently in progress.</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: center">Proposed</th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Status</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: center">2026</td>
-          <td><a href="/azure-service-operator/design/adr-2026-04-secrets/"><strong>Optional Secrets</strong></a></td>
-          <td>A design to address the handling of optional secrets in Azure Service Operator, including configuration and generation options.</td>
-          <td>Proposed</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2025</td>
-          <td><a href="/azure-service-operator/design/adr-2025-05-version-priority/"><strong>Version Priority</strong></a></td>
-          <td>A design to address the problems with version priority in Azure Service Operator, ensuring that the most recent resource version is selected by Kubernetes.</td>
-          <td>Implementation underway</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2024</td>
-          <td><a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/"><strong>Upstream Deletion</strong></a></td>
-          <td>When might deletion of an upstream resource occur and how will ASO handle it.</td>
-          <td>Open</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2023</td>
-          <td><a href="/azure-service-operator/design/adr-2023-04-deprecation/"><strong>Resource Deprecation</strong></a></td>
-          <td>Understand the policy for handling Azure resource deprecation in Azure Service Operator, including the process for flagging deprecated resources, communicating changes, and removing unsupported resources.</td>
-          <td>Open</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2022</td>
-          <td><a href="/azure-service-operator/design/adr-2022-11-change-detection/"><strong>Change Detection</strong></a></td>
-          <td>The challenges of change detection in Azure Service Operator, discussing the limitations of relying on Azure Resource Manager for goal state comparison, the impact of ARM throttling, and a proposal for ASO to perform its own goal state comparison to mitigate these issues.</td>
-          <td>Revision in progress</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">Earlier</td>
-          <td><a href="/azure-service-operator/design/crossplane/"><strong>CrossPlane</strong></a></td>
-          <td>Discusses the intricacies of code generation for Crossplane, including static &ldquo;special&rdquo; properties, cross resource references, and the challenges associated with generating these references.</td>
-          <td>Open</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">Earlier</td>
-          <td><a href="/azure-service-operator/design/reconcile-interface/"><strong>Improving the Reconciler interface</strong></a></td>
-          <td>Explore a proposal for improving the Reconciler interface in controller-runtime, addressing issues of code duplication and potential bugs due to differences in checks for Create vs Delete operations.</td>
-          <td>Open</td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="completed-changes">Completed Changes</h2>
-<p>These ADRs reflect work that has been completed, grouped by year of proposal.</p>
-<h3 id="2025">2025</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2025-10-28-property-conversion-long-tail/"><strong>The Long Tail of Property Conversion</strong></a></td>
-          <td>A design to address the increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator for inter-version transformation of resources.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2025-01-arm-references/"><strong>Improving ARM References</strong></a></td>
-          <td>Options for remedying the problems we face when we fail to identify a property as an ARM reference prior to releasing ASO.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2024">2024</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2024-05-operatorspec-custom-properties/"><strong>OperatorSpec Custom Properties</strong></a></td>
-          <td>Injecting additional properties into OperatorSpec for additional flexibility and extensibility of resources.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2024-04-roleassignment-uuid-generation/"><strong>RoleAssignments UUID Generation</strong></a></td>
-          <td>Allowing users more control over how the GUIDs used for naming RoleAssignments are generated.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2023">2023</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-02-adoption-policy/"><strong>Adoption Policy</strong></a></td>
-          <td>Understand the policy for adopting pre-existing Azure resources in Kubernetes through the Azure Service Operator, including the principles guiding resource adoption and the user&rsquo;s ability to control operator actions.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/"><strong>Conversion Augmentation</strong></a></td>
-          <td>Learn about the need for conversion augmentation in Kubernetes resource versions, the role of code generation, and the strategies for augmenting these conversions with hand-written code to ensure backward and forward compatibility.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/"><strong>Goal Seeking KeyVaults</strong></a></td>
-          <td>Understand the challenges posed by Azure KeyVault&rsquo;s soft-delete feature in a goal-seeking system like Azure Service Operator, and the need for a solution that prevents resources from entering permanently degraded states without manual intervention.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/"><strong>Helm Chart Size Limitations</strong></a></td>
-          <td>Address the Helm chart size limitations causing problems for Azure Service Operator, discussing the implications of Kubernetes secret size limits, the impact on chart installation, and potential workarounds such as splitting the Helm chart.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-05-installing-only-selected-crds/"><strong>Installing Only Selected CRDs</strong></a></td>
-          <td>Understand the need for selective CRD installation in Azure Service Operator to mitigate kube-apiserver memory usage, and the requirements for a seamless upgrade experience and default configuration that fits into minimal memory environments</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-07-packagereferences/"><strong>Package References</strong></a></td>
-          <td>Consider the proposal for introducing a SubPackageReference in the Azure Service Operator code generator, discussing the implications for code that consumes PackageReference and the potential impact on namespace pollution and code organization.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-04-patch-collections/"><strong>Patch Collections</strong></a></td>
-          <td>Address the issue of resource drift in Azure Service Operator due to Azure Resource Providers&rsquo; PATCH-like behavior on PUT, and discuss potential solutions such as optional properties and explicit nulls to ensure the custom resource represents the complete desired state.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/"><strong>Post-Reconciliation Extensions</strong></a></td>
-          <td>Understand the introduction of the PostReconciliationChecker extension in Azure Service Operator to handle post-reconciliation operations, allowing for custom conditions to be set on resources based on the status received from Azure Resource Manager.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-09-skipping-properties/"><strong>Skipping Properties</strong></a></td>
-          <td>A design to address the problems that occur when a property skips multiple resource versions and has a different shape when it returns.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2022">2022</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/"><strong>Backward Compatibility</strong></a></td>
-          <td>As a part of planning for our first beta release consider the implications of modifying the version prefix for code-generated resources in Azure Service Operator.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/"><strong>Evil Discriminator</strong></a></td>
-          <td>Understand the challenges posed by the &rsquo;evil discriminator&rsquo; in Swagger/OpenAPI, a term coined by the Azure Service Operator team to describe the differences in defining polymorphic API payloads in Swagger compared to JSON Schema.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/"><strong>Muliple Credential Operator</strong></a></td>
-          <td>proposed support for multiple credentials under a global operator in Azure Service Operator, enabling management of Azure resources across multiple subscriptions, with a detailed explanation of the credential selection hierarchy and caching mechanism.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/"><strong>Reading Status properties from other ASO resources</strong></a></td>
-          <td>discussion of various ways to allow one ASO resource to consume information generated by another, with details on how we decided to use configmaps to do this.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/"><strong>Reconciler Extensions</strong></a></td>
-          <td>Understand the need for reconciler extensions in Azure Service Operator to manage inconsistencies in Azure Resource Providers&rsquo; behavior, and the proposal for precise, per-resource customization without duplicating existing functionality or risking inconsistencies.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-11-resource-import/"><strong>Resource Import</strong></a></td>
-          <td>Review the strategies for migrating from Azure Service Operator v1 to v2, including version integration and resource import job, each with its pros, cons, and potential blockers.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/"><strong>Reconciliation Extensions</strong></a></td>
-          <td>Understand the need for reconciliation extensions in Azure Service Operator to handle resources in transient states that preclude successful PUT operations, and the proposal for an extension point to modify the reconciliation flow accordingly.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2021">2021</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/"><strong>API Version Recovery</strong></a></td>
-          <td>Identity the challenges of API version recovery in Azure Service Operator, discussing the importance of using the correct Azure API version for expected behavior, and the need to pivot back to the original version for generating the correct ARM payload.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/"><strong>Committing Generated Code</strong></a></td>
-          <td>Uncover the reasons and implications of committing generated code in the Azure Service Operator, discussing the benefits of traceability, easier debugging, and the ability to review generated changes.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-04-code-generation/"><strong>Property Conversions</strong></a></td>
-          <td>Explore the need for codegen conversion routines in handling property conversions across different versions of a resource, with examples of how primitive types can evolve over time.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2020">2020</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/"><strong>Abstract Syntax Tree Library Choice</strong></a></td>
-          <td>Background on the decision to adopt the <code>dst</code> (Decorated Syntax Tree) library in the Azure Service Operator Code Generator, addressing limitations of the standard Go `ast`` library such as unexpected comment placements, non-compliance with go fmt standards, and poor control over whitespace.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/"><strong>Pipeline Architecture</strong></a></td>
-          <td>The pipeline architecture of the ASO code generator, its design, and how it contributes to the overall functionality and efficiency of the system.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-04-code-generation/"><strong>Why Code Generation?</strong></a></td>
-          <td>Rationale and impact of adopting code generation in the Azure Service Operator, including the benefits of full feature coverage, reduced overhead for new resources, and consistent behavior across all resources.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="earlier">Earlier</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/clarifying-object-structure/"><strong>Clarifying Object Structure</strong></a></td>
-          <td>Dive into the challenges of differentiating Azure-specific properties from operator-specific properties in the object structure of resources, with a focus on potential solutions for Status and upcoming properties like SecretConfiguration and Credentials.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/guide/annotations/"><strong>Custom validation and defaulting</strong></a></td>
-          <td>Delve into the proposal for custom validation and defaulting for code-generated resources, discussing the limitations of controller-runtime interfaces and suggesting a structure for autogenerated webhooks that allows for custom implementations.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/secrets/"><strong>Managing dataplane secrets</strong></a></td>
-          <td>Managing dataplane secrets in Azure Service Operator, including the drawbacks of auto-generating secrets and the implications for secret rollover, control, security, resource adoption, and GitOps compatibility.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/resource-states/"><strong>Reporting Resource Status</strong></a></td>
-          <td>A proposal for reporting resource status in Azure Service Operator, discussing the distinction between operator status and Azure resource state, and the current state and limitations of both handcrafted and auto-generated resources.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/type-references-and-ownership/"><strong>Type References and Ownership</strong></a></td>
-          <td>type references and ownership in Azure Service Operator, discussing goals such as idiomatic expression of Azure resource relationships, automatic ownership, garbage collection, and interaction with non-Kubernetes managed Azure resources.</td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="format">Format</h2>
-<p>Each ADR should contain the following sections:</p>
-<ul>
-<li>Context: Context for the problem. What are related issues/problems? What is the history?</li>
-<li>Requirements: A short list of goals</li>
-<li>Options optional section containing 1 or more options, w/ pros + cons. Can omit if there is only one real option.
-<ul>
-<li>OR Category + Options: For more complex ADRs where there are multiple facets to the design that are somewhat
-orthogonal, you can instead give categories and then define options within those categories</li>
-</ul>
-</li>
-<li>Decision: Which option did you choose and why?
-<ul>
-<li>FAQ: Can optionally include an FAQ in this section answering common questions about the decision that weren&rsquo;t
-already answered in the options section.</li>
-</ul>
-</li>
-<li>Status</li>
-<li>Consequences</li>
-<li>Experience Report</li>
-<li>References</li>
-</ul>
-<p>Ideally, each ADR should run to one or two pages in length. You can use the
-<a href="/azure-service-operator/design/adr-year-month-title/">simple template</a>.</p>
-<p>For complex changes that require more detail, the ADR should provide an overview. Additional detail (say, to list
-alternative solutions, detail complex edge cases, or present detailed diagrams) should be captured
-in a separate design document linked from the ADR.</p>
-<p>For background information, check out <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions">this Cognitect blog entry</a>.</p>
-<p>ADR documents should be updated over time to keep them relevant, typically by updating the <em>Experience Report</em> section.</p>
-
 	
-</div>
+## Context
 
+We have explicit configuration to control whether a property is considered a secret or not - we can specify `$isSecret`
+as either `true` or `false`.
+
+Specifying `$isSecret: true` has been required because the Azure REST API specs don't always call out which properties
+are secrets; our config allows us to address omissions.
+
+We've also used some heuristics to detect properties which might be secrets, requiring an explicit decision to be made.
+Supporting `$isSecret: false` allows us to configure false positives in these cases.
+
+To date, this has covered all of our needs - but we now have an interesting case (identified in
+[#5095](https://github.com/Azure/azure-service-operator/issues/5095)) where a property is _sometimes_ a secret but not
+always.
+
+For some users, a webhook service URI is a plain text field with nothing sensitive.
+
+But for others, the URI necessarily contains credentials (a password, api key, or similar) and they want to treat it as
+a secret, pulling it from a secret at runtime.
+
+## Requirements
+
+To support this, we need more flexibility than a simple true/false answer to the question "is this property a secret?" -
+we need the ability to handle a property which is an optional secret, i.e. it can be treated as a secret if the user
+chooses to do so, but it doesn't have to be.
+
+For properties already marked as secrets, we want to continue treating them as secrets, preserving the existing
+generated CRD structure exactly as it is. No breaking changes.
+
+We want to keep configuration, code generation, and CRD use as simple as possible, but are willing to accept some
+complexity if it leads to a cleaner overall result, expecially if it's simpler for end users.
+
+## Options
+
+The problem falls into two natural parts:
+
+* How do we represent this in our configuration?
+* How do we transform the property in our code generator?
+
+## Configuration Option 1: Additional Property
+
+Add new custom configuration for this situation, something mutually exclusive with `$isSecret`, say `$isOptionalSecret:
+true/false`.
+
+### Pros
+
+* Minimal Change
+
+### Cons
+
+* Adds complexity to the configuration, and to the code which processes it.
+* Doesn't really capture the idea that this is a single property with three states (secret, not secret, or optional
+secret) - instead it has two properties which are mutually exclusive, which is a bit awkward.
+
+## Configuration Option 2: Trivalued Boolean
+
+Keep the existing true/false property but allow it to take a third value, say `optional`, to indicate that the property
+is an optional secret.
+
+### Pros
+
+* Simpler configuration - just one property to indicate the secret status of a property, with three possible values.
+* More directly captures the idea that this is a single property with three states.
+
+### Cons
+
+* More significant change to the configuration and code, as we need to support a new value for an existing property.
+* Significantly less intuitive for users who are used to thinking of `$isSecret` as a boolean - they now need to
+understand that it can take a non-boolean value.
+
+## Configuration Option 3: Change to new Enum
+
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`.
+
+### Pros
+
+* Cleanest solution - we have a new property that clearly indicates the three possible states without overloading the
+meaning of an existing property.
+* Avoids confusion for users who are used to thinking of `$isSecret` as a boolean, as we have a new property with a
+clear name that indicates its purpose.
+* Well defined in scope, potentially achievable with Copilot.
+
+### Cons
+
+* Most significant change to the configuration and code, as we need to replace an existing property with a new one and
+update all references to it.
+* Requires users to update their configuration to use the new property, which is a breaking change to any work currently
+in progress.
+
+## Configuration Option 4: Change to new Enum, with backward compatibility
+
+Replace the existing `$isSecret` boolean with a new enum property, say `$importSecretMode` with values `Required`,
+`Never`, and `Optional`. Handle `$isSecret` as a legacy property for backward compatibility, mapping `true` to
+`Required` and `false` to `Never`.
+
+### Pros
+
+* Provides a clear path forward with the new enum property while maintaining backward compatibility for existing
+configurations.
+* Allows users to transition to the new configuration at their own pace without breaking existing work.
+* Clean solution that clearly indicates the three possible states without overloading the meaning of an existing
+property
+* Avoids confusion for users who are used to thinking of `$isSecret` as a boolean, as we have a new property with a
+clear name that indicates its purpose.
+
+### Cons
+
+* Still requires a significant change to the configuration and code to introduce the new enum property and handle the
+legacy `$isSecret` property.
+* Adds some complexity to the code to support both the new and legacy properties, though this is mitigated by the clear
+mapping between them.
+* Users will need to update their configuration to use the new property eventually, which is a breaking change to any
+work currently in progress, though they can continue using the old property in the meantime.
+
+## Generation Option 1: Parallel Properties
+
+As we've done for properties that can be optionally populated from ConfigMaps, we could have two properties in the
+generated code - one for the plain text value and one for the secret reference. They'd be mutually exclusive, and the
+user would populate one or the other.
+
+For consistency with the way we've handled properties that can be optionally populated from ConfigMaps, we could use the
+suffix `Secret` for the secret reference property
+
+### Pros
+
+* Consistent with existing patterns for optional ConfigMap properties.
+
+### Cons
+
+* Adds complexity to the generated code, as we now have two properties for each optional secret, and we need to ensure
+they are mutually exclusive.
+
+## Generation Option 2: Single Property with Union Type
+
+We could have a single property in the generated code that can accept either a plain text value or a secret reference,
+using a union type to allow for both possibilities.
+
+### Pros
+
+* Simplifies the generated code by having a single property for each optional secret.
+* Reduces the risk of user error by eliminating the need to ensure mutual exclusivity between two properties.
+
+### Cons
+
+* Less consistent with existing patterns for optional ConfigMap properties.
+* Contrary to Kubernetes conventions, which explicitly recommend avoiding union/polymorphic properties.
+
+
+## Decision
+
+Configuration Option 4: Change to new Enum, with backward compatibility.
+
+Generation Option 1: Parallel Properties.
+
+## Status
+
+Proposed.
+
+## Consequences
+
+TBC.
+
+## Experience Report
+
+TBC.
+
+## References
+
+None.
+	<div class="section-index">
+    
+    
+    </div>
+</div>
 
           </main>
         </div>
