@@ -194,7 +194,7 @@ func TestTypeConfiguration_UnmarshalYAML_WhenDuplicateProperties_ReturnsError(t 
 
 	yamlContent := `
 Name:
-  $secret: always
+  $importSecretMode: required
 Name:
   $renameTo: "FullName"
 `
@@ -212,7 +212,7 @@ func TestTypeConfiguration_UnmarshalYAML_WhenDuplicatePropertiesCaseInsensitive_
 
 	yamlContent := `
 name:
-  $secret: always
+  $importSecretMode: required
 NAME:
   $renameTo: "FullName"
 `

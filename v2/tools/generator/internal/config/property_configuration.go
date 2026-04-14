@@ -69,7 +69,7 @@ const (
 	exportAsConfigMapPropertyNameTag  = "$exportAsConfigMapPropertyName"  // String specifying the name of the property set to export this property as a config map.
 	importConfigMapModeTag            = "$importConfigMapMode"            // string specifying the ImportConfigMapMode mode
 	isSecretTag                       = "$isSecret"                       // Deprecated: use secretTag instead. Kept for backward compatibility during migration.
-	secretTag                         = "$secret"                         // String specifying the secrecy classification of a property (always or never)
+	secretTag                         = "$importSecretMode"               // String specifying the secrecy classification of a property (required, optional, or never)
 	referenceTypeTag                  = "$referenceType"                  // String specifying what kind of reference we have
 	renamePropertyToTag               = "$renameTo"                       // String specifying the name this property should be renamed to
 	resourceLifecycleOwnedByParentTag = "$resourceLifecycleOwnedByParent" // String specifying whether a property represents a subresource whose lifecycle is owned by the parent resource (and what that parent resource is)
@@ -127,11 +127,11 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		// $secret: <string> (preferred)
+		// $importSecretMode: <string> (preferred)
 		if strings.EqualFold(lastID, secretTag) && c.Kind == yaml.ScalarNode {
 			switch strings.ToLower(c.Value) {
-			case string(astmodel.SecrecyAlways):
-				pc.Secrecy.Set(astmodel.SecrecyAlways)
+			case string(astmodel.SecrecyRequired):
+				pc.Secrecy.Set(astmodel.SecrecyRequired)
 			case string(astmodel.SecrecyNever):
 				pc.Secrecy.Set(astmodel.SecrecyNever)
 			case string(astmodel.SecrecyOptional):
@@ -152,7 +152,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			}
 
 			if isSecret {
-				pc.Secrecy.Set(astmodel.SecrecyAlways)
+				pc.Secrecy.Set(astmodel.SecrecyRequired)
 			} else {
 				pc.Secrecy.Set(astmodel.SecrecyNever)
 			}
