@@ -45,7 +45,7 @@ jobs:
           ref: bot/update-diagrams
 
       - name: Update ASO v2 diagram
-        uses: githubocto/repo-visualizer@main
+        uses: githubocto/repo-visualizer@a999615bdab757559bf94bda1fe6eef232765f85
         with:
           # Paths are relative to root_path
           excluded_paths: "ignore,.github,tools,cmd"
@@ -55,7 +55,7 @@ jobs:
           should_push: false
 
       - name: Update asoctl diagram
-        uses: githubocto/repo-visualizer@main
+        uses: githubocto/repo-visualizer@a999615bdab757559bf94bda1fe6eef232765f85
         with:
           excluded_paths: "ignore,.github"
           output_file: "docs/hugo/content/contributing/asoctl-structure.svg"
@@ -64,7 +64,7 @@ jobs:
           should_push: false
 
       - name: Update ASO Code Generator diagram
-        uses: githubocto/repo-visualizer@main
+        uses: githubocto/repo-visualizer@a999615bdab757559bf94bda1fe6eef232765f85
         with:
           excluded_paths: "ignore,.github"
           output_file: "docs/hugo/content/contributing/aso-codegen-structure.svg"
