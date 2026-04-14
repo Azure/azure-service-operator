@@ -106,6 +106,9 @@ type OptionalReferencePair struct {
 // ValidateOptionalReferences checks that only one of Foo and FooFromSecret are set
 func ValidateOptionalReferences(pairs []*OptionalReferencePair) (admission.Warnings, error) {
 	for _, pair := range pairs {
+		if pair == nil {
+			continue
+		}
 		if pair.Value != nil && pair.Ref != nil {
 			return nil, eris.Errorf("cannot specify both %s and %s", pair.Name, pair.RefName)
 		}
