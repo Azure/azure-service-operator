@@ -32,7 +32,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <meta itemprop="name" content="Supported Resources">
   <meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-  <meta itemprop="wordCount" content="7882">
+  <meta itemprop="wordCount" content="8127">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Supported Resources">
   <meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -293,6 +293,12 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/" title="apimanagement.azure.com/v1api20230501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20230501preview"><span class="">v1api20230501preview</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20240501-li">
   <a href="/azure-service-operator/reference/apimanagement/v1api20240501/" title="apimanagement.azure.com/v1api20240501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv1api20240501"><span class="">v1api20240501</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv20220801-li">
+  <a href="/azure-service-operator/reference/apimanagement/v20220801/" title="apimanagement.azure.com/v20220801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv20220801"><span class="">v20220801</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv20230501preview-li">
+  <a href="/azure-service-operator/reference/apimanagement/v20230501preview/" title="apimanagement.azure.com/v20230501preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv20230501preview"><span class="">v20230501preview</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv20240501-li">
+  <a href="/azure-service-operator/reference/apimanagement/v20240501/" title="apimanagement.azure.com/v20240501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv20240501"><span class="">v20240501</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapp-li">
@@ -967,6 +973,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
       <ul>
         <li><a href="#latest-released-versions">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions">Other Supported Versions</a></li>
+        <li><a href="#deprecated-1">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#app">App</a>
@@ -979,7 +986,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
       <ul>
         <li><a href="#latest-released-versions-2">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-2">Other Supported Versions</a></li>
-        <li><a href="#deprecated-1">Deprecated</a></li>
+        <li><a href="#deprecated-2">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#authorization">Authorization</a>
@@ -992,7 +999,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
       <ul>
         <li><a href="#latest-released-versions-4">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-4">Other Supported Versions</a></li>
-        <li><a href="#deprecated-2">Deprecated</a></li>
+        <li><a href="#deprecated-3">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#cache">Cache</a>
@@ -1061,7 +1068,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
         <li><a href="#next-release-1">Next Release</a></li>
         <li><a href="#latest-released-versions-11">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-11">Other Supported Versions</a></li>
-        <li><a href="#deprecated-3">Deprecated</a></li>
+        <li><a href="#deprecated-4">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#dbforpostgresql">DBforPostgreSQL</a>
@@ -1203,7 +1210,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
       <ul>
         <li><a href="#latest-released-versions-26">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-26">Other Supported Versions</a></li>
-        <li><a href="#deprecated-4">Deprecated</a></li>
+        <li><a href="#deprecated-5">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#subscription">Subscription</a>
@@ -1214,13 +1221,13 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     <li><a href="#synapse">Synapse</a>
       <ul>
         <li><a href="#released-16">Released</a></li>
-        <li><a href="#deprecated-5">Deprecated</a></li>
+        <li><a href="#deprecated-6">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#web">Web</a>
       <ul>
         <li><a href="#released-17">Released</a></li>
-        <li><a href="#deprecated-6">Deprecated</a></li>
+        <li><a href="#deprecated-7">Deprecated</a></li>
       </ul>
     </li>
   </ul>
@@ -1325,102 +1332,102 @@ grouped by the originating ARM service.
   </thead>
   <tbody>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Api">Api</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#Api">Api</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_api.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_api.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#ApiVersionSet">ApiVersionSet</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#ApiVersionSet">ApiVersionSet</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_apiversionset.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_apiversionset.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#AuthorizationProvider">AuthorizationProvider</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#AuthorizationProvider">AuthorizationProvider</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovider.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_authorizationprovider.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#AuthorizationProvidersAuthorization">AuthorizationProvidersAuthorization</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#AuthorizationProvidersAuthorization">AuthorizationProvidersAuthorization</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovidersauthorization.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_authorizationprovidersauthorization.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#AuthorizationProvidersAuthorizationsAccessPolicy">AuthorizationProvidersAuthorizationsAccessPolicy</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#AuthorizationProvidersAuthorizationsAccessPolicy">AuthorizationProvidersAuthorizationsAccessPolicy</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovidersauthorizationsaccesspolicy.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_authorizationprovidersauthorizationsaccesspolicy.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Backend">Backend</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#Backend">Backend</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_backend.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_backend.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#NamedValue">NamedValue</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#NamedValue">NamedValue</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_namedvalue.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_namedvalue.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Policy">Policy</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#Policy">Policy</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_policy.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_policy.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#PolicyFragment">PolicyFragment</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#PolicyFragment">PolicyFragment</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_policyfragment.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_policyfragment.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Product">Product</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#Product">Product</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_product.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_product.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#ProductApi">ProductApi</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#ProductApi">ProductApi</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_productapi.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_productapi.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#ProductPolicy">ProductPolicy</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#ProductPolicy">ProductPolicy</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_productpolicy.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_productpolicy.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Service">Service</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#Service">Service</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_service.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_service.yaml">View</a></td>
       </tr>
       <tr>
-          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Subscription">Subscription</a></td>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#Subscription">Subscription</a></td>
           <td>2024-05-01</td>
-          <td>v1api20240501</td>
+          <td>v20240501</td>
           <td>v2.16.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_subscription.yaml">View</a></td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_subscription.yaml">View</a></td>
       </tr>
   </tbody>
 </table>
@@ -1438,6 +1445,224 @@ grouped by the originating ARM service.
   </thead>
   <tbody>
       <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#Api">Api</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_api.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#Api">Api</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_api.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#ApiVersionSet">ApiVersionSet</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_apiversionset.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#ApiVersionSet">ApiVersionSet</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_apiversionset.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#AuthorizationProvider">AuthorizationProvider</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_authorizationprovider.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#AuthorizationProvider">AuthorizationProvider</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_authorizationprovider.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#AuthorizationProvidersAuthorization">AuthorizationProvidersAuthorization</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_authorizationprovidersauthorization.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#AuthorizationProvidersAuthorization">AuthorizationProvidersAuthorization</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_authorizationprovidersauthorization.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#AuthorizationProvidersAuthorizationsAccessPolicy">AuthorizationProvidersAuthorizationsAccessPolicy</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_authorizationprovidersauthorizationsaccesspolicy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#AuthorizationProvidersAuthorizationsAccessPolicy">AuthorizationProvidersAuthorizationsAccessPolicy</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_authorizationprovidersauthorizationsaccesspolicy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#Backend">Backend</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_backend.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#Backend">Backend</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_backend.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#NamedValue">NamedValue</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_namedvalue.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#NamedValue">NamedValue</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_namedvalue.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#Policy">Policy</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_policy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#Policy">Policy</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_policy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#PolicyFragment">PolicyFragment</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_policyfragment.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#PolicyFragment">PolicyFragment</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_policyfragment.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#Product">Product</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_product.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#Product">Product</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_product.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#ProductApi">ProductApi</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_productapi.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#ProductApi">ProductApi</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_productapi.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#ProductPolicy">ProductPolicy</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_productpolicy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#ProductPolicy">ProductPolicy</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_productpolicy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#Service">Service</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_service.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#Service">Service</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_service.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20230501preview/#Subscription">Subscription</a></td>
+          <td>2023-05-01-preview</td>
+          <td>v20230501preview</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20230501preview/v20230501preview_subscription.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20220801/#Subscription">Subscription</a></td>
+          <td>2022-08-01</td>
+          <td>v20220801</td>
+          <td>v2.4.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20220801/v20220801_subscription.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="deprecated-1">Deprecated</h3>
+<p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Api">Api</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_api.yaml">View</a></td>
+      </tr>
+      <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#Api">Api</a></td>
           <td>2023-05-01-preview</td>
           <td>v1api20230501preview</td>
@@ -1450,6 +1675,13 @@ grouped by the originating ARM service.
           <td>v1api20220801</td>
           <td>v2.4.0</td>
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_api.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#ApiVersionSet">ApiVersionSet</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_apiversionset.yaml">View</a></td>
       </tr>
       <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#ApiVersionSet">ApiVersionSet</a></td>
@@ -1466,6 +1698,13 @@ grouped by the originating ARM service.
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_apiversionset.yaml">View</a></td>
       </tr>
       <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#AuthorizationProvider">AuthorizationProvider</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovider.yaml">View</a></td>
+      </tr>
+      <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#AuthorizationProvider">AuthorizationProvider</a></td>
           <td>2023-05-01-preview</td>
           <td>v1api20230501preview</td>
@@ -1478,6 +1717,13 @@ grouped by the originating ARM service.
           <td>v1api20220801</td>
           <td>v2.6.0</td>
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_authorizationprovider.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#AuthorizationProvidersAuthorization">AuthorizationProvidersAuthorization</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovidersauthorization.yaml">View</a></td>
       </tr>
       <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#AuthorizationProvidersAuthorization">AuthorizationProvidersAuthorization</a></td>
@@ -1494,6 +1740,13 @@ grouped by the originating ARM service.
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_authorizationprovidersauthorization.yaml">View</a></td>
       </tr>
       <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#AuthorizationProvidersAuthorizationsAccessPolicy">AuthorizationProvidersAuthorizationsAccessPolicy</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_authorizationprovidersauthorizationsaccesspolicy.yaml">View</a></td>
+      </tr>
+      <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#AuthorizationProvidersAuthorizationsAccessPolicy">AuthorizationProvidersAuthorizationsAccessPolicy</a></td>
           <td>2023-05-01-preview</td>
           <td>v1api20230501preview</td>
@@ -1506,6 +1759,13 @@ grouped by the originating ARM service.
           <td>v1api20220801</td>
           <td>v2.6.0</td>
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_authorizationprovidersauthorizationsaccesspolicy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Backend">Backend</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_backend.yaml">View</a></td>
       </tr>
       <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#Backend">Backend</a></td>
@@ -1522,6 +1782,13 @@ grouped by the originating ARM service.
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_backend.yaml">View</a></td>
       </tr>
       <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#NamedValue">NamedValue</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_namedvalue.yaml">View</a></td>
+      </tr>
+      <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#NamedValue">NamedValue</a></td>
           <td>2023-05-01-preview</td>
           <td>v1api20230501preview</td>
@@ -1534,6 +1801,13 @@ grouped by the originating ARM service.
           <td>v1api20220801</td>
           <td>v2.4.0</td>
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_namedvalue.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Policy">Policy</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_policy.yaml">View</a></td>
       </tr>
       <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#Policy">Policy</a></td>
@@ -1550,6 +1824,13 @@ grouped by the originating ARM service.
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_policy.yaml">View</a></td>
       </tr>
       <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#PolicyFragment">PolicyFragment</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_policyfragment.yaml">View</a></td>
+      </tr>
+      <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#PolicyFragment">PolicyFragment</a></td>
           <td>2023-05-01-preview</td>
           <td>v1api20230501preview</td>
@@ -1562,6 +1843,13 @@ grouped by the originating ARM service.
           <td>v1api20220801</td>
           <td>v2.4.0</td>
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_policyfragment.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Product">Product</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_product.yaml">View</a></td>
       </tr>
       <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#Product">Product</a></td>
@@ -1578,6 +1866,13 @@ grouped by the originating ARM service.
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_product.yaml">View</a></td>
       </tr>
       <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#ProductApi">ProductApi</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_productapi.yaml">View</a></td>
+      </tr>
+      <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#ProductApi">ProductApi</a></td>
           <td>2023-05-01-preview</td>
           <td>v1api20230501preview</td>
@@ -1590,6 +1885,13 @@ grouped by the originating ARM service.
           <td>v1api20220801</td>
           <td>v2.6.0</td>
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_productapi.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#ProductPolicy">ProductPolicy</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_productpolicy.yaml">View</a></td>
       </tr>
       <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#ProductPolicy">ProductPolicy</a></td>
@@ -1606,6 +1908,13 @@ grouped by the originating ARM service.
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_productpolicy.yaml">View</a></td>
       </tr>
       <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Service">Service</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_service.yaml">View</a></td>
+      </tr>
+      <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#Service">Service</a></td>
           <td>2023-05-01-preview</td>
           <td>v1api20230501preview</td>
@@ -1618,6 +1927,13 @@ grouped by the originating ARM service.
           <td>v1api20220801</td>
           <td>v2.4.0</td>
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20220801/v1api20220801_service.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v1api20240501/#Subscription">Subscription</a></td>
+          <td>2024-05-01</td>
+          <td>v1api20240501</td>
+          <td>v2.16.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v1api20240501/v1api20240501_subscription.yaml">View</a></td>
       </tr>
       <tr>
           <td><a href="/azure-service-operator/reference/apimanagement/v1api20230501preview/#Subscription">Subscription</a></td>
@@ -1790,7 +2106,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-1">Deprecated</h3>
+<h3 id="deprecated-2">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -1911,7 +2227,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-2">Deprecated</h3>
+<h3 id="deprecated-3">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -3088,7 +3404,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-3">Deprecated</h3>
+<h3 id="deprecated-4">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -6239,7 +6555,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-4">Deprecated</h3>
+<h3 id="deprecated-5">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -6491,7 +6807,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-5">Deprecated</h3>
+<h3 id="deprecated-6">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -6558,7 +6874,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-6">Deprecated</h3>
+<h3 id="deprecated-7">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>

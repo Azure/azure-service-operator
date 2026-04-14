@@ -647,6 +647,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v20220501/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v20220801/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20220901/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20230101/</loc>
@@ -655,9 +657,13 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/communication/v20230401/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v20230501preview/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20230630/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20231230/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v20240501/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v20240601/</loc>
   </url><url>
