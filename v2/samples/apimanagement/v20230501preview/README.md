@@ -34,14 +34,6 @@ $ az apim deletedservice list --query "[].[name, location]"
 ]
 ```
 
-### Using az rest
-
-If you get an error from `az apim deletedservice list`, an alternative is to use their REST API directly. Fortunately, **az** lets you do this too
-
-``` bash
-az rest --method get --url https://management.azure.com/subscriptions/{subscription}/providers/Microsoft.ApiManagement/deletedservices?api-version=2021-08-01
-```
-
 ## Purging soft-deleted services
 
 ### Using az apim
@@ -55,14 +47,6 @@ az apim deletedservice purge --service-name "asotestqpewjd" --location "eastus"
 Deletion is slow - it can take a few minutes for az to return. After that, give it another 10m or so before rerunning your test.
 
 For more information, see <https://andrewilson.co.uk/post/2022/09/apim-purge-soft-deleted-instance/>
-
-### Using az rest
-
-Similarly, you can use **az** to purge a selected instance via the REST API. Fill in `{subscription}`, `{location}` and `{service-name}` and run this command:
-
-``` bash
-az rest --method delete --url https://management.azure.com/subscriptions/{subscription}/providers/Microsoft.ApiManagement/locations/{location}/deletedservices/{service-name}?api-version=2021-08-01
-```
 
 ## Troubleshooting
 
