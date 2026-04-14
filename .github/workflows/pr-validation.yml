@@ -141,14 +141,14 @@ jobs:
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a // pinned to v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
         with:
           name: test-output
           path: reports/*.json
 
       - name: Save memory monitor log
         if: ${{ always() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a // pinned to v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
         with:
           name: memory-monitor
           path: reports/memory-monitor.log
@@ -162,7 +162,7 @@ jobs:
         if: steps.check-changes.outputs.code-changed == 'true'
 
       - name: Archive outputs
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a // pinned to v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
         with:
           name: output
           path: v2/bin/*
@@ -226,7 +226,7 @@ jobs:
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a // pinned to v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
         with:
           name: test-output
           path: reports/*.json
@@ -284,7 +284,7 @@ jobs:
 
       - name: Save JSON logs on failure
         if: ${{ failure() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a // pinned to v7.0.1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pinned to v7.0.1
         with:
           name: test-output
           path: reports/*.json
