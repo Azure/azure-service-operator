@@ -39,9 +39,9 @@ COPY v2/tools/generator/go.mod v2/tools/generator/go.sum /tmp/mod-download/v2/to
 COPY v2/tools/mangle-test-json/go.mod v2/tools/mangle-test-json/go.sum /tmp/mod-download/v2/tools/mangle-test-json/
 # Now do all the downloads
 ENV GOFLAGS=-modcacherw
-RUN mkdir -p /go/pkg/mod && \
+RUN mkdir -p /go/pkg/mod /go/pkg/sumdb && \
     find /tmp/mod-download -name go.mod -execdir pwd \; -execdir go mod download \; && \
-    chmod -R a+rwX /go/pkg/mod
+    chmod -R a+rwX /go/pkg/mod /go/pkg/sumdb
 
 # Clean up temporary module download directory
 RUN rm -rf /tmp/mod-download
