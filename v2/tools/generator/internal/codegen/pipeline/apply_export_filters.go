@@ -61,16 +61,20 @@ func filterTypes(
 	// Find and apply renames.
 	// If we rename a resource, we use that name for its spec and status as well.
 	renames := make(astmodel.TypeAssociation)
-	addRename := func(name astmodel.InternalTypeName, newName string) {
+	addRename := func(name astmodel.InternalTypeName, newName string) error {
 		if name.Name() == newName {
 			// Nothing to do
-			return
+			return nil
 		}
 
 		n := name.WithName(newName)
-		if _, ok := state.Definitions()[n]; ok {
+		if existing, ok := state.Definitions()[n]; ok {
 			// Can't rename, as we'd create a name collision
-			return
+			return eris.Errorf(
+				"can't rename %s to %s, name is already used by %s",
+				name,
+				newName,
+				existing.Name())
 		}
 
 		renames[name] = n
@@ -78,6 +82,8 @@ func filterTypes(
 		if configuration.ObjectModelConfiguration.IsTypeConfigured(name) {
 			configuration.ObjectModelConfiguration.AddTypeAlias(name, newName)
 		}
+
+		return nil
 	}
 
 	for n, def := range typesToExport {
@@ -89,15 +95,23 @@ func filterTypes(
 		}
 
 		if newName != "" {
-			addRename(n, newName)
+			if err := addRename(n, newName); err != nil {
+				return nil, err
+			}
 
-			// If this is a resource, we also need to rename the spec and status
+			// If this is a resource, we also need to rename the spec and status.
+			// These renames are optional — if there's a collision we log a warning
+			// but don't fail, as the resource rename is the important one.
 			if rt, ok := astmodel.AsResourceType(def.Type()); ok {
 				if spec, ok := astmodel.AsInternalTypeName(rt.SpecType()); ok {
-					addRename(spec, newName+astmodel.SpecSuffix)
+					if err := addRename(spec, newName+astmodel.SpecSuffix); err != nil {
+						log.V(1).Info("Warning: could not rename spec type", "type", spec, "error", err)
+					}
 				}
 				if status, ok := astmodel.AsInternalTypeName(rt.StatusType()); ok {
-					addRename(status, newName+astmodel.StatusSuffix)
+					if err := addRename(status, newName+astmodel.StatusSuffix); err != nil {
+						log.V(1).Info("Warning: could not rename status type", "type", status, "error", err)
+					}
 				}
 			}
 		}
