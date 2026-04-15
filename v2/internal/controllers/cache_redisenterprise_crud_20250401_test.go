@@ -6,25 +6,20 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	"os"
 	"testing"
 
 	. "github.com/onsi/gomega"
 
-	"github.com/google/uuid"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
 	cache20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v20250401"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
-)
-
-const (
-	redisEnterpriseAssignmentObjectIDEnvVar   = "TEST_REDIS_ENTERPRISE_ASSIGNMENT_OBJECT_ID"
-	redisEnterpriseAssignmentObjectIDSentinel = "00000000-0000-0000-0000-000000000000"
 )
 
 func Test_Cache_RedisEnterprise_20250401_CRUD(t *testing.T) {
@@ -96,7 +91,7 @@ func Test_Cache_RedisEnterprise_20250401_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "RedisEnterprise database access policy assignment CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc, &redis)
+				RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc, rg, &redis)
 			},
 		},
 	)
@@ -153,8 +148,26 @@ func RedisEnterprise_Database_20250401_CRUD(tc *testcommon.KubePerTestContext, r
 	tc.Expect(exists).To(BeFalse())
 }
 
-func RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc *testcommon.KubePerTestContext, redis *cache.RedisEnterprise) {
-	assignmentObjectID := getRedisEnterpriseAssignmentObjectID(tc)
+func RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, redis *cache.RedisEnterprise) {
+	configMapName := "identity-settings"
+	principalIdKey := "principalId"
+
+	mi := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
+					PrincipalId: &genruntime.ConfigMapDestination{
+						Name: configMapName,
+						Key:  principalIdKey,
+					},
+				},
+			},
+		},
+	}
+
 	assignmentName := tc.NoSpaceNamer.GenerateName("assign")
 	accessKeysAuthenticationDisabled := cache.DatabaseProperties_AccessKeysAuthentication_Disabled
 
@@ -174,13 +187,18 @@ func RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc *testcommo
 			Owner:            testcommon.AsOwner(&db),
 			AccessPolicyName: to.Ptr("default"),
 			User: &cache20250401.AccessPolicyAssignmentProperties_User{
-				ObjectId: to.Ptr(assignmentObjectID),
+				ObjectIdFromConfig: &genruntime.ConfigMapReference{
+					Name: configMapName,
+					Key:  principalIdKey,
+				},
 			},
 		},
 	}
 
-	tc.CreateResourcesAndWait(&db, &assignment)
+	tc.CreateResourcesAndWait(mi, &db, &assignment)
 	defer tc.DeleteResourceAndWait(&db)
+
+	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
 
 	tc.Expect(db.Status.Id).ToNot(BeNil())
 	tc.Expect(db.Status.AccessKeysAuthentication).ToNot(BeNil())
@@ -191,11 +209,7 @@ func RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc *testcommo
 	tc.Expect(*assignment.Status.AccessPolicyName).To(Equal("default"))
 	tc.Expect(assignment.Status.User).ToNot(BeNil())
 	tc.Expect(assignment.Status.User.ObjectId).ToNot(BeNil())
-	if tc.AzureClientRecorder.IsReplaying() {
-		tc.Expect(*assignment.Status.User.ObjectId).To(Equal(redisEnterpriseAssignmentObjectIDSentinel))
-	} else {
-		tc.Expect(*assignment.Status.User.ObjectId).To(Equal(assignmentObjectID))
-	}
+	tc.Expect(*assignment.Status.User.ObjectId).To(Equal(*mi.Status.PrincipalId))
 	assignmentARMID := *assignment.Status.Id
 
 	tc.DeleteResourceAndWait(&assignment)
@@ -203,28 +217,4 @@ func RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc *testcommo
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
-}
-
-func getRedisEnterpriseAssignmentObjectID(tc *testcommon.KubePerTestContext) string {
-	if tc.AzureClientRecorder.IsReplaying() {
-		return redisEnterpriseAssignmentObjectIDSentinel
-	}
-
-	assignmentObjectID := os.Getenv(redisEnterpriseAssignmentObjectIDEnvVar)
-	if assignmentObjectID == "" {
-		tc.T.Skipf("%s must be set to a real Microsoft Entra object ID when recording this test", redisEnterpriseAssignmentObjectIDEnvVar)
-	}
-
-	parsed, err := uuid.Parse(assignmentObjectID)
-	if err != nil {
-		tc.T.Fatalf("%s must be a valid GUID, got %q: %s", redisEnterpriseAssignmentObjectIDEnvVar, assignmentObjectID, err)
-	}
-
-	if parsed == uuid.Nil {
-		tc.T.Fatalf("%s must not use the placeholder object ID %s", redisEnterpriseAssignmentObjectIDEnvVar, redisEnterpriseAssignmentObjectIDSentinel)
-	}
-
-	tc.WithLiteralRedaction(assignmentObjectID, redisEnterpriseAssignmentObjectIDSentinel)
-
-	return assignmentObjectID
 }
