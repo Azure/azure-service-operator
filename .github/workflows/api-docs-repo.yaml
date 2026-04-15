@@ -22,7 +22,7 @@ jobs:
     
     steps:
       - name: Create token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # pinned to v3.1.1
         id: app-token
         with:
           # required
@@ -35,7 +35,7 @@ jobs:
           ref: main
 
       - name: Create Branch
-        uses: peterjgrainger/action-create-branch@10c7d268152480ae859347db45dc69086cef1d9c # pinned to v3.0.0
+        uses: peterjgrainger/action-create-branch@4b81ce657e255acd677cc6c55c9c763654be3aef # pinned to v4.0.0
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         with:
@@ -49,7 +49,7 @@ jobs:
           submodules: "true"
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # pinned to v4.0.0
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -57,7 +57,7 @@ jobs:
 
       - name: Build devcontainer image
         run: |
-          docker build --cache-from ghcr.io/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
+          docker build --cache-from ghcr.io/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest -f .devcontainer/Dockerfile .
         env:
           DOCKER_BUILDKIT: 1
 
@@ -86,7 +86,7 @@ jobs:
 
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # pinned to v8.1.0
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # pinned to v8.1.1
         with:
           token: ${{ steps.app-token.outputs.token }}
           commit-message: Update API Docs

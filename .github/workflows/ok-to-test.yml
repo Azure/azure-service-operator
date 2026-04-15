@@ -15,7 +15,7 @@ jobs:
     if: ${{ github.event.issue.pull_request }}
     steps:
       - name: Create token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # pinned to v3.1.1
         id: app-token
         with:
           # required
@@ -23,7 +23,7 @@ jobs:
           private-key: ${{ secrets.AUTOMATION_KEY }}
           
       - name: Slash Command Dispatch
-        uses: peter-evans/slash-command-dispatch@v5
+        uses: peter-evans/slash-command-dispatch@9bdcd7914ec1b75590b790b844aa3b8eee7c683a # pinned to v5.0.2
         with:
           token: ${{ steps.app-token.outputs.token }}
           reaction-token: ${{ secrets.GITHUB_TOKEN }}

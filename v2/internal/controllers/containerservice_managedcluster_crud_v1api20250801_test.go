@@ -10,6 +10,8 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	"sigs.k8s.io/controller-runtime/pkg/client"
+
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -182,4 +184,47 @@ func AKS_ManagedCluster_MaintenanceConfiguration_20250801_CRUD(tc *testcommon.Ku
 	tc.PatchResourceAndWait(old, mtcConfiguration)
 	tc.Expect(mtcConfiguration.Status.MaintenanceWindow.DurationHours).ToNot(BeNil())
 	tc.Expect(*mtcConfiguration.Status.MaintenanceWindow.DurationHours).To(Equal(8))
+}
+
+// NewManagedCluster20250801 is a helper function to create a basic ManagedCluster for testing
+// It's used by other tests that need a cluster as a dependency (e.g., kubernetesconfiguration tests)
+func NewManagedCluster20250801(tc *testcommon.KubePerTestContext, rg client.Object, adminUsername string, sshPublicKey *string) *aks.ManagedCluster {
+	cluster := &aks.ManagedCluster{
+		ObjectMeta: tc.MakeObjectMeta("mc"),
+		Spec: aks.ManagedCluster_Spec{
+			Location:  tc.AzureRegion,
+			Owner:     testcommon.AsOwner(rg),
+			DnsPrefix: to.Ptr("aso"),
+			AgentPoolProfiles: []aks.ManagedClusterAgentPoolProfile{
+				{
+					Name:   to.Ptr("ap1"),
+					Count:  to.Ptr(1),
+					VmSize: to.Ptr("Standard_DS2_v2"),
+					OsType: to.Ptr(aks.OSType_Linux),
+					Mode:   to.Ptr(aks.AgentPoolMode_System),
+				},
+			},
+			LinuxProfile: &aks.ContainerServiceLinuxProfile{
+				AdminUsername: &adminUsername,
+				Ssh: &aks.ContainerServiceSshConfiguration{
+					PublicKeys: []aks.ContainerServiceSshPublicKey{
+						{
+							KeyData: sshPublicKey,
+						},
+					},
+				},
+			},
+			Identity: &aks.ManagedClusterIdentity{
+				Type: to.Ptr(aks.ManagedClusterIdentity_Type_SystemAssigned),
+			},
+			NetworkProfile: &aks.ContainerServiceNetworkProfile{
+				NetworkPlugin: to.Ptr(aks.ContainerServiceNetworkProfile_NetworkPlugin_Azure),
+			},
+			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
+				Enabled: to.Ptr(true),
+			},
+		},
+	}
+
+	return cluster
 }

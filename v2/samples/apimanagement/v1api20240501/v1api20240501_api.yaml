@@ -4,12 +4,15 @@ metadata:
   name: sampleapi
   namespace: default
 spec:
+  azureName: sampleapi  # Force a stable name for testing purposes
   apiVersion: "1.0.0"
   apiRevision: "v1"
   apiRevisionDescription: "First Revision"
   apiVersionDescription: "First Version"
   apiVersionSetReference:
-    armId: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.ApiManagement/service/sampleapimservice/apiVersionSets/sampleapiversionset"
+    group: apimanagement.azure.com
+    kind: ApiVersionSet
+    name: sampleapiversionset
   description: "A sample API"
   displayName: "account-api"
   path: "/account-api"

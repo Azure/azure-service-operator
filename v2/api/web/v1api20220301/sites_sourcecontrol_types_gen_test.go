@@ -5,7 +5,8 @@ package v1api20220301
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
+	web_v1api20220301s "github.com/Azure/azure-service-operator/v2/api/web/v1api20220301/storage"
+	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v20220301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForGitHubActionCodeConfiguration(subject GitHubAct
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GitHubActionCodeConfiguration
+	var other web_v1api20220301s.GitHubActionCodeConfiguration
 	err := copied.AssignProperties_To_GitHubActionCodeConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -139,7 +140,7 @@ func RunPropertyAssignmentTestForGitHubActionCodeConfiguration_STATUS(subject Gi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GitHubActionCodeConfiguration_STATUS
+	var other web_v1api20220301s.GitHubActionCodeConfiguration_STATUS
 	err := copied.AssignProperties_To_GitHubActionCodeConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -243,7 +244,7 @@ func RunPropertyAssignmentTestForGitHubActionConfiguration(subject GitHubActionC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GitHubActionConfiguration
+	var other web_v1api20220301s.GitHubActionConfiguration
 	err := copied.AssignProperties_To_GitHubActionConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -362,7 +363,7 @@ func RunPropertyAssignmentTestForGitHubActionConfiguration_STATUS(subject GitHub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GitHubActionConfiguration_STATUS
+	var other web_v1api20220301s.GitHubActionConfiguration_STATUS
 	err := copied.AssignProperties_To_GitHubActionConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -481,7 +482,7 @@ func RunPropertyAssignmentTestForGitHubActionContainerConfiguration(subject GitH
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GitHubActionContainerConfiguration
+	var other web_v1api20220301s.GitHubActionContainerConfiguration
 	err := copied.AssignProperties_To_GitHubActionContainerConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -586,7 +587,7 @@ func RunPropertyAssignmentTestForGitHubActionContainerConfiguration_STATUS(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.GitHubActionContainerConfiguration_STATUS
+	var other web_v1api20220301s.GitHubActionContainerConfiguration_STATUS
 	err := copied.AssignProperties_To_GitHubActionContainerConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -692,7 +693,7 @@ func RunResourceConversionTestForSitesSourcecontrol(subject SitesSourcecontrol) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.SitesSourcecontrol
+	var hub web_v20220301s.SitesSourcecontrol
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -734,7 +735,7 @@ func RunPropertyAssignmentTestForSitesSourcecontrol(subject SitesSourcecontrol) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SitesSourcecontrol
+	var other web_v1api20220301s.SitesSourcecontrol
 	err := copied.AssignProperties_To_SitesSourcecontrol(&other)
 	if err != nil {
 		return err.Error()
@@ -837,7 +838,7 @@ func RunPropertyAssignmentTestForSitesSourcecontrolOperatorSpec(subject SitesSou
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SitesSourcecontrolOperatorSpec
+	var other web_v1api20220301s.SitesSourcecontrolOperatorSpec
 	err := copied.AssignProperties_To_SitesSourcecontrolOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -934,7 +935,7 @@ func RunPropertyAssignmentTestForSitesSourcecontrol_STATUS(subject SitesSourceco
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SitesSourcecontrol_STATUS
+	var other web_v1api20220301s.SitesSourcecontrol_STATUS
 	err := copied.AssignProperties_To_SitesSourcecontrol_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1060,7 +1061,7 @@ func RunPropertyAssignmentTestForSitesSourcecontrol_Spec(subject SitesSourcecont
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SitesSourcecontrol_Spec
+	var other web_v1api20220301s.SitesSourcecontrol_Spec
 	err := copied.AssignProperties_To_SitesSourcecontrol_Spec(&other)
 	if err != nil {
 		return err.Error()

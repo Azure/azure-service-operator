@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &RouteTable{}
 
 // ConvertFrom populates our RouteTable from the provided hub RouteTable
 func (table *RouteTable) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RouteTable)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/RouteTable but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RouteTable
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return table.AssignProperties_From_RouteTable(source)
+	err = table.AssignProperties_From_RouteTable(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to table")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RouteTable from our RouteTable
 func (table *RouteTable) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RouteTable)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/RouteTable but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RouteTable
+	err := table.AssignProperties_To_RouteTable(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from table")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return table.AssignProperties_To_RouteTable(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RouteTable{}

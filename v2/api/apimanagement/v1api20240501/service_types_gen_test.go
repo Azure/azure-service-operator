@@ -5,7 +5,8 @@ package v1api20240501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	apimanagement_v1api20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	apimanagement_v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForAdditionalLocation(subject AdditionalLocation) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AdditionalLocation
+	var other apimanagement_v1api20240501s.AdditionalLocation
 	err := copied.AssignProperties_To_AdditionalLocation(&other)
 	if err != nil {
 		return err.Error()
@@ -155,7 +156,7 @@ func RunPropertyAssignmentTestForAdditionalLocation_STATUS(subject AdditionalLoc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AdditionalLocation_STATUS
+	var other apimanagement_v1api20240501s.AdditionalLocation_STATUS
 	err := copied.AssignProperties_To_AdditionalLocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -287,7 +288,7 @@ func RunPropertyAssignmentTestForApiManagementServiceIdentity(subject ApiManagem
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiManagementServiceIdentity
+	var other apimanagement_v1api20240501s.ApiManagementServiceIdentity
 	err := copied.AssignProperties_To_ApiManagementServiceIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -408,7 +409,7 @@ func RunPropertyAssignmentTestForApiManagementServiceIdentity_STATUS(subject Api
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiManagementServiceIdentity_STATUS
+	var other apimanagement_v1api20240501s.ApiManagementServiceIdentity_STATUS
 	err := copied.AssignProperties_To_ApiManagementServiceIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -533,7 +534,7 @@ func RunPropertyAssignmentTestForApiManagementServiceSkuProperties(subject ApiMa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiManagementServiceSkuProperties
+	var other apimanagement_v1api20240501s.ApiManagementServiceSkuProperties
 	err := copied.AssignProperties_To_ApiManagementServiceSkuProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -645,7 +646,7 @@ func RunPropertyAssignmentTestForApiManagementServiceSkuProperties_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiManagementServiceSkuProperties_STATUS
+	var other apimanagement_v1api20240501s.ApiManagementServiceSkuProperties_STATUS
 	err := copied.AssignProperties_To_ApiManagementServiceSkuProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -757,7 +758,7 @@ func RunPropertyAssignmentTestForApiVersionConstraint(subject ApiVersionConstrai
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiVersionConstraint
+	var other apimanagement_v1api20240501s.ApiVersionConstraint
 	err := copied.AssignProperties_To_ApiVersionConstraint(&other)
 	if err != nil {
 		return err.Error()
@@ -860,7 +861,7 @@ func RunPropertyAssignmentTestForApiVersionConstraint_STATUS(subject ApiVersionC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApiVersionConstraint_STATUS
+	var other apimanagement_v1api20240501s.ApiVersionConstraint_STATUS
 	err := copied.AssignProperties_To_ApiVersionConstraint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -963,7 +964,7 @@ func RunPropertyAssignmentTestForArmIdWrapper_STATUS(subject ArmIdWrapper_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ArmIdWrapper_STATUS
+	var other apimanagement_v1api20240501s.ArmIdWrapper_STATUS
 	err := copied.AssignProperties_To_ArmIdWrapper_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1066,7 +1067,7 @@ func RunPropertyAssignmentTestForCertificateConfiguration(subject CertificateCon
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CertificateConfiguration
+	var other apimanagement_v1api20240501s.CertificateConfiguration
 	err := copied.AssignProperties_To_CertificateConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -1184,7 +1185,7 @@ func RunPropertyAssignmentTestForCertificateConfiguration_STATUS(subject Certifi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CertificateConfiguration_STATUS
+	var other apimanagement_v1api20240501s.CertificateConfiguration_STATUS
 	err := copied.AssignProperties_To_CertificateConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1302,7 +1303,7 @@ func RunPropertyAssignmentTestForCertificateInformation(subject CertificateInfor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CertificateInformation
+	var other apimanagement_v1api20240501s.CertificateInformation
 	err := copied.AssignProperties_To_CertificateInformation(&other)
 	if err != nil {
 		return err.Error()
@@ -1407,7 +1408,7 @@ func RunPropertyAssignmentTestForCertificateInformation_STATUS(subject Certifica
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CertificateInformation_STATUS
+	var other apimanagement_v1api20240501s.CertificateInformation_STATUS
 	err := copied.AssignProperties_To_CertificateInformation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1512,7 +1513,7 @@ func RunPropertyAssignmentTestForConfigurationApi(subject ConfigurationApi) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConfigurationApi
+	var other apimanagement_v1api20240501s.ConfigurationApi
 	err := copied.AssignProperties_To_ConfigurationApi(&other)
 	if err != nil {
 		return err.Error()
@@ -1614,7 +1615,7 @@ func RunPropertyAssignmentTestForConfigurationApi_STATUS(subject ConfigurationAp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ConfigurationApi_STATUS
+	var other apimanagement_v1api20240501s.ConfigurationApi_STATUS
 	err := copied.AssignProperties_To_ConfigurationApi_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1717,7 +1718,7 @@ func RunPropertyAssignmentTestForHostnameConfiguration(subject HostnameConfigura
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HostnameConfiguration
+	var other apimanagement_v1api20240501s.HostnameConfiguration
 	err := copied.AssignProperties_To_HostnameConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -1852,7 +1853,7 @@ func RunPropertyAssignmentTestForHostnameConfiguration_STATUS(subject HostnameCo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HostnameConfiguration_STATUS
+	var other apimanagement_v1api20240501s.HostnameConfiguration_STATUS
 	err := copied.AssignProperties_To_HostnameConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1987,7 +1988,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateLinkServiceConnectionState_STATUS
+	var other apimanagement_v1api20240501s.PrivateLinkServiceConnectionState_STATUS
 	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2092,7 +2093,7 @@ func RunPropertyAssignmentTestForRemotePrivateEndpointConnectionWrapper_STATUS(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RemotePrivateEndpointConnectionWrapper_STATUS
+	var other apimanagement_v1api20240501s.RemotePrivateEndpointConnectionWrapper_STATUS
 	err := copied.AssignProperties_To_RemotePrivateEndpointConnectionWrapper_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2215,7 +2216,7 @@ func RunResourceConversionTestForService(subject Service) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Service
+	var hub apimanagement_v20240501s.Service
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -2257,7 +2258,7 @@ func RunPropertyAssignmentTestForService(subject Service) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Service
+	var other apimanagement_v1api20240501s.Service
 	err := copied.AssignProperties_To_Service(&other)
 	if err != nil {
 		return err.Error()
@@ -2360,7 +2361,7 @@ func RunPropertyAssignmentTestForServiceOperatorSpec(subject ServiceOperatorSpec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServiceOperatorSpec
+	var other apimanagement_v1api20240501s.ServiceOperatorSpec
 	err := copied.AssignProperties_To_ServiceOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -2457,7 +2458,7 @@ func RunPropertyAssignmentTestForService_STATUS(subject Service_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Service_STATUS
+	var other apimanagement_v1api20240501s.Service_STATUS
 	err := copied.AssignProperties_To_Service_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2623,7 +2624,7 @@ func RunPropertyAssignmentTestForService_Spec(subject Service_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Service_Spec
+	var other apimanagement_v1api20240501s.Service_Spec
 	err := copied.AssignProperties_To_Service_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -2766,7 +2767,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other apimanagement_v1api20240501s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2881,7 +2882,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UserAssignedIdentityDetails
+	var other apimanagement_v1api20240501s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -2978,7 +2979,7 @@ func RunPropertyAssignmentTestForUserIdentityProperties_STATUS(subject UserIdent
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UserIdentityProperties_STATUS
+	var other apimanagement_v1api20240501s.UserIdentityProperties_STATUS
 	err := copied.AssignProperties_To_UserIdentityProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3082,7 +3083,7 @@ func RunPropertyAssignmentTestForVirtualNetworkConfiguration(subject VirtualNetw
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkConfiguration
+	var other apimanagement_v1api20240501s.VirtualNetworkConfiguration
 	err := copied.AssignProperties_To_VirtualNetworkConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -3179,7 +3180,7 @@ func RunPropertyAssignmentTestForVirtualNetworkConfiguration_STATUS(subject Virt
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkConfiguration_STATUS
+	var other apimanagement_v1api20240501s.VirtualNetworkConfiguration_STATUS
 	err := copied.AssignProperties_To_VirtualNetworkConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()

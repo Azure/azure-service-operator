@@ -5,8 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
-	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForProductApi(subject ProductApi) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ProductApi
+	var other v20230501ps.ProductApi
 	err := copied.AssignProperties_To_ProductApi(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForProductApiOperatorSpec(subject ProductApiOperat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ProductApiOperatorSpec
+	var other v20230501ps.ProductApiOperatorSpec
 	err := copied.AssignProperties_To_ProductApiOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +279,7 @@ func RunPropertyAssignmentTestForProductApi_STATUS(subject ProductApi_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ProductApi_STATUS
+	var other v20230501ps.ProductApi_STATUS
 	err := copied.AssignProperties_To_ProductApi_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -375,7 +375,7 @@ func RunPropertyAssignmentTestForProductApi_Spec(subject ProductApi_Spec) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.ProductApi_Spec
+	var other v20230501ps.ProductApi_Spec
 	err := copied.AssignProperties_To_ProductApi_Spec(&other)
 	if err != nil {
 		return err.Error()

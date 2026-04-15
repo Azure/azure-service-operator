@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20230630s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20230630/storage"
+	v20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20210501/storage"
 	v20241230s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20241230/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule(subject FlexibleSer
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServersFirewallRule
+	var other v20210501s.FlexibleServersFirewallRule
 	err := copied.AssignProperties_To_FlexibleServersFirewallRule(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRuleOperatorSpec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServersFirewallRuleOperatorSpec
+	var other v20210501s.FlexibleServersFirewallRuleOperatorSpec
 	err := copied.AssignProperties_To_FlexibleServersFirewallRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -280,7 +280,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule_STATUS(subject Flex
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServersFirewallRule_STATUS
+	var other v20210501s.FlexibleServersFirewallRule_STATUS
 	err := copied.AssignProperties_To_FlexibleServersFirewallRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -401,7 +401,7 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule_Spec(subject Flexib
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230630s.FlexibleServersFirewallRule_Spec
+	var other v20210501s.FlexibleServersFirewallRule_Spec
 	err := copied.AssignProperties_To_FlexibleServersFirewallRule_Spec(&other)
 	if err != nil {
 		return err.Error()

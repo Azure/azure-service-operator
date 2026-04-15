@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
@@ -53,22 +52,36 @@ var _ conversion.Convertible = &VirtualNetworksSubnet{}
 
 // ConvertFrom populates our VirtualNetworksSubnet from the provided hub VirtualNetworksSubnet
 func (subnet *VirtualNetworksSubnet) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20240301s.VirtualNetworksSubnet)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/VirtualNetworksSubnet but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20240301s.VirtualNetworksSubnet
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return subnet.AssignProperties_From_VirtualNetworksSubnet(source)
+	err = subnet.AssignProperties_From_VirtualNetworksSubnet(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to subnet")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualNetworksSubnet from our VirtualNetworksSubnet
 func (subnet *VirtualNetworksSubnet) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20240301s.VirtualNetworksSubnet)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/VirtualNetworksSubnet but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20240301s.VirtualNetworksSubnet
+	err := subnet.AssignProperties_To_VirtualNetworksSubnet(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from subnet")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return subnet.AssignProperties_To_VirtualNetworksSubnet(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &VirtualNetworksSubnet{}

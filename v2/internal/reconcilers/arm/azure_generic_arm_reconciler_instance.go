@@ -429,15 +429,29 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 // checkSubscription checks if subscription on resource matches with credentials used while creating a resource.
 // Which prevents users to modify subscription in their credential.
 func (r *azureDeploymentReconcilerInstance) checkSubscription(resourceID string) error {
+	// Some resources like '/providers/Microsoft.Subscription/aliases' do not have subscriptionID,
+	// so we need to make sure subscriptionID exists before we check.
 	parsedRID, err := arm.ParseResourceID(resourceID)
-	// Some resources like '/providers/Microsoft.Subscription/aliases' do not have subscriptionID, so we need to make sure subscriptionID exists before we check.
-	// TODO: we need a better way?
-	if err == nil {
-		if parsedRID.ResourceGroupName != "" && parsedRID.SubscriptionID != r.ARMConnection.SubscriptionID() {
-			err = eris.Errorf("SubscriptionID %q for %q resource does not match with Client Credential: %q", parsedRID.SubscriptionID, resourceID, r.ARMConnection.SubscriptionID())
-			return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonSubscriptionMismatch)
-		}
+	if err != nil {
+		// We never expect the resource ID to be invalid, so return an error here to avoid someone
+		// mangling a resource annotation and bypassing the check
+		err = eris.Wrapf(err, "parsing resource ID %q", resourceID)
+
+		return conditions.NewReadyConditionImpactingError(
+			err, conditions.ConditionSeverityError, conditions.ReasonFailed)
 	}
+
+	if !genruntime.CheckARMIDMatchesSubscription(r.ARMConnection.SubscriptionID(), parsedRID) {
+		err = eris.Errorf(
+			"SubscriptionID %q for %q resource does not match with Client Credential: %q",
+			parsedRID.SubscriptionID,
+			resourceID,
+			r.ARMConnection.SubscriptionID())
+
+		return conditions.NewReadyConditionImpactingError(
+			err, conditions.ConditionSeverityError, conditions.ReasonSubscriptionMismatch)
+	}
+
 	return nil
 }
 

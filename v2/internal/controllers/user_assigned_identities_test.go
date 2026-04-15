@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20210501"
 	managedidentity2018 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"

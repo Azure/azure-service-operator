@@ -51,22 +51,36 @@ var _ conversion.Convertible = &BastionHost{}
 
 // ConvertFrom populates our BastionHost from the provided hub BastionHost
 func (host *BastionHost) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.BastionHost)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/BastionHost but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.BastionHost
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return host.AssignProperties_From_BastionHost(source)
+	err = host.AssignProperties_From_BastionHost(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to host")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub BastionHost from our BastionHost
 func (host *BastionHost) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.BastionHost)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/BastionHost but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.BastionHost
+	err := host.AssignProperties_To_BastionHost(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from host")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return host.AssignProperties_To_BastionHost(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &BastionHost{}
@@ -87,17 +101,6 @@ func (host *BastionHost) SecretDestinationExpressions() []*core.DestinationExpre
 		return nil
 	}
 	return host.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &BastionHost{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (host *BastionHost) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*BastionHost_STATUS); ok {
-		return host.Spec.Initialize_From_BastionHost_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type BastionHost_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &BastionHost{}
@@ -975,136 +978,6 @@ func (host *BastionHost_Spec) AssignProperties_To_BastionHost_Spec(destination *
 	return nil
 }
 
-// Initialize_From_BastionHost_STATUS populates our BastionHost_Spec from the provided source BastionHost_STATUS
-func (host *BastionHost_Spec) Initialize_From_BastionHost_STATUS(source *BastionHost_STATUS) error {
-
-	// DisableCopyPaste
-	if source.DisableCopyPaste != nil {
-		disableCopyPaste := *source.DisableCopyPaste
-		host.DisableCopyPaste = &disableCopyPaste
-	} else {
-		host.DisableCopyPaste = nil
-	}
-
-	// DnsName
-	host.DnsName = genruntime.ClonePointerToString(source.DnsName)
-
-	// EnableFileCopy
-	if source.EnableFileCopy != nil {
-		enableFileCopy := *source.EnableFileCopy
-		host.EnableFileCopy = &enableFileCopy
-	} else {
-		host.EnableFileCopy = nil
-	}
-
-	// EnableIpConnect
-	if source.EnableIpConnect != nil {
-		enableIpConnect := *source.EnableIpConnect
-		host.EnableIpConnect = &enableIpConnect
-	} else {
-		host.EnableIpConnect = nil
-	}
-
-	// EnableKerberos
-	if source.EnableKerberos != nil {
-		enableKerbero := *source.EnableKerberos
-		host.EnableKerberos = &enableKerbero
-	} else {
-		host.EnableKerberos = nil
-	}
-
-	// EnableSessionRecording
-	if source.EnableSessionRecording != nil {
-		enableSessionRecording := *source.EnableSessionRecording
-		host.EnableSessionRecording = &enableSessionRecording
-	} else {
-		host.EnableSessionRecording = nil
-	}
-
-	// EnableShareableLink
-	if source.EnableShareableLink != nil {
-		enableShareableLink := *source.EnableShareableLink
-		host.EnableShareableLink = &enableShareableLink
-	} else {
-		host.EnableShareableLink = nil
-	}
-
-	// EnableTunneling
-	if source.EnableTunneling != nil {
-		enableTunneling := *source.EnableTunneling
-		host.EnableTunneling = &enableTunneling
-	} else {
-		host.EnableTunneling = nil
-	}
-
-	// IpConfigurations
-	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]BastionHostIPConfiguration, len(source.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			var ipConfiguration BastionHostIPConfiguration
-			err := ipConfiguration.Initialize_From_BastionHostIPConfiguration_STATUS(&ipConfigurationItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_BastionHostIPConfiguration_STATUS() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		host.IpConfigurations = ipConfigurationList
-	} else {
-		host.IpConfigurations = nil
-	}
-
-	// Location
-	host.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NetworkAcls
-	if source.NetworkAcls != nil {
-		var networkAcl BastionHostPropertiesFormat_NetworkAcls
-		err := networkAcl.Initialize_From_BastionHostPropertiesFormat_NetworkAcls_STATUS(source.NetworkAcls)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BastionHostPropertiesFormat_NetworkAcls_STATUS() to populate field NetworkAcls")
-		}
-		host.NetworkAcls = &networkAcl
-	} else {
-		host.NetworkAcls = nil
-	}
-
-	// ScaleUnits
-	host.ScaleUnits = genruntime.ClonePointerToInt(source.ScaleUnits)
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		host.Sku = &sku
-	} else {
-		host.Sku = nil
-	}
-
-	// Tags
-	host.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// VirtualNetwork
-	if source.VirtualNetwork != nil {
-		var virtualNetwork SubResource
-		err := virtualNetwork.Initialize_From_SubResource_STATUS(source.VirtualNetwork)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualNetwork")
-		}
-		host.VirtualNetwork = &virtualNetwork
-	} else {
-		host.VirtualNetwork = nil
-	}
-
-	// Zones
-	host.Zones = genruntime.CloneSliceOfString(source.Zones)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (host *BastionHost_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1971,13 +1844,6 @@ func (configuration *BastionHostIPConfiguration) AssignProperties_To_BastionHost
 	return nil
 }
 
-// Initialize_From_BastionHostIPConfiguration_STATUS populates our BastionHostIPConfiguration from the provided source BastionHostIPConfiguration_STATUS
-func (configuration *BastionHostIPConfiguration) Initialize_From_BastionHostIPConfiguration_STATUS(source *BastionHostIPConfiguration_STATUS) error {
-
-	// No error
-	return nil
-}
-
 // IP configuration of an Bastion Host.
 type BastionHostIPConfiguration_STATUS struct {
 	// Id: Resource ID.
@@ -2239,29 +2105,6 @@ func (acls *BastionHostPropertiesFormat_NetworkAcls) AssignProperties_To_Bastion
 	return nil
 }
 
-// Initialize_From_BastionHostPropertiesFormat_NetworkAcls_STATUS populates our BastionHostPropertiesFormat_NetworkAcls from the provided source BastionHostPropertiesFormat_NetworkAcls_STATUS
-func (acls *BastionHostPropertiesFormat_NetworkAcls) Initialize_From_BastionHostPropertiesFormat_NetworkAcls_STATUS(source *BastionHostPropertiesFormat_NetworkAcls_STATUS) error {
-
-	// IpRules
-	if source.IpRules != nil {
-		ipRuleList := make([]IPRule, len(source.IpRules))
-		for ipRuleIndex, ipRuleItem := range source.IpRules {
-			var ipRule IPRule
-			err := ipRule.Initialize_From_IPRule_STATUS(&ipRuleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_IPRule_STATUS() to populate field IpRules")
-			}
-			ipRuleList[ipRuleIndex] = ipRule
-		}
-		acls.IpRules = ipRuleList
-	} else {
-		acls.IpRules = nil
-	}
-
-	// No error
-	return nil
-}
-
 type BastionHostPropertiesFormat_NetworkAcls_STATUS struct {
 	// IpRules: Sets the IP ACL rules for Developer Bastion Host.
 	IpRules []IPRule_STATUS `json:"ipRules,omitempty"`
@@ -2439,21 +2282,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	return nil
 }
 
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The sku of this Bastion Host.
 type Sku_STATUS struct {
 	// Name: The name of the sku of this Bastion Host.
@@ -2594,16 +2422,6 @@ func (rule *IPRule) AssignProperties_To_IPRule(destination *storage.IPRule) erro
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_IPRule_STATUS populates our IPRule from the provided source IPRule_STATUS
-func (rule *IPRule) Initialize_From_IPRule_STATUS(source *IPRule_STATUS) error {
-
-	// AddressPrefix
-	rule.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
 
 	// No error
 	return nil

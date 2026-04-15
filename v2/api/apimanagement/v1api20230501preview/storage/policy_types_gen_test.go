@@ -5,8 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
-	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForPolicy(subject Policy) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.Policy
+	var other v20230501ps.Policy
 	err := copied.AssignProperties_To_Policy(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +182,7 @@ func RunPropertyAssignmentTestForPolicyOperatorSpec(subject PolicyOperatorSpec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.PolicyOperatorSpec
+	var other v20230501ps.PolicyOperatorSpec
 	err := copied.AssignProperties_To_PolicyOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +278,7 @@ func RunPropertyAssignmentTestForPolicy_STATUS(subject Policy_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.Policy_STATUS
+	var other v20230501ps.Policy_STATUS
 	err := copied.AssignProperties_To_Policy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -384,7 +384,7 @@ func RunPropertyAssignmentTestForPolicy_Spec(subject Policy_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.Policy_Spec
+	var other v20230501ps.Policy_Spec
 	err := copied.AssignProperties_To_Policy_Spec(&other)
 	if err != nil {
 		return err.Error()

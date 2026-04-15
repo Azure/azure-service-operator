@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &PrivateEndpoint{}
 
 // ConvertFrom populates our PrivateEndpoint from the provided hub PrivateEndpoint
 func (endpoint *PrivateEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.PrivateEndpoint)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PrivateEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.PrivateEndpoint
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return endpoint.AssignProperties_From_PrivateEndpoint(source)
+	err = endpoint.AssignProperties_From_PrivateEndpoint(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to endpoint")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PrivateEndpoint from our PrivateEndpoint
 func (endpoint *PrivateEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.PrivateEndpoint)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PrivateEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.PrivateEndpoint
+	err := endpoint.AssignProperties_To_PrivateEndpoint(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from endpoint")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return endpoint.AssignProperties_To_PrivateEndpoint(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &PrivateEndpoint{}

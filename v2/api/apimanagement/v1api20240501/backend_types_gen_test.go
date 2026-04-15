@@ -5,7 +5,8 @@ package v1api20240501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	apimanagement_v1api20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	apimanagement_v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForBackend(subject Backend) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Backend
+	var hub apimanagement_v20240501s.Backend
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForBackend(subject Backend) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Backend
+	var other apimanagement_v1api20240501s.Backend
 	err := copied.AssignProperties_To_Backend(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForBackendAuthorizationHeaderCredentials(subject B
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendAuthorizationHeaderCredentials
+	var other apimanagement_v1api20240501s.BackendAuthorizationHeaderCredentials
 	err := copied.AssignProperties_To_BackendAuthorizationHeaderCredentials(&other)
 	if err != nil {
 		return err.Error()
@@ -285,7 +286,7 @@ func RunPropertyAssignmentTestForBackendAuthorizationHeaderCredentials_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendAuthorizationHeaderCredentials_STATUS
+	var other apimanagement_v1api20240501s.BackendAuthorizationHeaderCredentials_STATUS
 	err := copied.AssignProperties_To_BackendAuthorizationHeaderCredentials_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -389,7 +390,7 @@ func RunPropertyAssignmentTestForBackendCircuitBreaker(subject BackendCircuitBre
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendCircuitBreaker
+	var other apimanagement_v1api20240501s.BackendCircuitBreaker
 	err := copied.AssignProperties_To_BackendCircuitBreaker(&other)
 	if err != nil {
 		return err.Error()
@@ -492,7 +493,7 @@ func RunPropertyAssignmentTestForBackendCircuitBreaker_STATUS(subject BackendCir
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendCircuitBreaker_STATUS
+	var other apimanagement_v1api20240501s.BackendCircuitBreaker_STATUS
 	err := copied.AssignProperties_To_BackendCircuitBreaker_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -595,7 +596,7 @@ func RunPropertyAssignmentTestForBackendCredentialsContract(subject BackendCrede
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendCredentialsContract
+	var other apimanagement_v1api20240501s.BackendCredentialsContract
 	err := copied.AssignProperties_To_BackendCredentialsContract(&other)
 	if err != nil {
 		return err.Error()
@@ -719,7 +720,7 @@ func RunPropertyAssignmentTestForBackendCredentialsContract_STATUS(subject Backe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendCredentialsContract_STATUS
+	var other apimanagement_v1api20240501s.BackendCredentialsContract_STATUS
 	err := copied.AssignProperties_To_BackendCredentialsContract_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -843,7 +844,7 @@ func RunPropertyAssignmentTestForBackendOperatorSpec(subject BackendOperatorSpec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendOperatorSpec
+	var other apimanagement_v1api20240501s.BackendOperatorSpec
 	err := copied.AssignProperties_To_BackendOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -940,7 +941,7 @@ func RunPropertyAssignmentTestForBackendPool(subject BackendPool) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendPool
+	var other apimanagement_v1api20240501s.BackendPool
 	err := copied.AssignProperties_To_BackendPool(&other)
 	if err != nil {
 		return err.Error()
@@ -1042,7 +1043,7 @@ func RunPropertyAssignmentTestForBackendPoolItem(subject BackendPoolItem) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendPoolItem
+	var other apimanagement_v1api20240501s.BackendPoolItem
 	err := copied.AssignProperties_To_BackendPoolItem(&other)
 	if err != nil {
 		return err.Error()
@@ -1145,7 +1146,7 @@ func RunPropertyAssignmentTestForBackendPoolItem_STATUS(subject BackendPoolItem_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendPoolItem_STATUS
+	var other apimanagement_v1api20240501s.BackendPoolItem_STATUS
 	err := copied.AssignProperties_To_BackendPoolItem_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1250,7 +1251,7 @@ func RunPropertyAssignmentTestForBackendPool_STATUS(subject BackendPool_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendPool_STATUS
+	var other apimanagement_v1api20240501s.BackendPool_STATUS
 	err := copied.AssignProperties_To_BackendPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1352,7 +1353,7 @@ func RunPropertyAssignmentTestForBackendProperties(subject BackendProperties) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendProperties
+	var other apimanagement_v1api20240501s.BackendProperties
 	err := copied.AssignProperties_To_BackendProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1454,7 +1455,7 @@ func RunPropertyAssignmentTestForBackendProperties_STATUS(subject BackendPropert
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendProperties_STATUS
+	var other apimanagement_v1api20240501s.BackendProperties_STATUS
 	err := copied.AssignProperties_To_BackendProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1557,7 +1558,7 @@ func RunPropertyAssignmentTestForBackendProxyContract(subject BackendProxyContra
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendProxyContract
+	var other apimanagement_v1api20240501s.BackendProxyContract
 	err := copied.AssignProperties_To_BackendProxyContract(&other)
 	if err != nil {
 		return err.Error()
@@ -1661,7 +1662,7 @@ func RunPropertyAssignmentTestForBackendProxyContract_STATUS(subject BackendProx
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendProxyContract_STATUS
+	var other apimanagement_v1api20240501s.BackendProxyContract_STATUS
 	err := copied.AssignProperties_To_BackendProxyContract_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1765,7 +1766,7 @@ func RunPropertyAssignmentTestForBackendServiceFabricClusterProperties(subject B
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendServiceFabricClusterProperties
+	var other apimanagement_v1api20240501s.BackendServiceFabricClusterProperties
 	err := copied.AssignProperties_To_BackendServiceFabricClusterProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -1886,7 +1887,7 @@ func RunPropertyAssignmentTestForBackendServiceFabricClusterProperties_STATUS(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendServiceFabricClusterProperties_STATUS
+	var other apimanagement_v1api20240501s.BackendServiceFabricClusterProperties_STATUS
 	err := copied.AssignProperties_To_BackendServiceFabricClusterProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2007,7 +2008,7 @@ func RunPropertyAssignmentTestForBackendTlsProperties(subject BackendTlsProperti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendTlsProperties
+	var other apimanagement_v1api20240501s.BackendTlsProperties
 	err := copied.AssignProperties_To_BackendTlsProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -2111,7 +2112,7 @@ func RunPropertyAssignmentTestForBackendTlsProperties_STATUS(subject BackendTlsP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendTlsProperties_STATUS
+	var other apimanagement_v1api20240501s.BackendTlsProperties_STATUS
 	err := copied.AssignProperties_To_BackendTlsProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2215,7 +2216,7 @@ func RunPropertyAssignmentTestForBackend_STATUS(subject Backend_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Backend_STATUS
+	var other apimanagement_v1api20240501s.Backend_STATUS
 	err := copied.AssignProperties_To_Backend_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2344,7 +2345,7 @@ func RunPropertyAssignmentTestForBackend_Spec(subject Backend_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Backend_Spec
+	var other apimanagement_v1api20240501s.Backend_Spec
 	err := copied.AssignProperties_To_Backend_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -2471,7 +2472,7 @@ func RunPropertyAssignmentTestForCircuitBreakerFailureCondition(subject CircuitB
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CircuitBreakerFailureCondition
+	var other apimanagement_v1api20240501s.CircuitBreakerFailureCondition
 	err := copied.AssignProperties_To_CircuitBreakerFailureCondition(&other)
 	if err != nil {
 		return err.Error()
@@ -2593,7 +2594,7 @@ func RunPropertyAssignmentTestForCircuitBreakerFailureCondition_STATUS(subject C
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CircuitBreakerFailureCondition_STATUS
+	var other apimanagement_v1api20240501s.CircuitBreakerFailureCondition_STATUS
 	err := copied.AssignProperties_To_CircuitBreakerFailureCondition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2715,7 +2716,7 @@ func RunPropertyAssignmentTestForCircuitBreakerRule(subject CircuitBreakerRule) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CircuitBreakerRule
+	var other apimanagement_v1api20240501s.CircuitBreakerRule
 	err := copied.AssignProperties_To_CircuitBreakerRule(&other)
 	if err != nil {
 		return err.Error()
@@ -2833,7 +2834,7 @@ func RunPropertyAssignmentTestForCircuitBreakerRule_STATUS(subject CircuitBreake
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CircuitBreakerRule_STATUS
+	var other apimanagement_v1api20240501s.CircuitBreakerRule_STATUS
 	err := copied.AssignProperties_To_CircuitBreakerRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2952,7 +2953,7 @@ func RunPropertyAssignmentTestForFailureStatusCodeRange(subject FailureStatusCod
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FailureStatusCodeRange
+	var other apimanagement_v1api20240501s.FailureStatusCodeRange
 	err := copied.AssignProperties_To_FailureStatusCodeRange(&other)
 	if err != nil {
 		return err.Error()
@@ -3056,7 +3057,7 @@ func RunPropertyAssignmentTestForFailureStatusCodeRange_STATUS(subject FailureSt
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FailureStatusCodeRange_STATUS
+	var other apimanagement_v1api20240501s.FailureStatusCodeRange_STATUS
 	err := copied.AssignProperties_To_FailureStatusCodeRange_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -3160,7 +3161,7 @@ func RunPropertyAssignmentTestForX509CertificateName(subject X509CertificateName
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.X509CertificateName
+	var other apimanagement_v1api20240501s.X509CertificateName
 	err := copied.AssignProperties_To_X509CertificateName(&other)
 	if err != nil {
 		return err.Error()
@@ -3264,7 +3265,7 @@ func RunPropertyAssignmentTestForX509CertificateName_STATUS(subject X509Certific
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.X509CertificateName_STATUS
+	var other apimanagement_v1api20240501s.X509CertificateName_STATUS
 	err := copied.AssignProperties_To_X509CertificateName_STATUS(&other)
 	if err != nil {
 		return err.Error()

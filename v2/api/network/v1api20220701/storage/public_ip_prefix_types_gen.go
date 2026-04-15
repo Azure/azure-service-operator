@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -52,22 +51,36 @@ var _ conversion.Convertible = &PublicIPPrefix{}
 
 // ConvertFrom populates our PublicIPPrefix from the provided hub PublicIPPrefix
 func (prefix *PublicIPPrefix) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20240301s.PublicIPPrefix)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PublicIPPrefix but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20240301s.PublicIPPrefix
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return prefix.AssignProperties_From_PublicIPPrefix(source)
+	err = prefix.AssignProperties_From_PublicIPPrefix(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to prefix")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PublicIPPrefix from our PublicIPPrefix
 func (prefix *PublicIPPrefix) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20240301s.PublicIPPrefix)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PublicIPPrefix but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20240301s.PublicIPPrefix
+	err := prefix.AssignProperties_To_PublicIPPrefix(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from prefix")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return prefix.AssignProperties_To_PublicIPPrefix(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &PublicIPPrefix{}

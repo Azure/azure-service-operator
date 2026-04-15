@@ -5,8 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	v20220801s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
-	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	v20230501ps "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +36,7 @@ func RunPropertyAssignmentTestForAuthorizationError_STATUS(subject Authorization
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.AuthorizationError_STATUS
+	var other v20230501ps.AuthorizationError_STATUS
 	err := copied.AssignProperties_To_AuthorizationError_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForAuthorizationProvidersAuthorization(subject Aut
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.AuthorizationProvidersAuthorization
+	var other v20230501ps.AuthorizationProvidersAuthorization
 	err := copied.AssignProperties_To_AuthorizationProvidersAuthorization(&other)
 	if err != nil {
 		return err.Error()
@@ -287,7 +287,7 @@ func RunPropertyAssignmentTestForAuthorizationProvidersAuthorizationOperatorSpec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.AuthorizationProvidersAuthorizationOperatorSpec
+	var other v20230501ps.AuthorizationProvidersAuthorizationOperatorSpec
 	err := copied.AssignProperties_To_AuthorizationProvidersAuthorizationOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -384,7 +384,7 @@ func RunPropertyAssignmentTestForAuthorizationProvidersAuthorization_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.AuthorizationProvidersAuthorization_STATUS
+	var other v20230501ps.AuthorizationProvidersAuthorization_STATUS
 	err := copied.AssignProperties_To_AuthorizationProvidersAuthorization_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -509,7 +509,7 @@ func RunPropertyAssignmentTestForAuthorizationProvidersAuthorization_Spec(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220801s.AuthorizationProvidersAuthorization_Spec
+	var other v20230501ps.AuthorizationProvidersAuthorization_Spec
 	err := copied.AssignProperties_To_AuthorizationProvidersAuthorization_Spec(&other)
 	if err != nil {
 		return err.Error()
