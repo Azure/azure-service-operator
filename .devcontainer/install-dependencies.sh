@@ -250,18 +250,18 @@ if should-install "$TOOL_DEST/task"; then
 fi
 
 # Install Trivy
-#doc# | Trivy | v0.67.2 | https://trivy.dev/ |
-# write-verbose "Checking for $TOOL_DEST/trivy"
-# if should-install "$TOOL_DEST/trivy"; then
-#     write-info "Installing trivy"
-#     # These guys decided to use different naming conventions for os(go env GOOS) and arch(go env GOARCH) despite trivy is 98.6% written in Go
-#     # This fixes macos arm64 architechture. Every other os/arch is named differently. Consider adding a workaround of your own ¯\_(ツ)_/¯
-#     if [[ ${os} == "darwin" ]] && [[ ${arch} == "arm64" ]]; then
-#         curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.67.2/trivy_0.67.2_macOS-ARM64.tar.gz" | tar xz -C "$TOOL_DEST" trivy
-#     else
-#         curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.67.2/trivy_0.67.2_Linux-64bit.tar.gz" | tar xz -C "$TOOL_DEST" trivy
-#     fi
-# fi
+#doc# | Trivy | v0.69.3 | https://trivy.dev/ |
+write-verbose "Checking for $TOOL_DEST/trivy"
+if should-install "$TOOL_DEST/trivy"; then
+    write-info "Installing trivy"
+    # These guys decided to use different naming conventions for os(go env GOOS) and arch(go env GOARCH) despite trivy is 98.6% written in Go
+    # This fixes macos arm64 architechture. Every other os/arch is named differently. Consider adding a workaround of your own ¯\_(ツ)_/¯
+    if [[ ${os} == "darwin" ]] && [[ ${arch} == "arm64" ]]; then
+        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.69.3/trivy_0.69.3_macOS-ARM64.tar.gz" | tar xz -C "$TOOL_DEST" trivy
+    else
+        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.69.3/trivy_0.69.3_Linux-64bit.tar.gz" | tar xz -C "$TOOL_DEST" trivy
+    fi
+fi
 
 # Install helm
 #doc# | Helm | v3.19.0 | https://helm.sh/ |
