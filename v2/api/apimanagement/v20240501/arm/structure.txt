@@ -595,48 +595,6 @@ Certificate_Spec: Object (2 properties)
     │   └── SecretIdentifier: *string
     └── Password: *string
 
-GatewayApi_STATUS: Object (0 properties)
-
-GatewayApi_Spec: Object (2 properties)
-├── Name: string
-└── Properties: *Object (1 property)
-    └── ProvisioningState: *Enum (1 value)
-        └── "created"
-
-GatewayCertificateAuthority_STATUS: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (1 property)
-│   └── IsTrusted: *bool
-└── Type: *string
-
-GatewayCertificateAuthority_Spec: Object (2 properties)
-├── Name: string
-└── Properties: *Object (1 property)
-    └── IsTrusted: *bool
-
-GatewayHostnameConfiguration_STATUS: Object (4 properties)
-├── Id: *string
-├── Name: *string
-├── Properties: *Object (6 properties)
-│   ├── CertificateId: *string
-│   ├── Hostname: *string
-│   ├── Http2Enabled: *bool
-│   ├── NegotiateClientCertificate: *bool
-│   ├── Tls10Enabled: *bool
-│   └── Tls11Enabled: *bool
-└── Type: *string
-
-GatewayHostnameConfiguration_Spec: Object (2 properties)
-├── Name: string
-└── Properties: *Object (6 properties)
-    ├── CertificateId: *string
-    ├── Hostname: *string
-    ├── Http2Enabled: *bool
-    ├── NegotiateClientCertificate: *bool
-    ├── Tls10Enabled: *bool
-    └── Tls11Enabled: *bool
-
 Group_STATUS: Object (4 properties)
 ├── Id: *string
 ├── Name: *string
@@ -815,7 +773,49 @@ Product_Spec: Object (2 properties)
     ├── SubscriptionsLimit: *int
     └── Terms: *string
 
-Service_Gateway_STATUS: Object (4 properties)
+ServiceGatewayApi_STATUS: Object (0 properties)
+
+ServiceGatewayApi_Spec: Object (2 properties)
+├── Name: string
+└── Properties: *Object (1 property)
+    └── ProvisioningState: *Enum (1 value)
+        └── "created"
+
+ServiceGatewayCertificateAuthority_STATUS: Object (4 properties)
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (1 property)
+│   └── IsTrusted: *bool
+└── Type: *string
+
+ServiceGatewayCertificateAuthority_Spec: Object (2 properties)
+├── Name: string
+└── Properties: *Object (1 property)
+    └── IsTrusted: *bool
+
+ServiceGatewayHostnameConfiguration_STATUS: Object (4 properties)
+├── Id: *string
+├── Name: *string
+├── Properties: *Object (6 properties)
+│   ├── CertificateId: *string
+│   ├── Hostname: *string
+│   ├── Http2Enabled: *bool
+│   ├── NegotiateClientCertificate: *bool
+│   ├── Tls10Enabled: *bool
+│   └── Tls11Enabled: *bool
+└── Type: *string
+
+ServiceGatewayHostnameConfiguration_Spec: Object (2 properties)
+├── Name: string
+└── Properties: *Object (6 properties)
+    ├── CertificateId: *string
+    ├── Hostname: *string
+    ├── Http2Enabled: *bool
+    ├── NegotiateClientCertificate: *bool
+    ├── Tls10Enabled: *bool
+    └── Tls11Enabled: *bool
+
+ServiceGateway_STATUS: Object (4 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (2 properties)
@@ -827,7 +827,7 @@ Service_Gateway_STATUS: Object (4 properties)
 │       └── Name: *string
 └── Type: *string
 
-Service_Gateway_Spec: Object (2 properties)
+ServiceGateway_Spec: Object (2 properties)
 ├── Name: string
 └── Properties: *Object (2 properties)
     ├── Description: *string

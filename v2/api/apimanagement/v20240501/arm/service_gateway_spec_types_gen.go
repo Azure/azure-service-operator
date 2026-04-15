@@ -5,27 +5,27 @@ package arm
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type Service_Gateway_Spec struct {
+type ServiceGateway_Spec struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: Gateway details.
 	Properties *GatewayContractProperties `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &Service_Gateway_Spec{}
+var _ genruntime.ARMResourceSpec = &ServiceGateway_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-05-01"
-func (gateway Service_Gateway_Spec) GetAPIVersion() string {
+func (gateway ServiceGateway_Spec) GetAPIVersion() string {
 	return "2024-05-01"
 }
 
 // GetName returns the Name of the resource
-func (gateway *Service_Gateway_Spec) GetName() string {
+func (gateway *ServiceGateway_Spec) GetName() string {
 	return gateway.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/gateways"
-func (gateway *Service_Gateway_Spec) GetType() string {
+func (gateway *ServiceGateway_Spec) GetType() string {
 	return "Microsoft.ApiManagement/service/gateways"
 }
 

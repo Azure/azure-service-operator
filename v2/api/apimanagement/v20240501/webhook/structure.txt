@@ -19,12 +19,6 @@ Backend: Object (0 properties)
 
 Certificate: Object (0 properties)
 
-GatewayApi: Object (0 properties)
-
-GatewayCertificateAuthority: Object (0 properties)
-
-GatewayHostnameConfiguration: Object (0 properties)
-
 Group: Object (0 properties)
 
 Logger: Object (0 properties)
@@ -43,7 +37,13 @@ ProductPolicy: Object (0 properties)
 
 Service: Object (0 properties)
 
-Service_Gateway: Object (0 properties)
+ServiceGateway: Object (0 properties)
+
+ServiceGatewayApi: Object (0 properties)
+
+ServiceGatewayCertificateAuthority: Object (0 properties)
+
+ServiceGatewayHostnameConfiguration: Object (0 properties)
 
 Subscription: Object (0 properties)
 

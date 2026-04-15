@@ -268,9 +268,6 @@ func Logger_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLogger_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogger_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Credentials"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["IsBuffered"] = gen.PtrOf(gen.Bool())
 	gens["LoggerType"] = gen.PtrOf(gen.AlphaString())

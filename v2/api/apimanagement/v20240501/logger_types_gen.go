@@ -256,7 +256,7 @@ type Logger_Spec struct {
 
 	// Credentials: The name and SendRule connection string of the event hub for azureEventHub logger.
 	// Instrumentation key for applicationInsights logger.
-	Credentials map[string]string `json:"credentials,omitempty"`
+	Credentials *genruntime.SecretMapReference `json:"credentials,omitempty"`
 
 	// +kubebuilder:validation:MaxLength=256
 	// Description: Logger description.
@@ -305,10 +305,13 @@ func (logger *Logger_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.Properties = &arm.LoggerContractProperties{}
 	}
 	if logger.Credentials != nil {
-		result.Properties.Credentials = make(map[string]string, len(logger.Credentials))
-		for key, value := range logger.Credentials {
-			result.Properties.Credentials[key] = value
+		var temp map[string]string
+		tempSecret, err := resolved.ResolvedSecretMaps.Lookup(*logger.Credentials)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up secret for property temp")
 		}
+		temp = tempSecret
+		result.Properties.Credentials = temp
 	}
 	if logger.Description != nil {
 		description := *logger.Description
@@ -350,16 +353,7 @@ func (logger *Logger_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// Set property "AzureName":
 	logger.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property "Credentials":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Credentials != nil {
-			logger.Credentials = make(map[string]string, len(typedInput.Properties.Credentials))
-			for key, value := range typedInput.Properties.Credentials {
-				logger.Credentials[key] = value
-			}
-		}
-	}
+	// no assignment for property "Credentials"
 
 	// Set property "Description":
 	// copying flattened property:
@@ -461,7 +455,12 @@ func (logger *Logger_Spec) AssignProperties_From_Logger_Spec(source *storage.Log
 	logger.AzureName = source.AzureName
 
 	// Credentials
-	logger.Credentials = genruntime.CloneMapOfStringToString(source.Credentials)
+	if source.Credentials != nil {
+		credential := source.Credentials.Copy()
+		logger.Credentials = &credential
+	} else {
+		logger.Credentials = nil
+	}
 
 	// Description
 	logger.Description = genruntime.ClonePointerToString(source.Description)
@@ -524,7 +523,12 @@ func (logger *Logger_Spec) AssignProperties_To_Logger_Spec(destination *storage.
 	destination.AzureName = logger.AzureName
 
 	// Credentials
-	destination.Credentials = genruntime.CloneMapOfStringToString(logger.Credentials)
+	if logger.Credentials != nil {
+		credential := logger.Credentials.Copy()
+		destination.Credentials = &credential
+	} else {
+		destination.Credentials = nil
+	}
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(logger.Description)
@@ -589,9 +593,6 @@ func (logger *Logger_Spec) AssignProperties_To_Logger_Spec(destination *storage.
 
 // Initialize_From_Logger_STATUS populates our Logger_Spec from the provided source Logger_STATUS
 func (logger *Logger_Spec) Initialize_From_Logger_STATUS(source *Logger_STATUS) error {
-
-	// Credentials
-	logger.Credentials = genruntime.CloneMapOfStringToString(source.Credentials)
 
 	// Description
 	logger.Description = genruntime.ClonePointerToString(source.Description)

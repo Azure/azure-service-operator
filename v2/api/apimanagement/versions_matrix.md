@@ -160,21 +160,12 @@
 | DiagnosticContractProperties_Verbosity_STATUS                |               |                      |               |           |                  | v20240501 |
 | FailureStatusCodeRange                                       |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | FailureStatusCodeRange_STATUS                                |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
-| GatewayApi                                                   |               |                      |               |           |                  | v20240501 |
-| GatewayApi_STATUS                                            |               |                      |               |           |                  | v20240501 |
-| GatewayApi_Spec                                              |               |                      |               |           |                  | v20240501 |
-| GatewayCertificateAuthority                                  |               |                      |               |           |                  | v20240501 |
 | GatewayCertificateAuthorityContractProperties                |               |                      |               |           |                  | v20240501 |
 | GatewayCertificateAuthorityContractProperties_STATUS         |               |                      |               |           |                  | v20240501 |
-| GatewayCertificateAuthority_STATUS                           |               |                      |               |           |                  | v20240501 |
-| GatewayCertificateAuthority_Spec                             |               |                      |               |           |                  | v20240501 |
 | GatewayContractProperties                                    |               |                      |               |           |                  | v20240501 |
 | GatewayContractProperties_STATUS                             |               |                      |               |           |                  | v20240501 |
-| GatewayHostnameConfiguration                                 |               |                      |               |           |                  | v20240501 |
 | GatewayHostnameConfigurationContractProperties               |               |                      |               |           |                  | v20240501 |
 | GatewayHostnameConfigurationContractProperties_STATUS        |               |                      |               |           |                  | v20240501 |
-| GatewayHostnameConfiguration_STATUS                          |               |                      |               |           |                  | v20240501 |
-| GatewayHostnameConfiguration_Spec                            |               |                      |               |           |                  | v20240501 |
 | Group                                                        |               |                      |               |           |                  | v20240501 |
 | GroupContractProperties_STATUS                               |               |                      |               |           |                  | v20240501 |
 | GroupContractProperties_Type_STATUS                          |               |                      |               |           |                  | v20240501 |
@@ -251,10 +242,19 @@
 | SamplingSettings_SamplingType                                |               |                      |               |           |                  | v20240501 |
 | SamplingSettings_SamplingType_STATUS                         |               |                      |               |           |                  | v20240501 |
 | Service                                                      | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| ServiceGateway                                               |               |                      |               |           |                  | v20240501 |
+| ServiceGatewayApi                                            |               |                      |               |           |                  | v20240501 |
+| ServiceGatewayApi_STATUS                                     |               |                      |               |           |                  | v20240501 |
+| ServiceGatewayApi_Spec                                       |               |                      |               |           |                  | v20240501 |
+| ServiceGatewayCertificateAuthority                           |               |                      |               |           |                  | v20240501 |
+| ServiceGatewayCertificateAuthority_STATUS                    |               |                      |               |           |                  | v20240501 |
+| ServiceGatewayCertificateAuthority_Spec                      |               |                      |               |           |                  | v20240501 |
+| ServiceGatewayHostnameConfiguration                          |               |                      |               |           |                  | v20240501 |
+| ServiceGatewayHostnameConfiguration_STATUS                   |               |                      |               |           |                  | v20240501 |
+| ServiceGatewayHostnameConfiguration_Spec                     |               |                      |               |           |                  | v20240501 |
+| ServiceGateway_STATUS                                        |               |                      |               |           |                  | v20240501 |
+| ServiceGateway_Spec                                          |               |                      |               |           |                  | v20240501 |
 | Service_Apis_Policy_Name_Spec                                |               |                      |               |           |                  | v20240501 |
-| Service_Gateway                                              |               |                      |               |           |                  | v20240501 |
-| Service_Gateway_STATUS                                       |               |                      |               |           |                  | v20240501 |
-| Service_Gateway_Spec                                         |               |                      |               |           |                  | v20240501 |
 | Service_Gateways_Api_Properties_ProvisioningState_Spec       |               |                      |               |           |                  | v20240501 |
 | Service_Gateways_Api_Properties_Spec                         |               |                      |               |           |                  | v20240501 |
 | Service_Policy_Name_Spec                                     | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |

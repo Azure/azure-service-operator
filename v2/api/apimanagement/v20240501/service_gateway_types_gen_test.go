@@ -230,32 +230,32 @@ func AddIndependentPropertyGeneratorsForResourceLocationDataContract_STATUS(gens
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Service_Gateway_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ServiceGateway_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Service_Gateway to hub returns original",
-		prop.ForAll(RunResourceConversionTestForService_Gateway, Service_GatewayGenerator()))
+		"Round trip from ServiceGateway to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServiceGateway, ServiceGatewayGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunResourceConversionTestForService_Gateway tests if a specific instance of Service_Gateway round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForService_Gateway(subject Service_Gateway) string {
+// RunResourceConversionTestForServiceGateway tests if a specific instance of ServiceGateway round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServiceGateway(subject ServiceGateway) string {
 	// Copy subject to make sure conversion doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Service_Gateway
+	var hub storage.ServiceGateway
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Convert from our hub version
-	var actual Service_Gateway
+	var actual ServiceGateway
 	err = actual.ConvertFrom(&hub)
 	if err != nil {
 		return err.Error()
@@ -273,32 +273,32 @@ func RunResourceConversionTestForService_Gateway(subject Service_Gateway) string
 	return ""
 }
 
-func Test_Service_Gateway_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ServiceGateway_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Service_Gateway to Service_Gateway via AssignProperties_To_Service_Gateway & AssignProperties_From_Service_Gateway returns original",
-		prop.ForAll(RunPropertyAssignmentTestForService_Gateway, Service_GatewayGenerator()))
+		"Round trip from ServiceGateway to ServiceGateway via AssignProperties_To_ServiceGateway & AssignProperties_From_ServiceGateway returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceGateway, ServiceGatewayGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Gateway tests if a specific instance of Service_Gateway can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForService_Gateway(subject Service_Gateway) string {
+// RunPropertyAssignmentTestForServiceGateway tests if a specific instance of ServiceGateway can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServiceGateway(subject ServiceGateway) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Service_Gateway
-	err := copied.AssignProperties_To_Service_Gateway(&other)
+	var other storage.ServiceGateway
+	err := copied.AssignProperties_To_ServiceGateway(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Service_Gateway
-	err = actual.AssignProperties_From_Service_Gateway(&other)
+	var actual ServiceGateway
+	err = actual.AssignProperties_From_ServiceGateway(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -315,20 +315,20 @@ func RunPropertyAssignmentTestForService_Gateway(subject Service_Gateway) string
 	return ""
 }
 
-func Test_Service_Gateway_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServiceGateway_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_Gateway via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Gateway, Service_GatewayGenerator()))
+		"Round trip of ServiceGateway via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceGateway, ServiceGatewayGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_Gateway runs a test to see if a specific instance of Service_Gateway round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Gateway(subject Service_Gateway) string {
+// RunJSONSerializationTestForServiceGateway runs a test to see if a specific instance of ServiceGateway round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceGateway(subject ServiceGateway) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -336,7 +336,7 @@ func RunJSONSerializationTestForService_Gateway(subject Service_Gateway) string 
 	}
 
 	// Deserialize back into memory
-	var actual Service_Gateway
+	var actual ServiceGateway
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -354,54 +354,54 @@ func RunJSONSerializationTestForService_Gateway(subject Service_Gateway) string 
 	return ""
 }
 
-// Generator of Service_Gateway instances for property testing - lazily instantiated by Service_GatewayGenerator()
-var service_GatewayGenerator gopter.Gen
+// Generator of ServiceGateway instances for property testing - lazily instantiated by ServiceGatewayGenerator()
+var serviceGatewayGenerator gopter.Gen
 
-// Service_GatewayGenerator returns a generator of Service_Gateway instances for property testing.
-func Service_GatewayGenerator() gopter.Gen {
-	if service_GatewayGenerator != nil {
-		return service_GatewayGenerator
+// ServiceGatewayGenerator returns a generator of ServiceGateway instances for property testing.
+func ServiceGatewayGenerator() gopter.Gen {
+	if serviceGatewayGenerator != nil {
+		return serviceGatewayGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForService_Gateway(generators)
-	service_GatewayGenerator = gen.Struct(reflect.TypeOf(Service_Gateway{}), generators)
+	AddRelatedPropertyGeneratorsForServiceGateway(generators)
+	serviceGatewayGenerator = gen.Struct(reflect.TypeOf(ServiceGateway{}), generators)
 
-	return service_GatewayGenerator
+	return serviceGatewayGenerator
 }
 
-// AddRelatedPropertyGeneratorsForService_Gateway is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_Gateway(gens map[string]gopter.Gen) {
-	gens["Spec"] = Service_Gateway_SpecGenerator()
-	gens["Status"] = Service_Gateway_STATUSGenerator()
+// AddRelatedPropertyGeneratorsForServiceGateway is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServiceGateway(gens map[string]gopter.Gen) {
+	gens["Spec"] = ServiceGateway_SpecGenerator()
+	gens["Status"] = ServiceGateway_STATUSGenerator()
 }
 
-func Test_Service_GatewayOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ServiceGatewayOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Service_GatewayOperatorSecrets to Service_GatewayOperatorSecrets via AssignProperties_To_Service_GatewayOperatorSecrets & AssignProperties_From_Service_GatewayOperatorSecrets returns original",
-		prop.ForAll(RunPropertyAssignmentTestForService_GatewayOperatorSecrets, Service_GatewayOperatorSecretsGenerator()))
+		"Round trip from ServiceGatewayOperatorSecrets to ServiceGatewayOperatorSecrets via AssignProperties_To_ServiceGatewayOperatorSecrets & AssignProperties_From_ServiceGatewayOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceGatewayOperatorSecrets, ServiceGatewayOperatorSecretsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_GatewayOperatorSecrets tests if a specific instance of Service_GatewayOperatorSecrets can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForService_GatewayOperatorSecrets(subject Service_GatewayOperatorSecrets) string {
+// RunPropertyAssignmentTestForServiceGatewayOperatorSecrets tests if a specific instance of ServiceGatewayOperatorSecrets can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServiceGatewayOperatorSecrets(subject ServiceGatewayOperatorSecrets) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Service_GatewayOperatorSecrets
-	err := copied.AssignProperties_To_Service_GatewayOperatorSecrets(&other)
+	var other storage.ServiceGatewayOperatorSecrets
+	err := copied.AssignProperties_To_ServiceGatewayOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Service_GatewayOperatorSecrets
-	err = actual.AssignProperties_From_Service_GatewayOperatorSecrets(&other)
+	var actual ServiceGatewayOperatorSecrets
+	err = actual.AssignProperties_From_ServiceGatewayOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -418,20 +418,20 @@ func RunPropertyAssignmentTestForService_GatewayOperatorSecrets(subject Service_
 	return ""
 }
 
-func Test_Service_GatewayOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServiceGatewayOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_GatewayOperatorSecrets via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_GatewayOperatorSecrets, Service_GatewayOperatorSecretsGenerator()))
+		"Round trip of ServiceGatewayOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceGatewayOperatorSecrets, ServiceGatewayOperatorSecretsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_GatewayOperatorSecrets runs a test to see if a specific instance of Service_GatewayOperatorSecrets round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_GatewayOperatorSecrets(subject Service_GatewayOperatorSecrets) string {
+// RunJSONSerializationTestForServiceGatewayOperatorSecrets runs a test to see if a specific instance of ServiceGatewayOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceGatewayOperatorSecrets(subject ServiceGatewayOperatorSecrets) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -439,7 +439,7 @@ func RunJSONSerializationTestForService_GatewayOperatorSecrets(subject Service_G
 	}
 
 	// Deserialize back into memory
-	var actual Service_GatewayOperatorSecrets
+	var actual ServiceGatewayOperatorSecrets
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -457,48 +457,48 @@ func RunJSONSerializationTestForService_GatewayOperatorSecrets(subject Service_G
 	return ""
 }
 
-// Generator of Service_GatewayOperatorSecrets instances for property testing - lazily instantiated by
-// Service_GatewayOperatorSecretsGenerator()
-var service_GatewayOperatorSecretsGenerator gopter.Gen
+// Generator of ServiceGatewayOperatorSecrets instances for property testing - lazily instantiated by
+// ServiceGatewayOperatorSecretsGenerator()
+var serviceGatewayOperatorSecretsGenerator gopter.Gen
 
-// Service_GatewayOperatorSecretsGenerator returns a generator of Service_GatewayOperatorSecrets instances for property testing.
-func Service_GatewayOperatorSecretsGenerator() gopter.Gen {
-	if service_GatewayOperatorSecretsGenerator != nil {
-		return service_GatewayOperatorSecretsGenerator
+// ServiceGatewayOperatorSecretsGenerator returns a generator of ServiceGatewayOperatorSecrets instances for property testing.
+func ServiceGatewayOperatorSecretsGenerator() gopter.Gen {
+	if serviceGatewayOperatorSecretsGenerator != nil {
+		return serviceGatewayOperatorSecretsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	service_GatewayOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(Service_GatewayOperatorSecrets{}), generators)
+	serviceGatewayOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayOperatorSecrets{}), generators)
 
-	return service_GatewayOperatorSecretsGenerator
+	return serviceGatewayOperatorSecretsGenerator
 }
 
-func Test_Service_GatewayOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ServiceGatewayOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Service_GatewayOperatorSpec to Service_GatewayOperatorSpec via AssignProperties_To_Service_GatewayOperatorSpec & AssignProperties_From_Service_GatewayOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForService_GatewayOperatorSpec, Service_GatewayOperatorSpecGenerator()))
+		"Round trip from ServiceGatewayOperatorSpec to ServiceGatewayOperatorSpec via AssignProperties_To_ServiceGatewayOperatorSpec & AssignProperties_From_ServiceGatewayOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceGatewayOperatorSpec, ServiceGatewayOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_GatewayOperatorSpec tests if a specific instance of Service_GatewayOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForService_GatewayOperatorSpec(subject Service_GatewayOperatorSpec) string {
+// RunPropertyAssignmentTestForServiceGatewayOperatorSpec tests if a specific instance of ServiceGatewayOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServiceGatewayOperatorSpec(subject ServiceGatewayOperatorSpec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Service_GatewayOperatorSpec
-	err := copied.AssignProperties_To_Service_GatewayOperatorSpec(&other)
+	var other storage.ServiceGatewayOperatorSpec
+	err := copied.AssignProperties_To_ServiceGatewayOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Service_GatewayOperatorSpec
-	err = actual.AssignProperties_From_Service_GatewayOperatorSpec(&other)
+	var actual ServiceGatewayOperatorSpec
+	err = actual.AssignProperties_From_ServiceGatewayOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -515,20 +515,20 @@ func RunPropertyAssignmentTestForService_GatewayOperatorSpec(subject Service_Gat
 	return ""
 }
 
-func Test_Service_GatewayOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServiceGatewayOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_GatewayOperatorSpec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_GatewayOperatorSpec, Service_GatewayOperatorSpecGenerator()))
+		"Round trip of ServiceGatewayOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceGatewayOperatorSpec, ServiceGatewayOperatorSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_GatewayOperatorSpec runs a test to see if a specific instance of Service_GatewayOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_GatewayOperatorSpec(subject Service_GatewayOperatorSpec) string {
+// RunJSONSerializationTestForServiceGatewayOperatorSpec runs a test to see if a specific instance of ServiceGatewayOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceGatewayOperatorSpec(subject ServiceGatewayOperatorSpec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -536,7 +536,7 @@ func RunJSONSerializationTestForService_GatewayOperatorSpec(subject Service_Gate
 	}
 
 	// Deserialize back into memory
-	var actual Service_GatewayOperatorSpec
+	var actual ServiceGatewayOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -554,54 +554,54 @@ func RunJSONSerializationTestForService_GatewayOperatorSpec(subject Service_Gate
 	return ""
 }
 
-// Generator of Service_GatewayOperatorSpec instances for property testing - lazily instantiated by
-// Service_GatewayOperatorSpecGenerator()
-var service_GatewayOperatorSpecGenerator gopter.Gen
+// Generator of ServiceGatewayOperatorSpec instances for property testing - lazily instantiated by
+// ServiceGatewayOperatorSpecGenerator()
+var serviceGatewayOperatorSpecGenerator gopter.Gen
 
-// Service_GatewayOperatorSpecGenerator returns a generator of Service_GatewayOperatorSpec instances for property testing.
-func Service_GatewayOperatorSpecGenerator() gopter.Gen {
-	if service_GatewayOperatorSpecGenerator != nil {
-		return service_GatewayOperatorSpecGenerator
+// ServiceGatewayOperatorSpecGenerator returns a generator of ServiceGatewayOperatorSpec instances for property testing.
+func ServiceGatewayOperatorSpecGenerator() gopter.Gen {
+	if serviceGatewayOperatorSpecGenerator != nil {
+		return serviceGatewayOperatorSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForService_GatewayOperatorSpec(generators)
-	service_GatewayOperatorSpecGenerator = gen.Struct(reflect.TypeOf(Service_GatewayOperatorSpec{}), generators)
+	AddRelatedPropertyGeneratorsForServiceGatewayOperatorSpec(generators)
+	serviceGatewayOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServiceGatewayOperatorSpec{}), generators)
 
-	return service_GatewayOperatorSpecGenerator
+	return serviceGatewayOperatorSpecGenerator
 }
 
-// AddRelatedPropertyGeneratorsForService_GatewayOperatorSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_GatewayOperatorSpec(gens map[string]gopter.Gen) {
-	gens["Secrets"] = gen.PtrOf(Service_GatewayOperatorSecretsGenerator())
+// AddRelatedPropertyGeneratorsForServiceGatewayOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServiceGatewayOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(ServiceGatewayOperatorSecretsGenerator())
 }
 
-func Test_Service_Gateway_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ServiceGateway_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Service_Gateway_STATUS to Service_Gateway_STATUS via AssignProperties_To_Service_Gateway_STATUS & AssignProperties_From_Service_Gateway_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForService_Gateway_STATUS, Service_Gateway_STATUSGenerator()))
+		"Round trip from ServiceGateway_STATUS to ServiceGateway_STATUS via AssignProperties_To_ServiceGateway_STATUS & AssignProperties_From_ServiceGateway_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceGateway_STATUS, ServiceGateway_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Gateway_STATUS tests if a specific instance of Service_Gateway_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForService_Gateway_STATUS(subject Service_Gateway_STATUS) string {
+// RunPropertyAssignmentTestForServiceGateway_STATUS tests if a specific instance of ServiceGateway_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServiceGateway_STATUS(subject ServiceGateway_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Service_Gateway_STATUS
-	err := copied.AssignProperties_To_Service_Gateway_STATUS(&other)
+	var other storage.ServiceGateway_STATUS
+	err := copied.AssignProperties_To_ServiceGateway_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Service_Gateway_STATUS
-	err = actual.AssignProperties_From_Service_Gateway_STATUS(&other)
+	var actual ServiceGateway_STATUS
+	err = actual.AssignProperties_From_ServiceGateway_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -618,20 +618,20 @@ func RunPropertyAssignmentTestForService_Gateway_STATUS(subject Service_Gateway_
 	return ""
 }
 
-func Test_Service_Gateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServiceGateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_Gateway_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Gateway_STATUS, Service_Gateway_STATUSGenerator()))
+		"Round trip of ServiceGateway_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceGateway_STATUS, ServiceGateway_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_Gateway_STATUS runs a test to see if a specific instance of Service_Gateway_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Gateway_STATUS(subject Service_Gateway_STATUS) string {
+// RunJSONSerializationTestForServiceGateway_STATUS runs a test to see if a specific instance of ServiceGateway_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceGateway_STATUS(subject ServiceGateway_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -639,7 +639,7 @@ func RunJSONSerializationTestForService_Gateway_STATUS(subject Service_Gateway_S
 	}
 
 	// Deserialize back into memory
-	var actual Service_Gateway_STATUS
+	var actual ServiceGateway_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -657,71 +657,71 @@ func RunJSONSerializationTestForService_Gateway_STATUS(subject Service_Gateway_S
 	return ""
 }
 
-// Generator of Service_Gateway_STATUS instances for property testing - lazily instantiated by
-// Service_Gateway_STATUSGenerator()
-var service_Gateway_STATUSGenerator gopter.Gen
+// Generator of ServiceGateway_STATUS instances for property testing - lazily instantiated by
+// ServiceGateway_STATUSGenerator()
+var serviceGateway_STATUSGenerator gopter.Gen
 
-// Service_Gateway_STATUSGenerator returns a generator of Service_Gateway_STATUS instances for property testing.
-// We first initialize service_Gateway_STATUSGenerator with a simplified generator based on the
+// ServiceGateway_STATUSGenerator returns a generator of ServiceGateway_STATUS instances for property testing.
+// We first initialize serviceGateway_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Service_Gateway_STATUSGenerator() gopter.Gen {
-	if service_Gateway_STATUSGenerator != nil {
-		return service_Gateway_STATUSGenerator
+func ServiceGateway_STATUSGenerator() gopter.Gen {
+	if serviceGateway_STATUSGenerator != nil {
+		return serviceGateway_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Gateway_STATUS(generators)
-	service_Gateway_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Gateway_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForServiceGateway_STATUS(generators)
+	serviceGateway_STATUSGenerator = gen.Struct(reflect.TypeOf(ServiceGateway_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Gateway_STATUS(generators)
-	AddRelatedPropertyGeneratorsForService_Gateway_STATUS(generators)
-	service_Gateway_STATUSGenerator = gen.Struct(reflect.TypeOf(Service_Gateway_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForServiceGateway_STATUS(generators)
+	AddRelatedPropertyGeneratorsForServiceGateway_STATUS(generators)
+	serviceGateway_STATUSGenerator = gen.Struct(reflect.TypeOf(ServiceGateway_STATUS{}), generators)
 
-	return service_Gateway_STATUSGenerator
+	return serviceGateway_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_Gateway_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_Gateway_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServiceGateway_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceGateway_STATUS(gens map[string]gopter.Gen) {
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForService_Gateway_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_Gateway_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServiceGateway_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServiceGateway_STATUS(gens map[string]gopter.Gen) {
 	gens["LocationData"] = gen.PtrOf(ResourceLocationDataContract_STATUSGenerator())
 }
 
-func Test_Service_Gateway_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ServiceGateway_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Service_Gateway_Spec to Service_Gateway_Spec via AssignProperties_To_Service_Gateway_Spec & AssignProperties_From_Service_Gateway_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForService_Gateway_Spec, Service_Gateway_SpecGenerator()))
+		"Round trip from ServiceGateway_Spec to ServiceGateway_Spec via AssignProperties_To_ServiceGateway_Spec & AssignProperties_From_ServiceGateway_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServiceGateway_Spec, ServiceGateway_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForService_Gateway_Spec tests if a specific instance of Service_Gateway_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForService_Gateway_Spec(subject Service_Gateway_Spec) string {
+// RunPropertyAssignmentTestForServiceGateway_Spec tests if a specific instance of ServiceGateway_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServiceGateway_Spec(subject ServiceGateway_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Service_Gateway_Spec
-	err := copied.AssignProperties_To_Service_Gateway_Spec(&other)
+	var other storage.ServiceGateway_Spec
+	err := copied.AssignProperties_To_ServiceGateway_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Service_Gateway_Spec
-	err = actual.AssignProperties_From_Service_Gateway_Spec(&other)
+	var actual ServiceGateway_Spec
+	err = actual.AssignProperties_From_ServiceGateway_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -738,20 +738,20 @@ func RunPropertyAssignmentTestForService_Gateway_Spec(subject Service_Gateway_Sp
 	return ""
 }
 
-func Test_Service_Gateway_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServiceGateway_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Service_Gateway_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForService_Gateway_Spec, Service_Gateway_SpecGenerator()))
+		"Round trip of ServiceGateway_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServiceGateway_Spec, ServiceGateway_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForService_Gateway_Spec runs a test to see if a specific instance of Service_Gateway_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForService_Gateway_Spec(subject Service_Gateway_Spec) string {
+// RunJSONSerializationTestForServiceGateway_Spec runs a test to see if a specific instance of ServiceGateway_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForServiceGateway_Spec(subject ServiceGateway_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -759,7 +759,7 @@ func RunJSONSerializationTestForService_Gateway_Spec(subject Service_Gateway_Spe
 	}
 
 	// Deserialize back into memory
-	var actual Service_Gateway_Spec
+	var actual ServiceGateway_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -777,40 +777,40 @@ func RunJSONSerializationTestForService_Gateway_Spec(subject Service_Gateway_Spe
 	return ""
 }
 
-// Generator of Service_Gateway_Spec instances for property testing - lazily instantiated by
-// Service_Gateway_SpecGenerator()
-var service_Gateway_SpecGenerator gopter.Gen
+// Generator of ServiceGateway_Spec instances for property testing - lazily instantiated by
+// ServiceGateway_SpecGenerator()
+var serviceGateway_SpecGenerator gopter.Gen
 
-// Service_Gateway_SpecGenerator returns a generator of Service_Gateway_Spec instances for property testing.
-// We first initialize service_Gateway_SpecGenerator with a simplified generator based on the
+// ServiceGateway_SpecGenerator returns a generator of ServiceGateway_Spec instances for property testing.
+// We first initialize serviceGateway_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Service_Gateway_SpecGenerator() gopter.Gen {
-	if service_Gateway_SpecGenerator != nil {
-		return service_Gateway_SpecGenerator
+func ServiceGateway_SpecGenerator() gopter.Gen {
+	if serviceGateway_SpecGenerator != nil {
+		return serviceGateway_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Gateway_Spec(generators)
-	service_Gateway_SpecGenerator = gen.Struct(reflect.TypeOf(Service_Gateway_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServiceGateway_Spec(generators)
+	serviceGateway_SpecGenerator = gen.Struct(reflect.TypeOf(ServiceGateway_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForService_Gateway_Spec(generators)
-	AddRelatedPropertyGeneratorsForService_Gateway_Spec(generators)
-	service_Gateway_SpecGenerator = gen.Struct(reflect.TypeOf(Service_Gateway_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForServiceGateway_Spec(generators)
+	AddRelatedPropertyGeneratorsForServiceGateway_Spec(generators)
+	serviceGateway_SpecGenerator = gen.Struct(reflect.TypeOf(ServiceGateway_Spec{}), generators)
 
-	return service_Gateway_SpecGenerator
+	return serviceGateway_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForService_Gateway_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForService_Gateway_Spec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForServiceGateway_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServiceGateway_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForService_Gateway_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForService_Gateway_Spec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServiceGateway_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServiceGateway_Spec(gens map[string]gopter.Gen) {
 	gens["LocationData"] = gen.PtrOf(ResourceLocationDataContractGenerator())
-	gens["OperatorSpec"] = gen.PtrOf(Service_GatewayOperatorSpecGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ServiceGatewayOperatorSpecGenerator())
 }

@@ -601,7 +601,7 @@ Certificate: Resource
 ├── Owner: apimanagement/v20240501.Service
 ├── Spec: Object (8 properties)
 │   ├── AzureName: string
-│   ├── Data: *string
+│   ├── Data: *genruntime.SecretReference
 │   ├── KeyVault: *Object (4 properties)
 │   │   ├── IdentityClientId: *string
 │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
@@ -632,72 +632,6 @@ Certificate: Resource
     ├── PropertyBag: genruntime.PropertyBag
     ├── Subject: *string
     ├── Thumbprint: *string
-    └── Type: *string
-
-GatewayApi: Resource
-├── Owner: apimanagement/v20240501.Service_Gateway
-├── Spec: Object (6 properties)
-│   ├── AzureName: string
-│   ├── OperatorSpec: *Object (3 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── OriginalVersion: string
-│   ├── Owner: *genruntime.KnownResourceReference
-│   ├── PropertyBag: genruntime.PropertyBag
-│   └── ProvisioningState: *string
-└── Status: Object (2 properties)
-    ├── Conditions: conditions.Condition[]
-    └── PropertyBag: genruntime.PropertyBag
-
-GatewayCertificateAuthority: Resource
-├── Owner: apimanagement/v20240501.Service_Gateway
-├── Spec: Object (6 properties)
-│   ├── AzureName: string
-│   ├── IsTrusted: *bool
-│   ├── OperatorSpec: *Object (3 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── OriginalVersion: string
-│   ├── Owner: *genruntime.KnownResourceReference
-│   └── PropertyBag: genruntime.PropertyBag
-└── Status: Object (6 properties)
-    ├── Conditions: conditions.Condition[]
-    ├── Id: *string
-    ├── IsTrusted: *bool
-    ├── Name: *string
-    ├── PropertyBag: genruntime.PropertyBag
-    └── Type: *string
-
-GatewayHostnameConfiguration: Resource
-├── Owner: apimanagement/v20240501.Service_Gateway
-├── Spec: Object (11 properties)
-│   ├── AzureName: string
-│   ├── CertificateId: *string
-│   ├── Hostname: *string
-│   ├── Http2Enabled: *bool
-│   ├── NegotiateClientCertificate: *bool
-│   ├── OperatorSpec: *Object (3 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── OriginalVersion: string
-│   ├── Owner: *genruntime.KnownResourceReference
-│   ├── PropertyBag: genruntime.PropertyBag
-│   ├── Tls10Enabled: *bool
-│   └── Tls11Enabled: *bool
-└── Status: Object (11 properties)
-    ├── CertificateId: *string
-    ├── Conditions: conditions.Condition[]
-    ├── Hostname: *string
-    ├── Http2Enabled: *bool
-    ├── Id: *string
-    ├── Name: *string
-    ├── NegotiateClientCertificate: *bool
-    ├── PropertyBag: genruntime.PropertyBag
-    ├── Tls10Enabled: *bool
-    ├── Tls11Enabled: *bool
     └── Type: *string
 
 Group: Resource
@@ -731,7 +665,7 @@ Logger: Resource
 ├── Owner: apimanagement/v20240501.Service
 ├── Spec: Object (10 properties)
 │   ├── AzureName: string
-│   ├── Credentials: map[string]string
+│   ├── Credentials: *genruntime.SecretMapReference
 │   ├── Description: *string
 │   ├── IsBuffered: *bool
 │   ├── LoggerType: *string
@@ -1134,7 +1068,7 @@ Service: Resource
     ├── VirtualNetworkType: *string
     └── Zones: string[]
 
-Service_Gateway: Resource
+ServiceGateway: Resource
 ├── Owner: apimanagement/v20240501.Service
 ├── Spec: Object (7 properties)
 │   ├── AzureName: string
@@ -1168,6 +1102,72 @@ Service_Gateway: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     ├── Name: *string
     ├── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
+ServiceGatewayApi: Resource
+├── Owner: apimanagement/v20240501.ServiceGateway
+├── Spec: Object (6 properties)
+│   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   └── ProvisioningState: *string
+└── Status: Object (2 properties)
+    ├── Conditions: conditions.Condition[]
+    └── PropertyBag: genruntime.PropertyBag
+
+ServiceGatewayCertificateAuthority: Resource
+├── Owner: apimanagement/v20240501.ServiceGateway
+├── Spec: Object (6 properties)
+│   ├── AzureName: string
+│   ├── IsTrusted: *bool
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   └── PropertyBag: genruntime.PropertyBag
+└── Status: Object (6 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── IsTrusted: *bool
+    ├── Name: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
+ServiceGatewayHostnameConfiguration: Resource
+├── Owner: apimanagement/v20240501.ServiceGateway
+├── Spec: Object (11 properties)
+│   ├── AzureName: string
+│   ├── CertificateReference: *genruntime.ResourceReference
+│   ├── Hostname: *string
+│   ├── Http2Enabled: *bool
+│   ├── NegotiateClientCertificate: *bool
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── Tls10Enabled: *bool
+│   └── Tls11Enabled: *bool
+└── Status: Object (11 properties)
+    ├── CertificateId: *string
+    ├── Conditions: conditions.Condition[]
+    ├── Hostname: *string
+    ├── Http2Enabled: *bool
+    ├── Id: *string
+    ├── Name: *string
+    ├── NegotiateClientCertificate: *bool
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── Tls10Enabled: *bool
+    ├── Tls11Enabled: *bool
     └── Type: *string
 
 Subscription: Resource

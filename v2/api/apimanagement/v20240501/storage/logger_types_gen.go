@@ -171,13 +171,13 @@ type LoggerList struct {
 type Logger_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string              `json:"azureName,omitempty"`
-	Credentials     map[string]string   `json:"credentials,omitempty"`
-	Description     *string             `json:"description,omitempty"`
-	IsBuffered      *bool               `json:"isBuffered,omitempty"`
-	LoggerType      *string             `json:"loggerType,omitempty"`
-	OperatorSpec    *LoggerOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion string              `json:"originalVersion,omitempty"`
+	AzureName       string                         `json:"azureName,omitempty"`
+	Credentials     *genruntime.SecretMapReference `json:"credentials,omitempty"`
+	Description     *string                        `json:"description,omitempty"`
+	IsBuffered      *bool                          `json:"isBuffered,omitempty"`
+	LoggerType      *string                        `json:"loggerType,omitempty"`
+	OperatorSpec    *LoggerOperatorSpec            `json:"operatorSpec,omitempty"`
+	OriginalVersion string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also

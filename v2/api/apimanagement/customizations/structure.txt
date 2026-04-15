@@ -19,12 +19,6 @@ BackendExtension: Object (0 properties)
 
 CertificateExtension: Object (0 properties)
 
-GatewayApiExtension: Object (0 properties)
-
-GatewayCertificateAuthorityExtension: Object (0 properties)
-
-GatewayHostnameConfigurationExtension: Object (0 properties)
-
 GroupExtension: Object (0 properties)
 
 LoggerExtension: Object (0 properties)
@@ -43,7 +37,13 @@ ProductPolicyExtension: Object (0 properties)
 
 ServiceExtension: Object (0 properties)
 
-Service_GatewayExtension: Object (0 properties)
+ServiceGatewayApiExtension: Object (0 properties)
+
+ServiceGatewayCertificateAuthorityExtension: Object (0 properties)
+
+ServiceGatewayExtension: Object (0 properties)
+
+ServiceGatewayHostnameConfigurationExtension: Object (0 properties)
 
 SubscriptionExtension: Object (0 properties)
 

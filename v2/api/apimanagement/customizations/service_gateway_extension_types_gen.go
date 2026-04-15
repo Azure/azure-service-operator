@@ -9,12 +9,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type Service_GatewayExtension struct {
+type ServiceGatewayExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *Service_GatewayExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *ServiceGatewayExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20240501.Service_Gateway{},
-		&storage.Service_Gateway{}}
+		&v20240501.ServiceGateway{},
+		&storage.ServiceGateway{}}
 }

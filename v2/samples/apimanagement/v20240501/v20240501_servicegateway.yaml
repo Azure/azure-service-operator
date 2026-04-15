@@ -1,0 +1,11 @@
+apiVersion: apimanagement.azure.com/v20240501
+kind: ServiceGateway
+metadata:
+  name: samplegateway
+  namespace: default
+spec:
+  description: "A sample self-hosted gateway"
+  locationData:
+    name: "Sample Location"
+  owner:
+    name: sampleapimservice

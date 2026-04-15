@@ -29,9 +29,9 @@ const (
 	gatewaySecondaryKey = "secondaryKey"
 )
 
-var _ genruntime.KubernetesSecretExporter = &Service_GatewayExtension{}
+var _ genruntime.KubernetesSecretExporter = &ServiceGatewayExtension{}
 
-func (ext *Service_GatewayExtension) ExportKubernetesSecrets(
+func (ext *ServiceGatewayExtension) ExportKubernetesSecrets(
 	ctx context.Context,
 	obj genruntime.MetaObject,
 	additionalSecrets set.Set[string],
@@ -40,9 +40,9 @@ func (ext *Service_GatewayExtension) ExportKubernetesSecrets(
 ) (*genruntime.KubernetesSecretExportResult, error) {
 	// This has to be the current hub storage version. It will need to be updated
 	// if the hub storage version changes.
-	typedObj, ok := obj.(*apimanagement.Service_Gateway)
+	typedObj, ok := obj.(*apimanagement.ServiceGateway)
 	if !ok {
-		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *apimanagement.Service_Gateway", obj)
+		return nil, eris.Errorf("cannot run on unknown resource type %T, expected *apimanagement.ServiceGateway", obj)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
@@ -105,7 +105,7 @@ func (ext *Service_GatewayExtension) ExportKubernetesSecrets(
 	}, nil
 }
 
-func gatewaySecretsSpecified(obj *apimanagement.Service_Gateway) set.Set[string] {
+func gatewaySecretsSpecified(obj *apimanagement.ServiceGateway) set.Set[string] {
 	if obj.Spec.OperatorSpec == nil || obj.Spec.OperatorSpec.Secrets == nil {
 		return nil
 	}
@@ -122,7 +122,7 @@ func gatewaySecretsSpecified(obj *apimanagement.Service_Gateway) set.Set[string]
 	return result
 }
 
-func gatewaySecretsToWrite(obj *apimanagement.Service_Gateway, s armapimanagement.GatewayKeysContract) ([]*v1.Secret, error) {
+func gatewaySecretsToWrite(obj *apimanagement.ServiceGateway, s armapimanagement.GatewayKeysContract) ([]*v1.Secret, error) {
 	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
 	if operatorSpecSecrets == nil {
 		return nil, nil

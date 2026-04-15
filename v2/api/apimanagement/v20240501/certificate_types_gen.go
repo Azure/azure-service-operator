@@ -256,7 +256,7 @@ type Certificate_Spec struct {
 	AzureName string `json:"azureName,omitempty"`
 
 	// Data: Base 64 encoded certificate using the application/x-pkcs12 representation.
-	Data *string `json:"data,omitempty"`
+	Data *genruntime.SecretReference `json:"data,omitempty"`
 
 	// KeyVault: KeyVault location details of the certificate.
 	KeyVault *KeyVaultContractCreateProperties `json:"keyVault,omitempty"`
@@ -294,7 +294,11 @@ func (certificate *Certificate_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties = &arm.CertificateCreateOrUpdateProperties{}
 	}
 	if certificate.Data != nil {
-		data := *certificate.Data
+		dataSecret, err := resolved.ResolvedSecrets.Lookup(*certificate.Data)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up secret for property Data")
+		}
+		data := dataSecret
 		result.Properties.Data = &data
 	}
 	if certificate.KeyVault != nil {
@@ -331,14 +335,7 @@ func (certificate *Certificate_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// Set property "AzureName":
 	certificate.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property "Data":
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Data != nil {
-			data := *typedInput.Properties.Data
-			certificate.Data = &data
-		}
-	}
+	// no assignment for property "Data"
 
 	// Set property "KeyVault":
 	// copying flattened property:
@@ -425,7 +422,12 @@ func (certificate *Certificate_Spec) AssignProperties_From_Certificate_Spec(sour
 	certificate.AzureName = source.AzureName
 
 	// Data
-	certificate.Data = genruntime.ClonePointerToString(source.Data)
+	if source.Data != nil {
+		datum := source.Data.Copy()
+		certificate.Data = &datum
+	} else {
+		certificate.Data = nil
+	}
 
 	// KeyVault
 	if source.KeyVault != nil {
@@ -480,7 +482,12 @@ func (certificate *Certificate_Spec) AssignProperties_To_Certificate_Spec(destin
 	destination.AzureName = certificate.AzureName
 
 	// Data
-	destination.Data = genruntime.ClonePointerToString(certificate.Data)
+	if certificate.Data != nil {
+		datum := certificate.Data.Copy()
+		destination.Data = &datum
+	} else {
+		destination.Data = nil
+	}
 
 	// KeyVault
 	if certificate.KeyVault != nil {

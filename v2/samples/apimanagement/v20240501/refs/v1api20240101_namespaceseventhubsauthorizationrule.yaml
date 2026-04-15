@@ -1,0 +1,19 @@
+apiVersion: eventhub.azure.com/v1api20240101
+kind: NamespacesEventhubsAuthorizationRule
+metadata:
+  name: sample-eventhub-send-rule
+  namespace: default
+spec:
+  owner:
+    name: sample-eventhub
+  rights:
+    - Send
+  operatorSpec:
+    secrets:
+      primaryConnectionString:
+        name: apim-logger-eventhub-credentials
+        key: connectionString
+    secretExpressions:
+      - name: apim-logger-eventhub-credentials
+        key: name
+        value: "'sample-eventhub'"

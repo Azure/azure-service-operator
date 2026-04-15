@@ -28,107 +28,107 @@ import (
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}
-type Service_Gateway struct {
+type ServiceGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_Gateway_Spec   `json:"spec,omitempty"`
-	Status            Service_Gateway_STATUS `json:"status,omitempty"`
+	Spec              ServiceGateway_Spec   `json:"spec,omitempty"`
+	Status            ServiceGateway_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &Service_Gateway{}
+var _ conditions.Conditioner = &ServiceGateway{}
 
 // GetConditions returns the conditions of the resource
-func (gateway *Service_Gateway) GetConditions() conditions.Conditions {
+func (gateway *ServiceGateway) GetConditions() conditions.Conditions {
 	return gateway.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (gateway *Service_Gateway) SetConditions(conditions conditions.Conditions) {
+func (gateway *ServiceGateway) SetConditions(conditions conditions.Conditions) {
 	gateway.Status.Conditions = conditions
 }
 
-var _ conversion.Convertible = &Service_Gateway{}
+var _ conversion.Convertible = &ServiceGateway{}
 
-// ConvertFrom populates our Service_Gateway from the provided hub Service_Gateway
-func (gateway *Service_Gateway) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Service_Gateway)
+// ConvertFrom populates our ServiceGateway from the provided hub ServiceGateway
+func (gateway *ServiceGateway) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServiceGateway)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v20240501/storage/Service_Gateway but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v20240501/storage/ServiceGateway but received %T instead", hub)
 	}
 
-	return gateway.AssignProperties_From_Service_Gateway(source)
+	return gateway.AssignProperties_From_ServiceGateway(source)
 }
 
-// ConvertTo populates the provided hub Service_Gateway from our Service_Gateway
-func (gateway *Service_Gateway) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Service_Gateway)
+// ConvertTo populates the provided hub ServiceGateway from our ServiceGateway
+func (gateway *ServiceGateway) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServiceGateway)
 	if !ok {
-		return fmt.Errorf("expected apimanagement/v20240501/storage/Service_Gateway but received %T instead", hub)
+		return fmt.Errorf("expected apimanagement/v20240501/storage/ServiceGateway but received %T instead", hub)
 	}
 
-	return gateway.AssignProperties_To_Service_Gateway(destination)
+	return gateway.AssignProperties_To_ServiceGateway(destination)
 }
 
-var _ configmaps.Exporter = &Service_Gateway{}
+var _ configmaps.Exporter = &ServiceGateway{}
 
 // ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
-func (gateway *Service_Gateway) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+func (gateway *ServiceGateway) ConfigMapDestinationExpressions() []*core.DestinationExpression {
 	if gateway.Spec.OperatorSpec == nil {
 		return nil
 	}
 	return gateway.Spec.OperatorSpec.ConfigMapExpressions
 }
 
-var _ secrets.Exporter = &Service_Gateway{}
+var _ secrets.Exporter = &ServiceGateway{}
 
 // SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
-func (gateway *Service_Gateway) SecretDestinationExpressions() []*core.DestinationExpression {
+func (gateway *ServiceGateway) SecretDestinationExpressions() []*core.DestinationExpression {
 	if gateway.Spec.OperatorSpec == nil {
 		return nil
 	}
 	return gateway.Spec.OperatorSpec.SecretExpressions
 }
 
-var _ genruntime.ImportableResource = &Service_Gateway{}
+var _ genruntime.ImportableResource = &ServiceGateway{}
 
 // InitializeSpec initializes the spec for this resource from the given status
-func (gateway *Service_Gateway) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Service_Gateway_STATUS); ok {
-		return gateway.Spec.Initialize_From_Service_Gateway_STATUS(s)
+func (gateway *ServiceGateway) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*ServiceGateway_STATUS); ok {
+		return gateway.Spec.Initialize_From_ServiceGateway_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type Service_Gateway_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type ServiceGateway_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesResource = &Service_Gateway{}
+var _ genruntime.KubernetesResource = &ServiceGateway{}
 
 // AzureName returns the Azure name of the resource
-func (gateway *Service_Gateway) AzureName() string {
+func (gateway *ServiceGateway) AzureName() string {
 	return gateway.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-05-01"
-func (gateway Service_Gateway) GetAPIVersion() string {
+func (gateway ServiceGateway) GetAPIVersion() string {
 	return "2024-05-01"
 }
 
 // GetResourceScope returns the scope of the resource
-func (gateway *Service_Gateway) GetResourceScope() genruntime.ResourceScope {
+func (gateway *ServiceGateway) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (gateway *Service_Gateway) GetSpec() genruntime.ConvertibleSpec {
+func (gateway *ServiceGateway) GetSpec() genruntime.ConvertibleSpec {
 	return &gateway.Spec
 }
 
 // GetStatus returns the status of this resource
-func (gateway *Service_Gateway) GetStatus() genruntime.ConvertibleStatus {
+func (gateway *ServiceGateway) GetStatus() genruntime.ConvertibleStatus {
 	return &gateway.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (gateway *Service_Gateway) GetSupportedOperations() []genruntime.ResourceOperation {
+func (gateway *ServiceGateway) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationDelete,
 		genruntime.ResourceOperationGet,
@@ -138,17 +138,17 @@ func (gateway *Service_Gateway) GetSupportedOperations() []genruntime.ResourceOp
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/gateways"
-func (gateway *Service_Gateway) GetType() string {
+func (gateway *ServiceGateway) GetType() string {
 	return "Microsoft.ApiManagement/service/gateways"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (gateway *Service_Gateway) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_Gateway_STATUS{}
+func (gateway *ServiceGateway) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &ServiceGateway_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (gateway *Service_Gateway) Owner() *genruntime.ResourceReference {
+func (gateway *ServiceGateway) Owner() *genruntime.ResourceReference {
 	if gateway.Spec.Owner == nil {
 		return nil
 	}
@@ -158,15 +158,15 @@ func (gateway *Service_Gateway) Owner() *genruntime.ResourceReference {
 }
 
 // SetStatus sets the status of this resource
-func (gateway *Service_Gateway) SetStatus(status genruntime.ConvertibleStatus) error {
+func (gateway *ServiceGateway) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_Gateway_STATUS); ok {
+	if st, ok := status.(*ServiceGateway_STATUS); ok {
 		gateway.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_Gateway_STATUS
+	var st ServiceGateway_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
@@ -176,25 +176,25 @@ func (gateway *Service_Gateway) SetStatus(status genruntime.ConvertibleStatus) e
 	return nil
 }
 
-// AssignProperties_From_Service_Gateway populates our Service_Gateway from the provided source Service_Gateway
-func (gateway *Service_Gateway) AssignProperties_From_Service_Gateway(source *storage.Service_Gateway) error {
+// AssignProperties_From_ServiceGateway populates our ServiceGateway from the provided source ServiceGateway
+func (gateway *ServiceGateway) AssignProperties_From_ServiceGateway(source *storage.ServiceGateway) error {
 
 	// ObjectMeta
 	gateway.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Service_Gateway_Spec
-	err := spec.AssignProperties_From_Service_Gateway_Spec(&source.Spec)
+	var spec ServiceGateway_Spec
+	err := spec.AssignProperties_From_ServiceGateway_Spec(&source.Spec)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_Service_Gateway_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_ServiceGateway_Spec() to populate field Spec")
 	}
 	gateway.Spec = spec
 
 	// Status
-	var status Service_Gateway_STATUS
-	err = status.AssignProperties_From_Service_Gateway_STATUS(&source.Status)
+	var status ServiceGateway_STATUS
+	err = status.AssignProperties_From_ServiceGateway_STATUS(&source.Status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_Service_Gateway_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_ServiceGateway_STATUS() to populate field Status")
 	}
 	gateway.Status = status
 
@@ -202,25 +202,25 @@ func (gateway *Service_Gateway) AssignProperties_From_Service_Gateway(source *st
 	return nil
 }
 
-// AssignProperties_To_Service_Gateway populates the provided destination Service_Gateway from our Service_Gateway
-func (gateway *Service_Gateway) AssignProperties_To_Service_Gateway(destination *storage.Service_Gateway) error {
+// AssignProperties_To_ServiceGateway populates the provided destination ServiceGateway from our ServiceGateway
+func (gateway *ServiceGateway) AssignProperties_To_ServiceGateway(destination *storage.ServiceGateway) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *gateway.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.Service_Gateway_Spec
-	err := gateway.Spec.AssignProperties_To_Service_Gateway_Spec(&spec)
+	var spec storage.ServiceGateway_Spec
+	err := gateway.Spec.AssignProperties_To_ServiceGateway_Spec(&spec)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_Service_Gateway_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_ServiceGateway_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.Service_Gateway_STATUS
-	err = gateway.Status.AssignProperties_To_Service_Gateway_STATUS(&status)
+	var status storage.ServiceGateway_STATUS
+	err = gateway.Status.AssignProperties_To_ServiceGateway_STATUS(&status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_Service_Gateway_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_ServiceGateway_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -229,11 +229,11 @@ func (gateway *Service_Gateway) AssignProperties_To_Service_Gateway(destination 
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (gateway *Service_Gateway) OriginalGVK() *schema.GroupVersionKind {
+func (gateway *ServiceGateway) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
 		Version: gateway.Spec.OriginalVersion(),
-		Kind:    "Service_Gateway",
+		Kind:    "ServiceGateway",
 	}
 }
 
@@ -241,13 +241,13 @@ func (gateway *Service_Gateway) OriginalGVK() *schema.GroupVersionKind {
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}
-type Service_GatewayList struct {
+type ServiceGatewayList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Service_Gateway `json:"items"`
+	Items           []ServiceGateway `json:"items"`
 }
 
-type Service_Gateway_Spec struct {
+type ServiceGateway_Spec struct {
 	// +kubebuilder:validation:MaxLength=80
 	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -263,7 +263,7 @@ type Service_Gateway_Spec struct {
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
-	OperatorSpec *Service_GatewayOperatorSpec `json:"operatorSpec,omitempty"`
+	OperatorSpec *ServiceGatewayOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -272,14 +272,14 @@ type Service_Gateway_Spec struct {
 	Owner *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Service"`
 }
 
-var _ genruntime.ARMTransformer = &Service_Gateway_Spec{}
+var _ genruntime.ARMTransformer = &ServiceGateway_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (gateway *Service_Gateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (gateway *ServiceGateway_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if gateway == nil {
 		return nil, nil
 	}
-	result := &arm.Service_Gateway_Spec{}
+	result := &arm.ServiceGateway_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
@@ -304,15 +304,15 @@ func (gateway *Service_Gateway_Spec) ConvertToARM(resolved genruntime.ConvertToA
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (gateway *Service_Gateway_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Service_Gateway_Spec{}
+func (gateway *ServiceGateway_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ServiceGateway_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (gateway *Service_Gateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Service_Gateway_Spec)
+func (gateway *ServiceGateway_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ServiceGateway_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Service_Gateway_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServiceGateway_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
@@ -353,25 +353,25 @@ func (gateway *Service_Gateway_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Service_Gateway_Spec{}
+var _ genruntime.ConvertibleSpec = &ServiceGateway_Spec{}
 
-// ConvertSpecFrom populates our Service_Gateway_Spec from the provided source
-func (gateway *Service_Gateway_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.Service_Gateway_Spec)
+// ConvertSpecFrom populates our ServiceGateway_Spec from the provided source
+func (gateway *ServiceGateway_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.ServiceGateway_Spec)
 	if ok {
 		// Populate our instance from source
-		return gateway.AssignProperties_From_Service_Gateway_Spec(src)
+		return gateway.AssignProperties_From_ServiceGateway_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Gateway_Spec{}
+	src = &storage.ServiceGateway_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = gateway.AssignProperties_From_Service_Gateway_Spec(src)
+	err = gateway.AssignProperties_From_ServiceGateway_Spec(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -379,17 +379,17 @@ func (gateway *Service_Gateway_Spec) ConvertSpecFrom(source genruntime.Convertib
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Service_Gateway_Spec
-func (gateway *Service_Gateway_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.Service_Gateway_Spec)
+// ConvertSpecTo populates the provided destination from our ServiceGateway_Spec
+func (gateway *ServiceGateway_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.ServiceGateway_Spec)
 	if ok {
 		// Populate destination from our instance
-		return gateway.AssignProperties_To_Service_Gateway_Spec(dst)
+		return gateway.AssignProperties_To_ServiceGateway_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Gateway_Spec{}
-	err := gateway.AssignProperties_To_Service_Gateway_Spec(dst)
+	dst = &storage.ServiceGateway_Spec{}
+	err := gateway.AssignProperties_To_ServiceGateway_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -403,8 +403,8 @@ func (gateway *Service_Gateway_Spec) ConvertSpecTo(destination genruntime.Conver
 	return nil
 }
 
-// AssignProperties_From_Service_Gateway_Spec populates our Service_Gateway_Spec from the provided source Service_Gateway_Spec
-func (gateway *Service_Gateway_Spec) AssignProperties_From_Service_Gateway_Spec(source *storage.Service_Gateway_Spec) error {
+// AssignProperties_From_ServiceGateway_Spec populates our ServiceGateway_Spec from the provided source ServiceGateway_Spec
+func (gateway *ServiceGateway_Spec) AssignProperties_From_ServiceGateway_Spec(source *storage.ServiceGateway_Spec) error {
 
 	// AzureName
 	gateway.AzureName = source.AzureName
@@ -426,10 +426,10 @@ func (gateway *Service_Gateway_Spec) AssignProperties_From_Service_Gateway_Spec(
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
-		var operatorSpec Service_GatewayOperatorSpec
-		err := operatorSpec.AssignProperties_From_Service_GatewayOperatorSpec(source.OperatorSpec)
+		var operatorSpec ServiceGatewayOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServiceGatewayOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Service_GatewayOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_ServiceGatewayOperatorSpec() to populate field OperatorSpec")
 		}
 		gateway.OperatorSpec = &operatorSpec
 	} else {
@@ -448,8 +448,8 @@ func (gateway *Service_Gateway_Spec) AssignProperties_From_Service_Gateway_Spec(
 	return nil
 }
 
-// AssignProperties_To_Service_Gateway_Spec populates the provided destination Service_Gateway_Spec from our Service_Gateway_Spec
-func (gateway *Service_Gateway_Spec) AssignProperties_To_Service_Gateway_Spec(destination *storage.Service_Gateway_Spec) error {
+// AssignProperties_To_ServiceGateway_Spec populates the provided destination ServiceGateway_Spec from our ServiceGateway_Spec
+func (gateway *ServiceGateway_Spec) AssignProperties_To_ServiceGateway_Spec(destination *storage.ServiceGateway_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -473,10 +473,10 @@ func (gateway *Service_Gateway_Spec) AssignProperties_To_Service_Gateway_Spec(de
 
 	// OperatorSpec
 	if gateway.OperatorSpec != nil {
-		var operatorSpec storage.Service_GatewayOperatorSpec
-		err := gateway.OperatorSpec.AssignProperties_To_Service_GatewayOperatorSpec(&operatorSpec)
+		var operatorSpec storage.ServiceGatewayOperatorSpec
+		err := gateway.OperatorSpec.AssignProperties_To_ServiceGatewayOperatorSpec(&operatorSpec)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Service_GatewayOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_ServiceGatewayOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -505,8 +505,8 @@ func (gateway *Service_Gateway_Spec) AssignProperties_To_Service_Gateway_Spec(de
 	return nil
 }
 
-// Initialize_From_Service_Gateway_STATUS populates our Service_Gateway_Spec from the provided source Service_Gateway_STATUS
-func (gateway *Service_Gateway_Spec) Initialize_From_Service_Gateway_STATUS(source *Service_Gateway_STATUS) error {
+// Initialize_From_ServiceGateway_STATUS populates our ServiceGateway_Spec from the provided source ServiceGateway_STATUS
+func (gateway *ServiceGateway_Spec) Initialize_From_ServiceGateway_STATUS(source *ServiceGateway_STATUS) error {
 
 	// Description
 	gateway.Description = genruntime.ClonePointerToString(source.Description)
@@ -528,14 +528,14 @@ func (gateway *Service_Gateway_Spec) Initialize_From_Service_Gateway_STATUS(sour
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (gateway *Service_Gateway_Spec) OriginalVersion() string {
+func (gateway *ServiceGateway_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (gateway *Service_Gateway_Spec) SetAzureName(azureName string) { gateway.AzureName = azureName }
+func (gateway *ServiceGateway_Spec) SetAzureName(azureName string) { gateway.AzureName = azureName }
 
-type Service_Gateway_STATUS struct {
+type ServiceGateway_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -556,25 +556,25 @@ type Service_Gateway_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_Gateway_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServiceGateway_STATUS{}
 
-// ConvertStatusFrom populates our Service_Gateway_STATUS from the provided source
-func (gateway *Service_Gateway_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.Service_Gateway_STATUS)
+// ConvertStatusFrom populates our ServiceGateway_STATUS from the provided source
+func (gateway *ServiceGateway_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.ServiceGateway_STATUS)
 	if ok {
 		// Populate our instance from source
-		return gateway.AssignProperties_From_Service_Gateway_STATUS(src)
+		return gateway.AssignProperties_From_ServiceGateway_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.Service_Gateway_STATUS{}
+	src = &storage.ServiceGateway_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = gateway.AssignProperties_From_Service_Gateway_STATUS(src)
+	err = gateway.AssignProperties_From_ServiceGateway_STATUS(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -582,17 +582,17 @@ func (gateway *Service_Gateway_STATUS) ConvertStatusFrom(source genruntime.Conve
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Service_Gateway_STATUS
-func (gateway *Service_Gateway_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.Service_Gateway_STATUS)
+// ConvertStatusTo populates the provided destination from our ServiceGateway_STATUS
+func (gateway *ServiceGateway_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.ServiceGateway_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return gateway.AssignProperties_To_Service_Gateway_STATUS(dst)
+		return gateway.AssignProperties_To_ServiceGateway_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.Service_Gateway_STATUS{}
-	err := gateway.AssignProperties_To_Service_Gateway_STATUS(dst)
+	dst = &storage.ServiceGateway_STATUS{}
+	err := gateway.AssignProperties_To_ServiceGateway_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -606,18 +606,18 @@ func (gateway *Service_Gateway_STATUS) ConvertStatusTo(destination genruntime.Co
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Service_Gateway_STATUS{}
+var _ genruntime.FromARMConverter = &ServiceGateway_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (gateway *Service_Gateway_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Service_Gateway_STATUS{}
+func (gateway *ServiceGateway_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ServiceGateway_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (gateway *Service_Gateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Service_Gateway_STATUS)
+func (gateway *ServiceGateway_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ServiceGateway_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Service_Gateway_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ServiceGateway_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -667,8 +667,8 @@ func (gateway *Service_Gateway_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignProperties_From_Service_Gateway_STATUS populates our Service_Gateway_STATUS from the provided source Service_Gateway_STATUS
-func (gateway *Service_Gateway_STATUS) AssignProperties_From_Service_Gateway_STATUS(source *storage.Service_Gateway_STATUS) error {
+// AssignProperties_From_ServiceGateway_STATUS populates our ServiceGateway_STATUS from the provided source ServiceGateway_STATUS
+func (gateway *ServiceGateway_STATUS) AssignProperties_From_ServiceGateway_STATUS(source *storage.ServiceGateway_STATUS) error {
 
 	// Conditions
 	gateway.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -701,8 +701,8 @@ func (gateway *Service_Gateway_STATUS) AssignProperties_From_Service_Gateway_STA
 	return nil
 }
 
-// AssignProperties_To_Service_Gateway_STATUS populates the provided destination Service_Gateway_STATUS from our Service_Gateway_STATUS
-func (gateway *Service_Gateway_STATUS) AssignProperties_To_Service_Gateway_STATUS(destination *storage.Service_Gateway_STATUS) error {
+// AssignProperties_To_ServiceGateway_STATUS populates the provided destination ServiceGateway_STATUS from our ServiceGateway_STATUS
+func (gateway *ServiceGateway_STATUS) AssignProperties_To_ServiceGateway_STATUS(destination *storage.ServiceGateway_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1010,7 +1010,7 @@ func (contract *ResourceLocationDataContract_STATUS) AssignProperties_To_Resourc
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type Service_GatewayOperatorSpec struct {
+type ServiceGatewayOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 
@@ -1018,11 +1018,11 @@ type Service_GatewayOperatorSpec struct {
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 
 	// Secrets: configures where to place Azure generated secrets.
-	Secrets *Service_GatewayOperatorSecrets `json:"secrets,omitempty"`
+	Secrets *ServiceGatewayOperatorSecrets `json:"secrets,omitempty"`
 }
 
-// AssignProperties_From_Service_GatewayOperatorSpec populates our Service_GatewayOperatorSpec from the provided source Service_GatewayOperatorSpec
-func (operator *Service_GatewayOperatorSpec) AssignProperties_From_Service_GatewayOperatorSpec(source *storage.Service_GatewayOperatorSpec) error {
+// AssignProperties_From_ServiceGatewayOperatorSpec populates our ServiceGatewayOperatorSpec from the provided source ServiceGatewayOperatorSpec
+func (operator *ServiceGatewayOperatorSpec) AssignProperties_From_ServiceGatewayOperatorSpec(source *storage.ServiceGatewayOperatorSpec) error {
 
 	// ConfigMapExpressions
 	if source.ConfigMapExpressions != nil {
@@ -1058,10 +1058,10 @@ func (operator *Service_GatewayOperatorSpec) AssignProperties_From_Service_Gatew
 
 	// Secrets
 	if source.Secrets != nil {
-		var secret Service_GatewayOperatorSecrets
-		err := secret.AssignProperties_From_Service_GatewayOperatorSecrets(source.Secrets)
+		var secret ServiceGatewayOperatorSecrets
+		err := secret.AssignProperties_From_ServiceGatewayOperatorSecrets(source.Secrets)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Service_GatewayOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_From_ServiceGatewayOperatorSecrets() to populate field Secrets")
 		}
 		operator.Secrets = &secret
 	} else {
@@ -1072,8 +1072,8 @@ func (operator *Service_GatewayOperatorSpec) AssignProperties_From_Service_Gatew
 	return nil
 }
 
-// AssignProperties_To_Service_GatewayOperatorSpec populates the provided destination Service_GatewayOperatorSpec from our Service_GatewayOperatorSpec
-func (operator *Service_GatewayOperatorSpec) AssignProperties_To_Service_GatewayOperatorSpec(destination *storage.Service_GatewayOperatorSpec) error {
+// AssignProperties_To_ServiceGatewayOperatorSpec populates the provided destination ServiceGatewayOperatorSpec from our ServiceGatewayOperatorSpec
+func (operator *ServiceGatewayOperatorSpec) AssignProperties_To_ServiceGatewayOperatorSpec(destination *storage.ServiceGatewayOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1111,10 +1111,10 @@ func (operator *Service_GatewayOperatorSpec) AssignProperties_To_Service_Gateway
 
 	// Secrets
 	if operator.Secrets != nil {
-		var secret storage.Service_GatewayOperatorSecrets
-		err := operator.Secrets.AssignProperties_To_Service_GatewayOperatorSecrets(&secret)
+		var secret storage.ServiceGatewayOperatorSecrets
+		err := operator.Secrets.AssignProperties_To_ServiceGatewayOperatorSecrets(&secret)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Service_GatewayOperatorSecrets() to populate field Secrets")
+			return eris.Wrap(err, "calling AssignProperties_To_ServiceGatewayOperatorSecrets() to populate field Secrets")
 		}
 		destination.Secrets = &secret
 	} else {
@@ -1132,7 +1132,7 @@ func (operator *Service_GatewayOperatorSpec) AssignProperties_To_Service_Gateway
 	return nil
 }
 
-type Service_GatewayOperatorSecrets struct {
+type ServiceGatewayOperatorSecrets struct {
 	// PrimaryKey: indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from
 	// Azure.
 	PrimaryKey *genruntime.SecretDestination `json:"primaryKey,omitempty"`
@@ -1142,8 +1142,8 @@ type Service_GatewayOperatorSecrets struct {
 	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
-// AssignProperties_From_Service_GatewayOperatorSecrets populates our Service_GatewayOperatorSecrets from the provided source Service_GatewayOperatorSecrets
-func (secrets *Service_GatewayOperatorSecrets) AssignProperties_From_Service_GatewayOperatorSecrets(source *storage.Service_GatewayOperatorSecrets) error {
+// AssignProperties_From_ServiceGatewayOperatorSecrets populates our ServiceGatewayOperatorSecrets from the provided source ServiceGatewayOperatorSecrets
+func (secrets *ServiceGatewayOperatorSecrets) AssignProperties_From_ServiceGatewayOperatorSecrets(source *storage.ServiceGatewayOperatorSecrets) error {
 
 	// PrimaryKey
 	if source.PrimaryKey != nil {
@@ -1165,8 +1165,8 @@ func (secrets *Service_GatewayOperatorSecrets) AssignProperties_From_Service_Gat
 	return nil
 }
 
-// AssignProperties_To_Service_GatewayOperatorSecrets populates the provided destination Service_GatewayOperatorSecrets from our Service_GatewayOperatorSecrets
-func (secrets *Service_GatewayOperatorSecrets) AssignProperties_To_Service_GatewayOperatorSecrets(destination *storage.Service_GatewayOperatorSecrets) error {
+// AssignProperties_To_ServiceGatewayOperatorSecrets populates the provided destination ServiceGatewayOperatorSecrets from our ServiceGatewayOperatorSecrets
+func (secrets *ServiceGatewayOperatorSecrets) AssignProperties_To_ServiceGatewayOperatorSecrets(destination *storage.ServiceGatewayOperatorSecrets) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1198,5 +1198,5 @@ func (secrets *Service_GatewayOperatorSecrets) AssignProperties_To_Service_Gatew
 }
 
 func init() {
-	SchemeBuilder.Register(&Service_Gateway{}, &Service_GatewayList{})
+	SchemeBuilder.Register(&ServiceGateway{}, &ServiceGatewayList{})
 }

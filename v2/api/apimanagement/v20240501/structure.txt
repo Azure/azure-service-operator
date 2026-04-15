@@ -696,7 +696,7 @@ Certificate: Resource
 │   │   ├── Rule 0: MaxLength: 80
 │   │   ├── Rule 1: MinLength: 1
 │   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
-│   ├── Data: *string
+│   ├── Data: *genruntime.SecretReference
 │   ├── KeyVault: *Object (3 properties)
 │   │   ├── IdentityClientId: *string
 │   │   ├── IdentityClientIdFromConfig: *genruntime.ConfigMapReference
@@ -720,68 +720,6 @@ Certificate: Resource
     ├── Name: *string
     ├── Subject: *string
     ├── Thumbprint: *string
-    └── Type: *string
-
-GatewayApi: Resource
-├── Owner: Service_Gateway
-├── Spec: Object (4 properties)
-│   ├── AzureName: Validated<string> (2 rules)
-│   │   ├── Rule 0: MaxLength: 80
-│   │   └── Rule 1: MinLength: 1
-│   ├── OperatorSpec: *Object (2 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── Owner: *genruntime.KnownResourceReference
-│   └── ProvisioningState: *Enum (1 value)
-│       └── "created"
-└── Status: Object (1 property)
-    └── Conditions: conditions.Condition[]
-
-GatewayCertificateAuthority: Resource
-├── Owner: Service_Gateway
-├── Spec: Object (4 properties)
-│   ├── AzureName: Validated<string> (3 rules)
-│   │   ├── Rule 0: MaxLength: 80
-│   │   ├── Rule 1: MinLength: 1
-│   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
-│   ├── IsTrusted: *bool
-│   ├── OperatorSpec: *Object (2 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   └── Owner: *genruntime.KnownResourceReference
-└── Status: Object (5 properties)
-    ├── Conditions: conditions.Condition[]
-    ├── Id: *string
-    ├── IsTrusted: *bool
-    ├── Name: *string
-    └── Type: *string
-
-GatewayHostnameConfiguration: Resource
-├── Owner: Service_Gateway
-├── Spec: Object (9 properties)
-│   ├── AzureName: Validated<string> (2 rules)
-│   │   ├── Rule 0: MaxLength: 80
-│   │   └── Rule 1: MinLength: 1
-│   ├── CertificateId: *string
-│   ├── Hostname: *string
-│   ├── Http2Enabled: *bool
-│   ├── NegotiateClientCertificate: *bool
-│   ├── OperatorSpec: *Object (2 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Tls10Enabled: *bool
-│   └── Tls11Enabled: *bool
-└── Status: Object (10 properties)
-    ├── CertificateId: *string
-    ├── Conditions: conditions.Condition[]
-    ├── Hostname: *string
-    ├── Http2Enabled: *bool
-    ├── Id: *string
-    ├── Name: *string
-    ├── NegotiateClientCertificate: *bool
-    ├── Tls10Enabled: *bool
-    ├── Tls11Enabled: *bool
     └── Type: *string
 
 Group: Resource
@@ -823,7 +761,7 @@ Logger: Resource
 │   ├── AzureName: Validated<string> (2 rules)
 │   │   ├── Rule 0: MaxLength: 256
 │   │   └── Rule 1: Pattern: "^[^*#&+:<>?]+$"
-│   ├── Credentials: map[string]string
+│   ├── Credentials: *genruntime.SecretMapReference
 │   ├── Description: Validated<*string> (1 rule)
 │   │   └── Rule 0: MaxLength: 256
 │   ├── IsBuffered: *bool
@@ -1340,7 +1278,7 @@ Service: Resource
     │   └── "None"
     └── Zones: string[]
 
-Service_Gateway: Resource
+ServiceGateway: Resource
 ├── Owner: Service
 ├── Spec: Object (5 properties)
 │   ├── AzureName: Validated<string> (2 rules)
@@ -1374,6 +1312,68 @@ Service_Gateway: Resource
     │   ├── District: *string
     │   └── Name: *string
     ├── Name: *string
+    └── Type: *string
+
+ServiceGatewayApi: Resource
+├── Owner: ServiceGateway
+├── Spec: Object (4 properties)
+│   ├── AzureName: Validated<string> (2 rules)
+│   │   ├── Rule 0: MaxLength: 80
+│   │   └── Rule 1: MinLength: 1
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   └── ProvisioningState: *Enum (1 value)
+│       └── "created"
+└── Status: Object (1 property)
+    └── Conditions: conditions.Condition[]
+
+ServiceGatewayCertificateAuthority: Resource
+├── Owner: ServiceGateway
+├── Spec: Object (4 properties)
+│   ├── AzureName: Validated<string> (3 rules)
+│   │   ├── Rule 0: MaxLength: 80
+│   │   ├── Rule 1: MinLength: 1
+│   │   └── Rule 2: Pattern: "^[^*#&+:<>?]+$"
+│   ├── IsTrusted: *bool
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   └── Owner: *genruntime.KnownResourceReference
+└── Status: Object (5 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Id: *string
+    ├── IsTrusted: *bool
+    ├── Name: *string
+    └── Type: *string
+
+ServiceGatewayHostnameConfiguration: Resource
+├── Owner: ServiceGateway
+├── Spec: Object (9 properties)
+│   ├── AzureName: Validated<string> (2 rules)
+│   │   ├── Rule 0: MaxLength: 80
+│   │   └── Rule 1: MinLength: 1
+│   ├── CertificateReference: *genruntime.ResourceReference
+│   ├── Hostname: *string
+│   ├── Http2Enabled: *bool
+│   ├── NegotiateClientCertificate: *bool
+│   ├── OperatorSpec: *Object (2 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── Tls10Enabled: *bool
+│   └── Tls11Enabled: *bool
+└── Status: Object (10 properties)
+    ├── CertificateId: *string
+    ├── Conditions: conditions.Condition[]
+    ├── Hostname: *string
+    ├── Http2Enabled: *bool
+    ├── Id: *string
+    ├── Name: *string
+    ├── NegotiateClientCertificate: *bool
+    ├── Tls10Enabled: *bool
+    ├── Tls11Enabled: *bool
     └── Type: *string
 
 Subscription: Resource

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package arm
 
-type Service_Gateway_STATUS struct {
+type ServiceGateway_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`

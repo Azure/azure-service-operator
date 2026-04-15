@@ -576,6 +576,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(apimanagement_v20240501s.Certificate),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.data",
+				Func: indexApimanagementCertificateData,
+			},
+			{
 				Key:  ".spec.keyVault.identityClientIdFromConfig",
 				Func: indexApimanagementCertificateIdentityClientIdFromConfig,
 			},
@@ -589,6 +593,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Type: &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory(
 					[]string{
+						".spec.data",
 						".spec.password",
 					},
 					&apimanagement_v20240501s.CertificateList{}),
@@ -603,11 +608,26 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.GatewayApi)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.GatewayCertificateAuthority)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.GatewayHostnameConfiguration)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Group)})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Logger)})
+	result = append(result, &registration.StorageType{
+		Obj: new(apimanagement_v20240501s.Logger),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.credentials",
+				Func: indexApimanagementLoggerCredentials,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.credentials",
+					},
+					&apimanagement_v20240501s.LoggerList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20240501s.NamedValue),
 		Indexes: []registration.Index{
@@ -698,7 +718,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Service_Gateway)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ServiceGateway)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ServiceGatewayApi)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ServiceGatewayCertificateAuthority)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ServiceGatewayHostnameConfiguration)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20240501s.Subscription),
 		Indexes: []registration.Index{
@@ -3617,21 +3640,6 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &apimanagement_v20240501w.Certificate{},
 		},
 		&registration.KnownType{
-			Obj:       new(apimanagement_v20240501.GatewayApi),
-			Defaulter: &apimanagement_v20240501w.GatewayApi{},
-			Validator: &apimanagement_v20240501w.GatewayApi{},
-		},
-		&registration.KnownType{
-			Obj:       new(apimanagement_v20240501.GatewayCertificateAuthority),
-			Defaulter: &apimanagement_v20240501w.GatewayCertificateAuthority{},
-			Validator: &apimanagement_v20240501w.GatewayCertificateAuthority{},
-		},
-		&registration.KnownType{
-			Obj:       new(apimanagement_v20240501.GatewayHostnameConfiguration),
-			Defaulter: &apimanagement_v20240501w.GatewayHostnameConfiguration{},
-			Validator: &apimanagement_v20240501w.GatewayHostnameConfiguration{},
-		},
-		&registration.KnownType{
 			Obj:       new(apimanagement_v20240501.Group),
 			Defaulter: &apimanagement_v20240501w.Group{},
 			Validator: &apimanagement_v20240501w.Group{},
@@ -3677,9 +3685,24 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &apimanagement_v20240501w.Service{},
 		},
 		&registration.KnownType{
-			Obj:       new(apimanagement_v20240501.Service_Gateway),
-			Defaulter: &apimanagement_v20240501w.Service_Gateway{},
-			Validator: &apimanagement_v20240501w.Service_Gateway{},
+			Obj:       new(apimanagement_v20240501.ServiceGateway),
+			Defaulter: &apimanagement_v20240501w.ServiceGateway{},
+			Validator: &apimanagement_v20240501w.ServiceGateway{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.ServiceGatewayApi),
+			Defaulter: &apimanagement_v20240501w.ServiceGatewayApi{},
+			Validator: &apimanagement_v20240501w.ServiceGatewayApi{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.ServiceGatewayCertificateAuthority),
+			Defaulter: &apimanagement_v20240501w.ServiceGatewayCertificateAuthority{},
+			Validator: &apimanagement_v20240501w.ServiceGatewayCertificateAuthority{},
+		},
+		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.ServiceGatewayHostnameConfiguration),
+			Defaulter: &apimanagement_v20240501w.ServiceGatewayHostnameConfiguration{},
+			Validator: &apimanagement_v20240501w.ServiceGatewayHostnameConfiguration{},
 		},
 		&registration.KnownType{
 			Obj:       new(apimanagement_v20240501.Subscription),
@@ -3702,9 +3725,6 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.AuthorizationProvidersAuthorizationsAccessPolicy)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Backend)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Certificate)},
-		&registration.KnownType{Obj: new(apimanagement_v20240501s.GatewayApi)},
-		&registration.KnownType{Obj: new(apimanagement_v20240501s.GatewayCertificateAuthority)},
-		&registration.KnownType{Obj: new(apimanagement_v20240501s.GatewayHostnameConfiguration)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Group)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Logger)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.NamedValue)},
@@ -3714,7 +3734,10 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.ProductApi)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.ProductPolicy)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Service)},
-		&registration.KnownType{Obj: new(apimanagement_v20240501s.Service_Gateway)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.ServiceGateway)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.ServiceGatewayApi)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.ServiceGatewayCertificateAuthority)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.ServiceGatewayHostnameConfiguration)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Subscription)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.User)})
 	result = append(
@@ -7411,9 +7434,6 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.AuthorizationProvidersAuthorizationsAccessPolicyExtension{})
 	result = append(result, &apimanagement_customizations.BackendExtension{})
 	result = append(result, &apimanagement_customizations.CertificateExtension{})
-	result = append(result, &apimanagement_customizations.GatewayApiExtension{})
-	result = append(result, &apimanagement_customizations.GatewayCertificateAuthorityExtension{})
-	result = append(result, &apimanagement_customizations.GatewayHostnameConfigurationExtension{})
 	result = append(result, &apimanagement_customizations.GroupExtension{})
 	result = append(result, &apimanagement_customizations.LoggerExtension{})
 	result = append(result, &apimanagement_customizations.NamedValueExtension{})
@@ -7423,7 +7443,10 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.ProductExtension{})
 	result = append(result, &apimanagement_customizations.ProductPolicyExtension{})
 	result = append(result, &apimanagement_customizations.ServiceExtension{})
-	result = append(result, &apimanagement_customizations.Service_GatewayExtension{})
+	result = append(result, &apimanagement_customizations.ServiceGatewayApiExtension{})
+	result = append(result, &apimanagement_customizations.ServiceGatewayCertificateAuthorityExtension{})
+	result = append(result, &apimanagement_customizations.ServiceGatewayExtension{})
+	result = append(result, &apimanagement_customizations.ServiceGatewayHostnameConfigurationExtension{})
 	result = append(result, &apimanagement_customizations.SubscriptionExtension{})
 	result = append(result, &apimanagement_customizations.UserExtension{})
 	result = append(result, &app_customizations.AuthConfigExtension{})
@@ -7767,6 +7790,18 @@ func indexApimanagementBackendPassword(rawObj client.Object) []string {
 	return obj.Spec.Proxy.Password.Index()
 }
 
+// indexApimanagementCertificateData an index function for apimanagement_v20240501s.Certificate .spec.data
+func indexApimanagementCertificateData(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20240501s.Certificate)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Data == nil {
+		return nil
+	}
+	return obj.Spec.Data.Index()
+}
+
 // indexApimanagementCertificateIdentityClientIdFromConfig an index function for apimanagement_v20240501s.Certificate .spec.keyVault.identityClientIdFromConfig
 func indexApimanagementCertificateIdentityClientIdFromConfig(rawObj client.Object) []string {
 	obj, ok := rawObj.(*apimanagement_v20240501s.Certificate)
@@ -7792,6 +7827,18 @@ func indexApimanagementCertificatePassword(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.Password.Index()
+}
+
+// indexApimanagementLoggerCredentials an index function for apimanagement_v20240501s.Logger .spec.credentials
+func indexApimanagementLoggerCredentials(rawObj client.Object) []string {
+	obj, ok := rawObj.(*apimanagement_v20240501s.Logger)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Credentials == nil {
+		return nil
+	}
+	return obj.Spec.Credentials.Index()
 }
 
 // indexApimanagementNamedValueIdentityClientIdFromConfig an index function for apimanagement_v20240501s.NamedValue .spec.keyVault.identityClientIdFromConfig

@@ -14,8 +14,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-// +kubebuilder:rbac:groups=apimanagement.azure.com,resources=service_gateways,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=apimanagement.azure.com,resources={service_gateways/status,service_gateways/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=apimanagement.azure.com,resources=servicegateways,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=apimanagement.azure.com,resources={servicegateways/status,servicegateways/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,apimanagement}
@@ -25,78 +25,78 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v20240501.Service_Gateway
+// Storage version of v20240501.ServiceGateway
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}
-type Service_Gateway struct {
+type ServiceGateway struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Service_Gateway_Spec   `json:"spec,omitempty"`
-	Status            Service_Gateway_STATUS `json:"status,omitempty"`
+	Spec              ServiceGateway_Spec   `json:"spec,omitempty"`
+	Status            ServiceGateway_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &Service_Gateway{}
+var _ conditions.Conditioner = &ServiceGateway{}
 
 // GetConditions returns the conditions of the resource
-func (gateway *Service_Gateway) GetConditions() conditions.Conditions {
+func (gateway *ServiceGateway) GetConditions() conditions.Conditions {
 	return gateway.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (gateway *Service_Gateway) SetConditions(conditions conditions.Conditions) {
+func (gateway *ServiceGateway) SetConditions(conditions conditions.Conditions) {
 	gateway.Status.Conditions = conditions
 }
 
-var _ configmaps.Exporter = &Service_Gateway{}
+var _ configmaps.Exporter = &ServiceGateway{}
 
 // ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
-func (gateway *Service_Gateway) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+func (gateway *ServiceGateway) ConfigMapDestinationExpressions() []*core.DestinationExpression {
 	if gateway.Spec.OperatorSpec == nil {
 		return nil
 	}
 	return gateway.Spec.OperatorSpec.ConfigMapExpressions
 }
 
-var _ secrets.Exporter = &Service_Gateway{}
+var _ secrets.Exporter = &ServiceGateway{}
 
 // SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
-func (gateway *Service_Gateway) SecretDestinationExpressions() []*core.DestinationExpression {
+func (gateway *ServiceGateway) SecretDestinationExpressions() []*core.DestinationExpression {
 	if gateway.Spec.OperatorSpec == nil {
 		return nil
 	}
 	return gateway.Spec.OperatorSpec.SecretExpressions
 }
 
-var _ genruntime.KubernetesResource = &Service_Gateway{}
+var _ genruntime.KubernetesResource = &ServiceGateway{}
 
 // AzureName returns the Azure name of the resource
-func (gateway *Service_Gateway) AzureName() string {
+func (gateway *ServiceGateway) AzureName() string {
 	return gateway.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-05-01"
-func (gateway Service_Gateway) GetAPIVersion() string {
+func (gateway ServiceGateway) GetAPIVersion() string {
 	return "2024-05-01"
 }
 
 // GetResourceScope returns the scope of the resource
-func (gateway *Service_Gateway) GetResourceScope() genruntime.ResourceScope {
+func (gateway *ServiceGateway) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (gateway *Service_Gateway) GetSpec() genruntime.ConvertibleSpec {
+func (gateway *ServiceGateway) GetSpec() genruntime.ConvertibleSpec {
 	return &gateway.Spec
 }
 
 // GetStatus returns the status of this resource
-func (gateway *Service_Gateway) GetStatus() genruntime.ConvertibleStatus {
+func (gateway *ServiceGateway) GetStatus() genruntime.ConvertibleStatus {
 	return &gateway.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (gateway *Service_Gateway) GetSupportedOperations() []genruntime.ResourceOperation {
+func (gateway *ServiceGateway) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationDelete,
 		genruntime.ResourceOperationGet,
@@ -106,17 +106,17 @@ func (gateway *Service_Gateway) GetSupportedOperations() []genruntime.ResourceOp
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ApiManagement/service/gateways"
-func (gateway *Service_Gateway) GetType() string {
+func (gateway *ServiceGateway) GetType() string {
 	return "Microsoft.ApiManagement/service/gateways"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (gateway *Service_Gateway) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Service_Gateway_STATUS{}
+func (gateway *ServiceGateway) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &ServiceGateway_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (gateway *Service_Gateway) Owner() *genruntime.ResourceReference {
+func (gateway *ServiceGateway) Owner() *genruntime.ResourceReference {
 	if gateway.Spec.Owner == nil {
 		return nil
 	}
@@ -126,15 +126,15 @@ func (gateway *Service_Gateway) Owner() *genruntime.ResourceReference {
 }
 
 // SetStatus sets the status of this resource
-func (gateway *Service_Gateway) SetStatus(status genruntime.ConvertibleStatus) error {
+func (gateway *ServiceGateway) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Service_Gateway_STATUS); ok {
+	if st, ok := status.(*ServiceGateway_STATUS); ok {
 		gateway.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Service_Gateway_STATUS
+	var st ServiceGateway_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
@@ -144,37 +144,37 @@ func (gateway *Service_Gateway) SetStatus(status genruntime.ConvertibleStatus) e
 	return nil
 }
 
-// Hub marks that this Service_Gateway is the hub type for conversion
-func (gateway *Service_Gateway) Hub() {}
+// Hub marks that this ServiceGateway is the hub type for conversion
+func (gateway *ServiceGateway) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (gateway *Service_Gateway) OriginalGVK() *schema.GroupVersionKind {
+func (gateway *ServiceGateway) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
 		Version: gateway.Spec.OriginalVersion,
-		Kind:    "Service_Gateway",
+		Kind:    "ServiceGateway",
 	}
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v20240501.Service_Gateway
+// Storage version of v20240501.ServiceGateway
 // Generator information:
 // - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimgateways.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/gateways/{gatewayId}
-type Service_GatewayList struct {
+type ServiceGatewayList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Service_Gateway `json:"items"`
+	Items           []ServiceGateway `json:"items"`
 }
 
-// Storage version of v20240501.Service_Gateway_Spec
-type Service_Gateway_Spec struct {
+// Storage version of v20240501.ServiceGateway_Spec
+type ServiceGateway_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string                        `json:"azureName,omitempty"`
 	Description     *string                       `json:"description,omitempty"`
 	LocationData    *ResourceLocationDataContract `json:"locationData,omitempty"`
-	OperatorSpec    *Service_GatewayOperatorSpec  `json:"operatorSpec,omitempty"`
+	OperatorSpec    *ServiceGatewayOperatorSpec   `json:"operatorSpec,omitempty"`
 	OriginalVersion string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -185,10 +185,10 @@ type Service_Gateway_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Service_Gateway_Spec{}
+var _ genruntime.ConvertibleSpec = &ServiceGateway_Spec{}
 
-// ConvertSpecFrom populates our Service_Gateway_Spec from the provided source
-func (gateway *Service_Gateway_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+// ConvertSpecFrom populates our ServiceGateway_Spec from the provided source
+func (gateway *ServiceGateway_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	if source == gateway {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -196,8 +196,8 @@ func (gateway *Service_Gateway_Spec) ConvertSpecFrom(source genruntime.Convertib
 	return source.ConvertSpecTo(gateway)
 }
 
-// ConvertSpecTo populates the provided destination from our Service_Gateway_Spec
-func (gateway *Service_Gateway_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+// ConvertSpecTo populates the provided destination from our ServiceGateway_Spec
+func (gateway *ServiceGateway_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	if destination == gateway {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
@@ -205,8 +205,8 @@ func (gateway *Service_Gateway_Spec) ConvertSpecTo(destination genruntime.Conver
 	return destination.ConvertSpecFrom(gateway)
 }
 
-// Storage version of v20240501.Service_Gateway_STATUS
-type Service_Gateway_STATUS struct {
+// Storage version of v20240501.ServiceGateway_STATUS
+type ServiceGateway_STATUS struct {
 	Conditions   []conditions.Condition               `json:"conditions,omitempty"`
 	Description  *string                              `json:"description,omitempty"`
 	Id           *string                              `json:"id,omitempty"`
@@ -216,10 +216,10 @@ type Service_Gateway_STATUS struct {
 	Type         *string                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Service_Gateway_STATUS{}
+var _ genruntime.ConvertibleStatus = &ServiceGateway_STATUS{}
 
-// ConvertStatusFrom populates our Service_Gateway_STATUS from the provided source
-func (gateway *Service_Gateway_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ServiceGateway_STATUS from the provided source
+func (gateway *ServiceGateway_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == gateway {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -227,8 +227,8 @@ func (gateway *Service_Gateway_STATUS) ConvertStatusFrom(source genruntime.Conve
 	return source.ConvertStatusTo(gateway)
 }
 
-// ConvertStatusTo populates the provided destination from our Service_Gateway_STATUS
-func (gateway *Service_Gateway_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ServiceGateway_STATUS
+func (gateway *ServiceGateway_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == gateway {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -256,22 +256,22 @@ type ResourceLocationDataContract_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20240501.Service_GatewayOperatorSpec
+// Storage version of v20240501.ServiceGatewayOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type Service_GatewayOperatorSpec struct {
-	ConfigMapExpressions []*core.DestinationExpression   `json:"configMapExpressions,omitempty"`
-	PropertyBag          genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
-	SecretExpressions    []*core.DestinationExpression   `json:"secretExpressions,omitempty"`
-	Secrets              *Service_GatewayOperatorSecrets `json:"secrets,omitempty"`
+type ServiceGatewayOperatorSpec struct {
+	ConfigMapExpressions []*core.DestinationExpression  `json:"configMapExpressions,omitempty"`
+	PropertyBag          genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	SecretExpressions    []*core.DestinationExpression  `json:"secretExpressions,omitempty"`
+	Secrets              *ServiceGatewayOperatorSecrets `json:"secrets,omitempty"`
 }
 
-// Storage version of v20240501.Service_GatewayOperatorSecrets
-type Service_GatewayOperatorSecrets struct {
+// Storage version of v20240501.ServiceGatewayOperatorSecrets
+type ServiceGatewayOperatorSecrets struct {
 	PrimaryKey   *genruntime.SecretDestination `json:"primaryKey,omitempty"`
 	PropertyBag  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecondaryKey *genruntime.SecretDestination `json:"secondaryKey,omitempty"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Service_Gateway{}, &Service_GatewayList{})
+	SchemeBuilder.Register(&ServiceGateway{}, &ServiceGatewayList{})
 }

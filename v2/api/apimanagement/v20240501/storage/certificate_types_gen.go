@@ -172,7 +172,7 @@ type Certificate_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string                            `json:"azureName,omitempty"`
-	Data            *string                           `json:"data,omitempty"`
+	Data            *genruntime.SecretReference       `json:"data,omitempty"`
 	KeyVault        *KeyVaultContractCreateProperties `json:"keyVault,omitempty"`
 	OperatorSpec    *CertificateOperatorSpec          `json:"operatorSpec,omitempty"`
 	OriginalVersion string                            `json:"originalVersion,omitempty"`

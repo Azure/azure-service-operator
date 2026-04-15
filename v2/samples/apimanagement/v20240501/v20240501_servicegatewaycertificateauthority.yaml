@@ -1,0 +1,10 @@
+apiVersion: apimanagement.azure.com/v20240501
+kind: ServiceGatewayCertificateAuthority
+metadata:
+  name: samplegatewaycertauth
+  namespace: default
+spec:
+  azureName: samplecertificate
+  isTrusted: true
+  owner:
+    name: samplegateway

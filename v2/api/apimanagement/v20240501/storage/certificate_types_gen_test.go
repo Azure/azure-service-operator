@@ -279,7 +279,6 @@ func Certificate_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCertificate_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCertificate_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Data"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 }
 

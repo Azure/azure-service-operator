@@ -16,18 +16,18 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-type Service_Gateway struct {
+type ServiceGateway struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v20240501-service_gateway,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=service_gateways,verbs=create;update,versions=v20240501,name=default.v20240501.service_gateways.apimanagement.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-apimanagement-azure-com-v20240501-servicegateway,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=servicegateways,verbs=create;update,versions=v20240501,name=default.v20240501.servicegateways.apimanagement.azure.com,admissionReviewVersions=v1
 
-var _ webhook.CustomDefaulter = &Service_Gateway{}
+var _ webhook.CustomDefaulter = &ServiceGateway{}
 
-// Default applies defaults to the Service_Gateway resource
-func (gateway *Service_Gateway) Default(ctx context.Context, obj runtime.Object) error {
-	resource, ok := obj.(*v20240501.Service_Gateway)
+// Default applies defaults to the ServiceGateway resource
+func (gateway *ServiceGateway) Default(ctx context.Context, obj runtime.Object) error {
+	resource, ok := obj.(*v20240501.ServiceGateway)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/Service_Gateway, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/ServiceGateway, but got %T", obj)
 	}
 	err := gateway.defaultImpl(ctx, resource)
 	if err != nil {
@@ -44,15 +44,15 @@ func (gateway *Service_Gateway) Default(ctx context.Context, obj runtime.Object)
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (gateway *Service_Gateway) defaultAzureName(ctx context.Context, obj *v20240501.Service_Gateway) error {
+func (gateway *ServiceGateway) defaultAzureName(ctx context.Context, obj *v20240501.ServiceGateway) error {
 	if obj.Spec.AzureName == "" {
 		obj.Spec.AzureName = obj.Name
 	}
 	return nil
 }
 
-// defaultImpl applies the code generated defaults to the Service_Gateway resource
-func (gateway *Service_Gateway) defaultImpl(ctx context.Context, obj *v20240501.Service_Gateway) error {
+// defaultImpl applies the code generated defaults to the ServiceGateway resource
+func (gateway *ServiceGateway) defaultImpl(ctx context.Context, obj *v20240501.ServiceGateway) error {
 	err := gateway.defaultAzureName(ctx, obj)
 	if err != nil {
 		return err
@@ -60,51 +60,51 @@ func (gateway *Service_Gateway) defaultImpl(ctx context.Context, obj *v20240501.
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v20240501-service_gateway,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=service_gateways,verbs=create;update,versions=v20240501,name=validate.v20240501.service_gateways.apimanagement.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-apimanagement-azure-com-v20240501-servicegateway,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=apimanagement.azure.com,resources=servicegateways,verbs=create;update,versions=v20240501,name=validate.v20240501.servicegateways.apimanagement.azure.com,admissionReviewVersions=v1
 
-var _ webhook.CustomValidator = &Service_Gateway{}
+var _ webhook.CustomValidator = &ServiceGateway{}
 
 // ValidateCreate validates the creation of the resource
-func (gateway *Service_Gateway) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
-	obj, ok := resource.(*v20240501.Service_Gateway)
+func (gateway *ServiceGateway) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
+	obj, ok := resource.(*v20240501.ServiceGateway)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/Service_Gateway, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/ServiceGateway, but got %T", resource)
 	}
 	validations := gateway.createValidations()
 	var temp any = gateway
-	if runtimeValidator, ok := temp.(genruntime.Validator[*v20240501.Service_Gateway]); ok {
+	if runtimeValidator, ok := temp.(genruntime.Validator[*v20240501.ServiceGateway]); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
 	return genruntime.ValidateCreate(ctx, obj, validations)
 }
 
 // ValidateDelete validates the deletion of the resource
-func (gateway *Service_Gateway) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
-	obj, ok := resource.(*v20240501.Service_Gateway)
+func (gateway *ServiceGateway) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
+	obj, ok := resource.(*v20240501.ServiceGateway)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/Service_Gateway, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/ServiceGateway, but got %T", resource)
 	}
 	validations := gateway.deleteValidations()
 	var temp any = gateway
-	if runtimeValidator, ok := temp.(genruntime.Validator[*v20240501.Service_Gateway]); ok {
+	if runtimeValidator, ok := temp.(genruntime.Validator[*v20240501.ServiceGateway]); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
 	return genruntime.ValidateDelete(ctx, obj, validations)
 }
 
 // ValidateUpdate validates an update of the resource
-func (gateway *Service_Gateway) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
-	newObj, ok := newResource.(*v20240501.Service_Gateway)
+func (gateway *ServiceGateway) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
+	newObj, ok := newResource.(*v20240501.ServiceGateway)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/Service_Gateway, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/ServiceGateway, but got %T", newResource)
 	}
-	oldObj, ok := oldResource.(*v20240501.Service_Gateway)
+	oldObj, ok := oldResource.(*v20240501.ServiceGateway)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/Service_Gateway, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/ServiceGateway, but got %T", oldResource)
 	}
 	validations := gateway.updateValidations()
 	var temp any = gateway
-	if runtimeValidator, ok := temp.(genruntime.Validator[*v20240501.Service_Gateway]); ok {
+	if runtimeValidator, ok := temp.(genruntime.Validator[*v20240501.ServiceGateway]); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
 	return genruntime.ValidateUpdate(
@@ -115,8 +115,8 @@ func (gateway *Service_Gateway) ValidateUpdate(ctx context.Context, oldResource 
 }
 
 // createValidations validates the creation of the resource
-func (gateway *Service_Gateway) createValidations() []func(ctx context.Context, obj *v20240501.Service_Gateway) (admission.Warnings, error) {
-	return []func(ctx context.Context, obj *v20240501.Service_Gateway) (admission.Warnings, error){
+func (gateway *ServiceGateway) createValidations() []func(ctx context.Context, obj *v20240501.ServiceGateway) (admission.Warnings, error) {
+	return []func(ctx context.Context, obj *v20240501.ServiceGateway) (admission.Warnings, error){
 		gateway.validateResourceReferences,
 		gateway.validateOwnerReference,
 		gateway.validateSecretDestinations,
@@ -125,31 +125,31 @@ func (gateway *Service_Gateway) createValidations() []func(ctx context.Context, 
 }
 
 // deleteValidations validates the deletion of the resource
-func (gateway *Service_Gateway) deleteValidations() []func(ctx context.Context, obj *v20240501.Service_Gateway) (admission.Warnings, error) {
+func (gateway *ServiceGateway) deleteValidations() []func(ctx context.Context, obj *v20240501.ServiceGateway) (admission.Warnings, error) {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (gateway *Service_Gateway) updateValidations() []func(ctx context.Context, oldObj *v20240501.Service_Gateway, newObj *v20240501.Service_Gateway) (admission.Warnings, error) {
-	return []func(ctx context.Context, oldObj *v20240501.Service_Gateway, newObj *v20240501.Service_Gateway) (admission.Warnings, error){
-		func(ctx context.Context, oldObj *v20240501.Service_Gateway, newObj *v20240501.Service_Gateway) (admission.Warnings, error) {
+func (gateway *ServiceGateway) updateValidations() []func(ctx context.Context, oldObj *v20240501.ServiceGateway, newObj *v20240501.ServiceGateway) (admission.Warnings, error) {
+	return []func(ctx context.Context, oldObj *v20240501.ServiceGateway, newObj *v20240501.ServiceGateway) (admission.Warnings, error){
+		func(ctx context.Context, oldObj *v20240501.ServiceGateway, newObj *v20240501.ServiceGateway) (admission.Warnings, error) {
 			return gateway.validateResourceReferences(ctx, newObj)
 		},
 		gateway.validateWriteOnceProperties,
-		func(ctx context.Context, oldObj *v20240501.Service_Gateway, newObj *v20240501.Service_Gateway) (admission.Warnings, error) {
+		func(ctx context.Context, oldObj *v20240501.ServiceGateway, newObj *v20240501.ServiceGateway) (admission.Warnings, error) {
 			return gateway.validateOwnerReference(ctx, newObj)
 		},
-		func(ctx context.Context, oldObj *v20240501.Service_Gateway, newObj *v20240501.Service_Gateway) (admission.Warnings, error) {
+		func(ctx context.Context, oldObj *v20240501.ServiceGateway, newObj *v20240501.ServiceGateway) (admission.Warnings, error) {
 			return gateway.validateSecretDestinations(ctx, newObj)
 		},
-		func(ctx context.Context, oldObj *v20240501.Service_Gateway, newObj *v20240501.Service_Gateway) (admission.Warnings, error) {
+		func(ctx context.Context, oldObj *v20240501.ServiceGateway, newObj *v20240501.ServiceGateway) (admission.Warnings, error) {
 			return gateway.validateConfigMapDestinations(ctx, newObj)
 		},
 	}
 }
 
 // validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
-func (gateway *Service_Gateway) validateConfigMapDestinations(ctx context.Context, obj *v20240501.Service_Gateway) (admission.Warnings, error) {
+func (gateway *ServiceGateway) validateConfigMapDestinations(ctx context.Context, obj *v20240501.ServiceGateway) (admission.Warnings, error) {
 	if obj.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
@@ -157,12 +157,12 @@ func (gateway *Service_Gateway) validateConfigMapDestinations(ctx context.Contex
 }
 
 // validateOwnerReference validates the owner field
-func (gateway *Service_Gateway) validateOwnerReference(ctx context.Context, obj *v20240501.Service_Gateway) (admission.Warnings, error) {
+func (gateway *ServiceGateway) validateOwnerReference(ctx context.Context, obj *v20240501.ServiceGateway) (admission.Warnings, error) {
 	return genruntime.ValidateOwner(obj)
 }
 
 // validateResourceReferences validates all resource references
-func (gateway *Service_Gateway) validateResourceReferences(ctx context.Context, obj *v20240501.Service_Gateway) (admission.Warnings, error) {
+func (gateway *ServiceGateway) validateResourceReferences(ctx context.Context, obj *v20240501.ServiceGateway) (admission.Warnings, error) {
 	refs, err := reflecthelpers.FindResourceReferences(&obj.Spec)
 	if err != nil {
 		return nil, err
@@ -171,7 +171,7 @@ func (gateway *Service_Gateway) validateResourceReferences(ctx context.Context, 
 }
 
 // validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
-func (gateway *Service_Gateway) validateSecretDestinations(ctx context.Context, obj *v20240501.Service_Gateway) (admission.Warnings, error) {
+func (gateway *ServiceGateway) validateSecretDestinations(ctx context.Context, obj *v20240501.ServiceGateway) (admission.Warnings, error) {
 	if obj.Spec.OperatorSpec == nil {
 		return nil, nil
 	}
@@ -186,6 +186,6 @@ func (gateway *Service_Gateway) validateSecretDestinations(ctx context.Context, 
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
-func (gateway *Service_Gateway) validateWriteOnceProperties(ctx context.Context, oldObj *v20240501.Service_Gateway, newObj *v20240501.Service_Gateway) (admission.Warnings, error) {
+func (gateway *ServiceGateway) validateWriteOnceProperties(ctx context.Context, oldObj *v20240501.ServiceGateway, newObj *v20240501.ServiceGateway) (admission.Warnings, error) {
 	return genruntime.ValidateWriteOnceProperties(oldObj, newObj)
 }
