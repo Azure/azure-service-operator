@@ -7,7 +7,7 @@ spec:
   azureName: aso-cassandra-cluster
   location: eastus
   owner:
-    name: aso-testing
+    name: aso-sample-rg
   properties:
     cassandraVersion: "4.0"
     delegatedManagementSubnetReference:

@@ -698,9 +698,13 @@ type CassandraClusters_DataCenter_Properties_Spec struct {
 	// the cassandra data center virtual machines.
 	AvailabilityZone *bool `json:"availabilityZone,omitempty"`
 
-	// BackupStorageCustomerKeyUriReference: Indicates the Key Uri of the customer key to use for encryption of the backup
+	// BackupStorageCustomerKeyUri: Indicates the Key Uri of the customer key to use for encryption of the backup storage
+	// account.
+	BackupStorageCustomerKeyUri *string `json:"backupStorageCustomerKeyUri,omitempty" optionalConfigMapPair:"BackupStorageCustomerKeyUri"`
+
+	// BackupStorageCustomerKeyUriFromConfig: Indicates the Key Uri of the customer key to use for encryption of the backup
 	// storage account.
-	BackupStorageCustomerKeyUriReference *genruntime.ResourceReference `armReference:"BackupStorageCustomerKeyUri" json:"backupStorageCustomerKeyUriReference,omitempty"`
+	BackupStorageCustomerKeyUriFromConfig *genruntime.ConfigMapReference `json:"backupStorageCustomerKeyUriFromConfig,omitempty" optionalConfigMapPair:"BackupStorageCustomerKeyUri"`
 
 	// Base64EncodedCassandraYamlFragment: A fragment of a cassandra.yaml configuration file to be included in the
 	// cassandra.yaml for all nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys are
@@ -768,13 +772,17 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) ConvertToARM(res
 	}
 
 	// Set property "BackupStorageCustomerKeyUri":
-	if properties.BackupStorageCustomerKeyUriReference != nil {
-		backupStorageCustomerKeyUriReferenceARMID, err := resolved.ResolvedReferences.Lookup(*properties.BackupStorageCustomerKeyUriReference)
+	if properties.BackupStorageCustomerKeyUri != nil {
+		backupStorageCustomerKeyUri := *properties.BackupStorageCustomerKeyUri
+		result.BackupStorageCustomerKeyUri = &backupStorageCustomerKeyUri
+	}
+	if properties.BackupStorageCustomerKeyUriFromConfig != nil {
+		backupStorageCustomerKeyUriValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.BackupStorageCustomerKeyUriFromConfig)
 		if err != nil {
-			return nil, err
+			return nil, eris.Wrap(err, "looking up configmap for property BackupStorageCustomerKeyUri")
 		}
-		backupStorageCustomerKeyUriReference := backupStorageCustomerKeyUriReferenceARMID
-		result.BackupStorageCustomerKeyUri = &backupStorageCustomerKeyUriReference
+		backupStorageCustomerKeyUri := backupStorageCustomerKeyUriValue
+		result.BackupStorageCustomerKeyUri = &backupStorageCustomerKeyUri
 	}
 
 	// Set property "Base64EncodedCassandraYamlFragment":
@@ -878,7 +886,13 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) PopulateFromARM(
 		properties.AvailabilityZone = &availabilityZone
 	}
 
-	// no assignment for property "BackupStorageCustomerKeyUriReference"
+	// Set property "BackupStorageCustomerKeyUri":
+	if typedInput.BackupStorageCustomerKeyUri != nil {
+		backupStorageCustomerKeyUri := *typedInput.BackupStorageCustomerKeyUri
+		properties.BackupStorageCustomerKeyUri = &backupStorageCustomerKeyUri
+	}
+
+	// no assignment for property "BackupStorageCustomerKeyUriFromConfig"
 
 	// Set property "Base64EncodedCassandraYamlFragment":
 	if typedInput.Base64EncodedCassandraYamlFragment != nil {
@@ -955,12 +969,15 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) AssignProperties
 		properties.AvailabilityZone = nil
 	}
 
-	// BackupStorageCustomerKeyUriReference
-	if source.BackupStorageCustomerKeyUriReference != nil {
-		backupStorageCustomerKeyUriReference := source.BackupStorageCustomerKeyUriReference.Copy()
-		properties.BackupStorageCustomerKeyUriReference = &backupStorageCustomerKeyUriReference
+	// BackupStorageCustomerKeyUri
+	properties.BackupStorageCustomerKeyUri = genruntime.ClonePointerToString(source.BackupStorageCustomerKeyUri)
+
+	// BackupStorageCustomerKeyUriFromConfig
+	if source.BackupStorageCustomerKeyUriFromConfig != nil {
+		backupStorageCustomerKeyUriFromConfig := source.BackupStorageCustomerKeyUriFromConfig.Copy()
+		properties.BackupStorageCustomerKeyUriFromConfig = &backupStorageCustomerKeyUriFromConfig
 	} else {
-		properties.BackupStorageCustomerKeyUriReference = nil
+		properties.BackupStorageCustomerKeyUriFromConfig = nil
 	}
 
 	// Base64EncodedCassandraYamlFragment
@@ -1037,12 +1054,15 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) AssignProperties
 		destination.AvailabilityZone = nil
 	}
 
-	// BackupStorageCustomerKeyUriReference
-	if properties.BackupStorageCustomerKeyUriReference != nil {
-		backupStorageCustomerKeyUriReference := properties.BackupStorageCustomerKeyUriReference.Copy()
-		destination.BackupStorageCustomerKeyUriReference = &backupStorageCustomerKeyUriReference
+	// BackupStorageCustomerKeyUri
+	destination.BackupStorageCustomerKeyUri = genruntime.ClonePointerToString(properties.BackupStorageCustomerKeyUri)
+
+	// BackupStorageCustomerKeyUriFromConfig
+	if properties.BackupStorageCustomerKeyUriFromConfig != nil {
+		backupStorageCustomerKeyUriFromConfig := properties.BackupStorageCustomerKeyUriFromConfig.Copy()
+		destination.BackupStorageCustomerKeyUriFromConfig = &backupStorageCustomerKeyUriFromConfig
 	} else {
-		destination.BackupStorageCustomerKeyUriReference = nil
+		destination.BackupStorageCustomerKeyUriFromConfig = nil
 	}
 
 	// Base64EncodedCassandraYamlFragment
@@ -1123,6 +1143,9 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) Initialize_From_
 	} else {
 		properties.AvailabilityZone = nil
 	}
+
+	// BackupStorageCustomerKeyUri
+	properties.BackupStorageCustomerKeyUri = genruntime.ClonePointerToString(source.BackupStorageCustomerKeyUri)
 
 	// Base64EncodedCassandraYamlFragment
 	properties.Base64EncodedCassandraYamlFragment = genruntime.ClonePointerToString(source.Base64EncodedCassandraYamlFragment)

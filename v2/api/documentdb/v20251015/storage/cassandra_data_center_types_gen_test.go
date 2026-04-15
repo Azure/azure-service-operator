@@ -334,6 +334,7 @@ func CassandraClusters_DataCenter_Properties_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCassandraClusters_DataCenter_Properties_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCassandraClusters_DataCenter_Properties_Spec(gens map[string]gopter.Gen) {
 	gens["AvailabilityZone"] = gen.PtrOf(gen.Bool())
+	gens["BackupStorageCustomerKeyUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Base64EncodedCassandraYamlFragment"] = gen.PtrOf(gen.AlphaString())
 	gens["DataCenterLocation"] = gen.PtrOf(gen.AlphaString())
 	gens["DiskCapacity"] = gen.PtrOf(gen.Int())

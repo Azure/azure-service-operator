@@ -3259,7 +3259,7 @@ objectModelConfiguration:
         $supportedFrom: v2.19.0
       CassandraClusters_DataCenter_Properties_Spec:
         BackupStorageCustomerKeyUri:
-          $referenceType: arm
+          $importConfigMapMode: optional
         DelegatedSubnetId:
           $referenceType: arm
         ManagedDiskCustomerKeyUri:

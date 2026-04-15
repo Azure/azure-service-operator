@@ -1476,6 +1476,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(documentdb_v20251015s.CassandraDataCenter),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.properties.backupStorageCustomerKeyUriFromConfig",
+				Func: indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig,
+			},
+			{
 				Key:  ".spec.properties.authenticationMethodLdapProperties.serverCertificates.pem",
 				Func: indexDocumentdbCassandraDataCenterPem,
 			},
@@ -1502,6 +1506,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Type: &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
+						".spec.properties.backupStorageCustomerKeyUriFromConfig",
 						".spec.properties.privateEndpointIpAddressFromConfig",
 					},
 					&documentdb_v20251015s.CassandraDataCenterList{}),
@@ -8589,6 +8594,21 @@ func indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig(rawObj
 		return nil
 	}
 	return obj.Spec.Properties.PrometheusEndpoint.IpAddressFromConfig.Index()
+}
+
+// indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.backupStorageCustomerKeyUriFromConfig
+func indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BackupStorageCustomerKeyUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.BackupStorageCustomerKeyUriFromConfig.Index()
 }
 
 // indexDocumentdbCassandraDataCenterPem an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serverCertificates.pem

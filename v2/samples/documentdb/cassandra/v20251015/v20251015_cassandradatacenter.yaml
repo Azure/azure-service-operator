@@ -9,6 +9,8 @@ spec:
     name: aso-cassandra-cluster
   properties:
     dataCenterLocation: eastus
+    # Connecting to this subnet will FAIL unless the Azure Cosmos DB Service Principal has the 
+    # `Microsoft.Network/virtualNetworks/subnets/join/action` permission on it.
     delegatedSubnetReference:
       group: network.azure.com
       kind: VirtualNetworksSubnet

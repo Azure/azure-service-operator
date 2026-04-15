@@ -235,14 +235,12 @@ func (center *CassandraDataCenter_STATUS) ConvertStatusTo(destination genruntime
 
 // Storage version of v20251015.CassandraClusters_DataCenter_Properties_Spec
 type CassandraClusters_DataCenter_Properties_Spec struct {
-	AuthenticationMethodLdapProperties *AuthenticationMethodLdapProperties `json:"authenticationMethodLdapProperties,omitempty"`
-	AvailabilityZone                   *bool                               `json:"availabilityZone,omitempty"`
-
-	// BackupStorageCustomerKeyUriReference: Indicates the Key Uri of the customer key to use for encryption of the backup
-	// storage account.
-	BackupStorageCustomerKeyUriReference *genruntime.ResourceReference `armReference:"BackupStorageCustomerKeyUri" json:"backupStorageCustomerKeyUriReference,omitempty"`
-	Base64EncodedCassandraYamlFragment   *string                       `json:"base64EncodedCassandraYamlFragment,omitempty"`
-	DataCenterLocation                   *string                       `json:"dataCenterLocation,omitempty"`
+	AuthenticationMethodLdapProperties    *AuthenticationMethodLdapProperties `json:"authenticationMethodLdapProperties,omitempty"`
+	AvailabilityZone                      *bool                               `json:"availabilityZone,omitempty"`
+	BackupStorageCustomerKeyUri           *string                             `json:"backupStorageCustomerKeyUri,omitempty" optionalConfigMapPair:"BackupStorageCustomerKeyUri"`
+	BackupStorageCustomerKeyUriFromConfig *genruntime.ConfigMapReference      `json:"backupStorageCustomerKeyUriFromConfig,omitempty" optionalConfigMapPair:"BackupStorageCustomerKeyUri"`
+	Base64EncodedCassandraYamlFragment    *string                             `json:"base64EncodedCassandraYamlFragment,omitempty"`
+	DataCenterLocation                    *string                             `json:"dataCenterLocation,omitempty"`
 
 	// DelegatedSubnetReference: Resource id of a subnet the nodes in this data center should have their network interfaces
 	// connected to. The subnet must be in the same region specified in 'dataCenterLocation' and must be able to route to the
