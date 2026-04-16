@@ -6,23 +6,23 @@ The following resources have newer versions available in the Azure REST API spec
 
 |      | Resource     | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |------|--------------|------------------|------------------|-------------------|-------------------|
-| 💡    | BatchAccount | **v20210601**    | v20210101        | -                 | -                 |
+| 💡    | BatchAccount | **2021-06-01**   | 2021-01-01       | -                 | -                 |
 
 ## compute
 
-|      | Resource       | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|----------------|-------------------|------------------|-------------------|-------------------|
-| 💡    | VirtualMachine | **v1api20210301** | v1api20200901    | -                 | -                 |
+|      | Resource       | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|----------------|------------------|------------------|-------------------|-------------------|
+| 💡    | VirtualMachine | **2021-03-01**   | 2020-09-01       | -                 | -                 |
 
 ## containerservice
 
-|      | Resource       | Available Stable | Supported Stable | Available Preview        | Supported Preview    |
-|------|----------------|------------------|------------------|--------------------------|----------------------|
-| 💡    | ManagedCluster | -                | -                | **v1api20220901preview** | v1api20220101preview |
+|      | Resource       | Available Stable | Supported Stable | Available Preview      | Supported Preview  |
+|------|----------------|------------------|------------------|------------------------|--------------------|
+| 💡    | ManagedCluster | -                | -                | **2022-09-01-preview** | 2022-01-01-preview |
 
 ## storage
 
 |      | Resource       | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |------|----------------|------------------|------------------|-------------------|-------------------|
-| 💡    | StorageAccount | **v20230601**    | v20200101        | -                 | -                 |
+| 💡    | StorageAccount | **2023-06-01**   | 2020-01-01       | -                 | -                 |
 

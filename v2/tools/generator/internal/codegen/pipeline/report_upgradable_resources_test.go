@@ -149,11 +149,11 @@ func TestUpgradableResourcesReport_WriteTo_WithItems_BoldsRecommended(t *testing
 	g.Expect(output).To(ContainSubstring("StorageAccount"))
 	g.Expect(output).To(ContainSubstring("VirtualMachine"))
 	// StorageAccount stable upgrade should be bolded (recommended) and have 💡
-	g.Expect(output).To(ContainSubstring("**v20250601**"))
+	g.Expect(output).To(ContainSubstring("**2025-06-01**"))
 	g.Expect(output).To(ContainSubstring("💡"))
 	// VirtualMachine preview upgrade should NOT be bolded (only 2 months gap, below 6-month threshold)
-	g.Expect(output).To(ContainSubstring("v1api20260101preview"))
-	g.Expect(output).ToNot(ContainSubstring("**v1api20260101preview**"))
+	g.Expect(output).To(ContainSubstring("2026-01-01-preview"))
+	g.Expect(output).ToNot(ContainSubstring("**2026-01-01-preview**"))
 }
 
 func TestNewUpgradableResourcesReport_RecommendStableUpgrade(t *testing.T) {

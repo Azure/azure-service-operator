@@ -333,12 +333,12 @@ func (r *UpgradableResourcesReport) writeTo(buffer *strings.Builder, now time.Ti
 				"Supported Preview")
 		}
 
-		stableAvail := orDash(pkgRefName(item.availableStable))
+		stableAvail := orDash(pkgRefVersion(item.availableStable))
 		if item.isStableUpgradeRecommended(r.cfg, now) {
 			stableAvail = bold(stableAvail)
 		}
 
-		previewAvail := orDash(pkgRefName(item.availablePreview))
+		previewAvail := orDash(pkgRefVersion(item.availablePreview))
 		if item.isPreviewUpgradeRecommended(r.cfg) {
 			previewAvail = bold(previewAvail)
 		}
@@ -352,20 +352,20 @@ func (r *UpgradableResourcesReport) writeTo(buffer *strings.Builder, now time.Ti
 			indicator,
 			item.resource,
 			stableAvail,
-			orDash(pkgRefName(item.supportedStable)),
+			orDash(pkgRefVersion(item.supportedStable)),
 			previewAvail,
-			orDash(pkgRefName(item.supportedPreview)))
+			orDash(pkgRefVersion(item.supportedPreview)))
 	}
 
 	flushTable()
 }
 
-// pkgRefName returns the package name of the given reference, or "" if the reference is nil.
-func pkgRefName(ref astmodel.InternalPackageReference) string {
+// pkgRefVersion returns the API version of the given reference, or "" if the reference is nil.
+func pkgRefVersion(ref astmodel.InternalPackageReference) string {
 	if ref == nil {
 		return ""
 	}
-	return ref.PackageName()
+	return ref.APIVersion()
 }
 
 // orDash returns the value if non-empty, otherwise "-"
