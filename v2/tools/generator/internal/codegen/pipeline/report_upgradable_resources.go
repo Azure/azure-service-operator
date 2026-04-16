@@ -333,20 +333,14 @@ func (r *UpgradableResourcesReport) writeTo(buffer *strings.Builder, now time.Ti
 				"Supported Preview")
 		}
 
-		stableAvail := "-"
-		if item.supportedStable != nil {
-			stableAvail = orDash(pkgRefName(item.availableStable))
-			if item.isStableUpgradeRecommended(r.cfg, now) {
-				stableAvail = bold(stableAvail)
-			}
+		stableAvail := orDash(pkgRefName(item.availableStable))
+		if item.isStableUpgradeRecommended(r.cfg, now) {
+			stableAvail = bold(stableAvail)
 		}
 
-		previewAvail := "-"
-		if item.supportedPreview != nil {
-			previewAvail = orDash(pkgRefName(item.availablePreview))
-			if item.isPreviewUpgradeRecommended(r.cfg) {
-				previewAvail = bold(previewAvail)
-			}
+		previewAvail := orDash(pkgRefName(item.availablePreview))
+		if item.isPreviewUpgradeRecommended(r.cfg) {
+			previewAvail = bold(previewAvail)
 		}
 
 		indicator := ""

@@ -28,16 +28,23 @@ The following resources have newer versions available in the Azure REST API spec
 |--|----------|------------------|------------------|-------------------|-------------------|
 |  | Account  | v1api20250901    | v1api20250601    | -                 | -                 |
 
+## communication
+
+|      | Resource             | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|----------------------|------------------|------------------|-------------------|-------------------|
+| 💡    | CommunicationService | **v20250901**    | v20230401        | -                 | -                 |
+| 💡    | EmailService         | **v20250901**    | v20230401        | -                 | -                 |
+
 ## compute
 
 |      | Resource               | Available Stable  | Supported Stable | Available Preview | Supported Preview |
 |------|------------------------|-------------------|------------------|-------------------|-------------------|
 |      | AvailabilitySet        | v1api20250401     | v1api20241101    | -                 | -                 |
-|      | Disk                   | v1api20250102     | v1api20240302    | -                 | -                 |
-|      | DiskAccess             | v1api20250102     | v1api20240302    | -                 | -                 |
-|      | DiskEncryptionSet      | v1api20250102     | v1api20240302    | -                 | -                 |
+| 💡    | Disk                   | **v1api20250102** | v1api20240302    | -                 | -                 |
+| 💡    | DiskAccess             | **v1api20250102** | v1api20240302    | -                 | -                 |
+| 💡    | DiskEncryptionSet      | **v1api20250102** | v1api20240302    | -                 | -                 |
 | 💡    | Image                  | **v1api20250401** | v1api20220301    | -                 | -                 |
-|      | Snapshot               | v1api20250102     | v1api20240302    | -                 | -                 |
+| 💡    | Snapshot               | **v1api20250102** | v1api20240302    | -                 | -                 |
 | 💡    | VirtualMachine         | **v1api20250401** | v1api20220301    | -                 | -                 |
 | 💡    | VirtualMachineScaleSet | **v1api20250401** | v1api20220301    | -                 | -                 |
 
@@ -113,9 +120,9 @@ The following resources have newer versions available in the Azure REST API spec
 
 ## managedidentity
 
-|      | Resource             | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|----------------------|-------------------|------------------|-------------------|-------------------|
-| 💡    | UserAssignedIdentity | **v1api20241130** | v1api20230131    | -                 | -                 |
+|      | Resource             | Available Stable  | Supported Stable | Available Preview    | Supported Preview |
+|------|----------------------|-------------------|------------------|----------------------|-------------------|
+| 💡    | UserAssignedIdentity | **v1api20241130** | v1api20230131    | v1api20220131preview | -                 |
 
 ## network
 
@@ -123,23 +130,23 @@ The following resources have newer versions available in the Azure REST API spec
 |------|--------------------------|-------------------|------------------|-------------------|-------------------|
 | 💡    | ApplicationGateway       | **v1api20250501** | v1api20220701    | -                 | -                 |
 | 💡    | ApplicationSecurityGroup | **v1api20250501** | v1api20240101    | -                 | -                 |
-| 💡    | AzureFirewall            | **v1api20250501** | v1api20240301    | -                 | -                 |
-| 💡    | BastionHost              | **v1api20250501** | v1api20240301    | -                 | -                 |
+|      | AzureFirewall            | v1api20250501     | v20250301        | -                 | -                 |
+|      | BastionHost              | v1api20250501     | v20250301        | -                 | -                 |
 | 💡    | DnsForwardingRuleset     | **v1api20250501** | v1api20220701    | -                 | -                 |
 | 💡    | DnsResolver              | **v1api20250501** | v1api20220701    | -                 | -                 |
-| 💡    | FirewallPolicy           | **v1api20250501** | v1api20240301    | -                 | -                 |
-| 💡    | LoadBalancer             | **v1api20250501** | v1api20240301    | -                 | -                 |
-| 💡    | NatGateway               | **v1api20250501** | v1api20240301    | -                 | -                 |
-| 💡    | NetworkInterface         | **v1api20250501** | v1api20240301    | -                 | -                 |
-| 💡    | NetworkSecurityGroup     | **v1api20250501** | v1api20240301    | -                 | -                 |
+|      | FirewallPolicy           | v1api20250501     | v20250301        | -                 | -                 |
+|      | LoadBalancer             | v1api20250501     | v20250301        | -                 | -                 |
+|      | NatGateway               | v1api20250501     | v20250301        | -                 | -                 |
+|      | NetworkInterface         | v1api20250501     | v20250301        | -                 | -                 |
+|      | NetworkSecurityGroup     | v1api20250501     | v20250301        | -                 | -                 |
 |      | NetworkWatcher           | v1api20250501     | v1api20241001    | -                 | -                 |
-| 💡    | PrivateEndpoint          | **v1api20250501** | v1api20240301    | -                 | -                 |
-| 💡    | PrivateLinkService       | **v1api20250501** | v1api20240301    | -                 | -                 |
-| 💡    | PublicIPAddress          | **v1api20250501** | v1api20240301    | -                 | -                 |
-| 💡    | PublicIPPrefix           | **v1api20250501** | v1api20240301    | -                 | -                 |
-| 💡    | RouteTable               | **v1api20250501** | v1api20240301    | -                 | -                 |
-| 💡    | VirtualNetwork           | **v1api20250501** | v1api20240301    | -                 | -                 |
-| 💡    | VirtualNetworkGateway    | **v1api20250501** | v1api20240301    | -                 | -                 |
+|      | PrivateEndpoint          | v1api20250501     | v20250301        | -                 | -                 |
+|      | PrivateLinkService       | v1api20250501     | v20250301        | -                 | -                 |
+|      | PublicIPAddress          | v1api20250501     | v20250301        | -                 | -                 |
+|      | PublicIPPrefix           | v1api20250501     | v20250301        | -                 | -                 |
+|      | RouteTable               | v1api20250501     | v20250301        | -                 | -                 |
+|      | VirtualNetwork           | v1api20250501     | v20250301        | -                 | -                 |
+|      | VirtualNetworkGateway    | v1api20250501     | v20250301        | -                 | -                 |
 
 ## redhatopenshift
 
@@ -167,7 +174,7 @@ The following resources have newer versions available in the Azure REST API spec
 
 ## web
 
-|      | Resource | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|----------|-------------------|------------------|-------------------|-------------------|
-| 💡    | Site     | **v1api20250501** | v1api20220301    | -                 | -                 |
+|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|----------|------------------|------------------|-------------------|-------------------|
+| 💡    | Site     | **v20250501**    | v20220301        | -                 | -                 |
 
