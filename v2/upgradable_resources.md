@@ -6,175 +6,175 @@ The following resources have newer versions available in the Azure REST API spec
 
 |  | Resource           | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |--|--------------------|------------------|------------------|-------------------|-------------------|
-|  | ContainerApp       | v1api20250701    | v1api20250101    | -                 | -                 |
-|  | Job                | v1api20250701    | v1api20250101    | -                 | -                 |
-|  | ManagedEnvironment | v1api20250701    | v1api20250101    | -                 | -                 |
+|  | ContainerApp       | 2025-07-01       | 2025-01-01       | -                 | -                 |
+|  | Job                | 2025-07-01       | 2025-01-01       | -                 | -                 |
+|  | ManagedEnvironment | 2025-07-01       | 2025-01-01       | -                 | -                 |
 
 ## cache
 
 |  | Resource        | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |--|-----------------|------------------|------------------|-------------------|-------------------|
-|  | RedisEnterprise | v1api20250701    | v1api20250401    | -                 | -                 |
+|  | RedisEnterprise | 2025-07-01       | 2025-04-01       | -                 | -                 |
 
 ## cdn
 
-|      | Resource | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|----------|-------------------|------------------|-------------------|-------------------|
-| 💡    | Profile  | **v1api20250601** | v1api20230501    | -                 | -                 |
+|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|----------|------------------|------------------|-------------------|-------------------|
+| 💡    | Profile  | **2025-06-01**   | 2023-05-01       | -                 | -                 |
 
 ## cognitiveservices
 
 |  | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |--|----------|------------------|------------------|-------------------|-------------------|
-|  | Account  | v1api20250901    | v1api20250601    | -                 | -                 |
+|  | Account  | 2025-09-01       | 2025-06-01       | -                 | -                 |
 
 ## communication
 
 |      | Resource             | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |------|----------------------|------------------|------------------|-------------------|-------------------|
-| 💡    | CommunicationService | **v20250901**    | v20230401        | -                 | -                 |
-| 💡    | EmailService         | **v20250901**    | v20230401        | -                 | -                 |
+| 💡    | CommunicationService | **2025-09-01**   | 2023-04-01       | -                 | -                 |
+| 💡    | EmailService         | **2025-09-01**   | 2023-04-01       | -                 | -                 |
 
 ## compute
 
-|      | Resource               | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|------------------------|-------------------|------------------|-------------------|-------------------|
-|      | AvailabilitySet        | v1api20250401     | v1api20241101    | -                 | -                 |
-| 💡    | Disk                   | **v1api20250102** | v1api20240302    | -                 | -                 |
-| 💡    | DiskAccess             | **v1api20250102** | v1api20240302    | -                 | -                 |
-| 💡    | DiskEncryptionSet      | **v1api20250102** | v1api20240302    | -                 | -                 |
-| 💡    | Image                  | **v1api20250401** | v1api20220301    | -                 | -                 |
-| 💡    | Snapshot               | **v1api20250102** | v1api20240302    | -                 | -                 |
-| 💡    | VirtualMachine         | **v1api20250401** | v1api20220301    | -                 | -                 |
-| 💡    | VirtualMachineScaleSet | **v1api20250401** | v1api20220301    | -                 | -                 |
+|      | Resource               | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|------------------------|------------------|------------------|-------------------|-------------------|
+|      | AvailabilitySet        | 2025-04-01       | 2024-11-01       | -                 | -                 |
+| 💡    | Disk                   | **2025-01-02**   | 2024-03-02       | -                 | -                 |
+| 💡    | DiskAccess             | **2025-01-02**   | 2024-03-02       | -                 | -                 |
+| 💡    | DiskEncryptionSet      | **2025-01-02**   | 2024-03-02       | -                 | -                 |
+| 💡    | Image                  | **2025-04-01**   | 2022-03-01       | -                 | -                 |
+| 💡    | Snapshot               | **2025-01-02**   | 2024-03-02       | -                 | -                 |
+| 💡    | VirtualMachine         | **2025-04-01**   | 2022-03-01       | -                 | -                 |
+| 💡    | VirtualMachineScaleSet | **2025-04-01**   | 2022-03-01       | -                 | -                 |
 
 ## containerinstance
 
-|      | Resource       | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|----------------|-------------------|------------------|-------------------|-------------------|
-| 💡    | ContainerGroup | **v1api20250901** | v1api20211001    | -                 | -                 |
+|      | Resource       | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|----------------|------------------|------------------|-------------------|-------------------|
+| 💡    | ContainerGroup | **2025-09-01**   | 2021-10-01       | -                 | -                 |
 
 ## containerregistry
 
-|      | Resource | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|----------|-------------------|------------------|-------------------|-------------------|
-| 💡    | Registry | **v1api20251101** | v1api20230701    | -                 | -                 |
+|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|----------|------------------|------------------|-------------------|-------------------|
+| 💡    | Registry | **2025-11-01**   | 2023-07-01       | -                 | -                 |
 
 ## containerservice
 
-|  | Resource       | Available Stable | Supported Stable | Available Preview    | Supported Preview |
-|--|----------------|------------------|------------------|----------------------|-------------------|
-|  | ManagedCluster | v1api20251001    | v1api20250801    | v1api20251002preview | v20251002preview  |
+|  | Resource       | Available Stable | Supported Stable | Available Preview  | Supported Preview  |
+|--|----------------|------------------|------------------|--------------------|--------------------|
+|  | ManagedCluster | 2025-10-01       | 2025-08-01       | 2025-10-02-preview | 2025-10-02-preview |
 
 ## dataprotection
 
-|      | Resource    | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|-------------|-------------------|------------------|-------------------|-------------------|
-| 💡    | BackupVault | **v1api20250901** | v1api20231101    | -                 | -                 |
+|      | Resource    | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|-------------|------------------|------------------|-------------------|-------------------|
+| 💡    | BackupVault | **2025-09-01**   | 2023-11-01       | -                 | -                 |
 
 ## devices
 
-|      | Resource | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|----------|-------------------|------------------|-------------------|-------------------|
-| 💡    | IotHub   | **v1api20230630** | v1api20210702    | -                 | -                 |
+|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|----------|------------------|------------------|-------------------|-------------------|
+| 💡    | IotHub   | **2023-06-30**   | 2021-07-02       | -                 | -                 |
 
 ## documentdb
 
-|      | Resource        | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|-----------------|-------------------|------------------|-------------------|-------------------|
-| 💡    | DatabaseAccount | **v1api20251015** | v1api20240815    | -                 | -                 |
-| 💡    | MongoCluster    | **v1api20250901** | v1api20240701    | -                 | -                 |
+|      | Resource        | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|-----------------|------------------|------------------|-------------------|-------------------|
+| 💡    | DatabaseAccount | **2025-10-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | MongoCluster    | **2025-09-01**   | 2024-07-01       | -                 | -                 |
 
 ## eventgrid
 
-|      | Resource          | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|-------------------|-------------------|------------------|-------------------|-------------------|
-| 💡    | Domain            | **v1api20250215** | v1api20200601    | -                 | -                 |
-| 💡    | EventSubscription | **v1api20250215** | v1api20200601    | -                 | -                 |
-| 💡    | Topic             | **v1api20250215** | v1api20200601    | -                 | -                 |
+|      | Resource          | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|-------------------|------------------|------------------|-------------------|-------------------|
+| 💡    | Domain            | **2025-02-15**   | 2020-06-01       | -                 | -                 |
+| 💡    | EventSubscription | **2025-02-15**   | 2020-06-01       | -                 | -                 |
+| 💡    | Topic             | **2025-02-15**   | 2020-06-01       | -                 | -                 |
 
 ## insights
 
-|      | Resource           | Available Stable  | Supported Stable | Available Preview    | Supported Preview    |
-|------|--------------------|-------------------|------------------|----------------------|----------------------|
-| 💡    | ScheduledQueryRule | **v1api20231201** | v1api20220615    | v1api20250101preview | v1api20250101preview |
+|      | Resource           | Available Stable | Supported Stable | Available Preview  | Supported Preview  |
+|------|--------------------|------------------|------------------|--------------------|--------------------|
+| 💡    | ScheduledQueryRule | **2023-12-01**   | 2022-06-15       | 2025-01-01-preview | 2025-01-01-preview |
 
 ## keyvault
 
-|      | Resource | Available Stable  | Supported Stable | Available Preview    | Supported Preview    |
-|------|----------|-------------------|------------------|----------------------|----------------------|
-| 💡    | Vault    | **v1api20250501** | v1api20230701    | v1api20210401preview | v1api20210401preview |
+|      | Resource | Available Stable | Supported Stable | Available Preview  | Supported Preview  |
+|------|----------|------------------|------------------|--------------------|--------------------|
+| 💡    | Vault    | **2025-05-01**   | 2023-07-01       | 2021-04-01-preview | 2021-04-01-preview |
 
 ## kubernetesconfiguration
 
 |  | Resource          | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |--|-------------------|------------------|------------------|-------------------|-------------------|
-|  | FluxConfiguration | v1api20250401    | v1api20241101    | -                 | -                 |
+|  | FluxConfiguration | 2025-04-01       | 2024-11-01       | -                 | -                 |
 
 ## machinelearningservices
 
-|      | Resource  | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|-----------|-------------------|------------------|-------------------|-------------------|
-| 💡    | Registry  | **v1api20250901** | v1api20240401    | -                 | -                 |
-| 💡    | Workspace | **v1api20250901** | v1api20240401    | -                 | -                 |
+|      | Resource  | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|-----------|------------------|------------------|-------------------|-------------------|
+| 💡    | Registry  | **2025-09-01**   | 2024-04-01       | -                 | -                 |
+| 💡    | Workspace | **2025-09-01**   | 2024-04-01       | -                 | -                 |
 
 ## managedidentity
 
-|      | Resource             | Available Stable  | Supported Stable | Available Preview    | Supported Preview |
-|------|----------------------|-------------------|------------------|----------------------|-------------------|
-| 💡    | UserAssignedIdentity | **v1api20241130** | v1api20230131    | v1api20220131preview | -                 |
+|      | Resource             | Available Stable | Supported Stable | Available Preview  | Supported Preview |
+|------|----------------------|------------------|------------------|--------------------|-------------------|
+| 💡    | UserAssignedIdentity | **2024-11-30**   | 2023-01-31       | 2022-01-31-preview | -                 |
 
 ## network
 
-|      | Resource                 | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|--------------------------|-------------------|------------------|-------------------|-------------------|
-| 💡    | ApplicationGateway       | **v1api20250501** | v1api20220701    | -                 | -                 |
-| 💡    | ApplicationSecurityGroup | **v1api20250501** | v1api20240101    | -                 | -                 |
-|      | AzureFirewall            | v1api20250501     | v20250301        | -                 | -                 |
-|      | BastionHost              | v1api20250501     | v20250301        | -                 | -                 |
-| 💡    | DnsForwardingRuleset     | **v1api20250501** | v1api20220701    | -                 | -                 |
-| 💡    | DnsResolver              | **v1api20250501** | v1api20220701    | -                 | -                 |
-|      | FirewallPolicy           | v1api20250501     | v20250301        | -                 | -                 |
-|      | LoadBalancer             | v1api20250501     | v20250301        | -                 | -                 |
-|      | NatGateway               | v1api20250501     | v20250301        | -                 | -                 |
-|      | NetworkInterface         | v1api20250501     | v20250301        | -                 | -                 |
-|      | NetworkSecurityGroup     | v1api20250501     | v20250301        | -                 | -                 |
-|      | NetworkWatcher           | v1api20250501     | v1api20241001    | -                 | -                 |
-|      | PrivateEndpoint          | v1api20250501     | v20250301        | -                 | -                 |
-|      | PrivateLinkService       | v1api20250501     | v20250301        | -                 | -                 |
-|      | PublicIPAddress          | v1api20250501     | v20250301        | -                 | -                 |
-|      | PublicIPPrefix           | v1api20250501     | v20250301        | -                 | -                 |
-|      | RouteTable               | v1api20250501     | v20250301        | -                 | -                 |
-|      | VirtualNetwork           | v1api20250501     | v20250301        | -                 | -                 |
-|      | VirtualNetworkGateway    | v1api20250501     | v20250301        | -                 | -                 |
+|      | Resource                 | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|--------------------------|------------------|------------------|-------------------|-------------------|
+| 💡    | ApplicationGateway       | **2025-05-01**   | 2022-07-01       | -                 | -                 |
+| 💡    | ApplicationSecurityGroup | **2025-05-01**   | 2024-01-01       | -                 | -                 |
+|      | AzureFirewall            | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | BastionHost              | 2025-05-01       | 2025-03-01       | -                 | -                 |
+| 💡    | DnsForwardingRuleset     | **2025-05-01**   | 2022-07-01       | -                 | -                 |
+| 💡    | DnsResolver              | **2025-05-01**   | 2022-07-01       | -                 | -                 |
+|      | FirewallPolicy           | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | LoadBalancer             | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | NatGateway               | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | NetworkInterface         | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | NetworkSecurityGroup     | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | NetworkWatcher           | 2025-05-01       | 2024-10-01       | -                 | -                 |
+|      | PrivateEndpoint          | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | PrivateLinkService       | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | PublicIPAddress          | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | PublicIPPrefix           | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | RouteTable               | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | VirtualNetwork           | 2025-05-01       | 2025-03-01       | -                 | -                 |
+|      | VirtualNetworkGateway    | 2025-05-01       | 2025-03-01       | -                 | -                 |
 
 ## redhatopenshift
 
-|      | Resource         | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|------------------|-------------------|------------------|-------------------|-------------------|
-| 💡    | OpenShiftCluster | **v1api20250725** | v1api20231122    | -                 | -                 |
+|      | Resource         | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|------------------|------------------|------------------|-------------------|-------------------|
+| 💡    | OpenShiftCluster | **2025-07-25**   | 2023-11-22       | -                 | -                 |
 
 ## resources
 
-|      | Resource      | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|---------------|-------------------|------------------|-------------------|-------------------|
-| 💡    | ResourceGroup | **v1api20250401** | v1api20200601    | -                 | -                 |
+|      | Resource      | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|---------------|------------------|------------------|-------------------|-------------------|
+| 💡    | ResourceGroup | **2025-04-01**   | 2020-06-01       | -                 | -                 |
 
 ## search
 
-|      | Resource      | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|---------------|-------------------|------------------|-------------------|-------------------|
-| 💡    | SearchService | **v1api20250501** | v1api20231101    | -                 | -                 |
+|      | Resource      | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|---------------|------------------|------------------|-------------------|-------------------|
+| 💡    | SearchService | **2025-05-01**   | 2023-11-01       | -                 | -                 |
 
 ## sql
 
-|      | Resource | Available Stable  | Supported Stable | Available Preview | Supported Preview |
-|------|----------|-------------------|------------------|-------------------|-------------------|
-| 💡    | Server   | **v1api20230801** | v1api20211101    | -                 | -                 |
+|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|----------|------------------|------------------|-------------------|-------------------|
+| 💡    | Server   | **2023-08-01**   | 2021-11-01       | -                 | -                 |
 
 ## web
 
 |      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
 |------|----------|------------------|------------------|-------------------|-------------------|
-| 💡    | Site     | **v20250501**    | v20220301        | -                 | -                 |
+| 💡    | Site     | **2025-05-01**   | 2022-03-01       | -                 | -                 |
 
