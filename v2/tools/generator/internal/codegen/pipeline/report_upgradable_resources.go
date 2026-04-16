@@ -333,14 +333,28 @@ func (r *UpgradableResourcesReport) writeTo(buffer *strings.Builder, now time.Ti
 				"Supported Preview")
 		}
 
+		stableSupported := pkgRefVersion(item.supportedStable)
+
 		stableAvail := orDash(pkgRefVersion(item.availableStable))
 		if item.isStableUpgradeRecommended(r.cfg, now) {
 			stableAvail = bold(stableAvail)
 		}
 
+		if stableAvail == stableSupported {
+			// No actual upgrade
+			stableAvail = ""
+		}
+
+		previewSupported := pkgRefVersion(item.supportedPreview)
+
 		previewAvail := orDash(pkgRefVersion(item.availablePreview))
 		if item.isPreviewUpgradeRecommended(r.cfg) {
 			previewAvail = bold(previewAvail)
+		}
+
+		if previewAvail == previewSupported {
+			// No actual upgrade
+			previewAvail = ""
 		}
 
 		indicator := ""
@@ -352,9 +366,9 @@ func (r *UpgradableResourcesReport) writeTo(buffer *strings.Builder, now time.Ti
 			indicator,
 			item.resource,
 			stableAvail,
-			orDash(pkgRefVersion(item.supportedStable)),
+			orDash(stableSupported),
 			previewAvail,
-			orDash(pkgRefVersion(item.supportedPreview)))
+			orDash(previewSupported))
 	}
 
 	flushTable()
@@ -373,6 +387,7 @@ func orDash(s string) string {
 	if s == "" {
 		return "-"
 	}
+
 	return s
 }
 
@@ -381,6 +396,7 @@ func bold(s string) string {
 	if s == "-" {
 		return s
 	}
+
 	return "**" + s + "**"
 }
 

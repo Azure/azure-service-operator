@@ -62,9 +62,9 @@ The following resources have newer versions available in the Azure REST API spec
 
 ## containerservice
 
-|  | Resource       | Available Stable | Supported Stable | Available Preview  | Supported Preview  |
-|--|----------------|------------------|------------------|--------------------|--------------------|
-|  | ManagedCluster | 2025-10-01       | 2025-08-01       | 2025-10-02-preview | 2025-10-02-preview |
+|  | Resource       | Available Stable | Supported Stable | Available Preview | Supported Preview  |
+|--|----------------|------------------|------------------|-------------------|--------------------|
+|  | ManagedCluster | 2025-10-01       | 2025-08-01       |                   | 2025-10-02-preview |
 
 ## dataprotection
 
@@ -95,15 +95,15 @@ The following resources have newer versions available in the Azure REST API spec
 
 ## insights
 
-|      | Resource           | Available Stable | Supported Stable | Available Preview  | Supported Preview  |
-|------|--------------------|------------------|------------------|--------------------|--------------------|
-| 💡    | ScheduledQueryRule | **2023-12-01**   | 2022-06-15       | 2025-01-01-preview | 2025-01-01-preview |
+|      | Resource           | Available Stable | Supported Stable | Available Preview | Supported Preview  |
+|------|--------------------|------------------|------------------|-------------------|--------------------|
+| 💡    | ScheduledQueryRule | **2023-12-01**   | 2022-06-15       |                   | 2025-01-01-preview |
 
 ## keyvault
 
-|      | Resource | Available Stable | Supported Stable | Available Preview  | Supported Preview  |
-|------|----------|------------------|------------------|--------------------|--------------------|
-| 💡    | Vault    | **2025-05-01**   | 2023-07-01       | 2021-04-01-preview | 2021-04-01-preview |
+|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview  |
+|------|----------|------------------|------------------|-------------------|--------------------|
+| 💡    | Vault    | **2025-05-01**   | 2023-07-01       |                   | 2021-04-01-preview |
 
 ## kubernetesconfiguration
 
