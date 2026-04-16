@@ -17,30 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>network.azure.com/v1api20220401 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2022-04-01” TrafficManagerProfile Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}
-Used by: TrafficManagerProfileList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerProfile_SpecOptional status TrafficManagerProfile_STATUSOptional TrafficManagerProfile_Spec Property Description Type allowedEndpointRecordTypes The list of allowed endpoint record types. AllowedEndpointRecordType[]Optional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dnsConfig The DNS settings of the Traffic Manager profile. DnsConfigOptional location The Azure Region where the resource lives stringOptional maxReturn Maximum number of endpoints to be returned for MultiValue routing type. intOptional monitorConfig The endpoint monitoring settings of the Traffic Manager profile. MonitorConfigOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure TrafficManagerProfileOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired profileStatus The status of the Traffic Manager profile. ProfileStatusOptional tags Resource tags. map[string]stringOptional trafficRoutingMethod The traffic routing method of the Traffic Manager profile. TrafficRoutingMethodOptional trafficViewEnrollmentStatus Indicates whether Traffic View is Enabled or Disabled for the Traffic Manager profile. Null, indicates Disabled. Enabling this feature will increase the cost of the Traffic Manage profile. TrafficViewEnrollmentStatusOptional type The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles. stringOptional TrafficManagerProfile_STATUS Property Description Type allowedEndpointRecordTypes The list of allowed endpoint record types. AllowedEndpointRecordType_STATUS[]Optional conditions The observed state of the resource conditions.Condition[]Optional dnsConfig The DNS settings of the Traffic Manager profile. DnsConfig_STATUSOptional endpoints The list of endpoints in the Traffic Manager profile. Endpoint_STATUS[]Optional id Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName} stringOptional location The Azure Region where the resource lives stringOptional maxReturn Maximum number of endpoints to be returned for MultiValue routing type. intOptional monitorConfig The endpoint monitoring settings of the Traffic Manager profile. MonitorConfig_STATUSOptional name The name of the resource stringOptional profileStatus The status of the Traffic Manager profile. ProfileStatus_STATUSOptional tags Resource tags. map[string]stringOptional trafficRoutingMethod The traffic routing method of the Traffic Manager profile. TrafficRoutingMethod_STATUSOptional trafficViewEnrollmentStatus Indicates whether Traffic View is Enabled or Disabled for the Traffic Manager profile. Null, indicates Disabled. Enabling this feature will increase the cost of the Traffic Manage profile. TrafficViewEnrollmentStatus_STATUSOptional type The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles. stringOptional TrafficManagerProfileList Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/network/v1api20220401/">
+<title>cache.azure.com/v20250401 | Azure Service Operator</title>
+<meta name="description" content="APIVersion Value Description “2025-04-01” RedisEnterpriseDatabaseAccessPolicyAssignment Generator information: - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redisEnterprise/​{clusterName}/​databases/​{databaseName}/​accessPolicyAssignments/​{accessPolicyAssignmentName}
+Used by: RedisEnterpriseDatabaseAccessPolicyAssignmentList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec RedisEnterpriseDatabaseAccessPolicyAssignment_SpecOptional status RedisEnterpriseDatabaseAccessPolicyAssignment_STATUSOptional RedisEnterpriseDatabaseAccessPolicyAssignment_Spec Property Description Type accessPolicyName Name of access policy under specific access policy assignment. Only “default” policy is supported for now. stringRequired azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cache.azure.com/RedisEnterpriseDatabase resource genruntime.KnownResourceReferenceRequired user The user associated with the access policy. AccessPolicyAssignmentProperties_UserRequired RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS Property Description Type accessPolicyName Name of access policy under specific access policy assignment. Only “default” policy is supported for now. stringOptional conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional name The name of the resource stringOptional provisioningState Current provisioning status of the access policy assignment. ProvisioningState_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional user The user associated with the access policy. AccessPolicyAssignmentProperties_User_STATUSOptional RedisEnterpriseDatabaseAccessPolicyAssignmentList Generator information: - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redisEnterprise/​{clusterName}/​databases/​{databaseName}/​accessPolicyAssignments/​{accessPolicyAssignmentName}">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/cache/v20250401/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="network.azure.com/v1api20220401">
-  <meta property="og:description" content="APIVersion Value Description “2022-04-01” TrafficManagerProfile Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}
-Used by: TrafficManagerProfileList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerProfile_SpecOptional status TrafficManagerProfile_STATUSOptional TrafficManagerProfile_Spec Property Description Type allowedEndpointRecordTypes The list of allowed endpoint record types. AllowedEndpointRecordType[]Optional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dnsConfig The DNS settings of the Traffic Manager profile. DnsConfigOptional location The Azure Region where the resource lives stringOptional maxReturn Maximum number of endpoints to be returned for MultiValue routing type. intOptional monitorConfig The endpoint monitoring settings of the Traffic Manager profile. MonitorConfigOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure TrafficManagerProfileOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired profileStatus The status of the Traffic Manager profile. ProfileStatusOptional tags Resource tags. map[string]stringOptional trafficRoutingMethod The traffic routing method of the Traffic Manager profile. TrafficRoutingMethodOptional trafficViewEnrollmentStatus Indicates whether Traffic View is Enabled or Disabled for the Traffic Manager profile. Null, indicates Disabled. Enabling this feature will increase the cost of the Traffic Manage profile. TrafficViewEnrollmentStatusOptional type The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles. stringOptional TrafficManagerProfile_STATUS Property Description Type allowedEndpointRecordTypes The list of allowed endpoint record types. AllowedEndpointRecordType_STATUS[]Optional conditions The observed state of the resource conditions.Condition[]Optional dnsConfig The DNS settings of the Traffic Manager profile. DnsConfig_STATUSOptional endpoints The list of endpoints in the Traffic Manager profile. Endpoint_STATUS[]Optional id Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName} stringOptional location The Azure Region where the resource lives stringOptional maxReturn Maximum number of endpoints to be returned for MultiValue routing type. intOptional monitorConfig The endpoint monitoring settings of the Traffic Manager profile. MonitorConfig_STATUSOptional name The name of the resource stringOptional profileStatus The status of the Traffic Manager profile. ProfileStatus_STATUSOptional tags Resource tags. map[string]stringOptional trafficRoutingMethod The traffic routing method of the Traffic Manager profile. TrafficRoutingMethod_STATUSOptional trafficViewEnrollmentStatus Indicates whether Traffic View is Enabled or Disabled for the Traffic Manager profile. Null, indicates Disabled. Enabling this feature will increase the cost of the Traffic Manage profile. TrafficViewEnrollmentStatus_STATUSOptional type The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles. stringOptional TrafficManagerProfileList Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}">
+  <meta property="og:title" content="cache.azure.com/v20250401">
+  <meta property="og:description" content="APIVersion Value Description “2025-04-01” RedisEnterpriseDatabaseAccessPolicyAssignment Generator information: - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redisEnterprise/​{clusterName}/​databases/​{databaseName}/​accessPolicyAssignments/​{accessPolicyAssignmentName}
+Used by: RedisEnterpriseDatabaseAccessPolicyAssignmentList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec RedisEnterpriseDatabaseAccessPolicyAssignment_SpecOptional status RedisEnterpriseDatabaseAccessPolicyAssignment_STATUSOptional RedisEnterpriseDatabaseAccessPolicyAssignment_Spec Property Description Type accessPolicyName Name of access policy under specific access policy assignment. Only “default” policy is supported for now. stringRequired azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cache.azure.com/RedisEnterpriseDatabase resource genruntime.KnownResourceReferenceRequired user The user associated with the access policy. AccessPolicyAssignmentProperties_UserRequired RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS Property Description Type accessPolicyName Name of access policy under specific access policy assignment. Only “default” policy is supported for now. stringOptional conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional name The name of the resource stringOptional provisioningState Current provisioning status of the access policy assignment. ProvisioningState_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional user The user associated with the access policy. AccessPolicyAssignmentProperties_User_STATUSOptional RedisEnterpriseDatabaseAccessPolicyAssignmentList Generator information: - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redisEnterprise/​{clusterName}/​databases/​{databaseName}/​accessPolicyAssignments/​{accessPolicyAssignmentName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
-  <meta itemprop="name" content="network.azure.com/v1api20220401">
-  <meta itemprop="description" content="APIVersion Value Description “2022-04-01” TrafficManagerProfile Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}
-Used by: TrafficManagerProfileList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerProfile_SpecOptional status TrafficManagerProfile_STATUSOptional TrafficManagerProfile_Spec Property Description Type allowedEndpointRecordTypes The list of allowed endpoint record types. AllowedEndpointRecordType[]Optional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dnsConfig The DNS settings of the Traffic Manager profile. DnsConfigOptional location The Azure Region where the resource lives stringOptional maxReturn Maximum number of endpoints to be returned for MultiValue routing type. intOptional monitorConfig The endpoint monitoring settings of the Traffic Manager profile. MonitorConfigOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure TrafficManagerProfileOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired profileStatus The status of the Traffic Manager profile. ProfileStatusOptional tags Resource tags. map[string]stringOptional trafficRoutingMethod The traffic routing method of the Traffic Manager profile. TrafficRoutingMethodOptional trafficViewEnrollmentStatus Indicates whether Traffic View is Enabled or Disabled for the Traffic Manager profile. Null, indicates Disabled. Enabling this feature will increase the cost of the Traffic Manage profile. TrafficViewEnrollmentStatusOptional type The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles. stringOptional TrafficManagerProfile_STATUS Property Description Type allowedEndpointRecordTypes The list of allowed endpoint record types. AllowedEndpointRecordType_STATUS[]Optional conditions The observed state of the resource conditions.Condition[]Optional dnsConfig The DNS settings of the Traffic Manager profile. DnsConfig_STATUSOptional endpoints The list of endpoints in the Traffic Manager profile. Endpoint_STATUS[]Optional id Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName} stringOptional location The Azure Region where the resource lives stringOptional maxReturn Maximum number of endpoints to be returned for MultiValue routing type. intOptional monitorConfig The endpoint monitoring settings of the Traffic Manager profile. MonitorConfig_STATUSOptional name The name of the resource stringOptional profileStatus The status of the Traffic Manager profile. ProfileStatus_STATUSOptional tags Resource tags. map[string]stringOptional trafficRoutingMethod The traffic routing method of the Traffic Manager profile. TrafficRoutingMethod_STATUSOptional trafficViewEnrollmentStatus Indicates whether Traffic View is Enabled or Disabled for the Traffic Manager profile. Null, indicates Disabled. Enabling this feature will increase the cost of the Traffic Manage profile. TrafficViewEnrollmentStatus_STATUSOptional type The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles. stringOptional TrafficManagerProfileList Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}">
-  <meta itemprop="wordCount" content="8098">
+  <meta itemprop="name" content="cache.azure.com/v20250401">
+  <meta itemprop="description" content="APIVersion Value Description “2025-04-01” RedisEnterpriseDatabaseAccessPolicyAssignment Generator information: - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redisEnterprise/​{clusterName}/​databases/​{databaseName}/​accessPolicyAssignments/​{accessPolicyAssignmentName}
+Used by: RedisEnterpriseDatabaseAccessPolicyAssignmentList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec RedisEnterpriseDatabaseAccessPolicyAssignment_SpecOptional status RedisEnterpriseDatabaseAccessPolicyAssignment_STATUSOptional RedisEnterpriseDatabaseAccessPolicyAssignment_Spec Property Description Type accessPolicyName Name of access policy under specific access policy assignment. Only “default” policy is supported for now. stringRequired azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cache.azure.com/RedisEnterpriseDatabase resource genruntime.KnownResourceReferenceRequired user The user associated with the access policy. AccessPolicyAssignmentProperties_UserRequired RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS Property Description Type accessPolicyName Name of access policy under specific access policy assignment. Only “default” policy is supported for now. stringOptional conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional name The name of the resource stringOptional provisioningState Current provisioning status of the access policy assignment. ProvisioningState_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional user The user associated with the access policy. AccessPolicyAssignmentProperties_User_STATUSOptional RedisEnterpriseDatabaseAccessPolicyAssignmentList Generator information: - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redisEnterprise/​{clusterName}/​databases/​{databaseName}/​accessPolicyAssignments/​{accessPolicyAssignmentName}">
+  <meta itemprop="wordCount" content="572">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="network.azure.com/v1api20220401">
-  <meta name="twitter:description" content="APIVersion Value Description “2022-04-01” TrafficManagerProfile Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}
-Used by: TrafficManagerProfileList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerProfile_SpecOptional status TrafficManagerProfile_STATUSOptional TrafficManagerProfile_Spec Property Description Type allowedEndpointRecordTypes The list of allowed endpoint record types. AllowedEndpointRecordType[]Optional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional dnsConfig The DNS settings of the Traffic Manager profile. DnsConfigOptional location The Azure Region where the resource lives stringOptional maxReturn Maximum number of endpoints to be returned for MultiValue routing type. intOptional monitorConfig The endpoint monitoring settings of the Traffic Manager profile. MonitorConfigOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure TrafficManagerProfileOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired profileStatus The status of the Traffic Manager profile. ProfileStatusOptional tags Resource tags. map[string]stringOptional trafficRoutingMethod The traffic routing method of the Traffic Manager profile. TrafficRoutingMethodOptional trafficViewEnrollmentStatus Indicates whether Traffic View is Enabled or Disabled for the Traffic Manager profile. Null, indicates Disabled. Enabling this feature will increase the cost of the Traffic Manage profile. TrafficViewEnrollmentStatusOptional type The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles. stringOptional TrafficManagerProfile_STATUS Property Description Type allowedEndpointRecordTypes The list of allowed endpoint record types. AllowedEndpointRecordType_STATUS[]Optional conditions The observed state of the resource conditions.Condition[]Optional dnsConfig The DNS settings of the Traffic Manager profile. DnsConfig_STATUSOptional endpoints The list of endpoints in the Traffic Manager profile. Endpoint_STATUS[]Optional id Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName} stringOptional location The Azure Region where the resource lives stringOptional maxReturn Maximum number of endpoints to be returned for MultiValue routing type. intOptional monitorConfig The endpoint monitoring settings of the Traffic Manager profile. MonitorConfig_STATUSOptional name The name of the resource stringOptional profileStatus The status of the Traffic Manager profile. ProfileStatus_STATUSOptional tags Resource tags. map[string]stringOptional trafficRoutingMethod The traffic routing method of the Traffic Manager profile. TrafficRoutingMethod_STATUSOptional trafficViewEnrollmentStatus Indicates whether Traffic View is Enabled or Disabled for the Traffic Manager profile. Null, indicates Disabled. Enabling this feature will increase the cost of the Traffic Manage profile. TrafficViewEnrollmentStatus_STATUSOptional type The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles. stringOptional TrafficManagerProfileList Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}">
+  <meta name="twitter:title" content="cache.azure.com/v20250401">
+  <meta name="twitter:description" content="APIVersion Value Description “2025-04-01” RedisEnterpriseDatabaseAccessPolicyAssignment Generator information: - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redisEnterprise/​{clusterName}/​databases/​{databaseName}/​accessPolicyAssignments/​{accessPolicyAssignmentName}
+Used by: RedisEnterpriseDatabaseAccessPolicyAssignmentList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec RedisEnterpriseDatabaseAccessPolicyAssignment_SpecOptional status RedisEnterpriseDatabaseAccessPolicyAssignment_STATUSOptional RedisEnterpriseDatabaseAccessPolicyAssignment_Spec Property Description Type accessPolicyName Name of access policy under specific access policy assignment. Only “default” policy is supported for now. stringRequired azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cache.azure.com/RedisEnterpriseDatabase resource genruntime.KnownResourceReferenceRequired user The user associated with the access policy. AccessPolicyAssignmentProperties_UserRequired RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS Property Description Type accessPolicyName Name of access policy under specific access policy assignment. Only “default” policy is supported for now. stringOptional conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional name The name of the resource stringOptional provisioningState Current provisioning status of the access policy assignment. ProvisioningState_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional user The user associated with the access policy. AccessPolicyAssignmentProperties_User_STATUSOptional RedisEnterpriseDatabaseAccessPolicyAssignmentList Generator information: - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redisEnterprise/​{clusterName}/​databases/​{databaseName}/​accessPolicyAssignments/​{accessPolicyAssignmentName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -345,25 +345,25 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
   <a href="/azure-service-operator/reference/batch/v20240701/" title="batch.azure.com/v20240701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv20240701"><span class="">v20240701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecachev1api20201201-li">
   <a href="/azure-service-operator/reference/cache/v1api20201201/" title="cache.azure.com/v1api20201201" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20201201"><span class="">v1api20201201</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20210301-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecachev1api20210301-li">
   <a href="/azure-service-operator/reference/cache/v1api20210301/" title="cache.azure.com/v1api20210301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20210301"><span class="">v1api20210301</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230401-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecachev1api20230401-li">
   <a href="/azure-service-operator/reference/cache/v1api20230401/" title="cache.azure.com/v1api20230401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230401"><span class="">v1api20230401</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230701-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecachev1api20230701-li">
   <a href="/azure-service-operator/reference/cache/v1api20230701/" title="cache.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230701"><span class="">v1api20230701</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20230801-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecachev1api20230801-li">
   <a href="/azure-service-operator/reference/cache/v1api20230801/" title="cache.azure.com/v1api20230801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20230801"><span class="">v1api20230801</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20241101-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecachev1api20241101-li">
   <a href="/azure-service-operator/reference/cache/v1api20241101/" title="cache.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20241101"><span class="">v1api20241101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20250401-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecachev1api20250401-li">
   <a href="/azure-service-operator/reference/cache/v1api20250401/" title="cache.azure.com/v1api20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev1api20250401"><span class="">v1api20250401</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev20250401-li">
-  <a href="/azure-service-operator/reference/cache/v20250401/" title="cache.azure.com/v20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20250401"><span class="">v20250401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencecachev20250401-li">
+  <a href="/azure-service-operator/reference/cache/v20250401/" title="cache.azure.com/v20250401" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20250401"><span class="td-sidebar-nav-active-item">v20250401</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -643,30 +643,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
   <a href="/azure-service-operator/reference/monitor/v1api20230403/" title="monitor.azure.com/v1api20230403" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">v1api20230403</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
   <a href="/azure-service-operator/reference/network/v1api20180501/" title="network.azure.com/v1api20180501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180501"><span class="">v1api20180501</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20180901-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180901-li">
   <a href="/azure-service-operator/reference/network/v1api20180901/" title="network.azure.com/v1api20180901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20180901"><span class="">v1api20180901</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20200601-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20200601-li">
   <a href="/azure-service-operator/reference/network/v1api20200601/" title="network.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20200601"><span class="">v1api20200601</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20201101-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20201101-li">
   <a href="/azure-service-operator/reference/network/v1api20201101/" title="network.azure.com/v1api20201101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20201101"><span class="">v1api20201101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencenetworkv1api20220401-li">
-  <a href="/azure-service-operator/reference/network/v1api20220401/" title="network.azure.com/v1api20220401" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="td-sidebar-nav-active-item">v1api20220401</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220401-li">
+  <a href="/azure-service-operator/reference/network/v1api20220401/" title="network.azure.com/v1api20220401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220401"><span class="">v1api20220401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20220701-li">
   <a href="/azure-service-operator/reference/network/v1api20220701/" title="network.azure.com/v1api20220701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20220701"><span class="">v1api20220701</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240101-li">
   <a href="/azure-service-operator/reference/network/v1api20240101/" title="network.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240101"><span class="">v1api20240101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20240301-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240301-li">
   <a href="/azure-service-operator/reference/network/v1api20240301/" title="network.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240301"><span class="">v1api20240301</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20240601-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20240601-li">
   <a href="/azure-service-operator/reference/network/v1api20240601/" title="network.azure.com/v1api20240601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20240601"><span class="">v1api20240601</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv1api20241001-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20241001-li">
   <a href="/azure-service-operator/reference/network/v1api20241001/" title="network.azure.com/v1api20241001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv1api20241001"><span class="">v1api20241001</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencenetworkv20250301-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv20250301-li">
   <a href="/azure-service-operator/reference/network/v20250301/" title="network.azure.com/v20250301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv20250301"><span class="">v20250301</span></a>
 </li>
   </ul>
@@ -970,78 +970,19 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
         <nav id="TableOfContents">
   <ul>
     <li><a href="#APIVersion">APIVersion</a></li>
-    <li><a href="#TrafficManagerProfile">TrafficManagerProfile</a>
+    <li><a href="#RedisEnterpriseDatabaseAccessPolicyAssignment">RedisEnterpriseDatabaseAccessPolicyAssignment</a>
       <ul>
-        <li><a href="#TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</a></li>
-        <li><a href="#TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</a></li>
+        <li><a href="#RedisEnterpriseDatabaseAccessPolicyAssignment_Spec">RedisEnterpriseDatabaseAccessPolicyAssignment_Spec</a></li>
+        <li><a href="#RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS">RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS</a></li>
       </ul>
     </li>
-    <li><a href="#TrafficManagerProfileList">TrafficManagerProfileList</a></li>
-    <li><a href="#TrafficManagerProfilesAzureEndpoint">TrafficManagerProfilesAzureEndpoint</a>
-      <ul>
-        <li><a href="#TrafficManagerProfilesAzureEndpoint_Spec">TrafficManagerProfilesAzureEndpoint_Spec</a></li>
-        <li><a href="#TrafficManagerProfilesAzureEndpoint_STATUS">TrafficManagerProfilesAzureEndpoint_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#TrafficManagerProfilesAzureEndpointList">TrafficManagerProfilesAzureEndpointList</a></li>
-    <li><a href="#TrafficManagerProfilesExternalEndpoint">TrafficManagerProfilesExternalEndpoint</a>
-      <ul>
-        <li><a href="#TrafficManagerProfilesExternalEndpoint_Spec">TrafficManagerProfilesExternalEndpoint_Spec</a></li>
-        <li><a href="#TrafficManagerProfilesExternalEndpoint_STATUS">TrafficManagerProfilesExternalEndpoint_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#TrafficManagerProfilesExternalEndpointList">TrafficManagerProfilesExternalEndpointList</a></li>
-    <li><a href="#TrafficManagerProfilesNestedEndpoint">TrafficManagerProfilesNestedEndpoint</a>
-      <ul>
-        <li><a href="#TrafficManagerProfilesNestedEndpoint_Spec">TrafficManagerProfilesNestedEndpoint_Spec</a></li>
-        <li><a href="#TrafficManagerProfilesNestedEndpoint_STATUS">TrafficManagerProfilesNestedEndpoint_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#TrafficManagerProfilesNestedEndpointList">TrafficManagerProfilesNestedEndpointList</a></li>
-    <li><a href="#TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</a></li>
-    <li><a href="#TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</a></li>
-    <li><a href="#TrafficManagerProfilesAzureEndpoint_Spec">TrafficManagerProfilesAzureEndpoint_Spec</a></li>
-    <li><a href="#TrafficManagerProfilesAzureEndpoint_STATUS">TrafficManagerProfilesAzureEndpoint_STATUS</a></li>
-    <li><a href="#TrafficManagerProfilesExternalEndpoint_Spec">TrafficManagerProfilesExternalEndpoint_Spec</a></li>
-    <li><a href="#TrafficManagerProfilesExternalEndpoint_STATUS">TrafficManagerProfilesExternalEndpoint_STATUS</a></li>
-    <li><a href="#TrafficManagerProfilesNestedEndpoint_Spec">TrafficManagerProfilesNestedEndpoint_Spec</a></li>
-    <li><a href="#TrafficManagerProfilesNestedEndpoint_STATUS">TrafficManagerProfilesNestedEndpoint_STATUS</a></li>
-    <li><a href="#AllowedEndpointRecordType">AllowedEndpointRecordType</a></li>
-    <li><a href="#AllowedEndpointRecordType_STATUS">AllowedEndpointRecordType_STATUS</a></li>
-    <li><a href="#AlwaysServe">AlwaysServe</a></li>
-    <li><a href="#AlwaysServe_STATUS">AlwaysServe_STATUS</a></li>
-    <li><a href="#DnsConfig">DnsConfig</a></li>
-    <li><a href="#DnsConfig_STATUS">DnsConfig_STATUS</a></li>
-    <li><a href="#Endpoint_STATUS">Endpoint_STATUS</a></li>
-    <li><a href="#EndpointMonitorStatus">EndpointMonitorStatus</a></li>
-    <li><a href="#EndpointMonitorStatus_STATUS">EndpointMonitorStatus_STATUS</a></li>
-    <li><a href="#EndpointPropertiesCustomHeadersItem">EndpointPropertiesCustomHeadersItem</a></li>
-    <li><a href="#EndpointPropertiesCustomHeadersItem_STATUS">EndpointPropertiesCustomHeadersItem_STATUS</a></li>
-    <li><a href="#EndpointPropertiesSubnetsItem">EndpointPropertiesSubnetsItem</a></li>
-    <li><a href="#EndpointPropertiesSubnetsItem_STATUS">EndpointPropertiesSubnetsItem_STATUS</a></li>
-    <li><a href="#EndpointStatus">EndpointStatus</a></li>
-    <li><a href="#EndpointStatus_STATUS">EndpointStatus_STATUS</a></li>
-    <li><a href="#MonitorConfig">MonitorConfig</a></li>
-    <li><a href="#MonitorConfig_STATUS">MonitorConfig_STATUS</a></li>
-    <li><a href="#ProfileStatus">ProfileStatus</a></li>
-    <li><a href="#ProfileStatus_STATUS">ProfileStatus_STATUS</a></li>
-    <li><a href="#TrafficManagerProfileOperatorSpec">TrafficManagerProfileOperatorSpec</a></li>
-    <li><a href="#TrafficManagerProfilesAzureEndpointOperatorSpec">TrafficManagerProfilesAzureEndpointOperatorSpec</a></li>
-    <li><a href="#TrafficManagerProfilesExternalEndpointOperatorSpec">TrafficManagerProfilesExternalEndpointOperatorSpec</a></li>
-    <li><a href="#TrafficManagerProfilesNestedEndpointOperatorSpec">TrafficManagerProfilesNestedEndpointOperatorSpec</a></li>
-    <li><a href="#TrafficRoutingMethod">TrafficRoutingMethod</a></li>
-    <li><a href="#TrafficRoutingMethod_STATUS">TrafficRoutingMethod_STATUS</a></li>
-    <li><a href="#TrafficViewEnrollmentStatus">TrafficViewEnrollmentStatus</a></li>
-    <li><a href="#TrafficViewEnrollmentStatus_STATUS">TrafficViewEnrollmentStatus_STATUS</a></li>
-    <li><a href="#MonitorConfigCustomHeadersItem">MonitorConfigCustomHeadersItem</a></li>
-    <li><a href="#MonitorConfigCustomHeadersItem_STATUS">MonitorConfigCustomHeadersItem_STATUS</a></li>
-    <li><a href="#MonitorConfigExpectedStatusCodeRangesItem">MonitorConfigExpectedStatusCodeRangesItem</a></li>
-    <li><a href="#MonitorConfigExpectedStatusCodeRangesItem_STATUS">MonitorConfigExpectedStatusCodeRangesItem_STATUS</a></li>
-    <li><a href="#MonitorProtocol">MonitorProtocol</a></li>
-    <li><a href="#MonitorProtocol_STATUS">MonitorProtocol_STATUS</a></li>
-    <li><a href="#ProfileMonitorStatus">ProfileMonitorStatus</a></li>
-    <li><a href="#ProfileMonitorStatus_STATUS">ProfileMonitorStatus_STATUS</a></li>
-    <li><a href="#TrafficManagerProfileOperatorConfigMaps">TrafficManagerProfileOperatorConfigMaps</a></li>
+    <li><a href="#RedisEnterpriseDatabaseAccessPolicyAssignmentList">RedisEnterpriseDatabaseAccessPolicyAssignmentList</a></li>
+    <li><a href="#RedisEnterpriseDatabaseAccessPolicyAssignment_Spec">RedisEnterpriseDatabaseAccessPolicyAssignment_Spec</a></li>
+    <li><a href="#RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS">RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS</a></li>
+    <li><a href="#AccessPolicyAssignmentProperties_User">AccessPolicyAssignmentProperties_User</a></li>
+    <li><a href="#AccessPolicyAssignmentProperties_User_STATUS">AccessPolicyAssignmentProperties_User_STATUS</a></li>
+    <li><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a></li>
+    <li><a href="#RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec">RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec</a></li>
   </ul>
 </nav>
       </div>
@@ -1058,13 +999,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/reference/">Supported Resources</a></li>
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/reference/network/">Network</a></li>
+    <a href="/azure-service-operator/reference/cache/">Cache</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    v1api20220401</li>
+    v20250401</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>network.azure.com/v1api20220401</h1>
+	<h1>cache.azure.com/v20250401</h1>
 	
 	<header class="article-meta">
 		
@@ -1080,14 +1021,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;2022-04-01&rdquo;</td>
+          <td>&ldquo;2025-04-01&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
 </table>
-<h2 id="TrafficManagerProfile">TrafficManagerProfile</h2>
-<p>Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}</p>
-<p>Used by: <a href="#TrafficManagerProfileList">TrafficManagerProfileList</a>.</p>
+<h2 id="RedisEnterpriseDatabaseAccessPolicyAssignment">RedisEnterpriseDatabaseAccessPolicyAssignment</h2>
+<p>Generator information: - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redisEnterprise/​{clusterName}/​databases/​{databaseName}/​accessPolicyAssignments/​{accessPolicyAssignmentName}</p>
+<p>Used by: <a href="#RedisEnterpriseDatabaseAccessPolicyAssignmentList">RedisEnterpriseDatabaseAccessPolicyAssignmentList</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1110,16 +1051,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
       <tr>
           <td>spec</td>
           <td></td>
-          <td><a href="#TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</a><br/><small>Optional</small></td>
+          <td><a href="#RedisEnterpriseDatabaseAccessPolicyAssignment_Spec">RedisEnterpriseDatabaseAccessPolicyAssignment_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>status</td>
           <td></td>
-          <td><a href="#TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS">RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h3 id="TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</h3>
+<h3 id="RedisEnterpriseDatabaseAccessPolicyAssignment_Spec">RedisEnterpriseDatabaseAccessPolicyAssignment_Spec</h3>
 <table>
   <thead>
       <tr>
@@ -1130,9 +1071,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
   </thead>
   <tbody>
       <tr>
-          <td>allowedEndpointRecordTypes</td>
-          <td>The list of allowed endpoint record types.</td>
-          <td><a href="#AllowedEndpointRecordType">AllowedEndpointRecordType[]</a><br/><small>Optional</small></td>
+          <td>accessPolicyName</td>
+          <td>Name of access policy under specific access policy assignment. Only &ldquo;default&rdquo; policy is supported for now.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
           <td>azureName</td>
@@ -1140,63 +1081,23 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>dnsConfig</td>
-          <td>The DNS settings of the Traffic Manager profile.</td>
-          <td><a href="#DnsConfig">DnsConfig</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The Azure Region where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxReturn</td>
-          <td>Maximum number of endpoints to be returned for MultiValue routing type.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>monitorConfig</td>
-          <td>The endpoint monitoring settings of the Traffic Manager profile.</td>
-          <td><a href="#MonitorConfig">MonitorConfig</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>operatorSpec</td>
           <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#TrafficManagerProfileOperatorSpec">TrafficManagerProfileOperatorSpec</a><br/><small>Optional</small></td>
+          <td><a href="#RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec">RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cache.azure.com/RedisEnterpriseDatabase resource</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td>profileStatus</td>
-          <td>The status of the Traffic Manager profile.</td>
-          <td><a href="#ProfileStatus">ProfileStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>trafficRoutingMethod</td>
-          <td>The traffic routing method of the Traffic Manager profile.</td>
-          <td><a href="#TrafficRoutingMethod">TrafficRoutingMethod</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>trafficViewEnrollmentStatus</td>
-          <td>Indicates whether Traffic View is <code>Enabled</code> or <code>Disabled</code> for the Traffic Manager profile. Null, indicates <code>Disabled</code>. Enabling this feature will increase the cost of the Traffic Manage profile.</td>
-          <td><a href="#TrafficViewEnrollmentStatus">TrafficViewEnrollmentStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>user</td>
+          <td>The user associated with the access policy.</td>
+          <td><a href="#AccessPolicyAssignmentProperties_User">AccessPolicyAssignmentProperties_User</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
-<h3 id="TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</h3>
+<h3 id="RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS">RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS</h3>
 <table>
   <thead>
       <tr>
@@ -1207,9 +1108,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
   </thead>
   <tbody>
       <tr>
-          <td>allowedEndpointRecordTypes</td>
-          <td>The list of allowed endpoint record types.</td>
-          <td><a href="#AllowedEndpointRecordType_STATUS">AllowedEndpointRecordType_STATUS[]</a><br/><small>Optional</small></td>
+          <td>accessPolicyName</td>
+          <td>Name of access policy under specific access policy assignment. Only &ldquo;default&rdquo; policy is supported for now.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>conditions</td>
@@ -1217,34 +1118,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>dnsConfig</td>
-          <td>The DNS settings of the Traffic Manager profile.</td>
-          <td><a href="#DnsConfig_STATUS">DnsConfig_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpoints</td>
-          <td>The list of endpoints in the Traffic Manager profile.</td>
-          <td><a href="#Endpoint_STATUS">Endpoint_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The Azure Region where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxReturn</td>
-          <td>Maximum number of endpoints to be returned for MultiValue routing type.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>monitorConfig</td>
-          <td>The endpoint monitoring settings of the Traffic Manager profile.</td>
-          <td><a href="#MonitorConfig_STATUS">MonitorConfig_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -1252,34 +1128,24 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>profileStatus</td>
-          <td>The status of the Traffic Manager profile.</td>
-          <td><a href="#ProfileStatus_STATUS">ProfileStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>trafficRoutingMethod</td>
-          <td>The traffic routing method of the Traffic Manager profile.</td>
-          <td><a href="#TrafficRoutingMethod_STATUS">TrafficRoutingMethod_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>trafficViewEnrollmentStatus</td>
-          <td>Indicates whether Traffic View is <code>Enabled</code> or <code>Disabled</code> for the Traffic Manager profile. Null, indicates <code>Disabled</code>. Enabling this feature will increase the cost of the Traffic Manage profile.</td>
-          <td><a href="#TrafficViewEnrollmentStatus_STATUS">TrafficViewEnrollmentStatus_STATUS</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>Current provisioning status of the access policy assignment.</td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>user</td>
+          <td>The user associated with the access policy.</td>
+          <td><a href="#AccessPolicyAssignmentProperties_User_STATUS">AccessPolicyAssignmentProperties_User_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="TrafficManagerProfileList">TrafficManagerProfileList</h2>
-<p>Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}</p>
+<h2 id="RedisEnterpriseDatabaseAccessPolicyAssignmentList">RedisEnterpriseDatabaseAccessPolicyAssignmentList</h2>
+<p>Generator information: - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/RedisEnterprise/stable/2025-04-01/redisenterprise.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Cache/​redisEnterprise/​{clusterName}/​databases/​{databaseName}/​accessPolicyAssignments/​{accessPolicyAssignmentName}</p>
 <table>
   <thead>
       <tr>
@@ -1302,13 +1168,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
       <tr>
           <td>items</td>
           <td></td>
-          <td><a href="#TrafficManagerProfile">TrafficManagerProfile[]</a><br/><small>Optional</small></td>
+          <td><a href="#RedisEnterpriseDatabaseAccessPolicyAssignment">RedisEnterpriseDatabaseAccessPolicyAssignment[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="TrafficManagerProfilesAzureEndpoint">TrafficManagerProfilesAzureEndpoint</h2>
-<p>Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}/​AzureEndpoints/​{endpointName}</p>
-<p>Used by: <a href="#TrafficManagerProfilesAzureEndpointList">TrafficManagerProfilesAzureEndpointList</a>.</p>
+<h2 id="RedisEnterpriseDatabaseAccessPolicyAssignment_Spec">RedisEnterpriseDatabaseAccessPolicyAssignment_Spec</h2>
+<p>Used by: <a href="#RedisEnterpriseDatabaseAccessPolicyAssignment">RedisEnterpriseDatabaseAccessPolicyAssignment</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1319,41 +1184,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
   </thead>
   <tbody>
       <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#TrafficManagerProfilesAzureEndpoint_Spec">TrafficManagerProfilesAzureEndpoint_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#TrafficManagerProfilesAzureEndpoint_STATUS">TrafficManagerProfilesAzureEndpoint_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="TrafficManagerProfilesAzureEndpoint_Spec">TrafficManagerProfilesAzureEndpoint_Spec</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe">AlwaysServe</a><br/><small>Optional</small></td>
+          <td>accessPolicyName</td>
+          <td>Name of access policy under specific access policy assignment. Only &ldquo;default&rdquo; policy is supported for now.</td>
+          <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
           <td>azureName</td>
@@ -1361,88 +1194,24 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem">EndpointPropertiesCustomHeadersItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus">EndpointMonitorStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus">EndpointStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>operatorSpec</td>
           <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#TrafficManagerProfilesAzureEndpointOperatorSpec">TrafficManagerProfilesAzureEndpointOperatorSpec</a><br/><small>Optional</small></td>
+          <td><a href="#RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec">RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a network.azure.com/TrafficManagerProfile resource</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cache.azure.com/RedisEnterpriseDatabase resource</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem">EndpointPropertiesSubnetsItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceReference</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
+          <td>user</td>
+          <td>The user associated with the access policy.</td>
+          <td><a href="#AccessPolicyAssignmentProperties_User">AccessPolicyAssignmentProperties_User</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
-<h3 id="TrafficManagerProfilesAzureEndpoint_STATUS">TrafficManagerProfilesAzureEndpoint_STATUS</h3>
+<h2 id="RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS">RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS</h2>
+<p>Used by: <a href="#RedisEnterpriseDatabaseAccessPolicyAssignment">RedisEnterpriseDatabaseAccessPolicyAssignment</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1453,9 +1222,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
   </thead>
   <tbody>
       <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe_STATUS">AlwaysServe_STATUS</a><br/><small>Optional</small></td>
+          <td>accessPolicyName</td>
+          <td>Name of access policy under specific access policy assignment. Only &ldquo;default&rdquo; policy is supported for now.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>conditions</td>
@@ -1463,49 +1232,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem_STATUS">EndpointPropertiesCustomHeadersItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus_STATUS">EndpointMonitorStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus_STATUS">EndpointStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>id</td>
-          <td>Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName}</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -1513,39 +1242,24 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem_STATUS">EndpointPropertiesSubnetsItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceId</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>Current provisioning status of the access policy assignment.</td>
+          <td><a href="#ProvisioningState_STATUS">ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
+          <td>user</td>
+          <td>The user associated with the access policy.</td>
+          <td><a href="#AccessPolicyAssignmentProperties_User_STATUS">AccessPolicyAssignmentProperties_User_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="TrafficManagerProfilesAzureEndpointList">TrafficManagerProfilesAzureEndpointList</h2>
-<p>Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}/​AzureEndpoints/​{endpointName}</p>
+<h2 id="AccessPolicyAssignmentProperties_User">AccessPolicyAssignmentProperties_User</h2>
+<p>Used by: <a href="#RedisEnterpriseDatabaseAccessPolicyAssignment_Spec">RedisEnterpriseDatabaseAccessPolicyAssignment_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1556,25 +1270,19 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
   </thead>
   <tbody>
       <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
+          <td>objectId</td>
+          <td>The object ID of the user.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#TrafficManagerProfilesAzureEndpoint">TrafficManagerProfilesAzureEndpoint[]</a><br/><small>Optional</small></td>
+          <td>objectIdFromConfig</td>
+          <td>The object ID of the user.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="TrafficManagerProfilesExternalEndpoint">TrafficManagerProfilesExternalEndpoint</h2>
-<p>Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}/​ExternalEndpoints/​{endpointName}</p>
-<p>Used by: <a href="#TrafficManagerProfilesExternalEndpointList">TrafficManagerProfilesExternalEndpointList</a>.</p>
+<h2 id="AccessPolicyAssignmentProperties_User_STATUS">AccessPolicyAssignmentProperties_User_STATUS</h2>
+<p>Used by: <a href="#RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS">RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1585,1307 +1293,15 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
   </thead>
   <tbody>
       <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#TrafficManagerProfilesExternalEndpoint_Spec">TrafficManagerProfilesExternalEndpoint_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#TrafficManagerProfilesExternalEndpoint_STATUS">TrafficManagerProfilesExternalEndpoint_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="TrafficManagerProfilesExternalEndpoint_Spec">TrafficManagerProfilesExternalEndpoint_Spec</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe">AlwaysServe</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem">EndpointPropertiesCustomHeadersItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus">EndpointMonitorStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus">EndpointStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#TrafficManagerProfilesExternalEndpointOperatorSpec">TrafficManagerProfilesExternalEndpointOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a network.azure.com/TrafficManagerProfile resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem">EndpointPropertiesSubnetsItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceReference</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="TrafficManagerProfilesExternalEndpoint_STATUS">TrafficManagerProfilesExternalEndpoint_STATUS</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe_STATUS">AlwaysServe_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem_STATUS">EndpointPropertiesCustomHeadersItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus_STATUS">EndpointMonitorStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus_STATUS">EndpointStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem_STATUS">EndpointPropertiesSubnetsItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceId</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesExternalEndpointList">TrafficManagerProfilesExternalEndpointList</h2>
-<p>Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}/​ExternalEndpoints/​{endpointName}</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#TrafficManagerProfilesExternalEndpoint">TrafficManagerProfilesExternalEndpoint[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesNestedEndpoint">TrafficManagerProfilesNestedEndpoint</h2>
-<p>Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}/​NestedEndpoints/​{endpointName}</p>
-<p>Used by: <a href="#TrafficManagerProfilesNestedEndpointList">TrafficManagerProfilesNestedEndpointList</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#TrafficManagerProfilesNestedEndpoint_Spec">TrafficManagerProfilesNestedEndpoint_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#TrafficManagerProfilesNestedEndpoint_STATUS">TrafficManagerProfilesNestedEndpoint_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="TrafficManagerProfilesNestedEndpoint_Spec">TrafficManagerProfilesNestedEndpoint_Spec</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe">AlwaysServe</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem">EndpointPropertiesCustomHeadersItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus">EndpointMonitorStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus">EndpointStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#TrafficManagerProfilesNestedEndpointOperatorSpec">TrafficManagerProfilesNestedEndpointOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a network.azure.com/TrafficManagerProfile resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem">EndpointPropertiesSubnetsItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceReference</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="TrafficManagerProfilesNestedEndpoint_STATUS">TrafficManagerProfilesNestedEndpoint_STATUS</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe_STATUS">AlwaysServe_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem_STATUS">EndpointPropertiesCustomHeadersItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus_STATUS">EndpointMonitorStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus_STATUS">EndpointStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem_STATUS">EndpointPropertiesSubnetsItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceId</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesNestedEndpointList">TrafficManagerProfilesNestedEndpointList</h2>
-<p>Generator information: - Generated from: /trafficmanager/resource-manager/Microsoft.Network/TrafficManager/stable/2022-04-01/trafficmanager.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficmanagerprofiles/​{profileName}/​NestedEndpoints/​{endpointName}</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#TrafficManagerProfilesNestedEndpoint">TrafficManagerProfilesNestedEndpoint[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</h2>
-<p>Used by: <a href="#TrafficManagerProfile">TrafficManagerProfile</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>allowedEndpointRecordTypes</td>
-          <td>The list of allowed endpoint record types.</td>
-          <td><a href="#AllowedEndpointRecordType">AllowedEndpointRecordType[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dnsConfig</td>
-          <td>The DNS settings of the Traffic Manager profile.</td>
-          <td><a href="#DnsConfig">DnsConfig</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The Azure Region where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxReturn</td>
-          <td>Maximum number of endpoints to be returned for MultiValue routing type.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>monitorConfig</td>
-          <td>The endpoint monitoring settings of the Traffic Manager profile.</td>
-          <td><a href="#MonitorConfig">MonitorConfig</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#TrafficManagerProfileOperatorSpec">TrafficManagerProfileOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>profileStatus</td>
-          <td>The status of the Traffic Manager profile.</td>
-          <td><a href="#ProfileStatus">ProfileStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>trafficRoutingMethod</td>
-          <td>The traffic routing method of the Traffic Manager profile.</td>
-          <td><a href="#TrafficRoutingMethod">TrafficRoutingMethod</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>trafficViewEnrollmentStatus</td>
-          <td>Indicates whether Traffic View is <code>Enabled</code> or <code>Disabled</code> for the Traffic Manager profile. Null, indicates <code>Disabled</code>. Enabling this feature will increase the cost of the Traffic Manage profile.</td>
-          <td><a href="#TrafficViewEnrollmentStatus">TrafficViewEnrollmentStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
+          <td>objectId</td>
+          <td>The object ID of the user.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</h2>
-<p>Used by: <a href="#TrafficManagerProfile">TrafficManagerProfile</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>allowedEndpointRecordTypes</td>
-          <td>The list of allowed endpoint record types.</td>
-          <td><a href="#AllowedEndpointRecordType_STATUS">AllowedEndpointRecordType_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dnsConfig</td>
-          <td>The DNS settings of the Traffic Manager profile.</td>
-          <td><a href="#DnsConfig_STATUS">DnsConfig_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpoints</td>
-          <td>The list of endpoints in the Traffic Manager profile.</td>
-          <td><a href="#Endpoint_STATUS">Endpoint_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The Azure Region where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maxReturn</td>
-          <td>Maximum number of endpoints to be returned for MultiValue routing type.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>monitorConfig</td>
-          <td>The endpoint monitoring settings of the Traffic Manager profile.</td>
-          <td><a href="#MonitorConfig_STATUS">MonitorConfig_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>profileStatus</td>
-          <td>The status of the Traffic Manager profile.</td>
-          <td><a href="#ProfileStatus_STATUS">ProfileStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tags</td>
-          <td>Resource tags.</td>
-          <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>trafficRoutingMethod</td>
-          <td>The traffic routing method of the Traffic Manager profile.</td>
-          <td><a href="#TrafficRoutingMethod_STATUS">TrafficRoutingMethod_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>trafficViewEnrollmentStatus</td>
-          <td>Indicates whether Traffic View is <code>Enabled</code> or <code>Disabled</code> for the Traffic Manager profile. Null, indicates <code>Disabled</code>. Enabling this feature will increase the cost of the Traffic Manage profile.</td>
-          <td><a href="#TrafficViewEnrollmentStatus_STATUS">TrafficViewEnrollmentStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesAzureEndpoint_Spec">TrafficManagerProfilesAzureEndpoint_Spec</h2>
-<p>Used by: <a href="#TrafficManagerProfilesAzureEndpoint">TrafficManagerProfilesAzureEndpoint</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe">AlwaysServe</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem">EndpointPropertiesCustomHeadersItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus">EndpointMonitorStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus">EndpointStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#TrafficManagerProfilesAzureEndpointOperatorSpec">TrafficManagerProfilesAzureEndpointOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a network.azure.com/TrafficManagerProfile resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem">EndpointPropertiesSubnetsItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceReference</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesAzureEndpoint_STATUS">TrafficManagerProfilesAzureEndpoint_STATUS</h2>
-<p>Used by: <a href="#TrafficManagerProfilesAzureEndpoint">TrafficManagerProfilesAzureEndpoint</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe_STATUS">AlwaysServe_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem_STATUS">EndpointPropertiesCustomHeadersItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus_STATUS">EndpointMonitorStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus_STATUS">EndpointStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem_STATUS">EndpointPropertiesSubnetsItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceId</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesExternalEndpoint_Spec">TrafficManagerProfilesExternalEndpoint_Spec</h2>
-<p>Used by: <a href="#TrafficManagerProfilesExternalEndpoint">TrafficManagerProfilesExternalEndpoint</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe">AlwaysServe</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem">EndpointPropertiesCustomHeadersItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus">EndpointMonitorStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus">EndpointStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#TrafficManagerProfilesExternalEndpointOperatorSpec">TrafficManagerProfilesExternalEndpointOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a network.azure.com/TrafficManagerProfile resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem">EndpointPropertiesSubnetsItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceReference</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesExternalEndpoint_STATUS">TrafficManagerProfilesExternalEndpoint_STATUS</h2>
-<p>Used by: <a href="#TrafficManagerProfilesExternalEndpoint">TrafficManagerProfilesExternalEndpoint</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe_STATUS">AlwaysServe_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem_STATUS">EndpointPropertiesCustomHeadersItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus_STATUS">EndpointMonitorStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus_STATUS">EndpointStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem_STATUS">EndpointPropertiesSubnetsItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceId</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesNestedEndpoint_Spec">TrafficManagerProfilesNestedEndpoint_Spec</h2>
-<p>Used by: <a href="#TrafficManagerProfilesNestedEndpoint">TrafficManagerProfilesNestedEndpoint</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe">AlwaysServe</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem">EndpointPropertiesCustomHeadersItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus">EndpointMonitorStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus">EndpointStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#TrafficManagerProfilesNestedEndpointOperatorSpec">TrafficManagerProfilesNestedEndpointOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a network.azure.com/TrafficManagerProfile resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem">EndpointPropertiesSubnetsItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceReference</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesNestedEndpoint_STATUS">TrafficManagerProfilesNestedEndpoint_STATUS</h2>
-<p>Used by: <a href="#TrafficManagerProfilesNestedEndpoint">TrafficManagerProfilesNestedEndpoint</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe_STATUS">AlwaysServe_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem_STATUS">EndpointPropertiesCustomHeadersItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus_STATUS">EndpointMonitorStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus_STATUS">EndpointStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem_STATUS">EndpointPropertiesSubnetsItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceId</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AllowedEndpointRecordType">AllowedEndpointRecordType</h2>
-<p>The allowed type DNS record types for this profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</a>.</p>
+<h2 id="ProvisioningState_STATUS">ProvisioningState_STATUS</h2>
+<p>Current provisioning status</p>
+<p>Used by: <a href="#RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS">RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2895,668 +1311,34 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;Any&rdquo;</td>
+          <td>&ldquo;Canceled&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;DomainName&rdquo;</td>
+          <td>&ldquo;Creating&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;IPv4Address&rdquo;</td>
+          <td>&ldquo;Deleting&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;IPv6Address&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AllowedEndpointRecordType_STATUS">AllowedEndpointRecordType_STATUS</h2>
-<p>The allowed type DNS record types for this profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Any&rdquo;</td>
+          <td>&ldquo;Failed&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;DomainName&rdquo;</td>
+          <td>&ldquo;Succeeded&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;IPv4Address&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;IPv6Address&rdquo;</td>
+          <td>&ldquo;Updating&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
 </table>
-<h2 id="AlwaysServe">AlwaysServe</h2>
-<p>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</p>
-<p>Used by: <a href="#TrafficManagerProfilesAzureEndpoint_Spec">TrafficManagerProfilesAzureEndpoint_Spec</a>, <a href="#TrafficManagerProfilesExternalEndpoint_Spec">TrafficManagerProfilesExternalEndpoint_Spec</a>, and <a href="#TrafficManagerProfilesNestedEndpoint_Spec">TrafficManagerProfilesNestedEndpoint_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AlwaysServe_STATUS">AlwaysServe_STATUS</h2>
-<p>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</p>
-<p>Used by: <a href="#Endpoint_STATUS">Endpoint_STATUS</a>, <a href="#TrafficManagerProfilesAzureEndpoint_STATUS">TrafficManagerProfilesAzureEndpoint_STATUS</a>, <a href="#TrafficManagerProfilesExternalEndpoint_STATUS">TrafficManagerProfilesExternalEndpoint_STATUS</a>, and <a href="#TrafficManagerProfilesNestedEndpoint_STATUS">TrafficManagerProfilesNestedEndpoint_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DnsConfig">DnsConfig</h2>
-<p>Class containing DNS settings in a Traffic Manager profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>relativeName</td>
-          <td>The relative DNS name provided by this Traffic Manager profile. This value is combined with the DNS domain name used by Azure Traffic Manager to form the fully-qualified domain name (FQDN) of the profile.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>ttl</td>
-          <td>The DNS Time-To-Live (TTL), in seconds. This informs the local DNS resolvers and DNS clients how long to cache DNS responses provided by this Traffic Manager profile.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DnsConfig_STATUS">DnsConfig_STATUS</h2>
-<p>Class containing DNS settings in a Traffic Manager profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>fqdn</td>
-          <td>The fully-qualified domain name (FQDN) of the Traffic Manager profile. This is formed from the concatenation of the RelativeName with the DNS domain used by Azure Traffic Manager.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>relativeName</td>
-          <td>The relative DNS name provided by this Traffic Manager profile. This value is combined with the DNS domain name used by Azure Traffic Manager to form the fully-qualified domain name (FQDN) of the profile.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>ttl</td>
-          <td>The DNS Time-To-Live (TTL), in seconds. This informs the local DNS resolvers and DNS clients how long to cache DNS responses provided by this Traffic Manager profile.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Endpoint_STATUS">Endpoint_STATUS</h2>
-<p>Class representing a Traffic Manager endpoint.</p>
-<p>Used by: <a href="#TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alwaysServe</td>
-          <td>If Always Serve is enabled, probing for endpoint health will be disabled and endpoints will be included in the traffic routing method.</td>
-          <td><a href="#AlwaysServe_STATUS">AlwaysServe_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#EndpointPropertiesCustomHeadersItem_STATUS">EndpointPropertiesCustomHeadersItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointLocation</td>
-          <td>Specifies the location of the external or nested endpoints when using the <code>Performance</code> traffic routing method.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointMonitorStatus</td>
-          <td>The monitoring status of the endpoint.</td>
-          <td><a href="#EndpointMonitorStatus_STATUS">EndpointMonitorStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>endpointStatus</td>
-          <td>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</td>
-          <td><a href="#EndpointStatus_STATUS">EndpointStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>geoMapping</td>
-          <td>The list of countries/regions mapped to this endpoint when using the <code>Geographic</code> traffic routing method. Please consult Traffic Manager Geographic documentation for a full list of accepted values.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource Id for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​trafficManagerProfiles/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpoints</td>
-          <td>The minimum number of endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv4</td>
-          <td>The minimum number of IPv4 (DNS record type A) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minChildEndpointsIPv6</td>
-          <td>The minimum number of IPv6 (DNS record type AAAA) endpoints that must be available in the child profile in order for the parent profile to be considered available. Only applicable to endpoint of type <code>NestedEndpoints</code>.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>priority</td>
-          <td>The priority of this endpoint when using the <code>Priority</code> traffic routing method. Possible values are from 1 to 1000, lower values represent higher priority. This is an optional parameter. If specified, it must be specified on all endpoints, and no two endpoints can share the same priority value.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>subnets</td>
-          <td>The list of subnets, IP addresses, and/or address ranges mapped to this endpoint when using the <code>Subnet</code> traffic routing method. An empty list will match all ranges not covered by other endpoints.</td>
-          <td><a href="#EndpointPropertiesSubnetsItem_STATUS">EndpointPropertiesSubnetsItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>target</td>
-          <td>The fully-qualified DNS name or IP address of the endpoint. Traffic Manager returns this value in DNS responses to direct traffic to this endpoint.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>targetResourceId</td>
-          <td>The Azure Resource URI of the of the endpoint. Not applicable to endpoints of type <code>ExternalEndpoints</code>.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>weight</td>
-          <td>The weight of this endpoint when using the <code>Weighted</code> traffic routing method. Possible values are from 1 to 1000.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EndpointMonitorStatus">EndpointMonitorStatus</h2>
-<p>The monitoring status of the endpoint.</p>
-<p>Used by: <a href="#TrafficManagerProfilesAzureEndpoint_Spec">TrafficManagerProfilesAzureEndpoint_Spec</a>, <a href="#TrafficManagerProfilesExternalEndpoint_Spec">TrafficManagerProfilesExternalEndpoint_Spec</a>, and <a href="#TrafficManagerProfilesNestedEndpoint_Spec">TrafficManagerProfilesNestedEndpoint_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;CheckingEndpoint&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Degraded&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Inactive&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Online&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Stopped&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Unmonitored&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EndpointMonitorStatus_STATUS">EndpointMonitorStatus_STATUS</h2>
-<p>The monitoring status of the endpoint.</p>
-<p>Used by: <a href="#Endpoint_STATUS">Endpoint_STATUS</a>, <a href="#TrafficManagerProfilesAzureEndpoint_STATUS">TrafficManagerProfilesAzureEndpoint_STATUS</a>, <a href="#TrafficManagerProfilesExternalEndpoint_STATUS">TrafficManagerProfilesExternalEndpoint_STATUS</a>, and <a href="#TrafficManagerProfilesNestedEndpoint_STATUS">TrafficManagerProfilesNestedEndpoint_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;CheckingEndpoint&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Degraded&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Inactive&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Online&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Stopped&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Unmonitored&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EndpointPropertiesCustomHeadersItem">EndpointPropertiesCustomHeadersItem</h2>
-<p>Custom header name and value.</p>
-<p>Used by: <a href="#TrafficManagerProfilesAzureEndpoint_Spec">TrafficManagerProfilesAzureEndpoint_Spec</a>, <a href="#TrafficManagerProfilesExternalEndpoint_Spec">TrafficManagerProfilesExternalEndpoint_Spec</a>, and <a href="#TrafficManagerProfilesNestedEndpoint_Spec">TrafficManagerProfilesNestedEndpoint_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>name</td>
-          <td>Header name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>value</td>
-          <td>Header value.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EndpointPropertiesCustomHeadersItem_STATUS">EndpointPropertiesCustomHeadersItem_STATUS</h2>
-<p>Custom header name and value.</p>
-<p>Used by: <a href="#Endpoint_STATUS">Endpoint_STATUS</a>, <a href="#TrafficManagerProfilesAzureEndpoint_STATUS">TrafficManagerProfilesAzureEndpoint_STATUS</a>, <a href="#TrafficManagerProfilesExternalEndpoint_STATUS">TrafficManagerProfilesExternalEndpoint_STATUS</a>, and <a href="#TrafficManagerProfilesNestedEndpoint_STATUS">TrafficManagerProfilesNestedEndpoint_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>name</td>
-          <td>Header name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>value</td>
-          <td>Header value.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EndpointPropertiesSubnetsItem">EndpointPropertiesSubnetsItem</h2>
-<p>Subnet first address, scope, and/or last address.</p>
-<p>Used by: <a href="#TrafficManagerProfilesAzureEndpoint_Spec">TrafficManagerProfilesAzureEndpoint_Spec</a>, <a href="#TrafficManagerProfilesExternalEndpoint_Spec">TrafficManagerProfilesExternalEndpoint_Spec</a>, and <a href="#TrafficManagerProfilesNestedEndpoint_Spec">TrafficManagerProfilesNestedEndpoint_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>first</td>
-          <td>First address in the subnet.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>last</td>
-          <td>Last address in the subnet.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>scope</td>
-          <td>Block size (number of leading bits in the subnet mask).</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EndpointPropertiesSubnetsItem_STATUS">EndpointPropertiesSubnetsItem_STATUS</h2>
-<p>Subnet first address, scope, and/or last address.</p>
-<p>Used by: <a href="#Endpoint_STATUS">Endpoint_STATUS</a>, <a href="#TrafficManagerProfilesAzureEndpoint_STATUS">TrafficManagerProfilesAzureEndpoint_STATUS</a>, <a href="#TrafficManagerProfilesExternalEndpoint_STATUS">TrafficManagerProfilesExternalEndpoint_STATUS</a>, and <a href="#TrafficManagerProfilesNestedEndpoint_STATUS">TrafficManagerProfilesNestedEndpoint_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>first</td>
-          <td>First address in the subnet.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>last</td>
-          <td>Last address in the subnet.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>scope</td>
-          <td>Block size (number of leading bits in the subnet mask).</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EndpointStatus">EndpointStatus</h2>
-<p>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</p>
-<p>Used by: <a href="#TrafficManagerProfilesAzureEndpoint_Spec">TrafficManagerProfilesAzureEndpoint_Spec</a>, <a href="#TrafficManagerProfilesExternalEndpoint_Spec">TrafficManagerProfilesExternalEndpoint_Spec</a>, and <a href="#TrafficManagerProfilesNestedEndpoint_Spec">TrafficManagerProfilesNestedEndpoint_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EndpointStatus_STATUS">EndpointStatus_STATUS</h2>
-<p>The status of the endpoint. If the endpoint is Enabled, it is probed for endpoint health and is included in the traffic routing method.</p>
-<p>Used by: <a href="#Endpoint_STATUS">Endpoint_STATUS</a>, <a href="#TrafficManagerProfilesAzureEndpoint_STATUS">TrafficManagerProfilesAzureEndpoint_STATUS</a>, <a href="#TrafficManagerProfilesExternalEndpoint_STATUS">TrafficManagerProfilesExternalEndpoint_STATUS</a>, and <a href="#TrafficManagerProfilesNestedEndpoint_STATUS">TrafficManagerProfilesNestedEndpoint_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MonitorConfig">MonitorConfig</h2>
-<p>Class containing endpoint monitoring settings in a Traffic Manager profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#MonitorConfigCustomHeadersItem">MonitorConfigCustomHeadersItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>expectedStatusCodeRanges</td>
-          <td>List of expected status code ranges.</td>
-          <td><a href="#MonitorConfigExpectedStatusCodeRangesItem">MonitorConfigExpectedStatusCodeRangesItem[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>intervalInSeconds</td>
-          <td>The monitor interval for endpoints in this profile. This is the interval at which Traffic Manager will check the health of each endpoint in this profile.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>path</td>
-          <td>The path relative to the endpoint domain name used to probe for endpoint health.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>port</td>
-          <td>The TCP port used to probe for endpoint health.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>profileMonitorStatus</td>
-          <td>The profile-level monitoring status of the Traffic Manager profile.</td>
-          <td><a href="#ProfileMonitorStatus">ProfileMonitorStatus</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>protocol</td>
-          <td>The protocol (HTTP, HTTPS or TCP) used to probe for endpoint health.</td>
-          <td><a href="#MonitorProtocol">MonitorProtocol</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>timeoutInSeconds</td>
-          <td>The monitor timeout for endpoints in this profile. This is the time that Traffic Manager allows endpoints in this profile to response to the health check.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>toleratedNumberOfFailures</td>
-          <td>The number of consecutive failed health check that Traffic Manager tolerates before declaring an endpoint in this profile Degraded after the next failed health check.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MonitorConfig_STATUS">MonitorConfig_STATUS</h2>
-<p>Class containing endpoint monitoring settings in a Traffic Manager profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>customHeaders</td>
-          <td>List of custom headers.</td>
-          <td><a href="#MonitorConfigCustomHeadersItem_STATUS">MonitorConfigCustomHeadersItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>expectedStatusCodeRanges</td>
-          <td>List of expected status code ranges.</td>
-          <td><a href="#MonitorConfigExpectedStatusCodeRangesItem_STATUS">MonitorConfigExpectedStatusCodeRangesItem_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>intervalInSeconds</td>
-          <td>The monitor interval for endpoints in this profile. This is the interval at which Traffic Manager will check the health of each endpoint in this profile.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>path</td>
-          <td>The path relative to the endpoint domain name used to probe for endpoint health.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>port</td>
-          <td>The TCP port used to probe for endpoint health.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>profileMonitorStatus</td>
-          <td>The profile-level monitoring status of the Traffic Manager profile.</td>
-          <td><a href="#ProfileMonitorStatus_STATUS">ProfileMonitorStatus_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>protocol</td>
-          <td>The protocol (HTTP, HTTPS or TCP) used to probe for endpoint health.</td>
-          <td><a href="#MonitorProtocol_STATUS">MonitorProtocol_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>timeoutInSeconds</td>
-          <td>The monitor timeout for endpoints in this profile. This is the time that Traffic Manager allows endpoints in this profile to response to the health check.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>toleratedNumberOfFailures</td>
-          <td>The number of consecutive failed health check that Traffic Manager tolerates before declaring an endpoint in this profile Degraded after the next failed health check.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ProfileStatus">ProfileStatus</h2>
-<p>The status of the Traffic Manager profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ProfileStatus_STATUS">ProfileStatus_STATUS</h2>
-<p>The status of the Traffic Manager profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfileOperatorSpec">TrafficManagerProfileOperatorSpec</h2>
+<h2 id="RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec">RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>configMaps</td>
-          <td>configures where to place operator written ConfigMaps.</td>
-          <td><a href="#TrafficManagerProfileOperatorConfigMaps">TrafficManagerProfileOperatorConfigMaps</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesAzureEndpointOperatorSpec">TrafficManagerProfilesAzureEndpointOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#TrafficManagerProfilesAzureEndpoint_Spec">TrafficManagerProfilesAzureEndpoint_Spec</a>.</p>
+<p>Used by: <a href="#RedisEnterpriseDatabaseAccessPolicyAssignment_Spec">RedisEnterpriseDatabaseAccessPolicyAssignment_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -3575,400 +1357,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec TrafficManagerP
           <td>secretExpressions</td>
           <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesExternalEndpointOperatorSpec">TrafficManagerProfilesExternalEndpointOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#TrafficManagerProfilesExternalEndpoint_Spec">TrafficManagerProfilesExternalEndpoint_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfilesNestedEndpointOperatorSpec">TrafficManagerProfilesNestedEndpointOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#TrafficManagerProfilesNestedEndpoint_Spec">TrafficManagerProfilesNestedEndpoint_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficRoutingMethod">TrafficRoutingMethod</h2>
-<p>The traffic routing method of the Traffic Manager profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Geographic&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;MultiValue&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Performance&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Priority&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Subnet&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Weighted&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficRoutingMethod_STATUS">TrafficRoutingMethod_STATUS</h2>
-<p>The traffic routing method of the Traffic Manager profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Geographic&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;MultiValue&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Performance&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Priority&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Subnet&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Weighted&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficViewEnrollmentStatus">TrafficViewEnrollmentStatus</h2>
-<p>Indicates whether Traffic View is <code>Enabled</code> or <code>Disabled</code> for the Traffic Manager profile. Null, indicates <code>Disabled</code>. Enabling this feature will increase the cost of the Traffic Manage profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_Spec">TrafficManagerProfile_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficViewEnrollmentStatus_STATUS">TrafficViewEnrollmentStatus_STATUS</h2>
-<p>Indicates whether Traffic View is <code>Enabled</code> or <code>Disabled</code> for the Traffic Manager profile. Null, indicates <code>Disabled</code>. Enabling this feature will increase the cost of the Traffic Manage profile.</p>
-<p>Used by: <a href="#TrafficManagerProfile_STATUS">TrafficManagerProfile_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MonitorConfigCustomHeadersItem">MonitorConfigCustomHeadersItem</h2>
-<p>Custom header name and value.</p>
-<p>Used by: <a href="#MonitorConfig">MonitorConfig</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>name</td>
-          <td>Header name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>value</td>
-          <td>Header value.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MonitorConfigCustomHeadersItem_STATUS">MonitorConfigCustomHeadersItem_STATUS</h2>
-<p>Custom header name and value.</p>
-<p>Used by: <a href="#MonitorConfig_STATUS">MonitorConfig_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>name</td>
-          <td>Header name.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>value</td>
-          <td>Header value.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MonitorConfigExpectedStatusCodeRangesItem">MonitorConfigExpectedStatusCodeRangesItem</h2>
-<p>Min and max value of a status code range.</p>
-<p>Used by: <a href="#MonitorConfig">MonitorConfig</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>max</td>
-          <td>Max status code.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>min</td>
-          <td>Min status code.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MonitorConfigExpectedStatusCodeRangesItem_STATUS">MonitorConfigExpectedStatusCodeRangesItem_STATUS</h2>
-<p>Min and max value of a status code range.</p>
-<p>Used by: <a href="#MonitorConfig_STATUS">MonitorConfig_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>max</td>
-          <td>Max status code.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>min</td>
-          <td>Min status code.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MonitorProtocol">MonitorProtocol</h2>
-<p>The protocol (HTTP, HTTPS or TCP) used to probe for endpoint health.</p>
-<p>Used by: <a href="#MonitorConfig">MonitorConfig</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;HTTP&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;HTTPS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;TCP&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MonitorProtocol_STATUS">MonitorProtocol_STATUS</h2>
-<p>The protocol (HTTP, HTTPS or TCP) used to probe for endpoint health.</p>
-<p>Used by: <a href="#MonitorConfig_STATUS">MonitorConfig_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;HTTP&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;HTTPS&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;TCP&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ProfileMonitorStatus">ProfileMonitorStatus</h2>
-<p>The profile-level monitoring status of the Traffic Manager profile.</p>
-<p>Used by: <a href="#MonitorConfig">MonitorConfig</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;CheckingEndpoints&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Degraded&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Inactive&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Online&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ProfileMonitorStatus_STATUS">ProfileMonitorStatus_STATUS</h2>
-<p>The profile-level monitoring status of the Traffic Manager profile.</p>
-<p>Used by: <a href="#MonitorConfig_STATUS">MonitorConfig_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;CheckingEndpoints&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Degraded&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Inactive&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Online&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="TrafficManagerProfileOperatorConfigMaps">TrafficManagerProfileOperatorConfigMaps</h2>
-<p>Used by: <a href="#TrafficManagerProfileOperatorSpec">TrafficManagerProfileOperatorSpec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>dnsConfigFqdn</td>
-          <td>indicates where the DnsConfigFqdn config map should be placed. If omitted, no config map will be created.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapDestination">genruntime.ConfigMapDestination</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
