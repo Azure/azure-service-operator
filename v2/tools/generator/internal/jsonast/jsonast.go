@@ -540,7 +540,7 @@ func getProperties(
 
 		hasFormatPassword := propSchema.format() == "password"
 		if hasSecretExtension || hasFormatPassword {
-			property = property.WithSecrecy(astmodel.SecrecyAlways)
+			property = property.WithSecrecy(astmodel.SecrecyRequired)
 		}
 
 		// add validations

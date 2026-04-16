@@ -101,8 +101,8 @@ type ResourceWithReferencesSpec struct {
 	PropertyWithTag           *string                        `optionalConfigMapPair:"PropertyWithTag" json:"propertyWithTag"`
 	PropertyWithTagFromConfig *genruntime.ConfigMapReference `optionalConfigMapPair:"PropertyWithTag" json:"propertyWithTagFromConfig"`
 
-	SecretProperty           *string                      `optionalSecretPair:"SecretProperty" json:"secretProperty,omitempty"`
-	SecretPropertyFromSecret *genruntime.SecretReference  `optionalSecretPair:"SecretProperty" json:"secretPropertyFromSecret,omitempty"`
+	SecretProperty           *string                     `optionalSecretPair:"SecretProperty" json:"secretProperty,omitempty"`
+	SecretPropertyFromSecret *genruntime.SecretReference `optionalSecretPair:"SecretProperty" json:"secretPropertyFromSecret,omitempty"`
 
 	Location string `json:"location,omitempty"`
 }
