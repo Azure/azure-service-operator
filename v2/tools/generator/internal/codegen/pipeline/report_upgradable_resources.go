@@ -96,11 +96,11 @@ func (idx latestVersionIndex) Add(name astmodel.InternalTypeName) {
 	key := resourceKey{group: pkg.Group(), name: name.Name()}
 	info := idx[key]
 	if pkg.IsPreview() {
-		if isVersionNewer(pkg.PackageName(), pkgRefName(info.preview)) {
+		if isVersionNewer(pkg, info.preview) {
 			info.preview = pkg
 		}
 	} else {
-		if isVersionNewer(pkg.PackageName(), pkgRefName(info.stable)) {
+		if isVersionNewer(pkg, info.stable) {
 			info.stable = pkg
 		}
 	}
@@ -122,7 +122,7 @@ type upgradableResourcesReportItem struct {
 func (i upgradableResourcesReportItem) hasStableUpgrade() bool {
 	return i.supportedStable != nil &&
 		i.availableStable != nil &&
-		isVersionNewer(i.availableStable.PackageName(), i.supportedStable.PackageName())
+		isVersionNewer(i.availableStable, i.supportedStable)
 }
 
 // hasPreviewUpgrade returns true if there is a newer preview version available.
@@ -130,7 +130,7 @@ func (i upgradableResourcesReportItem) hasStableUpgrade() bool {
 func (i upgradableResourcesReportItem) hasPreviewUpgrade() bool {
 	return i.supportedPreview != nil &&
 		i.availablePreview != nil &&
-		isVersionNewer(i.availablePreview.PackageName(), i.supportedPreview.PackageName())
+		isVersionNewer(i.availablePreview, i.supportedPreview)
 }
 
 // isStableUpgradeRecommended returns true if a stable upgrade is recommended based on configured thresholds.
@@ -391,15 +391,17 @@ func bold(s string) string {
 }
 
 // isVersionNewer returns true if candidate is strictly newer than current.
-// An empty current means any non-empty candidate is newer.
-func isVersionNewer(candidate, current string) bool {
-	if candidate == "" {
+// A nil current means any non-nil candidate is newer.
+func isVersionNewer(candidate, current astmodel.InternalPackageReference) bool {
+	if candidate == nil {
 		return false
 	}
-	if current == "" {
+
+	if current == nil {
 		return true
 	}
-	return astmodel.ComparePathAndVersion(candidate, current) > 0
+
+	return candidate.APIVersion() > current.APIVersion()
 }
 
 // parseARMVersionDate parses the date part of an ARM API version string.
