@@ -1,0 +1,19 @@
+apiVersion: documentdb.azure.com/v20251015
+kind: CassandraDataCenter
+metadata:
+  name: aso-cassandra-datacenter
+  namespace: default
+spec:
+  azureName: aso-cassandra-datacenter
+  owner:
+    name: aso-cassandra-cluster
+  properties:
+    dataCenterLocation: eastus
+    # Connecting to this subnet will FAIL unless the Azure Cosmos DB Service Principal has the 
+    # `Microsoft.Network/virtualNetworks/subnets/join/action` permission on it.
+    delegatedSubnetReference:
+      group: network.azure.com
+      kind: VirtualNetworksSubnet
+      name: cassandra-dc-subnet
+    nodeCount: 3
+    sku: Standard_DS14_v2

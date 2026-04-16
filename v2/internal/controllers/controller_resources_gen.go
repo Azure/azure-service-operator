@@ -71,27 +71,30 @@ import (
 	batch_v20240701s "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/storage"
 	batch_v20240701w "github.com/Azure/azure-service-operator/v2/api/batch/v20240701/webhook"
 	cache_customizations "github.com/Azure/azure-service-operator/v2/api/cache/customizations"
-	cache_v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
-	cache_v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
-	cache_v20201201w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/webhook"
-	cache_v20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
-	cache_v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/storage"
-	cache_v20210301w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/webhook"
-	cache_v20230401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401"
-	cache_v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
-	cache_v20230401w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/webhook"
-	cache_v20230701 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701"
-	cache_v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
-	cache_v20230701w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/webhook"
-	cache_v20230801 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801"
-	cache_v20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
-	cache_v20230801w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/webhook"
-	cache_v20241101 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101"
-	cache_v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
-	cache_v20241101w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/webhook"
-	cache_v20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
-	cache_v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
-	cache_v20250401w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/webhook"
+	cache_v1api20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
+	cache_v1api20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
+	cache_v1api20201201w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/webhook"
+	cache_v1api20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
+	cache_v1api20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/storage"
+	cache_v1api20210301w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/webhook"
+	cache_v1api20230401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401"
+	cache_v1api20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
+	cache_v1api20230401w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/webhook"
+	cache_v1api20230701 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701"
+	cache_v1api20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
+	cache_v1api20230701w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/webhook"
+	cache_v1api20230801 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801"
+	cache_v1api20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
+	cache_v1api20230801w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/webhook"
+	cache_v1api20241101 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101"
+	cache_v1api20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v1api20241101w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/webhook"
+	cache_v1api20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
+	cache_v1api20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
+	cache_v1api20250401w "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/webhook"
+	cache_v20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v20250401"
+	cache_v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
+	cache_v20250401w "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/webhook"
 	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
 	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
 	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
@@ -238,6 +241,9 @@ import (
 	documentdb_v20240815 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815"
 	documentdb_v20240815s "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/storage"
 	documentdb_v20240815w "github.com/Azure/azure-service-operator/v2/api/documentdb/v1api20240815/webhook"
+	documentdb_v20251015 "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015"
+	documentdb_v20251015s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
+	documentdb_v20251015w "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/webhook"
 	eventgrid_customizations "github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations"
 	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
 	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
@@ -781,10 +787,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(authorization_v20220401s.RoleDefinition)})
 	result = append(result, &registration.StorageType{Obj: new(batch_v20240701s.BatchAccount)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.Redis)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisAccessPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v1api20241101s.Redis)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v1api20241101s.RedisAccessPolicy)})
 	result = append(result, &registration.StorageType{
-		Obj: new(cache_v20241101s.RedisAccessPolicyAssignment),
+		Obj: new(cache_v1api20241101s.RedisAccessPolicyAssignment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.objectIdAliasFromConfig",
@@ -803,15 +809,34 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.objectIdAliasFromConfig",
 						".spec.objectIdFromConfig",
 					},
-					&cache_v20241101s.RedisAccessPolicyAssignmentList{}),
+					&cache_v1api20241101s.RedisAccessPolicyAssignmentList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisFirewallRule)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisLinkedServer)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisPatchSchedule)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20250401s.RedisEnterprise)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20250401s.RedisEnterpriseDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v1api20241101s.RedisFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v1api20241101s.RedisLinkedServer)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v1api20241101s.RedisPatchSchedule)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v1api20250401s.RedisEnterprise)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v1api20250401s.RedisEnterpriseDatabase)})
+	result = append(result, &registration.StorageType{
+		Obj: new(cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.user.objectIdFromConfig",
+				Func: indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.user.objectIdFromConfig",
+					},
+					&cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignmentList{}),
+			},
+		},
+	})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20210601s.ProfilesEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdCustomDomain)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.AfdEndpoint)})
@@ -1429,6 +1454,93 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.principalIdFromConfig",
 					},
 					&documentdb_v20240815s.SqlRoleAssignmentList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(documentdb_v20251015s.CassandraCluster),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.clientCertificates.pem",
+				Func: indexDocumentdbCassandraClusterClientCertificatesPem,
+			},
+			{
+				Key:  ".spec.properties.externalGossipCertificates.pem",
+				Func: indexDocumentdbCassandraClusterExternalGossipCertificatesPem,
+			},
+			{
+				Key:  ".spec.properties.externalSeedNodes.ipAddressFromConfig",
+				Func: indexDocumentdbCassandraClusterExternalSeedNodesIpAddressFromConfig,
+			},
+			{
+				Key:  ".spec.properties.initialCassandraAdminPassword",
+				Func: indexDocumentdbCassandraClusterInitialCassandraAdminPassword,
+			},
+			{
+				Key:  ".spec.properties.prometheusEndpoint.ipAddressFromConfig",
+				Func: indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.clientCertificates.pem",
+						".spec.properties.externalGossipCertificates.pem",
+						".spec.properties.initialCassandraAdminPassword",
+					},
+					&documentdb_v20251015s.CassandraClusterList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.properties.externalSeedNodes.ipAddressFromConfig",
+						".spec.properties.prometheusEndpoint.ipAddressFromConfig",
+					},
+					&documentdb_v20251015s.CassandraClusterList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(documentdb_v20251015s.CassandraDataCenter),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.backupStorageCustomerKeyUriFromConfig",
+				Func: indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig,
+			},
+			{
+				Key:  ".spec.properties.authenticationMethodLdapProperties.serverCertificates.pem",
+				Func: indexDocumentdbCassandraDataCenterPem,
+			},
+			{
+				Key:  ".spec.properties.privateEndpointIpAddressFromConfig",
+				Func: indexDocumentdbCassandraDataCenterPrivateEndpointIpAddressFromConfig,
+			},
+			{
+				Key:  ".spec.properties.authenticationMethodLdapProperties.serviceUserPassword",
+				Func: indexDocumentdbCassandraDataCenterServiceUserPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.Secret{},
+				MakeEventHandler: watchSecretsFactory(
+					[]string{
+						".spec.properties.authenticationMethodLdapProperties.serverCertificates.pem",
+						".spec.properties.authenticationMethodLdapProperties.serviceUserPassword",
+					},
+					&documentdb_v20251015s.CassandraDataCenterList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.properties.backupStorageCustomerKeyUriFromConfig",
+						".spec.properties.privateEndpointIpAddressFromConfig",
+					},
+					&documentdb_v20251015s.CassandraDataCenterList{}),
 			},
 		},
 	})
@@ -3620,157 +3732,163 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(cache_v20201201.Redis),
-			Defaulter: &cache_v20201201w.Redis{},
-			Validator: &cache_v20201201w.Redis{},
+			Obj:       new(cache_v1api20201201.Redis),
+			Defaulter: &cache_v1api20201201w.Redis{},
+			Validator: &cache_v1api20201201w.Redis{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20201201.RedisFirewallRule),
-			Defaulter: &cache_v20201201w.RedisFirewallRule{},
-			Validator: &cache_v20201201w.RedisFirewallRule{},
+			Obj:       new(cache_v1api20201201.RedisFirewallRule),
+			Defaulter: &cache_v1api20201201w.RedisFirewallRule{},
+			Validator: &cache_v1api20201201w.RedisFirewallRule{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20201201.RedisLinkedServer),
-			Defaulter: &cache_v20201201w.RedisLinkedServer{},
-			Validator: &cache_v20201201w.RedisLinkedServer{},
+			Obj:       new(cache_v1api20201201.RedisLinkedServer),
+			Defaulter: &cache_v1api20201201w.RedisLinkedServer{},
+			Validator: &cache_v1api20201201w.RedisLinkedServer{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20201201.RedisPatchSchedule),
-			Defaulter: &cache_v20201201w.RedisPatchSchedule{},
-			Validator: &cache_v20201201w.RedisPatchSchedule{},
+			Obj:       new(cache_v1api20201201.RedisPatchSchedule),
+			Defaulter: &cache_v1api20201201w.RedisPatchSchedule{},
+			Validator: &cache_v1api20201201w.RedisPatchSchedule{},
 		})
 	result = append(
 		result,
-		&registration.KnownType{Obj: new(cache_v20201201s.Redis)},
-		&registration.KnownType{Obj: new(cache_v20201201s.RedisFirewallRule)},
-		&registration.KnownType{Obj: new(cache_v20201201s.RedisLinkedServer)},
-		&registration.KnownType{Obj: new(cache_v20201201s.RedisPatchSchedule)})
+		&registration.KnownType{Obj: new(cache_v1api20201201s.Redis)},
+		&registration.KnownType{Obj: new(cache_v1api20201201s.RedisFirewallRule)},
+		&registration.KnownType{Obj: new(cache_v1api20201201s.RedisLinkedServer)},
+		&registration.KnownType{Obj: new(cache_v1api20201201s.RedisPatchSchedule)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(cache_v20210301.RedisEnterprise),
-		Defaulter: &cache_v20210301w.RedisEnterprise{},
-		Validator: &cache_v20210301w.RedisEnterprise{},
+		Obj:       new(cache_v1api20210301.RedisEnterprise),
+		Defaulter: &cache_v1api20210301w.RedisEnterprise{},
+		Validator: &cache_v1api20210301w.RedisEnterprise{},
 	}, &registration.KnownType{
-		Obj:       new(cache_v20210301.RedisEnterpriseDatabase),
-		Defaulter: &cache_v20210301w.RedisEnterpriseDatabase{},
-		Validator: &cache_v20210301w.RedisEnterpriseDatabase{},
+		Obj:       new(cache_v1api20210301.RedisEnterpriseDatabase),
+		Defaulter: &cache_v1api20210301w.RedisEnterpriseDatabase{},
+		Validator: &cache_v1api20210301w.RedisEnterpriseDatabase{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(cache_v20210301s.RedisEnterprise)}, &registration.KnownType{Obj: new(cache_v20210301s.RedisEnterpriseDatabase)})
+	result = append(result, &registration.KnownType{Obj: new(cache_v1api20210301s.RedisEnterprise)}, &registration.KnownType{Obj: new(cache_v1api20210301s.RedisEnterpriseDatabase)})
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(cache_v20230401.Redis),
-			Defaulter: &cache_v20230401w.Redis{},
-			Validator: &cache_v20230401w.Redis{},
+			Obj:       new(cache_v1api20230401.Redis),
+			Defaulter: &cache_v1api20230401w.Redis{},
+			Validator: &cache_v1api20230401w.Redis{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20230401.RedisFirewallRule),
-			Defaulter: &cache_v20230401w.RedisFirewallRule{},
-			Validator: &cache_v20230401w.RedisFirewallRule{},
+			Obj:       new(cache_v1api20230401.RedisFirewallRule),
+			Defaulter: &cache_v1api20230401w.RedisFirewallRule{},
+			Validator: &cache_v1api20230401w.RedisFirewallRule{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20230401.RedisLinkedServer),
-			Defaulter: &cache_v20230401w.RedisLinkedServer{},
-			Validator: &cache_v20230401w.RedisLinkedServer{},
+			Obj:       new(cache_v1api20230401.RedisLinkedServer),
+			Defaulter: &cache_v1api20230401w.RedisLinkedServer{},
+			Validator: &cache_v1api20230401w.RedisLinkedServer{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20230401.RedisPatchSchedule),
-			Defaulter: &cache_v20230401w.RedisPatchSchedule{},
-			Validator: &cache_v20230401w.RedisPatchSchedule{},
+			Obj:       new(cache_v1api20230401.RedisPatchSchedule),
+			Defaulter: &cache_v1api20230401w.RedisPatchSchedule{},
+			Validator: &cache_v1api20230401w.RedisPatchSchedule{},
 		})
 	result = append(
 		result,
-		&registration.KnownType{Obj: new(cache_v20230401s.Redis)},
-		&registration.KnownType{Obj: new(cache_v20230401s.RedisFirewallRule)},
-		&registration.KnownType{Obj: new(cache_v20230401s.RedisLinkedServer)},
-		&registration.KnownType{Obj: new(cache_v20230401s.RedisPatchSchedule)})
+		&registration.KnownType{Obj: new(cache_v1api20230401s.Redis)},
+		&registration.KnownType{Obj: new(cache_v1api20230401s.RedisFirewallRule)},
+		&registration.KnownType{Obj: new(cache_v1api20230401s.RedisLinkedServer)},
+		&registration.KnownType{Obj: new(cache_v1api20230401s.RedisPatchSchedule)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(cache_v20230701.RedisEnterprise),
-		Defaulter: &cache_v20230701w.RedisEnterprise{},
-		Validator: &cache_v20230701w.RedisEnterprise{},
+		Obj:       new(cache_v1api20230701.RedisEnterprise),
+		Defaulter: &cache_v1api20230701w.RedisEnterprise{},
+		Validator: &cache_v1api20230701w.RedisEnterprise{},
 	}, &registration.KnownType{
-		Obj:       new(cache_v20230701.RedisEnterpriseDatabase),
-		Defaulter: &cache_v20230701w.RedisEnterpriseDatabase{},
-		Validator: &cache_v20230701w.RedisEnterpriseDatabase{},
+		Obj:       new(cache_v1api20230701.RedisEnterpriseDatabase),
+		Defaulter: &cache_v1api20230701w.RedisEnterpriseDatabase{},
+		Validator: &cache_v1api20230701w.RedisEnterpriseDatabase{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(cache_v20230701s.RedisEnterprise)}, &registration.KnownType{Obj: new(cache_v20230701s.RedisEnterpriseDatabase)})
+	result = append(result, &registration.KnownType{Obj: new(cache_v1api20230701s.RedisEnterprise)}, &registration.KnownType{Obj: new(cache_v1api20230701s.RedisEnterpriseDatabase)})
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(cache_v20230801.Redis),
-			Defaulter: &cache_v20230801w.Redis{},
-			Validator: &cache_v20230801w.Redis{},
+			Obj:       new(cache_v1api20230801.Redis),
+			Defaulter: &cache_v1api20230801w.Redis{},
+			Validator: &cache_v1api20230801w.Redis{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20230801.RedisFirewallRule),
-			Defaulter: &cache_v20230801w.RedisFirewallRule{},
-			Validator: &cache_v20230801w.RedisFirewallRule{},
+			Obj:       new(cache_v1api20230801.RedisFirewallRule),
+			Defaulter: &cache_v1api20230801w.RedisFirewallRule{},
+			Validator: &cache_v1api20230801w.RedisFirewallRule{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20230801.RedisLinkedServer),
-			Defaulter: &cache_v20230801w.RedisLinkedServer{},
-			Validator: &cache_v20230801w.RedisLinkedServer{},
+			Obj:       new(cache_v1api20230801.RedisLinkedServer),
+			Defaulter: &cache_v1api20230801w.RedisLinkedServer{},
+			Validator: &cache_v1api20230801w.RedisLinkedServer{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20230801.RedisPatchSchedule),
-			Defaulter: &cache_v20230801w.RedisPatchSchedule{},
-			Validator: &cache_v20230801w.RedisPatchSchedule{},
+			Obj:       new(cache_v1api20230801.RedisPatchSchedule),
+			Defaulter: &cache_v1api20230801w.RedisPatchSchedule{},
+			Validator: &cache_v1api20230801w.RedisPatchSchedule{},
 		})
 	result = append(
 		result,
-		&registration.KnownType{Obj: new(cache_v20230801s.Redis)},
-		&registration.KnownType{Obj: new(cache_v20230801s.RedisFirewallRule)},
-		&registration.KnownType{Obj: new(cache_v20230801s.RedisLinkedServer)},
-		&registration.KnownType{Obj: new(cache_v20230801s.RedisPatchSchedule)})
+		&registration.KnownType{Obj: new(cache_v1api20230801s.Redis)},
+		&registration.KnownType{Obj: new(cache_v1api20230801s.RedisFirewallRule)},
+		&registration.KnownType{Obj: new(cache_v1api20230801s.RedisLinkedServer)},
+		&registration.KnownType{Obj: new(cache_v1api20230801s.RedisPatchSchedule)})
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(cache_v20241101.Redis),
-			Defaulter: &cache_v20241101w.Redis{},
-			Validator: &cache_v20241101w.Redis{},
+			Obj:       new(cache_v1api20241101.Redis),
+			Defaulter: &cache_v1api20241101w.Redis{},
+			Validator: &cache_v1api20241101w.Redis{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20241101.RedisAccessPolicy),
-			Defaulter: &cache_v20241101w.RedisAccessPolicy{},
-			Validator: &cache_v20241101w.RedisAccessPolicy{},
+			Obj:       new(cache_v1api20241101.RedisAccessPolicy),
+			Defaulter: &cache_v1api20241101w.RedisAccessPolicy{},
+			Validator: &cache_v1api20241101w.RedisAccessPolicy{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20241101.RedisAccessPolicyAssignment),
-			Defaulter: &cache_v20241101w.RedisAccessPolicyAssignment{},
-			Validator: &cache_v20241101w.RedisAccessPolicyAssignment{},
+			Obj:       new(cache_v1api20241101.RedisAccessPolicyAssignment),
+			Defaulter: &cache_v1api20241101w.RedisAccessPolicyAssignment{},
+			Validator: &cache_v1api20241101w.RedisAccessPolicyAssignment{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20241101.RedisFirewallRule),
-			Defaulter: &cache_v20241101w.RedisFirewallRule{},
-			Validator: &cache_v20241101w.RedisFirewallRule{},
+			Obj:       new(cache_v1api20241101.RedisFirewallRule),
+			Defaulter: &cache_v1api20241101w.RedisFirewallRule{},
+			Validator: &cache_v1api20241101w.RedisFirewallRule{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20241101.RedisLinkedServer),
-			Defaulter: &cache_v20241101w.RedisLinkedServer{},
-			Validator: &cache_v20241101w.RedisLinkedServer{},
+			Obj:       new(cache_v1api20241101.RedisLinkedServer),
+			Defaulter: &cache_v1api20241101w.RedisLinkedServer{},
+			Validator: &cache_v1api20241101w.RedisLinkedServer{},
 		},
 		&registration.KnownType{
-			Obj:       new(cache_v20241101.RedisPatchSchedule),
-			Defaulter: &cache_v20241101w.RedisPatchSchedule{},
-			Validator: &cache_v20241101w.RedisPatchSchedule{},
+			Obj:       new(cache_v1api20241101.RedisPatchSchedule),
+			Defaulter: &cache_v1api20241101w.RedisPatchSchedule{},
+			Validator: &cache_v1api20241101w.RedisPatchSchedule{},
 		})
 	result = append(
 		result,
-		&registration.KnownType{Obj: new(cache_v20241101s.Redis)},
-		&registration.KnownType{Obj: new(cache_v20241101s.RedisAccessPolicy)},
-		&registration.KnownType{Obj: new(cache_v20241101s.RedisAccessPolicyAssignment)},
-		&registration.KnownType{Obj: new(cache_v20241101s.RedisFirewallRule)},
-		&registration.KnownType{Obj: new(cache_v20241101s.RedisLinkedServer)},
-		&registration.KnownType{Obj: new(cache_v20241101s.RedisPatchSchedule)})
+		&registration.KnownType{Obj: new(cache_v1api20241101s.Redis)},
+		&registration.KnownType{Obj: new(cache_v1api20241101s.RedisAccessPolicy)},
+		&registration.KnownType{Obj: new(cache_v1api20241101s.RedisAccessPolicyAssignment)},
+		&registration.KnownType{Obj: new(cache_v1api20241101s.RedisFirewallRule)},
+		&registration.KnownType{Obj: new(cache_v1api20241101s.RedisLinkedServer)},
+		&registration.KnownType{Obj: new(cache_v1api20241101s.RedisPatchSchedule)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(cache_v20250401.RedisEnterprise),
-		Defaulter: &cache_v20250401w.RedisEnterprise{},
-		Validator: &cache_v20250401w.RedisEnterprise{},
+		Obj:       new(cache_v1api20250401.RedisEnterprise),
+		Defaulter: &cache_v1api20250401w.RedisEnterprise{},
+		Validator: &cache_v1api20250401w.RedisEnterprise{},
 	}, &registration.KnownType{
-		Obj:       new(cache_v20250401.RedisEnterpriseDatabase),
-		Defaulter: &cache_v20250401w.RedisEnterpriseDatabase{},
-		Validator: &cache_v20250401w.RedisEnterpriseDatabase{},
+		Obj:       new(cache_v1api20250401.RedisEnterpriseDatabase),
+		Defaulter: &cache_v1api20250401w.RedisEnterpriseDatabase{},
+		Validator: &cache_v1api20250401w.RedisEnterpriseDatabase{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(cache_v20250401s.RedisEnterprise)}, &registration.KnownType{Obj: new(cache_v20250401s.RedisEnterpriseDatabase)})
+	result = append(result, &registration.KnownType{Obj: new(cache_v1api20250401s.RedisEnterprise)}, &registration.KnownType{Obj: new(cache_v1api20250401s.RedisEnterpriseDatabase)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(cache_v20250401.RedisEnterpriseDatabaseAccessPolicyAssignment),
+		Defaulter: &cache_v20250401w.RedisEnterpriseDatabaseAccessPolicyAssignment{},
+		Validator: &cache_v20250401w.RedisEnterpriseDatabaseAccessPolicyAssignment{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(cdn_v20210601.Profile),
 		Defaulter: &cdn_v20210601w.Profile{},
@@ -4963,6 +5081,16 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(documentdb_v20240815s.SqlDatabaseContainerUserDefinedFunction)},
 		&registration.KnownType{Obj: new(documentdb_v20240815s.SqlDatabaseThroughputSetting)},
 		&registration.KnownType{Obj: new(documentdb_v20240815s.SqlRoleAssignment)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(documentdb_v20251015.CassandraCluster),
+		Defaulter: &documentdb_v20251015w.CassandraCluster{},
+		Validator: &documentdb_v20251015w.CassandraCluster{},
+	}, &registration.KnownType{
+		Obj:       new(documentdb_v20251015.CassandraDataCenter),
+		Defaulter: &documentdb_v20251015w.CassandraDataCenter{},
+		Validator: &documentdb_v20251015w.CassandraDataCenter{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(documentdb_v20251015s.CassandraCluster)}, &registration.KnownType{Obj: new(documentdb_v20251015s.CassandraDataCenter)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6908,18 +7036,20 @@ func createScheme() *runtime.Scheme {
 	_ = batch_v20210101s.AddToScheme(scheme)
 	_ = batch_v20240701.AddToScheme(scheme)
 	_ = batch_v20240701s.AddToScheme(scheme)
-	_ = cache_v20201201.AddToScheme(scheme)
-	_ = cache_v20201201s.AddToScheme(scheme)
-	_ = cache_v20210301.AddToScheme(scheme)
-	_ = cache_v20210301s.AddToScheme(scheme)
-	_ = cache_v20230401.AddToScheme(scheme)
-	_ = cache_v20230401s.AddToScheme(scheme)
-	_ = cache_v20230701.AddToScheme(scheme)
-	_ = cache_v20230701s.AddToScheme(scheme)
-	_ = cache_v20230801.AddToScheme(scheme)
-	_ = cache_v20230801s.AddToScheme(scheme)
-	_ = cache_v20241101.AddToScheme(scheme)
-	_ = cache_v20241101s.AddToScheme(scheme)
+	_ = cache_v1api20201201.AddToScheme(scheme)
+	_ = cache_v1api20201201s.AddToScheme(scheme)
+	_ = cache_v1api20210301.AddToScheme(scheme)
+	_ = cache_v1api20210301s.AddToScheme(scheme)
+	_ = cache_v1api20230401.AddToScheme(scheme)
+	_ = cache_v1api20230401s.AddToScheme(scheme)
+	_ = cache_v1api20230701.AddToScheme(scheme)
+	_ = cache_v1api20230701s.AddToScheme(scheme)
+	_ = cache_v1api20230801.AddToScheme(scheme)
+	_ = cache_v1api20230801s.AddToScheme(scheme)
+	_ = cache_v1api20241101.AddToScheme(scheme)
+	_ = cache_v1api20241101s.AddToScheme(scheme)
+	_ = cache_v1api20250401.AddToScheme(scheme)
+	_ = cache_v1api20250401s.AddToScheme(scheme)
 	_ = cache_v20250401.AddToScheme(scheme)
 	_ = cache_v20250401s.AddToScheme(scheme)
 	_ = cdn_v20210601.AddToScheme(scheme)
@@ -7010,6 +7140,8 @@ func createScheme() *runtime.Scheme {
 	_ = documentdb_v20240701s.AddToScheme(scheme)
 	_ = documentdb_v20240815.AddToScheme(scheme)
 	_ = documentdb_v20240815s.AddToScheme(scheme)
+	_ = documentdb_v20251015.AddToScheme(scheme)
+	_ = documentdb_v20251015s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
@@ -7179,6 +7311,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &batch_customizations.BatchAccountExtension{})
 	result = append(result, &cache_customizations.RedisAccessPolicyAssignmentExtension{})
 	result = append(result, &cache_customizations.RedisAccessPolicyExtension{})
+	result = append(result, &cache_customizations.RedisEnterpriseDatabaseAccessPolicyAssignmentExtension{})
 	result = append(result, &cache_customizations.RedisEnterpriseDatabaseExtension{})
 	result = append(result, &cache_customizations.RedisEnterpriseExtension{})
 	result = append(result, &cache_customizations.RedisExtension{})
@@ -7247,6 +7380,8 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersFirewallRuleExtension{})
 	result = append(result, &dbforpostgresql_customizations.FlexibleServersVirtualEndpointExtension{})
 	result = append(result, &devices_customizations.IotHubExtension{})
+	result = append(result, &documentdb_customizations.CassandraClusterExtension{})
+	result = append(result, &documentdb_customizations.CassandraDataCenterExtension{})
 	result = append(result, &documentdb_customizations.DatabaseAccountExtension{})
 	result = append(result, &documentdb_customizations.FirewallRuleExtension{})
 	result = append(result, &documentdb_customizations.MongoClusterExtension{})
@@ -7827,9 +7962,9 @@ func indexAuthorizationRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 	return obj.Spec.PrincipalIdFromConfig.Index()
 }
 
-// indexCacheRedisAccessPolicyAssignmentObjectIdAliasFromConfig an index function for cache_v20241101s.RedisAccessPolicyAssignment .spec.objectIdAliasFromConfig
+// indexCacheRedisAccessPolicyAssignmentObjectIdAliasFromConfig an index function for cache_v1api20241101s.RedisAccessPolicyAssignment .spec.objectIdAliasFromConfig
 func indexCacheRedisAccessPolicyAssignmentObjectIdAliasFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cache_v20241101s.RedisAccessPolicyAssignment)
+	obj, ok := rawObj.(*cache_v1api20241101s.RedisAccessPolicyAssignment)
 	if !ok {
 		return nil
 	}
@@ -7839,9 +7974,9 @@ func indexCacheRedisAccessPolicyAssignmentObjectIdAliasFromConfig(rawObj client.
 	return obj.Spec.ObjectIdAliasFromConfig.Index()
 }
 
-// indexCacheRedisAccessPolicyAssignmentObjectIdFromConfig an index function for cache_v20241101s.RedisAccessPolicyAssignment .spec.objectIdFromConfig
+// indexCacheRedisAccessPolicyAssignmentObjectIdFromConfig an index function for cache_v1api20241101s.RedisAccessPolicyAssignment .spec.objectIdFromConfig
 func indexCacheRedisAccessPolicyAssignmentObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cache_v20241101s.RedisAccessPolicyAssignment)
+	obj, ok := rawObj.(*cache_v1api20241101s.RedisAccessPolicyAssignment)
 	if !ok {
 		return nil
 	}
@@ -7849,6 +7984,21 @@ func indexCacheRedisAccessPolicyAssignmentObjectIdFromConfig(rawObj client.Objec
 		return nil
 	}
 	return obj.Spec.ObjectIdFromConfig.Index()
+}
+
+// indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig an index function for cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment .spec.user.objectIdFromConfig
+func indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.User == nil {
+		return nil
+	}
+	if obj.Spec.User.ObjectIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.User.ObjectIdFromConfig.Index()
 }
 
 // indexCdnAfdOriginHostNameFromConfig an index function for cdn_v20230501s.AfdOrigin .spec.hostNameFromConfig
@@ -8679,6 +8829,166 @@ func indexDevicesIotHubStorageEndpointsConnectionString(rawObj client.Object) []
 		result = append(result, value.ConnectionString.Index()...)
 	}
 	return result
+}
+
+// indexDocumentdbCassandraClusterClientCertificatesPem an index function for documentdb_v20251015s.CassandraCluster .spec.properties.clientCertificates.pem
+func indexDocumentdbCassandraClusterClientCertificatesPem(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	for _, clientCertificateItem := range obj.Spec.Properties.ClientCertificates {
+		if clientCertificateItem.Pem == nil {
+			continue
+		}
+		result = append(result, clientCertificateItem.Pem.Index()...)
+	}
+	return result
+}
+
+// indexDocumentdbCassandraClusterExternalGossipCertificatesPem an index function for documentdb_v20251015s.CassandraCluster .spec.properties.externalGossipCertificates.pem
+func indexDocumentdbCassandraClusterExternalGossipCertificatesPem(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	for _, externalGossipCertificateItem := range obj.Spec.Properties.ExternalGossipCertificates {
+		if externalGossipCertificateItem.Pem == nil {
+			continue
+		}
+		result = append(result, externalGossipCertificateItem.Pem.Index()...)
+	}
+	return result
+}
+
+// indexDocumentdbCassandraClusterExternalSeedNodesIpAddressFromConfig an index function for documentdb_v20251015s.CassandraCluster .spec.properties.externalSeedNodes.ipAddressFromConfig
+func indexDocumentdbCassandraClusterExternalSeedNodesIpAddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	for _, externalSeedNodeItem := range obj.Spec.Properties.ExternalSeedNodes {
+		if externalSeedNodeItem.IpAddressFromConfig == nil {
+			continue
+		}
+		result = append(result, externalSeedNodeItem.IpAddressFromConfig.Index()...)
+	}
+	return result
+}
+
+// indexDocumentdbCassandraClusterInitialCassandraAdminPassword an index function for documentdb_v20251015s.CassandraCluster .spec.properties.initialCassandraAdminPassword
+func indexDocumentdbCassandraClusterInitialCassandraAdminPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.InitialCassandraAdminPassword == nil {
+		return nil
+	}
+	return obj.Spec.Properties.InitialCassandraAdminPassword.Index()
+}
+
+// indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig an index function for documentdb_v20251015s.CassandraCluster .spec.properties.prometheusEndpoint.ipAddressFromConfig
+func indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PrometheusEndpoint == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PrometheusEndpoint.IpAddressFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PrometheusEndpoint.IpAddressFromConfig.Index()
+}
+
+// indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.backupStorageCustomerKeyUriFromConfig
+func indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.BackupStorageCustomerKeyUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.BackupStorageCustomerKeyUriFromConfig.Index()
+}
+
+// indexDocumentdbCassandraDataCenterPem an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serverCertificates.pem
+func indexDocumentdbCassandraDataCenterPem(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	if !ok {
+		return nil
+	}
+	var result []string
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AuthenticationMethodLdapProperties == nil {
+		return nil
+	}
+	for _, serverCertificateItem := range obj.Spec.Properties.AuthenticationMethodLdapProperties.ServerCertificates {
+		if serverCertificateItem.Pem == nil {
+			continue
+		}
+		result = append(result, serverCertificateItem.Pem.Index()...)
+	}
+	return result
+}
+
+// indexDocumentdbCassandraDataCenterPrivateEndpointIpAddressFromConfig an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.privateEndpointIpAddressFromConfig
+func indexDocumentdbCassandraDataCenterPrivateEndpointIpAddressFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.PrivateEndpointIpAddressFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Properties.PrivateEndpointIpAddressFromConfig.Index()
+}
+
+// indexDocumentdbCassandraDataCenterServiceUserPassword an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serviceUserPassword
+func indexDocumentdbCassandraDataCenterServiceUserPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AuthenticationMethodLdapProperties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AuthenticationMethodLdapProperties.ServiceUserPassword == nil {
+		return nil
+	}
+	return obj.Spec.Properties.AuthenticationMethodLdapProperties.ServiceUserPassword.Index()
 }
 
 // indexDocumentdbMongoClusterPassword an index function for documentdb_v20240701s.MongoCluster .spec.properties.administrator.password

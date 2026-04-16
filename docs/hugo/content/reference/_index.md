@@ -246,6 +246,14 @@ To install the CRDs for these resources, your ASO configuration must include `ca
 
 * If you are looking for _Azure Managed Redis_, that resource is also known as _Redis Enterprise_ (Microsoft.Cache/redisEnterprise), which is supported by ASO. Visit [_What is Azure Managed Redis?_](https://learn.microsoft.com/azure/redis/overview) to learn more.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                                                                   | ARM Version | CRD Version | Supported From | Sample                                                                                                                                                    |
+|--------------------------------------------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [RedisEnterpriseDatabaseAccessPolicyAssignment]({{< relref "/reference/cache/v20250401#RedisEnterpriseDatabaseAccessPolicyAssignment" >}}) | 2025-04-01  | v20250401   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v20250401/v20250401_redisenterprisedatabaseaccesspolicyassignment.yaml) |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
@@ -619,14 +627,23 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `documentdb.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource            | ARM Version | CRD Version | Supported From | Sample                                                                                                                                         |
+|---------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| CassandraCluster    | 2025-10-15  | v20251015   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20251015/v20251015_cassandracluster.yaml)    |
+| CassandraDataCenter | 2025-10-15  | v20251015   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20251015/v20251015_cassandradatacenter.yaml) |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
 | Resource                                                                                                                                      | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                                       |
 |-----------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [DatabaseAccount]({{< relref "/reference/documentdb/v1api20240815#DatabaseAccount" >}})                                                       | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_databaseaccount.yaml)                             |
-| [FirewallRule]({{< relref "/reference/documentdb/v1api20240701#FirewallRule" >}})                                                             | 2024-07-01  | v1api20240701 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/v1api20240701/v1api20240701_firewallrule.yaml)                                        |
-| [MongoCluster]({{< relref "/reference/documentdb/v1api20240701#MongoCluster" >}})                                                             | 2024-07-01  | v1api20240701 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/v1api20240701/v1api20240701_mongocluster.yaml)                                        |
+| [FirewallRule]({{< relref "/reference/documentdb/v1api20240701#FirewallRule" >}})                                                             | 2024-07-01  | v1api20240701 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240701/v1api20240701_firewallrule.yaml)                                |
+| [MongoCluster]({{< relref "/reference/documentdb/v1api20240701#MongoCluster" >}})                                                             | 2024-07-01  | v1api20240701 | v2.14.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240701/v1api20240701_mongocluster.yaml)                                |
 | [MongodbDatabase]({{< relref "/reference/documentdb/v1api20240815#MongodbDatabase" >}})                                                       | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabase.yaml)                             |
 | [MongodbDatabaseCollection]({{< relref "/reference/documentdb/v1api20240815#MongodbDatabaseCollection" >}})                                   | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabasecollection.yaml)                   |
 | [MongodbDatabaseCollectionThroughputSetting]({{< relref "/reference/documentdb/v1api20240815#MongodbDatabaseCollectionThroughputSetting" >}}) | 2024-08-15  | v1api20240815 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/mongodb/v1api20240815/v1api20240815_mongodbdatabasecollectionthroughputsetting.yaml)  |

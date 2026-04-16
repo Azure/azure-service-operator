@@ -1,0 +1,24 @@
+apiVersion: documentdb.azure.com/v20251015
+kind: CassandraCluster
+metadata:
+  name: aso-cassandra-cluster
+  namespace: default
+spec:
+  azureName: aso-cassandra-cluster
+  location: eastus
+  owner:
+    name: aso-sample-rg
+  properties:
+    cassandraVersion: "4.0"
+    delegatedManagementSubnetReference:
+      group: network.azure.com
+      kind: VirtualNetworksSubnet
+      name: cassandra-mgmt-subnet
+    initialCassandraAdminPassword:
+      name: cassandra-admin-secret
+      key: password
+    repairEnabled: true
+    cassandraAuditLoggingEnabled: false
+  tags:
+    environment: dev
+    project: sample
