@@ -70,10 +70,11 @@ func secretsSpecified(obj *mysql.FlexibleServer) bool {
 }
 
 func secretsToWrite(obj *mysql.FlexibleServer) ([]*v1.Secret, error) {
-	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
-	if operatorSpecSecrets == nil {
+	if obj.Spec.OperatorSpec == nil || obj.Spec.OperatorSpec.Secrets == nil {
 		return nil, nil
 	}
+
+	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
 
 	collector := secrets.NewCollector(obj.Namespace)
 	collector.AddValue(operatorSpecSecrets.FullyQualifiedDomainName, to.Value(obj.Status.FullyQualifiedDomainName))

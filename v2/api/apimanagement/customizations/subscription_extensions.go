@@ -123,10 +123,11 @@ func secretsSpecified(obj *apimanagement.Subscription) set.Set[string] {
 }
 
 func secretsToWrite(obj *apimanagement.Subscription, s armapimanagement.SubscriptionKeysContract) ([]*v1.Secret, error) {
-	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
-	if operatorSpecSecrets == nil {
+	if obj.Spec.OperatorSpec == nil || obj.Spec.OperatorSpec.Secrets == nil {
 		return nil, nil
 	}
+
+	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
 
 	collector := secrets.NewCollector(obj.Namespace)
 	collector.AddValue(operatorSpecSecrets.PrimaryKey, to.Value(s.PrimaryKey))
