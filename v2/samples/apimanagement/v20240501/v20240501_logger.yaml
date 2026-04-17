@@ -4,13 +4,13 @@ metadata:
   name: samplelogger
   namespace: default
 spec:
-  loggerType: "azureEventHub"
-  description: "A sample Event Hub logger"
+  loggerType: "applicationInsights"
+  description: "A sample Application Insights logger"
   resourceReference:
-    group: eventhub.azure.com
-    kind: NamespacesEventhub
-    name: sample-eventhub
+    group: insights.azure.com
+    kind: Component
+    name: sampleappinsights
   credentials:
-    name: apim-logger-eventhub-credentials
+    name: appinsights-logger-credentials
   owner:
     name: sampleapimservice

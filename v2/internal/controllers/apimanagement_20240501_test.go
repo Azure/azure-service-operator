@@ -14,11 +14,13 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	apim "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501"
+	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
 func Test_ApiManagement_20240501_CRUD(t *testing.T) {
@@ -119,6 +121,30 @@ func Test_ApiManagement_20240501_CRUD(t *testing.T) {
 			},
 		},
 		testcommon.Subtest{
+			Name: "APIM Api Policy CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_ApiPolicy20240501_CRUD(tc, &service)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM Group CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Group20240501_CRUD(tc, &service)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM Logger CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Logger20240501_CRUD(tc, rg, &service)
+			},
+		},
+		testcommon.Subtest{
+			Name: "APIM User CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_User20240501_CRUD(tc, &service)
+			},
+		},
+		testcommon.Subtest{
 			Name: "APIM Authorization Provider CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				APIM_AuthorizationProvider20240501_CRUD(tc, &service, &authorizationProviderSecrets)
@@ -154,14 +180,6 @@ func APIM_Subscription20240501_CRUD(tc *testcommon.KubePerTestContext, service c
 	tc.CreateResourceAndWait(&subscription)
 	tc.Expect(subscription.Status).ToNot(BeNil())
 	tc.Expect(subscription.Status.Id).ToNot(BeNil())
-
-	// The subscription will have been created and it would have generated it's own
-	// PrimaryKey and SecondaryKey. Now let's see if we can set them from a Kubernetes secret.
-
-	// There should be no secrets at this point
-	secretList := &v1.SecretList{}
-	tc.ListResources(secretList, client.InNamespace(tc.Namespace))
-	tc.Expect(secretList.Items).To(HaveLen(1)) // for secret created for authorization provider resource
 
 	// Run sub-tests on subscription in sequence
 	tc.RunSubtests(
@@ -667,6 +685,246 @@ func Subscription20240501_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.Ku
 
 	tc.ExpectSecretHasKeys(primaryKeySecret, "primarymasterkey")
 	tc.ExpectSecretHasKeys(secondaryKeySecret, "secondarymasterkey")
+}
+
+func APIM_ApiPolicy20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+	versionSet := apim.ApiVersionSet{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
+		Spec: apim.ApiVersionSet_Spec{
+			DisplayName:      to.Ptr("api-policy-test-vs"),
+			Description:      to.Ptr("A version set for the api policy test"),
+			Owner:            testcommon.AsOwner(service),
+			VersioningScheme: to.Ptr(apim.ApiVersionSetContractProperties_VersioningScheme_Segment),
+		},
+	}
+
+	tc.T.Log("creating apim version set for api policy test")
+	tc.CreateResourceAndWait(&versionSet)
+
+	versionSetReference := genruntime.ResourceReference{
+		ARMID: *versionSet.Status.Id,
+	}
+
+	// Add a simple Api to attach the policy to
+	api := apim.Api{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api")),
+		Spec: apim.Api_Spec{
+			APIVersion:             to.Ptr("1.0.0"),
+			ApiRevision:            to.Ptr("v1"),
+			ApiVersionSetReference: &versionSetReference,
+			Description:            to.Ptr("An API for policy testing"),
+			DisplayName:            to.Ptr("api-policy-test-api"),
+			Owner:                  testcommon.AsOwner(service),
+			Path:                   to.Ptr("/api-policy-test"),
+			SubscriptionRequired:   to.Ptr(false),
+			IsCurrent:              to.Ptr(true),
+			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
+				apim.ApiCreateOrUpdateProperties_Protocols_Https,
+			},
+			Type: to.Ptr(apim.ApiCreateOrUpdateProperties_Type_Http),
+		},
+	}
+
+	tc.T.Log("creating apim api for api policy test")
+	tc.CreateResourceAndWait(&api)
+
+	// Add an Api Policy
+	apiPolicy := apim.ApiPolicy{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("apipolicy")),
+		Spec: apim.ApiPolicy_Spec{
+			Owner: testcommon.AsOwner(&api),
+			Value: to.Ptr("<policies><inbound><set-variable name=\"asoTest\" value=\"ApiPolicy Value\" /></inbound><backend><forward-request /></backend><outbound /></policies>"),
+		},
+	}
+
+	tc.T.Log("creating apim api policy")
+	tc.CreateResourceAndWait(&apiPolicy)
+
+	tc.Expect(apiPolicy.Status).ToNot(BeNil())
+	tc.Expect(apiPolicy.Status.Id).ToNot(BeNil())
+
+	defer tc.DeleteResourceAndWait(&apiPolicy)
+	defer tc.DeleteResourceAndWait(&api)
+
+	tc.T.Log("cleaning up api policy")
+}
+
+func APIM_Group20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+	group := apim.Group{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("group")),
+		Spec: apim.Group_Spec{
+			DisplayName: to.Ptr("Sample Group"),
+			Description: to.Ptr("A sample APIM group"),
+			Owner:       testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim group")
+	tc.CreateResourceAndWait(&group)
+	defer tc.DeleteResourceAndWait(&group)
+
+	tc.Expect(group.Status).ToNot(BeNil())
+	tc.Expect(group.Status.Id).ToNot(BeNil())
+
+	tc.T.Log("cleaning up group")
+}
+
+func APIM_Logger20240501_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, service client.Object) {
+	// Create an Application Insights component to use as the logger target
+	//nolint:gosec // This is not a secret, it is the name of a secret
+	instrumentationKeySecret := "appinsights-secret"
+	instrumentationKeyKey := "instrumentationKey"
+	applicationType := insights.ApplicationInsightsComponentProperties_Application_Type_Other
+	component := &insights.Component{
+		ObjectMeta: tc.MakeObjectMeta("component"),
+		Spec: insights.Component_Spec{
+			Location:         tc.AzureRegion,
+			Owner:            testcommon.AsOwner(rg),
+			Application_Type: &applicationType,
+			Kind:             to.Ptr("web"),
+			OperatorSpec: &insights.ComponentOperatorSpec{
+				SecretExpressions: []*core.DestinationExpression{
+					{
+						Name:  instrumentationKeySecret,
+						Key:   instrumentationKeyKey,
+						Value: "self.status.InstrumentationKey",
+					},
+				},
+			},
+		},
+	}
+
+	tc.T.Log("creating application insights component")
+	tc.CreateResourceAndWait(component)
+
+	tc.Expect(component.Status.Id).ToNot(BeNil())
+	tc.Expect(component.Status.InstrumentationKey).ToNot(BeNil())
+
+	// Create the APIM logger using Application Insights
+	logger := apim.Logger{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("logger")),
+		Spec: apim.Logger_Spec{
+			Description: to.Ptr("An Application Insights logger"),
+			LoggerType:  to.Ptr(apim.LoggerContractProperties_LoggerType_ApplicationInsights),
+			Owner:       testcommon.AsOwner(service),
+			Credentials: &genruntime.SecretMapReference{
+				Name: instrumentationKeySecret,
+			},
+			ResourceReference: &genruntime.ResourceReference{
+				ARMID: *component.Status.Id,
+			},
+		},
+	}
+
+	tc.T.Log("creating apim logger")
+	tc.CreateResourceAndWait(&logger)
+	defer tc.DeleteResourceAndWait(&logger)
+
+	tc.Expect(logger.Status).ToNot(BeNil())
+	tc.Expect(logger.Status.Id).ToNot(BeNil())
+
+	// Run ApiDiagnostic subtest now that the logger exists
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "APIM Api Diagnostic CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_ApiDiagnostic20240501_CRUD(tc, service, &logger)
+			},
+		},
+	)
+
+	tc.T.Log("cleaning up logger")
+}
+
+func APIM_ApiDiagnostic20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Object, logger *apim.Logger) {
+	versionSet := apim.ApiVersionSet{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vs")),
+		Spec: apim.ApiVersionSet_Spec{
+			DisplayName:      to.Ptr("diagnostic-test-vs"),
+			Description:      to.Ptr("A version set for the diagnostic test"),
+			Owner:            testcommon.AsOwner(service),
+			VersioningScheme: to.Ptr(apim.ApiVersionSetContractProperties_VersioningScheme_Segment),
+		},
+	}
+
+	tc.T.Log("creating apim version set for diagnostic test")
+	tc.CreateResourceAndWait(&versionSet)
+
+	versionSetReference := genruntime.ResourceReference{
+		ARMID: *versionSet.Status.Id,
+	}
+
+	// Create an Api to own the diagnostic
+	api := apim.Api{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("api")),
+		Spec: apim.Api_Spec{
+			APIVersion:             to.Ptr("1.0.0"),
+			ApiRevision:            to.Ptr("v1"),
+			ApiVersionSetReference: &versionSetReference,
+			Description:            to.Ptr("An API for diagnostic testing"),
+			DisplayName:            to.Ptr("diagnostic-test-api"),
+			Owner:                  testcommon.AsOwner(service),
+			Path:                   to.Ptr("/diagnostic-test"),
+			SubscriptionRequired:   to.Ptr(false),
+			IsCurrent:              to.Ptr(true),
+			Protocols: []apim.ApiCreateOrUpdateProperties_Protocols{
+				apim.ApiCreateOrUpdateProperties_Protocols_Https,
+			},
+			Type: to.Ptr(apim.ApiCreateOrUpdateProperties_Type_Http),
+		},
+	}
+
+	tc.T.Log("creating apim api for diagnostic test")
+	tc.CreateResourceAndWait(&api)
+
+	// Create the ApiDiagnostic referencing the logger
+	diagnostic := apim.ApiDiagnostic{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("diag")),
+		Spec: apim.ApiDiagnostic_Spec{
+			AzureName: "applicationinsights",
+			Owner:     testcommon.AsOwner(&api),
+			LoggerReference: &genruntime.ResourceReference{
+				ARMID: *logger.Status.Id,
+			},
+			Sampling: &apim.SamplingSettings{
+				Percentage:   to.Ptr(100),
+				SamplingType: to.Ptr(apim.SamplingSettings_SamplingType_Fixed),
+			},
+			Verbosity: to.Ptr(apim.DiagnosticContractProperties_Verbosity_Information),
+		},
+	}
+
+	tc.T.Log("creating apim api diagnostic")
+	tc.CreateResourceAndWait(&diagnostic)
+
+	tc.Expect(diagnostic.Status).ToNot(BeNil())
+	tc.Expect(diagnostic.Status.Id).ToNot(BeNil())
+
+	defer tc.DeleteResourceAndWait(&diagnostic)
+	defer tc.DeleteResourceAndWait(&api)
+
+	tc.T.Log("cleaning up api diagnostic")
+}
+
+func APIM_User20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+	user := apim.User{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("user")),
+		Spec: apim.User_Spec{
+			Email:     to.Ptr("asotest@example.com"),
+			FirstName: to.Ptr("ASO"),
+			LastName:  to.Ptr("Test"),
+			Owner:     testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim user")
+	tc.CreateResourceAndWait(&user)
+	defer tc.DeleteResourceAndWait(&user)
+
+	tc.Expect(user.Status).ToNot(BeNil())
+	tc.Expect(user.Status.Id).ToNot(BeNil())
+
+	tc.T.Log("cleaning up user")
 }
 
 func createAuthorizationProviderSecrets20240501(tc *testcommon.KubePerTestContext, name string) genruntime.SecretMapReference {

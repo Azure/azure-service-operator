@@ -4,10 +4,7 @@ metadata:
   name: applicationinsights
   namespace: default
 spec:
-  # Note: ApiDiagnostic requires a logger of type "applicationInsights" or "azureMonitor".
-  # An EventHub logger (like samplelogger) cannot be used here — EventHub loggers are
-  # for the log-to-eventhub policy, not for diagnostics. In practice, replace this with
-  # a reference to an Application Insights logger.
+  azureName: applicationinsights
   loggerReference:
     group: apimanagement.azure.com
     kind: Logger
