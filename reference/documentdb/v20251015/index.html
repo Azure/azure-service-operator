@@ -17,30 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Reconciliation Failures | Azure Service Operator</title>
-<meta name="description" content="Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.
-How to use this TSG: Review When to apply this TSG to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under Actions.
-When to apply this TSG This TSG applies when review of ASO logs shows:">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/">
+<title>documentdb.azure.com/v20251015 | Azure Service Operator</title>
+<meta name="description" content="APIVersion Value Description “2025-10-15” CassandraCluster Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}
+Used by: CassandraClusterList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec CassandraCluster_SpecOptional status CassandraCluster_STATUSOptional CassandraCluster_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity Identity for the resource. ManagedCassandraManagedServiceIdentityOptional location The location of the resource group to which the resource belongs. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure CassandraClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties Properties of a managed Cassandra cluster. CassandraCluster_Properties_SpecOptional tags map[string]stringOptional CassandraCluster_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id The unique resource identifier of the ARM resource. stringOptional identity Identity for the resource. ManagedCassandraManagedServiceIdentity_STATUSOptional location The location of the resource group to which the resource belongs. stringOptional name The name of the ARM resource. stringOptional properties Properties of a managed Cassandra cluster. CassandraCluster_Properties_STATUSOptional tags map[string]stringOptional type The type of Azure resource. stringOptional CassandraClusterList Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/documentdb/v20251015/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Reconciliation Failures">
-  <meta property="og:description" content="Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.
-How to use this TSG: Review When to apply this TSG to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under Actions.
-When to apply this TSG This TSG applies when review of ASO logs shows:">
+  <meta property="og:title" content="documentdb.azure.com/v20251015">
+  <meta property="og:description" content="APIVersion Value Description “2025-10-15” CassandraCluster Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}
+Used by: CassandraClusterList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec CassandraCluster_SpecOptional status CassandraCluster_STATUSOptional CassandraCluster_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity Identity for the resource. ManagedCassandraManagedServiceIdentityOptional location The location of the resource group to which the resource belongs. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure CassandraClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties Properties of a managed Cassandra cluster. CassandraCluster_Properties_SpecOptional tags map[string]stringOptional CassandraCluster_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id The unique resource identifier of the ARM resource. stringOptional identity Identity for the resource. ManagedCassandraManagedServiceIdentity_STATUSOptional location The location of the resource group to which the resource belongs. stringOptional name The name of the ARM resource. stringOptional properties Properties of a managed Cassandra cluster. CassandraCluster_Properties_STATUSOptional tags map[string]stringOptional type The type of Azure resource. stringOptional CassandraClusterList Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
-    <meta property="article:section" content="guide">
+    <meta property="article:section" content="reference">
 
-  <meta itemprop="name" content="Reconciliation Failures">
-  <meta itemprop="description" content="Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.
-How to use this TSG: Review When to apply this TSG to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under Actions.
-When to apply this TSG This TSG applies when review of ASO logs shows:">
-  <meta itemprop="wordCount" content="1302">
+  <meta itemprop="name" content="documentdb.azure.com/v20251015">
+  <meta itemprop="description" content="APIVersion Value Description “2025-10-15” CassandraCluster Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}
+Used by: CassandraClusterList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec CassandraCluster_SpecOptional status CassandraCluster_STATUSOptional CassandraCluster_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity Identity for the resource. ManagedCassandraManagedServiceIdentityOptional location The location of the resource group to which the resource belongs. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure CassandraClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties Properties of a managed Cassandra cluster. CassandraCluster_Properties_SpecOptional tags map[string]stringOptional CassandraCluster_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id The unique resource identifier of the ARM resource. stringOptional identity Identity for the resource. ManagedCassandraManagedServiceIdentity_STATUSOptional location The location of the resource group to which the resource belongs. stringOptional name The name of the ARM resource. stringOptional properties Properties of a managed Cassandra cluster. CassandraCluster_Properties_STATUSOptional tags map[string]stringOptional type The type of Azure resource. stringOptional CassandraClusterList Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}">
+  <meta itemprop="wordCount" content="2953">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Reconciliation Failures">
-  <meta name="twitter:description" content="Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.
-How to use this TSG: Review When to apply this TSG to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under Actions.
-When to apply this TSG This TSG applies when review of ASO logs shows:">
+  <meta name="twitter:title" content="documentdb.azure.com/v20251015">
+  <meta name="twitter:description" content="APIVersion Value Description “2025-10-15” CassandraCluster Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}
+Used by: CassandraClusterList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec CassandraCluster_SpecOptional status CassandraCluster_STATUSOptional CassandraCluster_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity Identity for the resource. ManagedCassandraManagedServiceIdentityOptional location The location of the resource group to which the resource belongs. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure CassandraClusterOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired properties Properties of a managed Cassandra cluster. CassandraCluster_Properties_SpecOptional tags map[string]stringOptional CassandraCluster_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id The unique resource identifier of the ARM resource. stringOptional identity Identity for the resource. ManagedCassandraManagedServiceIdentity_STATUSOptional location The location of the resource group to which the resource belongs. stringOptional name The name of the ARM resource. stringOptional properties Properties of a managed Cassandra cluster. CassandraCluster_Properties_STATUSOptional tags map[string]stringOptional type The type of Azure resource. stringOptional CassandraClusterList Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -57,7 +57,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link active" href="/azure-service-operator/guide/"><span>Guide</span></a>
+        <a class="nav-link" href="/azure-service-operator/guide/"><span>Guide</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/blogs/"><span>Blog</span></a>
@@ -69,7 +69,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
         <a class="nav-link" href="/azure-service-operator/tools/"><span>Tools</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
+        <a class="nav-link active" href="/azure-service-operator/reference/"><span>Supported Resources</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/azure-service-operator/contributing/"><span>Contributing</span></a>
@@ -105,35 +105,35 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <ul class="ul-1">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorgetting-started-li">
   <a href="/azure-service-operator/getting-started/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorgetting-started"><span class="">Getting Started</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguide-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguide-li">
   <a href="/azure-service-operator/guide/" title="User’s Guide" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguide"><span class="">Guide</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-helm-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-helm-li">
   <a href="/azure-service-operator/guide/installing-from-helm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-helm"><span class="">Installation: From Helm</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideinstalling-from-yaml-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideinstalling-from-yaml-li">
   <a href="/azure-service-operator/guide/installing-from-yaml/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideinstalling-from-yaml"><span class="">Installation: From YAML</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidecrd-management-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidecrd-management-li">
   <a href="/azure-service-operator/guide/crd-management/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidecrd-management"><span class="">CRD management in ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideupgrading-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideupgrading-li">
   <a href="/azure-service-operator/guide/upgrading/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideupgrading"><span class="">Upgrading</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidefrequently-asked-questions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidefrequently-asked-questions-li">
   <a href="/azure-service-operator/guide/frequently-asked-questions/" title="Frequently Asked Questions" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidefrequently-asked-questions"><span class="">FAQ</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidediagnosing-problems-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidediagnosing-problems-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidediagnosing-problems"><span class="">Diagnosing problems</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/azure-throttling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsazure-throttling"><span class="">ARM Throttling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-failures-li">
-  <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-failures"><span class="td-sidebar-nav-active-item">Reconciliation Failures</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-failures-li">
+  <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-failures/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-failures"><span class="">Reconciliation Failures</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency-li">
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideannotations-li">
   <a href="/azure-service-operator/guide/annotations/" title="Annotations and Labels used by the operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideannotations"><span class="">Annotations and Labels</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideauthentication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideauthentication-li">
   <a href="/azure-service-operator/guide/authentication/" title="Authentication in Azure Service Operator" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideauthentication"><span class="">Authentication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideauthenticationcredential-format-li">
@@ -146,14 +146,14 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/guide/authentication/reducing-access/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideauthenticationreducing-access"><span class="">Reducing Access</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebest-practices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebest-practices-li">
   <a href="/azure-service-operator/guide/best-practices/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebest-practices"><span class="">Best Practices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebest-practicessecurity-li">
   <a href="/azure-service-operator/guide/best-practices/security/" title="Security Best Practices" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebest-practicessecurity"><span class="">Security</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguidebreaking-changes-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2190-li">
@@ -188,25 +188,25 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.0.0-beta.4/" title="v2.0.0-beta.4 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v200-beta4"><span class="">v2.0.0-beta.4</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideexpressions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideexpressions-li">
   <a href="/azure-service-operator/guide/expressions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideexpressions"><span class="">CEL Expressions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconditions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconditions-li">
   <a href="/azure-service-operator/guide/conditions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconditions"><span class="">Conditions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideaso-controller-settings-options-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideaso-controller-settings-options-li">
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideoperatorspec-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideoperatorspec-li">
   <a href="/azure-service-operator/guide/operatorspec/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideoperatorspec"><span class="">Configuring OperatorSpec</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidesecrets-li">
   <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguidemetrics-li">
   <a href="/azure-service-operator/guide/metrics/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidemetrics"><span class="">Metrics</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideownership-li">
   <a href="/azure-service-operator/guide/ownership/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideownership"><span class="">Ownership</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideconfigmaps-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideconfigmaps-li">
   <a href="/azure-service-operator/guide/configmaps/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideconfigmaps"><span class="">Sharing data through ConfigMaps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorguideasov1-asov2-migration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorguideasov1-asov2-migration-li">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguideasov1-asov2-migration"><span class="">ASOv1 to ASOv2 migration guide</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideasov1-asov2-migrationazuresql-li">
@@ -227,7 +227,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/guide/asov1-asov2-migration/storagecontainer/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideasov1-asov2-migrationstoragecontainer"><span class="">Storage Container</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideuninstalling-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorguideuninstalling-li">
   <a href="/azure-service-operator/guide/uninstalling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideuninstalling"><span class="">Uninstalling</span></a>
 </li>
   </ul>
@@ -272,10 +272,10 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/tools/generator/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatortoolsgenerator"><span class="">generator</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreference-li">
   <a href="/azure-service-operator/reference/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreference"><span class="">Supported Resources</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencealertsmanagement-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencealertsmanagement-li">
   <a href="/azure-service-operator/reference/alertsmanagement/" title="AlertsManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencealertsmanagement"><span class="">AlertsManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencealertsmanagementv1api20210401-li">
@@ -288,7 +288,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/alertsmanagement/v20230301/" title="alertsmanagement.azure.com/v20230301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencealertsmanagementv20230301"><span class="">v20230301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapimanagement-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapimanagement-li">
   <a href="/azure-service-operator/reference/apimanagement/" title="ApiManagement Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapimanagement"><span class="">ApiManagement</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceapimanagementv1api20220801-li">
@@ -305,7 +305,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/apimanagement/v20240501/" title="apimanagement.azure.com/v20240501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceapimanagementv20240501"><span class="">v20240501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceapp-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceapp-li">
   <a href="/azure-service-operator/reference/app/" title="App Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceapp"><span class="">App</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappv1api20240301-li">
@@ -314,7 +314,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/app/v1api20250101/" title="app.azure.com/v1api20250101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappv1api20250101"><span class="">v1api20250101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceappconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceappconfiguration-li">
   <a href="/azure-service-operator/reference/appconfiguration/" title="AppConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceappconfiguration"><span class="">AppConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceappconfigurationv1api20220501-li">
@@ -325,7 +325,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/appconfiguration/v20240601/" title="appconfiguration.azure.com/v20240601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceappconfigurationv20240601"><span class="">v20240601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceauthorization-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceauthorization-li">
   <a href="/azure-service-operator/reference/authorization/" title="Authorization Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceauthorization"><span class="">Authorization</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceauthorizationv1api20200801preview-li">
@@ -334,7 +334,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/authorization/v1api20220401/" title="authorization.azure.com/v1api20220401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceauthorizationv1api20220401"><span class="">v1api20220401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencebatch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencebatch-li">
   <a href="/azure-service-operator/reference/batch/" title="Batch Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencebatch"><span class="">Batch</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencebatchv1api20210101-li">
@@ -345,7 +345,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/batch/v20240701/" title="batch.azure.com/v20240701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencebatchv20240701"><span class="">v20240701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecache-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecache-li">
   <a href="/azure-service-operator/reference/cache/" title="Cache Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecache"><span class="">Cache</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev1api20201201-li">
@@ -366,7 +366,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/cache/v20250401/" title="cache.azure.com/v20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20250401"><span class="">v20250401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
   <a href="/azure-service-operator/reference/cdn/" title="Cdn Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecdn"><span class="">Cdn</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecdnv1api20210601-li">
@@ -375,21 +375,21 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/cdn/v1api20230501/" title="cdn.azure.com/v1api20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecognitiveservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecognitiveservices-li">
   <a href="/azure-service-operator/reference/cognitiveservices/" title="CognitiveServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecognitiveservices"><span class="">CognitiveServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecognitiveservicesv1api20250601-li">
   <a href="/azure-service-operator/reference/cognitiveservices/v1api20250601/" title="cognitiveservices.azure.com/v1api20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecognitiveservicesv1api20250601"><span class="">v1api20250601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecommunication-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecommunication-li">
   <a href="/azure-service-operator/reference/communication/" title="Communication Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecommunication"><span class="">Communication</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecommunicationv20230401-li">
   <a href="/azure-service-operator/reference/communication/v20230401/" title="communication.azure.com/v20230401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecommunicationv20230401"><span class="">v20230401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecompute-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecompute-li">
   <a href="/azure-service-operator/reference/compute/" title="Compute Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecompute"><span class="">Compute</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecomputev1api20200930-li">
@@ -410,14 +410,14 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/compute/v1api20250401/" title="compute.azure.com/v1api20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecomputev1api20250401"><span class="">v1api20250401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerinstance-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerinstance-li">
   <a href="/azure-service-operator/reference/containerinstance/" title="ContainerInstance Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerinstance"><span class="">ContainerInstance</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerinstancev1api20211001-li">
   <a href="/azure-service-operator/reference/containerinstance/v1api20211001/" title="containerinstance.azure.com/v1api20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerinstancev1api20211001"><span class="">v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerregistry-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerregistry-li">
   <a href="/azure-service-operator/reference/containerregistry/" title="ContainerRegistry Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerregistry"><span class="">ContainerRegistry</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerregistryv1api20210901-li">
@@ -426,7 +426,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/containerregistry/v1api20230701/" title="containerregistry.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerregistryv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecontainerservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecontainerservice-li">
   <a href="/azure-service-operator/reference/containerservice/" title="ContainerService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecontainerservice"><span class="">ContainerService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecontainerservicev1api20240901-li">
@@ -439,14 +439,14 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/containerservice/v20251002preview/" title="containerservice.azure.com/v20251002preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecontainerservicev20251002preview"><span class="">v20251002preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedatafactory-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedatafactory-li">
   <a href="/azure-service-operator/reference/datafactory/" title="DataFactory Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedatafactory"><span class="">DataFactory</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedatafactoryv1api20180601-li">
   <a href="/azure-service-operator/reference/datafactory/v1api20180601/" title="datafactory.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedatafactoryv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedataprotection-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedataprotection-li">
   <a href="/azure-service-operator/reference/dataprotection/" title="DataProtection Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedataprotection"><span class="">DataProtection</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedataprotectionv1api20230101-li">
@@ -455,14 +455,14 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/dataprotection/v1api20231101/" title="dataprotection.azure.com/v1api20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedataprotectionv1api20231101"><span class="">v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformariadb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformariadb-li">
   <a href="/azure-service-operator/reference/dbformariadb/" title="DBforMariaDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformariadb"><span class="">DBforMariaDB</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformariadbv1api20180601-li">
   <a href="/azure-service-operator/reference/dbformariadb/v1api20180601/" title="dbformariadb.azure.com/v1api20180601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformariadbv1api20180601"><span class="">v1api20180601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbformysql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbformysql-li">
   <a href="/azure-service-operator/reference/dbformysql/" title="DBforMySQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbformysql"><span class="">DBforMySQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbformysqlv1-li">
@@ -489,7 +489,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/dbformysql/v20250601preview/" title="dbformysql.azure.com/v20250601preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbformysqlv20250601preview"><span class="">v20250601preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedbforpostgresql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedbforpostgresql-li">
   <a href="/azure-service-operator/reference/dbforpostgresql/" title="DBforPostgreSQL Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedbforpostgresql"><span class="">DBforPostgreSQL</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedbforpostgresqlv1-li">
@@ -508,43 +508,43 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/dbforpostgresql/v20250801/" title="dbforpostgresql.azure.com/v20250801" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedbforpostgresqlv20250801"><span class="">v20250801</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedevices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencedevices-li">
   <a href="/azure-service-operator/reference/devices/" title="Devices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedevices"><span class="">Devices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedevicesv1api20210702-li">
   <a href="/azure-service-operator/reference/devices/v1api20210702/" title="devices.azure.com/v1api20210702" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedevicesv1api20210702"><span class="">v1api20210702</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencedocumentdb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencedocumentdb-li">
   <a href="/azure-service-operator/reference/documentdb/" title="DocumentDB Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencedocumentdb"><span class="">DocumentDB</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedocumentdbv1api20210515-li">
   <a href="/azure-service-operator/reference/documentdb/v1api20210515/" title="documentdb.azure.com/v1api20210515" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20210515"><span class="">v1api20210515</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20231115-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedocumentdbv1api20231115-li">
   <a href="/azure-service-operator/reference/documentdb/v1api20231115/" title="documentdb.azure.com/v1api20231115" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20231115"><span class="">v1api20231115</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20240701-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedocumentdbv1api20240701-li">
   <a href="/azure-service-operator/reference/documentdb/v1api20240701/" title="documentdb.azure.com/v1api20240701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20240701"><span class="">v1api20240701</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv1api20240815-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencedocumentdbv1api20240815-li">
   <a href="/azure-service-operator/reference/documentdb/v1api20240815/" title="documentdb.azure.com/v1api20240815" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv1api20240815"><span class="">v1api20240815</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencedocumentdbv20251015-li">
-  <a href="/azure-service-operator/reference/documentdb/v20251015/" title="documentdb.azure.com/v20251015" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv20251015"><span class="">v20251015</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencedocumentdbv20251015-li">
+  <a href="/azure-service-operator/reference/documentdb/v20251015/" title="documentdb.azure.com/v20251015" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencedocumentdbv20251015"><span class="td-sidebar-nav-active-item">v20251015</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceentra-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceentra-li">
   <a href="/azure-service-operator/reference/entra/" title="Entra Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceentra"><span class="">Entra</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceentrav1-li">
   <a href="/azure-service-operator/reference/entra/v1/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceentrav1"><span class="">entra.azure.com/</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventgrid-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventgrid-li">
   <a href="/azure-service-operator/reference/eventgrid/" title="EventGrid Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventgrid"><span class="">EventGrid</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventgridv1api20200601-li">
   <a href="/azure-service-operator/reference/eventgrid/v1api20200601/" title="eventgrid.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv1api20200601"><span class="">v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
@@ -553,14 +553,14 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/eventhub/v1api20240101/" title="eventhub.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
   <a href="/azure-service-operator/reference/network.frontdoor/" title="Frontdoor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetworkfrontdoor"><span class="">Frontdoor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501-li">
   <a href="/azure-service-operator/reference/network.frontdoor/v1api20220501/" title="network.frontdoor.azure.com/v1api20220501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkfrontdoorv1api20220501"><span class="">v1api20220501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceinsights-li">
   <a href="/azure-service-operator/reference/insights/" title="Insights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceinsights"><span class="">Insights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceinsightsv1api20171001-li">
@@ -591,7 +591,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/insights/v1api20250101preview/" title="insights.azure.com/v1api20250101preview" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceinsightsv1api20250101preview"><span class="">v1api20250101preview</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekeyvault-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekeyvault-li">
   <a href="/azure-service-operator/reference/keyvault/" title="KeyVault Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekeyvault"><span class="">KeyVault</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekeyvaultv1api20210401preview-li">
@@ -600,7 +600,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/keyvault/v1api20230701/" title="keyvault.azure.com/v1api20230701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekeyvaultv1api20230701"><span class="">v1api20230701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekubernetesconfiguration-li">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/" title="KubernetesConfiguration Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekubernetesconfiguration"><span class="">KubernetesConfiguration</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20230501-li">
@@ -609,7 +609,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/kubernetesconfiguration/v1api20241101/" title="kubernetesconfiguration.azure.com/v1api20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekubernetesconfigurationv1api20241101"><span class="">v1api20241101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencekusto-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencekusto-li">
   <a href="/azure-service-operator/reference/kusto/" title="Kusto Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencekusto"><span class="">Kusto</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencekustov1api20230815-li">
@@ -618,7 +618,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/kusto/v1api20240413/" title="kusto.azure.com/v1api20240413" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencekustov1api20240413"><span class="">v1api20240413</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemachinelearningservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemachinelearningservices-li">
   <a href="/azure-service-operator/reference/machinelearningservices/" title="MachineLearningServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemachinelearningservices"><span class="">MachineLearningServices</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemachinelearningservicesv1api20210701-li">
@@ -627,7 +627,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/machinelearningservices/v1api20240401/" title="machinelearningservices.azure.com/v1api20240401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemachinelearningservicesv1api20240401"><span class="">v1api20240401</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemanagedidentity-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemanagedidentity-li">
   <a href="/azure-service-operator/reference/managedidentity/" title="ManagedIdentity Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemanagedidentity"><span class="">ManagedIdentity</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemanagedidentityv1api20181130-li">
@@ -638,14 +638,14 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/managedidentity/v1api20230131/" title="managedidentity.azure.com/v1api20230131" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemanagedidentityv1api20230131"><span class="">v1api20230131</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencemonitor-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencemonitor-li">
   <a href="/azure-service-operator/reference/monitor/" title="Monitor Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencemonitor"><span class="">Monitor</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencemonitorv1api20230403-li">
   <a href="/azure-service-operator/reference/monitor/v1api20230403/" title="monitor.azure.com/v1api20230403" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencemonitorv1api20230403"><span class="">v1api20230403</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenetwork-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetwork-li">
   <a href="/azure-service-operator/reference/network/" title="Network Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenetwork"><span class="">Network</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenetworkv1api20180501-li">
@@ -672,14 +672,14 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/network/v20250301/" title="network.azure.com/v20250301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenetworkv20250301"><span class="">v20250301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencenotificationhubs-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenotificationhubs-li">
   <a href="/azure-service-operator/reference/notificationhubs/" title="NotificationHubs Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencenotificationhubs"><span class="">NotificationHubs</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencenotificationhubsv1api20230901-li">
   <a href="/azure-service-operator/reference/notificationhubs/v1api20230901/" title="notificationhubs.azure.com/v1api20230901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencenotificationhubsv1api20230901"><span class="">v1api20230901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceoperationalinsights-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceoperationalinsights-li">
   <a href="/azure-service-operator/reference/operationalinsights/" title="OperationalInsights Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceoperationalinsights"><span class="">OperationalInsights</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceoperationalinsightsv1api20210601-li">
@@ -688,28 +688,28 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/operationalinsights/v20250701/" title="operationalinsights.azure.com/v20250701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceoperationalinsightsv20250701"><span class="">v20250701</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencequota-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencequota-li">
   <a href="/azure-service-operator/reference/quota/" title="Quota Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencequota"><span class="">Quota</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencequotav1api20250901-li">
   <a href="/azure-service-operator/reference/quota/v1api20250901/" title="quota.azure.com/v1api20250901" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencequotav1api20250901"><span class="">v1api20250901</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceredhatopenshift-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceredhatopenshift-li">
   <a href="/azure-service-operator/reference/redhatopenshift/" title="RedHatOpenShift Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceredhatopenshift"><span class="">RedHatOpenShift</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122-li">
   <a href="/azure-service-operator/reference/redhatopenshift/v1api20231122/" title="redhatopenshift.azure.com/v1api20231122" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceredhatopenshiftv1api20231122"><span class="">v1api20231122</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceresources-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceresources-li">
   <a href="/azure-service-operator/reference/resources/" title="Resources Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceresources"><span class="">Resources</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceresourcesv1api20200601-li">
   <a href="/azure-service-operator/reference/resources/v1api20200601/" title="resources.azure.com/v1api20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceresourcesv1api20200601"><span class="">v1api20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesearch-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesearch-li">
   <a href="/azure-service-operator/reference/search/" title="Search Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesearch"><span class="">Search</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesearchv1api20220901-li">
@@ -718,7 +718,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/search/v1api20231101/" title="search.azure.com/v1api20231101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesearchv1api20231101"><span class="">v1api20231101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceservicebus-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceservicebus-li">
   <a href="/azure-service-operator/reference/servicebus/" title="ServiceBus Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceservicebus"><span class="">ServiceBus</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceservicebusv1api20210101preview-li">
@@ -731,7 +731,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/servicebus/v1api20240101/" title="servicebus.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceservicebusv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesignalrservice-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesignalrservice-li">
   <a href="/azure-service-operator/reference/signalrservice/" title="SignalRService Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesignalrservice"><span class="">SignalRService</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesignalrservicev1api20211001-li">
@@ -740,7 +740,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/signalrservice/v1api20240301/" title="signalrservice.azure.com/v1api20240301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesignalrservicev1api20240301"><span class="">v1api20240301</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesql-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesql-li">
   <a href="/azure-service-operator/reference/sql/" title="Sql Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesql"><span class="">Sql</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesqlv1-li">
@@ -749,7 +749,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/sql/v1api20211101/" title="sql.azure.com/v1api20211101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesqlv1api20211101"><span class="">v1api20211101</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencestorage-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencestorage-li">
   <a href="/azure-service-operator/reference/storage/" title="Storage Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencestorage"><span class="">Storage</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencestoragev1api20210401-li">
@@ -768,14 +768,14 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/storage/v20250601/" title="storage.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencestoragev20250601"><span class="">v20250601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesubscription-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesubscription-li">
   <a href="/azure-service-operator/reference/subscription/" title="Subscription Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesubscription"><span class="">Subscription</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
   <a href="/azure-service-operator/reference/subscription/v1api20211001/" title="subscription.azure.com/v1api20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">v1api20211001</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencesynapse-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
   <a href="/azure-service-operator/reference/synapse/" title="Synapse Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencesynapse"><span class="">Synapse</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesynapsev1api20210601-li">
@@ -784,7 +784,7 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
   <a href="/azure-service-operator/reference/synapse/v20210601/" title="synapse.azure.com/v20210601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesynapsev20210601"><span class="">v20210601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferenceweb-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceweb-li">
   <a href="/azure-service-operator/reference/web/" title="Web Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceweb"><span class="">Web</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv1api20220301-li">
@@ -971,27 +971,46 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#creation-fails-in-azure">Creation fails in Azure</a>
+    <li><a href="#APIVersion">APIVersion</a></li>
+    <li><a href="#CassandraCluster">CassandraCluster</a>
       <ul>
-        <li><a href="#potential-actions">Potential actions</a></li>
+        <li><a href="#CassandraCluster_Spec">CassandraCluster_Spec</a></li>
+        <li><a href="#CassandraCluster_STATUS">CassandraCluster_STATUS</a></li>
       </ul>
     </li>
-    <li><a href="#repeated-failures-followed-by-success">Repeated failures followed by success</a>
+    <li><a href="#CassandraClusterList">CassandraClusterList</a></li>
+    <li><a href="#CassandraDataCenter">CassandraDataCenter</a>
       <ul>
-        <li><a href="#potential-actions-1">Potential actions</a></li>
+        <li><a href="#CassandraDataCenter_Spec">CassandraDataCenter_Spec</a></li>
+        <li><a href="#CassandraDataCenter_STATUS">CassandraDataCenter_STATUS</a></li>
       </ul>
     </li>
-  </ul>
-
-  <ul>
-    <li><a href="#contact-the-azure-product-group-for-support">Contact the Azure product group for support</a></li>
-    <li><a href="#verify-the-credentials-used-by-aso">Verify the credentials used by ASO</a></li>
-    <li><a href="#implement-a-new-precondition-check">Implement a new precondition check</a></li>
-    <li><a href="#request-implementation-of-a-new-precondition-check">Request implementation of a new precondition check</a></li>
-  </ul>
-
-  <ul>
-    <li><a href="#preconditions-for-resource-creation">Preconditions for resource creation</a></li>
+    <li><a href="#CassandraDataCenterList">CassandraDataCenterList</a></li>
+    <li><a href="#CassandraCluster_Spec">CassandraCluster_Spec</a></li>
+    <li><a href="#CassandraCluster_STATUS">CassandraCluster_STATUS</a></li>
+    <li><a href="#CassandraDataCenter_Spec">CassandraDataCenter_Spec</a></li>
+    <li><a href="#CassandraDataCenter_STATUS">CassandraDataCenter_STATUS</a></li>
+    <li><a href="#CassandraCluster_Properties_Spec">CassandraCluster_Properties_Spec</a></li>
+    <li><a href="#CassandraCluster_Properties_STATUS">CassandraCluster_Properties_STATUS</a></li>
+    <li><a href="#CassandraClusterOperatorSpec">CassandraClusterOperatorSpec</a></li>
+    <li><a href="#CassandraClusters_DataCenter_Properties_Spec">CassandraClusters_DataCenter_Properties_Spec</a></li>
+    <li><a href="#CassandraClusters_DataCenter_Properties_STATUS">CassandraClusters_DataCenter_Properties_STATUS</a></li>
+    <li><a href="#CassandraDataCenterOperatorSpec">CassandraDataCenterOperatorSpec</a></li>
+    <li><a href="#ManagedCassandraManagedServiceIdentity">ManagedCassandraManagedServiceIdentity</a></li>
+    <li><a href="#ManagedCassandraManagedServiceIdentity_STATUS">ManagedCassandraManagedServiceIdentity_STATUS</a></li>
+    <li><a href="#AuthenticationMethodLdapProperties">AuthenticationMethodLdapProperties</a></li>
+    <li><a href="#AuthenticationMethodLdapProperties_STATUS">AuthenticationMethodLdapProperties_STATUS</a></li>
+    <li><a href="#CassandraCluster_Properties_AuthenticationMethod_Spec">CassandraCluster_Properties_AuthenticationMethod_Spec</a></li>
+    <li><a href="#CassandraCluster_Properties_AuthenticationMethod_STATUS">CassandraCluster_Properties_AuthenticationMethod_STATUS</a></li>
+    <li><a href="#CassandraCluster_Properties_AzureConnectionMethod_Spec">CassandraCluster_Properties_AzureConnectionMethod_Spec</a></li>
+    <li><a href="#CassandraCluster_Properties_AzureConnectionMethod_STATUS">CassandraCluster_Properties_AzureConnectionMethod_STATUS</a></li>
+    <li><a href="#CassandraError_STATUS">CassandraError_STATUS</a></li>
+    <li><a href="#Certificate">Certificate</a></li>
+    <li><a href="#ManagedCassandraManagedServiceIdentity_Type">ManagedCassandraManagedServiceIdentity_Type</a></li>
+    <li><a href="#ManagedCassandraManagedServiceIdentity_Type_STATUS">ManagedCassandraManagedServiceIdentity_Type_STATUS</a></li>
+    <li><a href="#ManagedCassandraProvisioningState_STATUS">ManagedCassandraProvisioningState_STATUS</a></li>
+    <li><a href="#SeedNode">SeedNode</a></li>
+    <li><a href="#SeedNode_STATUS">SeedNode_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -1006,126 +1025,1322 @@ When to apply this TSG This TSG applies when review of ASO logs shows:">
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/">Guide</a></li>
+    <a href="/azure-service-operator/reference/">Supported Resources</a></li>
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/guide/diagnosing-problems/">Diagnosing problems</a></li>
+    <a href="/azure-service-operator/reference/documentdb/">DocumentDB</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Reconciliation Failures</li>
+    v20251015</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Reconciliation Failures</h1>
+	<h1>documentdb.azure.com/v20251015</h1>
 	
 	<header class="article-meta">
 		
 </header>
-	<p>Sometimes you are able to successfully create a resource in your Kubernetes cluster, but Azure Service Operator (ASO) experiences issues when trying to create that resource in Azure.</p>
-<p><strong>How to use this TSG</strong>: Review <a href="#when-to-apply-this-tsg"><em>When to apply this TSG</em></a> to determine whether this TSG is relevant. Each subsection recommends one or more actions to take, these are detailed below under <a href="#actions"><em>Actions</em></a>.</p>
-<h1 id="when-to-apply-this-tsg">When to apply this TSG</h1>
-<p>This TSG applies when review of ASO logs shows:</p>
-<ul>
-<li>creation of the resource fails in Azure; or</li>
-<li>repeated reconcile failures followed by successful resource creation.</li>
-</ul>
-<p>Each of these conditions is discussed in detail, below.</p>
-<h2 id="creation-fails-in-azure">Creation fails in Azure</h2>
-<p>The most usual case where resource creation fails in Azure is an error in the requested configuration of the resource.</p>
-<p>These errors can be seen by retrieving the condition of the resource using <code>kubectl describe</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl describe resourcegroups/aso-sample-rg -n default
-</span></span><span style="display:flex;"><span>Name:         aso-sample-rg
-</span></span><span style="display:flex;"><span>Namespace:    default
-</span></span><span style="display:flex;"><span>Labels:       &lt;none&gt;
-</span></span><span style="display:flex;"><span>Annotations:  serviceoperator.azure.com/operator-namespace: azureserviceoperator-system
-</span></span><span style="display:flex;"><span>              serviceoperator.azure.com/resource-id: /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
-</span></span><span style="display:flex;"><span>API Version:  resources.azure.com/v1beta20200601
-</span></span><span style="display:flex;"><span>Kind:         ResourceGroup
-</span></span><span style="display:flex;"><span>Metadata:
-</span></span><span style="display:flex;"><span>  ... elided ...
-</span></span><span style="display:flex;"><span>Spec:
-</span></span><span style="display:flex;"><span>  ... elided ...
-</span></span><span style="display:flex;"><span>Status:
-</span></span><span style="display:flex;"><span>  Conditions:
-</span></span><span style="display:flex;"><span>    Last Transition Time:  2023-08-31T01:25:58Z
-</span></span><span style="display:flex;"><span>    Observed Generation:   <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>    Reason:                Succeeded
-</span></span><span style="display:flex;"><span>    Status:                True
-</span></span><span style="display:flex;"><span>    Type:                  Ready
-</span></span><span style="display:flex;"><span>  ... elided ...
-</span></span></code></pre></div><p>or by finding details in the ASO logs. Log errors are always logged in full, and will look similar to this example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>I2025-05-25T21:13:41Z] cache_redis &#34;msg&#34;=&#34;Error during Delete&#34; &#34;err&#34;=&#34;deleting resource &#34;/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fanmqx/providers/Microsoft.Cache/redis/asotest-redis2-vscggl&#34;: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-fanmqx/providers/Microsoft.Cache/redis/asotest-redis2-vscggl
-</span></span><span style="display:flex;"><span>    --------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span>    RESPONSE 400: 400 Bad Request
-</span></span><span style="display:flex;"><span>    ERROR CODE: BadRequest
-</span></span><span style="display:flex;"><span>    --------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>      &#34;error&#34;: {
-</span></span><span style="display:flex;"><span>        &#34;code&#34;: &#34;BadRequest&#34;,
-</span></span><span style="display:flex;"><span>        &#34;message&#34;: &#34;Cannot delete &#39;asotest-redis2-vscggl&#39; since it has linked servers associated with it. Please remove the linked server(s) and then try deleting the cache.\r\nRequestID=8e55c6c4-ca68-477c-bcb8-db417aae80f3&#34;,
-</span></span><span style="display:flex;"><span>        &#34;target&#34;: null
-</span></span><span style="display:flex;"><span>      }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    --------------------------------------------------------------------------------
-</span></span><span style="display:flex;"><span>    &#34; name=&#34;asotest-redis2-vscggl&#34; namespace=&#34;aso-test-cache-redis-20230801-crud&#34; azureName=&#34;asotest-redis2-vscggl&#34; action=&#34;BeginDelete&#34;
-</span></span></code></pre></div><p>Errors shown in this way come from Azure Resource Manager (ARM) and are not specific to ASO. They are the same errors you would see if you were using the Azure CLI or Azure Portal, and can be resolved using the same research techniques.</p>
-<h3 id="potential-actions">Potential actions</h3>
-<ul>
-<li>
-<p><strong>Fix the problem</strong>: Generic Azure errors are often self-explanatory, or they can be resolved by reference to documentation, or from an online search, allowing you to fix the issue yourself.</p>
-</li>
-<li>
-<p><a href="#contact-the-azure-product-group-for-support"><strong>Contact the Azure product group for support</strong></a>: If the cause is not obvious (e.g. the response code indicates a server error), consider contacting the appropriate product group directly for support.</p>
-</li>
-<li>
-<p><a href="#verify-the-credentials-used-by-aso"><strong>Verify the credentials used by ASO</strong></a>: If the error indicates an authentication issue, verify that ASO is using the expected identity and that the identity has the correct permissions.</p>
-</li>
-</ul>
-<h2 id="repeated-failures-followed-by-success">Repeated failures followed by success</h2>
-<p>Check ASO logs or events for each attempt to reconcile the resource and take note of the reasons for failure.</p>
-<p>A sequence of near-identical failures terminated by an eventual success may indicate that creation of the resource was not possible until some precondition was satisfied.</p>
-<p>In some cases (e.g. quota issues), the precondition is external and requires intervention (e.g. a quota request) before ASO can successfully create the resource. Based on the error message, you may be able to <em>fix the underlying cause</em> yourself, or you may need to contact the relevant Azure product group for support.</p>
-<p>In other cases, you might conclude that ASO is simply trying to create the resource too early. You may want to <a href="#implement-a-new-precondition-check"><em>implement a new precondition check</em></a> yourself, or <a href="#request-implementation-of-a-new-precondition-check"><em>request implementation of that check</em></a> from the ASO team by creating an <a href="https://github.com/Azure/azure-service-operator/issues">issue on GitHub</a>.</p>
-<h3 id="potential-actions-1">Potential actions</h3>
-<ul>
-<li>
-<p><strong>Fix the underlying cause</strong>: Many errors require you to take action (e.g. quota issues require a request for more quota). In these cases, the problem will automaticaly resolve once the underlying issue is resolved.</p>
-</li>
-<li>
-<p><a href="#implement-a-new-precondition-check"><strong>Implement a new precondition check</strong></a>: It&rsquo;s straightforward to modify ASO to respect a new precondition, delaying creation until that precondition is satisfied. ASO is an open source project that accepts contributions, so we encourage you to consider contributing changes yourself.</p>
-</li>
-<li>
-<p><a href="#request-implementation-of-a-new-precondition-check"><strong>Request implementation of a new precondition check</strong></a>: If contribution is not an option (for any reason), please create a <a href="https://github.com/Azure/azure-service-operator/issues">GitHub Issue</a> requesting the ASO team implement the required check.</p>
-</li>
-</ul>
-<h1 id="actions">Actions</h1>
-<p>This section identifies specific actions you can take to resolve issues. For discussion of which action should be applied, see above.</p>
-<h2 id="contact-the-azure-product-group-for-support">Contact the Azure product group for support</h2>
-<p>For generic Azure errors, you should contact the Azure product group responsible for the resource type being used. Keep in mind that they won&rsquo;t be familiar with Azure Service Operator - some teams will bounce calls back to you if they don&rsquo;t recognize the client.</p>
-<p>Ensure you provide all the following information:</p>
-<ul>
-<li><strong>Full error details</strong> - from either the <code>condition</code> on the resource, or from ASO logs. Ensure you do not truncate any details.</li>
-<li><strong>Exact timestamp</strong> - the instant, in UTC, of the error so they can review internal logs if required. This is available both on the resource condition, and in the ASO logs.</li>
-<li><strong>Resource ID</strong> - the full ARM identifier of the resource. Usually provided by the customer, but available from the <code>serviceoperator.azure.com/resource-id</code> annotation on the resource if not.</li>
-</ul>
-<p>It may also be helpful to provide some background on ASO, including the fact it works through the normal ARM REST API, just like any other client.</p>
-<h2 id="verify-the-credentials-used-by-aso">Verify the credentials used by ASO</h2>
-<p>For authentication errors logged by ASO, it&rsquo;s possible that ASO is using the wrong identity, or that the identity does not have the correct permissions to create the resource.</p>
-<p>Review the <a href="https://azure.github.io/azure-service-operator/guide/authentication/">ASO documentation on authentication</a> and verify both that ASO is using the expected identity, and that the identity has the correct permissions.</p>
-<p>Different kinds of resources require different permissions - for example, connecting a ManagedCluster to a ContainerRegistry requires <strong>Owner</strong> permissions, not simply <strong>Contributor</strong> permissions. It&rsquo;s therefore important to check whether the specific resource type requires any special permissions.</p>
-<h2 id="implement-a-new-precondition-check">Implement a new precondition check</h2>
-<p>When a new resource precondition is identified, the fastest route to resolution is for you to implement the change yourself. ASO is an open source project that accepts contributions, and we encourage you to consider contributing enhancements.</p>
-<p>The ASO team is always available to advise on how to successfully implement new features, such as a precondition check.</p>
-<p>Moreover, external PRs take priority over other work, so if you implement the change yourself, it is likely to be merged and released more quickly than if the ASO team implements it.</p>
-<p>A good place to start is by creating a <a href="https://github.com/Azure/azure-service-operator/issues">GitHub issue</a> to discuss the proposed change.</p>
-<h2 id="request-implementation-of-a-new-precondition-check">Request implementation of a new precondition check</h2>
-<p>When a new resource precondition is identified, we can often implement the change on your behalf. This is a good option if you choose (for any reason) not to contribute a new precondition check yourself.</p>
-<p>You should create a <a href="https://github.com/Azure/azure-service-operator/issues">GitHub issue</a> requesting the change be made.</p>
-<p>Please ensure the issue contains as much information as possible about the requested change, remembering that the ASO team may not be intimately familiar with the specific resource type or the precondition that should be checked.</p>
-<p>New feature requests go into the ASO backlog, and are prioritized by the team alongside existing issues.</p>
-<h1 id="background">Background</h1>
-<h2 id="preconditions-for-resource-creation">Preconditions for resource creation</h2>
-<p>ASO already checks for a number of preconditions before attempting to create or update resources in Azure. For example, it will not attempt to create a resource if the owning resource does not exist, or if a required secret or configmap is missing.</p>
-<p>For some resources, we&rsquo;ve found it useful to introduce additional preconditions. For example, any attempt to PUT a <code>containerservice ManagedCluster</code> will automatically fail if the <code>provisioningState</code> of the <code>ManagedCluster</code> is in a transient state (e.g. <code>Creating</code> or <code>Updating</code>). To avoid polluting the ASO logs with a large number of failures, we block reconcile attempts until the cluster reaches a stable state (e.g. <code>Successful</code> or <code>Failed</code>).</p>
-<p>Similar checks can be added for any resource, as needed, by implementing Go interface <code>PreReconcileCheck</code>. This interface provides an extension point, allowing resource behaviour to be customized where needed. See <a href="https://github.com/Azure/azure-service-operator/pull/2686">PR#2686</a> for an example of this in action.</p>
+	<hr>
+<h2 id="APIVersion">APIVersion</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;2025-10-15&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraCluster">CassandraCluster</h2>
+<p>Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}</p>
+<p>Used by: <a href="#CassandraClusterList">CassandraClusterList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#CassandraCluster_Spec">CassandraCluster_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#CassandraCluster_STATUS">CassandraCluster_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="CassandraCluster_Spec">CassandraCluster_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>Identity for the resource.</td>
+          <td><a href="#ManagedCassandraManagedServiceIdentity">ManagedCassandraManagedServiceIdentity</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The location of the resource group to which the resource belongs.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#CassandraClusterOperatorSpec">CassandraClusterOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>Properties of a managed Cassandra cluster.</td>
+          <td><a href="#CassandraCluster_Properties_Spec">CassandraCluster_Properties_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td></td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="CassandraCluster_STATUS">CassandraCluster_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>The unique resource identifier of the ARM resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>Identity for the resource.</td>
+          <td><a href="#ManagedCassandraManagedServiceIdentity_STATUS">ManagedCassandraManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The location of the resource group to which the resource belongs.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the ARM resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>Properties of a managed Cassandra cluster.</td>
+          <td><a href="#CassandraCluster_Properties_STATUS">CassandraCluster_Properties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td></td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of Azure resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraClusterList">CassandraClusterList</h2>
+<p>Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#CassandraCluster">CassandraCluster[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraDataCenter">CassandraDataCenter</h2>
+<p>Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}/​dataCenters/​{dataCenterName}</p>
+<p>Used by: <a href="#CassandraDataCenterList">CassandraDataCenterList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#CassandraDataCenter_Spec">CassandraDataCenter_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#CassandraDataCenter_STATUS">CassandraDataCenter_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="CassandraDataCenter_Spec">CassandraDataCenter_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#CassandraDataCenterOperatorSpec">CassandraDataCenterOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a documentdb.azure.com/CassandraCluster resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>Properties of a managed Cassandra data center.</td>
+          <td><a href="#CassandraClusters_DataCenter_Properties_Spec">CassandraClusters_DataCenter_Properties_Spec</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="CassandraDataCenter_STATUS">CassandraDataCenter_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>The unique resource identifier of the database account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the database account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>Properties of a managed Cassandra data center.</td>
+          <td><a href="#CassandraClusters_DataCenter_Properties_STATUS">CassandraClusters_DataCenter_Properties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of Azure resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraDataCenterList">CassandraDataCenterList</h2>
+<p>Generator information: - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/DocumentDB/stable/2025-10-15/managedCassandra.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.DocumentDB/​cassandraClusters/​{clusterName}/​dataCenters/​{dataCenterName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#CassandraDataCenter">CassandraDataCenter[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraCluster_Spec">CassandraCluster_Spec</h2>
+<p>Used by: <a href="#CassandraCluster">CassandraCluster</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>Identity for the resource.</td>
+          <td><a href="#ManagedCassandraManagedServiceIdentity">ManagedCassandraManagedServiceIdentity</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The location of the resource group to which the resource belongs.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#CassandraClusterOperatorSpec">CassandraClusterOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>Properties of a managed Cassandra cluster.</td>
+          <td><a href="#CassandraCluster_Properties_Spec">CassandraCluster_Properties_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td></td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraCluster_STATUS">CassandraCluster_STATUS</h2>
+<p>Used by: <a href="#CassandraCluster">CassandraCluster</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>The unique resource identifier of the ARM resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>identity</td>
+          <td>Identity for the resource.</td>
+          <td><a href="#ManagedCassandraManagedServiceIdentity_STATUS">ManagedCassandraManagedServiceIdentity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>The location of the resource group to which the resource belongs.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the ARM resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>Properties of a managed Cassandra cluster.</td>
+          <td><a href="#CassandraCluster_Properties_STATUS">CassandraCluster_Properties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td></td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of Azure resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraDataCenter_Spec">CassandraDataCenter_Spec</h2>
+<p>Used by: <a href="#CassandraDataCenter">CassandraDataCenter</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#CassandraDataCenterOperatorSpec">CassandraDataCenterOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a documentdb.azure.com/CassandraCluster resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>Properties of a managed Cassandra data center.</td>
+          <td><a href="#CassandraClusters_DataCenter_Properties_Spec">CassandraClusters_DataCenter_Properties_Spec</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraDataCenter_STATUS">CassandraDataCenter_STATUS</h2>
+<p>Used by: <a href="#CassandraDataCenter">CassandraDataCenter</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>The unique resource identifier of the database account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the database account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>properties</td>
+          <td>Properties of a managed Cassandra data center.</td>
+          <td><a href="#CassandraClusters_DataCenter_Properties_STATUS">CassandraClusters_DataCenter_Properties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of Azure resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraCluster_Properties_Spec">CassandraCluster_Properties_Spec</h2>
+<p>Used by: <a href="#CassandraCluster_Spec">CassandraCluster_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>authenticationMethod</td>
+          <td>Which authentication method Cassandra should use to authenticate clients. <code>None</code> turns off authentication, so should not be used except in emergencies. <code>Cassandra</code> is the default password based authentication. The default is <code>Cassandra</code>.</td>
+          <td><a href="#CassandraCluster_Properties_AuthenticationMethod_Spec">CassandraCluster_Properties_AuthenticationMethod_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>azureConnectionMethod</td>
+          <td>How to connect to the azure services needed for running the cluster</td>
+          <td><a href="#CassandraCluster_Properties_AzureConnectionMethod_Spec">CassandraCluster_Properties_AzureConnectionMethod_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>cassandraAuditLoggingEnabled</td>
+          <td>Whether Cassandra audit logging is enabled</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>cassandraVersion</td>
+          <td>Which version of Cassandra should this cluster converge to running (e.g., 3.11). When updated, the cluster may take some time to migrate to the new version.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>clientCertificates</td>
+          <td>List of TLS certificates used to authorize clients connecting to the cluster. All connections are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set, the managed Cassandra cluster will reject all connections not bearing a TLS client certificate that can be validated from one or more of the public certificates in this property.</td>
+          <td><a href="#Certificate">Certificate[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>clusterNameOverride</td>
+          <td>If you need to set the clusterName property in cassandra.yaml to something besides the resource name of the cluster, set the value to use on this property.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>delegatedManagementSubnetReference</td>
+          <td>Resource id of a subnet that this cluster&rsquo;s management service should have its network interface attached to. The subnet must be routable to all subnets that will be delegated to data centers. The resource id must be of the form &lsquo;/​subscriptions/​<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>&rsquo;</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>externalGossipCertificates</td>
+          <td>List of TLS certificates used to authorize gossip from unmanaged data centers. The TLS certificates of all nodes in unmanaged data centers must be verifiable using one of the certificates provided in this property.</td>
+          <td><a href="#Certificate">Certificate[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>externalSeedNodes</td>
+          <td>List of IP addresses of seed nodes in unmanaged data centers. These will be added to the seed node lists of all managed nodes.</td>
+          <td><a href="#SeedNode">SeedNode[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>hoursBetweenBackups</td>
+          <td>(Deprecated) Number of hours to wait between taking a backup of the cluster.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>initialCassandraAdminPassword</td>
+          <td>Initial password for clients connecting as admin to the cluster. Should be changed after cluster creation. Returns null on GET. This field only applies when the authenticationMethod field is <code>Cassandra</code>.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>prometheusEndpoint</td>
+          <td>Hostname or IP address where the Prometheus endpoint containing data about the managed Cassandra nodes can be reached.</td>
+          <td><a href="#SeedNode">SeedNode</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>repairEnabled</td>
+          <td>Should automatic repairs run on this cluster? If omitted, this is true, and should stay true unless you are running a hybrid cluster where you are already doing your own repairs.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>restoreFromBackupReference</td>
+          <td>To create an empty cluster, omit this field or set it to null. To restore a backup into a new cluster, set this field to the resource id of the backup.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraCluster_Properties_STATUS">CassandraCluster_Properties_STATUS</h2>
+<p>Used by: <a href="#CassandraCluster_STATUS">CassandraCluster_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>authenticationMethod</td>
+          <td>Which authentication method Cassandra should use to authenticate clients. <code>None</code> turns off authentication, so should not be used except in emergencies. <code>Cassandra</code> is the default password based authentication. The default is <code>Cassandra</code>.</td>
+          <td><a href="#CassandraCluster_Properties_AuthenticationMethod_STATUS">CassandraCluster_Properties_AuthenticationMethod_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>azureConnectionMethod</td>
+          <td>How to connect to the azure services needed for running the cluster</td>
+          <td><a href="#CassandraCluster_Properties_AzureConnectionMethod_STATUS">CassandraCluster_Properties_AzureConnectionMethod_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>cassandraAuditLoggingEnabled</td>
+          <td>Whether Cassandra audit logging is enabled</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>cassandraVersion</td>
+          <td>Which version of Cassandra should this cluster converge to running (e.g., 3.11). When updated, the cluster may take some time to migrate to the new version.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>clientCertificates</td>
+          <td>List of TLS certificates used to authorize clients connecting to the cluster. All connections are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set, the managed Cassandra cluster will reject all connections not bearing a TLS client certificate that can be validated from one or more of the public certificates in this property.</td>
+          <td>Certificate_STATUS[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>clusterNameOverride</td>
+          <td>If you need to set the clusterName property in cassandra.yaml to something besides the resource name of the cluster, set the value to use on this property.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>deallocated</td>
+          <td>Whether the cluster and associated data centers has been deallocated.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>delegatedManagementSubnetId</td>
+          <td>Resource id of a subnet that this cluster&rsquo;s management service should have its network interface attached to. The subnet must be routable to all subnets that will be delegated to data centers. The resource id must be of the form &lsquo;/​subscriptions/​<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>&rsquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>externalGossipCertificates</td>
+          <td>List of TLS certificates used to authorize gossip from unmanaged data centers. The TLS certificates of all nodes in unmanaged data centers must be verifiable using one of the certificates provided in this property.</td>
+          <td>Certificate_STATUS[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>externalSeedNodes</td>
+          <td>List of IP addresses of seed nodes in unmanaged data centers. These will be added to the seed node lists of all managed nodes.</td>
+          <td><a href="#SeedNode_STATUS">SeedNode_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>gossipCertificates</td>
+          <td>List of TLS certificates that unmanaged nodes must trust for gossip with managed nodes. All managed nodes will present TLS client certificates that are verifiable using one of the certificates provided in this property.</td>
+          <td>Certificate_STATUS[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>hoursBetweenBackups</td>
+          <td>(Deprecated) Number of hours to wait between taking a backup of the cluster.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateLinkResourceId</td>
+          <td>If the Connection Method is VPN, this is the Id of the private link resource that the datacenters need to connect to.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>prometheusEndpoint</td>
+          <td>Hostname or IP address where the Prometheus endpoint containing data about the managed Cassandra nodes can be reached.</td>
+          <td><a href="#SeedNode_STATUS">SeedNode_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisionError</td>
+          <td>Error related to resource provisioning.</td>
+          <td><a href="#CassandraError_STATUS">CassandraError_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The status of the resource at the time the operation was called.</td>
+          <td><a href="#ManagedCassandraProvisioningState_STATUS">ManagedCassandraProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>repairEnabled</td>
+          <td>Should automatic repairs run on this cluster? If omitted, this is true, and should stay true unless you are running a hybrid cluster where you are already doing your own repairs.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>restoreFromBackupId</td>
+          <td>To create an empty cluster, omit this field or set it to null. To restore a backup into a new cluster, set this field to the resource id of the backup.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>seedNodes</td>
+          <td>List of IP addresses of seed nodes in the managed data centers. These should be added to the seed node lists of all unmanaged nodes.</td>
+          <td><a href="#SeedNode_STATUS">SeedNode_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraClusterOperatorSpec">CassandraClusterOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#CassandraCluster_Spec">CassandraCluster_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraClusters_DataCenter_Properties_Spec">CassandraClusters_DataCenter_Properties_Spec</h2>
+<p>Used by: <a href="#CassandraDataCenter_Spec">CassandraDataCenter_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>authenticationMethodLdapProperties</td>
+          <td>Ldap authentication method properties. This feature is in preview.</td>
+          <td><a href="#AuthenticationMethodLdapProperties">AuthenticationMethodLdapProperties</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>availabilityZone</td>
+          <td>If the data center has Availability Zone support, apply it to the Virtual Machine ScaleSet that host the cassandra data center virtual machines.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>backupStorageCustomerKeyUri</td>
+          <td>Indicates the Key Uri of the customer key to use for encryption of the backup storage account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>backupStorageCustomerKeyUriFromConfig</td>
+          <td>Indicates the Key Uri of the customer key to use for encryption of the backup storage account.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>base64EncodedCassandraYamlFragment</td>
+          <td>A fragment of a cassandra.yaml configuration file to be included in the cassandra.yaml for all nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys are allowed.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataCenterLocation</td>
+          <td>The region this data center should be created in.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>delegatedSubnetReference</td>
+          <td>Resource id of a subnet the nodes in this data center should have their network interfaces connected to. The subnet must be in the same region specified in <code>dataCenterLocation</code> and must be able to route to the subnet specified in the cluster&rsquo;s <code>delegatedManagementSubnetId</code> property. This resource id will be of the form &lsquo;/​subscriptions/​<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>&rsquo;.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>diskCapacity</td>
+          <td>Number of disks attached to each node. Default is 4.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>diskSku</td>
+          <td>Disk SKU used for data centers. Default value is P30.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>managedDiskCustomerKeyUriReference</td>
+          <td>Key uri to use for encryption of managed disks. Ensure the system assigned identity of the cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>nodeCount</td>
+          <td>The number of nodes the data center should have. This is the desired number. After it is set, it may take some time for the data center to be scaled to match. To monitor the number of nodes and their status, use the fetchNodeStatus method on the cluster.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateEndpointIpAddress</td>
+          <td>Ip of the VPN Endpoint for this data center.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateEndpointIpAddressFromConfig</td>
+          <td>Ip of the VPN Endpoint for this data center.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sku</td>
+          <td>Virtual Machine SKU used for data centers. Default value is Standard_DS14_v2</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraClusters_DataCenter_Properties_STATUS">CassandraClusters_DataCenter_Properties_STATUS</h2>
+<p>Used by: <a href="#CassandraDataCenter_STATUS">CassandraDataCenter_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>authenticationMethodLdapProperties</td>
+          <td>Ldap authentication method properties. This feature is in preview.</td>
+          <td><a href="#AuthenticationMethodLdapProperties_STATUS">AuthenticationMethodLdapProperties_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>availabilityZone</td>
+          <td>If the data center has Availability Zone support, apply it to the Virtual Machine ScaleSet that host the cassandra data center virtual machines.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>backupStorageCustomerKeyUri</td>
+          <td>Indicates the Key Uri of the customer key to use for encryption of the backup storage account.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>base64EncodedCassandraYamlFragment</td>
+          <td>A fragment of a cassandra.yaml configuration file to be included in the cassandra.yaml for all nodes in this data center. The fragment should be Base64 encoded, and only a subset of keys are allowed.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>dataCenterLocation</td>
+          <td>The region this data center should be created in.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>deallocated</td>
+          <td>Whether the data center has been deallocated.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>delegatedSubnetId</td>
+          <td>Resource id of a subnet the nodes in this data center should have their network interfaces connected to. The subnet must be in the same region specified in <code>dataCenterLocation</code> and must be able to route to the subnet specified in the cluster&rsquo;s <code>delegatedManagementSubnetId</code> property. This resource id will be of the form &lsquo;/​subscriptions/​<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>&rsquo;.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>diskCapacity</td>
+          <td>Number of disks attached to each node. Default is 4.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>diskSku</td>
+          <td>Disk SKU used for data centers. Default value is P30.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>managedDiskCustomerKeyUri</td>
+          <td>Key uri to use for encryption of managed disks. Ensure the system assigned identity of the cluster has been assigned appropriate permissions(key get/wrap/unwrap permissions) on the key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>nodeCount</td>
+          <td>The number of nodes the data center should have. This is the desired number. After it is set, it may take some time for the data center to be scaled to match. To monitor the number of nodes and their status, use the fetchNodeStatus method on the cluster.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateEndpointIpAddress</td>
+          <td>Ip of the VPN Endpoint for this data center.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisionError</td>
+          <td>Error related to resource provisioning.</td>
+          <td><a href="#CassandraError_STATUS">CassandraError_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The status of the resource at the time the operation was called.</td>
+          <td><a href="#ManagedCassandraProvisioningState_STATUS">ManagedCassandraProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>seedNodes</td>
+          <td>IP addresses for seed nodes in this data center. This is for reference. Generally you will want to use the seedNodes property on the cluster, which aggregates the seed nodes from all data centers in the cluster.</td>
+          <td><a href="#SeedNode_STATUS">SeedNode_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sku</td>
+          <td>Virtual Machine SKU used for data centers. Default value is Standard_DS14_v2</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraDataCenterOperatorSpec">CassandraDataCenterOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#CassandraDataCenter_Spec">CassandraDataCenter_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ManagedCassandraManagedServiceIdentity">ManagedCassandraManagedServiceIdentity</h2>
+<p>Identity for the resource.</p>
+<p>Used by: <a href="#CassandraCluster_Spec">CassandraCluster_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource.</td>
+          <td><a href="#ManagedCassandraManagedServiceIdentity_Type">ManagedCassandraManagedServiceIdentity_Type</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ManagedCassandraManagedServiceIdentity_STATUS">ManagedCassandraManagedServiceIdentity_STATUS</h2>
+<p>Identity for the resource.</p>
+<p>Used by: <a href="#CassandraCluster_STATUS">CassandraCluster_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>principalId</td>
+          <td>The object id of the identity resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tenantId</td>
+          <td>The tenant id of the resource.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource.</td>
+          <td><a href="#ManagedCassandraManagedServiceIdentity_Type_STATUS">ManagedCassandraManagedServiceIdentity_Type_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AuthenticationMethodLdapProperties">AuthenticationMethodLdapProperties</h2>
+<p>Ldap authentication method properties. This feature is in preview.</p>
+<p>Used by: <a href="#CassandraClusters_DataCenter_Properties_Spec">CassandraClusters_DataCenter_Properties_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>connectionTimeoutInMs</td>
+          <td>Timeout for connecting to the LDAP server in miliseconds. The default is 5000 ms.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>searchBaseDistinguishedName</td>
+          <td>Distinguished name of the object to start the recursive search of users from.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>searchFilterTemplate</td>
+          <td>Template to use for searching. Defaults to (cn=%s) where %s will be replaced by the username used to login.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverCertificates</td>
+          <td></td>
+          <td><a href="#Certificate">Certificate[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverHostname</td>
+          <td>Hostname of the LDAP server.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverPort</td>
+          <td>Port of the LDAP server.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serviceUserDistinguishedName</td>
+          <td>Distinguished name of the look up user account, who can look up user details on authentication.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serviceUserPassword</td>
+          <td>Password of the look up user.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AuthenticationMethodLdapProperties_STATUS">AuthenticationMethodLdapProperties_STATUS</h2>
+<p>Ldap authentication method properties. This feature is in preview.</p>
+<p>Used by: <a href="#CassandraClusters_DataCenter_Properties_STATUS">CassandraClusters_DataCenter_Properties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>connectionTimeoutInMs</td>
+          <td>Timeout for connecting to the LDAP server in miliseconds. The default is 5000 ms.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>searchBaseDistinguishedName</td>
+          <td>Distinguished name of the object to start the recursive search of users from.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>searchFilterTemplate</td>
+          <td>Template to use for searching. Defaults to (cn=%s) where %s will be replaced by the username used to login.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverCertificates</td>
+          <td></td>
+          <td>Certificate_STATUS[]<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverHostname</td>
+          <td>Hostname of the LDAP server.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverPort</td>
+          <td>Port of the LDAP server.</td>
+          <td>int<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serviceUserDistinguishedName</td>
+          <td>Distinguished name of the look up user account, who can look up user details on authentication.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraCluster_Properties_AuthenticationMethod_Spec">CassandraCluster_Properties_AuthenticationMethod_Spec</h2>
+<p>Used by: <a href="#CassandraCluster_Properties_Spec">CassandraCluster_Properties_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Cassandra&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Ldap&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraCluster_Properties_AuthenticationMethod_STATUS">CassandraCluster_Properties_AuthenticationMethod_STATUS</h2>
+<p>Used by: <a href="#CassandraCluster_Properties_STATUS">CassandraCluster_Properties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Cassandra&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Ldap&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraCluster_Properties_AzureConnectionMethod_Spec">CassandraCluster_Properties_AzureConnectionMethod_Spec</h2>
+<p>Used by: <a href="#CassandraCluster_Properties_Spec">CassandraCluster_Properties_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;VPN&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraCluster_Properties_AzureConnectionMethod_STATUS">CassandraCluster_Properties_AzureConnectionMethod_STATUS</h2>
+<p>Used by: <a href="#CassandraCluster_Properties_STATUS">CassandraCluster_Properties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;VPN&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="CassandraError_STATUS">CassandraError_STATUS</h2>
+<p>Used by: <a href="#CassandraCluster_Properties_STATUS">CassandraCluster_Properties_STATUS</a>, and <a href="#CassandraClusters_DataCenter_Properties_STATUS">CassandraClusters_DataCenter_Properties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>additionalErrorInfo</td>
+          <td>Additional information about the error.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>code</td>
+          <td>The code of error that occurred.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>message</td>
+          <td>The message of the error.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>target</td>
+          <td>The target resource of the error.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Certificate">Certificate</h2>
+<p>Used by: <a href="#AuthenticationMethodLdapProperties">AuthenticationMethodLdapProperties</a>, <a href="#CassandraCluster_Properties_Spec">CassandraCluster_Properties_Spec</a>, and <a href="#CassandraCluster_Properties_Spec">CassandraCluster_Properties_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>pem</td>
+          <td>PEM formatted public key.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ManagedCassandraManagedServiceIdentity_Type">ManagedCassandraManagedServiceIdentity_Type</h2>
+<p>Used by: <a href="#ManagedCassandraManagedServiceIdentity">ManagedCassandraManagedServiceIdentity</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ManagedCassandraManagedServiceIdentity_Type_STATUS">ManagedCassandraManagedServiceIdentity_Type_STATUS</h2>
+<p>Used by: <a href="#ManagedCassandraManagedServiceIdentity_STATUS">ManagedCassandraManagedServiceIdentity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;None&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SystemAssigned&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ManagedCassandraProvisioningState_STATUS">ManagedCassandraProvisioningState_STATUS</h2>
+<p>The status of the resource at the time the operation was called.</p>
+<p>Used by: <a href="#CassandraCluster_Properties_STATUS">CassandraCluster_Properties_STATUS</a>, and <a href="#CassandraClusters_DataCenter_Properties_STATUS">CassandraClusters_DataCenter_Properties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SeedNode">SeedNode</h2>
+<p>Used by: <a href="#CassandraCluster_Properties_Spec">CassandraCluster_Properties_Spec</a>, and <a href="#CassandraCluster_Properties_Spec">CassandraCluster_Properties_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>ipAddress</td>
+          <td>IP address of this seed node.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>ipAddressFromConfig</td>
+          <td>IP address of this seed node.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ConfigMapReference">genruntime.ConfigMapReference</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="SeedNode_STATUS">SeedNode_STATUS</h2>
+<p>Used by: <a href="#CassandraCluster_Properties_STATUS">CassandraCluster_Properties_STATUS</a>, <a href="#CassandraCluster_Properties_STATUS">CassandraCluster_Properties_STATUS</a>, <a href="#CassandraCluster_Properties_STATUS">CassandraCluster_Properties_STATUS</a>, and <a href="#CassandraClusters_DataCenter_Properties_STATUS">CassandraClusters_DataCenter_Properties_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>ipAddress</td>
+          <td>IP address of this seed node.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 
 	
 </div>
