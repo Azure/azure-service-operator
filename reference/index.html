@@ -32,7 +32,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <meta itemprop="name" content="Supported Resources">
   <meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-  <meta itemprop="wordCount" content="8198">
+  <meta itemprop="wordCount" content="8276">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Supported Resources">
   <meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -975,6 +975,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#apimanagement">ApiManagement</a>
       <ul>
+        <li><a href="#next-release">Next Release</a></li>
         <li><a href="#latest-released-versions">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions">Other Supported Versions</a></li>
         <li><a href="#deprecated-1">Deprecated</a></li>
@@ -1008,7 +1009,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#cache">Cache</a>
       <ul>
-        <li><a href="#next-release">Next Release</a></li>
+        <li><a href="#next-release-1">Next Release</a></li>
         <li><a href="#latest-released-versions-5">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-5">Other Supported Versions</a></li>
       </ul>
@@ -1026,7 +1027,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#communication">Communication</a>
       <ul>
-        <li><a href="#next-release-1">Next Release</a></li>
+        <li><a href="#next-release-2">Next Release</a></li>
       </ul>
     </li>
     <li><a href="#compute">Compute</a>
@@ -1070,7 +1071,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#dbformysql">DBforMySQL</a>
       <ul>
-        <li><a href="#next-release-2">Next Release</a></li>
+        <li><a href="#next-release-3">Next Release</a></li>
         <li><a href="#latest-released-versions-11">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-11">Other Supported Versions</a></li>
         <li><a href="#deprecated-4">Deprecated</a></li>
@@ -1089,7 +1090,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#documentdb">DocumentDB</a>
       <ul>
-        <li><a href="#next-release-3">Next Release</a></li>
+        <li><a href="#next-release-4">Next Release</a></li>
         <li><a href="#latest-released-versions-13">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-13">Other Supported Versions</a></li>
       </ul>
@@ -1153,7 +1154,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     </li>
     <li><a href="#network">Network</a>
       <ul>
-        <li><a href="#next-release-4">Next Release</a></li>
+        <li><a href="#next-release-5">Next Release</a></li>
         <li><a href="#latest-released-versions-21">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-21">Other Supported Versions</a></li>
       </ul>
@@ -1324,6 +1325,91 @@ grouped by the originating ARM service.
 </table>
 <h2 id="apimanagement">ApiManagement</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>apimanagement.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
+<h3 id="next-release">Next Release</h3>
+<p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#ApiDiagnostic">ApiDiagnostic</a></td>
+          <td>2024-05-01</td>
+          <td>v20240501</td>
+          <td>v2.19.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_apidiagnostic.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#ApiPolicy">ApiPolicy</a></td>
+          <td>2024-05-01</td>
+          <td>v20240501</td>
+          <td>v2.19.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_apipolicy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#Certificate">Certificate</a></td>
+          <td>2024-05-01</td>
+          <td>v20240501</td>
+          <td>v2.19.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_certificate.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#Group">Group</a></td>
+          <td>2024-05-01</td>
+          <td>v20240501</td>
+          <td>v2.19.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_group.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#Logger">Logger</a></td>
+          <td>2024-05-01</td>
+          <td>v20240501</td>
+          <td>v2.19.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_logger.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#ServiceGateway">ServiceGateway</a></td>
+          <td>2024-05-01</td>
+          <td>v20240501</td>
+          <td>v2.19.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_servicegateway.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#ServiceGatewayApi">ServiceGatewayApi</a></td>
+          <td>2024-05-01</td>
+          <td>v20240501</td>
+          <td>v2.19.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_servicegatewayapi.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#ServiceGatewayCertificateAuthority">ServiceGatewayCertificateAuthority</a></td>
+          <td>2024-05-01</td>
+          <td>v20240501</td>
+          <td>v2.19.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_servicegatewaycertificateauthority.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#ServiceGatewayHostnameConfiguration">ServiceGatewayHostnameConfiguration</a></td>
+          <td>2024-05-01</td>
+          <td>v20240501</td>
+          <td>v2.19.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_servicegatewayhostnameconfiguration.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/apimanagement/v20240501/#User">User</a></td>
+          <td>2024-05-01</td>
+          <td>v20240501</td>
+          <td>v2.19.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_user.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
 <h3 id="latest-released-versions">Latest Released Versions</h3>
 <p>These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
 <table>
@@ -2260,7 +2346,7 @@ grouped by the originating ARM service.
 <ul>
 <li>If you are looking for <em>Azure Managed Redis</em>, that resource is also known as <em>Redis Enterprise</em> (Microsoft.Cache/redisEnterprise), which is supported by ASO. Visit <a href="https://learn.microsoft.com/azure/redis/overview"><em>What is Azure Managed Redis?</em></a> to learn more.</li>
 </ul>
-<h3 id="next-release">Next Release</h3>
+<h3 id="next-release-1">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
   <thead>
@@ -2629,7 +2715,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="communication">Communication</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>communication.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-1">Next Release</h3>
+<h3 id="next-release-2">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
   <thead>
@@ -3205,7 +3291,7 @@ grouped by the originating ARM service.
 <p>To install the CRDs for these resources, your ASO configuration must include <code>dbformysql.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
 <p>Azure Database for MySQL - Single Server is on the retirement path and is <a href="https://learn.microsoft.com/en-us/azure/mysql/single-server/whats-happening-to-mysql-single-server">scheduled for retirement by September 16, 2024</a>. We will not be supporting it in ASO v2.</p>
 <p>Existing instances of <em>Single Server</em> can be migrated to <em>Azure Database for MySQL - Flexible Server</em> using the <a href="https://azure.microsoft.com/en-us/products/database-migration">Azure Database migration Service</a>.</p>
-<h3 id="next-release-2">Next Release</h3>
+<h3 id="next-release-3">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
   <thead>
@@ -3834,7 +3920,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="documentdb">DocumentDB</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>documentdb.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-3">Next Release</h3>
+<h3 id="next-release-4">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
   <thead>
@@ -4877,7 +4963,7 @@ grouped by the originating ARM service.
 </table>
 <h2 id="network">Network</h2>
 <p>To install the CRDs for these resources, your ASO configuration must include <code>network.azure.com/*</code> as one of the configured CRD patterns. See <a href="https://azure.github.io/azure-service-operator/guide/crd-management/">CRD Management in ASO</a> for details on doing this for both <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#helm">Helm</a> and <a href="https://azure.github.io/azure-service-operator/guide/crd-management/#yaml">YAML</a> based installations.</p>
-<h3 id="next-release-4">Next Release</h3>
+<h3 id="next-release-5">Next Release</h3>
 <p>Development of these new resources is complete and they will be available in the next release of ASO.</p>
 <table>
   <thead>
