@@ -11,11 +11,11 @@ replace github.com/xeipuuv/gojsonschema => github.com/devigned/gojsonschema v1.2
 require (
 	github.com/Azure/azure-service-operator/v2 v2.12.0
 	github.com/bmatcuk/doublestar v1.3.4
-	github.com/dave/dst v0.27.3
+	github.com/dave/dst v0.27.4
 	github.com/devigned/tab v0.1.1
 	github.com/go-logr/logr v1.4.3
 	github.com/go-logr/zerologr v1.2.3
-	github.com/go-openapi/jsonpointer v0.22.5
+	github.com/go-openapi/jsonpointer v0.23.1
 	github.com/go-openapi/spec v0.22.4
 	github.com/gobuffalo/flect v1.0.3
 	github.com/google/go-cmp v0.7.0
@@ -24,15 +24,15 @@ require (
 	github.com/leanovate/gopter v0.2.11
 	github.com/onsi/gomega v1.39.1
 	github.com/rotisserie/eris v0.5.4
-	github.com/rs/zerolog v1.35.0
+	github.com/rs/zerolog v1.35.1
 	github.com/samber/lo v1.53.0
 	github.com/sebdah/goldie/v2 v2.8.0
 	github.com/spf13/cobra v1.10.2
 	github.com/spf13/pflag v1.0.10
 	github.com/xeipuuv/gojsonschema v1.2.0
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
-	golang.org/x/mod v0.34.0
-	golang.org/x/net v0.52.0
+	golang.org/x/mod v0.35.0
+	golang.org/x/net v0.53.0
 	golang.org/x/sync v0.20.0
 	golang.org/x/text v0.36.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -42,7 +42,7 @@ require (
 require (
 	github.com/go-openapi/jsonreference v0.21.5 // indirect
 	github.com/go-openapi/swag/conv v0.25.5 // indirect
-	github.com/go-openapi/swag/jsonname v0.25.5 // indirect
+	github.com/go-openapi/swag/jsonname v0.26.0 // indirect
 	github.com/go-openapi/swag/jsonutils v0.25.5 // indirect
 	github.com/go-openapi/swag/loading v0.25.5 // indirect
 	github.com/go-openapi/swag/stringutils v0.25.5 // indirect
