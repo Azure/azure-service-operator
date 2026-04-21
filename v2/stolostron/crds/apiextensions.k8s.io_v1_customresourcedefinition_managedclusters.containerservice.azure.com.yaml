@@ -3,10 +3,10 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.2-rev.3-dirty
+    app.kubernetes.io/version: v2.13.0-hcpclusters.9
   name: managedclusters.containerservice.azure.com
 spec:
   conversion:
@@ -11146,7 +11146,7 @@ spec:
                       Has upper characters
                       Has a digit
                       Has a special character (Regex match [\W_])
-                      Disallowed values: "abc@123", "P@$w0rd", "P@ssw0rd", "P@ssword123", "Pa$word", "pass@word1", "Password!", "Password1",
+                      Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
                       "Password22", "iloveyou!"
                     properties:
                       key:
@@ -26920,7 +26920,7 @@ spec:
                       Has upper characters
                       Has a digit
                       Has a special character (Regex match [\W_])
-                      Disallowed values: "abc@123", "P@$w0rd", "P@ssw0rd", "P@ssword123", "Pa$word", "pass@word1", "Password!", "Password1",
+                      Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
                       "Password22", "iloveyou!"
                     properties:
                       key:
@@ -36557,7 +36557,7 @@ spec:
                       Has upper characters
                       Has a digit
                       Has a special character (Regex match [\W_])
-                      Disallowed values: "abc@123", "P@$w0rd", "P@ssw0rd", "P@ssword123", "Pa$word", "pass@word1", "Password!", "Password1",
+                      Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
                       "Password22", "iloveyou!"
                     properties:
                       key:

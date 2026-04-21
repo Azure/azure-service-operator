@@ -3,10 +3,10 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     cert-manager.io/inject-ca-from: azureserviceoperator-system/azureserviceoperator-serving-cert
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.18.0
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.13.0-hcpclusters.2-rev.3-dirty
+    app.kubernetes.io/version: v2.13.0-hcpclusters.9
   name: virtualmachines.compute.azure.com
 spec:
   conversion:
@@ -453,7 +453,7 @@ spec:
                       Has upper characters
                       Has a digit
                       Has a special character (Regex match [\W_])
-                      Disallowed values: "abc@123", "P@$w0rd", "P@ssw0rd", "P@ssword123", "Pa$word", "pass@word1", "Password!", "Password1",
+                      Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
                       "Password22", "iloveyou!"
                       For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
                       VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
@@ -6977,7 +6977,7 @@ spec:
                       Has upper characters
                       Has a digit
                       Has a special character (Regex match [\W_])
-                      Disallowed values: "abc@123", "P@$w0rd", "P@ssw0rd", "P@ssword123", "Pa$word", "pass@word1", "Password!", "Password1",
+                      Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
                       "Password22", "iloveyou!"
                       For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
                       VM](https://docs.microsoft.com/troubleshoot/azure/virtual-machines/reset-rdp)
