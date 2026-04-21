@@ -1,14 +1,14 @@
 ---
-title: A simple ChatGPT release template
+name: format-release-notes
+description: Use when formatting ASO release notes from raw GitHub-generated changelog into polished user-facing release notes.
 ---
 
-## About
+# Format Release Notes
 
-This can be used to help format our release notes once you've got them somewhat organized by category.
-
-We can improve this template based on our experience with it. Starting now with something basic.
+This skill formats raw GitHub-generated release notes for Azure Service Operator into polished, user-facing release notes.
 
 ## Prompt
+
 Please help me format the upcoming release notes for this repository. See below for how each sections text should be transformed.
 
 Example input for "New resources" section:
@@ -135,7 +135,4 @@ Example output for "Documentation" section:
 * Add ArgoCD FAQ item (#4309)
 ```
 
-Please format this document according to the above rules, and return the output as raw (unrendered) markdown:
-```
-Initial release notes here
-```
+Share the results in raw (not rendered) markdown format.
