@@ -51,7 +51,7 @@ type ObjectModelConfiguration struct {
 	ConversionStrategy             propertyAccess[ConversionStrategy]
 	Description                    propertyAccess[string]
 	ImportConfigMapMode            propertyAccess[ImportConfigMapMode]
-	Secrecy                        propertyAccess[astmodel.Secrecy]
+	Secrecy                        propertyAccess[astmodel.ImportSecretMode]
 	PropertyNameInNextVersion      propertyAccess[string]
 	ReferenceType                  propertyAccess[ReferenceType]
 	RenamePropertyTo               propertyAccess[string]
@@ -113,8 +113,8 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 		result, func(c *PropertyConfiguration) *configurable[string] { return &c.Description })
 	result.ImportConfigMapMode = makePropertyAccess[ImportConfigMapMode](
 		result, func(c *PropertyConfiguration) *configurable[ImportConfigMapMode] { return &c.ImportConfigMapMode })
-	result.Secrecy = makePropertyAccess[astmodel.Secrecy](
-		result, func(c *PropertyConfiguration) *configurable[astmodel.Secrecy] { return &c.Secrecy })
+	result.Secrecy = makePropertyAccess[astmodel.ImportSecretMode](
+		result, func(c *PropertyConfiguration) *configurable[astmodel.ImportSecretMode] { return &c.Secrecy })
 	result.PropertyNameInNextVersion = makePropertyAccess[string](
 		result, func(c *PropertyConfiguration) *configurable[string] { return &c.NameInNextVersion })
 	result.ReferenceType = makePropertyAccess[ReferenceType](

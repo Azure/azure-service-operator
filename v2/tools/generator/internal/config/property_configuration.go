@@ -25,15 +25,15 @@ import (
 type PropertyConfiguration struct {
 	name string
 	// Configurable properties here (alphabetical, please)
-	ConversionStrategy             configurable[ConversionStrategy]  // Specify the conversion strategy for this property
-	Description                    configurable[string]              // Specify a description override for this property
-	ImportConfigMapMode            configurable[ImportConfigMapMode] // The config map mode
-	Secrecy                        configurable[astmodel.Secrecy]    // Specify the secrecy classification of this property
-	NameInNextVersion              configurable[string]              // Name this property has in the next version
-	PayloadType                    configurable[PayloadType]         // Specify how this property should be serialized for ARM
-	ReferenceType                  configurable[ReferenceType]       // Specify whether this property is an ARM reference or some other kind
-	RenameTo                       configurable[string]              // Name this property should be renamed to
-	ResourceLifecycleOwnedByParent configurable[string]              // Name of the parent resource which owns the lifecycle of the sub-resource.
+	ConversionStrategy             configurable[ConversionStrategy]        // Specify the conversion strategy for this property
+	Description                    configurable[string]                    // Specify a description override for this property
+	ImportConfigMapMode            configurable[ImportConfigMapMode]       // The config map mode
+	Secrecy                        configurable[astmodel.ImportSecretMode] // Specify the secrecy classification of this property
+	NameInNextVersion              configurable[string]                    // Name this property has in the next version
+	PayloadType                    configurable[PayloadType]               // Specify how this property should be serialized for ARM
+	ReferenceType                  configurable[ReferenceType]             // Specify whether this property is an ARM reference or some other kind
+	RenameTo                       configurable[string]                    // Name this property should be renamed to
+	ResourceLifecycleOwnedByParent configurable[string]                    // Name of the parent resource which owns the lifecycle of the sub-resource.
 }
 
 type ImportConfigMapMode string
@@ -84,7 +84,7 @@ func NewPropertyConfiguration(name string) *PropertyConfiguration {
 		ConversionStrategy:             makeConfigurable[ConversionStrategy](conversionStrategyTag, scope),
 		Description:                    makeConfigurable[string](descriptionTag, scope),
 		ImportConfigMapMode:            makeConfigurable[ImportConfigMapMode](importConfigMapModeTag, scope),
-		Secrecy:                        makeConfigurable[astmodel.Secrecy](secretTag, scope),
+		Secrecy:                        makeConfigurable[astmodel.ImportSecretMode](secretTag, scope),
 		NameInNextVersion:              makeConfigurable[string](nameInNextVersionTag, scope),
 		ReferenceType:                  makeConfigurable[ReferenceType](referenceTypeTag, scope),
 		RenameTo:                       makeConfigurable[string](renamePropertyToTag, scope),
@@ -130,12 +130,12 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// $importSecretMode: <string> (preferred)
 		if strings.EqualFold(lastID, secretTag) && c.Kind == yaml.ScalarNode {
 			switch strings.ToLower(c.Value) {
-			case string(astmodel.SecrecyRequired):
-				pc.Secrecy.Set(astmodel.SecrecyRequired)
-			case string(astmodel.SecrecyNever):
-				pc.Secrecy.Set(astmodel.SecrecyNever)
-			case string(astmodel.SecrecyOptional):
-				pc.Secrecy.Set(astmodel.SecrecyOptional)
+			case string(astmodel.ImportSecretModeRequired):
+				pc.Secrecy.Set(astmodel.ImportSecretModeRequired)
+			case string(astmodel.ImportSecretModeNever):
+				pc.Secrecy.Set(astmodel.ImportSecretModeNever)
+			case string(astmodel.ImportSecretModeOptional):
+				pc.Secrecy.Set(astmodel.ImportSecretModeOptional)
 			default:
 				return eris.Errorf("unknown %s value: %s.", secretTag, c.Value)
 			}
@@ -152,9 +152,9 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			}
 
 			if isSecret {
-				pc.Secrecy.Set(astmodel.SecrecyRequired)
+				pc.Secrecy.Set(astmodel.ImportSecretModeRequired)
 			} else {
-				pc.Secrecy.Set(astmodel.SecrecyNever)
+				pc.Secrecy.Set(astmodel.ImportSecretModeNever)
 			}
 
 			continue

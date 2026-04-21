@@ -72,7 +72,7 @@ func applyConfigSecretOverrides(
 
 			// If it's not a secret, but it looks like a secret, and we don't have any configuration to tell us for
 			// sure, request configuration so we know for sure.
-			if prop.Secrecy() != astmodel.SecrecyRequired && prop.Secrecy() != astmodel.SecrecyOptional && maybeSecret && !secrecyConfigured {
+			if prop.Secrecy() != astmodel.ImportSecretModeRequired && prop.Secrecy() != astmodel.SecrecyOptional && maybeSecret && !secrecyConfigured {
 				// Property might be a secret, but isn't already configured as one,
 				// and we don't have config to tell us for sure
 				return nil, eris.Errorf(
@@ -269,7 +269,7 @@ func isTypeSecretMapCandidate(t astmodel.Type) bool {
 func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
 		switch prop.Secrecy() {
-		case astmodel.SecrecyRequired, astmodel.SecrecyOptional:
+		case astmodel.ImportSecretModeRequired, astmodel.SecrecyOptional:
 			propType := prop.PropertyType()
 
 			// We only remove pure secret references here. For the case of secret maps, different services seem to treat them
@@ -301,7 +301,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
 		switch prop.Secrecy() {
-		case astmodel.SecrecyRequired, astmodel.SecrecyOptional:
+		case astmodel.ImportSecretModeRequired, astmodel.SecrecyOptional:
 			propType := prop.PropertyType()
 
 			if !isTypeSecretReferenceCandidate(propType) {

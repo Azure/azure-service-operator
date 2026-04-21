@@ -50,7 +50,7 @@ type PropertyDefinition struct {
 	// originalName is the original name of this property, prior to any renames
 	originalName PropertyName
 
-	secrecy  Secrecy
+	secrecy  ImportSecretMode
 	readOnly bool
 
 	tags readonly.Map[string, []string] // Note: have to be careful about not mutating inner []string
@@ -147,7 +147,7 @@ func (property *PropertyDefinition) WithReadOnly(readOnly bool) *PropertyDefinit
 }
 
 // WithSecrecy returns a new PropertyDefinition with the Secrecy classification set to the specified value
-func (property *PropertyDefinition) WithSecrecy(secrecy Secrecy) *PropertyDefinition {
+func (property *PropertyDefinition) WithSecrecy(secrecy ImportSecretMode) *PropertyDefinition {
 	if secrecy == property.secrecy {
 		return property
 	}
@@ -387,7 +387,7 @@ func (property *PropertyDefinition) ReadOnly() bool {
 }
 
 // Secrecy returns the secrecy classification of the property.
-func (property *PropertyDefinition) Secrecy() Secrecy {
+func (property *PropertyDefinition) Secrecy() ImportSecretMode {
 	return property.secrecy
 }
 

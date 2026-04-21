@@ -5,11 +5,11 @@
 
 package astmodel
 
-// Secrecy classifies whether a property contains a secret value.
-type Secrecy string
+// ImportSecretMode classifies whether a property contains a secret value.
+type ImportSecretMode string
 
 const (
-	SecrecyRequired = Secrecy("required") // Property must be specified as a secret
-	SecrecyNever    = Secrecy("never")    // Property never contains a secret
-	SecrecyOptional = Secrecy("optional") // Property may optionally be specified as a secret
+	ImportSecretModeRequired = ImportSecretMode("required") // Property must be specified as a secret
+	ImportSecretModeNever    = ImportSecretMode("never")    // Property never contains a secret
+	ImportSecretModeOptional = ImportSecretMode("optional") // Property may optionally be specified as a secret
 )

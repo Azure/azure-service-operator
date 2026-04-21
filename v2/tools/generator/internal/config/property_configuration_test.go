@@ -99,11 +99,11 @@ func TestPropertyConfiguration_Secrecy_WhenSpecified_ReturnsExpectedResult(t *te
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
-	property.Secrecy.Set(astmodel.SecrecyRequired)
+	property.Secrecy.Set(astmodel.ImportSecretModeRequired)
 
 	secrecy, ok := property.Secrecy.Lookup()
 	g.Expect(ok).To(BeTrue())
-	g.Expect(secrecy).To(Equal(astmodel.SecrecyRequired))
+	g.Expect(secrecy).To(Equal(astmodel.ImportSecretModeRequired))
 }
 
 func TestPropertyConfiguration_Secrecy_WhenNotSpecified_ReturnsExpectedResult(t *testing.T) {
@@ -114,6 +114,6 @@ func TestPropertyConfiguration_Secrecy_WhenNotSpecified_ReturnsExpectedResult(t 
 
 	secrecy, ok := property.Secrecy.Lookup()
 
-	g.Expect(secrecy).To(Equal(astmodel.Secrecy("")))
+	g.Expect(secrecy).To(Equal(astmodel.ImportSecretMode("")))
 	g.Expect(ok).To(BeFalse())
 }
