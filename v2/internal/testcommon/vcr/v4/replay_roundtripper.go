@@ -65,11 +65,7 @@ const (
 	// GET requests may be replayed multiple times to allow multiple reconciles to observe the same stable final state.
 	// We set this to accommodate timing variations during test replay, while avoiding unbounded replays as they might
 	// result in a test getting stuck and continuing to run until the entire test suite times out.
-	//
-	// Currently we need to set this to an apparently comical limit because some of our tests requiring many many
-	// repetitions to work due to changes in timing used during test replay. Once we've addressed other issues causing
-	// test instability, we should be able to reduce this limit significantly.
-	maxGetReplays = 1000 // Maximum number of times to replay a GET request (effectively unlimited for now)
+	maxGetReplays = 10 // Maximum number of times to replay a GET request
 )
 
 var _ http.RoundTripper = &replayRoundTripper{}
