@@ -1,0 +1,55 @@
+typeTransformers:
+  #
+  # In the group 'cache', 
+  # remove the property'RedisProperties_Status.AccessKeys'
+  # because it's only populated in a response from Azure 
+  #
+  - name: Extension_Properties_Spec
+    property: Statuses
+    remove: true
+    because: This property should be marked readonly in Swagger
+  - name: FluxConfiguration_Spec;FluxConfiguration_STATUS
+    property: SystemData
+    remove: true
+    because: These properties should be marked readonly
+groupModelConfiguration:
+  2023-05-01:
+    Extension:
+      $exportAs: Extension
+      $supportedFrom: v2.4.0
+      $generatedConfigs:
+        PrincipalId: $.Status.AksAssignedIdentity.PrincipalId
+    FluxConfiguration:
+      $exportAs: FluxConfiguration
+      $supportedFrom: v2.10.0
+    ServicePrincipalDefinition:
+      ClientId:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    BucketDefinition:
+      AccessKey:
+        $importSecretMode: required
+    GitRepositoryDefinition:
+      HttpsCACert:
+        $importSecretMode: required
+  2024-11-01:
+    Extension:
+      $exportAs: Extension
+      $supportedFrom: v2.13.0
+      $generatedConfigs:
+        PrincipalId: $.Status.AksAssignedIdentity.PrincipalId
+    FluxConfiguration:
+      $exportAs: FluxConfiguration
+      $supportedFrom: v2.13.0
+    ServicePrincipalDefinition:
+      ClientId:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    BucketDefinition:
+      AccessKey:
+        $importSecretMode: required
+    GitRepositoryDefinition:
+      HttpsCACert:
+        $importSecretMode: required

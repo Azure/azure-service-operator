@@ -1,0 +1,15 @@
+typeFilters:
+  - action: prune
+    name: Deployment
+    because: Terrifying.
+  - action: prune
+    name: DeploymentStacks
+    because: Terrifying.
+  - action: prune
+    name: DeploymentStacksWhatIfPropertyChange
+    because: Terrifying.
+groupModelConfiguration:
+  2020-06-01:
+    ResourceGroup:
+      $exportAs: ResourceGroup
+      $supportedFrom: v2.0.0-alpha.1

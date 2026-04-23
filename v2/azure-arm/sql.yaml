@@ -1,0 +1,119 @@
+groupModelConfiguration:
+  v1: # Handcrafted 
+    User:
+      $supportedFrom: v2.0.0
+  2021-11-01:
+    # Note that there are a few commented out resources which we are not exporting for sql. They're commented out as
+    # they seem of questionable value to users, but if we get an ask for them we can add them in.
+    Server:
+      $exportAs: Server
+      $supportedFrom: v2.0.0
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+    Servers_Administrator:
+      $exportAs: ServersAdministrator
+      $supportedFrom: v2.0.0
+    AdministratorProperties:
+      Sid:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    Servers_SecurityAlertPolicy:
+      $exportAs: ServersSecurityAlertPolicy
+      $supportedFrom: v2.0.0
+    Servers_AdvancedThreatProtectionSetting:
+      $exportAs: ServersAdvancedThreatProtectionSetting
+      $supportedFrom: v2.0.0
+    Servers_AuditingSetting:
+      $exportAs: ServersAuditingSetting
+      $supportedFrom: v2.0.0
+    Servers_AzureADOnlyAuthentication:
+      $exportAs: ServersAzureADOnlyAuthentication
+      $supportedFrom: v2.0.0
+    Servers_ConnectionPolicy:
+      $exportAs: ServersConnectionPolicy
+      $supportedFrom: v2.0.0
+      #      Servers_DnsAliase: # TODO: Not sure how this works - it has no properties but name?
+      #        $exportAs: ServersDnsAliases
+      #        $supportedFrom: v2.0.0
+    Servers_ElasticPool:
+      $exportAs: ServersElasticPool
+      $supportedFrom: v2.0.0
+    Servers_FailoverGroup:
+      $exportAs: ServersFailoverGroup
+      $supportedFrom: v2.0.0
+    Servers_FirewallRule:
+      $exportAs: ServersFirewallRule
+      $supportedFrom: v2.0.0
+    Servers_Ipv6FirewallRule:
+      $exportAs: ServersIPV6FirewallRule
+      $supportedFrom: v2.0.0
+      #      Servers_JobAgent:
+      #        $exportAs: ServersJobAgent
+      #        $supportedFrom: v2.0.0
+    Servers_OutboundFirewallRule:
+      $exportAs: ServersOutboundFirewallRule
+      $supportedFrom: v2.0.0
+      #      Servers_SyncAgent:
+      #        $exportAs: ServersSyncAgent
+      #        $supportedFrom: v2.0.0
+    Servers_VirtualNetworkRule:
+      $exportAs: ServersVirtualNetworkRule
+      $supportedFrom: v2.0.0
+    Servers_VulnerabilityAssessment:
+      $exportAs: ServersVulnerabilityAssessment
+      $supportedFrom: v2.0.0
+    ServerVulnerabilityAssessmentProperties:
+      StorageContainerPath:
+        $importConfigMapMode: optional
+    Servers_Database:
+      $exportAs: ServersDatabase
+      $supportedFrom: v2.0.0
+    Servers_Databases_BackupLongTermRetentionPolicy:
+      $exportAs: ServersDatabasesBackupLongTermRetentionPolicy
+      $supportedFrom: v2.0.0
+    Servers_Databases_BackupShortTermRetentionPolicy:
+      $exportAs: ServersDatabasesBackupShortTermRetentionPolicy
+      $supportedFrom: v2.0.0
+    Servers_Databases_AdvancedThreatProtectionSetting:
+      $exportAs: ServersDatabasesAdvancedThreatProtectionSetting
+      $supportedFrom: v2.0.0
+    Servers_Databases_AuditingSetting:
+      $exportAs: ServersDatabasesAuditingSetting
+      $supportedFrom: v2.0.0
+      #      Servers_Databases_DataMaskingPolicy: # there's also a "Rules" subresource here
+      #        $exportAs: ServersDatabasesDataMaskingPolicy
+      #        $supportedFrom: v2.0.0
+      #      Servers_Databases_ExtendedAuditingSetting: # TODO: Not sure what the difference is between this and the normal auditing setting
+      #        $exportAs: ServersDatabasesExtendedAuditingSetting
+      #        $supportedFrom: v2.0.0
+      #      Servers_Databases_GeoBackupPolicy:  # TODO: Not actually supported in ARM at the moment
+      #        $exportAs: ServersDatabasesGeoBackupPolicy
+      #        $supportedFrom: v2.0.0
+      #      Servers_Databases_MaintenanceWindow: # TODO: Seems to have name Servers_Databases_MaintenanceWindows_Current, not sure why
+      #        $exportAs: ServersDatabasesMaintenanceWindow
+      #        $supportedFrom: v2.0.0
+    Servers_Databases_SecurityAlertPolicy:
+      $exportAs: ServersDatabasesSecurityAlertPolicy
+      $supportedFrom: v2.0.0
+      #      Servers_Databases_SyncGroup:
+      #        $exportAs: ServersDatabasesSyncGroups
+      #        $supportedFrom: v2.0.0
+      #      Servers_Databases_SyncGroups_SyncMember:
+      #        $exportAs: ServersDatabasesSyncGroupsSyncMember
+      #        $supportedFrom: v2.0.0
+    Servers_Databases_TransparentDataEncryption:
+      $exportAs: ServersDatabasesTransparentDataEncryption
+      $supportedFrom: v2.0.0
+    Servers_Databases_VulnerabilityAssessment:
+      $exportAs: ServersDatabasesVulnerabilityAssessment
+      $supportedFrom: v2.0.0
+    DatabaseVulnerabilityAssessmentsDatabaseVulnerabilityAssessmentProperties:
+      StorageContainerPath:
+        $importConfigMapMode: optional
+        #      Servers_Databases_WorkloadGroup:
+        #        $exportAs: ServersDatabasesWorkloadGroup
+        #        $supportedFrom: v2.0.0
+        #      Servers_Databases_WorkloadGroups_WorkloadClassifier:
+        #        $exportAs: ServersDatabasesWorkloadGroupsWorkloadClassifier
+        #        $supportedFrom: v2.0.0

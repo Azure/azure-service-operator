@@ -1,0 +1,398 @@
+typeFilters:
+  - action: include
+    version: v*20230501preview
+    because: This version of APIM is created in a matter of minutes
+typeTransformers:
+  # 
+  # In the group 'apimanagement', 
+  # remove the properties 'ApiManagementServiceProperties.PrivateEndpointConnections', 'AuthorizationContractProperties.Error' and 'AuthorizationContractProperties.Status'
+  # 
+  - name: ApiManagementServiceProperties
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should be marked readonly
+  - name: AuthorizationContractProperties
+    property: Error
+    remove: true
+    because: This property should be marked readonly in Swagger
+  - name: AuthorizationContractProperties
+    property: Status
+    remove: true
+    because: This property should be marked readonly in Swagger
+groupModelConfiguration:
+  2022-08-01:
+    AdditionalLocation:
+      PublicIpAddressId:
+        $referenceType: arm
+    ApiCreateOrUpdateProperties:
+      ApiVersionSetId:
+        $referenceType: arm
+      SourceApiId:
+        $referenceType: arm
+    ApiVersionSetContractDetails:
+      Id:
+        $referenceType: arm
+    ApiManagementServiceProperties:
+      PublicIpAddressId:
+        $referenceType: arm
+    AuthorizationAccessPolicyContractProperties:
+      TenantId:
+        $importConfigMapMode: optional
+      ObjectId:
+        $importConfigMapMode: optional
+    AuthorizationContractProperties:
+      Parameters:
+        $importSecretMode: required
+    AuthorizationProviderOAuth2GrantTypes:
+      AuthorizationCode:
+        $importSecretMode: required
+      ClientCredentials:
+        $importSecretMode: required
+    BackendContractProperties:
+      ResourceId:
+        $referenceType: arm
+    BackendProxyContract:
+      Password:
+        $importSecretMode: required
+    CertificateInformation:
+      Expiry:
+        $importConfigMapMode: optional
+      Subject:
+        $importConfigMapMode: optional
+      Thumbprint:
+        $importConfigMapMode: optional
+    CertificateConfiguration:
+      CertificatePassword:
+        $importSecretMode: required
+    HostnameConfiguration:
+      CertificatePassword:
+        $importSecretMode: required
+      IdentityClientId:
+        $importConfigMapMode: optional
+    KeyVaultContractCreateProperties:
+      IdentityClientId:
+        $importConfigMapMode: optional
+    Service:
+      $exportAs: Service
+      $supportedFrom: v2.4.0
+    Service_Api:
+      $exportAs: Api
+      $supportedFrom: v2.4.0
+    Service_ApiVersionSet:
+      $exportAs: ApiVersionSet
+      $supportedFrom: v2.4.0
+    Service_AuthorizationProvider:
+      $exportAs: AuthorizationProvider
+      $supportedFrom: v2.6.0
+    Service_AuthorizationProviders_Authorization:
+      $exportAs: AuthorizationProvidersAuthorization
+      $supportedFrom: v2.6.0
+    Service_AuthorizationProviders_Authorizations_AccessPolicy:
+      $exportAs: AuthorizationProvidersAuthorizationsAccessPolicy
+      $supportedFrom: v2.6.0
+    Service_Backend:
+      $exportAs: Backend
+      $supportedFrom: v2.4.0
+    Service_NamedValue:
+      $exportAs: NamedValue
+      $supportedFrom: v2.4.0
+    Service_Policy:
+      $exportAs: Policy
+      $supportedFrom: v2.4.0
+    Service_PolicyFragment:
+      $exportAs: PolicyFragment
+      $supportedFrom: v2.4.0
+    Service_Product:
+      $exportAs: Product
+      $supportedFrom: v2.4.0
+    Service_Products_Api:
+      $exportAs: ProductApi
+      $supportedFrom: v2.6.0
+    Service_Products_Policy:
+      $exportAs: ProductPolicy
+      $supportedFrom: v2.6.0
+    Service_Subscription:
+      $exportAs: Subscription
+      $supportedFrom: v2.4.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - SecondaryKey
+    SubscriptionCreateParameterProperties:
+      PrimaryKey:
+        $importSecretMode: required
+      SecondaryKey:
+        $importSecretMode: required
+      OwnerId:
+        $referenceType: arm
+    VirtualNetworkConfiguration:
+      SubnetResourceId:
+        $referenceType: arm
+  2023-05-01-preview:
+    AdditionalLocation:
+      PublicIpAddressId:
+        $referenceType: arm
+    ApiCreateOrUpdateProperties:
+      ApiVersionSetId:
+        $referenceType: arm
+      SourceApiId:
+        $referenceType: arm
+    ApiVersionSetContractDetails:
+      Id:
+        $referenceType: arm
+    ApiManagementServiceProperties:
+      PublicIpAddressId:
+        $referenceType: arm
+    AuthorizationAccessPolicyContractProperties:
+      TenantId:
+        $importConfigMapMode: optional
+      ObjectId:
+        $importConfigMapMode: optional
+    AuthorizationContractProperties:
+      Parameters:
+        $importSecretMode: required
+    AuthorizationProviderOAuth2GrantTypes:
+      AuthorizationCode:
+        $importSecretMode: required
+      ClientCredentials:
+        $importSecretMode: required
+    BackendContractProperties:
+      ResourceId:
+        $referenceType: arm
+    BackendProxyContract:
+      Password:
+        $importSecretMode: required
+    CertificateInformation:
+      Expiry:
+        $importConfigMapMode: optional
+      Subject:
+        $importConfigMapMode: optional
+      Thumbprint:
+        $importConfigMapMode: optional
+    CertificateConfiguration:
+      CertificatePassword:
+        $importSecretMode: required
+    HostnameConfiguration:
+      CertificatePassword:
+        $importSecretMode: required
+      IdentityClientId:
+        $importConfigMapMode: optional
+    KeyVaultContractCreateProperties:
+      IdentityClientId:
+        $importConfigMapMode: optional
+    Service:
+      $exportAs: Service
+      $supportedFrom: v2.6.0
+    Service_Api:
+      $exportAs: Api
+      $supportedFrom: v2.6.0
+    Service_ApiVersionSet:
+      $exportAs: ApiVersionSet
+      $supportedFrom: v2.6.0
+    Service_AuthorizationProvider:
+      $exportAs: AuthorizationProvider
+      $supportedFrom: v2.6.0
+    Service_AuthorizationProviders_Authorization:
+      $exportAs: AuthorizationProvidersAuthorization
+      $supportedFrom: v2.6.0
+    Service_AuthorizationProviders_Authorizations_AccessPolicy:
+      $exportAs: AuthorizationProvidersAuthorizationsAccessPolicy
+      $supportedFrom: v2.6.0
+    Service_Backend:
+      $exportAs: Backend
+      $supportedFrom: v2.6.0
+    Service_NamedValue:
+      $exportAs: NamedValue
+      $supportedFrom: v2.6.0
+    Service_Policy:
+      $exportAs: Policy
+      $supportedFrom: v2.6.0
+    Service_PolicyFragment:
+      $exportAs: PolicyFragment
+      $supportedFrom: v2.6.0
+    Service_Product:
+      $exportAs: Product
+      $supportedFrom: v2.6.0
+    Service_Products_Api:
+      $exportAs: ProductApi
+      $supportedFrom: v2.6.0
+    Service_Products_Policy:
+      $exportAs: ProductPolicy
+      $supportedFrom: v2.6.0
+    Service_Subscription:
+      $exportAs: Subscription
+      $supportedFrom: v2.6.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - SecondaryKey
+    SubscriptionCreateParameterProperties:
+      PrimaryKey:
+        $importSecretMode: required
+      SecondaryKey:
+        $importSecretMode: required
+      OwnerId:
+        $referenceType: arm
+    VirtualNetworkConfiguration:
+      SubnetResourceId:
+        $referenceType: arm
+  2024-05-01:
+    AdditionalLocation:
+      PublicIpAddressId:
+        $referenceType: arm
+    ApiCreateOrUpdateProperties:
+      ApiVersionSetId:
+        $referenceType: arm
+      SourceApiId:
+        $referenceType: arm
+    ApiVersionSetContractDetails:
+      Id:
+        $referenceType: arm
+    ApiManagementServiceProperties:
+      PublicIpAddressId:
+        $referenceType: arm
+    AuthorizationAccessPolicyContractProperties:
+      TenantId:
+        $importConfigMapMode: optional
+      ObjectId:
+        $importConfigMapMode: optional
+    AuthorizationContractProperties:
+      Parameters:
+        $importSecretMode: required
+    AuthorizationProviderOAuth2GrantTypes:
+      AuthorizationCode:
+        $importSecretMode: required
+      ClientCredentials:
+        $importSecretMode: required
+    BackendContractProperties:
+      ResourceId:
+        $referenceType: arm
+    BackendProxyContract:
+      Password:
+        $importSecretMode: required
+    CertificateInformation:
+      Expiry:
+        $importConfigMapMode: optional
+      Subject:
+        $importConfigMapMode: optional
+      Thumbprint:
+        $importConfigMapMode: optional
+    CertificateConfiguration:
+      CertificatePassword:
+        $importSecretMode: required
+    CertificateCreateOrUpdateProperties:
+      Data:
+        $importSecretMode: required
+      Password:
+        $importSecretMode: required
+    DiagnosticContractProperties:
+      LoggerId:
+        $referenceType: arm
+    GatewayHostnameConfigurationContractProperties:
+      CertificateId:
+        $referenceType: arm
+    HostnameConfiguration:
+      CertificatePassword:
+        $importSecretMode: required
+      IdentityClientId:
+        $importConfigMapMode: optional
+    KeyVaultContractCreateProperties:
+      IdentityClientId:
+        $importConfigMapMode: optional
+    LoggerContractProperties:
+      Credentials:
+        $isSecret: true
+      ResourceId:
+        $referenceType: arm
+    UserCreateParameterProperties:
+      Password:
+        $isSecret: true
+    UserIdentityContract:
+      Id:
+        $referenceType: simple
+    Service:
+      $exportAs: Service
+      $supportedFrom: v2.16.0
+    Service_Api:
+      $exportAs: Api
+      $supportedFrom: v2.16.0
+    Service_ApiVersionSet:
+      $exportAs: ApiVersionSet
+      $supportedFrom: v2.16.0
+    Service_Apis_Diagnostic:
+      $exportAs: ApiDiagnostic
+      $supportedFrom: v2.19.0
+    Service_Apis_Policy:
+      $exportAs: ApiPolicy
+      $supportedFrom: v2.19.0
+    Service_AuthorizationProvider:
+      $exportAs: AuthorizationProvider
+      $supportedFrom: v2.16.0
+    Service_AuthorizationProviders_Authorization:
+      $exportAs: AuthorizationProvidersAuthorization
+      $supportedFrom: v2.16.0
+    Service_AuthorizationProviders_Authorizations_AccessPolicy:
+      $exportAs: AuthorizationProvidersAuthorizationsAccessPolicy
+      $supportedFrom: v2.16.0
+    Service_Backend:
+      $exportAs: Backend
+      $supportedFrom: v2.16.0
+    Service_Certificate:
+      $exportAs: Certificate
+      $supportedFrom: v2.19.0
+    Service_Gateway:
+      $exportAs: ServiceGateway # Has to be prefixed with service because a non-service Gateway exists too
+      $supportedFrom: v2.19.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - SecondaryKey
+    Service_Gateways_Api:
+      $exportAs: ServiceGatewayApi
+      $supportedFrom: v2.19.0
+    Service_Gateways_CertificateAuthority:
+      $exportAs: ServiceGatewayCertificateAuthority
+      $supportedFrom: v2.19.0
+    Service_Gateways_HostnameConfiguration:
+      $exportAs: ServiceGatewayHostnameConfiguration
+      $supportedFrom: v2.19.0
+    Service_Group:
+      $exportAs: Group
+      $supportedFrom: v2.19.0
+    Service_Logger:
+      $exportAs: Logger
+      $supportedFrom: v2.19.0
+    Service_NamedValue:
+      $exportAs: NamedValue
+      $supportedFrom: v2.16.0
+    Service_Policy:
+      $exportAs: Policy
+      $supportedFrom: v2.16.0
+    Service_PolicyFragment:
+      $exportAs: PolicyFragment
+      $supportedFrom: v2.16.0
+    Service_Product:
+      $exportAs: Product
+      $supportedFrom: v2.16.0
+    Service_Products_Api:
+      $exportAs: ProductApi
+      $supportedFrom: v2.16.0
+    Service_Products_Policy:
+      $exportAs: ProductPolicy
+      $supportedFrom: v2.16.0
+    Service_Subscription:
+      $exportAs: Subscription
+      $supportedFrom: v2.16.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - SecondaryKey
+    Service_User:
+      $exportAs: User
+      $supportedFrom: v2.19.0
+    SubscriptionCreateParameterProperties:
+      PrimaryKey:
+        $importSecretMode: required
+      SecondaryKey:
+        $importSecretMode: required
+      OwnerId:
+        $referenceType: arm
+    VirtualNetworkConfiguration:
+      SubnetResourceId:
+        $referenceType: arm

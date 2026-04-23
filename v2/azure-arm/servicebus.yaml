@@ -1,0 +1,171 @@
+typeFilters:
+  - action: include
+    version: v*20210101preview;v*20221001preview
+    because: We want to export these particular preview versions
+typeTransformers:
+  ## Deal with properties that should have been marked readOnly but weren't
+
+  # TODO: Unused or renamed?
+  - name: SBNamespaceProperties # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - name: SBQueueProperties # This type is subsequently flattened into NamespacesQueues_Spec
+    property: Status
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - name: SBTopicProperties # This type is subsequently flattened into NamespacesTopics_Spec
+    property: Status
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - name: SBSubscriptionProperties # This type is subsequently flattened into Namespaces_Topics_Subscription_Spec
+    property: Status
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+groupModelConfiguration:
+  2021-01-01-preview:
+    DictionaryValue_STATUS:
+      $nameInNextVersion: UserAssignedIdentity_STATUS
+    Namespace:
+      $exportAs: Namespace
+      $supportedFrom: v2.0.0-alpha.1
+      $azureGeneratedSecrets:
+        - Endpoint
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+    Namespaces_AuthorizationRule:
+      $exportAs: NamespacesAuthorizationRule
+      $supportedFrom: v2.1.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+    Namespaces_Queue:
+      $exportAs: NamespacesQueue
+      $supportedFrom: v2.0.0-alpha.1
+    Namespaces_Topic:
+      $exportAs: NamespacesTopic
+      $supportedFrom: v2.0.0-alpha.1
+    UserAssignedIdentityProperties:
+      UserAssignedIdentity:
+        $referenceType: arm
+    Namespaces_Topics_Subscription:
+      $exportAs: NamespacesTopicsSubscription
+      $supportedFrom: v2.0.0-beta.3
+    Namespaces_Topics_Subscriptions_Rule:
+      $exportAs: NamespacesTopicsSubscriptionsRule
+      $supportedFrom: v2.0.0-beta.3
+  2021-11-01:
+    Namespace:
+      $exportAs: Namespace
+      $supportedFrom: v2.3.0
+      $azureGeneratedSecrets:
+        - Endpoint
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+    Namespaces_AuthorizationRule:
+      $exportAs: NamespacesAuthorizationRule
+      $supportedFrom: v2.3.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+    Namespaces_Queue:
+      $exportAs: NamespacesQueue
+      $supportedFrom: v2.3.0
+    Namespaces_Topic:
+      $exportAs: NamespacesTopic
+      $supportedFrom: v2.3.0
+    UserAssignedIdentityProperties:
+      UserAssignedIdentity:
+        $referenceType: arm
+    Namespaces_Topics_Subscription:
+      $exportAs: NamespacesTopicsSubscription
+      $supportedFrom: v2.3.0
+    Namespaces_Topics_Subscriptions_Rule:
+      $exportAs: NamespacesTopicsSubscriptionsRule
+      $supportedFrom: v2.3.0
+  2022-10-01-preview:
+    Namespace:
+      $exportAs: Namespace
+      $supportedFrom: v2.3.0
+      $azureGeneratedSecrets:
+        - Endpoint
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+    Namespaces_AuthorizationRule:
+      $exportAs: NamespacesAuthorizationRule
+      $supportedFrom: v2.3.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+    Namespaces_Queue:
+      $exportAs: NamespacesQueue
+      $supportedFrom: v2.3.0
+    Namespaces_Topic:
+      $exportAs: NamespacesTopic
+      $supportedFrom: v2.3.0
+    UserAssignedIdentityProperties:
+      UserAssignedIdentity:
+        $referenceType: arm
+    Namespaces_Topics_Subscription:
+      $exportAs: NamespacesTopicsSubscription
+      $supportedFrom: v2.3.0
+    Namespaces_Topics_Subscriptions_Rule:
+      $exportAs: NamespacesTopicsSubscriptionsRule
+      $supportedFrom: v2.3.0
+  2024-01-01:
+    Namespace:
+      $exportAs: Namespace
+      $supportedFrom: v2.12.0
+      $azureGeneratedSecrets:
+        - Endpoint
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+    Namespaces_AuthorizationRule:
+      $exportAs: NamespacesAuthorizationRule
+      $supportedFrom: v2.12.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+    Namespaces_Queue:
+      $exportAs: NamespacesQueue
+      $supportedFrom: v2.12.0
+    Namespaces_Topic:
+      $exportAs: NamespacesTopic
+      $supportedFrom: v2.12.0
+    UserAssignedIdentityProperties:
+      UserAssignedIdentity:
+        $referenceType: arm
+    Namespaces_Topics_Subscription:
+      $exportAs: NamespacesTopicsSubscription
+      $supportedFrom: v2.12.0
+    Namespaces_Topics_Subscriptions_Rule:
+      $exportAs: NamespacesTopicsSubscriptionsRule
+      $supportedFrom: v2.12.0
+    Namespaces_Topics_AuthorizationRule:
+      $exportAs: TopicAuthorizationRule
+      $supportedFrom: v2.13.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+    Namespaces_Topics_AuthorizationRule_Properties_Rights_Spec:
+      $renameTo: TopicAuthorizationRuleRights_Spec
+    Namespaces_Topics_AuthorizationRule_Properties_Rights_STATUS:
+      $renameTo: TopicAuthorizationRuleRights_STATUS
