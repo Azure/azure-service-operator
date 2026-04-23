@@ -72,7 +72,7 @@ func applyConfigSecretOverrides(
 
 			// If it's not a secret, but it looks like a secret, and we don't have any configuration to tell us for
 			// sure, request configuration so we know for sure.
-			if prop.Secrecy() != astmodel.ImportSecretModeRequired && prop.Secrecy() != astmodel.SecrecyOptional && maybeSecret && !secrecyConfigured {
+			if prop.Secrecy() != astmodel.ImportSecretModeRequired && prop.Secrecy() != astmodel.ImportSecretModeOptional && maybeSecret && !secrecyConfigured {
 				// Property might be a secret, but isn't already configured as one,
 				// and we don't have config to tell us for sure
 				return nil, eris.Errorf(
@@ -269,7 +269,7 @@ func isTypeSecretMapCandidate(t astmodel.Type) bool {
 func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
 		switch prop.Secrecy() {
-		case astmodel.ImportSecretModeRequired, astmodel.SecrecyOptional:
+		case astmodel.ImportSecretModeRequired, astmodel.ImportSecretModeOptional:
 			propType := prop.PropertyType()
 
 			// We only remove pure secret references here. For the case of secret maps, different services seem to treat them
@@ -278,7 +278,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 			// redact the ones that are secret. Since it's hard to know statically what will be returned for any given service, we
 			// default to having the map[string]string on the Status type and letting the service return what it wants.
 			if isTypeSecretMapCandidate(propType) {
-				it = it.WithProperty(prop.WithSecrecy(astmodel.SecrecyNever))
+				it = it.WithProperty(prop.WithSecrecy(astmodel.ImportSecretModeNever))
 				continue
 			}
 
@@ -290,7 +290,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 			}
 
 			it = it.WithoutProperty(prop.PropertyName())
-		case astmodel.SecrecyNever:
+		case astmodel.ImportSecretModeNever:
 			// Not a secret, nothing to do
 		}
 	}
@@ -301,7 +301,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
 		switch prop.Secrecy() {
-		case astmodel.ImportSecretModeRequired, astmodel.SecrecyOptional:
+		case astmodel.ImportSecretModeRequired, astmodel.ImportSecretModeOptional:
 			propType := prop.PropertyType()
 
 			if !isTypeSecretReferenceCandidate(propType) {
@@ -323,7 +323,7 @@ func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.Object
 				newType = astmodel.SecretReferenceType
 			}
 
-			if prop.Secrecy() == astmodel.SecrecyOptional {
+			if prop.Secrecy() == astmodel.ImportSecretModeOptional {
 				// For optional secrets, create a dual-field pair: original value + new SecretReference
 				updatedProp, newProp, err := createNewSecretReference(prop, newType)
 				if err != nil {
@@ -344,7 +344,7 @@ func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.Object
 				// For always-secret properties, replace with the secret reference type
 				it = it.WithProperty(prop.WithType(newType))
 			}
-		case astmodel.SecrecyNever:
+		case astmodel.ImportSecretModeNever:
 			// Not a secret, nothing to do
 		}
 	}
@@ -364,7 +364,7 @@ func createNewSecretReference(
 	// Neither property can be required anymore.
 	updatedProp := prop.
 		WithTag(astmodel.OptionalSecretPairTag, string(prop.PropertyName())).
-		WithSecrecy(astmodel.SecrecyNever). // Clear secret flag on the plain value property
+		WithSecrecy(astmodel.ImportSecretModeNever). // Clear secret flag on the plain value property
 		MakeOptional().
 		MakeTypeOptional()
 
@@ -373,7 +373,7 @@ func createNewSecretReference(
 		WithType(newType).
 		WithJSONName(jsonName+astmodel.OptionalSecretReferenceSuffix).
 		WithTag(astmodel.OptionalSecretPairTag, string(prop.PropertyName())).
-		WithSecrecy(astmodel.SecrecyNever). // The FromSecret property is a reference, not itself a secret
+		WithSecrecy(astmodel.ImportSecretModeNever). // The FromSecret property is a reference, not itself a secret
 		MakeOptional().
 		MakeTypeOptional()
 
