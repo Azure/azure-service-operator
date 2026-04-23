@@ -95,6 +95,30 @@ func loadGroupConfigurationFile(path string, groupName string) (*GroupConfigurat
 	return result, nil
 }
 
+// mergeInto merges this group configuration file's contents into the given Configuration.
+// TypeFilters are prepended, Transformers are appended, and GroupModelConfiguration
+// is added to ObjectModelConfiguration.
+func (gcf *GroupConfigurationFile) mergeInto(cfg *Configuration, groupName string) error {
+	// Prepend group-specific TypeFilters before global filters
+	if len(gcf.TypeFilters) > 0 {
+		cfg.TypeFilters = append(gcf.TypeFilters, cfg.TypeFilters...)
+	}
+
+	// Append group-specific Transformers after global transformers
+	if len(gcf.Transformers) > 0 {
+		cfg.Transformers = append(cfg.Transformers, gcf.Transformers...)
+	}
+
+	// Add GroupModelConfiguration to ObjectModelConfiguration
+	if gcf.GroupModelConfiguration != nil {
+		if err := cfg.ObjectModelConfiguration.addGroup(groupName, gcf.GroupModelConfiguration); err != nil {
+			return eris.Wrapf(err, "merging group %q", groupName)
+		}
+	}
+
+	return nil
+}
+
 // validateAndFillGroup checks that all TypeFilters and TypeTransformers
 // either have no explicit group or have a group matching the expected group name.
 // Omitted groups are auto-filled with the expected group name.
