@@ -6,6 +6,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/rotisserie/eris"
@@ -87,5 +88,40 @@ func loadGroupConfigurationFile(path string, groupName string) (*GroupConfigurat
 		result.GroupModelConfiguration = gc
 	}
 
+	if err := result.validateAndFillGroup(groupName); err != nil {
+		return nil, eris.Wrapf(err, "validating group configuration file %q", path)
+	}
+
 	return result, nil
+}
+
+// validateAndFillGroup checks that all TypeFilters and TypeTransformers
+// either have no explicit group or have a group matching the expected group name.
+// Omitted groups are auto-filled with the expected group name.
+func (gcf *GroupConfigurationFile) validateAndFillGroup(groupName string) error {
+	for i, f := range gcf.TypeFilters {
+		if f.Group.IsRestrictive() {
+			if !f.Group.Matches(groupName).Matched {
+				return fmt.Errorf(
+					"typeFilter[%d] has group %q which doesn't match expected group %q",
+					i, f.Group.String(), groupName)
+			}
+		} else {
+			gcf.TypeFilters[i].Group = NewFieldMatcher(groupName)
+		}
+	}
+
+	for i, t := range gcf.Transformers {
+		if t.Group.IsRestrictive() {
+			if !t.Group.Matches(groupName).Matched {
+				return fmt.Errorf(
+					"typeTransformer[%d] has group %q which doesn't match expected group %q",
+					i, t.Group.String(), groupName)
+			}
+		} else {
+			gcf.Transformers[i].Group = NewFieldMatcher(groupName)
+		}
+	}
+
+	return nil
 }
