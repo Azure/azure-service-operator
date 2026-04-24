@@ -1,4 +1,4 @@
-# This sample demonstrates how to create a Redis Enterprise Database using the v1api20250401 API version.
+# Advanced RedisEnterpriseDatabase settings for Entra ID auth.
 apiVersion: cache.azure.com/v1api20250401
 kind: RedisEnterpriseDatabase
 metadata:
@@ -6,7 +6,8 @@ metadata:
   namespace: default
 spec:
   owner:
-    name: sampleredisenterprise
+    name: sampleredisent
+  accessKeysAuthentication: Disabled
   clientProtocol: Encrypted
   clusteringPolicy: EnterpriseCluster
   evictionPolicy: AllKeysLRU
