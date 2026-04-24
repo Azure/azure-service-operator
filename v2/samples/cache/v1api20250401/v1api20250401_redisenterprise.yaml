@@ -1,5 +1,5 @@
 # This sample demonstrates how to create a Redis Enterprise cluster using the v1api20250401 API version.
-# This version includes new features like high availability configuration, availability zones,
+# This version includes new features like high availability configuration, availability zones.
 # ASO represents Azure Managed Redis as RedisEnterprise because naming follows the ARM resource type.
 apiVersion: cache.azure.com/v1api20250401
 kind: RedisEnterprise
