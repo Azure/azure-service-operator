@@ -1,8 +1,8 @@
 # Advanced Entra ID sample for RedisEnterpriseDatabaseAccessPolicyAssignment.
-# Apply required dependencies first:
-# - refs/v1api20250401_redisenterprise_advanced.yaml
-# - refs/v1api20250401_redisenterprisedatabase_advanced.yaml
-# - refs/v1api20181130_userassignedidentity_advanced.yaml
+# Apply the required dependencies first:
+# - a RedisEnterprise instance
+# - a RedisEnterpriseDatabase owned by that RedisEnterprise
+# - a UserAssignedIdentity whose principalId is available in the identity-settings ConfigMap
 apiVersion: cache.azure.com/v20250401
 kind: RedisEnterpriseDatabaseAccessPolicyAssignment
 metadata:
