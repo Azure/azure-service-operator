@@ -7,6 +7,7 @@ metadata:
 spec:
   owner:
     name: sampleredisenterprise
+  accessKeysAuthentication: Disabled
   clientProtocol: Encrypted
-  clusteringPolicy: EnterpriseCluster
+  clusteringPolicy: OSSCluster
   evictionPolicy: AllKeysLRU
