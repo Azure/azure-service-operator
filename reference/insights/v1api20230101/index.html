@@ -1649,6 +1649,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ActionGroup_Spe
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>serviceUriFromSecret</td>
+          <td>The URI where webhooks should be sent.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>useCommonAlertSchema</td>
           <td>Indicates whether to use common alert schema.</td>
           <td>bool<br/><small>Optional</small></td>
@@ -1690,11 +1695,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ActionGroup_Spe
       <tr>
           <td>runbookName</td>
           <td>The name for this runbook.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serviceUri</td>
-          <td>The URI where webhooks should be sent.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2283,7 +2283,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ActionGroup_Spe
       <tr>
           <td>serviceUri</td>
           <td>The URI where webhooks should be sent.</td>
-          <td>string<br/><small>Required</small></td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serviceUriFromSecret</td>
+          <td>The URI where webhooks should be sent.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tenantId</td>
@@ -2327,11 +2332,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ActionGroup_Spe
       <tr>
           <td>objectId</td>
           <td>Indicates the webhook app object Id for aad auth.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serviceUri</td>
-          <td>The URI where webhooks should be sent.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>

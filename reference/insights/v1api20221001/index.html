@@ -2122,6 +2122,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
           <td>the service address to receive the notification.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
+      <tr>
+          <td>serviceUriFromSecret</td>
+          <td>the service address to receive the notification.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
+      </tr>
   </tbody>
 </table>
 <h2 id="WebhookNotification_STATUS">WebhookNotification_STATUS</h2>
@@ -2140,11 +2145,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
           <td>properties</td>
           <td>a property bag of settings. This value can be empty.</td>
           <td>map[string]string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serviceUri</td>
-          <td>the service address to receive the notification.</td>
-          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
