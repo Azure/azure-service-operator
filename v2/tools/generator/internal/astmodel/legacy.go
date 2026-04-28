@@ -48,11 +48,8 @@ const (
 // Once all groups have been fully migrated, we will delete this file.
 var versionMigrationModes = map[string]VersionMigrationMode{
 	"alertsmanagement": VersionMigrationModeHybrid,
-
-	"apimanagement": VersionMigrationModeHybrid,
-
-	"app": VersionMigrationModeLegacy,
-
+	"apimanagement":    VersionMigrationModeHybrid,
+	"app":              VersionMigrationModeHybrid,
 	"appconfiguration": VersionMigrationModeHybrid,
 
 	"authorization": VersionMigrationModeLegacy,
@@ -99,8 +96,9 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"storage": VersionMigrationModeHybrid,
 
 	"subscription": VersionMigrationModeLegacy,
-	"synapse":      VersionMigrationModeHybrid,
-	"web":          VersionMigrationModeHybrid,
+
+	"synapse": VersionMigrationModeHybrid,
+	"web":     VersionMigrationModeHybrid,
 }
 
 // VersionPrefixForGroup returns the version prefix to use for the specified group.
