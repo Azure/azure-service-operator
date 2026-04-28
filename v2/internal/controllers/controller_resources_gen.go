@@ -37,12 +37,18 @@ import (
 	apimanagement_v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	apimanagement_v20240501w "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/webhook"
 	app_customizations "github.com/Azure/azure-service-operator/v2/api/app/customizations"
-	app_v20240301 "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
-	app_v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
-	app_v20240301w "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/webhook"
-	app_v20250101 "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101"
-	app_v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
-	app_v20250101w "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/webhook"
+	app_v1api20240301 "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
+	app_v1api20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
+	app_v1api20240301w "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/webhook"
+	app_v1api20250101 "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101"
+	app_v1api20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	app_v1api20250101w "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/webhook"
+	app_v20240301 "github.com/Azure/azure-service-operator/v2/api/app/v20240301"
+	app_v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v20240301/storage"
+	app_v20240301w "github.com/Azure/azure-service-operator/v2/api/app/v20240301/webhook"
+	app_v20250101 "github.com/Azure/azure-service-operator/v2/api/app/v20250101"
+	app_v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v20250101/storage"
+	app_v20250101w "github.com/Azure/azure-service-operator/v2/api/app/v20250101/webhook"
 	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
 	appconfiguration_v1api20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	appconfiguration_v1api20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
@@ -3743,6 +3749,62 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(app_v1api20240301.AuthConfig),
+			Defaulter: &app_v1api20240301w.AuthConfig{},
+			Validator: &app_v1api20240301w.AuthConfig{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20240301.ContainerApp),
+			Defaulter: &app_v1api20240301w.ContainerApp{},
+			Validator: &app_v1api20240301w.ContainerApp{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20240301.Job),
+			Defaulter: &app_v1api20240301w.Job{},
+			Validator: &app_v1api20240301w.Job{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20240301.ManagedEnvironment),
+			Defaulter: &app_v1api20240301w.ManagedEnvironment{},
+			Validator: &app_v1api20240301w.ManagedEnvironment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(app_v1api20240301s.AuthConfig)},
+		&registration.KnownType{Obj: new(app_v1api20240301s.ContainerApp)},
+		&registration.KnownType{Obj: new(app_v1api20240301s.Job)},
+		&registration.KnownType{Obj: new(app_v1api20240301s.ManagedEnvironment)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(app_v1api20250101.AuthConfig),
+			Defaulter: &app_v1api20250101w.AuthConfig{},
+			Validator: &app_v1api20250101w.AuthConfig{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20250101.ContainerApp),
+			Defaulter: &app_v1api20250101w.ContainerApp{},
+			Validator: &app_v1api20250101w.ContainerApp{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20250101.Job),
+			Defaulter: &app_v1api20250101w.Job{},
+			Validator: &app_v1api20250101w.Job{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20250101.ManagedEnvironment),
+			Defaulter: &app_v1api20250101w.ManagedEnvironment{},
+			Validator: &app_v1api20250101w.ManagedEnvironment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(app_v1api20250101s.AuthConfig)},
+		&registration.KnownType{Obj: new(app_v1api20250101s.ContainerApp)},
+		&registration.KnownType{Obj: new(app_v1api20250101s.Job)},
+		&registration.KnownType{Obj: new(app_v1api20250101s.ManagedEnvironment)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(app_v20240301.AuthConfig),
 			Defaulter: &app_v20240301w.AuthConfig{},
 			Validator: &app_v20240301w.AuthConfig{},
@@ -7157,6 +7219,10 @@ func createScheme() *runtime.Scheme {
 	_ = apimanagement_v20230501ps.AddToScheme(scheme)
 	_ = apimanagement_v20240501.AddToScheme(scheme)
 	_ = apimanagement_v20240501s.AddToScheme(scheme)
+	_ = app_v1api20240301.AddToScheme(scheme)
+	_ = app_v1api20240301s.AddToScheme(scheme)
+	_ = app_v1api20250101.AddToScheme(scheme)
+	_ = app_v1api20250101s.AddToScheme(scheme)
 	_ = app_v20240301.AddToScheme(scheme)
 	_ = app_v20240301s.AddToScheme(scheme)
 	_ = app_v20250101.AddToScheme(scheme)
