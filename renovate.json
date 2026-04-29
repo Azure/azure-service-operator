@@ -2,7 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "baseBranchPatterns": [
     "main",
-    "/^backplane-2\\.[0-99]$/"
+    "/^backplane-2\\.[0-9]+$/",
+    "/^backplane-5\\.[0-9]+$/"
   ],
   "tekton": {
     "includePaths": [
@@ -25,7 +26,8 @@
     {
       "matchBaseBranches": [
         "main",
-        "/^backplane-2\\.[0-99]$/"
+        "/^backplane-2\\.[0-9]+$/",
+        "/^backplane-5\\.[0-9]+$/"
       ],
       "matchManagers": [
         "tekton"
