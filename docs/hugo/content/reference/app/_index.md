@@ -8,22 +8,22 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource           | ARM Version | CRD Version | Supported From | Sample |
-|--------------------|-------------|-------------|----------------|--------|
-| AuthConfig         | 2025-01-01  | v20250101   | v2.15.0        | -      |
-| ContainerApp       | 2025-01-01  | v20250101   | v2.15.0        | -      |
-| Job                | 2025-01-01  | v20250101   | v2.15.0        | -      |
-| ManagedEnvironment | 2025-01-01  | v20250101   | v2.15.0        | -      |
+| Resource           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
+|--------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
+| AuthConfig         | 2025-01-01  | v20250101   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20250101/v20250101_authconfig.yaml)         |
+| ContainerApp       | 2025-01-01  | v20250101   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20250101/v20250101_containerapp.yaml)       |
+| Job                | 2025-01-01  | v20250101   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20250101/v20250101_job.yaml)                |
+| ManagedEnvironment | 2025-01-01  | v20250101   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20250101/v20250101_managedenvironment.yaml) |
 
 ### Other Supported Versions
 
 These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource           | ARM Version | CRD Version | Supported From | Sample |
-|--------------------|-------------|-------------|----------------|--------|
-| AuthConfig         | 2024-03-01  | v20240301   | v2.12.0        | -      |
-| ContainerApp       | 2024-03-01  | v20240301   | v2.12.0        | -      |
-| Job                | 2024-03-01  | v20240301   | v2.12.0        | -      |
-| ManagedEnvironment | 2024-03-01  | v20240301   | v2.12.0        | -      |
+| Resource           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
+|--------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
+| AuthConfig         | 2024-03-01  | v20240301   | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20240301/v20240301_authconfig.yaml)         |
+| ContainerApp       | 2024-03-01  | v20240301   | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20240301/v20240301_containerapp.yaml)       |
+| Job                | 2024-03-01  | v20240301   | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20240301/v20240301_job.yaml)                |
+| ManagedEnvironment | 2024-03-01  | v20240301   | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20240301/v20240301_managedenvironment.yaml) |
 
 ### Deprecated
 
