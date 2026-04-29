@@ -2,7 +2,7 @@
 apiVersion: cache.azure.com/v1api20250401
 kind: RedisEnterprise
 metadata:
-  name: sampleredisent
+  name: sampleredisentadvanced
   namespace: default
 spec:
   location: westus2
@@ -12,7 +12,3 @@ spec:
   highAvailability: Enabled
   sku:
     name: Balanced_B0
-  zones:
-    - "1"
-    - "2"
-    - "3"
