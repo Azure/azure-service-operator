@@ -2,7 +2,7 @@
 apiVersion: managedidentity.azure.com/v1api20181130
 kind: UserAssignedIdentity
 metadata:
-  name: sampleuserassignedidentity
+  name: sampleuserassignedidentityadvanced
   namespace: default
 spec:
   location: westus2
@@ -11,5 +11,5 @@ spec:
   operatorSpec:
     configMaps:
       principalId:
-        name: identity-settings
+        name: identity-settings-advanced
         key: principalId
