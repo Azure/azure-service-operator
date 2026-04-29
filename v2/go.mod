@@ -50,7 +50,7 @@ require (
 	github.com/rotisserie/eris v0.5.4
 	github.com/samber/lo v1.53.0
 	github.com/spf13/cobra v1.10.2
-	go.uber.org/zap v1.27.1
+	go.uber.org/zap v1.28.0
 	golang.org/x/crypto v0.50.0
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394
 	golang.org/x/sync v0.20.0
