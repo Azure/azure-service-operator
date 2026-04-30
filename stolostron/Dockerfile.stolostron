@@ -6,10 +6,12 @@ ENV GOPROXY=$goproxy
 
 FROM toolchain AS builder
 
-ENV GOPATH=/opt/app-root/src/go
+USER 0
+WORKDIR /workspace
+
 ENV GOFLAGS="-buildvcs=false"
 
-COPY --chown=root:root --chmod=777 . ./
+COPY . ./
 
 # Cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
@@ -24,7 +26,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
     CGO_ENABLED=0 GOOS=linux GOARCH=${ARCH} go build -ldflags "-extldflags '-static'" -o ./aso-controller ./cmd/controller/
 
 # Copy the aso-controller into a thin image
-FROM registry.access.redhat.com/ubi9/ubi:9.6-1754380668
-COPY --from=builder /opt/app-root/src/aso-controller /aso-controller
+FROM registry.access.redhat.com/ubi9/ubi:9.7-1777525589
+COPY --from=builder /workspace/aso-controller /aso-controller
 COPY stolostron/crds ./crds
 ENTRYPOINT ["/aso-controller"]
