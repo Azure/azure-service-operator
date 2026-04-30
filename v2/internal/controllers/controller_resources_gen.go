@@ -245,9 +245,12 @@ import (
 	documentdb_v20251015s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
 	documentdb_v20251015w "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/webhook"
 	eventgrid_customizations "github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations"
-	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
-	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
-	eventgrid_v20200601w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/webhook"
+	eventgrid_v1api20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
+	eventgrid_v1api20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
+	eventgrid_v1api20200601w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/webhook"
+	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601"
+	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
+	eventgrid_v20200601w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/webhook"
 	eventhub_customizations "github.com/Azure/azure-service-operator/v2/api/eventhub/customizations"
 	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
 	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
@@ -5235,6 +5238,34 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(eventgrid_v1api20200601.Domain),
+			Defaulter: &eventgrid_v1api20200601w.Domain{},
+			Validator: &eventgrid_v1api20200601w.Domain{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v1api20200601.DomainsTopic),
+			Defaulter: &eventgrid_v1api20200601w.DomainsTopic{},
+			Validator: &eventgrid_v1api20200601w.DomainsTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v1api20200601.EventSubscription),
+			Defaulter: &eventgrid_v1api20200601w.EventSubscription{},
+			Validator: &eventgrid_v1api20200601w.EventSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v1api20200601.Topic),
+			Defaulter: &eventgrid_v1api20200601w.Topic{},
+			Validator: &eventgrid_v1api20200601w.Topic{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(eventgrid_v1api20200601s.Domain)},
+		&registration.KnownType{Obj: new(eventgrid_v1api20200601s.DomainsTopic)},
+		&registration.KnownType{Obj: new(eventgrid_v1api20200601s.EventSubscription)},
+		&registration.KnownType{Obj: new(eventgrid_v1api20200601s.Topic)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(eventgrid_v20200601.Domain),
 			Defaulter: &eventgrid_v20200601w.Domain{},
 			Validator: &eventgrid_v20200601w.Domain{},
@@ -7283,6 +7314,8 @@ func createScheme() *runtime.Scheme {
 	_ = documentdb_v20240815s.AddToScheme(scheme)
 	_ = documentdb_v20251015.AddToScheme(scheme)
 	_ = documentdb_v20251015s.AddToScheme(scheme)
+	_ = eventgrid_v1api20200601.AddToScheme(scheme)
+	_ = eventgrid_v1api20200601s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
