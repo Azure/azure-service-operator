@@ -9,7 +9,7 @@ We're excited to announce the release of Azure Service Operator v2.19.0! This re
 
 ## 🎇 Headline Features
 
-Six more resource groups now support [simplified API versioning](https://github.com/Azure/azure-service-operator/issues/4831): `alertsmanagement`, `appconfiguration`, `apimanagement`, `dbformysql`, `synapse`, and `web`. You can use all resources in these groups with the new `v` prefix (e.g. `v20250701` instead of `v1api20250701`), while the legacy `v1api` versions remain available for backward compatibility. We recommend you use this new format for groups that support it. We will continue rolling out this version style to all groups over the next release or two.
+Six more resource groups now support [simplified API versioning](https://github.com/Azure/azure-service-operator/issues/4831): `alertsmanagement`, `appconfiguration`, `apimanagement`, `dbformysql`, `synapse`, and `web`. You can use all resources in these groups with the new `v` prefix (e.g. `v20250701` instead of `v1api20250701`), while the legacy `v1api` versions remain available for backward compatibility. We recommend you using this new format for groups that support it. We will continue rolling out this version style to all groups over the next release or two.
 
 The default [maximum reconciliation parallelism has been increased to 4](https://github.com/Azure/azure-service-operator/pull/4822), improving throughput for clusters managing many Azure resources simultaneously.
 
@@ -29,7 +29,7 @@ A broad set of new [API Management resources](https://github.com/Azure/azure-ser
 
 New [Cassandra resources](https://github.com/Azure/azure-service-operator/pull/5175) are now supported under `documentdb`: **CassandraCluster** and **CassandraDataCenter**. Note that you must run `az ad sp show --id a232010e-820c-4083-83bb-3ace5fc29d0b --query id -o tsv` to obtain the required ObjectId for your subscription. See [the sample](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20251015) for details.
 
-New [CommunicationService resource](https://github.com/Azure/azure-service-operator/pull/5263) added under the `communication` group.
+New [CommunicationService resource](https://github.com/Azure/azure-service-operator/pull/5263) has been added to the `communication` group.
 
 New [dbformysql API versions](https://github.com/Azure/azure-service-operator/pull/5173) `v20241230` and `v20250601preview` are available for MySQL Flexible Server.
 
