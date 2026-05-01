@@ -77,7 +77,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"dbforpostgresql":         VersionMigrationModeLegacy,
 	"devices":                 VersionMigrationModeLegacy,
 	"documentdb":              VersionMigrationModeLegacy,
-	"eventgrid":               VersionMigrationModeLegacy,
+	"eventgrid":               VersionMigrationModeHybrid,
 	"eventhub":                VersionMigrationModeLegacy,
 	"insights":                VersionMigrationModeLegacy,
 	"keyvault":                VersionMigrationModeLegacy,
