@@ -5,7 +5,8 @@ package v1api20250101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	app_v1api20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	app_v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForAppLogsConfiguration(subject AppLogsConfigurati
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AppLogsConfiguration
+	var other app_v1api20250101s.AppLogsConfiguration
 	err := copied.AssignProperties_To_AppLogsConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -152,7 +153,7 @@ func RunPropertyAssignmentTestForAppLogsConfiguration_STATUS(subject AppLogsConf
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AppLogsConfiguration_STATUS
+	var other app_v1api20250101s.AppLogsConfiguration_STATUS
 	err := copied.AssignProperties_To_AppLogsConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -269,7 +270,7 @@ func RunPropertyAssignmentTestForCertificateKeyVaultProperties(subject Certifica
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CertificateKeyVaultProperties
+	var other app_v1api20250101s.CertificateKeyVaultProperties
 	err := copied.AssignProperties_To_CertificateKeyVaultProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -372,7 +373,7 @@ func RunPropertyAssignmentTestForCertificateKeyVaultProperties_STATUS(subject Ce
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CertificateKeyVaultProperties_STATUS
+	var other app_v1api20250101s.CertificateKeyVaultProperties_STATUS
 	err := copied.AssignProperties_To_CertificateKeyVaultProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -476,7 +477,7 @@ func RunPropertyAssignmentTestForCustomDomainConfiguration(subject CustomDomainC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CustomDomainConfiguration
+	var other app_v1api20250101s.CustomDomainConfiguration
 	err := copied.AssignProperties_To_CustomDomainConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -593,7 +594,7 @@ func RunPropertyAssignmentTestForCustomDomainConfiguration_STATUS(subject Custom
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CustomDomainConfiguration_STATUS
+	var other app_v1api20250101s.CustomDomainConfiguration_STATUS
 	err := copied.AssignProperties_To_CustomDomainConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -714,7 +715,7 @@ func RunPropertyAssignmentTestForDaprConfiguration_STATUS(subject DaprConfigurat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DaprConfiguration_STATUS
+	var other app_v1api20250101s.DaprConfiguration_STATUS
 	err := copied.AssignProperties_To_DaprConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -817,7 +818,7 @@ func RunPropertyAssignmentTestForKedaConfiguration_STATUS(subject KedaConfigurat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KedaConfiguration_STATUS
+	var other app_v1api20250101s.KedaConfiguration_STATUS
 	err := copied.AssignProperties_To_KedaConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -920,7 +921,7 @@ func RunPropertyAssignmentTestForLogAnalyticsConfiguration(subject LogAnalyticsC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LogAnalyticsConfiguration
+	var other app_v1api20250101s.LogAnalyticsConfiguration
 	err := copied.AssignProperties_To_LogAnalyticsConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -1023,7 +1024,7 @@ func RunPropertyAssignmentTestForLogAnalyticsConfiguration_STATUS(subject LogAna
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LogAnalyticsConfiguration_STATUS
+	var other app_v1api20250101s.LogAnalyticsConfiguration_STATUS
 	err := copied.AssignProperties_To_LogAnalyticsConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1127,7 +1128,7 @@ func RunResourceConversionTestForManagedEnvironment(subject ManagedEnvironment) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ManagedEnvironment
+	var hub app_v20250101s.ManagedEnvironment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -1169,7 +1170,7 @@ func RunPropertyAssignmentTestForManagedEnvironment(subject ManagedEnvironment) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedEnvironment
+	var other app_v1api20250101s.ManagedEnvironment
 	err := copied.AssignProperties_To_ManagedEnvironment(&other)
 	if err != nil {
 		return err.Error()
@@ -1272,7 +1273,7 @@ func RunPropertyAssignmentTestForManagedEnvironmentOperatorSpec(subject ManagedE
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedEnvironmentOperatorSpec
+	var other app_v1api20250101s.ManagedEnvironmentOperatorSpec
 	err := copied.AssignProperties_To_ManagedEnvironmentOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1369,7 +1370,7 @@ func RunPropertyAssignmentTestForManagedEnvironment_Properties_PeerAuthenticatio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedEnvironment_Properties_PeerAuthentication_STATUS
+	var other app_v1api20250101s.ManagedEnvironment_Properties_PeerAuthentication_STATUS
 	err := copied.AssignProperties_To_ManagedEnvironment_Properties_PeerAuthentication_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1472,7 +1473,7 @@ func RunPropertyAssignmentTestForManagedEnvironment_Properties_PeerAuthenticatio
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedEnvironment_Properties_PeerAuthentication_Spec
+	var other app_v1api20250101s.ManagedEnvironment_Properties_PeerAuthentication_Spec
 	err := copied.AssignProperties_To_ManagedEnvironment_Properties_PeerAuthentication_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1575,7 +1576,7 @@ func RunPropertyAssignmentTestForManagedEnvironment_Properties_PeerTrafficConfig
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS
+	var other app_v1api20250101s.ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS
 	err := copied.AssignProperties_To_ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1678,7 +1679,7 @@ func RunPropertyAssignmentTestForManagedEnvironment_Properties_PeerTrafficConfig
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec
+	var other app_v1api20250101s.ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec
 	err := copied.AssignProperties_To_ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1781,7 +1782,7 @@ func RunPropertyAssignmentTestForManagedEnvironment_Properties_PeerTrafficConfig
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS
+	var other app_v1api20250101s.ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS
 	err := copied.AssignProperties_To_ManagedEnvironment_Properties_PeerTrafficConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1884,7 +1885,7 @@ func RunPropertyAssignmentTestForManagedEnvironment_Properties_PeerTrafficConfig
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec
+	var other app_v1api20250101s.ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec
 	err := copied.AssignProperties_To_ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1987,7 +1988,7 @@ func RunPropertyAssignmentTestForManagedEnvironment_STATUS(subject ManagedEnviro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedEnvironment_STATUS
+	var other app_v1api20250101s.ManagedEnvironment_STATUS
 	err := copied.AssignProperties_To_ManagedEnvironment_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2137,7 +2138,7 @@ func RunPropertyAssignmentTestForManagedEnvironment_Spec(subject ManagedEnvironm
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedEnvironment_Spec
+	var other app_v1api20250101s.ManagedEnvironment_Spec
 	err := copied.AssignProperties_To_ManagedEnvironment_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -2268,7 +2269,7 @@ func RunPropertyAssignmentTestForMtls(subject Mtls) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Mtls
+	var other app_v1api20250101s.Mtls
 	err := copied.AssignProperties_To_Mtls(&other)
 	if err != nil {
 		return err.Error()
@@ -2370,7 +2371,7 @@ func RunPropertyAssignmentTestForMtls_STATUS(subject Mtls_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Mtls_STATUS
+	var other app_v1api20250101s.Mtls_STATUS
 	err := copied.AssignProperties_To_Mtls_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2472,7 +2473,7 @@ func RunPropertyAssignmentTestForVnetConfiguration(subject VnetConfiguration) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VnetConfiguration
+	var other app_v1api20250101s.VnetConfiguration
 	err := copied.AssignProperties_To_VnetConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -2577,7 +2578,7 @@ func RunPropertyAssignmentTestForVnetConfiguration_STATUS(subject VnetConfigurat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VnetConfiguration_STATUS
+	var other app_v1api20250101s.VnetConfiguration_STATUS
 	err := copied.AssignProperties_To_VnetConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2684,7 +2685,7 @@ func RunPropertyAssignmentTestForWorkloadProfile(subject WorkloadProfile) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkloadProfile
+	var other app_v1api20250101s.WorkloadProfile
 	err := copied.AssignProperties_To_WorkloadProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -2789,7 +2790,7 @@ func RunPropertyAssignmentTestForWorkloadProfile_STATUS(subject WorkloadProfile_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WorkloadProfile_STATUS
+	var other app_v1api20250101s.WorkloadProfile_STATUS
 	err := copied.AssignProperties_To_WorkloadProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()

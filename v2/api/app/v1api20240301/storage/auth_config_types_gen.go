@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/app/v20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &AuthConfig{}
 
 // ConvertFrom populates our AuthConfig from the provided hub AuthConfig
 func (config *AuthConfig) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.AuthConfig)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20250101/storage/AuthConfig but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.AuthConfig
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return config.AssignProperties_From_AuthConfig(source)
+	err = config.AssignProperties_From_AuthConfig(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to config")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub AuthConfig from our AuthConfig
 func (config *AuthConfig) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.AuthConfig)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20250101/storage/AuthConfig but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.AuthConfig
+	err := config.AssignProperties_To_AuthConfig(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from config")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return config.AssignProperties_To_AuthConfig(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &AuthConfig{}
