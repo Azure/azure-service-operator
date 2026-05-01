@@ -634,6 +634,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/datafactory/v20180601/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/eventgrid/v20200601/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20210101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v20210401/</loc>
