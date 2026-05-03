@@ -668,6 +668,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20231230/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/app/v20240301/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v20240501/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v20240601/</loc>
@@ -675,6 +677,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20240701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20241230/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/app/v20250101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/network/v20250301/</loc>
   </url><url>
