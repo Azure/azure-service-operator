@@ -29,4 +29,5 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
 FROM registry.access.redhat.com/ubi9/ubi:9.7-1777525589
 COPY --from=builder /workspace/aso-controller /aso-controller
 COPY stolostron/crds ./crds
+USER nonroot:nonroot
 ENTRYPOINT ["/aso-controller"]
