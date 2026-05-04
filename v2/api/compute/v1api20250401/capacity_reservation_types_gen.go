@@ -51,22 +51,36 @@ var _ conversion.Convertible = &CapacityReservation{}
 
 // ConvertFrom populates our CapacityReservation from the provided hub CapacityReservation
 func (reservation *CapacityReservation) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.CapacityReservation)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20250401/storage/CapacityReservation but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.CapacityReservation
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return reservation.AssignProperties_From_CapacityReservation(source)
+	err = reservation.AssignProperties_From_CapacityReservation(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to reservation")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub CapacityReservation from our CapacityReservation
 func (reservation *CapacityReservation) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.CapacityReservation)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20250401/storage/CapacityReservation but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.CapacityReservation
+	err := reservation.AssignProperties_To_CapacityReservation(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from reservation")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return reservation.AssignProperties_To_CapacityReservation(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &CapacityReservation{}
@@ -87,17 +101,6 @@ func (reservation *CapacityReservation) SecretDestinationExpressions() []*core.D
 		return nil
 	}
 	return reservation.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &CapacityReservation{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (reservation *CapacityReservation) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*CapacityReservation_STATUS); ok {
-		return reservation.Spec.Initialize_From_CapacityReservation_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type CapacityReservation_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &CapacityReservation{}
@@ -603,46 +606,6 @@ func (reservation *CapacityReservation_Spec) AssignProperties_To_CapacityReserva
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CapacityReservation_STATUS populates our CapacityReservation_Spec from the provided source CapacityReservation_STATUS
-func (reservation *CapacityReservation_Spec) Initialize_From_CapacityReservation_STATUS(source *CapacityReservation_STATUS) error {
-
-	// Location
-	reservation.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ScheduleProfile
-	if source.ScheduleProfile != nil {
-		var scheduleProfile ScheduleProfile
-		err := scheduleProfile.Initialize_From_ScheduleProfile_STATUS(source.ScheduleProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ScheduleProfile_STATUS() to populate field ScheduleProfile")
-		}
-		reservation.ScheduleProfile = &scheduleProfile
-	} else {
-		reservation.ScheduleProfile = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		reservation.Sku = &sku
-	} else {
-		reservation.Sku = nil
-	}
-
-	// Tags
-	reservation.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Zones
-	reservation.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1486,19 +1449,6 @@ func (profile *ScheduleProfile) AssignProperties_To_ScheduleProfile(destination 
 	return nil
 }
 
-// Initialize_From_ScheduleProfile_STATUS populates our ScheduleProfile from the provided source ScheduleProfile_STATUS
-func (profile *ScheduleProfile) Initialize_From_ScheduleProfile_STATUS(source *ScheduleProfile_STATUS) error {
-
-	// End
-	profile.End = genruntime.ClonePointerToString(source.End)
-
-	// Start
-	profile.Start = genruntime.ClonePointerToString(source.Start)
-
-	// No error
-	return nil
-}
-
 // Defines the schedule for Block-type capacity reservations. Specifies the schedule during which capacity reservation is
 // active and VM or VMSS resource can be allocated using reservation. This property is required and only supported when the
 // capacity reservation group type is 'Block'. The scheduleProfile, start, and end fields are immutable after creation.
@@ -1693,22 +1643,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Name
-	sku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Tier
-	sku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil

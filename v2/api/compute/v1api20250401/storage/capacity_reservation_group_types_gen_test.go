@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v20250401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,91 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_CapacityReservationGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CapacityReservationGroup to hub returns original",
+		prop.ForAll(RunResourceConversionTestForCapacityReservationGroup, CapacityReservationGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForCapacityReservationGroup tests if a specific instance of CapacityReservationGroup round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForCapacityReservationGroup(subject CapacityReservationGroup) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.CapacityReservationGroup
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual CapacityReservationGroup
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_CapacityReservationGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CapacityReservationGroup to CapacityReservationGroup via AssignProperties_To_CapacityReservationGroup & AssignProperties_From_CapacityReservationGroup returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationGroup, CapacityReservationGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCapacityReservationGroup tests if a specific instance of CapacityReservationGroup can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCapacityReservationGroup(subject CapacityReservationGroup) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CapacityReservationGroup
+	err := copied.AssignProperties_To_CapacityReservationGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CapacityReservationGroup
+	err = actual.AssignProperties_From_CapacityReservationGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_CapacityReservationGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +163,48 @@ func CapacityReservationGroupGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForCapacityReservationGroup(gens map[string]gopter.Gen) {
 	gens["Spec"] = CapacityReservationGroup_SpecGenerator()
 	gens["Status"] = CapacityReservationGroup_STATUSGenerator()
+}
+
+func Test_CapacityReservationGroupInstanceView_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CapacityReservationGroupInstanceView_STATUS to CapacityReservationGroupInstanceView_STATUS via AssignProperties_To_CapacityReservationGroupInstanceView_STATUS & AssignProperties_From_CapacityReservationGroupInstanceView_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationGroupInstanceView_STATUS, CapacityReservationGroupInstanceView_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCapacityReservationGroupInstanceView_STATUS tests if a specific instance of CapacityReservationGroupInstanceView_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCapacityReservationGroupInstanceView_STATUS(subject CapacityReservationGroupInstanceView_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CapacityReservationGroupInstanceView_STATUS
+	err := copied.AssignProperties_To_CapacityReservationGroupInstanceView_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CapacityReservationGroupInstanceView_STATUS
+	err = actual.AssignProperties_From_CapacityReservationGroupInstanceView_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CapacityReservationGroupInstanceView_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -141,6 +269,48 @@ func AddRelatedPropertyGeneratorsForCapacityReservationGroupInstanceView_STATUS(
 	gens["SharedSubscriptionIds"] = gen.SliceOf(SubResourceReadOnly_STATUSGenerator())
 }
 
+func Test_CapacityReservationGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CapacityReservationGroupOperatorSpec to CapacityReservationGroupOperatorSpec via AssignProperties_To_CapacityReservationGroupOperatorSpec & AssignProperties_From_CapacityReservationGroupOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationGroupOperatorSpec, CapacityReservationGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCapacityReservationGroupOperatorSpec tests if a specific instance of CapacityReservationGroupOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCapacityReservationGroupOperatorSpec(subject CapacityReservationGroupOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CapacityReservationGroupOperatorSpec
+	err := copied.AssignProperties_To_CapacityReservationGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CapacityReservationGroupOperatorSpec
+	err = actual.AssignProperties_From_CapacityReservationGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CapacityReservationGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -194,6 +364,48 @@ func CapacityReservationGroupOperatorSpecGenerator() gopter.Gen {
 	capacityReservationGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(CapacityReservationGroupOperatorSpec{}), generators)
 
 	return capacityReservationGroupOperatorSpecGenerator
+}
+
+func Test_CapacityReservationGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CapacityReservationGroup_STATUS to CapacityReservationGroup_STATUS via AssignProperties_To_CapacityReservationGroup_STATUS & AssignProperties_From_CapacityReservationGroup_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationGroup_STATUS, CapacityReservationGroup_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCapacityReservationGroup_STATUS tests if a specific instance of CapacityReservationGroup_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCapacityReservationGroup_STATUS(subject CapacityReservationGroup_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CapacityReservationGroup_STATUS
+	err := copied.AssignProperties_To_CapacityReservationGroup_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CapacityReservationGroup_STATUS
+	err = actual.AssignProperties_From_CapacityReservationGroup_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CapacityReservationGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -283,6 +495,48 @@ func AddRelatedPropertyGeneratorsForCapacityReservationGroup_STATUS(gens map[str
 	gens["VirtualMachinesAssociated"] = gen.SliceOf(SubResourceReadOnly_STATUSGenerator())
 }
 
+func Test_CapacityReservationGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CapacityReservationGroup_Spec to CapacityReservationGroup_Spec via AssignProperties_To_CapacityReservationGroup_Spec & AssignProperties_From_CapacityReservationGroup_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationGroup_Spec, CapacityReservationGroup_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCapacityReservationGroup_Spec tests if a specific instance of CapacityReservationGroup_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCapacityReservationGroup_Spec(subject CapacityReservationGroup_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CapacityReservationGroup_Spec
+	err := copied.AssignProperties_To_CapacityReservationGroup_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CapacityReservationGroup_Spec
+	err = actual.AssignProperties_From_CapacityReservationGroup_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CapacityReservationGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -366,6 +620,48 @@ func AddRelatedPropertyGeneratorsForCapacityReservationGroup_Spec(gens map[strin
 	gens["SharingProfile"] = gen.PtrOf(ResourceSharingProfileGenerator())
 }
 
+func Test_CapacityReservationInstanceViewWithName_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CapacityReservationInstanceViewWithName_STATUS to CapacityReservationInstanceViewWithName_STATUS via AssignProperties_To_CapacityReservationInstanceViewWithName_STATUS & AssignProperties_From_CapacityReservationInstanceViewWithName_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCapacityReservationInstanceViewWithName_STATUS, CapacityReservationInstanceViewWithName_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCapacityReservationInstanceViewWithName_STATUS tests if a specific instance of CapacityReservationInstanceViewWithName_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCapacityReservationInstanceViewWithName_STATUS(subject CapacityReservationInstanceViewWithName_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CapacityReservationInstanceViewWithName_STATUS
+	err := copied.AssignProperties_To_CapacityReservationInstanceViewWithName_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CapacityReservationInstanceViewWithName_STATUS
+	err = actual.AssignProperties_From_CapacityReservationInstanceViewWithName_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CapacityReservationInstanceViewWithName_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -442,6 +738,48 @@ func AddRelatedPropertyGeneratorsForCapacityReservationInstanceViewWithName_STAT
 	gens["UtilizationInfo"] = gen.PtrOf(CapacityReservationUtilization_STATUSGenerator())
 }
 
+func Test_ResourceSharingProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ResourceSharingProfile to ResourceSharingProfile via AssignProperties_To_ResourceSharingProfile & AssignProperties_From_ResourceSharingProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForResourceSharingProfile, ResourceSharingProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForResourceSharingProfile tests if a specific instance of ResourceSharingProfile can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForResourceSharingProfile(subject ResourceSharingProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ResourceSharingProfile
+	err := copied.AssignProperties_To_ResourceSharingProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ResourceSharingProfile
+	err = actual.AssignProperties_From_ResourceSharingProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ResourceSharingProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -501,6 +839,48 @@ func ResourceSharingProfileGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForResourceSharingProfile is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForResourceSharingProfile(gens map[string]gopter.Gen) {
 	gens["SubscriptionIds"] = gen.SliceOf(SubResourceGenerator())
+}
+
+func Test_ResourceSharingProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ResourceSharingProfile_STATUS to ResourceSharingProfile_STATUS via AssignProperties_To_ResourceSharingProfile_STATUS & AssignProperties_From_ResourceSharingProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForResourceSharingProfile_STATUS, ResourceSharingProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForResourceSharingProfile_STATUS tests if a specific instance of ResourceSharingProfile_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForResourceSharingProfile_STATUS(subject ResourceSharingProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ResourceSharingProfile_STATUS
+	err := copied.AssignProperties_To_ResourceSharingProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ResourceSharingProfile_STATUS
+	err = actual.AssignProperties_From_ResourceSharingProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ResourceSharingProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -564,6 +944,48 @@ func AddRelatedPropertyGeneratorsForResourceSharingProfile_STATUS(gens map[strin
 	gens["SubscriptionIds"] = gen.SliceOf(SubResource_STATUSGenerator())
 }
 
+func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SubResource to SubResource via AssignProperties_To_SubResource & AssignProperties_From_SubResource returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubResource, SubResourceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SubResource
+	err := copied.AssignProperties_To_SubResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SubResource
+	err = actual.AssignProperties_From_SubResource(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -616,6 +1038,48 @@ func SubResourceGenerator() gopter.Gen {
 	subResourceGenerator = gen.Struct(reflect.TypeOf(SubResource{}), generators)
 
 	return subResourceGenerator
+}
+
+func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SubResource_STATUS to SubResource_STATUS via AssignProperties_To_SubResource_STATUS & AssignProperties_From_SubResource_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubResource_STATUS, SubResource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubResource_STATUS tests if a specific instance of SubResource_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SubResource_STATUS
+	err := copied.AssignProperties_To_SubResource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SubResource_STATUS
+	err = actual.AssignProperties_From_SubResource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

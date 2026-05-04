@@ -51,22 +51,36 @@ var _ conversion.Convertible = &CapacityReservationGroup{}
 
 // ConvertFrom populates our CapacityReservationGroup from the provided hub CapacityReservationGroup
 func (group *CapacityReservationGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.CapacityReservationGroup)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20250401/storage/CapacityReservationGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.CapacityReservationGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_CapacityReservationGroup(source)
+	err = group.AssignProperties_From_CapacityReservationGroup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub CapacityReservationGroup from our CapacityReservationGroup
 func (group *CapacityReservationGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.CapacityReservationGroup)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20250401/storage/CapacityReservationGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.CapacityReservationGroup
+	err := group.AssignProperties_To_CapacityReservationGroup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_CapacityReservationGroup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &CapacityReservationGroup{}
@@ -87,17 +101,6 @@ func (group *CapacityReservationGroup) SecretDestinationExpressions() []*core.De
 		return nil
 	}
 	return group.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &CapacityReservationGroup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *CapacityReservationGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*CapacityReservationGroup_STATUS); ok {
-		return group.Spec.Initialize_From_CapacityReservationGroup_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type CapacityReservationGroup_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &CapacityReservationGroup{}
@@ -583,42 +586,6 @@ func (group *CapacityReservationGroup_Spec) AssignProperties_To_CapacityReservat
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CapacityReservationGroup_STATUS populates our CapacityReservationGroup_Spec from the provided source CapacityReservationGroup_STATUS
-func (group *CapacityReservationGroup_Spec) Initialize_From_CapacityReservationGroup_STATUS(source *CapacityReservationGroup_STATUS) error {
-
-	// Location
-	group.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ReservationType
-	if source.ReservationType != nil {
-		reservationType := genruntime.ToEnum(string(*source.ReservationType), reservationType_Values)
-		group.ReservationType = &reservationType
-	} else {
-		group.ReservationType = nil
-	}
-
-	// SharingProfile
-	if source.SharingProfile != nil {
-		var sharingProfile ResourceSharingProfile
-		err := sharingProfile.Initialize_From_ResourceSharingProfile_STATUS(source.SharingProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceSharingProfile_STATUS() to populate field SharingProfile")
-		}
-		group.SharingProfile = &sharingProfile
-	} else {
-		group.SharingProfile = nil
-	}
-
-	// Tags
-	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Zones
-	group.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1458,29 +1425,6 @@ func (profile *ResourceSharingProfile) AssignProperties_To_ResourceSharingProfil
 	return nil
 }
 
-// Initialize_From_ResourceSharingProfile_STATUS populates our ResourceSharingProfile from the provided source ResourceSharingProfile_STATUS
-func (profile *ResourceSharingProfile) Initialize_From_ResourceSharingProfile_STATUS(source *ResourceSharingProfile_STATUS) error {
-
-	// SubscriptionIds
-	if source.SubscriptionIds != nil {
-		subscriptionIdList := make([]SubResource, len(source.SubscriptionIds))
-		for subscriptionIdIndex, subscriptionIdItem := range source.SubscriptionIds {
-			var subscriptionId SubResource
-			err := subscriptionId.Initialize_From_SubResource_STATUS(&subscriptionIdItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field SubscriptionIds")
-			}
-			subscriptionIdList[subscriptionIdIndex] = subscriptionId
-		}
-		profile.SubscriptionIds = subscriptionIdList
-	} else {
-		profile.SubscriptionIds = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ResourceSharingProfile_STATUS struct {
 	// SubscriptionIds: Specifies an array of subscription resource IDs that capacity reservation group is shared with. Block
 	// Capacity Reservations does not support sharing across subscriptions. Note: Minimum api-version: 2023-09-01. Please refer
@@ -1791,21 +1735,6 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *storag
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SubResource_STATUS populates our SubResource from the provided source SubResource_STATUS
-func (resource *SubResource) Initialize_From_SubResource_STATUS(source *SubResource_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
 	}
 
 	// No error

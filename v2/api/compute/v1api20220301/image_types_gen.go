@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Image{}
 
 // ConvertFrom populates our Image from the provided hub Image
 func (image *Image) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Image)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/Image but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Image
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return image.AssignProperties_From_Image(source)
+	err = image.AssignProperties_From_Image(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to image")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Image from our Image
 func (image *Image) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Image)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/Image but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Image
+	err := image.AssignProperties_To_Image(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from image")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return image.AssignProperties_To_Image(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Image{}
@@ -87,17 +101,6 @@ func (image *Image) SecretDestinationExpressions() []*core.DestinationExpression
 		return nil
 	}
 	return image.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Image{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (image *Image) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Image_STATUS); ok {
-		return image.Spec.Initialize_From_Image_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Image_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Image{}
@@ -670,63 +673,6 @@ func (image *Image_Spec) AssignProperties_To_Image_Spec(destination *storage.Ima
 	return nil
 }
 
-// Initialize_From_Image_STATUS populates our Image_Spec from the provided source Image_STATUS
-func (image *Image_Spec) Initialize_From_Image_STATUS(source *Image_STATUS) error {
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		image.ExtendedLocation = &extendedLocation
-	} else {
-		image.ExtendedLocation = nil
-	}
-
-	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := genruntime.ToEnum(string(*source.HyperVGeneration), hyperVGenerationType_Values)
-		image.HyperVGeneration = &hyperVGeneration
-	} else {
-		image.HyperVGeneration = nil
-	}
-
-	// Location
-	image.Location = genruntime.ClonePointerToString(source.Location)
-
-	// SourceVirtualMachine
-	if source.SourceVirtualMachine != nil {
-		var sourceVirtualMachine SubResource
-		err := sourceVirtualMachine.Initialize_From_SubResource_STATUS(source.SourceVirtualMachine)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field SourceVirtualMachine")
-		}
-		image.SourceVirtualMachine = &sourceVirtualMachine
-	} else {
-		image.SourceVirtualMachine = nil
-	}
-
-	// StorageProfile
-	if source.StorageProfile != nil {
-		var storageProfile ImageStorageProfile
-		err := storageProfile.Initialize_From_ImageStorageProfile_STATUS(source.StorageProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ImageStorageProfile_STATUS() to populate field StorageProfile")
-		}
-		image.StorageProfile = &storageProfile
-	} else {
-		image.StorageProfile = nil
-	}
-
-	// Tags
-	image.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (image *Image_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1200,24 +1146,6 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
-// Initialize_From_ExtendedLocation_STATUS populates our ExtendedLocation from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source *ExtendedLocation_STATUS) error {
-
-	// Name
-	location.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationType_Values)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	// Name: The name of the extended location.
@@ -1621,49 +1549,6 @@ func (profile *ImageStorageProfile) AssignProperties_To_ImageStorageProfile(dest
 	return nil
 }
 
-// Initialize_From_ImageStorageProfile_STATUS populates our ImageStorageProfile from the provided source ImageStorageProfile_STATUS
-func (profile *ImageStorageProfile) Initialize_From_ImageStorageProfile_STATUS(source *ImageStorageProfile_STATUS) error {
-
-	// DataDisks
-	if source.DataDisks != nil {
-		dataDiskList := make([]ImageDataDisk, len(source.DataDisks))
-		for dataDiskIndex, dataDiskItem := range source.DataDisks {
-			var dataDisk ImageDataDisk
-			err := dataDisk.Initialize_From_ImageDataDisk_STATUS(&dataDiskItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ImageDataDisk_STATUS() to populate field DataDisks")
-			}
-			dataDiskList[dataDiskIndex] = dataDisk
-		}
-		profile.DataDisks = dataDiskList
-	} else {
-		profile.DataDisks = nil
-	}
-
-	// OsDisk
-	if source.OsDisk != nil {
-		var osDisk ImageOSDisk
-		err := osDisk.Initialize_From_ImageOSDisk_STATUS(source.OsDisk)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ImageOSDisk_STATUS() to populate field OsDisk")
-		}
-		profile.OsDisk = &osDisk
-	} else {
-		profile.OsDisk = nil
-	}
-
-	// ZoneResilient
-	if source.ZoneResilient != nil {
-		zoneResilient := *source.ZoneResilient
-		profile.ZoneResilient = &zoneResilient
-	} else {
-		profile.ZoneResilient = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Describes a storage profile.
 type ImageStorageProfile_STATUS struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.
@@ -1898,21 +1783,6 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *storag
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SubResource_STATUS populates our SubResource from the provided source SubResource_STATUS
-func (resource *SubResource) Initialize_From_SubResource_STATUS(source *SubResource_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
 	}
 
 	// No error
@@ -2334,74 +2204,6 @@ func (disk *ImageDataDisk) AssignProperties_To_ImageDataDisk(destination *storag
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ImageDataDisk_STATUS populates our ImageDataDisk from the provided source ImageDataDisk_STATUS
-func (disk *ImageDataDisk) Initialize_From_ImageDataDisk_STATUS(source *ImageDataDisk_STATUS) error {
-
-	// BlobUri
-	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
-
-	// Caching
-	if source.Caching != nil {
-		caching := genruntime.ToEnum(string(*source.Caching), imageDataDisk_Caching_Values)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
-
-	// DiskEncryptionSet
-	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet SubResource
-		err := diskEncryptionSet.Initialize_From_SubResource_STATUS(source.DiskEncryptionSet)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field DiskEncryptionSet")
-		}
-		disk.DiskEncryptionSet = &diskEncryptionSet
-	} else {
-		disk.DiskEncryptionSet = nil
-	}
-
-	// DiskSizeGB
-	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// Lun
-	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
-
-	// ManagedDisk
-	if source.ManagedDisk != nil {
-		var managedDisk SubResource
-		err := managedDisk.Initialize_From_SubResource_STATUS(source.ManagedDisk)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field ManagedDisk")
-		}
-		disk.ManagedDisk = &managedDisk
-	} else {
-		disk.ManagedDisk = nil
-	}
-
-	// Snapshot
-	if source.Snapshot != nil {
-		var snapshot SubResource
-		err := snapshot.Initialize_From_SubResource_STATUS(source.Snapshot)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Snapshot")
-		}
-		disk.Snapshot = &snapshot
-	} else {
-		disk.Snapshot = nil
-	}
-
-	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := genruntime.ToEnum(string(*source.StorageAccountType), storageAccountType_Values)
-		disk.StorageAccountType = &storageAccountType
-	} else {
-		disk.StorageAccountType = nil
 	}
 
 	// No error
@@ -3067,87 +2869,6 @@ func (disk *ImageOSDisk) AssignProperties_To_ImageOSDisk(destination *storage.Im
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ImageOSDisk_STATUS populates our ImageOSDisk from the provided source ImageOSDisk_STATUS
-func (disk *ImageOSDisk) Initialize_From_ImageOSDisk_STATUS(source *ImageOSDisk_STATUS) error {
-
-	// BlobUri
-	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
-
-	// Caching
-	if source.Caching != nil {
-		caching := genruntime.ToEnum(string(*source.Caching), imageOSDisk_Caching_Values)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
-
-	// DiskEncryptionSet
-	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet SubResource
-		err := diskEncryptionSet.Initialize_From_SubResource_STATUS(source.DiskEncryptionSet)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field DiskEncryptionSet")
-		}
-		disk.DiskEncryptionSet = &diskEncryptionSet
-	} else {
-		disk.DiskEncryptionSet = nil
-	}
-
-	// DiskSizeGB
-	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// ManagedDisk
-	if source.ManagedDisk != nil {
-		var managedDisk SubResource
-		err := managedDisk.Initialize_From_SubResource_STATUS(source.ManagedDisk)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field ManagedDisk")
-		}
-		disk.ManagedDisk = &managedDisk
-	} else {
-		disk.ManagedDisk = nil
-	}
-
-	// OsState
-	if source.OsState != nil {
-		osState := genruntime.ToEnum(string(*source.OsState), imageOSDisk_OsState_Values)
-		disk.OsState = &osState
-	} else {
-		disk.OsState = nil
-	}
-
-	// OsType
-	if source.OsType != nil {
-		osType := genruntime.ToEnum(string(*source.OsType), imageOSDisk_OsType_Values)
-		disk.OsType = &osType
-	} else {
-		disk.OsType = nil
-	}
-
-	// Snapshot
-	if source.Snapshot != nil {
-		var snapshot SubResource
-		err := snapshot.Initialize_From_SubResource_STATUS(source.Snapshot)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Snapshot")
-		}
-		disk.Snapshot = &snapshot
-	} else {
-		disk.Snapshot = nil
-	}
-
-	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := genruntime.ToEnum(string(*source.StorageAccountType), storageAccountType_Values)
-		disk.StorageAccountType = &storageAccountType
-	} else {
-		disk.StorageAccountType = nil
 	}
 
 	// No error

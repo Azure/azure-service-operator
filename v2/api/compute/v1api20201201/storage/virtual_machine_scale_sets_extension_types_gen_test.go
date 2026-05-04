@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v20201201/storage"
+	v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v20220301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForVirtualMachineScaleSetsExtension(subject Virtua
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.VirtualMachineScaleSetsExtension
+	var hub v20220301s.VirtualMachineScaleSetsExtension
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension(subject Virtua
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualMachineScaleSetsExtension
+	var other v20201201s.VirtualMachineScaleSetsExtension
 	err := copied.AssignProperties_To_VirtualMachineScaleSetsExtension(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsExtensionOperatorSpec(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualMachineScaleSetsExtensionOperatorSpec
+	var other v20201201s.VirtualMachineScaleSetsExtensionOperatorSpec
 	err := copied.AssignProperties_To_VirtualMachineScaleSetsExtensionOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -279,7 +280,7 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualMachineScaleSetsExtension_STATUS
+	var other v20201201s.VirtualMachineScaleSetsExtension_STATUS
 	err := copied.AssignProperties_To_VirtualMachineScaleSetsExtension_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -392,7 +393,7 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension_Spec(subject V
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualMachineScaleSetsExtension_Spec
+	var other v20201201s.VirtualMachineScaleSetsExtension_Spec
 	err := copied.AssignProperties_To_VirtualMachineScaleSetsExtension_Spec(&other)
 	if err != nil {
 		return err.Error()

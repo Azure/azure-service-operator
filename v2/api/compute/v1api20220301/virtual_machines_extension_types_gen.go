@@ -52,22 +52,36 @@ var _ conversion.Convertible = &VirtualMachinesExtension{}
 
 // ConvertFrom populates our VirtualMachinesExtension from the provided hub VirtualMachinesExtension
 func (extension *VirtualMachinesExtension) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.VirtualMachinesExtension)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachinesExtension but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.VirtualMachinesExtension
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return extension.AssignProperties_From_VirtualMachinesExtension(source)
+	err = extension.AssignProperties_From_VirtualMachinesExtension(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to extension")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualMachinesExtension from our VirtualMachinesExtension
 func (extension *VirtualMachinesExtension) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.VirtualMachinesExtension)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachinesExtension but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.VirtualMachinesExtension
+	err := extension.AssignProperties_To_VirtualMachinesExtension(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from extension")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return extension.AssignProperties_To_VirtualMachinesExtension(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &VirtualMachinesExtension{}
@@ -88,17 +102,6 @@ func (extension *VirtualMachinesExtension) SecretDestinationExpressions() []*cor
 		return nil
 	}
 	return extension.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &VirtualMachinesExtension{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (extension *VirtualMachinesExtension) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*VirtualMachinesExtension_STATUS); ok {
-		return extension.Spec.Initialize_From_VirtualMachinesExtension_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type VirtualMachinesExtension_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &VirtualMachinesExtension{}
@@ -847,90 +850,6 @@ func (extension *VirtualMachinesExtension_Spec) AssignProperties_To_VirtualMachi
 	return nil
 }
 
-// Initialize_From_VirtualMachinesExtension_STATUS populates our VirtualMachinesExtension_Spec from the provided source VirtualMachinesExtension_STATUS
-func (extension *VirtualMachinesExtension_Spec) Initialize_From_VirtualMachinesExtension_STATUS(source *VirtualMachinesExtension_STATUS) error {
-
-	// AutoUpgradeMinorVersion
-	if source.AutoUpgradeMinorVersion != nil {
-		autoUpgradeMinorVersion := *source.AutoUpgradeMinorVersion
-		extension.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
-	} else {
-		extension.AutoUpgradeMinorVersion = nil
-	}
-
-	// EnableAutomaticUpgrade
-	if source.EnableAutomaticUpgrade != nil {
-		enableAutomaticUpgrade := *source.EnableAutomaticUpgrade
-		extension.EnableAutomaticUpgrade = &enableAutomaticUpgrade
-	} else {
-		extension.EnableAutomaticUpgrade = nil
-	}
-
-	// ForceUpdateTag
-	extension.ForceUpdateTag = genruntime.ClonePointerToString(source.ForceUpdateTag)
-
-	// InstanceView
-	if source.InstanceView != nil {
-		var instanceView VirtualMachineExtensionInstanceView
-		err := instanceView.Initialize_From_VirtualMachineExtensionInstanceView_STATUS(source.InstanceView)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineExtensionInstanceView_STATUS() to populate field InstanceView")
-		}
-		extension.InstanceView = &instanceView
-	} else {
-		extension.InstanceView = nil
-	}
-
-	// Location
-	extension.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ProtectedSettingsFromKeyVault
-	if source.ProtectedSettingsFromKeyVault != nil {
-		var protectedSettingsFromKeyVault KeyVaultSecretReference
-		err := protectedSettingsFromKeyVault.Initialize_From_KeyVaultSecretReference_STATUS(source.ProtectedSettingsFromKeyVault)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KeyVaultSecretReference_STATUS() to populate field ProtectedSettingsFromKeyVault")
-		}
-		extension.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
-	} else {
-		extension.ProtectedSettingsFromKeyVault = nil
-	}
-
-	// Publisher
-	extension.Publisher = genruntime.ClonePointerToString(source.Publisher)
-
-	// Settings
-	if source.Settings != nil {
-		settingMap := make(map[string]v1.JSON, len(source.Settings))
-		for settingKey, settingValue := range source.Settings {
-			settingMap[settingKey] = *settingValue.DeepCopy()
-		}
-		extension.Settings = settingMap
-	} else {
-		extension.Settings = nil
-	}
-
-	// SuppressFailures
-	if source.SuppressFailures != nil {
-		suppressFailure := *source.SuppressFailures
-		extension.SuppressFailures = &suppressFailure
-	} else {
-		extension.SuppressFailures = nil
-	}
-
-	// Tags
-	extension.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	extension.Type = genruntime.ClonePointerToString(source.PropertiesType)
-
-	// TypeHandlerVersion
-	extension.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (extension *VirtualMachinesExtension_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1643,54 +1562,6 @@ func (view *VirtualMachineExtensionInstanceView) AssignProperties_To_VirtualMach
 	return nil
 }
 
-// Initialize_From_VirtualMachineExtensionInstanceView_STATUS populates our VirtualMachineExtensionInstanceView from the provided source VirtualMachineExtensionInstanceView_STATUS
-func (view *VirtualMachineExtensionInstanceView) Initialize_From_VirtualMachineExtensionInstanceView_STATUS(source *VirtualMachineExtensionInstanceView_STATUS) error {
-
-	// Name
-	view.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			var status InstanceViewStatus
-			err := status.Initialize_From_InstanceViewStatus_STATUS(&statusItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_InstanceViewStatus_STATUS() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		view.Statuses = statusList
-	} else {
-		view.Statuses = nil
-	}
-
-	// Substatuses
-	if source.Substatuses != nil {
-		substatusList := make([]InstanceViewStatus, len(source.Substatuses))
-		for substatusIndex, substatusItem := range source.Substatuses {
-			var substatus InstanceViewStatus
-			err := substatus.Initialize_From_InstanceViewStatus_STATUS(&substatusItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_InstanceViewStatus_STATUS() to populate field Substatuses")
-			}
-			substatusList[substatusIndex] = substatus
-		}
-		view.Substatuses = substatusList
-	} else {
-		view.Substatuses = nil
-	}
-
-	// Type
-	view.Type = genruntime.ClonePointerToString(source.Type)
-
-	// TypeHandlerVersion
-	view.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
-
-	// No error
-	return nil
-}
-
 // The instance view of a virtual machine extension.
 type VirtualMachineExtensionInstanceView_STATUS struct {
 	// Name: The virtual machine extension name.
@@ -2134,33 +2005,6 @@ func (status *InstanceViewStatus) AssignProperties_To_InstanceViewStatus(destina
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_InstanceViewStatus_STATUS populates our InstanceViewStatus from the provided source InstanceViewStatus_STATUS
-func (status *InstanceViewStatus) Initialize_From_InstanceViewStatus_STATUS(source *InstanceViewStatus_STATUS) error {
-
-	// Code
-	status.Code = genruntime.ClonePointerToString(source.Code)
-
-	// DisplayStatus
-	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
-
-	// Level
-	if source.Level != nil {
-		level := genruntime.ToEnum(string(*source.Level), instanceViewStatus_Level_Values)
-		status.Level = &level
-	} else {
-		status.Level = nil
-	}
-
-	// Message
-	status.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Time
-	status.Time = genruntime.ClonePointerToString(source.Time)
 
 	// No error
 	return nil
