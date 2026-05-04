@@ -62,7 +62,9 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"cache":             VersionMigrationModeLegacy,
 	"cdn":               VersionMigrationModeLegacy,
 	"cognitiveservices": VersionMigrationModeLegacy,
-	"compute":           VersionMigrationModeLegacy,
+
+	"compute": VersionMigrationModeHybrid,
+
 	"containerinstance": VersionMigrationModeLegacy,
 	"containerregistry": VersionMigrationModeLegacy,
 	"containerservice":  VersionMigrationModeLegacy,
