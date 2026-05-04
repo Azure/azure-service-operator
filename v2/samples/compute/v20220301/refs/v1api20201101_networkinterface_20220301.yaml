@@ -1,0 +1,17 @@
+apiVersion: network.azure.com/v1api20201101
+kind: NetworkInterface
+metadata:
+  name: samplenic1
+  namespace: default
+spec:
+  location: westus3
+  owner:
+    name: aso-sample-rg
+  ipConfigurations:
+    - name: ipconfig1
+      privateIPAllocationMethod: Dynamic
+      subnet:
+        reference:
+          group: network.azure.com
+          kind: VirtualNetworksSubnet
+          name: samplesubnet1
