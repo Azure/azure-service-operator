@@ -26,7 +26,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
     CGO_ENABLED=0 GOOS=linux GOARCH=${ARCH} go build -ldflags "-extldflags '-static'" -o ./aso-controller ./cmd/controller/
 
 # Copy the aso-controller into a thin image
-FROM registry.access.redhat.com/ubi9/ubi:9.7-1777525589
+FROM registry.access.redhat.com/ubi9/ubi:9.7-1777858048
 COPY --from=builder /workspace/aso-controller /aso-controller
 COPY stolostron/crds ./crds
 USER nonroot:nonroot
