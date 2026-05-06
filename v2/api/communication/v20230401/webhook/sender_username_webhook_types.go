@@ -50,7 +50,8 @@ func (username *SenderUsername) validateAzureNameMatchesUsername(_ context.Conte
 		return nil, eris.Errorf(
 			"spec.azureName (%q) must match spec.username (%q) (case-insensitive) — Azure requires the resource name to match the username",
 			obj.Spec.AzureName,
-			*obj.Spec.Username)
+			*obj.Spec.Username,
+		)
 	}
 
 	return nil, nil

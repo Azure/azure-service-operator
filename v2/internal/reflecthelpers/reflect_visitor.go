@@ -84,7 +84,7 @@ func (r *ReflectVisitor) visit(val reflect.Value, ctx interface{}) error {
 	}
 
 	switch kind {
-	case reflect.Ptr:
+	case reflect.Pointer:
 		return r.VisitPtr(r, val, ctx)
 	case reflect.Slice:
 		return r.VisitSlice(r, val, ctx)

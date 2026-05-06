@@ -46,7 +46,8 @@ func (ext *CommunicationServiceExtension) ExportKubernetesSecrets(
 	typedObj, ok := obj.(*communication.CommunicationService)
 	if !ok {
 		return nil, eris.Errorf(
-			"cannot run on unknown resource type %T, expected *communication.CommunicationService", obj)
+			"cannot run on unknown resource type %T, expected *communication.CommunicationService", obj,
+		)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if

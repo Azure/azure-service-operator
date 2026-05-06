@@ -16,9 +16,9 @@ If you prefer to install those dependencies manually (instead of using the `.dev
 | conversion-gen | v0.34.1 | https://pkg.go.dev/k8s.io/code-generator/cmd/conversion-gen |
 | crddoc | latest | https://github.com/theunrepentantgeek/crddoc |
 | Go | 1.25 | https://golang.org/doc/install #
-| gofumpt | latest | https://pkg.go.dev/mvdan.cc/gofumpt |
-| golangci-lint | 2.8.0 | https://github.com/golangci/golangci-lint |
 | go-vcr-tidy | latest | https://github.com/theunrepentantgeek/go-vcr-tidy |
+| gofumpt | v0.9.0 | https://github.com/mvdan/gofumpt |
+| golangci-lint | 2.12.1 | https://github.com/golangci/golangci-lint |
 | Helm | v3.19.0 | https://helm.sh/ |
 | htmltest | latest | https://github.com/wjdp/htmltest (but see https://github.com/theunrepentantgeek/htmltest for our custom build )
 | hugo | v0.152.2 | https://gohugo.io/ |
@@ -28,7 +28,7 @@ If you prefer to install those dependencies manually (instead of using the `.dev
 | PostCSS | latest | https://postcss.org/ |
 | setup-envtest | v0.23.1 | https://book.kubebuilder.io/reference/envtest.html |
 | Task | v3.49.1 | https://taskfile.dev/ |
-| Trivy | v0.67.2 | https://trivy.dev/ |
+| Trivy | v0.69.3 | https://trivy.dev/ |
 | YQ | v4.48.1 | https://github.com/mikefarah/yq/ |
 
 Dependencies are listed alphabetically. Refer to `install-dependencies.sh` for a recommended order of installation.

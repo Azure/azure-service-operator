@@ -102,7 +102,9 @@ func Test_FuzzySetRoute(t *testing.T) {
 
 				err = fuzzySetResource(raw, val)
 				return err == nil, err
-			}))
+			},
+		),
+	)
 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
