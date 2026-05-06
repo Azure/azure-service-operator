@@ -126,6 +126,15 @@ tasks:
       - task: generator:go-mod-tidy
       - task: mangle-test:go-mod-tidy
 
+  lint:
+    desc: Run lint checks.
+    dir: v2
+    cmds:
+      - task: asoctl:lint
+      - task: generator:lint
+      - task: controller:lint
+      - task: mangle-test:lint
+
   build-docs-site:
     cmds:
       - task: doc:build-site
