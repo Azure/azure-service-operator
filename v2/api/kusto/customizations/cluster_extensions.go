@@ -64,7 +64,8 @@ func (ext *ClusterExtension) PreReconcileCheck(
 	state := cluster.Status.ProvisioningState
 	if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
 		return extensions.BlockReconcile(
-				fmt.Sprintf("Cluster is in provisioning state %q", *state)),
+				fmt.Sprintf("Cluster is in provisioning state %q", *state),
+			),
 			nil
 	}
 

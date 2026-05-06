@@ -50,7 +50,9 @@ func (ext *CassandraDataCenterExtension) PreReconcileOwnerCheck(
 			return extensions.BlockReconcile(
 				fmt.Sprintf(
 					"Owning CassandraCluster is in provisioning state %q",
-					*serverState)), nil
+					*serverState,
+				),
+			), nil
 		}
 	}
 

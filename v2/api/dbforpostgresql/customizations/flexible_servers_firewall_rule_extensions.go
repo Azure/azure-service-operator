@@ -35,7 +35,9 @@ func (ext *FlexibleServersFirewallRuleExtension) PreReconcileOwnerCheck(
 			return extensions.BlockReconcile(
 				fmt.Sprintf(
 					"Owning FlexibleServer is in state %q",
-					*serverState)), nil
+					*serverState,
+				),
+			), nil
 		}
 	}
 

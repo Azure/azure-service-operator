@@ -72,7 +72,8 @@ func (extension *RoleAssignmentExtension) ModifyARMResource(
 	if !ok {
 		return nil, eris.Errorf(
 			"Cannot run RoleAssignmentExtension.ModifyARMResource() with unexpected resource type %T",
-			obj)
+			obj,
+		)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
@@ -126,7 +127,8 @@ func resolveBuiltInRoleDefinition(
 		return "", eris.Errorf(
 			"unable to find Azure built-in role-definition with well-known name %q (see %s)",
 			roleDefinitionName,
-			"https://learn.microsoft.com/azure/role-based-access-control/built-in-roles")
+			"https://learn.microsoft.com/azure/role-based-access-control/built-in-roles",
+		)
 	}
 
 	// We need the subscription ID from the resource to construct the ARM ID for a well known role
@@ -138,7 +140,8 @@ func resolveBuiltInRoleDefinition(
 	armID := fmt.Sprintf(
 		"/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/%s",
 		roleARMId.SubscriptionID,
-		roleId)
+		roleId,
+	)
 
 	return armID, nil
 }

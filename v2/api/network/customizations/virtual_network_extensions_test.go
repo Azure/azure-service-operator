@@ -116,7 +116,9 @@ func Test_FuzzySetSubnet(t *testing.T) {
 
 				err = fuzzySetResource(raw, val)
 				return err == nil, err
-			}))
+			},
+		),
+	)
 
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }

@@ -50,7 +50,8 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileOwnerCheck(
 		state := managedCluster.Status.ProvisioningState
 		if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
 			return extensions.BlockReconcile(
-					fmt.Sprintf("Managed cluster %q is in provisioning state %q", owner.GetName(), *state)),
+					fmt.Sprintf("Managed cluster %q is in provisioning state %q", owner.GetName(), *state),
+				),
 				nil
 		}
 	}
@@ -85,7 +86,8 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	state := agentPool.Status.ProvisioningState
 	if state != nil && agentPoolProvisioningStateBlocksReconciliation(state) {
 		return extensions.BlockReconcile(
-				fmt.Sprintf("Managed cluster agent pool is in provisioning state %q", *state)),
+				fmt.Sprintf("Managed cluster agent pool is in provisioning state %q", *state),
+			),
 			nil
 	}
 
