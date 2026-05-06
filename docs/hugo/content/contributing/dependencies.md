@@ -17,7 +17,7 @@ If you prefer to install those dependencies manually (instead of using the `.dev
 | crddoc | latest | https://github.com/theunrepentantgeek/crddoc |
 | Go | 1.25 | https://golang.org/doc/install #
 | go-vcr-tidy | latest | https://github.com/theunrepentantgeek/go-vcr-tidy |
-| gofumpt | latest | https://pkg.go.dev/mvdan.cc/gofumpt |
+| gofumpt | v0.9.0 | https://github.com/mvdan/gofumpt |
 | golangci-lint | 2.12.1 | https://github.com/golangci/golangci-lint |
 | Helm | v3.19.0 | https://helm.sh/ |
 | htmltest | latest | https://github.com/wjdp/htmltest (but see https://github.com/theunrepentantgeek/htmltest for our custom build )
