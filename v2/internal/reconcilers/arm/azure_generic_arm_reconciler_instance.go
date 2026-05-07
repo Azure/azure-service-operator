@@ -503,10 +503,21 @@ const (
 )
 
 func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(ctx context.Context, mode CreateOrUpdateSuccessMode) error {
+	// Ensure that we're checking a resource for a subscription that matches the credentials used to create it.
+	// Note that this check was already run for most create cases, but in the reconcile-policy: skip case, this is the first
+	// chance we have to check the subscription, so we do it here too.
+	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
+	if resourceID != "" {
+		err := r.checkSubscription(resourceID)
+		if err != nil {
+			return err
+		}
+	}
+
 	r.Log.V(Status).Info(
 		"Resource successfully created/updated",
-		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
-	)
+		"resourceID", resourceID,
+  )
 
 	err := r.updateStatus(ctx, r.Obj)
 	if err != nil {
