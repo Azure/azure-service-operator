@@ -41,7 +41,7 @@ spec:
   - name: prefetch-input
     value: '[{"type": "gomod", "path": "v2"}]'
   - name: send-slack-notification
-    value: true
+    value: "true"
   - name: konflux-application-name
     value: release-mce-50
   - name: slack-member-id
