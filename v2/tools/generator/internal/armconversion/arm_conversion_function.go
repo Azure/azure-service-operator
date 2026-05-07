@@ -55,7 +55,8 @@ func (c *ARMConversionFunction) RequiredPackageReferences() *astmodel.PackageRef
 		c.armTypeName.PackageReference(),
 		astmodel.GenRuntimeReference,
 		astmodel.ErisReference,
-		astmodel.FmtReference)
+		astmodel.FmtReference,
+	)
 	result.Merge(c.armType.RequiredPackageReferences())
 	return result
 }
@@ -78,12 +79,14 @@ func (c *ConvertToARMFunction) AsFunc(
 		&c.ARMConversionFunction,
 		codeGenerationContext,
 		receiver,
-		c.Name())
+		c.Name(),
+	)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
 			"error creating ConvertToARM function for %s",
-			receiver.Name())
+			receiver.Name(),
+		)
 	}
 
 	decl, err := builder.functionDeclaration()
@@ -91,7 +94,8 @@ func (c *ConvertToARMFunction) AsFunc(
 		return nil, eris.Wrapf(
 			err,
 			"error generating ConvertToARM function for %s",
-			c.Name())
+			c.Name(),
+		)
 	}
 
 	return decl, nil
@@ -105,12 +109,14 @@ func (c *PopulateFromARMFunction) AsFunc(
 		&c.ARMConversionFunction,
 		codeGenerationContext,
 		receiver,
-		c.Name())
+		c.Name(),
+	)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
 			"error creating ConvertFromARM function for %s",
-			receiver.Name())
+			receiver.Name(),
+		)
 	}
 
 	decl, err := builder.functionDeclaration()
@@ -118,7 +124,8 @@ func (c *PopulateFromARMFunction) AsFunc(
 		return nil, eris.Wrapf(
 			err,
 			"error generating ConvertFromARM function for %s",
-			c.Name())
+			c.Name(),
+		)
 	}
 
 	return decl, nil

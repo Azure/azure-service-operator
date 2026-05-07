@@ -31,12 +31,14 @@ func TestCreateConversionGraph(t *testing.T) {
 
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		CreateStorageTypes())
+		CreateStorageTypes(),
+	)
 	g.Expect(err).To(Succeed())
 
 	finalState, err := RunTestPipeline(
 		initialState,
-		CreateConversionGraph(cfg))
+		CreateConversionGraph(cfg),
+	)
 	g.Expect(err).To(Succeed())
 
 	g.Expect(finalState.Definitions()).To(HaveLen(6))

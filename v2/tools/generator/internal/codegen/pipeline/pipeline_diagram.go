@@ -59,7 +59,8 @@ func (diagram *PipelineDiagram) createDiagram(stages []*Stage) []byte {
 		b.WriteString(
 			fmt.Sprintf("    %s [label=\"%s\"];\n",
 				diagram.idFor(stage),
-				diagram.safeDescription(stage.Description())))
+				diagram.safeDescription(stage.Description())),
+		)
 
 		// If we've reached the end of the block, add a newline
 		if index < len(stages)-1 && index%(blockSize+1) == blockSize {
@@ -79,12 +80,14 @@ func (diagram *PipelineDiagram) createDiagram(stages []*Stage) []byte {
 				b.WriteString(
 					fmt.Sprintf("    %s -> %s [dir=forward];\n",
 						diagram.idFor(stage),
-						diagram.idFor(nextStage)))
+						diagram.idFor(nextStage)),
+				)
 			} else {
 				b.WriteString(
 					fmt.Sprintf("    %s -> %s [dir=back];\n",
 						diagram.idFor(nextStage),
-						diagram.idFor(stage)))
+						diagram.idFor(stage)),
+				)
 			}
 		}
 

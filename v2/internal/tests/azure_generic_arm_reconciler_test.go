@@ -126,7 +126,8 @@ func Test_Conversion_DiscoversConfigMapsNotOnStorageVersion(t *testing.T) {
 			Group:   dbforpostgresqlstorage.GroupVersion.Group,
 			Version: dbforpostgresqlstorage.GroupVersion.Version,
 			Kind:    "FlexibleServer",
-		})
+		},
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect(genruntime.GetOriginalGVK(storageVersion)).To(Equal(schema.GroupVersionKind{

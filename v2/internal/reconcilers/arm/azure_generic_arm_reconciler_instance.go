@@ -232,7 +232,8 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 	msg := fmt.Sprintf(
 		"Resource does not support deletion in Azure; set annotation '%s: %s' to permit deletion in Kubernetes",
 		annotations.ReconcilePolicy,
-		annotations.ReconcilePolicyDetachOnDelete)
+		annotations.ReconcilePolicyDetachOnDelete,
+	)
 	r.Log.V(Verbose).Info(msg)
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionNotPossibleInAzure), msg)
 
@@ -247,7 +248,8 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 		conditions.NewReadyConditionImpactingError(
 			err,
 			conditions.ConditionSeverityWarning,
-			conditions.ReasonDeletionNotSupported)
+			conditions.ReasonDeletionNotSupported,
+		)
 }
 
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
@@ -256,11 +258,13 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	if r.Obj.AzureName() == "" {
 		err := eris.Errorf(
 			"AzureName was not set on %s. A webhook should default this to .metadata.name if it was omitted. Is the ASO webhook service running?",
-			r.Obj.GetType())
+			r.Obj.GetType(),
+		)
 
 		return ctrl.Result{},
 			conditions.NewReadyConditionImpactingError(
-				err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+				err, conditions.ConditionSeverityError, conditions.ReasonFailed,
+			)
 	}
 
 	// We want to set the latest reconciled generation annotation to keep a track of reconciles per generation.
@@ -277,7 +281,8 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 			impactingError = conditions.NewReadyConditionImpactingError(
 				err,
 				conditions.ConditionSeverityWarning,
-				conditions.ReasonFailed)
+				conditions.ReasonFailed,
+			)
 		}
 
 		return ctrl.Result{}, impactingError
@@ -438,7 +443,8 @@ func (r *azureDeploymentReconcilerInstance) checkSubscription(resourceID string)
 		err = eris.Wrapf(err, "parsing resource ID %q", resourceID)
 
 		return conditions.NewReadyConditionImpactingError(
-			err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+			err, conditions.ConditionSeverityError, conditions.ReasonFailed,
+		)
 	}
 
 	if !genruntime.CheckARMIDMatchesSubscription(r.ARMConnection.SubscriptionID(), parsedRID) {
@@ -446,10 +452,12 @@ func (r *azureDeploymentReconcilerInstance) checkSubscription(resourceID string)
 			"SubscriptionID %q for %q resource does not match with Client Credential: %q",
 			parsedRID.SubscriptionID,
 			resourceID,
-			r.ARMConnection.SubscriptionID())
+			r.ARMConnection.SubscriptionID(),
+		)
 
 		return conditions.NewReadyConditionImpactingError(
-			err, conditions.ConditionSeverityError, conditions.ReasonSubscriptionMismatch)
+			err, conditions.ConditionSeverityError, conditions.ReasonSubscriptionMismatch,
+		)
 	}
 
 	return nil
@@ -459,7 +467,8 @@ func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateFailed(err error
 	r.Log.V(Debug).Info(
 		"Resource creation/update failure",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
-		"error", err.Error())
+		"error", err.Error(),
+	)
 
 	err = r.MakeReadyConditionImpactingErrorFromError(err)
 	ClearPollerResumeToken(r.Obj)
@@ -471,7 +480,8 @@ func (r *azureDeploymentReconcilerInstance) handleDeleteFailed(err error) error 
 	r.Log.V(Debug).Info(
 		"Resource deletion failure",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
-		"error", err.Error())
+		"error", err.Error(),
+	)
 
 	err = r.MakeReadyConditionImpactingErrorFromError(err)
 	// Force all delete errors to have severity Warning, as we don't want to block the deletion of the resource
@@ -495,7 +505,8 @@ const (
 func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(ctx context.Context, mode CreateOrUpdateSuccessMode) error {
 	r.Log.V(Status).Info(
 		"Resource successfully created/updated",
-		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj))
+		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
+	)
 
 	err := r.updateStatus(ctx, r.Obj)
 	if err != nil {
@@ -521,7 +532,8 @@ func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(ctx cont
 			impactingError = conditions.NewReadyConditionImpactingError(
 				err,
 				conditions.ConditionSeverityWarning,
-				conditions.ReasonFailed)
+				conditions.ReasonFailed,
+			)
 		}
 
 		return impactingError
@@ -613,7 +625,8 @@ func (r *azureDeploymentReconcilerInstance) resultBasedOnGenerationCount() ctrl.
 		r.Log.V(Debug).Info(
 			"Generation mismatch detected, requeue-ing the resource",
 			"resourceID",
-			genruntime.GetResourceIDOrDefault(r.Obj))
+			genruntime.GetResourceIDOrDefault(r.Obj),
+		)
 
 		return ctrl.Result{Requeue: true}
 	}

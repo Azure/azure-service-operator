@@ -69,7 +69,8 @@ func Test_Insights_Component_v20200202_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(insights20200202.APIVersion_Value))
+		string(insights20200202.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -133,7 +134,8 @@ func Insights_WebTest_20220615_CRUD(tc *testcommon.KubePerTestContext, rg *resou
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(insightswebtest20220615.APIVersion_Value))
+		string(insightswebtest20220615.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -229,7 +231,8 @@ func Insights_WebTest_20180501preview_CRUD(tc *testcommon.KubePerTestContext, rg
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(insightswebtest20180501preview.APIVersion_Value))
+		string(insightswebtest20180501preview.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -261,7 +264,8 @@ func Test_Insights_Component_ExportConfigMap(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				Component_ConfigValuesWrittenToDifferentConfigMap(tc, component)
 			},
-		})
+		},
+	)
 
 	tc.DeleteResourceAndWait(component)
 
@@ -269,7 +273,8 @@ func Test_Insights_Component_ExportConfigMap(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(insights20200202.APIVersion_Value))
+		string(insights20200202.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -289,7 +294,8 @@ func Component_ConfigValuesWrittenToSameConfigMap(tc *testcommon.KubePerTestCont
 	tc.ExpectConfigMapHasKeysAndValues(
 		componentConfigMap,
 		"connectionString", *component.Status.ConnectionString,
-		"instrumentationKey", *component.Status.InstrumentationKey)
+		"instrumentationKey", *component.Status.InstrumentationKey,
+	)
 }
 
 func Component_ConfigValuesWrittenToDifferentConfigMap(tc *testcommon.KubePerTestContext, component *insights20200202.Component) {

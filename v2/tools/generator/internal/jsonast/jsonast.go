@@ -135,7 +135,8 @@ func (scanner *SchemaScanner) RunHandlersForSchemas(ctx context.Context, schemas
 					scanner.log.V(2).Info(
 						"skipping description-only schema type",
 						"schema", unknownSchema.Schema.url(),
-						"description", *unknownSchema.Schema.description())
+						"description", *unknownSchema.Schema.description(),
+					)
 					continue
 				}
 			}
@@ -173,7 +174,8 @@ func (scanner *SchemaScanner) GenerateAllDefinitions(ctx context.Context, schema
 
 	rootPackage := scanner.configuration.MakeLocalPackageReference(
 		scanner.idFactory.CreateGroupName(rootGroup),
-		rootVersion)
+		rootVersion,
+	)
 	rootTypeName := astmodel.MakeInternalTypeName(rootPackage, rootName)
 
 	_, err = generateDefinitionsFor(ctx, scanner, rootTypeName, schema)
@@ -297,7 +299,8 @@ func formatToPattern(format string, log logr.Logger) *regexp.Regexp {
 	default:
 		log.V(0).Info(
 			"Unknown property format",
-			"format", format)
+			"format", format,
+		)
 		return nil
 	}
 }
@@ -523,7 +526,8 @@ func getProperties(
 			// TODO: https://github.com/Azure/azure-service-operator/issues/1517
 			log.V(2).Info(
 				"Property omitted due to nil propType (probably due to type filter)",
-				"property", propName)
+				"property", propName,
+			)
 			continue
 		}
 
@@ -586,7 +590,8 @@ func getProperties(
 				additionalProperties := astmodel.NewPropertyDefinition(
 					astmodel.AdditionalPropertiesPropertyName,
 					astmodel.AdditionalPropertiesJSONName,
-					astmodel.NewStringMapType(astmodel.AnyType))
+					astmodel.NewStringMapType(astmodel.AnyType),
+				)
 
 				properties = append(properties, additionalProperties)
 			}
@@ -618,7 +623,8 @@ func getProperties(
 			additionalProperties := astmodel.NewPropertyDefinition(
 				astmodel.AdditionalPropertiesPropertyName,
 				astmodel.AdditionalPropertiesJSONName,
-				astmodel.NewStringMapType(additionalPropsType))
+				astmodel.NewStringMapType(additionalPropsType),
+			)
 
 			properties = append(properties, additionalProperties)
 		}
@@ -650,7 +656,8 @@ func refHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, log 
 		log.V(2).Info(
 			"Skipping type",
 			"type", typeName,
-			"because", because)
+			"because", because,
+		)
 		return nil, nil // Skip entirely
 	}
 
@@ -795,7 +802,8 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ 
 		obj, ok := t.(*astmodel.ObjectType)
 		if !ok {
 			return nil, eris.Errorf(
-				"expected object type for properties of %s, got %T", schema.ID(), t)
+				"expected object type for properties of %s, got %T", schema.ID(), t,
+			)
 		}
 
 		result = result.WithAdditionalPropertyObject(obj)
@@ -829,7 +837,8 @@ func anyOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, lo
 	// See https://github.com/Azure/azure-service-operator/issues/1518 for details about why this is treated as oneOf
 	log.V(1).Info(
 		"Handling anyOf type as if it were oneOf",
-		"url", schema.url())
+		"url", schema.url(),
+	)
 	return oneOfHandler(ctx, scanner, schema, log)
 }
 
@@ -846,7 +855,8 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, lo
 		// there is no type to the elements, so we must assume interface{}
 		log.V(1).Info(
 			"Interface assumption unproven",
-			"url", schema.url())
+			"url", schema.url(),
+		)
 
 		result := astmodel.NewArrayType(astmodel.AnyType)
 		return withArrayValidations(schema, result), nil

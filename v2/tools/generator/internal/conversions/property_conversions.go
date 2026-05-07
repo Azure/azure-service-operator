@@ -326,7 +326,8 @@ func writeToBagItem(
 				conversionContext.PropertyBagName(),
 				"Add",
 				astbuilder.StringLiteral(destinationEndpoint.Name()),
-				expr)
+				expr,
+			)
 
 			return astbuilder.Statements(addToBag)
 		}
@@ -335,7 +336,8 @@ func writeToBagItem(
 		removeFromBag := astbuilder.CallQualifiedFuncAsStmt(
 			conversionContext.PropertyBagName(),
 			"Remove",
-			astbuilder.StringLiteral(destinationEndpoint.Name()))
+			astbuilder.StringLiteral(destinationEndpoint.Name()),
+		)
 
 		// condition is a test to use to see whether we have a value to write to the property bag
 		// If we unilaterally write to the bag, this will be nil
@@ -364,13 +366,15 @@ func writeToBagItem(
 			reader,
 			createAddToBag,
 			knownLocals,
-			generationContext)
+			generationContext,
+		)
 		if err != nil {
 			return nil, eris.Wrapf(
 				err,
 				"unable to convert %s to %s writing property bag",
 				sourceEndpoint.Name(),
-				destinationEndpoint.Name())
+				destinationEndpoint.Name(),
+			)
 		}
 
 		// If we only conditionally write to the bag, we need wrap with an if statement
@@ -378,7 +382,8 @@ func writeToBagItem(
 			writer := astbuilder.SimpleIfElse(
 				condition,
 				addToBag,
-				astbuilder.Statements(removeFromBag))
+				astbuilder.Statements(removeFromBag),
+			)
 			return astbuilder.Statements(writer), nil
 		}
 
@@ -536,7 +541,8 @@ func pullFromBagItem(
 		condition := astbuilder.CallQualifiedFunc(
 			conversionContext.PropertyBagName(),
 			"Contains",
-			astbuilder.StringLiteral(sourceEndpoint.Name()))
+			astbuilder.StringLiteral(sourceEndpoint.Name()),
+		)
 
 		// var <local> <sourceBagItemType>
 		sourceBagItemExpr, err := sourceBagItem.AsTypeExpr(generationContext)
@@ -545,12 +551,14 @@ func pullFromBagItem(
 				err,
 				"converting %s to %s reading property bag",
 				sourceEndpoint.Name(),
-				destinationEndpoint.Name())
+				destinationEndpoint.Name(),
+			)
 		}
 
 		declare := astbuilder.NewVariableWithType(
 			local,
-			sourceBagItemExpr)
+			sourceBagItemExpr,
+		)
 
 		// We're wrapping the conversion in a nested block, so any locals are independent
 		knownLocals = knownLocals.Clone()
@@ -570,7 +578,9 @@ func pullFromBagItem(
 				conversionContext.PropertyBagName(),
 				"Pull",
 				astbuilder.StringLiteral(sourceEndpoint.Name()),
-				astbuilder.AddrOf(dst.NewIdent(local))))
+				astbuilder.AddrOf(dst.NewIdent(local)),
+			),
+		)
 
 		// if err != nil {
 		//     return ...
@@ -580,7 +590,9 @@ func pullFromBagItem(
 			astbuilder.WrappedErrorf(
 				errorsPkg,
 				"pulling '%s' from propertyBag",
-				sourceEndpoint.Name()))
+				sourceEndpoint.Name(),
+			),
+		)
 		returnIfErr.Decorations().After = dst.EmptyLine
 
 		var reader dst.Expr
@@ -597,13 +609,15 @@ func pullFromBagItem(
 				err,
 				"unable to convert %s to %s reading property bag",
 				sourceEndpoint.Name(),
-				destinationEndpoint.Name())
+				destinationEndpoint.Name(),
+			)
 		}
 
 		// Generate code to clear the value if we don't have one
 		assignZero := writer(
 			destinationEndpoint.Type().AsZero(conversionContext.Types(),
-				generationContext))
+				generationContext),
+		)
 
 		// if <condition> {
 		//   <declare, pull, returnIfErr, assignValue>
@@ -613,7 +627,8 @@ func pullFromBagItem(
 		ifStatement := astbuilder.SimpleIfElse(
 			condition,
 			astbuilder.Statements(declare, pull, returnIfErr, assignValue),
-			assignZero)
+			assignZero,
+		)
 
 		return astbuilder.Statements(ifStatement), nil
 	}, nil
@@ -653,7 +668,8 @@ func assignFromOptional(
 	conversion, err := CreateTypeConversion(
 		unwrappedEndpoint,
 		destinationEndpoint,
-		conversionContext)
+		conversionContext,
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -694,22 +710,26 @@ func assignFromOptional(
 			astbuilder.Dereference(actualReader),
 			writer,
 			knownLocals.Clone(),
-			generationContext)
+			generationContext,
+		)
 		if err != nil {
 			return nil, eris.Wrapf(
 				err,
 				"unable to convert %s to %s",
 				sourceEndpoint.Name(),
-				destinationEndpoint.Name())
+				destinationEndpoint.Name(),
+			)
 		}
 
 		writeZeroValue := writer(
-			destinationEndpoint.Type().AsZero(conversionContext.Types(), generationContext))
+			destinationEndpoint.Type().AsZero(conversionContext.Types(), generationContext),
+		)
 
 		stmt := astbuilder.SimpleIfElse(
 			checkForNil,
 			writeActualValue,
-			writeZeroValue)
+			writeZeroValue,
+		)
 
 		return astbuilder.Statements(cacheOriginal, stmt), nil
 	}, nil
@@ -792,7 +812,8 @@ func assignToEnumeration(
 				err,
 				"unable to convert %s to %s",
 				sourceEndpoint.Name(),
-				destinationEndpoint.Name())
+				destinationEndpoint.Name(),
+			)
 		}
 
 		if dstEnum.NeedsMappingConversion(dstName) {
@@ -806,19 +827,22 @@ func assignToEnumeration(
 				genruntimePkg,
 				"ToEnum",
 				actualReader,
-				dst.NewIdent(mapperID))
+				dst.NewIdent(mapperID),
+			)
 
 			convert, err := conversion(
 				toEnum,
 				writer,
 				knownLocals,
-				generationContext)
+				generationContext,
+			)
 			if err != nil {
 				return nil, eris.Wrapf(
 					err,
 					"unable to convert %s to %s",
 					sourceEndpoint.Name(),
-					destinationEndpoint.Name())
+					destinationEndpoint.Name(),
+				)
 			}
 
 			return astbuilder.Statements(cacheOriginal, convert), nil
@@ -837,7 +861,8 @@ func assignToEnumeration(
 			reader,
 			castingWriter,
 			knownLocals,
-			generationContext)
+			generationContext,
+		)
 	}, nil
 }
 
@@ -1306,13 +1331,15 @@ func assignArrayFromArray(
 	conversion, err := CreateTypeConversion(
 		unwrappedSourceEndpoint,
 		unwrappedDestinationEndpoint,
-		conversionContext)
+		conversionContext,
+	)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
 			"finding array conversion from %s to %s",
 			astmodel.DebugDescription(sourceEndpoint.Type()),
-			astmodel.DebugDescription(destinationEndpoint.Type()))
+			astmodel.DebugDescription(destinationEndpoint.Type()),
+		)
 	}
 	if conversion == nil {
 		return nil, nil
@@ -1363,12 +1390,14 @@ func assignArrayFromArray(
 				err,
 				"converting %s to %s",
 				sourceEndpoint.Name(),
-				destinationEndpoint.Name())
+				destinationEndpoint.Name(),
+			)
 		}
 
 		declaration := astbuilder.ShortDeclaration(
 			tempID,
-			astbuilder.MakeSlice(destinationArrayExpr, astbuilder.CallFunc("len", actualReader)))
+			astbuilder.MakeSlice(destinationArrayExpr, astbuilder.CallFunc("len", actualReader)),
+		)
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {
 			return astbuilder.Statements(
@@ -1377,7 +1406,8 @@ func assignArrayFromArray(
 						X:     dst.NewIdent(tempID),
 						Index: dst.NewIdent(indexID),
 					},
-					expr),
+					expr,
+				),
 			)
 		}
 
@@ -1387,7 +1417,8 @@ func assignArrayFromArray(
 				err,
 				"creating conversion for array element from %s to %s",
 				astmodel.DebugDescription(sourceEndpoint.Type()),
-				astmodel.DebugDescription(destinationEndpoint.Type()))
+				astmodel.DebugDescription(destinationEndpoint.Type()),
+			)
 		}
 
 		assignValue := writer(dst.NewIdent(tempID))
@@ -1398,7 +1429,8 @@ func assignArrayFromArray(
 
 		return astbuilder.Statements(
 			cacheOriginal,
-			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignZero)), nil
+			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignZero),
+		), nil
 	}, nil
 }
 
@@ -1450,13 +1482,15 @@ func assignMapFromMap(
 	conversion, err := CreateTypeConversion(
 		unwrappedSourceEndpoint,
 		unwrappedDestinationEndpoint,
-		conversionContext)
+		conversionContext,
+	)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
 			"finding map conversion from %s to %s",
 			astmodel.DebugDescription(sourceEndpoint.Type()),
-			astmodel.DebugDescription(destinationEndpoint.Type()))
+			astmodel.DebugDescription(destinationEndpoint.Type()),
+		)
 	}
 	if conversion == nil {
 		return nil, nil
@@ -1507,7 +1541,8 @@ func assignMapFromMap(
 			return nil, eris.Wrapf(
 				err,
 				"creating map key type expression for %s",
-				astmodel.DebugDescription(destinationMap.KeyType()))
+				astmodel.DebugDescription(destinationMap.KeyType()),
+			)
 		}
 
 		valueTypeExpr, err := destinationMap.ValueType().AsTypeExpr(generationContext)
@@ -1515,7 +1550,8 @@ func assignMapFromMap(
 			return nil, eris.Wrapf(
 				err,
 				"creating map value type expression for %s",
-				astmodel.DebugDescription(destinationMap.ValueType()))
+				astmodel.DebugDescription(destinationMap.ValueType()),
+			)
 		}
 
 		declaration := astbuilder.ShortDeclaration(
@@ -1523,7 +1559,9 @@ func assignMapFromMap(
 			astbuilder.MakeMapWithCapacity(
 				keyTypeExpr,
 				valueTypeExpr,
-				astbuilder.CallFunc("len", actualReader)))
+				astbuilder.CallFunc("len", actualReader),
+			),
+		)
 
 		assignToItem := func(expr dst.Expr) []dst.Stmt {
 			return astbuilder.Statements(
@@ -1532,7 +1570,8 @@ func assignMapFromMap(
 						X:     dst.NewIdent(tempID),
 						Index: dst.NewIdent(keyID),
 					},
-					expr),
+					expr,
+				),
 			)
 		}
 
@@ -1542,7 +1581,8 @@ func assignMapFromMap(
 				err,
 				"creating map item conversion from %s to %s",
 				astmodel.DebugDescription(sourceMap.ValueType()),
-				astmodel.DebugDescription(destinationMap.ValueType()))
+				astmodel.DebugDescription(destinationMap.ValueType()),
+			)
 		}
 
 		loop := astbuilder.IterateOverMapWithValue(keyID, itemID, actualReader, elemConv...)
@@ -1553,7 +1593,8 @@ func assignMapFromMap(
 
 		return astbuilder.Statements(
 			cacheOriginal,
-			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignNil)), nil
+			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignNil),
+		), nil
 	}, nil
 }
 
@@ -1623,13 +1664,15 @@ func assignUserAssignedIdentityMapFromArray(
 	conversion, err := CreateTypeConversion(
 		sourceEndpoint.WithType(astmodel.StringType),
 		destinationEndpoint.WithType(astmodel.ResourceReferenceType),
-		conversionContext)
+		conversionContext,
+	)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
 			"finding UserAssignedIdentities conversion from %s to %s",
 			astmodel.DebugDescription(astmodel.StringType),
-			astmodel.DebugDescription(astmodel.ResourceReferenceType))
+			astmodel.DebugDescription(astmodel.ResourceReferenceType),
+		)
 	}
 
 	return func(
@@ -1646,12 +1689,14 @@ func assignUserAssignedIdentityMapFromArray(
 				err,
 				"creating UserAssignedIdentities conversion from %s to %s",
 				astmodel.DebugDescription(astmodel.StringType),
-				astmodel.DebugDescription(astmodel.ResourceReferenceType))
+				astmodel.DebugDescription(astmodel.ResourceReferenceType),
+			)
 		}
 
 		declaration := astbuilder.ShortDeclaration(
 			tempID,
-			astbuilder.MakeEmptySlice(destinationArrayExpr, astbuilder.CallFunc("len", reader)))
+			astbuilder.MakeEmptySlice(destinationArrayExpr, astbuilder.CallFunc("len", reader)),
+		)
 
 		loopLocals := knownLocals.Clone()
 		keyID := loopLocals.CreateLocal(sourceEndpoint.Name(), "Key")
@@ -1663,7 +1708,8 @@ func assignUserAssignedIdentityMapFromArray(
 				err,
 				"creating UserAssignedIdentities conversion from %s to %s",
 				astmodel.DebugDescription(astmodel.StringType),
-				astmodel.DebugDescription(astmodel.ResourceReferenceType))
+				astmodel.DebugDescription(astmodel.ResourceReferenceType),
+			)
 		}
 
 		uaiBuilder := astbuilder.NewCompositeLiteralBuilder(destinationTypeExpr)
@@ -1671,7 +1717,8 @@ func assignUserAssignedIdentityMapFromArray(
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {
 			return astbuilder.Statements(
-				astbuilder.ShortDeclaration(intermediateDestination, expr))
+				astbuilder.ShortDeclaration(intermediateDestination, expr),
+			)
 		}
 
 		//	for key, _ := range source.UserAssignedIdentities {
@@ -1684,7 +1731,8 @@ func assignUserAssignedIdentityMapFromArray(
 				err,
 				"creating UserAssignedIdentities conversion from %s to %s",
 				astmodel.DebugDescription(astmodel.StringType),
-				astmodel.DebugDescription(astmodel.ResourceReferenceType))
+				astmodel.DebugDescription(astmodel.ResourceReferenceType),
+			)
 		}
 
 		loopBody := astbuilder.Statements(
@@ -1714,10 +1762,12 @@ func assignUserAssignedIdentityMapFromArray(
 		trueBranch := astbuilder.Statements(
 			declaration,
 			loop,
-			assignValue)
+			assignValue,
+		)
 
 		return astbuilder.Statements(
-			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignNil)), nil
+			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignNil),
+		), nil
 	}, nil
 }
 
@@ -1768,7 +1818,8 @@ func assignEnumFromEnum(
 		return nil, eris.Errorf(
 			"no conversion from %s to %s",
 			astmodel.DebugDescription(sourceEnum.BaseType()),
-			astmodel.DebugDescription(destinationEnum.BaseType()))
+			astmodel.DebugDescription(destinationEnum.BaseType()),
+		)
 	}
 
 	return func(
@@ -1791,7 +1842,8 @@ func assignEnumFromEnum(
 				genruntimePkg,
 				"ToEnum",
 				astbuilder.CallFunc("string", reader),
-				dst.NewIdent(mapperID))
+				dst.NewIdent(mapperID),
+			)
 
 			declare = astbuilder.ShortDeclaration(local, toEnum)
 		} else {
@@ -1920,7 +1972,8 @@ func assignObjectDirectlyFromObject(
 			return nil, eris.Wrapf(
 				err,
 				"looking up next type for %s",
-				astmodel.DebugDescription(destinationEndpoint.Type()))
+				astmodel.DebugDescription(destinationEndpoint.Type()),
+			)
 		}
 
 		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, sourceName) {
@@ -1964,12 +2017,14 @@ func assignObjectDirectlyFromObject(
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
 		functionName := NameOfPropertyAssignmentFunction(
-			conversionContext.FunctionBaseName(), sourceName, ConvertFrom, conversionContext.idFactory)
+			conversionContext.FunctionBaseName(), sourceName, ConvertFrom, conversionContext.idFactory,
+		)
 
 		conversion := astbuilder.AssignmentStatement(
 			errLocal,
 			tok,
-			astbuilder.CallExpr(localID, functionName, astbuilder.AsReference(reader)))
+			astbuilder.CallExpr(localID, functionName, astbuilder.AsReference(reader)),
+		)
 
 		checkForError := astbuilder.ReturnIfNotNil(
 			errLocal,
@@ -1977,7 +2032,9 @@ func assignObjectDirectlyFromObject(
 				errorsPackageName,
 				"calling %s() to %s",
 				functionName,
-				describeAssignment(sourceEndpoint, destinationEndpoint)))
+				describeAssignment(sourceEndpoint, destinationEndpoint),
+			),
+		)
 
 		assignment := writer(localID)
 		return astbuilder.Statements(declaration, conversion, checkForError, assignment), nil
@@ -2045,7 +2102,8 @@ func assignObjectDirectlyToObject(
 			return nil, eris.Wrapf(
 				err,
 				"looking up next type for %s",
-				astmodel.DebugDescription(sourceEndpoint.Type()))
+				astmodel.DebugDescription(sourceEndpoint.Type()),
+			)
 		}
 
 		if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, destinationName) {
@@ -2089,11 +2147,13 @@ func assignObjectDirectlyToObject(
 		declaration := astbuilder.LocalVariableDeclaration(copyVar, createTypeDeclaration(destinationName, generationContext), "")
 
 		functionName := NameOfPropertyAssignmentFunction(
-			conversionContext.FunctionBaseName(), destinationName, ConvertTo, conversionContext.idFactory)
+			conversionContext.FunctionBaseName(), destinationName, ConvertTo, conversionContext.idFactory,
+		)
 		conversion := astbuilder.AssignmentStatement(
 			errLocal,
 			tok,
-			astbuilder.CallExpr(reader, functionName, astbuilder.AddrOf(localID)))
+			astbuilder.CallExpr(reader, functionName, astbuilder.AddrOf(localID)),
+		)
 
 		checkForError := astbuilder.ReturnIfNotNil(
 			errLocal,
@@ -2101,7 +2161,9 @@ func assignObjectDirectlyToObject(
 				errorsPackageName,
 				"calling %s() to %s",
 				functionName,
-				describeAssignment(sourceEndpoint, destinationEndpoint)))
+				describeAssignment(sourceEndpoint, destinationEndpoint),
+			),
+		)
 
 		assignment := writer(dst.NewIdent(copyVar))
 		return astbuilder.Statements(declaration, conversion, checkForError, assignment), nil
@@ -2174,7 +2236,8 @@ func assignInlineObjectsViaIntermediateObject(
 			return nil, eris.Wrapf(
 				err,
 				"looking up next type for %s",
-				astmodel.DebugDescription(destinationEndpoint.Type()))
+				astmodel.DebugDescription(destinationEndpoint.Type()),
+			)
 		}
 	} else if conversionContext.PathExists(destinationName, sourceName) {
 		var err error
@@ -2183,7 +2246,8 @@ func assignInlineObjectsViaIntermediateObject(
 			return nil, eris.Wrapf(
 				err,
 				"looking up next type for %s",
-				astmodel.DebugDescription(destinationEndpoint.Type()))
+				astmodel.DebugDescription(destinationEndpoint.Type()),
+			)
 		}
 	} else {
 		// No path between the two types, we can't handle the required conversion
@@ -2205,14 +2269,16 @@ func assignInlineObjectsViaIntermediateObject(
 	// Need a pair of conversions, using our intermediate type
 	intermediateEndpoint := NewTypedConversionEndpoint(
 		intermediateName,
-		intermediateName.Name()+"Stash")
+		intermediateName.Name()+"Stash",
+	)
 	firstConversion, err := CreateTypeConversion(sourceEndpoint, intermediateEndpoint, conversionContext)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
 			"finding first intermediate conversion, from %s to %s",
 			astmodel.DebugDescription(sourceName),
-			astmodel.DebugDescription(intermediateName))
+			astmodel.DebugDescription(intermediateName),
+		)
 	}
 	if firstConversion == nil {
 		return nil, nil
@@ -2224,7 +2290,8 @@ func assignInlineObjectsViaIntermediateObject(
 			err,
 			"finding second intermediate conversion, from %s to %s",
 			astmodel.DebugDescription(intermediateName),
-			astmodel.DebugDescription(destinationType))
+			astmodel.DebugDescription(destinationType),
+		)
 	}
 
 	if secondConversion == nil {
@@ -2253,7 +2320,8 @@ func assignInlineObjectsViaIntermediateObject(
 				err,
 				"converting from %s to %s",
 				astmodel.DebugDescription(sourceName),
-				astmodel.DebugDescription(intermediateName))
+				astmodel.DebugDescription(intermediateName),
+			)
 		}
 
 		secondStep, err := secondConversion(capture, writer, knownLocals, generationContext)
@@ -2262,12 +2330,14 @@ func assignInlineObjectsViaIntermediateObject(
 				err,
 				"converting from %s to %s",
 				astmodel.DebugDescription(intermediateName),
-				astmodel.DebugDescription(destinationName))
+				astmodel.DebugDescription(destinationName),
+			)
 		}
 
 		return astbuilder.Statements(
 			firstStep,
-			secondStep), nil
+			secondStep,
+		), nil
 	}, nil
 }
 
@@ -2354,17 +2424,20 @@ func assignNonInlineObjectsViaPivotObject(
 	// have to use ConvertTo to write to it
 	pivotEndpoint := NewTypedConversionEndpoint(
 		pivotName,
-		pivotName.Name()+"Pivot")
+		pivotName.Name()+"Pivot",
+	)
 	firstConversion, err := CreateTypeConversion(
 		sourceEndpoint,
 		pivotEndpoint,
-		conversionContext.WithDirection(ConvertTo))
+		conversionContext.WithDirection(ConvertTo),
+	)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
 			"finding first intermediate conversion, from %s to %s",
 			astmodel.DebugDescription(sourceName),
-			astmodel.DebugDescription(pivotName))
+			astmodel.DebugDescription(pivotName),
+		)
 	}
 	if firstConversion == nil {
 		return nil, nil
@@ -2374,13 +2447,15 @@ func assignNonInlineObjectsViaPivotObject(
 	secondConversion, err := CreateTypeConversion(
 		pivotEndpoint,
 		destinationEndpoint,
-		conversionContext.WithDirection(ConvertFrom))
+		conversionContext.WithDirection(ConvertFrom),
+	)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
 			"finding second intermediate conversion, from %s to %s",
 			astmodel.DebugDescription(pivotName),
-			astmodel.DebugDescription(destinationType))
+			astmodel.DebugDescription(destinationType),
+		)
 	}
 
 	if secondConversion == nil {
@@ -2409,7 +2484,8 @@ func assignNonInlineObjectsViaPivotObject(
 				err,
 				"converting from %s to %s",
 				astmodel.DebugDescription(sourceName),
-				astmodel.DebugDescription(pivotName))
+				astmodel.DebugDescription(pivotName),
+			)
 		}
 
 		secondStep, err := secondConversion(capture, writer, knownLocals, generationContext)
@@ -2418,12 +2494,14 @@ func assignNonInlineObjectsViaPivotObject(
 				err,
 				"converting from %s to %s",
 				astmodel.DebugDescription(pivotName),
-				astmodel.DebugDescription(destinationName))
+				astmodel.DebugDescription(destinationName),
+			)
 		}
 
 		return astbuilder.Statements(
 			firstStep,
-			secondStep), nil
+			secondStep,
+		), nil
 	}, nil
 }
 

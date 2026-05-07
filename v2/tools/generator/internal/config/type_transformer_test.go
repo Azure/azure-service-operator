@@ -133,7 +133,8 @@ func Test_TransformTypeName_WhenConfiguredWithMap_ReturnsExpectedMapType(t *test
 
 	expected := astmodel.NewMapType(
 		astmodel.StringType,
-		astmodel.IntType)
+		astmodel.IntType,
+	)
 
 	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(expected))
 }
@@ -161,7 +162,8 @@ func Test_TransformTypeName_WhenConfiguredWithEnum_ReturnsExpectedEnumType(t *te
 		astmodel.StringType,
 		astmodel.MakeEnumValue("Alpha", "\"alpha\""),
 		astmodel.MakeEnumValue("Beta", "\"beta\""),
-		astmodel.MakeEnumValue("Preview", "\"preview\""))
+		astmodel.MakeEnumValue("Preview", "\"preview\""),
+	)
 
 	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(expected))
 }
@@ -247,7 +249,9 @@ func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
 		astmodel.StringType,
 		astmodel.NewMapType(
 			astmodel.IntType,
-			astmodel.FloatType))
+			astmodel.FloatType,
+		),
+	)
 
 	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(expected))
 }
@@ -365,7 +369,8 @@ func Test_TransformWithBothNameAndMapTargets_ReportsError(t *testing.T) {
 	g.Expect(err.Error()).To(SatisfyAll(
 		ContainSubstring("cannot specify both"),
 		ContainSubstring("Map transformation"),
-		ContainSubstring("Name transformation")))
+		ContainSubstring("Name transformation"),
+	))
 }
 
 func Test_TransformWithBothNameAndEnumTargets_ReportsError(t *testing.T) {
@@ -397,7 +402,8 @@ func Test_TransformWithBothNameAndEnumTargets_ReportsError(t *testing.T) {
 	g.Expect(err.Error()).To(SatisfyAll(
 		ContainSubstring("cannot specify both"),
 		ContainSubstring("Enum transformation"),
-		ContainSubstring("Name transformation")))
+		ContainSubstring("Name transformation"),
+	))
 }
 
 func Test_TransformWithBothMapAndEnumTargets_ReportsError(t *testing.T) {
@@ -437,7 +443,8 @@ func Test_TransformWithBothMapAndEnumTargets_ReportsError(t *testing.T) {
 	g.Expect(err.Error()).To(SatisfyAll(
 		ContainSubstring("cannot specify both"),
 		ContainSubstring("Enum transformation"),
-		ContainSubstring("Map transformation")))
+		ContainSubstring("Map transformation"),
+	))
 }
 
 func Test_TypeTransformer_WhenTransformingTypeName_ReturnsExpectedTypeName(t *testing.T) {
@@ -479,7 +486,8 @@ func Test_TypeTransformer_WhenTransformingTypeName_ReturnsExpectedTypeName(t *te
 				actual, err := transformer.TransformTypeName(c.original)
 				g.Expect(actual).To(Equal(c.expected))
 				g.Expect(err).To(Succeed())
-			})
+			},
+		)
 	}
 }
 
@@ -669,7 +677,8 @@ func TestTransformProperty_DoesTransformProperty_IfTypeDoesMatch(t *testing.T) {
 				prop, ok := result.NewType.Property(c.propertyToInspect)
 				g.Expect(ok).To(BeTrue())
 				g.Expect(prop.PropertyType()).To(Equal(c.expectedType))
-			})
+			},
+		)
 	}
 }
 
@@ -714,7 +723,8 @@ func TestTransformProperty_CanRemoveProperty(t *testing.T) {
 
 	resourceCopyType := astmodel.MakeInternalTypeName(
 		test.MakeLocalPackageReference("deploymenttemplate", "2019-04-01"),
-		"ResourceCopy")
+		"ResourceCopy",
+	)
 	copyProperty := astmodel.NewPropertyDefinition("Copy", "copy", astmodel.NewOptionalType(resourceCopyType))
 	objectWithCopyProperty := astmodel.NewObjectType().WithProperties(copyProperty)
 
@@ -753,7 +763,8 @@ func TestTransformProperty_CanRemoveProperty(t *testing.T) {
 
 				_, ok := result.NewType.Property(c.propertyToInspect)
 				g.Expect(ok).To(BeFalse())
-			})
+			},
+		)
 	}
 }
 
@@ -837,7 +848,8 @@ func Test_TypeTransformer_RequiredTypesWereMatched_ReturnsExpectedResults(t *tes
 				} else {
 					g.Expect(err).To(MatchError(ContainSubstring(c.expectedError)))
 				}
-			})
+			},
+		)
 	}
 }
 
@@ -907,6 +919,7 @@ func Test_TypeTransformer_RequirePropertiesWereMatched_ReturnsExpectedResults(t 
 				} else {
 					g.Expect(err).To(MatchError(ContainSubstring(c.expectedError)))
 				}
-			})
+			},
+		)
 	}
 }

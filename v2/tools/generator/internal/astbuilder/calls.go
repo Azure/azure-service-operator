@@ -28,7 +28,8 @@ func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr)
 			X:   dst.NewIdent(qualifier),
 			Sel: dst.NewIdent(funcName),
 		},
-		arguments...)
+		arguments...,
+	)
 }
 
 // CallExpr creates an expression to call the named function with the specified arguments
@@ -51,7 +52,8 @@ func CallExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) *dst.CallEx
 			X:   receiver,
 			Sel: dst.NewIdent(funcName),
 		},
-		arguments...)
+		arguments...,
+	)
 }
 
 func createCallExpr(expr dst.Expr, arguments ...dst.Expr) *dst.CallExpr {

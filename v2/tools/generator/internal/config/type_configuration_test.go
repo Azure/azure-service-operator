@@ -70,7 +70,7 @@ func TestTypeConfiguration_WhenAzureSecretsBadlyFormed_ReturnsError(t *testing.T
 	var typeConfig TypeConfiguration
 	err := yaml.Unmarshal(yamlBytes, &typeConfig)
 	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To((ContainSubstring(azureGeneratedSecretsTag)))
+	g.Expect(err.Error()).To(ContainSubstring(azureGeneratedSecretsTag))
 }
 
 func TestTypeConfiguration_WhenExportDeprecated_ReturnsError(t *testing.T) {

@@ -196,7 +196,8 @@ func (c *PropertyConversionContext) PathExists(
 		start,
 		func(name astmodel.InternalTypeName) bool {
 			return name == finish
-		})
+		},
+	)
 
 	return found
 }
@@ -213,14 +214,16 @@ func (c *PropertyConversionContext) FindPivotType(
 		func(name astmodel.InternalTypeName) bool {
 			candidates.Add(name)
 			return false
-		})
+		},
+	)
 
 	// Walk the path from 'finish' to find the first type that's also visible from 'start'
 	pivot, found := c.conversionGraph.FindInPath(
 		finish,
 		func(name astmodel.InternalTypeName) bool {
 			return candidates.Contains(name)
-		})
+		},
+	)
 	return pivot, found
 }
 
@@ -267,7 +270,8 @@ func (c *PropertyConversionContext) validateTypeRename(
 		return eris.Errorf(
 			"no configuration to rename %s to %s",
 			earlier.Name(),
-			later.Name())
+			later.Name(),
+		)
 	}
 
 	if later.Name() != name {
@@ -277,7 +281,8 @@ func (c *PropertyConversionContext) validateTypeRename(
 			"configuration includes rename of %s to %s, but found %s",
 			earlier.Name(),
 			name,
-			later.Name())
+			later.Name(),
+		)
 	}
 
 	return nil

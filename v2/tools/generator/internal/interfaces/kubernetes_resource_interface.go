@@ -72,14 +72,16 @@ func AddKubernetesResourceInterfaceImpls(
 		astmodel.AzureNameProperty,
 		idFactory,
 		nameFns.getNameFunction,
-		astmodel.GenRuntimeReference)
+		astmodel.GenRuntimeReference,
+	)
 
 	getOwnerProperty := functions.NewResourceFunction(
 		astmodel.OwnerProperty,
 		r,
 		idFactory,
 		getOwnerFunction,
-		astmodel.GenRuntimeReference)
+		astmodel.GenRuntimeReference,
+	)
 
 	getSpecFunction := functions.NewGetSpecFunction(idFactory)
 
@@ -90,14 +92,16 @@ func AddKubernetesResourceInterfaceImpls(
 		r,
 		idFactory,
 		getResourceScopeFunction,
-		astmodel.GenRuntimeReference)
+		astmodel.GenRuntimeReference,
+	)
 
 	getSupportedOperationsFunc := functions.NewResourceFunction(
 		"GetSupportedOperations",
 		r,
 		idFactory,
 		getSupportedOperationsFunction,
-		astmodel.GenRuntimeReference)
+		astmodel.GenRuntimeReference,
+	)
 
 	getAPIVersionFunc := functions.NewGetAPIVersionFunction(r.APIVersionEnumValue(), idFactory)
 
@@ -118,7 +122,8 @@ func AddKubernetesResourceInterfaceImpls(
 			msg := fmt.Sprintf(
 				"Unable to create NewEmptyStatus() for resource %s (expected Status to be a TypeName but had %T)",
 				resourceDef.Name(),
-				r.StatusType())
+				r.StatusType(),
+			)
 			return nil, eris.New(msg)
 		}
 
@@ -145,7 +150,8 @@ func AddKubernetesResourceInterfaceImpls(
 			astmodel.SetAzureNameFunc,
 			idFactory,
 			nameFns.setNameFunction,
-			astmodel.GenRuntimeReference)
+			astmodel.GenRuntimeReference,
+		)
 
 		updated, err := functionInjector.Inject(specDef, setFn)
 		if err != nil {
@@ -286,7 +292,9 @@ func getEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 			ReceiverType:  astbuilder.PointerTo(receiverExpr),
 			Body: astbuilder.Statements(
 				astbuilder.Returns(
-					astbuilder.CallFunc("string", astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec", astmodel.AzureNameProperty)))),
+					astbuilder.CallFunc("string", astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec", astmodel.AzureNameProperty)),
+				),
+			),
 		}
 
 		fn.AddComments(fmt.Sprintf("returns the Azure name of the resource (string representation of %s)", enumType.String()))
@@ -319,7 +327,9 @@ func setEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 			Body: astbuilder.Statements(
 				astbuilder.SimpleAssignment(
 					azureNameProp,
-					astbuilder.CallFunc(enumType.Name(), dst.NewIdent("azureName")))),
+					astbuilder.CallFunc(enumType.Name(), dst.NewIdent("azureName")),
+				),
+			),
 		}
 
 		fn.AddComments(fmt.Sprintf("sets the Azure name from the given %s value", enumType.String()))
@@ -358,7 +368,9 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 			ReceiverType:  astbuilder.PointerTo(receiverExpr),
 			Body: astbuilder.Statements(
 				astbuilder.Returns(
-					astbuilder.TextLiteral(fixedValue))),
+					astbuilder.TextLiteral(fixedValue),
+				),
+			),
 		}
 
 		fn.AddComments(fmt.Sprintf("returns the Azure name of the resource (always %s)", fixedValue))
@@ -424,13 +436,15 @@ func getOwnerFunction(
 		fn.AddStatements(
 			nilOwnerCheck,
 			lookupGroupAndKindStmt(groupLocal, kindLocal, specSelector),
-			astbuilder.Returns(createResourceReferenceWithGroupKind(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), owner)))
+			astbuilder.Returns(createResourceReferenceWithGroupKind(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), owner)),
+		)
 
 	case astmodel.ResourceScopeExtension:
 		fn.AddComments("returns the ResourceReference of the owner")
 		fn.AddStatements(
 			nilOwnerCheck,
-			astbuilder.Returns(createResourceReference(owner)))
+			astbuilder.Returns(createResourceReference(owner)),
+		)
 
 	case astmodel.ResourceScopeTenant:
 		// Tenant resources never have an owner, just return nil
@@ -488,7 +502,9 @@ func getResourceScopeFunction(
 		Params:        nil,
 		Body: astbuilder.Statements(
 			astbuilder.Returns(
-				astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimeReference.PackageName()), resourceScope))),
+				astbuilder.Selector(dst.NewIdent(astmodel.GenRuntimeReference.PackageName()), resourceScope),
+			),
+		),
 	}
 
 	fn.AddComments("returns the scope of the resource")
@@ -590,7 +606,8 @@ func lookupGroupAndKindStmt(
 			astbuilder.CallExpr(
 				dst.NewIdent(astmodel.GenRuntimeReference.PackageName()),
 				"LookupOwnerGroupKind",
-				specSelector),
+				specSelector,
+			),
 		},
 	}
 }
@@ -632,7 +649,8 @@ func setStringAzureNameFunction(
 				dst.NewIdent(receiverIdent),
 				astmodel.AzureNameProperty,
 				token.ASSIGN,
-				dst.NewIdent("azureName")),
+				dst.NewIdent("azureName"),
+			),
 		),
 	}
 
@@ -660,7 +678,9 @@ func getStringAzureNameFunction(
 		ReceiverType:  astbuilder.PointerTo(receiverTypeExpr),
 		Body: astbuilder.Statements(
 			astbuilder.Returns(
-				astbuilder.Selector(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec"), astmodel.AzureNameProperty))),
+				astbuilder.Selector(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec"), astmodel.AzureNameProperty),
+			),
+		),
 	}
 
 	fn.AddComments("returns the Azure name of the resource")

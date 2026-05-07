@@ -45,7 +45,8 @@ func MakeStatusPropertiesOptional() *Stage {
 			}
 
 			return state.WithOverlaidDefinitions(result), nil
-		})
+		},
+	)
 }
 
 // makeStatusPropertiesOptional makes all properties optional on top level Status types

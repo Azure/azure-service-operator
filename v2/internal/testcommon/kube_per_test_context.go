@@ -382,11 +382,13 @@ func (tc *KubePerTestContext) CreateResource(obj client.Object) {
 		tc.LogSubsectionf(
 			"Creating %s resource %s",
 			arm.GetType(),
-			obj.GetName())
+			obj.GetName(),
+		)
 	} else {
 		tc.LogSubsectionf(
 			"Creating resource %s",
-			obj.GetName())
+			obj.GetName(),
+		)
 	}
 
 	tc.CreateResourceUntracked(obj)
@@ -451,7 +453,8 @@ func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 
 	tc.LogSubsectionf(
 		"Creating %d resources",
-		len(objs))
+		len(objs),
+	)
 
 	for _, obj := range objs {
 		tc.CreateResource(obj)
@@ -583,7 +586,8 @@ func (tc *KubePerTestContext) PatchAndExpectError(old client.Object, new client.
 func (tc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
 	tc.LogSubsectionf(
 		"Deleting resource %s",
-		obj.GetName())
+		obj.GetName(),
+	)
 	tc.DeleteResource(obj)
 	tc.Eventually(obj).Should(tc.Match.BeDeleted())
 }

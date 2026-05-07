@@ -127,7 +127,8 @@ func TestReconcileCRDs(t *testing.T) {
 				types.NamespacedName{
 					Name: "managedclusters.containerservice.azure.com",
 				},
-				crd)).To(Succeed())
+				crd,
+			)).To(Succeed())
 
 			if tt.expectDeprecated {
 				g.Expect(crd.Status.StoredVersions).ToNot(ContainElement("v1api20240901storage"))

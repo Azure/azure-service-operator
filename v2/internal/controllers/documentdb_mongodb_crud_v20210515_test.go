@@ -98,7 +98,8 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc, &db)
 			},
-		})
+		},
+	)
 }
 
 func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
@@ -156,7 +157,8 @@ func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db clie
 			Test: func(tc *testcommon.KubePerTestContext) {
 				CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(tc, &collection)
 			},
-		})
+		},
+	)
 
 	tc.T.Log("cleaning up collection")
 }

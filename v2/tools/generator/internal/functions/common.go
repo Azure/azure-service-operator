@@ -23,7 +23,8 @@ func createBodyReturningLiteralString(
 		astbuilder.StringLiteral(result),
 		astmodel.StringType,
 		comment,
-		receiverTypeEnum)
+		receiverTypeEnum,
+	)
 }
 
 func createBodyReturningValue(

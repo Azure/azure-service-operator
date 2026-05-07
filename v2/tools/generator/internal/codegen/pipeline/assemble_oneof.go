@@ -28,7 +28,8 @@ func AssembleOneOfTypes(idFactory astmodel.IdentifierFactory) *Stage {
 				return nil, eris.Wrapf(err, "assembling OneOf types")
 			}
 			return state.WithOverlaidDefinitions(newDefs), nil
-		})
+		},
+	)
 
 	return stage
 }
@@ -214,7 +215,8 @@ func (oa *oneOfAssembler) removeCommonPropertiesFromRoot(root astmodel.InternalT
 		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
 			result := oneOf.WithoutAnyPropertyObjects()
 			return result, nil
-		})
+		},
+	)
 
 	return eris.Wrapf(err, "removing common properties from root %s", root)
 }
@@ -227,7 +229,8 @@ func (oa *oneOfAssembler) removeParentReferenceFromLeaf(parent astmodel.TypeName
 		leaf,
 		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
 			return oneOf.WithoutType(parent), nil
-		})
+		},
+	)
 	return eris.Wrapf(err, "removing parent reference from leaf %s", leaf)
 }
 
@@ -249,7 +252,8 @@ func (oa *oneOfAssembler) embedCommonPropertiesInLeaf(parent astmodel.InternalTy
 			}
 
 			return result, nil
-		})
+		},
+	)
 
 	return eris.Wrapf(err, "embedding common properties from OneOf in leaf %s", leaf)
 }
@@ -289,7 +293,8 @@ func (oa *oneOfAssembler) addLeafReferenceToRoot(root astmodel.InternalTypeName,
 		root,
 		func(oneOf *astmodel.OneOfType) (*astmodel.OneOfType, error) {
 			return oneOf.WithType(leaf), nil
-		})
+		},
+	)
 
 	return eris.Wrapf(err, "adding leaf reference %s to root %s", leaf, root)
 }
@@ -315,16 +320,19 @@ func (oa *oneOfAssembler) addDiscriminatorProperty(name astmodel.InternalTypeNam
 			// Create the discriminator property as a single valued enum
 			enumType := astmodel.NewEnumType(
 				astmodel.StringType,
-				astmodel.MakeEnumValue(valueName, fmt.Sprintf("%q", discriminatorValue)))
+				astmodel.MakeEnumValue(valueName, fmt.Sprintf("%q", discriminatorValue)),
+			)
 
 			property := astmodel.NewPropertyDefinition(
 				propertyName,
 				propertyJSON,
-				astmodel.NewOptionalType(enumType))
+				astmodel.NewOptionalType(enumType),
+			)
 
 			obj := astmodel.NewObjectType().WithProperty(property)
 			return oneOf.WithAdditionalPropertyObject(obj), nil
-		})
+		},
+	)
 
 	return err
 }

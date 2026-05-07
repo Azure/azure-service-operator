@@ -76,14 +76,16 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		"output",
 		"o",
 		"",
-		"Write ARM resource CRDs to a single file")
+		"Write ARM resource CRDs to a single file",
+	)
 
 	cmd.Flags().StringVarP(
 		&options.outputFolder,
 		"output-folder",
 		"f",
 		"",
-		"Write ARM resource CRDs to individual files in a folder")
+		"Write ARM resource CRDs to individual files in a folder",
+	)
 
 	cmd.MarkFlagsMutuallyExclusive("output", "output-folder")
 
@@ -92,35 +94,40 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		"namespace",
 		"n",
 		"",
-		"Set the namespace of the the imported resources")
+		"Set the namespace of the the imported resources",
+	)
 
 	cmd.Flags().StringSliceVarP(
 		&options.labels,
 		"label",
 		"l",
 		nil,
-		"Add labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)")
+		"Add labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)",
+	)
 
 	cmd.Flags().StringSliceVarP(
 		&options.annotations,
 		"annotation",
 		"a",
 		nil,
-		"Add annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)")
+		"Add annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)",
+	)
 
 	cmd.Flags().IntVarP(
 		&options.workers,
 		"workers",
 		"w",
 		4,
-		"The number of parallel workers to use when importing resources")
+		"The number of parallel workers to use when importing resources",
+	)
 
 	cmd.Flags().BoolVarP(
 		&options.simpleLogging,
 		"simple-logging",
 		"s",
 		false,
-		"Use simple logging instead of progress bars")
+		"Use simple logging instead of progress bars",
+	)
 
 	return cmd
 }
@@ -253,7 +260,8 @@ func newChainedCredential(cloud cloud.Configuration) (azcore.TokenCredential, er
 			ClientOptions: azcore.ClientOptions{
 				Cloud: cloud,
 			},
-		})
+		},
+	)
 	if err != nil {
 		credErrors = append(credErrors, fmt.Sprintf("EnvironmentCredential: %s", err.Error()))
 	} else {
@@ -265,7 +273,8 @@ func newChainedCredential(cloud cloud.Configuration) (azcore.TokenCredential, er
 			ClientOptions: azcore.ClientOptions{
 				Cloud: cloud,
 			},
-		})
+		},
+	)
 	if err != nil {
 		credErrors = append(credErrors, fmt.Sprintf("WorkloadIdentityCredential: %s", err.Error()))
 	} else {
@@ -277,7 +286,8 @@ func newChainedCredential(cloud cloud.Configuration) (azcore.TokenCredential, er
 			ClientOptions: azcore.ClientOptions{
 				Cloud: cloud,
 			},
-		})
+		},
+	)
 	if err != nil {
 		credErrors = append(credErrors, fmt.Sprintf("ManagedIdentityCredential: %s", err.Error()))
 	} else {
@@ -340,7 +350,8 @@ func writeResources(
 	if file, ok := options.writeToFile(); ok {
 		log.Info(
 			"Writing to a single file",
-			"file", file)
+			"file", file,
+		)
 		err := result.SaveToSingleFile(file)
 		if err != nil {
 			return eris.Wrapf(err, "failed to write to file %s", file)
@@ -353,7 +364,8 @@ func writeResources(
 	if folder, ok := options.writeToFolder(); ok {
 		log.Info(
 			"Writing to individual files in folder",
-			"folder", folder)
+			"folder", folder,
+		)
 		err := result.SaveToIndividualFilesInFolder(folder)
 		if err != nil {
 			return eris.Wrapf(err, "failed to write into folder %s", folder)

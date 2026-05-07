@@ -20,7 +20,8 @@ func TestConnectionChecker_Avoids_Cycles(t *testing.T) {
 	makeName := func(name string) astmodel.TypeName {
 		return astmodel.MakeInternalTypeName(
 			test.MakeLocalPackageReference("demo", "v1"),
-			name)
+			name,
+		)
 	}
 
 	makeSet := func(names ...string) astmodel.TypeNameSet {

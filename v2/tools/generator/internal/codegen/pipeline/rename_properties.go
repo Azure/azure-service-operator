@@ -57,7 +57,8 @@ func RenameProperties(cfg *config.ObjectModelConfiguration) *Stage {
 			}
 
 			return state.WithOverlaidDefinitions(modified), nil
-		})
+		},
+	)
 
 	stage.RequiresPostrequisiteStages(
 		AddStatusConditionsStageID, // Must rename other properties before we try to introduce the `Conditions` property
@@ -103,7 +104,8 @@ func renamePropertiesInObjectType(
 			properties = append(properties, updated)
 
 			return nil
-		})
+		},
+	)
 	if err != nil {
 		return nil, eris.Wrapf(err, "renaming properties for %s", typeName)
 	}

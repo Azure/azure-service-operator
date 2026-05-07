@@ -77,7 +77,8 @@ func testCredentialProviderSetupWithMultiEnv(cloud *cloud.Configuration, allowMu
 			Cloud:         cloud,
 			// Feature under test
 			AllowMultiEnvManagement: allowMultiEnvManagement,
-		})
+		},
+	)
 
 	return &testCredentialProviderResources{
 		kubeClient:                  client,

@@ -48,5 +48,6 @@ func (ref PropertyReference) String() string {
 		"%s/%s.%s",
 		declaringType.InternalPackageReference().FolderPath(),
 		declaringType.Name(),
-		ref.property)
+		ref.property,
+	)
 }

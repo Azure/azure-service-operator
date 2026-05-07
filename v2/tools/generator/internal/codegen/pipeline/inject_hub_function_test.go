@@ -28,7 +28,8 @@ func TestGolden_InjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpected
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
 	resource = resource.WithType(
-		resource.Type().(*astmodel.ResourceType).MarkAsStorageVersion())
+		resource.Type().(*astmodel.ResourceType).MarkAsStorageVersion(),
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(resource, status, spec)
@@ -44,7 +45,8 @@ func TestGolden_InjectHubFunction_WhenResourceIsStorageVersion_GeneratesExpected
 
 	finalState, err := RunTestPipeline(
 		initialState,
-		InjectHubFunction(idFactory))
+		InjectHubFunction(idFactory),
+	)
 
 	g.Expect(err).To(Succeed())
 
@@ -77,7 +79,8 @@ func TestGolden_InjectHubFunction_WhenResourceIsNotStorageVersion_GeneratesExpec
 
 	finalState, err := RunTestPipeline(
 		initialState,
-		InjectHubFunction(idFactory))
+		InjectHubFunction(idFactory),
+	)
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.DiffWithTypes(initialState.Definitions()))

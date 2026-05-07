@@ -36,7 +36,8 @@ func TestGlobMatcher_GivenTerms_MatchesExpectedStrings(t *testing.T) {
 				matcher := newGlobMatcher(c.glob)
 
 				g.Expect(matcher.Matches(c.term).Matched).To(Equal(c.expectedMatch))
-			})
+			},
+		)
 	}
 }
 
@@ -62,6 +63,7 @@ func TestGlobMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
 				matcher := newGlobMatcher(c.glob)
 
 				g.Expect(matcher.IsRestrictive()).To(Equal(c.restrictive))
-			})
+			},
+		)
 	}
 }

@@ -74,7 +74,8 @@ func WrapError(errorsPackage string, err string, message string, args ...dst.Exp
 	return CallQualifiedFunc(
 		errorsPackage,
 		funcName,
-		Expressions(dst.NewIdent(err), StringLiteral(message), args)...)
+		Expressions(dst.NewIdent(err), StringLiteral(message), args)...,
+	)
 }
 
 // NewVariableQualified creates a new declaration statement where a variable is declared
@@ -208,7 +209,8 @@ func ReturnIfNotOk(returns ...dst.Expr) *dst.IfStmt {
 			Op: token.NOT,
 			X:  dst.NewIdent("ok"),
 		},
-		returns...)
+		returns...,
+	)
 }
 
 // ReturnIfNil checks if a variable is nil and if it is returns
@@ -219,7 +221,8 @@ func ReturnIfNotOk(returns ...dst.Expr) *dst.IfStmt {
 func ReturnIfNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 	return ReturnIfExpr(
 		AreEqual(toCheck, Nil()),
-		returns...)
+		returns...,
+	)
 }
 
 // ReturnIfNotNil checks if a variable is not nil and if it is returns
@@ -230,7 +233,8 @@ func ReturnIfNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 func ReturnIfNotNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 	return ReturnIfExpr(
 		AreNotEqual(toCheck, Nil()),
-		returns...)
+		returns...,
+	)
 }
 
 // ReturnIfExpr returns if the expression evaluates as true
@@ -262,7 +266,8 @@ func FormatError(fmtPackage string, formatString string, args ...dst.Expr) dst.E
 	callArgs := make([]dst.Expr, 0, 1+len(args))
 	callArgs = append(
 		callArgs,
-		StringLiteral(formatString))
+		StringLiteral(formatString),
+	)
 	callArgs = append(callArgs, args...)
 	return CallQualifiedFunc(fmtPackage, "Errorf", callArgs...)
 }
@@ -347,7 +352,8 @@ func WrappedErrorf(errorsPackage string, template string, args ...interface{}) d
 		errorsPackage,
 		"Wrap",
 		dst.NewIdent("err"),
-		StringLiteralf(template, args...))
+		StringLiteralf(template, args...),
+	)
 }
 
 // WrappedError returns the err local, wrapped with additional information
@@ -360,7 +366,8 @@ func WrappedError(errorsPackage string, str string) dst.Expr {
 		errorsPackage,
 		"Wrap",
 		dst.NewIdent("err"),
-		StringLiteral(str))
+		StringLiteral(str),
+	)
 }
 
 // QualifiedTypeName generates a reference to a type within an imported package
@@ -401,7 +408,8 @@ func Selector(expr dst.Expr, names ...string) *dst.SelectorExpr {
 			return &dst.SelectorExpr{X: l, Sel: r.(*dst.Ident)}
 		},
 		dst.None,
-		exprs...).(*dst.SelectorExpr)
+		exprs...,
+	).(*dst.SelectorExpr)
 }
 
 // AreEqual generates a == comparison between the two expressions
@@ -533,7 +541,8 @@ func JoinBinaryOp(op token.Token, spaceType dst.SpaceType, exprs ...dst.Expr) ds
 			return &dst.BinaryExpr{X: x, Op: op, Y: y}
 		},
 		spaceType,
-		exprs...)
+		exprs...,
+	)
 }
 
 // Reduce combines a sequence of expressions using the provided function.

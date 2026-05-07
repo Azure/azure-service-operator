@@ -23,10 +23,12 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) *Stage {
 			definitions := state.Definitions()
 			referenceTypeName := astmodel.MakeExternalTypeName(
 				CrossplaneRuntimeV1Package,
-				idFactory.CreateIdentifier("Reference", astmodel.Exported))
+				idFactory.CreateIdentifier("Reference", astmodel.Exported),
+			)
 			selectorTypeName := astmodel.MakeExternalTypeName(
 				CrossplaneRuntimeV1Package,
-				idFactory.CreateIdentifier("Selector", astmodel.Exported))
+				idFactory.CreateIdentifier("Selector", astmodel.Exported),
+			)
 
 			result := make(astmodel.TypeDefinitionSet)
 			for _, typeDef := range definitions {
@@ -62,15 +64,18 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) *Stage {
 							nameProperty := astmodel.NewPropertyDefinition(
 								name,
 								idFactory.CreateStringIdentifier(string(name), astmodel.NotExported),
-								astmodel.StringType)
+								astmodel.StringType,
+							)
 							nameRefProperty := astmodel.NewPropertyDefinition(
 								nameRef,
 								idFactory.CreateStringIdentifier(string(nameRef), astmodel.NotExported),
-								referenceTypeName).MakeTypeOptional()
+								referenceTypeName,
+							).MakeTypeOptional()
 							nameSelectorProperty := astmodel.NewPropertyDefinition(
 								nameSelector,
 								idFactory.CreateStringIdentifier(string(nameSelector), astmodel.NotExported),
-								selectorTypeName).MakeTypeOptional()
+								selectorTypeName,
+							).MakeTypeOptional()
 
 							result := o.WithProperty(nameProperty).WithProperty(nameRefProperty).WithProperty(nameSelectorProperty)
 							return result, nil
@@ -93,7 +98,8 @@ func AddCrossplaneOwnerProperties(idFactory astmodel.IdentifierFactory) *Stage {
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }
 
 func lookupOwners(defs astmodel.TypeDefinitionSet, resourceDef astmodel.TypeDefinition) ([]astmodel.TypeName, error) {

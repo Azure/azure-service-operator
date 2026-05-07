@@ -28,7 +28,8 @@ func StripDocumentation(configuration *config.Configuration, log logr.Logger) *S
 
 			walker := astmodel.NewTypeWalker(
 				state.Definitions(),
-				visitor)
+				visitor,
+			)
 			walker.AfterVisit = stripTypeDefinitionDescription
 
 			// TODO: This should be used sparingly as a stop-gap if a CRD gets too large.
@@ -66,11 +67,13 @@ func StripDocumentation(configuration *config.Configuration, log logr.Logger) *S
 			if err != nil {
 				return nil, eris.Wrap(
 					err,
-					"Found unused $stripDocumentation configurations; these can only be specified on top-level resources.")
+					"Found unused $stripDocumentation configurations; these can only be specified on top-level resources.",
+				)
 			}
 
 			return state.WithOverlaidDefinitions(result), nil
-		})
+		},
+	)
 
 	return stage
 }

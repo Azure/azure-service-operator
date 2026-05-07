@@ -60,7 +60,8 @@ func Test_CELExportConfigMap(t *testing.T) {
 		configMapName,
 		"principalId", *mi.Status.PrincipalId,
 		"greeting", "hello",
-		"classification", "friend")
+		"classification", "friend",
+	)
 }
 
 func Test_CELExportConflictingConfigMaps_Rejected(t *testing.T) {
@@ -230,5 +231,6 @@ func Test_CELExportConfigMapPropertyOnDifferentVersion(t *testing.T) {
 	// The ConfigMap should exist with the expected values
 	tc.ExpectConfigMapHasKeysAndValues(
 		configMapName,
-		"policy", "false")
+		"policy", "false",
+	)
 }

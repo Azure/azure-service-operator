@@ -685,7 +685,8 @@ func (resource *ResourceType) AsDeclarations(
 	}
 
 	resourceListDeclaration, err := resource.resourceListTypeDecls(
-		codeGenerationContext, declContext.Name, declContext.Description)
+		codeGenerationContext, declContext.Name, declContext.Description,
+	)
 	if err != nil {
 		return nil, eris.Wrapf(err, "creating resource list type for %s", declContext.Name)
 	}
@@ -731,7 +732,8 @@ func (resource *ResourceType) generateMethodDecls(
 func (resource *ResourceType) makeResourceListTypeName(name InternalTypeName) TypeName {
 	return MakeInternalTypeName(
 		name.InternalPackageReference(),
-		name.Name()+"List")
+		name.Name()+"List",
+	)
 }
 
 func (resource *ResourceType) resourceListTypeDecls(
@@ -870,13 +872,15 @@ func generateMethodDeclForFunction(
 					e,
 					"generating method declaration for %s.%s",
 					typeName.Name(),
-					f.Name())
+					f.Name(),
+				)
 			} else {
 				err = eris.Errorf(
 					"generating method declaration for %s.%s: %s",
 					typeName.Name(),
 					f.Name(),
-					r)
+					r,
+				)
 			}
 		}
 	}()

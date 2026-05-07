@@ -63,7 +63,8 @@ func (o *OriginalVersionFunction) AsFunc(
 	}
 
 	returnVersion := astbuilder.Returns(
-		astbuilder.Selector(groupVersionPackageGlobal, "Version"))
+		astbuilder.Selector(groupVersionPackageGlobal, "Version"),
+	)
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,

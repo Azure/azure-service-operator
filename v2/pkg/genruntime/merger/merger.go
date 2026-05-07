@@ -65,14 +65,16 @@ func mergeSecrets(namespace string, s []*v1.Secret) ([]*v1.Secret, error) {
 				&genruntime.SecretDestination{
 					Name: secret.Name,
 					Key:  key,
-				}, value)
+				}, value,
+			)
 		}
 		for key, value := range secret.Data {
 			collector.AddBinaryValue(
 				&genruntime.SecretDestination{
 					Name: secret.Name,
 					Key:  key,
-				}, value)
+				}, value,
+			)
 		}
 	}
 
@@ -87,14 +89,16 @@ func mergeConfigMaps(namespace string, c []*v1.ConfigMap) ([]*v1.ConfigMap, erro
 				&genruntime.ConfigMapDestination{
 					Name: configMap.Name,
 					Key:  key,
-				}, value)
+				}, value,
+			)
 		}
 		for key, value := range configMap.BinaryData {
 			collector.AddBinaryValue(
 				&genruntime.ConfigMapDestination{
 					Name: configMap.Name,
 					Key:  key,
-				}, value)
+				}, value,
+			)
 		}
 	}
 

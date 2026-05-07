@@ -135,6 +135,7 @@ func TestMultiMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
 				matcher := newMultiMatcher(c.matcher)
 
 				g.Expect(matcher.IsRestrictive()).To(Equal(c.restrictive))
-			})
+			},
+		)
 	}
 }

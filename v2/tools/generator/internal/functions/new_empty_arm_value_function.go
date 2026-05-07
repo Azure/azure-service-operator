@@ -23,7 +23,8 @@ func NewNewEmptyARMValueFunc(
 		"NewEmptyARMValue",
 		idFactory,
 		newEmptyARMValueBody(armType),
-		armType.InternalPackageReference())
+		armType.InternalPackageReference(),
+	)
 
 	return result
 }

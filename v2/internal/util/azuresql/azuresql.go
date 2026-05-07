@@ -37,7 +37,8 @@ func ConnectToDB(
 		database,
 		user,
 		password,
-		port)
+		port,
+	)
 
 	db, err := sql.Open(driverName, connString)
 	if err != nil {

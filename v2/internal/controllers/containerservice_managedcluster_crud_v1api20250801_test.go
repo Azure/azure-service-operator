@@ -74,7 +74,8 @@ func Test_AKS_ManagedCluster_20250801_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				AKS_ManagedCluster_Kubeconfig_20250801_Secrets(tc, cluster)
 			},
-		})
+		},
+	)
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "AKS AgentPool CRUD",

@@ -28,7 +28,8 @@ func NewDefaultAzureNameFunction(resource astmodel.TypeDefinition, idFactory ast
 		resource.Name(),
 		idFactory,
 		defaultAzureNameFunction,
-		astmodel.GenRuntimeReference)
+		astmodel.GenRuntimeReference,
+	)
 }
 
 func defaultAzureNameFunction(
@@ -57,8 +58,10 @@ func defaultAzureNameFunction(
 			astbuilder.IfEqual(
 				azureNameProp,
 				astbuilder.StringLiteral(""),
-				astbuilder.SimpleAssignment(azureNameProp, nameProp)),
-			astbuilder.Returns(astbuilder.Nil())),
+				astbuilder.SimpleAssignment(azureNameProp, nameProp),
+			),
+			astbuilder.Returns(astbuilder.Nil()),
+		),
 	}
 
 	contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)

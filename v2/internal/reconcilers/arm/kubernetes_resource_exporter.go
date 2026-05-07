@@ -67,14 +67,16 @@ func (c *configMapExpressionExporter) parseConfigMaps(expressions []*core.Destin
 				&genruntime.ConfigMapDestination{
 					Name: expression.Name,
 					Key:  expression.Key,
-				}, value.Value)
+				}, value.Value,
+			)
 		} else if len(value.Values) > 0 {
 			for k, v := range value.Values {
 				collector.AddValue(
 					&genruntime.ConfigMapDestination{
 						Name: expression.Name,
 						Key:  k,
-					}, v)
+					}, v,
+				)
 			}
 		} else {
 			return nil, eris.Errorf("unexpected expression output")
@@ -134,14 +136,16 @@ func (s *secretExpressionExporter) parseSecrets(
 				&genruntime.SecretDestination{
 					Name: expression.Name,
 					Key:  expression.Key,
-				}, value.Value)
+				}, value.Value,
+			)
 		} else if len(value.Values) > 0 {
 			for k, v := range value.Values {
 				collector.AddValue(
 					&genruntime.SecretDestination{
 						Name: expression.Name,
 						Key:  k,
-					}, v)
+					}, v,
+				)
 			}
 		} else {
 			return nil, eris.Errorf("unexpected expression output")

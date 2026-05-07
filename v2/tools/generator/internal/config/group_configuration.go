@@ -122,7 +122,8 @@ func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error
 	return eris.Wrapf(
 		kerrors.NewAggregate(errs),
 		"group %s",
-		gc.name)
+		gc.name,
+	)
 }
 
 // findVersion uses the provided PackageReference to work out which nested VersionConfiguration should be used
@@ -213,7 +214,8 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// No handler for this value, return an error
 		return eris.Errorf(
-			"group configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column)
+			"group configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column,
+		)
 
 	}
 

@@ -21,7 +21,8 @@ func NewEmptyStatusFunction(
 	result := NewObjectFunction(
 		"NewEmptyStatus",
 		idFactory,
-		createNewEmptyStatusFunction(status))
+		createNewEmptyStatusFunction(status),
+	)
 	result.AddReferencedTypes(astmodel.ConvertibleStatusInterfaceType)
 	return result
 }
@@ -53,7 +54,9 @@ func createNewEmptyStatusFunction(
 			Name:          "NewEmptyStatus",
 			Body: astbuilder.Statements(
 				astbuilder.Returns(
-					astbuilder.AddrOf(literal))),
+					astbuilder.AddrOf(literal),
+				),
+			),
 		}
 
 		convertibleStatusInterfaceExpr, err := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext)

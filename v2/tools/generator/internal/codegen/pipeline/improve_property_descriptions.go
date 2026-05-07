@@ -34,7 +34,8 @@ func ImprovePropertyDescriptions() *Stage {
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 
 	return stage
 }
@@ -73,7 +74,8 @@ func createPropertyImprovingVisitor(defs astmodel.TypeDefinitionSet) astmodel.Ty
 				}
 
 				prop = prop.WithDescription(
-					strings.Join(desc, " "))
+					strings.Join(desc, " "),
+				)
 
 				result = result.WithProperty(prop)
 			}

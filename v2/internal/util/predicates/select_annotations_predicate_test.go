@@ -38,7 +38,8 @@ func Test_SelectAnnotationsChangedPredicate_DetectsChanges(t *testing.T) {
 	predicate := predicates.MakeSelectAnnotationChangedPredicate(
 		map[string]predicates.HasAnnotationChanged{
 			annotationKey: predicates.HasBasicAnnotationChanged,
-		})
+		},
+	)
 
 	empty := &SampleObj{}
 	withWatchedAnnotation1 := &SampleObj{
@@ -138,7 +139,8 @@ func Test_SelectAnnotationsChangedPredicate_DetectsChanges(t *testing.T) {
 				event.UpdateEvent{
 					ObjectOld: tt.old,
 					ObjectNew: tt.new,
-				})
+				},
+			)
 			g.Expect(result).To(Equal(tt.expected))
 		})
 	}
@@ -152,7 +154,8 @@ func Test_SelectAnnotationsChangedPredicate_CreateEvent(t *testing.T) {
 	predicate := predicates.MakeSelectAnnotationChangedPredicate(
 		map[string]predicates.HasAnnotationChanged{
 			annotationKey: predicates.HasBasicAnnotationChanged,
-		})
+		},
+	)
 
 	watchedObj := &SampleObj{
 		ObjectMeta: metav1.ObjectMeta{
@@ -165,7 +168,8 @@ func Test_SelectAnnotationsChangedPredicate_CreateEvent(t *testing.T) {
 	result := predicate.Create(
 		event.CreateEvent{
 			Object: watchedObj,
-		})
+		},
+	)
 	g.Expect(result).To(BeFalse())
 }
 
@@ -177,7 +181,8 @@ func Test_SelectAnnotationsChangedPredicate_DeleteEvent(t *testing.T) {
 	predicate := predicates.MakeSelectAnnotationChangedPredicate(
 		map[string]predicates.HasAnnotationChanged{
 			annotationKey: predicates.HasBasicAnnotationChanged,
-		})
+		},
+	)
 
 	watchedObj := &SampleObj{
 		ObjectMeta: metav1.ObjectMeta{
@@ -190,7 +195,8 @@ func Test_SelectAnnotationsChangedPredicate_DeleteEvent(t *testing.T) {
 	result := predicate.Delete(
 		event.DeleteEvent{
 			Object: watchedObj,
-		})
+		},
+	)
 	g.Expect(result).To(BeFalse())
 }
 
@@ -202,7 +208,8 @@ func Test_SelectAnnotationsChangedPredicate_GenericEvent(t *testing.T) {
 	predicate := predicates.MakeSelectAnnotationChangedPredicate(
 		map[string]predicates.HasAnnotationChanged{
 			annotationKey: predicates.HasBasicAnnotationChanged,
-		})
+		},
+	)
 
 	watchedObj := &SampleObj{
 		ObjectMeta: metav1.ObjectMeta{
@@ -215,7 +222,8 @@ func Test_SelectAnnotationsChangedPredicate_GenericEvent(t *testing.T) {
 	result := predicate.Generic(
 		event.GenericEvent{
 			Object: watchedObj,
-		})
+		},
+	)
 	g.Expect(result).To(BeFalse())
 }
 
@@ -254,11 +262,13 @@ func testPredicateReceivesExpectedValue(handler predicates.HasAnnotationChanged,
 	predicate := predicates.MakeSelectAnnotationChangedPredicate(
 		map[string]predicates.HasAnnotationChanged{
 			annotationKey: handler,
-		})
+		},
+	)
 
 	predicate.Update(
 		event.UpdateEvent{
 			ObjectOld: old,
 			ObjectNew: new,
-		})
+		},
+	)
 }

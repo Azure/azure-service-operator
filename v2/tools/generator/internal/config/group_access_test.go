@@ -29,14 +29,16 @@ func Test_GroupAccess_Lookup_ReturnsConfiguredValue_WhenPresent(t *testing.T) {
 			func(gc *GroupConfiguration) error {
 				gc.PayloadType.Set(value)
 				return nil
-			}),
+			},
+		),
 	).To(Succeed())
 
 	access := makeGroupAccess[PayloadType](
 		model,
 		func(g *GroupConfiguration) *configurable[PayloadType] {
 			return &g.PayloadType
-		})
+		},
+	)
 
 	// Act
 	actual, ok := access.Lookup(ref)
@@ -62,7 +64,8 @@ func Test_GroupAccess_LookupWithTypeOverride_ReturnsOverriddenValue_WhenPresent(
 			func(tc *GroupConfiguration) error {
 				tc.PayloadType.Set(groupValue)
 				return nil
-			}),
+			},
+		),
 	).To(Succeed())
 	g.Expect(
 		model.ModifyType(
@@ -70,13 +73,15 @@ func Test_GroupAccess_LookupWithTypeOverride_ReturnsOverriddenValue_WhenPresent(
 			func(tc *TypeConfiguration) error {
 				tc.PayloadType.Set(typeValue)
 				return nil
-			}),
+			},
+		),
 	).To(Succeed())
 
 	access := makeGroupAccess[PayloadType](
 		model, func(g *GroupConfiguration) *configurable[PayloadType] {
 			return &g.PayloadType
-		}).
+		},
+	).
 		withTypeOverride(func(t *TypeConfiguration) *configurable[PayloadType] {
 			return &t.PayloadType
 		})
@@ -105,7 +110,8 @@ func Test_GroupAccess_LookupWithTypeOverride_ReturnsGroupValue_WhenNoOverridePre
 			func(tc *GroupConfiguration) error {
 				tc.PayloadType.Set(groupValue)
 				return nil
-			}),
+			},
+		),
 	).To(Succeed())
 	g.Expect(
 		model.ModifyType(
@@ -113,13 +119,15 @@ func Test_GroupAccess_LookupWithTypeOverride_ReturnsGroupValue_WhenNoOverridePre
 			func(tc *TypeConfiguration) error {
 				tc.PayloadType.Set(typeValue)
 				return nil
-			}),
+			},
+		),
 	).To(Succeed())
 
 	access := makeGroupAccess[PayloadType](
 		model, func(g *GroupConfiguration) *configurable[PayloadType] {
 			return &g.PayloadType
-		}).
+		},
+	).
 		withTypeOverride(func(t *TypeConfiguration) *configurable[PayloadType] {
 			return &t.PayloadType
 		})

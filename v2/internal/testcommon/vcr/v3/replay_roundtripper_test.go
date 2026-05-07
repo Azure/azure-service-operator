@@ -133,19 +133,22 @@ func TestReplayRoundTripperRoundTrip_GivenMultiplePUTsToSameURL_ReturnsExpectedB
 	alphaRequest, alphaResponse := createPutRequestAndResponse(
 		"/foo",
 		"Alpha goes here",
-		200)
+		200,
+	)
 
 	//nolint:bodyclose // response body is a string, no need to close
 	betaRequest, betaResponse := createPutRequestAndResponse(
 		"/foo",
 		"Beta goes here",
-		203)
+		203,
+	)
 
 	//nolint:bodyclose // response body is a string, no need to close
 	gammaRequest, gammaResponse := createPutRequestAndResponse(
 		"/foo",
 		"Gamma goes here",
-		200)
+		200,
+	)
 
 	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
 	fake.AddResponse(alphaRequest, alphaResponse)
@@ -184,14 +187,16 @@ func Test_ReplayRoundTripper_WhenCombinedWithTrackingRoundTripper_GivesDesiredRe
 	creationRequest, creationResponse := createPutRequestAndResponse(
 		"/sub/id/resource/A",
 		"create resource A",
-		200)
+		200,
+	)
 
 	// Arrange - Request and response to update the resource
 	//nolint:bodyclose // there's no actual body in this response to close
 	updateRequest, updateResponse := createPutRequestAndResponse(
 		"/sub/id/resource/A",
 		"update resource A",
-		200)
+		200,
+	)
 
 	// Arrange - set up fake replayer
 	fake := vcr.NewFakeRoundTripper(cassette.ErrInteractionNotFound)
@@ -230,7 +235,8 @@ func createPutRequestAndResponse(
 		Body: io.NopCloser(
 			bytes.NewBufferString(
 				fmt.Sprintf("PUT for %s", body),
-			)),
+			),
+		),
 	}
 
 	res := &http.Response{
@@ -238,7 +244,8 @@ func createPutRequestAndResponse(
 		Body: io.NopCloser(
 			bytes.NewBufferString(
 				fmt.Sprintf("PUT response for %s", body),
-			)),
+			),
+		),
 	}
 
 	return req, res

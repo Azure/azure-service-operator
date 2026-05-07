@@ -41,7 +41,8 @@ func VerifyNoErroredTypes() *Stage {
 			// This stage doesn't change the generated types at all - if the verification
 			// has passed, just return the same defs we started with
 			return state, nil
-		})
+		},
+	)
 
 	return stage
 }
@@ -55,7 +56,8 @@ func newErrorCollectingVisitor() *errorCollectingVisitor {
 	includePropertyContext := astmodel.MakeIdentityVisitOfObjectType(
 		func(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx erroredTypeVisitorContext) (erroredTypeVisitorContext, error) {
 			return ctx.WithProperty(prop.PropertyName()), nil
-		})
+		},
+	)
 
 	result := &errorCollectingVisitor{}
 	result.visitor = astmodel.TypeVisitorBuilder[erroredTypeVisitorContext]{

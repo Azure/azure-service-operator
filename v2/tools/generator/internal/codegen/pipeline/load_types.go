@@ -48,7 +48,8 @@ func LoadTypes(
 		func(ctx context.Context, state *State) (*State, error) {
 			log.V(1).Info(
 				"Loading Swagger data",
-				"source", config.SchemaRoot)
+				"source", config.SchemaRoot,
+			)
 
 			swaggerTypes, err := loadSwaggerData(ctx, idFactory, config, log)
 			if err != nil {
@@ -58,7 +59,8 @@ func LoadTypes(
 			log.V(1).Info(
 				"Loaded Swagger data",
 				"resources", len(swaggerTypes.ResourceDefinitions),
-				"otherDefinitions", len(swaggerTypes.OtherDefinitions))
+				"otherDefinitions", len(swaggerTypes.OtherDefinitions),
+			)
 
 			if len(swaggerTypes.ResourceDefinitions) == 0 || len(swaggerTypes.OtherDefinitions) == 0 {
 				return nil, eris.Errorf("Failed to load swagger information")
@@ -121,11 +123,13 @@ func LoadTypes(
 			}
 
 			return state.WithDefinitions(defs), nil
-		})
+		},
+	)
 }
 
 var requiredSpecFields = astmodel.NewObjectType().WithProperties(
-	astmodel.NewPropertyDefinition(astmodel.NameProperty, "name", astmodel.StringType))
+	astmodel.NewPropertyDefinition(astmodel.NameProperty, "name", astmodel.StringType),
+)
 
 func addRequiredSpecFields(t astmodel.Type) astmodel.Type {
 	return astmodel.BuildAllOfType(t, requiredSpecFields)
@@ -188,7 +192,8 @@ func renamed(
 	renamer := astmodel.NewRenamingVisitorFromLambda(
 		func(typeName astmodel.InternalTypeName) astmodel.InternalTypeName {
 			return typeName.WithName(typeName.Name() + suffix)
-		})
+		},
+	)
 
 	var errs []error
 	otherTypes := make(astmodel.TypeDefinitionSet)
@@ -302,7 +307,8 @@ func loadSwaggerData(
 		ctx,
 		idFactory,
 		config,
-		log)
+		log,
+	)
 	if err != nil {
 		return jsonast.SwaggerTypes{}, err
 	}
@@ -316,7 +322,8 @@ func loadSwaggerData(
 			log,
 			"Loading Swagger files",
 			"loaded", countLoaded,
-			"total", len(schemas))
+			"total", len(schemas),
+		)
 		countLoaded++
 
 		extractor := jsonast.NewSwaggerTypeExtractor(
@@ -326,7 +333,8 @@ func loadSwaggerData(
 			schemaPath,
 			*schema.Package, // always set during generation
 			loader,
-			log)
+			log,
+		)
 
 		types, err := extractor.ExtractTypes(ctx)
 		if err != nil {
@@ -339,7 +347,8 @@ func loadSwaggerData(
 	log.Info(
 		"Loaded Swagger files",
 		"loaded", countLoaded,
-		"total", len(schemas))
+		"total", len(schemas),
+	)
 
 	return mergeSwaggerTypesByGroup(idFactory, typesByGroup, config)
 }
@@ -412,7 +421,8 @@ func mergeTypesForPackage(
 		typesFromFiles,
 		func(left typesFromFile, right typesFromFile) int {
 			return strings.Compare(left.filePath, right.filePath)
-		})
+		},
+	)
 
 	typeNameCounts := make(map[astmodel.InternalTypeName]int)
 	for _, typesFromFile := range typesFromFiles {
@@ -499,7 +509,8 @@ func mergeTypesForPackage(
 						"merging file %s: renaming %s to %s resulted in a collision with an existing type",
 						typesFromFile.filePath,
 						rn.Name(),
-						newNameA.Name())
+						newNameA.Name(),
+					)
 
 					return nil, err
 				}
@@ -509,7 +520,8 @@ func mergeTypesForPackage(
 						"merging file %s: renaming %s to %s resulted in a collision with an existing type",
 						typesFromFile.filePath,
 						rn.Name(),
-						newNameB.Name())
+						newNameB.Name(),
+					)
 
 					return nil, err
 				}
@@ -525,7 +537,8 @@ func mergeTypesForPackage(
 				err := eris.Errorf(
 					"merging file %s: duplicate resource types generated with name %s",
 					typesFromFile.filePath,
-					rn.Name())
+					rn.Name(),
+				)
 
 				return nil, err
 			}
@@ -639,7 +652,8 @@ func generateRenaming(
 	// Prefix the typename with the filename
 	result := astmodel.MakeInternalTypeName(
 		original.InternalPackageReference(),
-		idFactory.CreateIdentifier(name+original.Name(), astmodel.Exported))
+		idFactory.CreateIdentifier(name+original.Name(), astmodel.Exported),
+	)
 
 	// see if there are any collisions: add Xs until there are no collisions
 	// TODO: this might result in non-determinism depending on iteration order
@@ -741,7 +755,8 @@ func structurallyIdentical(
 		if !astmodel.TypeEquals(
 			leftDefinitions[next.left].Type(),
 			rightDefinitions[next.right].Type(),
-			override) {
+			override,
+		) {
 			return false
 		}
 	}
@@ -816,7 +831,8 @@ func loadAllSchemas(
 			pkg := astmodel.MakeVersionedLocalPackageReference(
 				localPathPrefix,
 				idFactory.CreateGroupName(group),
-				version)
+				version,
+			)
 
 			// We need the file if the version is short (e.g. "v1") because those are often shared between
 			// resource providers.
@@ -831,7 +847,8 @@ func loadAllSchemas(
 			logInfoSparse(
 				log,
 				"Scanning for schemas",
-				"found", countFound)
+				"found", countFound,
+			)
 			countFound++
 
 			eg.Go(func() error {
@@ -839,7 +856,8 @@ func loadAllSchemas(
 
 				log.V(1).Info(
 					"Loading OpenAPI spec",
-					"file", filePath)
+					"file", filePath,
+				)
 
 				fileContent, err := os.ReadFile(filePath)
 				if err != nil {
@@ -865,7 +883,8 @@ func loadAllSchemas(
 	egErr := eg.Wait() // for files to finish loading
 	log.Info(
 		"Scanning for schemas",
-		"found", countFound)
+		"found", countFound,
+	)
 
 	if err != nil {
 		return nil, err

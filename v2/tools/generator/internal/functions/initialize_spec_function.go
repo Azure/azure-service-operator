@@ -61,7 +61,9 @@ func NewInitializeSpecFunction(
 			astbuilder.CallExpr(
 				astbuilder.Selector(dst.NewIdent(receiverName), "Spec"),
 				specInitializeFunction,
-				dst.NewIdent(statusLocal)))
+				dst.NewIdent(statusLocal),
+			),
+		)
 
 		// if s, ok := fromStatus.(<type of status>); ok {
 		//   return receiver.Spec.InitializeFromStatus(s)
@@ -75,14 +77,17 @@ func NewInitializeSpecFunction(
 			dst.NewIdent(statusParam),
 			astbuilder.Dereference(statusTypeExpr),
 			statusLocal,
-			returnConversion)
+			returnConversion,
+		)
 
 		// return fmt.Errorf("expected Status of type <type of status> but received %T instead", fromStatus)
 		returnError := astbuilder.Returns(
 			astbuilder.FormatError(
 				fmtPackage,
 				fmt.Sprintf("expected Status of type %s but received %%T instead", statusType.Name()),
-				dst.NewIdent(statusParam)))
+				dst.NewIdent(statusParam),
+			),
+		)
 		returnError.Decorations().Before = dst.EmptyLine
 
 		funcDetails := astbuilder.FuncDetails{
@@ -91,7 +96,8 @@ func NewInitializeSpecFunction(
 			ReceiverType:  astbuilder.Dereference(receiverType),
 			Body: astbuilder.Statements(
 				initialize,
-				returnError),
+				returnError,
+			),
 		}
 
 		funcDetails.AddComments("initializes the spec for this resource from the given status")

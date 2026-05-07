@@ -40,7 +40,8 @@ func CollapseCrossGroupReferences(idFactory astmodel.IdentifierFactory) *Stage {
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }
 
 func newTypeWalker(

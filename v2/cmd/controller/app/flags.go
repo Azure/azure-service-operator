@@ -33,7 +33,8 @@ func (f Flags) String() string {
 		f.WebhookCertDir,
 		f.EnableLeaderElection,
 		f.CRDManagementMode,
-		f.CRDPatterns)
+		f.CRDPatterns,
+	)
 }
 
 func InitFlags(flagSet *flag.FlagSet) *Flags {
