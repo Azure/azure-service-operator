@@ -228,8 +228,8 @@ if should-install "$TOOL_DEST/setup-envtest"; then
 fi
 
 # Stricter GO formatting
-#doc# | gofumpt | v0.9.0 | https://github.com/mvdan/gofumpt |
-go-install gofumpt mvdan.cc/gofumpt@v0.9.0
+#doc# | gofumpt | v0.10.0 | https://github.com/mvdan/gofumpt |
+go-install gofumpt mvdan.cc/gofumpt@v0.10.0
 
 # Install golangci-lint
 #doc# | golangci-lint | 2.12.1 | https://github.com/golangci/golangci-lint |
