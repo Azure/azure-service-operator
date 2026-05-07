@@ -1,0 +1,38 @@
+---
+name: FFWD from main branch
+
+on:
+  push:
+    branches:
+      - main
+
+
+permissions:
+  contents: write
+
+jobs:
+  fast-forward:
+    runs-on: ubuntu-latest
+    env:
+      TARGET_BRANCHES: backplane-5.0 backplane-5.1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: Fast-forward main commits into backplane branches
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          for branch in ${TARGET_BRANCHES}; do
+            echo "--- Fast-forwarding ${branch} ---"
+            git checkout "${branch}"
+            git merge --ff-only "${{ github.sha }}"
+            git push origin "${branch}"
+          done
