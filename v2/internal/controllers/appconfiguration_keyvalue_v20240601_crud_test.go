@@ -60,7 +60,8 @@ func Test_AppConfiguration_KeyValue_v20240601_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				AppConfiguration_Snapshot_v1api20240601_CRUD(tc, cs)
 			},
-		})
+		},
+	)
 
 	tc.DeleteResourceAndWait(cs)
 }
@@ -103,7 +104,8 @@ func AppConfiguration_KeyValue_v1api20240601_CRUD(tc *testcommon.KubePerTestCont
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(appconfig.APIVersion_Value))
+		string(appconfig.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -135,7 +137,8 @@ func AppConfiguration_Replica_v1api20240601_CRUD(tc *testcommon.KubePerTestConte
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(appconfig.APIVersion_Value))
+		string(appconfig.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

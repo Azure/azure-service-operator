@@ -28,7 +28,8 @@ func ReportResourceStructure(configuration *config.Configuration) *Stage {
 			report := NewResourceStructureReport(state.Definitions())
 			err := report.SaveReports(configuration.FullTypesOutputPath())
 			return state, err
-		})
+		},
+	)
 }
 
 type ResourceStructureReport struct {

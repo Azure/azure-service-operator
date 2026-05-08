@@ -313,7 +313,8 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 				TenantID:                   cfg.TenantID,
 				TokenFilePath:              identity.FederatedTokenFilePath,
 				AdditionallyAllowedTenants: cfg.AdditionalTenants,
-			})
+			},
+		)
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to get workload identity credential")
 		}
@@ -333,7 +334,8 @@ func getDefaultAzureTokenCredential(cfg config.Values, setupLog logr.Logger) (az
 					Cloud: cfg.Cloud(),
 				},
 				AdditionallyAllowedTenants: cfg.AdditionalTenants,
-			})
+			},
+		)
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to get client certificate credential")
 		}
@@ -370,7 +372,8 @@ func newChainedCredential(cfg config.Values, setupLog logr.Logger) (azcore.Token
 			ClientOptions: azcore.ClientOptions{
 				Cloud: cfg.Cloud(),
 			},
-		})
+		},
+	)
 	if err != nil {
 		setupLog.Error(err, "EnvironmentCredential not available")
 	} else {
@@ -450,19 +453,22 @@ func initializeClients(cfg config.Values, mgr ctrl.Manager) (*clients, error) {
 		&identity.CredentialProviderOptions{
 			Cloud:                   to.Ptr(cfg.Cloud()),
 			AllowMultiEnvManagement: cfg.AllowMultiEnvManagement,
-		})
+		},
+	)
 
 	armClientCache := armreconciler.NewARMClientCache(
 		credentialProvider,
 		cfg.Cloud(),
 		nil,
-		armMetrics)
+		armMetrics,
+	)
 
 	genericarmclient.AddToUserAgent(cfg.UserAgentSuffix)
 
 	entraClientCache := entrareconciler.NewEntraClientCache(
 		credentialProvider,
-		nil)
+		nil,
+	)
 
 	positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 
@@ -511,7 +517,8 @@ func initializeWatchers(
 		clients.credentialProvider,
 		clients.positiveConditions,
 		clients.expressionEvaluator,
-		clients.options)
+		clients.options,
+	)
 	if err != nil {
 		return eris.Wrap(err, "failed getting storage types and reconcilers")
 	}
@@ -528,7 +535,8 @@ func initializeWatchers(
 		clients.kubeClient,
 		clients.positiveConditions,
 		objs,
-		clients.options)
+		clients.options,
+	)
 	if err != nil {
 		return eris.Wrap(err, "failed to register gvks")
 	}
@@ -556,7 +564,8 @@ func makeControllerOptions(cfg config.Values) generic.Options {
 			additionalRateLimiters,
 			&workqueue.TypedBucketRateLimiter[reconcile.Request]{
 				Limiter: rate.NewLimiter(rate.Limit(cfg.RateLimit.QPS), cfg.RateLimit.BucketSize),
-			})
+			},
+		)
 	}
 
 	// If sync period isn't set, set verySlow delay at DefaultSyncInterval (1h), otherwise set it
@@ -584,7 +593,8 @@ func makeControllerOptions(cfg config.Values) generic.Options {
 				ErrorMaxSlowDelay:  3 * time.Minute,
 				ErrorVerySlowDelay: verySlowDelay,
 				SyncPeriod:         cfg.SyncPeriod,
-			}),
+			},
+		),
 	}
 }
 
@@ -600,7 +610,8 @@ func newCRDManager(
 		client.Options{
 			Scheme: crdScheme,
 			// nil cache means we don't use the cache (reading direct from API server)
-		})
+		},
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to create CRD client")
 	}

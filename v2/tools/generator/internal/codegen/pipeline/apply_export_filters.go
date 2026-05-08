@@ -27,7 +27,8 @@ func ApplyExportFilters(
 		"Apply export filters to reduce the number of generated types",
 		func(ctx context.Context, state *State) (*State, error) {
 			return filterTypes(configuration, state, log)
-		})
+		},
+	)
 
 	stage.RequiresPostrequisiteStages(VerifyNoErroredTypesStageID)
 	return stage
@@ -74,7 +75,8 @@ func filterTypes(
 				"can't rename %s to %s, name is already used by %s",
 				name,
 				newName,
-				existing.Name())
+				existing.Name(),
+			)
 		}
 
 		renames[name] = n

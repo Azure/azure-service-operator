@@ -48,7 +48,8 @@ func ExportPackages(
 			}
 
 			return state, nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(DeleteGeneratedCodeStageID)
 
@@ -97,13 +98,15 @@ func writeFiles(
 			} else {
 				return 0
 			}
-		})
+		},
+	)
 
 	// emit each package
 	log.Info(
 		"Writing packages",
 		"count", len(pkgs),
-		"outputPath", outputPath)
+		"outputPath", outputPath,
+	)
 
 	globalProgress := newProgressMeter()
 	groupProgress := newProgressMeter()
@@ -179,13 +182,15 @@ func (export *progressMeter) Log(log logr.Logger) {
 			"label", export.label,
 			"files", export.files,
 			"types", export.definitions,
-			"elapsed", elapsed)
+			"elapsed", elapsed,
+		)
 	} else {
 		log.V(1).Info(
 			"Wrote files",
 			"files", export.files,
 			"types", export.definitions,
-			"elapsed", elapsed)
+			"elapsed", elapsed,
+		)
 	}
 
 	export.resetAt = time.Now()

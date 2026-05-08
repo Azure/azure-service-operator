@@ -186,7 +186,8 @@ func Test_DataProtection_BackupInstance_20231101_CRUD(t *testing.T) {
 		clusterRoleAssignment,
 		clusterMSIRoleAssignment,
 		snapshotRGRoleAssignment,
-		backupInstance)
+		backupInstance,
+	)
 
 	objectKey := client.ObjectKeyFromObject(backupInstance)
 

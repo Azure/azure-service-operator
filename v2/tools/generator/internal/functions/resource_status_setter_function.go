@@ -74,7 +74,8 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 
 	// <receiver>.Status = st
 	assignFromStatus := astbuilder.SimpleAssignment(
-		astbuilder.Selector(dst.NewIdent(receiverIdent), "Status"), astbuilder.Dereference(dst.NewIdent(statusLocal)))
+		astbuilder.Selector(dst.NewIdent(receiverIdent), "Status"), astbuilder.Dereference(dst.NewIdent(statusLocal)),
+	)
 
 	// if st, ok := status.(<type>); ok {
 	//     <receiver>.Status = st
@@ -84,7 +85,8 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 		dst.NewIdent(statusParameter),
 		astbuilder.PointerTo(dst.NewIdent(fn.nameOfStatusType)),
 		statusLocal,
-		assignFromStatus, astbuilder.Returns(astbuilder.Nil()))
+		assignFromStatus, astbuilder.Returns(astbuilder.Nil()),
+	)
 	astbuilder.AddComment(&simplePath.Decorations().Start, "// If we have exactly the right type of status, assign it")
 	simplePath.Decorations().Before = dst.NewLine
 
@@ -92,7 +94,8 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 	declareLocal := astbuilder.LocalVariableDeclaration(
 		statusLocal,
 		dst.NewIdent(fn.nameOfStatusType),
-		"// Convert status to required version")
+		"// Convert status to required version",
+	)
 	declareLocal.Decorations().Before = dst.EmptyLine
 
 	// err := status.ConvertStatusTo(&st)
@@ -101,7 +104,9 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 		astbuilder.CallQualifiedFunc(
 			statusParameter,
 			"ConvertStatusTo",
-			astbuilder.AddrOf(dst.NewIdent(statusLocal))))
+			astbuilder.AddrOf(dst.NewIdent(statusLocal)),
+		),
+	)
 
 	// if err != nil {
 	//     return errors.Wrap(err, "failed to convert status")
@@ -111,7 +116,8 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 
 	// <receiver>.Status = st
 	assignFromLocal := astbuilder.SimpleAssignment(
-		astbuilder.Selector(dst.NewIdent(receiverIdent), "Status"), dst.NewIdent(statusLocal))
+		astbuilder.Selector(dst.NewIdent(receiverIdent), "Status"), dst.NewIdent(statusLocal),
+	)
 	assignFromLocal.Decorations().Before = dst.EmptyLine
 
 	returnNil := astbuilder.Returns(astbuilder.Nil())
@@ -126,7 +132,8 @@ func (fn ResourceStatusSetterFunction) AsFunc(
 			convert,
 			returnIfErr,
 			assignFromLocal,
-			returnNil),
+			returnNil,
+		),
 	}
 
 	convertibleStatusInterfaceTypeExpr, err := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(codeGenerationContext)

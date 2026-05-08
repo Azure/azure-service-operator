@@ -62,7 +62,8 @@ func (p *PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinitio
 	return nil, fmt.Errorf(
 		"failed to find a conversion for property %s (%s)",
 		property.PropertyName(),
-		astmodel.DebugDescription(property.PropertyType()))
+		astmodel.DebugDescription(property.PropertyType()),
+	)
 }
 
 // stripAllValidations removes all validations

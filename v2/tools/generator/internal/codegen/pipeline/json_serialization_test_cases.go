@@ -42,7 +42,8 @@ func InjectJSONSerializationTests(idFactory astmodel.IdentifierFactory) *Stage {
 			}
 
 			return state.WithOverlaidDefinitions(modifiedDefinitions), nil
-		})
+		},
+	)
 
 	stage.RequiresPostrequisiteStages("simplifyDefinitions" /* needs flags */)
 

@@ -97,7 +97,8 @@ func Test_EventGrid_Domain(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(eventgrid.APIVersion_Value))
+		string(eventgrid.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

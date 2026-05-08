@@ -32,7 +32,8 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 				packageRef := astmodel.MakeNamedLocalPackageReference(
 					localPath,
 					group,
-					"customizations")
+					"customizations",
+				)
 				extensionTypeName := astmodel.MakeInternalTypeName(packageRef, typeDef.Name().Name()+"Extension")
 				extendedResourceTypesMapping[extensionTypeName] = append(extendedResourceTypesMapping[extensionTypeName], typeDef.Name())
 			}
@@ -43,7 +44,8 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 
 				newExtensionType := astmodel.MakeTypeDefinition(
 					extensionName,
-					astmodel.NewObjectType().WithFunction(fn))
+					astmodel.NewObjectType().WithFunction(fn),
+				)
 
 				if err := extendedResourceDefs.AddAllowDuplicates(newExtensionType); err != nil {
 					return nil, err
@@ -52,7 +54,8 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 			}
 			state.definitions.AddTypes(extendedResourceDefs)
 			return state, nil
-		})
+		},
+	)
 
 	return stage
 }

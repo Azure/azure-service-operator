@@ -57,8 +57,10 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 		func(i astmodel.InternalTypeName, j astmodel.InternalTypeName) int {
 			return astmodel.ComparePathAndVersion(
 				i.PackageReference().ImportPath(),
-				j.PackageReference().ImportPath())
-		})
+				j.PackageReference().ImportPath(),
+			)
+		},
+	)
 
 	for _, s := range stages {
 		s(toProcess)
@@ -70,7 +72,8 @@ func (b *ResourceConversionGraphBuilder) Build() (*ResourceConversionGraph, erro
 		return nil, eris.Errorf(
 			"expected to have linked all references in with name %q, but have %d left",
 			b.name,
-			len(toProcess))
+			len(toProcess),
+		)
 	}
 
 	result := &ResourceConversionGraph{
@@ -162,7 +165,8 @@ func isCompatibilityPackage(ref astmodel.PackageReference) bool {
 	default:
 		msg := fmt.Sprintf(
 			"unexpected PackageReference implementation %T",
-			ref)
+			ref,
+		)
 		panic(msg)
 	}
 }
@@ -196,7 +200,8 @@ func asNewStylePackageReference(
 	default:
 		msg := fmt.Sprintf(
 			"unexpected PackageReference implementation %T",
-			ref)
+			ref,
+		)
 		panic(msg)
 	}
 }

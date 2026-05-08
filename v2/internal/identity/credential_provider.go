@@ -246,7 +246,8 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			eris.Errorf(
 				"credential Secret %q does not contain key %q",
 				nsName,
-				config.AzureSubscriptionID),
+				config.AzureSubscriptionID,
+			),
 		)
 		errs = append(errs, err)
 	}
@@ -258,7 +259,8 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			eris.Errorf(
 				"credential Secret %q does not contain key %q",
 				nsName,
-				config.AzureTenantID),
+				config.AzureTenantID,
+			),
 		)
 		errs = append(errs, err)
 	}
@@ -270,7 +272,8 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			eris.Errorf(
 				"credential Secret %q does not contain key %q",
 				nsName,
-				config.AzureClientID),
+				config.AzureClientID,
+			),
 		)
 		errs = append(errs, err)
 	}
@@ -312,7 +315,8 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 					Cloud: cloudConfig,
 				},
 				AdditionallyAllowedTenants: additionalTenants,
-			})
+			},
+		)
 		if err != nil {
 			return nil, eris.Wrap(err, eris.Errorf("invalid Client Secret Credential for %q encountered", nsName).Error())
 		}
@@ -343,7 +347,8 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 					Cloud: cloudConfig,
 				},
 				AdditionallyAllowedTenants: additionalTenants,
-			})
+			},
+		)
 		if err != nil {
 			return nil, eris.Wrap(err, eris.Errorf("invalid Client Certificate Credential for %q encountered", nsName).Error())
 		}
@@ -419,7 +424,8 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			TenantID:                   tenantID,
 			TokenFilePath:              FederatedTokenFilePath,
 			AdditionallyAllowedTenants: additionalTenants,
-		})
+		},
+	)
 	if err != nil {
 		err = eris.Wrapf(
 			err,
@@ -427,7 +433,8 @@ func (c *credentialProvider) newCredentialFromSecret(secret *v1.Secret) (*Creden
 			nsName,
 			config.AzureClientSecret,
 			clientID,
-			FederatedTokenFilePath)
+			FederatedTokenFilePath,
+		)
 
 		return nil, err
 	}
@@ -448,7 +455,8 @@ func (c *credentialProvider) getSecret(ctx context.Context, namespace string, se
 	err := c.kubeClient.Get(
 		ctx,
 		types.NamespacedName{Namespace: namespace, Name: secretName},
-		secret)
+		secret,
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -510,7 +518,8 @@ func (c *credentialProvider) extractCloudConfig(secret *v1.Secret) (*cloud.Confi
 				config.ResourceManagerEndpoint,
 				config.ResourceManagerAudience,
 				config.AzureAuthorityHost,
-				fieldsPresent),
+				fieldsPresent,
+			),
 		)
 	}
 
@@ -524,7 +533,8 @@ func (c *credentialProvider) extractCloudConfig(secret *v1.Secret) (*cloud.Confi
 				config.ResourceManagerEndpoint,
 				config.ResourceManagerAudience,
 				config.AzureAuthorityHost,
-				config.AllowMultiEnvManagement),
+				config.AllowMultiEnvManagement,
+			),
 		)
 	}
 

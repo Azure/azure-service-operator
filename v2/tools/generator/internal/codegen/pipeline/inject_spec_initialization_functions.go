@@ -82,7 +82,8 @@ func InjectSpecInitializationFunctions(
 			}
 
 			return state.WithOverlaidDefinitions(newDefs), nil
-		})
+		},
+	)
 
 	// Needed to populate the conversion graph
 	stage.RequiresPrerequisiteStages(CreateStorageTypesStageID, CreateConversionGraphStageID)
@@ -230,7 +231,8 @@ func (s *specInitializationScanner) visitInternalTypeName(
 			"visiting definitions of spec type %s and status type %s in package %s",
 			specName.Name(),
 			statusName.Name(),
-			specName.InternalPackageReference().FolderPath())
+			specName.InternalPackageReference().FolderPath(),
+		)
 	}
 
 	return specName, nil
@@ -264,7 +266,8 @@ func (s *specInitializationScanner) visitObjectType(
 			// I know that both the property names will be the same, so only log once
 			// (including the name twice was tried, but was confusing)
 			errs = append(errs, eris.Wrapf(
-				err, "visiting spec and status properties %s", specProperty.PropertyName()))
+				err, "visiting spec and status properties %s", specProperty.PropertyName(),
+			))
 		}
 	}
 

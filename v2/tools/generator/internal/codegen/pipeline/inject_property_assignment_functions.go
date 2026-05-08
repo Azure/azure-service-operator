@@ -50,7 +50,8 @@ func InjectPropertyAssignmentFunctions(
 					// just skip it - not a resource nor an object
 					log.V(2).Info(
 						"Skipping as no conversion functions needed",
-						"type", name)
+						"type", name,
+					)
 					continue
 				}
 
@@ -80,13 +81,15 @@ func InjectPropertyAssignmentFunctions(
 						"AssignPropertiesTo",
 						idFactory,
 						createAssignPropertiesOverrideStub("dst", astmodel.NewOptionalType(nextDef.Name())),
-						nextDef.Name().PackageReference())
+						nextDef.Name().PackageReference(),
+					)
 
 					assignPropertiesFromFunc := functions.NewObjectFunction(
 						"AssignPropertiesFrom",
 						idFactory,
 						createAssignPropertiesOverrideStub("src", astmodel.NewOptionalType(nextDef.Name())),
-						nextDef.Name().PackageReference())
+						nextDef.Name().PackageReference(),
+					)
 
 					ifaceType = ifaceType.WithFunction(assignPropertiesToFunc).WithFunction(assignPropertiesFromFunc)
 
@@ -95,7 +98,8 @@ func InjectPropertyAssignmentFunctions(
 					augmentationInterface = augmentationInterfaceTypeName
 					ifaceDef := astmodel.MakeTypeDefinition(
 						augmentationInterfaceTypeName,
-						ifaceType)
+						ifaceType,
+					)
 					result.Add(ifaceDef)
 				}
 
@@ -108,7 +112,8 @@ func InjectPropertyAssignmentFunctions(
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 
 	// Needed to populate the conversion graph
 	stage.RequiresPrerequisiteStages(CreateStorageTypesStageID)

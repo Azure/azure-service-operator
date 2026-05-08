@@ -401,7 +401,8 @@ func createTestSpec(
 	specName := MakeInternalTypeName(pkg, name+SpecSuffix)
 	return MakeTypeDefinition(
 		specName,
-		NewObjectType().WithProperties(properties...))
+		NewObjectType().WithProperties(properties...),
+	)
 }
 
 // createTestStatus makes a status for testing
@@ -412,5 +413,6 @@ func createTestStatus(
 	statusName := MakeInternalTypeName(pkg, name+StatusSuffix)
 	return MakeTypeDefinition(
 		statusName,
-		NewObjectType().WithProperties(properties...))
+		NewObjectType().WithProperties(properties...),
+	)
 }

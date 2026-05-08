@@ -80,7 +80,8 @@ func MySQL_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn string, 
 		mysqlutil.SystemDatabase,
 		mysqlutil.ServerPort,
 		adminUsername,
-		adminPassword)
+		adminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	// Close the connection
 	tc.Expect(conn.Close()).To(Succeed())
@@ -106,7 +107,8 @@ func MySQL_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn string, 
 				mysqlutil.SystemDatabase,
 				mysqlutil.ServerPort,
 				adminUsername,
-				newAdminPassword)
+				newAdminPassword,
+			)
 			if err != nil {
 				return err
 			}
@@ -128,7 +130,8 @@ func MySQL_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, adminUse
 		mysqlutil.SystemDatabase,
 		mysqlutil.ServerPort,
 		adminUsername,
-		adminPassword)
+		adminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	defer db.Close()
 
@@ -210,7 +213,8 @@ func MySQL_User_CRUD(tc *testcommon.KubePerTestContext, server *mysql.FlexibleSe
 		mysqlutil.SystemDatabase,
 		mysqlutil.ServerPort,
 		to.Value(server.Spec.AdministratorLogin),
-		adminPassword)
+		adminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	defer conn.Close()
 
@@ -243,7 +247,8 @@ func MySQL_User_CRUD(tc *testcommon.KubePerTestContext, server *mysql.FlexibleSe
 		"",
 		mysqlutil.ServerPort,
 		user.Spec.AzureName,
-		password)
+		password,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	// Close the connection
 	tc.Expect(conn.Close()).To(Succeed())
@@ -267,7 +272,8 @@ func MySQL_User_CRUD(tc *testcommon.KubePerTestContext, server *mysql.FlexibleSe
 				"",
 				mysqlutil.ServerPort,
 				user.Spec.AzureName,
-				newPassword)
+				newPassword,
+			)
 			if err != nil {
 				return err
 			}
@@ -314,7 +320,8 @@ func MySQL_User_CRUD(tc *testcommon.KubePerTestContext, server *mysql.FlexibleSe
 		mysqlutil.SystemDatabase,
 		mysqlutil.ServerPort,
 		to.Value(server.Spec.AdministratorLogin),
-		adminPassword)
+		adminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 
 	exists, err := mysqlutil.DoesUserExist(ctx, conn, user.Name)

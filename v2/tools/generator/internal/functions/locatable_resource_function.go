@@ -21,7 +21,8 @@ func NewLocatableResource(
 		"Location",
 		resourceType,
 		idFactory,
-		locatableResourceLocationFunc)
+		locatableResourceLocationFunc,
+	)
 
 	return astmodel.NewInterfaceImplementation(astmodel.LocatableResourceInterfaceName, f)
 }
@@ -45,7 +46,8 @@ func locatableResourceLocationFunc(
 
 	body := astbuilder.Statements(
 		returnIfLocationNil,
-		returnLocation)
+		returnLocation,
+	)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,

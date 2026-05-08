@@ -30,7 +30,8 @@ func StripUnreferencedTypeDefinitions() *Stage {
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }
 
 // StripUnusedDefinitions removes all types that aren't in roots or

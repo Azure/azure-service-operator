@@ -42,7 +42,8 @@ func NewARMSpecInterfaceImpl(
 		"Get"+astmodel.NameProperty,
 		idFactory,
 		getNameFunction,
-		astmodel.GenRuntimeReference)
+		astmodel.GenRuntimeReference,
+	)
 
 	getTypeFunc := functions.NewGetTypeFunction(resource.ARMType(), idFactory, functions.ReceiverTypePtr)
 
@@ -52,7 +53,8 @@ func NewARMSpecInterfaceImpl(
 		astmodel.ARMResourceSpecType,
 		getNameFunc,
 		getTypeFunc,
-		getAPIVersionFunc)
+		getAPIVersionFunc,
+	)
 
 	return result, nil
 }
@@ -69,7 +71,8 @@ func getNameFunction(
 		receiver,
 		methodName,
 		"Name",
-		false)
+		false,
+	)
 }
 
 func armSpecInterfaceSimpleGetFunction(

@@ -91,7 +91,8 @@ func SetConditionsFunction(
 
 	fn.AddParameter(
 		conditionsParameterName,
-		conditionsTypeExpr)
+		conditionsTypeExpr,
+	)
 	fn.AddComments("sets the conditions on the resource status")
 
 	return fn.DefineFunc(), nil

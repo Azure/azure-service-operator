@@ -24,7 +24,8 @@ func AddCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) *St
 			definitions := state.Definitions()
 			specTypeName := astmodel.MakeExternalTypeName(
 				CrossplaneRuntimeV1Package,
-				idFactory.CreateIdentifier("ResourceSpec", astmodel.Exported))
+				idFactory.CreateIdentifier("ResourceSpec", astmodel.Exported),
+			)
 			embeddedSpec := astmodel.NewPropertyDefinition("", ",inline", specTypeName)
 
 			result := make(astmodel.TypeDefinitionSet)
@@ -56,5 +57,6 @@ func AddCrossplaneEmbeddedResourceSpec(idFactory astmodel.IdentifierFactory) *St
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }

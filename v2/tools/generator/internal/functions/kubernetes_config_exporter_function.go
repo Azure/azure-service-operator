@@ -53,11 +53,13 @@ func (d *KubernetesConfigExporterBuilder) ToInterfaceImplementation() *astmodel.
 			astmodel.GenericARMClientReference,
 			astmodel.LogrReference,
 			astmodel.ControllerRuntimeClient,
-			astmodel.ContextReference),
+			astmodel.ContextReference,
+		),
 	}
 	return astmodel.NewInterfaceImplementation(
 		astmodel.KuberentesConfigExporterType,
-		funcs...)
+		funcs...,
+	)
 }
 
 // exportKubernetesResource returns the body of the ExportKubernetesResources function, which implements
@@ -97,7 +99,8 @@ func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 	collectorCreationStmt := astbuilder.AssignmentStatement(
 		dst.NewIdent(collectorIdent),
 		token.DEFINE,
-		astbuilder.CallQualifiedFunc(configMapsReference, "NewCollector", astbuilder.Selector(dst.NewIdent(receiverIdent), "Namespace")))
+		astbuilder.CallQualifiedFunc(configMapsReference, "NewCollector", astbuilder.Selector(dst.NewIdent(receiverIdent), "Namespace")),
+	)
 
 	operatorSpecSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec", astmodel.OperatorSpecProperty)
 	operatorSpecConfigMapsSelector := astbuilder.Selector(operatorSpecSelector, astmodel.OperatorSpecConfigMapsProperty)
@@ -125,14 +128,16 @@ func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 				return nil, eris.Errorf(
 					"Exporting Map elements as configmaps is not supported currently. Property %s has type %s",
 					propertyNames[i],
-					propType.String())
+					propType.String(),
+				)
 			}
 
 			if _, ok := astmodel.AsArrayType(propType); ok {
 				return nil, eris.Errorf(
 					"Exporting Slice elements as configmaps is not supported currently. Property %s has type %s",
 					propertyNames[i],
-					propType.String())
+					propType.String(),
+				)
 			}
 
 			if _, ok := astmodel.AsOptionalType(propType); !ok {
@@ -148,12 +153,14 @@ func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 					collectorIdent,
 					propertyPath,
 					propertyNames,
-					operatorSpecPropertyName)
+					operatorSpecPropertyName,
+				)
 			}
 
 			ifBlock = astbuilder.IfNotNil(
 				astbuilder.Selector(dst.NewIdent(receiverIdent), propertyNames[:i+1]...),
-				inner)
+				inner,
+			)
 		}
 
 		//	if <receiver>.Spec.OperatorSpec != nil && <receiver>.Spec.OperatorSpec.ConfigMaps != nil {
@@ -163,7 +170,8 @@ func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 		//	}
 		condition := astbuilder.JoinAnd(
 			astbuilder.NotNil(operatorSpecSelector),
-			astbuilder.NotNil(operatorSpecConfigMapsSelector))
+			astbuilder.NotNil(operatorSpecConfigMapsSelector),
+		)
 
 		if ifBlock == nil {
 			ifBlock = d.addCollectorStmt(
@@ -171,12 +179,14 @@ func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 				collectorIdent,
 				propertyPath,
 				propertyNames,
-				operatorSpecPropertyName)
+				operatorSpecPropertyName,
+			)
 		}
 
 		collectStmts = append(
 			collectStmts,
-			astbuilder.SimpleIf(condition, ifBlock))
+			astbuilder.SimpleIf(condition, ifBlock),
+		)
 	}
 
 	//	result, err := collector.Values()
@@ -187,14 +197,17 @@ func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 	collectorValues := astbuilder.SimpleAssignmentWithErr(
 		dst.NewIdent("result"),
 		token.DEFINE,
-		astbuilder.CallQualifiedFunc(collectorIdent, "Values"))
+		astbuilder.CallQualifiedFunc(collectorIdent, "Values"),
+	)
 	returnIfErrNotNil := astbuilder.CheckErrorAndReturn(astbuilder.Nil())
 	sliceToClientObjectSlice := astbuilder.Returns(
 		astbuilder.CallQualifiedFunc(
 			configMapsReference,
 			"SliceToClientObjectSlice",
-			dst.NewIdent("result")),
-		astbuilder.Nil())
+			dst.NewIdent("result"),
+		),
+		astbuilder.Nil(),
+	)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,
@@ -205,7 +218,8 @@ func (d *KubernetesConfigExporterBuilder) exportKubernetesConfigMaps(
 			collectStmts,
 			collectorValues,
 			returnIfErrNotNil,
-			sliceToClientObjectSlice),
+			sliceToClientObjectSlice,
+		),
 	}
 
 	contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
@@ -263,5 +277,6 @@ func (d *KubernetesConfigExporterBuilder) addCollectorStmt(
 		collectorIdent,
 		"AddValue",
 		astbuilder.Selector(operatorSpecConfigMapsSelector, d.idFactory.CreateIdentifier(operatorSpecPropertyName, astmodel.Exported)),
-		valueExpr)
+		valueExpr,
+	)
 }

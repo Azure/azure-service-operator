@@ -69,13 +69,15 @@ func ImplementImportableResourceInterface(
 			if len(errs) > 0 {
 				return nil, eris.Wrap(
 					kerrors.NewAggregate(errs),
-					"unable to implement ImportableResource interface")
+					"unable to implement ImportableResource interface",
+				)
 			}
 
 			// Add the new definitions to the state
 			state = state.WithOverlaidDefinitions(newDefs)
 			return state, nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(InjectSpecInitializationFunctionsStageID)
 
@@ -123,5 +125,6 @@ func createImportableResourceImplementation(
 
 	return astmodel.NewInterfaceImplementation(
 		astmodel.ImportableResourceType,
-		fn), nil
+		fn,
+	), nil
 }

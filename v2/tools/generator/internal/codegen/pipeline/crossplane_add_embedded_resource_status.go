@@ -22,7 +22,8 @@ func AddCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) *
 			definitions := state.Definitions()
 			statusTypeName := astmodel.MakeExternalTypeName(
 				CrossplaneRuntimeV1Package,
-				idFactory.CreateIdentifier("ResourceStatus", astmodel.Exported))
+				idFactory.CreateIdentifier("ResourceStatus", astmodel.Exported),
+			)
 			embeddedStatus := astmodel.NewPropertyDefinition("", ",inline", statusTypeName)
 
 			result := make(astmodel.TypeDefinitionSet)
@@ -64,5 +65,6 @@ func AddCrossplaneEmbeddedResourceStatus(idFactory astmodel.IdentifierFactory) *
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }

@@ -29,14 +29,16 @@ func Test_TypeAccess_Lookup_ReturnsConfiguredValue_WhenPresent(t *testing.T) {
 			func(tc *TypeConfiguration) error {
 				tc.PayloadType.Set(value)
 				return nil
-			}),
+			},
+		),
 	).To(Succeed())
 
 	access := makeTypeAccess[PayloadType](
 		model,
 		func(t *TypeConfiguration) *configurable[PayloadType] {
 			return &t.PayloadType
-		})
+		},
+	)
 
 	// Act
 	actual, ok := access.Lookup(ref)
@@ -62,7 +64,8 @@ func Test_TypeAccess_LookupWithPropertyOverride_ReturnsOverriddenValue_WhenPrese
 			func(tc *TypeConfiguration) error {
 				tc.PayloadType.Set(typeValue)
 				return nil
-			}),
+			},
+		),
 	).To(Succeed())
 	g.Expect(
 		model.ModifyProperty(
@@ -71,18 +74,21 @@ func Test_TypeAccess_LookupWithPropertyOverride_ReturnsOverriddenValue_WhenPrese
 			func(tc *PropertyConfiguration) error {
 				tc.PayloadType.Set(propertyValue)
 				return nil
-			}),
+			},
+		),
 	).To(Succeed())
 
 	access := makeTypeAccess[PayloadType](
 		model,
 		func(t *TypeConfiguration) *configurable[PayloadType] {
 			return &t.PayloadType
-		}).
+		},
+	).
 		withPropertyOverride(
 			func(p *PropertyConfiguration) *configurable[PayloadType] {
 				return &p.PayloadType
-			})
+			},
+		)
 
 	// Act
 	actual, ok := access.Lookup(ref, "Name")
@@ -108,7 +114,8 @@ func Test_TypeAccess_LookupWithPropertyOverride_ReturnsTypeValue_WhenNoOverrideP
 			func(tc *TypeConfiguration) error {
 				tc.PayloadType.Set(typeValue)
 				return nil
-			}),
+			},
+		),
 	).To(Succeed())
 	g.Expect(
 		model.ModifyProperty(
@@ -117,18 +124,21 @@ func Test_TypeAccess_LookupWithPropertyOverride_ReturnsTypeValue_WhenNoOverrideP
 			func(tc *PropertyConfiguration) error {
 				tc.PayloadType.Set(propertyValue)
 				return nil
-			}),
+			},
+		),
 	).To(Succeed())
 
 	access := makeTypeAccess[PayloadType](
 		model,
 		func(t *TypeConfiguration) *configurable[PayloadType] {
 			return &t.PayloadType
-		}).
+		},
+	).
 		withPropertyOverride(
 			func(p *PropertyConfiguration) *configurable[PayloadType] {
 				return &p.PayloadType
-			})
+			},
+		)
 
 	// Act
 	actual, ok := access.Lookup(ref, "Status")

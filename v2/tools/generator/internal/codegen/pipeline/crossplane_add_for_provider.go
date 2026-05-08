@@ -26,7 +26,8 @@ func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) *Stage {
 			for _, typeDef := range definitions {
 				if _, ok := astmodel.AsResourceType(typeDef.Type()); ok {
 					forProviderTypes, err := nestSpecIntoForProvider(
-						idFactory, definitions, typeDef)
+						idFactory, definitions, typeDef,
+					)
 					if err != nil {
 						return nil, eris.Wrapf(err, "creating 'ForProvider' definitions")
 					}
@@ -39,7 +40,8 @@ func AddCrossplaneForProvider(idFactory astmodel.IdentifierFactory) *Stage {
 			result.AddTypes(unmodified)
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }
 
 // nestSpecIntoForProvider returns the type definitions required to nest the contents of the "Spec" type
@@ -96,13 +98,15 @@ func nestType(
 	// Copy outer type properties onto new "nesting type" with name nestedTypeName
 	nestedDef := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(outerTypeName.InternalPackageReference(), nestedTypeName),
-		outerObject)
+		outerObject,
+	)
 	result = append(result, nestedDef)
 
 	nestedProperty := astmodel.NewPropertyDefinition(
 		idFactory.CreatePropertyName(nestedPropertyName, astmodel.Exported),
 		idFactory.CreateStringIdentifier(nestedPropertyName, astmodel.NotExported),
-		nestedDef.Name())
+		nestedDef.Name(),
+	)
 
 	// Change existing object type to have a single property pointing to the above nested type
 	updatedObject := outerObject.WithoutProperties().WithProperty(nestedProperty)

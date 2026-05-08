@@ -30,14 +30,16 @@ func Test_PropertyAccess_Lookup_ReturnsConfiguredValue_WhenPresent(t *testing.T)
 			func(tc *PropertyConfiguration) error {
 				tc.PayloadType.Set(value)
 				return nil
-			}),
+			},
+		),
 	).To(Succeed())
 
 	access := makePropertyAccess[PayloadType](
 		model,
 		func(t *PropertyConfiguration) *configurable[PayloadType] {
 			return &t.PayloadType
-		})
+		},
+	)
 
 	// Act
 	actual, ok := access.Lookup(ref, "Name")

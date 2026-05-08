@@ -69,7 +69,8 @@ func ApplyDefaulterAndValidatorInterfaces(configuration *config.Configuration, i
 			}
 
 			return state.WithOverlaidDefinitions(updatedDefs), nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(ApplyKubernetesResourceInterfaceStageID, AddOperatorSpecStageID)
 	return stage
@@ -124,10 +125,12 @@ func getValidations(
 	if !resource.Owner().IsEmpty() {
 		validations[functions.ValidationKindCreate] = append(
 			validations[functions.ValidationKindCreate],
-			functions.NewValidateOwnerReferenceFunction(resourceDef, idFactory))
+			functions.NewValidateOwnerReferenceFunction(resourceDef, idFactory),
+		)
 		validations[functions.ValidationKindUpdate] = append(
 			validations[functions.ValidationKindUpdate],
-			functions.NewValidateOwnerReferenceFunction(resourceDef, idFactory))
+			functions.NewValidateOwnerReferenceFunction(resourceDef, idFactory),
+		)
 	}
 
 	// The expectation is that every resource has an Spec.OperatorSpec.SecretExpressions and
@@ -135,16 +138,20 @@ func getValidations(
 	// If this assumption has been violated, generating the validation function will raise an error.
 	validations[functions.ValidationKindCreate] = append(
 		validations[functions.ValidationKindCreate],
-		NewValidateSecretDestinationsFunction(resourceDef, idFactory))
+		NewValidateSecretDestinationsFunction(resourceDef, idFactory),
+	)
 	validations[functions.ValidationKindUpdate] = append(
 		validations[functions.ValidationKindUpdate],
-		NewValidateSecretDestinationsFunction(resourceDef, idFactory))
+		NewValidateSecretDestinationsFunction(resourceDef, idFactory),
+	)
 	validations[functions.ValidationKindCreate] = append(
 		validations[functions.ValidationKindCreate],
-		NewValidateConfigMapDestinationsFunction(resourceDef, idFactory))
+		NewValidateConfigMapDestinationsFunction(resourceDef, idFactory),
+	)
 	validations[functions.ValidationKindUpdate] = append(
 		validations[functions.ValidationKindUpdate],
-		NewValidateConfigMapDestinationsFunction(resourceDef, idFactory))
+		NewValidateConfigMapDestinationsFunction(resourceDef, idFactory),
+	)
 
 	hasConfigMapReferencePairs, err := hasOptionalConfigMapReferencePairs(resourceDef, defs)
 	if err != nil {
@@ -153,10 +160,12 @@ func getValidations(
 	if hasConfigMapReferencePairs {
 		validations[functions.ValidationKindCreate] = append(
 			validations[functions.ValidationKindCreate],
-			functions.NewValidateOptionalConfigMapReferenceFunction(resourceDef, idFactory))
+			functions.NewValidateOptionalConfigMapReferenceFunction(resourceDef, idFactory),
+		)
 		validations[functions.ValidationKindUpdate] = append(
 			validations[functions.ValidationKindUpdate],
-			functions.NewValidateOptionalConfigMapReferenceFunction(resourceDef, idFactory))
+			functions.NewValidateOptionalConfigMapReferenceFunction(resourceDef, idFactory),
+		)
 	}
 
 	hasSecretReferencePairs, err := hasOptionalSecretReferencePairs(resourceDef, defs)
@@ -166,10 +175,12 @@ func getValidations(
 	if hasSecretReferencePairs {
 		validations[functions.ValidationKindCreate] = append(
 			validations[functions.ValidationKindCreate],
-			functions.NewValidateOptionalSecretReferenceFunction(resourceDef, idFactory))
+			functions.NewValidateOptionalSecretReferenceFunction(resourceDef, idFactory),
+		)
 		validations[functions.ValidationKindUpdate] = append(
 			validations[functions.ValidationKindUpdate],
-			functions.NewValidateOptionalSecretReferenceFunction(resourceDef, idFactory))
+			functions.NewValidateOptionalSecretReferenceFunction(resourceDef, idFactory),
+		)
 	}
 
 	return validations, nil
@@ -193,7 +204,8 @@ func NewValidateSecretDestinationsFunction(resourceDef astmodel.TypeDefinition, 
 		resourceDef.Name(),
 		idFactory,
 		validateSecretDestinations(resourceDef),
-		astmodel.GenRuntimeSecretsReference)
+		astmodel.GenRuntimeSecretsReference,
+	)
 }
 
 func validateSecretDestinations(resourceDef astmodel.TypeDefinition) functions.DataFunctionHandler[astmodel.InternalTypeName] {
@@ -221,7 +233,8 @@ func validateSecretDestinations(resourceDef astmodel.TypeDefinition) functions.D
 			astmodel.OperatorSpecSecretExpressionsProperty,
 			astmodel.NewOptionalType(astmodel.SecretDestinationType),
 			astmodel.GenRuntimeSecretsReference,
-			"ValidateDestinations")
+			"ValidateDestinations",
+		)
 		if err != nil {
 			return nil, eris.Wrapf(err, "creating body of method %s", methodName)
 		}
@@ -267,7 +280,8 @@ func NewValidateConfigMapDestinationsFunction(resourceDef astmodel.TypeDefinitio
 		resourceDef.Name(),
 		idFactory,
 		validateConfigMapDestinations(resourceDef),
-		astmodel.GenRuntimeConfigMapsReference)
+		astmodel.GenRuntimeConfigMapsReference,
+	)
 }
 
 func validateConfigMapDestinations(resourceDef astmodel.TypeDefinition) functions.DataFunctionHandler[astmodel.InternalTypeName] {
@@ -295,7 +309,8 @@ func validateConfigMapDestinations(resourceDef astmodel.TypeDefinition) function
 			astmodel.OperatorSpecConfigMapExpressionsProperty,
 			astmodel.NewOptionalType(astmodel.ConfigMapDestinationType),
 			astmodel.GenRuntimeConfigMapsReference,
-			"ValidateDestinations")
+			"ValidateDestinations",
+		)
 		if err != nil {
 			return nil, eris.Wrapf(err, "creating body of method %s", methodName)
 		}
@@ -371,7 +386,8 @@ func validateOperatorSpecSliceBody(
 		return nil, eris.Errorf(
 			"can't generate method for validating OperatorSpec %s and %s if both fields don't exist",
 			property,
-			expressionsProperty)
+			expressionsProperty,
+		)
 	}
 
 	var body []dst.Stmt
@@ -416,7 +432,9 @@ func validateOperatorSpecSliceBody(
 			body,
 			astbuilder.IfNotNil(
 				propertySelector,
-				astbuilder.AssignmentStatement(dst.NewIdent(toValidateVar), token.ASSIGN, sliceBuilder.Build())))
+				astbuilder.AssignmentStatement(dst.NewIdent(toValidateVar), token.ASSIGN, sliceBuilder.Build()),
+			),
+		)
 	}
 
 	selfParameter := dst.NewIdent(objIdent)
@@ -441,7 +459,10 @@ func validateOperatorSpecSliceBody(
 				validateFunctionName,
 				selfParameter,
 				toValidateParameter,
-				expressionsToValidateParameter)))
+				expressionsToValidateParameter,
+			),
+		),
+	)
 
 	return body, nil
 }
@@ -467,7 +488,8 @@ func getOperatorSpecType(defs astmodel.ReadonlyTypeDefinitions, resource *astmod
 		return nil, eris.Errorf(
 			"expected %s to be an astmodel.TypeName, but it was %T",
 			astmodel.OperatorSpecProperty,
-			operatorSpecProp.PropertyType())
+			operatorSpecProp.PropertyType(),
+		)
 	}
 
 	operatorSpecDef, err := defs.GetDefinition(operatorSpecTypeName)
@@ -479,7 +501,8 @@ func getOperatorSpecType(defs astmodel.ReadonlyTypeDefinitions, resource *astmod
 		return nil, eris.Errorf(
 			"expected %s to be an astmodel.ObjectType but it was %T",
 			operatorSpecTypeName,
-			operatorSpecDef.Type())
+			operatorSpecDef.Type(),
+		)
 	}
 
 	return operatorSpecType, nil
@@ -526,7 +549,8 @@ func getOperatorSpecSubType(defs astmodel.ReadonlyTypeDefinitions, resource *ast
 		return nil, eris.Errorf(
 			"expected %s to be an astmodel.InternalTypeName, but it was %T",
 			name,
-			prop.PropertyType())
+			prop.PropertyType(),
+		)
 	}
 	def, err := defs.GetDefinition(typeName)
 	if err != nil {
@@ -551,7 +575,8 @@ func hasOptionalConfigMapReferencePairs(resourceDef astmodel.TypeDefinition, def
 				}
 
 				return ctx, nil
-			}),
+			},
+		),
 	}.Build()
 
 	walker := astmodel.NewTypeWalker(defs, visitor)
@@ -574,7 +599,8 @@ func hasOptionalSecretReferencePairs(resourceDef astmodel.TypeDefinition, defs a
 				}
 
 				return ctx, nil
-			}),
+			},
+		),
 	}.Build()
 
 	walker := astmodel.NewTypeWalker(defs, visitor)

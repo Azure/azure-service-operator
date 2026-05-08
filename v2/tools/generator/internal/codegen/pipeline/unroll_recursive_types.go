@@ -80,5 +80,6 @@ func UnrollRecursiveTypes(log logr.Logger) *Stage {
 			result.AddTypes(fixer.Types())
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }

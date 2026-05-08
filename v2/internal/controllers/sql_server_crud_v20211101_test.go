@@ -64,7 +64,8 @@ func Test_SQL_Server_CRUD(t *testing.T) {
 	tc.ExpectConfigMapHasKeysAndValues(
 		configMap,
 		configMapKey,
-		*server.Status.FullyQualifiedDomainName)
+		*server.Status.FullyQualifiedDomainName,
+	)
 
 	storageDetails := makeStorageAccountForSQLVulnerabilityAssessment(tc, rg)
 
@@ -128,7 +129,8 @@ func Test_SQL_Server_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				SQL_Server_AuditingSetting_CRUD(tc, server, storageDetails)
 			},
-		})
+		},
+	)
 
 	armId := *server.Status.Id
 	tc.DeleteResourceAndWait(server)
@@ -305,7 +307,8 @@ func SQL_Server_OutboundFirewallRule_CRUD(tc *testcommon.KubePerTestContext, ser
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(sql.APIVersion_Value))
+		string(sql.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

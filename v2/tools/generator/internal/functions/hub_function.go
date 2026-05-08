@@ -21,7 +21,8 @@ func NewHubFunction(idFactory astmodel.IdentifierFactory) astmodel.Function {
 	result := NewObjectFunction(
 		"Hub",
 		idFactory,
-		createHubFunctionBody)
+		createHubFunctionBody,
+	)
 	return result
 }
 

@@ -107,14 +107,16 @@ asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;con
 		"source",
 		"s",
 		"",
-		"File or URL path to the ASO YAML template. Use this if you've customized the base ASO YAML locally or are using a base YAML other than the one hosted at https://github.com/Azure/azure-service-operator/tags")
+		"File or URL path to the ASO YAML template. Use this if you've customized the base ASO YAML locally or are using a base YAML other than the one hosted at https://github.com/Azure/azure-service-operator/tags",
+	)
 
 	cmd.Flags().StringVarP(
 		&options.version,
 		"version",
 		"v",
 		"",
-		"Release version to use.")
+		"Release version to use.",
+	)
 
 	cmd.MarkFlagsOneRequired("source", "version")
 	cmd.MarkFlagsMutuallyExclusive("source", "version")
@@ -123,14 +125,16 @@ asoctl export template --version v2.6.0 --crd-pattern "resources.azure.com/*;con
 		&options.raw,
 		"raw",
 		false,
-		"Export the YAML without any variable replacements")
+		"Export the YAML without any variable replacements",
+	)
 
 	cmd.Flags().StringSliceVarP(
 		&options.crdPattern,
 		"crd-pattern",
 		"p",
 		nil,
-		"What new CRDs to install. Existing ASO CRDs in the cluster will always be upgraded even if crdPattern is empty. See https://azure.github.io/azure-service-operator/guide/crd-management/ for more details.")
+		"What new CRDs to install. Existing ASO CRDs in the cluster will always be upgraded even if crdPattern is empty. See https://azure.github.io/azure-service-operator/guide/crd-management/ for more details.",
+	)
 
 	cmd.MarkFlagsOneRequired("crd-pattern", "raw")
 	cmd.MarkFlagsMutuallyExclusive("crd-pattern", "raw")

@@ -58,7 +58,8 @@ func Test_Cache_Redis_20230801_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				Redis_FirewallRule_20230801_CRUD(tc, redis1)
 			},
-		})
+		},
+	)
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{

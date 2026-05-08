@@ -56,7 +56,8 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage 
 
 			finalDefs := newDefs.OverlayWith(baseSynthesizer.updatedDefs)
 			return state.WithDefinitions(finalDefs), nil
-		})
+		},
+	)
 }
 
 func createVisitorForSynthesizer(baseSynthesizer synthesizer) astmodel.TypeVisitor[resourceFieldSelector] {
@@ -767,7 +768,8 @@ func (s synthesizer) handleTypeName(leftName astmodel.InternalTypeName, right as
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
-			"intersecting %s with %s", leftName, astmodel.DebugDescription(right))
+			"intersecting %s with %s", leftName, astmodel.DebugDescription(right),
+		)
 	}
 
 	// TODO: can we somehow process these pointed-to types first,
@@ -914,7 +916,8 @@ func (synthesizer) handleMapObject(leftMap *astmodel.MapType, rightObj *astmodel
 		additionalProps := astmodel.NewPropertyDefinition(
 			astmodel.AdditionalPropertiesPropertyName,
 			astmodel.AdditionalPropertiesJSONName,
-			leftMap)
+			leftMap,
+		)
 
 		return rightObj.WithProperties(additionalProps), nil
 	}
@@ -953,7 +956,8 @@ func (s synthesizer) allOfSlice(types []astmodel.Type) (astmodel.Type, error) {
 			}
 
 			return 0
-		})
+		},
+	)
 
 	var result astmodel.Type = astmodel.AnyType
 	for _, t := range toMerge {

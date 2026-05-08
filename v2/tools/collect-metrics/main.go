@@ -79,7 +79,8 @@ func main() {
 			Namespace: *namespace,
 			PodPrefix: *podPrefix,
 			Interval:  *interval,
-		})
+		},
+	)
 	if err != nil {
 		log.Error(err, "Failed to create metrics collector")
 		os.Exit(1)

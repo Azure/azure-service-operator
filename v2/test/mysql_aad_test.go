@@ -73,7 +73,8 @@ func Test_MySQL_AADUser(t *testing.T) {
 		"/subscriptions/%s/resourceGroups/%s/providers/Microsoft.ManagedIdentity/userAssignedIdentities/%s",
 		tc.AzureSubscription,
 		identityResourceGroup,
-		identityName)
+		identityName,
+	)
 
 	server := newMySQLServer(tc, rg, adminUsername, adminPasswordKey, secret.Name)
 	server.Spec.Identity = &mysql.Identity{
@@ -188,7 +189,8 @@ func MySQL_AADUser_CRUD(
 		mysqlutil.SystemDatabase,
 		mysqlutil.ServerPort,
 		to.Value(server.Spec.AdministratorLogin),
-		standardAdminPassword)
+		standardAdminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	defer conn.Close()
 
@@ -299,7 +301,8 @@ func MySQL_LocalUser_AADAdmin_CRUD(
 		mysqlutil.SystemDatabase,
 		mysqlutil.ServerPort,
 		to.Value(server.Spec.AdministratorLogin),
-		standardAdminPassword)
+		standardAdminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	defer conn.Close()
 
@@ -369,7 +372,8 @@ func MySQL_AADUserAndGroup_CRUD(
 		mysqlutil.SystemDatabase,
 		mysqlutil.ServerPort,
 		to.Value(server.Spec.AdministratorLogin),
-		standardAdminPassword)
+		standardAdminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	defer conn.Close()
 

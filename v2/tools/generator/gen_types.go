@@ -49,13 +49,15 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 
 				log.Info(
 					"Debug output will be written",
-					"folder", tmpDir)
+					"folder", tmpDir,
+				)
 				cg.UseDebugMode(*debugMode, tmpDir)
 				defer func() {
 					// Write the debug folder again so the user doesn't have to scroll back
 					log.Info(
 						"Debug output available",
-						"folder", tmpDir)
+						"folder", tmpDir,
+					)
 				}()
 			}
 
@@ -73,7 +75,8 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 		"debug",
 		"d",
 		"",
-		"Write debug logs to a temp folder for a group (e.g. compute), multiple groups (e.g. compute;network), or groups matching a wildcard (e.g. net*)")
+		"Write debug logs to a temp folder for a group (e.g. compute), multiple groups (e.g. compute;network), or groups matching a wildcard (e.g. net*)",
+	)
 
 	return cmd, nil
 }

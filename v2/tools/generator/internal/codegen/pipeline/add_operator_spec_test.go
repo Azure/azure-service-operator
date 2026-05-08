@@ -36,7 +36,9 @@ func TestGolden_AddOperatorSpec_AddsSpecWithConfiguredSecrets(t *testing.T) {
 			func(tc *config.TypeConfiguration) error {
 				tc.AzureGeneratedSecrets.Set([]string{"key1"})
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	configuration := config.NewConfiguration()
@@ -76,7 +78,8 @@ func TestAddOperatorSpec_AddsSpecWithConfiguredConfigMaps(t *testing.T) {
 				})
 				return nil
 			},
-		)).
+		),
+	).
 		To(Succeed())
 
 	configuration := config.NewConfiguration()
@@ -113,7 +116,9 @@ func TestAddOperatorSpec_AddsSpecWithManualConfigMaps(t *testing.T) {
 			func(tc *config.TypeConfiguration) error {
 				tc.ManualConfigs.Set([]string{"config1"})
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	configuration := config.NewConfiguration()

@@ -60,7 +60,8 @@ func findMisbehavingResources(
 							typeName:     ctx.typeName,
 							resourceName: ctx.resourceName,
 							propertyType: propertyType,
-						})
+						},
+					)
 				}
 			}
 

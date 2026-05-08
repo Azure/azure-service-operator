@@ -30,14 +30,16 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		test.Pkg2020,
 		"Address"+astmodel.SpecSuffix,
 		test.FullAddressProperty,
-		test.CityProperty)
+		test.CityProperty,
+	)
 
 	// Define a status type for addresses
 	addressStatus := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Address"+astmodel.StatusSuffix,
 		test.FullAddressProperty,
-		test.CityProperty)
+		test.CityProperty,
+	)
 
 	// Define a second status type for addresses, with a wholly different name
 	locationStatus := test.CreateObjectDefinition(
@@ -45,45 +47,52 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		"Location"+astmodel.StatusSuffix,
 		test.FullAddressProperty,
 		test.CityProperty,
-		test.StatusProperty)
+		test.StatusProperty,
+	)
 
 	// Define a spec property for addresses
 	addressesSpecProperty := astmodel.NewPropertyDefinition(
 		"Addresses",
 		"addresses",
-		astmodel.NewArrayType(addressSpec.Name())).
+		astmodel.NewArrayType(addressSpec.Name()),
+	).
 		WithDescription("All the places this person has lived.")
 
 	// Define a status property for locations, using the same type as the spec property for addresses
 	locationsSpecProperty := astmodel.NewPropertyDefinition(
 		"Locations",
 		"locations",
-		astmodel.NewArrayType(addressSpec.Name())).
+		astmodel.NewArrayType(addressSpec.Name()),
+	).
 		WithDescription("Other places this person frequents.")
 
 	// Define a status property for addresses
 	addressesStatusProperty := astmodel.NewPropertyDefinition(
 		"Addresses",
 		"addresses",
-		astmodel.NewArrayType(addressStatus.Name())).
+		astmodel.NewArrayType(addressStatus.Name()),
+	).
 		WithDescription("All the places this person has lived.")
 
 	// Define a status proeprty for locations
 	locationsStatusProperty := astmodel.NewPropertyDefinition(
 		"Locations",
 		"locations",
-		astmodel.NewArrayType(locationStatus.Name())).
+		astmodel.NewArrayType(locationStatus.Name()),
+	).
 		WithDescription("Other places this person frequents.")
 
 	personReferenceProperty := astmodel.NewPropertyDefinition(
 		"PersonReference",
 		"personReference",
-		astmodel.ResourceReferenceType)
+		astmodel.ResourceReferenceType,
+	)
 
 	personIDProperty := astmodel.NewPropertyDefinition(
 		"PersonId",
 		"personId",
-		astmodel.StringType)
+		astmodel.StringType,
+	)
 
 	spec := test.CreateSpec(
 		test.Pkg2020,
@@ -119,7 +128,8 @@ func TestGolden_InjectSpecInitializationFunctions(t *testing.T) {
 		state,
 		CreateStorageTypes(),       // First create the storage types
 		CreateConversionGraph(cfg), // Then create the conversion graph
-		InjectSpecInitializationFunctions(cfg, idFactory)) // Then create the spec initialization functions
+		InjectSpecInitializationFunctions(cfg, idFactory),
+	) // Then create the spec initialization functions
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions())

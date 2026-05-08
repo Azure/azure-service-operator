@@ -62,7 +62,8 @@ func NewEnumType(baseType *PrimitiveType, options ...EnumValue) *EnumType {
 			}
 
 			return strings.Compare(left.Identifier, right.Identifier)
-		})
+		},
+	)
 
 	return &EnumType{
 		baseType:       baseType,
@@ -94,7 +95,8 @@ func (enum *EnumType) AsDeclarations(
 		codeGenerationContext,
 		declContext.Name,
 		declContext.Description,
-		declContext.Validations)
+		declContext.Validations,
+	)
 
 	valuesDeclaration := enum.createValuesDeclaration(declContext)
 	mapperDeclaration, err := enum.createMappingDeclaration(declContext.Name, codeGenerationContext)
@@ -184,7 +186,8 @@ func (enum *EnumType) createMappingDeclaration(
 
 	literal := astbuilder.NewMapLiteral(
 		baseTypeExpr,
-		nameExpr)
+		nameExpr,
+	)
 
 	for _, v := range enum.options {
 		key := astbuilder.TextLiteral(strings.ToLower(v.Value))
@@ -200,7 +203,8 @@ func (enum *EnumType) createMappingDeclaration(
 	decl.Decorations().Before = dst.EmptyLine
 	decl.Decorations().Start = append(
 		decl.Decorations().Start,
-		fmt.Sprintf("// Mapping from string to %s", name.Name()))
+		fmt.Sprintf("// Mapping from string to %s", name.Name()),
+	)
 
 	return decl, nil
 }

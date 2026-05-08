@@ -391,7 +391,8 @@ func makeUnexpectedResultError(ast *cel.Ast, allowed ...*cel.Type) error {
 		allowed,
 		func(item *cel.Type, _ int) string {
 			return item.String()
-		})
+		},
+	)
 	expectedTypesStr := strings.Join(expectedTypes, ",")
 	return eris.Errorf("expression %q must return one of [%s], but was %s", ast.Source().Content(), expectedTypesStr, ast.OutputType().String())
 }

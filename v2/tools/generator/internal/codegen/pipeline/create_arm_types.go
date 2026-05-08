@@ -45,7 +45,8 @@ func CreateARMTypes(
 			}
 
 			return state.WithDefinitions(newDefs), nil
-		})
+		},
+	)
 }
 
 type skipError struct{}
@@ -128,7 +129,8 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 				_, isObject := astmodel.AsObjectType(def.Type())
 				_, isEnum := astmodel.AsEnumType(def.Type())
 				return isObject || isEnum
-			})
+			},
+		)
 
 	for name, def := range otherDefs {
 		if !requiresARMType(def) {
@@ -156,7 +158,8 @@ func (c *armTypeCreator) createARMTypesForResource(
 		return eris.Wrapf(
 			err,
 			"resolving resource spec and status for %s",
-			rsrc.Name())
+			rsrc.Name(),
+		)
 	}
 
 	// Create ARM type for the Spec
@@ -165,7 +168,8 @@ func (c *armTypeCreator) createARMTypesForResource(
 		return eris.Wrapf(
 			err,
 			"unable to create arm resource spec definition for resource %s",
-			rsrc.Name())
+			rsrc.Name(),
+		)
 	}
 
 	c.addARMType(resolved.SpecDef, spec)
@@ -178,7 +182,8 @@ func (c *armTypeCreator) createARMTypesForResource(
 			return eris.Wrapf(
 				err,
 				"unable to create arm resource status definition for resource %s",
-				rsrc.Name())
+				rsrc.Name(),
+			)
 		}
 
 		c.addARMType(resolved.StatusDef, status)
@@ -197,7 +202,8 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 			eris.Errorf(
 				"expected resource %s to be a resource type, but got %s",
 				rsrcDef.Name(),
-				astmodel.DebugDescription(rsrcDef.Type(), rsrcDef.Name().InternalPackageReference()))
+				astmodel.DebugDescription(rsrcDef.Type(), rsrcDef.Name().InternalPackageReference()),
+			)
 	}
 
 	emptyDef := astmodel.TypeDefinition{}
@@ -284,7 +290,8 @@ func (c *armTypeCreator) createARMObjectTypeDefinition(
 		c.findOneOfLeafPropertiesStillOnRoot(def),
 		c.addOneOfConversionFunctionIfNeeded(def),
 		c.addLeafOneOfPropertiesIfNeeded(def),
-		removeFlattening)
+		removeFlattening,
+	)
 	if err != nil {
 		return astmodel.TypeDefinition{},
 			eris.Wrapf(err, "creating ARM prototype %s from Kubernetes definition %s", armName, def.Name())
@@ -387,7 +394,8 @@ func (c *armTypeCreator) addOneOfConversionFunctionIfNeeded(
 		if isOneOf {
 			c.log.V(1).Info(
 				"Adding MarshalJSON and UnmarshalJSON to OneOf",
-				"type", def.Name())
+				"type", def.Name(),
+			)
 			marshal := functions.NewOneOfJSONMarshalFunction(t, c.idFactory)
 			unmarshal := functions.NewOneOfJSONUnmarshalFunction(t, c.idFactory)
 			return t.WithFunction(marshal).WithFunction(unmarshal), nil
@@ -445,7 +453,8 @@ func (c *armTypeCreator) createUserAssignedIdentitiesProperty(
 	newProp := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.UserAssignedIdentitiesProperty, astmodel.Exported),
 		c.idFactory.CreateStringIdentifier(astmodel.UserAssignedIdentitiesProperty, astmodel.NotExported),
-		newPropType).MakeTypeOptional()
+		newPropType,
+	).MakeTypeOptional()
 
 	err := c.armDefs.AddAllowDuplicates(newDef)
 	if err != nil {
@@ -486,7 +495,8 @@ func (c *armTypeCreator) createResourceReferenceProperty(
 	newProp := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(armPropName, astmodel.Exported),
 		c.idFactory.CreateStringIdentifier(armPropName, astmodel.NotExported),
-		newPropType).
+		newPropType,
+	).
 		MakeTypeOptional().
 		WithDescription(prop.Description())
 

@@ -39,7 +39,8 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) *Stage 
 						return nil, eris.Wrapf(
 							err,
 							"finding hub for %s",
-							def.Name())
+							def.Name(),
+						)
 					}
 
 					if astmodel.TypeEquals(def.Name(), hub) {
@@ -67,13 +68,15 @@ func ImplementConvertibleInterface(idFactory astmodel.IdentifierFactory) *Stage 
 					}
 
 					return &modified, nil
-				})
+				},
+			)
 			if err != nil {
 				return nil, eris.Wrap(err, "injecting conversions.Convertible implementations")
 			}
 
 			return state.WithOverlaidDefinitions(modifiedTypes), nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(InjectPropertyAssignmentFunctionsStageID)
 	return stage

@@ -67,21 +67,24 @@ func (t *TypeMatcher) WasMatched() error {
 		return eris.Wrapf(
 			err,
 			"type matcher [%s], incomplete match for group",
-			t.String())
+			t.String(),
+		)
 	}
 
 	if err := t.Version.WasMatched(); err != nil {
 		return eris.Wrapf(
 			err,
 			"type matcher [%s], incomplete match for version",
-			t.String())
+			t.String(),
+		)
 	}
 
 	if err := t.Name.WasMatched(); err != nil {
 		return eris.Wrapf(
 			err,
 			"type matcher [%s], incomplete match for name",
-			t.String())
+			t.String(),
+		)
 	}
 
 	// Everything matched, no error

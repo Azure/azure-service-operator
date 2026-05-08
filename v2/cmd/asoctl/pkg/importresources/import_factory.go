@@ -57,7 +57,8 @@ func (f *importFactory) selectVersionFromGK(gk schema.GroupKind) (schema.GroupVe
 			eris.Errorf(
 				"no known versions for Group %s, Kind %s",
 				gk.Group,
-				gk.Kind)
+				gk.Kind,
+			)
 	}
 
 	// Scan for the GVK that implements genruntime.ImportableResource
@@ -76,7 +77,8 @@ func (f *importFactory) selectVersionFromGK(gk schema.GroupKind) (schema.GroupVe
 					eris.Errorf(
 						"multiple known versions for Group %s, Kind %s implement genruntime.ImportableResource",
 						gk.Group,
-						gk.Kind)
+						gk.Kind,
+					)
 			}
 
 			result = &gvk
@@ -88,7 +90,8 @@ func (f *importFactory) selectVersionFromGK(gk schema.GroupKind) (schema.GroupVe
 			eris.Errorf(
 				"no known versions for Group %s, Kind %s implement genruntime.ImportableResource",
 				gk.Group,
-				gk.Kind)
+				gk.Kind,
+			)
 	}
 
 	return *result, nil

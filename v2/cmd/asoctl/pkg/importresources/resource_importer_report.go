@@ -103,7 +103,8 @@ func (r *resourceImportReport) WriteToLog(log logr.Logger) {
 		keys,
 		func(left resourceImportReportKey, right resourceImportReportKey) int {
 			return left.compareTo(right)
-		})
+		},
+	)
 
 	for _, key := range keys {
 		count := r.content[key]
@@ -146,20 +147,23 @@ func (k *resourceImportReportKey) WriteToLog(log logr.Logger, count int) {
 			"Successful imports",
 			"Group", k.group,
 			"Kind", k.kind,
-			"Count", count)
+			"Count", count,
+		)
 	case Skipped:
 		log.V(1).Info(
 			"Skipped imports",
 			"Group", k.group,
 			"Kind", k.kind,
 			"Count", count,
-			"Reason", k.reason)
+			"Reason", k.reason,
+		)
 	case Failed:
 		log.Error(
 			errors.New(k.reason),
 			"Failed imports",
 			"Group", k.group,
 			"Kind", k.kind,
-			"Count", count)
+			"Count", count,
+		)
 	}
 }

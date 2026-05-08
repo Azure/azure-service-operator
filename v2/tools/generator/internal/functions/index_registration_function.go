@@ -93,7 +93,8 @@ func (f *IndexRegistrationFunction) AsFunc(
 	cast := astbuilder.TypeAssert(
 		dst.NewIdent(objName),
 		dst.NewIdent(rawObjName),
-		astbuilder.PointerTo(resourceTypeNameExpr))
+		astbuilder.PointerTo(resourceTypeNameExpr),
+	)
 
 	// if !ok { return nil }
 	checkAssert := astbuilder.ReturnIfNotOk(astbuilder.Nil())
@@ -114,7 +115,8 @@ func (f *IndexRegistrationFunction) AsFunc(
 		Body: astbuilder.Statements(
 			cast,
 			checkAssert,
-			stmts),
+			stmts,
+		),
 	}
 
 	controllerRuntimeObjectExpr, err := astmodel.ControllerRuntimeObjectType.AsTypeExpr(codeGenerationContext)
@@ -160,7 +162,8 @@ func (f *IndexRegistrationFunction) multipleValues(selector *dst.SelectorExpr) (
 		&dst.ArrayType{
 			Elt: dst.NewIdent("string"),
 		},
-		"")
+		"",
+	)
 
 	locals := astmodel.NewKnownLocalsSet(f.idFactory)
 
@@ -181,7 +184,8 @@ func (f *IndexRegistrationFunction) multipleValues(selector *dst.SelectorExpr) (
 	return astbuilder.Statements(
 		resultVar,
 		stmts,
-		ret), nil
+		ret,
+	), nil
 }
 
 func (f *IndexRegistrationFunction) makeStatements(
@@ -242,7 +246,8 @@ func (f *IndexRegistrationFunction) handleArray(
 	loop := astbuilder.IterateOverSlice(
 		local,
 		astbuilder.Selector(ident, p.PropertyName().String()),
-		loopStatements...)
+		loopStatements...,
+	)
 	return astbuilder.Statements(loop), nil
 }
 
@@ -267,7 +272,8 @@ func (f *IndexRegistrationFunction) handleMap(
 		key,
 		value,
 		astbuilder.Selector(ident, p.PropertyName().String()),
-		loopStatements...)
+		loopStatements...,
+	)
 
 	return astbuilder.Statements(loop), nil
 }

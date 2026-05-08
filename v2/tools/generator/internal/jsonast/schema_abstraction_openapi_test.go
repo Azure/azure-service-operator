@@ -57,7 +57,8 @@ func Test_CanExtractTypeNameFromSameFile(t *testing.T) {
 		schemaPackage,
 		astmodel.NewIdentifierFactory(),
 		loader,
-		logr.Discard())
+		logr.Discard(),
+	)
 
 	typeName, err := wrappedSchema.refTypeName()
 	g.Expect(err).ToNot(HaveOccurred())
@@ -107,7 +108,8 @@ func Test_CanExtractTypeNameFromDifferentFile_AndInheritPackage(t *testing.T) {
 		schemaPackage,
 		astmodel.NewIdentifierFactory(),
 		loader,
-		logr.Discard())
+		logr.Discard(),
+	)
 
 	typeName, err := wrappedSchema.refTypeName()
 	g.Expect(err).ToNot(HaveOccurred())
@@ -159,7 +161,8 @@ func Test_CanExtractTypeNameFromDifferentFile_AndUsePresetPackage(t *testing.T) 
 		schemaPackage,
 		astmodel.NewIdentifierFactory(),
 		loader,
-		logr.Discard())
+		logr.Discard(),
+	)
 
 	typeName, err := wrappedSchema.refTypeName()
 	g.Expect(err).ToNot(HaveOccurred())
@@ -209,7 +212,8 @@ func Test_GeneratingCollidingTypeNamesReturnsError(t *testing.T) {
 		schemaPackage,
 		astmodel.NewIdentifierFactory(),
 		loader,
-		logr.Discard())
+		logr.Discard(),
+	)
 
 	_, err := wrappedSchema.refTypeName()
 	g.Expect(err).To(HaveOccurred())
@@ -278,7 +282,8 @@ func Test_GeneratingCollidingTypeNamesWithSiblingFilesReturnsError(t *testing.T)
 		schemaPackage,
 		astmodel.NewIdentifierFactory(),
 		loader,
-		logr.Discard())
+		logr.Discard(),
+	)
 
 	_, err := wrappedSchema.refTypeName()
 	g.Expect(err).To(HaveOccurred())

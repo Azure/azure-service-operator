@@ -76,7 +76,8 @@ func (tn InternalTypeName) AsTypeExpr(codeGenerationContext *CodeGenerationConte
 			"no reference for %s from %s available in package %s",
 			tn.Name(),
 			tn.packageReference,
-			codeGenerationContext.currentPackage))
+			codeGenerationContext.currentPackage,
+		))
 	}
 
 	return astbuilder.Selector(dst.NewIdent(packageName), tn.Name()), nil
