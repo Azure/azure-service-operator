@@ -517,7 +517,7 @@ func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(ctx cont
 	r.Log.V(Status).Info(
 		"Resource successfully created/updated",
 		"resourceID", resourceID,
-  )
+	)
 
 	err := r.updateStatus(ctx, r.Obj)
 	if err != nil {
