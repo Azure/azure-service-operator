@@ -17,6 +17,12 @@ Azure subscription the operator will use for ARM communication if
 no [more specific]( {{< relref "authentication/credential-scope" >}} )
 credential is specified at the per-resource or per-namespace scope.
 
+{{% alert title="Warning" color="warning" %}}
+Not every resource ASO manages operates in the scope of a subscription. This field applies to resources that live in a subscription but is
+ignored for resources that don't fit in a subscription, such as [Entra Security Group]({{< relref "/reference/entra/v1#SecurityGroup" >}}) and
+[Subscription Alias]({{< relref "/reference/subscription/v1api20211001#Alias" >}}).
+{{% /alert %}}
+
 **Format:** `GUID`
 
 **Example:** `00000000-0000-0000-0000-000000000000`
