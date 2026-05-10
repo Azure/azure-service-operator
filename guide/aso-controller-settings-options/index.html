@@ -21,20 +21,14 @@
 <meta name="description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
 The supported options are:
 AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communication if no more specific credential is specified at the per-resource or per-namespace scope.
-Format: GUID
-Example: 00000000-0000-0000-0000-000000000000
-Required: True
-Allowed scopes: Global, namespace, or per-resource">
+Warning Not every resource ASO manages operates in the scope of a subscription. This field applies to resources that live in a subscription but is ignored for resources that don’t fit in a subscription, such as Entra Security Group and Subscription Alias. Format: GUID">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/aso-controller-settings-options/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Configuring ASO">
   <meta property="og:description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
 The supported options are:
 AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communication if no more specific credential is specified at the per-resource or per-namespace scope.
-Format: GUID
-Example: 00000000-0000-0000-0000-000000000000
-Required: True
-Allowed scopes: Global, namespace, or per-resource">
+Warning Not every resource ASO manages operates in the scope of a subscription. This field applies to resources that live in a subscription but is ignored for resources that don’t fit in a subscription, such as Entra Security Group and Subscription Alias. Format: GUID">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="guide">
@@ -43,20 +37,14 @@ Allowed scopes: Global, namespace, or per-resource">
   <meta itemprop="description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
 The supported options are:
 AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communication if no more specific credential is specified at the per-resource or per-namespace scope.
-Format: GUID
-Example: 00000000-0000-0000-0000-000000000000
-Required: True
-Allowed scopes: Global, namespace, or per-resource">
-  <meta itemprop="wordCount" content="1197">
+Warning Not every resource ASO manages operates in the scope of a subscription. This field applies to resources that live in a subscription but is ignored for resources that don’t fit in a subscription, such as Entra Security Group and Subscription Alias. Format: GUID">
+  <meta itemprop="wordCount" content="1239">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Configuring ASO">
   <meta name="twitter:description" content="Configuration of ASO is done primarily through a secret in the azureserviceoperator-system namespace called aso-controller-settings. This secret contains both details about the (optional) global credential as well as other operator pod options.
 The supported options are:
 AZURE_SUBSCRIPTION_ID Azure subscription the operator will use for ARM communication if no more specific credential is specified at the per-resource or per-namespace scope.
-Format: GUID
-Example: 00000000-0000-0000-0000-000000000000
-Required: True
-Allowed scopes: Global, namespace, or per-resource">
+Warning Not every resource ASO manages operates in the scope of a subscription. This field applies to resources that live in a subscription but is ignored for resources that don’t fit in a subscription, such as Entra Security Group and Subscription Alias. Format: GUID">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1053,6 +1041,17 @@ as well as other operator pod options.</p>
 <p>Azure subscription the operator will use for ARM communication if
 no <a href="/azure-service-operator/guide/authentication/credential-scope/">more specific</a>
 credential is specified at the per-resource or per-namespace scope.</p>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Warning</h4>
+
+    Not every resource ASO manages operates in the scope of a subscription. This field applies to resources that live in a subscription but is
+ignored for resources that don&rsquo;t fit in a subscription, such as <a href="/azure-service-operator/reference/entra/v1/#SecurityGroup">Entra Security Group</a> and
+<a href="/azure-service-operator/reference/subscription/v1api20211001/#Alias">Subscription Alias</a>.
+
+</div>
+
 <p><strong>Format:</strong> <code>GUID</code></p>
 <p><strong>Example:</strong> <code>00000000-0000-0000-0000-000000000000</code></p>
 <p><strong>Required</strong>: True</p>
