@@ -133,6 +133,12 @@ func Test_ApiManagement_20240501_CRUD(t *testing.T) {
 			},
 		},
 		testcommon.Subtest{
+			Name: "APIM Product Group CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				APIM_Product_Group20240501_CRUD(tc, &service)
+			},
+		},
+		testcommon.Subtest{
 			Name: "APIM Logger CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				APIM_Logger20240501_CRUD(tc, rg, &service)
@@ -767,6 +773,59 @@ func APIM_Group20240501_CRUD(tc *testcommon.KubePerTestContext, service client.O
 	tc.Expect(group.Status.Id).ToNot(BeNil())
 
 	tc.T.Log("cleaning up group")
+}
+
+func APIM_Product_Group20240501_CRUD(tc *testcommon.KubePerTestContext, service client.Object) {
+	// Create a product
+	product := apim.Product{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("product3")),
+		Spec: apim.Product_Spec{
+			Owner:                testcommon.AsOwner(service),
+			DisplayName:          to.Ptr("Product Group Test"),
+			Description:          to.Ptr("A product for testing group assignment"),
+			SubscriptionRequired: to.Ptr(false),
+		},
+	}
+
+	tc.T.Log("creating apim product for group assignment")
+	tc.CreateResourceAndWait(&product)
+
+	tc.Expect(product.Status).ToNot(BeNil())
+	tc.Expect(product.Status.Id).ToNot(BeNil())
+
+	// Create a custom group
+	group := apim.Group{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("group2")),
+		Spec: apim.Group_Spec{
+			DisplayName: to.Ptr("Custom Group"),
+			Description: to.Ptr("A custom APIM group for product assignment"),
+			Owner:       testcommon.AsOwner(service),
+		},
+	}
+
+	tc.T.Log("creating apim group to assign to product")
+	tc.CreateResourceAndWait(&group)
+
+	tc.Expect(group.Status).ToNot(BeNil())
+	tc.Expect(group.Status.Id).ToNot(BeNil())
+
+	// Assign the group to the product
+	productGroup := apim.ProductGroup{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("pg")),
+		Spec: apim.ProductGroup_Spec{
+			Owner:     testcommon.AsOwner(&product),
+			AzureName: group.Spec.AzureName,
+		},
+	}
+
+	tc.T.Log("assigning group to product")
+	tc.CreateResourceAndWait(&productGroup)
+
+	defer tc.DeleteResourceAndWait(&product)
+	defer tc.DeleteResourceAndWait(&group)
+	defer tc.DeleteResourceAndWait(&productGroup)
+
+	tc.T.Log("cleaning up product group assignment")
 }
 
 func APIM_Logger20240501_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, service client.Object) {
