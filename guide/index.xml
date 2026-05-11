@@ -43,6 +43,13 @@
       <description>&lt;h2 id=&#34;project-and-scope&#34;&gt;Project and scope&lt;/h2&gt;&#xA;&lt;p&gt;&lt;em&gt;Questions about the Azure Service Operator project, its vision and scope.&lt;/em&gt;&lt;/p&gt;&#xA;&lt;h3 id=&#34;what-is-the-release-cadence&#34;&gt;What is the release cadence?&lt;/h3&gt;&#xA;&lt;p&gt;We ship updates to ASO as needed, with an eye towards releasing every 1-2 months. If there are urgent fixes, a release may happen&#xA;more quickly than that. If there haven&amp;rsquo;t been any major changes (or there are ongoing major changes that are taking a long time) a&#xA;release may happen more slowly. For an up-to-date plan check the&#xA;&lt;a href=&#34;https://github.com/Azure/azure-service-operator/milestones&#34;&gt;milestone tracker&lt;/a&gt;.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>Resource Versioning</title>
+      <link>https://azure.github.io/azure-service-operator/guide/versioning/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/guide/versioning/</guid>
+      <description>&lt;h2 id=&#34;how-aso-versions-resources&#34;&gt;How ASO versions resources&lt;/h2&gt;&#xA;&lt;p&gt;Each ASO resource version corresponds directly to an Azure API version. For example, &lt;code&gt;resources.azure.com/v1api20200601&lt;/code&gt;&#xA;maps to the &lt;code&gt;2020-06-01&lt;/code&gt; version of the Azure Resource Manager API. When multiple API versions are available for a&#xA;resource, ASO offers a separate CRD version for each one.&lt;/p&gt;&#xA;&lt;p&gt;Internally, Kubernetes stores every resource using a single canonical &lt;strong&gt;storage version&lt;/strong&gt;, regardless of which API&#xA;version you use when creating or updating it. ASO handles conversion between versions automatically, so you can&#xA;interact with a resource using any supported version and ASO takes care of the rest.&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Adopting existing Azure resources</title>
       <link>https://azure.github.io/azure-service-operator/guide/adoption/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

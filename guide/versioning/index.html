@@ -17,30 +17,26 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Handling secrets | Azure Service Operator</title>
-<meta name="description" content="Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc). They may also produce secrets as “output” (storage keys, connection strings, etc).
-ASO has integration with Kubernetes secrets to interact with these different types of secrets.
-How to provide secrets to Azure Resources may have fields in their spec that expect a reference to a Kubernetes Secret. For example, in order to create a VM, you may want to specify an SSH password to enable SSH access to that VM.">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/secrets/">
+<title>Resource Versioning | Azure Service Operator</title>
+<meta name="description" content="How ASO versions resources Each ASO resource version corresponds directly to an Azure API version. For example, resources.azure.com/v1api20200601 maps to the 2020-06-01 version of the Azure Resource Manager API. When multiple API versions are available for a resource, ASO offers a separate CRD version for each one.
+Internally, Kubernetes stores every resource using a single canonical storage version, regardless of which API version you use when creating or updating it. ASO handles conversion between versions automatically, so you can interact with a resource using any supported version and ASO takes care of the rest.">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/versioning/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Handling secrets">
-  <meta property="og:description" content="Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc). They may also produce secrets as “output” (storage keys, connection strings, etc).
-ASO has integration with Kubernetes secrets to interact with these different types of secrets.
-How to provide secrets to Azure Resources may have fields in their spec that expect a reference to a Kubernetes Secret. For example, in order to create a VM, you may want to specify an SSH password to enable SSH access to that VM.">
+  <meta property="og:title" content="Resource Versioning">
+  <meta property="og:description" content="How ASO versions resources Each ASO resource version corresponds directly to an Azure API version. For example, resources.azure.com/v1api20200601 maps to the 2020-06-01 version of the Azure Resource Manager API. When multiple API versions are available for a resource, ASO offers a separate CRD version for each one.
+Internally, Kubernetes stores every resource using a single canonical storage version, regardless of which API version you use when creating or updating it. ASO handles conversion between versions automatically, so you can interact with a resource using any supported version and ASO takes care of the rest.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="guide">
 
-  <meta itemprop="name" content="Handling secrets">
-  <meta itemprop="description" content="Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc). They may also produce secrets as “output” (storage keys, connection strings, etc).
-ASO has integration with Kubernetes secrets to interact with these different types of secrets.
-How to provide secrets to Azure Resources may have fields in their spec that expect a reference to a Kubernetes Secret. For example, in order to create a VM, you may want to specify an SSH password to enable SSH access to that VM.">
-  <meta itemprop="wordCount" content="751">
+  <meta itemprop="name" content="Resource Versioning">
+  <meta itemprop="description" content="How ASO versions resources Each ASO resource version corresponds directly to an Azure API version. For example, resources.azure.com/v1api20200601 maps to the 2020-06-01 version of the Azure Resource Manager API. When multiple API versions are available for a resource, ASO offers a separate CRD version for each one.
+Internally, Kubernetes stores every resource using a single canonical storage version, regardless of which API version you use when creating or updating it. ASO handles conversion between versions automatically, so you can interact with a resource using any supported version and ASO takes care of the rest.">
+  <meta itemprop="wordCount" content="283">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Handling secrets">
-  <meta name="twitter:description" content="Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc). They may also produce secrets as “output” (storage keys, connection strings, etc).
-ASO has integration with Kubernetes secrets to interact with these different types of secrets.
-How to provide secrets to Azure Resources may have fields in their spec that expect a reference to a Kubernetes Secret. For example, in order to create a VM, you may want to specify an SSH password to enable SSH access to that VM.">
+  <meta name="twitter:title" content="Resource Versioning">
+  <meta name="twitter:description" content="How ASO versions resources Each ASO resource version corresponds directly to an Azure API version. For example, resources.azure.com/v1api20200601 maps to the 2020-06-01 version of the Azure Resource Manager API. When multiple API versions are available for a resource, ASO offers a separate CRD version for each one.
+Internally, Kubernetes stores every resource using a single canonical storage version, regardless of which API version you use when creating or updating it. ASO handles conversion between versions automatically, so you can interact with a resource using any supported version and ASO takes care of the rest.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -129,8 +125,8 @@ How to provide secrets to Azure Resources may have fields in their spec that exp
   <a href="/azure-service-operator/guide/diagnosing-problems/reconciliation-frequency/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidediagnosing-problemsreconciliation-frequency"><span class="">Reconciliation Frequencey</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideversioning-li">
-  <a href="/azure-service-operator/guide/versioning/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideversioning"><span class="">Resource Versioning</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguideversioning-li">
+  <a href="/azure-service-operator/guide/versioning/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideversioning"><span class="td-sidebar-nav-active-item">Resource Versioning</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideadoption-li">
   <a href="/azure-service-operator/guide/adoption/" title="Adopting existing Azure resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideadoption"><span class="">Adoption</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideannotations-li">
@@ -198,8 +194,8 @@ How to provide secrets to Azure Resources may have fields in their spec that exp
   <a href="/azure-service-operator/guide/aso-controller-settings-options/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideaso-controller-settings-options"><span class="">Configuring ASO</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguideoperatorspec-li">
   <a href="/azure-service-operator/guide/operatorspec/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguideoperatorspec"><span class="">Configuring OperatorSpec</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidesecrets-li">
-  <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="td-sidebar-nav-active-item">Handling secrets</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidesecrets-li">
+  <a href="/azure-service-operator/guide/secrets/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidesecrets"><span class="">Handling secrets</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidekeyvaults-li">
   <a href="/azure-service-operator/guide/keyvaults/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidekeyvaults"><span class="">KeyVaults</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidemetrics-li">
@@ -981,16 +977,9 @@ How to provide secrets to Azure Resources may have fields in their spec that exp
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#how-to-provide-secrets-to-azure">How to provide secrets to Azure</a>
-      <ul>
-        <li><a href="#rotating-credentials">Rotating credentials</a></li>
-      </ul>
-    </li>
-    <li><a href="#how-to-retrieve-secrets-created-by-azure">How to retrieve secrets created by Azure</a>
-      <ul>
-        <li><a href="#rotating-credentials-1">Rotating credentials</a></li>
-      </ul>
-    </li>
+    <li><a href="#how-aso-versions-resources">How ASO versions resources</a></li>
+    <li><a href="#which-api-version-does-aso-use-when-talking-to-azure">Which API version does ASO use when talking to Azure?</a></li>
+    <li><a href="#how-to-change-the-api-version-of-a-resource">How to change the API version of a resource</a></li>
   </ul>
 </nav>
       </div>
@@ -1007,159 +996,50 @@ How to provide secrets to Azure Resources may have fields in their spec that exp
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/guide/">Guide</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Handling secrets</li>
+    Resource Versioning</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Handling secrets</h1>
+	<h1>Resource Versioning</h1>
 	
 	<header class="article-meta">
 		
 </header>
-	<p>Resources supported by Azure Service Operator may require secrets as input (passwords, SSH keys, etc).
-They may also produce secrets as &ldquo;output&rdquo; (storage keys, connection strings, etc).</p>
-<p>ASO has integration with <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes secrets</a> to interact with
-these different types of secrets.</p>
-<h2 id="how-to-provide-secrets-to-azure">How to provide secrets to Azure</h2>
-<p>Resources may have fields in their <code>spec</code> that expect a reference to a Kubernetes <code>Secret</code>.
-For example, in order to create a VM, you may want to specify an SSH password to enable SSH access to that VM.</p>
-<p>The field in the <code>spec</code> will be a <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">SecretReference</a>,
-which refers to a particular Kubernetes <code>Secret</code> key.</p>
-<p><strong>Example (from <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/samples/dbformysql/v1api20230630/v1api20230630_flexibleserver.yaml">the MySQL FlexibleServer sample</a>):</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">dbformysql.azure.com/v1api20230630</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">FlexibleServer</span>
+	<h2 id="how-aso-versions-resources">How ASO versions resources</h2>
+<p>Each ASO resource version corresponds directly to an Azure API version. For example, <code>resources.azure.com/v1api20200601</code>
+maps to the <code>2020-06-01</code> version of the Azure Resource Manager API. When multiple API versions are available for a
+resource, ASO offers a separate CRD version for each one.</p>
+<p>Internally, Kubernetes stores every resource using a single canonical <strong>storage version</strong>, regardless of which API
+version you use when creating or updating it. ASO handles conversion between versions automatically, so you can
+interact with a resource using any supported version and ASO takes care of the rest.</p>
+<h2 id="which-api-version-does-aso-use-when-talking-to-azure">Which API version does ASO use when talking to Azure?</h2>
+<p>ASO tracks the API version you last used when applying the resource and uses that version when communicating
+with Azure. This matters because different Azure API versions can have different behavior and different required fields.</p>
+<p>For example, if you create a resource using <code>v1api20200601</code>, ASO sends requests to Azure using the <code>2020-06-01</code> API.
+If you later re-apply the resource using <code>v1api20220601</code>, ASO switches to using the <code>2022-06-01</code> API going forward.</p>
+<h2 id="how-to-change-the-api-version-of-a-resource">How to change the API version of a resource</h2>
+<p>To move a resource to a newer (or different) API version, update the <code>apiVersion</code> in your YAML manifest and apply it
+with <code>kubectl apply</code>.</p>
+<p>For example, to upgrade a <code>ResourceGroup</code> from <code>v1api20200601</code> to <code>v1api20240301</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">resources.azure.com/v1api20240301</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ResourceGroup</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">samplemysql</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">eastus</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">owner</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;8.0.21&#34;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">sku</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Standard_D4ds_v4</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tier</span>: <span style="color:#ae81ff">GeneralPurpose</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">administratorLogin</span>: <span style="color:#ae81ff">myAdmin</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">administratorLoginPassword</span>: <span style="color:#75715e"># This is the name/key of a Kubernetes secret in the same namespace</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">server-admin-pw</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">key</span>: <span style="color:#ae81ff">password</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">storage</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">storageSizeGB</span>: <span style="color:#ae81ff">128</span>
-</span></span></code></pre></div><h3 id="rotating-credentials">Rotating credentials</h3>
-<p>Azure Service Operator is watching the referenced secret for changes, so rotating these credentials is as simple as
-editing the secret to contain a different credential. In the example above, if we update the content of
-the <code>server-admin-pw</code> secret <code>password</code> key to a new value, that will automatically change the password on the
-<code>FlexibleServer</code> as well.</p>
-<p>Note that if you have any applications that hardcoded the old password they will fail to authenticate until they
-are also updated to the new password. This will also happen for any pods referring to the secret as an environment variable.
-For this reason, we recommend if you expect to perform secret rotation to mount the secret as a pod volume instead.</p>
-<h2 id="how-to-retrieve-secrets-created-by-azure">How to retrieve secrets created by Azure</h2>
-<p>Some Azure resources produce secrets themselves. ASO supports automatically querying these secrets
-and storing them in the <a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">SecretDestination</a>
-you specify. This is done with the <code>.spec.operatorSpec.secrets</code> field, if you just need the secret itself,
-or the <a href="/azure-service-operator/guide/expressions/"><code>.spec.operatorSpec.secretExpressions</code></a> field, if you want the secret formatted in some way.</p>
-<p>These secrets will be written to the destination(s) you specify once the resource has successfully been provisioned in Azure.
-The resource will not move to <a href="/azure-service-operator/guide/conditions/">Condition</a> <code>Ready=True</code>
-until the secrets have been written.</p>
-<p><strong>Example <code>.spec.operatorSpec.secretExpressions</code>:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">documentdb.azure.com/v1alpha1api20210515</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">DatabaseAccount</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample-db-account</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westcentralus</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">owner</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">MongoDB</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">databaseAccountOfferType</span>: <span style="color:#ae81ff">Standard</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">locations</span>:
-</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">locationName</span>: <span style="color:#ae81ff">westcentralus</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">operatorSpec</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">secretExpressions</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mysecret</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">primarymasterkey</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#ae81ff">secret.primaryMasterKey</span>
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mysecret</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">secondarymasterkey</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#ae81ff">secret.secondaryMasterKey</span>
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myendpoint </span> <span style="color:#75715e"># Can put different values into different Kubernetes secrets, if desired</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">endpoint</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#ae81ff">self.status.documentEndpoint</span>
-</span></span></code></pre></div><p>More complex expressions can be exported as well, see <a href="/azure-service-operator/guide/expressions/">Expressions</a> for more details.</p>
-<p><strong>Example <code>.spec.operatorSpec.secrets</code>:</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">documentdb.azure.com/v1alpha1api20210515</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">DatabaseAccount</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample-db-account</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westcentralus</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">owner</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">MongoDB</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">databaseAccountOfferType</span>: <span style="color:#ae81ff">Standard</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">locations</span>:
-</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">locationName</span>: <span style="color:#ae81ff">westcentralus</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">operatorSpec</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">secrets</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">primaryMasterKey</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mysecret</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">primarymasterkey</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">secondaryMasterKey</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">mysecret</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">secondarymasterkey</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">documentEndpoint</span>: <span style="color:#75715e"># Can put different secrets into different Kubernetes secrets, if desired</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myendpoint</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">endpoint</span>
-</span></span></code></pre></div><h3 id="rotating-credentials-1">Rotating credentials</h3>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westus2</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl apply -f resourcegroup.yaml
+</span></span></code></pre></div><p>After the apply, ASO begins using the new API version when communicating with Azure.</p>
 
 
-<div class="alert alert-warning" role="alert">
-<h4 class="alert-heading">Warning</h4>
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">Note</h4>
 
-    We recommend using Managed Identities wherever possible to avoid having to manually manage credentials.
+    You cannot change the <code>apiVersion</code> of a resource using <code>kubectl edit</code>. Kubernetes does not allow modifications to
+<code>apiVersion</code> or <code>kind</code> through edit. You must use <code>kubectl apply</code> (or similar) with an updated manifest instead.
 
 </div>
 
-<p>Azure Service Operator does not currently support rotation Azure generated credentials through Kubernetes.
-ASO will (after some time) pick up rotations that happen via <code>az cli</code> or other tools. In order to avoid downtime
-during the sync time, applications must have access to both the primary and secondary key and fall back from the
-primary to the secondary in the case authentication fails.
-The recommended pattern for rotating credentials that support a primary and secondary key is to rotate the primary
-key with the <code>az cli</code> or Azure portal, wait for 30m and then rotate the secondary key as well.</p>
-<p>As mentioned above, pods using the secrets ASO populates containing the
-Azure generated secrets should mount the secrets as a volume so that they are automatically updated as soon as
-ASO picks up the new secret value.</p>
-<p>Alternatively, instead of waiting 30m and having the application have logic to fallback to the other key during a
-rotation, a tool like <a href="https://github.com/stakater/Reloader">reloader</a> can be used to automate the process.</p>
-<p>The rotation process for an example resource such as CosmosDB then becomes:</p>
-<p>Starting with the following <code>operatorSpec</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">operatorSpec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">secrets</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">primaryMasterKey</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cosmos-db</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">key</span>
-</span></span></code></pre></div><ol>
-<li>Rotate the secondary key.</li>
-<li>Update the <code>operatorSpec.secrets</code> <code>SecretDestination</code> to use the secondary key.
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">operatorSpec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">secrets</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">primarySecondaryKey</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cosmos-db</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">key</span>
-</span></span></code></pre></div></li>
-<li>Refresh workload (via <code>reloader</code>). Once workload pods are refreshed, proceed to next step.</li>
-<li>Rotate the primary key.</li>
-<li>Update the <code>operatorSpec.secrets</code> <code>SecretDestination</code> to use the primary key.
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">operatorSpec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">secrets</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">primaryMasterKey</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cosmos-db</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">key</span>
-</span></span></code></pre></div></li>
-<li>Refresh workload (via <code>reloader</code>).</li>
-</ol>
 
 	
 </div>
