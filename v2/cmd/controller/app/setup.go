@@ -259,6 +259,7 @@ func getMetricsOpts(flags *Flags) server.Options {
 			BindAddress:    flags.MetricsAddr,
 			SecureServing:  true,
 			FilterProvider: filters.WithAuthenticationAndAuthorization,
+			CertDir:        flags.MetricsCertDir,
 		}
 		// Note that pprof endpoints are meant to be sensitive and shouldn't be exposed publicly.
 		if flags.ProfilingMetrics {

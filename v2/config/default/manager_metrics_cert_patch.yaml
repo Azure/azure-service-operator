@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: controller-manager
+  namespace: system
+spec:
+  template:
+    spec:
+      containers:
+      - name: manager
+        volumeMounts:
+        - mountPath: /tmp/k8s-metrics-server/serving-certs
+          name: metrics-cert
+          readOnly: true
+      volumes:
+      - name: metrics-cert
+        secret:
+          defaultMode: 420
+          secretName: metrics-server-cert
