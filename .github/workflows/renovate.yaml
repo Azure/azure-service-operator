@@ -1,0 +1,30 @@
+name: Renovate
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Run Renovate in dry-run mode (no PRs created)"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "full"
+
+permissions:
+  contents: read
+
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - uses: renovatebot/github-action@693b9ef15eec82123529a37c782242f091365961 # v46.1.14
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          configurationFile: renovate.json
+        env:
+          LOG_LEVEL: info
+          RENOVATE_DRY_RUN: ${{ github.event.inputs['dry-run'] || 'false' }}
