@@ -789,6 +789,7 @@ func APIM_Product_Group20240501_CRUD(tc *testcommon.KubePerTestContext, service 
 
 	tc.T.Log("creating apim product for group assignment")
 	tc.CreateResourceAndWait(&product)
+	defer tc.DeleteResourceAndWait(&product)
 
 	tc.Expect(product.Status).ToNot(BeNil())
 	tc.Expect(product.Status.Id).ToNot(BeNil())
@@ -805,6 +806,7 @@ func APIM_Product_Group20240501_CRUD(tc *testcommon.KubePerTestContext, service 
 
 	tc.T.Log("creating apim group to assign to product")
 	tc.CreateResourceAndWait(&group)
+	defer tc.DeleteResourceAndWait(&group)
 
 	tc.Expect(group.Status).ToNot(BeNil())
 	tc.Expect(group.Status.Id).ToNot(BeNil())
@@ -820,9 +822,6 @@ func APIM_Product_Group20240501_CRUD(tc *testcommon.KubePerTestContext, service 
 
 	tc.T.Log("assigning group to product")
 	tc.CreateResourceAndWait(&productGroup)
-
-	defer tc.DeleteResourceAndWait(&product)
-	defer tc.DeleteResourceAndWait(&group)
 	defer tc.DeleteResourceAndWait(&productGroup)
 
 	tc.T.Log("cleaning up product group assignment")
