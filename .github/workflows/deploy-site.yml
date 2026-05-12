@@ -72,7 +72,7 @@ jobs:
           docker exec "$container_id" task build-docs-site
 
       - name: Publish to gh-pages branch
-        uses: JamesIves/github-pages-deploy-action@v4.4.1 # pinned version
+        uses: JamesIves/github-pages-deploy-action@v4.8.0 # pinned version
         with:
           branch: gh-pages
           token: ${{ steps.app-token.outputs.token }}
