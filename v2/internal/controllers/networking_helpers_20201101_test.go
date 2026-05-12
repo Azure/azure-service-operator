@@ -67,5 +67,6 @@ func getFrontendIPConfigurationARMID(tc *testcommon.KubePerTestContext, rg *reso
 		"loadBalancers",
 		lbName,
 		"frontendIPConfigurations",
-		lbFrontendName)
+		lbFrontendName,
+	)
 }

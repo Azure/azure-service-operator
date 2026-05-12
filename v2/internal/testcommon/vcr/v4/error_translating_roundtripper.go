@@ -106,10 +106,12 @@ func (w *errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) 
 				w.cassetteName,
 				req.Method,
 				req.URL.String(),
-				discriminator),
+				discriminator,
+			),
 
 			conditions.ConditionSeverityError,
-			conditions.ReasonReconciliationFailedPermanently)
+			conditions.ReasonReconciliationFailedPermanently,
+		)
 	}
 
 	// locate the request body with the shortest diff from the sent body
@@ -130,7 +132,8 @@ func (w *errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) 
 			shortestDiff),
 
 		conditions.ConditionSeverityError,
-		conditions.ReasonReconciliationFailedPermanently)
+		conditions.ReasonReconciliationFailedPermanently,
+	)
 }
 
 // finds bodies for interactions where request method and URL match

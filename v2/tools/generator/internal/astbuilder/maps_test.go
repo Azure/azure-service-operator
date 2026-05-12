@@ -37,6 +37,7 @@ func TestGolden_MakeMap_GivenKeyAndValueTypes_GeneratesExpectedCode(t *testing.T
 
 				call := MakeMap(key, val)
 				assertExprExpected(t, call)
-			})
+			},
+		)
 	}
 }

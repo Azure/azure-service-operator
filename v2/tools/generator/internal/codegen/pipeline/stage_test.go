@@ -96,5 +96,6 @@ func NewFakeStage(id string) *Stage {
 		"Stage "+id,
 		func(ctx context.Context, state *State) (*State, error) {
 			return state, nil
-		})
+		},
+	)
 }

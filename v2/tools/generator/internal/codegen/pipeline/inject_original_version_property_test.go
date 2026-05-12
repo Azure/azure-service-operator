@@ -31,7 +31,8 @@ func TestGolden_InjectOriginalVersionProperty_InjectsIntoSpec(t *testing.T) {
 
 	finalState, err := RunTestPipeline(
 		initialState,
-		InjectOriginalVersionProperty())
+		InjectOriginalVersionProperty(),
+	)
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.DiffWithTypes(initialState.Definitions()))
@@ -57,12 +58,14 @@ func TestGolden_InjectOriginalVersionProperty_WhenOriginalVersionFunctionFound_D
 
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		InjectOriginalVersionFunction(idFactory))
+		InjectOriginalVersionFunction(idFactory),
+	)
 	g.Expect(err).To(Succeed())
 
 	finalState, err := RunTestPipeline(
 		initialState,
-		InjectOriginalVersionProperty())
+		InjectOriginalVersionProperty(),
+	)
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.DiffWithTypes(initialState.Definitions()))

@@ -22,7 +22,8 @@ func CheckBundledCRDsDirectory(crdPath string) error {
 		return fmt.Errorf(
 			"CRD path %q does not exist or is not readable (has the task target `bundle-crds` been run?): %w",
 			crdPath,
-			err)
+			err,
+		)
 	}
 
 	crdCount := 0
@@ -39,7 +40,8 @@ func CheckBundledCRDsDirectory(crdPath string) error {
 		return fmt.Errorf(
 			"CRD path %q contains only %d CRD files; expected many more (has the task target `bundle-crds` been run?)",
 			crdPath,
-			crdCount)
+			crdCount,
+		)
 	}
 
 	return nil

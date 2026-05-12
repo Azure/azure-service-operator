@@ -83,7 +83,8 @@ func Test_WhenObjectPullSecretsAndSecretAlreadyExists_WarningConditionIsSet(t *t
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(storage.APIVersion_Value))
+		string(storage.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

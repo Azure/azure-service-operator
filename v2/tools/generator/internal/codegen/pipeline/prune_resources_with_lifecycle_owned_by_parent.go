@@ -80,7 +80,8 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 			}
 
 			return state.WithDefinitions(prunedDefs), nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(CreateARMTypesStageID)
 	return stage

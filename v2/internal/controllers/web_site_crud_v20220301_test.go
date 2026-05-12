@@ -53,7 +53,8 @@ func Test_Web_Site_v20220301_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(web.APIVersion_Value))
+		string(web.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(gomega.HaveOccurred())
 	tc.Expect(exists).To(gomega.BeFalse())
 }

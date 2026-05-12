@@ -270,7 +270,8 @@ func (r *PostgreSQLUserReconciler) connectToDB(ctx context.Context, _ logr.Logge
 			serverFQDN,
 			postgresqlutil.DefaultMaintanenceDatabase,
 			postgresqlutil.PSqlServerPort,
-			adminUser)
+			adminUser,
+		)
 	}
 
 	return db, nil

@@ -54,7 +54,8 @@ func Test_Cache_Redis_20241101_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				Redis_FirewallRule_20241101_CRUD(tc, redis1)
 			},
-		})
+		},
+	)
 
 	// Run these before the linked server stuff because they are quick and the linked server stuff seems to get stuck (or at least take a really long time) if you mess with
 	// it much...

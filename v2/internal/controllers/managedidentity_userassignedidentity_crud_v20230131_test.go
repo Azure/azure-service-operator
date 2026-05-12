@@ -170,7 +170,8 @@ func UserManagedIdentity_20230131_ConfigValuesWrittenToSameConfigMap(tc *testcom
 		identityConfigMap,
 		"principalId", *identity.Status.PrincipalId,
 		"clientId", *identity.Status.ClientId,
-		"tenantId", *identity.Status.TenantId)
+		"tenantId", *identity.Status.TenantId,
+	)
 }
 
 func UserManagedIdentity_20230131_ConfigValuesWrittenToDifferentConfigMap(tc *testcommon.KubePerTestContext, identity *managedidentity.UserAssignedIdentity) {

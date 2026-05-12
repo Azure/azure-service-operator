@@ -89,7 +89,8 @@ func (c *Cleaner) Run(ctx context.Context) error {
 	crds := make(
 		[]apiextensions.CustomResourceDefinition,
 		0,
-		len(crdsWithNewLabel.Items)+len(crdsWithOldLabel.Items))
+		len(crdsWithNewLabel.Items)+len(crdsWithOldLabel.Items),
+	)
 	crds = append(crds, crdsWithNewLabel.Items...)
 	crds = append(crds, crdsWithOldLabel.Items...)
 
@@ -109,7 +110,8 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		if len(newStoredVersions) == len(crd.Status.StoredVersions) {
 			c.log.Info(
 				"Nothing to update",
-				"crd-name", crd.Name)
+				"crd-name", crd.Name,
+			)
 			continue
 		}
 
@@ -118,7 +120,8 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		activeVersion := newStoredVersions[len(newStoredVersions)-1]
 		c.log.Info(
 			"Starting cleanup",
-			"crd-name", crd.Name)
+			"crd-name", crd.Name,
+		)
 
 		objectsToMigrate, err := c.getObjectsForMigration(ctx, crd, activeVersion)
 		if err != nil {
@@ -147,7 +150,8 @@ func (c *Cleaner) Run(ctx context.Context) error {
 	} else {
 		c.log.Info(
 			"Update finished",
-			"crd-count", updated)
+			"crd-count", updated,
+		)
 	}
 
 	return nil
@@ -162,7 +166,8 @@ func (c *Cleaner) updateStorageVersions(
 		c.log.Info(
 			"Would update storedVersions",
 			"crd-name", crd.Name,
-			"storedVersions", newStoredVersions)
+			"storedVersions", newStoredVersions,
+		)
 		return nil
 	}
 
@@ -174,7 +179,8 @@ func (c *Cleaner) updateStorageVersions(
 	c.log.Info(
 		"Updated CRD status storedVersions",
 		"crd-name", crd.Name,
-		"storedVersions", updatedCrd.Status.StoredVersions)
+		"storedVersions", updatedCrd.Status.StoredVersions,
+	)
 
 	return nil
 }
@@ -186,7 +192,8 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			c.log.Info(
 				"Would migrate resource",
 				"name", obj.GetName(),
-				"kind", obj.GroupVersionKind().Kind)
+				"kind", obj.GroupVersionKind().Kind,
+			)
 			continue
 		}
 
@@ -211,7 +218,8 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 			c.log.Info(
 				"originalVersion not found. Continuing with the latest.",
 				"name", obj.GetName(),
-				"kind", obj.GroupVersionKind().Kind)
+				"kind", obj.GroupVersionKind().Kind,
+			)
 		}
 
 		err = retry.OnError(c.migrationBackoff, isErrorFatal, func() error { return c.client.Update(ctx, &obj) })
@@ -222,12 +230,14 @@ func (c *Cleaner) migrateObjects(ctx context.Context, objectsToMigrate *unstruct
 		c.log.Info(
 			"Migrated resource",
 			"name", obj.GetName(),
-			"kind", obj.GroupVersionKind().Kind)
+			"kind", obj.GroupVersionKind().Kind,
+		)
 	}
 
 	c.log.Info(
 		"Migration finished",
-		"resource-count", len(objectsToMigrate.Items))
+		"resource-count", len(objectsToMigrate.Items),
+	)
 
 	return nil
 }

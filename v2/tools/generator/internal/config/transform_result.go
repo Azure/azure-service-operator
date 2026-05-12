@@ -116,7 +116,8 @@ func (tr *TransformResult) produceTargetNamedType(original astmodel.Type) (astmo
 	if !ok {
 		return nil, eris.Errorf(
 			"cannot apply type transformation; expected InternalTypeName, but have %s",
-			astmodel.DebugDescription(original))
+			astmodel.DebugDescription(original),
+		)
 	}
 
 	result := tn

@@ -230,7 +230,8 @@ func Test_ExpandAndCanonicalizePath_DoesNotExpandSimplePath(t *testing.T) {
 		ctx,
 		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Group/type/{typeName}",
 		scanner,
-		parameters)
+		parameters,
+	)
 
 	g.Expect(paths).To(HaveLen(1))
 	g.Expect(paths[0]).To(Equal("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Group/type/{typeName}"))
@@ -268,7 +269,8 @@ func Test_ExpandAndCanonicalizePath_ExpandsSingleValueEnumInNameLocationWithDefa
 		ctx,
 		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Group/type/{typeName}",
 		scanner,
-		parameters)
+		parameters,
+	)
 
 	g.Expect(paths).To(HaveLen(1))
 	g.Expect(paths[0]).To(Equal("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Group/type/default"))
@@ -306,7 +308,8 @@ func Test_ExpandAndCanonicalizePath_DoesNotExpandSingleValueEnumWithoutDefault(t
 		ctx,
 		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Group/type/{typeName}",
 		scanner,
-		parameters)
+		parameters,
+	)
 
 	g.Expect(paths).To(HaveLen(1))
 	g.Expect(paths[0]).To(Equal("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Group/type/{typeName}"))
@@ -346,7 +349,8 @@ func Test_ExpandAndCanonicalizePath_ExpandsEnumInResourceTypePath(t *testing.T) 
 		ctx,
 		"/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Group/{type}/{typeName}",
 		scanner,
-		parameters)
+		parameters,
+	)
 
 	g.Expect(paths).To(HaveLen(3))
 	g.Expect(paths[0]).To(Equal("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Group/a/{typeName}"))

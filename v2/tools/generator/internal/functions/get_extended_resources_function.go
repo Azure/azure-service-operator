@@ -72,7 +72,8 @@ func sortResources(resources []astmodel.InternalTypeName) []astmodel.InternalTyp
 			}
 
 			return 0
-		})
+		},
+	)
 
 	return resources
 }

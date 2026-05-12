@@ -32,7 +32,8 @@ func FixIDFields() *Stage {
 
 			state = state.WithOverlaidDefinitions(updatedDefs)
 			return state, nil
-		})
+		},
+	)
 
 	return stage
 }

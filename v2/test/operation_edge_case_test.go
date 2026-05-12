@@ -215,7 +215,8 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 		"loadBalancers",
 		lbName,
 		"frontendIPConfigurations",
-		lbFrontendName)
+		lbFrontendName,
+	)
 	if err != nil {
 		panic(err)
 	}

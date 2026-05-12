@@ -47,7 +47,9 @@ func TestTransformSelector_AppliesToType_ReturnsExpectedResult(t *testing.T) {
 	nameType := astmodel.NewOptionalType(
 		astmodel.MakeInternalTypeName(
 			test.MakeLocalPackageReference("definitions", "v1"),
-			"ResourceCopy"))
+			"ResourceCopy",
+		),
+	)
 
 	objectSelector := &TransformSelector{
 		Object: true,
@@ -84,6 +86,7 @@ func TestTransformSelector_AppliesToType_ReturnsExpectedResult(t *testing.T) {
 				g := NewGomegaWithT(t)
 
 				g.Expect(c.target.AppliesToType(c.subject)).To(Equal(c.expectation))
-			})
+			},
+		)
 	}
 }

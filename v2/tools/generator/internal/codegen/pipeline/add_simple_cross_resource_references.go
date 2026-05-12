@@ -26,5 +26,6 @@ func TransformCrossResourceReferencesToString() *Stage {
 			}
 
 			return state.WithDefinitions(updatedDefs), nil
-		})
+		},
+	)
 }

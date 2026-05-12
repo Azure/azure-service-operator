@@ -102,7 +102,8 @@ func (r PostReconcileCheckResult) CreateConditionError() error {
 	return conditions.NewReadyConditionImpactingError(
 		eris.New(r.message),
 		r.severity,
-		r.reason)
+		r.reason,
+	)
 }
 
 // postReconcileCheckResultType is the type of result returned by PreReconcileCheck.
@@ -140,7 +141,8 @@ func CreatePostReconciliationChecker(
 		if err != nil {
 			log.V(Status).Info(
 				"Extension post-reconcile check failed",
-				"Error", err.Error())
+				"Error", err.Error(),
+			)
 
 			// We choose to skip here so that things are definitely broken and the user will notice
 			// If we defaulted to always reconciling, the user might not notice that something is wrong

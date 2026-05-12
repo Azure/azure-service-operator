@@ -118,7 +118,8 @@ func (p *PackageDefinition) emitFiles(
 	for fileName, defs := range filesToGenerate {
 		codeFilePath := filepath.Join(
 			outputDir,
-			fmt.Sprintf("%s_types%s.go", fileName, CodeGeneratedFileSuffix))
+			fmt.Sprintf("%s_types%s.go", fileName, CodeGeneratedFileSuffix),
+		)
 
 		err := p.writeCodeFile(codeFilePath, defs, generatedPackages)
 		if err != nil {
@@ -127,7 +128,8 @@ func (p *PackageDefinition) emitFiles(
 
 		testFilePath := filepath.Join(
 			outputDir,
-			fmt.Sprintf("%s_types%s_test.go", fileName, CodeGeneratedFileSuffix))
+			fmt.Sprintf("%s_types%s_test.go", fileName, CodeGeneratedFileSuffix),
+		)
 
 		err = p.writeTestFile(testFilePath, defs, generatedPackages)
 		if err != nil {

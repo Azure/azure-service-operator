@@ -27,7 +27,8 @@ func TestAddConfigMaps_AddsSpecWithRequiredConfigMaps(t *testing.T) {
 		test.FullNameProperty,
 		test.FamilyNameProperty,
 		test.KnownAsProperty,
-		test.RestrictedNameProperty)
+		test.RestrictedNameProperty,
+	)
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateResource(test.Pkg2020, "Person", spec, status)
 
@@ -42,7 +43,9 @@ func TestAddConfigMaps_AddsSpecWithRequiredConfigMaps(t *testing.T) {
 			func(pc *config.PropertyConfiguration) error {
 				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeRequired)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 	g.Expect(
 		omc.ModifyProperty(
@@ -51,7 +54,9 @@ func TestAddConfigMaps_AddsSpecWithRequiredConfigMaps(t *testing.T) {
 			func(pc *config.PropertyConfiguration) error {
 				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeOptional)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 	g.Expect(
 		omc.ModifyProperty(
@@ -60,7 +65,9 @@ func TestAddConfigMaps_AddsSpecWithRequiredConfigMaps(t *testing.T) {
 			func(pc *config.PropertyConfiguration) error {
 				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeOptional)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	configuration := config.NewConfiguration()

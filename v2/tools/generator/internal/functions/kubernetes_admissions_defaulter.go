@@ -40,7 +40,8 @@ func NewDefaultFunction(
 		data,
 		idFactory,
 		asFunc,
-		requiredPackages...)
+		requiredPackages...,
+	)
 }
 
 // DefaulterBuilder helps in building an interface implementation for webhook.CustomDefaulter.
@@ -103,7 +104,8 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 		grp,
 		resource,
 		ver,
-		name)
+		name,
+	)
 
 	funcs := make([]astmodel.Function, 0, 2+len(d.defaults))
 	funcs = append(funcs,
@@ -114,14 +116,16 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 			d.defaultFunction,
 			d.resourceName.PackageReference(),
 			astmodel.FmtReference,
-			astmodel.GenRuntimeReference),
+			astmodel.GenRuntimeReference,
+		),
 		NewDefaultFunction(
 			"defaultImpl",
 			d.resourceName,
 			d.idFactory,
 			d.localDefault,
 			astmodel.FmtReference,
-			astmodel.GenRuntimeReference))
+			astmodel.GenRuntimeReference,
+		))
 
 	// Add the actual individual default functions
 	for _, def := range d.defaults {
@@ -130,7 +134,8 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 
 	return astmodel.NewInterfaceImplementation(
 		astmodel.DefaulterInterfaceName,
-		funcs...).WithAnnotation(annotation)
+		funcs...,
+	).WithAnnotation(annotation)
 }
 
 func (d *DefaulterBuilder) localDefault(
@@ -154,13 +159,15 @@ func (d *DefaulterBuilder) localDefault(
 		call := astbuilder.AssignmentStatement(
 			dst.NewIdent("err"),
 			tok,
-			astbuilder.CallQualifiedFunc(receiverIdent, def.Name(), dst.NewIdent(contextIdent), dst.NewIdent(objIdent)))
+			astbuilder.CallQualifiedFunc(receiverIdent, def.Name(), dst.NewIdent(contextIdent), dst.NewIdent(objIdent)),
+		)
 		check := astbuilder.CheckErrorAndReturn()
 		tok = token.ASSIGN
 		defaults = append(
 			defaults,
 			call,
-			check)
+			check,
+		)
 	}
 
 	defaults = append(defaults, astbuilder.Returns(astbuilder.Nil()))
@@ -250,12 +257,14 @@ func (d *DefaulterBuilder) defaultFunction(
 	defaultImplCall := astbuilder.AssignmentStatement(
 		dst.NewIdent("err"),
 		token.DEFINE,
-		astbuilder.CallQualifiedFunc(receiverIdent, "defaultImpl", dst.NewIdent(contextIdent), dst.NewIdent(resourceIdent)))
+		astbuilder.CallQualifiedFunc(receiverIdent, "defaultImpl", dst.NewIdent(contextIdent), dst.NewIdent(resourceIdent)),
+	)
 
 	customDefaultCall := astbuilder.AssignmentStatement(
 		dst.NewIdent("err"),
 		token.ASSIGN,
-		astbuilder.CallQualifiedFunc(runtimeDefaulterIdent, "CustomDefault", dst.NewIdent(contextIdent), dst.NewIdent(resourceIdent)))
+		astbuilder.CallQualifiedFunc(runtimeDefaulterIdent, "CustomDefault", dst.NewIdent(contextIdent), dst.NewIdent(resourceIdent)),
+	)
 
 	fn := &astbuilder.FuncDetails{
 		Name:          methodName,

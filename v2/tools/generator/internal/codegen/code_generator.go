@@ -277,7 +277,8 @@ func (generator *CodeGenerator) Generate(
 ) error {
 	log.V(1).Info(
 		"ASO Code Generator",
-		"version", version.BuildVersion)
+		"version", version.BuildVersion,
+	)
 
 	if generator.debugSettings != nil {
 		// Generate a diagram containing our stages
@@ -331,7 +332,8 @@ func (generator *CodeGenerator) logStateChanges(
 		"elapsed", duration,
 		"added", len(defsAdded),
 		"removed", len(defsRemoved),
-		"totalDefs", len(newState.Definitions()))
+		"totalDefs", len(newState.Definitions()),
+	)
 }
 
 // executeStage runs the given stage against the given state, returning the new state.

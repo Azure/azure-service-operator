@@ -56,13 +56,15 @@ func CreateErrorClassifier(
 			"Classifying CloudError",
 			"Message", cloudError.Message(),
 			"Code", cloudError.Code(),
-			"Target", cloudError.Target())
+			"Target", cloudError.Target(),
+		)
 
 		result, err := impl.ClassifyError(cloudError, apiVersion, log, classifier)
 		if err != nil {
 			log.V(Status).Info(
 				"CloudError classification failed",
-				"Error", err.Error())
+				"Error", err.Error(),
+			)
 
 			return core.CloudErrorDetails{}, err
 		}
@@ -72,7 +74,8 @@ func CreateErrorClassifier(
 			"Classification", result.Classification,
 			"Retry", result.Retry,
 			"Code", result.Code,
-			"Message", result.Message)
+			"Message", result.Message,
+		)
 
 		return result, nil
 	}

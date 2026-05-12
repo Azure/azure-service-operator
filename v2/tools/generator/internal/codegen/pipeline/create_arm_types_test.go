@@ -31,11 +31,13 @@ func TestCreateFlattenedARMType_CreatesExpectedConversions(t *testing.T) {
 		"PersonProperties",
 		test.FullNameProperty,
 		test.FamilyNameProperty,
-		test.KnownAsProperty)
+		test.KnownAsProperty,
+	)
 	specPropertiesProp := astmodel.NewPropertyDefinition(
 		"Properties",
 		"properties",
-		specProperties.Name()).SetFlatten(true).MakeTypeOptional()
+		specProperties.Name(),
+	).SetFlatten(true).MakeTypeOptional()
 	spec := test.CreateSpec(test.Pkg2020, "Person", specPropertiesProp, test.NameProperty)
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateARMResource(test.Pkg2020, "Person", spec, status, test.Pkg2020APIVersion)
@@ -58,7 +60,8 @@ func TestCreateFlattenedARMType_CreatesExpectedConversions(t *testing.T) {
 		applyARMConversionInterface,
 		flatten,
 		simplify,
-		strip)
+		strip,
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
@@ -74,11 +77,13 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 		"PersonProperties",
 		test.FullNameProperty,
 		test.FamilyNameProperty,
-		test.KnownAsProperty)
+		test.KnownAsProperty,
+	)
 	specPropertiesProp := astmodel.NewPropertyDefinition(
 		"Properties",
 		"properties",
-		specProperties.Name()).SetFlatten(true).MakeTypeOptional()
+		specProperties.Name(),
+	).SetFlatten(true).MakeTypeOptional()
 	spec := test.CreateSpec(test.Pkg2020, "Person", specPropertiesProp, test.NameProperty)
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateARMResource(test.Pkg2020, "Person", spec, status, test.Pkg2020APIVersion)
@@ -95,7 +100,9 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 			func(propertyConfiguration *config.PropertyConfiguration) error {
 				propertyConfiguration.ReferenceType.Set(config.ReferenceTypeARM)
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	configuration := config.NewConfiguration()
 	configuration.ObjectModelConfiguration = omc
@@ -116,7 +123,8 @@ func TestCreateFlattenedARMTypeWithResourceRef_CreatesExpectedConversions(t *tes
 		applyARMConversionInterface,
 		flatten,
 		simplify,
-		strip)
+		strip,
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
@@ -132,11 +140,13 @@ func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testi
 		"PersonProperties",
 		test.FullNameProperty,
 		test.FamilyNameProperty,
-		test.KnownAsProperty)
+		test.KnownAsProperty,
+	)
 	specPropertiesProp := astmodel.NewPropertyDefinition(
 		"Properties",
 		"properties",
-		specProperties.Name()).SetFlatten(true).MakeTypeOptional()
+		specProperties.Name(),
+	).SetFlatten(true).MakeTypeOptional()
 	spec := test.CreateSpec(test.Pkg2020, "Person", specPropertiesProp, test.NameProperty)
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateARMResource(test.Pkg2020, "Person", spec, status, test.Pkg2020APIVersion)
@@ -153,7 +163,9 @@ func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testi
 			func(pc *config.PropertyConfiguration) error {
 				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeRequired)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 	g.Expect(
 		omc.ModifyProperty(
@@ -162,7 +174,9 @@ func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testi
 			func(pc *config.PropertyConfiguration) error {
 				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeOptional)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	configuration := config.NewConfiguration()
@@ -182,7 +196,8 @@ func TestCreateFlattenedARMTypeWithConfigMap_CreatesExpectedConversions(t *testi
 		applyARMConversionInterface,
 		flatten,
 		simplify,
-		strip)
+		strip,
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
@@ -199,11 +214,13 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 		test.FullNameProperty,
 		test.FamilyNameProperty,
 		test.KnownAsProperty,
-		test.RestrictedNameProperty)
+		test.RestrictedNameProperty,
+	)
 	specPropertiesProp := astmodel.NewPropertyDefinition(
 		"Properties",
 		"properties",
-		specProperties.Name()).MakeTypeOptional()
+		specProperties.Name(),
+	).MakeTypeOptional()
 	spec := test.CreateSpec(test.Pkg2020, "Person", specPropertiesProp, test.NameProperty)
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateARMResource(test.Pkg2020, "Person", spec, status, test.Pkg2020APIVersion)
@@ -220,7 +237,9 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 			func(pc *config.PropertyConfiguration) error {
 				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeRequired)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 	g.Expect(
 		omc.ModifyProperty(
@@ -229,7 +248,9 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 			func(pc *config.PropertyConfiguration) error {
 				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeOptional)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 	g.Expect(
 		omc.ModifyProperty(
@@ -238,7 +259,9 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 			func(pc *config.PropertyConfiguration) error {
 				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeOptional)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	configuration := config.NewConfiguration()
@@ -256,7 +279,8 @@ func TestCreateARMTypeWithConfigMap_CreatesExpectedConversions(t *testing.T) {
 		createARMTypes,
 		applyARMConversionInterface,
 		simplify,
-		strip)
+		strip,
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
@@ -279,11 +303,13 @@ func TestCreateARMTypeWithSecret_CreatesExpectedConversions(t *testing.T) {
 		test.FamilyNameProperty,
 		test.KnownAsProperty,
 		secretDataProperty,
-		secretSliceProperty)
+		secretSliceProperty,
+	)
 	specPropertiesProp := astmodel.NewPropertyDefinition(
 		"Properties",
 		"properties",
-		specProperties.Name()).MakeTypeOptional()
+		specProperties.Name(),
+	).MakeTypeOptional()
 	spec := test.CreateSpec(test.Pkg2020, "Person", specPropertiesProp, test.NameProperty)
 	status := test.CreateStatus(test.Pkg2020, "Person")
 	resource := test.CreateARMResource(test.Pkg2020, "Person", spec, status, test.Pkg2020APIVersion)
@@ -300,7 +326,9 @@ func TestCreateARMTypeWithSecret_CreatesExpectedConversions(t *testing.T) {
 			func(pc *config.PropertyConfiguration) error {
 				pc.Secrecy.Set(astmodel.ImportSecretModeRequired)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 	g.Expect(
 		omc.ModifyProperty(
@@ -309,7 +337,9 @@ func TestCreateARMTypeWithSecret_CreatesExpectedConversions(t *testing.T) {
 			func(pc *config.PropertyConfiguration) error {
 				pc.Secrecy.Set(astmodel.ImportSecretModeRequired)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 	g.Expect(
 		omc.ModifyProperty(
@@ -318,7 +348,9 @@ func TestCreateARMTypeWithSecret_CreatesExpectedConversions(t *testing.T) {
 			func(pc *config.PropertyConfiguration) error {
 				pc.Secrecy.Set(astmodel.ImportSecretModeRequired)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	configuration := config.NewConfiguration()
@@ -336,7 +368,8 @@ func TestCreateARMTypeWithSecret_CreatesExpectedConversions(t *testing.T) {
 		createARMTypes,
 		applyARMConversionInterface,
 		simplify,
-		strip)
+		strip,
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
@@ -347,32 +380,38 @@ func TestCreateARMTypeConversionsWhenSimplifying_CreatesExpectedConversions(t *t
 
 	aliasDef := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "Alias"),
-		astmodel.StringType)
+		astmodel.StringType,
+	)
 
 	aliasProperty := astmodel.NewPropertyDefinition(
 		"Alias",
 		"alias",
-		aliasDef.Name()).
+		aliasDef.Name(),
+	).
 		WithDescription("Expect alias on CRD type to become string on ARM type")
 
 	qualificationsDef := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "Qualifications"),
-		astmodel.NewArrayType(astmodel.StringType))
+		astmodel.NewArrayType(astmodel.StringType),
+	)
 
 	qualificationsProperty := astmodel.NewPropertyDefinition(
 		"Qualifications",
 		"qualifications",
-		qualificationsDef.Name()).
+		qualificationsDef.Name(),
+	).
 		WithDescription("Expect alias of array on CRD type to become array on ARM type")
 
 	codesDef := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "Codes"),
-		astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
+		astmodel.NewMapType(astmodel.StringType, astmodel.StringType),
+	)
 
 	codesProperty := astmodel.NewPropertyDefinition(
 		"Codes",
 		"codes",
-		codesDef.Name()).
+		codesDef.Name(),
+	).
 		WithDescription("Expect alias of map on CRD type to become map on ARM type")
 
 	cases := map[string]struct {
@@ -403,12 +442,14 @@ func TestCreateARMTypeConversionsWhenSimplifying_CreatesExpectedConversions(t *t
 				test.Pkg2020,
 				"Person",
 				test.FullNameProperty,
-				c.property)
+				c.property,
+			)
 
 			// Arrange: Create a set of all our definitions
 			defs := astmodel.MakeTypeDefinitionSetFromDefinitions(
 				c.propertyDef,
-				person)
+				person,
+			)
 
 			idFactory := astmodel.NewIdentifierFactory()
 			omc := config.NewObjectModelConfiguration()
@@ -417,7 +458,8 @@ func TestCreateARMTypeConversionsWhenSimplifying_CreatesExpectedConversions(t *t
 			state, err := RunTestPipeline(
 				NewState(defs),
 				CreateARMTypes(omc, idFactory, logr.Discard()),
-				ApplyARMConversionInterface(idFactory, omc))
+				ApplyARMConversionInterface(idFactory, omc),
+			)
 			g.Expect(err).ToNot(HaveOccurred())
 
 			test.AssertPackagesGenerateExpectedCode(t, state.Definitions(), test.CreateFolderForTest())
@@ -445,53 +487,63 @@ func TestCreateARMTypes_WithTopLevelOneOf_GeneratesExpectedCode(t *testing.T) {
 		astmodel.MakeInternalTypeName(test.Pkg2022, "ReadWriteDatabaseKind"),
 		astmodel.NewEnumType(
 			astmodel.StringType,
-			readWriteKind))
+			readWriteKind,
+		),
+	)
 
 	readwriteDatabase := test.CreateObjectDefinition(
 		test.Pkg2022,
 		"ReadWriteDatabase",
 		astmodel.NewPropertyDefinition("Kind", "kind", readWriteDatabaseKind.Name()),
 		astmodel.NewPropertyDefinition("Location", "location", astmodel.OptionalStringType),
-		astmodel.NewPropertyDefinition("Properties", "properties", astmodel.OptionalStringType))
+		astmodel.NewPropertyDefinition("Properties", "properties", astmodel.OptionalStringType),
+	)
 
 	readOnlyFollowingKind := astmodel.MakeEnumValue("ReadOnlyFollowing", "ReadOnlyFollowing")
 	readOnlyFollowingDatabaseKind := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2022, "ReadOnlyFollowingDatabaseKind"),
 		astmodel.NewEnumType(
 			astmodel.StringType,
-			readOnlyFollowingKind))
+			readOnlyFollowingKind,
+		),
+	)
 
 	readOnlyFollowingDatabase := test.CreateObjectDefinition(
 		test.Pkg2022,
 		"ReadOnlyFollowingDatabase",
 		astmodel.NewPropertyDefinition("Kind", "kind", readOnlyFollowingDatabaseKind.Name()),
 		astmodel.NewPropertyDefinition("Location", "location", astmodel.OptionalStringType),
-		astmodel.NewPropertyDefinition("Properties", "properties", astmodel.OptionalStringType))
+		astmodel.NewPropertyDefinition("Properties", "properties", astmodel.OptionalStringType),
+	)
 
 	clusterDatabaseSpec := test.CreateObjectDefinition(
 		test.Pkg2022,
 		"ClusterDatabase_Spec",
 		astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType),
 		astmodel.NewPropertyDefinition("ReadOnlyFollowing", "readOnlyFollowing", astmodel.NewOptionalType(readOnlyFollowingDatabase.Name())),
-		astmodel.NewPropertyDefinition("ReadWrite", "readWrite", astmodel.NewOptionalType(readwriteDatabase.Name())))
+		astmodel.NewPropertyDefinition("ReadWrite", "readWrite", astmodel.NewOptionalType(readwriteDatabase.Name())),
+	)
 
 	var err error
 	clusterDatabaseSpec, err = clusterDatabaseSpec.ApplyObjectTransformation(
 		func(o *astmodel.ObjectType) (astmodel.Type, error) {
 			return astmodel.OneOfFlag.ApplyTo(o), nil
-		})
+		},
+	)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	clusterDatabaseStatus := test.CreateObjectDefinition(
 		test.Pkg2022,
 		"ClusterDatabase_Status",
-		astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType))
+		astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType),
+	)
 
 	clusterResource := test.CreateResource(
 		test.Pkg2022,
 		"ClusterDatabase",
 		clusterDatabaseSpec,
-		clusterDatabaseStatus)
+		clusterDatabaseStatus,
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(
@@ -502,7 +554,8 @@ func TestCreateARMTypes_WithTopLevelOneOf_GeneratesExpectedCode(t *testing.T) {
 		clusterResource,
 		readWriteDatabaseKind,
 		readOnlyFollowingDatabaseKind,
-		test.Pkg2020APIVersion)
+		test.Pkg2020APIVersion,
+	)
 
 	idFactory := astmodel.NewIdentifierFactory()
 
@@ -519,7 +572,8 @@ func TestCreateARMTypes_WithTopLevelOneOf_GeneratesExpectedCode(t *testing.T) {
 		applyARMConversionInterface,
 		flatten,
 		simplify,
-		strip)
+		strip,
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())

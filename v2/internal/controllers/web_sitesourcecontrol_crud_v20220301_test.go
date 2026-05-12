@@ -62,7 +62,8 @@ func Test_Web_SitesSourcecontrol_v20220301_CRUD(t *testing.T) {
 	_, retryAfter, er := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(web.APIVersion_Value))
+		string(web.APIVersion_Value),
+	)
 	tc.Expect(er).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 }

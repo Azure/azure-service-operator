@@ -69,7 +69,8 @@ func (b *ReadyConditionBuilder) ReadyCondition(severity ConditionSeverity, obser
 		severity,
 		observedGeneration,
 		reason,
-		message)
+		message,
+	)
 }
 
 func (b *ReadyConditionBuilder) Reconciling(observedGeneration int64) Condition {
@@ -78,7 +79,8 @@ func (b *ReadyConditionBuilder) Reconciling(observedGeneration int64) Condition 
 		ConditionSeverityInfo,
 		observedGeneration,
 		ReasonReconciling.Name,
-		"The resource is in the process of being reconciled by the operator")
+		"The resource is in the process of being reconciled by the operator",
+	)
 }
 
 func (b *ReadyConditionBuilder) Deleting(observedGeneration int64) Condition {
@@ -87,7 +89,8 @@ func (b *ReadyConditionBuilder) Deleting(observedGeneration int64) Condition {
 		ConditionSeverityInfo,
 		observedGeneration,
 		ReasonDeleting.Name,
-		"The resource is being deleted")
+		"The resource is being deleted",
+	)
 }
 
 func (b *ReadyConditionBuilder) Succeeded(observedGeneration int64) Condition {

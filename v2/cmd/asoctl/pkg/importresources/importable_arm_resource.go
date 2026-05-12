@@ -198,7 +198,8 @@ func (i *importableARMResource) findChildren(
 		eris.Wrapf(
 			kerrors.NewAggregate(errs),
 			"importing childresources of %s",
-			i.armID)
+			i.armID,
+		)
 }
 
 func (i *importableARMResource) createImportFunction(
@@ -332,7 +333,8 @@ func (i *importableARMResource) importChildResources(
 	imp, ok := obj.(genruntime.ImportableARMResource)
 	if !ok {
 		return nil, eris.Errorf(
-			"unable to create blank resource, expected %s to identify an importable ARM object", childResourceType)
+			"unable to create blank resource, expected %s to identify an importable ARM object", childResourceType,
+		)
 	}
 
 	// Based on the ARM ID of our owner, create the container URI to list the child resources
@@ -341,7 +343,8 @@ func (i *importableARMResource) importChildResources(
 		ctx,
 		i.client,
 		containerURI,
-		imp.GetAPIVersion())
+		imp.GetAPIVersion(),
+	)
 	if err != nil {
 		if _, nonfatal := i.classifyError(err); nonfatal {
 			// Non-fatal error, we'll just skip this child resource type
@@ -427,7 +430,8 @@ func (i *importableARMResource) createImportableObjectFromID(
 	importable, ok := obj.(genruntime.ImportableARMResource)
 	if !ok {
 		return nil, eris.Errorf(
-			"unable to create blank resource, expected %s to identify an importable ARM object", armID)
+			"unable to create blank resource, expected %s to identify an importable ARM object", armID,
+		)
 	}
 
 	i.SetAzureName(armID.Name, importable)

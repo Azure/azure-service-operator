@@ -59,7 +59,8 @@ func Test_AzureSQL_Combined(t *testing.T) {
 				database.AzureName(),
 				azuresqlutil.ServerPort,
 				adminUsername,
-				adminPassword)
+				adminPassword,
+			)
 			if err != nil {
 				return err
 			}
@@ -105,7 +106,8 @@ func AzureSQL_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn strin
 		database,
 		azuresqlutil.ServerPort,
 		adminUsername,
-		adminPassword)
+		adminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	// Close the connection
 	tc.Expect(db.Close()).To(Succeed())
@@ -130,7 +132,8 @@ func AzureSQL_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn strin
 				database,
 				azuresqlutil.ServerPort,
 				adminUsername,
-				newAdminPassword)
+				newAdminPassword,
+			)
 			if err != nil {
 				return err
 			}
@@ -151,7 +154,8 @@ func AzureSQL_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, datab
 		database,
 		azuresqlutil.ServerPort,
 		adminUsername,
-		adminPassword)
+		adminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	defer db.Close()
 
@@ -227,7 +231,8 @@ func AzureSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server, d
 		database.AzureName(),
 		azuresqlutil.ServerPort,
 		to.Value(server.Spec.AdministratorLogin),
-		adminPassword)
+		adminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	defer conn.Close()
 
@@ -260,7 +265,8 @@ func AzureSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server, d
 		database.AzureName(),
 		azuresqlutil.ServerPort,
 		user.Spec.AzureName,
-		password)
+		password,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	// Close the connection
 	tc.Expect(conn.Close()).To(Succeed())
@@ -284,7 +290,8 @@ func AzureSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server, d
 				database.AzureName(),
 				azuresqlutil.ServerPort,
 				user.Spec.AzureName,
-				newPassword)
+				newPassword,
+			)
 			if err != nil {
 				return err
 			}
@@ -320,7 +327,8 @@ func AzureSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server, d
 		database.AzureName(),
 		azuresqlutil.ServerPort,
 		to.Value(server.Spec.AdministratorLogin),
-		adminPassword)
+		adminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	defer conn.Close()
 

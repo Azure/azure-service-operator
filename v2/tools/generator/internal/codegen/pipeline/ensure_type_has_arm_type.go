@@ -23,7 +23,8 @@ func EnsureARMTypeExistsForEveryResource() *Stage {
 		func(ctx context.Context, state *State) (*State, error) {
 			definitions := state.Definitions()
 			return state, validateExpectedTypesHaveARMType(definitions)
-		})
+		},
+	)
 }
 
 // validateExpectedTypesHaveARMType returns an error containing details about all

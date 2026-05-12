@@ -24,56 +24,68 @@ var (
 	// Lion
 	LionSpecDef = astmodel.MakeTypeDefinition(
 		LionSpecName,
-		LionSpecType)
+		LionSpecType,
+	)
 	LionSpecType = astmodel.NewObjectType().WithProperties(
 		NameProperty,
 		LionTypeProperty,
 		APIVersionProperty,
-		LionPropertiesProperty).WithIsResource(true).WithResource(LionName)
+		LionPropertiesProperty,
+	).WithIsResource(true).WithResource(LionName)
 	LionStatusDef = astmodel.MakeTypeDefinition(
 		LionStatusName,
-		LionStatusType)
+		LionStatusType,
+	)
 	LionStatusType = astmodel.NewObjectType().WithProperties(
 		NameProperty,
 		LionTypeProperty,
 		APIVersionProperty,
-		LionPropertiesProperty)
+		LionPropertiesProperty,
+	)
 
 	// LionPride
 	LionPrideSpecDef = astmodel.MakeTypeDefinition(
 		LionPrideSpecName,
-		LionPrideSpecType)
+		LionPrideSpecType,
+	)
 	LionPrideSpecType = astmodel.NewObjectType().WithProperties(
 		NameProperty,
 		LionPrideTypeProperty,
 		APIVersionProperty,
-		LionPridePropertiesProperty).WithIsResource(true).WithResource(LionPrideName)
+		LionPridePropertiesProperty,
+	).WithIsResource(true).WithResource(LionPrideName)
 	LionPrideStatusDef = astmodel.MakeTypeDefinition(
 		LionPrideStatusName,
-		LionPrideStatusType)
+		LionPrideStatusType,
+	)
 	LionPrideStatusType = astmodel.NewObjectType().WithProperties(
 		NameProperty,
 		LionPrideTypeProperty,
 		APIVersionProperty,
-		LionPridePropertiesProperty)
+		LionPridePropertiesProperty,
+	)
 
 	// LionCub
 	LionCubSpecDef = astmodel.MakeTypeDefinition(
 		LionCubSpecName,
-		LionCubSpecType)
+		LionCubSpecType,
+	)
 	LionCubSpecType = astmodel.NewObjectType().WithProperties(
 		NameProperty,
 		LionCubTypeProperty,
 		APIVersionProperty,
-		LionCubPropertiesProperty).WithIsResource(true).WithResource(LionCubName)
+		LionCubPropertiesProperty,
+	).WithIsResource(true).WithResource(LionCubName)
 	LionCubStatusDef = astmodel.MakeTypeDefinition(
 		LionCubStatusName,
-		LionCubStatusType)
+		LionCubStatusType,
+	)
 	LionCubStatusType = astmodel.NewObjectType().WithProperties(
 		NameProperty,
 		LionCubTypeProperty,
 		APIVersionProperty,
-		LionCubPropertiesProperty)
+		LionCubPropertiesProperty,
+	)
 
 	LionResourceType      = astmodel.NewResourceType(LionSpecName, LionStatusName)
 	LionPrideResourceType = astmodel.NewResourceType(LionPrideSpecName, LionPrideStatusName)
@@ -84,33 +96,42 @@ var (
 
 	LionRef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionRef"),
-		LionSpecType.WithProperty(IDProperty))
+		LionSpecType.WithProperty(IDProperty),
+	)
 	LionCubRef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionCubRef"),
-		LionCubSpecType.WithProperty(IDProperty))
+		LionCubSpecType.WithProperty(IDProperty),
+	)
 
 	LionPrideTypeEnumDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionPrideType"),
-		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/lionPride")))
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/lionPride")),
+	)
 	LionTypeEnumDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionType"),
-		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/lion")))
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/lion")),
+	)
 	LionCubTypeEnumDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionCubType"),
-		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/cub")))
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/cub")),
+	)
 	APIVersionTypeEnumDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "APIVersion"),
-		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("apiVersion", `"2020-06-01"`)))
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("apiVersion", `"2020-06-01"`)),
+	)
 
 	LionPropertiesDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionProperties"),
-		astmodel.NewObjectType().WithProperty(RoarVolumeProperty))
+		astmodel.NewObjectType().WithProperty(RoarVolumeProperty),
+	)
 	LionPridePropertiesDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionPrideProperties"),
-		astmodel.NewObjectType().WithProperties(LionPrideLionsProperty, HuntsProperty))
+		astmodel.NewObjectType().WithProperties(LionPrideLionsProperty, HuntsProperty),
+	)
 	LionCubPropertiesDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionCubProperties"),
-		astmodel.NewObjectType().WithProperties(LionCubCutenessProperty))
+		astmodel.NewObjectType().WithProperties(LionCubCutenessProperty),
+	)
 
 	// Properties
 	NameProperty          = astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType).MakeTypeOptional().MakeRequired()
@@ -156,7 +177,8 @@ func LionDefs() astmodel.TypeDefinitionSet {
 		LionPridePropertiesDef,
 		LionPrideTypeEnumDef,
 		APIVersionTypeEnumDef,
-		LionRef)
+		LionRef,
+	)
 
 	return defs
 }
@@ -169,7 +191,8 @@ func LionCubDefs() astmodel.TypeDefinitionSet {
 		LionCubStatusDef,
 		LionCubPropertiesDef,
 		LionCubTypeEnumDef,
-		LionCubRef)
+		LionCubRef,
+	)
 
 	return defs
 }
@@ -191,7 +214,8 @@ func TestGolden_EmbeddedSubresource_IsRemoved(t *testing.T) {
 
 	state, err := RunTestPipeline(
 		NewState(defs),
-		removeEmbedded)
+		removeEmbedded,
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
@@ -210,7 +234,8 @@ func TestGolden_EmbeddedResource_IsRemovedRetainsId(t *testing.T) {
 
 	state, err := RunTestPipeline(
 		NewState(defs),
-		removeEmbedded)
+		removeEmbedded,
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
@@ -234,7 +259,8 @@ func TestGolden_EmbeddedResourcesWithMultipleEmbeddings_AllEmbeddingsAreRemovedA
 
 	state, err := RunTestPipeline(
 		NewState(defs),
-		removeEmbedded)
+		removeEmbedded,
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
@@ -260,13 +286,17 @@ func TestGolden_EmbeddedResourceWithCyclesAndResourceLookalikes_RemovesCycles(t 
 		astmodel.NewObjectType().WithProperties(
 			NameProperty,
 			dummyPropertiesProperty,
-			refProperty))
+			refProperty,
+		),
+	)
 	right := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "Right"),
 		astmodel.NewObjectType().WithProperties(
 			NameProperty,
 			dummyPropertiesProperty,
-			refProperty))
+			refProperty,
+		),
+	)
 
 	// Lion needs to point to left and right
 	leftProperty := astmodel.NewPropertyDefinition("Left", "left", left.Name())
@@ -275,7 +305,9 @@ func TestGolden_EmbeddedResourceWithCyclesAndResourceLookalikes_RemovesCycles(t 
 		LionPropertiesDef.Name(),
 		astmodel.NewObjectType().WithProperties(
 			leftProperty,
-			rightProperty))
+			rightProperty,
+		),
+	)
 
 	// Remove the lions property because it adds some confusion/mess to the generated files and doesn't actually
 	// target our scenario anyway
@@ -290,7 +322,8 @@ func TestGolden_EmbeddedResourceWithCyclesAndResourceLookalikes_RemovesCycles(t 
 
 	state, err := RunTestPipeline(
 		NewState(defs),
-		removeEmbedded)
+		removeEmbedded,
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())

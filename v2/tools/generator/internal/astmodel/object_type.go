@@ -104,7 +104,8 @@ func (objectType *ObjectType) AsDeclarations(
 	result := astbuilder.Declarations(
 		declaration,
 		interfaceDeclarations,
-		methodDeclarations)
+		methodDeclarations,
+	)
 
 	return result, nil
 }

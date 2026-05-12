@@ -52,7 +52,8 @@ func ApplyIsResourceOverrides(configuration *config.Configuration) *Stage {
 
 			state = state.WithOverlaidDefinitions(updatedDefs)
 			return state, nil
-		})
+		},
+	)
 
 	return stage
 }

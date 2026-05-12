@@ -81,7 +81,8 @@ func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error 
 	return eris.Wrapf(
 		kerrors.NewAggregate(errs),
 		"version %s",
-		vc.name)
+		vc.name,
+	)
 }
 
 // findType uses the provided name to work out which nested TypeConfiguration should be used
@@ -112,7 +113,8 @@ func (vc *VersionConfiguration) addTypeAlias(name string, alias string) error {
 		return eris.Errorf(
 			"unable to create type alias %s for %s because that would conflict with existing configuration",
 			alias,
-			name)
+			name,
+		)
 	}
 
 	// Add the alias as another route to the existing configuration
@@ -155,7 +157,8 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// No handler for this value, return an error
 		return eris.Errorf(
-			"version configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column)
+			"version configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column,
+		)
 
 	}
 

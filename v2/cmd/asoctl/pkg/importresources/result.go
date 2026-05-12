@@ -182,7 +182,8 @@ func (*Result) writeTo(resources []ImportedResource, destination io.Writer) erro
 			}
 
 			return strings.Compare(left.Name(), right.Name())
-		})
+		},
+	)
 
 	for _, resource := range resources {
 		data, err := yaml.Marshal(resource.Resource())

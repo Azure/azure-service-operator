@@ -37,12 +37,18 @@ import (
 	apimanagement_v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	apimanagement_v20240501w "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/webhook"
 	app_customizations "github.com/Azure/azure-service-operator/v2/api/app/customizations"
-	app_v20240301 "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
-	app_v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
-	app_v20240301w "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/webhook"
-	app_v20250101 "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101"
-	app_v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
-	app_v20250101w "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/webhook"
+	app_v1api20240301 "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
+	app_v1api20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
+	app_v1api20240301w "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/webhook"
+	app_v1api20250101 "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101"
+	app_v1api20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	app_v1api20250101w "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/webhook"
+	app_v20240301 "github.com/Azure/azure-service-operator/v2/api/app/v20240301"
+	app_v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v20240301/storage"
+	app_v20240301w "github.com/Azure/azure-service-operator/v2/api/app/v20240301/webhook"
+	app_v20250101 "github.com/Azure/azure-service-operator/v2/api/app/v20250101"
+	app_v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v20250101/storage"
+	app_v20250101w "github.com/Azure/azure-service-operator/v2/api/app/v20250101/webhook"
 	appconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/appconfiguration/customizations"
 	appconfiguration_v1api20220501 "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501"
 	appconfiguration_v1api20220501s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v1api20220501/storage"
@@ -184,9 +190,12 @@ import (
 	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
 	containerservice_v20251002pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/webhook"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
-	datafactory_v20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
-	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
-	datafactory_v20180601w "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/webhook"
+	datafactory_v1api20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
+	datafactory_v1api20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
+	datafactory_v1api20180601w "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/webhook"
+	datafactory_v20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v20180601"
+	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v20180601/storage"
+	datafactory_v20180601w "github.com/Azure/azure-service-operator/v2/api/datafactory/v20180601/webhook"
 	dataprotection_customizations "github.com/Azure/azure-service-operator/v2/api/dataprotection/customizations"
 	dataprotection_v20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
 	dataprotection_v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/storage"
@@ -269,9 +278,12 @@ import (
 	documentdb_v20251015s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
 	documentdb_v20251015w "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/webhook"
 	eventgrid_customizations "github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations"
-	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
-	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
-	eventgrid_v20200601w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/webhook"
+	eventgrid_v1api20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
+	eventgrid_v1api20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
+	eventgrid_v1api20200601w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/webhook"
+	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601"
+	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
+	eventgrid_v20200601w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/webhook"
 	eventhub_customizations "github.com/Azure/azure-service-operator/v2/api/eventhub/customizations"
 	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
 	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
@@ -3767,6 +3779,62 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(app_v1api20240301.AuthConfig),
+			Defaulter: &app_v1api20240301w.AuthConfig{},
+			Validator: &app_v1api20240301w.AuthConfig{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20240301.ContainerApp),
+			Defaulter: &app_v1api20240301w.ContainerApp{},
+			Validator: &app_v1api20240301w.ContainerApp{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20240301.Job),
+			Defaulter: &app_v1api20240301w.Job{},
+			Validator: &app_v1api20240301w.Job{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20240301.ManagedEnvironment),
+			Defaulter: &app_v1api20240301w.ManagedEnvironment{},
+			Validator: &app_v1api20240301w.ManagedEnvironment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(app_v1api20240301s.AuthConfig)},
+		&registration.KnownType{Obj: new(app_v1api20240301s.ContainerApp)},
+		&registration.KnownType{Obj: new(app_v1api20240301s.Job)},
+		&registration.KnownType{Obj: new(app_v1api20240301s.ManagedEnvironment)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(app_v1api20250101.AuthConfig),
+			Defaulter: &app_v1api20250101w.AuthConfig{},
+			Validator: &app_v1api20250101w.AuthConfig{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20250101.ContainerApp),
+			Defaulter: &app_v1api20250101w.ContainerApp{},
+			Validator: &app_v1api20250101w.ContainerApp{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20250101.Job),
+			Defaulter: &app_v1api20250101w.Job{},
+			Validator: &app_v1api20250101w.Job{},
+		},
+		&registration.KnownType{
+			Obj:       new(app_v1api20250101.ManagedEnvironment),
+			Defaulter: &app_v1api20250101w.ManagedEnvironment{},
+			Validator: &app_v1api20250101w.ManagedEnvironment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(app_v1api20250101s.AuthConfig)},
+		&registration.KnownType{Obj: new(app_v1api20250101s.ContainerApp)},
+		&registration.KnownType{Obj: new(app_v1api20250101s.Job)},
+		&registration.KnownType{Obj: new(app_v1api20250101s.ManagedEnvironment)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(app_v20240301.AuthConfig),
 			Defaulter: &app_v20240301w.AuthConfig{},
 			Validator: &app_v20240301w.AuthConfig{},
@@ -4562,6 +4630,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedCluster)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedClustersAgentPool)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.TrustedAccessRoleBinding)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(datafactory_v1api20180601.Factory),
+		Defaulter: &datafactory_v1api20180601w.Factory{},
+		Validator: &datafactory_v1api20180601w.Factory{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(datafactory_v1api20180601s.Factory)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(datafactory_v20180601.Factory),
 		Defaulter: &datafactory_v20180601w.Factory{},
@@ -5384,6 +5458,34 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &documentdb_v20251015w.CassandraDataCenter{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(documentdb_v20251015s.CassandraCluster)}, &registration.KnownType{Obj: new(documentdb_v20251015s.CassandraDataCenter)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(eventgrid_v1api20200601.Domain),
+			Defaulter: &eventgrid_v1api20200601w.Domain{},
+			Validator: &eventgrid_v1api20200601w.Domain{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v1api20200601.DomainsTopic),
+			Defaulter: &eventgrid_v1api20200601w.DomainsTopic{},
+			Validator: &eventgrid_v1api20200601w.DomainsTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v1api20200601.EventSubscription),
+			Defaulter: &eventgrid_v1api20200601w.EventSubscription{},
+			Validator: &eventgrid_v1api20200601w.EventSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v1api20200601.Topic),
+			Defaulter: &eventgrid_v1api20200601w.Topic{},
+			Validator: &eventgrid_v1api20200601w.Topic{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(eventgrid_v1api20200601s.Domain)},
+		&registration.KnownType{Obj: new(eventgrid_v1api20200601s.DomainsTopic)},
+		&registration.KnownType{Obj: new(eventgrid_v1api20200601s.EventSubscription)},
+		&registration.KnownType{Obj: new(eventgrid_v1api20200601s.Topic)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -7309,6 +7411,10 @@ func createScheme() *runtime.Scheme {
 	_ = apimanagement_v20230501ps.AddToScheme(scheme)
 	_ = apimanagement_v20240501.AddToScheme(scheme)
 	_ = apimanagement_v20240501s.AddToScheme(scheme)
+	_ = app_v1api20240301.AddToScheme(scheme)
+	_ = app_v1api20240301s.AddToScheme(scheme)
+	_ = app_v1api20250101.AddToScheme(scheme)
+	_ = app_v1api20250101s.AddToScheme(scheme)
 	_ = app_v20240301.AddToScheme(scheme)
 	_ = app_v20240301s.AddToScheme(scheme)
 	_ = app_v20250101.AddToScheme(scheme)
@@ -7399,6 +7505,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20250801s.AddToScheme(scheme)
 	_ = containerservice_v20251002p.AddToScheme(scheme)
 	_ = containerservice_v20251002ps.AddToScheme(scheme)
+	_ = datafactory_v1api20180601.AddToScheme(scheme)
+	_ = datafactory_v1api20180601s.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
 	_ = datafactory_v20180601s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
@@ -7451,6 +7559,8 @@ func createScheme() *runtime.Scheme {
 	_ = documentdb_v20240815s.AddToScheme(scheme)
 	_ = documentdb_v20251015.AddToScheme(scheme)
 	_ = documentdb_v20251015s.AddToScheme(scheme)
+	_ = eventgrid_v1api20200601.AddToScheme(scheme)
+	_ = eventgrid_v1api20200601s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)

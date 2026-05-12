@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/app/v20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -50,22 +49,36 @@ var _ conversion.Convertible = &Job{}
 
 // ConvertFrom populates our Job from the provided hub Job
 func (job *Job) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Job)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20250101/storage/Job but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Job
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return job.AssignProperties_From_Job(source)
+	err = job.AssignProperties_From_Job(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to job")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Job from our Job
 func (job *Job) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Job)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20250101/storage/Job but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Job
+	err := job.AssignProperties_To_Job(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from job")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return job.AssignProperties_To_Job(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Job{}
@@ -865,13 +878,6 @@ func (configuration *JobConfiguration) AssignProperties_From_JobConfiguration(so
 		configuration.EventTriggerConfig = nil
 	}
 
-	// IdentitySettings
-	if len(source.IdentitySettings) > 0 {
-		propertyBag.Add("IdentitySettings", source.IdentitySettings)
-	} else {
-		propertyBag.Remove("IdentitySettings")
-	}
-
 	// ManualTriggerConfig
 	if source.ManualTriggerConfig != nil {
 		var manualTriggerConfig JobConfiguration_ManualTriggerConfig
@@ -972,19 +978,6 @@ func (configuration *JobConfiguration) AssignProperties_To_JobConfiguration(dest
 		destination.EventTriggerConfig = &eventTriggerConfig
 	} else {
 		destination.EventTriggerConfig = nil
-	}
-
-	// IdentitySettings
-	if propertyBag.Contains("IdentitySettings") {
-		var identitySetting []storage.IdentitySettings
-		err := propertyBag.Pull("IdentitySettings", &identitySetting)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IdentitySettings' from propertyBag")
-		}
-
-		destination.IdentitySettings = identitySetting
-	} else {
-		destination.IdentitySettings = nil
 	}
 
 	// ManualTriggerConfig
@@ -1103,13 +1096,6 @@ func (configuration *JobConfiguration_STATUS) AssignProperties_From_JobConfigura
 		configuration.EventTriggerConfig = nil
 	}
 
-	// IdentitySettings
-	if len(source.IdentitySettings) > 0 {
-		propertyBag.Add("IdentitySettings", source.IdentitySettings)
-	} else {
-		propertyBag.Remove("IdentitySettings")
-	}
-
 	// ManualTriggerConfig
 	if source.ManualTriggerConfig != nil {
 		var manualTriggerConfig JobConfiguration_ManualTriggerConfig_STATUS
@@ -1210,19 +1196,6 @@ func (configuration *JobConfiguration_STATUS) AssignProperties_To_JobConfigurati
 		destination.EventTriggerConfig = &eventTriggerConfig
 	} else {
 		destination.EventTriggerConfig = nil
-	}
-
-	// IdentitySettings
-	if propertyBag.Contains("IdentitySettings") {
-		var identitySetting []storage.IdentitySettings_STATUS
-		err := propertyBag.Pull("IdentitySettings", &identitySetting)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IdentitySettings' from propertyBag")
-		}
-
-		destination.IdentitySettings = identitySetting
-	} else {
-		destination.IdentitySettings = nil
 	}
 
 	// ManualTriggerConfig
@@ -2538,13 +2511,6 @@ func (rule *JobScaleRule) AssignProperties_From_JobScaleRule(source *storage.Job
 		rule.Auth = nil
 	}
 
-	// IdentityReference
-	if source.IdentityReference != nil {
-		propertyBag.Add("IdentityReference", *source.IdentityReference)
-	} else {
-		propertyBag.Remove("IdentityReference")
-	}
-
 	// Metadata
 	if source.Metadata != nil {
 		metadatumMap := make(map[string]v1.JSON, len(source.Metadata))
@@ -2601,19 +2567,6 @@ func (rule *JobScaleRule) AssignProperties_To_JobScaleRule(destination *storage.
 		destination.Auth = authList
 	} else {
 		destination.Auth = nil
-	}
-
-	// IdentityReference
-	if propertyBag.Contains("IdentityReference") {
-		var identityReference genruntime.WellKnownResourceReference
-		err := propertyBag.Pull("IdentityReference", &identityReference)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IdentityReference' from propertyBag")
-		}
-
-		destination.IdentityReference = &identityReference
-	} else {
-		destination.IdentityReference = nil
 	}
 
 	// Metadata
@@ -2684,13 +2637,6 @@ func (rule *JobScaleRule_STATUS) AssignProperties_From_JobScaleRule_STATUS(sourc
 		rule.Auth = nil
 	}
 
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
-	}
-
 	// Metadata
 	if source.Metadata != nil {
 		metadatumMap := make(map[string]v1.JSON, len(source.Metadata))
@@ -2747,19 +2693,6 @@ func (rule *JobScaleRule_STATUS) AssignProperties_To_JobScaleRule_STATUS(destina
 		destination.Auth = authList
 	} else {
 		destination.Auth = nil
-	}
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity string
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
 	}
 
 	// Metadata

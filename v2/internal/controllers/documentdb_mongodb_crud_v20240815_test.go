@@ -130,7 +130,8 @@ func Test_DocumentDB_MongoDatabase_v20240815_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(documentdb.APIVersion_Value))
+		string(documentdb.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 
@@ -141,7 +142,8 @@ func Test_DocumentDB_MongoDatabase_v20240815_CRUD(t *testing.T) {
 	exists, _, err = tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(documentdb.APIVersion_Value))
+		string(documentdb.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -204,7 +206,8 @@ func DocumentDB_MongoDB_Collection_v20240815_CRUD(tc *testcommon.KubePerTestCont
 			Test: func(tc *testcommon.KubePerTestContext) {
 				DocumentDB_MongoDB_Database_Collections_ThroughputSettings_v20240815_CRUD(tc, &collection)
 			},
-		})
+		},
+	)
 }
 
 func DocumentDB_MongoDB_Database_ThroughputSettings_v20240815_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {

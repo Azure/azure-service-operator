@@ -317,7 +317,10 @@ func Test_PropertyDefinitionMakeRequired_WhenTypeIsOptional_Panics(t *testing.T)
 		PanicWith(
 			MatchError(
 				fmt.Sprintf("property %s with non-optional type *astmodel.PrimitiveType cannot be marked kubebuilder:validation:Required.",
-					propertyName))))
+					propertyName),
+			),
+		),
+	)
 }
 
 /*

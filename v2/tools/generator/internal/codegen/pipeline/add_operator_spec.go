@@ -44,11 +44,13 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 				dynamicConfigMapExporter := functions.NewConfigMapExporterInterface(
 					resource.Name(),
 					rt,
-					idFactory)
+					idFactory,
+				)
 				dynamicSecretExporter := functions.NewSecretsExporterInterface(
 					resource.Name(),
 					rt,
-					idFactory)
+					idFactory,
+				)
 
 				rt = rt.WithInterface(dynamicConfigMapExporter.ToInterfaceImplementation())
 				rt = rt.WithInterface(dynamicSecretExporter.ToInterfaceImplementation())
@@ -78,8 +80,10 @@ func AddOperatorSpec(configuration *config.Configuration, idFactory astmodel.Ide
 			return StateWithData(
 				state.WithOverlaidDefinitions(result),
 				ExportedConfigMaps,
-				exportedTypeNameConfigMaps), nil
-		})
+				exportedTypeNameConfigMaps,
+			), nil
+		},
+	)
 }
 
 func createOperatorSpecIfNeeded(
@@ -154,7 +158,8 @@ func (ctx configMapContext) withTypeName(typeName astmodel.TypeName) configMapCo
 var identityConfigMapObjectTypeVisit = astmodel.MakeIdentityVisitOfObjectType(
 	func(ot *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx configMapContext) (configMapContext, error) {
 		return ctx.withPathElement(prop), nil
-	})
+	},
+)
 
 type configMapTypeWalker struct {
 	configuredProperties map[string]string
@@ -335,7 +340,8 @@ func (b *operatorSpecBuilder) newOperatorSpecProperty(operatorSpec astmodel.Type
 	prop := astmodel.NewPropertyDefinition(
 		astmodel.OperatorSpecProperty,
 		b.idFactory.CreateStringIdentifier(astmodel.OperatorSpecProperty, astmodel.NotExported),
-		operatorSpec.Name()).MakeTypeOptional()
+		operatorSpec.Name(),
+	).MakeTypeOptional()
 	desc := "The specification for configuring operator behavior. " +
 		"This field is interpreted by the operator and not passed directly to Azure"
 	prop = prop.WithDescription(desc)
@@ -347,7 +353,8 @@ func (b *operatorSpecBuilder) newProperty(typ astmodel.Type, propertyName string
 	prop := astmodel.NewPropertyDefinition(
 		b.idFactory.CreatePropertyName(propertyName, astmodel.Exported),
 		b.idFactory.CreateStringIdentifier(propertyName, astmodel.NotExported),
-		typ)
+		typ,
+	)
 	prop = prop.WithDescription(description)
 	prop = prop.MakeTypeOptional()
 
@@ -358,28 +365,32 @@ func (b *operatorSpecBuilder) newSecretsProperty(secretTypeName astmodel.TypeNam
 	return b.newProperty(
 		secretTypeName,
 		astmodel.OperatorSpecSecretsProperty,
-		"configures where to place Azure generated secrets.")
+		"configures where to place Azure generated secrets.",
+	)
 }
 
 func (b *operatorSpecBuilder) newConfigMapProperty(configMapTypeName astmodel.TypeName) *astmodel.PropertyDefinition {
 	return b.newProperty(
 		configMapTypeName,
 		astmodel.OperatorSpecConfigMapsProperty,
-		"configures where to place operator written ConfigMaps.")
+		"configures where to place operator written ConfigMaps.",
+	)
 }
 
 func (b *operatorSpecBuilder) newDynamicConfigMapProperty() *astmodel.PropertyDefinition {
 	return b.newProperty(
 		astmodel.DestinationExpressionCollectionType,
 		astmodel.OperatorSpecConfigMapExpressionsProperty,
-		"configures where to place operator written dynamic ConfigMaps (created with CEL expressions).")
+		"configures where to place operator written dynamic ConfigMaps (created with CEL expressions).",
+	)
 }
 
 func (b *operatorSpecBuilder) newDynamicSecretProperty() *astmodel.PropertyDefinition {
 	return b.newProperty(
 		astmodel.DestinationExpressionCollectionType,
 		astmodel.OperatorSpecSecretExpressionsProperty,
-		"configures where to place operator written dynamic secrets (created with CEL expressions).")
+		"configures where to place operator written dynamic secrets (created with CEL expressions).",
+	)
 }
 
 func (b *operatorSpecBuilder) addSecrets(
@@ -394,7 +405,9 @@ func (b *operatorSpecBuilder) addSecrets(
 	secretsTypeName := resourceName.WithName(
 		b.idFactory.CreateIdentifier(
 			resourceName.Name()+"OperatorSecrets",
-			astmodel.Exported))
+			astmodel.Exported,
+		),
+	)
 	secretsType := astmodel.NewObjectType()
 
 	// Add the "secrets" property to the operator spec
@@ -405,10 +418,12 @@ func (b *operatorSpecBuilder) addSecrets(
 		prop := astmodel.NewPropertyDefinition(
 			b.idFactory.CreatePropertyName(secret, astmodel.Exported),
 			b.idFactory.CreateStringIdentifier(secret, astmodel.NotExported),
-			astmodel.SecretDestinationType).MakeTypeOptional()
+			astmodel.SecretDestinationType,
+		).MakeTypeOptional()
 		desc := fmt.Sprintf(
 			"indicates where the %s secret should be placed. If omitted, the secret will not be retrieved from Azure.",
-			secret)
+			secret,
+		)
 		prop = prop.WithDescription(desc)
 		prop = prop.MakeOptional()
 		secretsType = secretsType.WithProperty(prop)
@@ -430,7 +445,9 @@ func (b *operatorSpecBuilder) addConfigs(
 	configMapTypeName := resourceName.WithName(
 		b.idFactory.CreateIdentifier(
 			resourceName.Name()+"OperatorConfigMaps",
-			astmodel.Exported))
+			astmodel.Exported,
+		),
+	)
 	configMapsType := astmodel.NewObjectType()
 
 	// Add the "configMaps" property to the operator spec
@@ -441,10 +458,12 @@ func (b *operatorSpecBuilder) addConfigs(
 		prop := astmodel.NewPropertyDefinition(
 			b.idFactory.CreatePropertyName(exportedConfig, astmodel.Exported),
 			b.idFactory.CreateStringIdentifier(exportedConfig, astmodel.NotExported),
-			astmodel.ConfigMapDestinationType).MakeTypeOptional()
+			astmodel.ConfigMapDestinationType,
+		).MakeTypeOptional()
 		desc := fmt.Sprintf(
 			"indicates where the %s config map should be placed. If omitted, no config map will be created.",
-			exportedConfig)
+			exportedConfig,
+		)
 		prop = prop.WithDescription(desc)
 		prop = prop.MakeOptional()
 		configMapsType = configMapsType.WithProperty(prop)
@@ -466,14 +485,16 @@ func (b *operatorSpecBuilder) addCustomProperties(
 		if !ok {
 			b.errs = append(
 				b.errs,
-				eris.Errorf("unknown type %q for custom OperatorSpec property %q", prop.Type, prop.Name))
+				eris.Errorf("unknown type %q for custom OperatorSpec property %q", prop.Type, prop.Name),
+			)
 			continue
 		}
 
 		property := astmodel.NewPropertyDefinition(
 			b.idFactory.CreatePropertyName(prop.Name, astmodel.Exported),
 			b.idFactory.CreateStringIdentifier(prop.Name, astmodel.NotExported),
-			propertyType).
+			propertyType,
+		).
 			MakeTypeOptional().
 			WithDescription(prop.Description)
 		b.operatorSpecType = b.operatorSpecType.WithProperty(property)
@@ -486,12 +507,14 @@ func (b *operatorSpecBuilder) build() (astmodel.TypeDefinition, error) {
 			eris.Wrapf(
 				kerrors.NewAggregate(b.errs),
 				"failed to build OperatorSpec for %q",
-				b.resource.Name())
+				b.resource.Name(),
+			)
 	}
 
 	def := astmodel.MakeTypeDefinition(
 		b.operatorSpecName,
-		b.operatorSpecType)
+		b.operatorSpecType,
+	)
 
 	description := "Details for configuring operator behavior. Fields in this struct are " +
 		"interpreted by the operator directly rather than being passed to Azure"

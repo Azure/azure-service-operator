@@ -32,7 +32,8 @@ func AddConfigMaps(config *config.Configuration) *Stage {
 			}
 
 			return state.WithDefinitions(updatedDefs), nil
-		})
+		},
+	)
 
 	stage.RequiresPostrequisiteStages(CreateARMTypesStageID)
 
@@ -120,7 +121,8 @@ func transformConfigMaps(cfg *config.Configuration, definitions astmodel.TypeDef
 					return nil, eris.Errorf(
 						"failed to transform property to optional configmap on type %s. Property %s already exists",
 						ctx,
-						newProp.PropertyName())
+						newProp.PropertyName(),
+					)
 				}
 
 				it = it.WithProperties(updatedProp, newProp)

@@ -72,7 +72,8 @@ func (m *AzureBeProvisionedMatcher) message(actual interface{}, expectedMatch bo
 
 	return gomegaformat.Message(
 		m.err,
-		fmt.Sprintf("long running operation %sbe successful.", notStr))
+		fmt.Sprintf("long running operation %sbe successful.", notStr),
+	)
 }
 
 func (m *AzureBeProvisionedMatcher) FailureMessage(actual interface{}) string {

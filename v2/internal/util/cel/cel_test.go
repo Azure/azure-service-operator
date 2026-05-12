@@ -165,7 +165,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 							Raw: []byte(`"Test"`),
 						},
 					}
-				}),
+				},
+			),
 			expression:  `string(self.spec.untyped.mode)`, // Needs string cast here because output is dyn
 			expectedStr: "Test",
 		},
@@ -178,7 +179,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 							Raw: []byte(`["foo","bar","baz"]`),
 						},
 					}
-				}),
+				},
+			),
 			expression:  `string(self.spec.untyped.nestedArray[0])`, // Needs string cast here because output is dyn
 			expectedStr: "foo",
 		},
@@ -191,7 +193,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 							Raw: []byte(`{"innerMode": "Test", "value": 7}`),
 						},
 					}
-				}),
+				},
+			),
 			expression:  `string(self.spec.untyped.nestedStruct.innerMode)`, // Needs string cast here because output is dyn
 			expectedStr: "Test",
 		},
@@ -204,7 +207,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 							Raw: []byte(`{"innerMode": "Test", "value": 7}`),
 						},
 					}
-				}),
+				},
+			),
 			expression:  `string(self.spec.untyped.nestedStruct.value)`, // Needs string cast here because output is dyn
 			expectedStr: "7",
 		},
@@ -217,7 +221,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 							Raw: []byte(`{"innerMode": "Test", "value": 7}`),
 						},
 					}
-				}),
+				},
+			),
 			expression:  `string(self.spec.untyped.nestedStruct.mode)`, // There is no mode type
 			expectedErr: "failed to eval CEL expression: \"string(self.spec.untyped.nestedStruct.mode)\": no such key: mode",
 		},
@@ -230,7 +235,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 						"world",
 						"help",
 					}
-				}),
+				},
+			),
 			expression:  `self.spec.slice.filter(a, a.startsWith("hel")).join("-")`,
 			expectedStr: "hello-help",
 		},
@@ -266,7 +272,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			self: newSimpleResource2Customized(
 				func(r *SimpleResource2) {
 					r.Spec.UnderscoreField = "hello"
-				}),
+				},
+			),
 			expression:  `self.spec.underscore_field`,
 			expectedStr: "hello",
 		},
@@ -275,7 +282,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			self: newSimpleResource2Customized(
 				func(r *SimpleResource2) {
 					r.Spec.DoubleUnderscoreField = "hello"
-				}),
+				},
+			),
 			expression:  `self.spec.underscore__underscores__field`,
 			expectedStr: "hello",
 		},
@@ -284,7 +292,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			self: newSimpleResource2Customized(
 				func(r *SimpleResource2) {
 					r.Spec.DoubleDoubleUnderscoreField = "hello"
-				}),
+				},
+			),
 			expression:  `self.spec.underscore__underscores__field__underscores__`,
 			expectedStr: "hello",
 		},
@@ -293,7 +302,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			self: newSimpleResource2Customized(
 				func(r *SimpleResource2) {
 					r.Spec.UnderscoreStartField = "hello"
-				}),
+				},
+			),
 			expression:  `self.spec._underscoreStartField`,
 			expectedStr: "hello",
 		},
@@ -302,7 +312,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			self: newSimpleResource2Customized(
 				func(r *SimpleResource2) {
 					r.Spec.DashField = "hello"
-				}),
+				},
+			),
 			expression:  `self.spec.dash__dash__field`,
 			expectedStr: "hello",
 		},
@@ -311,7 +322,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			self: newSimpleResource2Customized(
 				func(r *SimpleResource2) {
 					r.Spec.DashUnderscoreField = "hello"
-				}),
+				},
+			),
 			expression:  `self.spec.dash__dash____underscores__field`,
 			expectedStr: "hello",
 		},
@@ -320,7 +332,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			self: newSimpleResource2Customized(
 				func(r *SimpleResource2) {
 					r.Spec.DotField = "hello"
-				}),
+				},
+			),
 			expression:  `self.spec.dot__dot__field`,
 			expectedStr: "hello",
 		},
@@ -329,7 +342,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			self: newSimpleResource2Customized(
 				func(r *SimpleResource2) {
 					r.Spec.SlashField = "hello"
-				}),
+				},
+			),
 			expression:  `self.spec.slash__slash__field`,
 			expectedStr: "hello",
 		},
@@ -347,7 +361,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 					r.Spec.String = " hope"
 					r.Spec.Int = " it"
 					r.Spec.Namespace = " works."
-				}),
+				},
+			),
 			expression:  `self.spec.const + self.spec.break + self.spec.__false__ + self.spec.__true__ + self.spec.__in__ + self.spec.__null__ + self.spec.endsWith + self.spec.string + self.spec.int + self.spec.namespace`,
 			expectedStr: "hello! hello! This is a test. I hope it works.",
 		},
@@ -360,7 +375,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 						"fruit is good for you":   "yes",
 						"cookies are bad for you": "yes",
 					}
-				}),
+				},
+			),
 			expression: `self.metadata.annotations.transformMapEntry(k, v, {k.replace(" ", "-"): v})`,
 			expectedMap: map[string]string{
 				"pizza":                   "no",
@@ -373,7 +389,8 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			self: newSimpleResource2Customized(
 				func(r *SimpleResource2) {
 					r.Spec.TransformMapField = "test"
-				}),
+				},
+			),
 			expression:  `self.spec.transformMap`,
 			expectedStr: "test",
 		},

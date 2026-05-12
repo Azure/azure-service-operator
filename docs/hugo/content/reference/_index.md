@@ -159,21 +159,36 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                               |
-|----------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| [AuthConfig]({{< relref "/reference/app/v1api20250101#AuthConfig" >}})                 | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_authconfig.yaml)         |
-| [ContainerApp]({{< relref "/reference/app/v1api20250101#ContainerApp" >}})             | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_containerapp.yaml)       |
-| [Job]({{< relref "/reference/app/v1api20250101#Job" >}})                               | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_job.yaml)                |
-| [ManagedEnvironment]({{< relref "/reference/app/v1api20250101#ManagedEnvironment" >}}) | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_managedenvironment.yaml) |
+| Resource                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
+|------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
+| [AuthConfig]({{< relref "/reference/app/v20250101#AuthConfig" >}})                 | 2025-01-01  | v20250101   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20250101/v20250101_authconfig.yaml)         |
+| [ContainerApp]({{< relref "/reference/app/v20250101#ContainerApp" >}})             | 2025-01-01  | v20250101   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20250101/v20250101_containerapp.yaml)       |
+| [Job]({{< relref "/reference/app/v20250101#Job" >}})                               | 2025-01-01  | v20250101   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20250101/v20250101_job.yaml)                |
+| [ManagedEnvironment]({{< relref "/reference/app/v20250101#ManagedEnvironment" >}}) | 2025-01-01  | v20250101   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20250101/v20250101_managedenvironment.yaml) |
 
 ### Other Supported Versions
 
 These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+| Resource                                                                           | ARM Version | CRD Version | Supported From | Sample                                                                                                                       |
+|------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
+| [AuthConfig]({{< relref "/reference/app/v20240301#AuthConfig" >}})                 | 2024-03-01  | v20240301   | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20240301/v20240301_authconfig.yaml)         |
+| [ContainerApp]({{< relref "/reference/app/v20240301#ContainerApp" >}})             | 2024-03-01  | v20240301   | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20240301/v20240301_containerapp.yaml)       |
+| [Job]({{< relref "/reference/app/v20240301#Job" >}})                               | 2024-03-01  | v20240301   | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20240301/v20240301_job.yaml)                |
+| [ManagedEnvironment]({{< relref "/reference/app/v20240301#ManagedEnvironment" >}}) | 2024-03-01  | v20240301   | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v20240301/v20240301_managedenvironment.yaml) |
+
+### Deprecated
+
+These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See [Breaking Changes](https://azure.github.io/azure-service-operator/guide/breaking-changes/) for more information.
+
 | Resource                                                                               | ARM Version | CRD Version   | Supported From | Sample                                                                                                                               |
 |----------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| [AuthConfig]({{< relref "/reference/app/v1api20250101#AuthConfig" >}})                 | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_authconfig.yaml)         |
 | [AuthConfig]({{< relref "/reference/app/v1api20240301#AuthConfig" >}})                 | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_authconfig.yaml)         |
+| [ContainerApp]({{< relref "/reference/app/v1api20250101#ContainerApp" >}})             | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_containerapp.yaml)       |
 | [ContainerApp]({{< relref "/reference/app/v1api20240301#ContainerApp" >}})             | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_containerapp.yaml)       |
+| [Job]({{< relref "/reference/app/v1api20250101#Job" >}})                               | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_job.yaml)                |
 | [Job]({{< relref "/reference/app/v1api20240301#Job" >}})                               | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_job.yaml)                |
+| [ManagedEnvironment]({{< relref "/reference/app/v1api20250101#ManagedEnvironment" >}}) | 2025-01-01  | v1api20250101 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20250101/v1api20250101_managedenvironment.yaml) |
 | [ManagedEnvironment]({{< relref "/reference/app/v1api20240301#ManagedEnvironment" >}}) | 2024-03-01  | v1api20240301 | v2.12.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/app/v1api20240301/v1api20240301_managedenvironment.yaml) |
 
 ## AppConfiguration
@@ -480,6 +495,14 @@ To install the CRDs for these resources, your ASO configuration must include `da
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+| Resource                                                             | ARM Version | CRD Version | Supported From | Sample                                                                                                                    |
+|----------------------------------------------------------------------|-------------|-------------|----------------|---------------------------------------------------------------------------------------------------------------------------|
+| [Factory]({{< relref "/reference/datafactory/v20180601#Factory" >}}) | 2018-06-01  | v20180601   | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/datafactory/v20180601/v20180601_factory.yaml) |
+
+### Deprecated
+
+These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See [Breaking Changes](https://azure.github.io/azure-service-operator/guide/breaking-changes/) for more information.
+
 | Resource                                                                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                    |
 |--------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------|
 | [Factory]({{< relref "/reference/datafactory/v1api20180601#Factory" >}}) | 2018-06-01  | v1api20180601 | v2.1.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/datafactory/v1api/v1api20180601_factory.yaml) |
@@ -724,6 +747,17 @@ To install the CRDs for these resources, your ASO configuration must include `ev
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+| Resource                                                                               | ARM Version | CRD Version | Supported From | Sample                                                                                                                            |
+|----------------------------------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| [Domain]({{< relref "/reference/eventgrid/v20200601#Domain" >}})                       | 2020-06-01  | v20200601   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20200601/v20200601_domain.yaml)            |
+| [DomainsTopic]({{< relref "/reference/eventgrid/v20200601#DomainsTopic" >}})           | 2020-06-01  | v20200601   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20200601/v20200601_domainstopic.yaml)      |
+| [EventSubscription]({{< relref "/reference/eventgrid/v20200601#EventSubscription" >}}) | 2020-06-01  | v20200601   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20200601/v20200601_eventsubscription.yaml) |
+| [Topic]({{< relref "/reference/eventgrid/v20200601#Topic" >}})                         | 2020-06-01  | v20200601   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20200601/v20200601_topic.yaml)             |
+
+### Deprecated
+
+These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See [Breaking Changes](https://azure.github.io/azure-service-operator/guide/breaking-changes/) for more information.
+
 | Resource                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                            |
 |--------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------|
 | [Domain]({{< relref "/reference/eventgrid/v1api20200601#Domain" >}})                       | 2020-06-01  | v1api20200601 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v1api/v1api20200601_domain.yaml)            |

@@ -58,9 +58,10 @@ func TestRemoveStages_PanicsForUnknownStage(t *testing.T) {
 		},
 	}
 
-	g.Expect(func() {
-		gen.RemoveStages("bang")
-	},
+	g.Expect(
+		func() {
+			gen.RemoveStages("bang")
+		},
 	).To(Panic())
 
 	gen.RemoveStages("foo", "baz")
@@ -72,7 +73,8 @@ func MakeFakePipelineStage(id string) *pipeline.Stage {
 		"Stage "+id,
 		func(ctx context.Context, state *pipeline.State) (*pipeline.State, error) {
 			return state, nil
-		})
+		},
+	)
 }
 
 /*
@@ -109,9 +111,10 @@ func TestReplaceStage_PanicsForUnknownStage(t *testing.T) {
 		},
 	}
 
-	g.Expect(func() {
-		gen.ReplaceStage("bang", zooStage)
-	},
+	g.Expect(
+		func() {
+			gen.ReplaceStage("bang", zooStage)
+		},
 	).To(Panic())
 }
 
@@ -149,8 +152,9 @@ func TestGolden_InjectStageAfter_PanicsForUnknownStage(t *testing.T) {
 		},
 	}
 
-	g.Expect(func() {
-		gen.InjectStageAfter("bang", zooStage)
-	},
+	g.Expect(
+		func() {
+			gen.InjectStageAfter("bang", zooStage)
+		},
 	).To(Panic())
 }

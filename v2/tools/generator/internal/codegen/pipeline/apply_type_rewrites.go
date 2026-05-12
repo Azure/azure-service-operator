@@ -38,7 +38,8 @@ func ApplyTypeRewrites(
 				// When we remove type aliases later in the pipeline, these will result in any references being updated
 				if newDef.Name() != def.Name() {
 					alias := astmodel.MakeTypeDefinition(
-						def.Name(), newDef.Name())
+						def.Name(), newDef.Name(),
+					)
 					definitions.Add(alias)
 				}
 			}
@@ -49,7 +50,8 @@ func ApplyTypeRewrites(
 			}
 
 			return state.WithDefinitions(definitions), nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects")
 
@@ -77,7 +79,8 @@ func transformDefinition(
 				"Transforming type",
 				"type", name,
 				"because", transformer.Because,
-				"transformation", result.Type())
+				"transformation", result.Type(),
+			)
 
 			def = result
 		}

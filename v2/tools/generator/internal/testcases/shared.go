@@ -15,6 +15,7 @@ import (
 func idOfGeneratorMethod(typeName astmodel.TypeName, idFactory astmodel.IdentifierFactory) string {
 	name := idFactory.CreateIdentifier(
 		fmt.Sprintf("%sGenerator", typeName.Name()),
-		astmodel.Exported)
+		astmodel.Exported,
+	)
 	return name
 }

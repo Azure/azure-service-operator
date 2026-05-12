@@ -289,7 +289,8 @@ func (property *PropertyDefinition) MakeRequired() *PropertyDefinition {
 		panic(eris.Errorf(
 			"property %s with non-optional type %T cannot be marked kubebuilder:validation:Required.",
 			property.PropertyName(),
-			property.PropertyType()))
+			property.PropertyType(),
+		))
 	}
 
 	result := property.copy()
@@ -481,7 +482,8 @@ func (property *PropertyDefinition) tagsEqual(f *PropertyDefinition) bool {
 		f.tags,
 		func(left []string, right []string) bool {
 			return slices.Equal(left, right)
-		})
+		},
+	)
 }
 
 // Equals tests to see if the specified PropertyDefinition specifies the same property

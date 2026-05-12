@@ -31,14 +31,16 @@ func TestGolden_PropertyAssignmentTestCase_AsFunc(t *testing.T) {
 		"Person",
 		test.FullNameProperty,
 		test.KnownAsProperty,
-		test.FamilyNameProperty)
+		test.FamilyNameProperty,
+	)
 
 	otherSpec := test.CreateSpec(
 		test.Pkg2021,
 		"Person",
 		test.FullNameProperty,
 		test.KnownAsProperty,
-		test.FamilyNameProperty)
+		test.FamilyNameProperty,
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	cfg := config.NewObjectModelConfiguration()

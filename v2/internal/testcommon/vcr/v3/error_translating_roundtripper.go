@@ -106,10 +106,12 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 				w.cassetteName,
 				req.Method,
 				req.URL.String(),
-				discriminator),
+				discriminator,
+			),
 
 			conditions.ConditionSeverityError,
-			conditions.ReasonReconciliationFailedPermanently)
+			conditions.ReasonReconciliationFailedPermanently,
+		)
 	}
 
 	// locate the request body with the shortest diff from the sent body
@@ -129,7 +131,8 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 			w.t.Name(),
 			w.cassetteName,
 			req.Method,
-			req.URL.String())
+			req.URL.String(),
+		)
 	} else {
 		err = eris.Errorf(
 			"cannot find go-vcr recording for request from test %q (cassette: %q) (body mismatch): %s %s\nShortest body diff:\n---\n%s\n---\n",
@@ -137,13 +140,15 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 			w.cassetteName,
 			req.Method,
 			req.URL.String(),
-			shortestDiff)
+			shortestDiff,
+		)
 	}
 
 	return nil, conditions.NewReadyConditionImpactingError(
 		err,
 		conditions.ConditionSeverityError,
-		conditions.ReasonReconciliationFailedPermanently)
+		conditions.ReasonReconciliationFailedPermanently,
+	)
 }
 
 // finds bodies for interactions where request method, URL, and COUNT_HEADER match

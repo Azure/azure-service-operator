@@ -52,7 +52,8 @@ func (tr *TestRun) pause(stopped time.Time) {
 		msg := fmt.Sprintf(
 			"Test %s in package %s was paused when it was not running",
 			tr.Test.Value(),
-			tr.Package.Value())
+			tr.Package.Value(),
+		)
 		panic(msg)
 	}
 

@@ -69,5 +69,6 @@ func TestGolden_RepairSkippingProperties_WhenPropertyTypesDiffer_GeneratesExpect
 	test.AssertPackagesGenerateExpectedCode(
 		t,
 		finalState.Definitions(),
-		test.DiffWith(comparisonState.Definitions().AsSlice()...))
+		test.DiffWith(comparisonState.Definitions().AsSlice()...),
+	)
 }

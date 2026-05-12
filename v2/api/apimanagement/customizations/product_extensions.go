@@ -66,7 +66,8 @@ func (extension *ProductExtension) Delete(
 		"*",
 		&armapimanagement.ProductClientDeleteOptions{
 			DeleteSubscriptions: to.Ptr(true),
-		})
+		},
+	)
 	if err != nil {
 		// If the product (or its parent) is already gone, treat as success
 		if genericarmclient.IsNotFoundError(err) {

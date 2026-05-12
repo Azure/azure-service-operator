@@ -36,7 +36,8 @@ func MoveTypesForVersionMigration(
 			}
 
 			return state.WithDefinitions(newDefinitions), nil
-		})
+		},
+	)
 
 	stage.RequiresPostrequisiteStages(CreateStorageTypesStageID)
 
@@ -138,7 +139,8 @@ func (p *versionMigrationFactory) findLegacyModeResourcesToMove() (astmodel.Type
 	if len(legacyGroups) > 0 {
 		return nil, eris.Errorf(
 			"expected to find resources introduced prior to ASO version 2.17 in group(s) %s but none were found",
-			strings.Join(set.AsSortedSlice(legacyGroups), ", "))
+			strings.Join(set.AsSortedSlice(legacyGroups), ", "),
+		)
 	}
 
 	return result, nil
@@ -206,7 +208,8 @@ func (p *versionMigrationFactory) collectRelatedDefinitions(
 	if err != nil {
 		return nil, eris.Wrap(
 			err,
-			"finding types connected to resources requiring version migration")
+			"finding types connected to resources requiring version migration",
+		)
 	}
 
 	return connected, nil

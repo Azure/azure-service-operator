@@ -59,7 +59,8 @@ func (r *Resolver) IndexStorageTypes(scheme *runtime.Scheme, objs []*registratio
 				gvk.Group,
 				gvk.Kind,
 				existing.Version,
-				gvk.Version)
+				gvk.Version,
+			)
 
 		}
 		r.reconciledResourceLookup[groupKind] = gvk
@@ -183,7 +184,8 @@ func (r *Resolver) ResolveReference(ctx context.Context, ref genruntime.Namespac
 				err,
 				"couldn't resolve reference %s/%s",
 				ref.Namespace,
-				ref.Name)
+				ref.Name,
+			)
 		}
 
 		return nil, eris.Wrapf(err, "couldn't resolve reference %s", ref.String())

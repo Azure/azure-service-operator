@@ -33,7 +33,8 @@ func ApplyKubernetesResourceInterface(
 					typeDef,
 					idFactory,
 					state.Definitions(),
-					log)
+					log,
+				)
 				if err != nil {
 					return nil, eris.Wrapf(err, "couldn't implement Kubernetes resource interface for %q", typeName)
 				}
@@ -42,5 +43,6 @@ func ApplyKubernetesResourceInterface(
 			}
 
 			return state.WithOverlaidDefinitions(updatedDefs), nil
-		})
+		},
+	)
 }

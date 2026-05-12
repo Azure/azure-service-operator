@@ -56,7 +56,8 @@ func FlattenResources() *Stage {
 			}
 
 			return state.WithDefinitions(results), nil
-		})
+		},
+	)
 }
 
 func flattenResource(defs astmodel.TypeDefinitionSet, t astmodel.Type, depth int) (astmodel.Type, error) {

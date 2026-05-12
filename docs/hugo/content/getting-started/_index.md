@@ -32,7 +32,7 @@ cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   0          1m
 cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
 ```
 
-(Alternatively, you can wait for cert-manager to be ready with `cmctl check api --wait=2m` - see the [cert-manager documentation](https://cert-manager.io/docs/usage/cmctl/) for more information about `cmctl`.)
+(Alternatively, you can wait for cert-manager to be ready with `cmctl check api --wait=3m` - see the [cert-manager documentation](https://cert-manager.io/docs/usage/cmctl/) for more information about `cmctl`.)
 
 ### Install the latest **v2+** Helm chart
 
