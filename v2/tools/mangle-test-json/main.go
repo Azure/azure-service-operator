@@ -37,7 +37,8 @@ func main() {
 	for _, testOutputFile := range os.Args[1:] {
 		log.Info(
 			"Parsing",
-			"file", testOutputFile)
+			"file", testOutputFile,
+		)
 		fmt.Printf("# `%s`\n\n", testOutputFile)
 
 		byPackage := loadJSON(testOutputFile, log)
@@ -60,24 +61,42 @@ func main() {
 	log.Info("Complete")
 }
 
-func min(i, j int) int {
-	if i <= j {
-		return i
-	}
-
-	return j
-}
-
 func loadJSON(
 	testOutputFile string,
 	log logr.Logger,
 ) map[string][]TestRun {
-	file, err := os.Open(testOutputFile)
+	// Get the current working directory.
+	// In use this will typically be the root of the repo,
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Error(
+			err,
+			"Unable to get current working directory",
+		)
+		return make(map[string][]TestRun)
+	}
+
+	// Restrict to working within the current directory for security
+	// We want to avoid accidentally allowing access to arbitrary files on disk
+	root, err := os.OpenRoot(cwd)
+	if err != nil {
+		log.Error(
+			err,
+			"Unable to set root directory",
+			"directory", cwd,
+		)
+		return make(map[string][]TestRun)
+	}
+	defer root.Close()
+
+	// Open the test output file within the restricted root
+	file, err := root.Open(testOutputFile)
 	if err != nil {
 		log.Error(
 			err,
 			"Unable to open file",
-			"file", testOutputFile)
+			"file", testOutputFile,
+		)
 		return make(map[string][]TestRun)
 	}
 	defer file.Close()
@@ -100,7 +119,8 @@ func loadJSON(
 			text := string(line)
 			log.Info(
 				"Unable to parse",
-				"line", text)
+				"line", text,
+			)
 
 			if text != "" && !strings.HasPrefix(text, "FAIL") {
 				// It's a parse failure we care about, write details
@@ -119,13 +139,15 @@ func loadJSON(
 		log.Error(
 			err,
 			"Error reading file",
-			"file", testOutputFile)
+			"file", testOutputFile,
+		)
 	}
 
 	if errCount > 0 {
 		log.Info(
 			"Errors parsing JSON",
-			"count", errCount)
+			"count", errCount,
+		)
 	}
 
 	// package → list of tests
@@ -217,6 +239,7 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 				for _, line := range packageLevel.Output {
 					fmt.Fprint(os.Stderr, line)
 				}
+
 				fmt.Fprintln(os.Stderr, "=== END PACKAGE OUTPUT ===")
 			}
 		}
@@ -247,11 +270,13 @@ func printDetails(packages []string, byPackage map[string][]TestRun) {
 
 			// Output info on stderr, so that test failure isn’t silent on console
 			// when running `task ci`, and that full logs are available if they get trimmed
+
 			fmt.Fprintf(os.Stderr, "- Test failed: %s\n", test.Test.Value())
 			fmt.Fprintln(os.Stderr, "=== TEST OUTPUT ===")
 			for _, outputLine := range test.Output {
 				fmt.Fprint(os.Stderr, outputLine) // note that line already has newline attached
 			}
+
 			fmt.Fprintln(os.Stderr, "=== END TEST OUTPUT ===")
 		}
 
@@ -285,7 +310,6 @@ func escapeOutput(outputs []string) (bool, string) {
 func printSlowTests(byPackage map[string][]TestRun) {
 	fmt.Printf("## Longest-running tests\n\n")
 
-	//nolint:prealloc // prealloc would require iterating over byPackage twice
 	allTests := []TestRun{}
 	for _, v := range byPackage {
 		allTests = append(allTests, v[1:]...)

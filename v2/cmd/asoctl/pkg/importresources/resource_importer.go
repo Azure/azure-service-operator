@@ -294,7 +294,8 @@ func (ri *ResourceImporter) startCollationOfResults(
 			ri.log.Info(
 				"Imported",
 				"kind", gk,
-				"name", rsrc.Name())
+				"name", rsrc.Name(),
+			)
 
 			report.AddSuccessfulImport(gk)
 			ri.imported[rsrc.ID()] = rsrc
@@ -319,7 +320,8 @@ func (ri *ResourceImporter) startCollationOfErrors(
 					"Skipped",
 					"kind", ie.gk,
 					"name", ie.name,
-					"because", skipped.Because)
+					"because", skipped.Because,
+				)
 				report.AddSkippedImport(ie.gk, skipped.Because)
 			} else {
 				ri.log.Error(ie.err,

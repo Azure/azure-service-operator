@@ -163,7 +163,8 @@ func AssertPropertyExistsWithType(
 			"Expected property %q to have type %q, but was %q",
 			expectedName,
 			astmodel.DebugDescription(expectedType),
-			astmodel.DebugDescription(property.PropertyType()))
+			astmodel.DebugDescription(property.PropertyType()),
+		)
 	}
 
 	return property

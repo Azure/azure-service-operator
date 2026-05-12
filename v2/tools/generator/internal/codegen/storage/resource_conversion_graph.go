@@ -58,13 +58,13 @@ func (graph *ResourceConversionGraph) WriteTo(writer io.Writer) error {
 	// API versions can be identified because they are only ever the start of a link (never the end)
 	// This initial list will have too many items in it, but we'll reduce it down later
 	for from := range graph.links {
-		ver := from.InternalPackageReference().ImportAlias(astmodel.VersionOnly)
+		ver := from.InternalPackageReference().ImportAlias(astmodel.GroupAndFullVersion)
 		apiVersions.Add(ver)
 	}
 
 	// Everything else is a storage version
 	for _, to := range graph.links {
-		ver := to.InternalPackageReference().ImportAlias(astmodel.VersionOnly)
+		ver := to.InternalPackageReference().ImportAlias(astmodel.GroupAndFullVersion)
 		storageVersions.Add(ver)
 		apiVersions.Remove(ver)
 	}
@@ -138,8 +138,8 @@ func (graph *ResourceConversionGraph) writeLinks(writer io.Writer, linkStarts []
 	for _, from := range linkStarts {
 		to := graph.links[from]
 
-		f := from.InternalPackageReference().ImportAlias(astmodel.VersionOnly)
-		t := to.InternalPackageReference().ImportAlias(astmodel.VersionOnly)
+		f := from.InternalPackageReference().ImportAlias(astmodel.GroupAndFullVersion)
+		t := to.InternalPackageReference().ImportAlias(astmodel.GroupAndFullVersion)
 
 		line := fmt.Sprintf("    %s -- %s", f, t)
 		lines = append(lines, line)

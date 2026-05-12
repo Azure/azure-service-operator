@@ -44,7 +44,8 @@ func NewTestFileDefinition(
 		defs,
 		func(left TypeDefinition, right TypeDefinition) int {
 			return cmp.Compare(left.Name().Name(), right.Name().Name())
-		})
+		},
+	)
 
 	// TODO: check that all definitions are from same package
 	return &TestFileDefinition{
@@ -82,7 +83,8 @@ func (file *TestFileDefinition) AsAst() (*dst.File, error) {
 	if len(errs) > 0 {
 		return nil, eris.Wrap(
 			kerrors.NewAggregate(errs),
-			"failed to generate test cases")
+			"failed to generate test cases",
+		)
 	}
 
 	var decls []dst.Decl

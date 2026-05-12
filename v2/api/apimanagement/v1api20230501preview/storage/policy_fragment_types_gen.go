@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -546,17 +546,7 @@ func (fragment *PolicyFragment_STATUS) AssignProperties_From_PolicyFragment_STAT
 	fragment.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
-	if propertyBag.Contains("ProvisioningState") {
-		var provisioningState string
-		err := propertyBag.Pull("ProvisioningState", &provisioningState)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProvisioningState' from propertyBag")
-		}
-
-		fragment.ProvisioningState = &provisioningState
-	} else {
-		fragment.ProvisioningState = nil
-	}
+	fragment.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Type
 	fragment.Type = genruntime.ClonePointerToString(source.Type)
@@ -605,11 +595,7 @@ func (fragment *PolicyFragment_STATUS) AssignProperties_To_PolicyFragment_STATUS
 	destination.Name = genruntime.ClonePointerToString(fragment.Name)
 
 	// ProvisioningState
-	if fragment.ProvisioningState != nil {
-		propertyBag.Add("ProvisioningState", *fragment.ProvisioningState)
-	} else {
-		propertyBag.Remove("ProvisioningState")
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(fragment.ProvisioningState)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(fragment.Type)

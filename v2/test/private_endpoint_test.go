@@ -44,9 +44,11 @@ func Test_Networking_PrivateEndpoint_WithoutAutoApproval_CRUD(t *testing.T) {
 			Owner:    testcommon.AsOwner(rg),
 			ManualPrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
 				{
-					Name:                        to.Ptr("testEndpoint"),
-					PrivateLinkServiceReference: tc.MakeReferenceFromResource(sa),
-					GroupIds:                    []string{"blob"},
+					Name: to.Ptr("testEndpoint"),
+					PrivateLinkServiceReference: &genruntime.WellKnownResourceReference{
+						ResourceReference: *tc.MakeReferenceFromResource(sa),
+					},
+					GroupIds: []string{"blob"},
 				},
 			},
 			Subnet: &network.Subnet_PrivateEndpoint_SubResourceEmbedded{

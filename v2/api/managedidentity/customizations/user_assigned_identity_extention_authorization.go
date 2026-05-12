@@ -34,7 +34,8 @@ func (ext *UserAssignedIdentityExtension) ExportKubernetesSecrets(
 	typedObj, ok := obj.(*v20230131s.UserAssignedIdentity)
 	if !ok {
 		return nil, fmt.Errorf(
-			"cannot run on unknown resource type %T, expected *v20230131s.UserAssignedIdentity", obj)
+			"cannot run on unknown resource type %T, expected *v20230131s.UserAssignedIdentity", obj,
+		)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if

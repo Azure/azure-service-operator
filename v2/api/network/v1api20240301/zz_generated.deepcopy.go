@@ -9270,7 +9270,7 @@ func (in *PrivateLinkServiceConnection) DeepCopyInto(out *PrivateLinkServiceConn
 	}
 	if in.PrivateLinkServiceReference != nil {
 		in, out := &in.PrivateLinkServiceReference, &out.PrivateLinkServiceReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellKnownResourceReference)
 		**out = **in
 	}
 	if in.RequestMessage != nil {
@@ -10928,7 +10928,7 @@ func (in *RadiusServer) DeepCopyInto(out *RadiusServer) {
 	}
 	if in.RadiusServerSecret != nil {
 		in, out := &in.RadiusServerSecret, &out.RadiusServerSecret
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 }
@@ -10954,11 +10954,6 @@ func (in *RadiusServer_STATUS) DeepCopyInto(out *RadiusServer_STATUS) {
 	if in.RadiusServerScore != nil {
 		in, out := &in.RadiusServerScore, &out.RadiusServerScore
 		*out = new(int)
-		**out = **in
-	}
-	if in.RadiusServerSecret != nil {
-		in, out := &in.RadiusServerSecret, &out.RadiusServerSecret
-		*out = new(string)
 		**out = **in
 	}
 }
@@ -14176,7 +14171,7 @@ func (in *VpnClientConfiguration) DeepCopyInto(out *VpnClientConfiguration) {
 	}
 	if in.RadiusServerSecret != nil {
 		in, out := &in.RadiusServerSecret, &out.RadiusServerSecret
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.RadiusServers != nil {
@@ -14261,11 +14256,6 @@ func (in *VpnClientConfiguration_STATUS) DeepCopyInto(out *VpnClientConfiguratio
 	}
 	if in.RadiusServerAddress != nil {
 		in, out := &in.RadiusServerAddress, &out.RadiusServerAddress
-		*out = new(string)
-		**out = **in
-	}
-	if in.RadiusServerSecret != nil {
-		in, out := &in.RadiusServerSecret, &out.RadiusServerSecret
 		*out = new(string)
 		**out = **in
 	}

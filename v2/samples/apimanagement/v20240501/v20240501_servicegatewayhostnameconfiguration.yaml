@@ -1,0 +1,13 @@
+apiVersion: apimanagement.azure.com/v20240501
+kind: ServiceGatewayHostnameConfiguration
+metadata:
+  name: samplegatewayhostname
+  namespace: default
+spec:
+  hostname: "api.example.com"
+  negotiateClientCertificate: false
+  http2Enabled: true
+  tls10Enabled: false
+  tls11Enabled: false
+  owner:
+    name: samplegateway

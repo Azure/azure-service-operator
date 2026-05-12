@@ -6,8 +6,9 @@
 package pipeline
 
 import (
+	"context"
+
 	"github.com/rotisserie/eris"
-	"golang.org/x/net/context"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -59,13 +60,15 @@ func InjectResourceConversionTestCases(idFactory astmodel.IdentifierFactory) *St
 			}
 
 			return state.WithOverlaidDefinitions(modifiedDefs), nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(
 		InjectPropertyAssignmentFunctionsStageID, // Need PropertyAssignmentFunctions to test
 		ImplementConvertibleInterfaceStageID,     // Need the conversions.Convertible interface to be present
 		InjectJSONSerializationTestsID,           // We reuse the generators from the JSON tests
-		InjectRapidSerializationTestsStageID)     // We reuse the generators from the rapid JSON tests
+		InjectRapidSerializationTestsStageID,     // We reuse the generators from the rapid JSON tests
+	)
 
 	return stage
 }

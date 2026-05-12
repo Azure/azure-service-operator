@@ -49,7 +49,8 @@ func RemoveStatusValidations() *Stage {
 			}
 
 			return state.WithOverlaidDefinitions(result), nil
-		})
+		},
+	)
 }
 
 func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
@@ -61,7 +62,8 @@ func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmod
 			VisitEnumType:      removeEnumValidations,
 			VisitValidatedType: removeValidatedType,
 			VisitObjectType:    removeKubebuilderRequired,
-		}.Build())
+		}.Build(),
+	)
 
 	var errs []error
 

@@ -272,8 +272,10 @@ func (schema GoJSONSchema) refTypeName() (astmodel.InternalTypeName, error) {
 	return astmodel.MakeInternalTypeName(
 		schema.makeLocalPackageReference(
 			schema.idFactory.CreateGroupName(group),
-			version),
-		schema.idFactory.CreateIdentifier(name, astmodel.Exported)), nil
+			version,
+		),
+		schema.idFactory.CreateIdentifier(name, astmodel.Exported),
+	), nil
 }
 
 func (schema GoJSONSchema) refObjectName() (string, error) {

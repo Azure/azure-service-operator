@@ -64,7 +64,8 @@ func (stage *Stage) RequiresPrerequisiteStages(prerequisites ...string) {
 			"Prerequisites of stage '%s' already set to '%s'; cannot modify to '%s'.",
 			stage.id,
 			strings.Join(stage.prerequisites, "; "),
-			strings.Join(prerequisites, "; ")))
+			strings.Join(prerequisites, "; "),
+		))
 	}
 
 	stage.prerequisites = prerequisites
@@ -88,7 +89,8 @@ func (stage *Stage) RequiresPostrequisiteStages(postrequisites ...string) {
 			"Postrequisites of stage '%s' already set to '%s'; cannot modify to '%s'.",
 			stage.id,
 			strings.Join(stage.postrequisites, "; "),
-			strings.Join(postrequisites, "; ")))
+			strings.Join(postrequisites, "; "),
+		))
 	}
 
 	stage.postrequisites = postrequisites

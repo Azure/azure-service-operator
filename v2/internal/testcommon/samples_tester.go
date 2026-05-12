@@ -69,14 +69,38 @@ var exclusions = []*regexp.Regexp{
 	// TODO: we don't support Keyvault/Keys to automate the process
 	regexp.MustCompile(`compute/.*_diskencryptionset.yaml`),
 
-	// Excluding APIM Product and Subscription as we need to pass deleteSubscription flag to delete the subscription
-	// when we delete the Product. https://github.com/Azure/azure-service-operator/issues/3408
-	regexp.MustCompile(`apimanagement/.*_api.yaml`),
-	regexp.MustCompile(`apimanagement/.*_apiversionset.yaml`),
-	regexp.MustCompile(`apimanagement/.*_product.yaml`),
-	regexp.MustCompile(`apimanagement/.*_subscription.yaml`),
-	regexp.MustCompile(`apimanagement/.*_productpolicy.yaml`),
-	regexp.MustCompile(`apimanagement/.*_productapi.yaml`),
+	// Don't test these for the old API as it doesn't support basicv2 and is much slower to allocate
+	// as well as has some other issues with these APIs that cause them to be flaky
+	regexp.MustCompile(`apimanagement/.*20220801.*_api.yaml`),
+	regexp.MustCompile(`apimanagement/.*20220801.*_apiversionset.yaml`),
+	regexp.MustCompile(`apimanagement/.*20220801.*_product.yaml`),
+	regexp.MustCompile(`apimanagement/.*20220801.*_subscription.yaml`),
+	regexp.MustCompile(`apimanagement/.*20220801.*_productpolicy.yaml`),
+	regexp.MustCompile(`apimanagement/.*20220801.*_productapi.yaml`),
+
+	// TODO: we should remove this later, but for some reason when re-recording the v1api20240501 variant
+	// I kept getting this error when creating the apimanagement_authorizationprovider
+	// "cannot create API management account cf-f22a30e54c59452994eb4a91319fd87e-asotestwqfwhe
+	// since another account is using the same apim service name asotestwqfwhe."
+	// The weird thing is the apim service (which has the name asotestwqfwhe) is created fine. I _think_
+	// this is some caching/staleness issue on the APIM side as all the other samples recorded fine and
+	// so did this one a few days ago, but in the meantime we just go with the recording we had
+	// that worked and hopefully time will resolve whatever issue was happening on the APIM side.
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_api.yaml`),
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_apiversionset.yaml`),
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_product.yaml`),
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_subscription.yaml`),
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_productpolicy.yaml`),
+	regexp.MustCompile(`apimanagement/.*v1api20240501.*_productapi.yaml`),
+
+	// Excluding APIM certificate as it requires actual certificate data
+	regexp.MustCompile(`apimanagement/.*_certificate.yaml`),
+
+	// Excluding APIM self-hosted gateway samples as they require Developer/Standard/Premium tier (not supported on V2 tiers)
+	regexp.MustCompile(`apimanagement/.*_servicegateway.yaml`),
+	regexp.MustCompile(`apimanagement/.*_servicegatewayapi.yaml`),
+	regexp.MustCompile(`apimanagement/.*_servicegatewaycertificateauthority.yaml`),
+	regexp.MustCompile(`apimanagement/.*_servicegatewayhostnameconfiguration.yaml`),
 
 	// Excluding cdn secret as it requires KV secrets
 	regexp.MustCompile(`cdn/.*_secret.yaml`),
@@ -97,6 +121,12 @@ var exclusions = []*regexp.Regexp{
 	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversadministrator.yaml`),
 }
 
+// referenceKey identifies a resource by its Kind and Name for rename tracking.
+type referenceKey struct {
+	Kind string
+	Name string
+}
+
 type SamplesTester struct {
 	noSpaceNamer      ResourceNamer
 	scheme            *runtime.Scheme
@@ -106,6 +136,7 @@ type SamplesTester struct {
 	rgName            string
 	azureSubscription string
 	azureTenant       string
+	nameRenames       map[referenceKey]string // maps (Kind, OldName) -> NewName for renamed resources
 }
 
 type SampleObject struct {
@@ -143,6 +174,9 @@ func NewSamplesTester(
 		rgName:            rgName,
 		azureSubscription: azureSubscription,
 		azureTenant:       azureTenant,
+		nameRenames: map[referenceKey]string{
+			{Kind: resolver.ResourceGroupKind, Name: defaultResourceGroup}: rgName,
+		},
 	}
 }
 
@@ -165,7 +199,11 @@ func (t *SamplesTester) LoadSamples() (*SampleObject, error) {
 					t.handleObject(sample, samples.RefsMap)
 				} else {
 					if t.useRandomName {
-						sample.SetName(t.noSpaceNamer.GenerateName(""))
+						oldName := sample.GetName()
+						kind := sample.GetObjectKind().GroupVersionKind().Kind
+						newName := t.noSpaceNamer.GenerateName("")
+						t.nameRenames[referenceKey{Kind: kind, Name: oldName}] = newName
+						sample.SetName(newName)
 					}
 
 					t.handleObject(sample, samples.SamplesMap)
@@ -339,6 +377,12 @@ func PathContains(path string, matches []string) bool {
 }
 
 func IsSampleFolderExcluded(path string) bool {
+	// Allow the cache v20250401 sample test to run while keeping all other
+	// cache sample folders excluded (linked-cache deletion issues).
+	if strings.Contains(path, "/cache/v20250401") {
+		return false
+	}
+
 	for _, exclusion := range wholeSampleExclusions {
 		if exclusion.MatchString(path) {
 			return true
@@ -370,7 +414,7 @@ func (t *SamplesTester) updateFieldsForTest(obj genruntime.ARMMetaObject) error 
 	visitor := reflecthelpers.NewReflectVisitor()
 	visitor.VisitStruct = t.visitStruct
 
-	err := visitor.Visit(obj, t.rgName)
+	err := visitor.Visit(obj, nil)
 	if err != nil {
 		return eris.Wrapf(err, "updating fields for test")
 	}
@@ -411,7 +455,7 @@ func isField(field string) func(name string) bool {
 }
 
 func (t *SamplesTester) conditionalAssignString(field reflect.Value, match string, value string) {
-	if field.Kind() == reflect.Ptr {
+	if field.Kind() == reflect.Pointer {
 		field = field.Elem()
 	}
 
@@ -425,7 +469,7 @@ func (t *SamplesTester) conditionalAssignString(field reflect.Value, match strin
 }
 
 func (t *SamplesTester) replaceString(field reflect.Value, old string, new string) {
-	if field.Kind() == reflect.Ptr {
+	if field.Kind() == reflect.Pointer {
 		field = field.Elem()
 	}
 
@@ -438,14 +482,13 @@ func (t *SamplesTester) replaceString(field reflect.Value, old string, new strin
 	field.SetString(val)
 }
 
-// visitResourceReference checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values
-func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor, it reflect.Value, ctx any) error {
+// visitResourceReference checks and sets the SubscriptionID and ResourceGroup name for ARM references to current values,
+// and updates Kubernetes-style resource references whose targets were renamed.
+func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor, it reflect.Value, _ any) error {
 	if !it.CanInterface() {
 		// This should be impossible given how the visitor works
 		panic("genruntime.ResourceReference field was unexpectedly nil")
 	}
-
-	ownersName := ctx.(string)
 
 	reference := it.Interface().(genruntime.ResourceReference)
 	if reference.ARMID != "" {
@@ -459,16 +502,17 @@ func (t *SamplesTester) visitResourceReference(_ *reflecthelpers.ReflectVisitor,
 		armIDString = subRegex.ReplaceAllString(armIDString, fmt.Sprint("/", t.azureSubscription))
 
 		armIDField.SetString(armIDString)
-	} else if reference.Kind == "ResourceGroup" && ownersName != "" { // If we're referring to a resourceGroup, it needs to be updated to refer to the random one
-		// TODO: We're making the assumption that every reference of type ResourceGroup is by definition referring
-		// TODO: to the randomly generated RG name, but it's possible at some future date we have multiple resourceGroups
-		// TODO: floating around. If that happens we may need to update this logic to be a bit more discerning.
-		nameField := it.FieldByName("Name")
-		if !nameField.CanSet() {
-			return eris.New("cannot set 'Name' field of 'genruntime.ResourceReference'")
-		}
+	} else if reference.Name != "" {
+		// Check if this reference points to a resource that was renamed
+		key := referenceKey{Kind: reference.Kind, Name: reference.Name}
+		if newName, ok := t.nameRenames[key]; ok {
+			nameField := it.FieldByName("Name")
+			if !nameField.CanSet() {
+				return eris.New("cannot set 'Name' field of 'genruntime.ResourceReference'")
+			}
 
-		nameField.SetString(ownersName)
+			nameField.SetString(newName)
+		}
 	}
 
 	return nil

@@ -112,7 +112,8 @@ func (s *SimpleRecursiveTypeFixer) unrollRecursiveReference(
 	s.log.V(2).Info(
 		"unrolling recursive reference",
 		"from", ctx.name,
-		"to", ctx.unrolledName)
+		"to", ctx.unrolledName,
+	)
 
 	return astmodel.IdentityVisitOfTypeName(this, ctx.unrolledName, ctx)
 }

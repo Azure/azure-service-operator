@@ -50,7 +50,8 @@ func Test_OwnerIsARMIDOfResourceGroup_ResourceSuccessfullyReconciled(t *testing.
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		acctARMID,
-		string(storage.APIVersion_Value))
+		string(storage.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -104,7 +105,8 @@ func Test_OwnerIsARMIDOfParent_ChildResourceSuccessfullyReconciled(t *testing.T)
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		containerARMID,
-		string(storage.APIVersion_Value))
+		string(storage.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -171,7 +173,8 @@ func Test_OwnerIsARMID_ExtensionResourceSuccessfullyReconciled(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(authorization.APIVersion_Value))
+		string(authorization.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

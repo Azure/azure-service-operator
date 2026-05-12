@@ -16,7 +16,7 @@ interactions:
     url: https://management.azure.com/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm?api-version=2021-10-01
     method: PUT
   response:
-    body: '{"id":"/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm","name":"asotest-sub-zzqblm","type":"Microsoft.Subscription/aliases","properties":{"displayName":"Subscription for ASO testing","workload":"Production","billingScope":"/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31/billingProfiles/0000-0000-000-000/invoiceSections/0000-0000-000-000","subscriptionId":"3bf4ed70-fedc-428d-8d60-327420561f01","provisioningState":"Succeeded"}}'
+    body: '{"id":"/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm","name":"asotest-sub-zzqblm","type":"Microsoft.Subscription/aliases","properties":{"displayName":"Subscription for ASO testing","workload":"Production","billingScope":"/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000:00000000-0000-0000-0000-000000000000_2019-05-31/billingProfiles/0000-0000-000-000/invoiceSections/0000-0000-000-000","subscriptionId":"00000000-0000-0000-0000-000000000000","provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -66,7 +66,7 @@ interactions:
     url: https://management.azure.com/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm","name":"asotest-sub-zzqblm","type":"Microsoft.Subscription/aliases","properties":{"subscriptionId":"3bf4ed70-fedc-428d-8d60-327420561f01","provisioningState":"Succeeded"}}'
+    body: '{"id":"/providers/Microsoft.Subscription/aliases/asotest-sub-zzqblm","name":"asotest-sub-zzqblm","type":"Microsoft.Subscription/aliases","properties":{"subscriptionId":"00000000-0000-0000-0000-000000000000","provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -117,10 +117,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246?api-version=2020-08-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246?api-version=2020-08-01-preview
     method: PUT
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635","principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","principalType":"User","scope":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","canDelegate":false,"delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246","type":"Microsoft.Authorization/roleAssignments","name":"e0823656-ed38-4d04-b949-687bdd167246"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635","principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","principalType":"User","scope":"/subscriptions/00000000-0000-0000-0000-000000000000","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","canDelegate":false,"delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246","type":"Microsoft.Authorization/roleAssignments","name":"e0823656-ed38-4d04-b949-687bdd167246"}'
     headers:
       Cache-Control:
       - no-cache
@@ -149,10 +149,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246?api-version=2020-08-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246?api-version=2020-08-01-preview
     method: GET
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635","principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","principalType":"User","scope":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","updatedBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","canDelegate":false,"delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246","type":"Microsoft.Authorization/roleAssignments","name":"e0823656-ed38-4d04-b949-687bdd167246"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635","principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","principalType":"User","scope":"/subscriptions/00000000-0000-0000-0000-000000000000","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","updatedBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","canDelegate":false,"delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246","type":"Microsoft.Authorization/roleAssignments","name":"e0823656-ed38-4d04-b949-687bdd167246"}'
     headers:
       Cache-Control:
       - no-cache
@@ -183,10 +183,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246?api-version=2020-08-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246?api-version=2020-08-01-preview
     method: GET
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635","principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","principalType":"User","scope":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","updatedBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","canDelegate":false,"delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246","type":"Microsoft.Authorization/roleAssignments","name":"e0823656-ed38-4d04-b949-687bdd167246"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635","principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","principalType":"User","scope":"/subscriptions/00000000-0000-0000-0000-000000000000","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","updatedBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","canDelegate":false,"delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246","type":"Microsoft.Authorization/roleAssignments","name":"e0823656-ed38-4d04-b949-687bdd167246"}'
     headers:
       Cache-Control:
       - no-cache
@@ -217,10 +217,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Subscription/cancel?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Subscription/cancel?api-version=2021-10-01
     method: POST
   response:
-    body: '{"subscriptionId":"3bf4ed70-fedc-428d-8d60-327420561f01"}'
+    body: '{"subscriptionId":"00000000-0000-0000-0000-000000000000"}'
     headers:
       Cache-Control:
       - no-cache
@@ -413,10 +413,10 @@ interactions:
         - application/json
       Test-Request-Attempt:
         - "0"
-    url: https://management.azure.com/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246?api-version=2020-08-01-preview
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246?api-version=2020-08-01-preview
     method: DELETE
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635","principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","principalType":"User","scope":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","canDelegate":false,"delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/3bf4ed70-fedc-428d-8d60-327420561f01/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246","type":"Microsoft.Authorization/roleAssignments","name":"e0823656-ed38-4d04-b949-687bdd167246"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635","principalId":"1605884e-16c3-4fc0-bf09-4220deecef02","principalType":"User","scope":"/subscriptions/00000000-0000-0000-0000-000000000000","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"d6564755-ad3e-4ead-b3db-66da3690b3d6","canDelegate":false,"delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleAssignments/e0823656-ed38-4d04-b949-687bdd167246","type":"Microsoft.Authorization/roleAssignments","name":"e0823656-ed38-4d04-b949-687bdd167246"}'
     headers:
       Cache-Control:
         - no-cache

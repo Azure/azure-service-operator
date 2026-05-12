@@ -56,7 +56,8 @@ func Test_PostgreSQL_Combined(t *testing.T) {
 				postgresqlutil.DefaultMaintanenceDatabase,
 				postgresqlutil.PSqlServerPort,
 				adminUsername,
-				adminPassword)
+				adminPassword,
+			)
 			if err != nil {
 				return err
 			}
@@ -100,7 +101,8 @@ func PostgreSQL_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn str
 		postgresqlutil.DefaultMaintanenceDatabase,
 		postgresqlutil.PSqlServerPort,
 		adminUsername,
-		adminPassword)
+		adminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	// Close the connection
 	tc.Expect(conn.Close()).To(Succeed())
@@ -126,7 +128,8 @@ func PostgreSQL_AdminSecret_Rollover(tc *testcommon.KubePerTestContext, fqdn str
 				postgresqlutil.DefaultMaintanenceDatabase,
 				postgresqlutil.PSqlServerPort,
 				adminUsername,
-				newAdminPassword)
+				newAdminPassword,
+			)
 			if err != nil {
 				return err
 			}
@@ -148,7 +151,8 @@ func PostgreSQL_User_Helpers(tc *testcommon.KubePerTestContext, fqdn string, adm
 		postgresqlutil.DefaultMaintanenceDatabase,
 		postgresqlutil.PSqlServerPort,
 		adminUsername,
-		adminPassword)
+		adminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	defer db.Close()
 
@@ -239,7 +243,8 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 		postgresqlutil.DefaultMaintanenceDatabase,
 		postgresqlutil.PSqlServerPort,
 		to.Value(server.Spec.AdministratorLogin),
-		adminPassword)
+		adminPassword,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	defer conn.Close()
 
@@ -271,7 +276,8 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 		postgresqlutil.DefaultMaintanenceDatabase,
 		postgresqlutil.PSqlServerPort,
 		user.Spec.AzureName,
-		password)
+		password,
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	// Close the connection
 	tc.Expect(conn.Close()).To(Succeed())
@@ -295,7 +301,8 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 				postgresqlutil.DefaultMaintanenceDatabase,
 				postgresqlutil.PSqlServerPort,
 				user.Spec.AzureName,
-				newPassword)
+				newPassword,
+			)
 			if err != nil {
 				return err
 			}
@@ -310,6 +317,8 @@ func PostgreSQL_User_CRUD(tc *testcommon.KubePerTestContext, server *postgresql.
 
 func Test_PostgreSQL_User(t *testing.T) {
 	t.Parallel()
+	t.Skip("2026-03 Taking too long to run in live mode, timing out after 30 minutes, needs investigation")
+
 	tc := globalTestContext.ForTest(t)
 	tc.AzureRegion = to.Ptr(postgresqlTestRegion)
 	rg := tc.CreateTestResourceGroupAndWait()

@@ -30,12 +30,14 @@ func TestGolden_InjectOriginalGVKFunction(t *testing.T) {
 
 	initialState, err := RunTestPipeline(
 		NewState(defs),
-		InjectOriginalVersionFunction(idFactory))
+		InjectOriginalVersionFunction(idFactory),
+	)
 	g.Expect(err).To(Succeed())
 
 	finalState, err := RunTestPipeline(
 		initialState,
-		InjectOriginalGVKFunction(idFactory))
+		InjectOriginalGVKFunction(idFactory),
+	)
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Definitions(), test.DiffWithTypes(initialState.Definitions()))

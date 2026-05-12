@@ -51,22 +51,36 @@ var _ conversion.Convertible = &FirewallPolicy{}
 
 // ConvertFrom populates our FirewallPolicy from the provided hub FirewallPolicy
 func (policy *FirewallPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FirewallPolicy)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/FirewallPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FirewallPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_FirewallPolicy(source)
+	err = policy.AssignProperties_From_FirewallPolicy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FirewallPolicy from our FirewallPolicy
 func (policy *FirewallPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FirewallPolicy)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/FirewallPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FirewallPolicy
+	err := policy.AssignProperties_To_FirewallPolicy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_FirewallPolicy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FirewallPolicy{}
@@ -87,17 +101,6 @@ func (policy *FirewallPolicy) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return policy.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FirewallPolicy{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (policy *FirewallPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FirewallPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_FirewallPolicy_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FirewallPolicy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FirewallPolicy{}
@@ -1055,159 +1058,6 @@ func (policy *FirewallPolicy_Spec) AssignProperties_To_FirewallPolicy_Spec(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPolicy_STATUS populates our FirewallPolicy_Spec from the provided source FirewallPolicy_STATUS
-func (policy *FirewallPolicy_Spec) Initialize_From_FirewallPolicy_STATUS(source *FirewallPolicy_STATUS) error {
-
-	// BasePolicy
-	if source.BasePolicy != nil {
-		var basePolicy SubResource
-		err := basePolicy.Initialize_From_SubResource_STATUS(source.BasePolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field BasePolicy")
-		}
-		policy.BasePolicy = &basePolicy
-	} else {
-		policy.BasePolicy = nil
-	}
-
-	// DnsSettings
-	if source.DnsSettings != nil {
-		var dnsSetting DnsSettings
-		err := dnsSetting.Initialize_From_DnsSettings_STATUS(source.DnsSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DnsSettings_STATUS() to populate field DnsSettings")
-		}
-		policy.DnsSettings = &dnsSetting
-	} else {
-		policy.DnsSettings = nil
-	}
-
-	// ExplicitProxy
-	if source.ExplicitProxy != nil {
-		var explicitProxy ExplicitProxy
-		err := explicitProxy.Initialize_From_ExplicitProxy_STATUS(source.ExplicitProxy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExplicitProxy_STATUS() to populate field ExplicitProxy")
-		}
-		policy.ExplicitProxy = &explicitProxy
-	} else {
-		policy.ExplicitProxy = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		policy.Identity = &identity
-	} else {
-		policy.Identity = nil
-	}
-
-	// Insights
-	if source.Insights != nil {
-		var insight FirewallPolicyInsights
-		err := insight.Initialize_From_FirewallPolicyInsights_STATUS(source.Insights)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicyInsights_STATUS() to populate field Insights")
-		}
-		policy.Insights = &insight
-	} else {
-		policy.Insights = nil
-	}
-
-	// IntrusionDetection
-	if source.IntrusionDetection != nil {
-		var intrusionDetection FirewallPolicyIntrusionDetection
-		err := intrusionDetection.Initialize_From_FirewallPolicyIntrusionDetection_STATUS(source.IntrusionDetection)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicyIntrusionDetection_STATUS() to populate field IntrusionDetection")
-		}
-		policy.IntrusionDetection = &intrusionDetection
-	} else {
-		policy.IntrusionDetection = nil
-	}
-
-	// Location
-	policy.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Sku
-	if source.Sku != nil {
-		var sku FirewallPolicySku
-		err := sku.Initialize_From_FirewallPolicySku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicySku_STATUS() to populate field Sku")
-		}
-		policy.Sku = &sku
-	} else {
-		policy.Sku = nil
-	}
-
-	// Snat
-	if source.Snat != nil {
-		var snat FirewallPolicySNAT
-		err := snat.Initialize_From_FirewallPolicySNAT_STATUS(source.Snat)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicySNAT_STATUS() to populate field Snat")
-		}
-		policy.Snat = &snat
-	} else {
-		policy.Snat = nil
-	}
-
-	// Sql
-	if source.Sql != nil {
-		var sql FirewallPolicySQL
-		err := sql.Initialize_From_FirewallPolicySQL_STATUS(source.Sql)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicySQL_STATUS() to populate field Sql")
-		}
-		policy.Sql = &sql
-	} else {
-		policy.Sql = nil
-	}
-
-	// Tags
-	policy.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// ThreatIntelMode
-	if source.ThreatIntelMode != nil {
-		threatIntelMode := genruntime.ToEnum(string(*source.ThreatIntelMode), azureFirewallThreatIntelMode_Values)
-		policy.ThreatIntelMode = &threatIntelMode
-	} else {
-		policy.ThreatIntelMode = nil
-	}
-
-	// ThreatIntelWhitelist
-	if source.ThreatIntelWhitelist != nil {
-		var threatIntelWhitelist FirewallPolicyThreatIntelWhitelist
-		err := threatIntelWhitelist.Initialize_From_FirewallPolicyThreatIntelWhitelist_STATUS(source.ThreatIntelWhitelist)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicyThreatIntelWhitelist_STATUS() to populate field ThreatIntelWhitelist")
-		}
-		policy.ThreatIntelWhitelist = &threatIntelWhitelist
-	} else {
-		policy.ThreatIntelWhitelist = nil
-	}
-
-	// TransportSecurity
-	if source.TransportSecurity != nil {
-		var transportSecurity FirewallPolicyTransportSecurity
-		err := transportSecurity.Initialize_From_FirewallPolicyTransportSecurity_STATUS(source.TransportSecurity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicyTransportSecurity_STATUS() to populate field TransportSecurity")
-		}
-		policy.TransportSecurity = &transportSecurity
-	} else {
-		policy.TransportSecurity = nil
 	}
 
 	// No error
@@ -2225,32 +2075,6 @@ func (settings *DnsSettings) AssignProperties_To_DnsSettings(destination *storag
 	return nil
 }
 
-// Initialize_From_DnsSettings_STATUS populates our DnsSettings from the provided source DnsSettings_STATUS
-func (settings *DnsSettings) Initialize_From_DnsSettings_STATUS(source *DnsSettings_STATUS) error {
-
-	// EnableProxy
-	if source.EnableProxy != nil {
-		enableProxy := *source.EnableProxy
-		settings.EnableProxy = &enableProxy
-	} else {
-		settings.EnableProxy = nil
-	}
-
-	// RequireProxyForNetworkRules
-	if source.RequireProxyForNetworkRules != nil {
-		requireProxyForNetworkRule := *source.RequireProxyForNetworkRules
-		settings.RequireProxyForNetworkRules = &requireProxyForNetworkRule
-	} else {
-		settings.RequireProxyForNetworkRules = nil
-	}
-
-	// Servers
-	settings.Servers = genruntime.CloneSliceOfString(source.Servers)
-
-	// No error
-	return nil
-}
-
 // DNS Proxy Settings in Firewall Policy.
 type DnsSettings_STATUS struct {
 	// EnableProxy: Enable DNS Proxy on Firewalls attached to the Firewall Policy.
@@ -2564,41 +2388,6 @@ func (proxy *ExplicitProxy) AssignProperties_To_ExplicitProxy(destination *stora
 	return nil
 }
 
-// Initialize_From_ExplicitProxy_STATUS populates our ExplicitProxy from the provided source ExplicitProxy_STATUS
-func (proxy *ExplicitProxy) Initialize_From_ExplicitProxy_STATUS(source *ExplicitProxy_STATUS) error {
-
-	// EnableExplicitProxy
-	if source.EnableExplicitProxy != nil {
-		enableExplicitProxy := *source.EnableExplicitProxy
-		proxy.EnableExplicitProxy = &enableExplicitProxy
-	} else {
-		proxy.EnableExplicitProxy = nil
-	}
-
-	// EnablePacFile
-	if source.EnablePacFile != nil {
-		enablePacFile := *source.EnablePacFile
-		proxy.EnablePacFile = &enablePacFile
-	} else {
-		proxy.EnablePacFile = nil
-	}
-
-	// HttpPort
-	proxy.HttpPort = genruntime.ClonePointerToInt(source.HttpPort)
-
-	// HttpsPort
-	proxy.HttpsPort = genruntime.ClonePointerToInt(source.HttpsPort)
-
-	// PacFile
-	proxy.PacFile = genruntime.ClonePointerToString(source.PacFile)
-
-	// PacFilePort
-	proxy.PacFilePort = genruntime.ClonePointerToInt(source.PacFilePort)
-
-	// No error
-	return nil
-}
-
 // Explicit Proxy Settings in Firewall Policy.
 type ExplicitProxy_STATUS struct {
 	// EnableExplicitProxy: When set to true, explicit proxy mode is enabled.
@@ -2906,36 +2695,6 @@ func (insights *FirewallPolicyInsights) AssignProperties_To_FirewallPolicyInsigh
 	return nil
 }
 
-// Initialize_From_FirewallPolicyInsights_STATUS populates our FirewallPolicyInsights from the provided source FirewallPolicyInsights_STATUS
-func (insights *FirewallPolicyInsights) Initialize_From_FirewallPolicyInsights_STATUS(source *FirewallPolicyInsights_STATUS) error {
-
-	// IsEnabled
-	if source.IsEnabled != nil {
-		isEnabled := *source.IsEnabled
-		insights.IsEnabled = &isEnabled
-	} else {
-		insights.IsEnabled = nil
-	}
-
-	// LogAnalyticsResources
-	if source.LogAnalyticsResources != nil {
-		var logAnalyticsResource FirewallPolicyLogAnalyticsResources
-		err := logAnalyticsResource.Initialize_From_FirewallPolicyLogAnalyticsResources_STATUS(source.LogAnalyticsResources)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicyLogAnalyticsResources_STATUS() to populate field LogAnalyticsResources")
-		}
-		insights.LogAnalyticsResources = &logAnalyticsResource
-	} else {
-		insights.LogAnalyticsResources = nil
-	}
-
-	// RetentionDays
-	insights.RetentionDays = genruntime.ClonePointerToInt(source.RetentionDays)
-
-	// No error
-	return nil
-}
-
 // Firewall Policy Insights.
 type FirewallPolicyInsights_STATUS struct {
 	// IsEnabled: A flag to indicate if the insights are enabled on the policy.
@@ -3227,41 +2986,6 @@ func (detection *FirewallPolicyIntrusionDetection) AssignProperties_To_FirewallP
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPolicyIntrusionDetection_STATUS populates our FirewallPolicyIntrusionDetection from the provided source FirewallPolicyIntrusionDetection_STATUS
-func (detection *FirewallPolicyIntrusionDetection) Initialize_From_FirewallPolicyIntrusionDetection_STATUS(source *FirewallPolicyIntrusionDetection_STATUS) error {
-
-	// Configuration
-	if source.Configuration != nil {
-		var configuration FirewallPolicyIntrusionDetectionConfiguration
-		err := configuration.Initialize_From_FirewallPolicyIntrusionDetectionConfiguration_STATUS(source.Configuration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicyIntrusionDetectionConfiguration_STATUS() to populate field Configuration")
-		}
-		detection.Configuration = &configuration
-	} else {
-		detection.Configuration = nil
-	}
-
-	// Mode
-	if source.Mode != nil {
-		mode := genruntime.ToEnum(string(*source.Mode), firewallPolicyIntrusionDetectionStateOptions_Values)
-		detection.Mode = &mode
-	} else {
-		detection.Mode = nil
-	}
-
-	// Profile
-	if source.Profile != nil {
-		profile := genruntime.ToEnum(string(*source.Profile), firewallPolicyIntrusionDetectionProfileOptions_Values)
-		detection.Profile = &profile
-	} else {
-		detection.Profile = nil
 	}
 
 	// No error
@@ -3593,21 +3317,6 @@ func (policySku *FirewallPolicySku) AssignProperties_To_FirewallPolicySku(destin
 	return nil
 }
 
-// Initialize_From_FirewallPolicySku_STATUS populates our FirewallPolicySku from the provided source FirewallPolicySku_STATUS
-func (policySku *FirewallPolicySku) Initialize_From_FirewallPolicySku_STATUS(source *FirewallPolicySku_STATUS) error {
-
-	// Tier
-	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), firewallPolicySku_Tier_Values)
-		policySku.Tier = &tier
-	} else {
-		policySku.Tier = nil
-	}
-
-	// No error
-	return nil
-}
-
 // SKU of Firewall policy.
 type FirewallPolicySku_STATUS struct {
 	// Tier: Tier of Firewall Policy.
@@ -3788,24 +3497,6 @@ func (snat *FirewallPolicySNAT) AssignProperties_To_FirewallPolicySNAT(destinati
 	return nil
 }
 
-// Initialize_From_FirewallPolicySNAT_STATUS populates our FirewallPolicySNAT from the provided source FirewallPolicySNAT_STATUS
-func (snat *FirewallPolicySNAT) Initialize_From_FirewallPolicySNAT_STATUS(source *FirewallPolicySNAT_STATUS) error {
-
-	// AutoLearnPrivateRanges
-	if source.AutoLearnPrivateRanges != nil {
-		autoLearnPrivateRange := genruntime.ToEnum(string(*source.AutoLearnPrivateRanges), firewallPolicySNAT_AutoLearnPrivateRanges_Values)
-		snat.AutoLearnPrivateRanges = &autoLearnPrivateRange
-	} else {
-		snat.AutoLearnPrivateRanges = nil
-	}
-
-	// PrivateRanges
-	snat.PrivateRanges = genruntime.CloneSliceOfString(source.PrivateRanges)
-
-	// No error
-	return nil
-}
-
 // The private IP addresses/IP ranges to which traffic will not be SNAT.
 type FirewallPolicySNAT_STATUS struct {
 	// AutoLearnPrivateRanges: The operation mode for automatically learning private ranges to not be SNAT
@@ -3977,21 +3668,6 @@ func (policySQL *FirewallPolicySQL) AssignProperties_To_FirewallPolicySQL(destin
 	return nil
 }
 
-// Initialize_From_FirewallPolicySQL_STATUS populates our FirewallPolicySQL from the provided source FirewallPolicySQL_STATUS
-func (policySQL *FirewallPolicySQL) Initialize_From_FirewallPolicySQL_STATUS(source *FirewallPolicySQL_STATUS) error {
-
-	// AllowSqlRedirect
-	if source.AllowSqlRedirect != nil {
-		allowSqlRedirect := *source.AllowSqlRedirect
-		policySQL.AllowSqlRedirect = &allowSqlRedirect
-	} else {
-		policySQL.AllowSqlRedirect = nil
-	}
-
-	// No error
-	return nil
-}
-
 // SQL Settings in Firewall Policy.
 type FirewallPolicySQL_STATUS struct {
 	// AllowSqlRedirect: A flag to indicate if SQL Redirect traffic filtering is enabled. Turning on the flag requires no rule
@@ -4148,19 +3824,6 @@ func (whitelist *FirewallPolicyThreatIntelWhitelist) AssignProperties_To_Firewal
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPolicyThreatIntelWhitelist_STATUS populates our FirewallPolicyThreatIntelWhitelist from the provided source FirewallPolicyThreatIntelWhitelist_STATUS
-func (whitelist *FirewallPolicyThreatIntelWhitelist) Initialize_From_FirewallPolicyThreatIntelWhitelist_STATUS(source *FirewallPolicyThreatIntelWhitelist_STATUS) error {
-
-	// Fqdns
-	whitelist.Fqdns = genruntime.CloneSliceOfString(source.Fqdns)
-
-	// IpAddresses
-	whitelist.IpAddresses = genruntime.CloneSliceOfString(source.IpAddresses)
 
 	// No error
 	return nil
@@ -4333,25 +3996,6 @@ func (security *FirewallPolicyTransportSecurity) AssignProperties_To_FirewallPol
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPolicyTransportSecurity_STATUS populates our FirewallPolicyTransportSecurity from the provided source FirewallPolicyTransportSecurity_STATUS
-func (security *FirewallPolicyTransportSecurity) Initialize_From_FirewallPolicyTransportSecurity_STATUS(source *FirewallPolicyTransportSecurity_STATUS) error {
-
-	// CertificateAuthority
-	if source.CertificateAuthority != nil {
-		var certificateAuthority FirewallPolicyCertificateAuthority
-		err := certificateAuthority.Initialize_From_FirewallPolicyCertificateAuthority_STATUS(source.CertificateAuthority)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicyCertificateAuthority_STATUS() to populate field CertificateAuthority")
-		}
-		security.CertificateAuthority = &certificateAuthority
-	} else {
-		security.CertificateAuthority = nil
 	}
 
 	// No error
@@ -4575,33 +4219,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_STATUS(source *ManagedServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -4859,19 +4476,6 @@ func (authority *FirewallPolicyCertificateAuthority) AssignProperties_To_Firewal
 	return nil
 }
 
-// Initialize_From_FirewallPolicyCertificateAuthority_STATUS populates our FirewallPolicyCertificateAuthority from the provided source FirewallPolicyCertificateAuthority_STATUS
-func (authority *FirewallPolicyCertificateAuthority) Initialize_From_FirewallPolicyCertificateAuthority_STATUS(source *FirewallPolicyCertificateAuthority_STATUS) error {
-
-	// KeyVaultSecretId
-	authority.KeyVaultSecretId = genruntime.ClonePointerToString(source.KeyVaultSecretId)
-
-	// Name
-	authority.Name = genruntime.ClonePointerToString(source.Name)
-
-	// No error
-	return nil
-}
-
 // Trusted Root certificates properties for tls.
 type FirewallPolicyCertificateAuthority_STATUS struct {
 	// KeyVaultSecretId: Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
@@ -5122,48 +4726,6 @@ func (configuration *FirewallPolicyIntrusionDetectionConfiguration) AssignProper
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPolicyIntrusionDetectionConfiguration_STATUS populates our FirewallPolicyIntrusionDetectionConfiguration from the provided source FirewallPolicyIntrusionDetectionConfiguration_STATUS
-func (configuration *FirewallPolicyIntrusionDetectionConfiguration) Initialize_From_FirewallPolicyIntrusionDetectionConfiguration_STATUS(source *FirewallPolicyIntrusionDetectionConfiguration_STATUS) error {
-
-	// BypassTrafficSettings
-	if source.BypassTrafficSettings != nil {
-		bypassTrafficSettingList := make([]FirewallPolicyIntrusionDetectionBypassTrafficSpecifications, len(source.BypassTrafficSettings))
-		for bypassTrafficSettingIndex, bypassTrafficSettingItem := range source.BypassTrafficSettings {
-			var bypassTrafficSetting FirewallPolicyIntrusionDetectionBypassTrafficSpecifications
-			err := bypassTrafficSetting.Initialize_From_FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS(&bypassTrafficSettingItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS() to populate field BypassTrafficSettings")
-			}
-			bypassTrafficSettingList[bypassTrafficSettingIndex] = bypassTrafficSetting
-		}
-		configuration.BypassTrafficSettings = bypassTrafficSettingList
-	} else {
-		configuration.BypassTrafficSettings = nil
-	}
-
-	// PrivateRanges
-	configuration.PrivateRanges = genruntime.CloneSliceOfString(source.PrivateRanges)
-
-	// SignatureOverrides
-	if source.SignatureOverrides != nil {
-		signatureOverrideList := make([]FirewallPolicyIntrusionDetectionSignatureSpecification, len(source.SignatureOverrides))
-		for signatureOverrideIndex, signatureOverrideItem := range source.SignatureOverrides {
-			var signatureOverride FirewallPolicyIntrusionDetectionSignatureSpecification
-			err := signatureOverride.Initialize_From_FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS(&signatureOverrideItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS() to populate field SignatureOverrides")
-			}
-			signatureOverrideList[signatureOverrideIndex] = signatureOverride
-		}
-		configuration.SignatureOverrides = signatureOverrideList
-	} else {
-		configuration.SignatureOverrides = nil
 	}
 
 	// No error
@@ -5539,41 +5101,6 @@ func (resources *FirewallPolicyLogAnalyticsResources) AssignProperties_To_Firewa
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPolicyLogAnalyticsResources_STATUS populates our FirewallPolicyLogAnalyticsResources from the provided source FirewallPolicyLogAnalyticsResources_STATUS
-func (resources *FirewallPolicyLogAnalyticsResources) Initialize_From_FirewallPolicyLogAnalyticsResources_STATUS(source *FirewallPolicyLogAnalyticsResources_STATUS) error {
-
-	// DefaultWorkspaceId
-	if source.DefaultWorkspaceId != nil {
-		var defaultWorkspaceId SubResource
-		err := defaultWorkspaceId.Initialize_From_SubResource_STATUS(source.DefaultWorkspaceId)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field DefaultWorkspaceId")
-		}
-		resources.DefaultWorkspaceId = &defaultWorkspaceId
-	} else {
-		resources.DefaultWorkspaceId = nil
-	}
-
-	// Workspaces
-	if source.Workspaces != nil {
-		workspaceList := make([]FirewallPolicyLogAnalyticsWorkspace, len(source.Workspaces))
-		for workspaceIndex, workspaceItem := range source.Workspaces {
-			var workspace FirewallPolicyLogAnalyticsWorkspace
-			err := workspace.Initialize_From_FirewallPolicyLogAnalyticsWorkspace_STATUS(&workspaceItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_FirewallPolicyLogAnalyticsWorkspace_STATUS() to populate field Workspaces")
-			}
-			workspaceList[workspaceIndex] = workspace
-		}
-		resources.Workspaces = workspaceList
-	} else {
-		resources.Workspaces = nil
 	}
 
 	// No error
@@ -6133,42 +5660,6 @@ func (specifications *FirewallPolicyIntrusionDetectionBypassTrafficSpecification
 	return nil
 }
 
-// Initialize_From_FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS populates our FirewallPolicyIntrusionDetectionBypassTrafficSpecifications from the provided source FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS
-func (specifications *FirewallPolicyIntrusionDetectionBypassTrafficSpecifications) Initialize_From_FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS(source *FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS) error {
-
-	// Description
-	specifications.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DestinationAddresses
-	specifications.DestinationAddresses = genruntime.CloneSliceOfString(source.DestinationAddresses)
-
-	// DestinationIpGroups
-	specifications.DestinationIpGroups = genruntime.CloneSliceOfString(source.DestinationIpGroups)
-
-	// DestinationPorts
-	specifications.DestinationPorts = genruntime.CloneSliceOfString(source.DestinationPorts)
-
-	// Name
-	specifications.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Protocol
-	if source.Protocol != nil {
-		protocol := genruntime.ToEnum(string(*source.Protocol), firewallPolicyIntrusionDetectionBypassTrafficProtocol_Values)
-		specifications.Protocol = &protocol
-	} else {
-		specifications.Protocol = nil
-	}
-
-	// SourceAddresses
-	specifications.SourceAddresses = genruntime.CloneSliceOfString(source.SourceAddresses)
-
-	// SourceIpGroups
-	specifications.SourceIpGroups = genruntime.CloneSliceOfString(source.SourceIpGroups)
-
-	// No error
-	return nil
-}
-
 // Intrusion detection bypass traffic specification.
 type FirewallPolicyIntrusionDetectionBypassTrafficSpecifications_STATUS struct {
 	// Description: Description of the bypass traffic rule.
@@ -6451,24 +5942,6 @@ func (specification *FirewallPolicyIntrusionDetectionSignatureSpecification) Ass
 	return nil
 }
 
-// Initialize_From_FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS populates our FirewallPolicyIntrusionDetectionSignatureSpecification from the provided source FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS
-func (specification *FirewallPolicyIntrusionDetectionSignatureSpecification) Initialize_From_FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS(source *FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS) error {
-
-	// Id
-	specification.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Mode
-	if source.Mode != nil {
-		mode := genruntime.ToEnum(string(*source.Mode), firewallPolicyIntrusionDetectionStateOptions_Values)
-		specification.Mode = &mode
-	} else {
-		specification.Mode = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Intrusion detection signatures specification states.
 type FirewallPolicyIntrusionDetectionSignatureSpecification_STATUS struct {
 	// Id: Signature id.
@@ -6672,28 +6145,6 @@ func (workspace *FirewallPolicyLogAnalyticsWorkspace) AssignProperties_To_Firewa
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPolicyLogAnalyticsWorkspace_STATUS populates our FirewallPolicyLogAnalyticsWorkspace from the provided source FirewallPolicyLogAnalyticsWorkspace_STATUS
-func (workspace *FirewallPolicyLogAnalyticsWorkspace) Initialize_From_FirewallPolicyLogAnalyticsWorkspace_STATUS(source *FirewallPolicyLogAnalyticsWorkspace_STATUS) error {
-
-	// Region
-	workspace.Region = genruntime.ClonePointerToString(source.Region)
-
-	// WorkspaceId
-	if source.WorkspaceId != nil {
-		var workspaceId SubResource
-		err := workspaceId.Initialize_From_SubResource_STATUS(source.WorkspaceId)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field WorkspaceId")
-		}
-		workspace.WorkspaceId = &workspaceId
-	} else {
-		workspace.WorkspaceId = nil
 	}
 
 	// No error

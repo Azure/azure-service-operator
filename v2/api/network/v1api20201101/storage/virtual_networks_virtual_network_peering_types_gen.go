@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
@@ -53,22 +52,36 @@ var _ conversion.Convertible = &VirtualNetworksVirtualNetworkPeering{}
 
 // ConvertFrom populates our VirtualNetworksVirtualNetworkPeering from the provided hub VirtualNetworksVirtualNetworkPeering
 func (peering *VirtualNetworksVirtualNetworkPeering) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20240301s.VirtualNetworksVirtualNetworkPeering)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/VirtualNetworksVirtualNetworkPeering but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20240301s.VirtualNetworksVirtualNetworkPeering
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return peering.AssignProperties_From_VirtualNetworksVirtualNetworkPeering(source)
+	err = peering.AssignProperties_From_VirtualNetworksVirtualNetworkPeering(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to peering")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualNetworksVirtualNetworkPeering from our VirtualNetworksVirtualNetworkPeering
 func (peering *VirtualNetworksVirtualNetworkPeering) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20240301s.VirtualNetworksVirtualNetworkPeering)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/VirtualNetworksVirtualNetworkPeering but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20240301s.VirtualNetworksVirtualNetworkPeering
+	err := peering.AssignProperties_To_VirtualNetworksVirtualNetworkPeering(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from peering")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return peering.AssignProperties_To_VirtualNetworksVirtualNetworkPeering(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &VirtualNetworksVirtualNetworkPeering{}

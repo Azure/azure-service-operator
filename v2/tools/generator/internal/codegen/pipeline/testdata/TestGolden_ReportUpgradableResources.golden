@@ -1,0 +1,28 @@
+# Upgradable Resources
+
+The following resources have newer versions available in the Azure REST API specifications. Resources with a 💡 have a recommended or overdue update.
+
+## batch
+
+|      | Resource     | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|--------------|------------------|------------------|-------------------|-------------------|
+| 💡    | BatchAccount | **2021-06-01**   | 2021-01-01       | -                 | -                 |
+
+## compute
+
+|      | Resource       | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|----------------|------------------|------------------|-------------------|-------------------|
+| 💡    | VirtualMachine | **2021-03-01**   | 2020-09-01       | -                 | -                 |
+
+## containerservice
+
+|      | Resource       | Available Stable | Supported Stable | Available Preview      | Supported Preview  |
+|------|----------------|------------------|------------------|------------------------|--------------------|
+| 💡    | ManagedCluster | -                | -                | **2022-09-01-preview** | 2022-01-01-preview |
+
+## storage
+
+|      | Resource       | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|----------------|------------------|------------------|-------------------|-------------------|
+| 💡    | StorageAccount | **2023-06-01**   | 2020-01-01       | -                 | -                 |
+

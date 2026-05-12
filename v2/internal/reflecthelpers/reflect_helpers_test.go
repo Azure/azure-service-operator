@@ -101,6 +101,9 @@ type ResourceWithReferencesSpec struct {
 	PropertyWithTag           *string                        `optionalConfigMapPair:"PropertyWithTag" json:"propertyWithTag"`
 	PropertyWithTagFromConfig *genruntime.ConfigMapReference `optionalConfigMapPair:"PropertyWithTag" json:"propertyWithTagFromConfig"`
 
+	SecretProperty           *string                     `optionalSecretPair:"SecretProperty" json:"secretProperty,omitempty"`
+	SecretPropertyFromSecret *genruntime.SecretReference `optionalSecretPair:"SecretProperty" json:"secretPropertyFromSecret,omitempty"`
+
 	Location string `json:"location,omitempty"`
 }
 
@@ -254,7 +257,7 @@ func Test_FindPropertiesWithTag(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	// This is the number of properties and child properties on this object. It's fragile to structural changes
 	// in the object so may need to be changed in the future
-	g.Expect(results).To(HaveLen(24))
+	g.Expect(results).To(HaveLen(26))
 }
 
 func Test_FindOptionalConfigMapReferences(t *testing.T) {
@@ -300,6 +303,106 @@ func Test_FindOptionalConfigMapReferences(t *testing.T) {
 	g.Expect(results[0].Value).To(Equal(to.Ptr("hello")))
 	g.Expect(results[0].RefName).To(Equal("Spec.PropertyWithTagFromConfig"))
 	g.Expect(results[0].Ref).To(Equal((*genruntime.ConfigMapReference)(nil)))
+}
+
+func Test_FindOptionalSecretReferences_OnlyStringSet(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	res := ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName:      "azureName",
+			SecretProperty: to.Ptr("myvalue"),
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-group",
+			Namespace: "test-namespace",
+		},
+	}
+
+	results, err := reflecthelpers.FindOptionalSecretReferences(res)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(results).To(HaveLen(1))
+	g.Expect(results[0].Name).To(Equal("Spec.SecretProperty"))
+	g.Expect(results[0].Value).To(Equal(to.Ptr("myvalue")))
+	g.Expect(results[0].RefName).To(Equal("Spec.SecretPropertyFromSecret"))
+	g.Expect(results[0].Ref).To(BeNil())
+}
+
+func Test_FindOptionalSecretReferences_OnlyRefSet(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	secretRef := &genruntime.SecretReference{Name: "mysecret", Key: "mykey"}
+
+	res := ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName:                "azureName",
+			SecretPropertyFromSecret: secretRef,
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-group",
+			Namespace: "test-namespace",
+		},
+	}
+
+	results, err := reflecthelpers.FindOptionalSecretReferences(res)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(results).To(HaveLen(1))
+	g.Expect(results[0].Name).To(Equal("Spec.SecretProperty"))
+	g.Expect(results[0].Value).To(BeNil())
+	g.Expect(results[0].RefName).To(Equal("Spec.SecretPropertyFromSecret"))
+	g.Expect(results[0].Ref).To(Equal(secretRef))
+}
+
+func Test_FindOptionalSecretReferences_BothSet(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	secretRef := &genruntime.SecretReference{Name: "mysecret", Key: "mykey"}
+
+	res := ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName:                "azureName",
+			SecretProperty:           to.Ptr("myvalue"),
+			SecretPropertyFromSecret: secretRef,
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-group",
+			Namespace: "test-namespace",
+		},
+	}
+
+	results, err := reflecthelpers.FindOptionalSecretReferences(res)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(results).To(HaveLen(1))
+	g.Expect(results[0].Name).To(Equal("Spec.SecretProperty"))
+	g.Expect(results[0].Value).To(Equal(to.Ptr("myvalue")))
+	g.Expect(results[0].RefName).To(Equal("Spec.SecretPropertyFromSecret"))
+	g.Expect(results[0].Ref).To(Equal(secretRef))
+}
+
+func Test_FindOptionalSecretReferences_NeitherSet(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	res := ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName: "azureName",
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-group",
+			Namespace: "test-namespace",
+		},
+	}
+
+	results, err := reflecthelpers.FindOptionalSecretReferences(res)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(results).To(HaveLen(1))
+	g.Expect(results[0].Name).To(Equal("Spec.SecretProperty"))
+	g.Expect(results[0].Value).To(BeNil())
+	g.Expect(results[0].RefName).To(Equal("Spec.SecretPropertyFromSecret"))
+	g.Expect(results[0].Ref).To(BeNil())
 }
 
 // defaultResourceReferencesName exists to showcase an example where ReflectVisitor is used to modify the object in question

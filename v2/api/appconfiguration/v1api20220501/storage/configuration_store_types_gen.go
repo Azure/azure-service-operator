@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20220501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ConfigurationStore{}
 
 // ConvertFrom populates our ConfigurationStore from the provided hub ConfigurationStore
 func (store *ConfigurationStore) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ConfigurationStore)
-	if !ok {
-		return fmt.Errorf("expected appconfiguration/v20240601/storage/ConfigurationStore but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ConfigurationStore
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return store.AssignProperties_From_ConfigurationStore(source)
+	err = store.AssignProperties_From_ConfigurationStore(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to store")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ConfigurationStore from our ConfigurationStore
 func (store *ConfigurationStore) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ConfigurationStore)
-	if !ok {
-		return fmt.Errorf("expected appconfiguration/v20240601/storage/ConfigurationStore but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ConfigurationStore
+	err := store.AssignProperties_To_ConfigurationStore(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from store")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return store.AssignProperties_To_ConfigurationStore(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ConfigurationStore{}
@@ -352,20 +365,6 @@ func (store *ConfigurationStore_Spec) AssignProperties_From_ConfigurationStore_S
 	// CreateMode
 	store.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
 
-	// DataPlaneProxy
-	if source.DataPlaneProxy != nil {
-		propertyBag.Add("DataPlaneProxy", *source.DataPlaneProxy)
-	} else {
-		propertyBag.Remove("DataPlaneProxy")
-	}
-
-	// DefaultKeyValueRevisionRetentionPeriodInSeconds
-	if source.DefaultKeyValueRevisionRetentionPeriodInSeconds != nil {
-		propertyBag.Add("DefaultKeyValueRevisionRetentionPeriodInSeconds", *source.DefaultKeyValueRevisionRetentionPeriodInSeconds)
-	} else {
-		propertyBag.Remove("DefaultKeyValueRevisionRetentionPeriodInSeconds")
-	}
-
 	// DisableLocalAuth
 	if source.DisableLocalAuth != nil {
 		disableLocalAuth := *source.DisableLocalAuth
@@ -483,32 +482,6 @@ func (store *ConfigurationStore_Spec) AssignProperties_To_ConfigurationStore_Spe
 
 	// CreateMode
 	destination.CreateMode = genruntime.ClonePointerToString(store.CreateMode)
-
-	// DataPlaneProxy
-	if propertyBag.Contains("DataPlaneProxy") {
-		var dataPlaneProxy storage.DataPlaneProxyProperties
-		err := propertyBag.Pull("DataPlaneProxy", &dataPlaneProxy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DataPlaneProxy' from propertyBag")
-		}
-
-		destination.DataPlaneProxy = &dataPlaneProxy
-	} else {
-		destination.DataPlaneProxy = nil
-	}
-
-	// DefaultKeyValueRevisionRetentionPeriodInSeconds
-	if propertyBag.Contains("DefaultKeyValueRevisionRetentionPeriodInSeconds") {
-		var defaultKeyValueRevisionRetentionPeriodInSecond int
-		err := propertyBag.Pull("DefaultKeyValueRevisionRetentionPeriodInSeconds", &defaultKeyValueRevisionRetentionPeriodInSecond)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DefaultKeyValueRevisionRetentionPeriodInSeconds' from propertyBag")
-		}
-
-		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = &defaultKeyValueRevisionRetentionPeriodInSecond
-	} else {
-		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = nil
-	}
 
 	// DisableLocalAuth
 	if store.DisableLocalAuth != nil {
@@ -707,20 +680,6 @@ func (store *ConfigurationStore_STATUS) AssignProperties_From_ConfigurationStore
 	// CreationDate
 	store.CreationDate = genruntime.ClonePointerToString(source.CreationDate)
 
-	// DataPlaneProxy
-	if source.DataPlaneProxy != nil {
-		propertyBag.Add("DataPlaneProxy", *source.DataPlaneProxy)
-	} else {
-		propertyBag.Remove("DataPlaneProxy")
-	}
-
-	// DefaultKeyValueRevisionRetentionPeriodInSeconds
-	if source.DefaultKeyValueRevisionRetentionPeriodInSeconds != nil {
-		propertyBag.Add("DefaultKeyValueRevisionRetentionPeriodInSeconds", *source.DefaultKeyValueRevisionRetentionPeriodInSeconds)
-	} else {
-		propertyBag.Remove("DefaultKeyValueRevisionRetentionPeriodInSeconds")
-	}
-
 	// DisableLocalAuth
 	if source.DisableLocalAuth != nil {
 		disableLocalAuth := *source.DisableLocalAuth
@@ -861,32 +820,6 @@ func (store *ConfigurationStore_STATUS) AssignProperties_To_ConfigurationStore_S
 
 	// CreationDate
 	destination.CreationDate = genruntime.ClonePointerToString(store.CreationDate)
-
-	// DataPlaneProxy
-	if propertyBag.Contains("DataPlaneProxy") {
-		var dataPlaneProxy storage.DataPlaneProxyProperties_STATUS
-		err := propertyBag.Pull("DataPlaneProxy", &dataPlaneProxy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DataPlaneProxy' from propertyBag")
-		}
-
-		destination.DataPlaneProxy = &dataPlaneProxy
-	} else {
-		destination.DataPlaneProxy = nil
-	}
-
-	// DefaultKeyValueRevisionRetentionPeriodInSeconds
-	if propertyBag.Contains("DefaultKeyValueRevisionRetentionPeriodInSeconds") {
-		var defaultKeyValueRevisionRetentionPeriodInSecond int
-		err := propertyBag.Pull("DefaultKeyValueRevisionRetentionPeriodInSeconds", &defaultKeyValueRevisionRetentionPeriodInSecond)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DefaultKeyValueRevisionRetentionPeriodInSeconds' from propertyBag")
-		}
-
-		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = &defaultKeyValueRevisionRetentionPeriodInSecond
-	} else {
-		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = nil
-	}
 
 	// DisableLocalAuth
 	if store.DisableLocalAuth != nil {
@@ -1349,41 +1282,6 @@ func (reference *PrivateEndpointConnectionReference_STATUS) AssignProperties_Fro
 	// Id
 	reference.Id = genruntime.ClonePointerToString(source.Id)
 
-	// Name
-	if source.Name != nil {
-		propertyBag.Add("Name", *source.Name)
-	} else {
-		propertyBag.Remove("Name")
-	}
-
-	// PrivateEndpoint
-	if source.PrivateEndpoint != nil {
-		propertyBag.Add("PrivateEndpoint", *source.PrivateEndpoint)
-	} else {
-		propertyBag.Remove("PrivateEndpoint")
-	}
-
-	// PrivateLinkServiceConnectionState
-	if source.PrivateLinkServiceConnectionState != nil {
-		propertyBag.Add("PrivateLinkServiceConnectionState", *source.PrivateLinkServiceConnectionState)
-	} else {
-		propertyBag.Remove("PrivateLinkServiceConnectionState")
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		propertyBag.Add("ProvisioningState", *source.ProvisioningState)
-	} else {
-		propertyBag.Remove("ProvisioningState")
-	}
-
-	// Type
-	if source.Type != nil {
-		propertyBag.Add("Type", *source.Type)
-	} else {
-		propertyBag.Remove("Type")
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		reference.PropertyBag = propertyBag
@@ -1411,71 +1309,6 @@ func (reference *PrivateEndpointConnectionReference_STATUS) AssignProperties_To_
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(reference.Id)
-
-	// Name
-	if propertyBag.Contains("Name") {
-		var name string
-		err := propertyBag.Pull("Name", &name)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Name' from propertyBag")
-		}
-
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// PrivateEndpoint
-	if propertyBag.Contains("PrivateEndpoint") {
-		var privateEndpoint storage.PrivateEndpoint_STATUS
-		err := propertyBag.Pull("PrivateEndpoint", &privateEndpoint)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrivateEndpoint' from propertyBag")
-		}
-
-		destination.PrivateEndpoint = &privateEndpoint
-	} else {
-		destination.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if propertyBag.Contains("PrivateLinkServiceConnectionState") {
-		var privateLinkServiceConnectionState storage.PrivateLinkServiceConnectionState_STATUS
-		err := propertyBag.Pull("PrivateLinkServiceConnectionState", &privateLinkServiceConnectionState)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrivateLinkServiceConnectionState' from propertyBag")
-		}
-
-		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		destination.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	if propertyBag.Contains("ProvisioningState") {
-		var provisioningState string
-		err := propertyBag.Pull("ProvisioningState", &provisioningState)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProvisioningState' from propertyBag")
-		}
-
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// Type
-	if propertyBag.Contains("Type") {
-		var typeVar string
-		err := propertyBag.Pull("Type", &typeVar)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Type' from propertyBag")
-		}
-
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

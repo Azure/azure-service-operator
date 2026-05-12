@@ -127,7 +127,8 @@ func TestReconcileCRDs(t *testing.T) {
 				types.NamespacedName{
 					Name: "managedclusters.containerservice.azure.com",
 				},
-				crd)).To(Succeed())
+				crd,
+			)).To(Succeed())
 
 			if tt.expectDeprecated {
 				g.Expect(crd.Status.StoredVersions).ToNot(ContainElement("v1api20240901storage"))
@@ -196,6 +197,7 @@ func testSetup(t *testing.T) *testData {
 
 	crdManager := crdmanagement.NewManager(logger, kubeClient, nil)
 	crdPath := "../../../../out/crds"
+	g.Expect(testcommon.CheckBundledCRDsDirectory(crdPath)).To(Succeed())
 	namespace := "azureserviceoperator-system"
 
 	testData := &testData{
@@ -206,7 +208,7 @@ func testSetup(t *testing.T) *testData {
 		crdManager: crdManager,
 	}
 
-	goalCRDs, err := crdManager.LoadOperatorCRDs(crdPath, namespace)
+	goalCRDs, err := crdManager.LoadOperatorCRDs(crdPath, namespace, crdManager.BuildCRDFileFilter("*", nil))
 	g.Expect(err).ToNot(HaveOccurred())
 
 	for _, crd := range goalCRDs {

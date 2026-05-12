@@ -93,7 +93,8 @@ func Test_MissingSecretKey_ReturnsError(t *testing.T) {
 	// We expect the ready condition to include details of the error
 	tc.Expect(vm.Status.Conditions[0].Reason).To(Equal(conditions.ReasonSecretNotFound.Name))
 	tc.Expect(vm.Status.Conditions[0].Message).To(
-		ContainSubstring("Secret \"%s/%s\" does not contain key \"%s\"", tc.Namespace, secret.Name, secret.Key))
+		ContainSubstring("Secret \"%s/%s\" does not contain key \"%s\"", tc.Namespace, secret.Name, secret.Key),
+	)
 
 	// Delete VM and resources.
 	tc.DeleteResourceAndWait(rg)

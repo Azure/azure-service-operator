@@ -2221,16 +2221,14 @@ VirtualNetworkGateway_STATUS: Object (9 properties)
 │   │       │   └── "Updating"
 │   │       └── VngClientConnectionConfigurations: Object (1 property)[]
 │   │           └── Id: *string
-│   ├── VpnClientConfiguration: *Object (13 properties)
+│   ├── VpnClientConfiguration: *Object (12 properties)
 │   │   ├── AadAudience: *string
 │   │   ├── AadIssuer: *string
 │   │   ├── AadTenant: *string
 │   │   ├── RadiusServerAddress: *string
-│   │   ├── RadiusServerSecret: *string
-│   │   ├── RadiusServers: Object (3 properties)[]
+│   │   ├── RadiusServers: Object (2 properties)[]
 │   │   │   ├── RadiusServerAddress: *string
-│   │   │   ├── RadiusServerScore: *int
-│   │   │   └── RadiusServerSecret: *string
+│   │   │   └── RadiusServerScore: *int
 │   │   ├── VngClientConnectionConfigurations: Object (1 property)[]
 │   │   │   └── Id: *string
 │   │   ├── VpnAuthenticationTypes: Enum (3 values)[]

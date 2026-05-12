@@ -114,7 +114,8 @@ func Test_ReconcilePolicy_SkipsDelete(t *testing.T) {
 				deleteSkippedOptions{
 					policy:      tc.policy,
 					onNamespace: tc.onNamespace,
-				})
+				},
+			)
 		})
 	}
 }
@@ -198,7 +199,8 @@ func Test_ReconcilePolicy_SkippedParentDeleted_ChildIssuesDeleteToAzure(t *testi
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		resourceId,
-		string(storage.APIVersion_Value))
+		string(storage.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -324,7 +326,8 @@ func testDeleteSkipped(t *testing.T, opts deleteSkippedOptions) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		"2020-06-01")
+		"2020-06-01",
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
 
@@ -354,7 +357,8 @@ func testDeleteSkipped(t *testing.T, opts deleteSkippedOptions) {
 	exists, _, err = tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		"2020-06-01")
+		"2020-06-01",
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

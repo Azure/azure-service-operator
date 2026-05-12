@@ -57,7 +57,8 @@ func Test_PropertyRemover_GivenDefinition_RemovesExpectedProperty(t *testing.T) 
 			// Arrange
 			def := MakeTypeDefinition(
 				MakeInternalTypeName(ref, "TestDef"),
-				c.theType)
+				c.theType,
+			)
 
 			// Act
 			newDef, err := remover.Remove(def, c.propName)

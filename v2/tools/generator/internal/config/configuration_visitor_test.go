@@ -26,7 +26,8 @@ func TestConfigurationVisitor_WhenVisitingASpecificVersion_VisitsExpectedVersion
 		func(configuration *VersionConfiguration) error {
 			seen.Add(configuration.name)
 			return nil
-		})
+		},
+	)
 
 	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(1))
@@ -43,7 +44,8 @@ func TestConfigurationVisitor_WhenVisitingEveryType_VisitsExpectedTypes(t *testi
 		func(configuration *TypeConfiguration) error {
 			seen.Add(configuration.name)
 			return nil
-		})
+		},
+	)
 
 	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(2))
@@ -63,7 +65,8 @@ func TestConfigurationVisitor_WhenVisitingASpecificType_VisitsExpectedType(t *te
 		func(configuration *TypeConfiguration) error {
 			seen.Add(configuration.name)
 			return nil
-		})
+		},
+	)
 
 	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(1))
@@ -80,7 +83,8 @@ func TestConfigurationVisitor_WhenVisitingEveryProperty_VisitsExpectedProperties
 		func(configuration *PropertyConfiguration) error {
 			seen.Add(configuration.name)
 			return nil
-		})
+		},
+	)
 
 	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(5))
@@ -104,7 +108,8 @@ func TestConfigurationVisitor_WhenVisitingASpecificProperty_VisitsExpectedProper
 		func(configuration *PropertyConfiguration) error {
 			seen.Add(configuration.name)
 			return nil
-		})
+		},
+	)
 
 	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(1))
@@ -121,7 +126,8 @@ func TestConfigurationVisitor_WhenVisitingAllGroups_VisitsExpectedGroups(t *test
 		func(configuration *GroupConfiguration) error {
 			seen.Add(configuration.name)
 			return nil
-		})
+		},
+	)
 
 	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(2))
@@ -139,7 +145,8 @@ func TestConfigurationVisitor_WhenVisitingAllVersions_VisitsExpectedVersions(t *
 		func(configuration *VersionConfiguration) error {
 			seen.Add(configuration.name)
 			return nil
-		})
+		},
+	)
 
 	g.Expect(visitor.visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(4))
@@ -181,10 +188,12 @@ func createTestObjectModelConfigurationForVisitor(t *testing.T) *ObjectModelConf
 	group2 := NewGroupConfiguration("OtherGroup")
 	g.Expect(group2.addVersion(
 		"v1",
-		NewVersionConfiguration("v1"))).To(Succeed())
+		NewVersionConfiguration("v1"),
+	)).To(Succeed())
 	g.Expect(group2.addVersion(
 		"v2",
-		NewVersionConfiguration("v2"))).To(Succeed())
+		NewVersionConfiguration("v2"),
+	)).To(Succeed())
 
 	modelConfig := NewObjectModelConfiguration()
 	g.Expect(modelConfig.addGroup(group.name, group)).To(Succeed())

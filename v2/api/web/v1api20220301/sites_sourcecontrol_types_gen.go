@@ -51,22 +51,36 @@ var _ conversion.Convertible = &SitesSourcecontrol{}
 
 // ConvertFrom populates our SitesSourcecontrol from the provided hub SitesSourcecontrol
 func (sourcecontrol *SitesSourcecontrol) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SitesSourcecontrol)
-	if !ok {
-		return fmt.Errorf("expected web/v1api20220301/storage/SitesSourcecontrol but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SitesSourcecontrol
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return sourcecontrol.AssignProperties_From_SitesSourcecontrol(source)
+	err = sourcecontrol.AssignProperties_From_SitesSourcecontrol(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to sourcecontrol")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SitesSourcecontrol from our SitesSourcecontrol
 func (sourcecontrol *SitesSourcecontrol) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SitesSourcecontrol)
-	if !ok {
-		return fmt.Errorf("expected web/v1api20220301/storage/SitesSourcecontrol but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SitesSourcecontrol
+	err := sourcecontrol.AssignProperties_To_SitesSourcecontrol(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from sourcecontrol")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return sourcecontrol.AssignProperties_To_SitesSourcecontrol(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &SitesSourcecontrol{}
@@ -87,17 +101,6 @@ func (sourcecontrol *SitesSourcecontrol) SecretDestinationExpressions() []*core.
 		return nil
 	}
 	return sourcecontrol.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &SitesSourcecontrol{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (sourcecontrol *SitesSourcecontrol) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*SitesSourcecontrol_STATUS); ok {
-		return sourcecontrol.Spec.Initialize_From_SitesSourcecontrol_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type SitesSourcecontrol_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &SitesSourcecontrol{}
@@ -661,66 +664,6 @@ func (sourcecontrol *SitesSourcecontrol_Spec) AssignProperties_To_SitesSourcecon
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SitesSourcecontrol_STATUS populates our SitesSourcecontrol_Spec from the provided source SitesSourcecontrol_STATUS
-func (sourcecontrol *SitesSourcecontrol_Spec) Initialize_From_SitesSourcecontrol_STATUS(source *SitesSourcecontrol_STATUS) error {
-
-	// Branch
-	sourcecontrol.Branch = genruntime.ClonePointerToString(source.Branch)
-
-	// DeploymentRollbackEnabled
-	if source.DeploymentRollbackEnabled != nil {
-		deploymentRollbackEnabled := *source.DeploymentRollbackEnabled
-		sourcecontrol.DeploymentRollbackEnabled = &deploymentRollbackEnabled
-	} else {
-		sourcecontrol.DeploymentRollbackEnabled = nil
-	}
-
-	// GitHubActionConfiguration
-	if source.GitHubActionConfiguration != nil {
-		var gitHubActionConfiguration GitHubActionConfiguration
-		err := gitHubActionConfiguration.Initialize_From_GitHubActionConfiguration_STATUS(source.GitHubActionConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_GitHubActionConfiguration_STATUS() to populate field GitHubActionConfiguration")
-		}
-		sourcecontrol.GitHubActionConfiguration = &gitHubActionConfiguration
-	} else {
-		sourcecontrol.GitHubActionConfiguration = nil
-	}
-
-	// IsGitHubAction
-	if source.IsGitHubAction != nil {
-		isGitHubAction := *source.IsGitHubAction
-		sourcecontrol.IsGitHubAction = &isGitHubAction
-	} else {
-		sourcecontrol.IsGitHubAction = nil
-	}
-
-	// IsManualIntegration
-	if source.IsManualIntegration != nil {
-		isManualIntegration := *source.IsManualIntegration
-		sourcecontrol.IsManualIntegration = &isManualIntegration
-	} else {
-		sourcecontrol.IsManualIntegration = nil
-	}
-
-	// IsMercurial
-	if source.IsMercurial != nil {
-		isMercurial := *source.IsMercurial
-		sourcecontrol.IsMercurial = &isMercurial
-	} else {
-		sourcecontrol.IsMercurial = nil
-	}
-
-	// Kind
-	sourcecontrol.Kind = genruntime.ClonePointerToString(source.Kind)
-
-	// RepoUrl
-	sourcecontrol.RepoUrl = genruntime.ClonePointerToString(source.RepoUrl)
 
 	// No error
 	return nil
@@ -1297,53 +1240,6 @@ func (configuration *GitHubActionConfiguration) AssignProperties_To_GitHubAction
 	return nil
 }
 
-// Initialize_From_GitHubActionConfiguration_STATUS populates our GitHubActionConfiguration from the provided source GitHubActionConfiguration_STATUS
-func (configuration *GitHubActionConfiguration) Initialize_From_GitHubActionConfiguration_STATUS(source *GitHubActionConfiguration_STATUS) error {
-
-	// CodeConfiguration
-	if source.CodeConfiguration != nil {
-		var codeConfiguration GitHubActionCodeConfiguration
-		err := codeConfiguration.Initialize_From_GitHubActionCodeConfiguration_STATUS(source.CodeConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_GitHubActionCodeConfiguration_STATUS() to populate field CodeConfiguration")
-		}
-		configuration.CodeConfiguration = &codeConfiguration
-	} else {
-		configuration.CodeConfiguration = nil
-	}
-
-	// ContainerConfiguration
-	if source.ContainerConfiguration != nil {
-		var containerConfiguration GitHubActionContainerConfiguration
-		err := containerConfiguration.Initialize_From_GitHubActionContainerConfiguration_STATUS(source.ContainerConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_GitHubActionContainerConfiguration_STATUS() to populate field ContainerConfiguration")
-		}
-		configuration.ContainerConfiguration = &containerConfiguration
-	} else {
-		configuration.ContainerConfiguration = nil
-	}
-
-	// GenerateWorkflowFile
-	if source.GenerateWorkflowFile != nil {
-		generateWorkflowFile := *source.GenerateWorkflowFile
-		configuration.GenerateWorkflowFile = &generateWorkflowFile
-	} else {
-		configuration.GenerateWorkflowFile = nil
-	}
-
-	// IsLinux
-	if source.IsLinux != nil {
-		isLinux := *source.IsLinux
-		configuration.IsLinux = &isLinux
-	} else {
-		configuration.IsLinux = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The GitHub action configuration.
 type GitHubActionConfiguration_STATUS struct {
 	// CodeConfiguration: GitHub Action code configuration.
@@ -1706,19 +1602,6 @@ func (configuration *GitHubActionCodeConfiguration) AssignProperties_To_GitHubAc
 	return nil
 }
 
-// Initialize_From_GitHubActionCodeConfiguration_STATUS populates our GitHubActionCodeConfiguration from the provided source GitHubActionCodeConfiguration_STATUS
-func (configuration *GitHubActionCodeConfiguration) Initialize_From_GitHubActionCodeConfiguration_STATUS(source *GitHubActionCodeConfiguration_STATUS) error {
-
-	// RuntimeStack
-	configuration.RuntimeStack = genruntime.ClonePointerToString(source.RuntimeStack)
-
-	// RuntimeVersion
-	configuration.RuntimeVersion = genruntime.ClonePointerToString(source.RuntimeVersion)
-
-	// No error
-	return nil
-}
-
 // The GitHub action code configuration.
 type GitHubActionCodeConfiguration_STATUS struct {
 	// RuntimeStack: Runtime stack is used to determine the workflow file content for code base apps.
@@ -1935,22 +1818,6 @@ func (configuration *GitHubActionContainerConfiguration) AssignProperties_To_Git
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_GitHubActionContainerConfiguration_STATUS populates our GitHubActionContainerConfiguration from the provided source GitHubActionContainerConfiguration_STATUS
-func (configuration *GitHubActionContainerConfiguration) Initialize_From_GitHubActionContainerConfiguration_STATUS(source *GitHubActionContainerConfiguration_STATUS) error {
-
-	// ImageName
-	configuration.ImageName = genruntime.ClonePointerToString(source.ImageName)
-
-	// ServerUrl
-	configuration.ServerUrl = genruntime.ClonePointerToString(source.ServerUrl)
-
-	// Username
-	configuration.Username = genruntime.ClonePointerToString(source.Username)
 
 	// No error
 	return nil

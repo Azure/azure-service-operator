@@ -18,7 +18,8 @@ func MakeSlice(listType dst.Expr, capacity dst.Expr) *dst.CallExpr {
 	return CallFunc(
 		"make",
 		listType,
-		capacity)
+		capacity,
+	)
 }
 
 // MakeEmptySlice returns the call expression for making a slice with a specified length that can be
@@ -30,7 +31,8 @@ func MakeEmptySlice(listType dst.Expr, capacity dst.Expr) *dst.CallExpr {
 		"make",
 		listType,
 		IntLiteral(0),
-		capacity)
+		capacity,
+	)
 }
 
 // AppendItemToSlice returns a statement to append a single item to a slice
@@ -39,7 +41,8 @@ func MakeEmptySlice(listType dst.Expr, capacity dst.Expr) *dst.CallExpr {
 func AppendItemToSlice(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 	return SimpleAssignment(
 		dst.Clone(lhs).(dst.Expr),
-		CallFunc("append", dst.Clone(lhs).(dst.Expr), dst.Clone(rhs).(dst.Expr)))
+		CallFunc("append", dst.Clone(lhs).(dst.Expr), dst.Clone(rhs).(dst.Expr)),
+	)
 }
 
 // AppendItemsToSlice returns a statement to append many individual items to a slice
@@ -54,7 +57,8 @@ func AppendItemsToSlice(lhs dst.Expr, rhs ...dst.Expr) dst.Stmt {
 
 	return SimpleAssignment(
 		dst.Clone(lhs).(dst.Expr),
-		CallFunc("append", args...))
+		CallFunc("append", args...),
+	)
 }
 
 // AppendSliceToSlice returns a statement to append a slice to another slice
@@ -65,7 +69,8 @@ func AppendSliceToSlice(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 	f.Ellipsis = true
 	return SimpleAssignment(
 		dst.Clone(lhs).(dst.Expr),
-		f)
+		f,
+	)
 }
 
 // IterateOverSlice creates a statement to iterate over the content of a list using the specified

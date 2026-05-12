@@ -1,0 +1,9 @@
+# This patch adds the cert-manager CA injection annotation to all MutatingWebhookConfigurations.
+# The variables $(CERTIFICATE_NAMESPACE) and $(CERTIFICATE_NAME) are substituted by kustomize.
+# Matching is done via the target selector in kustomization.yaml.
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: unused
+  annotations:
+    cert-manager.io/inject-ca-from: $(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)

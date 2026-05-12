@@ -81,7 +81,8 @@ func ApplyCrossResourceReferencesFromConfig(
 						eris.Errorf(
 							"%s.%s looks like a resource reference but was not labelled as one; You may need to add it to the 'objectModelConfiguration' section of the config file",
 							typeName,
-							prop.PropertyName()),
+							prop.PropertyName(),
+						),
 					)
 				}
 
@@ -133,11 +134,13 @@ func ApplyCrossResourceReferencesFromConfig(
 			if err != nil {
 				return nil, eris.Wrap(
 					err,
-					"Found unused $armReference configurations; these need to be fixed or removed.")
+					"Found unused $armReference configurations; these need to be fixed or removed.",
+				)
 			}
 
 			return state.WithDefinitions(typesWithARMIDs), nil
-		})
+		},
+	)
 }
 
 type crossResourceReferenceChecker func(typeName astmodel.InternalTypeName, prop *astmodel.PropertyDefinition) ReferenceType
@@ -193,7 +196,8 @@ func MakeARMIDPropertyTypeVisitor(
 					"definition", ctx,
 					"property", prop.PropertyName(),
 					"was", wasType,
-					"now", nowType)
+					"now", nowType,
+				)
 			}
 
 			newProps = append(newProps, prop)

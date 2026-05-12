@@ -77,7 +77,8 @@ func Test_Storage_StorageAccount_20230101_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(storage.APIVersion_Value))
+		string(storage.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -102,7 +103,8 @@ func StorageAccount_BlobServices_20230101_CRUD(tc *testcommon.KubePerTestContext
 			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_BlobServices_Container_20230101_CRUD(tc, blobService)
 			},
-		})
+		},
+	)
 }
 
 func StorageAccount_BlobServices_Container_20230101_CRUD(tc *testcommon.KubePerTestContext, blobService *storage.StorageAccountsBlobService) {
@@ -173,7 +175,8 @@ func StorageAccount_TableServices_20230101_CRUD(tc *testcommon.KubePerTestContex
 			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_TableServices_Table_20230101_CRUD(tc, tableService)
 			},
-		})
+		},
+	)
 }
 
 func StorageAccount_TableServices_Table_20230101_CRUD(tc *testcommon.KubePerTestContext, tableService *storage.StorageAccountsTableService) {
@@ -208,7 +211,8 @@ func StorageAccount_FileServices_20230101_CRUD(tc *testcommon.KubePerTestContext
 			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_FileServices_Share_20230101_CRUD(tc, fileService)
 			},
-		})
+		},
+	)
 }
 
 func StorageAccount_FileServices_Share_20230101_CRUD(tc *testcommon.KubePerTestContext, fileService *storage.StorageAccountsFileService) {
@@ -347,7 +351,8 @@ func StorageAccount_ConfigMapsWritten20230101(tc *testcommon.KubePerTestContext,
 		"blob",
 		*acct.Status.PrimaryEndpoints.Blob,
 		"dfs",
-		*acct.Status.PrimaryEndpoints.Dfs)
+		*acct.Status.PrimaryEndpoints.Dfs,
+	)
 }
 
 func StorageAccount_ManagementPolicy_20230101_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {

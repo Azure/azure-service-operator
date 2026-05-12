@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &BastionHost{}
 
 // ConvertFrom populates our BastionHost from the provided hub BastionHost
 func (host *BastionHost) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.BastionHost)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/BastionHost but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.BastionHost
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return host.AssignProperties_From_BastionHost(source)
+	err = host.AssignProperties_From_BastionHost(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to host")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub BastionHost from our BastionHost
 func (host *BastionHost) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.BastionHost)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/BastionHost but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.BastionHost
+	err := host.AssignProperties_To_BastionHost(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from host")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return host.AssignProperties_To_BastionHost(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &BastionHost{}

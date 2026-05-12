@@ -39,7 +39,8 @@ func Test_ValidateConfigMapDestination_MissingKey(t *testing.T) {
 				Name:  "my-configmap",
 				Value: `"hello"`,
 			},
-		})
+		},
+	)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(MatchError(ContainSubstring("CEL expression with output type string must specify destination 'key'")))
 }
@@ -68,7 +69,8 @@ func Test_ValidateConfigMapDestination_UnneededKey(t *testing.T) {
 				Key:   "my-key",
 				Value: `{"test": "test"}`,
 			},
-		})
+		},
+	)
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(MatchError(ContainSubstring("CEL expression with output type map[string]string must not specify destination 'key'")))
 }

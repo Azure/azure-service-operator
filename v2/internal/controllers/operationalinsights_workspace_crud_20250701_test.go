@@ -68,7 +68,8 @@ func Test_OperationalInsights_Workspace_v1api20250701_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(operationalinsights.APIVersion_Value))
+		string(operationalinsights.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

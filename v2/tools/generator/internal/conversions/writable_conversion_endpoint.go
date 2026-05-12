@@ -43,7 +43,9 @@ func NewWritableConversionEndpointWritingProperty(
 			return astbuilder.Statements(
 				astbuilder.SimpleAssignment(
 					astbuilder.Selector(destination, name),
-					value))
+					value,
+				),
+			)
 		},
 		description: fmt.Sprintf("write to property %s", name),
 	}
@@ -61,7 +63,9 @@ func NewWritableConversionEndpointWritingPropertyBagMember(
 			return astbuilder.Statements(
 				astbuilder.SimpleAssignment(
 					astbuilder.Selector(destination, itemName),
-					value))
+					value,
+				),
+			)
 		},
 		description: fmt.Sprintf("write %s to property bag", itemName),
 	}

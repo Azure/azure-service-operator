@@ -1,0 +1,30 @@
+apiVersion: apimanagement.azure.com/v20240501
+kind: Api
+metadata:
+  name: sampleapi
+  namespace: default
+spec:
+  azureName: sampleapi  # Force a stable name for testing purposes
+  apiVersion: "1.0.0"
+  apiRevision: "v1"
+  apiRevisionDescription: "First Revision"
+  apiVersionDescription: "First Version"
+  apiVersionSetReference:
+    group: apimanagement.azure.com
+    kind: ApiVersionSet
+    name: sampleapiversionset
+  description: "A sample API"
+  displayName: "account-api"
+  path: "/account-api"
+  subscriptionRequired: false
+  isCurrent: true
+  contact:
+    email: "test@test.com"
+    name: "Test"
+    url: "https://www.bing.com"
+  protocols:
+    - "https"
+  termsOfServiceUrl: "https://www.bing.com/tos"
+  type: "http"
+  owner:
+    name: sampleapimservice

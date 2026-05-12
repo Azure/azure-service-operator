@@ -51,22 +51,36 @@ var _ conversion.Convertible = &FirewallPoliciesRuleCollectionGroup{}
 
 // ConvertFrom populates our FirewallPoliciesRuleCollectionGroup from the provided hub FirewallPoliciesRuleCollectionGroup
 func (group *FirewallPoliciesRuleCollectionGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FirewallPoliciesRuleCollectionGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/FirewallPoliciesRuleCollectionGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FirewallPoliciesRuleCollectionGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_FirewallPoliciesRuleCollectionGroup(source)
+	err = group.AssignProperties_From_FirewallPoliciesRuleCollectionGroup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FirewallPoliciesRuleCollectionGroup from our FirewallPoliciesRuleCollectionGroup
 func (group *FirewallPoliciesRuleCollectionGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FirewallPoliciesRuleCollectionGroup)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/FirewallPoliciesRuleCollectionGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FirewallPoliciesRuleCollectionGroup
+	err := group.AssignProperties_To_FirewallPoliciesRuleCollectionGroup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_FirewallPoliciesRuleCollectionGroup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FirewallPoliciesRuleCollectionGroup{}
@@ -87,17 +101,6 @@ func (group *FirewallPoliciesRuleCollectionGroup) SecretDestinationExpressions()
 		return nil
 	}
 	return group.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &FirewallPoliciesRuleCollectionGroup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *FirewallPoliciesRuleCollectionGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*FirewallPoliciesRuleCollectionGroup_STATUS); ok {
-		return group.Spec.Initialize_From_FirewallPoliciesRuleCollectionGroup_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type FirewallPoliciesRuleCollectionGroup_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &FirewallPoliciesRuleCollectionGroup{}
@@ -503,32 +506,6 @@ func (group *FirewallPoliciesRuleCollectionGroup_Spec) AssignProperties_To_Firew
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPoliciesRuleCollectionGroup_STATUS populates our FirewallPoliciesRuleCollectionGroup_Spec from the provided source FirewallPoliciesRuleCollectionGroup_STATUS
-func (group *FirewallPoliciesRuleCollectionGroup_Spec) Initialize_From_FirewallPoliciesRuleCollectionGroup_STATUS(source *FirewallPoliciesRuleCollectionGroup_STATUS) error {
-
-	// Priority
-	group.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// RuleCollections
-	if source.RuleCollections != nil {
-		ruleCollectionList := make([]FirewallPolicyRuleCollection, len(source.RuleCollections))
-		for ruleCollectionIndex, ruleCollectionItem := range source.RuleCollections {
-			var ruleCollection FirewallPolicyRuleCollection
-			err := ruleCollection.Initialize_From_FirewallPolicyRuleCollection_STATUS(&ruleCollectionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_FirewallPolicyRuleCollection_STATUS() to populate field RuleCollections")
-			}
-			ruleCollectionList[ruleCollectionIndex] = ruleCollection
-		}
-		group.RuleCollections = ruleCollectionList
-	} else {
-		group.RuleCollections = nil
 	}
 
 	// No error
@@ -1068,37 +1045,6 @@ func (collection *FirewallPolicyRuleCollection) AssignProperties_To_FirewallPoli
 	return nil
 }
 
-// Initialize_From_FirewallPolicyRuleCollection_STATUS populates our FirewallPolicyRuleCollection from the provided source FirewallPolicyRuleCollection_STATUS
-func (collection *FirewallPolicyRuleCollection) Initialize_From_FirewallPolicyRuleCollection_STATUS(source *FirewallPolicyRuleCollection_STATUS) error {
-
-	// FirewallPolicyFilter
-	if source.FirewallPolicyFilter != nil {
-		var firewallPolicyFilter FirewallPolicyFilterRuleCollection
-		err := firewallPolicyFilter.Initialize_From_FirewallPolicyFilterRuleCollection_STATUS(source.FirewallPolicyFilter)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicyFilterRuleCollection_STATUS() to populate field FirewallPolicyFilter")
-		}
-		collection.FirewallPolicyFilter = &firewallPolicyFilter
-	} else {
-		collection.FirewallPolicyFilter = nil
-	}
-
-	// FirewallPolicyNat
-	if source.FirewallPolicyNat != nil {
-		var firewallPolicyNat FirewallPolicyNatRuleCollection
-		err := firewallPolicyNat.Initialize_From_FirewallPolicyNatRuleCollection_STATUS(source.FirewallPolicyNat)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicyNatRuleCollection_STATUS() to populate field FirewallPolicyNat")
-		}
-		collection.FirewallPolicyNat = &firewallPolicyNat
-	} else {
-		collection.FirewallPolicyNat = nil
-	}
-
-	// No error
-	return nil
-}
-
 type FirewallPolicyRuleCollection_STATUS struct {
 	// FirewallPolicyFilter: Mutually exclusive with all other properties
 	FirewallPolicyFilter *FirewallPolicyFilterRuleCollection_STATUS `json:"firewallPolicyFilterRuleCollection,omitempty"`
@@ -1447,55 +1393,6 @@ func (collection *FirewallPolicyFilterRuleCollection) AssignProperties_To_Firewa
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPolicyFilterRuleCollection_STATUS populates our FirewallPolicyFilterRuleCollection from the provided source FirewallPolicyFilterRuleCollection_STATUS
-func (collection *FirewallPolicyFilterRuleCollection) Initialize_From_FirewallPolicyFilterRuleCollection_STATUS(source *FirewallPolicyFilterRuleCollection_STATUS) error {
-
-	// Action
-	if source.Action != nil {
-		var action FirewallPolicyFilterRuleCollectionAction
-		err := action.Initialize_From_FirewallPolicyFilterRuleCollectionAction_STATUS(source.Action)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicyFilterRuleCollectionAction_STATUS() to populate field Action")
-		}
-		collection.Action = &action
-	} else {
-		collection.Action = nil
-	}
-
-	// Name
-	collection.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Priority
-	collection.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// RuleCollectionType
-	if source.RuleCollectionType != nil {
-		ruleCollectionType := genruntime.ToEnum(string(*source.RuleCollectionType), firewallPolicyFilterRuleCollection_RuleCollectionType_Values)
-		collection.RuleCollectionType = &ruleCollectionType
-	} else {
-		collection.RuleCollectionType = nil
-	}
-
-	// Rules
-	if source.Rules != nil {
-		ruleList := make([]FirewallPolicyRule, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			var rule FirewallPolicyRule
-			err := rule.Initialize_From_FirewallPolicyRule_STATUS(&ruleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_FirewallPolicyRule_STATUS() to populate field Rules")
-			}
-			ruleList[ruleIndex] = rule
-		}
-		collection.Rules = ruleList
-	} else {
-		collection.Rules = nil
 	}
 
 	// No error
@@ -1920,55 +1817,6 @@ func (collection *FirewallPolicyNatRuleCollection) AssignProperties_To_FirewallP
 	return nil
 }
 
-// Initialize_From_FirewallPolicyNatRuleCollection_STATUS populates our FirewallPolicyNatRuleCollection from the provided source FirewallPolicyNatRuleCollection_STATUS
-func (collection *FirewallPolicyNatRuleCollection) Initialize_From_FirewallPolicyNatRuleCollection_STATUS(source *FirewallPolicyNatRuleCollection_STATUS) error {
-
-	// Action
-	if source.Action != nil {
-		var action FirewallPolicyNatRuleCollectionAction
-		err := action.Initialize_From_FirewallPolicyNatRuleCollectionAction_STATUS(source.Action)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FirewallPolicyNatRuleCollectionAction_STATUS() to populate field Action")
-		}
-		collection.Action = &action
-	} else {
-		collection.Action = nil
-	}
-
-	// Name
-	collection.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Priority
-	collection.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// RuleCollectionType
-	if source.RuleCollectionType != nil {
-		ruleCollectionType := genruntime.ToEnum(string(*source.RuleCollectionType), firewallPolicyNatRuleCollection_RuleCollectionType_Values)
-		collection.RuleCollectionType = &ruleCollectionType
-	} else {
-		collection.RuleCollectionType = nil
-	}
-
-	// Rules
-	if source.Rules != nil {
-		ruleList := make([]FirewallPolicyRule, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			var rule FirewallPolicyRule
-			err := rule.Initialize_From_FirewallPolicyRule_STATUS(&ruleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_FirewallPolicyRule_STATUS() to populate field Rules")
-			}
-			ruleList[ruleIndex] = rule
-		}
-		collection.Rules = ruleList
-	} else {
-		collection.Rules = nil
-	}
-
-	// No error
-	return nil
-}
-
 type FirewallPolicyNatRuleCollection_STATUS struct {
 	// Action: The action type of a Nat rule collection.
 	Action *FirewallPolicyNatRuleCollectionAction_STATUS `json:"action,omitempty"`
@@ -2260,21 +2108,6 @@ func (action *FirewallPolicyFilterRuleCollectionAction) AssignProperties_To_Fire
 	return nil
 }
 
-// Initialize_From_FirewallPolicyFilterRuleCollectionAction_STATUS populates our FirewallPolicyFilterRuleCollectionAction from the provided source FirewallPolicyFilterRuleCollectionAction_STATUS
-func (action *FirewallPolicyFilterRuleCollectionAction) Initialize_From_FirewallPolicyFilterRuleCollectionAction_STATUS(source *FirewallPolicyFilterRuleCollectionAction_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), firewallPolicyFilterRuleCollectionActionType_Values)
-		action.Type = &typeVar
-	} else {
-		action.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Properties of the FirewallPolicyFilterRuleCollectionAction.
 type FirewallPolicyFilterRuleCollectionAction_STATUS struct {
 	// Type: The type of action.
@@ -2449,21 +2282,6 @@ func (action *FirewallPolicyNatRuleCollectionAction) AssignProperties_To_Firewal
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPolicyNatRuleCollectionAction_STATUS populates our FirewallPolicyNatRuleCollectionAction from the provided source FirewallPolicyNatRuleCollectionAction_STATUS
-func (action *FirewallPolicyNatRuleCollectionAction) Initialize_From_FirewallPolicyNatRuleCollectionAction_STATUS(source *FirewallPolicyNatRuleCollectionAction_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), firewallPolicyNatRuleCollectionActionType_Values)
-		action.Type = &typeVar
-	} else {
-		action.Type = nil
 	}
 
 	// No error
@@ -2732,49 +2550,6 @@ func (rule *FirewallPolicyRule) AssignProperties_To_FirewallPolicyRule(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPolicyRule_STATUS populates our FirewallPolicyRule from the provided source FirewallPolicyRule_STATUS
-func (rule *FirewallPolicyRule) Initialize_From_FirewallPolicyRule_STATUS(source *FirewallPolicyRule_STATUS) error {
-
-	// Application
-	if source.Application != nil {
-		var application ApplicationRule
-		err := application.Initialize_From_ApplicationRule_STATUS(source.Application)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApplicationRule_STATUS() to populate field Application")
-		}
-		rule.Application = &application
-	} else {
-		rule.Application = nil
-	}
-
-	// Nat
-	if source.Nat != nil {
-		var nat NatRule
-		err := nat.Initialize_From_NatRule_STATUS(source.Nat)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NatRule_STATUS() to populate field Nat")
-		}
-		rule.Nat = &nat
-	} else {
-		rule.Nat = nil
-	}
-
-	// Network
-	if source.Network != nil {
-		var network NetworkRule
-		err := network.Initialize_From_NetworkRule_STATUS(source.Network)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NetworkRule_STATUS() to populate field Network")
-		}
-		rule.Network = &network
-	} else {
-		rule.Network = nil
 	}
 
 	// No error
@@ -3336,88 +3111,6 @@ func (rule *ApplicationRule) AssignProperties_To_ApplicationRule(destination *st
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ApplicationRule_STATUS populates our ApplicationRule from the provided source ApplicationRule_STATUS
-func (rule *ApplicationRule) Initialize_From_ApplicationRule_STATUS(source *ApplicationRule_STATUS) error {
-
-	// Description
-	rule.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DestinationAddresses
-	rule.DestinationAddresses = genruntime.CloneSliceOfString(source.DestinationAddresses)
-
-	// FqdnTags
-	rule.FqdnTags = genruntime.CloneSliceOfString(source.FqdnTags)
-
-	// HttpHeadersToInsert
-	if source.HttpHeadersToInsert != nil {
-		httpHeadersToInsertList := make([]FirewallPolicyHttpHeaderToInsert, len(source.HttpHeadersToInsert))
-		for httpHeadersToInsertIndex, httpHeadersToInsertItem := range source.HttpHeadersToInsert {
-			var httpHeadersToInsert FirewallPolicyHttpHeaderToInsert
-			err := httpHeadersToInsert.Initialize_From_FirewallPolicyHttpHeaderToInsert_STATUS(&httpHeadersToInsertItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_FirewallPolicyHttpHeaderToInsert_STATUS() to populate field HttpHeadersToInsert")
-			}
-			httpHeadersToInsertList[httpHeadersToInsertIndex] = httpHeadersToInsert
-		}
-		rule.HttpHeadersToInsert = httpHeadersToInsertList
-	} else {
-		rule.HttpHeadersToInsert = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Protocols
-	if source.Protocols != nil {
-		protocolList := make([]FirewallPolicyRuleApplicationProtocol, len(source.Protocols))
-		for protocolIndex, protocolItem := range source.Protocols {
-			var protocol FirewallPolicyRuleApplicationProtocol
-			err := protocol.Initialize_From_FirewallPolicyRuleApplicationProtocol_STATUS(&protocolItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_FirewallPolicyRuleApplicationProtocol_STATUS() to populate field Protocols")
-			}
-			protocolList[protocolIndex] = protocol
-		}
-		rule.Protocols = protocolList
-	} else {
-		rule.Protocols = nil
-	}
-
-	// RuleType
-	if source.RuleType != nil {
-		ruleType := genruntime.ToEnum(string(*source.RuleType), applicationRule_RuleType_Values)
-		rule.RuleType = &ruleType
-	} else {
-		rule.RuleType = nil
-	}
-
-	// SourceAddresses
-	rule.SourceAddresses = genruntime.CloneSliceOfString(source.SourceAddresses)
-
-	// SourceIpGroups
-	rule.SourceIpGroups = genruntime.CloneSliceOfString(source.SourceIpGroups)
-
-	// TargetFqdns
-	rule.TargetFqdns = genruntime.CloneSliceOfString(source.TargetFqdns)
-
-	// TargetUrls
-	rule.TargetUrls = genruntime.CloneSliceOfString(source.TargetUrls)
-
-	// TerminateTLS
-	if source.TerminateTLS != nil {
-		terminateTLS := *source.TerminateTLS
-		rule.TerminateTLS = &terminateTLS
-	} else {
-		rule.TerminateTLS = nil
-	}
-
-	// WebCategories
-	rule.WebCategories = genruntime.CloneSliceOfString(source.WebCategories)
 
 	// No error
 	return nil
@@ -4095,60 +3788,6 @@ func (rule *NatRule) AssignProperties_To_NatRule(destination *storage.NatRule) e
 	return nil
 }
 
-// Initialize_From_NatRule_STATUS populates our NatRule from the provided source NatRule_STATUS
-func (rule *NatRule) Initialize_From_NatRule_STATUS(source *NatRule_STATUS) error {
-
-	// Description
-	rule.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DestinationAddresses
-	rule.DestinationAddresses = genruntime.CloneSliceOfString(source.DestinationAddresses)
-
-	// DestinationPorts
-	rule.DestinationPorts = genruntime.CloneSliceOfString(source.DestinationPorts)
-
-	// IpProtocols
-	if source.IpProtocols != nil {
-		ipProtocolList := make([]FirewallPolicyRuleNetworkProtocol, len(source.IpProtocols))
-		for ipProtocolIndex, ipProtocolItem := range source.IpProtocols {
-			ipProtocol := genruntime.ToEnum(string(ipProtocolItem), firewallPolicyRuleNetworkProtocol_Values)
-			ipProtocolList[ipProtocolIndex] = ipProtocol
-		}
-		rule.IpProtocols = ipProtocolList
-	} else {
-		rule.IpProtocols = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// RuleType
-	if source.RuleType != nil {
-		ruleType := genruntime.ToEnum(string(*source.RuleType), natRule_RuleType_Values)
-		rule.RuleType = &ruleType
-	} else {
-		rule.RuleType = nil
-	}
-
-	// SourceAddresses
-	rule.SourceAddresses = genruntime.CloneSliceOfString(source.SourceAddresses)
-
-	// SourceIpGroups
-	rule.SourceIpGroups = genruntime.CloneSliceOfString(source.SourceIpGroups)
-
-	// TranslatedAddress
-	rule.TranslatedAddress = genruntime.ClonePointerToString(source.TranslatedAddress)
-
-	// TranslatedFqdn
-	rule.TranslatedFqdn = genruntime.ClonePointerToString(source.TranslatedFqdn)
-
-	// TranslatedPort
-	rule.TranslatedPort = genruntime.ClonePointerToString(source.TranslatedPort)
-
-	// No error
-	return nil
-}
-
 type NatRule_STATUS struct {
 	// Description: Description of the rule.
 	Description *string `json:"description,omitempty"`
@@ -4666,57 +4305,6 @@ func (rule *NetworkRule) AssignProperties_To_NetworkRule(destination *storage.Ne
 	return nil
 }
 
-// Initialize_From_NetworkRule_STATUS populates our NetworkRule from the provided source NetworkRule_STATUS
-func (rule *NetworkRule) Initialize_From_NetworkRule_STATUS(source *NetworkRule_STATUS) error {
-
-	// Description
-	rule.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DestinationAddresses
-	rule.DestinationAddresses = genruntime.CloneSliceOfString(source.DestinationAddresses)
-
-	// DestinationFqdns
-	rule.DestinationFqdns = genruntime.CloneSliceOfString(source.DestinationFqdns)
-
-	// DestinationIpGroups
-	rule.DestinationIpGroups = genruntime.CloneSliceOfString(source.DestinationIpGroups)
-
-	// DestinationPorts
-	rule.DestinationPorts = genruntime.CloneSliceOfString(source.DestinationPorts)
-
-	// IpProtocols
-	if source.IpProtocols != nil {
-		ipProtocolList := make([]FirewallPolicyRuleNetworkProtocol, len(source.IpProtocols))
-		for ipProtocolIndex, ipProtocolItem := range source.IpProtocols {
-			ipProtocol := genruntime.ToEnum(string(ipProtocolItem), firewallPolicyRuleNetworkProtocol_Values)
-			ipProtocolList[ipProtocolIndex] = ipProtocol
-		}
-		rule.IpProtocols = ipProtocolList
-	} else {
-		rule.IpProtocols = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// RuleType
-	if source.RuleType != nil {
-		ruleType := genruntime.ToEnum(string(*source.RuleType), networkRule_RuleType_Values)
-		rule.RuleType = &ruleType
-	} else {
-		rule.RuleType = nil
-	}
-
-	// SourceAddresses
-	rule.SourceAddresses = genruntime.CloneSliceOfString(source.SourceAddresses)
-
-	// SourceIpGroups
-	rule.SourceIpGroups = genruntime.CloneSliceOfString(source.SourceIpGroups)
-
-	// No error
-	return nil
-}
-
 type NetworkRule_STATUS struct {
 	// Description: Description of the rule.
 	Description *string `json:"description,omitempty"`
@@ -5047,19 +4635,6 @@ func (insert *FirewallPolicyHttpHeaderToInsert) AssignProperties_To_FirewallPoli
 	return nil
 }
 
-// Initialize_From_FirewallPolicyHttpHeaderToInsert_STATUS populates our FirewallPolicyHttpHeaderToInsert from the provided source FirewallPolicyHttpHeaderToInsert_STATUS
-func (insert *FirewallPolicyHttpHeaderToInsert) Initialize_From_FirewallPolicyHttpHeaderToInsert_STATUS(source *FirewallPolicyHttpHeaderToInsert_STATUS) error {
-
-	// HeaderName
-	insert.HeaderName = genruntime.ClonePointerToString(source.HeaderName)
-
-	// HeaderValue
-	insert.HeaderValue = genruntime.ClonePointerToString(source.HeaderValue)
-
-	// No error
-	return nil
-}
-
 // name and value of HTTP/S header to insert
 type FirewallPolicyHttpHeaderToInsert_STATUS struct {
 	// HeaderName: Contains the name of the header
@@ -5240,24 +4815,6 @@ func (protocol *FirewallPolicyRuleApplicationProtocol) AssignProperties_To_Firew
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FirewallPolicyRuleApplicationProtocol_STATUS populates our FirewallPolicyRuleApplicationProtocol from the provided source FirewallPolicyRuleApplicationProtocol_STATUS
-func (protocol *FirewallPolicyRuleApplicationProtocol) Initialize_From_FirewallPolicyRuleApplicationProtocol_STATUS(source *FirewallPolicyRuleApplicationProtocol_STATUS) error {
-
-	// Port
-	protocol.Port = genruntime.ClonePointerToInt(source.Port)
-
-	// ProtocolType
-	if source.ProtocolType != nil {
-		protocolType := genruntime.ToEnum(string(*source.ProtocolType), firewallPolicyRuleApplicationProtocolType_Values)
-		protocol.ProtocolType = &protocolType
-	} else {
-		protocol.ProtocolType = nil
 	}
 
 	// No error

@@ -515,9 +515,10 @@ type TimeWindow_STATUS struct {
 // Storage version of v1api20221001.WebhookNotification
 // Webhook notification of an autoscale event.
 type WebhookNotification struct {
-	Properties  map[string]string      `json:"properties,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ServiceUri  *string                `json:"serviceUri,omitempty"`
+	Properties           map[string]string           `json:"properties,omitempty"`
+	PropertyBag          genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	ServiceUri           *string                     `json:"serviceUri,omitempty" optionalSecretPair:"ServiceUri"`
+	ServiceUriFromSecret *genruntime.SecretReference `json:"serviceUriFromSecret,omitempty" optionalSecretPair:"ServiceUri"`
 }
 
 // Storage version of v1api20221001.WebhookNotification_STATUS
@@ -525,7 +526,6 @@ type WebhookNotification struct {
 type WebhookNotification_STATUS struct {
 	Properties  map[string]string      `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ServiceUri  *string                `json:"serviceUri,omitempty"`
 }
 
 // Storage version of v1api20221001.MetricTrigger

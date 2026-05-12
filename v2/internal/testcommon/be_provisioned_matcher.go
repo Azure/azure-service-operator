@@ -64,12 +64,14 @@ func (m *DesiredStateMatcher) FailureMessage(actual interface{}) string {
 	if !ok {
 		return gomegaformat.Message(
 			ready,
-			fmt.Sprintf("%q condition to exist", conditions.ConditionTypeReady))
+			fmt.Sprintf("%q condition to exist", conditions.ConditionTypeReady),
+		)
 	}
 
 	return gomegaformat.Message(
 		ready,
-		fmt.Sprintf("status to be %q, severity to be %q.", string(m.readyGoalStatus), string(m.readyGoalSeverity)))
+		fmt.Sprintf("status to be %q, severity to be %q.", string(m.readyGoalStatus), string(m.readyGoalSeverity)),
+	)
 }
 
 func (m *DesiredStateMatcher) NegatedFailureMessage(actual interface{}) string {
@@ -86,12 +88,14 @@ func (m *DesiredStateMatcher) NegatedFailureMessage(actual interface{}) string {
 	if !ok {
 		return gomegaformat.Message(
 			ready,
-			fmt.Sprintf("%q condition to exist", conditions.ConditionTypeReady))
+			fmt.Sprintf("%q condition to exist", conditions.ConditionTypeReady),
+		)
 	}
 
 	return gomegaformat.Message(
 		ready,
-		fmt.Sprintf("status not to be %q, severity not to be %q.", string(m.readyGoalStatus), string(m.readyGoalSeverity)))
+		fmt.Sprintf("status not to be %q, severity not to be %q.", string(m.readyGoalStatus), string(m.readyGoalSeverity)),
+	)
 }
 
 // MatchMayChangeInTheFuture implements OracleMatcher which of course isn't exported so we can't type-assert we implement it

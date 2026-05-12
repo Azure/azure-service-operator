@@ -1,0 +1,10 @@
+apiVersion: apimanagement.azure.com/v20240501
+kind: Group
+metadata:
+  name: samplegroup
+  namespace: default
+spec:
+  displayName: "Sample Group"
+  description: "A sample APIM group"
+  owner:
+    name: sampleapimservice

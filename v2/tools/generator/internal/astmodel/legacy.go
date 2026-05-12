@@ -47,29 +47,34 @@ const (
 // As we move groups to the new versioning scheme, we'll move them to hybrid mode (giving users a migration path forward).
 // Once all groups have been fully migrated, we will delete this file.
 var versionMigrationModes = map[string]VersionMigrationMode{
-	"alertsmanagement": VersionMigrationModeLegacy,
-	"apimanagement":    VersionMigrationModeLegacy,
-	"app":              VersionMigrationModeLegacy,
-	"appconfiguration": VersionMigrationModeLegacy,
-	"authorization":    VersionMigrationModeLegacy,
+	"alertsmanagement": VersionMigrationModeHybrid,
+	"apimanagement":    VersionMigrationModeHybrid,
+	"app":              VersionMigrationModeHybrid,
+	"appconfiguration": VersionMigrationModeHybrid,
+
+	"authorization": VersionMigrationModeLegacy,
 
 	"batch": VersionMigrationModeHybrid,
 
-	"cache":                   VersionMigrationModeLegacy,
-	"cdn":                     VersionMigrationModeLegacy,
-	"cognitiveservices":       VersionMigrationModeLegacy,
-	"compute":                 VersionMigrationModeLegacy,
-	"containerinstance":       VersionMigrationModeLegacy,
-	"containerregistry":       VersionMigrationModeLegacy,
-	"containerservice":        VersionMigrationModeLegacy,
-	"datafactory":             VersionMigrationModeLegacy,
-	"dataprotection":          VersionMigrationModeLegacy,
-	"dbformariadb":            VersionMigrationModeLegacy,
-	"dbformysql":              VersionMigrationModeLegacy,
+	"cache":             VersionMigrationModeLegacy,
+	"cdn":               VersionMigrationModeLegacy,
+	"cognitiveservices": VersionMigrationModeLegacy,
+	"compute":           VersionMigrationModeLegacy,
+	"containerinstance": VersionMigrationModeLegacy,
+	"containerregistry": VersionMigrationModeLegacy,
+	"containerservice":  VersionMigrationModeLegacy,
+
+	"datafactory": VersionMigrationModeHybrid,
+
+	"dataprotection": VersionMigrationModeLegacy,
+	"dbformariadb":   VersionMigrationModeLegacy,
+
+	"dbformysql": VersionMigrationModeHybrid,
+
 	"dbforpostgresql":         VersionMigrationModeLegacy,
 	"devices":                 VersionMigrationModeLegacy,
 	"documentdb":              VersionMigrationModeLegacy,
-	"eventgrid":               VersionMigrationModeLegacy,
+	"eventgrid":               VersionMigrationModeHybrid,
 	"eventhub":                VersionMigrationModeLegacy,
 	"insights":                VersionMigrationModeLegacy,
 	"keyvault":                VersionMigrationModeLegacy,
@@ -93,8 +98,9 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"storage": VersionMigrationModeHybrid,
 
 	"subscription": VersionMigrationModeLegacy,
-	"synapse":      VersionMigrationModeLegacy,
-	"web":          VersionMigrationModeLegacy,
+
+	"synapse": VersionMigrationModeHybrid,
+	"web":     VersionMigrationModeHybrid,
 }
 
 // VersionPrefixForGroup returns the version prefix to use for the specified group.

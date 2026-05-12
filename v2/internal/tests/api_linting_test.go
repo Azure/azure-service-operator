@@ -165,7 +165,8 @@ func validateConsistency(
 		strings.Join(passingTypes, ", "),
 		len(passingTypes),
 		strings.Join(failingTypes, ", "),
-		len(failingTypes))
+		len(failingTypes),
+	)
 }
 
 func Test_APILinting_Defaulter_Consistency(t *testing.T) {

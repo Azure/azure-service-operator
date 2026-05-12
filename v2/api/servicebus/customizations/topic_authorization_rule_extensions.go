@@ -39,7 +39,8 @@ func (ext *TopicAuthorizationRuleExtension) ExportKubernetesSecrets(
 	if !ok {
 		return nil, eris.Errorf(
 			"cannot run on unknown resource type %T, expected *servicebus.TopicAuthorizationRule",
-			obj)
+			obj,
+		)
 	}
 
 	// Type assert that we are the hub type. This will fail to compile if
@@ -77,7 +78,8 @@ func (ext *TopicAuthorizationRuleExtension) ExportKubernetesSecrets(
 		return nil, eris.Wrapf(
 			err,
 			"failed to retrieve keys for topic authorization rule %q",
-			rule.Name)
+			rule.Name,
+		)
 	}
 
 	ruleSecrets, err := topicAuthorizationRuleSecretsToWrite(rule, response)
@@ -85,7 +87,8 @@ func (ext *TopicAuthorizationRuleExtension) ExportKubernetesSecrets(
 		return nil, eris.Wrapf(
 			err,
 			"failed to create secrets for topic authorization rule %q",
-			rule.Name)
+			rule.Name,
+		)
 	}
 
 	resolvedSecrets := map[string]string{}
@@ -141,7 +144,8 @@ func topicAuthorizationRuleSecretsToWrite(
 		rule.Spec.OperatorSpec.Secrets == nil {
 		return nil, eris.Errorf(
 			"topic authorization rule %q has no secrets specified",
-			rule.Name)
+			rule.Name,
+		)
 	}
 
 	specSecrets := rule.Spec.OperatorSpec.Secrets

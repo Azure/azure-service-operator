@@ -6,8 +6,9 @@
 package pipeline
 
 import (
+	"context"
+
 	"github.com/rotisserie/eris"
-	"golang.org/x/net/context"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -59,12 +60,14 @@ func InjectPropertyAssignmentTests(idFactory astmodel.IdentifierFactory) *Stage 
 			}
 
 			return state.WithOverlaidDefinitions(modifiedDefs), nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(
 		InjectPropertyAssignmentFunctionsStageID, // Need PropertyAssignmentFunctions to test
 		InjectJSONSerializationTestsID,           // We reuse the generators from the JSON tests
-		InjectRapidSerializationTestsStageID)     // We reuse the generators from the rapid JSON tests
+		InjectRapidSerializationTestsStageID,     // We reuse the generators from the rapid JSON tests
+	)
 
 	return stage
 }

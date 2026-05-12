@@ -17,6 +17,12 @@ Azure subscription the operator will use for ARM communication if
 no [more specific]( {{< relref "authentication/credential-scope" >}} )
 credential is specified at the per-resource or per-namespace scope.
 
+{{% alert title="Warning" color="warning" %}}
+Not every resource ASO manages operates in the scope of a subscription. This field applies to resources that live in a subscription but is
+ignored for resources that don't fit in a subscription, such as [Entra Security Group]({{< relref "/reference/entra/v1#SecurityGroup" >}}) and
+[Subscription Alias]({{< relref "/reference/subscription/v1api20211001#Alias" >}}).
+{{% /alert %}}
+
 **Format:** `GUID`
 
 **Example:** `00000000-0000-0000-0000-000000000000`
@@ -233,15 +239,15 @@ Required: True if using Entra resources, otherwise False
 ### MAX_CONCURRENT_RECONCILES
 
 MAX_CONCURRENT_RECONCILES is the number of threads/goroutines dedicated to reconciling each resource type.
-If not specified, the default is 1.
+If not specified, the default is 4.
 
 IMPORTANT: Having MAX_CONCURRENT_RECONCILES set to N does not mean that ASO is limited to N interactions with
 Azure at any given time, because the control loop yields to another resource while it is not actively issuing HTTP
 calls to Azure. Any single resource only blocks the control-loop for its resource-type for as long as it takes to issue
 an HTTP call to Azure, view the result, and make a decision. In most cases the time taken to perform these actions
 (and thus how long the loop is blocked and preventing other resources from being acted upon) is a few hundred
-milliseconds to at most a second or two. In a typical 60s period, many hundreds or even thousands of resources
-can be managed with this set to 1.
+milliseconds to at most a second or two. In a typical 60s period, hundreds of resources
+for a given resource type can be managed with this set to 1.
 
 MAX_CONCURRENT_RECONCILES applies to every registered resource type being watched/managed by ASO.
 

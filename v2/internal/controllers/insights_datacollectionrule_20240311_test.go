@@ -98,7 +98,8 @@ func Test_Insights_DataCollectionRule_v20240311_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(insights.APIVersion_Value))
+		string(insights.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 

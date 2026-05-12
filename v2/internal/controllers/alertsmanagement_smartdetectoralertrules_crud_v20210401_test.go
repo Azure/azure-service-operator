@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	alertsmanagement "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401"
+	alertsmanagement "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20210401"
 	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1api20200202"
 	insightsag "github.com/Azure/azure-service-operator/v2/api/insights/v1api20230101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"

@@ -43,7 +43,8 @@ func (r renamer) simplifyEmbeddedNameToOriginalName(
 	log.V(2).Info(
 		"Type not used, renaming for simplicity",
 		"originalName", associatedNames.Single(),
-		"newName", original)
+		"newName", original,
+	)
 
 	return renames, nil
 }
@@ -72,7 +73,8 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(
 	log.V(2).Info(
 		"Type used in single context, renaming for simplicity",
 		"originalName", associated,
-		"newName", renames[associated])
+		"newName", renames[associated],
+	)
 
 	return renames, nil
 }
@@ -110,7 +112,8 @@ func (r renamer) simplifyEmbeddedNameRemoveContext(
 		log.V(2).Info(
 			"Type used in single context, removing context from name",
 			"originalName", associated,
-			"newName", renames[associated])
+			"newName", renames[associated],
+		)
 	}
 
 	return renames, nil

@@ -40,6 +40,9 @@ linters:
   settings:
     exhaustive:
       default-signifies-exhaustive: true
+    govet:
+      disable:
+        - inline # doesn't support type parameter inference for generic functions yet
     staticcheck:
       checks:
         - "-S1002" # Comparison to bool explicitly can sometimes add clarity

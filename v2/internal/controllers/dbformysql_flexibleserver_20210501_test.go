@@ -12,8 +12,8 @@ import (
 
 	"github.com/kr/pretty"
 
-	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20210501"
-	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20220101"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20210501"
+	mysql20220101 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20220101"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -97,7 +97,11 @@ func Test_DBForMySQL_FlexibleServer_20210501_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func newFlexibleServer20210501(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, adminPasswordSecretRef genruntime.SecretReference) (*mysql.FlexibleServer, string) {
+func newFlexibleServer20210501(
+	tc *testcommon.KubePerTestContext,
+	rg *resources.ResourceGroup,
+	adminPasswordSecretRef genruntime.SecretReference,
+) (*mysql.FlexibleServer, string) {
 	version := "8.0.21"
 	tier := mysql.Sku_Tier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"

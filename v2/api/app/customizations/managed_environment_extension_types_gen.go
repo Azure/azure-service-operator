@@ -4,10 +4,14 @@
 package customizations
 
 import (
-	v20240301 "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
-	v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
-	v20250101 "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101"
-	v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	app_v1api20240301 "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301"
+	app_v1api20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
+	app_v1api20250101 "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101"
+	app_v1api20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	app_v20240301 "github.com/Azure/azure-service-operator/v2/api/app/v20240301"
+	app_v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v20240301/storage"
+	app_v20250101 "github.com/Azure/azure-service-operator/v2/api/app/v20250101"
+	app_v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v20250101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +21,12 @@ type ManagedEnvironmentExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ManagedEnvironmentExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20240301.ManagedEnvironment{},
-		&v20240301s.ManagedEnvironment{},
-		&v20250101.ManagedEnvironment{},
-		&v20250101s.ManagedEnvironment{}}
+		&app_v1api20240301.ManagedEnvironment{},
+		&app_v1api20240301s.ManagedEnvironment{},
+		&app_v1api20250101.ManagedEnvironment{},
+		&app_v1api20250101s.ManagedEnvironment{},
+		&app_v20240301.ManagedEnvironment{},
+		&app_v20240301s.ManagedEnvironment{},
+		&app_v20250101.ManagedEnvironment{},
+		&app_v20250101s.ManagedEnvironment{}}
 }

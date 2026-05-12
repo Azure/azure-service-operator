@@ -43,10 +43,30 @@ func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 		redactor.AddLiteralRedaction(azureIDs.BillingInvoiceID, creds.DummyBillingID)
 	}
 
-	// Also redact OpenAI keys
+	// OpenAI keys
 	redactor.AddRegexRedaction(
 		`"(?<key>key\d)":"[A-Za-z0-9]*"`,
 		`"$key":"{KEY}"`,
+	)
+
+	// Redis Enterprise Cache access keys
+	redactor.AddRegexRedaction(
+		`"(?<key>(primary|secondary)Key)":"[A-Za-z0-9=]*"`,
+		`"$key":"{KEY}"`,
+	)
+
+	// Connection String access keys (SignalR, Communication Services, etc.)
+	// Case-insensitive to handle both ";AccessKey=...;" and ";accesskey=..."
+	// Uses a named capture group to preserve the original casing of "accesskey"/"AccessKey".
+	redactor.AddRegexRedaction(
+		`(?i);(?P<accesskey>accesskey)=[A-Za-z0-9=+/]*`,
+		`;${accesskey}={KEY}`,
+	)
+
+	// Cassandra style gossip certificates
+	redactor.AddRegexRedaction(
+		`-----BEGIN CERTIFICATE-----[A-Za-z0-9\\+/=]+-----END CERTIFICATE-----`,
+		`-----BEGIN CERTIFICATE-----REDACTED-----END CERTIFICATE-----`,
 	)
 
 	return redactor

@@ -4,8 +4,7 @@
 package storage
 
 import (
-	v20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v20210401/storage"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v20220901/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -52,7 +51,7 @@ var _ conversion.Convertible = &StorageAccountsFileService{}
 // ConvertFrom populates our StorageAccountsFileService from the provided hub StorageAccountsFileService
 func (service *StorageAccountsFileService) ConvertFrom(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var source v20220901s.StorageAccountsFileService
+	var source storage.StorageAccountsFileService
 
 	err := source.ConvertFrom(hub)
 	if err != nil {
@@ -70,7 +69,7 @@ func (service *StorageAccountsFileService) ConvertFrom(hub conversion.Hub) error
 // ConvertTo populates the provided hub StorageAccountsFileService from our StorageAccountsFileService
 func (service *StorageAccountsFileService) ConvertTo(hub conversion.Hub) error {
 	// intermediate variable for conversion
-	var destination v20220901s.StorageAccountsFileService
+	var destination storage.StorageAccountsFileService
 	err := service.AssignProperties_To_StorageAccountsFileService(&destination)
 	if err != nil {
 		return eris.Wrap(err, "converting to destination from service")
@@ -178,7 +177,7 @@ func (service *StorageAccountsFileService) SetStatus(status genruntime.Convertib
 }
 
 // AssignProperties_From_StorageAccountsFileService populates our StorageAccountsFileService from the provided source StorageAccountsFileService
-func (service *StorageAccountsFileService) AssignProperties_From_StorageAccountsFileService(source *v20220901s.StorageAccountsFileService) error {
+func (service *StorageAccountsFileService) AssignProperties_From_StorageAccountsFileService(source *storage.StorageAccountsFileService) error {
 
 	// ObjectMeta
 	service.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -213,13 +212,13 @@ func (service *StorageAccountsFileService) AssignProperties_From_StorageAccounts
 }
 
 // AssignProperties_To_StorageAccountsFileService populates the provided destination StorageAccountsFileService from our StorageAccountsFileService
-func (service *StorageAccountsFileService) AssignProperties_To_StorageAccountsFileService(destination *v20220901s.StorageAccountsFileService) error {
+func (service *StorageAccountsFileService) AssignProperties_To_StorageAccountsFileService(destination *storage.StorageAccountsFileService) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *service.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20220901s.StorageAccountsFileService_Spec
+	var spec storage.StorageAccountsFileService_Spec
 	err := service.Spec.AssignProperties_To_StorageAccountsFileService_Spec(&spec)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsFileService_Spec() to populate field Spec")
@@ -227,7 +226,7 @@ func (service *StorageAccountsFileService) AssignProperties_To_StorageAccountsFi
 	destination.Spec = spec
 
 	// Status
-	var status v20220901s.StorageAccountsFileService_STATUS
+	var status storage.StorageAccountsFileService_STATUS
 	err = service.Status.AssignProperties_To_StorageAccountsFileService_STATUS(&status)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsFileService_STATUS() to populate field Status")
@@ -268,8 +267,8 @@ type StorageAccountsFileServiceList struct {
 }
 
 type augmentConversionForStorageAccountsFileService interface {
-	AssignPropertiesFrom(src *v20220901s.StorageAccountsFileService) error
-	AssignPropertiesTo(dst *v20220901s.StorageAccountsFileService) error
+	AssignPropertiesFrom(src *storage.StorageAccountsFileService) error
+	AssignPropertiesTo(dst *storage.StorageAccountsFileService) error
 }
 
 // Storage version of v1api20230101.StorageAccountsFileService_Spec
@@ -292,14 +291,14 @@ var _ genruntime.ConvertibleSpec = &StorageAccountsFileService_Spec{}
 
 // ConvertSpecFrom populates our StorageAccountsFileService_Spec from the provided source
 func (service *StorageAccountsFileService_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20220901s.StorageAccountsFileService_Spec)
+	src, ok := source.(*storage.StorageAccountsFileService_Spec)
 	if ok {
 		// Populate our instance from source
 		return service.AssignProperties_From_StorageAccountsFileService_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220901s.StorageAccountsFileService_Spec{}
+	src = &storage.StorageAccountsFileService_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -316,14 +315,14 @@ func (service *StorageAccountsFileService_Spec) ConvertSpecFrom(source genruntim
 
 // ConvertSpecTo populates the provided destination from our StorageAccountsFileService_Spec
 func (service *StorageAccountsFileService_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20220901s.StorageAccountsFileService_Spec)
+	dst, ok := destination.(*storage.StorageAccountsFileService_Spec)
 	if ok {
 		// Populate destination from our instance
 		return service.AssignProperties_To_StorageAccountsFileService_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220901s.StorageAccountsFileService_Spec{}
+	dst = &storage.StorageAccountsFileService_Spec{}
 	err := service.AssignProperties_To_StorageAccountsFileService_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -339,21 +338,16 @@ func (service *StorageAccountsFileService_Spec) ConvertSpecTo(destination genrun
 }
 
 // AssignProperties_From_StorageAccountsFileService_Spec populates our StorageAccountsFileService_Spec from the provided source StorageAccountsFileService_Spec
-func (service *StorageAccountsFileService_Spec) AssignProperties_From_StorageAccountsFileService_Spec(source *v20220901s.StorageAccountsFileService_Spec) error {
+func (service *StorageAccountsFileService_Spec) AssignProperties_From_StorageAccountsFileService_Spec(source *storage.StorageAccountsFileService_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Cors
 	if source.Cors != nil {
-		var corsRulesStash v20210401s.CorsRules
-		err := corsRulesStash.AssignProperties_From_CorsRules(source.Cors)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field CorsRulesStash from Cors")
-		}
 		var cor CorsRules
-		err = cor.AssignProperties_From_CorsRules(&corsRulesStash)
+		err := cor.AssignProperties_From_CorsRules(source.Cors)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field Cors from CorsRulesStash")
+			return eris.Wrap(err, "calling AssignProperties_From_CorsRules() to populate field Cors")
 		}
 		service.Cors = &cor
 	} else {
@@ -397,15 +391,10 @@ func (service *StorageAccountsFileService_Spec) AssignProperties_From_StorageAcc
 
 	// ShareDeleteRetentionPolicy
 	if source.ShareDeleteRetentionPolicy != nil {
-		var deleteRetentionPolicyStash v20210401s.DeleteRetentionPolicy
-		err := deleteRetentionPolicyStash.AssignProperties_From_DeleteRetentionPolicy(source.ShareDeleteRetentionPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy() to populate field DeleteRetentionPolicyStash from ShareDeleteRetentionPolicy")
-		}
 		var shareDeleteRetentionPolicy DeleteRetentionPolicy
-		err = shareDeleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy(&deleteRetentionPolicyStash)
+		err := shareDeleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy(source.ShareDeleteRetentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy() to populate field ShareDeleteRetentionPolicy from DeleteRetentionPolicyStash")
+			return eris.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy() to populate field ShareDeleteRetentionPolicy")
 		}
 		service.ShareDeleteRetentionPolicy = &shareDeleteRetentionPolicy
 	} else {
@@ -433,21 +422,16 @@ func (service *StorageAccountsFileService_Spec) AssignProperties_From_StorageAcc
 }
 
 // AssignProperties_To_StorageAccountsFileService_Spec populates the provided destination StorageAccountsFileService_Spec from our StorageAccountsFileService_Spec
-func (service *StorageAccountsFileService_Spec) AssignProperties_To_StorageAccountsFileService_Spec(destination *v20220901s.StorageAccountsFileService_Spec) error {
+func (service *StorageAccountsFileService_Spec) AssignProperties_To_StorageAccountsFileService_Spec(destination *storage.StorageAccountsFileService_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
 
 	// Cors
 	if service.Cors != nil {
-		var corsRulesStash v20210401s.CorsRules
-		err := service.Cors.AssignProperties_To_CorsRules(&corsRulesStash)
+		var cor storage.CorsRules
+		err := service.Cors.AssignProperties_To_CorsRules(&cor)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field CorsRulesStash from Cors")
-		}
-		var cor v20220901s.CorsRules
-		err = corsRulesStash.AssignProperties_To_CorsRules(&cor)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field Cors from CorsRulesStash")
+			return eris.Wrap(err, "calling AssignProperties_To_CorsRules() to populate field Cors")
 		}
 		destination.Cors = &cor
 	} else {
@@ -456,7 +440,7 @@ func (service *StorageAccountsFileService_Spec) AssignProperties_To_StorageAccou
 
 	// OperatorSpec
 	if service.OperatorSpec != nil {
-		var operatorSpec v20220901s.StorageAccountsFileServiceOperatorSpec
+		var operatorSpec storage.StorageAccountsFileServiceOperatorSpec
 		err := service.OperatorSpec.AssignProperties_To_StorageAccountsFileServiceOperatorSpec(&operatorSpec)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_StorageAccountsFileServiceOperatorSpec() to populate field OperatorSpec")
@@ -479,7 +463,7 @@ func (service *StorageAccountsFileService_Spec) AssignProperties_To_StorageAccou
 
 	// ProtocolSettings
 	if service.ProtocolSettings != nil {
-		var protocolSetting v20220901s.ProtocolSettings
+		var protocolSetting storage.ProtocolSettings
 		err := service.ProtocolSettings.AssignProperties_To_ProtocolSettings(&protocolSetting)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ProtocolSettings() to populate field ProtocolSettings")
@@ -491,15 +475,10 @@ func (service *StorageAccountsFileService_Spec) AssignProperties_To_StorageAccou
 
 	// ShareDeleteRetentionPolicy
 	if service.ShareDeleteRetentionPolicy != nil {
-		var deleteRetentionPolicyStash v20210401s.DeleteRetentionPolicy
-		err := service.ShareDeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy(&deleteRetentionPolicyStash)
+		var shareDeleteRetentionPolicy storage.DeleteRetentionPolicy
+		err := service.ShareDeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy(&shareDeleteRetentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy() to populate field DeleteRetentionPolicyStash from ShareDeleteRetentionPolicy")
-		}
-		var shareDeleteRetentionPolicy v20220901s.DeleteRetentionPolicy
-		err = deleteRetentionPolicyStash.AssignProperties_To_DeleteRetentionPolicy(&shareDeleteRetentionPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy() to populate field ShareDeleteRetentionPolicy from DeleteRetentionPolicyStash")
+			return eris.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy() to populate field ShareDeleteRetentionPolicy")
 		}
 		destination.ShareDeleteRetentionPolicy = &shareDeleteRetentionPolicy
 	} else {
@@ -543,14 +522,14 @@ var _ genruntime.ConvertibleStatus = &StorageAccountsFileService_STATUS{}
 
 // ConvertStatusFrom populates our StorageAccountsFileService_STATUS from the provided source
 func (service *StorageAccountsFileService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20220901s.StorageAccountsFileService_STATUS)
+	src, ok := source.(*storage.StorageAccountsFileService_STATUS)
 	if ok {
 		// Populate our instance from source
 		return service.AssignProperties_From_StorageAccountsFileService_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20220901s.StorageAccountsFileService_STATUS{}
+	src = &storage.StorageAccountsFileService_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -567,14 +546,14 @@ func (service *StorageAccountsFileService_STATUS) ConvertStatusFrom(source genru
 
 // ConvertStatusTo populates the provided destination from our StorageAccountsFileService_STATUS
 func (service *StorageAccountsFileService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20220901s.StorageAccountsFileService_STATUS)
+	dst, ok := destination.(*storage.StorageAccountsFileService_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return service.AssignProperties_To_StorageAccountsFileService_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20220901s.StorageAccountsFileService_STATUS{}
+	dst = &storage.StorageAccountsFileService_STATUS{}
 	err := service.AssignProperties_To_StorageAccountsFileService_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -590,7 +569,7 @@ func (service *StorageAccountsFileService_STATUS) ConvertStatusTo(destination ge
 }
 
 // AssignProperties_From_StorageAccountsFileService_STATUS populates our StorageAccountsFileService_STATUS from the provided source StorageAccountsFileService_STATUS
-func (service *StorageAccountsFileService_STATUS) AssignProperties_From_StorageAccountsFileService_STATUS(source *v20220901s.StorageAccountsFileService_STATUS) error {
+func (service *StorageAccountsFileService_STATUS) AssignProperties_From_StorageAccountsFileService_STATUS(source *storage.StorageAccountsFileService_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -599,15 +578,10 @@ func (service *StorageAccountsFileService_STATUS) AssignProperties_From_StorageA
 
 	// Cors
 	if source.Cors != nil {
-		var corsRulesSTATUSStash v20210401s.CorsRules_STATUS
-		err := corsRulesSTATUSStash.AssignProperties_From_CorsRules_STATUS(source.Cors)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_CorsRules_STATUS() to populate field CorsRules_STATUSStash from Cors")
-		}
 		var cor CorsRules_STATUS
-		err = cor.AssignProperties_From_CorsRules_STATUS(&corsRulesSTATUSStash)
+		err := cor.AssignProperties_From_CorsRules_STATUS(source.Cors)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_CorsRules_STATUS() to populate field Cors from CorsRules_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_From_CorsRules_STATUS() to populate field Cors")
 		}
 		service.Cors = &cor
 	} else {
@@ -634,15 +608,10 @@ func (service *StorageAccountsFileService_STATUS) AssignProperties_From_StorageA
 
 	// ShareDeleteRetentionPolicy
 	if source.ShareDeleteRetentionPolicy != nil {
-		var deleteRetentionPolicySTATUSStash v20210401s.DeleteRetentionPolicy_STATUS
-		err := deleteRetentionPolicySTATUSStash.AssignProperties_From_DeleteRetentionPolicy_STATUS(source.ShareDeleteRetentionPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy_STATUS() to populate field DeleteRetentionPolicy_STATUSStash from ShareDeleteRetentionPolicy")
-		}
 		var shareDeleteRetentionPolicy DeleteRetentionPolicy_STATUS
-		err = shareDeleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy_STATUS(&deleteRetentionPolicySTATUSStash)
+		err := shareDeleteRetentionPolicy.AssignProperties_From_DeleteRetentionPolicy_STATUS(source.ShareDeleteRetentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy_STATUS() to populate field ShareDeleteRetentionPolicy from DeleteRetentionPolicy_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_From_DeleteRetentionPolicy_STATUS() to populate field ShareDeleteRetentionPolicy")
 		}
 		service.ShareDeleteRetentionPolicy = &shareDeleteRetentionPolicy
 	} else {
@@ -651,15 +620,10 @@ func (service *StorageAccountsFileService_STATUS) AssignProperties_From_StorageA
 
 	// Sku
 	if source.Sku != nil {
-		var skuSTATUSStash v20210401s.Sku_STATUS
-		err := skuSTATUSStash.AssignProperties_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
-		}
 		var sku Sku_STATUS
-		err = sku.AssignProperties_From_Sku_STATUS(&skuSTATUSStash)
+		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
 		}
 		service.Sku = &sku
 	} else {
@@ -690,7 +654,7 @@ func (service *StorageAccountsFileService_STATUS) AssignProperties_From_StorageA
 }
 
 // AssignProperties_To_StorageAccountsFileService_STATUS populates the provided destination StorageAccountsFileService_STATUS from our StorageAccountsFileService_STATUS
-func (service *StorageAccountsFileService_STATUS) AssignProperties_To_StorageAccountsFileService_STATUS(destination *v20220901s.StorageAccountsFileService_STATUS) error {
+func (service *StorageAccountsFileService_STATUS) AssignProperties_To_StorageAccountsFileService_STATUS(destination *storage.StorageAccountsFileService_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(service.PropertyBag)
 
@@ -699,15 +663,10 @@ func (service *StorageAccountsFileService_STATUS) AssignProperties_To_StorageAcc
 
 	// Cors
 	if service.Cors != nil {
-		var corsRulesSTATUSStash v20210401s.CorsRules_STATUS
-		err := service.Cors.AssignProperties_To_CorsRules_STATUS(&corsRulesSTATUSStash)
+		var cor storage.CorsRules_STATUS
+		err := service.Cors.AssignProperties_To_CorsRules_STATUS(&cor)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field CorsRules_STATUSStash from Cors")
-		}
-		var cor v20220901s.CorsRules_STATUS
-		err = corsRulesSTATUSStash.AssignProperties_To_CorsRules_STATUS(&cor)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field Cors from CorsRules_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_To_CorsRules_STATUS() to populate field Cors")
 		}
 		destination.Cors = &cor
 	} else {
@@ -722,7 +681,7 @@ func (service *StorageAccountsFileService_STATUS) AssignProperties_To_StorageAcc
 
 	// ProtocolSettings
 	if service.ProtocolSettings != nil {
-		var protocolSetting v20220901s.ProtocolSettings_STATUS
+		var protocolSetting storage.ProtocolSettings_STATUS
 		err := service.ProtocolSettings.AssignProperties_To_ProtocolSettings_STATUS(&protocolSetting)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_ProtocolSettings_STATUS() to populate field ProtocolSettings")
@@ -734,15 +693,10 @@ func (service *StorageAccountsFileService_STATUS) AssignProperties_To_StorageAcc
 
 	// ShareDeleteRetentionPolicy
 	if service.ShareDeleteRetentionPolicy != nil {
-		var deleteRetentionPolicySTATUSStash v20210401s.DeleteRetentionPolicy_STATUS
-		err := service.ShareDeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy_STATUS(&deleteRetentionPolicySTATUSStash)
+		var shareDeleteRetentionPolicy storage.DeleteRetentionPolicy_STATUS
+		err := service.ShareDeleteRetentionPolicy.AssignProperties_To_DeleteRetentionPolicy_STATUS(&shareDeleteRetentionPolicy)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy_STATUS() to populate field DeleteRetentionPolicy_STATUSStash from ShareDeleteRetentionPolicy")
-		}
-		var shareDeleteRetentionPolicy v20220901s.DeleteRetentionPolicy_STATUS
-		err = deleteRetentionPolicySTATUSStash.AssignProperties_To_DeleteRetentionPolicy_STATUS(&shareDeleteRetentionPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy_STATUS() to populate field ShareDeleteRetentionPolicy from DeleteRetentionPolicy_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_To_DeleteRetentionPolicy_STATUS() to populate field ShareDeleteRetentionPolicy")
 		}
 		destination.ShareDeleteRetentionPolicy = &shareDeleteRetentionPolicy
 	} else {
@@ -751,15 +705,10 @@ func (service *StorageAccountsFileService_STATUS) AssignProperties_To_StorageAcc
 
 	// Sku
 	if service.Sku != nil {
-		var skuSTATUSStash v20210401s.Sku_STATUS
-		err := service.Sku.AssignProperties_To_Sku_STATUS(&skuSTATUSStash)
+		var sku storage.Sku_STATUS
+		err := service.Sku.AssignProperties_To_Sku_STATUS(&sku)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku_STATUSStash from Sku")
-		}
-		var sku v20220901s.Sku_STATUS
-		err = skuSTATUSStash.AssignProperties_To_Sku_STATUS(&sku)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku from Sku_STATUSStash")
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -790,13 +739,13 @@ func (service *StorageAccountsFileService_STATUS) AssignProperties_To_StorageAcc
 }
 
 type augmentConversionForStorageAccountsFileService_Spec interface {
-	AssignPropertiesFrom(src *v20220901s.StorageAccountsFileService_Spec) error
-	AssignPropertiesTo(dst *v20220901s.StorageAccountsFileService_Spec) error
+	AssignPropertiesFrom(src *storage.StorageAccountsFileService_Spec) error
+	AssignPropertiesTo(dst *storage.StorageAccountsFileService_Spec) error
 }
 
 type augmentConversionForStorageAccountsFileService_STATUS interface {
-	AssignPropertiesFrom(src *v20220901s.StorageAccountsFileService_STATUS) error
-	AssignPropertiesTo(dst *v20220901s.StorageAccountsFileService_STATUS) error
+	AssignPropertiesFrom(src *storage.StorageAccountsFileService_STATUS) error
+	AssignPropertiesTo(dst *storage.StorageAccountsFileService_STATUS) error
 }
 
 // Storage version of v1api20230101.ProtocolSettings
@@ -807,7 +756,7 @@ type ProtocolSettings struct {
 }
 
 // AssignProperties_From_ProtocolSettings populates our ProtocolSettings from the provided source ProtocolSettings
-func (settings *ProtocolSettings) AssignProperties_From_ProtocolSettings(source *v20220901s.ProtocolSettings) error {
+func (settings *ProtocolSettings) AssignProperties_From_ProtocolSettings(source *storage.ProtocolSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -844,13 +793,13 @@ func (settings *ProtocolSettings) AssignProperties_From_ProtocolSettings(source 
 }
 
 // AssignProperties_To_ProtocolSettings populates the provided destination ProtocolSettings from our ProtocolSettings
-func (settings *ProtocolSettings) AssignProperties_To_ProtocolSettings(destination *v20220901s.ProtocolSettings) error {
+func (settings *ProtocolSettings) AssignProperties_To_ProtocolSettings(destination *storage.ProtocolSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// Smb
 	if settings.Smb != nil {
-		var smb v20220901s.SmbSetting
+		var smb storage.SmbSetting
 		err := settings.Smb.AssignProperties_To_SmbSetting(&smb)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SmbSetting() to populate field Smb")
@@ -888,7 +837,7 @@ type ProtocolSettings_STATUS struct {
 }
 
 // AssignProperties_From_ProtocolSettings_STATUS populates our ProtocolSettings_STATUS from the provided source ProtocolSettings_STATUS
-func (settings *ProtocolSettings_STATUS) AssignProperties_From_ProtocolSettings_STATUS(source *v20220901s.ProtocolSettings_STATUS) error {
+func (settings *ProtocolSettings_STATUS) AssignProperties_From_ProtocolSettings_STATUS(source *storage.ProtocolSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -925,13 +874,13 @@ func (settings *ProtocolSettings_STATUS) AssignProperties_From_ProtocolSettings_
 }
 
 // AssignProperties_To_ProtocolSettings_STATUS populates the provided destination ProtocolSettings_STATUS from our ProtocolSettings_STATUS
-func (settings *ProtocolSettings_STATUS) AssignProperties_To_ProtocolSettings_STATUS(destination *v20220901s.ProtocolSettings_STATUS) error {
+func (settings *ProtocolSettings_STATUS) AssignProperties_To_ProtocolSettings_STATUS(destination *storage.ProtocolSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// Smb
 	if settings.Smb != nil {
-		var smb v20220901s.SmbSetting_STATUS
+		var smb storage.SmbSetting_STATUS
 		err := settings.Smb.AssignProperties_To_SmbSetting_STATUS(&smb)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SmbSetting_STATUS() to populate field Smb")
@@ -970,7 +919,7 @@ type StorageAccountsFileServiceOperatorSpec struct {
 }
 
 // AssignProperties_From_StorageAccountsFileServiceOperatorSpec populates our StorageAccountsFileServiceOperatorSpec from the provided source StorageAccountsFileServiceOperatorSpec
-func (operator *StorageAccountsFileServiceOperatorSpec) AssignProperties_From_StorageAccountsFileServiceOperatorSpec(source *v20220901s.StorageAccountsFileServiceOperatorSpec) error {
+func (operator *StorageAccountsFileServiceOperatorSpec) AssignProperties_From_StorageAccountsFileServiceOperatorSpec(source *storage.StorageAccountsFileServiceOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1027,7 +976,7 @@ func (operator *StorageAccountsFileServiceOperatorSpec) AssignProperties_From_St
 }
 
 // AssignProperties_To_StorageAccountsFileServiceOperatorSpec populates the provided destination StorageAccountsFileServiceOperatorSpec from our StorageAccountsFileServiceOperatorSpec
-func (operator *StorageAccountsFileServiceOperatorSpec) AssignProperties_To_StorageAccountsFileServiceOperatorSpec(destination *v20220901s.StorageAccountsFileServiceOperatorSpec) error {
+func (operator *StorageAccountsFileServiceOperatorSpec) AssignProperties_To_StorageAccountsFileServiceOperatorSpec(destination *storage.StorageAccountsFileServiceOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
@@ -1084,18 +1033,18 @@ func (operator *StorageAccountsFileServiceOperatorSpec) AssignProperties_To_Stor
 }
 
 type augmentConversionForProtocolSettings interface {
-	AssignPropertiesFrom(src *v20220901s.ProtocolSettings) error
-	AssignPropertiesTo(dst *v20220901s.ProtocolSettings) error
+	AssignPropertiesFrom(src *storage.ProtocolSettings) error
+	AssignPropertiesTo(dst *storage.ProtocolSettings) error
 }
 
 type augmentConversionForProtocolSettings_STATUS interface {
-	AssignPropertiesFrom(src *v20220901s.ProtocolSettings_STATUS) error
-	AssignPropertiesTo(dst *v20220901s.ProtocolSettings_STATUS) error
+	AssignPropertiesFrom(src *storage.ProtocolSettings_STATUS) error
+	AssignPropertiesTo(dst *storage.ProtocolSettings_STATUS) error
 }
 
 type augmentConversionForStorageAccountsFileServiceOperatorSpec interface {
-	AssignPropertiesFrom(src *v20220901s.StorageAccountsFileServiceOperatorSpec) error
-	AssignPropertiesTo(dst *v20220901s.StorageAccountsFileServiceOperatorSpec) error
+	AssignPropertiesFrom(src *storage.StorageAccountsFileServiceOperatorSpec) error
+	AssignPropertiesTo(dst *storage.StorageAccountsFileServiceOperatorSpec) error
 }
 
 // Storage version of v1api20230101.SmbSetting
@@ -1110,7 +1059,7 @@ type SmbSetting struct {
 }
 
 // AssignProperties_From_SmbSetting populates our SmbSetting from the provided source SmbSetting
-func (setting *SmbSetting) AssignProperties_From_SmbSetting(source *v20220901s.SmbSetting) error {
+func (setting *SmbSetting) AssignProperties_From_SmbSetting(source *storage.SmbSetting) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1159,7 +1108,7 @@ func (setting *SmbSetting) AssignProperties_From_SmbSetting(source *v20220901s.S
 }
 
 // AssignProperties_To_SmbSetting populates the provided destination SmbSetting from our SmbSetting
-func (setting *SmbSetting) AssignProperties_To_SmbSetting(destination *v20220901s.SmbSetting) error {
+func (setting *SmbSetting) AssignProperties_To_SmbSetting(destination *storage.SmbSetting) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
 
@@ -1174,7 +1123,7 @@ func (setting *SmbSetting) AssignProperties_To_SmbSetting(destination *v20220901
 
 	// Multichannel
 	if setting.Multichannel != nil {
-		var multichannel v20220901s.Multichannel
+		var multichannel storage.Multichannel
 		err := setting.Multichannel.AssignProperties_To_Multichannel(&multichannel)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_Multichannel() to populate field Multichannel")
@@ -1219,7 +1168,7 @@ type SmbSetting_STATUS struct {
 }
 
 // AssignProperties_From_SmbSetting_STATUS populates our SmbSetting_STATUS from the provided source SmbSetting_STATUS
-func (setting *SmbSetting_STATUS) AssignProperties_From_SmbSetting_STATUS(source *v20220901s.SmbSetting_STATUS) error {
+func (setting *SmbSetting_STATUS) AssignProperties_From_SmbSetting_STATUS(source *storage.SmbSetting_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1268,7 +1217,7 @@ func (setting *SmbSetting_STATUS) AssignProperties_From_SmbSetting_STATUS(source
 }
 
 // AssignProperties_To_SmbSetting_STATUS populates the provided destination SmbSetting_STATUS from our SmbSetting_STATUS
-func (setting *SmbSetting_STATUS) AssignProperties_To_SmbSetting_STATUS(destination *v20220901s.SmbSetting_STATUS) error {
+func (setting *SmbSetting_STATUS) AssignProperties_To_SmbSetting_STATUS(destination *storage.SmbSetting_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
 
@@ -1283,7 +1232,7 @@ func (setting *SmbSetting_STATUS) AssignProperties_To_SmbSetting_STATUS(destinat
 
 	// Multichannel
 	if setting.Multichannel != nil {
-		var multichannel v20220901s.Multichannel_STATUS
+		var multichannel storage.Multichannel_STATUS
 		err := setting.Multichannel.AssignProperties_To_Multichannel_STATUS(&multichannel)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_Multichannel_STATUS() to populate field Multichannel")
@@ -1317,13 +1266,13 @@ func (setting *SmbSetting_STATUS) AssignProperties_To_SmbSetting_STATUS(destinat
 }
 
 type augmentConversionForSmbSetting interface {
-	AssignPropertiesFrom(src *v20220901s.SmbSetting) error
-	AssignPropertiesTo(dst *v20220901s.SmbSetting) error
+	AssignPropertiesFrom(src *storage.SmbSetting) error
+	AssignPropertiesTo(dst *storage.SmbSetting) error
 }
 
 type augmentConversionForSmbSetting_STATUS interface {
-	AssignPropertiesFrom(src *v20220901s.SmbSetting_STATUS) error
-	AssignPropertiesTo(dst *v20220901s.SmbSetting_STATUS) error
+	AssignPropertiesFrom(src *storage.SmbSetting_STATUS) error
+	AssignPropertiesTo(dst *storage.SmbSetting_STATUS) error
 }
 
 // Storage version of v1api20230101.Multichannel
@@ -1334,7 +1283,7 @@ type Multichannel struct {
 }
 
 // AssignProperties_From_Multichannel populates our Multichannel from the provided source Multichannel
-func (multichannel *Multichannel) AssignProperties_From_Multichannel(source *v20220901s.Multichannel) error {
+func (multichannel *Multichannel) AssignProperties_From_Multichannel(source *storage.Multichannel) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1367,7 +1316,7 @@ func (multichannel *Multichannel) AssignProperties_From_Multichannel(source *v20
 }
 
 // AssignProperties_To_Multichannel populates the provided destination Multichannel from our Multichannel
-func (multichannel *Multichannel) AssignProperties_To_Multichannel(destination *v20220901s.Multichannel) error {
+func (multichannel *Multichannel) AssignProperties_To_Multichannel(destination *storage.Multichannel) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(multichannel.PropertyBag)
 
@@ -1407,7 +1356,7 @@ type Multichannel_STATUS struct {
 }
 
 // AssignProperties_From_Multichannel_STATUS populates our Multichannel_STATUS from the provided source Multichannel_STATUS
-func (multichannel *Multichannel_STATUS) AssignProperties_From_Multichannel_STATUS(source *v20220901s.Multichannel_STATUS) error {
+func (multichannel *Multichannel_STATUS) AssignProperties_From_Multichannel_STATUS(source *storage.Multichannel_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1440,7 +1389,7 @@ func (multichannel *Multichannel_STATUS) AssignProperties_From_Multichannel_STAT
 }
 
 // AssignProperties_To_Multichannel_STATUS populates the provided destination Multichannel_STATUS from our Multichannel_STATUS
-func (multichannel *Multichannel_STATUS) AssignProperties_To_Multichannel_STATUS(destination *v20220901s.Multichannel_STATUS) error {
+func (multichannel *Multichannel_STATUS) AssignProperties_To_Multichannel_STATUS(destination *storage.Multichannel_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(multichannel.PropertyBag)
 
@@ -1473,13 +1422,13 @@ func (multichannel *Multichannel_STATUS) AssignProperties_To_Multichannel_STATUS
 }
 
 type augmentConversionForMultichannel interface {
-	AssignPropertiesFrom(src *v20220901s.Multichannel) error
-	AssignPropertiesTo(dst *v20220901s.Multichannel) error
+	AssignPropertiesFrom(src *storage.Multichannel) error
+	AssignPropertiesTo(dst *storage.Multichannel) error
 }
 
 type augmentConversionForMultichannel_STATUS interface {
-	AssignPropertiesFrom(src *v20220901s.Multichannel_STATUS) error
-	AssignPropertiesTo(dst *v20220901s.Multichannel_STATUS) error
+	AssignPropertiesFrom(src *storage.Multichannel_STATUS) error
+	AssignPropertiesTo(dst *storage.Multichannel_STATUS) error
 }
 
 func init() {

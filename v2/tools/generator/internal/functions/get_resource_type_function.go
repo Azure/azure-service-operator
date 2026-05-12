@@ -33,6 +33,7 @@ func NewGetTypeFunction(
 		"Get"+astmodel.TypeProperty,
 		idFactory,
 		createBodyReturningLiteralString(armType, comment, receiverType),
-		astmodel.GenRuntimeReference)
+		astmodel.GenRuntimeReference,
+	)
 	return result
 }

@@ -6,7 +6,6 @@ package storage
 import (
 	"context"
 	"fmt"
-	v20240901sc "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage/compat"
 	v20250301s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250301/storage"
 	v20250801s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -672,12 +671,7 @@ func (cluster *ManagedCluster_Spec) AssignProperties_From_ManagedCluster_Spec(so
 
 	// NodeProvisioningProfile
 	if source.NodeProvisioningProfile != nil {
-		var nodeProvisioningProfile v20240901sc.ManagedClusterNodeProvisioningProfile
-		err := nodeProvisioningProfile.AssignProperties_From_ManagedClusterNodeProvisioningProfile(source.NodeProvisioningProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ManagedClusterNodeProvisioningProfile() to populate field NodeProvisioningProfile")
-		}
-		propertyBag.Add("NodeProvisioningProfile", nodeProvisioningProfile)
+		propertyBag.Add("NodeProvisioningProfile", *source.NodeProvisioningProfile)
 	} else {
 		propertyBag.Remove("NodeProvisioningProfile")
 	}
@@ -1169,17 +1163,12 @@ func (cluster *ManagedCluster_Spec) AssignProperties_To_ManagedCluster_Spec(dest
 
 	// NodeProvisioningProfile
 	if propertyBag.Contains("NodeProvisioningProfile") {
-		var nodeProvisioningProfileFromBag v20240901sc.ManagedClusterNodeProvisioningProfile
-		err := propertyBag.Pull("NodeProvisioningProfile", &nodeProvisioningProfileFromBag)
+		var nodeProvisioningProfile v20250801s.ManagedClusterNodeProvisioningProfile
+		err := propertyBag.Pull("NodeProvisioningProfile", &nodeProvisioningProfile)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'NodeProvisioningProfile' from propertyBag")
 		}
 
-		var nodeProvisioningProfile v20250801s.ManagedClusterNodeProvisioningProfile
-		err = nodeProvisioningProfileFromBag.AssignProperties_To_ManagedClusterNodeProvisioningProfile(&nodeProvisioningProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ManagedClusterNodeProvisioningProfile() to populate field NodeProvisioningProfile")
-		}
 		destination.NodeProvisioningProfile = &nodeProvisioningProfile
 	} else {
 		destination.NodeProvisioningProfile = nil
@@ -1785,12 +1774,7 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_From_ManagedCluster_STATU
 
 	// NodeProvisioningProfile
 	if source.NodeProvisioningProfile != nil {
-		var nodeProvisioningProfile v20240901sc.ManagedClusterNodeProvisioningProfile_STATUS
-		err := nodeProvisioningProfile.AssignProperties_From_ManagedClusterNodeProvisioningProfile_STATUS(source.NodeProvisioningProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ManagedClusterNodeProvisioningProfile_STATUS() to populate field NodeProvisioningProfile")
-		}
-		propertyBag.Add("NodeProvisioningProfile", nodeProvisioningProfile)
+		propertyBag.Add("NodeProvisioningProfile", *source.NodeProvisioningProfile)
 	} else {
 		propertyBag.Remove("NodeProvisioningProfile")
 	}
@@ -2323,17 +2307,12 @@ func (cluster *ManagedCluster_STATUS) AssignProperties_To_ManagedCluster_STATUS(
 
 	// NodeProvisioningProfile
 	if propertyBag.Contains("NodeProvisioningProfile") {
-		var nodeProvisioningProfileFromBag v20240901sc.ManagedClusterNodeProvisioningProfile_STATUS
-		err := propertyBag.Pull("NodeProvisioningProfile", &nodeProvisioningProfileFromBag)
+		var nodeProvisioningProfile v20250801s.ManagedClusterNodeProvisioningProfile_STATUS
+		err := propertyBag.Pull("NodeProvisioningProfile", &nodeProvisioningProfile)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'NodeProvisioningProfile' from propertyBag")
 		}
 
-		var nodeProvisioningProfile v20250801s.ManagedClusterNodeProvisioningProfile_STATUS
-		err = nodeProvisioningProfileFromBag.AssignProperties_To_ManagedClusterNodeProvisioningProfile_STATUS(&nodeProvisioningProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ManagedClusterNodeProvisioningProfile_STATUS() to populate field NodeProvisioningProfile")
-		}
 		destination.NodeProvisioningProfile = &nodeProvisioningProfile
 	} else {
 		destination.NodeProvisioningProfile = nil
@@ -4131,12 +4110,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// GpuProfile
 	if source.GpuProfile != nil {
-		var gpuProfile v20240901sc.GPUProfile
-		err := gpuProfile.AssignProperties_From_GPUProfile(source.GpuProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_GPUProfile() to populate field GpuProfile")
-		}
-		propertyBag.Add("GpuProfile", gpuProfile)
+		propertyBag.Add("GpuProfile", *source.GpuProfile)
 	} else {
 		propertyBag.Remove("GpuProfile")
 	}
@@ -4330,12 +4304,7 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 
 	// VirtualMachinesProfile
 	if source.VirtualMachinesProfile != nil {
-		var virtualMachinesProfile v20240901sc.VirtualMachinesProfile
-		err := virtualMachinesProfile.AssignProperties_From_VirtualMachinesProfile(source.VirtualMachinesProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachinesProfile() to populate field VirtualMachinesProfile")
-		}
-		propertyBag.Add("VirtualMachinesProfile", virtualMachinesProfile)
+		propertyBag.Add("VirtualMachinesProfile", *source.VirtualMachinesProfile)
 	} else {
 		propertyBag.Remove("VirtualMachinesProfile")
 	}
@@ -4475,17 +4444,12 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// GpuProfile
 	if propertyBag.Contains("GpuProfile") {
-		var gpuProfileFromBag v20240901sc.GPUProfile
-		err := propertyBag.Pull("GpuProfile", &gpuProfileFromBag)
+		var gpuProfile v20250801s.GPUProfile
+		err := propertyBag.Pull("GpuProfile", &gpuProfile)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'GpuProfile' from propertyBag")
 		}
 
-		var gpuProfile v20250801s.GPUProfile
-		err = gpuProfileFromBag.AssignProperties_To_GPUProfile(&gpuProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_GPUProfile() to populate field GpuProfile")
-		}
 		destination.GpuProfile = &gpuProfile
 	} else {
 		destination.GpuProfile = nil
@@ -4698,17 +4662,12 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 
 	// VirtualMachinesProfile
 	if propertyBag.Contains("VirtualMachinesProfile") {
-		var virtualMachinesProfileFromBag v20240901sc.VirtualMachinesProfile
-		err := propertyBag.Pull("VirtualMachinesProfile", &virtualMachinesProfileFromBag)
+		var virtualMachinesProfile v20250801s.VirtualMachinesProfile
+		err := propertyBag.Pull("VirtualMachinesProfile", &virtualMachinesProfile)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'VirtualMachinesProfile' from propertyBag")
 		}
 
-		var virtualMachinesProfile v20250801s.VirtualMachinesProfile
-		err = virtualMachinesProfileFromBag.AssignProperties_To_VirtualMachinesProfile(&virtualMachinesProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachinesProfile() to populate field VirtualMachinesProfile")
-		}
 		destination.VirtualMachinesProfile = &virtualMachinesProfile
 	} else {
 		destination.VirtualMachinesProfile = nil
@@ -4897,12 +4856,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 
 	// GpuProfile
 	if source.GpuProfile != nil {
-		var gpuProfile v20240901sc.GPUProfile_STATUS
-		err := gpuProfile.AssignProperties_From_GPUProfile_STATUS(source.GpuProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_GPUProfile_STATUS() to populate field GpuProfile")
-		}
-		propertyBag.Add("GpuProfile", gpuProfile)
+		propertyBag.Add("GpuProfile", *source.GpuProfile)
 	} else {
 		propertyBag.Remove("GpuProfile")
 	}
@@ -5089,12 +5043,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_From_Mana
 
 	// VirtualMachinesProfile
 	if source.VirtualMachinesProfile != nil {
-		var virtualMachinesProfile v20240901sc.VirtualMachinesProfile_STATUS
-		err := virtualMachinesProfile.AssignProperties_From_VirtualMachinesProfile_STATUS(source.VirtualMachinesProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachinesProfile_STATUS() to populate field VirtualMachinesProfile")
-		}
-		propertyBag.Add("VirtualMachinesProfile", virtualMachinesProfile)
+		propertyBag.Add("VirtualMachinesProfile", *source.VirtualMachinesProfile)
 	} else {
 		propertyBag.Remove("VirtualMachinesProfile")
 	}
@@ -5230,17 +5179,12 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// GpuProfile
 	if propertyBag.Contains("GpuProfile") {
-		var gpuProfileFromBag v20240901sc.GPUProfile_STATUS
-		err := propertyBag.Pull("GpuProfile", &gpuProfileFromBag)
+		var gpuProfile v20250801s.GPUProfile_STATUS
+		err := propertyBag.Pull("GpuProfile", &gpuProfile)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'GpuProfile' from propertyBag")
 		}
 
-		var gpuProfile v20250801s.GPUProfile_STATUS
-		err = gpuProfileFromBag.AssignProperties_To_GPUProfile_STATUS(&gpuProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_GPUProfile_STATUS() to populate field GpuProfile")
-		}
 		destination.GpuProfile = &gpuProfile
 	} else {
 		destination.GpuProfile = nil
@@ -5452,17 +5396,12 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) AssignProperties_To_Manage
 
 	// VirtualMachinesProfile
 	if propertyBag.Contains("VirtualMachinesProfile") {
-		var virtualMachinesProfileFromBag v20240901sc.VirtualMachinesProfile_STATUS
-		err := propertyBag.Pull("VirtualMachinesProfile", &virtualMachinesProfileFromBag)
+		var virtualMachinesProfile v20250801s.VirtualMachinesProfile_STATUS
+		err := propertyBag.Pull("VirtualMachinesProfile", &virtualMachinesProfile)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'VirtualMachinesProfile' from propertyBag")
 		}
 
-		var virtualMachinesProfile v20250801s.VirtualMachinesProfile_STATUS
-		err = virtualMachinesProfileFromBag.AssignProperties_To_VirtualMachinesProfile_STATUS(&virtualMachinesProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachinesProfile_STATUS() to populate field VirtualMachinesProfile")
-		}
 		destination.VirtualMachinesProfile = &virtualMachinesProfile
 	} else {
 		destination.VirtualMachinesProfile = nil

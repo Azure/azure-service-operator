@@ -3,6 +3,10 @@ version: '3.7'
 run: when_changed
 output: prefixed
 
+includes:
+  ci: ./ci/Taskfile.yml
+  mangle-test: ./v2/tools/mangle-test-json/Taskfile.yml
+
 vars:
   PACKAGE: github.com/Azure/azure-service-operator/v2
 
@@ -17,8 +21,6 @@ vars:
   CONTROLLER_OUTPUT:
     sh: 'realpath v2/config'
 
-  MANGLE_ROOT: v2/tools/mangle-test-json
-
   TEST_RESOURCE_PREFIX: asotest
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
   SCRIPTS_ROOT:
@@ -27,8 +29,7 @@ vars:
   HEADER_FILE:
     sh: 'realpath v2/boilerplate.go.txt'
 
-  TEST_OUT:
-    sh: 'realpath reports'
+  TEST_OUT: '{{joinPath .ROOT_DIR "reports"}}'
 
   VERSION:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
@@ -61,6 +62,14 @@ vars:
   AKS_WORKLOAD_IDENTITY_PATH: "v2/out/aks-identity"
 
 tasks:
+
+  debug:
+    silent: true
+    cmds:
+    - 'echo "ROOT_DIR: {{.ROOT_DIR}}"'
+    - 'echo "TASKFILE_DIR: {{.TASKFILE_DIR}}"'
+    - 'echo "TASK_DIR: {{.TASK_DIR}}"'
+
   default:
     cmds:
       - task: format-code # Run before quick-checks to avoid racing with generated file creation
@@ -78,7 +87,8 @@ tasks:
   setup:
     desc: Perform setup tasks
     cmds:
-      - "mkdir -p {{.TEST_OUT}}"
+      - echo "Tests output to {{.TEST_OUT}}"
+      - mkdir -p {{.TEST_OUT}}
 
   ci:
     desc: Run all CI checks.
@@ -105,6 +115,7 @@ tasks:
       - task: asoctl:format-code
       - task: generator:format-code
       - task: controller:format-code
+      - task: mangle-test:format-code
 
   go-mod-tidy:
     desc: Tidy the go.mod files
@@ -113,6 +124,16 @@ tasks:
       - task: controller:go-mod-tidy
       - task: asoctl:go-mod-tidy
       - task: generator:go-mod-tidy
+      - task: mangle-test:go-mod-tidy
+
+  lint:
+    desc: Run lint checks.
+    dir: v2
+    cmds:
+      - task: asoctl:lint
+      - task: generator:lint
+      - task: controller:lint
+      - task: mangle-test:lint
 
   build-docs-site:
     cmds:
@@ -170,7 +191,7 @@ tasks:
       - controller:generate-crds
     cmds:
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.md'
@@ -264,7 +285,7 @@ tasks:
       - setup
     cmds:
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.md'
@@ -395,7 +416,7 @@ tasks:
     - controller:bundle-crds # bundle-crds is here because some tests assert on generated CRD shape
     cmds:
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.md'
@@ -585,18 +606,11 @@ tasks:
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - defer: # want to run even on failure
-          task: produce-markdown-summary
-          vars:
-            INPUT_FILE: '{{.TEST_OUT}}/controllers-test.json'
-            OUTPUT_FILE: '{{.TEST_OUT}}/controllers-test.md'
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers > '{{.TEST_OUT}}/controllers-test.json'
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers | tee '{{.TEST_OUT}}/test-controllers.log'
     vars:
       VERBOSE:
-        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+        sh: if [ $TEST_FILTER ]; then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
-    sources:
-      - '{{joinPath .CONTROLLER_ROOT "samples"}}'
 
   controller:test-samples:
     desc: Run tests of samples with envtest using record/replay.
@@ -605,18 +619,11 @@ tasks:
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - defer: # want to run even on failure
-          task: produce-markdown-summary
-          vars:
-            INPUT_FILE: '{{.TEST_OUT}}/samples-test.json'
-            OUTPUT_FILE: '{{.TEST_OUT}}/samples-test.md'
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} -json ./internal/testsamples > '{{.TEST_OUT}}/samples-test.json'
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples | tee '{{.TEST_OUT}}/test-samples.log'
     vars:
       VERBOSE:
-        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+        sh: if [ $TEST_FILTER ]; then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
-    sources:
-      - '{{joinPath .CONTROLLER_ROOT "samples"}}'
 
   # Once we've finished integrating go-vcr-tidy into our test framework, we won't need these tasks anymore as the
   # tidying will be automatic.
@@ -703,17 +710,17 @@ tasks:
       - controller:run-kustomize-for-envtest
     cmds:
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.md'
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genruntime-tests.md'
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.md'
@@ -759,6 +766,34 @@ tasks:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
       - go test -timeout 40m -v -run '{{default ".*" .TEST_FILTER}}' ./test
+
+  # To control as many variables as possible and get repeatable runs, it's recommended to 
+  # run this test against a real AKS cluster rather than a local kind cluster
+  controller:test-perf:
+    desc: Run perf tests against the current cluster
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - go test -timeout 30m -v -run '{{default ".*" .TEST_FILTER}}' ./test/perf
+
+  controller:plot-perf-metrics:
+    desc: Plot CPU and memory charts for all unplotted perf metric CSVs.
+    dir: "{{.CONTROLLER_ROOT}}"
+    cmds:
+      - |
+        graph_dir="test/perf/reports/graphs"
+        mkdir -p "$graph_dir"
+        plotted=0
+        for csv in test/perf/reports/metrics_*.csv; do
+          [ -f "$csv" ] || continue
+          base=$(basename "${csv}" .csv)
+          if [ ! -f "${graph_dir}/${base}_cpu.png" ] || [ ! -f "${graph_dir}/${base}_memory.png" ]; then
+            gnuplot -c test/perf/plot-metrics.gp "$csv" "$graph_dir"
+            plotted=$((plotted + 1))
+          fi
+        done
+        if [ "$plotted" -eq 0 ]; then
+          echo "No unplotted CSVs found in test/perf/reports/"
+        fi
 
   controller:test-multitenant-integration-kind-ci:
     desc: Run live multitenant integration tests in kind.
@@ -821,6 +856,7 @@ tasks:
     deps: 
       - controller:generate-types
       - controller:generate-genruntime-deepcopy
+      - scripts:build-python-venv
     sources:
       - "v2/api/**/*.go" # depends on all API types
       - "v2/pkg/genruntime/**/*.go" # Also depends on the genruntime types as they're embedded into the CRDs
@@ -830,13 +866,13 @@ tasks:
       - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/bases" -type f -delete; fi
       - if [ -d "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" ]; then find "{{.CONTROLLER_OUTPUT}}/crd/generated/patches" -type f -delete; fi
       - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./...
-      - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+      - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
+      - "{{.SCRIPTS_ROOT}}/venv/bin/python3 {{.SCRIPTS_ROOT}}/generate-webhooks-per-group.py --api-dir v2/api --output-dir {{.CONTROLLER_OUTPUT}}/webhook/generated"
       - cmd: cd v2/api && gofumpt -l -w . # format all generated code
         ignore_error: true # Just in case the code doesn't build
     vars:
       OBJECT_OPTIONS: object:headerFile={{.HEADER_FILE}}
       CRD_OPTIONS: crd:crdVersions=v1,allowDangerousTypes=true output:crd:artifacts:config={{.CONTROLLER_OUTPUT}}/crd/generated/bases
-      WEBHOOK_OPTIONS: webhook output:webhook:artifacts:config={{.CONTROLLER_OUTPUT}}/webhook
       RBAC_OPTIONS: rbac:roleName=manager-role output:rbac:artifacts:config={{.CONTROLLER_OUTPUT}}/rbac
 
   controller:check-crd-size:
@@ -1283,18 +1319,6 @@ tasks:
     cmds:
       - task: doc:crd-api
 
-  ############### Utility targets ###############
-
-  mangle-test:quick-checks:
-    cmds:
-      - task: mangle-test:lint
-
-  mangle-test:lint:
-    desc: Run mangle-test fast lint checks.
-    dir: '{{.MANGLE_ROOT}}'
-    cmds:
-      - golangci-lint run --verbose --fix --timeout 5m ./...  
-
   ############### Crossplane targets ###############
 
   crossplane:quick-checks:
@@ -1476,18 +1500,9 @@ tasks:
       CHANGED:
         sh: git status --porcelain
 
-  produce-markdown-summary:
-    desc: Builds a test output summary for Github
-    deps: 
-       - build-mangle-test
-    cmds:
-      - cmd: ./v2/tools/mangle-test-json/mangle-test-json "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
 
-  build-mangle-test:
-    desc: Builds the tool we use for mangling test results
-    dir: v2/tools/mangle-test-json
-    cmds:
-      - go build
+
+
 
   provision-oidc-storage-acct:
     desc: Creates a storage account for use in OIDC federation with a random name in resource group "aso-wi-storage"

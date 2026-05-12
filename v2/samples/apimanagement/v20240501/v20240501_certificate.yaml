@@ -1,0 +1,10 @@
+apiVersion: apimanagement.azure.com/v20240501
+kind: Certificate
+metadata:
+  name: samplecertificate
+  namespace: default
+spec:
+  keyVault:
+    secretIdentifier: "https://samplekeyvault.vault.azure.net/secrets/samplecert"
+  owner:
+    name: sampleapimservice

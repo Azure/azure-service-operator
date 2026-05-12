@@ -98,7 +98,8 @@ func NewGenericClient(
 
 	rpRegistrationPolicy, err := NewRPRegistrationPolicy(
 		creds,
-		&opts.ClientOptions)
+		&opts.ClientOptions,
+	)
 	if err != nil {
 		return nil, eris.Wrapf(err, "failed to create rp registration policy")
 	}
@@ -401,7 +402,8 @@ func ListByContainerID[T any](
 
 				return *nextPage, nil
 			},
-		})
+		},
+	)
 
 	var result []T
 	for pager.More() {

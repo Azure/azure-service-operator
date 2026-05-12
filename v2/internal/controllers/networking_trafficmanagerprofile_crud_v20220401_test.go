@@ -82,7 +82,8 @@ func Test_Networking_TrafficManagerProfile(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				Networking_TrafficManagerProfiles_NestedEndpoint(tc, rg, tmp)
 			},
-		})
+		},
+	)
 
 	tc.DeleteResourceAndWait(tmp)
 

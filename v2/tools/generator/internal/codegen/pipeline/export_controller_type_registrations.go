@@ -95,7 +95,8 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 			}
 
 			return state, nil
-		})
+		},
+	)
 }
 
 func transformChainsToIndexFunctionsAndKeys(
@@ -115,7 +116,8 @@ func transformChainsToIndexFunctionsAndKeys(
 			chain.indexMethodName(idFactory, def.Name()),
 			def.Name(),
 			propertyKey,
-			chain.properties())
+			chain.properties(),
+		)
 		indexFunctions = append(indexFunctions, indexFunction)
 		propertyKeys = append(propertyKeys, propertyKey)
 	}
@@ -248,7 +250,7 @@ func (b *indexFunctionBuilder) catalogSecretProperties(
 	ctx *propertyChain,
 ) (astmodel.Type, error) {
 	it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
-		if prop.IsSecret() {
+		if prop.Secrecy() == astmodel.ImportSecretModeRequired || prop.Secrecy() == astmodel.ImportSecretModeOptional {
 			b.propChains = append(b.propChains, ctx.add(prop))
 		}
 	})

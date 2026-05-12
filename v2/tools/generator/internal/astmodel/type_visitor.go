@@ -115,7 +115,8 @@ func (tv *TypeVisitor[C]) VisitDefinition(td TypeDefinition, ctx C) (TypeDefinit
 			err,
 			"visit of %s/%s failed",
 			name.InternalPackageReference().FolderPath(),
-			name.Name())
+			name.Name(),
+		)
 	}
 
 	visitedType, err := tv.Visit(td.Type(), ctx)
@@ -124,7 +125,8 @@ func (tv *TypeVisitor[C]) VisitDefinition(td TypeDefinition, ctx C) (TypeDefinit
 			err,
 			"visit of type of %s/%s failed",
 			name.InternalPackageReference().FolderPath(),
-			name.Name())
+			name.Name(),
+		)
 	}
 
 	def := td.WithName(visitedName).WithType(visitedType)
@@ -175,7 +177,8 @@ func IdentityVisitOfObjectType[C any](this *TypeVisitor[C], it *ObjectType, ctx 
 		ctx,
 		func(_ *ObjectType, _ *PropertyDefinition, ctx C) (C, error) {
 			return ctx, nil
-		})
+		},
+	)
 }
 
 func OrderedIdentityVisitOfObjectType[C any](this *TypeVisitor[C], it *ObjectType, ctx C) (Type, error) {
@@ -185,7 +188,8 @@ func OrderedIdentityVisitOfObjectType[C any](this *TypeVisitor[C], it *ObjectTyp
 		ctx,
 		func(_ *ObjectType, _ *PropertyDefinition, ctx C) (C, error) {
 			return ctx, nil
-		})
+		},
+	)
 }
 
 type MakePerPropertyContext[C any] func(ot *ObjectType, prop *PropertyDefinition, ctx C) (C, error)

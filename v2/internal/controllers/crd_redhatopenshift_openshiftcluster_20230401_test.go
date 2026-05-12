@@ -135,7 +135,8 @@ func Test_RedHatOpenShift_OpenShiftCluster_CRUD(t *testing.T) {
 		roleAssingmentFromRPtoVnet,
 		workerSubnet,
 		masterSubnet,
-		cluster)
+		cluster,
+	)
 
 	tc.Expect(cluster.Status.Id).ToNot(BeNil())
 	armId := *cluster.Status.Id

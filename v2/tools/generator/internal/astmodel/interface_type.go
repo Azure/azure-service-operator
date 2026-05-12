@@ -72,7 +72,8 @@ func (i *InterfaceType) References() TypeNameSet {
 	i.functions.ForEach(
 		func(name string, method Function) {
 			result.AddAll(method.References())
-		})
+		},
+	)
 	return result
 }
 
@@ -153,7 +154,8 @@ func (i *InterfaceType) RequiredPackageReferences() *PackageReferenceSet {
 	i.functions.ForEach(
 		func(_ string, method Function) {
 			result.Merge(method.RequiredPackageReferences())
-		})
+		},
+	)
 
 	return result
 }

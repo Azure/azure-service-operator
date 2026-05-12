@@ -51,22 +51,36 @@ var _ conversion.Convertible = &AzureFirewall{}
 
 // ConvertFrom populates our AzureFirewall from the provided hub AzureFirewall
 func (firewall *AzureFirewall) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.AzureFirewall)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/AzureFirewall but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.AzureFirewall
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return firewall.AssignProperties_From_AzureFirewall(source)
+	err = firewall.AssignProperties_From_AzureFirewall(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to firewall")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub AzureFirewall from our AzureFirewall
 func (firewall *AzureFirewall) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.AzureFirewall)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/AzureFirewall but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.AzureFirewall
+	err := firewall.AssignProperties_To_AzureFirewall(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from firewall")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return firewall.AssignProperties_To_AzureFirewall(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &AzureFirewall{}
@@ -87,17 +101,6 @@ func (firewall *AzureFirewall) SecretDestinationExpressions() []*core.Destinatio
 		return nil
 	}
 	return firewall.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &AzureFirewall{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (firewall *AzureFirewall) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*AzureFirewall_STATUS); ok {
-		return firewall.Spec.Initialize_From_AzureFirewall_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type AzureFirewall_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &AzureFirewall{}
@@ -1085,169 +1088,6 @@ func (firewall *AzureFirewall_Spec) AssignProperties_To_AzureFirewall_Spec(desti
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AzureFirewall_STATUS populates our AzureFirewall_Spec from the provided source AzureFirewall_STATUS
-func (firewall *AzureFirewall_Spec) Initialize_From_AzureFirewall_STATUS(source *AzureFirewall_STATUS) error {
-
-	// AdditionalProperties
-	firewall.AdditionalProperties = genruntime.CloneMapOfStringToString(source.AdditionalProperties)
-
-	// ApplicationRuleCollections
-	if source.ApplicationRuleCollections != nil {
-		applicationRuleCollectionList := make([]AzureFirewallApplicationRuleCollection, len(source.ApplicationRuleCollections))
-		for applicationRuleCollectionIndex, applicationRuleCollectionItem := range source.ApplicationRuleCollections {
-			var applicationRuleCollection AzureFirewallApplicationRuleCollection
-			err := applicationRuleCollection.Initialize_From_AzureFirewallApplicationRuleCollection_STATUS(&applicationRuleCollectionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_AzureFirewallApplicationRuleCollection_STATUS() to populate field ApplicationRuleCollections")
-			}
-			applicationRuleCollectionList[applicationRuleCollectionIndex] = applicationRuleCollection
-		}
-		firewall.ApplicationRuleCollections = applicationRuleCollectionList
-	} else {
-		firewall.ApplicationRuleCollections = nil
-	}
-
-	// AutoscaleConfiguration
-	if source.AutoscaleConfiguration != nil {
-		var autoscaleConfiguration AzureFirewallAutoscaleConfiguration
-		err := autoscaleConfiguration.Initialize_From_AzureFirewallAutoscaleConfiguration_STATUS(source.AutoscaleConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureFirewallAutoscaleConfiguration_STATUS() to populate field AutoscaleConfiguration")
-		}
-		firewall.AutoscaleConfiguration = &autoscaleConfiguration
-	} else {
-		firewall.AutoscaleConfiguration = nil
-	}
-
-	// FirewallPolicy
-	if source.FirewallPolicy != nil {
-		var firewallPolicy SubResource
-		err := firewallPolicy.Initialize_From_SubResource_STATUS(source.FirewallPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field FirewallPolicy")
-		}
-		firewall.FirewallPolicy = &firewallPolicy
-	} else {
-		firewall.FirewallPolicy = nil
-	}
-
-	// HubIPAddresses
-	if source.HubIPAddresses != nil {
-		var hubIPAddress HubIPAddresses
-		err := hubIPAddress.Initialize_From_HubIPAddresses_STATUS(source.HubIPAddresses)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HubIPAddresses_STATUS() to populate field HubIPAddresses")
-		}
-		firewall.HubIPAddresses = &hubIPAddress
-	} else {
-		firewall.HubIPAddresses = nil
-	}
-
-	// IpConfigurations
-	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]AzureFirewallIPConfiguration, len(source.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			var ipConfiguration AzureFirewallIPConfiguration
-			err := ipConfiguration.Initialize_From_AzureFirewallIPConfiguration_STATUS(&ipConfigurationItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_AzureFirewallIPConfiguration_STATUS() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		firewall.IpConfigurations = ipConfigurationList
-	} else {
-		firewall.IpConfigurations = nil
-	}
-
-	// Location
-	firewall.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ManagementIpConfiguration
-	if source.ManagementIpConfiguration != nil {
-		var managementIpConfiguration AzureFirewallIPConfiguration
-		err := managementIpConfiguration.Initialize_From_AzureFirewallIPConfiguration_STATUS(source.ManagementIpConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureFirewallIPConfiguration_STATUS() to populate field ManagementIpConfiguration")
-		}
-		firewall.ManagementIpConfiguration = &managementIpConfiguration
-	} else {
-		firewall.ManagementIpConfiguration = nil
-	}
-
-	// NatRuleCollections
-	if source.NatRuleCollections != nil {
-		natRuleCollectionList := make([]AzureFirewallNatRuleCollection, len(source.NatRuleCollections))
-		for natRuleCollectionIndex, natRuleCollectionItem := range source.NatRuleCollections {
-			var natRuleCollection AzureFirewallNatRuleCollection
-			err := natRuleCollection.Initialize_From_AzureFirewallNatRuleCollection_STATUS(&natRuleCollectionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_AzureFirewallNatRuleCollection_STATUS() to populate field NatRuleCollections")
-			}
-			natRuleCollectionList[natRuleCollectionIndex] = natRuleCollection
-		}
-		firewall.NatRuleCollections = natRuleCollectionList
-	} else {
-		firewall.NatRuleCollections = nil
-	}
-
-	// NetworkRuleCollections
-	if source.NetworkRuleCollections != nil {
-		networkRuleCollectionList := make([]AzureFirewallNetworkRuleCollection, len(source.NetworkRuleCollections))
-		for networkRuleCollectionIndex, networkRuleCollectionItem := range source.NetworkRuleCollections {
-			var networkRuleCollection AzureFirewallNetworkRuleCollection
-			err := networkRuleCollection.Initialize_From_AzureFirewallNetworkRuleCollection_STATUS(&networkRuleCollectionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_AzureFirewallNetworkRuleCollection_STATUS() to populate field NetworkRuleCollections")
-			}
-			networkRuleCollectionList[networkRuleCollectionIndex] = networkRuleCollection
-		}
-		firewall.NetworkRuleCollections = networkRuleCollectionList
-	} else {
-		firewall.NetworkRuleCollections = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku AzureFirewallSku
-		err := sku.Initialize_From_AzureFirewallSku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureFirewallSku_STATUS() to populate field Sku")
-		}
-		firewall.Sku = &sku
-	} else {
-		firewall.Sku = nil
-	}
-
-	// Tags
-	firewall.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// ThreatIntelMode
-	if source.ThreatIntelMode != nil {
-		threatIntelMode := genruntime.ToEnum(string(*source.ThreatIntelMode), azureFirewallThreatIntelMode_Values)
-		firewall.ThreatIntelMode = &threatIntelMode
-	} else {
-		firewall.ThreatIntelMode = nil
-	}
-
-	// VirtualHub
-	if source.VirtualHub != nil {
-		var virtualHub SubResource
-		err := virtualHub.Initialize_From_SubResource_STATUS(source.VirtualHub)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field VirtualHub")
-		}
-		firewall.VirtualHub = &virtualHub
-	} else {
-		firewall.VirtualHub = nil
-	}
-
-	// Zones
-	firewall.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -2249,13 +2089,6 @@ func (collection *AzureFirewallApplicationRuleCollection) AssignProperties_To_Az
 	return nil
 }
 
-// Initialize_From_AzureFirewallApplicationRuleCollection_STATUS populates our AzureFirewallApplicationRuleCollection from the provided source AzureFirewallApplicationRuleCollection_STATUS
-func (collection *AzureFirewallApplicationRuleCollection) Initialize_From_AzureFirewallApplicationRuleCollection_STATUS(source *AzureFirewallApplicationRuleCollection_STATUS) error {
-
-	// No error
-	return nil
-}
-
 // Application rule collection resource.
 type AzureFirewallApplicationRuleCollection_STATUS struct {
 	// Id: Resource ID.
@@ -2409,19 +2242,6 @@ func (configuration *AzureFirewallAutoscaleConfiguration) AssignProperties_To_Az
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AzureFirewallAutoscaleConfiguration_STATUS populates our AzureFirewallAutoscaleConfiguration from the provided source AzureFirewallAutoscaleConfiguration_STATUS
-func (configuration *AzureFirewallAutoscaleConfiguration) Initialize_From_AzureFirewallAutoscaleConfiguration_STATUS(source *AzureFirewallAutoscaleConfiguration_STATUS) error {
-
-	// MaxCapacity
-	configuration.MaxCapacity = genruntime.ClonePointerToInt(source.MaxCapacity)
-
-	// MinCapacity
-	configuration.MinCapacity = genruntime.ClonePointerToInt(source.MinCapacity)
 
 	// No error
 	return nil
@@ -2676,13 +2496,6 @@ func (configuration *AzureFirewallIPConfiguration) AssignProperties_To_AzureFire
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AzureFirewallIPConfiguration_STATUS populates our AzureFirewallIPConfiguration from the provided source AzureFirewallIPConfiguration_STATUS
-func (configuration *AzureFirewallIPConfiguration) Initialize_From_AzureFirewallIPConfiguration_STATUS(source *AzureFirewallIPConfiguration_STATUS) error {
 
 	// No error
 	return nil
@@ -3030,13 +2843,6 @@ func (collection *AzureFirewallNatRuleCollection) AssignProperties_To_AzureFirew
 	return nil
 }
 
-// Initialize_From_AzureFirewallNatRuleCollection_STATUS populates our AzureFirewallNatRuleCollection from the provided source AzureFirewallNatRuleCollection_STATUS
-func (collection *AzureFirewallNatRuleCollection) Initialize_From_AzureFirewallNatRuleCollection_STATUS(source *AzureFirewallNatRuleCollection_STATUS) error {
-
-	// No error
-	return nil
-}
-
 // NAT rule collection resource.
 type AzureFirewallNatRuleCollection_STATUS struct {
 	// Id: Resource ID.
@@ -3300,13 +3106,6 @@ func (collection *AzureFirewallNetworkRuleCollection) AssignProperties_To_AzureF
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AzureFirewallNetworkRuleCollection_STATUS populates our AzureFirewallNetworkRuleCollection from the provided source AzureFirewallNetworkRuleCollection_STATUS
-func (collection *AzureFirewallNetworkRuleCollection) Initialize_From_AzureFirewallNetworkRuleCollection_STATUS(source *AzureFirewallNetworkRuleCollection_STATUS) error {
 
 	// No error
 	return nil
@@ -3592,29 +3391,6 @@ func (firewallSku *AzureFirewallSku) AssignProperties_To_AzureFirewallSku(destin
 	return nil
 }
 
-// Initialize_From_AzureFirewallSku_STATUS populates our AzureFirewallSku from the provided source AzureFirewallSku_STATUS
-func (firewallSku *AzureFirewallSku) Initialize_From_AzureFirewallSku_STATUS(source *AzureFirewallSku_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), azureFirewallSku_Name_Values)
-		firewallSku.Name = &name
-	} else {
-		firewallSku.Name = nil
-	}
-
-	// Tier
-	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), azureFirewallSku_Tier_Values)
-		firewallSku.Tier = &tier
-	} else {
-		firewallSku.Tier = nil
-	}
-
-	// No error
-	return nil
-}
-
 // SKU of an Azure Firewall.
 type AzureFirewallSku_STATUS struct {
 	// Name: Name of an Azure Firewall SKU.
@@ -3870,28 +3646,6 @@ func (addresses *HubIPAddresses) AssignProperties_To_HubIPAddresses(destination 
 	return nil
 }
 
-// Initialize_From_HubIPAddresses_STATUS populates our HubIPAddresses from the provided source HubIPAddresses_STATUS
-func (addresses *HubIPAddresses) Initialize_From_HubIPAddresses_STATUS(source *HubIPAddresses_STATUS) error {
-
-	// PrivateIPAddress
-	addresses.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
-
-	// PublicIPs
-	if source.PublicIPs != nil {
-		var publicIP HubPublicIPAddresses
-		err := publicIP.Initialize_From_HubPublicIPAddresses_STATUS(source.PublicIPs)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HubPublicIPAddresses_STATUS() to populate field PublicIPs")
-		}
-		addresses.PublicIPs = &publicIP
-	} else {
-		addresses.PublicIPs = nil
-	}
-
-	// No error
-	return nil
-}
-
 // IP addresses associated with azure firewall.
 type HubIPAddresses_STATUS struct {
 	// PrivateIPAddress: Private IP Address associated with azure firewall.
@@ -4085,21 +3839,6 @@ func (resource *SubResource) AssignProperties_To_SubResource(destination *storag
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SubResource_STATUS populates our SubResource from the provided source SubResource_STATUS
-func (resource *SubResource) Initialize_From_SubResource_STATUS(source *SubResource_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		resource.Reference = &reference
-	} else {
-		resource.Reference = nil
 	}
 
 	// No error
@@ -5275,32 +5014,6 @@ func (addresses *HubPublicIPAddresses) AssignProperties_To_HubPublicIPAddresses(
 	return nil
 }
 
-// Initialize_From_HubPublicIPAddresses_STATUS populates our HubPublicIPAddresses from the provided source HubPublicIPAddresses_STATUS
-func (addresses *HubPublicIPAddresses) Initialize_From_HubPublicIPAddresses_STATUS(source *HubPublicIPAddresses_STATUS) error {
-
-	// Addresses
-	if source.Addresses != nil {
-		addressList := make([]AzureFirewallPublicIPAddress, len(source.Addresses))
-		for addressIndex, addressItem := range source.Addresses {
-			var address AzureFirewallPublicIPAddress
-			err := address.Initialize_From_AzureFirewallPublicIPAddress_STATUS(&addressItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_AzureFirewallPublicIPAddress_STATUS() to populate field Addresses")
-			}
-			addressList[addressIndex] = address
-		}
-		addresses.Addresses = addressList
-	} else {
-		addresses.Addresses = nil
-	}
-
-	// Count
-	addresses.Count = genruntime.ClonePointerToInt(source.Count)
-
-	// No error
-	return nil
-}
-
 // Public IP addresses associated with azure firewall.
 type HubPublicIPAddresses_STATUS struct {
 	// Addresses: The list of Public IP addresses associated with azure firewall or IP addresses to be retained.
@@ -5620,16 +5333,6 @@ func (address *AzureFirewallPublicIPAddress) AssignProperties_To_AzureFirewallPu
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AzureFirewallPublicIPAddress_STATUS populates our AzureFirewallPublicIPAddress from the provided source AzureFirewallPublicIPAddress_STATUS
-func (address *AzureFirewallPublicIPAddress) Initialize_From_AzureFirewallPublicIPAddress_STATUS(source *AzureFirewallPublicIPAddress_STATUS) error {
-
-	// Address
-	address.Address = genruntime.ClonePointerToString(source.Address)
 
 	// No error
 	return nil

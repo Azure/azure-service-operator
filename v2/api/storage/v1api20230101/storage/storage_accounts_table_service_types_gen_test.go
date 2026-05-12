@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	v20220901s "github.com/Azure/azure-service-operator/v2/api/storage/v20220901/storage"
+	v20230101s "github.com/Azure/azure-service-operator/v2/api/storage/v20230101/storage"
 	v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
@@ -79,7 +79,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableService(subject StorageAcco
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220901s.StorageAccountsTableService
+	var other v20230101s.StorageAccountsTableService
 	err := copied.AssignProperties_To_StorageAccountsTableService(&other)
 	if err != nil {
 		return err.Error()
@@ -183,7 +183,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableServiceOperatorSpec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220901s.StorageAccountsTableServiceOperatorSpec
+	var other v20230101s.StorageAccountsTableServiceOperatorSpec
 	err := copied.AssignProperties_To_StorageAccountsTableServiceOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -280,7 +280,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableService_STATUS(subject Stor
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220901s.StorageAccountsTableService_STATUS
+	var other v20230101s.StorageAccountsTableService_STATUS
 	err := copied.AssignProperties_To_StorageAccountsTableService_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -399,7 +399,7 @@ func RunPropertyAssignmentTestForStorageAccountsTableService_Spec(subject Storag
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20220901s.StorageAccountsTableService_Spec
+	var other v20230101s.StorageAccountsTableService_Spec
 	err := copied.AssignProperties_To_StorageAccountsTableService_Spec(&other)
 	if err != nil {
 		return err.Error()

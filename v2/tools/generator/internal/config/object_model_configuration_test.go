@@ -60,7 +60,9 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 			func(tc *TypeConfiguration) error {
 				tc.NameInNextVersion.Set("Party")
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	nextName, ok := omc.TypeNameInNextVersion.Lookup(typeName)
@@ -80,7 +82,9 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedErr
 			func(tc *TypeConfiguration) error {
 				tc.NameInNextVersion.Set("Party")
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	otherName := astmodel.MakeInternalTypeName(test.Pkg2020, "Location")
@@ -101,7 +105,9 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUsed_Retur
 			func(tc *TypeConfiguration) error {
 				tc.NameInNextVersion.Set("Party")
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	_, ok := omc.TypeNameInNextVersion.Lookup(typeName)
@@ -121,7 +127,9 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_Ret
 			func(tc *TypeConfiguration) error {
 				tc.NameInNextVersion.Set("Party")
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	g.Expect(omc.TypeNameInNextVersion.VerifyConsumed()).NotTo(Succeed())
@@ -144,7 +152,9 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 			func(pc *PropertyConfiguration) error {
 				pc.ReferenceType.Set(ReferenceTypeARM)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	referenceType, ok := omc.ReferenceType.Lookup(typeName, "Spouse")
@@ -165,7 +175,9 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 			func(pc *PropertyConfiguration) error {
 				pc.ReferenceType.Set(ReferenceTypeSimple)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	referenceType, ok := omc.ReferenceType.Lookup(typeName, "FullName")
@@ -186,7 +198,9 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 			func(pc *PropertyConfiguration) error {
 				pc.ReferenceType.Set(ReferenceTypeARM)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	_, ok := omc.ReferenceType.Lookup(typeName, "KnownAs")
@@ -206,7 +220,9 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_
 			func(pc *PropertyConfiguration) error {
 				pc.ReferenceType.Set(ReferenceTypeARM)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	referenceType, ok := omc.ReferenceType.Lookup(typeName, "Spouse")
@@ -228,11 +244,14 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUs
 			func(pc *PropertyConfiguration) error {
 				pc.ReferenceType.Set(ReferenceTypeARM)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	g.Expect(
-		omc.ReferenceType.VerifyConsumed()).NotTo(Succeed())
+		omc.ReferenceType.VerifyConsumed(),
+	).NotTo(Succeed())
 }
 
 /*
@@ -252,7 +271,9 @@ func TestObjectModelConfiguration_LookupExportAs_AfterConsumption_CanLookupUsing
 				tc.ExportAs.Set("Person")
 				tc.NameInNextVersion.Set("Party")
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	// Lookup the new name for the type
@@ -284,7 +305,9 @@ func TestObjectModelConfiguration_ModifyGroup_WhenGroupDoesNotExist_CallsActionW
 			func(configuration *GroupConfiguration) error {
 				cfg = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(cfg).NotTo(BeNil())
 }
@@ -303,7 +326,9 @@ func TestObjectModelConfiguration_ModifyGroup_WhenGroupExists_CallsActionWithExi
 			func(configuration *GroupConfiguration) error {
 				first = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(
 		omc.ModifyGroup(
@@ -311,7 +336,9 @@ func TestObjectModelConfiguration_ModifyGroup_WhenGroupExists_CallsActionWithExi
 			func(configuration *GroupConfiguration) error {
 				second = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(first).To(Equal(second))
 }
@@ -333,7 +360,9 @@ func TestObjectModelConfiguration_ModifyVersion_WhenVersionDoesNotExist_CallsAct
 			func(configuration *VersionConfiguration) error {
 				cfg = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(cfg).NotTo(BeNil())
 }
@@ -352,7 +381,9 @@ func TestObjectModelConfiguration_ModifyVersion_WhenVersionExists_CallsActionWit
 			func(configuration *VersionConfiguration) error {
 				first = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(
 		omc.ModifyVersion(
@@ -360,7 +391,9 @@ func TestObjectModelConfiguration_ModifyVersion_WhenVersionExists_CallsActionWit
 			func(configuration *VersionConfiguration) error {
 				second = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(first).To(Equal(second))
 }
@@ -383,7 +416,9 @@ func TestObjectModelConfiguration_ModifyType_WhenTypeDoesNotExist_CallsActionWit
 			func(configuration *TypeConfiguration) error {
 				cfg = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(cfg).NotTo(BeNil())
 }
@@ -403,7 +438,9 @@ func TestObjectModelConfiguration_ModifyType_WhenTypeExists_CallsActionWithExist
 			func(configuration *TypeConfiguration) error {
 				first = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(
 		omc.ModifyType(
@@ -411,7 +448,9 @@ func TestObjectModelConfiguration_ModifyType_WhenTypeExists_CallsActionWithExist
 			func(configuration *TypeConfiguration) error {
 				second = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(first).To(Equal(second))
 }
@@ -435,7 +474,9 @@ func TestObjectModelConfiguration_ModifyProperty_WhenPropertyDoesNotExist_CallsA
 			func(configuration *PropertyConfiguration) error {
 				cfg = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(cfg).NotTo(BeNil())
 }
@@ -456,7 +497,9 @@ func TestObjectModelConfiguration_ModifyProperty_WhenPropertyExists_CallsActionW
 			func(configuration *PropertyConfiguration) error {
 				first = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(
 		omc.ModifyProperty(
@@ -465,7 +508,9 @@ func TestObjectModelConfiguration_ModifyProperty_WhenPropertyExists_CallsActionW
 			func(configuration *PropertyConfiguration) error {
 				second = configuration
 				return nil
-			})).To(Succeed())
+			},
+		),
+	).To(Succeed())
 
 	g.Expect(first).To(Equal(second))
 }
@@ -486,7 +531,9 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConfigured_ReturnsExpe
 			func(tc *TypeConfiguration) error {
 				tc.SupportedFrom.Set("beta.5")
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	supportedFrom, ok := omc.SupportedFrom.Lookup(name)
@@ -506,7 +553,9 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenNotConfigured_ReturnsE
 			func(tc *TypeConfiguration) error {
 				// No change, just provoking creation
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	_, ok := omc.SupportedFrom.Lookup(name)
@@ -525,7 +574,9 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenConsumed_ReturnsNoErro
 			func(tc *TypeConfiguration) error {
 				tc.SupportedFrom.Set("beta.5")
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	_, ok := omc.SupportedFrom.Lookup(name)
@@ -547,7 +598,9 @@ func TestObjectModelConfiguration_LookupSupportedFrom_WhenUnconsumed_ReturnsErro
 			func(tc *TypeConfiguration) error {
 				tc.SupportedFrom.Set("beta.5")
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	err := omc.SupportedFrom.VerifyConsumed()
@@ -570,7 +623,9 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenConfigured_ReturnsExpect
 			func(gc *GroupConfiguration) error {
 				gc.PayloadType.Set(ExplicitProperties)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	payloadType, ok := omc.PayloadType.Lookup(name, "")
@@ -590,7 +645,9 @@ func TestObjectModelConfiguration_LookupPayloadType_WhenNotConfigured_ReturnsExp
 			func(_ *GroupConfiguration) error {
 				// No change, just provoking creation
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	_, ok := omc.PayloadType.Lookup(name, "")
@@ -609,7 +666,9 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenConsumed_Returns
 			func(gc *GroupConfiguration) error {
 				gc.PayloadType.Set(OmitEmptyProperties)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	_, ok := omc.PayloadType.Lookup(name, "")
@@ -631,7 +690,9 @@ func TestObjectModelConfiguration_VerifyPayloadTypeConsumed_WhenUnconsumed_Retur
 			func(gc *GroupConfiguration) error {
 				gc.PayloadType.Set(ExplicitProperties)
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	err := omc.PayloadType.VerifyConsumed()

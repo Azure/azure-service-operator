@@ -66,7 +66,8 @@ func findEmptyObjectTypes(
 
 		log.V(1).Info(
 			"Removing empty type",
-			"name", def.Name())
+			"name", def.Name(),
+		)
 
 		result.Add(def.Name())
 	}
@@ -125,7 +126,8 @@ func makeRemovedTypeVisitor(
 				log.V(1).Info(
 					"Removing reference to empty type",
 					"property", prop.PropertyName(),
-					"referencing", ctx.typeName)
+					"referencing", ctx.typeName,
+				)
 			}
 		})
 

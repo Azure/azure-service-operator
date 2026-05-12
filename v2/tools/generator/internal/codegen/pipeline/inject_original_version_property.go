@@ -54,5 +54,6 @@ func InjectOriginalVersionProperty() *Stage {
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }

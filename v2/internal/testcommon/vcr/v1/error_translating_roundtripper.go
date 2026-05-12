@@ -100,7 +100,8 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 				req.Header.Get(CountHeader)),
 
 			conditions.ConditionSeverityError,
-			conditions.ReasonReconciliationFailedPermanently)
+			conditions.ReasonReconciliationFailedPermanently,
+		)
 	}
 
 	// locate the request body with the shortest diff from the sent body
@@ -121,7 +122,8 @@ func (w errorTranslation) RoundTrip(req *http.Request) (*http.Response, error) {
 			shortestDiff),
 
 		conditions.ConditionSeverityError,
-		conditions.ReasonReconciliationFailedPermanently)
+		conditions.ReasonReconciliationFailedPermanently,
+	)
 }
 
 // finds bodies for interactions where request method, URL, and vcr.COUNT_HEADER match

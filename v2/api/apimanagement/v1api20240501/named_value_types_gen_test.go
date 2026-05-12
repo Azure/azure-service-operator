@@ -5,7 +5,8 @@ package v1api20240501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	apimanagement_v1api20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	apimanagement_v20240501s "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForKeyVaultContractCreateProperties(subject KeyVau
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyVaultContractCreateProperties
+	var other apimanagement_v1api20240501s.KeyVaultContractCreateProperties
 	err := copied.AssignProperties_To_KeyVaultContractCreateProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -139,7 +140,7 @@ func RunPropertyAssignmentTestForKeyVaultContractProperties_STATUS(subject KeyVa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyVaultContractProperties_STATUS
+	var other apimanagement_v1api20240501s.KeyVaultContractProperties_STATUS
 	err := copied.AssignProperties_To_KeyVaultContractProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -257,7 +258,7 @@ func RunPropertyAssignmentTestForKeyVaultLastAccessStatusContractProperties_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.KeyVaultLastAccessStatusContractProperties_STATUS
+	var other apimanagement_v1api20240501s.KeyVaultLastAccessStatusContractProperties_STATUS
 	err := copied.AssignProperties_To_KeyVaultLastAccessStatusContractProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -363,7 +364,7 @@ func RunResourceConversionTestForNamedValue(subject NamedValue) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.NamedValue
+	var hub apimanagement_v20240501s.NamedValue
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -405,7 +406,7 @@ func RunPropertyAssignmentTestForNamedValue(subject NamedValue) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamedValue
+	var other apimanagement_v1api20240501s.NamedValue
 	err := copied.AssignProperties_To_NamedValue(&other)
 	if err != nil {
 		return err.Error()
@@ -508,7 +509,7 @@ func RunPropertyAssignmentTestForNamedValueOperatorSpec(subject NamedValueOperat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamedValueOperatorSpec
+	var other apimanagement_v1api20240501s.NamedValueOperatorSpec
 	err := copied.AssignProperties_To_NamedValueOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -605,7 +606,7 @@ func RunPropertyAssignmentTestForNamedValue_STATUS(subject NamedValue_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamedValue_STATUS
+	var other apimanagement_v1api20240501s.NamedValue_STATUS
 	err := copied.AssignProperties_To_NamedValue_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -728,7 +729,7 @@ func RunPropertyAssignmentTestForNamedValue_Spec(subject NamedValue_Spec) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NamedValue_Spec
+	var other apimanagement_v1api20240501s.NamedValue_Spec
 	err := copied.AssignProperties_To_NamedValue_Spec(&other)
 	if err != nil {
 		return err.Error()

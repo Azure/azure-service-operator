@@ -183,7 +183,8 @@ func Test_MissingConfigMapKey_ReturnsError(t *testing.T) {
 	// We expect the ready condition to include details of the error
 	tc.Expect(roleAssignment.Status.Conditions[0].Reason).To(Equal(conditions.ReasonConfigMapNotFound.Name))
 	tc.Expect(roleAssignment.Status.Conditions[0].Message).To(
-		ContainSubstring("ConfigMap \"%s/%s\" does not contain key \"%s\"", tc.Namespace, configMap.Name, principalIdKey))
+		ContainSubstring("ConfigMap \"%s/%s\" does not contain key \"%s\"", tc.Namespace, configMap.Name, principalIdKey),
+	)
 
 	tc.DeleteResourceAndWait(rg)
 }

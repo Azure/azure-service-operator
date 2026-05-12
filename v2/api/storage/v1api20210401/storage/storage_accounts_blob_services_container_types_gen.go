@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20210401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -362,20 +362,6 @@ func (container *StorageAccountsBlobServicesContainer_Spec) AssignProperties_Fro
 		container.DenyEncryptionScopeOverride = nil
 	}
 
-	// EnableNfsV3AllSquash
-	if source.EnableNfsV3AllSquash != nil {
-		propertyBag.Add("EnableNfsV3AllSquash", *source.EnableNfsV3AllSquash)
-	} else {
-		propertyBag.Remove("EnableNfsV3AllSquash")
-	}
-
-	// EnableNfsV3RootSquash
-	if source.EnableNfsV3RootSquash != nil {
-		propertyBag.Add("EnableNfsV3RootSquash", *source.EnableNfsV3RootSquash)
-	} else {
-		propertyBag.Remove("EnableNfsV3RootSquash")
-	}
-
 	// ImmutableStorageWithVersioning
 	if source.ImmutableStorageWithVersioning != nil {
 		var immutableStorageWithVersioning ImmutableStorageWithVersioning
@@ -454,32 +440,6 @@ func (container *StorageAccountsBlobServicesContainer_Spec) AssignProperties_To_
 		destination.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	} else {
 		destination.DenyEncryptionScopeOverride = nil
-	}
-
-	// EnableNfsV3AllSquash
-	if propertyBag.Contains("EnableNfsV3AllSquash") {
-		var enableNfsV3AllSquash bool
-		err := propertyBag.Pull("EnableNfsV3AllSquash", &enableNfsV3AllSquash)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'EnableNfsV3AllSquash' from propertyBag")
-		}
-
-		destination.EnableNfsV3AllSquash = &enableNfsV3AllSquash
-	} else {
-		destination.EnableNfsV3AllSquash = nil
-	}
-
-	// EnableNfsV3RootSquash
-	if propertyBag.Contains("EnableNfsV3RootSquash") {
-		var enableNfsV3RootSquash bool
-		err := propertyBag.Pull("EnableNfsV3RootSquash", &enableNfsV3RootSquash)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'EnableNfsV3RootSquash' from propertyBag")
-		}
-
-		destination.EnableNfsV3RootSquash = &enableNfsV3RootSquash
-	} else {
-		destination.EnableNfsV3RootSquash = nil
 	}
 
 	// ImmutableStorageWithVersioning
@@ -650,20 +610,6 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_F
 		container.DenyEncryptionScopeOverride = nil
 	}
 
-	// EnableNfsV3AllSquash
-	if source.EnableNfsV3AllSquash != nil {
-		propertyBag.Add("EnableNfsV3AllSquash", *source.EnableNfsV3AllSquash)
-	} else {
-		propertyBag.Remove("EnableNfsV3AllSquash")
-	}
-
-	// EnableNfsV3RootSquash
-	if source.EnableNfsV3RootSquash != nil {
-		propertyBag.Add("EnableNfsV3RootSquash", *source.EnableNfsV3RootSquash)
-	} else {
-		propertyBag.Remove("EnableNfsV3RootSquash")
-	}
-
 	// Etag
 	container.Etag = genruntime.ClonePointerToString(source.Etag)
 
@@ -800,32 +746,6 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) AssignProperties_T
 		destination.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	} else {
 		destination.DenyEncryptionScopeOverride = nil
-	}
-
-	// EnableNfsV3AllSquash
-	if propertyBag.Contains("EnableNfsV3AllSquash") {
-		var enableNfsV3AllSquash bool
-		err := propertyBag.Pull("EnableNfsV3AllSquash", &enableNfsV3AllSquash)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'EnableNfsV3AllSquash' from propertyBag")
-		}
-
-		destination.EnableNfsV3AllSquash = &enableNfsV3AllSquash
-	} else {
-		destination.EnableNfsV3AllSquash = nil
-	}
-
-	// EnableNfsV3RootSquash
-	if propertyBag.Contains("EnableNfsV3RootSquash") {
-		var enableNfsV3RootSquash bool
-		err := propertyBag.Pull("EnableNfsV3RootSquash", &enableNfsV3RootSquash)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'EnableNfsV3RootSquash' from propertyBag")
-		}
-
-		destination.EnableNfsV3RootSquash = &enableNfsV3RootSquash
-	} else {
-		destination.EnableNfsV3RootSquash = nil
 	}
 
 	// Etag
@@ -970,13 +890,6 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_From_Imm
 		properties.AllowProtectedAppendWrites = nil
 	}
 
-	// AllowProtectedAppendWritesAll
-	if source.AllowProtectedAppendWritesAll != nil {
-		propertyBag.Add("AllowProtectedAppendWritesAll", *source.AllowProtectedAppendWritesAll)
-	} else {
-		propertyBag.Remove("AllowProtectedAppendWritesAll")
-	}
-
 	// Etag
 	properties.Etag = genruntime.ClonePointerToString(source.Etag)
 
@@ -1033,19 +946,6 @@ func (properties *ImmutabilityPolicyProperties_STATUS) AssignProperties_To_Immut
 		destination.AllowProtectedAppendWrites = &allowProtectedAppendWrite
 	} else {
 		destination.AllowProtectedAppendWrites = nil
-	}
-
-	// AllowProtectedAppendWritesAll
-	if propertyBag.Contains("AllowProtectedAppendWritesAll") {
-		var allowProtectedAppendWritesAll bool
-		err := propertyBag.Pull("AllowProtectedAppendWritesAll", &allowProtectedAppendWritesAll)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AllowProtectedAppendWritesAll' from propertyBag")
-		}
-
-		destination.AllowProtectedAppendWritesAll = &allowProtectedAppendWritesAll
-	} else {
-		destination.AllowProtectedAppendWritesAll = nil
 	}
 
 	// Etag
@@ -1274,13 +1174,6 @@ func (properties *LegalHoldProperties_STATUS) AssignProperties_From_LegalHoldPro
 		properties.HasLegalHold = nil
 	}
 
-	// ProtectedAppendWritesHistory
-	if source.ProtectedAppendWritesHistory != nil {
-		propertyBag.Add("ProtectedAppendWritesHistory", *source.ProtectedAppendWritesHistory)
-	} else {
-		propertyBag.Remove("ProtectedAppendWritesHistory")
-	}
-
 	// Tags
 	if source.Tags != nil {
 		tagList := make([]TagProperty_STATUS, len(source.Tags))
@@ -1328,19 +1221,6 @@ func (properties *LegalHoldProperties_STATUS) AssignProperties_To_LegalHoldPrope
 		destination.HasLegalHold = &hasLegalHold
 	} else {
 		destination.HasLegalHold = nil
-	}
-
-	// ProtectedAppendWritesHistory
-	if propertyBag.Contains("ProtectedAppendWritesHistory") {
-		var protectedAppendWritesHistory storage.ProtectedAppendWritesHistory_STATUS
-		err := propertyBag.Pull("ProtectedAppendWritesHistory", &protectedAppendWritesHistory)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProtectedAppendWritesHistory' from propertyBag")
-		}
-
-		destination.ProtectedAppendWritesHistory = &protectedAppendWritesHistory
-	} else {
-		destination.ProtectedAppendWritesHistory = nil
 	}
 
 	// Tags
@@ -1634,20 +1514,6 @@ func (property *UpdateHistoryProperty_STATUS) AssignProperties_From_UpdateHistor
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AllowProtectedAppendWrites
-	if source.AllowProtectedAppendWrites != nil {
-		propertyBag.Add("AllowProtectedAppendWrites", *source.AllowProtectedAppendWrites)
-	} else {
-		propertyBag.Remove("AllowProtectedAppendWrites")
-	}
-
-	// AllowProtectedAppendWritesAll
-	if source.AllowProtectedAppendWritesAll != nil {
-		propertyBag.Add("AllowProtectedAppendWritesAll", *source.AllowProtectedAppendWritesAll)
-	} else {
-		propertyBag.Remove("AllowProtectedAppendWritesAll")
-	}
-
 	// ImmutabilityPeriodSinceCreationInDays
 	property.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(source.ImmutabilityPeriodSinceCreationInDays)
 
@@ -1690,32 +1556,6 @@ func (property *UpdateHistoryProperty_STATUS) AssignProperties_From_UpdateHistor
 func (property *UpdateHistoryProperty_STATUS) AssignProperties_To_UpdateHistoryProperty_STATUS(destination *storage.UpdateHistoryProperty_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(property.PropertyBag)
-
-	// AllowProtectedAppendWrites
-	if propertyBag.Contains("AllowProtectedAppendWrites") {
-		var allowProtectedAppendWrite bool
-		err := propertyBag.Pull("AllowProtectedAppendWrites", &allowProtectedAppendWrite)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AllowProtectedAppendWrites' from propertyBag")
-		}
-
-		destination.AllowProtectedAppendWrites = &allowProtectedAppendWrite
-	} else {
-		destination.AllowProtectedAppendWrites = nil
-	}
-
-	// AllowProtectedAppendWritesAll
-	if propertyBag.Contains("AllowProtectedAppendWritesAll") {
-		var allowProtectedAppendWritesAll bool
-		err := propertyBag.Pull("AllowProtectedAppendWritesAll", &allowProtectedAppendWritesAll)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AllowProtectedAppendWritesAll' from propertyBag")
-		}
-
-		destination.AllowProtectedAppendWritesAll = &allowProtectedAppendWritesAll
-	} else {
-		destination.AllowProtectedAppendWritesAll = nil
-	}
 
 	// ImmutabilityPeriodSinceCreationInDays
 	destination.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(property.ImmutabilityPeriodSinceCreationInDays)

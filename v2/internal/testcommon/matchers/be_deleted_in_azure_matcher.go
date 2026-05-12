@@ -52,7 +52,8 @@ func (m *BeDeletedInAzureMatcher) Match(actual interface{}) (bool, error) {
 	exists, _, err := m.client.CheckExistenceWithGetByID(
 		m.ctx,
 		id,
-		m.apiVersion)
+		m.apiVersion,
+	)
 	if err != nil {
 		return false, err
 	}

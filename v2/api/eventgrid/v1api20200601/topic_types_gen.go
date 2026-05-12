@@ -55,22 +55,36 @@ var _ conversion.Convertible = &Topic{}
 
 // ConvertFrom populates our Topic from the provided hub Topic
 func (topic *Topic) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Topic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1api20200601/storage/Topic but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Topic
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return topic.AssignProperties_From_Topic(source)
+	err = topic.AssignProperties_From_Topic(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to topic")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Topic from our Topic
 func (topic *Topic) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Topic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v1api20200601/storage/Topic but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Topic
+	err := topic.AssignProperties_To_Topic(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from topic")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return topic.AssignProperties_To_Topic(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Topic{}
@@ -91,17 +105,6 @@ func (topic *Topic) SecretDestinationExpressions() []*core.DestinationExpression
 		return nil
 	}
 	return topic.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Topic{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (topic *Topic) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Topic_STATUS); ok {
-		return topic.Spec.Initialize_From_Topic_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Topic_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesConfigExporter = &Topic{}
@@ -678,63 +681,6 @@ func (topic *Topic_Spec) AssignProperties_To_Topic_Spec(destination *storage.Top
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Topic_STATUS populates our Topic_Spec from the provided source Topic_STATUS
-func (topic *Topic_Spec) Initialize_From_Topic_STATUS(source *Topic_STATUS) error {
-
-	// InboundIpRules
-	if source.InboundIpRules != nil {
-		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
-		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
-			var inboundIpRule InboundIpRule
-			err := inboundIpRule.Initialize_From_InboundIpRule_STATUS(&inboundIpRuleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_InboundIpRule_STATUS() to populate field InboundIpRules")
-			}
-			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
-		}
-		topic.InboundIpRules = inboundIpRuleList
-	} else {
-		topic.InboundIpRules = nil
-	}
-
-	// InputSchema
-	if source.InputSchema != nil {
-		inputSchema := genruntime.ToEnum(string(*source.InputSchema), topicProperties_InputSchema_Values)
-		topic.InputSchema = &inputSchema
-	} else {
-		topic.InputSchema = nil
-	}
-
-	// InputSchemaMapping
-	if source.InputSchemaMapping != nil {
-		var inputSchemaMapping InputSchemaMapping
-		err := inputSchemaMapping.Initialize_From_InputSchemaMapping_STATUS(source.InputSchemaMapping)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
-		}
-		topic.InputSchemaMapping = &inputSchemaMapping
-	} else {
-		topic.InputSchemaMapping = nil
-	}
-
-	// Location
-	topic.Location = genruntime.ClonePointerToString(source.Location)
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), topicProperties_PublicNetworkAccess_Values)
-		topic.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		topic.PublicNetworkAccess = nil
-	}
-
-	// Tags
-	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil

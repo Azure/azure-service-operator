@@ -30,7 +30,8 @@ func MarkLatestAPIVersionAsStorageVersion() *Stage {
 			}
 
 			return state.WithDefinitions(updatedDefs), nil
-		})
+		},
+	)
 }
 
 // MarkLatestResourceVersionsForStorage marks the latest version of each resource as the storage version
@@ -85,8 +86,10 @@ func groupResourcesByVersion(definitions astmodel.TypeDefinitionSet) map[unversi
 			func(left astmodel.TypeDefinition, right astmodel.TypeDefinition) int {
 				return astmodel.ComparePathAndVersion(
 					left.Name().PackageReference().ImportPath(),
-					right.Name().PackageReference().ImportPath())
-			})
+					right.Name().PackageReference().ImportPath(),
+				)
+			},
+		)
 	}
 
 	return result

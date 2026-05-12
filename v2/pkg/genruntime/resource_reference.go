@@ -233,7 +233,7 @@ func (ref *ResourceReference) GroupKind() schema.GroupKind {
 // ResourceReference
 func LookupOwnerGroupKind(v interface{}) (string, string) {
 	t := reflect.TypeOf(v)
-	if t.Kind() == reflect.Ptr {
+	if t.Kind() == reflect.Pointer {
 		t = t.Elem()
 	}
 
@@ -314,21 +314,24 @@ func VerifyResourceOwnerARMID(resource ARMMetaObject) error {
 			return eris.Errorf(
 				"expected owner ARM ID to be from provider %q, but was %q",
 				provider,
-				armID.ResourceType.Namespace)
+				armID.ResourceType.Namespace,
+			)
 		}
 		expectedARMIDType := strings.Join(expectedResourceTypesIncludedInARMID, "/")
 		if !strings.EqualFold(armID.ResourceType.Type, expectedARMIDType) {
 			return eris.Errorf(
 				"expected owner ARM ID to be of type %q, but was %q",
 				fmt.Sprintf("%s/%s", provider, expectedARMIDType),
-				armID.ResourceType.String())
+				armID.ResourceType.String(),
+			)
 		}
 	} else if len(expectedResourceTypesIncludedInARMID) == 0 {
 		scope := resource.GetResourceScope()
 		if scope == ResourceScopeResourceGroup && armID.ResourceType.String() != "Microsoft.Resources/resourceGroups" {
 			return eris.Errorf(
 				"expected owner ARM ID to be for a resource group, but was %q",
-				armID.ResourceType.String())
+				armID.ResourceType.String(),
+			)
 		}
 	}
 
@@ -342,20 +345,17 @@ func ValidateOwner(obj ARMMetaObject) (admission.Warnings, error) {
 		return nil, nil
 	}
 
-	var warningsResult admission.Warnings
-
 	warnings, err := owner.Validate()
-	warningsResult = append(warningsResult, warnings...)
 	if err != nil {
-		return warningsResult, err
+		return warnings, err
 	}
 
 	err = VerifyResourceOwnerARMID(obj)
 	if err != nil {
-		return warningsResult, err
+		return warnings, err
 	}
 
-	return warningsResult, nil
+	return warnings, nil
 }
 
 // NamespacedResourceReference is a resource reference with namespace information included

@@ -195,7 +195,8 @@ func (schema *OpenAPISchema) pattern() *regexp.Regexp {
 	if err != nil {
 		schema.log.V(1).Info(
 			"Ignoring regexp we can't compile",
-			"pattern", p)
+			"pattern", p,
+		)
 		return nil
 	}
 
@@ -375,7 +376,8 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.InternalTypeName, error) {
 						name,
 						absRefPath,
 						pkg,
-						otherFile)
+						otherFile,
+					)
 				}
 			}
 		}
@@ -408,7 +410,8 @@ func (schema *OpenAPISchema) refSchema() Schema {
 		outputPackage,
 		schema.idFactory,
 		schema.loader,
-		schema.log)
+		schema.log,
+	)
 }
 
 // findFileForRef identifies the schema path for a ref, relative to the give schema path

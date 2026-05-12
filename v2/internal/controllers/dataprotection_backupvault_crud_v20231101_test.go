@@ -94,7 +94,8 @@ func Test_Dataprotection_Backupvault_20231101_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(dataprotection.APIVersion_Value))
+		string(dataprotection.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

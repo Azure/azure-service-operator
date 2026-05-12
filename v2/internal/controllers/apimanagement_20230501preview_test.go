@@ -13,7 +13,7 @@ import (
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	apim "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20230501preview"
+	apim "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20230501preview"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"

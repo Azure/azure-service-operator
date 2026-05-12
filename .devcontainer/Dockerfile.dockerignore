@@ -1,0 +1,15 @@
+# Ignore everything by default
+**
+
+# Allow devcontainer files
+!.devcontainer/install-dependencies.sh
+
+# Allow go.mod/go.sum for module pre-download
+!v2/go.mod
+!v2/go.sum
+!v2/cmd/asoctl/go.mod
+!v2/cmd/asoctl/go.sum
+!v2/tools/generator/go.mod
+!v2/tools/generator/go.sum
+!v2/tools/mangle-test-json/go.mod
+!v2/tools/mangle-test-json/go.sum

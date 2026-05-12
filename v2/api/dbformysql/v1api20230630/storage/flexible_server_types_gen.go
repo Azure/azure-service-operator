@@ -5,8 +5,7 @@ package storage
 
 import (
 	"context"
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1api20231230/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v20230630/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -56,22 +55,36 @@ var _ conversion.Convertible = &FlexibleServer{}
 
 // ConvertFrom populates our FlexibleServer from the provided hub FlexibleServer
 func (server *FlexibleServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20231230/storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.FlexibleServer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_FlexibleServer(source)
+	err = server.AssignProperties_From_FlexibleServer(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub FlexibleServer from our FlexibleServer
 func (server *FlexibleServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.FlexibleServer)
-	if !ok {
-		return fmt.Errorf("expected dbformysql/v1api20231230/storage/FlexibleServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.FlexibleServer
+	err := server.AssignProperties_To_FlexibleServer(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_FlexibleServer(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &FlexibleServer{}
@@ -1301,13 +1314,6 @@ func (backup *Backup) AssignProperties_From_Backup(source *storage.Backup) error
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// BackupIntervalHours
-	if source.BackupIntervalHours != nil {
-		propertyBag.Add("BackupIntervalHours", *source.BackupIntervalHours)
-	} else {
-		propertyBag.Remove("BackupIntervalHours")
-	}
-
 	// BackupRetentionDays
 	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
 
@@ -1338,19 +1344,6 @@ func (backup *Backup) AssignProperties_From_Backup(source *storage.Backup) error
 func (backup *Backup) AssignProperties_To_Backup(destination *storage.Backup) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(backup.PropertyBag)
-
-	// BackupIntervalHours
-	if propertyBag.Contains("BackupIntervalHours") {
-		var backupIntervalHour int
-		err := propertyBag.Pull("BackupIntervalHours", &backupIntervalHour)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'BackupIntervalHours' from propertyBag")
-		}
-
-		destination.BackupIntervalHours = &backupIntervalHour
-	} else {
-		destination.BackupIntervalHours = nil
-	}
 
 	// BackupRetentionDays
 	destination.BackupRetentionDays = genruntime.ClonePointerToInt(backup.BackupRetentionDays)
@@ -1392,13 +1385,6 @@ func (backup *Backup_STATUS) AssignProperties_From_Backup_STATUS(source *storage
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// BackupIntervalHours
-	if source.BackupIntervalHours != nil {
-		propertyBag.Add("BackupIntervalHours", *source.BackupIntervalHours)
-	} else {
-		propertyBag.Remove("BackupIntervalHours")
-	}
-
 	// BackupRetentionDays
 	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
 
@@ -1432,19 +1418,6 @@ func (backup *Backup_STATUS) AssignProperties_From_Backup_STATUS(source *storage
 func (backup *Backup_STATUS) AssignProperties_To_Backup_STATUS(destination *storage.Backup_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(backup.PropertyBag)
-
-	// BackupIntervalHours
-	if propertyBag.Contains("BackupIntervalHours") {
-		var backupIntervalHour int
-		err := propertyBag.Pull("BackupIntervalHours", &backupIntervalHour)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'BackupIntervalHours' from propertyBag")
-		}
-
-		destination.BackupIntervalHours = &backupIntervalHour
-	} else {
-		destination.BackupIntervalHours = nil
-	}
 
 	// BackupRetentionDays
 	destination.BackupRetentionDays = genruntime.ClonePointerToInt(backup.BackupRetentionDays)

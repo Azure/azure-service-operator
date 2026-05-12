@@ -283,7 +283,8 @@ func (tcr *TypeCatalogReport) writeProperty(
 	sub := rpt.Addf(
 		"%s: %s",
 		prop.PropertyName(),
-		tcr.asShortNameForType(prop.PropertyType(), currentPackage, parentTypes))
+		tcr.asShortNameForType(prop.PropertyType(), currentPackage, parentTypes),
+	)
 
 	if def, ok := tcr.asDefinitionToInline(prop.PropertyType(), parentTypes); ok && tcr.inlinedTypes.Contains(def.Name()) {
 		pt := parentTypes.Copy()
@@ -433,40 +434,48 @@ func (tcr *TypeCatalogReport) asShortNameForType(
 	case *astmodel.OptionalType:
 		return fmt.Sprintf(
 			"*%s",
-			tcr.asShortNameForType(t.Element(), currentPackage, parentTypes))
+			tcr.asShortNameForType(t.Element(), currentPackage, parentTypes),
+		)
 	case *astmodel.ArrayType:
 		return fmt.Sprintf(
 			"%s[]",
-			tcr.asShortNameForType(t.Element(), currentPackage, parentTypes))
+			tcr.asShortNameForType(t.Element(), currentPackage, parentTypes),
+		)
 	case *astmodel.MapType:
 		return fmt.Sprintf(
 			"map[%s]%s",
 			tcr.asShortNameForType(t.KeyType(), currentPackage, parentTypes),
-			tcr.asShortNameForType(t.ValueType(), currentPackage, parentTypes))
+			tcr.asShortNameForType(t.ValueType(), currentPackage, parentTypes),
+		)
 	case *astmodel.ResourceType:
 		return "Resource"
 	case *astmodel.EnumType:
 		return fmt.Sprintf(
 			"Enum (%s)",
-			tcr.formatCount(len(t.Options()), "value", "values"))
+			tcr.formatCount(len(t.Options()), "value", "values"),
+		)
 	case *astmodel.ObjectType:
 		return fmt.Sprintf(
 			"Object (%s)",
-			tcr.formatCount(t.Properties().Len(), "property", "properties"))
+			tcr.formatCount(t.Properties().Len(), "property", "properties"),
+		)
 	case *astmodel.OneOfType:
 		return fmt.Sprintf(
 			"OneOf (%s, %s)",
 			tcr.formatCount(len(t.PropertyObjects()), "object", "objects"),
-			tcr.formatCount(t.Types().Len(), "option", "options"))
+			tcr.formatCount(t.Types().Len(), "option", "options"),
+		)
 	case *astmodel.AllOfType:
 		return fmt.Sprintf(
 			"AllOf (%s)",
-			tcr.formatCount(t.Types().Len(), "choice", "choices"))
+			tcr.formatCount(t.Types().Len(), "choice", "choices"),
+		)
 	case *astmodel.ValidatedType:
 		return fmt.Sprintf(
 			"Validated<%s> (%s)",
 			tcr.asShortNameForType(t.Unwrap(), currentPackage, parentTypes),
-			tcr.formatCount(len(t.Validations().ToKubeBuilderValidations()), "rule", "rules"))
+			tcr.formatCount(len(t.Validations().ToKubeBuilderValidations()), "rule", "rules"),
+		)
 	case *astmodel.FlaggedType:
 		var flags strings.Builder
 		for i, f := range t.Flags() {
@@ -481,7 +490,8 @@ func (tcr *TypeCatalogReport) asShortNameForType(
 		return fmt.Sprintf(
 			"%s %s",
 			tcr.asShortNameForType(t.Element(), currentPackage, parentTypes),
-			flags.String())
+			flags.String(),
+		)
 	case astmodel.MetaType:
 		return tcr.asShortNameForType(t.Unwrap(), currentPackage, parentTypes)
 	default:
@@ -595,7 +605,8 @@ func (tcr *TypeCatalogReport) findPackages() []astmodel.InternalPackageReference
 		result,
 		func(left astmodel.InternalPackageReference, right astmodel.InternalPackageReference) int {
 			return astmodel.ComparePathAndVersion(left.ImportPath(), right.ImportPath())
-		})
+		},
+	)
 
 	return result
 }

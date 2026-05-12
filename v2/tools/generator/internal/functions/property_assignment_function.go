@@ -132,7 +132,8 @@ func (fn *PropertyAssignmentFunction) AsFunc(
 ) (*dst.FuncDecl, error) {
 	description := fn.direction.SelectString(
 		fmt.Sprintf("populates our %s from the provided source %s", receiver.Name(), fn.ParameterType().Name()),
-		fmt.Sprintf("populates the provided destination %s from our %s", fn.ParameterType().Name(), receiver.Name()))
+		fmt.Sprintf("populates the provided destination %s from our %s", fn.ParameterType().Name(), receiver.Name()),
+	)
 
 	// We always use a pointer receiver, so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver)
@@ -205,7 +206,8 @@ func (fn *PropertyAssignmentFunction) generateBody(
 		assignments,
 		bagEpilogue,
 		handleOverrideInterface,
-		astbuilder.ReturnNoError()), nil
+		astbuilder.ReturnNoError(),
+	), nil
 }
 
 // createPropertyBagPrologue creates any introductory statements needed to set up our property bag before we start doing
@@ -240,18 +242,21 @@ func (fn *PropertyAssignmentFunction) createPropertyBagPrologue(
 		createBag = astbuilder.CallQualifiedFunc(
 			genruntimePkg,
 			"NewPropertyBag",
-			astbuilder.Selector(dst.NewIdent(source), string(fn.sourcePropertyBag.PropertyName())))
+			astbuilder.Selector(dst.NewIdent(source), string(fn.sourcePropertyBag.PropertyName())),
+		)
 		comment = "// Clone the existing property bag"
 	} else {
 		createBag = astbuilder.CallQualifiedFunc(
 			genruntimePkg,
-			"NewPropertyBag")
+			"NewPropertyBag",
+		)
 		comment = "// Create a new property bag"
 	}
 
 	initializeBag := astbuilder.ShortDeclaration(
 		fn.conversionContext.PropertyBagName(),
-		createBag)
+		createBag,
+	)
 	initializeBag.Decs.Before = dst.NewLine
 	astbuilder.AddComment(&initializeBag.Decorations().Start, comment)
 
@@ -282,7 +287,8 @@ func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 		store := astbuilder.SimpleIfElse(
 			condition,
 			astbuilder.Statements(storeBag),
-			astbuilder.Statements(storeNil))
+			astbuilder.Statements(storeNil),
+		)
 		store.Decs.Before = dst.EmptyLine
 		astbuilder.AddComment(&store.Decorations().Start, "// Update the property bag")
 
@@ -330,25 +336,30 @@ func (fn *PropertyAssignmentFunction) handleAugmentationInterface(
 	conversionFuncName := fn.Direction().SelectString("AssignPropertiesFrom", "AssignPropertiesTo")
 	callAssignOverride := astbuilder.ShortDeclaration(
 		"err",
-		astbuilder.CallQualifiedFunc(augmentedReceiverIdent, conversionFuncName, dst.NewIdent(parameter)))
+		astbuilder.CallQualifiedFunc(augmentedReceiverIdent, conversionFuncName, dst.NewIdent(parameter)),
+	)
 	returnIfNotNil := astbuilder.ReturnIfNotNil(
 		dst.NewIdent("err"),
 		astbuilder.WrappedError(
 			generationContext.MustGetImportedPackageName(astmodel.ErisReference),
-			fmt.Sprintf("calling augmented %s() for conversion", conversionFuncName)))
+			fmt.Sprintf("calling augmented %s() for conversion", conversionFuncName),
+		),
+	)
 
 	ifStmt := astbuilder.IfType(
 		dst.NewIdent(receiverAsAnyIdent),
 		augmentationInterfaceExpr,
 		augmentedReceiverIdent,
 		callAssignOverride,
-		returnIfNotNil)
+		returnIfNotNil,
+	)
 	sourceAsAny.Decorations().Before = dst.EmptyLine
 	sourceAsAny.Decorations().Start.Prepend(fmt.Sprintf("// Invoke the %s interface (if implemented) to customize the conversion", fn.augmentationInterface.Name()))
 
 	return astbuilder.Statements(
 		sourceAsAny,
-		ifStmt), nil
+		ifStmt,
+	), nil
 }
 
 // generateAssignments generates a sequence of statements to copy information between the two types
