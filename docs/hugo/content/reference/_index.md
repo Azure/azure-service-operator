@@ -354,34 +354,34 @@ To install the CRDs for these resources, your ASO configuration must include `co
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                         | ARM Version | CRD Version | Supported From | Sample                                                                                                                                 |
-|----------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
-| AvailabilitySet                  | 2024-11-01  | v20241101   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20241101/v20241101_availabilityset.yaml)          |
-| CapacityReservation              | 2025-04-01  | v20250401   | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20250401/v20250401_capacityreservation.yaml)      |
-| CapacityReservationGroup         | 2025-04-01  | v20250401   | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20250401/v20250401_capacityreservationgroup.yaml) |
-| Disk                             | 2024-03-02  | v20240302   | v2.9.0         | -                                                                                                                                      |
-| DiskAccess                       | 2024-03-02  | v20240302   | v2.9.0         | -                                                                                                                                      |
-| DiskEncryptionSet                | 2024-03-02  | v20240302   | v2.9.0         | -                                                                                                                                      |
-| Image                            | 2022-03-01  | v20220301   | v2.0.0         | -                                                                                                                                      |
-| Snapshot                         | 2024-03-02  | v20240302   | v2.9.0         | -                                                                                                                                      |
-| VirtualMachine                   | 2022-03-01  | v20220301   | v2.0.0         | -                                                                                                                                      |
-| VirtualMachineScaleSet           | 2022-03-01  | v20220301   | v2.0.0         | -                                                                                                                                      |
-| VirtualMachineScaleSetsExtension | 2022-03-01  | v20220301   | v2.6.0         | -                                                                                                                                      |
-| VirtualMachinesExtension         | 2022-03-01  | v20220301   | v2.6.0         | -                                                                                                                                      |
+| Resource                         | ARM Version | CRD Version | Supported From | Sample                                                                                                                                         |
+|----------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| AvailabilitySet                  | 2024-11-01  | v20241101   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20241101/v20241101_availabilityset.yaml)                  |
+| CapacityReservation              | 2025-04-01  | v20250401   | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20250401/v20250401_capacityreservation.yaml)              |
+| CapacityReservationGroup         | 2025-04-01  | v20250401   | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20250401/v20250401_capacityreservationgroup.yaml)         |
+| Disk                             | 2024-03-02  | v20240302   | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20240302/v20240302_disk.yaml)                             |
+| DiskAccess                       | 2024-03-02  | v20240302   | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20240302/v20240302_diskaccess.yaml)                       |
+| DiskEncryptionSet                | 2024-03-02  | v20240302   | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20240302/v20240302_diskencryptionset.yaml)                |
+| Image                            | 2022-03-01  | v20220301   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20220301/v20220301_image.yaml)                            |
+| Snapshot                         | 2024-03-02  | v20240302   | v2.9.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20240302/v20240302_snapshot.yaml)                         |
+| VirtualMachine                   | 2022-03-01  | v20220301   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20220301/v20220301_virtualmachine.yaml)                   |
+| VirtualMachineScaleSet           | 2022-03-01  | v20220301   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20220301/v20220301_virtualmachinescaleset.yaml)           |
+| VirtualMachineScaleSetsExtension | 2022-03-01  | v20220301   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20220301/v20220301_virtualmachinescalesetsextension.yaml) |
+| VirtualMachinesExtension         | 2022-03-01  | v20220301   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20220301/v20220301_virtualmachinesextension.yaml)         |
 
 ### Other Supported Versions
 
 These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                         | ARM Version | CRD Version | Supported From | Sample |
-|----------------------------------|-------------|-------------|----------------|--------|
-| Disk                             | 2020-09-30  | v20200930   | v2.0.0         | -      |
-| DiskEncryptionSet                | 2022-07-02  | v20220702   | v2.3.0         | -      |
-| Image                            | 2021-07-01  | v20210701   | v2.0.0         | -      |
-| Snapshot                         | 2020-09-30  | v20200930   | v2.0.0         | -      |
-| VirtualMachine                   | 2020-12-01  | v20201201   | v2.0.0         | -      |
-| VirtualMachineScaleSet           | 2020-12-01  | v20201201   | v2.0.0         | -      |
-| VirtualMachineScaleSetsExtension | 2020-12-01  | v20201201   | v2.6.0         | -      |
-| VirtualMachinesExtension         | 2020-12-01  | v20201201   | v2.6.0         | -      |
+| Resource                         | ARM Version | CRD Version | Supported From | Sample                                                                                                                                         |
+|----------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| Disk                             | 2020-09-30  | v20200930   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20200930/v20200930_disk.yaml)                             |
+| DiskEncryptionSet                | 2022-07-02  | v20220702   | v2.3.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20220702/v20220702_diskencryptionset.yaml)                |
+| Image                            | 2021-07-01  | v20210701   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20210701/v20210701_image.yaml)                            |
+| Snapshot                         | 2020-09-30  | v20200930   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20200930/v20200930_snapshot.yaml)                         |
+| VirtualMachine                   | 2020-12-01  | v20201201   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20201201/v20201201_virtualmachine.yaml)                   |
+| VirtualMachineScaleSet           | 2020-12-01  | v20201201   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20201201/v20201201_virtualmachinescaleset.yaml)           |
+| VirtualMachineScaleSetsExtension | 2020-12-01  | v20201201   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20201201/v20201201_virtualmachinescalesetsextension.yaml) |
+| VirtualMachinesExtension         | 2020-12-01  | v20201201   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/compute/v20201201/v20201201_virtualmachinesextension.yaml)         |
 
 ### Deprecated
 
