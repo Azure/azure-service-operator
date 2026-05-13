@@ -129,7 +129,8 @@ func (gcf *GroupConfigurationFile) validateAndFillGroup(groupName string) error 
 			if !f.Group.Matches(groupName).Matched {
 				return fmt.Errorf(
 					"typeFilter[%d] has group %q which doesn't match expected group %q",
-					i, f.Group.String(), groupName)
+					i, f.Group.String(), groupName,
+				)
 			}
 		} else {
 			gcf.TypeFilters[i].Group = NewFieldMatcher(groupName)
@@ -141,7 +142,8 @@ func (gcf *GroupConfigurationFile) validateAndFillGroup(groupName string) error 
 			if !t.Group.Matches(groupName).Matched {
 				return fmt.Errorf(
 					"typeTransformer[%d] has group %q which doesn't match expected group %q",
-					i, t.Group.String(), groupName)
+					i, t.Group.String(), groupName,
+				)
 			}
 		} else {
 			gcf.Transformers[i].Group = NewFieldMatcher(groupName)
