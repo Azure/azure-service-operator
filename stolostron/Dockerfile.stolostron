@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/go-toolset:1.25.9-1778186187 AS toolchain
+FROM registry.access.redhat.com/ubi9/go-toolset:1.25.9-1778675823 AS toolchain
 
 # Run this with docker build --build_arg $(go env GOPROXY) to override the goproxy
 ARG goproxy=https://proxy.golang.org
@@ -11,7 +11,7 @@ WORKDIR /workspace
 
 ENV GOFLAGS="-buildvcs=false"
 
-COPY . ./
+COPY ./ ./
 
 # Cache deps before building and copying source so that we don't need to re-download as much
 # and so that source changes don't invalidate our downloaded layer
@@ -19,18 +19,15 @@ RUN  --mount=type=cache,target=/root/.local/share/golang \
      --mount=type=cache,target=/go/pkg/mod \
      go mod download
 
-# Install static glibc libs required for CGO_ENABLED=1 static linking
-RUN yum install -y glibc-static && yum clean all
-
 # Build
 RUN --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.local/share/golang \
-    CGO_ENABLED=1 GOOS=linux GOARCH=${ARCH} go build -ldflags "-extldflags '-static'" -o ./aso-controller ./cmd/controller/
+    CGO_ENABLED=1 GOOS=linux GOARCH=${ARCH} go build -o ./aso-controller ./cmd/controller/
 
 # Copy the aso-controller into a thin image
 FROM registry.access.redhat.com/ubi9/ubi:9.7-1778461714
 COPY --from=builder /workspace/aso-controller /aso-controller
 COPY stolostron/crds ./crds
-USER nonroot:nonroot
+USER 65532:65532
 ENTRYPOINT ["/aso-controller"]
