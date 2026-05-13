@@ -19,11 +19,14 @@ RUN  --mount=type=cache,target=/root/.local/share/golang \
      --mount=type=cache,target=/go/pkg/mod \
      go mod download
 
+# Install static glibc libs required for CGO_ENABLED=1 static linking
+RUN yum install -y glibc-static && yum clean all
+
 # Build
 RUN --mount=type=cache,target=/root/.cache/go-build \
     --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.local/share/golang \
-    CGO_ENABLED=0 GOOS=linux GOARCH=${ARCH} go build -ldflags "-extldflags '-static'" -o ./aso-controller ./cmd/controller/
+    CGO_ENABLED=1 GOOS=linux GOARCH=${ARCH} go build -ldflags "-extldflags '-static'" -o ./aso-controller ./cmd/controller/
 
 # Copy the aso-controller into a thin image
 FROM registry.access.redhat.com/ubi9/ubi:9.7-1778461714
