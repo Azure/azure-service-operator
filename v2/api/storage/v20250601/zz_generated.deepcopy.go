@@ -3427,32 +3427,32 @@ func (in *StorageAccountOperatorConfigMaps) DeepCopyInto(out *StorageAccountOper
 	if in.BlobEndpoint != nil {
 		in, out := &in.BlobEndpoint, &out.BlobEndpoint
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DfsEndpoint != nil {
 		in, out := &in.DfsEndpoint, &out.DfsEndpoint
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.FileEndpoint != nil {
 		in, out := &in.FileEndpoint, &out.FileEndpoint
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.QueueEndpoint != nil {
 		in, out := &in.QueueEndpoint, &out.QueueEndpoint
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.TableEndpoint != nil {
 		in, out := &in.TableEndpoint, &out.TableEndpoint
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.WebEndpoint != nil {
 		in, out := &in.WebEndpoint, &out.WebEndpoint
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -3472,42 +3472,42 @@ func (in *StorageAccountOperatorSecrets) DeepCopyInto(out *StorageAccountOperato
 	if in.BlobEndpoint != nil {
 		in, out := &in.BlobEndpoint, &out.BlobEndpoint
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.DfsEndpoint != nil {
 		in, out := &in.DfsEndpoint, &out.DfsEndpoint
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.FileEndpoint != nil {
 		in, out := &in.FileEndpoint, &out.FileEndpoint
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Key1 != nil {
 		in, out := &in.Key1, &out.Key1
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Key2 != nil {
 		in, out := &in.Key2, &out.Key2
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.QueueEndpoint != nil {
 		in, out := &in.QueueEndpoint, &out.QueueEndpoint
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.TableEndpoint != nil {
 		in, out := &in.TableEndpoint, &out.TableEndpoint
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.WebEndpoint != nil {
 		in, out := &in.WebEndpoint, &out.WebEndpoint
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -3531,7 +3531,7 @@ func (in *StorageAccountOperatorSpec) DeepCopyInto(out *StorageAccountOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3547,7 +3547,7 @@ func (in *StorageAccountOperatorSpec) DeepCopyInto(out *StorageAccountOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4170,7 +4170,7 @@ func (in *StorageAccountsBlobServiceOperatorSpec) DeepCopyInto(out *StorageAccou
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4181,7 +4181,7 @@ func (in *StorageAccountsBlobServiceOperatorSpec) DeepCopyInto(out *StorageAccou
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4428,7 +4428,7 @@ func (in *StorageAccountsBlobServicesContainerOperatorSpec) DeepCopyInto(out *St
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4439,7 +4439,7 @@ func (in *StorageAccountsBlobServicesContainerOperatorSpec) DeepCopyInto(out *St
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4730,7 +4730,7 @@ func (in *StorageAccountsFileServiceOperatorSpec) DeepCopyInto(out *StorageAccou
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4741,7 +4741,7 @@ func (in *StorageAccountsFileServiceOperatorSpec) DeepCopyInto(out *StorageAccou
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4928,7 +4928,7 @@ func (in *StorageAccountsFileServicesShareOperatorSpec) DeepCopyInto(out *Storag
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4939,7 +4939,7 @@ func (in *StorageAccountsFileServicesShareOperatorSpec) DeepCopyInto(out *Storag
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5279,7 +5279,7 @@ func (in *StorageAccountsManagementPolicyOperatorSpec) DeepCopyInto(out *Storage
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5290,7 +5290,7 @@ func (in *StorageAccountsManagementPolicyOperatorSpec) DeepCopyInto(out *Storage
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5457,7 +5457,7 @@ func (in *StorageAccountsQueueServiceOperatorSpec) DeepCopyInto(out *StorageAcco
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5468,7 +5468,7 @@ func (in *StorageAccountsQueueServiceOperatorSpec) DeepCopyInto(out *StorageAcco
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5630,7 +5630,7 @@ func (in *StorageAccountsQueueServicesQueueOperatorSpec) DeepCopyInto(out *Stora
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5641,7 +5641,7 @@ func (in *StorageAccountsQueueServicesQueueOperatorSpec) DeepCopyInto(out *Stora
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5812,7 +5812,7 @@ func (in *StorageAccountsTableServiceOperatorSpec) DeepCopyInto(out *StorageAcco
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5823,7 +5823,7 @@ func (in *StorageAccountsTableServiceOperatorSpec) DeepCopyInto(out *StorageAcco
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5985,7 +5985,7 @@ func (in *StorageAccountsTableServicesTableOperatorSpec) DeepCopyInto(out *Stora
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5996,7 +5996,7 @@ func (in *StorageAccountsTableServicesTableOperatorSpec) DeepCopyInto(out *Stora
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

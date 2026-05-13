@@ -2604,7 +2604,7 @@ func (maps *ExtensionOperatorConfigMaps) AssignProperties_From_ExtensionOperator
 
 	// PrincipalId
 	if source.PrincipalId != nil {
-		principalId := source.PrincipalId.Copy()
+		principalId := *source.PrincipalId.DeepCopy()
 		maps.PrincipalId = &principalId
 	} else {
 		maps.PrincipalId = nil
@@ -2637,7 +2637,7 @@ func (maps *ExtensionOperatorConfigMaps) AssignProperties_To_ExtensionOperatorCo
 
 	// PrincipalId
 	if maps.PrincipalId != nil {
-		principalId := maps.PrincipalId.Copy()
+		principalId := *maps.PrincipalId.DeepCopy()
 		destination.PrincipalId = &principalId
 	} else {
 		destination.PrincipalId = nil

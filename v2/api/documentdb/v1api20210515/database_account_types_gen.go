@@ -5612,7 +5612,7 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignProperties_From_DatabaseAcc
 
 	// DocumentEndpoint
 	if source.DocumentEndpoint != nil {
-		documentEndpoint := source.DocumentEndpoint.Copy()
+		documentEndpoint := *source.DocumentEndpoint.DeepCopy()
 		secrets.DocumentEndpoint = &documentEndpoint
 	} else {
 		secrets.DocumentEndpoint = nil
@@ -5620,7 +5620,7 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignProperties_From_DatabaseAcc
 
 	// PrimaryMasterKey
 	if source.PrimaryMasterKey != nil {
-		primaryMasterKey := source.PrimaryMasterKey.Copy()
+		primaryMasterKey := *source.PrimaryMasterKey.DeepCopy()
 		secrets.PrimaryMasterKey = &primaryMasterKey
 	} else {
 		secrets.PrimaryMasterKey = nil
@@ -5628,7 +5628,7 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignProperties_From_DatabaseAcc
 
 	// PrimaryReadonlyMasterKey
 	if source.PrimaryReadonlyMasterKey != nil {
-		primaryReadonlyMasterKey := source.PrimaryReadonlyMasterKey.Copy()
+		primaryReadonlyMasterKey := *source.PrimaryReadonlyMasterKey.DeepCopy()
 		secrets.PrimaryReadonlyMasterKey = &primaryReadonlyMasterKey
 	} else {
 		secrets.PrimaryReadonlyMasterKey = nil
@@ -5636,7 +5636,7 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignProperties_From_DatabaseAcc
 
 	// SecondaryMasterKey
 	if source.SecondaryMasterKey != nil {
-		secondaryMasterKey := source.SecondaryMasterKey.Copy()
+		secondaryMasterKey := *source.SecondaryMasterKey.DeepCopy()
 		secrets.SecondaryMasterKey = &secondaryMasterKey
 	} else {
 		secrets.SecondaryMasterKey = nil
@@ -5644,7 +5644,7 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignProperties_From_DatabaseAcc
 
 	// SecondaryReadonlyMasterKey
 	if source.SecondaryReadonlyMasterKey != nil {
-		secondaryReadonlyMasterKey := source.SecondaryReadonlyMasterKey.Copy()
+		secondaryReadonlyMasterKey := *source.SecondaryReadonlyMasterKey.DeepCopy()
 		secrets.SecondaryReadonlyMasterKey = &secondaryReadonlyMasterKey
 	} else {
 		secrets.SecondaryReadonlyMasterKey = nil
@@ -5661,7 +5661,7 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignProperties_To_DatabaseAccou
 
 	// DocumentEndpoint
 	if secrets.DocumentEndpoint != nil {
-		documentEndpoint := secrets.DocumentEndpoint.Copy()
+		documentEndpoint := *secrets.DocumentEndpoint.DeepCopy()
 		destination.DocumentEndpoint = &documentEndpoint
 	} else {
 		destination.DocumentEndpoint = nil
@@ -5669,7 +5669,7 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignProperties_To_DatabaseAccou
 
 	// PrimaryMasterKey
 	if secrets.PrimaryMasterKey != nil {
-		primaryMasterKey := secrets.PrimaryMasterKey.Copy()
+		primaryMasterKey := *secrets.PrimaryMasterKey.DeepCopy()
 		destination.PrimaryMasterKey = &primaryMasterKey
 	} else {
 		destination.PrimaryMasterKey = nil
@@ -5677,7 +5677,7 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignProperties_To_DatabaseAccou
 
 	// PrimaryReadonlyMasterKey
 	if secrets.PrimaryReadonlyMasterKey != nil {
-		primaryReadonlyMasterKey := secrets.PrimaryReadonlyMasterKey.Copy()
+		primaryReadonlyMasterKey := *secrets.PrimaryReadonlyMasterKey.DeepCopy()
 		destination.PrimaryReadonlyMasterKey = &primaryReadonlyMasterKey
 	} else {
 		destination.PrimaryReadonlyMasterKey = nil
@@ -5685,7 +5685,7 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignProperties_To_DatabaseAccou
 
 	// SecondaryMasterKey
 	if secrets.SecondaryMasterKey != nil {
-		secondaryMasterKey := secrets.SecondaryMasterKey.Copy()
+		secondaryMasterKey := *secrets.SecondaryMasterKey.DeepCopy()
 		destination.SecondaryMasterKey = &secondaryMasterKey
 	} else {
 		destination.SecondaryMasterKey = nil
@@ -5693,7 +5693,7 @@ func (secrets *DatabaseAccountOperatorSecrets) AssignProperties_To_DatabaseAccou
 
 	// SecondaryReadonlyMasterKey
 	if secrets.SecondaryReadonlyMasterKey != nil {
-		secondaryReadonlyMasterKey := secrets.SecondaryReadonlyMasterKey.Copy()
+		secondaryReadonlyMasterKey := *secrets.SecondaryReadonlyMasterKey.DeepCopy()
 		destination.SecondaryReadonlyMasterKey = &secondaryReadonlyMasterKey
 	} else {
 		destination.SecondaryReadonlyMasterKey = nil

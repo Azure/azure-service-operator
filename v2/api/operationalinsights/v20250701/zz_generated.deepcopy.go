@@ -419,12 +419,12 @@ func (in *WorkspaceOperatorSecrets) DeepCopyInto(out *WorkspaceOperatorSecrets) 
 	if in.PrimarySharedKey != nil {
 		in, out := &in.PrimarySharedKey, &out.PrimarySharedKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondarySharedKey != nil {
 		in, out := &in.SecondarySharedKey, &out.SecondarySharedKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -448,7 +448,7 @@ func (in *WorkspaceOperatorSpec) DeepCopyInto(out *WorkspaceOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -459,7 +459,7 @@ func (in *WorkspaceOperatorSpec) DeepCopyInto(out *WorkspaceOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

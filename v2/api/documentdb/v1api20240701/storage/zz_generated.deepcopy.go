@@ -225,7 +225,7 @@ func (in *FirewallRuleOperatorSpec) DeepCopyInto(out *FirewallRuleOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -243,7 +243,7 @@ func (in *FirewallRuleOperatorSpec) DeepCopyInto(out *FirewallRuleOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -542,7 +542,7 @@ func (in *MongoClusterOperatorSpec) DeepCopyInto(out *MongoClusterOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -560,7 +560,7 @@ func (in *MongoClusterOperatorSpec) DeepCopyInto(out *MongoClusterOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

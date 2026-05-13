@@ -355,7 +355,7 @@ func (in *DataCollectionEndpointOperatorSpec) DeepCopyInto(out *DataCollectionEn
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -366,7 +366,7 @@ func (in *DataCollectionEndpointOperatorSpec) DeepCopyInto(out *DataCollectionEn
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -656,7 +656,7 @@ func (in *DataCollectionRuleAssociationOperatorSpec) DeepCopyInto(out *DataColle
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -667,7 +667,7 @@ func (in *DataCollectionRuleAssociationOperatorSpec) DeepCopyInto(out *DataColle
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -837,7 +837,7 @@ func (in *DataCollectionRuleOperatorSpec) DeepCopyInto(out *DataCollectionRuleOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -848,7 +848,7 @@ func (in *DataCollectionRuleOperatorSpec) DeepCopyInto(out *DataCollectionRuleOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

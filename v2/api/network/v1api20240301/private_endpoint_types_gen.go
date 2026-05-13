@@ -2733,7 +2733,7 @@ func (maps *PrivateEndpointOperatorConfigMaps) AssignProperties_From_PrivateEndp
 
 	// PrimaryNicPrivateIpAddress
 	if source.PrimaryNicPrivateIpAddress != nil {
-		primaryNicPrivateIpAddress := source.PrimaryNicPrivateIpAddress.Copy()
+		primaryNicPrivateIpAddress := *source.PrimaryNicPrivateIpAddress.DeepCopy()
 		maps.PrimaryNicPrivateIpAddress = &primaryNicPrivateIpAddress
 	} else {
 		maps.PrimaryNicPrivateIpAddress = nil
@@ -2750,7 +2750,7 @@ func (maps *PrivateEndpointOperatorConfigMaps) AssignProperties_To_PrivateEndpoi
 
 	// PrimaryNicPrivateIpAddress
 	if maps.PrimaryNicPrivateIpAddress != nil {
-		primaryNicPrivateIpAddress := maps.PrimaryNicPrivateIpAddress.Copy()
+		primaryNicPrivateIpAddress := *maps.PrimaryNicPrivateIpAddress.DeepCopy()
 		destination.PrimaryNicPrivateIpAddress = &primaryNicPrivateIpAddress
 	} else {
 		destination.PrimaryNicPrivateIpAddress = nil

@@ -222,7 +222,7 @@ func (in *NetworkWatcherOperatorSpec) DeepCopyInto(out *NetworkWatcherOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -233,7 +233,7 @@ func (in *NetworkWatcherOperatorSpec) DeepCopyInto(out *NetworkWatcherOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -414,7 +414,7 @@ func (in *NetworkWatchersFlowLogOperatorSpec) DeepCopyInto(out *NetworkWatchersF
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -425,7 +425,7 @@ func (in *NetworkWatchersFlowLogOperatorSpec) DeepCopyInto(out *NetworkWatchersF
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

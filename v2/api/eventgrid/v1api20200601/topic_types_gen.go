@@ -1479,7 +1479,7 @@ func (maps *TopicOperatorConfigMaps) AssignProperties_From_TopicOperatorConfigMa
 
 	// Endpoint
 	if source.Endpoint != nil {
-		endpoint := source.Endpoint.Copy()
+		endpoint := *source.Endpoint.DeepCopy()
 		maps.Endpoint = &endpoint
 	} else {
 		maps.Endpoint = nil
@@ -1496,7 +1496,7 @@ func (maps *TopicOperatorConfigMaps) AssignProperties_To_TopicOperatorConfigMaps
 
 	// Endpoint
 	if maps.Endpoint != nil {
-		endpoint := maps.Endpoint.Copy()
+		endpoint := *maps.Endpoint.DeepCopy()
 		destination.Endpoint = &endpoint
 	} else {
 		destination.Endpoint = nil
@@ -1526,7 +1526,7 @@ func (secrets *TopicOperatorSecrets) AssignProperties_From_TopicOperatorSecrets(
 
 	// Key1
 	if source.Key1 != nil {
-		key1 := source.Key1.Copy()
+		key1 := *source.Key1.DeepCopy()
 		secrets.Key1 = &key1
 	} else {
 		secrets.Key1 = nil
@@ -1534,7 +1534,7 @@ func (secrets *TopicOperatorSecrets) AssignProperties_From_TopicOperatorSecrets(
 
 	// Key2
 	if source.Key2 != nil {
-		key2 := source.Key2.Copy()
+		key2 := *source.Key2.DeepCopy()
 		secrets.Key2 = &key2
 	} else {
 		secrets.Key2 = nil
@@ -1551,7 +1551,7 @@ func (secrets *TopicOperatorSecrets) AssignProperties_To_TopicOperatorSecrets(de
 
 	// Key1
 	if secrets.Key1 != nil {
-		key1 := secrets.Key1.Copy()
+		key1 := *secrets.Key1.DeepCopy()
 		destination.Key1 = &key1
 	} else {
 		destination.Key1 = nil
@@ -1559,7 +1559,7 @@ func (secrets *TopicOperatorSecrets) AssignProperties_To_TopicOperatorSecrets(de
 
 	// Key2
 	if secrets.Key2 != nil {
-		key2 := secrets.Key2.Copy()
+		key2 := *secrets.Key2.DeepCopy()
 		destination.Key2 = &key2
 	} else {
 		destination.Key2 = nil

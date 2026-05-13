@@ -278,3 +278,139 @@ func Test_ValidateOptionalReferences_NilPairEntry_Validates(t *testing.T) {
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
+
+func Test_ValidateSecretDestination_DuplicateAnnotationKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.SecretDestination{
+		{
+			Name: "mysecret",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+		{
+			Name: "mysecret",
+			Key:  "key2",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+
+	_, err := secrets.ValidateDestinations(nil, destinations, nil)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for annotation on secret "mysecret": key "reflector.v1/reflect" is set by multiple destinations`))
+}
+
+func Test_ValidateSecretDestination_DuplicateLabelKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.SecretDestination{
+		{
+			Name: "mysecret",
+			Key:  "key1",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+		{
+			Name: "mysecret",
+			Key:  "key2",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+	}
+
+	_, err := secrets.ValidateDestinations(nil, destinations, nil)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for label on secret "mysecret": key "app" is set by multiple destinations`))
+}
+
+func Test_ValidateSecretDestination_DifferentSecrets_SameAnnotationKey_Validates(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.SecretDestination{
+		{
+			Name: "secret1",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+		{
+			Name: "secret2",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+
+	warnings, err := secrets.ValidateDestinations(nil, destinations, nil)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
+}
+
+func Test_ValidateSecretDestinationExpressions_DuplicateAnnotationKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.SecretDestination{
+		{
+			Name: "mysecret",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+	expressions := []*core.DestinationExpression{
+		{
+			Name:  "mysecret",
+			Key:   "key2",
+			Value: "resource.status.id",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+
+	_, err := secrets.ValidateDestinations(nil, destinations, expressions)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for annotation on secret "mysecret": key "reflector.v1/reflect" is set by multiple destinations`))
+}
+
+func Test_ValidateSecretDestinationExpressions_DuplicateLabelKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.SecretDestination{
+		{
+			Name: "mysecret",
+			Key:  "key1",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+	}
+	expressions := []*core.DestinationExpression{
+		{
+			Name:  "mysecret",
+			Key:   "key2",
+			Value: "resource.status.id",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+	}
+
+	_, err := secrets.ValidateDestinations(nil, destinations, expressions)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for label on secret "mysecret": key "app" is set by multiple destinations`))
+}
