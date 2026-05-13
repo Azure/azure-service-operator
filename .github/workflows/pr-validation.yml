@@ -294,13 +294,15 @@ jobs:
 
   # TODO: Changing this name requires changing the github API calls in pr-validation-fork.yml
   integration-tests:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testintegration-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     if: 
+      github.repository == 'Azure/azure-service-operator' && (
       # Run on pull requests in this repository that are not from @dependabot, and run for merge groups
       github.event_name == 'merge_group' ||
       ( github.event_name == 'pull_request' &&
         github.actor != 'dependabot[bot]' &&
         github.event.pull_request.head.repo.full_name == github.repository )
+      )
     permissions:
       packages: read
       checks: write
