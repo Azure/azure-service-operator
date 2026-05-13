@@ -50,7 +50,8 @@ func SortPackageReferencesByPathAndVersion(packages []PackageReference) {
 		packages,
 		func(left PackageReference, right PackageReference) int {
 			return ComparePathAndVersion(left.ImportPath(), right.ImportPath())
-		})
+		},
+	)
 }
 
 // ComparePathAndVersion compares two paths containing versions

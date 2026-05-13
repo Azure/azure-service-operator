@@ -42,7 +42,8 @@ func AddSecrets(config *config.Configuration) *Stage {
 			}
 
 			return state.WithOverlaidDefinitions(astmodel.TypesDisjointUnion(updatedSpecs, updatedStatuses)), nil
-		})
+		},
+	)
 
 	stage.RequiresPostrequisiteStages(CreateARMTypesStageID)
 
@@ -77,7 +78,8 @@ func applyConfigSecretOverrides(
 				// and we don't have config to tell us for sure
 				return nil, eris.Errorf(
 					"property %s might be a secret and must be configured with $importSecretMode",
-					prop.PropertyName())
+					prop.PropertyName(),
+				)
 			}
 
 			if secrecyConfigured {
@@ -111,7 +113,8 @@ func applyConfigSecretOverrides(
 	if len(errs) > 0 {
 		return nil, eris.Wrap(
 			kerrors.NewAggregate(errs),
-			"encountered errors while applying config secrets")
+			"encountered errors while applying config secrets",
+		)
 	}
 
 	// Verify that all 'isSecret' modifiers are consumed before returning the result
@@ -119,7 +122,8 @@ func applyConfigSecretOverrides(
 	if err != nil {
 		return nil, eris.Wrap(
 			err,
-			"Found unused $importSecretMode configurations; these need to be fixed or removed.")
+			"Found unused $importSecretMode configurations; these need to be fixed or removed.",
+		)
 	}
 
 	return result, nil
@@ -286,7 +290,8 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 				return nil, eris.Errorf(
 					"expected property %q to be a string, optional string, map[string]string, or []string, but was: %s",
 					prop.PropertyName(),
-					astmodel.DebugDescription(propType))
+					astmodel.DebugDescription(propType),
+				)
 			}
 
 			it = it.WithoutProperty(prop.PropertyName())
@@ -308,7 +313,8 @@ func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.Object
 				return nil, eris.Errorf(
 					"expected property %q to be a string, optional string, map[string]string, or []string, but was: %s",
 					prop.PropertyName(),
-					astmodel.DebugDescription(propType))
+					astmodel.DebugDescription(propType),
+				)
 			}
 
 			// Work out the secret reference type
@@ -336,7 +342,8 @@ func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.Object
 				if _, ok := it.Property(newProp.PropertyName()); ok {
 					return nil, eris.Errorf(
 						"property %q already exists on type, can't create optional secret pair",
-						newProp.PropertyName())
+						newProp.PropertyName(),
+					)
 				}
 
 				it = it.WithProperty(newProp)

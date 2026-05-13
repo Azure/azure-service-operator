@@ -26,19 +26,23 @@ func TestCreateTypeConversion_GivenIncompatibleEndpoints_ReturnsExpectedError(t 
 
 	stringEnum := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "StringEnum"),
-		astmodel.NewEnumType(astmodel.StringType))
+		astmodel.NewEnumType(astmodel.StringType),
+	)
 
 	intEnum := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "IntEnum"),
-		astmodel.NewEnumType(astmodel.IntType))
+		astmodel.NewEnumType(astmodel.IntType),
+	)
 
 	addressObject := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "Address"),
-		astmodel.NewObjectType())
+		astmodel.NewObjectType(),
+	)
 
 	locationObject := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2022, "Location"),
-		astmodel.NewObjectType())
+		astmodel.NewObjectType(),
+	)
 
 	cases := []struct {
 		name           string

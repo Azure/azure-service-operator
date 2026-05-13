@@ -78,51 +78,72 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 
 	// Initialize type access fields here (alphabetical, please)
 	result.AzureGeneratedSecrets = makeTypeAccess[[]string](
-		result, func(c *TypeConfiguration) *configurable[[]string] { return &c.AzureGeneratedSecrets })
+		result, func(c *TypeConfiguration) *configurable[[]string] { return &c.AzureGeneratedSecrets },
+	)
 	result.DefaultAzureName = makeTypeAccess[bool](
-		result, func(c *TypeConfiguration) *configurable[bool] { return &c.DefaultAzureName })
+		result, func(c *TypeConfiguration) *configurable[bool] { return &c.DefaultAzureName },
+	)
 	result.ExportAs = makeTypeAccess[string](
-		result, func(c *TypeConfiguration) *configurable[string] { return &c.ExportAs })
+		result, func(c *TypeConfiguration) *configurable[string] { return &c.ExportAs },
+	)
 	result.GeneratedConfigs = makeTypeAccess[map[string]string](
-		result, func(c *TypeConfiguration) *configurable[map[string]string] { return &c.GeneratedConfigs })
+		result, func(c *TypeConfiguration) *configurable[map[string]string] { return &c.GeneratedConfigs },
+	)
 	result.Importable = makeTypeAccess[bool](
-		result, func(c *TypeConfiguration) *configurable[bool] { return &c.Importable })
+		result, func(c *TypeConfiguration) *configurable[bool] { return &c.Importable },
+	)
 	result.IsResource = makeTypeAccess[bool](
-		result, func(c *TypeConfiguration) *configurable[bool] { return &c.IsResource })
+		result, func(c *TypeConfiguration) *configurable[bool] { return &c.IsResource },
+	)
 	result.ManualConfigs = makeTypeAccess[[]string](
-		result, func(c *TypeConfiguration) *configurable[[]string] { return &c.ManualConfigs })
+		result, func(c *TypeConfiguration) *configurable[[]string] { return &c.ManualConfigs },
+	)
 	result.OperatorSpecProperties = makeTypeAccess[[]OperatorSpecPropertyConfiguration](
 		result, func(c *TypeConfiguration) *configurable[[]OperatorSpecPropertyConfiguration] {
 			return &c.OperatorSpecProperties
-		})
+		},
+	)
 	result.RenameTo = makeTypeAccess[string](
-		result, func(c *TypeConfiguration) *configurable[string] { return &c.RenameTo })
+		result, func(c *TypeConfiguration) *configurable[string] { return &c.RenameTo },
+	)
 	result.ResourceEmbeddedInParent = makeTypeAccess[string](
-		result, func(c *TypeConfiguration) *configurable[string] { return &c.ResourceEmbeddedInParent })
+		result, func(c *TypeConfiguration) *configurable[string] { return &c.ResourceEmbeddedInParent },
+	)
 	result.StripDocumentation = makeTypeAccess[bool](
-		result, func(c *TypeConfiguration) *configurable[bool] { return &c.StripDocumentation })
+		result, func(c *TypeConfiguration) *configurable[bool] { return &c.StripDocumentation },
+	)
 	result.SupportedFrom = makeTypeAccess[string](
-		result, func(c *TypeConfiguration) *configurable[string] { return &c.SupportedFrom })
+		result, func(c *TypeConfiguration) *configurable[string] { return &c.SupportedFrom },
+	)
 	result.TypeNameInNextVersion = makeTypeAccess[string](
-		result, func(c *TypeConfiguration) *configurable[string] { return &c.NameInNextVersion })
+		result, func(c *TypeConfiguration) *configurable[string] { return &c.NameInNextVersion },
+	)
 
 	// Initialize property access fields here (alphabetical, please)
 	result.ConversionStrategy = makePropertyAccess[ConversionStrategy](
-		result, func(c *PropertyConfiguration) *configurable[ConversionStrategy] { return &c.ConversionStrategy })
+		result, func(c *PropertyConfiguration) *configurable[ConversionStrategy] { return &c.ConversionStrategy },
+	)
 	result.Description = makePropertyAccess[string](
-		result, func(c *PropertyConfiguration) *configurable[string] { return &c.Description })
+		result, func(c *PropertyConfiguration) *configurable[string] { return &c.Description },
+	)
 	result.ImportConfigMapMode = makePropertyAccess[ImportConfigMapMode](
-		result, func(c *PropertyConfiguration) *configurable[ImportConfigMapMode] { return &c.ImportConfigMapMode })
+		result, func(c *PropertyConfiguration) *configurable[ImportConfigMapMode] { return &c.ImportConfigMapMode },
+	)
 	result.Secrecy = makePropertyAccess[astmodel.ImportSecretMode](
-		result, func(c *PropertyConfiguration) *configurable[astmodel.ImportSecretMode] { return &c.Secrecy })
+		result, func(c *PropertyConfiguration) *configurable[astmodel.ImportSecretMode] { return &c.Secrecy },
+	)
 	result.PropertyNameInNextVersion = makePropertyAccess[string](
-		result, func(c *PropertyConfiguration) *configurable[string] { return &c.NameInNextVersion })
+		result, func(c *PropertyConfiguration) *configurable[string] { return &c.NameInNextVersion },
+	)
 	result.ReferenceType = makePropertyAccess[ReferenceType](
-		result, func(c *PropertyConfiguration) *configurable[ReferenceType] { return &c.ReferenceType })
+		result, func(c *PropertyConfiguration) *configurable[ReferenceType] { return &c.ReferenceType },
+	)
 	result.RenamePropertyTo = makePropertyAccess[string](
-		result, func(c *PropertyConfiguration) *configurable[string] { return &c.RenameTo })
+		result, func(c *PropertyConfiguration) *configurable[string] { return &c.RenameTo },
+	)
 	result.ResourceLifecycleOwnedByParent = makePropertyAccess[string](
-		result, func(c *PropertyConfiguration) *configurable[string] { return &c.ResourceLifecycleOwnedByParent })
+		result, func(c *PropertyConfiguration) *configurable[string] { return &c.ResourceLifecycleOwnedByParent },
+	)
 
 	return result
 }
@@ -173,7 +194,8 @@ func (omc *ObjectModelConfiguration) AddTypeAlias(name astmodel.InternalTypeName
 		name.InternalPackageReference(),
 		func(configuration *VersionConfiguration) error {
 			return configuration.addTypeAlias(name.Name(), alias)
-		})
+		},
+	)
 
 	err := versionVisitor.visit(omc)
 	if err != nil {
@@ -197,7 +219,8 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 			name := astmodel.MakeInternalTypeName(currentPackage, typeConfig.name)
 			result.Add(name)
 			return nil
-		})
+		},
+	)
 
 	// Collect hand-crafted versions as we see them.
 	// They look like v<n> where n is a small number.
@@ -207,19 +230,22 @@ func (omc *ObjectModelConfiguration) FindHandCraftedTypeNames(localPath string) 
 				currentPackage = astmodel.MakeNamedLocalPackageReference(
 					localPath,
 					currentGroup,
-					verConfig.name)
+					verConfig.name,
+				)
 				return verConfig.visitTypes(typeVisitor)
 			}
 
 			return nil
-		})
+		},
+	)
 
 	// Look inside each group for hand-crafted versions
 	groupVisitor := newEveryGroupConfigurationVisitor(
 		func(groupConfig *GroupConfiguration) error {
 			currentGroup = groupConfig.name
 			return groupConfig.visitVersions(versionVisitor)
-		})
+		},
+	)
 
 	err := groupVisitor.visit(omc)
 	if err != nil {
@@ -323,7 +349,8 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// No handler for this value, return an error
 		return eris.Errorf(
-			"object model configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column)
+			"object model configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column,
+		)
 
 	}
 
@@ -371,7 +398,8 @@ func (omc *ObjectModelConfiguration) ModifyVersion(
 			}
 
 			return action(ver)
-		})
+		},
+	)
 }
 
 // ModifyType allows the configuration of a specific type to be modified.
@@ -395,7 +423,8 @@ func (omc *ObjectModelConfiguration) ModifyType(
 			}
 
 			return action(typ)
-		})
+		},
+	)
 }
 
 // ModifyProperty allows the configuration of a specific property to be modified.
@@ -420,5 +449,6 @@ func (omc *ObjectModelConfiguration) ModifyProperty(
 			}
 
 			return action(prop)
-		})
+		},
+	)
 }

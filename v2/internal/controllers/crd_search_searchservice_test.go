@@ -51,7 +51,8 @@ func Test_Search_SearchService_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				SearchService_WriteSecrets(tc, service)
 			},
-		})
+		},
+	)
 
 	old := service.DeepCopy()
 	key := "foo"
@@ -85,5 +86,6 @@ func SearchService_WriteSecrets(tc *testcommon.KubePerTestContext, service *sear
 		searchKeysSecret,
 		"adminPrimaryKey",
 		"adminSecondaryKey",
-		"queryKey")
+		"queryKey",
+	)
 }

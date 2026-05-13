@@ -80,7 +80,8 @@ func Test_OwnerIsKubernetesResourceFromDifferentSubscription_ResourceFails(t *te
 		cfg.ClientID,
 		"1234", // We're not expecting to make it all the way to provision the resource, so it's OK to use a fake client secret here
 		scopedCredentialName,
-		tc.Namespace)
+		tc.Namespace,
+	)
 	tc.CreateResource(scopedCredentialSecret)
 
 	tc.CreateResourceAndWaitForFailure(acct)

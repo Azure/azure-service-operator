@@ -72,7 +72,8 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 		// Do we need a specific PackageReference type for this case?
 		astmodel.MakeNamedLocalPackageReference("", "controllers", ""), // TODO: This should come from a config
 		packageReferences,
-		nil)
+		nil,
+	)
 
 	r.storageVersionToVersionMap = r.getStorageVersionToVersionsMap(codeGenContext)
 
@@ -364,7 +365,9 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	resultIdent := dst.NewIdent("result")
 	resultType := astmodel.NewArrayType(
 		astmodel.NewOptionalType(
-			astmodel.StorageTypeRegistrationType))
+			astmodel.StorageTypeRegistrationType,
+		),
+	)
 	resultTypeExpr, err := resultType.AsTypeExpr(codeGenerationContext)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating type expression for StorageTypeRegistrationType")
@@ -373,7 +376,8 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	resultVar := astbuilder.LocalVariableDeclaration(
 		resultIdent.String(),
 		resultTypeExpr,
-		"")
+		"",
+	)
 
 	sort.Slice(r.storageVersionResources, orderByImportedTypeName(codeGenerationContext, r.storageVersionResources))
 
@@ -437,7 +441,8 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 
 		appendStmt := astbuilder.AppendItemToSlice(
 			resultIdent,
-			astbuilder.AddrOf(newStorageTypeBuilder.Build()))
+			astbuilder.AddrOf(newStorageTypeBuilder.Build()),
+		)
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
 	}
 
@@ -451,7 +456,8 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	}
 
 	f.AddReturn(
-		resultTypeExpr)
+		resultTypeExpr,
+	)
 	f.AddComments(funcComment)
 
 	return f.DefineFunc(), nil
@@ -474,7 +480,8 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(
 	resultVar := astbuilder.LocalVariableDeclaration(
 		resultIdent.String(),
 		resultTypeExpr,
-		"")
+		"",
+	)
 
 	resourceAppendStatements := make([]dst.Stmt, 0, len(r.resourceExtensions))
 	for _, typeName := range r.resourceExtensions {
@@ -535,7 +542,8 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 
 	clientGoSchemeAssign := astbuilder.SimpleAssignment(
 		dst.NewIdent(ignore),
-		astbuilder.CallQualifiedFunc(clientGoScheme, addToScheme, dst.NewIdent(scheme)))
+		astbuilder.CallQualifiedFunc(clientGoScheme, addToScheme, dst.NewIdent(scheme)),
+	)
 
 	importedPackages := r.getImportedPackages()
 	importedPackageNames := make([]string, 0, len(importedPackages))
@@ -556,7 +564,8 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 	for _, group := range importedPackageNames {
 		groupSchemeAssign := astbuilder.SimpleAssignment(
 			dst.NewIdent(ignore),
-			astbuilder.CallQualifiedFunc(group, addToScheme, dst.NewIdent(scheme)))
+			astbuilder.CallQualifiedFunc(group, addToScheme, dst.NewIdent(scheme)),
+		)
 
 		groupVersionAssignments = append(groupVersionAssignments, groupSchemeAssign)
 	}
@@ -623,7 +632,8 @@ func (r *ResourceRegistrationFile) makeWatchesExpr(
 		astmodel.SecretType,
 		"watchSecretsFactory",
 		r.secretPropertyKeys,
-		codeGenerationContext)
+		codeGenerationContext,
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating watches expression for secrets")
 	}
@@ -633,7 +643,8 @@ func (r *ResourceRegistrationFile) makeWatchesExpr(
 		astmodel.ConfigMapType,
 		"watchConfigMapsFactory",
 		r.configMapPropertyKeys,
-		codeGenerationContext)
+		codeGenerationContext,
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating watches expression for configmaps")
 	}
@@ -721,7 +732,8 @@ func (r *ResourceRegistrationFile) makeSimpleWatchesExpr(
 	eventHandler := astbuilder.CallFunc(
 		watchHelperFuncName,
 		slice,
-		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(listTypeExpr).Build()))
+		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(listTypeExpr).Build()),
+	)
 	newWatchBuilder.AddField("MakeEventHandler", eventHandler)
 
 	return newWatchBuilder.Build(), nil

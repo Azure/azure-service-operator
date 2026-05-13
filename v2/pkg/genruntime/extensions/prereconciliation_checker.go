@@ -79,7 +79,8 @@ func CreatePreReconciliationChecker(
 		if err != nil {
 			log.V(Status).Info(
 				"Extension pre-reconcile check failed",
-				"Error", err.Error())
+				"Error", err.Error(),
+			)
 
 			// We choose to skip here so that things are definitely broken and the user will notice
 			// If we defaulted to always reconciling, the user might not notice that something is wrong
@@ -88,7 +89,8 @@ func CreatePreReconciliationChecker(
 
 		log.V(Status).Info(
 			"Extension pre-reconcile check succeeded",
-			"Result", result)
+			"Result", result,
+		)
 
 		return result, nil
 	}, true

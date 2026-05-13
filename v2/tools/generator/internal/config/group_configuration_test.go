@@ -120,7 +120,8 @@ func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWith
 	// Lookup $supportedFrom for our type - version is from 2021 but our config has 2022, so it won't be found
 	tn := astmodel.MakeInternalTypeName(
 		test.MakeLocalPackageReference(groupConfig.name, "2021-01-01"),
-		"Person")
+		"Person",
+	)
 
 	_, ok := omConfig.SupportedFrom.Lookup(tn)
 	g.Expect(ok).To(BeFalse())

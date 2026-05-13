@@ -38,5 +38,6 @@ func RemoveEmbeddedResources(
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }

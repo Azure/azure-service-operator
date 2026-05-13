@@ -66,7 +66,8 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 
 			err = configuration.ObjectModelConfiguration.SupportedFrom.VerifyConsumed()
 			return state, err
-		})
+		},
+	)
 }
 
 type ResourceVersionsReport struct {
@@ -163,7 +164,8 @@ func (report *ResourceVersionsReport) loadFragments() error {
 
 			report.availableFragments[name] = string(content)
 			return nil
-		})
+		},
+	)
 	if err != nil {
 		return eris.Wrapf(err, "Unable to load fragments from %q", fragmentsPath)
 	}
@@ -391,32 +393,37 @@ func (report *ResourceVersionsReport) writeGroupSections(
 	deprecatedSection := createSection(
 		"deprecated",
 		"Deprecated",
-		releasedResources.Where(report.isDeprecatedResource))
+		releasedResources.Where(report.isDeprecatedResource),
+	)
 
 	// Create a section for all prerelease resources (those not yet released)
 	prereleaseSection := createSection(
 		"prerelease",
 		"Next Release",
-		releasedResources.Where(report.isUnreleasedResource))
+		releasedResources.Where(report.isUnreleasedResource),
+	)
 
 	// Create a section for the latest versions of all supported resources
 	latestSection := createSection(
 		"latest",
 		"Latest Released Versions",
-		findRecommendedReleases(releasedResources))
+		findRecommendedReleases(releasedResources),
+	)
 
 	// Create a section for all other supported versions
 	otherSection := createSection(
 		"other",
 		"Other Supported Versions",
-		releasedResources)
+		releasedResources,
+	)
 
 	// Create an empty section for all released resources
 	// (This will initially be empty, but )
 	releasedSection := createSection(
 		"released",
 		"Released",
-		set.Make[ResourceVersionsReportResourceItem]())
+		set.Make[ResourceVersionsReportResourceItem](),
+	)
 
 	// If every resource is the latest version, move them to the released section
 	if len(otherSection.kinds) == 0 {
@@ -438,7 +445,8 @@ func (report *ResourceVersionsReport) writeGroupSections(
 			section.id,
 			"### "+section.title,
 			section.kinds,
-			buffer)
+			buffer,
+		)
 		if err != nil {
 			return eris.Wrapf(err, "writing section %s for group %s", section.id, group)
 		}
@@ -582,7 +590,8 @@ func (report *ResourceVersionsReport) createTable(
 		armVersion,
 		crdVersion,
 		supportedFrom,
-		sample)
+		sample,
+	)
 
 	toIterate := items.Values()
 	slices.SortFunc(
@@ -598,7 +607,8 @@ func (report *ResourceVersionsReport) createTable(
 
 			// Reversed parameters because we want more recent versions listed first
 			return astmodel.ComparePathAndVersion(right.PackageReference().ImportPath(), left.PackageReference().ImportPath())
-		})
+		},
+	)
 
 	sampleLinks, err := report.FindSampleLinks(info.Group)
 	if err != nil {
@@ -623,7 +633,8 @@ func (report *ResourceVersionsReport) createTable(
 			armVersion,
 			crdVersion,
 			supportedFrom,
-			sample)
+			sample,
+		)
 	}
 
 	return result, nil
@@ -888,14 +899,16 @@ func (report *ResourceVersionsReport) groupInfo(
 			saveCandidate(
 				strings.TrimPrefix(provider, prefix),
 				provider,
-				best)
+				best,
+			)
 		} else if strings.HasPrefix(strings.ToLower(provider), strings.ToLower(prefix)) {
 			// If the provider starts with "Microsoft." (but doesn't match the case exactly),
 			// that's not so good, but better than the defaults
 			saveCandidate(
 				caser.String(provider[len(prefix):]),
 				caser.String(provider),
-				better)
+				better,
+			)
 		} else {
 			// Just use what we have
 			saveCandidate(provider, provider, good)

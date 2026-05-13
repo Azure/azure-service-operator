@@ -119,7 +119,8 @@ func (builder conversionBuilder) propertyConversionHandler(
 		toProp.PropertyName(),
 		builder.methodName,
 		kubeDescription.String(),
-		armDescription.String())
+		armDescription.String(),
+	)
 
 	if err != nil {
 		return nil, eris.Wrap(err, message)
@@ -167,7 +168,8 @@ func initializeAzureName(idFactory astmodel.IdentifierFactory) {
 	azureNameProperty = astmodel.NewPropertyDefinition(
 		idFactory.CreatePropertyName(astmodel.AzureNameProperty, astmodel.Exported),
 		idFactory.CreateStringIdentifier(astmodel.AzureNameProperty, astmodel.NotExported),
-		astmodel.StringType).WithDescription(azureNameFieldDescription)
+		astmodel.StringType,
+	).WithDescription(azureNameFieldDescription)
 }
 
 // GetAzureNameProperty returns the special "AzureName" field
@@ -271,13 +273,15 @@ func NewARMConversionImplementation(
 			astmodel.MakeExternalTypeName(astmodel.GenRuntimeReference, "ARMTransformer"),
 			newEmptyARMValueFunc,
 			convertToARMFunc,
-			populateFromARMFunc)
+			populateFromARMFunc,
+		)
 	} else {
 		// can only convert in one direction with the FromARMConverter interface
 		return astmodel.NewInterfaceImplementation(
 			astmodel.MakeExternalTypeName(astmodel.GenRuntimeReference, "FromARMConverter"),
 			newEmptyARMValueFunc,
-			populateFromARMFunc)
+			populateFromARMFunc,
+		)
 	}
 }
 

@@ -148,7 +148,8 @@ func Test_DocumentDB_MongoCluster_v1api20240701_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				DocumentDB_MongoCluster_FirewallRule_v1api20240701_CRUD(tc, &mongoCluster)
 			},
-		})
+		},
+	)
 
 	// Delete the cluster and make sure it goes away
 	armId := *mongoCluster.Status.Id
@@ -157,7 +158,8 @@ func Test_DocumentDB_MongoCluster_v1api20240701_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(documentdb.APIVersion_Value))
+		string(documentdb.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

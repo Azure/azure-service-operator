@@ -135,7 +135,8 @@ func (o *JSONSerializationTestCase) RequiredImports() *astmodel.PackageImportSet
 
 	// Standard Go Packages
 	result.AddImportsOfReferences(
-		astmodel.JSONReference, astmodel.OSReference, astmodel.ReflectReference, astmodel.TestingReference)
+		astmodel.JSONReference, astmodel.OSReference, astmodel.ReflectReference, astmodel.TestingReference,
+	)
 
 	// Cmp
 	result.AddImportsOfReferences(astmodel.CmpReference, astmodel.CmpOptsReference)
@@ -199,26 +200,30 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.ShortDeclaration(
 		parametersLocal,
-		astbuilder.CallQualifiedFunc(gopterPackage, "DefaultTestParameters"))
+		astbuilder.CallQualifiedFunc(gopterPackage, "DefaultTestParameters"),
+	)
 
 	// parameters.MaxSize = 10
 	configureMaxSize := astbuilder.QualifiedAssignment(
 		dst.NewIdent(parametersLocal),
 		"MaxSize",
 		token.ASSIGN,
-		astbuilder.IntLiteral(3))
+		astbuilder.IntLiteral(3),
+	)
 
 	// parameters.MinSuccessfulTests := n
 	configureMinSuccessfulTests := astbuilder.QualifiedAssignment(
 		dst.NewIdent(parametersLocal),
 		"MinSuccessfulTests",
 		token.ASSIGN,
-		astbuilder.IntLiteral(o.minSuccessfulTests))
+		astbuilder.IntLiteral(o.minSuccessfulTests),
+	)
 
 	// properties := gopter.NewProperties(parameters)
 	defineProperties := astbuilder.ShortDeclaration(
 		propertiesLocal,
-		astbuilder.CallQualifiedFunc(gopterPackage, "NewProperties", dst.NewIdent(parametersLocal)))
+		astbuilder.CallQualifiedFunc(gopterPackage, "NewProperties", dst.NewIdent(parametersLocal)),
+	)
 
 	// partial expression: description of the test
 	testName := astbuilder.StringLiteralf("Round trip of %s via JSON returns original", o.Subject())
@@ -229,7 +234,8 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 		propPackage,
 		"ForAll",
 		dst.NewIdent(o.idOfTestMethod()),
-		astbuilder.CallFunc(idOfGeneratorMethod(o.subject, o.idFactory)))
+		astbuilder.CallFunc(idOfGeneratorMethod(o.subject, o.idFactory)),
+	)
 	propForAll.Decs.Before = dst.NewLine
 
 	// properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
@@ -237,7 +243,8 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 		propertiesLocal,
 		propertyMethod,
 		testName,
-		propForAll)
+		propForAll,
+	)
 
 	// properties.TestingRun(t, gopter.NewFormatedReporter(true, 160, os.Stdout))
 	createReporter := astbuilder.CallQualifiedFunc(
@@ -245,7 +252,8 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 		"NewFormatedReporter",
 		dst.NewIdent("true"),
 		astbuilder.IntLiteral(240),
-		astbuilder.Selector(dst.NewIdent(osPackage), "Stdout"))
+		astbuilder.Selector(dst.NewIdent(osPackage), "Stdout"),
+	)
 	runTests := astbuilder.CallQualifiedFuncAsStmt(propertiesLocal, testingRunMethod, t, createReporter)
 
 	// Define our function
@@ -258,7 +266,8 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 		configureMaxSize,
 		defineProperties,
 		defineTestCase,
-		runTests)
+		runTests,
+	)
 
 	return fn.DefineFunc()
 }
@@ -286,14 +295,16 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 	serialize := astbuilder.SimpleAssignmentWithErr(
 		dst.NewIdent(binID),
 		token.DEFINE,
-		astbuilder.CallQualifiedFunc(jsonPackage, "Marshal", dst.NewIdent(subjectID)))
+		astbuilder.CallQualifiedFunc(jsonPackage, "Marshal", dst.NewIdent(subjectID)),
+	)
 	astbuilder.AddComment(&serialize.Decs.Start, "// Serialize to JSON")
 	serialize.Decorations().Before = dst.NewLine
 
 	// if err != nil { return err.Error() }
 	serializeFailed := astbuilder.ReturnIfNotNil(
 		dst.NewIdent(errID),
-		astbuilder.CallQualifiedFunc("err", "Error"))
+		astbuilder.CallQualifiedFunc("err", "Error"),
+	)
 
 	// var actual X
 	declare := astbuilder.NewVariable(actualID, o.subject.Name())
@@ -305,12 +316,14 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 		dst.NewIdent("err"),
 		astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal",
 			dst.NewIdent(binID),
-			astbuilder.AddrOf(dst.NewIdent(actualID))))
+			astbuilder.AddrOf(dst.NewIdent(actualID))),
+	)
 
 	// if err != nil { return err.Error() }
 	deserializeFailed := astbuilder.ReturnIfNotNil(
 		dst.NewIdent(errID),
-		astbuilder.CallQualifiedFunc("err", "Error"))
+		astbuilder.CallQualifiedFunc("err", "Error"),
+	)
 
 	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	// We include cmpopts.EquateEmpty() to allow empty slices and maps to match nil values
@@ -320,24 +333,28 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 		astbuilder.CallQualifiedFunc(cmpPackage, "Equal",
 			dst.NewIdent(subjectID),
 			dst.NewIdent(actualID),
-			equateEmpty))
+			equateEmpty),
+	)
 	compare.Decorations().Before = dst.EmptyLine
 	astbuilder.AddComment(&compare.Decorations().Start, "// Check for outcome")
 
 	// actualFmt := pretty.Sprint(actual)
 	declareActual := astbuilder.ShortDeclaration(
 		actualFmtID,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualID)))
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualID)),
+	)
 
 	// subjectFmt := pretty.Sprint(subject)
 	declareSubject := astbuilder.ShortDeclaration(
 		subjectFmtID,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectID)))
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectID)),
+	)
 
 	// diff := diff.Diff(subjectFmt, actualFmt)
 	declareDiff := astbuilder.ShortDeclaration(
 		resultID,
-		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)))
+		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)),
+	)
 
 	// return diff
 	returnDiff := astbuilder.Returns(dst.NewIdent(resultID))
@@ -351,7 +368,8 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 		declareActual,
 		declareSubject,
 		declareDiff,
-		returnDiff)
+		returnDiff,
+	)
 
 	// return ""
 	ret := astbuilder.Returns(astbuilder.StringLiteral(""))
@@ -368,13 +386,15 @@ func (o *JSONSerializationTestCase) createTestMethod(codegenContext *astmodel.Co
 			deserializeFailed,
 			compare,
 			prettyPrint,
-			ret),
+			ret,
+		),
 	}
 
 	fn.AddParameter("subject", o.Subject())
 	fn.AddComments(fmt.Sprintf(
 		"runs a test to see if a specific instance of %s round trips to JSON and back losslessly",
-		o.Subject()))
+		o.Subject(),
+	))
 	fn.AddReturns("string")
 
 	return fn.DefineFunc()
@@ -384,14 +404,16 @@ func (o *JSONSerializationTestCase) createGeneratorDeclaration(genContext *astmo
 	comment := fmt.Sprintf(
 		"// Generator of %s instances for property testing - lazily instantiated by %s()",
 		o.Subject(),
-		idOfGeneratorMethod(o.subject, o.idFactory))
+		idOfGeneratorMethod(o.subject, o.idFactory),
+	)
 
 	gopterPackage := genContext.MustGetImportedPackageName(astmodel.GopterReference)
 
 	decl := astbuilder.VariableDeclaration(
 		o.idOfSubjectGeneratorGlobal(),
 		astbuilder.QualifiedTypeName(gopterPackage, "Gen"),
-		comment)
+		comment,
+	)
 
 	return decl
 }
@@ -454,7 +476,8 @@ func (o *JSONSerializationTestCase) createGeneratorMethodForObject(
 		genPkg,
 		"Struct",
 		astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
-		dst.NewIdent(mapID))
+		dst.NewIdent(mapID),
+	)
 	finalCreateGenerator := initialCreateGenerator
 
 	// If we have already cached our builder, return it immediately
@@ -465,7 +488,8 @@ func (o *JSONSerializationTestCase) createGeneratorMethodForObject(
 	//
 	earlyReturn := astbuilder.ReturnIfNotNil(
 		dst.NewIdent(generatorGlobalID),
-		dst.NewIdent(generatorGlobalID))
+		dst.NewIdent(generatorGlobalID),
+	)
 
 	// Declare a map for the generators we need to construct our instance
 	//
@@ -494,7 +518,8 @@ func (o *JSONSerializationTestCase) createGeneratorMethodForObject(
 		fn.AddComments(
 			fmt.Sprintf("// We first initialize %s with a simplified generator based on the ", generatorGlobalID),
 			"// fields with primitive types then replacing it with a more complex one that also handles complex fields",
-			"// to ensure any cycles in the object graph properly terminate.")
+			"// to ensure any cycles in the object graph properly terminate.",
+		)
 
 		// Create a generator and assign it to our variable
 		//
@@ -600,7 +625,8 @@ func (o *JSONSerializationTestCase) createGeneratorMethodForOneOf(
 		&dst.MapType{
 			Key:   dst.NewIdent("string"),
 			Value: gopterGen(),
-		}).
+		},
+	).
 		AddField("propName", dst.NewIdent("propGen"))
 	props := astbuilder.ShortDeclaration(
 		propsID,
@@ -657,7 +683,8 @@ func (o *JSONSerializationTestCase) createGeneratorMethodForOneOf(
 
 	oneOfStmts = astbuilder.Statements(
 		possibleGenerators,
-		initGopters)
+		initGopters,
+	)
 
 	// If we have already cached our builder, return it immediately
 	//
@@ -667,7 +694,8 @@ func (o *JSONSerializationTestCase) createGeneratorMethodForOneOf(
 	//
 	earlyReturn := astbuilder.ReturnIfNotNil(
 		dst.NewIdent(generatorGlobalID),
-		dst.NewIdent(generatorGlobalID))
+		dst.NewIdent(generatorGlobalID),
+	)
 
 	// Declare a map for the generators we need to construct our instance
 	//
@@ -823,7 +851,8 @@ func (o *JSONSerializationTestCase) createIndependentGenerator(
 						Results: &dst.FieldList{List: []*dst.Field{{Type: dst.NewIdent(t.Name())}}},
 					},
 					Body: astbuilder.StatementBlock(astbuilder.Returns(astbuilder.CallFunc(t.Name(), dst.NewIdent("it")))),
-				})
+				},
+			)
 
 			return genMap
 		}
@@ -912,7 +941,8 @@ func (o *JSONSerializationTestCase) createRelatedGenerator(
 							Results: &dst.FieldList{List: []*dst.Field{{Type: astbuilder.Dereference(dst.NewIdent(typeName.Name()))}}},
 						},
 						Body: astbuilder.StatementBlock(astbuilder.Returns(astbuilder.AddrOf(dst.NewIdent("it")))),
-					})
+					},
+				)
 
 				genMap.Decs.End = []string{"// generate one case for OneOf type"}
 
@@ -975,19 +1005,22 @@ func (o *JSONSerializationTestCase) idOfSubjectGeneratorGlobal() string {
 func (o *JSONSerializationTestCase) idOfTestMethod() string {
 	return o.idFactory.CreateIdentifier(
 		fmt.Sprintf("RunJSONSerializationTestFor%s", o.Subject()),
-		astmodel.Exported)
+		astmodel.Exported,
+	)
 }
 
 func (o *JSONSerializationTestCase) idOfGeneratorGlobal(name astmodel.TypeName) string {
 	return o.idFactory.CreateIdentifier(
 		fmt.Sprintf("%sGenerator", name.Name()),
-		astmodel.NotExported)
+		astmodel.NotExported,
+	)
 }
 
 func (o *JSONSerializationTestCase) idOfIndependentGeneratorsFactoryMethod() string {
 	return o.idFactory.CreateIdentifier(
 		fmt.Sprintf("AddIndependentPropertyGeneratorsFor%s", o.Subject()),
-		astmodel.Exported)
+		astmodel.Exported,
+	)
 }
 
 // idOfRelatedTypesGeneratorsFactoryMethod creates the identifier for the method that creates generators referencing
@@ -995,7 +1028,8 @@ func (o *JSONSerializationTestCase) idOfIndependentGeneratorsFactoryMethod() str
 func (o *JSONSerializationTestCase) idOfRelatedGeneratorsFactoryMethod() string {
 	return o.idFactory.CreateIdentifier(
 		fmt.Sprintf("AddRelatedPropertyGeneratorsFor%s", o.Subject()),
-		astmodel.Exported)
+		astmodel.Exported,
+	)
 }
 
 func (o *JSONSerializationTestCase) Subject() *dst.Ident {

@@ -38,7 +38,8 @@ func TestAddCrossResourceReferences_HandlesArray(t *testing.T) {
 
 	state, err := RunTestPipeline(
 		NewState(defs),
-		TransformCrossResourceReferences(configuration, idFactory))
+		TransformCrossResourceReferences(configuration, idFactory),
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
@@ -61,7 +62,8 @@ func TestAddCrossResourceReferences_HandlesMap(t *testing.T) {
 
 	state, err := RunTestPipeline(
 		NewState(defs),
-		TransformCrossResourceReferences(configuration, idFactory))
+		TransformCrossResourceReferences(configuration, idFactory),
+	)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())

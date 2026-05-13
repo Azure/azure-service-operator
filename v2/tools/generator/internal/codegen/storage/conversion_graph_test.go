@@ -160,7 +160,9 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 			func(tc *config.TypeConfiguration) error {
 				tc.NameInNextVersion.Set(party2021.Name().Name())
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	// Create a builder use it to configure a graph to test
@@ -201,7 +203,9 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 			func(tc *config.TypeConfiguration) error {
 				tc.NameInNextVersion.Set("Phantom")
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	// Create a builder use it to configure a graph to test
@@ -245,7 +249,9 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 			func(tc *config.TypeConfiguration) error {
 				tc.NameInNextVersion.Set(party2021.Name().Name())
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	// Create a builder use it to configure a graph to test
@@ -325,7 +331,8 @@ func TestConversionGraph_WithAResourceOnlyInPreviewVersions_HasExpectedTransitio
 				t.Parallel()
 				gg := NewGomegaWithT(t)
 				gg.Expect(graph.LookupTransition(c.from)).To(Equal(c.to))
-			})
+			},
+		)
 	}
 }
 
@@ -441,9 +448,11 @@ func Test_ConversionGraph_FindInPath_ReturnsExpectedResult(t *testing.T) {
 					func(t astmodel.InternalTypeName) bool {
 						count++
 						return t == c.end
-					})
+					},
+				)
 				gg.Expect(found).To(BeTrue())
 				gg.Expect(count).To(Equal(c.expectedTypes))
-			})
+			},
+		)
 	}
 }

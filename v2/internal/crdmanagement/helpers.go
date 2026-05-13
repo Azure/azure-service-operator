@@ -55,7 +55,8 @@ func FilterStorageTypesByReadyCRDs(
 		if !includeKinds.Contains(gvk.GroupKind()) {
 			logger.V(0).Info(
 				"Skipping reconciliation of resource because CRD was not installed or did not match the expected shape",
-				"groupKind", gvk.GroupKind().String())
+				"groupKind", gvk.GroupKind().String(),
+			)
 			continue
 		}
 
@@ -87,7 +88,8 @@ func FilterKnownTypesByReadyCRDs(
 		if !includeKinds.Contains(gvk.GroupKind()) {
 			logger.V(0).Info(
 				"Skipping webhooks of resource because CRD was not installed or did not match the expected shape",
-				"groupKind", gvk.GroupKind().String())
+				"groupKind", gvk.GroupKind().String(),
+			)
 			continue
 		}
 

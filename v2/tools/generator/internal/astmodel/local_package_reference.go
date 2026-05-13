@@ -163,7 +163,8 @@ func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
 		return fmt.Sprintf(
 			"%s%s",
 			pr.simplifiedGeneratorVersion(pr.generatorVersion),
-			pr.simplifiedAPIVersion(pr.apiVersion))
+			pr.simplifiedAPIVersion(pr.apiVersion),
+		)
 	case GroupOnly:
 		return pr.simplifiedGroup(pr.group)
 	case GroupAndVersion:
@@ -174,14 +175,16 @@ func (pr LocalPackageReference) ImportAlias(style PackageImportStyle) string {
 			"%s_%s%s",
 			pr.simplifiedGroup(pr.group),
 			pr.simplifiedGeneratorVersion(pr.generatorVersion),
-			pr.simplifiedAPIVersion(pr.apiVersion))
+			pr.simplifiedAPIVersion(pr.apiVersion),
+		)
 	case GroupAndFullVersion:
 		// As discussed above, it's not idiomatic but we do it anyway.
 		return fmt.Sprintf(
 			"%s_%s%s",
 			pr.simplifiedGroup(pr.group),
 			pr.generatorVersion,
-			pr.simplifiedAPIVersion(pr.apiVersion))
+			pr.simplifiedAPIVersion(pr.apiVersion),
+		)
 	default:
 		panic(fmt.Sprintf("didn't expect PackageImportStyle %q", style))
 	}

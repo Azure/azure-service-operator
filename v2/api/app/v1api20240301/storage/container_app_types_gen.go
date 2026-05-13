@@ -5,8 +5,7 @@ package storage
 
 import (
 	"context"
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/app/v20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -55,22 +54,36 @@ var _ conversion.Convertible = &ContainerApp{}
 
 // ConvertFrom populates our ContainerApp from the provided hub ContainerApp
 func (containerApp *ContainerApp) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ContainerApp)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20250101/storage/ContainerApp but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ContainerApp
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return containerApp.AssignProperties_From_ContainerApp(source)
+	err = containerApp.AssignProperties_From_ContainerApp(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to containerApp")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ContainerApp from our ContainerApp
 func (containerApp *ContainerApp) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ContainerApp)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20250101/storage/ContainerApp but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ContainerApp
+	err := containerApp.AssignProperties_To_ContainerApp(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from containerApp")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return containerApp.AssignProperties_To_ContainerApp(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ContainerApp{}
@@ -794,13 +807,6 @@ func (containerApp *ContainerApp_STATUS) AssignProperties_From_ContainerApp_STAT
 	// ProvisioningState
 	containerApp.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
-	// RunningStatus
-	if source.RunningStatus != nil {
-		propertyBag.Add("RunningStatus", *source.RunningStatus)
-	} else {
-		propertyBag.Remove("RunningStatus")
-	}
-
 	// SystemData
 	if source.SystemData != nil {
 		var systemDatum SystemData_STATUS
@@ -937,19 +943,6 @@ func (containerApp *ContainerApp_STATUS) AssignProperties_To_ContainerApp_STATUS
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(containerApp.ProvisioningState)
 
-	// RunningStatus
-	if propertyBag.Contains("RunningStatus") {
-		var runningStatus string
-		err := propertyBag.Pull("RunningStatus", &runningStatus)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'RunningStatus' from propertyBag")
-		}
-
-		destination.RunningStatus = &runningStatus
-	} else {
-		destination.RunningStatus = nil
-	}
-
 	// SystemData
 	if containerApp.SystemData != nil {
 		var systemDatum storage.SystemData_STATUS
@@ -1046,13 +1039,6 @@ func (configuration *Configuration) AssignProperties_From_Configuration(source *
 		configuration.Dapr = nil
 	}
 
-	// IdentitySettings
-	if len(source.IdentitySettings) > 0 {
-		propertyBag.Add("IdentitySettings", source.IdentitySettings)
-	} else {
-		propertyBag.Remove("IdentitySettings")
-	}
-
 	// Ingress
 	if source.Ingress != nil {
 		var ingress Ingress
@@ -1082,13 +1068,6 @@ func (configuration *Configuration) AssignProperties_From_Configuration(source *
 		configuration.Registries = registryList
 	} else {
 		configuration.Registries = nil
-	}
-
-	// Runtime
-	if source.Runtime != nil {
-		propertyBag.Add("Runtime", *source.Runtime)
-	} else {
-		propertyBag.Remove("Runtime")
 	}
 
 	// Secrets
@@ -1159,19 +1138,6 @@ func (configuration *Configuration) AssignProperties_To_Configuration(destinatio
 		destination.Dapr = nil
 	}
 
-	// IdentitySettings
-	if propertyBag.Contains("IdentitySettings") {
-		var identitySetting []storage.IdentitySettings
-		err := propertyBag.Pull("IdentitySettings", &identitySetting)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IdentitySettings' from propertyBag")
-		}
-
-		destination.IdentitySettings = identitySetting
-	} else {
-		destination.IdentitySettings = nil
-	}
-
 	// Ingress
 	if configuration.Ingress != nil {
 		var ingress storage.Ingress
@@ -1201,19 +1167,6 @@ func (configuration *Configuration) AssignProperties_To_Configuration(destinatio
 		destination.Registries = registryList
 	} else {
 		destination.Registries = nil
-	}
-
-	// Runtime
-	if propertyBag.Contains("Runtime") {
-		var runtime storage.Runtime
-		err := propertyBag.Pull("Runtime", &runtime)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Runtime' from propertyBag")
-		}
-
-		destination.Runtime = &runtime
-	} else {
-		destination.Runtime = nil
 	}
 
 	// Secrets
@@ -1297,13 +1250,6 @@ func (configuration *Configuration_STATUS) AssignProperties_From_Configuration_S
 		configuration.Dapr = nil
 	}
 
-	// IdentitySettings
-	if len(source.IdentitySettings) > 0 {
-		propertyBag.Add("IdentitySettings", source.IdentitySettings)
-	} else {
-		propertyBag.Remove("IdentitySettings")
-	}
-
 	// Ingress
 	if source.Ingress != nil {
 		var ingress Ingress_STATUS
@@ -1333,13 +1279,6 @@ func (configuration *Configuration_STATUS) AssignProperties_From_Configuration_S
 		configuration.Registries = registryList
 	} else {
 		configuration.Registries = nil
-	}
-
-	// Runtime
-	if source.Runtime != nil {
-		propertyBag.Add("Runtime", *source.Runtime)
-	} else {
-		propertyBag.Remove("Runtime")
 	}
 
 	// Secrets
@@ -1410,19 +1349,6 @@ func (configuration *Configuration_STATUS) AssignProperties_To_Configuration_STA
 		destination.Dapr = nil
 	}
 
-	// IdentitySettings
-	if propertyBag.Contains("IdentitySettings") {
-		var identitySetting []storage.IdentitySettings_STATUS
-		err := propertyBag.Pull("IdentitySettings", &identitySetting)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IdentitySettings' from propertyBag")
-		}
-
-		destination.IdentitySettings = identitySetting
-	} else {
-		destination.IdentitySettings = nil
-	}
-
 	// Ingress
 	if configuration.Ingress != nil {
 		var ingress storage.Ingress_STATUS
@@ -1452,19 +1378,6 @@ func (configuration *Configuration_STATUS) AssignProperties_To_Configuration_STA
 		destination.Registries = registryList
 	} else {
 		destination.Registries = nil
-	}
-
-	// Runtime
-	if propertyBag.Contains("Runtime") {
-		var runtime storage.Runtime_STATUS
-		err := propertyBag.Pull("Runtime", &runtime)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Runtime' from propertyBag")
-		}
-
-		destination.Runtime = &runtime
-	} else {
-		destination.Runtime = nil
 	}
 
 	// Secrets
@@ -4433,25 +4346,11 @@ func (scale *Scale) AssignProperties_From_Scale(source *storage.Scale) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// CooldownPeriod
-	if source.CooldownPeriod != nil {
-		propertyBag.Add("CooldownPeriod", *source.CooldownPeriod)
-	} else {
-		propertyBag.Remove("CooldownPeriod")
-	}
-
 	// MaxReplicas
 	scale.MaxReplicas = genruntime.ClonePointerToInt(source.MaxReplicas)
 
 	// MinReplicas
 	scale.MinReplicas = genruntime.ClonePointerToInt(source.MinReplicas)
-
-	// PollingInterval
-	if source.PollingInterval != nil {
-		propertyBag.Add("PollingInterval", *source.PollingInterval)
-	} else {
-		propertyBag.Remove("PollingInterval")
-	}
 
 	// Rules
 	if source.Rules != nil {
@@ -4494,37 +4393,11 @@ func (scale *Scale) AssignProperties_To_Scale(destination *storage.Scale) error 
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(scale.PropertyBag)
 
-	// CooldownPeriod
-	if propertyBag.Contains("CooldownPeriod") {
-		var cooldownPeriod int
-		err := propertyBag.Pull("CooldownPeriod", &cooldownPeriod)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'CooldownPeriod' from propertyBag")
-		}
-
-		destination.CooldownPeriod = &cooldownPeriod
-	} else {
-		destination.CooldownPeriod = nil
-	}
-
 	// MaxReplicas
 	destination.MaxReplicas = genruntime.ClonePointerToInt(scale.MaxReplicas)
 
 	// MinReplicas
 	destination.MinReplicas = genruntime.ClonePointerToInt(scale.MinReplicas)
-
-	// PollingInterval
-	if propertyBag.Contains("PollingInterval") {
-		var pollingInterval int
-		err := propertyBag.Pull("PollingInterval", &pollingInterval)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PollingInterval' from propertyBag")
-		}
-
-		destination.PollingInterval = &pollingInterval
-	} else {
-		destination.PollingInterval = nil
-	}
 
 	// Rules
 	if scale.Rules != nil {
@@ -4576,25 +4449,11 @@ func (scale *Scale_STATUS) AssignProperties_From_Scale_STATUS(source *storage.Sc
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// CooldownPeriod
-	if source.CooldownPeriod != nil {
-		propertyBag.Add("CooldownPeriod", *source.CooldownPeriod)
-	} else {
-		propertyBag.Remove("CooldownPeriod")
-	}
-
 	// MaxReplicas
 	scale.MaxReplicas = genruntime.ClonePointerToInt(source.MaxReplicas)
 
 	// MinReplicas
 	scale.MinReplicas = genruntime.ClonePointerToInt(source.MinReplicas)
-
-	// PollingInterval
-	if source.PollingInterval != nil {
-		propertyBag.Add("PollingInterval", *source.PollingInterval)
-	} else {
-		propertyBag.Remove("PollingInterval")
-	}
 
 	// Rules
 	if source.Rules != nil {
@@ -4637,37 +4496,11 @@ func (scale *Scale_STATUS) AssignProperties_To_Scale_STATUS(destination *storage
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(scale.PropertyBag)
 
-	// CooldownPeriod
-	if propertyBag.Contains("CooldownPeriod") {
-		var cooldownPeriod int
-		err := propertyBag.Pull("CooldownPeriod", &cooldownPeriod)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'CooldownPeriod' from propertyBag")
-		}
-
-		destination.CooldownPeriod = &cooldownPeriod
-	} else {
-		destination.CooldownPeriod = nil
-	}
-
 	// MaxReplicas
 	destination.MaxReplicas = genruntime.ClonePointerToInt(scale.MaxReplicas)
 
 	// MinReplicas
 	destination.MinReplicas = genruntime.ClonePointerToInt(scale.MinReplicas)
-
-	// PollingInterval
-	if propertyBag.Contains("PollingInterval") {
-		var pollingInterval int
-		err := propertyBag.Pull("PollingInterval", &pollingInterval)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PollingInterval' from propertyBag")
-		}
-
-		destination.PollingInterval = &pollingInterval
-	} else {
-		destination.PollingInterval = nil
-	}
 
 	// Rules
 	if scale.Rules != nil {
@@ -8457,13 +8290,6 @@ func (rule *CustomScaleRule) AssignProperties_From_CustomScaleRule(source *stora
 		rule.Auth = nil
 	}
 
-	// IdentityReference
-	if source.IdentityReference != nil {
-		propertyBag.Add("IdentityReference", *source.IdentityReference)
-	} else {
-		propertyBag.Remove("IdentityReference")
-	}
-
 	// Metadata
 	rule.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
@@ -8509,19 +8335,6 @@ func (rule *CustomScaleRule) AssignProperties_To_CustomScaleRule(destination *st
 		destination.Auth = authList
 	} else {
 		destination.Auth = nil
-	}
-
-	// IdentityReference
-	if propertyBag.Contains("IdentityReference") {
-		var identityReference genruntime.WellKnownResourceReference
-		err := propertyBag.Pull("IdentityReference", &identityReference)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IdentityReference' from propertyBag")
-		}
-
-		destination.IdentityReference = &identityReference
-	} else {
-		destination.IdentityReference = nil
 	}
 
 	// Metadata
@@ -8580,13 +8393,6 @@ func (rule *CustomScaleRule_STATUS) AssignProperties_From_CustomScaleRule_STATUS
 		rule.Auth = nil
 	}
 
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
-	}
-
 	// Metadata
 	rule.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
@@ -8632,19 +8438,6 @@ func (rule *CustomScaleRule_STATUS) AssignProperties_To_CustomScaleRule_STATUS(d
 		destination.Auth = authList
 	} else {
 		destination.Auth = nil
-	}
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity string
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
 	}
 
 	// Metadata
@@ -8702,13 +8495,6 @@ func (rule *HttpScaleRule) AssignProperties_From_HttpScaleRule(source *storage.H
 		rule.Auth = nil
 	}
 
-	// IdentityReference
-	if source.IdentityReference != nil {
-		propertyBag.Add("IdentityReference", *source.IdentityReference)
-	} else {
-		propertyBag.Remove("IdentityReference")
-	}
-
 	// Metadata
 	rule.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
@@ -8751,19 +8537,6 @@ func (rule *HttpScaleRule) AssignProperties_To_HttpScaleRule(destination *storag
 		destination.Auth = authList
 	} else {
 		destination.Auth = nil
-	}
-
-	// IdentityReference
-	if propertyBag.Contains("IdentityReference") {
-		var identityReference genruntime.WellKnownResourceReference
-		err := propertyBag.Pull("IdentityReference", &identityReference)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IdentityReference' from propertyBag")
-		}
-
-		destination.IdentityReference = &identityReference
-	} else {
-		destination.IdentityReference = nil
 	}
 
 	// Metadata
@@ -8818,13 +8591,6 @@ func (rule *HttpScaleRule_STATUS) AssignProperties_From_HttpScaleRule_STATUS(sou
 		rule.Auth = nil
 	}
 
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
-	}
-
 	// Metadata
 	rule.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
@@ -8869,19 +8635,6 @@ func (rule *HttpScaleRule_STATUS) AssignProperties_To_HttpScaleRule_STATUS(desti
 		destination.Auth = nil
 	}
 
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity string
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
 	// Metadata
 	destination.Metadata = genruntime.CloneMapOfStringToString(rule.Metadata)
 
@@ -8919,13 +8672,6 @@ func (rule *QueueScaleRule) AssignProperties_From_QueueScaleRule(source *storage
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AccountName
-	if source.AccountName != nil {
-		propertyBag.Add("AccountName", *source.AccountName)
-	} else {
-		propertyBag.Remove("AccountName")
-	}
-
 	// Auth
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth, len(source.Auth))
@@ -8940,13 +8686,6 @@ func (rule *QueueScaleRule) AssignProperties_From_QueueScaleRule(source *storage
 		rule.Auth = authList
 	} else {
 		rule.Auth = nil
-	}
-
-	// IdentityReference
-	if source.IdentityReference != nil {
-		propertyBag.Add("IdentityReference", *source.IdentityReference)
-	} else {
-		propertyBag.Remove("IdentityReference")
 	}
 
 	// QueueLength
@@ -8980,19 +8719,6 @@ func (rule *QueueScaleRule) AssignProperties_To_QueueScaleRule(destination *stor
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
-	// AccountName
-	if propertyBag.Contains("AccountName") {
-		var accountName string
-		err := propertyBag.Pull("AccountName", &accountName)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AccountName' from propertyBag")
-		}
-
-		destination.AccountName = &accountName
-	} else {
-		destination.AccountName = nil
-	}
-
 	// Auth
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth, len(rule.Auth))
@@ -9007,19 +8733,6 @@ func (rule *QueueScaleRule) AssignProperties_To_QueueScaleRule(destination *stor
 		destination.Auth = authList
 	} else {
 		destination.Auth = nil
-	}
-
-	// IdentityReference
-	if propertyBag.Contains("IdentityReference") {
-		var identityReference genruntime.WellKnownResourceReference
-		err := propertyBag.Pull("IdentityReference", &identityReference)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IdentityReference' from propertyBag")
-		}
-
-		destination.IdentityReference = &identityReference
-	} else {
-		destination.IdentityReference = nil
 	}
 
 	// QueueLength
@@ -9062,13 +8775,6 @@ func (rule *QueueScaleRule_STATUS) AssignProperties_From_QueueScaleRule_STATUS(s
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AccountName
-	if source.AccountName != nil {
-		propertyBag.Add("AccountName", *source.AccountName)
-	} else {
-		propertyBag.Remove("AccountName")
-	}
-
 	// Auth
 	if source.Auth != nil {
 		authList := make([]ScaleRuleAuth_STATUS, len(source.Auth))
@@ -9083,13 +8789,6 @@ func (rule *QueueScaleRule_STATUS) AssignProperties_From_QueueScaleRule_STATUS(s
 		rule.Auth = authList
 	} else {
 		rule.Auth = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
 	}
 
 	// QueueLength
@@ -9123,19 +8822,6 @@ func (rule *QueueScaleRule_STATUS) AssignProperties_To_QueueScaleRule_STATUS(des
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
-	// AccountName
-	if propertyBag.Contains("AccountName") {
-		var accountName string
-		err := propertyBag.Pull("AccountName", &accountName)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AccountName' from propertyBag")
-		}
-
-		destination.AccountName = &accountName
-	} else {
-		destination.AccountName = nil
-	}
-
 	// Auth
 	if rule.Auth != nil {
 		authList := make([]storage.ScaleRuleAuth_STATUS, len(rule.Auth))
@@ -9150,19 +8836,6 @@ func (rule *QueueScaleRule_STATUS) AssignProperties_To_QueueScaleRule_STATUS(des
 		destination.Auth = authList
 	} else {
 		destination.Auth = nil
-	}
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity string
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
 	}
 
 	// QueueLength
@@ -9220,13 +8893,6 @@ func (rule *TcpScaleRule) AssignProperties_From_TcpScaleRule(source *storage.Tcp
 		rule.Auth = nil
 	}
 
-	// IdentityReference
-	if source.IdentityReference != nil {
-		propertyBag.Add("IdentityReference", *source.IdentityReference)
-	} else {
-		propertyBag.Remove("IdentityReference")
-	}
-
 	// Metadata
 	rule.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
@@ -9269,19 +8935,6 @@ func (rule *TcpScaleRule) AssignProperties_To_TcpScaleRule(destination *storage.
 		destination.Auth = authList
 	} else {
 		destination.Auth = nil
-	}
-
-	// IdentityReference
-	if propertyBag.Contains("IdentityReference") {
-		var identityReference genruntime.WellKnownResourceReference
-		err := propertyBag.Pull("IdentityReference", &identityReference)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'IdentityReference' from propertyBag")
-		}
-
-		destination.IdentityReference = &identityReference
-	} else {
-		destination.IdentityReference = nil
 	}
 
 	// Metadata
@@ -9336,13 +8989,6 @@ func (rule *TcpScaleRule_STATUS) AssignProperties_From_TcpScaleRule_STATUS(sourc
 		rule.Auth = nil
 	}
 
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
-	}
-
 	// Metadata
 	rule.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
@@ -9385,19 +9031,6 @@ func (rule *TcpScaleRule_STATUS) AssignProperties_To_TcpScaleRule_STATUS(destina
 		destination.Auth = authList
 	} else {
 		destination.Auth = nil
-	}
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity string
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
 	}
 
 	// Metadata

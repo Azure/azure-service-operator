@@ -58,7 +58,8 @@ func Test_TypeCatalogReport_GivenDirectlyRecursiveType_WhenInlined_ShowsExpected
 	parentProperty := astmodel.NewPropertyDefinition(
 		"Parent",
 		"parentName",
-		astmodel.NewOptionalType(personName)).
+		astmodel.NewOptionalType(personName),
+	).
 		WithDescription("Optional reference to our parent")
 
 	personObj := astmodel.NewObjectType().
@@ -66,7 +67,8 @@ func Test_TypeCatalogReport_GivenDirectlyRecursiveType_WhenInlined_ShowsExpected
 			test.FullNameProperty,
 			test.FamilyNameProperty,
 			test.KnownAsProperty,
-			parentProperty)
+			parentProperty,
+		)
 
 	person := astmodel.MakeTypeDefinition(personName, personObj)
 
@@ -76,11 +78,14 @@ func Test_TypeCatalogReport_GivenDirectlyRecursiveType_WhenInlined_ShowsExpected
 		astmodel.NewPropertyDefinition(
 			"FirstParty",
 			"firstparty",
-			astmodel.NewOptionalType(personName)),
+			astmodel.NewOptionalType(personName),
+		),
 		astmodel.NewPropertyDefinition(
 			"SecondParty",
 			"secondparty",
-			astmodel.NewOptionalType(personName)))
+			astmodel.NewOptionalType(personName),
+		),
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(person)
@@ -103,24 +108,28 @@ func Test_TypeCatalogReport_GivenMapsAndArrays_ShowsExpectedDetails(t *testing.T
 
 	name := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2020, "Name"),
-		astmodel.StringType)
+		astmodel.StringType,
+	)
 
 	aliasesProperty := astmodel.NewPropertyDefinition(
 		"Aliases",
 		"aliases",
-		astmodel.NewArrayType(astmodel.StringType)).
+		astmodel.NewArrayType(astmodel.StringType),
+	).
 		WithDescription("Array of aliases")
 
 	friendsProperty := astmodel.NewPropertyDefinition(
 		"Friends",
 		"friends",
-		astmodel.NewArrayType(name.Name())).
+		astmodel.NewArrayType(name.Name()),
+	).
 		WithDescription("Array of friends")
 
 	cohortProperty := astmodel.NewPropertyDefinition(
 		"Cohort",
 		"cohort",
-		astmodel.NewMapType(astmodel.StringType, name.Name())).
+		astmodel.NewMapType(astmodel.StringType, name.Name()),
+	).
 		WithDescription("Map of nickname to actual name")
 
 	person := astmodel.MakeTypeDefinition(
@@ -129,7 +138,9 @@ func Test_TypeCatalogReport_GivenMapsAndArrays_ShowsExpectedDetails(t *testing.T
 			WithProperties(
 				aliasesProperty,
 				friendsProperty,
-				cohortProperty))
+				cohortProperty,
+			),
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(person)
@@ -159,24 +170,29 @@ func Test_TypeCatalogReport_GivenValidatedAndOptionalTypes_ShowsExpectedDetails(
 			astmodel.StringValidations{
 				MaxLength: &maxLength,
 				MinLength: &minLength,
-			}))
+			},
+		),
+	)
 
 	knownAsProperty := astmodel.NewPropertyDefinition(
 		"KnownAs",
 		"knownAs",
-		astmodel.StringType).
+		astmodel.StringType,
+	).
 		WithDescription("Required string property")
 
 	familyNameProperty := astmodel.NewPropertyDefinition(
 		"FamilyName",
 		"familyName",
-		astmodel.OptionalStringType).
+		astmodel.OptionalStringType,
+	).
 		WithDescription("Optional string property")
 
 	fullNameProperty := astmodel.NewPropertyDefinition(
 		"FullName",
 		"fullName",
-		name.Type()).
+		name.Type(),
+	).
 		WithDescription("Validated required string")
 
 	legalNameProperty := astmodel.NewPropertyDefinition(
@@ -187,7 +203,9 @@ func Test_TypeCatalogReport_GivenValidatedAndOptionalTypes_ShowsExpectedDetails(
 			astmodel.StringValidations{
 				MaxLength: &maxLength,
 				MinLength: &minLength,
-			})).
+			},
+		),
+	).
 		WithDescription("Validated optional string")
 
 	nicknameProperty := astmodel.NewPropertyDefinition(
@@ -199,19 +217,24 @@ func Test_TypeCatalogReport_GivenValidatedAndOptionalTypes_ShowsExpectedDetails(
 				astmodel.StringValidations{
 					MaxLength: &maxLength,
 					MinLength: &minLength,
-				}))).
+				},
+			),
+		),
+	).
 		WithDescription("Optional validated string")
 
 	akaProperty := astmodel.NewPropertyDefinition(
 		"AKA",
 		"aka",
-		name.Name()).
+		name.Name(),
+	).
 		WithDescription("Mandatory via type name")
 
 	neeProperty := astmodel.NewPropertyDefinition(
 		"Nee",
 		"nee",
-		astmodel.NewOptionalType(name.Name())).
+		astmodel.NewOptionalType(name.Name()),
+	).
 		WithDescription("Optional via type name")
 
 	person := astmodel.MakeTypeDefinition(
@@ -224,7 +247,9 @@ func Test_TypeCatalogReport_GivenValidatedAndOptionalTypes_ShowsExpectedDetails(
 				legalNameProperty,
 				nicknameProperty,
 				akaProperty,
-				neeProperty))
+				neeProperty,
+			),
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(person)
@@ -254,7 +279,8 @@ func Test_TypeCatalogReport_GivenInterface_ShowsExpectedDetails(t *testing.T) {
 
 	person := astmodel.MakeTypeDefinition(
 		personName,
-		astmodel.NewInterfaceType(f1, f2))
+		astmodel.NewInterfaceType(f1, f2),
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(person)
@@ -279,7 +305,8 @@ func Test_TypeCatalogReport_GivenObject_ShowsExpectedDetails(t *testing.T) {
 		WithProperties(
 			test.FullNameProperty,
 			test.FamilyNameProperty,
-			test.KnownAsProperty)
+			test.KnownAsProperty,
+		)
 
 	functionNames := []string{"Hello", "Goodbye"}
 	for _, name := range functionNames {
@@ -305,17 +332,20 @@ func createDefinitionSet() astmodel.TypeDefinitionSet {
 		"TestResource",
 		test.FullNameProperty,
 		test.FamilyNameProperty,
-		test.KnownAsProperty)
+		test.KnownAsProperty,
+	)
 
 	testStatus := test.CreateStatus(
 		test.Pkg2020,
-		"TestResource")
+		"TestResource",
+	)
 
 	testResource := test.CreateResource(
 		test.Pkg2020,
 		"TestResource",
 		testSpec,
-		testStatus)
+		testStatus,
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(testResource)

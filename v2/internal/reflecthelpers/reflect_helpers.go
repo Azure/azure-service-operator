@@ -24,7 +24,7 @@ import (
 // TODO: Can we delete this helper later when we have some better code generated functions?
 func ValueOfPtr(ptr interface{}) interface{} {
 	v := reflect.ValueOf(ptr)
-	if v.Kind() != reflect.Ptr {
+	if v.Kind() != reflect.Pointer {
 		panic(fmt.Sprintf("Can't get value of pointer for non-pointer type %T", ptr))
 	}
 	val := reflect.Indirect(v)
@@ -314,7 +314,7 @@ func SetObjectListItems(listPtr client.ObjectList, items []client.Object) (retur
 	for _, item := range items {
 		val := reflect.ValueOf(item)
 
-		if val.Kind() == reflect.Ptr {
+		if val.Kind() == reflect.Pointer {
 			val = val.Elem()
 		}
 		slice = reflect.Append(slice, val)
@@ -326,7 +326,7 @@ func SetObjectListItems(listPtr client.ObjectList, items []client.Object) (retur
 
 func getItemsField(listPtr client.ObjectList) (reflect.Value, error) {
 	val := reflect.ValueOf(listPtr)
-	if val.Kind() != reflect.Ptr {
+	if val.Kind() != reflect.Pointer {
 		return reflect.Value{}, eris.Errorf("provided list was not a pointer, was %s", val.Kind())
 	}
 
@@ -378,7 +378,7 @@ func setPropertyCore(obj any, propertyPath []string, value any) (err error) {
 	subject := reflect.ValueOf(obj)
 
 	// Dereference pointers
-	if subject.Kind() == reflect.Ptr {
+	if subject.Kind() == reflect.Pointer {
 		subject = subject.Elem()
 	}
 
@@ -397,7 +397,7 @@ func setPropertyCore(obj any, propertyPath []string, value any) (err error) {
 
 	// If this is not the last property in the path, we need to recurse
 	if len(propertyPath) > 1 {
-		if field.Kind() == reflect.Ptr {
+		if field.Kind() == reflect.Pointer {
 			// Field is a pointer; initialize it if needed, then pass the pointer recursively
 			if field.IsNil() {
 				newValue := reflect.New(field.Type().Elem())

@@ -65,7 +65,8 @@ func (r PreReconcileCheckResult) CreateConditionError() error {
 	return conditions.NewReadyConditionImpactingError(
 		eris.New(r.message),
 		r.severity,
-		r.reason)
+		r.reason,
+	)
 }
 
 // PreReconcileCheckResultType is the type of result returned by PreReconcileCheck.

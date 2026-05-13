@@ -39,7 +39,8 @@ func MakeOneOfDiscriminantRequired() *Stage {
 			}
 
 			return state.WithOverlaidDefinitions(updatedDefs), nil
-		})
+		},
+	)
 }
 
 type propertyModifier struct {
@@ -82,7 +83,8 @@ func makeOneOfDiscriminantTypeRequired(
 		return nil, eris.Errorf(
 			"OneOf %s was not of type Object, instead was: %s",
 			oneOf.Name(),
-			astmodel.DebugDescription(oneOf.Type()))
+			astmodel.DebugDescription(oneOf.Type()),
+		)
 	}
 
 	result := make(astmodel.TypeDefinitionSet)

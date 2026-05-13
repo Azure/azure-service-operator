@@ -61,14 +61,16 @@ func Test_AppConfiguration_ConfigurationStore_v20220501_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				ConfigStore_WriteSecrets(tc, cs)
 			},
-		})
+		},
+	)
 
 	tc.DeleteResourceAndWait(cs)
 
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(appconfig.APIVersion_Value))
+		string(appconfig.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(gomega.HaveOccurred())
 	tc.Expect(exists).To(gomega.BeFalse())
 }
@@ -91,5 +93,6 @@ func ConfigStore_WriteSecrets(tc *testcommon.KubePerTestContext, cs *appconfig.C
 		"primaryConnectionString",
 		"secondaryConnectionString",
 		"primaryReadOnlyConnectionString",
-		"secondaryReadOnlyConnectionString")
+		"secondaryReadOnlyConnectionString",
+	)
 }

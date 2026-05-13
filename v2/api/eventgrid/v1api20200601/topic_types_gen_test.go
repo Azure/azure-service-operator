@@ -5,7 +5,8 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
+	eventgrid_v1api20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
+	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Topic_SubResou
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+	var other eventgrid_v1api20200601s.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -139,7 +140,7 @@ func RunResourceConversionTestForTopic(subject Topic) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Topic
+	var hub eventgrid_v20200601s.Topic
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForTopic(subject Topic) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Topic
+	var other eventgrid_v1api20200601s.Topic
 	err := copied.AssignProperties_To_Topic(&other)
 	if err != nil {
 		return err.Error()
@@ -284,7 +285,7 @@ func RunPropertyAssignmentTestForTopicOperatorConfigMaps(subject TopicOperatorCo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TopicOperatorConfigMaps
+	var other eventgrid_v1api20200601s.TopicOperatorConfigMaps
 	err := copied.AssignProperties_To_TopicOperatorConfigMaps(&other)
 	if err != nil {
 		return err.Error()
@@ -381,7 +382,7 @@ func RunPropertyAssignmentTestForTopicOperatorSecrets(subject TopicOperatorSecre
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TopicOperatorSecrets
+	var other eventgrid_v1api20200601s.TopicOperatorSecrets
 	err := copied.AssignProperties_To_TopicOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
@@ -478,7 +479,7 @@ func RunPropertyAssignmentTestForTopicOperatorSpec(subject TopicOperatorSpec) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.TopicOperatorSpec
+	var other eventgrid_v1api20200601s.TopicOperatorSpec
 	err := copied.AssignProperties_To_TopicOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -581,7 +582,7 @@ func RunPropertyAssignmentTestForTopic_STATUS(subject Topic_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Topic_STATUS
+	var other eventgrid_v1api20200601s.Topic_STATUS
 	err := copied.AssignProperties_To_Topic_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -717,7 +718,7 @@ func RunPropertyAssignmentTestForTopic_Spec(subject Topic_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Topic_Spec
+	var other eventgrid_v1api20200601s.Topic_Spec
 	err := copied.AssignProperties_To_Topic_Spec(&other)
 	if err != nil {
 		return err.Error()

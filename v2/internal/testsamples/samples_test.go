@@ -83,7 +83,8 @@ func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 		useRandomName,
 		rg.Name,
 		tc.AzureSubscription,
-		tc.AzureTenant).
+		tc.AzureTenant,
+	).
 		LoadSamples()
 
 	tc.Expect(err).To(BeNil())

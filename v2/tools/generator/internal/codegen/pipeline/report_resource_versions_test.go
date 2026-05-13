@@ -32,14 +32,16 @@ func TestGolden_ReportAllResourceVersions(t *testing.T) {
 		test.Pkg2020,
 		"Person",
 		test.CreateSpec(test.Pkg2020, "Person"),
-		test.CreateStatus(test.Pkg2020, "Person")).
+		test.CreateStatus(test.Pkg2020, "Person"),
+	).
 		WithDescription(person2020desc...)
 
 	address2020 := test.CreateResource(
 		test.Pkg2020,
 		"Address",
 		test.CreateSpec(test.Pkg2020, "Address"),
-		test.CreateStatus(test.Pkg2020, "Address"))
+		test.CreateStatus(test.Pkg2020, "Address"),
+	)
 
 	person2021desc := []string{
 		"This is a newer version",
@@ -49,20 +51,23 @@ func TestGolden_ReportAllResourceVersions(t *testing.T) {
 		test.Pkg2021,
 		"Person",
 		test.CreateSpec(test.Pkg2021, "Person"),
-		test.CreateStatus(test.Pkg2021, "Person")).
+		test.CreateStatus(test.Pkg2021, "Person"),
+	).
 		WithDescription(person2021desc...)
 
 	address2021 := test.CreateResource(
 		test.Pkg2021,
 		"Address",
 		test.CreateSpec(test.Pkg2021, "Address"),
-		test.CreateStatus(test.Pkg2021, "Address"))
+		test.CreateStatus(test.Pkg2021, "Address"),
+	)
 
 	batch2021 := test.CreateResource(
 		test.BatchPkg2021,
 		"BatchAccount",
 		test.CreateSpec(test.BatchPkg2021, "BatchAccount"),
-		test.CreateStatus(test.BatchPkg2021, "BatchAccount"))
+		test.CreateStatus(test.BatchPkg2021, "BatchAccount"),
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(person2020, address2020, person2021, address2021, batch2021)
@@ -92,7 +97,8 @@ func TestGolden_ReportAllResourceVersions(t *testing.T) {
 	var buffer strings.Builder
 	g.Expect(report.WriteAllResourcesReportToBuffer(
 		"", // No Frontmatter
-		&buffer)).
+		&buffer,
+	)).
 		To(Succeed())
 
 	gold.Assert(t, t.Name(), []byte(buffer.String()))

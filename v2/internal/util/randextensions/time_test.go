@@ -41,7 +41,9 @@ func Test_Jitter(t *testing.T) {
 				return result >= expectedLow && result <= expectedHigh
 			},
 			gen.Int64Range(0, math.MaxInt64),
-			gen.Float64Range(0.001, 1)))
+			gen.Float64Range(0.001, 1),
+		),
+	)
 
 	properties.TestingRun(t)
 }

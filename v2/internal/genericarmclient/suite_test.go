@@ -43,7 +43,8 @@ func setup() error {
 		testcommon.ResourcePrefix,
 		"-",
 		6,
-		testcommon.ResourceNamerModeRandomBasedOnTestName)
+		testcommon.ResourceNamerModeRandomBasedOnTestName,
+	)
 
 	// set global test context
 	testContext = testcommon.NewTestContext(testcommon.DefaultTestRegion, recordReplay, nameConfig)

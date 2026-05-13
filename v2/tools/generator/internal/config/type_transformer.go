@@ -69,7 +69,8 @@ func (transformer *TypeTransformer) TransformDefinition(def astmodel.TypeDefinit
 	// Apply our rename if we have one configured
 	if transformer.RenameTo != "" {
 		def = def.WithName(
-			def.Name().WithName(transformer.RenameTo))
+			def.Name().WithName(transformer.RenameTo),
+		)
 	}
 
 	// Transform the whole type if we're not looking for a specific property
@@ -81,7 +82,8 @@ func (transformer *TypeTransformer) TransformDefinition(def astmodel.TypeDefinit
 				"type transformer for group: %s, version: %s, name: %s",
 				transformer.Group.String(),
 				transformer.Version.String(),
-				transformer.Name.String())
+				transformer.Name.String(),
+			)
 		}
 
 		def = def.WithType(resultType)
@@ -103,7 +105,8 @@ func (transformer *TypeTransformer) TransformDefinition(def astmodel.TypeDefinit
 			return astmodel.TypeDefinition{}, eris.Wrapf(
 				err,
 				"visiting definition %s",
-				def.Name())
+				def.Name(),
+			)
 		}
 
 		def = d
@@ -127,7 +130,8 @@ func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.Internal
 				"type transformer for group: %s, version: %s, name: %s",
 				transformer.Group.String(),
 				transformer.Version.String(),
-				transformer.Name.String())
+				transformer.Name.String(),
+			)
 		}
 
 		return result, nil
@@ -176,14 +180,16 @@ type PropertyTransformResult struct {
 // String generates a printable representation of this result.
 func (r PropertyTransformResult) String() string {
 	if r.Removed {
-		return fmt.Sprintf("%s.%s removed because %s",
+		return fmt.Sprintf(
+			"%s.%s removed because %s",
 			r.TypeName,
 			r.Property,
 			r.Because,
 		)
 	}
 
-	return fmt.Sprintf("%s.%s -> %s because %s",
+	return fmt.Sprintf(
+		"%s.%s -> %s because %s",
 		r.TypeName,
 		r.Property,
 		r.NewPropertyType.String(),
@@ -198,7 +204,8 @@ func (r PropertyTransformResult) LogTo(log logr.Logger) {
 			"Removing property",
 			"type", r.TypeName,
 			"property", r.Property,
-			"because", r.Because)
+			"because", r.Because,
+		)
 		return
 	}
 
@@ -207,7 +214,8 @@ func (r PropertyTransformResult) LogTo(log logr.Logger) {
 		"type", r.TypeName,
 		"property", r.Property,
 		"newType", r.NewPropertyType.String(),
-		"because", r.Because)
+		"because", r.Because,
+	)
 }
 
 func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
@@ -225,7 +233,8 @@ func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 		return eris.Wrapf(
 			err,
 			"%s matched types but all properties were excluded by name or type",
-			transformer.String())
+			transformer.String(),
+		)
 	}
 
 	return nil

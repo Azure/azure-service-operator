@@ -40,7 +40,8 @@ func TestAddKubernetesExporter_AutomaticallyGeneratesExportedConfigMaps(t *testi
 				})
 				return nil
 			},
-		)).
+		),
+	).
 		To(Succeed())
 
 	configuration := config.NewConfiguration()

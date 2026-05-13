@@ -37,5 +37,6 @@ func (urr *UpgradableResourcesReport) FullOutputPath() string {
 	return filepath.Join(
 		filepath.Dir(urr.cfg.DestinationGoModuleFile),
 		urr.OutputFolder,
-		"upgradable_resources.md")
+		"upgradable_resources.md",
+	)
 }

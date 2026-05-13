@@ -35,7 +35,8 @@ func DetermineResourceOwnership(
 			}
 
 			return state.WithOverlaidDefinitions(defs), nil
-		})
+		},
+	)
 }
 
 type ownershipStage struct {
@@ -87,7 +88,8 @@ func (o *ownershipStage) assignOwners() (astmodel.TypeDefinitionSet, error) {
 		if err != nil {
 			errs = append(
 				errs,
-				eris.Wrapf(err, "failed to update ownership for resource %s", def.Name()))
+				eris.Wrapf(err, "failed to update ownership for resource %s", def.Name()),
+			)
 			continue
 		}
 
@@ -100,7 +102,8 @@ func (o *ownershipStage) assignOwners() (astmodel.TypeDefinitionSet, error) {
 			if err != nil {
 				errs = append(
 					errs,
-					eris.Wrapf(err, "failed to remove resources property from resource %s", def.Name()))
+					eris.Wrapf(err, "failed to remove resources property from resource %s", def.Name()),
+				)
 				continue
 			}
 
@@ -111,7 +114,8 @@ func (o *ownershipStage) assignOwners() (astmodel.TypeDefinitionSet, error) {
 	if len(errs) > 0 {
 		return nil, eris.Wrapf(
 			kerrors.NewAggregate(errs),
-			"failed to update ownership for some resources")
+			"failed to update ownership for some resources",
+		)
 	}
 
 	o.setDefaultOwner(updatedDefs)
@@ -227,7 +231,8 @@ func (o *ownershipStage) updateChildResourceDefinitionsWithOwner(
 		// we need to choose the one with the most recent package reference.
 		if astmodel.ComparePathAndVersion(
 			existingOwner.InternalPackageReference().ImportPath(),
-			owningResourceName.InternalPackageReference().ImportPath()) < 0 {
+			owningResourceName.InternalPackageReference().ImportPath(),
+		) < 0 {
 			// New owner is more recent, so use it
 			applyOwnerToChild(owningResourceName, childResourceDef, childResource)
 			continue
@@ -259,7 +264,8 @@ func (o *ownershipStage) setDefaultOwner(
 				// Note that the version doesn't really matter here -- it's removed later. We just need to refer to the logical
 				// resource group really
 				o.configuration.MakeLocalPackageReference("resources", "v20191001"),
-				"ResourceGroup")
+				"ResourceGroup",
+			)
 			updatedType := resourceType.WithOwner(ownerTypeName) // TODO: Note that right now... this type doesn't actually exist...
 			// This can overwrite because a resource with no owner may have had child resources,
 			// and earlier on in this process we removed the resources property from the parent resource,

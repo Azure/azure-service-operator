@@ -82,7 +82,8 @@ func (config *Configuration) LocalPathPrefix() string {
 func (config *Configuration) FullTypesOutputPath() string {
 	return filepath.Join(
 		filepath.Dir(config.DestinationGoModuleFile),
-		config.TypesOutputPath)
+		config.TypesOutputPath,
+	)
 }
 
 func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
@@ -92,7 +93,8 @@ func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
 
 	return filepath.Join(
 		filepath.Dir(config.DestinationGoModuleFile),
-		config.TypeRegistrationOutputFile)
+		config.TypeRegistrationOutputFile,
+	)
 }
 
 func (config *Configuration) FullSamplesPath() string {
@@ -103,7 +105,8 @@ func (config *Configuration) FullSamplesPath() string {
 	if config.DestinationGoModuleFile != "" {
 		return filepath.Join(
 			filepath.Dir(config.DestinationGoModuleFile),
-			config.SamplesPath)
+			config.SamplesPath,
+		)
 	}
 
 	result, err := filepath.Abs(config.SamplesPath)
@@ -330,7 +333,8 @@ func (config *Configuration) ShouldPrune(typeName astmodel.InternalTypeName) (re
 	if !config.ObjectModelConfiguration.IsEmpty() &&
 		!config.ObjectModelConfiguration.IsGroupConfigured(typeName.InternalPackageReference()) {
 		return Prune, fmt.Sprintf(
-			"No resources configured for export from %s", typeName.InternalPackageReference().PackagePath())
+			"No resources configured for export from %s", typeName.InternalPackageReference().PackagePath(),
+		)
 	}
 
 	// By default, we include all types

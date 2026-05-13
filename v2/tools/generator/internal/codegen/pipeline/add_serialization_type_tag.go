@@ -47,7 +47,8 @@ func AddSerializationTypeTag(configuration *config.Configuration) *Stage {
 			}
 
 			return state.WithDefinitions(updatedDefs), nil
-		})
+		},
+	)
 }
 
 type serializationVisitorContext struct {
@@ -72,7 +73,8 @@ func applySerializationTypeTag(it *astmodel.TypeVisitor[*serializationVisitorCon
 
 			prop = prop.WithTag(astmodel.SerializationType, astmodel.SerializationTypeExplicitEmptyCollection)
 			updatedProps = append(updatedProps, prop)
-		})
+		},
+	)
 
 	ot = ot.WithProperties(updatedProps...).WithProperties(updatedProps...)
 

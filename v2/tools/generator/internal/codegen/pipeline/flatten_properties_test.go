@@ -47,7 +47,8 @@ func TestDuplicateNamesAreCaughtAndRenamed(t *testing.T) {
 	newObjType := astmodel.NewObjectType().
 		WithProperties(
 			prop,
-			prop.WithName(newName).WithJSONName(newJSONName).AddFlattenedFrom("Inner"))
+			prop.WithName(newName).WithJSONName(newJSONName).AddFlattenedFrom("Inner"),
+		)
 	expectedDefs := make(astmodel.TypeDefinitionSet)
 	expectedDefs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(placeholderPackage, "ObjType"), newObjType))
 
@@ -59,15 +60,18 @@ func TestFlatteningWorks(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	inner2Obj := astmodel.NewObjectType().WithProperties(
-		astmodel.NewPropertyDefinition("x", "x", astmodel.StringType))
+		astmodel.NewPropertyDefinition("x", "x", astmodel.StringType),
+	)
 
 	innerObj := astmodel.NewObjectType().WithProperties(
 		astmodel.NewPropertyDefinition("inner2", "inner2", inner2Obj).SetFlatten(true),
-		astmodel.NewPropertyDefinition("y", "y", astmodel.IntType))
+		astmodel.NewPropertyDefinition("y", "y", astmodel.IntType),
+	)
 
 	objType := astmodel.NewObjectType().WithProperties(
 		astmodel.NewPropertyDefinition("inner", "inner", innerObj).SetFlatten(true),
-		astmodel.NewPropertyDefinition("z", "z", astmodel.IntType))
+		astmodel.NewPropertyDefinition("z", "z", astmodel.IntType),
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(astmodel.MakeTypeDefinition(astmodel.MakeInternalTypeName(placeholderPackage, "objType"), objType))

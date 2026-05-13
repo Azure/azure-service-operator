@@ -48,11 +48,8 @@ const (
 // Once all groups have been fully migrated, we will delete this file.
 var versionMigrationModes = map[string]VersionMigrationMode{
 	"alertsmanagement": VersionMigrationModeHybrid,
-
-	"apimanagement": VersionMigrationModeHybrid,
-
-	"app": VersionMigrationModeLegacy,
-
+	"apimanagement":    VersionMigrationModeHybrid,
+	"app":              VersionMigrationModeHybrid,
 	"appconfiguration": VersionMigrationModeHybrid,
 
 	"authorization": VersionMigrationModeLegacy,
@@ -66,16 +63,18 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"containerinstance": VersionMigrationModeLegacy,
 	"containerregistry": VersionMigrationModeLegacy,
 	"containerservice":  VersionMigrationModeLegacy,
-	"datafactory":       VersionMigrationModeLegacy,
-	"dataprotection":    VersionMigrationModeLegacy,
-	"dbformariadb":      VersionMigrationModeLegacy,
+
+	"datafactory": VersionMigrationModeHybrid,
+
+	"dataprotection": VersionMigrationModeLegacy,
+	"dbformariadb":   VersionMigrationModeLegacy,
 
 	"dbformysql": VersionMigrationModeHybrid,
 
 	"dbforpostgresql":         VersionMigrationModeLegacy,
 	"devices":                 VersionMigrationModeLegacy,
 	"documentdb":              VersionMigrationModeLegacy,
-	"eventgrid":               VersionMigrationModeLegacy,
+	"eventgrid":               VersionMigrationModeHybrid,
 	"eventhub":                VersionMigrationModeLegacy,
 	"insights":                VersionMigrationModeLegacy,
 	"keyvault":                VersionMigrationModeLegacy,
@@ -99,8 +98,9 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"storage": VersionMigrationModeHybrid,
 
 	"subscription": VersionMigrationModeLegacy,
-	"synapse":      VersionMigrationModeHybrid,
-	"web":          VersionMigrationModeHybrid,
+
+	"synapse": VersionMigrationModeHybrid,
+	"web":     VersionMigrationModeHybrid,
 }
 
 // VersionPrefixForGroup returns the version prefix to use for the specified group.

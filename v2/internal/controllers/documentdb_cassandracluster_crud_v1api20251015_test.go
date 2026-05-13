@@ -88,7 +88,8 @@ func Test_DocumentDB_CassandraCluster_v1api20251015_CRUD(t *testing.T) {
 		mgmtSubnetRoleAssignment,
 		dcSubnetRoleAssignment,
 		cassandraCluster,
-		dataCenter)
+		dataCenter,
+	)
 
 	// Perform some assertions on the cluster we just created
 	tc.Expect(cassandraCluster.Status.Id).ToNot(BeNil())
@@ -120,7 +121,8 @@ func Test_DocumentDB_CassandraCluster_v1api20251015_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(documentdb.APIVersion_Value))
+		string(documentdb.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

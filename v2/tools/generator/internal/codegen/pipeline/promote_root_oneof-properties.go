@@ -29,7 +29,8 @@ func PromoteRootOneOfProperties() *Stage {
 			}
 
 			return state.WithOverlaidDefinitions(newDefs), nil
-		})
+		},
+	)
 
 	return stage
 }

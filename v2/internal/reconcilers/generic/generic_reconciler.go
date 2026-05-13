@@ -285,7 +285,8 @@ func NewRateLimiter(minBackoff time.Duration, maxBackoff time.Duration, addition
 	limiters := make([]workqueue.TypedRateLimiter[reconcile.Request], 0, len(additionalLimiters)+1)
 	limiters = append(
 		limiters,
-		workqueue.NewTypedItemExponentialFailureRateLimiter[reconcile.Request](minBackoff, maxBackoff))
+		workqueue.NewTypedItemExponentialFailureRateLimiter[reconcile.Request](minBackoff, maxBackoff),
+	)
 	limiters = append(limiters, additionalLimiters...)
 	return workqueue.NewTypedMaxOfRateLimiter(limiters...)
 }
@@ -295,7 +296,8 @@ func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, log l
 		err.Severity,
 		obj.GetGeneration(),
 		err.Reason,
-		err.Cause().Error())) // Don't use err.Error() here because it also includes details about Reason, Severity, which are getting displayed as part of the condition structure
+		err.Cause().Error(),
+	)) // Don't use err.Error() here because it also includes details about Reason, Severity, which are getting displayed as part of the condition structure
 	commitErr := gr.CommitUpdate(ctx, log, nil, obj, kubeclient.SpecAndStatus)
 	if commitErr != nil {
 		return eris.Wrap(commitErr, "updating resource error")
@@ -357,7 +359,8 @@ func (gr *GenericReconciler) handleSkipReconcile(ctx context.Context, log logr.L
 
 	log.V(Status).Info(
 		"Skipping creation/update of resource due to policy",
-		annotations.ReconcilePolicy, reconcilePolicy)
+		annotations.ReconcilePolicy, reconcilePolicy,
+	)
 
 	err := gr.Reconciler.UpdateStatus(ctx, log, gr.Recorder, obj)
 	if err != nil {
@@ -419,7 +422,8 @@ func (gr *GenericReconciler) mergeReconcilePolicy(ctx context.Context, log logr.
 			err,
 			"failed to get reconcile policy. Applying default policy instead",
 			"chosenPolicy", reconcilePolicy,
-			"policyAnnotation", policyStr)
+			"policyAnnotation", policyStr,
+		)
 	}
 	log.V(Verbose).Info("Retrieved reconcile policy", "policy", reconcilePolicy, "source", source)
 	return reconcilePolicy

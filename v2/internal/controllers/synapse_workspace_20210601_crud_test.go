@@ -85,7 +85,8 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				WorkspacesBigDataPool_CRUD(tc, ws)
 			},
-		})
+		},
+	)
 
 	tc.DeleteResourceAndWait(ws)
 
@@ -93,7 +94,8 @@ func Test_Workspace_BigDataPool(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		wsArmId,
-		string(synapse.APIVersion_Value))
+		string(synapse.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

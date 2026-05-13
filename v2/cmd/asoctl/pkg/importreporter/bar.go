@@ -36,10 +36,13 @@ func newBarProgress(
 	bar := progress.AddBar(
 		0, // zero total because we don't know how much work will be needed
 		mpb.PrependDecorators(
-			decor.Name(name, decor.WCSyncSpaceR)),
+			decor.Name(name, decor.WCSyncSpaceR),
+		),
 		mpb.AppendDecorators(
-			decor.CountersNoUnit("%d/%d", decor.WCSyncSpaceR)),
-		mpb.BarRemoveOnComplete())
+			decor.CountersNoUnit("%d/%d", decor.WCSyncSpaceR),
+		),
+		mpb.BarRemoveOnComplete(),
+	)
 
 	result := &barReporter{
 		updates:  make(chan progressDelta),

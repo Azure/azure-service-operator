@@ -28,7 +28,8 @@ func TestGolden_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCod
 		"Person",
 		test.FullNameProperty,
 		test.KnownAsProperty,
-		test.FamilyNameProperty)
+		test.FamilyNameProperty,
+	)
 
 	// Create our downstream type
 	personSpec2021 := test.CreateSpec(
@@ -37,7 +38,8 @@ func TestGolden_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCod
 		test.FullNameProperty,
 		test.KnownAsProperty,
 		test.FamilyNameProperty,
-		test.CityProperty)
+		test.CityProperty,
+	)
 
 	// Create Property Assignment functions
 	defs := make(astmodel.TypeDefinitionSet)
@@ -68,7 +70,8 @@ func TestGolden_NewSpecChainedConversionFunction_Conversion_GeneratesExpectedCod
 	 * and check that the implementations of ConvertSpecTo() and ConvertSpecFrom() are what you expect.
 	 */
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(
-		t, "Person", personSpec2020updated, test.DiffWith(personSpec2020))
+		t, "Person", personSpec2020updated, test.DiffWith(personSpec2020),
+	)
 }
 
 // TestGolden_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedCode tests the code when the ConvertToStatus()
@@ -113,5 +116,6 @@ func TestGolden_NewStatusChainedConversionFunction_Conversion_GeneratesExpectedC
 	 * and check that the implementations of ConvertSpecTo() and ConvertSpecFrom() are what you expect.
 	 */
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(
-		t, "Person", personStatus2020updated, test.DiffWith(personStatus2020))
+		t, "Person", personStatus2020updated, test.DiffWith(personStatus2020),
+	)
 }

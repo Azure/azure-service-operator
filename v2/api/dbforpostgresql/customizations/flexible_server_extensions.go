@@ -124,7 +124,9 @@ func (ext *FlexibleServerExtension) PreReconcileCheck(
 		return extensions.BlockReconcile(
 			fmt.Sprintf(
 				"Flexible Server is in state %q",
-				*state)), nil
+				*state,
+			),
+		), nil
 	}
 
 	return next(ctx, obj, resourceResolver, armClient, log)

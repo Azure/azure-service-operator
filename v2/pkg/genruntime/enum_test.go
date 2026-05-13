@@ -46,6 +46,7 @@ func Test_ToEnum_WhenCalled_ReturnsExpectedResult(t *testing.T) {
 				if actual != c.expected {
 					t.Errorf("Expected %s, but got %s", c.expected, actual)
 				}
-			})
+			},
+		)
 	}
 }

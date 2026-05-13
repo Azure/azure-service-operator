@@ -95,7 +95,8 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 			}
 
 			return state, nil
-		})
+		},
+	)
 }
 
 func transformChainsToIndexFunctionsAndKeys(
@@ -115,7 +116,8 @@ func transformChainsToIndexFunctionsAndKeys(
 			chain.indexMethodName(idFactory, def.Name()),
 			def.Name(),
 			propertyKey,
-			chain.properties())
+			chain.properties(),
+		)
 		indexFunctions = append(indexFunctions, indexFunction)
 		propertyKeys = append(propertyKeys, propertyKey)
 	}

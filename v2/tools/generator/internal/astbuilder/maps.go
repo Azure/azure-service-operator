@@ -51,7 +51,8 @@ func InsertMap(mapExpr dst.Expr, key dst.Expr, rhs dst.Expr) *dst.AssignStmt {
 			X:     dst.Clone(mapExpr).(dst.Expr),
 			Index: dst.Clone(key).(dst.Expr),
 		},
-		dst.Clone(rhs).(dst.Expr))
+		dst.Clone(rhs).(dst.Expr),
+	)
 }
 
 // IterateOverMapWithValue creates a statement to iterate over the content of a map using the

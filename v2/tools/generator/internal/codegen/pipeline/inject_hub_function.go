@@ -46,7 +46,8 @@ func InjectHubFunction(idFactory astmodel.IdentifierFactory) *Stage {
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(MarkLatestStorageVariantAsHubVersionID)
 	return stage

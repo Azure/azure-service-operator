@@ -165,7 +165,8 @@ func (extractor *SwaggerTypeExtractor) ExtractResourceTypes(ctx context.Context,
 				statusSchema,
 				nameParameterType,
 				operationPath,
-				getSupportedOperations(op))
+				getSupportedOperations(op),
+			)
 			if err != nil {
 				return err
 			}
@@ -199,7 +200,8 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 		extractor.log.V(1).Info(
 			"Error extracting resource name",
 			"swaggerPath", dir,
-			"error", err)
+			"error", err,
+		)
 		return nil
 	}
 
@@ -208,7 +210,8 @@ func (extractor *SwaggerTypeExtractor) extractOneResourceType(
 		extractor.log.V(1).Info(
 			"Skipping resource",
 			"name", resourceName,
-			"because", because)
+			"because", because,
+		)
 		return nil
 	}
 
@@ -310,7 +313,8 @@ func (extractor *SwaggerTypeExtractor) ExtractOneOfTypes(
 			extractor.outputPackage,
 			extractor.idFactory,
 			extractor.cache,
-			extractor.log)
+			extractor.log,
+		)
 
 		// Run a handler to generate our type
 		t, err := scanner.RunHandlerForSchema(ctx, schema)
@@ -382,7 +386,8 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 		extractor.log.V(1).Info(
 			"overriding parameters",
 			"operation", rawOperationPath,
-			"swagger", extractor.swaggerPath)
+			"swagger", extractor.swaggerPath,
+		)
 		params = op.Parameters
 	}
 
@@ -412,12 +417,14 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 		if noBody {
 			extractor.log.V(1).Info(
 				"no body parameter found for PUT operation",
-				"operation", rawOperationPath)
+				"operation", rawOperationPath,
+			)
 		} else {
 			extractor.log.V(1).Info(
 				"no schema found for PUT operation",
 				"operation", rawOperationPath,
-				"swagger", extractor.swaggerPath)
+				"swagger", extractor.swaggerPath,
+			)
 			return nil, nil, false
 		}
 	}
@@ -457,7 +464,8 @@ func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter)
 			extractor.outputPackage,
 			extractor.idFactory,
 			extractor.cache,
-			extractor.log)
+			extractor.log,
+		)
 	} else {
 		result = MakeOpenAPISchema(
 			nameFromRef(param.Schema.Ref),
@@ -466,7 +474,8 @@ func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter)
 			extractor.outputPackage,
 			extractor.idFactory,
 			extractor.cache,
-			extractor.log)
+			extractor.log,
+		)
 	}
 
 	return &result
@@ -484,7 +493,8 @@ func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response
 			extractor.outputPackage,
 			extractor.idFactory,
 			extractor.cache,
-			extractor.log)
+			extractor.log,
+		)
 
 		return &result, isMarkedAsARMResource(result)
 	}
@@ -505,7 +515,8 @@ func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response
 			outputPackage,
 			extractor.idFactory,
 			extractor.cache,
-			extractor.log)
+			extractor.log,
+		)
 
 		return &schema, isMarkedAsARMResource(schema)
 	}
@@ -513,7 +524,8 @@ func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response
 	extractor.log.V(1).Info(
 		"no schema found for response",
 		"operation", rawOperationPath,
-		"swagger", extractor.swaggerPath)
+		"swagger", extractor.swaggerPath,
+	)
 	return nil, false
 }
 
@@ -648,7 +660,8 @@ func (extractor *SwaggerTypeExtractor) expandAndCanonicalizePath(
 		extractor.log.V(1).Info(
 			"expanding enums in path",
 			"swaggerPath", extractor.swaggerPath,
-			"error", err.Error())
+			"error", err.Error(),
+		)
 		return results
 	}
 
@@ -775,7 +788,8 @@ func (extractor *SwaggerTypeExtractor) extractResourceSubpath(operationPath stri
 var hardCodedNames = set.Make(
 	"current",
 	"default",
-	"web")
+	"web",
+)
 
 // inferNameFromURLPath attempts to extract a name from a Swagger operation path
 // for example “…/Microsoft.GroupName/resourceType/{resourceId}” would result
