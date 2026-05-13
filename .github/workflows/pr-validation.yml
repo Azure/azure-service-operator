@@ -61,7 +61,6 @@ jobs:
 
   test-generator:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testgenerator-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
-    if: github.repository == 'Azure/azure-service-operator'
     permissions:
       packages: read
 
@@ -176,7 +175,6 @@ jobs:
 
   test-controllers:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testcontrollers-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
-    if: github.repository == 'Azure/azure-service-operator'
     permissions:
       packages: read
 
@@ -235,7 +233,6 @@ jobs:
 
   test-samples:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testsamples-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
-    if: github.repository == 'Azure/azure-service-operator'
     permissions:
       packages: read
 
@@ -296,13 +293,11 @@ jobs:
   integration-tests:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testintegration-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     if: 
-      github.repository == 'Azure/azure-service-operator' && (
       # Run on pull requests in this repository that are not from @dependabot, and run for merge groups
       github.event_name == 'merge_group' ||
       ( github.event_name == 'pull_request' &&
         github.actor != 'dependabot[bot]' &&
         github.event.pull_request.head.repo.full_name == github.repository )
-      )
     permissions:
       packages: read
       checks: write
