@@ -72,6 +72,7 @@ func loadGroupConfigurationFile(path string, groupName string) (*GroupConfigurat
 
 	result := &GroupConfigurationFile{}
 	decoder := yaml.NewDecoder(f)
+	decoder.KnownFields(true)
 
 	err = decoder.Decode(result)
 	if err != nil {

@@ -1,9 +1,4 @@
 typeTransformers:
-  #
-  # In the group 'cache', 
-  # remove the property'RedisProperties_Status.AccessKeys'
-  # because it's only populated in a response from Azure 
-  #
   - name: Extension_Properties_Spec
     property: Statuses
     remove: true
