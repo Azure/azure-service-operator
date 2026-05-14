@@ -15,6 +15,9 @@ on:
       - main
     types: [checks_requested]
 
+  workflow_dispatch:
+  # no content, allows manual triggering
+
 jobs:
   test-go-get:
     runs-on: ubuntu-latest
@@ -293,8 +296,9 @@ jobs:
   integration-tests:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testintegration-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     if: 
-      # Run on pull requests in this repository that are not from @dependabot, and run for merge groups
+      # Run on pull requests in this repository that are not from @dependabot, run for merge groups, and run for workflow_dispatch
       github.event_name == 'merge_group' ||
+      github.event_name == 'workflow_dispatch' ||
       ( github.event_name == 'pull_request' &&
         github.actor != 'dependabot[bot]' &&
         github.event.pull_request.head.repo.full_name == github.repository )
