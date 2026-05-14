@@ -33,6 +33,8 @@ ProductApiExtension: Object (0 properties)
 
 ProductExtension: Object (0 properties)
 
+ProductGroupExtension: Object (0 properties)
+
 ProductPolicyExtension: Object (0 properties)
 
 ServiceExtension: Object (0 properties)
