@@ -1,0 +1,283 @@
+name: Weekly security scan
+
+on:
+  schedule:
+    # Cron for every Monday at 12:00 UTC.
+    - cron: "0 12 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+  issues: write
+
+jobs:
+  scan:
+    concurrency:
+      group: weekly-security-scan-${{ matrix.branch }}
+      cancel-in-progress: false
+    strategy:
+      fail-fast: false
+      matrix:
+        branch: [main, backplane-2.11, backplane-2.17, backplane-5.0, backplane-5.1]
+    name: Trivy (${{ matrix.branch }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+    - name: Check out code
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+      with:
+        ref: ${{ matrix.branch }}
+
+    - name: Capture scanned commit
+      id: scanned-commit
+      run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+    - name: Run Trivy vulnerability scanner in repo mode
+      uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+        severity: 'CRITICAL,HIGH,MEDIUM,LOW'
+        exit-code: '1'
+      continue-on-error: true
+      id: trivy-scan
+
+    - name: Run Trivy for human-readable output
+      uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'table'
+        output: 'trivy-results.txt'
+        severity: 'CRITICAL,HIGH,MEDIUM,LOW'
+      continue-on-error: true
+      id: trivy-table
+
+    - name: Validate scan output
+      if: always()
+      id: validate-sarif
+      run: |
+        if [ ! -s trivy-results.sarif ]; then
+          echo "::error::Trivy scan did not produce SARIF output. The scan may have failed due to infrastructure issues."
+          exit 1
+        fi
+        if ! jq empty trivy-results.sarif 2>/dev/null; then
+          echo "::error::trivy-results.sarif is not valid JSON. Scan results may be corrupted."
+          exit 1
+        fi
+
+    - name: Count vulnerabilities from SARIF
+      if: always() && steps.validate-sarif.outcome == 'success'
+      id: vuln-counts
+      run: |
+        CRITICAL=$(jq '[.runs[] | . as $run | ($run.tool.driver.rules // []) as $rules | ($run.results // [])[] | $rules[.ruleIndex] | select(.properties.tags[]? == "CRITICAL")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+        HIGH=$(jq '[.runs[] | . as $run | ($run.tool.driver.rules // []) as $rules | ($run.results // [])[] | $rules[.ruleIndex] | select(.properties.tags[]? == "HIGH")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+        MEDIUM=$(jq '[.runs[] | . as $run | ($run.tool.driver.rules // []) as $rules | ($run.results // [])[] | $rules[.ruleIndex] | select(.properties.tags[]? == "MEDIUM")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+        LOW=$(jq '[.runs[] | . as $run | ($run.tool.driver.rules // []) as $rules | ($run.results // [])[] | $rules[.ruleIndex] | select(.properties.tags[]? == "LOW")] | length' trivy-results.sarif 2>/dev/null || echo 0)
+
+        for var in CRITICAL HIGH MEDIUM LOW; do
+          val="${!var}"
+          if ! echo "$val" | grep -qE '^[0-9]+$'; then
+            echo "::warning::$var count is not a valid integer ('$val'). Defaulting to 0."
+            declare "$var=0"
+          fi
+        done
+
+        TOTAL=$((CRITICAL + HIGH + MEDIUM + LOW))
+
+        if [ "$TOTAL" -eq 0 ] && [ "${{ steps.trivy-scan.outcome }}" = "failure" ]; then
+          echo "::warning::Trivy reported vulnerabilities (exit code 1) but SARIF parsing found 0. The SARIF schema may have changed. Check trivy-results.sarif in the uploaded artifacts."
+        fi
+
+        echo "critical=$CRITICAL" >> "$GITHUB_OUTPUT"
+        echo "high=$HIGH" >> "$GITHUB_OUTPUT"
+        echo "medium=$MEDIUM" >> "$GITHUB_OUTPUT"
+        echo "low=$LOW" >> "$GITHUB_OUTPUT"
+        echo "total=$TOTAL" >> "$GITHUB_OUTPUT"
+
+    - name: Generate summary
+      if: always()
+      env:
+        CRITICAL: ${{ steps.vuln-counts.outputs.critical }}
+        HIGH: ${{ steps.vuln-counts.outputs.high }}
+        MEDIUM: ${{ steps.vuln-counts.outputs.medium }}
+        LOW: ${{ steps.vuln-counts.outputs.low }}
+        TOTAL: ${{ steps.vuln-counts.outputs.total }}
+      run: |
+        echo "# Trivy Security Scan Results (${{ matrix.branch }})" >> "$GITHUB_STEP_SUMMARY"
+        echo "" >> "$GITHUB_STEP_SUMMARY"
+
+        if [ -z "$TOTAL" ]; then
+          echo "## ⚠️ Vulnerability counts unavailable" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "The SARIF parsing step did not produce counts. Check workflow logs for details." >> "$GITHUB_STEP_SUMMARY"
+        elif [ "$TOTAL" = "0" ]; then
+          echo "## ✅ No vulnerabilities found!" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Branch \`${{ matrix.branch }}\` passed all Trivy security checks." >> "$GITHUB_STEP_SUMMARY"
+        else
+          echo "## ❌ Vulnerabilities detected: $TOTAL" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Severity | Count |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|----------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🔴 CRITICAL | $CRITICAL |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🟠 HIGH | $HIGH |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🟡 MEDIUM | $MEDIUM |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| 🟢 LOW | $LOW |" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f trivy-results.txt ]; then
+            echo "### Scan Results" >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+            cat trivy-results.txt >> "$GITHUB_STEP_SUMMARY"
+            echo '```' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "> **Note:** Detailed scan output is unavailable. The human-readable scan step may have failed. Check workflow logs." >> "$GITHUB_STEP_SUMMARY"
+          fi
+        fi
+
+    - name: Upload Trivy results (SARIF)
+      if: always()
+      id: upload-sarif
+      uses: github/codeql-action/upload-sarif@38697555549f1db7851b81482ff19f1fa5c4fedc # v4
+      with:
+        sarif_file: 'trivy-results.sarif'
+        category: 'trivy-${{ matrix.branch }}'
+        ref: 'refs/heads/${{ matrix.branch }}'
+        sha: ${{ steps.scanned-commit.outputs.sha }}
+      continue-on-error: true
+
+    - name: Warn on SARIF upload failure
+      if: always() && steps.upload-sarif.outcome == 'failure'
+      run: |
+        echo "::warning::Failed to upload SARIF results to the Security tab. Results are still available in the workflow artifacts."
+
+    - name: Upload Trivy results (artifact)
+      if: always()
+      uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+      with:
+        name: trivy-results-${{ matrix.branch }}
+        path: |
+          trivy-results.sarif
+          trivy-results.txt
+        retention-days: 30
+
+    - name: Create GitHub issue on vulnerability
+      if: steps.trivy-scan.outcome == 'failure' && github.event_name != 'pull_request'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SERVER_URL: ${{ github.server_url }}
+        REPO: ${{ github.repository }}
+        RUN_ID: ${{ github.run_id }}
+        BRANCH: ${{ matrix.branch }}
+        CRITICAL: ${{ steps.vuln-counts.outputs.critical }}
+        HIGH: ${{ steps.vuln-counts.outputs.high }}
+        MEDIUM: ${{ steps.vuln-counts.outputs.medium }}
+        LOW: ${{ steps.vuln-counts.outputs.low }}
+        TOTAL: ${{ steps.vuln-counts.outputs.total }}
+      run: |
+        EXISTING_ISSUE=$(gh issue list --state open --label "security" --label "trivy" --label "$BRANCH" --json number --jq '.[0].number // empty') || {
+          echo "::warning::Failed to check for existing issues. A duplicate issue may be created."
+          EXISTING_ISSUE=""
+        }
+
+        if [ -n "$EXISTING_ISSUE" ]; then
+          echo "Existing issue found: #$EXISTING_ISSUE"
+
+          {
+            echo "## 🔄 Vulnerabilities Still Present"
+            echo ""
+            echo "**New Detection**: ${SERVER_URL}/${REPO}/actions/runs/${RUN_ID}"
+            echo "**Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+            echo "**Branch**: ${BRANCH}"
+            echo ""
+            echo "### Current Vulnerability Count"
+            echo ""
+            echo "| Severity | Count |"
+            echo "|----------|-------|"
+            echo "| 🔴 CRITICAL | $CRITICAL |"
+            echo "| 🟠 HIGH | $HIGH |"
+            echo "| 🟡 MEDIUM | $MEDIUM |"
+            echo "| 🟢 LOW | $LOW |"
+            echo "| **TOTAL** | **$TOTAL** |"
+            echo ""
+            echo "### Latest Scan Results"
+            echo ""
+            echo "<details>"
+            echo "<summary>Click to expand Trivy scan output</summary>"
+            echo ""
+            echo '```'
+            if [ -f trivy-results.txt ]; then head -200 trivy-results.txt; else echo "See workflow logs for full details"; fi
+            echo '```'
+            echo ""
+            echo "</details>"
+            echo ""
+            echo "**Security Tab**: Check the [Security tab](${SERVER_URL}/${REPO}/security/code-scanning) for detailed SARIF results."
+          } > comment_body.md
+
+          gh issue comment "$EXISTING_ISSUE" --body-file comment_body.md || {
+            echo "::warning::Failed to update existing issue #$EXISTING_ISSUE with new scan results."
+          }
+        else
+          echo "Creating new issue..."
+
+          {
+            echo "# 🚨 Security Alert: Vulnerabilities Detected (Trivy)"
+            echo ""
+            echo "## Overview"
+            echo ""
+            echo "The **Trivy** security scanner has detected vulnerabilities on branch \`${BRANCH}\`."
+            echo ""
+            echo "| Field | Value |"
+            echo "|-------|-------|"
+            echo "| **Scanner** | Trivy |"
+            echo "| **Branch** | \`${BRANCH}\` |"
+            echo "| **🔴 CRITICAL** | $CRITICAL |"
+            echo "| **🟠 HIGH** | $HIGH |"
+            echo "| **🟡 MEDIUM** | $MEDIUM |"
+            echo "| **🟢 LOW** | $LOW |"
+            echo "| **TOTAL** | **$TOTAL** |"
+            echo "| **Workflow Run** | [${RUN_ID}](${SERVER_URL}/${REPO}/actions/runs/${RUN_ID}) |"
+            echo "| **Date** | $(date -u +"%Y-%m-%d %H:%M:%S UTC") |"
+            echo ""
+            echo "## 📋 Scan Results"
+            echo ""
+            echo "🔒 **SARIF Results**: [View in Security Tab](${SERVER_URL}/${REPO}/security/code-scanning)"
+            echo ""
+            echo "<details open>"
+            echo "<summary><b>Trivy Findings</b></summary>"
+            echo ""
+            echo '```'
+            if [ -f trivy-results.txt ]; then head -200 trivy-results.txt; else echo "See workflow run logs for complete details"; fi
+            echo '```'
+            echo ""
+            echo "</details>"
+            echo ""
+            echo "## 🔧 Remediation"
+            echo ""
+            echo "1. **Prioritize** by severity: CRITICAL → HIGH → MEDIUM → LOW"
+            echo "2. **Update** vulnerable dependencies: \`go get -u <package>@<safe-version> && go mod tidy\`"
+            echo "3. **Test** changes: \`make test\`"
+            echo "4. **Verify** locally: \`docker run --rm -v \$(pwd):/scan aquasec/trivy fs /scan\`"
+            echo ""
+            echo "---"
+            echo ""
+            echo "*🤖 This issue was automatically created by the [security scan workflow](${SERVER_URL}/${REPO}/actions/workflows/weekly-security-scan.yaml)*"
+          } > issue_body.md
+
+          gh issue create \
+            --title "🚨 [Trivy] $TOTAL vulnerabilities detected on ${BRANCH}" \
+            --label "security" \
+            --label "trivy" \
+            --label "$BRANCH" \
+            --body-file issue_body.md || {
+            echo "::warning::Failed to create GitHub issue for security vulnerabilities. Check workflow permissions and GitHub API status."
+          }
+        fi
+
+    - name: Fail if vulnerabilities found
+      if: steps.trivy-scan.outcome == 'failure'
+      run: exit 1
