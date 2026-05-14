@@ -259,7 +259,7 @@ func ReturnIfExpr(cond dst.Expr, returns ...dst.Expr) *dst.IfStmt {
 //
 //	fmt.Errorf(<formatString>, <args>)
 func FormatError(fmtPackage string, formatString string, args ...dst.Expr) dst.Expr {
-	var callArgs []dst.Expr
+	var callArgs []dst.Expr //nolint:prealloc
 	callArgs = append(
 		callArgs,
 		StringLiteral(formatString))
@@ -390,7 +390,7 @@ func Selector(expr dst.Expr, names ...string) *dst.SelectorExpr {
 		root = st.X
 	}
 
-	exprs := []dst.Expr{root}
+	exprs := []dst.Expr{root} //nolint:prealloc
 	for _, name := range names {
 		exprs = append(exprs, dst.NewIdent(name))
 	}

@@ -91,7 +91,7 @@ func nestType(
 		return nil, eris.Errorf("type %q was not of type ObjectType, instead %T", outerTypeName, outerType.Type())
 	}
 
-	var result []astmodel.TypeDefinition
+	var result []astmodel.TypeDefinition //nolint:prealloc
 
 	// Copy outer type properties onto new "nesting type" with name nestedTypeName
 	nestedDef := astmodel.MakeTypeDefinition(

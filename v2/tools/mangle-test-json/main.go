@@ -306,7 +306,7 @@ func escapeOutput(outputs []string) (bool, string) {
 func printSlowTests(byPackage map[string][]TestRun) {
 	fmt.Printf("## Longest-running tests\n\n")
 
-	allTests := []TestRun{}
+	allTests := []TestRun{} //nolint:prealloc
 	for _, v := range byPackage {
 		allTests = append(allTests, v[1:]...)
 	}

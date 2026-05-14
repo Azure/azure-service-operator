@@ -130,7 +130,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	decls = append(decls, indexFunctionDecls...)
 
 	// TODO: Common func?
-	var header []string
+	var header []string //nolint:prealloc
 	header = append(header, astmodel.CodeGenerationComments...)
 	header = append(header,
 		"// Copyright (c) Microsoft Corporation.",
@@ -577,7 +577,7 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 func (r *ResourceRegistrationFile) defineIndexFunctions(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 ) ([]dst.Decl, error) {
-	var indexFunctions []*functions.IndexRegistrationFunction
+	var indexFunctions []*functions.IndexRegistrationFunction //nolint:prealloc
 	for _, funcs := range r.indexFunctions {
 		indexFunctions = append(indexFunctions, funcs...)
 	}

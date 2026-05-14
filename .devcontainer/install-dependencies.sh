@@ -206,8 +206,8 @@ go-install hugo -tags extended github.com/gohugoio/hugo@v0.147.0
 # Restore this to github.com/wjdp/htmltest@v?? once PR#215 is merged with the feature we need
 go-install htmltest github.com/theunrepentantgeek/htmltest@latest
 
-#doc# | crddoc | latest | https://github.com/theunrepentantgeek/crddoc |
-go-install crddoc github.com/theunrepentantgeek/crddoc@latest
+#doc# | crddoc | v0.0.0-20250527084215-0e96d87ea4e8 | https://github.com/theunrepentantgeek/crddoc |
+go-install crddoc github.com/theunrepentantgeek/crddoc@v0.0.0-20250527084215-0e96d87ea4e8
 
 # Install envtest tooling
 #doc# | setup-envtest | v0.20.4 | https://book.kubebuilder.io/reference/envtest.html |
@@ -219,8 +219,8 @@ if should-install "$TOOL_DEST/setup-envtest"; then
 fi
 
 # Stricter GO formatting
-#doc# | gofumpt | latest | https://pkg.go.dev/mvdan.cc/gofumpt |
-go-install gofumpt mvdan.cc/gofumpt@latest
+#doc# | gofumpt | v0.9.0 | https://pkg.go.dev/mvdan.cc/gofumpt |
+go-install gofumpt mvdan.cc/gofumpt@v0.9.0
 
 # Install golangci-lint
 #doc# | golangci-lint | 2.3.1 | https://github.com/golangci/golangci-lint |
@@ -241,16 +241,16 @@ if should-install "$TOOL_DEST/task"; then
 fi
 
 # Install Trivy
-#doc# | Trivy | v0.55.2 | https://trivy.dev/ |
+#doc# | Trivy | v0.69.3 | https://trivy.dev/ |
 write-verbose "Checking for $TOOL_DEST/trivy"
 if should-install "$TOOL_DEST/trivy"; then
     write-info "Installing trivy"
-    # This guys decided to use different naming conventions for os(go env GOOS) and arch(go env GOARCH) despite trivy is 98.6% written in Go
+    # These guys decided to use different naming conventions for os(go env GOOS) and arch(go env GOARCH) despite trivy is 98.6% written in Go
     # This fixes macos arm64 architechture. Every other os/arch is named differently. Consider adding a workaround of your own ¯\_(ツ)_/¯
     if [[ ${os} == "darwin" ]] && [[ ${arch} == "arm64" ]]; then
-        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.55.2/trivy_0.55.2_macOS-ARM64.tar.gz" | tar xz -C "$TOOL_DEST" trivy
+        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.69.3/trivy_0.69.3_macOS-ARM64.tar.gz" | tar xz -C "$TOOL_DEST" trivy
     else
-        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.55.2/trivy_0.55.2_Linux-64bit.tar.gz" | tar xz -C "$TOOL_DEST" trivy
+        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.69.3/trivy_0.69.3_Linux-64bit.tar.gz" | tar xz -C "$TOOL_DEST" trivy
     fi
 fi
 

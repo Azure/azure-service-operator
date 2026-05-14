@@ -91,7 +91,7 @@ func (s *State) Definitions() astmodel.TypeDefinitionSet {
 
 // CheckFinalState checks that our final state is valid, returning an error if not
 func (s *State) CheckFinalState() error {
-	var errs []error
+	var errs []error //nolint:prealloc
 	for required, requiredBy := range s.stagesExpected {
 		for stageID := range requiredBy {
 			errs = append(errs, eris.Errorf("postrequisite %q of stage %q not satisfied", required, stageID))

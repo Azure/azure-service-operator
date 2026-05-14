@@ -292,7 +292,7 @@ func (m *Manager) DetermineCRDsToInstallOrUpgrade(
 	}
 
 	// Prealloc false positive: https://github.com/alexkohler/prealloc/issues/16
-	//nolint:prealloc
+
 	var filteredGoalCRDs []apiextensions.CustomResourceDefinition
 	for _, result := range resultMap {
 		if result.FilterResult == Excluded {

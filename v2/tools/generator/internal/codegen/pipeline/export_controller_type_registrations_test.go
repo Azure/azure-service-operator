@@ -86,7 +86,7 @@ func TestEnsureIndexPropertyPathsUnique_ResolvesConflicts(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 			factory := make(testChainFactory)
-			var chains []*propertyChain
+			var chains []*propertyChain //nolint:prealloc
 			for _, tc := range c.chains {
 				chains = append(chains, factory.createTestChain(tc.chain))
 			}

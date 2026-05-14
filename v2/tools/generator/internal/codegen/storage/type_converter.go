@@ -150,7 +150,7 @@ func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.InternalTypeNam
 func (*TypeConverter) descriptionForStorageVariant(definition astmodel.TypeDefinition) []string {
 	pkg := definition.Name().PackageReference().PackageName()
 
-	result := []string{
+	result := []string{ //nolint:prealloc
 		fmt.Sprintf("Storage version of %s.%s", pkg, definition.Name().Name()),
 	}
 	result = append(result, definition.Description()...)

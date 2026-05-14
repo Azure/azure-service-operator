@@ -105,7 +105,7 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 		ver,
 		name)
 
-	funcs := []astmodel.Function{
+	funcs := []astmodel.Function{ //nolint:prealloc
 		NewDefaultFunction(
 			"Default",
 			d.resourceName,

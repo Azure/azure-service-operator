@@ -228,7 +228,7 @@ func Test_SetCondition_OverwritesAsExpected(t *testing.T) {
 		expectedOverwrite bool
 	}
 
-	tests := []testStruct{
+	tests := []testStruct{ //nolint:prealloc
 		// Something overwrites nothing
 		{name: "True overwrites empty", initial: nil, new: trueGeneration1Condition, expectedOverwrite: true},
 		{name: "Info overwrites empty", initial: nil, new: infoGeneration1Condition, expectedOverwrite: true},

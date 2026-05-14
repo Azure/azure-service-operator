@@ -356,7 +356,7 @@ func (chain *propertyChain) indexPropertyPath() string {
 // a member of a collection, such as .spec.secretsCollection.password. This is OK because the key is just a string
 // and all that string is doing is uniquely representing this field.
 func (chain *propertyChain) indexPropertyKey() string {
-	values := []string{
+	values := []string{ //nolint:prealloc
 		".spec",
 	}
 	for _, prop := range chain.properties() {

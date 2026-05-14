@@ -39,7 +39,7 @@ func (def TypeDefinition) Type() Type {
 // Description returns the description to be attached to this type definition (as a comment)
 // We return a new slice to preserve immutability
 func (def TypeDefinition) Description() []string {
-	var result []string
+	var result []string //nolint:prealloc
 	result = append(result, def.description...)
 	return result
 }

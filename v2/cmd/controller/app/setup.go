@@ -215,7 +215,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		}
 
 		if errs := generic.RegisterWebhooks(mgr, objs); errs != nil {
-			setupLog.Error(err, "failed to register webhook for gvks")
+			setupLog.Error(errs, "failed to register webhook for gvks")
 			os.Exit(1)
 		}
 	}

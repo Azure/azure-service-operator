@@ -37,7 +37,7 @@ func NewSparseTable(title string) *SparseTable {
 // Rows returns a slice containing the captions of all the rows of the table
 // A new slice is returned to avoid violations of encapsulation
 func (table *SparseTable) Rows() []string {
-	var result []string
+	var result []string //nolint:prealloc
 	result = append(result, table.rows...)
 	return result
 }
@@ -62,7 +62,7 @@ func (table *SparseTable) SortRows(less func(top string, bottom string) bool) {
 // Columns returns a slice containing the captions of all the columns of the table
 // A new slice is returned to avoid violations of encapsulation
 func (table *SparseTable) Columns() []string {
-	var result []string
+	var result []string //nolint:prealloc
 	result = append(result, table.cols...)
 	return result
 }
@@ -96,7 +96,7 @@ func (table *SparseTable) SetCell(row string, col string, cell string) {
 }
 
 func (table *SparseTable) WriteTo(buffer *strings.Builder) {
-	headings := []string{
+	headings := []string{ //nolint:prealloc
 		table.title,
 	}
 	headings = append(headings, table.cols...)
@@ -121,7 +121,7 @@ func (table *SparseTable) getRowCells(row string) map[string]string {
 }
 
 func (table *SparseTable) createRow(row string) []string {
-	result := []string{row}
+	result := []string{row} //nolint:prealloc
 	cells := table.getRowCells(row)
 	for _, c := range table.cols {
 		content := cells[c]

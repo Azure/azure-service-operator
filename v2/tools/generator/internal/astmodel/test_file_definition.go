@@ -95,7 +95,7 @@ func (file *TestFileDefinition) AsAst() (*dst.File, error) {
 
 	decls = append(decls, testcases...)
 
-	var header []string
+	var header []string //nolint:prealloc
 	header = append(header, CodeGenerationComments...)
 	header = append(header,
 		"// Copyright (c) Microsoft Corporation.",

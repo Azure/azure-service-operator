@@ -120,7 +120,7 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 		version,
 		name)
 
-	funcs := []astmodel.Function{
+	funcs := []astmodel.Function{ //nolint:prealloc
 		NewValidateFunction(
 			"ValidateCreate",
 			v.resourceName,

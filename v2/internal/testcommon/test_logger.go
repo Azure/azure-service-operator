@@ -78,7 +78,7 @@ func kvListFormat(b *bytes.Buffer, keysAndValues ...interface{}) {
 }
 
 func (t *TestLogger) clone() *TestLogger {
-	var clonedValues []interface{}
+	var clonedValues []interface{} //nolint:prealloc
 	clonedValues = append(clonedValues, t.values...)
 
 	result := &TestLogger{
