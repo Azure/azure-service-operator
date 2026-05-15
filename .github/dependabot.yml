@@ -1,47 +1,4 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
-updates:
-  # ASO v2 controller 
-  - package-ecosystem: "gomod"
-    directories:
-      # These are not recursive, need to list each directory individually.
-      # We don't use wildcard/globbing because it times out w/ our large repo.
-      - "/v2"
-      - "/v2/cmd/asoctl"
-      - "/v2/tools/generator"
-    schedule:
-      interval: "weekly"
-    rebase-strategy: "disabled"
-    groups:
-      # Group updates together, so that they are all applied in a single PR.
-      # Grouped updates are currently in beta and is subject to change.
-      # xref: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#groups
-      k8s-go-deps:
-        applies-to: version-updates
-        patterns:
-          - "k8s.io/*"
-          - "sigs.k8s.io/*"
-      go-deps:
-        applies-to: version-updates
-        patterns:
-          - "*"
-        exclude-patterns:
-          - "k8s.io/*"
-          - "sigs.k8s.io/*"
-      # Group security updates too
-      k8s-go-deps-sec:
-        applies-to: security-updates
-        patterns:
-          - "k8s.io/*"
-          - "sigs.k8s.io/*"
-      go-deps-sec:
-        applies-to: security-updates
-        patterns:
-          - "*"
-        exclude-patterns:
-          - "k8s.io/*"
-          - "sigs.k8s.io/*"
+updates: []
