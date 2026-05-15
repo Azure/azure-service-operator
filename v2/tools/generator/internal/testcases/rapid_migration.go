@@ -19,6 +19,7 @@ var gopterGroups = set.Make(
 	"cdn",
 	"cognitiveservices",
 	"compute",
+	"communication",
 	"containerinstance",
 	"containerregistry",
 	"containerservice",
