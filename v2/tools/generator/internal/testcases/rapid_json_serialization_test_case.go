@@ -64,7 +64,8 @@ func (r *RapidJSONSerializationTestCase) RequiredImports() *astmodel.PackageImpo
 
 	// Standard Go Packages
 	result.AddImportsOfReferences(
-		astmodel.JSONReference, astmodel.TestingReference)
+		astmodel.JSONReference, astmodel.TestingReference,
+	)
 
 	// Cmp
 	result.AddImportsOfReferences(astmodel.CmpReference, astmodel.CmpOptsReference)
@@ -189,13 +190,15 @@ func (r *RapidJSONSerializationTestCase) createTestRunner(codegenContext *astmod
 		rapidPackage,
 		"Check",
 		t,
-		dst.NewIdent(r.idOfTestMethod()))
+		dst.NewIdent(r.idOfTestMethod()),
+	)
 
 	fn := astbuilder.NewTestFuncDetails(
 		testingPackage,
 		r.testName,
 		declareParallel,
-		rapidCheck)
+		rapidCheck,
+	)
 
 	return fn.DefineFunc()
 }
@@ -240,13 +243,16 @@ func (r *RapidJSONSerializationTestCase) createTestMethod(codegenContext *astmod
 			astbuilder.CallFunc(idOfGeneratorMethod(r.subject, r.idFactory)),
 			"Draw",
 			dst.NewIdent("t"),
-			astbuilder.StringLiteral("subject")))
+			astbuilder.StringLiteral("subject"),
+		),
+	)
 
 	// bin, err := json.Marshal(subject)
 	serialize := astbuilder.SimpleAssignmentWithErr(
 		dst.NewIdent(binID),
 		token.DEFINE,
-		astbuilder.CallQualifiedFunc(jsonPackage, "Marshal", dst.NewIdent(subjectID)))
+		astbuilder.CallQualifiedFunc(jsonPackage, "Marshal", dst.NewIdent(subjectID)),
+	)
 	astbuilder.AddComment(&serialize.Decs.Start, "// Serialize to JSON")
 	serialize.Decorations().Before = dst.NewLine
 
@@ -263,7 +269,8 @@ func (r *RapidJSONSerializationTestCase) createTestMethod(codegenContext *astmod
 		dst.NewIdent(errID),
 		astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal",
 			dst.NewIdent(binID),
-			astbuilder.AddrOf(dst.NewIdent(actualID))))
+			astbuilder.AddrOf(dst.NewIdent(actualID))),
+	)
 
 	// if err != nil { t.Fatal(err) }
 	deserializeFailed := r.createFatalIfNotNil(errID)
@@ -275,24 +282,28 @@ func (r *RapidJSONSerializationTestCase) createTestMethod(codegenContext *astmod
 		astbuilder.CallQualifiedFunc(cmpPackage, "Equal",
 			dst.NewIdent(subjectID),
 			dst.NewIdent(actualID),
-			equateEmpty))
+			equateEmpty),
+	)
 	compare.Decorations().Before = dst.EmptyLine
 	astbuilder.AddComment(&compare.Decorations().Start, "// Check for outcome")
 
 	// actualFmt := pretty.Sprint(actual)
 	declareActual := astbuilder.ShortDeclaration(
 		actualFmtID,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualID)))
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualID)),
+	)
 
 	// subjectFmt := pretty.Sprint(subject)
 	declareSubject := astbuilder.ShortDeclaration(
 		subjectFmtID,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectID)))
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectID)),
+	)
 
 	// result := diff.Diff(subjectFmt, actualFmt)
 	declareDiff := astbuilder.ShortDeclaration(
 		resultID,
-		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)))
+		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)),
+	)
 
 	// t.Error(result)
 	reportError := astbuilder.CallExprAsStmt(dst.NewIdent("t"), "Error", dst.NewIdent(resultID))
@@ -303,7 +314,8 @@ func (r *RapidJSONSerializationTestCase) createTestMethod(codegenContext *astmod
 		declareActual,
 		declareSubject,
 		declareDiff,
-		reportError)
+		reportError,
+	)
 
 	// Create the function
 	fn := &astbuilder.FuncDetails{
@@ -316,13 +328,15 @@ func (r *RapidJSONSerializationTestCase) createTestMethod(codegenContext *astmod
 			deserialize,
 			deserializeFailed,
 			compare,
-			prettyPrint),
+			prettyPrint,
+		),
 	}
 
 	fn.AddParameter("t", astbuilder.Dereference(astbuilder.QualifiedTypeName(rapidPackage, "T")))
 	fn.AddComments(fmt.Sprintf(
 		"runs a test to see if a specific instance of %s round trips to JSON and back losslessly",
-		r.Subject()))
+		r.Subject(),
+	))
 
 	return fn.DefineFunc()
 }
@@ -334,7 +348,8 @@ func (r *RapidJSONSerializationTestCase) createGeneratorDeclaration(genContext *
 	comment := fmt.Sprintf(
 		"// Generator of %s instances for property testing - lazily instantiated by %s()",
 		r.Subject(),
-		idOfGeneratorMethod(r.subject, r.idFactory))
+		idOfGeneratorMethod(r.subject, r.idFactory),
+	)
 
 	rapidPackage := genContext.MustGetImportedPackageName(astmodel.RapidReference)
 
@@ -344,7 +359,8 @@ func (r *RapidJSONSerializationTestCase) createGeneratorDeclaration(genContext *
 	decl := astbuilder.VariableDeclaration(
 		r.idOfSubjectGeneratorGlobal(),
 		generatorType,
-		comment)
+		comment,
+	)
 
 	return decl
 }
@@ -402,7 +418,8 @@ func (r *RapidJSONSerializationTestCase) createGeneratorMethodForObject(
 	// if xGenerator != nil { return xGenerator }
 	earlyReturn := astbuilder.ReturnIfNotNil(
 		dst.NewIdent(generatorGlobalID),
-		dst.NewIdent(generatorGlobalID))
+		dst.NewIdent(generatorGlobalID),
+	)
 
 	fn.AddStatements(earlyReturn)
 
@@ -416,7 +433,8 @@ func (r *RapidJSONSerializationTestCase) createGeneratorMethodForObject(
 			"Just",
 			&dst.CompositeLit{
 				Type: r.Subject(),
-			})
+			},
+		)
 	} else {
 		// Hoist generator expressions to local variables for readability;
 		// identical expressions share a single variable.
@@ -470,7 +488,8 @@ func (r *RapidJSONSerializationTestCase) createGeneratorMethodForOneOf(
 	// if xGenerator != nil { return xGenerator }
 	earlyReturn := astbuilder.ReturnIfNotNil(
 		dst.NewIdent(generatorGlobalID),
-		dst.NewIdent(generatorGlobalID))
+		dst.NewIdent(generatorGlobalID),
+	)
 
 	fn.AddStatements(earlyReturn)
 
@@ -498,12 +517,14 @@ func (r *RapidJSONSerializationTestCase) createGeneratorMethodForOneOf(
 			dst.NewIdent("result"),
 			gen.fieldName,
 			token.ASSIGN,
-			drawExpr)
+			drawExpr,
+		)
 
 		singleFieldBody := astbuilder.Statements(
 			astbuilder.NewVariable("result", r.subject.Name()),
 			fieldAssign,
-			astbuilder.Returns(dst.NewIdent("result")))
+			astbuilder.Returns(dst.NewIdent("result")),
+		)
 
 		singleFieldCustomCall := r.buildRapidCustomCall(rapidPkg, singleFieldBody)
 
@@ -547,7 +568,8 @@ func (r *RapidJSONSerializationTestCase) buildCustomClosureBody(allGens []genera
 			dst.NewIdent("result"),
 			gen.fieldName,
 			token.ASSIGN,
-			drawExpr)
+			drawExpr,
+		)
 		stmts = append(stmts, assign)
 	}
 
@@ -583,7 +605,8 @@ func (r *RapidJSONSerializationTestCase) buildRapidCustomCall(rapidPkg string, c
 			Body: &dst.BlockStmt{
 				List: closureBody,
 			},
-		})
+		},
+	)
 }
 
 // rapidGeneratorType creates the AST for *rapid.Generator[T]
@@ -710,7 +733,8 @@ func (r *RapidJSONSerializationTestCase) createIndependentGenerator(
 						Results: &dst.FieldList{List: []*dst.Field{{Type: dst.NewIdent(t.Name())}}},
 					},
 					Body: astbuilder.StatementBlock(astbuilder.Returns(astbuilder.CallFunc(t.Name(), dst.NewIdent("it")))),
-				})
+				},
+			)
 
 			return genMap
 		}
@@ -753,7 +777,8 @@ func (r *RapidJSONSerializationTestCase) createRelatedGenerator(
 							Results: &dst.FieldList{List: []*dst.Field{{Type: astbuilder.Dereference(dst.NewIdent(typeName.Name()))}}},
 						},
 						Body: astbuilder.StatementBlock(astbuilder.Returns(astbuilder.AddrOf(dst.NewIdent("it")))),
-					})
+					},
+				)
 
 				genMap.Decs.End = []string{"// generate one case for OneOf type"}
 
@@ -814,13 +839,15 @@ func (r *RapidJSONSerializationTestCase) removeByPackage(
 func (r *RapidJSONSerializationTestCase) idOfSubjectGeneratorGlobal() string {
 	return r.idFactory.CreateIdentifier(
 		fmt.Sprintf("%sGenerator", r.subject.Name()),
-		astmodel.NotExported)
+		astmodel.NotExported,
+	)
 }
 
 func (r *RapidJSONSerializationTestCase) idOfTestMethod() string {
 	return r.idFactory.CreateIdentifier(
 		fmt.Sprintf("RunJSONSerializationTestFor%s", r.Subject()),
-		astmodel.Exported)
+		astmodel.Exported,
+	)
 }
 
 func (r *RapidJSONSerializationTestCase) Subject() *dst.Ident {
@@ -854,7 +881,8 @@ func (r *RapidJSONSerializationTestCase) createFatalIfNotNil(id string) *dst.IfS
 	return &dst.IfStmt{
 		Cond: astbuilder.AreNotEqual(dst.NewIdent(id), dst.NewIdent("nil")),
 		Body: astbuilder.StatementBlock(
-			astbuilder.CallExprAsStmt(dst.NewIdent("t"), "Fatal", dst.NewIdent(id))),
+			astbuilder.CallExprAsStmt(dst.NewIdent("t"), "Fatal", dst.NewIdent(id)),
+		),
 	}
 }
 

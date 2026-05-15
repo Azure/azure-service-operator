@@ -71,7 +71,8 @@ func NewRapidPropertyAssignmentTestCase(
 
 	result.testName = fmt.Sprintf(
 		"%s_WhenPropertiesConverted_RoundTripsWithoutLoss",
-		name.Name())
+		name.Name(),
+	)
 
 	return result
 }
@@ -85,7 +86,8 @@ func (r *RapidPropertyAssignmentTestCase) Name() string {
 func (r *RapidPropertyAssignmentTestCase) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet(
 		r.subject,
-		r.toFn.ParameterType())
+		r.toFn.ParameterType(),
+	)
 }
 
 // RequiredImports returns a set of the package imports required by this test case
@@ -185,12 +187,15 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 			astbuilder.CallFunc(idOfGeneratorMethod(r.subject, r.idFactory)),
 			"Draw",
 			dst.NewIdent("t"),
-			astbuilder.StringLiteral("subject")))
+			astbuilder.StringLiteral("subject"),
+		),
+	)
 
 	// copied := subject.DeepCopy()
 	assignCopied := astbuilder.ShortDeclaration(
 		copiedID,
-		astbuilder.CallQualifiedFunc(subjectID, "DeepCopy"))
+		astbuilder.CallQualifiedFunc(subjectID, "DeepCopy"),
+	)
 	assignCopied.Decorations().Before = dst.NewLine
 	astbuilder.AddComment(&assignCopied.Decorations().Start, "// Copy subject to make sure assignment doesn't modify it")
 
@@ -203,7 +208,8 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 	declareOther := astbuilder.LocalVariableDeclaration(
 		otherID,
 		parameterTypeExpr,
-		"// Use AssignPropertiesTo() for the first stage of conversion")
+		"// Use AssignPropertiesTo() for the first stage of conversion",
+	)
 	declareOther.Decorations().Before = dst.EmptyLine
 
 	// err := copied.AssignPropertiesTo(&other)
@@ -212,7 +218,9 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 		astbuilder.CallQualifiedFunc(
 			copiedID,
 			r.toFn.Name(),
-			astbuilder.AddrOf(dst.NewIdent(otherID))))
+			astbuilder.AddrOf(dst.NewIdent(otherID)),
+		),
+	)
 
 	// if err != nil { t.Fatalf("AssignTo: "+err.Error()) }
 	assignToFailed := createRapidFatal("AssignPropertiesTo", errID)
@@ -226,7 +234,8 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 	declareResult := astbuilder.LocalVariableDeclaration(
 		actualID,
 		subjectExpr,
-		"// Use AssignPropertiesFrom() to convert back to our original type")
+		"// Use AssignPropertiesFrom() to convert back to our original type",
+	)
 	declareResult.Decorations().Before = dst.EmptyLine
 
 	// err = actual.AssignPropertiesFrom(&other)
@@ -235,7 +244,9 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 		astbuilder.CallQualifiedFunc(
 			actualID,
 			r.fromFn.Name(),
-			astbuilder.AddrOf(dst.NewIdent(otherID))))
+			astbuilder.AddrOf(dst.NewIdent(otherID)),
+		),
+	)
 
 	// if err != nil { t.Fatalf("AssignFrom: "+err.Error()) }
 	assignFromFailed := createRapidFatal("AssignPropertiesFrom", errID)
@@ -247,24 +258,28 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 		astbuilder.CallQualifiedFunc(cmpPackage, "Equal",
 			dst.NewIdent(subjectID),
 			dst.NewIdent(actualID),
-			equateEmpty))
+			equateEmpty),
+	)
 	compare.Decorations().Before = dst.EmptyLine
 	astbuilder.AddComment(&compare.Decorations().Start, "Check for a match")
 
 	// actualFmt := pretty.Sprint(actual)
 	declareActual := astbuilder.ShortDeclaration(
 		actualFmtID,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualID)))
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualID)),
+	)
 
 	// subjectFmt := pretty.Sprint(subject)
 	declareSubject := astbuilder.ShortDeclaration(
 		subjectFmtID,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectID)))
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectID)),
+	)
 
 	// result := diff.Diff(subjectFmt, actualFmt)
 	declareDiff := astbuilder.ShortDeclaration(
 		resultID,
-		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)))
+		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)),
+	)
 
 	// t.Error(result)
 	reportError := astbuilder.CallExprAsStmt(dst.NewIdent("t"), "Error", dst.NewIdent(resultID))
@@ -275,7 +290,8 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 		declareActual,
 		declareSubject,
 		declareDiff,
-		reportError)
+		reportError,
+	)
 
 	// Build the closure body
 	closureBody := astbuilder.Statements(
@@ -288,7 +304,8 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 		assignFrom,
 		assignFromFailed,
 		compare,
-		prettyPrint)
+		prettyPrint,
+	)
 
 	// rapid.Check(t, func(t *rapid.T) { ... })
 	t := dst.NewIdent("t")
@@ -314,18 +331,21 @@ func (r *RapidPropertyAssignmentTestCase) createTestFunc(
 			Body: &dst.BlockStmt{
 				List: closureBody,
 			},
-		})
+		},
+	)
 
 	fn := astbuilder.NewTestFuncDetails(
 		testingPackage,
 		r.testName,
 		declareParallel,
-		rapidCheck)
+		rapidCheck,
+	)
 
 	fn.AddComments(fmt.Sprintf(
 		"tests if a specific instance of %s can be assigned to %s and back losslessly",
 		r.subject.Name(),
-		r.fromFn.ParameterType().PackageReference().PackageName()))
+		r.fromFn.ParameterType().PackageReference().PackageName(),
+	))
 
 	return fn.DefineFunc(), nil
 }
@@ -343,6 +363,9 @@ func createRapidFatal(context string, errID string) *dst.IfStmt {
 				astbuilder.BinaryExpr(
 					astbuilder.StringLiteralf("%s: ", context),
 					token.ADD,
-					astbuilder.CallQualifiedFunc(errID, "Error")))),
+					astbuilder.CallQualifiedFunc(errID, "Error"),
+				),
+			),
+		),
 	}
 }

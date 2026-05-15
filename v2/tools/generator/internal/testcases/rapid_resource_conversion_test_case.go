@@ -70,12 +70,14 @@ func NewRapidResourceConversionTestCase(
 			"expected ConvertFrom(%s) and ConvertTo(%s) on %s to have the same parameter type",
 			result.fromFn.Hub(),
 			result.toFn.Hub(),
-			name)
+			name,
+		)
 	}
 
 	result.testName = fmt.Sprintf(
 		"%s_WhenConvertedToHub_RoundTripsWithoutLoss",
-		name.Name())
+		name.Name(),
+	)
 
 	return result, nil
 }
@@ -89,7 +91,8 @@ func (r *RapidResourceConversionTestCase) Name() string {
 func (r *RapidResourceConversionTestCase) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet(
 		r.subject,
-		r.toFn.Hub())
+		r.toFn.Hub(),
+	)
 }
 
 // RequiredImports returns a set of the package imports required by this test case
@@ -189,12 +192,15 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 			astbuilder.CallFunc(idOfGeneratorMethod(r.subject, r.idFactory)),
 			"Draw",
 			dst.NewIdent("t"),
-			astbuilder.StringLiteral("subject")))
+			astbuilder.StringLiteral("subject"),
+		),
+	)
 
 	// copied := subject.DeepCopy()
 	assignCopied := astbuilder.ShortDeclaration(
 		copiedID,
-		astbuilder.CallQualifiedFunc(subjectID, "DeepCopy"))
+		astbuilder.CallQualifiedFunc(subjectID, "DeepCopy"),
+	)
 	assignCopied.Decorations().Before = dst.NewLine
 	astbuilder.AddComment(&assignCopied.Decorations().Start, "// Copy subject to make sure conversion doesn't modify it")
 
@@ -207,7 +213,8 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 	declareOther := astbuilder.LocalVariableDeclaration(
 		hubID,
 		hubExpr,
-		"// Convert to our hub version")
+		"// Convert to our hub version",
+	)
 	declareOther.Decorations().Before = dst.EmptyLine
 
 	// err := copied.ConvertTo(&hub)
@@ -216,7 +223,9 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 		astbuilder.CallQualifiedFunc(
 			copiedID,
 			r.toFn.Name(),
-			astbuilder.AddrOf(dst.NewIdent(hubID))))
+			astbuilder.AddrOf(dst.NewIdent(hubID)),
+		),
+	)
 
 	// if err != nil { t.Fatalf("ConvertTo: "+err.Error()) }
 	assignToFailed := createRapidFatal("ConvertTo", errID)
@@ -230,7 +239,8 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 	declareResult := astbuilder.LocalVariableDeclaration(
 		actualID,
 		subjectExpr,
-		"// Convert from our hub version")
+		"// Convert from our hub version",
+	)
 	declareResult.Decorations().Before = dst.EmptyLine
 
 	// err = actual.ConvertFrom(&hub)
@@ -239,7 +249,9 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 		astbuilder.CallQualifiedFunc(
 			actualID,
 			r.fromFn.Name(),
-			astbuilder.AddrOf(dst.NewIdent(hubID))))
+			astbuilder.AddrOf(dst.NewIdent(hubID)),
+		),
+	)
 
 	// if err != nil { t.Fatalf("ConvertFrom: "+err.Error()) }
 	assignFromFailed := createRapidFatal("ConvertFrom", errID)
@@ -251,24 +263,28 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 		astbuilder.CallQualifiedFunc(cmpPackage, "Equal",
 			dst.NewIdent(subjectID),
 			dst.NewIdent(actualID),
-			equateEmpty))
+			equateEmpty),
+	)
 	compare.Decorations().Before = dst.EmptyLine
 	astbuilder.AddComment(&compare.Decorations().Start, "// Compare actual with what we started with")
 
 	// actualFmt := pretty.Sprint(actual)
 	declareActual := astbuilder.ShortDeclaration(
 		actualFmtID,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualID)))
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualID)),
+	)
 
 	// subjectFmt := pretty.Sprint(subject)
 	declareSubject := astbuilder.ShortDeclaration(
 		subjectFmtID,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectID)))
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectID)),
+	)
 
 	// result := diff.Diff(subjectFmt, actualFmt)
 	declareDiff := astbuilder.ShortDeclaration(
 		resultID,
-		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)))
+		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)),
+	)
 
 	// t.Error(result)
 	reportError := astbuilder.CallExprAsStmt(dst.NewIdent("t"), "Error", dst.NewIdent(resultID))
@@ -279,7 +295,8 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 		declareActual,
 		declareSubject,
 		declareDiff,
-		reportError)
+		reportError,
+	)
 
 	// Build the closure body
 	closureBody := astbuilder.Statements(
@@ -292,7 +309,8 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 		assignFrom,
 		assignFromFailed,
 		compare,
-		prettyPrint)
+		prettyPrint,
+	)
 
 	// t.Parallel()
 	t := dst.NewIdent("t")
@@ -317,17 +335,20 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 			Body: &dst.BlockStmt{
 				List: closureBody,
 			},
-		})
+		},
+	)
 
 	fn := astbuilder.NewTestFuncDetails(
 		testingPackage,
 		r.testName,
 		declareParallel,
-		rapidCheck)
+		rapidCheck,
+	)
 
 	fn.AddComments(fmt.Sprintf(
 		"tests if a specific instance of %s round trips to the hub storage version and back losslessly",
-		r.subject.Name()))
+		r.subject.Name(),
+	))
 
 	return fn.DefineFunc(), nil
 }
