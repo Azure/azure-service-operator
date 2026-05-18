@@ -1,0 +1,18 @@
+{{- if and .Values.metrics.enable .Values.metrics.secure }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: azureserviceoperator-metrics-server-cert
+  namespace: {{ .Release.Namespace }}
+spec:
+  dnsNames:
+  - azureserviceoperator-controller-manager-metrics-service.{{ .Release.Namespace }}.svc
+  - azureserviceoperator-controller-manager-metrics-service.{{ .Release.Namespace }}.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: azureserviceoperator-selfsigned-issuer
+  secretName: metrics-server-cert
+  subject:
+    organizations:
+    - azure
+{{- end }}

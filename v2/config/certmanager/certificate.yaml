@@ -1,4 +1,4 @@
-# The following manifests contain a self-signed issuer CR and a certificate CR.
+# The following manifests contain a self-signed issuer CR and certificate CRs.
 # More document can be found at https://docs.cert-manager.io
 # WARNING: Targets CertManager 1.1 check https://docs.cert-manager.io/en/latest/tasks/upgrading/index.html for
 # breaking changes
@@ -27,3 +27,21 @@ spec:
     kind: Issuer
     name: selfsigned-issuer
   secretName: webhook-server-cert # this secret will not be prefixed, since it's not managed by kustomize
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: metrics-server-cert
+  namespace: system
+spec:
+  subject:
+    organizations:
+      - azure
+  # $(METRICS_SERVICE_NAME) and $(METRICS_SERVICE_NAMESPACE) will be substituted by kustomize
+  dnsNames:
+  - $(METRICS_SERVICE_NAME).$(METRICS_SERVICE_NAMESPACE).svc
+  - $(METRICS_SERVICE_NAME).$(METRICS_SERVICE_NAMESPACE).svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: selfsigned-issuer
+  secretName: metrics-server-cert # this secret will not be prefixed, since it's not managed by kustomize
