@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v20201201/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -52,22 +51,36 @@ var _ conversion.Convertible = &VirtualMachineScaleSetsExtension{}
 
 // ConvertFrom populates our VirtualMachineScaleSetsExtension from the provided hub VirtualMachineScaleSetsExtension
 func (extension *VirtualMachineScaleSetsExtension) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.VirtualMachineScaleSetsExtension)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachineScaleSetsExtension but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.VirtualMachineScaleSetsExtension
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return extension.AssignProperties_From_VirtualMachineScaleSetsExtension(source)
+	err = extension.AssignProperties_From_VirtualMachineScaleSetsExtension(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to extension")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualMachineScaleSetsExtension from our VirtualMachineScaleSetsExtension
 func (extension *VirtualMachineScaleSetsExtension) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.VirtualMachineScaleSetsExtension)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachineScaleSetsExtension but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.VirtualMachineScaleSetsExtension
+	err := extension.AssignProperties_To_VirtualMachineScaleSetsExtension(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from extension")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return extension.AssignProperties_To_VirtualMachineScaleSetsExtension(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &VirtualMachineScaleSetsExtension{}
@@ -394,13 +407,6 @@ func (extension *VirtualMachineScaleSetsExtension_Spec) AssignProperties_From_Vi
 		extension.ProtectedSettings = nil
 	}
 
-	// ProtectedSettingsFromKeyVault
-	if source.ProtectedSettingsFromKeyVault != nil {
-		propertyBag.Add("ProtectedSettingsFromKeyVault", *source.ProtectedSettingsFromKeyVault)
-	} else {
-		propertyBag.Remove("ProtectedSettingsFromKeyVault")
-	}
-
 	// ProvisionAfterExtensions
 	extension.ProvisionAfterExtensions = genruntime.CloneSliceOfString(source.ProvisionAfterExtensions)
 
@@ -416,13 +422,6 @@ func (extension *VirtualMachineScaleSetsExtension_Spec) AssignProperties_From_Vi
 		extension.Settings = settingMap
 	} else {
 		extension.Settings = nil
-	}
-
-	// SuppressFailures
-	if source.SuppressFailures != nil {
-		propertyBag.Add("SuppressFailures", *source.SuppressFailures)
-	} else {
-		propertyBag.Remove("SuppressFailures")
 	}
 
 	// Type
@@ -509,19 +508,6 @@ func (extension *VirtualMachineScaleSetsExtension_Spec) AssignProperties_To_Virt
 		destination.ProtectedSettings = nil
 	}
 
-	// ProtectedSettingsFromKeyVault
-	if propertyBag.Contains("ProtectedSettingsFromKeyVault") {
-		var protectedSettingsFromKeyVault storage.KeyVaultSecretReference
-		err := propertyBag.Pull("ProtectedSettingsFromKeyVault", &protectedSettingsFromKeyVault)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProtectedSettingsFromKeyVault' from propertyBag")
-		}
-
-		destination.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
-	} else {
-		destination.ProtectedSettingsFromKeyVault = nil
-	}
-
 	// ProvisionAfterExtensions
 	destination.ProvisionAfterExtensions = genruntime.CloneSliceOfString(extension.ProvisionAfterExtensions)
 
@@ -537,19 +523,6 @@ func (extension *VirtualMachineScaleSetsExtension_Spec) AssignProperties_To_Virt
 		destination.Settings = settingMap
 	} else {
 		destination.Settings = nil
-	}
-
-	// SuppressFailures
-	if propertyBag.Contains("SuppressFailures") {
-		var suppressFailure bool
-		err := propertyBag.Pull("SuppressFailures", &suppressFailure)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SuppressFailures' from propertyBag")
-		}
-
-		destination.SuppressFailures = &suppressFailure
-	} else {
-		destination.SuppressFailures = nil
 	}
 
 	// Type
@@ -682,13 +655,6 @@ func (extension *VirtualMachineScaleSetsExtension_STATUS) AssignProperties_From_
 	// PropertiesType
 	extension.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
 
-	// ProtectedSettingsFromKeyVault
-	if source.ProtectedSettingsFromKeyVault != nil {
-		propertyBag.Add("ProtectedSettingsFromKeyVault", *source.ProtectedSettingsFromKeyVault)
-	} else {
-		propertyBag.Remove("ProtectedSettingsFromKeyVault")
-	}
-
 	// ProvisionAfterExtensions
 	extension.ProvisionAfterExtensions = genruntime.CloneSliceOfString(source.ProvisionAfterExtensions)
 
@@ -707,13 +673,6 @@ func (extension *VirtualMachineScaleSetsExtension_STATUS) AssignProperties_From_
 		extension.Settings = settingMap
 	} else {
 		extension.Settings = nil
-	}
-
-	// SuppressFailures
-	if source.SuppressFailures != nil {
-		propertyBag.Add("SuppressFailures", *source.SuppressFailures)
-	} else {
-		propertyBag.Remove("SuppressFailures")
 	}
 
 	// Type
@@ -778,19 +737,6 @@ func (extension *VirtualMachineScaleSetsExtension_STATUS) AssignProperties_To_Vi
 	// PropertiesType
 	destination.PropertiesType = genruntime.ClonePointerToString(extension.PropertiesType)
 
-	// ProtectedSettingsFromKeyVault
-	if propertyBag.Contains("ProtectedSettingsFromKeyVault") {
-		var protectedSettingsFromKeyVault storage.KeyVaultSecretReference_STATUS
-		err := propertyBag.Pull("ProtectedSettingsFromKeyVault", &protectedSettingsFromKeyVault)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProtectedSettingsFromKeyVault' from propertyBag")
-		}
-
-		destination.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
-	} else {
-		destination.ProtectedSettingsFromKeyVault = nil
-	}
-
 	// ProvisionAfterExtensions
 	destination.ProvisionAfterExtensions = genruntime.CloneSliceOfString(extension.ProvisionAfterExtensions)
 
@@ -809,19 +755,6 @@ func (extension *VirtualMachineScaleSetsExtension_STATUS) AssignProperties_To_Vi
 		destination.Settings = settingMap
 	} else {
 		destination.Settings = nil
-	}
-
-	// SuppressFailures
-	if propertyBag.Contains("SuppressFailures") {
-		var suppressFailure bool
-		err := propertyBag.Pull("SuppressFailures", &suppressFailure)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SuppressFailures' from propertyBag")
-		}
-
-		destination.SuppressFailures = &suppressFailure
-	} else {
-		destination.SuppressFailures = nil
 	}
 
 	// Type

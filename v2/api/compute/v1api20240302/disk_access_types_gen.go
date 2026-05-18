@@ -51,22 +51,36 @@ var _ conversion.Convertible = &DiskAccess{}
 
 // ConvertFrom populates our DiskAccess from the provided hub DiskAccess
 func (access *DiskAccess) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.DiskAccess)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20240302/storage/DiskAccess but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.DiskAccess
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return access.AssignProperties_From_DiskAccess(source)
+	err = access.AssignProperties_From_DiskAccess(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to access")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub DiskAccess from our DiskAccess
 func (access *DiskAccess) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.DiskAccess)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20240302/storage/DiskAccess but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.DiskAccess
+	err := access.AssignProperties_To_DiskAccess(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from access")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return access.AssignProperties_To_DiskAccess(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &DiskAccess{}
@@ -87,17 +101,6 @@ func (access *DiskAccess) SecretDestinationExpressions() []*core.DestinationExpr
 		return nil
 	}
 	return access.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &DiskAccess{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (access *DiskAccess) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*DiskAccess_STATUS); ok {
-		return access.Spec.Initialize_From_DiskAccess_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type DiskAccess_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &DiskAccess{}
@@ -515,31 +518,6 @@ func (access *DiskAccess_Spec) AssignProperties_To_DiskAccess_Spec(destination *
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DiskAccess_STATUS populates our DiskAccess_Spec from the provided source DiskAccess_STATUS
-func (access *DiskAccess_Spec) Initialize_From_DiskAccess_STATUS(source *DiskAccess_STATUS) error {
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		access.ExtendedLocation = &extendedLocation
-	} else {
-		access.ExtendedLocation = nil
-	}
-
-	// Location
-	access.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Tags
-	access.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil

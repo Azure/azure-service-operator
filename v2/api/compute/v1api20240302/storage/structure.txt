@@ -556,5 +556,121 @@ Snapshot: Resource
     ├── Type: *string
     └── UniqueId: *string
 
+augmentConversionForApiErrorBase_STATUS: Interface
+
+augmentConversionForApiError_STATUS: Interface
+
+augmentConversionForCopyCompletionError: Interface
+
+augmentConversionForCopyCompletionError_STATUS: Interface
+
+augmentConversionForCreationData: Interface
+
+augmentConversionForCreationData_STATUS: Interface
+
+augmentConversionForDisk: Interface
+
+augmentConversionForDiskAccess: Interface
+
+augmentConversionForDiskAccessOperatorSpec: Interface
+
+augmentConversionForDiskAccess_STATUS: Interface
+
+augmentConversionForDiskAccess_Spec: Interface
+
+augmentConversionForDiskEncryptionSet: Interface
+
+augmentConversionForDiskEncryptionSetOperatorSpec: Interface
+
+augmentConversionForDiskEncryptionSet_STATUS: Interface
+
+augmentConversionForDiskEncryptionSet_Spec: Interface
+
+augmentConversionForDiskOperatorSpec: Interface
+
+augmentConversionForDiskPurchasePlan: Interface
+
+augmentConversionForDiskPurchasePlan_STATUS: Interface
+
+augmentConversionForDiskSecurityProfile: Interface
+
+augmentConversionForDiskSecurityProfile_STATUS: Interface
+
+augmentConversionForDiskSku: Interface
+
+augmentConversionForDiskSku_STATUS: Interface
+
+augmentConversionForDisk_STATUS: Interface
+
+augmentConversionForDisk_Spec: Interface
+
+augmentConversionForEncryption: Interface
+
+augmentConversionForEncryptionSetIdentity: Interface
+
+augmentConversionForEncryptionSetIdentity_STATUS: Interface
+
+augmentConversionForEncryptionSettingsCollection: Interface
+
+augmentConversionForEncryptionSettingsCollection_STATUS: Interface
+
+augmentConversionForEncryptionSettingsElement: Interface
+
+augmentConversionForEncryptionSettingsElement_STATUS: Interface
+
+augmentConversionForEncryption_STATUS: Interface
+
+augmentConversionForExtendedLocation: Interface
+
+augmentConversionForExtendedLocation_STATUS: Interface
+
+augmentConversionForImageDiskReference: Interface
+
+augmentConversionForImageDiskReference_STATUS: Interface
+
+augmentConversionForInnerError_STATUS: Interface
+
+augmentConversionForKeyForDiskEncryptionSet: Interface
+
+augmentConversionForKeyForDiskEncryptionSet_STATUS: Interface
+
+augmentConversionForKeyVaultAndKeyReference: Interface
+
+augmentConversionForKeyVaultAndKeyReference_STATUS: Interface
+
+augmentConversionForKeyVaultAndSecretReference: Interface
+
+augmentConversionForKeyVaultAndSecretReference_STATUS: Interface
+
+augmentConversionForPrivateEndpointConnection_STATUS: Interface
+
+augmentConversionForPropertyUpdatesInProgress_STATUS: Interface
+
+augmentConversionForShareInfoElement_STATUS: Interface
+
+augmentConversionForSnapshot: Interface
+
+augmentConversionForSnapshotOperatorSpec: Interface
+
+augmentConversionForSnapshotSku: Interface
+
+augmentConversionForSnapshotSku_STATUS: Interface
+
+augmentConversionForSnapshot_STATUS: Interface
+
+augmentConversionForSnapshot_Spec: Interface
+
+augmentConversionForSourceVault: Interface
+
+augmentConversionForSourceVault_STATUS: Interface
+
+augmentConversionForSupportedCapabilities: Interface
+
+augmentConversionForSupportedCapabilities_STATUS: Interface
+
 augmentConversionForSystemData_STATUS: Interface
+
+augmentConversionForUserAssignedIdentitiesValue_STATUS: Interface
+
+augmentConversionForUserAssignedIdentityDetails: Interface
 
