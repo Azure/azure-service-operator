@@ -1,0 +1,23 @@
+name: Protect backplane branches
+
+on:
+  pull_request:
+    branches:
+      - "backplane-5*"
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+
+permissions: {}
+
+jobs:
+  block:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Block PR
+        run: |
+          echo "::error::Direct pull requests to backplane-5.x branches are not accepted."
+          echo "::error::Changes are synced from main via fast-forward. Please target your PR to the main branch instead."
+          exit 1
