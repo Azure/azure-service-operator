@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # pinned to 4.1.7
+        uses: actions/checkout@900f2210b1d28bbbd0bd22d17926b9e224e8f231 # pinned to 4.1.7
         with:
           fetch-depth: 0 # required to access tags
           submodules: "true"
