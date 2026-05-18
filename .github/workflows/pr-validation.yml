@@ -79,7 +79,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
+        uses: docker/login-action@9f4a8ea54ed9055d5f86c993e1f2ffa674f98344 # pinned to v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -193,7 +193,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
+        uses: docker/login-action@9f4a8ea54ed9055d5f86c993e1f2ffa674f98344 # pinned to v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -251,7 +251,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
+        uses: docker/login-action@9f4a8ea54ed9055d5f86c993e1f2ffa674f98344 # pinned to v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -317,7 +317,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
+        uses: docker/login-action@9f4a8ea54ed9055d5f86c993e1f2ffa674f98344 # pinned to v4.1.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
