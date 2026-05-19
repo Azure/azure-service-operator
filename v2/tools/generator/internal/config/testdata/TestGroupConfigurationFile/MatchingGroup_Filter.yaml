@@ -1,0 +1,5 @@
+typeFilters:
+  - action: include
+    group: testgroup
+    version: v*20210601
+    because: "matching group"

@@ -1,0 +1,55 @@
+typeFilters:
+  - action: include
+    version: v*20210401preview
+    because: We want to support keyvault which is only available in preview version
+typeTransformers:
+  #
+  # In the group 'keyvault',
+  # on the types 'VaultProperties_CreateMode` and 'VaultProperties_CreateMode_STATUS'
+  # redefine the property 'CreateMode' to be an enum with four values
+  #
+  - name: VaultProperties_CreateMode;VaultProperties_CreateMode_STATUS
+    target:
+      enum:
+        base: string
+        values:
+          - default
+          - recover
+          - createOrRecover
+          - purgeThenCreate
+    because: "We're adding two new options to allow KeyVaults to goal-seek"
+groupModelConfiguration:
+  2021-04-01-preview:
+    Vault:
+      $exportAs: Vault
+      $supportedFrom: v2.0.0-beta.1
+    VaultProperties:
+      TenantId:
+        $importConfigMapMode: optional
+    AccessPolicyEntry:
+      TenantId:
+        $importConfigMapMode: optional
+      ApplicationId:
+        $importConfigMapMode: optional
+      ObjectId:
+        $importConfigMapMode: optional
+    VirtualNetworkRule:
+      Id:
+        $referenceType: arm
+  2023-07-01:
+    Vault:
+      $exportAs: Vault
+      $supportedFrom: v2.5.0
+    VaultProperties:
+      TenantId:
+        $importConfigMapMode: optional
+    AccessPolicyEntry:
+      TenantId:
+        $importConfigMapMode: optional
+      ApplicationId:
+        $importConfigMapMode: optional
+      ObjectId:
+        $importConfigMapMode: optional
+    VirtualNetworkRule:
+      Id:
+        $referenceType: arm

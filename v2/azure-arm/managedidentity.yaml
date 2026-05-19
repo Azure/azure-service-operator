@@ -1,0 +1,44 @@
+typeFilters:
+  - action: include
+    version: v*20220131preview
+    because: We want to export this particular preview version
+groupModelConfiguration:
+  2018-11-30:
+    UserAssignedIdentity:
+      $exportAs: UserAssignedIdentity
+      $supportedFrom: v2.0.0-alpha.1
+      $generatedConfigs:
+        ClientId: $.Status.ClientId
+        PrincipalId: $.Status.PrincipalId
+        TenantId: $.Status.TenantId
+  2022-01-31-preview:
+    # Not adding UserAssignedIdentity here because it's identical to the one in 2018
+    UserAssignedIdentities_FederatedIdentityCredential:
+      $exportAs: FederatedIdentityCredential
+      $supportedFrom: v2.0.0-beta.3
+    FederatedIdentityCredentialProperties:
+      Issuer:
+        $importConfigMapMode: optional
+      Subject:
+        $importConfigMapMode: optional
+  2023-01-31:
+    UserAssignedIdentity:
+      $exportAs: UserAssignedIdentity
+      $supportedFrom: v2.5.0
+      $azureGeneratedSecrets:
+        - ClientId
+        - PrincipalId
+        - TenantId
+        - SubscriptionId
+      $generatedConfigs:
+        ClientId: $.Status.ClientId
+        PrincipalId: $.Status.PrincipalId
+        TenantId: $.Status.TenantId
+    UserAssignedIdentities_FederatedIdentityCredential:
+      $exportAs: FederatedIdentityCredential
+      $supportedFrom: v2.5.0
+    FederatedIdentityCredentialProperties:
+      Issuer:
+        $importConfigMapMode: optional
+      Subject:
+        $importConfigMapMode: optional

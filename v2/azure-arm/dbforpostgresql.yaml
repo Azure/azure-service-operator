@@ -1,0 +1,206 @@
+typeFilters:
+  - action: include
+    version: v*20220120preview
+    because: We want to export this particular preview version
+  - action: include
+    version: v*20230601preview
+    because: We want to export this particular preview version
+groupModelConfiguration:
+  v1: # Handcrafted 
+    User:
+      $supportedFrom: v2.0.0
+  2021-06-01:
+    FlexibleServer:
+      $exportAs: FlexibleServer
+      $supportedFrom: v2.0.0-alpha.2
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+    FlexibleServers_Configuration:
+      $exportAs: FlexibleServersConfiguration
+      $supportedFrom: v2.0.0-alpha.4
+    FlexibleServers_Database:
+      $exportAs: FlexibleServersDatabase
+      $supportedFrom: v2.0.0-alpha.2
+    FlexibleServers_FirewallRule:
+      $exportAs: FlexibleServersFirewallRule
+      $supportedFrom: v2.0.0-alpha.2
+  2022-01-20-preview:
+    FlexibleServer:
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+      $exportAs: FlexibleServer
+      $supportedFrom: v2.0.0-beta.4
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+    FlexibleServers_Configuration:
+      $exportAs: FlexibleServersConfiguration
+      $supportedFrom: v2.0.0-beta.4
+    FlexibleServers_Database:
+      $exportAs: FlexibleServersDatabase
+      $supportedFrom: v2.0.0-beta.4
+    FlexibleServers_FirewallRule:
+      $exportAs: FlexibleServersFirewallRule
+      $supportedFrom: v2.0.0-beta.4
+    ServerProperties:
+      SourceServerResourceId:
+        $referenceType: arm
+    Network:
+      DelegatedSubnetResourceId:
+        $referenceType: arm
+      PrivateDnsZoneArmResourceId:
+        $referenceType: arm
+  2022-12-01:
+    DataEncryption:
+      PrimaryKeyURI:
+        $importConfigMapMode: optional
+      PrimaryUserAssignedIdentityId:
+        $referenceType: arm
+    FlexibleServer:
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+      $exportAs: FlexibleServer
+      $supportedFrom: v2.5.0
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+    FlexibleServers_Configuration:
+      $exportAs: FlexibleServersConfiguration
+      $supportedFrom: v2.5.0
+    FlexibleServers_Database:
+      $exportAs: FlexibleServersDatabase
+      $supportedFrom: v2.5.0
+    FlexibleServers_FirewallRule:
+      $exportAs: FlexibleServersFirewallRule
+      $supportedFrom: v2.5.0
+    ServerProperties:
+      SourceServerResourceId:
+        $referenceType: arm
+    Network:
+      DelegatedSubnetResourceId:
+        $referenceType: arm
+      PrivateDnsZoneArmResourceId:
+        $referenceType: arm
+  2023-06-01-preview:
+    DataEncryption:
+      GeoBackupKeyURI:
+        $importConfigMapMode: optional
+      GeoBackupUserAssignedIdentityId:
+        $referenceType: arm
+      PrimaryKeyURI:
+        $importConfigMapMode: optional
+      PrimaryUserAssignedIdentityId:
+        $referenceType: arm
+    FlexibleServer:
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+      $exportAs: FlexibleServer
+      $supportedFrom: v2.6.0
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+    FlexibleServers_Configuration:
+      $exportAs: FlexibleServersConfiguration
+      $supportedFrom: v2.6.0
+    FlexibleServers_Database:
+      $exportAs: FlexibleServersDatabase
+      $supportedFrom: v2.6.0
+    FlexibleServers_FirewallRule:
+      $exportAs: FlexibleServersFirewallRule
+      $supportedFrom: v2.6.0
+    ServerProperties:
+      SourceServerResourceId:
+        $referenceType: arm
+    Network:
+      DelegatedSubnetResourceId:
+        $referenceType: arm
+      PrivateDnsZoneArmResourceId:
+        $referenceType: arm
+  2024-08-01:
+    DataEncryption:
+      GeoBackupKeyURI:
+        $importConfigMapMode: optional
+      GeoBackupUserAssignedIdentityId:
+        $referenceType: arm
+      PrimaryKeyURI:
+        $importConfigMapMode: optional
+      PrimaryUserAssignedIdentityId:
+        $referenceType: arm
+    FlexibleServer:
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+      $exportAs: FlexibleServer
+      $supportedFrom: v2.13.0
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+    FlexibleServers_Configuration:
+      $exportAs: FlexibleServersConfiguration
+      $supportedFrom: v2.13.0
+    FlexibleServers_Database:
+      $exportAs: FlexibleServersDatabase
+      $supportedFrom: v2.13.0
+    FlexibleServers_FirewallRule:
+      $exportAs: FlexibleServersFirewallRule
+      $supportedFrom: v2.13.0
+    FlexibleServers_Backup: # TODO: net new
+      $exportAs: FlexibleServersBackup
+      $supportedFrom: v2.13.0
+    FlexibleServers_AdvancedThreatProtectionSetting: # TODO: net new
+      $exportAs: FlexibleServersAdvancedThreatProtectionSettings
+      $supportedFrom: v2.13.0
+    FlexibleServers_VirtualEndpoint: # TODO: net new
+      $exportAs: FlexibleServersVirtualEndpoint
+      $supportedFrom: v2.13.0
+    ServerProperties:
+      SourceServerResourceId:
+        $referenceType: arm
+    Network:
+      DelegatedSubnetResourceId:
+        $referenceType: arm
+      PrivateDnsZoneArmResourceId:
+        $referenceType: arm
+  2025-08-01:
+    DataEncryption:
+      GeoBackupKeyURI:
+        $importConfigMapMode: optional
+      GeoBackupUserAssignedIdentityId:
+        $referenceType: arm
+      PrimaryKeyURI:
+        $importConfigMapMode: optional
+      PrimaryUserAssignedIdentityId:
+        $referenceType: arm
+    FlexibleServer:
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+      $exportAs: FlexibleServer
+      $supportedFrom: v2.17.0
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+    FlexibleServers_Administrator:
+      $exportAs: FlexibleServersAdministrator
+      $supportedFrom: v2.17.0
+    FlexibleServers_Configuration:
+      $exportAs: FlexibleServersConfiguration
+      $supportedFrom: v2.17.0
+    FlexibleServers_Database:
+      $exportAs: FlexibleServersDatabase
+      $supportedFrom: v2.17.0
+    FlexibleServers_FirewallRule:
+      $exportAs: FlexibleServersFirewallRule
+      $supportedFrom: v2.17.0
+    FlexibleServers_Backup:
+      $exportAs: FlexibleServersBackup
+      $supportedFrom: v2.17.0
+    FlexibleServers_AdvancedThreatProtectionSetting:
+      $exportAs: FlexibleServersAdvancedThreatProtectionSettings
+      $supportedFrom: v2.17.0
+    FlexibleServers_VirtualEndpoint:
+      $exportAs: FlexibleServersVirtualEndpoint
+      $supportedFrom: v2.17.0
+    AdministratorMicrosoftEntraPropertiesForAdd:
+      PrincipalName:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    AuthConfig:
+      TenantId:
+        $importConfigMapMode: optional
+        # AzureName:  # TODO: Does this work? Nope.
+        #   $importConfigMapMode: optional

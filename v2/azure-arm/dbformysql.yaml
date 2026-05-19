@@ -1,0 +1,228 @@
+typeFilters:
+  - action: include
+    version: v*20250601preview
+    because: We want to export this particular preview version to support newer MySQL versions
+typeTransformers:
+  - name: ServerProperties;ServerProperties_STATUS
+    property: Version
+    target:
+      name: string
+      optional: true
+    because: The enum restrictions on this type are incorrect, both leaving out the latest supported versions of MySQL and including deprecated versions.
+groupModelConfiguration:
+  v1: # Handcrafted 
+    User:
+      $supportedFrom: v2.0.0
+  2021-05-01:
+    DataEncryption:
+      GeoBackupUserAssignedIdentityId:
+        $referenceType: arm
+      PrimaryUserAssignedIdentityId:
+        $referenceType: arm
+    FlexibleServer:
+      $exportAs: FlexibleServer
+      $supportedFrom: v2.0.0-alpha.2
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+        AdministratorLogin: $.Status.AdministratorLogin
+    FlexibleServers_Database:
+      $exportAs: FlexibleServersDatabase
+      $supportedFrom: v2.0.0-alpha.2
+    FlexibleServers_FirewallRule:
+      $exportAs: FlexibleServersFirewallRule
+      $supportedFrom: v2.0.0-alpha.2
+    Identity:
+      $nameInNextVersion: MySQLServerIdentity
+    Identity_STATUS:
+      $nameInNextVersion: MySQLServerIdentity_STATUS
+    Sku:
+      $nameInNextVersion: MySQLServerSku
+    Sku_STATUS:
+      $nameInNextVersion: MySQLServerSku_STATUS
+    ServerProperties:
+      SourceServerResourceId:
+        # Actually, this *IS* a resource id, but we want to avoid breaking changes so we're fibbing here. It's fixed in 2023-06-30
+        $referenceType: simple
+  2022-01-01:
+    FlexibleServers_Administrator:
+      $exportAs: FlexibleServersAdministrator
+      $supportedFrom: v2.1.0
+    AdministratorProperties:
+      IdentityResourceId:
+        $referenceType: arm # TODO: Upstream to Swagger
+      Sid:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    FlexibleServers_Configuration:
+      $exportAs: FlexibleServersConfiguration
+      $supportedFrom: v2.1.0
+  2023-06-30:
+    DataEncryption:
+      GeoBackupUserAssignedIdentityId:
+        $referenceType: arm
+      PrimaryUserAssignedIdentityId:
+        $referenceType: arm
+    FlexibleServer:
+      $exportAs: FlexibleServer
+      $supportedFrom: v2.7.0
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+        AdministratorLogin: $.Status.AdministratorLogin
+    FlexibleServers_Administrator:
+      $exportAs: FlexibleServersAdministrator
+      $supportedFrom: v2.7.0
+    AdministratorProperties:
+      IdentityResourceId:
+        $referenceType: arm # TODO: Upstream to Swagger
+      Sid:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    FlexibleServers_Configuration:
+      $exportAs: FlexibleServersConfiguration
+      $supportedFrom: v2.7.0
+    FlexibleServers_Database:
+      $exportAs: FlexibleServersDatabase
+      $supportedFrom: v2.7.0
+    FlexibleServers_FirewallRule:
+      $exportAs: FlexibleServersFirewallRule
+      $supportedFrom: v2.7.0
+    Network:
+      DelegatedSubnetResourceId:
+        $referenceType: arm
+      PrivateDnsZoneResourceId:
+        $referenceType: arm
+    ServerProperties:
+      SourceServerResourceId:
+        $referenceType: arm
+  2023-12-30:
+    DataEncryption:
+      GeoBackupUserAssignedIdentityId:
+        $referenceType: arm
+      PrimaryUserAssignedIdentityId:
+        $referenceType: arm
+    FlexibleServer:
+      $exportAs: FlexibleServer
+      $supportedFrom: v2.13.0
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+        AdministratorLogin: $.Status.AdministratorLogin
+    FlexibleServers_Administrator:
+      $exportAs: FlexibleServersAdministrator
+      $supportedFrom: v2.13.0
+    AdministratorProperties:
+      IdentityResourceId:
+        $referenceType: arm # TODO: Upstream to Swagger
+      Sid:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    FlexibleServers_Configuration:
+      $exportAs: FlexibleServersConfiguration
+      $supportedFrom: v2.13.0
+    FlexibleServers_Database:
+      $exportAs: FlexibleServersDatabase
+      $supportedFrom: v2.13.0
+    FlexibleServers_FirewallRule:
+      $exportAs: FlexibleServersFirewallRule
+      $supportedFrom: v2.13.0
+    Network:
+      DelegatedSubnetResourceId:
+        $referenceType: arm
+      PrivateDnsZoneResourceId:
+        $referenceType: arm
+    ServerProperties:
+      SourceServerResourceId:
+        $referenceType: arm
+  2024-12-30:
+    DataEncryption:
+      GeoBackupUserAssignedIdentityId:
+        $referenceType: arm
+      PrimaryUserAssignedIdentityId:
+        $referenceType: arm
+    FlexibleServer:
+      $exportAs: FlexibleServer
+      $supportedFrom: v2.19.0
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+        AdministratorLogin: $.Status.AdministratorLogin
+    FlexibleServers_Administrator:
+      $exportAs: FlexibleServersAdministrator
+      $supportedFrom: v2.19.0
+    AdministratorProperties:
+      IdentityResourceId:
+        $referenceType: arm # TODO: Upstream to Swagger
+      Sid:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    FlexibleServers_Configuration:
+      $exportAs: FlexibleServersConfiguration
+      $supportedFrom: v2.19.0
+    FlexibleServers_Database:
+      $exportAs: FlexibleServersDatabase
+      $supportedFrom: v2.19.0
+    FlexibleServers_FirewallRule:
+      $exportAs: FlexibleServersFirewallRule
+      $supportedFrom: v2.19.0
+    MySQLServerIdentity_STATUS:
+      UserAssignedIdentities:
+        $conversionStrategy: manual
+    Network:
+      DelegatedSubnetResourceId:
+        $referenceType: arm
+      PrivateDnsZoneResourceId:
+        $referenceType: arm
+    ServerProperties:
+      SourceServerResourceId:
+        $referenceType: arm
+  2025-06-01-preview:
+    DataEncryption:
+      GeoBackupUserAssignedIdentityId:
+        $referenceType: arm
+      PrimaryUserAssignedIdentityId:
+        $referenceType: arm
+    FlexibleServer:
+      $exportAs: FlexibleServer
+      $supportedFrom: v2.19.0
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+        AdministratorLogin: $.Status.AdministratorLogin
+    FlexibleServers_Administrator:
+      $exportAs: FlexibleServersAdministrator
+      $supportedFrom: v2.19.0
+    AdministratorProperties:
+      IdentityResourceId:
+        $referenceType: arm # TODO: Upstream to Swagger
+      Sid:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    FlexibleServers_Configuration:
+      $exportAs: FlexibleServersConfiguration
+      $supportedFrom: v2.19.0
+    FlexibleServers_Database:
+      $exportAs: FlexibleServersDatabase
+      $supportedFrom: v2.19.0
+    FlexibleServers_FirewallRule:
+      $exportAs: FlexibleServersFirewallRule
+      $supportedFrom: v2.19.0
+    Network:
+      DelegatedSubnetResourceId:
+        $referenceType: arm
+      PrivateDnsZoneResourceId:
+        $referenceType: arm
+    ServerProperties:
+      SourceServerResourceId:
+        $referenceType: arm

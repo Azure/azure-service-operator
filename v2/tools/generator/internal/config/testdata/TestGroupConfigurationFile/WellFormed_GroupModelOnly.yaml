@@ -1,0 +1,5 @@
+groupModelConfiguration:
+  2021-06-01:
+    SomeResource:
+      $exportAs: SomeResource
+      $supportedFrom: v2.0.0

@@ -1,0 +1,111 @@
+typeTransformers:
+  #
+  # In the group 'eventhub',
+  # from the type 'Namespace_Properties_Spec'
+  # remove the property 'PrivateEndpointConnections'
+  #
+  - name: Namespace_Properties_Spec
+    property: PrivateEndpointConnections
+    remove: true
+    because: This property should be marked readonly
+  #
+  # In the group 'eventhub'
+  # from the object 'PrivateEndpointConnectionProperties'
+  # remove the properties 'PrivateLinkServiceConnectionState' and 'ProvisioningState'
+  #
+  - name: PrivateEndpointConnectionProperties
+    property: PrivateLinkServiceConnectionState; ProvisioningState
+    remove: true
+    because: These properties should be marked readonly
+  - name: EventHubProperties;Namespaces_Eventhub_Properties_Spec
+    property: Status
+    remove: true
+    because: These properties should be marked readonly
+groupModelConfiguration:
+  2021-11-01:
+    Destination_Properties:
+      StorageAccountResourceId:
+        $referenceType: arm
+    Namespace:
+      $exportAs: Namespace
+      $supportedFrom: v2.0.0-alpha.1
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - SecondaryKey
+        - PrimaryConnectionString
+        - SecondaryConnectionString
+    Namespaces_AuthorizationRule:
+      $exportAs: NamespacesAuthorizationRule
+      $supportedFrom: v2.0.0-alpha.2
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - SecondaryKey
+        - PrimaryConnectionString
+        - SecondaryConnectionString
+    Namespaces_Eventhub:
+      $exportAs: NamespacesEventhub
+      $supportedFrom: v2.0.0-alpha.3
+    Namespaces_Eventhubs_AuthorizationRule:
+      $exportAs: NamespacesEventhubsAuthorizationRule
+      $supportedFrom: v2.0.0-alpha.3
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - SecondaryKey
+        - PrimaryConnectionString
+        - SecondaryConnectionString
+    Namespaces_Eventhubs_Consumergroup:
+      $exportAs: NamespacesEventhubsConsumerGroup
+      $supportedFrom: v2.0.0-alpha.1
+    Namespace_Properties_Spec:
+      ClusterArmId:
+        $referenceType: arm
+        # TODO: I think this has been (correctly) pruned now
+        #      PrivateEndpoint:
+        #        Id:
+        #          $referenceType: arm
+    UserAssignedIdentityProperties:
+      UserAssignedIdentity:
+        $referenceType: arm
+  2024-01-01:
+    Destination_Properties:
+      StorageAccountResourceId:
+        $referenceType: arm
+    CaptureIdentity:
+      UserAssignedIdentity:
+        $referenceType: arm
+    Namespace:
+      $exportAs: Namespace
+      $supportedFrom: v2.12.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - SecondaryKey
+        - PrimaryConnectionString
+        - SecondaryConnectionString
+    Namespaces_AuthorizationRule:
+      $exportAs: NamespacesAuthorizationRule
+      $supportedFrom: v2.12.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - SecondaryKey
+        - PrimaryConnectionString
+        - SecondaryConnectionString
+    Namespaces_Eventhub:
+      $exportAs: NamespacesEventhub
+      $supportedFrom: v2.12.0
+    Namespaces_Eventhubs_AuthorizationRule:
+      $exportAs: NamespacesEventhubsAuthorizationRule
+      $supportedFrom: v2.12.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - SecondaryKey
+        - PrimaryConnectionString
+        - SecondaryConnectionString
+    Namespaces_Eventhubs_Consumergroup:
+      $exportAs: NamespacesEventhubsConsumerGroup
+      $supportedFrom: v2.12.0
+    Namespace_Properties_Spec:
+      ClusterArmId:
+        $referenceType: arm
+    UserAssignedIdentityProperties:
+      UserAssignedIdentity:
+        $referenceType: arm

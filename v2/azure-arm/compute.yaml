@@ -1,0 +1,274 @@
+typeTransformers:
+  #
+  # In the group 'compute',
+  # remove the enum restrictions from the vmSize property of VirtualMachine
+  #
+  - name: HardwareProfile
+    property: VmSize
+    target:
+      name: string
+      optional: true
+    because: The enum restrictions on this type are incomplete. Making this type a plain string to allow for growth of supported VM sizes without a new API version
+  - name: VirtualMachineScaleSetExtensionProperties;VirtualMachineExtensionProperties
+    property: ProtectedSettings
+    ifType:
+      map:
+        key:
+          name: string
+        value:
+          name: any
+    target:
+      map:
+        key:
+          name: string
+        value:
+          name: string
+    because: ProtectedSettings is defined as map[string]v1.JSON and it should be a marked as secret.
+  - name: VirtualMachineScaleSetExtensionProperties_STATUS;VirtualMachineExtensionProperties_STATUS
+    property: ProtectedSettings
+    remove: true
+    because: We don't want Protected settings on status
+  - name: AvailabilitySetProperties
+    property: VirtualMachines
+    remove: true
+    because: VirtualMachines is a list of VMs created in the AvailabilitySet and should only be on status, not spec
+  - name: SnapshotProperties
+    property: DiskState
+    remove: true
+    because: this should be marked as readonly in Swagger
+  - name: DiskProperties # This type is subsequently flattened into Disks_Spec
+    property: DiskState
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+groupModelConfiguration:
+  2020-09-30:
+    CreationData:
+      SourceResourceId:
+        $referenceType: arm
+    Disk:
+      $exportAs: Disk
+      $supportedFrom: v2.0.0-alpha.1
+    DiskProperties:
+      DiskAccessId:
+        $referenceType: arm
+    Encryption:
+      DiskEncryptionSetId:
+        $referenceType: arm
+    ImageDiskReference:
+      Id:
+        $referenceType: arm
+    PurchasePlan:
+      $nameInNextVersion: DiskPurchasePlan
+    PurchasePlan_STATUS:
+      $nameInNextVersion: DiskPurchasePlan_STATUS
+    Snapshot:
+      $exportAs: Snapshot
+      $supportedFrom: v2.0.0-alpha.4
+    SnapshotProperties:
+      DiskAccessId:
+        $referenceType: arm
+    SourceVault:
+      Id:
+        $referenceType: arm
+  2020-12-01:
+    ApiEntityReference:
+      Id:
+        $referenceType: arm
+    ImageReference:
+      $isResource: false
+    ImageReference_STATUS:
+      $isResource: false
+    ManagedDiskParameters:
+      $isResource: false
+    ManagedDiskParameters_STATUS:
+      $isResource: false
+    NetworkInterfaceReference:
+      $isResource: false
+    NetworkInterfaceReference_STATUS:
+      $isResource: false
+    SshPublicKeySpec:
+      KeyData:
+        $importSecretMode: never
+    SshPublicKey_STATUS:
+      KeyData:
+        $importSecretMode: never
+    VirtualMachine:
+      $exportAs: VirtualMachine
+      $supportedFrom: v2.0.0-alpha.1
+    VirtualMachineExtension_STATUS:
+      $isResource: false # TODO[breaking]: This is actually a resource but we weren't pruning it before
+    VirtualMachineScaleSet:
+      $exportAs: VirtualMachineScaleSet
+      $supportedFrom: v2.0.0-alpha.1
+    VirtualMachineScaleSetExtension:
+      $isResource: false
+    VirtualMachineScaleSetExtension_STATUS:
+      $isResource: false
+    VirtualMachineScaleSetIPConfiguration:
+      $isResource: false
+    VirtualMachineScaleSetIPConfiguration_STATUS:
+      $isResource: false
+    VirtualMachineScaleSetNetworkConfiguration:
+      $isResource: false
+    VirtualMachineScaleSetNetworkConfiguration_STATUS:
+      $isResource: false
+    VirtualMachines_Extension:
+      $exportAs: VirtualMachinesExtension
+      $supportedFrom: v2.6.0
+    VirtualMachineScaleSets_Extension:
+      $exportAs: VirtualMachineScaleSetsExtension
+      $supportedFrom: v2.6.0
+    VirtualMachineScaleSetExtensionProperties:
+      ProtectedSettings:
+        $importSecretMode: required
+    VirtualMachineExtensionProperties:
+      ProtectedSettings:
+        $importSecretMode: required
+  2021-07-01:
+    Image:
+      $exportAs: Image
+      $supportedFrom: v2.0.0-alpha.6
+  2022-03-01:
+    ApiEntityReference:
+      Id:
+        $referenceType: arm
+    Image:
+      $exportAs: Image
+      $supportedFrom: v2.0.0-beta.2
+    ImageReference:
+      $isResource: false
+      Version:
+        $referenceType: simple
+    ImageReference_STATUS:
+      $isResource: false
+    ManagedDiskParameters:
+      $isResource: false
+    ManagedDiskParameters_STATUS:
+      $isResource: false
+      #      NetworkInterfaceConfiguration:
+      #        $isResource: false
+    NetworkInterfaceReference:
+      $isResource: false
+    NetworkInterfaceReference_STATUS:
+      $isResource: false
+    NetworkProfile:
+      $isResource: false
+    NetworkProfile_STATUS:
+      $isResource: false
+    SshPublicKeySpec:
+      KeyData:
+        $importSecretMode: never
+    SshPublicKey_STATUS:
+      KeyData:
+        $importSecretMode: never
+    VMGalleryApplication:
+      PackageReferenceId:
+        $referenceType: arm
+    VirtualMachine:
+      $exportAs: VirtualMachine
+      $supportedFrom: v2.0.0-beta.2
+    VirtualMachineExtension_STATUS:
+      $isResource: false # TODO[breaking]: This is actually a resource but we weren't pruning it before
+    VirtualMachineScaleSet:
+      $exportAs: VirtualMachineScaleSet
+      $supportedFrom: v2.0.0-beta.2
+    VirtualMachineScaleSetExtension:
+      $isResource: false
+    VirtualMachineScaleSetExtension_STATUS:
+      $isResource: false
+    VirtualMachineScaleSetIPConfiguration:
+      $isResource: false
+    VirtualMachineScaleSetIPConfiguration_STATUS:
+      $isResource: false
+    VirtualMachineScaleSetNetworkConfiguration:
+      $isResource: false
+    VirtualMachineScaleSetNetworkConfiguration_STATUS:
+      $isResource: false
+    VirtualMachines_Extension:
+      $exportAs: VirtualMachinesExtension
+      $supportedFrom: v2.6.0
+    VirtualMachineScaleSets_Extension:
+      $exportAs: VirtualMachineScaleSetsExtension
+      $supportedFrom: v2.6.0
+    VirtualMachineScaleSetExtensionProperties:
+      ProtectedSettings:
+        $importSecretMode: required
+    VirtualMachineExtensionProperties:
+      ProtectedSettings:
+        $importSecretMode: required
+  2022-07-02:
+    DiskEncryptionSet:
+      $exportAs: DiskEncryptionSet
+      $supportedFrom: v2.3.0
+    EncryptionSetIdentity_UserAssignedIdentities_STATUS:
+      $renameTo: UserAssignedIdentitiesValue_STATUS
+    SourceVault:
+      Id:
+        $referenceType: arm
+    KeyForDiskEncryptionSet:
+      KeyUrl:
+        $importConfigMapMode: optional
+    EncryptionSetProperties:
+      FederatedClientId:
+        $importConfigMapMode: optional
+  2024-03-02:
+    CreationData:
+      SourceResourceId:
+        $referenceType: arm
+      ElasticSanResourceId:
+        $referenceType: arm
+    Disk:
+      $exportAs: Disk
+      $supportedFrom: v2.9.0
+    DiskProperties:
+      DiskAccessId:
+        $referenceType: arm
+    Encryption:
+      DiskEncryptionSetId:
+        $referenceType: arm
+    ImageDiskReference:
+      Id:
+        $referenceType: arm
+    Snapshot:
+      $exportAs: Snapshot
+      $supportedFrom: v2.9.0
+    SnapshotProperties:
+      DiskAccessId:
+        $referenceType: arm
+    SourceVault:
+      Id:
+        $referenceType: arm
+    DiskAccess:
+      $exportAs: DiskAccess
+      $supportedFrom: v2.9.0
+    DiskEncryptionSet:
+      $exportAs: DiskEncryptionSet
+      $supportedFrom: v2.9.0
+    KeyForDiskEncryptionSet:
+      KeyUrl:
+        $importConfigMapMode: optional
+    EncryptionSetProperties:
+      FederatedClientId:
+        $importConfigMapMode: optional
+    # TODO: Reorganize this section
+    # TODO: Confirm that these guys are really ARM IDs
+    DiskSecurityProfile:
+      SecureVMDiskEncryptionSetId:
+        $referenceType: arm
+  2024-11-01:
+    AvailabilitySet:
+      $exportAs: AvailabilitySet
+      $supportedFrom: v2.15.0
+    SubResource:
+      Id:
+        $referenceType: arm
+  2025-04-01:
+    CapacityReservationGroup:
+      $exportAs: CapacityReservationGroup
+      $supportedFrom: v2.16.0
+    CapacityReservationGroups_CapacityReservation:
+      $exportAs: CapacityReservation
+      $supportedFrom: v2.16.0
+    SubResource:
+      Id:
+        $referenceType: arm
