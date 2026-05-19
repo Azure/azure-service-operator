@@ -993,11 +993,8 @@ var skipDeletionPrecheck = sets.NewString(
 	"search.azure.com",
 	"servicebus.azure.com",
 	"signalrservice.azure.com",
-	"sql.azure.com",
 	"storage.azure.com",
 	"subscription.azure.com",
-	"synapse.azure.com",
-	"web.azure.com",
 )
 
 // deleteResource deletes a resource in ARM. This function is used as the default deletion handler and can
