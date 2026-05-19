@@ -1,8 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "enabledManagers": [
+    "tekton",
+    "dockerfile"
+  ],
   "baseBranchPatterns": [
     "main",
-    "/^backplane-2\\.[0-99]$/"
+    "/^backplane-2\\.[0-9]+$/"
   ],
   "tekton": {
     "includePaths": [
@@ -17,6 +21,12 @@
       "matchManagers": [
         "dockerfile"
       ],
+      "enabled": false
+    },
+    {
+      "matchManagers": [
+        "dockerfile"
+      ],
       "enabled": true,
       "matchFileNames": [
         "stolostron/Dockerfile.stolostron"
@@ -25,7 +35,7 @@
     {
       "matchBaseBranches": [
         "main",
-        "/^backplane-2\\.[0-99]$/"
+        "/^backplane-2\\.[0-9]+$/"
       ],
       "matchManagers": [
         "tekton"
@@ -34,12 +44,6 @@
       "addLabels": [
         "ok-to-test"
       ]
-    },
-    {
-      "matchManagers": [
-        "gomod"
-      ],
-      "enabled": false
     }
   ],
   "rebaseWhen": "behind-base-branch",
