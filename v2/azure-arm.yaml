@@ -3350,6 +3350,8 @@ objectModelConfiguration:
           $importConfigMapMode: optional
   entra:
     v1: # Handcrafted
+      Application:
+        $supportedFrom: v2.19.0
       SecurityGroup:
         $supportedFrom: v2.14.0
   eventgrid:
