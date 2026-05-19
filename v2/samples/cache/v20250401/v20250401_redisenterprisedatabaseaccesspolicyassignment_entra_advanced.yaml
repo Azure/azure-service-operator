@@ -1,0 +1,17 @@
+# Advanced Entra ID sample for RedisEnterpriseDatabaseAccessPolicyAssignment.
+# Apply the required dependencies first:
+# - a RedisEnterpriseDatabase named 'default'
+# - a UserAssignedIdentity whose principalId is available in the identity-settings ConfigMap
+apiVersion: cache.azure.com/v20250401
+kind: RedisEnterpriseDatabaseAccessPolicyAssignment
+metadata:
+  name: sampleaccesspolicyassignmentadvanced
+  namespace: default
+spec:
+  owner:
+    name: default
+  accessPolicyName: default
+  user:
+    objectIdFromConfig:
+      name: identity-settings-advanced
+      key: principalId
