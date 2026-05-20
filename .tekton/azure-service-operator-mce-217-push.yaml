@@ -27,6 +27,7 @@ spec:
   - name: additional-tags
     value:
     - 2.17.0-latest
+    - 2.17-dev
   - name: build-platforms
     value:
     - linux/x86_64

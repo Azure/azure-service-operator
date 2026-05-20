@@ -24,6 +24,10 @@ spec:
     value: '{{revision}}'
   - name: output-image
     value: quay.io/redhat-user-workloads/crt-redhat-acm-tenant/azure-service-operator-mce-50:{{revision}}
+  - name: additional-tags
+    value:
+    - 5.0.0-latest
+    - 5.0-dev
   - name: build-platforms
     value:
     - linux/x86_64

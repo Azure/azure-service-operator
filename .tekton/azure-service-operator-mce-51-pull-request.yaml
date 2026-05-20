@@ -24,6 +24,9 @@ spec:
     value: '{{revision}}'
   - name: output-image
     value: quay.io/redhat-user-workloads/crt-redhat-acm-tenant/azure-service-operator-mce-51:on-pr-{{revision}}
+  - name: additional-tags
+    value:
+    - 5.1.0-pr-{{pull_request_number}}
   - name: image-expires-after
     value: 5d
   - name: build-platforms
