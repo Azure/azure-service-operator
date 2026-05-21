@@ -1,0 +1,17 @@
+typeFilters:
+  - action: include
+    version: v*20210601
+    because: "include this specific version"
+
+typeTransformers:
+  - name: SomeType_Spec
+    property: ReadOnlyProp
+    remove: true
+    because: "read-only property"
+
+groupModelConfiguration:
+  $payloadType: explicitCollections
+  2021-06-01:
+    SomeResource:
+      $exportAs: SomeResource
+      $supportedFrom: v2.0.0

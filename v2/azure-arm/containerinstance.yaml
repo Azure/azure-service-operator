@@ -1,0 +1,11 @@
+groupModelConfiguration:
+  2021-10-01:
+    ContainerGroup:
+      $exportAs: ContainerGroup
+      $supportedFrom: v2.0.0-beta.1
+    ContainerGroupSubnetId:
+      Id:
+        $referenceType: arm
+    LogAnalytics:
+      WorkspaceResourceId:
+        $referenceType: arm

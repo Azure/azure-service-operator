@@ -1,0 +1,38 @@
+typeTransformers:
+  - name: NamespaceProperties
+    property: Status;ProvisioningState
+    remove: true
+    because: This property should be marked readonly
+  - name: SharedAccessAuthorizationRuleProperties
+    property: PrimaryKey;SecondaryKey
+    remove: true
+    because: This property should be marked readonly
+groupModelConfiguration:
+  2023-09-01:
+    Namespace:
+      $exportAs: Namespace
+      $supportedFrom: v2.12.0
+      $azureGeneratedSecrets:
+        - PrimaryConnectionString
+        - SecondaryConnectionString
+        - PrimaryKey
+        - SecondaryKey
+      $generatedConfigs:
+        ServiceBusEndpoint: $.Status.Properties.ServiceBusEndpoint
+    Namespaces_AuthorizationRule:
+      $exportAs: NamespacesAuthorizationRule
+      $supportedFrom: v2.12.0
+    Namespaces_NotificationHub:
+      $exportAs: NotificationHub
+      $supportedFrom: v2.12.0
+      $azureGeneratedSecrets:
+        - PrimaryConnectionString
+        - SecondaryConnectionString
+        - PrimaryKey
+        - SecondaryKey
+    Namespaces_NotificationHubs_AuthorizationRule:
+      $exportAs: NotificationHubsAuthorizationRule
+      $supportedFrom: v2.12.0
+    NotificationHubProperties:
+      AuthorizationRules:
+        $importSecretMode: never

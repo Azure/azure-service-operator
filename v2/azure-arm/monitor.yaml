@@ -1,0 +1,5 @@
+groupModelConfiguration:
+  2023-04-03:
+    Account:
+      $exportAs: Account
+      $supportedFrom: v2.8.0

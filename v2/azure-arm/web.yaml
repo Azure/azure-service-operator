@@ -1,0 +1,39 @@
+groupModelConfiguration:
+  2022-03-01:
+    ApiManagementConfig:
+      Id:
+        $referenceType: arm
+    CloningInfo:
+      TrafficManagerProfileId:
+        $referenceType: arm
+      SourceWebAppId:
+        $referenceType: arm
+    HostingEnvironmentProfile:
+      Id:
+        $referenceType: arm
+    IpSecurityRestriction:
+      VnetSubnetResourceId:
+        $referenceType: arm
+    KubeEnvironmentProfile:
+      Id:
+        $referenceType: arm
+    PushSettings:
+      # This actually is a resource I think, but as far as I can tell in the context it's used
+      # here as part of SitesConfig it has to be embedded as there is no writable ID field
+      $isResource: false
+    PushSettings_STATUS:
+      $isResource: false
+    ServerFarm:
+      $exportAs: ServerFarm
+      $supportedFrom: v2.0.0-beta.3
+    Site:
+      $exportAs: Site
+      $supportedFrom: v2.0.0-beta.3
+    Site_Properties_Spec:
+      ServerFarmId:
+        $referenceType: arm
+      VirtualNetworkSubnetId:
+        $referenceType: arm
+    Sites_Sourcecontrol:
+      $exportAs: SitesSourcecontrol
+      $supportedFrom: v2.12.0

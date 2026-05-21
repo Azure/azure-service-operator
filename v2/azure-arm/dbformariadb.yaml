@@ -1,0 +1,13 @@
+groupModelConfiguration:
+  2018-06-01:
+    Server:
+      $exportAs: Server
+      $supportedFrom: v2.0.0-beta.1
+      $azureGeneratedSecrets:
+        - FullyQualifiedDomainName
+    Servers_Configuration:
+      $exportAs: Configuration
+      $supportedFrom: v2.0.0-beta.1
+    Servers_Database:
+      $exportAs: Database
+      $supportedFrom: v2.0.0-beta.1

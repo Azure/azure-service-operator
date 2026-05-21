@@ -1,0 +1,11 @@
+groupModelConfiguration:
+  2018-06-01:
+    PurviewConfiguration:
+      PurviewResourceId:
+        $referenceType: arm
+    CMKIdentityDefinition:
+      UserAssignedIdentity:
+        $referenceType: arm
+    Factory:
+      $exportAs: Factory
+      $supportedFrom: v2.1.0

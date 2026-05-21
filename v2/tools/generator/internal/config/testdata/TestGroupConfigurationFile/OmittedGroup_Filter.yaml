@@ -1,0 +1,4 @@
+typeFilters:
+  - action: include
+    version: v*20210601
+    because: "omitted group should be auto-filled"
