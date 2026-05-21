@@ -959,7 +959,6 @@ func ConvertToARMResourceImpl(
 var skipDeletionPrecheck = sets.NewString(
 	"alertsmanagement.azure.com",
 	"apimanagement.azure.com",
-	"app.azure.com",
 	"appconfiguration.azure.com",
 	"cache.azure.com",
 	"cdn.azure.com",
