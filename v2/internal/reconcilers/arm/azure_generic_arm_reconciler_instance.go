@@ -962,7 +962,6 @@ var skipDeletionPrecheck = sets.NewString(
 	"app.azure.com",
 	"appconfiguration.azure.com",
 	"cache.azure.com",
-	"cdn.azure.com",
 	"cognitiveservices.azure.com",
 	"compute.azure.com",
 	"containerinstance.azure.com",
