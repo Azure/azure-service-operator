@@ -62,7 +62,9 @@ func TestGolden_InjectJsonSerializationTests(t *testing.T) {
 		CreateConversionGraph(cfg), // Then, create the conversion graph showing relationships
 		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
 		InjectJSONSerializationTests(idFactory),
+		InjectRapidSerializationTests(idFactory),
 	)
+
 	g.Expect(err).To(Succeed())
 
 	/*
