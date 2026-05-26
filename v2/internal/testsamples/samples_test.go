@@ -126,8 +126,8 @@ func processSamples(samples map[string]client.Object) []client.Object {
 // findRefsAndCreateSecrets finds all references not matched by a corresponding genruntime.SecretDestination or hardcoded secret
 // and generates secrets which correspond to those references
 func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, resources []client.Object) {
-	allDestinations := set.Make[genruntime.SecretDestination]()
-	allReferences := set.Make[genruntime.SecretReference]()
+	allDestinationKeys := set.Make[string]() // key is name + "/" + key
+	allReferences := make([]genruntime.SecretReference, 0)
 	allSecrets := set.Make[string]() // key is namespace + "/" + name
 
 	for _, obj := range resources {
@@ -142,19 +142,21 @@ func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, resources []cli
 		references, err := reflecthelpers.FindSecretReferences(obj)
 		tc.Expect(err).To(BeNil())
 
-		allDestinations.AddAll(destinations)
-		allReferences.AddAll(references)
+		for _, dest := range destinations {
+			allDestinationKeys.Add(fmt.Sprintf("%s/%s", dest.Name, dest.Key))
+		}
+		allReferences = append(allReferences, references...)
 	}
 
 	// Find orphaned references
 	orphanRefs := set.Make[genruntime.SecretReference]()
-	for _, ref := range allReferences.Values() {
-		matchingDestination := genruntime.SecretDestination(ref)
+	for _, ref := range allReferences {
+		matchingDestinationKey := fmt.Sprintf("%s/%s", ref.Name, ref.Key)
 		matchingSecret := fmt.Sprintf("%s/%s", tc.Namespace, ref.Name)
 		if allSecrets.Contains(matchingSecret) {
 			continue
 		}
-		if allDestinations.Contains(matchingDestination) {
+		if allDestinationKeys.Contains(matchingDestinationKey) {
 			continue
 		}
 
