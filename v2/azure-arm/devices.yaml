@@ -1,0 +1,54 @@
+typeTransformers:
+  - name: IotHub_Spec
+    property: Etag
+    remove: true
+    because: This property should be marked readonly
+  # 
+  # In the group 'devices',
+  # from the types 'SharedAccessSignatureAuthorizationRule'
+  # and 'SharedAccessSignatureAuthorizationRule_STATUS'
+  # remove the properties 'PrimaryKey' and 'SecondaryKey'
+  #
+  - name: SharedAccessSignatureAuthorizationRule;SharedAccessSignatureAuthorizationRule_STATUS
+    property: PrimaryKey;SecondaryKey
+    remove: true
+    because: This property should be marked readonly
+groupModelConfiguration:
+  2021-07-02:
+    IotHub:
+      $exportAs: IotHub
+      $supportedFrom: v2.1.0
+      $azureGeneratedSecrets:
+        - ServicePrimaryKey
+        - ServiceSecondaryKey
+        - IotHubOwnerPrimaryKey
+        - IotHubOwnerSecondaryKey
+        - DevicePrimaryKey
+        - DeviceSecondaryKey
+        - RegistryReadPrimaryKey
+        - RegistryReadSecondaryKey
+        - RegistryReadWritePrimaryKey
+        - RegistryReadWriteSecondaryKey
+    RoutingServiceBusQueueEndpointProperties:
+      Id:
+        $referenceType: arm
+      ConnectionString:
+        $importSecretMode: required
+    RoutingEventHubProperties:
+      Id:
+        $referenceType: arm
+      ConnectionString:
+        $importSecretMode: required
+    RoutingServiceBusTopicEndpointProperties:
+      Id:
+        $referenceType: arm
+      ConnectionString:
+        $importSecretMode: required
+    RoutingStorageContainerProperties:
+      Id:
+        $referenceType: arm
+      ConnectionString:
+        $importSecretMode: required
+    StorageEndpointProperties:
+      ConnectionString:
+        $importSecretMode: required

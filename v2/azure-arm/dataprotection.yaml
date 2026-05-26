@@ -1,0 +1,52 @@
+typeTransformers:
+  # 
+  # In the group 'dataprotection',
+  # from the type 'BackupVault_Spec',
+  # Remove the properties 'Etag' and 'SystemData'
+  #
+  - name: BackupVault_Spec
+    property: Etag;SystemData
+    remove: true
+    because: These properties should be marked readonly in Swagger
+  - name: BackupVaults_BackupPolicy_Spec
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
+  - name: BackupVaults_BackupInstance_Spec
+    property: SystemData
+    remove: true
+    because: This property should be marked readonly in Swagger
+groupModelConfiguration:
+  2023-01-01:
+    BackupVault:
+      $exportAs: BackupVault
+      $supportedFrom: v2.2.0
+      $generatedConfigs:
+        PrincipalId: $.Status.Identity.PrincipalId
+    BackupVaults_BackupPolicy:
+      $exportAs: BackupVaultsBackupPolicy
+      $supportedFrom: v2.2.0
+  2023-11-01:
+    BackupVault:
+      $exportAs: BackupVault
+      $supportedFrom: v2.7.0
+      $generatedConfigs:
+        PrincipalId: $.Status.Identity.PrincipalId
+    BackupVaults_BackupPolicy:
+      $exportAs: BackupVaultsBackupPolicy
+      $supportedFrom: v2.7.0
+    BackupVaults_BackupInstance:
+      $exportAs: BackupVaultsBackupInstance
+      $supportedFrom: v2.7.0
+    DatasourceSet:
+      ResourceID:
+        $referenceType: arm
+    Datasource:
+      ResourceID:
+        $referenceType: arm
+    PolicyInfo:
+      PolicyId:
+        $referenceType: arm
+    AzureOperationalStoreParameters:
+      ResourceGroupId:
+        $referenceType: arm

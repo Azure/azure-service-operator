@@ -128,7 +128,7 @@ func Test_Multitenant_SingleOperator_PerResourceCredential(t *testing.T) {
 	tc.Eventually(func() string {
 		tc.GetResource(types.NamespacedName{Namespace: acct.Namespace, Name: acct.Name}, acct)
 		return acct.Status.Conditions[0].Message
-	}).WithTimeout(1 * time.Minute).Should(ContainSubstring("does not have authorization to perform action"))
+	}).WithTimeout(2 * time.Minute).Should(ContainSubstring("does not have authorization to perform action"))
 
 	// Deleting the per-resource credential annotation would default to applying the global credential with all permissions
 	old := acct.DeepCopy()

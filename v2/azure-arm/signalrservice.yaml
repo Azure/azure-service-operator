@@ -1,0 +1,40 @@
+typeTransformers:
+  - name: SignalR_Replica_Spec
+    property: Sku
+    target:
+      required: true
+    because: This property should be marked required in Swagger
+groupModelConfiguration:
+  2021-10-01:
+    SignalR:
+      $exportAs: SignalR
+      $supportedFrom: v2.0.0-alpha.4
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+  2024-03-01:
+    SignalR:
+      $exportAs: SignalR
+      $supportedFrom: v2.12.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - PrimaryConnectionString
+        - SecondaryKey
+        - SecondaryConnectionString
+    SignalR_Replica:
+      $exportAs: Replica
+      $supportedFrom: v2.12.0
+    SignalR_CustomDomain:
+      $exportAs: CustomDomain
+      $supportedFrom: v2.12.0
+    SignalR_CustomCertificate:
+      $exportAs: CustomCertificate
+      $supportedFrom: v2.12.0
+    CustomCertificateProperties:
+      KeyVaultBaseURI:
+        $importConfigMapMode: optional
+    ResourceReference:
+      Id:
+        $referenceType: arm

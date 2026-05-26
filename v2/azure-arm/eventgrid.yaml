@@ -1,0 +1,19 @@
+groupModelConfiguration:
+  2020-06-01:
+    Domain:
+      $exportAs: Domain
+      $supportedFrom: v2.0.0-alpha.5
+    Domains_Topic:
+      $exportAs: DomainsTopic
+      $supportedFrom: v2.0.0-alpha.5
+    EventSubscription:
+      $exportAs: EventSubscription
+      $supportedFrom: v2.0.0-alpha.5
+    Topic:
+      $exportAs: Topic
+      $supportedFrom: v2.0.0-alpha.3
+      $azureGeneratedSecrets:
+        - Key1
+        - Key2
+      $generatedConfigs:
+        Endpoint: $.Status.Endpoint

@@ -58,6 +58,7 @@ func TestGolden_InjectResourceConversionTestCases(t *testing.T) {
 		InjectPropertyAssignmentFunctions(cfg, idFactory, logr.Discard()),
 		ImplementConvertibleInterface(idFactory),
 		InjectJSONSerializationTests(idFactory),
+		InjectRapidSerializationTests(idFactory),
 		InjectPropertyAssignmentTests(idFactory),
 	)
 	g.Expect(err).To(Succeed())
