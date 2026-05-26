@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/go-toolset:9.8-1777889793 AS toolchain
+FROM registry.access.redhat.com/ubi9/go-toolset:9.8-1779719578 AS toolchain
 
 # Run this with docker build --build_arg $(go env GOPROXY) to override the goproxy
 ARG goproxy=https://proxy.golang.org
