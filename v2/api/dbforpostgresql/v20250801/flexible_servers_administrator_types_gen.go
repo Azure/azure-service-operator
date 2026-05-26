@@ -251,6 +251,10 @@ type FlexibleServersAdministrator_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+	// AzureNameFromConfig: if specified, the Azure name of the resource is resolved from this ConfigMap key at
+	// reconciliation time, overriding any AzureName specified directly.
+	AzureNameFromConfig *genruntime.ConfigMapReference `json:"azureNameFromConfig,omitempty"`
+
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
 	OperatorSpec *FlexibleServersAdministratorOperatorSpec `json:"operatorSpec,omitempty"`
@@ -446,6 +450,14 @@ func (administrator *FlexibleServersAdministrator_Spec) AssignProperties_From_Fl
 	// AzureName
 	administrator.AzureName = source.AzureName
 
+	// AzureNameFromConfig
+	if source.AzureNameFromConfig != nil {
+		azureNameFromConfig := source.AzureNameFromConfig.Copy()
+		administrator.AzureNameFromConfig = &azureNameFromConfig
+	} else {
+		administrator.AzureNameFromConfig = nil
+	}
+
 	// OperatorSpec
 	if source.OperatorSpec != nil {
 		var operatorSpec FlexibleServersAdministratorOperatorSpec
@@ -508,6 +520,14 @@ func (administrator *FlexibleServersAdministrator_Spec) AssignProperties_To_Flex
 
 	// AzureName
 	destination.AzureName = administrator.AzureName
+
+	// AzureNameFromConfig
+	if administrator.AzureNameFromConfig != nil {
+		azureNameFromConfig := administrator.AzureNameFromConfig.Copy()
+		destination.AzureNameFromConfig = &azureNameFromConfig
+	} else {
+		destination.AzureNameFromConfig = nil
+	}
 
 	// OperatorSpec
 	if administrator.OperatorSpec != nil {
@@ -602,6 +622,11 @@ func (administrator *FlexibleServersAdministrator_Spec) OriginalVersion() string
 // SetAzureName sets the Azure name of the resource
 func (administrator *FlexibleServersAdministrator_Spec) SetAzureName(azureName string) {
 	administrator.AzureName = azureName
+}
+
+// GetAzureNameFromConfig returns the AzureNameFromConfig property of the spec, used to resolve the Azure name from a ConfigMap
+func (administrator *FlexibleServersAdministrator_Spec) GetAzureNameFromConfig() *genruntime.ConfigMapReference {
+	return administrator.AzureNameFromConfig
 }
 
 type FlexibleServersAdministrator_STATUS struct {

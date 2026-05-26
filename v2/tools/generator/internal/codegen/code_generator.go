@@ -210,6 +210,8 @@ func createAllPipelineStages(
 		// To be added when needed
 		// pipeline.AddOperatorStatus(idFactory).UsedFor(pipeline.ARMTarget),
 
+		pipeline.AddAzureNameFromConfig(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+
 		pipeline.AddKubernetesExporter(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyDefaulterAndValidatorInterfaces(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 

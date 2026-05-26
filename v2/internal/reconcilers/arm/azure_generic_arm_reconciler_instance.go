@@ -255,6 +255,26 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	ctx context.Context,
 ) (ctrl.Result, error) {
+	// If the spec supports AzureNameFromConfig, resolve it in-memory before checking AzureName
+	resourceSpec := r.Obj.GetSpec()
+	if provider, ok := resourceSpec.(genruntime.AzureNameFromConfigProvider); ok {
+		if configRef := provider.GetAzureNameFromConfig(); configRef != nil {
+			namespacedRef := configRef.AsNamespacedRef(r.Obj.GetNamespace())
+			resolvedName, resolveErr := r.ResourceResolver.ResolveConfigMapReference(ctx, namespacedRef)
+			if resolveErr != nil {
+				return ctrl.Result{},
+					conditions.NewReadyConditionImpactingError(
+						resolveErr,
+						conditions.ConditionSeverityError,
+						conditions.ReasonFailed,
+					)
+			}
+			if setter, ok := resourceSpec.(interface{ SetAzureName(string) }); ok {
+				setter.SetAzureName(resolvedName)
+			}
+		}
+	}
+
 	if r.Obj.AzureName() == "" {
 		err := eris.Errorf(
 			"AzureName was not set on %s. A webhook should default this to .metadata.name if it was omitted. Is the ASO webhook service running?",

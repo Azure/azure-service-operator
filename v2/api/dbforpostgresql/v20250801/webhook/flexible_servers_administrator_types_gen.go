@@ -6,6 +6,9 @@ package webhook
 import (
 	"context"
 	"fmt"
+
+	"github.com/rotisserie/eris"
+
 	v20250801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -43,9 +46,9 @@ func (administrator *FlexibleServersAdministrator) Default(ctx context.Context, 
 	return nil
 }
 
-// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
+// defaultAzureName defaults the Azure name of the resource to the Kubernetes name, but only when AzureNameFromConfig is not set
 func (administrator *FlexibleServersAdministrator) defaultAzureName(ctx context.Context, obj *v20250801.FlexibleServersAdministrator) error {
-	if obj.Spec.AzureName == "" {
+	if obj.Spec.AzureName == "" && obj.Spec.AzureNameFromConfig == nil {
 		obj.Spec.AzureName = obj.Name
 	}
 	return nil
@@ -122,6 +125,7 @@ func (administrator *FlexibleServersAdministrator) createValidations() []func(ct
 		administrator.validateSecretDestinations,
 		administrator.validateConfigMapDestinations,
 		administrator.validateOptionalConfigMapReferences,
+		administrator.validateAzureName,
 	}
 }
 
@@ -148,6 +152,9 @@ func (administrator *FlexibleServersAdministrator) updateValidations() []func(ct
 		},
 		func(ctx context.Context, oldObj *v20250801.FlexibleServersAdministrator, newObj *v20250801.FlexibleServersAdministrator) (admission.Warnings, error) {
 			return administrator.validateOptionalConfigMapReferences(ctx, newObj)
+		},
+		func(ctx context.Context, oldObj *v20250801.FlexibleServersAdministrator, newObj *v20250801.FlexibleServersAdministrator) (admission.Warnings, error) {
+			return administrator.validateAzureName(ctx, newObj)
 		},
 	}
 }
@@ -194,4 +201,12 @@ func (administrator *FlexibleServersAdministrator) validateSecretDestinations(ct
 // validateWriteOnceProperties validates all WriteOnce properties
 func (administrator *FlexibleServersAdministrator) validateWriteOnceProperties(ctx context.Context, oldObj *v20250801.FlexibleServersAdministrator, newObj *v20250801.FlexibleServersAdministrator) (admission.Warnings, error) {
 	return genruntime.ValidateWriteOnceProperties(oldObj, newObj)
+}
+
+// validateAzureName validates that azureName and azureNameFromConfig are not both set
+func (administrator *FlexibleServersAdministrator) validateAzureName(ctx context.Context, obj *v20250801.FlexibleServersAdministrator) (admission.Warnings, error) {
+	if obj.Spec.AzureName != "" && obj.Spec.AzureNameFromConfig != nil {
+		return nil, eris.Errorf("cannot specify both AzureName and AzureNameFromConfig")
+	}
+	return nil, nil
 }
