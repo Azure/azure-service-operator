@@ -1,4 +1,4 @@
-{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}
+{{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") (and .Values.metrics.enable .Values.metrics.secure) }}
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
