@@ -43,6 +43,7 @@ var wholeSampleExclusions = []*regexp.Regexp{
 	regexp.MustCompile(`/subscription/`),                        // Can't easily be run/recorded in our standard subscription
 	regexp.MustCompile(`/redhatopenshift/`),                     // This requires SP creation
 	regexp.MustCompile(`/documentdb/sqldatabase/v1api20210515`), // This is blocked by corp policy (can't set DisableLocalAuth)
+	regexp.MustCompile(`/compute/v20250401`),                    // Quota restrictions mean we can't rerecord capacity reservation
 }
 
 var exclusions = []*regexp.Regexp{

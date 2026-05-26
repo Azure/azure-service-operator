@@ -40,7 +40,6 @@ var randomNameExclusions = []string{
 	"/network/",
 	"/web/",
 	"/app/",
-	"/compute/v20250401",             // Quota crunch means we can't rerecord capacity reservation
 	"/dbforpostgresql/v1api20240801", // Only required starting when we added virtualendpoints support
 	"/dbforpostgresql/v20250801",     // Only required starting when we added virtualendpoints support
 }
