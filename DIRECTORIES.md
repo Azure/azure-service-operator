@@ -28,6 +28,7 @@ Hugo-based documentation site with content covering:
 
 | Directory                  | Purpose                                            |
 | -------------------------- | -------------------------------------------------- |
+| `content/blogs/`           | Blog posts and announcements                       |
 | `content/contributing/`    | Contributor guides (adding resources, style guide) |
 | `content/design/`          | Architecture and design documents                  |
 | `content/getting-started/` | Installation and quickstart guides                 |
@@ -51,6 +52,7 @@ Pinned versions of build tools used by the project: `task`, `kustomize`, `contro
 | `charts/`        | Helm chart repository for ASO v2 (packaged releases + source chart)         |
 | `cmd/`           | Entrypoints for built binaries                                              |
 | `config/`        | Kubernetes deployment manifests (Kustomize overlays)                        |
+| `controller/`    | Controller wiring and startup logic                                         |
 | `controllers/`   | Legacy controller directory (see `internal/controllers/`)                   |
 | `docs/`          | Additional v2-specific documentation                                        |
 | `internal/`      | Internal packages (controllers, reconcilers, utilities)                     |
@@ -67,7 +69,7 @@ Contains generated Go types for each Azure service group. Each subdirectory (e.g
 
 #### Group-Level Structure
 
-Each group directory (e.g., `v2/api/storage/`) contains:
+Most group directories (e.g., `v2/api/storage/`) contain generated code following the structure below. A few groups like `entra/` contain hand-written APIs with a simpler layout (no `arm/`, `storage/`, or `structure.txt` subdirectories).
 
 | Item                 | Purpose                                                                                                                                                                                                      |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -104,6 +106,7 @@ Resource files follow the pattern: `<parent>_<child>_types_gen.go` where nested 
 
 - **`v1api<YYYYMMDD>`** (e.g., `v1api20230101`) — Legacy naming convention. The `v1api` prefix indicates the first API compatibility version. These are being phased out.
 - **`v<YYYYMMDD>`** (e.g., `v20250601`) — Hybrid naming convention. Newer resources use this simpler format without the compatibility prefix.
+- **`v1api<YYYYMMDD>preview`** or **`v<YYYYMMDD>preview`** (e.g., `v1api20220131preview`, `v20250601preview`) — Preview API versions. Same structure as stable versions but targeting pre-release Azure APIs.
 
 ### `v2/cmd/`
 
@@ -178,7 +181,7 @@ Resource files follow the pattern: `<parent>_<child>_types_gen.go` where nested 
 | `collect-metrics/`  | Tool for collecting metrics                                                |
 | `mangle-test-json/` | Tool for processing test JSON recordings                                   |
 
-### `v2/tools/generator/internal/`
+### `v2/tools/generator/internal/` (for generator contributors)
 
 | Directory           | Purpose                                                                      |
 | ------------------- | ---------------------------------------------------------------------------- |
@@ -200,6 +203,8 @@ Resource files follow the pattern: `<parent>_<child>_types_gen.go` where nested 
 | `testcases/`        | Generator test case definitions                                              |
 
 ### `v2/test/`
+
+Contains top-level integration test files (e.g., `suite_test.go`, `azuresql_test.go`, `mysql_test.go`) as well as the following subdirectories:
 
 | Directory      | Purpose                      |
 | -------------- | ---------------------------- |
