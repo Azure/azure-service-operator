@@ -11,6 +11,9 @@ The ASO code generator is our secret sauce - it lowers the amount of effort requ
 The code generator is a Go program that reads the Azure API definitions from the `azure-rest-api-specs` repository and generates most of the code required to support a resource.
 The Swagger/OpenAPI definitions in that repo are transformed by the code generator into two forms - once for the `spec`, defining the desired state of the resource, and once for the `status`, defining the observed state of the resource.
 
+In addition, the code generator also generates some of our documentation, ensuring that it is always up to date with the generated code.
+
+
 Some background: Azure resources are extremely consistent in their structures and behaviours, and the code required to support them is thus also very consistent and repetitive. The code generator is designed to take advantage of this consistency to generate the bulk of the code required for a new resource.
 
 ## Adding the resource to the code generation configuration file
@@ -18,7 +21,7 @@ Some background: Azure resources are extremely consistent in their structures an
 The code generator is configured using the [v2/azure-arm.yaml](https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml) configuration. This is a _large_ YAML file and it can be daunting to work with.
 
 {{% alert title="Request" %}}
-Please don't apply any prettification tools to the file, as the flurry of changes will make reviewing your new resource much harder. There is wide variety in the preferences of YAML formatting - if you want to tidy up the file, please create an issue and we'll discuss it there.
+Please don't apply any prettification tools to the file, as the flurry of changes will make reviewing your new resource much harder. There is wide variety in the preferences of YAML formatting - if you want to tidy up the file, please create a new issue and we'll discuss it there.
 {{% /alert %}}
 
 To add a new resource to this file, find the `objectModelConfiguration` section of the file.
@@ -229,4 +232,14 @@ The debug flag accepts a variety of values:
 
 ----
 
-With a successful run of the code generator complete, now's a good time to make your first commits. We recommend keeping your manual changes (e.g. to `azure-arm.yaml`) separate from the generated changes (all the "*_gen.go" files under `v2/api`) as it makes your PR easier for us to review. Once that's done, it's time to [review the generated resource]({{< relref "review-the-generated-resource" >}}).
+## Commit your changes
+
+With a successful run of the code generator complete, now is a good time to make your first commits. 
+
+We recommend splitting your changes thus far into three commits so that it's easier for later review:
+
+* Manual changes `azure-arm.yaml`.
+* New and modified Go code - mostly under `v2/api`, but also including registration changes found in `internal/controllers`.
+* New or modified documentation - under `docs/hugo/content/reference`.
+
+Once that's done, it's time to [review the generated resource]({{< relref "review-the-generated-resource" >}}).
