@@ -6,9 +6,13 @@ toc_hide: true
 
 ## Context
 
-ARM templates support expressions in any property, allowing values to be composed dynamically at deployment time. This flexibility is a long-standing feature of the ARM ecosystem, and users coming to Azure Service Operator (ASO) from an ARM background sometimes ask whether ASO will offer the same capability for Kubernetes custom resources (e.g. [#2950](https://github.com/Azure/azure-service-operator/issues/2950))
+ARM templates support expressions in any property, allowing values to be composed dynamically at deployment time. This flexibility is a long-standing feature of the ARM ecosystem, and users coming to Azure Service Operator (ASO) from an ARM background sometimes ask whether ASO will offer the same capability for Kubernetes custom resources (e.g. [#2950](https://github.com/Azure/azure-service-operator/issues/2950)).
 
-In a Kubernetes context, templating is a more complex proposition. CRDs are validated by the API server at admission time using OpenAPI schemas, and the broader Kubernetes ecosystem (kubectl, GitOps tools, policy engines, IDE tooling) relies on those schemas being honest about the shape and type of each property. Embedding expressions inside arbitrary properties conflicts with these expectations, and runs counter to the standing prohibition on polymorphic properties in Kubernetes APIs - even the polymorphic properties we already have are now considered a mistake.
+In a Kubernetes context, templating is a more complex proposition. CRDs are validated by the API server at admission time using OpenAPI schemas, and the broader Kubernetes ecosystem (kubectl, GitOps tools, policy engines, IDE tooling) relies on those schemas being honest about the shape and type of each property. 
+
+Embedding expressions inside arbitrary properties conflicts with these expectations, and runs counter to the standing prohibition on polymorphic properties in Kubernetes APIs (properties whose value can take more than one shape) - even the polymorphic properties we already have are now considered a mistake:
+
+> Note: we explicitly accept that polymorphic types (like IntOrString) are an anti-pattern for Kubernetes-like types and we do not want to encourage its use beyond IntOrString." - [[KEP 2335](https://github.com/kubernetes/enhancements/blob/master/keps/sig-api-machinery/2335-vanilla-crd-openapi-subset-structural-schemas/README.md#criteria)]
 
 Templating is also already well served elsewhere in the Kubernetes ecosystem. Tools like [KRO](https://kro.run), [Helm](https://helm.sh), and [Kustomize](https://kustomize.io) exist specifically to address it, and users routinely combine them with operators like ASO.
 
@@ -20,6 +24,7 @@ Any templating story for ASO would need to:
 - Provide clear, immediate feedback when a user submits an invalid resource, rather than deferring errors to status conditions.
 - Avoid conflicting with expressions that are intended for evaluation by ARM itself.
 - Remain maintainable as the number of generated resources and properties continues to grow.
+- Interact with other resources in the same namespace or cluster - a solution that only worked within ASO resources would be of limited value.
 
 ## Options
 
@@ -35,7 +40,7 @@ Allow any property on any ASO resource to accept an expression string, which ASO
 **Cons:**
 
 - Violates the Kubernetes convention against polymorphic properties. Every property would effectively need to be typed as a string, removing the validation that makes CRDs useful.
-- Minor errors would not be caught on submission. Users would have to know to inspect resource conditions to discover problems, which is contrary to the immediate feedback Kubernetes users expect everywhere else. Crucially, ASO has historically gone to great lengths to feel Kubernetes native in use, and this would be a significant step away from that.
+- Expression errors (bad syntax, references to properties that don't exist, type mismatches) would not be caught on submission. Users would have to know to inspect resource conditions to discover problems, which is contrary to the immediate feedback Kubernetes users expect everywhere else. Crucially, ASO has historically gone to great lengths to feel Kubernetes native in use, and this would be a significant step away from that.
 - ASO cannot reliably distinguish an expression intended for ARM from one intended for ASO. We might intercept expressions ARM was meant to evaluate, or forward malformed expressions to ARM. Either case would surface unhelpful errors.
 - Tooling that relies on CRD schemas (policy engines, validators, IDEs) would lose most of its value against ASO resources.
 
@@ -43,7 +48,7 @@ Allow any property on any ASO resource to accept an expression string, which ASO
 
 Mirror the pattern we already use for config maps and secrets: keep the existing strongly-typed property and add a sibling property that accepts an expression. Existing validation is preserved, but the API is extended dramatically.
 
-For example, we currenty have the suffixes `FromConfigMap` and `FromSecret` to indicate that a property is sourcing its value from a config map or secret. We could introduce a new suffix like `FromExpression` to indicate that a property is sourcing its value from an ASO-evaluated expression.
+For example, we currently have the suffixes `FromConfigMap` and `FromSecret` to indicate that a property is sourcing its value from a config map or secret. We could introduce a new suffix like `FromExpression` to indicate that a property is sourcing its value from an ASO-evaluated expression.
 
 **Pros:**
 
