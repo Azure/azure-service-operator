@@ -1,0 +1,221 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+# This workflow gates PRs on capi-tests integration results.
+# It waits for the Konflux image build, then triggers the full cluster
+# deployment test suite in stolostron/capi-tests, and reports the result.
+#
+# SECURITY: Uses pull_request_target to access secrets. This is safe because
+# the workflow NEVER checks out or executes PR code — it only orchestrates
+# API calls using the PR number and head SHA. Do NOT add a checkout step.
+
+name: PR capi-tests
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - backplane-2.17
+      - backplane-2.11
+
+permissions:
+  checks: read
+
+concurrency:
+  group: pr-capi-tests-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  capi-tests:
+    name: capi-tests (${{ github.base_ref }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        with:
+          egress-policy: audit
+
+      - name: Map branch to Konflux check and capi-tests branch
+        id: map-branch
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          case "$BASE_REF" in
+            main)
+              echo "konflux_check=Red Hat Konflux / azure-service-operator-mce-50-on-pull-request" >> "$GITHUB_OUTPUT"
+              echo "aro_branch=backplane-5.0" >> "$GITHUB_OUTPUT"
+              ;;
+            backplane-2.17)
+              echo "konflux_check=Red Hat Konflux / azure-service-operator-mce-217-on-pull-request" >> "$GITHUB_OUTPUT"
+              echo "aro_branch=backplane-2.17" >> "$GITHUB_OUTPUT"
+              ;;
+            backplane-2.11)
+              echo "konflux_check=Red Hat Konflux / azure-service-operator-mce-211-on-pull-request" >> "$GITHUB_OUTPUT"
+              echo "aro_branch=backplane-2.11" >> "$GITHUB_OUTPUT"
+              ;;
+            *)
+              echo "::error::Unsupported target branch: ${BASE_REF}"
+              exit 1
+              ;;
+          esac
+
+      - name: Wait for Konflux build
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          CHECK_NAME: ${{ steps.map-branch.outputs.konflux_check }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          SHA="$HEAD_SHA"
+          REPO="$GH_REPO"
+          MAX_ATTEMPTS=60
+          POLL_INTERVAL=60
+
+          echo "Waiting for Konflux check '${CHECK_NAME}' on commit ${SHA}..."
+
+          STATUS=""
+          CONCLUSION=""
+          for i in $(seq 1 "$MAX_ATTEMPTS"); do
+            RESULT=$(gh api "repos/${REPO}/commits/${SHA}/check-runs" \
+              --jq ".check_runs[] | select(.name == \"${CHECK_NAME}\") | {status, conclusion}" \
+              2>/dev/null || echo "")
+
+            if [ -z "$RESULT" ]; then
+              echo "Attempt ${i}/${MAX_ATTEMPTS}: Check '${CHECK_NAME}' not found yet, waiting..."
+              sleep "$POLL_INTERVAL"
+              continue
+            fi
+
+            STATUS=$(echo "$RESULT" | jq -r '.status')
+            CONCLUSION=$(echo "$RESULT" | jq -r '.conclusion')
+
+            if [ "$STATUS" = "completed" ]; then
+              if [ "$CONCLUSION" = "success" ]; then
+                echo "Konflux build succeeded!"
+                break
+              else
+                echo "::error::Konflux build finished with conclusion: ${CONCLUSION}"
+                exit 1
+              fi
+            fi
+
+            echo "Attempt ${i}/${MAX_ATTEMPTS}: status=${STATUS}, waiting..."
+            sleep "$POLL_INTERVAL"
+          done
+
+          if [ "$STATUS" != "completed" ]; then
+            echo "::error::Timed out waiting for Konflux check '${CHECK_NAME}' after $((MAX_ATTEMPTS * POLL_INTERVAL / 60)) minutes"
+            exit 1
+          fi
+
+      - name: Trigger capi-tests
+        id: trigger
+        env:
+          GH_TOKEN: ${{ secrets.CAPI_TESTS_PAT }}
+          ARO_BRANCH: ${{ steps.map-branch.outputs.aro_branch }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+
+          TRIGGER_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          echo "trigger_time=${TRIGGER_TIME}" >> "$GITHUB_OUTPUT"
+
+          echo "Dispatching workload-cluster-aro.yml on stolostron/capi-tests..."
+          echo "  cluster_mode=kind"
+          echo "  aro_repo_branch=${ARO_BRANCH}"
+          echo "  aso_pr_no=${PR_NUMBER}"
+
+          gh workflow run workload-cluster-aro.yml \
+            --repo stolostron/capi-tests \
+            --ref main \
+            -f cluster_mode=kind \
+            -f aro_repo_branch="${ARO_BRANCH}" \
+            -f aso_pr_no="${PR_NUMBER}"
+
+      - name: Find triggered run
+        id: find-run
+        env:
+          GH_TOKEN: ${{ secrets.CAPI_TESTS_PAT }}
+          TRIGGER_TIME: ${{ steps.trigger.outputs.trigger_time }}
+        run: |
+          set -euo pipefail
+          WORKFLOW_FILE="workload-cluster-aro.yml"
+          REPO="stolostron/capi-tests"
+          MAX_FIND_ATTEMPTS=10
+          FIND_INTERVAL=15
+
+          echo "Looking for workflow run triggered after ${TRIGGER_TIME}..."
+          sleep 15
+
+          RUN_ID=""
+          for i in $(seq 1 "$MAX_FIND_ATTEMPTS"); do
+            RUN_ID=$(gh run list \
+              --repo "$REPO" \
+              --workflow "$WORKFLOW_FILE" \
+              --event workflow_dispatch \
+              --json databaseId,createdAt,status \
+              --jq "[.[] | select(.createdAt >= \"${TRIGGER_TIME}\")] | sort_by(.createdAt) | last | .databaseId // empty" \
+              2>/dev/null || echo "")
+
+            if [ -n "$RUN_ID" ]; then
+              echo "Found triggered run: ${RUN_ID}"
+              echo "run_id=${RUN_ID}" >> "$GITHUB_OUTPUT"
+              echo "Run URL: https://github.com/${REPO}/actions/runs/${RUN_ID}"
+              break
+            fi
+
+            echo "Attempt ${i}/${MAX_FIND_ATTEMPTS}: Run not found yet, waiting..."
+            sleep "$FIND_INTERVAL"
+          done
+
+          if [ -z "$RUN_ID" ]; then
+            echo "::error::Could not find the triggered workflow run after $((MAX_FIND_ATTEMPTS * FIND_INTERVAL)) seconds"
+            exit 1
+          fi
+
+      - name: Wait for capi-tests completion
+        env:
+          GH_TOKEN: ${{ secrets.CAPI_TESTS_PAT }}
+          RUN_ID: ${{ steps.find-run.outputs.run_id }}
+        run: |
+          set -euo pipefail
+          REPO="stolostron/capi-tests"
+          MAX_ATTEMPTS=145
+          POLL_INTERVAL=120
+
+          echo "Monitoring run: https://github.com/${REPO}/actions/runs/${RUN_ID}"
+
+          for i in $(seq 1 "$MAX_ATTEMPTS"); do
+            RUN_DATA=$(gh run view "$RUN_ID" --repo "$REPO" --json status,conclusion 2>/dev/null || echo "")
+
+            if [ -z "$RUN_DATA" ]; then
+              echo "Attempt ${i}/${MAX_ATTEMPTS}: Failed to query run status, retrying..."
+              sleep "$POLL_INTERVAL"
+              continue
+            fi
+
+            STATUS=$(echo "$RUN_DATA" | jq -r '.status')
+            CONCLUSION=$(echo "$RUN_DATA" | jq -r '.conclusion')
+
+            if [ "$STATUS" = "completed" ]; then
+              if [ "$CONCLUSION" = "success" ]; then
+                echo "capi-tests passed!"
+                exit 0
+              else
+                echo "::error::capi-tests finished with conclusion: ${CONCLUSION}"
+                echo "See: https://github.com/${REPO}/actions/runs/${RUN_ID}"
+                exit 1
+              fi
+            fi
+
+            ELAPSED=$(( i * POLL_INTERVAL / 60 ))
+            echo "Attempt ${i}/${MAX_ATTEMPTS}: status=${STATUS} (${ELAPSED} min elapsed)"
+            sleep "$POLL_INTERVAL"
+          done
+
+          echo "::error::Timed out waiting for capi-tests run ${RUN_ID} after $((MAX_ATTEMPTS * POLL_INTERVAL / 60)) minutes"
+          exit 1
