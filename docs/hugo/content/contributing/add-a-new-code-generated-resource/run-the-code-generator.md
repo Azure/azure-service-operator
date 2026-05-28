@@ -11,19 +11,23 @@ The ASO code generator is our secret sauce - it lowers the amount of effort requ
 The code generator is a Go program that reads the Azure API definitions from the `azure-rest-api-specs` repository and generates most of the code required to support a resource.
 The Swagger/OpenAPI definitions in that repo are transformed by the code generator into two forms - once for the `spec`, defining the desired state of the resource, and once for the `status`, defining the observed state of the resource.
 
+In addition, the code generator also generates some of our documentation, ensuring that it is always up to date with the generated code.
+
 Some background: Azure resources are extremely consistent in their structures and behaviours, and the code required to support them is thus also very consistent and repetitive. The code generator is designed to take advantage of this consistency to generate the bulk of the code required for a new resource.
 
 ## Adding the resource to the code generation configuration file
 
-The code generator is configured using the [v2/azure-arm.yaml](https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml) configuration. This is a _large_ YAML file and it can be daunting to work with.
+Global configuration of the code generator is driven by [v2/azure-arm.yaml](https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml), with group specific configuration found in the `azure-arm` subfolder. Splitting configuration helps to keep things manageable (prior to the split, the configuration file was nearly 6000 lines long and very difficult to navigate).
 
 {{% alert title="Request" %}}
-Please don't apply any prettification tools to the file, as the flurry of changes will make reviewing your new resource much harder. There is wide variety in the preferences of YAML formatting - if you want to tidy up the file, please create an issue and we'll discuss it there.
+Please don't apply any prettification tools to the file, as the flurry of changes will make reviewing your new resource much harder. There is wide variety in the preferences of YAML formatting - if you want to tidy up the file, please create a new issue and we'll discuss it there.
 {{% /alert %}}
 
-To add a new resource to this file, find the `objectModelConfiguration` section of the file.
+To add a new resource to an existing group, just modify the relevant file in the `azure-arm` subfolder. For example, if you were adding a new resource to the `synapse` group, you'd modify the file `v2/azure-arm/synapse.yaml`.
 
-Then, find the configuration for the `group` you want; if it's not there, create a new one, inserting it into the existing list in alphabetical order. Within the group, find the `version` you want; again, create a new one if it's not already there, and keep things in numerical order as you do so.
+If you're adding a new group, create a new file in the `azure-arm` subfolder with the name of the group, and then link it under `imports` in the main file. For example, if you were adding a new group called `widgets`, you'd create the file `v2/azure-arm/widgets.yaml` and then add `widgets: azure-arm/widgets.yaml` to the `imports` section of `azure-arm.yaml`.
+
+Within the group file, find the `version` you want to add; create a new one if it's not already there, and keep things in increasing numerical order as you do so.
 
 Add your new resource to the list for that version, including the directive `$exportAs: <name>` nested beneath.
 You must also include the `$supportedFrom:` annotation. This should be the _next release_ of ASO, as that's the version what will support your resource. You can determine the name of the next ASO release by looking at our
@@ -32,11 +36,10 @@ You must also include the `$supportedFrom:` annotation. This should be the _next
 The final result should look like this:
 
 ``` yaml
-<group>:
-  <version>:
-    <resource name>: # singular, typically just remove the trailing "s"
-      $exportAs: <resourceName>
-      $supportedFrom: <the upcoming release>
+<version>:
+  <resource name>: # singular, typically just remove the trailing "s"
+    $exportAs: <resourceName>
+    $supportedFrom: <the upcoming release>
 ```
 
 For example, taking the _Azure Synapse Workspace_ sample from above:
@@ -104,7 +107,7 @@ To fix this, determine whether the property in question is an ARM ID or not, and
 * Add a new object if it's not already present
 * Adding your property with a `$referenceType:` declaration nested below.
 
-(Just above the `objectModelConfiguration` section, there is a large comment that details all the available configuration options.)
+(At the end of `azure-arm.yaml` there is a large comment that details all the available configuration options.)
 
 If the property is an ARM ID, use `$referenceType: arm` to flag that property as a reference:
 
@@ -143,7 +146,7 @@ version 2021-05-01-preview not seen (did you mean 2018-05-01-preview?)
 
 Double check the names you've used and correct any typos.
 
-If you're importing a _preview_ version of a resource, you may need to modify the `typeFilters` section at the top of the file. Early in the development of ASO we discovered that some preview versions are poorly formed - filtering them out was a straightforward way to avoid problems.
+If you're importing a _preview_ version of a resource, you may need to modify (or add) the `typeFilters` section at the top of the file. Early in the development of ASO we discovered that some preview versions are poorly formed - filtering them out was a straightforward way to avoid problems.
 
 Type filters are applied in order, with the first matching filter being used. This one prunes all preview versions:
 
@@ -189,7 +192,7 @@ type DodgyResource not seen (did you mean ResourceReference?):
 type DodgyResource: $exportAs: ReputableResource not consumed
 ```
 
-It's possible the submodule `v2/specs/azure-rest-api-specs` is out of date. Try running `git submodule update --init --recursive` to update the submodule. If this fixes your issue, please submit a separate PR to update the submodule by itself. (Submodule updates often include documentation updates to existing resources, and it's worth keeping those updates separate from new reources).
+It's possible the submodule `v2/specs/azure-rest-api-specs` is out of date. Try running `git submodule update --init --recursive` to update the submodule. If this fixes your issue, please submit a separate PR to update the submodule by itself. (Submodule updates often include documentation updates to existing resources, and it's worth keeping those updates separate from new resources).
 
 ## Debugging
 
@@ -206,7 +209,7 @@ I0622 12:28:01.913420    5572 gen_types.go:49] Debug output will be written to t
 I0622 12:29:15.836643    5572 gen_types.go:53] Debug output is available in folder /tmp/.../aso-gen-debug-1580100077
 ```
 
-The volume of output is high - a separate log file is writting into the indicated directory for _each_ pipeline stage. As shown, the name of this directory is included in the output of the generator twice, once at the start and again at the end.
+The volume of output is high - a separate log file is written into the indicated directory for _each_ pipeline stage. As shown, the name of this directory is included in the output of the generator twice, once at the start and again at the end.
 
 ![Debug Output](../images/debug-output.png)
 
@@ -219,9 +222,9 @@ The debug flag accepts a variety of values:
 * A single group: `--debug network`
 * Multiple groups: `--debug network;compute`  
   (Use a semicolon to separate groups)
-* A specific version of a group: `--debug network/v1api20201101`  
+* A specific version of a group: `--debug network/v20201101`  
   (Use a slash to separate group and version; versions are specified as package names)
-* Multiple groups and versions: `--debug network/v1api20201101;network/v1api20220701`
+* Multiple groups and versions: `--debug network/v20201101;network/v20220701`
   (Again, use a semicolon to separate)
 * Wildcards to match multiple groups: `--debug db*`  
 
@@ -229,4 +232,14 @@ The debug flag accepts a variety of values:
 
 ----
 
-With a successful run of the code generator complete, now's a good time to make your first commits. We recommend keeping your manual changes (e.g. to `azure-arm.yaml`) separate from the generated changes (all the "*_gen.go" files under `v2/api`) as it makes your PR easier for us to review. Once that's done, it's time to [review the generated resource]({{< relref "review-the-generated-resource" >}}).
+## Commit your changes
+
+With a successful run of the code generator complete, now is a good time to make your first commits. 
+
+We recommend splitting your changes thus far into three commits so that it's easier for later review:
+
+* Configuration changes to `azure-arm.yaml` and related files in the `azure-arm` subfolder.
+* New and modified Go code - mostly under `v2/api`, but also including registration changes found in `internal/controllers`.
+* New or modified documentation - under `docs/hugo/content/reference`.
+
+Once that's done, it's time to [review the generated resource]({{< relref "review-the-generated-resource" >}}).

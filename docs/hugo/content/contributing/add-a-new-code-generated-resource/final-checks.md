@@ -17,6 +17,13 @@ Double check that everything you expect to include in your PR is actually includ
 * A test for the resource in the `v2/internal/controllers` folder, with a recording for playback testing.
 * A sample for the resource in the `v2/samples` folder, also with a recording.
 
+{{% alert title="Warning" color="warning" %}}
+Don't make any manual changes to any generated files - those changes will be immediately overwritten during PR validation. 
+Generated Go files are easy to spot - the filenames end with `_gen.go` or `_gen_test.go`.
+All of our [reference documentation]({{< relref "reference" >}}) is also generated, so don't make any manual changes there either.
+{{% /alert %}}
+
+
 ## Check it builds
 
 Running `task` with no parameters runs a quick set of checks that will catch most issues. 
