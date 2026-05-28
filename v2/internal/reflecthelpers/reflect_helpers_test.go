@@ -174,11 +174,11 @@ func Test_FindReferences(t *testing.T) {
 	refs, err := reflecthelpers.FindResourceReferences(res)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(refs).To(HaveLen(5))
-	g.Expect(refs).To(HaveKey(ref1))
-	g.Expect(refs).To(HaveKey(ref2))
-	g.Expect(refs).To(HaveKey(ref3))
-	g.Expect(refs).To(HaveKey(ref4))
-	g.Expect(refs).To(HaveKey(ref5))
+	g.Expect(refs).To(ContainElement(ref1))
+	g.Expect(refs).To(ContainElement(ref2))
+	g.Expect(refs).To(ContainElement(ref3))
+	g.Expect(refs).To(ContainElement(ref4))
+	g.Expect(refs).To(ContainElement(ref5))
 }
 
 func Test_FindSecrets(t *testing.T) {
@@ -205,7 +205,7 @@ func Test_FindSecrets(t *testing.T) {
 	refs, err := reflecthelpers.FindSecretReferences(res)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(refs).To(HaveLen(1))
-	g.Expect(refs).To(HaveKey(ref))
+	g.Expect(refs).To(ContainElement(ref))
 }
 
 func Test_FindPropertiesWithTag(t *testing.T) {

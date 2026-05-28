@@ -22,7 +22,7 @@ import (
 // ValueOfPtr dereferences a pointer and returns the value the pointer points to.
 // Use this as carefully as you would the * operator
 // TODO: Can we delete this helper later when we have some better code generated functions?
-func ValueOfPtr(ptr interface{}) interface{} {
+func ValueOfPtr(ptr any) any {
 	v := reflect.ValueOf(ptr)
 	if v.Kind() != reflect.Pointer {
 		panic(fmt.Sprintf("Can't get value of pointer for non-pointer type %T", ptr))
@@ -41,14 +41,14 @@ func DeepCopyInto(in client.Object, out client.Object) {
 }
 
 // FindReferences finds references of the given type on the provided object
-func FindReferences(obj interface{}, t reflect.Type) (map[interface{}]struct{}, error) {
-	result := make(map[interface{}]struct{})
+func FindReferences(obj any, t reflect.Type) ([]any, error) {
+	var result []any
 
 	visitor := NewReflectVisitor()
-	visitor.VisitStruct = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+	visitor.VisitStruct = func(this *ReflectVisitor, it reflect.Value, ctx any) error {
 		if it.Type() == t {
 			if it.CanInterface() {
-				result[it.Interface()] = struct{}{}
+				result = append(result, it.Interface())
 			}
 			return nil
 		}
@@ -66,11 +66,11 @@ func FindReferences(obj interface{}, t reflect.Type) (map[interface{}]struct{}, 
 
 // FindPropertiesWithTag finds all the properties with the given tag on the specified object and
 // returns a map of the property name to the property value
-func FindPropertiesWithTag(obj interface{}, tag string) (map[string][]interface{}, error) {
-	result := make(map[string][]interface{})
+func FindPropertiesWithTag(obj any, tag string) (map[string][]any, error) {
+	result := make(map[string][]any)
 
 	visitor := NewReflectVisitor()
-	visitor.VisitStruct = func(this *ReflectVisitor, it reflect.Value, ctx interface{}) error {
+	visitor.VisitStruct = func(this *ReflectVisitor, it reflect.Value, ctx any) error {
 		// This was adapted from IdentityVisitStruct
 		for i := 0; i < it.NumField(); i++ {
 			fieldVal := it.Field(i)
@@ -90,7 +90,7 @@ func FindPropertiesWithTag(obj interface{}, tag string) (map[string][]interface{
 			field := it.Field(i)
 			if ok && field.CanInterface() {
 				if len(result[path]) == 0 {
-					result[path] = []interface{}{}
+					result[path] = []any{}
 				}
 				result[path] = append(result[path], field.Interface())
 			}
@@ -113,43 +113,43 @@ func FindPropertiesWithTag(obj interface{}, tag string) (map[string][]interface{
 }
 
 // FindResourceReferences finds all the genruntime.ResourceReference's on the provided object
-func FindResourceReferences(obj interface{}) (set.Set[genruntime.ResourceReference], error) {
+func FindResourceReferences(obj any) ([]genruntime.ResourceReference, error) {
 	return Find[genruntime.ResourceReference](obj)
 }
 
 // FindSecretReferences finds all the genruntime.SecretReference's on the provided object
-func FindSecretReferences(obj interface{}) (set.Set[genruntime.SecretReference], error) {
+func FindSecretReferences(obj any) ([]genruntime.SecretReference, error) {
 	return Find[genruntime.SecretReference](obj)
 }
 
 // FindSecretMaps finds all the genruntime.SecretMapReference's on the provided object
-func FindSecretMaps(obj interface{}) (set.Set[genruntime.SecretMapReference], error) {
+func FindSecretMaps(obj any) ([]genruntime.SecretMapReference, error) {
 	return Find[genruntime.SecretMapReference](obj)
 }
 
 // FindConfigMapReferences finds all the genruntime.ConfigMapReference's on the provided object
-func FindConfigMapReferences(obj interface{}) (set.Set[genruntime.ConfigMapReference], error) {
+func FindConfigMapReferences(obj any) ([]genruntime.ConfigMapReference, error) {
 	return Find[genruntime.ConfigMapReference](obj)
 }
 
 // Find finds all the references of the given type on the provided object
-func Find[T comparable](obj interface{}) (set.Set[T], error) {
+func Find[T any](obj any) ([]T, error) {
 	var t T
 	untypedResult, err := FindReferences(obj, reflect.TypeOf(t))
 	if err != nil {
 		return nil, err
 	}
 
-	result := set.Make[T]()
-	for k := range untypedResult {
-		result.Add(k.(T))
+	result := make([]T, 0, len(untypedResult))
+	for _, k := range untypedResult {
+		result = append(result, k.(T))
 	}
 
 	return result, nil
 }
 
 // FindOptionalConfigMapReferences finds all the genruntime.ConfigMapReference's on the provided object
-func FindOptionalConfigMapReferences(obj interface{}) ([]*configmaps.OptionalReferencePair, error) {
+func FindOptionalConfigMapReferences(obj any) ([]*configmaps.OptionalReferencePair, error) {
 	untypedResult, err := FindPropertiesWithTag(obj, "optionalConfigMapPair") // TODO: This is astmodel.OptionalConfigMapPairTag
 	if err != nil {
 		return nil, err
@@ -208,7 +208,7 @@ func FindOptionalConfigMapReferences(obj interface{}) ([]*configmaps.OptionalRef
 
 // FindOptionalSecretReferences finds all the genruntime.SecretReference's on the provided object
 // that are part of an optional secret pair (tagged with optionalSecretPair).
-func FindOptionalSecretReferences(obj interface{}) ([]*secrets.OptionalReferencePair, error) {
+func FindOptionalSecretReferences(obj any) ([]*secrets.OptionalReferencePair, error) {
 	untypedResult, err := FindPropertiesWithTag(obj, "optionalSecretPair") // TODO: This is astmodel.OptionalSecretPairTag
 	if err != nil {
 		return nil, err
