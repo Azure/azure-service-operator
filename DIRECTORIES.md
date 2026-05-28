@@ -11,7 +11,7 @@ This document provides an overview of the directory structure of the Azure Servi
 | `.github/`       | GitHub configuration (workflows, issue templates, CODEOWNERS, Dependabot) |
 | `.vscode/`       | VS Code workspace settings                                                |
 | `charts/`        | Helm chart repository for ASO v1 (packaged `.tgz` releases)               |
-| `ci/`            | CI-specific Taskfile and reports directory                                |
+| `ci/`            | CI-specific Taskfile                                 |
 | `docs/`          | Documentation (Hugo site, FAQs, troubleshooting, OPA policies)            |
 | `hack/`          | Build tools and helper scripts (Crossplane tooling, pinned tool binaries) |
 | `reports/`       | Build and test report output directory                                    |
@@ -52,8 +52,6 @@ Pinned versions of build tools used by the project: `task`, `kustomize`, `contro
 | `charts/`        | Helm chart repository for ASO v2 (packaged releases + source chart)         |
 | `cmd/`           | Entrypoints for built binaries                                              |
 | `config/`        | Kubernetes deployment manifests (Kustomize overlays)                        |
-| `controller/`    | Controller wiring and startup logic                                         |
-| `controllers/`   | Legacy controller directory (see `internal/controllers/`)                   |
 | `docs/`          | Additional v2-specific documentation                                        |
 | `internal/`      | Internal packages (controllers, reconcilers, utilities)                     |
 | `out/`           | Intermediate build outputs                                                  |
