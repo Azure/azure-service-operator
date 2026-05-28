@@ -1,4 +1,3 @@
-
 ---
 title: '2026-05: Templating'
 toc_hide: true
@@ -8,11 +7,11 @@ toc_hide: true
 
 ARM templates support expressions in any property, allowing values to be composed dynamically at deployment time. This flexibility is a long-standing feature of the ARM ecosystem, and users coming to Azure Service Operator (ASO) from an ARM background sometimes ask whether ASO will offer the same capability for Kubernetes custom resources (e.g. [#2950](https://github.com/Azure/azure-service-operator/issues/2950)).
 
-In a Kubernetes context, templating is a more complex proposition. CRDs are validated by the API server at admission time using OpenAPI schemas, and the broader Kubernetes ecosystem (kubectl, GitOps tools, policy engines, IDE tooling) relies on those schemas being honest about the shape and type of each property. 
+In a Kubernetes context, templating is a more complex proposition. CRDs are validated by the API server at admission time using OpenAPI schemas, and the broader Kubernetes ecosystem (kubectl, GitOps tools, policy engines, IDE tooling) relies on those schemas being honest about the shape and type of each property.
 
 Embedding expressions inside arbitrary properties conflicts with these expectations, and runs counter to the standing prohibition on polymorphic properties in Kubernetes APIs (properties whose value can take more than one shape) - even the polymorphic properties we already have are now considered a mistake:
 
-> Note: we explicitly accept that polymorphic types (like IntOrString) are an anti-pattern for Kubernetes-like types and we do not want to encourage its use beyond IntOrString." - [[KEP 2335](https://github.com/kubernetes/enhancements/blob/master/keps/sig-api-machinery/2335-vanilla-crd-openapi-subset-structural-schemas/README.md#criteria)]
+> "Note: we explicitly accept that polymorphic types (like IntOrString) are an anti-pattern for Kubernetes-like types and we do not want to encourage its use beyond IntOrString." - [[KEP 2335](https://github.com/kubernetes/enhancements/blob/master/keps/sig-api-machinery/2335-vanilla-crd-openapi-subset-structural-schemas/README.md#criteria)]
 
 Templating is also already well served elsewhere in the Kubernetes ecosystem. Tools like [KRO](https://kro.run), [Helm](https://helm.sh), and [Kustomize](https://kustomize.io) exist specifically to address it, and users routinely combine them with operators like ASO.
 
@@ -61,7 +60,7 @@ For example, we currently have the suffixes `FromConfigMap` and `FromSecret` to 
 - Significantly increases CRD size, which is already a [known constraint]({{< relref "ADR-2023-02-Helm-Chart-Size-Limitations" >}}).
 - Adds substantial complexity to the code generator, conversion functions, and documentation, with ongoing maintenance cost.
 - Does not solve the underlying user problem any better than existing OSS tools already do.
-- Is not pay-to-play as all users will need to navigate the expanded surface area even if they don't need templating.
+- Not an opt-in experience - all users will need to navigate the expanded surface area even if they don't need templating.
 
 ### Option 3: Rely on the OSS ecosystem
 
