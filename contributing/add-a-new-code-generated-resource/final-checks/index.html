@@ -20,13 +20,13 @@
 <title>Final checks | Azure Service Operator</title>
 <meta name="description" content="We recommend you run a few final checks to catch any issues before you submit your PR.
 Check your PR contents Double check that everything you expect to include in your PR is actually included. You should have:
-Configuration changes to asure-arm.yaml. Generated code changes, mostly in the v2/api folder. Generated documentation updates in the docs folder Any hand-coded extensions you implemented, in the v2/api/&lt;group&gt;/customizations folder. A test for the resource in the v2/internal/controllers folder, with a recording for playback testing. A sample for the resource in the v2/samples folder, also with a recording. Check it builds Running task with no parameters runs a quick set of checks that will catch most issues.">
+Configuration changes to asure-arm.yaml. Generated code changes, mostly in the v2/api folder. Generated documentation updates in the docs folder Any hand-coded extensions you implemented, in the v2/api/&lt;group&gt;/customizations folder. A test for the resource in the v2/internal/controllers folder, with a recording for playback testing. A sample for the resource in the v2/samples folder, also with a recording. Warning Don’t make any manual changes to any generated files - those changes will be immediately overwritten during PR validation. Generated Go files are easy to spot - the filenames end with _gen.go or _gen_test.go. All of our reference documentation is also generated, so don’t make any manual changes there either. Check it builds Running task with no parameters runs a quick set of checks that will catch most issues.">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/final-checks/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Final checks">
   <meta property="og:description" content="We recommend you run a few final checks to catch any issues before you submit your PR.
 Check your PR contents Double check that everything you expect to include in your PR is actually included. You should have:
-Configuration changes to asure-arm.yaml. Generated code changes, mostly in the v2/api folder. Generated documentation updates in the docs folder Any hand-coded extensions you implemented, in the v2/api/&lt;group&gt;/customizations folder. A test for the resource in the v2/internal/controllers folder, with a recording for playback testing. A sample for the resource in the v2/samples folder, also with a recording. Check it builds Running task with no parameters runs a quick set of checks that will catch most issues.">
+Configuration changes to asure-arm.yaml. Generated code changes, mostly in the v2/api folder. Generated documentation updates in the docs folder Any hand-coded extensions you implemented, in the v2/api/&lt;group&gt;/customizations folder. A test for the resource in the v2/internal/controllers folder, with a recording for playback testing. A sample for the resource in the v2/samples folder, also with a recording. Warning Don’t make any manual changes to any generated files - those changes will be immediately overwritten during PR validation. Generated Go files are easy to spot - the filenames end with _gen.go or _gen_test.go. All of our reference documentation is also generated, so don’t make any manual changes there either. Check it builds Running task with no parameters runs a quick set of checks that will catch most issues.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="contributing">
@@ -34,13 +34,13 @@ Configuration changes to asure-arm.yaml. Generated code changes, mostly in the v
   <meta itemprop="name" content="Final checks">
   <meta itemprop="description" content="We recommend you run a few final checks to catch any issues before you submit your PR.
 Check your PR contents Double check that everything you expect to include in your PR is actually included. You should have:
-Configuration changes to asure-arm.yaml. Generated code changes, mostly in the v2/api folder. Generated documentation updates in the docs folder Any hand-coded extensions you implemented, in the v2/api/&lt;group&gt;/customizations folder. A test for the resource in the v2/internal/controllers folder, with a recording for playback testing. A sample for the resource in the v2/samples folder, also with a recording. Check it builds Running task with no parameters runs a quick set of checks that will catch most issues.">
-  <meta itemprop="wordCount" content="221">
+Configuration changes to asure-arm.yaml. Generated code changes, mostly in the v2/api folder. Generated documentation updates in the docs folder Any hand-coded extensions you implemented, in the v2/api/&lt;group&gt;/customizations folder. A test for the resource in the v2/internal/controllers folder, with a recording for playback testing. A sample for the resource in the v2/samples folder, also with a recording. Warning Don’t make any manual changes to any generated files - those changes will be immediately overwritten during PR validation. Generated Go files are easy to spot - the filenames end with _gen.go or _gen_test.go. All of our reference documentation is also generated, so don’t make any manual changes there either. Check it builds Running task with no parameters runs a quick set of checks that will catch most issues.">
+  <meta itemprop="wordCount" content="272">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Final checks">
   <meta name="twitter:description" content="We recommend you run a few final checks to catch any issues before you submit your PR.
 Check your PR contents Double check that everything you expect to include in your PR is actually included. You should have:
-Configuration changes to asure-arm.yaml. Generated code changes, mostly in the v2/api folder. Generated documentation updates in the docs folder Any hand-coded extensions you implemented, in the v2/api/&lt;group&gt;/customizations folder. A test for the resource in the v2/internal/controllers folder, with a recording for playback testing. A sample for the resource in the v2/samples folder, also with a recording. Check it builds Running task with no parameters runs a quick set of checks that will catch most issues.">
+Configuration changes to asure-arm.yaml. Generated code changes, mostly in the v2/api folder. Generated documentation updates in the docs folder Any hand-coded extensions you implemented, in the v2/api/&lt;group&gt;/customizations folder. A test for the resource in the v2/internal/controllers folder, with a recording for playback testing. A sample for the resource in the v2/samples folder, also with a recording. Warning Don’t make any manual changes to any generated files - those changes will be immediately overwritten during PR validation. Generated Go files are easy to spot - the filenames end with _gen.go or _gen_test.go. All of our reference documentation is also generated, so don’t make any manual changes there either. Check it builds Running task with no parameters runs a quick set of checks that will catch most issues.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1022,6 +1022,17 @@ Configuration changes to asure-arm.yaml. Generated code changes, mostly in the v
 <li>A test for the resource in the <code>v2/internal/controllers</code> folder, with a recording for playback testing.</li>
 <li>A sample for the resource in the <code>v2/samples</code> folder, also with a recording.</li>
 </ul>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Warning</h4>
+
+    Don&rsquo;t make any manual changes to any generated files - those changes will be immediately overwritten during PR validation.
+Generated Go files are easy to spot - the filenames end with <code>_gen.go</code> or <code>_gen_test.go</code>.
+All of our <a href="/azure-service-operator/reference/">reference documentation</a> is also generated, so don&rsquo;t make any manual changes there either.
+
+</div>
+
 <h2 id="check-it-builds">Check it builds</h2>
 <p>Running <code>task</code> with no parameters runs a quick set of checks that will catch most issues.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>task

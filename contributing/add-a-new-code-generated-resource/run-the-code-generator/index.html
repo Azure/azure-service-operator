@@ -32,7 +32,7 @@ What does the code generator do? The code generator is a Go program that reads t
   <meta itemprop="name" content="Generating your resource with the code generator">
   <meta itemprop="description" content="The ASO code generator is our secret sauce - it lowers the amount of effort required to add new Azure resources from several weeks to just a few days (or a few hours if you’re lucky and you’ve done it before).
 What does the code generator do? The code generator is a Go program that reads the Azure API definitions from the azure-rest-api-specs repository and generates most of the code required to support a resource. The Swagger/OpenAPI definitions in that repo are transformed by the code generator into two forms - once for the spec, defining the desired state of the resource, and once for the status, defining the observed state of the resource.">
-  <meta itemprop="wordCount" content="1607">
+  <meta itemprop="wordCount" content="1733">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Generating your resource with the code generator">
   <meta name="twitter:description" content="The ASO code generator is our secret sauce - it lowers the amount of effort required to add new Azure resources from several weeks to just a few days (or a few hours if you’re lucky and you’ve done it before).
@@ -988,6 +988,7 @@ What does the code generator do? The code generator is a Go program that reads t
       </ul>
     </li>
     <li><a href="#debugging">Debugging</a></li>
+    <li><a href="#commit-your-changes">Commit your changes</a></li>
   </ul>
 </nav>
       </div>
@@ -1019,29 +1020,30 @@ What does the code generator do? The code generator is a Go program that reads t
 <h2 id="what-does-the-code-generator-do">What does the code generator do?</h2>
 <p>The code generator is a Go program that reads the Azure API definitions from the <code>azure-rest-api-specs</code> repository and generates most of the code required to support a resource.
 The Swagger/OpenAPI definitions in that repo are transformed by the code generator into two forms - once for the <code>spec</code>, defining the desired state of the resource, and once for the <code>status</code>, defining the observed state of the resource.</p>
+<p>In addition, the code generator also generates some of our documentation, ensuring that it is always up to date with the generated code.</p>
 <p>Some background: Azure resources are extremely consistent in their structures and behaviours, and the code required to support them is thus also very consistent and repetitive. The code generator is designed to take advantage of this consistency to generate the bulk of the code required for a new resource.</p>
 <h2 id="adding-the-resource-to-the-code-generation-configuration-file">Adding the resource to the code generation configuration file</h2>
-<p>The code generator is configured using the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml">v2/azure-arm.yaml</a> configuration. This is a <em>large</em> YAML file and it can be daunting to work with.</p>
+<p>Global configuration of the code generator is driven by <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml">v2/azure-arm.yaml</a>, with group specific configuration found in the <code>azure-arm</code> subfolder. Splitting configuration helps to keep things manageable (prior to the split, the configuration file was nearly 6000 lines long and very difficult to navigate).</p>
 
 
 <div class="alert alert-primary" role="alert">
 <h4 class="alert-heading">Request</h4>
 
-    Please don&rsquo;t apply any prettification tools to the file, as the flurry of changes will make reviewing your new resource much harder. There is wide variety in the preferences of YAML formatting - if you want to tidy up the file, please create an issue and we&rsquo;ll discuss it there.
+    Please don&rsquo;t apply any prettification tools to the file, as the flurry of changes will make reviewing your new resource much harder. There is wide variety in the preferences of YAML formatting - if you want to tidy up the file, please create a new issue and we&rsquo;ll discuss it there.
 
 </div>
 
-<p>To add a new resource to this file, find the <code>objectModelConfiguration</code> section of the file.</p>
-<p>Then, find the configuration for the <code>group</code> you want; if it&rsquo;s not there, create a new one, inserting it into the existing list in alphabetical order. Within the group, find the <code>version</code> you want; again, create a new one if it&rsquo;s not already there, and keep things in numerical order as you do so.</p>
+<p>To add a new resource to an existing group, just modify the relevant file in the <code>azure-arm</code> subfolder. For example, if you were adding a new resource to the <code>synapse</code> group, you&rsquo;d modify the file <code>v2/azure-arm/synapse.yaml</code>.</p>
+<p>If you&rsquo;re adding a new group, create a new file in the <code>azure-arm</code> subfolder with the name of the group, and then link it under <code>imports</code> in the main file. For example, if you were adding a new group called <code>widgets</code>, you&rsquo;d create the file <code>v2/azure-arm/widgets.yaml</code> and then add <code>widgets: azure-arm/widgets.yaml</code> to the <code>imports</code> section of <code>azure-arm.yaml</code>.</p>
+<p>Within the group file, find the <code>version</code> you want to add; create a new one if it&rsquo;s not already there, and keep things in increasing numerical order as you do so.</p>
 <p>Add your new resource to the list for that version, including the directive <code>$exportAs: &lt;name&gt;</code> nested beneath.
 You must also include the <code>$supportedFrom:</code> annotation. This should be the <em>next release</em> of ASO, as that&rsquo;s the version what will support your resource. You can determine the name of the next ASO release by looking at our
 <a href="https://github.com/Azure/azure-service-operator/milestones">milestones</a>.</p>
 <p>The final result should look like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">&lt;group&gt;</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;version&gt;</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;resource name&gt;</span>: <span style="color:#75715e"># singular, typically just remove the trailing &#34;s&#34;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">$exportAs</span>: <span style="color:#ae81ff">&lt;resourceName&gt;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">$supportedFrom</span>: <span style="color:#ae81ff">&lt;the upcoming release&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">&lt;version&gt;</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&lt;resource name&gt;</span>: <span style="color:#75715e"># singular, typically just remove the trailing &#34;s&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">$exportAs</span>: <span style="color:#ae81ff">&lt;resourceName&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">$supportedFrom</span>: <span style="color:#ae81ff">&lt;the upcoming release&gt;</span>
 </span></span></code></pre></div><p>For example, taking the <em>Azure Synapse Workspace</em> sample from above:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">synapse</span>:
 </span></span><span style="display:flex;"><span> <span style="color:#f92672">2021-06-01</span>:
@@ -1076,7 +1078,7 @@ looks like a resource reference but was not labelled as one.
 <li>Add a new object if it&rsquo;s not already present</li>
 <li>Adding your property with a <code>$referenceType:</code> declaration nested below.</li>
 </ul>
-<p>(Just above the <code>objectModelConfiguration</code> section, there is a large comment that details all the available configuration options.)</p>
+<p>(At the end of <code>azure-arm.yaml</code> there is a large comment that details all the available configuration options.)</p>
 <p>If the property is an ARM ID, use <code>$referenceType: arm</code> to flag that property as a reference:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">network</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">2020-11-01</span>:
@@ -1097,7 +1099,7 @@ looks like a resource reference but was not labelled as one.
 <p>The most likely cause of this error is a typo in the name of the group, version, or kind specified. ASO will try to help by listing the closest match - for example</p>
 <pre tabindex="0"><code>version 2021-05-01-preview not seen (did you mean 2018-05-01-preview?)
 </code></pre><p>Double check the names you&rsquo;ve used and correct any typos.</p>
-<p>If you&rsquo;re importing a <em>preview</em> version of a resource, you may need to modify the <code>typeFilters</code> section at the top of the file. Early in the development of ASO we discovered that some preview versions are poorly formed - filtering them out was a straightforward way to avoid problems.</p>
+<p>If you&rsquo;re importing a <em>preview</em> version of a resource, you may need to modify (or add) the <code>typeFilters</code> section at the top of the file. Early in the development of ASO we discovered that some preview versions are poorly formed - filtering them out was a straightforward way to avoid problems.</p>
 <p>Type filters are applied in order, with the first matching filter being used. This one prunes all preview versions:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>  - <span style="color:#f92672">action</span>: <span style="color:#ae81ff">prune</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;*preview&#39;</span>
@@ -1123,7 +1125,7 @@ Apply export filters to reduce the number of generated types:
 group cdn: version 2021-06-01: 
 type DodgyResource not seen (did you mean ResourceReference?): 
 type DodgyResource: $exportAs: ReputableResource not consumed
-</code></pre><p>It&rsquo;s possible the submodule <code>v2/specs/azure-rest-api-specs</code> is out of date. Try running <code>git submodule update --init --recursive</code> to update the submodule. If this fixes your issue, please submit a separate PR to update the submodule by itself. (Submodule updates often include documentation updates to existing resources, and it&rsquo;s worth keeping those updates separate from new reources).</p>
+</code></pre><p>It&rsquo;s possible the submodule <code>v2/specs/azure-rest-api-specs</code> is out of date. Try running <code>git submodule update --init --recursive</code> to update the submodule. If this fixes your issue, please submit a separate PR to update the submodule by itself. (Submodule updates often include documentation updates to existing resources, and it&rsquo;s worth keeping those updates separate from new resources).</p>
 <h2 id="debugging">Debugging</h2>
 <p>Sometimes it is useful to see what each stage of the generator pipeline has produced and/or changed.</p>
 <p>Use the <code>--debug</code> flag to write detailed debug logs detailing internal state of the code generator (including all available data types) after each stage of the pipeline has run.</p>
@@ -1132,7 +1134,7 @@ type DodgyResource: $exportAs: ReputableResource not consumed
 </span></span><span style="display:flex;"><span>I0622 12:28:01.913420    <span style="color:#ae81ff">5572</span> gen_types.go:49<span style="color:#f92672">]</span> Debug output will be written to the folder /tmp/.../aso-gen-debug-1580100077
 </span></span><span style="display:flex;"><span>... elided ...
 </span></span><span style="display:flex;"><span>I0622 12:29:15.836643    <span style="color:#ae81ff">5572</span> gen_types.go:53<span style="color:#f92672">]</span> Debug output is available in folder /tmp/.../aso-gen-debug-1580100077
-</span></span></code></pre></div><p>The volume of output is high - a separate log file is writting into the indicated directory for <em>each</em> pipeline stage. As shown, the name of this directory is included in the output of the generator twice, once at the start and again at the end.</p>
+</span></span></code></pre></div><p>The volume of output is high - a separate log file is written into the indicated directory for <em>each</em> pipeline stage. As shown, the name of this directory is included in the output of the generator twice, once at the start and again at the end.</p>
 <p><img src="../images/debug-output.png" alt="Debug Output"></p>
 <p>In this screenshot, I&rsquo;m comparing the output after stage 44 with the output after stage 52, reviewing the results of all the intervening stages.</p>
 <p><img src="../images/stage-diff.png" alt="Stage diffs"></p>
@@ -1141,15 +1143,23 @@ type DodgyResource: $exportAs: ReputableResource not consumed
 <li>A single group: <code>--debug network</code></li>
 <li>Multiple groups: <code>--debug network;compute</code><br>
 (Use a semicolon to separate groups)</li>
-<li>A specific version of a group: <code>--debug network/v1api20201101</code><br>
+<li>A specific version of a group: <code>--debug network/v20201101</code><br>
 (Use a slash to separate group and version; versions are specified as package names)</li>
-<li>Multiple groups and versions: <code>--debug network/v1api20201101;network/v1api20220701</code>
+<li>Multiple groups and versions: <code>--debug network/v20201101;network/v20220701</code>
 (Again, use a semicolon to separate)</li>
 <li>Wildcards to match multiple groups: <code>--debug db*</code></li>
 </ul>
 <p><strong>TODO: expand on other common errors</strong></p>
 <hr>
-<p>With a successful run of the code generator complete, now&rsquo;s a good time to make your first commits. We recommend keeping your manual changes (e.g. to <code>azure-arm.yaml</code>) separate from the generated changes (all the &ldquo;*_gen.go&rdquo; files under <code>v2/api</code>) as it makes your PR easier for us to review. Once that&rsquo;s done, it&rsquo;s time to <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/review-the-generated-resource/">review the generated resource</a>.</p>
+<h2 id="commit-your-changes">Commit your changes</h2>
+<p>With a successful run of the code generator complete, now is a good time to make your first commits.</p>
+<p>We recommend splitting your changes thus far into three commits so that it&rsquo;s easier for later review:</p>
+<ul>
+<li>Configuration changes to <code>azure-arm.yaml</code> and related files in the <code>azure-arm</code> subfolder.</li>
+<li>New and modified Go code - mostly under <code>v2/api</code>, but also including registration changes found in <code>internal/controllers</code>.</li>
+<li>New or modified documentation - under <code>docs/hugo/content/reference</code>.</li>
+</ul>
+<p>Once that&rsquo;s done, it&rsquo;s time to <a href="/azure-service-operator/contributing/add-a-new-code-generated-resource/review-the-generated-resource/">review the generated resource</a>.</p>
 
 	
 </div>
