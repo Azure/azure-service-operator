@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/index.xml">
+<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/design/adr-2026-05-templating/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,21 +18,25 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Design &amp; Specifications | Azure Service Operator</title>
-<meta name="description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/">
+<title>2026-05: Templating | Azure Service Operator</title>
+<meta name="description" content="Context ARM templates support expressions in any property, allowing values to be composed dynamically at deployment time. This flexibility is a long-standing feature of the ARM ecosystem, and users coming to Azure Service Operator (ASO) from an ARM background sometimes ask whether ASO will offer the same capability for Kubernetes custom resources (e.g. #2950).
+In a Kubernetes context, templating is a more complex proposition. CRDs are validated by the API server at admission time using OpenAPI schemas, and the broader Kubernetes ecosystem (kubectl, GitOps tools, policy engines, IDE tooling) relies on those schemas being honest about the shape and type of each property.">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2026-05-templating/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="Design & Specifications">
-  <meta property="og:description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
+  <meta property="og:title" content="2026-05: Templating">
+  <meta property="og:description" content="Context ARM templates support expressions in any property, allowing values to be composed dynamically at deployment time. This flexibility is a long-standing feature of the ARM ecosystem, and users coming to Azure Service Operator (ASO) from an ARM background sometimes ask whether ASO will offer the same capability for Kubernetes custom resources (e.g. #2950).
+In a Kubernetes context, templating is a more complex proposition. CRDs are validated by the API server at admission time using OpenAPI schemas, and the broader Kubernetes ecosystem (kubectl, GitOps tools, policy engines, IDE tooling) relies on those schemas being honest about the shape and type of each property.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
-  <meta itemprop="name" content="Design & Specifications">
-  <meta itemprop="description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
-  <meta itemprop="wordCount" content="1535">
+  <meta itemprop="name" content="2026-05: Templating">
+  <meta itemprop="description" content="Context ARM templates support expressions in any property, allowing values to be composed dynamically at deployment time. This flexibility is a long-standing feature of the ARM ecosystem, and users coming to Azure Service Operator (ASO) from an ARM background sometimes ask whether ASO will offer the same capability for Kubernetes custom resources (e.g. #2950).
+In a Kubernetes context, templating is a more complex proposition. CRDs are validated by the API server at admission time using OpenAPI schemas, and the broader Kubernetes ecosystem (kubectl, GitOps tools, policy engines, IDE tooling) relies on those schemas being honest about the shape and type of each property.">
+  <meta itemprop="wordCount" content="961">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Design & Specifications">
-  <meta name="twitter:description" content="Design discussions, decisions, and specifications for Azure Service Operator v2">
+  <meta name="twitter:title" content="2026-05: Templating">
+  <meta name="twitter:description" content="Context ARM templates support expressions in any property, allowing values to be composed dynamically at deployment time. This flexibility is a long-standing feature of the ARM ecosystem, and users coming to Azure Service Operator (ASO) from an ARM background sometimes ask whether ASO will offer the same capability for Kubernetes custom resources (e.g. #2950).
+In a Kubernetes context, templating is a more complex proposition. CRDs are validated by the API server at admission time using OpenAPI schemas, and the broader Kubernetes ecosystem (kubectl, GitOps tools, policy engines, IDE tooling) relies on those schemas being honest about the shape and type of each property.">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -865,7 +869,7 @@
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
-  <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="td-sidebar-nav-active-item">Design</span></a>
+  <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
@@ -973,20 +977,20 @@
             <div class="td-toc">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#in-progress">In progress</a></li>
-    <li><a href="#completed-changes">Completed Changes</a>
+    <li><a href="#context">Context</a></li>
+    <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#options">Options</a>
       <ul>
-        <li><a href="#2026">2026</a></li>
-        <li><a href="#2025">2025</a></li>
-        <li><a href="#2024">2024</a></li>
-        <li><a href="#2023">2023</a></li>
-        <li><a href="#2022">2022</a></li>
-        <li><a href="#2021">2021</a></li>
-        <li><a href="#2020">2020</a></li>
-        <li><a href="#earlier">Earlier</a></li>
+        <li><a href="#option-1-adopt-arm-style-expressions-on-every-property">Option 1: Adopt ARM-style expressions on every property</a></li>
+        <li><a href="#option-2-add-a-parallel-expression-property-for-every-field">Option 2: Add a parallel &ldquo;expression&rdquo; property for every field</a></li>
+        <li><a href="#option-3-rely-on-the-oss-ecosystem">Option 3: Rely on the OSS ecosystem</a></li>
       </ul>
     </li>
-    <li><a href="#format">Format</a></li>
+    <li><a href="#decision">Decision</a></li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
   </ul>
 </nav>
       </div>
@@ -998,327 +1002,108 @@
             
   
 
-            <nav aria-label="breadcrumb" class="td-breadcrumbs td-breadcrumbs__single">
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/azure-service-operator/design/">Design</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    Design</li>
+    2026-05: Templating</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>Design &amp; Specifications</h1>
-	<div class="lead">Design discussions, decisions, and specifications for Azure Service Operator v2</div>
+	<h1>2026-05: Templating</h1>
+  
 	<header class="article-meta">
 		
 </header>
-	<p>Significant changes to Azure Service Operator should be captured by an ADR (architecture design record) in this
-folder. ADRs are listed reverse chronologically by year. <a href="#format">See below</a> for the structure each ADR uses.</p>
-<h2 id="in-progress">In progress</h2>
-<p>These ADRs reflect work that is being discussed, has been proposed, or is currently in progress.</p>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: center">Proposed</th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Status</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: center">2026</td>
-          <td><a href="/azure-service-operator/design/adr-2026-04-secrets/"><strong>Optional Secrets</strong></a></td>
-          <td>A design to address the handling of optional secrets in Azure Service Operator, including configuration and generation options.</td>
-          <td>Proposed</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2025</td>
-          <td><a href="/azure-service-operator/design/adr-2025-05-version-priority/"><strong>Version Priority</strong></a></td>
-          <td>A design to address the problems with version priority in Azure Service Operator, ensuring that the most recent resource version is selected by Kubernetes.</td>
-          <td>Implementation underway</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2024</td>
-          <td><a href="/azure-service-operator/design/adr-2024-02-upstream-deletion/"><strong>Upstream Deletion</strong></a></td>
-          <td>When might deletion of an upstream resource occur and how will ASO handle it.</td>
-          <td>Open</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2023</td>
-          <td><a href="/azure-service-operator/design/adr-2023-04-deprecation/"><strong>Resource Deprecation</strong></a></td>
-          <td>Understand the policy for handling Azure resource deprecation in Azure Service Operator, including the process for flagging deprecated resources, communicating changes, and removing unsupported resources.</td>
-          <td>Open</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">2022</td>
-          <td><a href="/azure-service-operator/design/adr-2022-11-change-detection/"><strong>Change Detection</strong></a></td>
-          <td>The challenges of change detection in Azure Service Operator, discussing the limitations of relying on Azure Resource Manager for goal state comparison, the impact of ARM throttling, and a proposal for ASO to perform its own goal state comparison to mitigate these issues.</td>
-          <td>Revision in progress</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">Earlier</td>
-          <td><a href="/azure-service-operator/design/crossplane/"><strong>CrossPlane</strong></a></td>
-          <td>Discusses the intricacies of code generation for Crossplane, including static &ldquo;special&rdquo; properties, cross resource references, and the challenges associated with generating these references.</td>
-          <td>Open</td>
-      </tr>
-      <tr>
-          <td style="text-align: center">Earlier</td>
-          <td><a href="/azure-service-operator/design/reconcile-interface/"><strong>Improving the Reconciler interface</strong></a></td>
-          <td>Explore a proposal for improving the Reconciler interface in controller-runtime, addressing issues of code duplication and potential bugs due to differences in checks for Create vs Delete operations.</td>
-          <td>Open</td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="completed-changes">Completed Changes</h2>
-<p>These ADRs reflect work that has been completed, grouped by year of proposal.</p>
-<h3 id="2026">2026</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2026-05-templating/"><strong>Templating</strong></a></td>
-          <td>A design articulating why ASO will not provide built-in templating for resource properties, and will instead rely on OSS tools like KRO, Helm, and Kustomize.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2025">2025</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2025-10-28-property-conversion-long-tail/"><strong>The Long Tail of Property Conversion</strong></a></td>
-          <td>A design to address the increasingly rare edge cases that fall outside the capabilities of our current automatic conversion generator for inter-version transformation of resources.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2025-01-arm-references/"><strong>Improving ARM References</strong></a></td>
-          <td>Options for remedying the problems we face when we fail to identify a property as an ARM reference prior to releasing ASO.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2024">2024</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2024-05-operatorspec-custom-properties/"><strong>OperatorSpec Custom Properties</strong></a></td>
-          <td>Injecting additional properties into OperatorSpec for additional flexibility and extensibility of resources.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2024-04-roleassignment-uuid-generation/"><strong>RoleAssignments UUID Generation</strong></a></td>
-          <td>Allowing users more control over how the GUIDs used for naming RoleAssignments are generated.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2023">2023</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-02-adoption-policy/"><strong>Adoption Policy</strong></a></td>
-          <td>Understand the policy for adopting pre-existing Azure resources in Kubernetes through the Azure Service Operator, including the principles guiding resource adoption and the user&rsquo;s ability to control operator actions.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-01-conversion-augmentation/"><strong>Conversion Augmentation</strong></a></td>
-          <td>Learn about the need for conversion augmentation in Kubernetes resource versions, the role of code generation, and the strategies for augmenting these conversions with hand-written code to ensure backward and forward compatibility.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-07-goal-seeking-keyvaults/"><strong>Goal Seeking KeyVaults</strong></a></td>
-          <td>Understand the challenges posed by Azure KeyVault&rsquo;s soft-delete feature in a goal-seeking system like Azure Service Operator, and the need for a solution that prevents resources from entering permanently degraded states without manual intervention.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/"><strong>Helm Chart Size Limitations</strong></a></td>
-          <td>Address the Helm chart size limitations causing problems for Azure Service Operator, discussing the implications of Kubernetes secret size limits, the impact on chart installation, and potential workarounds such as splitting the Helm chart.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-05-installing-only-selected-crds/"><strong>Installing Only Selected CRDs</strong></a></td>
-          <td>Understand the need for selective CRD installation in Azure Service Operator to mitigate kube-apiserver memory usage, and the requirements for a seamless upgrade experience and default configuration that fits into minimal memory environments</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-07-packagereferences/"><strong>Package References</strong></a></td>
-          <td>Consider the proposal for introducing a SubPackageReference in the Azure Service Operator code generator, discussing the implications for code that consumes PackageReference and the potential impact on namespace pollution and code organization.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-04-patch-collections/"><strong>Patch Collections</strong></a></td>
-          <td>Address the issue of resource drift in Azure Service Operator due to Azure Resource Providers&rsquo; PATCH-like behavior on PUT, and discuss potential solutions such as optional properties and explicit nulls to ensure the custom resource represents the complete desired state.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-03-post-reconciliation-extension/"><strong>Post-Reconciliation Extensions</strong></a></td>
-          <td>Understand the introduction of the PostReconciliationChecker extension in Azure Service Operator to handle post-reconciliation operations, allowing for custom conditions to be set on resources based on the status received from Azure Resource Manager.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2023-09-skipping-properties/"><strong>Skipping Properties</strong></a></td>
-          <td>A design to address the problems that occur when a property skips multiple resource versions and has a different shape when it returns.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2022">2022</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/"><strong>Backward Compatibility</strong></a></td>
-          <td>As a part of planning for our first beta release consider the implications of modifying the version prefix for code-generated resources in Azure Service Operator.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-08-evil-discriminator/"><strong>Evil Discriminator</strong></a></td>
-          <td>Understand the challenges posed by the &rsquo;evil discriminator&rsquo; in Swagger/OpenAPI, a term coined by the Azure Service Operator team to describe the differences in defining polymorphic API payloads in Swagger compared to JSON Schema.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-09-multiple-credential-operator/"><strong>Muliple Credential Operator</strong></a></td>
-          <td>proposed support for multiple credentials under a global operator in Azure Service Operator, enabling management of Azure resources across multiple subscriptions, with a detailed explanation of the credential selection hierarchy and caching mechanism.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-09-reading-status-properties-of-resources/"><strong>Reading Status properties from other ASO resources</strong></a></td>
-          <td>discussion of various ways to allow one ASO resource to consume information generated by another, with details on how we decided to use configmaps to do this.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/"><strong>Reconciler Extensions</strong></a></td>
-          <td>Understand the need for reconciler extensions in Azure Service Operator to manage inconsistencies in Azure Resource Providers&rsquo; behavior, and the proposal for precise, per-resource customization without duplicating existing functionality or risking inconsistencies.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-11-resource-import/"><strong>Resource Import</strong></a></td>
-          <td>Review the strategies for migrating from Azure Service Operator v1 to v2, including version integration and resource import job, each with its pros, cons, and potential blockers.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2022-12-reconciliation-extensions/"><strong>Reconciliation Extensions</strong></a></td>
-          <td>Understand the need for reconciliation extensions in Azure Service Operator to handle resources in transient states that preclude successful PUT operations, and the proposal for an extension point to modify the reconciliation flow accordingly.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2021">2021</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/"><strong>API Version Recovery</strong></a></td>
-          <td>Identity the challenges of API version recovery in Azure Service Operator, discussing the importance of using the correct Azure API version for expected behavior, and the need to pivot back to the original version for generating the correct ARM payload.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/"><strong>Committing Generated Code</strong></a></td>
-          <td>Uncover the reasons and implications of committing generated code in the Azure Service Operator, discussing the benefits of traceability, easier debugging, and the ability to review generated changes.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-04-code-generation/"><strong>Property Conversions</strong></a></td>
-          <td>Explore the need for codegen conversion routines in handling property conversions across different versions of a resource, with examples of how primitive types can evolve over time.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="2020">2020</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/"><strong>Abstract Syntax Tree Library Choice</strong></a></td>
-          <td>Background on the decision to adopt the <code>dst</code> (Decorated Syntax Tree) library in the Azure Service Operator Code Generator, addressing limitations of the standard Go `ast`` library such as unexpected comment placements, non-compliance with go fmt standards, and poor control over whitespace.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/"><strong>Pipeline Architecture</strong></a></td>
-          <td>The pipeline architecture of the ASO code generator, its design, and how it contributes to the overall functionality and efficiency of the system.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/adr-2020-04-code-generation/"><strong>Why Code Generation?</strong></a></td>
-          <td>Rationale and impact of adopting code generation in the Azure Service Operator, including the benefits of full feature coverage, reduced overhead for new resources, and consistent behavior across all resources.</td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="earlier">Earlier</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Title</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/design/clarifying-object-structure/"><strong>Clarifying Object Structure</strong></a></td>
-          <td>Dive into the challenges of differentiating Azure-specific properties from operator-specific properties in the object structure of resources, with a focus on potential solutions for Status and upcoming properties like SecretConfiguration and Credentials.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/guide/annotations/"><strong>Custom validation and defaulting</strong></a></td>
-          <td>Delve into the proposal for custom validation and defaulting for code-generated resources, discussing the limitations of controller-runtime interfaces and suggesting a structure for autogenerated webhooks that allows for custom implementations.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/secrets/"><strong>Managing dataplane secrets</strong></a></td>
-          <td>Managing dataplane secrets in Azure Service Operator, including the drawbacks of auto-generating secrets and the implications for secret rollover, control, security, resource adoption, and GitOps compatibility.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/resource-states/"><strong>Reporting Resource Status</strong></a></td>
-          <td>A proposal for reporting resource status in Azure Service Operator, discussing the distinction between operator status and Azure resource state, and the current state and limitations of both handcrafted and auto-generated resources.</td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/design/type-references-and-ownership/"><strong>Type References and Ownership</strong></a></td>
-          <td>type references and ownership in Azure Service Operator, discussing goals such as idiomatic expression of Azure resource relationships, automatic ownership, garbage collection, and interaction with non-Kubernetes managed Azure resources.</td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="format">Format</h2>
-<p>Each ADR should contain the following sections:</p>
+	<h2 id="context">Context</h2>
+<p>ARM templates support expressions in any property, allowing values to be composed dynamically at deployment time. This flexibility is a long-standing feature of the ARM ecosystem, and users coming to Azure Service Operator (ASO) from an ARM background sometimes ask whether ASO will offer the same capability for Kubernetes custom resources (e.g. <a href="https://github.com/Azure/azure-service-operator/issues/2950">#2950</a>).</p>
+<p>In a Kubernetes context, templating is a more complex proposition. CRDs are validated by the API server at admission time using OpenAPI schemas, and the broader Kubernetes ecosystem (kubectl, GitOps tools, policy engines, IDE tooling) relies on those schemas being honest about the shape and type of each property.</p>
+<p>Embedding expressions inside arbitrary properties conflicts with these expectations, and runs counter to the standing prohibition on polymorphic properties in Kubernetes APIs (properties whose value can take more than one shape) - even the polymorphic properties we already have are now considered a mistake:</p>
+<blockquote>
+<p>&ldquo;Note: we explicitly accept that polymorphic types (like IntOrString) are an anti-pattern for Kubernetes-like types and we do not want to encourage its use beyond IntOrString.&rdquo; - [<a href="https://github.com/kubernetes/enhancements/blob/master/keps/sig-api-machinery/2335-vanilla-crd-openapi-subset-structural-schemas/README.md#criteria">KEP 2335</a>]</p>
+</blockquote>
+<p>Templating is also already well served elsewhere in the Kubernetes ecosystem. Tools like <a href="https://kro.run">KRO</a>, <a href="https://helm.sh">Helm</a>, and <a href="https://kustomize.io">Kustomize</a> exist specifically to address it, and users routinely combine them with operators like ASO.</p>
+<h2 id="requirements">Requirements</h2>
+<p>Any templating story for ASO would need to:</p>
 <ul>
-<li>Context: Context for the problem. What are related issues/problems? What is the history?</li>
-<li>Requirements: A short list of goals</li>
-<li>Options optional section containing 1 or more options, w/ pros + cons. Can omit if there is only one real option.
+<li>Preserve the strong, per-property validation that Kubernetes users expect from a CRD.</li>
+<li>Provide clear, immediate feedback when a user submits an invalid resource, rather than deferring errors to status conditions.</li>
+<li>Avoid conflicting with expressions that are intended for evaluation by ARM itself.</li>
+<li>Remain maintainable as the number of generated resources and properties continues to grow.</li>
+<li>Interact with other resources in the same namespace or cluster - a solution that only worked within ASO resources would be of limited value.</li>
+</ul>
+<h2 id="options">Options</h2>
+<h3 id="option-1-adopt-arm-style-expressions-on-every-property">Option 1: Adopt ARM-style expressions on every property</h3>
+<p>Allow any property on any ASO resource to accept an expression string, which ASO would evaluate before sending the payload to ARM. In practice this would mean re-typing every property as a string and stripping out validation from the generated model, so the controller could walk the resource looking for expressions to substitute.</p>
+<p><strong>Pros:</strong></p>
 <ul>
-<li>OR Category + Options: For more complex ADRs where there are multiple facets to the design that are somewhat
-orthogonal, you can instead give categories and then define options within those categories</li>
+<li>Familiar to users with an ARM background.</li>
+<li>Maximally flexible - any property can be computed.</li>
 </ul>
-</li>
-<li>Decision: Which option did you choose and why?
+<p><strong>Cons:</strong></p>
 <ul>
-<li>FAQ: Can optionally include an FAQ in this section answering common questions about the decision that weren&rsquo;t
-already answered in the options section.</li>
+<li>Violates the Kubernetes convention against polymorphic properties. Every property would effectively need to be typed as a string, removing the validation that makes CRDs useful.</li>
+<li>Expression errors (bad syntax, references to properties that don&rsquo;t exist, type mismatches) would not be caught on submission. Users would have to know to inspect resource conditions to discover problems, which is contrary to the immediate feedback Kubernetes users expect everywhere else. Crucially, ASO has historically gone to great lengths to feel Kubernetes native in use, and this would be a significant step away from that.</li>
+<li>ASO cannot reliably distinguish an expression intended for ARM from one intended for ASO. We might intercept expressions ARM was meant to evaluate, or forward malformed expressions to ARM. Either case would surface unhelpful errors.</li>
+<li>Tooling that relies on CRD schemas (policy engines, validators, IDEs) would lose most of its value against ASO resources.</li>
 </ul>
-</li>
-<li>Status</li>
-<li>Consequences</li>
-<li>Experience Report</li>
-<li>References</li>
+<h3 id="option-2-add-a-parallel-expression-property-for-every-field">Option 2: Add a parallel &ldquo;expression&rdquo; property for every field</h3>
+<p>Mirror the pattern we already use for config maps and secrets: keep the existing strongly-typed property and add a sibling property that accepts an expression. Existing validation is preserved, but the API is extended dramatically.</p>
+<p>For example, we currently have the suffixes <code>FromConfigMap</code> and <code>FromSecret</code> to indicate that a property is sourcing its value from a config map or secret. We could introduce a new suffix like <code>FromExpression</code> to indicate that a property is sourcing its value from an ASO-evaluated expression.</p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Preserves existing validation for users who do not need templating.</li>
+<li>Keeps expressions clearly separated from literal values.</li>
 </ul>
-<p>Ideally, each ADR should run to one or two pages in length. You can use the
-<a href="/azure-service-operator/design/adr-year-month-title/">simple template</a>.</p>
-<p>For complex changes that require more detail, the ADR should provide an overview. Additional detail (say, to list
-alternative solutions, detail complex edge cases, or present detailed diagrams) should be captured
-in a separate design document linked from the ADR.</p>
-<p>For background information, check out <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions">this Cognitect blog entry</a>.</p>
-<p>ADR documents should be updated over time to keep them relevant, typically by updating the <em>Experience Report</em> section.</p>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Roughly doubles the number of properties on every object and sub-object, purely to serve the minority of scenarios where an expression is warranted.</li>
+<li>Significantly increases CRD size, which is already a <a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/">known constraint</a>.</li>
+<li>Adds substantial complexity to the code generator, conversion functions, and documentation, with ongoing maintenance cost.</li>
+<li>Does not solve the underlying user problem any better than existing OSS tools already do.</li>
+<li>Not an opt-in experience - all users will need to navigate the expanded surface area even if they don&rsquo;t need templating.</li>
+</ul>
+<h3 id="option-3-rely-on-the-oss-ecosystem">Option 3: Rely on the OSS ecosystem</h3>
+<p>Treat templating as an orthogonal concern and direct users to existing Kubernetes-native composition and templating tools when they need it.</p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Keeps ASO focused on its core responsibility: faithfully projecting Azure resources into Kubernetes.</li>
+<li>Preserves strong, per-property validation and immediate feedback for ASO resources.</li>
+<li>Users can pick the templating tool that best fits their workflow, rather than being tied to whatever ASO ships.</li>
+<li>No additional surface area in the generator, the CRDs, or the controller.</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li>Users wanting an ARM-style experience must learn a second tool.</li>
+<li>ASO does not own the end-to-end templating experience, so we cannot guarantee how well it integrates.</li>
+</ul>
+<h2 id="decision">Decision</h2>
+<p>ASO will not provide templating out of the box. We will rely on the existing OSS ecosystem - <a href="https://kro.run">KRO</a> in particular, alongside Helm, Kustomize, and similar tools - to cover scenarios that need value composition or expression evaluation.</p>
+<p>This keeps ASO aligned with Kubernetes conventions around strongly-typed, schema-validated resources, and avoids a large, ongoing investment in a feature that is already well served elsewhere.</p>
+<h2 id="status">Status</h2>
+<p>Proposed.</p>
+<h2 id="consequences">Consequences</h2>
+<ul>
+<li>ASO documentation will point users at OSS templating and composition tools rather than offering a built-in equivalent.</li>
+<li>We will not accept feature requests for ARM-style expressions on ASO properties, and we will close existing ones with a reference to this ADR.</li>
+<li>The code generator and CRDs remain focused on faithfully representing Azure resources, with no parallel &ldquo;expression&rdquo; surface to maintain.</li>
+</ul>
+<h2 id="experience-report">Experience Report</h2>
+<p>TBC</p>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://kro.run">KRO</a></li>
+<li><a href="https://helm.sh">Helm</a></li>
+<li><a href="https://kustomize.io">Kustomize</a></li>
+<li><a href="/azure-service-operator/design/adr-2023-02-helm-chart-size-limitations/">Helm Chart Size Limitations</a></li>
+</ul>
 
-	
+	<div class="section-index">
+    
+    
+    </div>
 </div>
-
 
           </main>
         </div>
