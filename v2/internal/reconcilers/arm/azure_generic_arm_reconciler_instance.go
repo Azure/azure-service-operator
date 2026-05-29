@@ -958,7 +958,6 @@ func ConvertToARMResourceImpl(
 // This is to bypass the need to re-record every test in one go - we enable the extra check group by group.
 var skipDeletionPrecheck = sets.NewString(
 	"cache.azure.com",
-	"cognitiveservices.azure.com",
 	"compute.azure.com",
 	"containerinstance.azure.com",
 	"containerregistry.azure.com",
