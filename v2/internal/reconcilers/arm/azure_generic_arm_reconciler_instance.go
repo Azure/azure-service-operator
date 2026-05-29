@@ -976,7 +976,6 @@ var skipDeletionPrecheck = sets.NewString(
 	"kubernetesconfiguration.azure.com",
 	"kusto.azure.com",
 	"machinelearningservices.azure.com",
-	"managedidentity.azure.com",
 	"monitor.azure.com",
 	"network.azure.com",
 	"network.frontdoor.azure.com",
