@@ -980,7 +980,6 @@ var skipDeletionPrecheck = sets.NewString(
 	"monitor.azure.com",
 	"network.azure.com",
 	"network.frontdoor.azure.com",
-	"notificationhubs.azure.com",
 	"operationalinsights.azure.com",
 	"quota.azure.com",
 	"redhatopenshift.azure.com",
