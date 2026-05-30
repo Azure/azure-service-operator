@@ -985,7 +985,6 @@ var skipDeletionPrecheck = sets.NewString(
 	"resources.azure.com",
 	"search.azure.com",
 	"servicebus.azure.com",
-	"signalrservice.azure.com",
 	"sql.azure.com",
 	"storage.azure.com",
 	"subscription.azure.com",
