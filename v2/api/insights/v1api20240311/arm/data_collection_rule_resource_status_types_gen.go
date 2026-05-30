@@ -144,7 +144,7 @@ type DataFlow_STATUS struct {
 	OutputStream *string `json:"outputStream,omitempty"`
 
 	// Streams: List of streams for this data flow.
-	Streams []DataFlow_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform stream data.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -322,25 +322,6 @@ type ColumnDefinition_STATUS struct {
 	Type *ColumnDefinition_Type_STATUS `json:"type,omitempty"`
 }
 
-type DataFlow_Streams_STATUS string
-
-const (
-	DataFlow_Streams_STATUS_MicrosoftEvent           = DataFlow_Streams_STATUS("Microsoft-Event")
-	DataFlow_Streams_STATUS_MicrosoftInsightsMetrics = DataFlow_Streams_STATUS("Microsoft-InsightsMetrics")
-	DataFlow_Streams_STATUS_MicrosoftPerf            = DataFlow_Streams_STATUS("Microsoft-Perf")
-	DataFlow_Streams_STATUS_MicrosoftSyslog          = DataFlow_Streams_STATUS("Microsoft-Syslog")
-	DataFlow_Streams_STATUS_MicrosoftWindowsEvent    = DataFlow_Streams_STATUS("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to DataFlow_Streams_STATUS
-var dataFlow_Streams_STATUS_Values = map[string]DataFlow_Streams_STATUS{
-	"microsoft-event":           DataFlow_Streams_STATUS_MicrosoftEvent,
-	"microsoft-insightsmetrics": DataFlow_Streams_STATUS_MicrosoftInsightsMetrics,
-	"microsoft-perf":            DataFlow_Streams_STATUS_MicrosoftPerf,
-	"microsoft-syslog":          DataFlow_Streams_STATUS_MicrosoftSyslog,
-	"microsoft-windowsevent":    DataFlow_Streams_STATUS_MicrosoftWindowsEvent,
-}
-
 type DataImportSources_STATUS struct {
 	// EventHub: Definition of Event Hub configuration.
 	EventHub *EventHubDataSource_STATUS `json:"eventHub,omitempty"`
@@ -415,7 +396,7 @@ type ExtensionDataSource_STATUS struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []ExtensionDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 }
 
 // Enables IIS logs to be collected by this data collection rule.
@@ -643,7 +624,7 @@ type PerfCounterDataSource_STATUS struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []PerfCounterDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source. This is a deprecated property and will be removed in future
 	// versions.
@@ -695,7 +676,7 @@ type PrometheusForwarderDataSource_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Streams: List of streams that this data source will be sent to.
-	Streams []PrometheusForwarderDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 }
 
 type StorageBlobDestination_STATUS struct {
@@ -738,7 +719,7 @@ type SyslogDataSource_STATUS struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []SyslogDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source. This is a deprecated property and will be removed in future
 	// versions.
@@ -756,7 +737,7 @@ type WindowsEventLogDataSource_STATUS struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []WindowsEventLogDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source. This is a deprecated property and will be removed in future
 	// versions.
@@ -861,25 +842,6 @@ type EventHubDataSource_STATUS struct {
 	Stream *string `json:"stream,omitempty"`
 }
 
-type ExtensionDataSource_Streams_STATUS string
-
-const (
-	ExtensionDataSource_Streams_STATUS_MicrosoftEvent           = ExtensionDataSource_Streams_STATUS("Microsoft-Event")
-	ExtensionDataSource_Streams_STATUS_MicrosoftInsightsMetrics = ExtensionDataSource_Streams_STATUS("Microsoft-InsightsMetrics")
-	ExtensionDataSource_Streams_STATUS_MicrosoftPerf            = ExtensionDataSource_Streams_STATUS("Microsoft-Perf")
-	ExtensionDataSource_Streams_STATUS_MicrosoftSyslog          = ExtensionDataSource_Streams_STATUS("Microsoft-Syslog")
-	ExtensionDataSource_Streams_STATUS_MicrosoftWindowsEvent    = ExtensionDataSource_Streams_STATUS("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to ExtensionDataSource_Streams_STATUS
-var extensionDataSource_Streams_STATUS_Values = map[string]ExtensionDataSource_Streams_STATUS{
-	"microsoft-event":           ExtensionDataSource_Streams_STATUS_MicrosoftEvent,
-	"microsoft-insightsmetrics": ExtensionDataSource_Streams_STATUS_MicrosoftInsightsMetrics,
-	"microsoft-perf":            ExtensionDataSource_Streams_STATUS_MicrosoftPerf,
-	"microsoft-syslog":          ExtensionDataSource_Streams_STATUS_MicrosoftSyslog,
-	"microsoft-windowsevent":    ExtensionDataSource_Streams_STATUS_MicrosoftWindowsEvent,
-}
-
 type LogFilesDataSource_Format_STATUS string
 
 const (
@@ -956,19 +918,6 @@ var otelTracesDirectDataSource_Streams_STATUS_Values = map[string]OtelTracesDire
 	"microsoft-otel-traces-spans":     OtelTracesDirectDataSource_Streams_STATUS_MicrosoftOTelTracesSpans,
 }
 
-type PerfCounterDataSource_Streams_STATUS string
-
-const (
-	PerfCounterDataSource_Streams_STATUS_MicrosoftInsightsMetrics = PerfCounterDataSource_Streams_STATUS("Microsoft-InsightsMetrics")
-	PerfCounterDataSource_Streams_STATUS_MicrosoftPerf            = PerfCounterDataSource_Streams_STATUS("Microsoft-Perf")
-)
-
-// Mapping from string to PerfCounterDataSource_Streams_STATUS
-var perfCounterDataSource_Streams_STATUS_Values = map[string]PerfCounterDataSource_Streams_STATUS{
-	"microsoft-insightsmetrics": PerfCounterDataSource_Streams_STATUS_MicrosoftInsightsMetrics,
-	"microsoft-perf":            PerfCounterDataSource_Streams_STATUS_MicrosoftPerf,
-}
-
 type PerformanceCountersOTelDataSource_Streams_STATUS string
 
 const PerformanceCountersOTelDataSource_Streams_STATUS_MicrosoftOtelPerfMetrics = PerformanceCountersOTelDataSource_Streams_STATUS("Microsoft-OtelPerfMetrics")
@@ -976,15 +925,6 @@ const PerformanceCountersOTelDataSource_Streams_STATUS_MicrosoftOtelPerfMetrics 
 // Mapping from string to PerformanceCountersOTelDataSource_Streams_STATUS
 var performanceCountersOTelDataSource_Streams_STATUS_Values = map[string]PerformanceCountersOTelDataSource_Streams_STATUS{
 	"microsoft-otelperfmetrics": PerformanceCountersOTelDataSource_Streams_STATUS_MicrosoftOtelPerfMetrics,
-}
-
-type PrometheusForwarderDataSource_Streams_STATUS string
-
-const PrometheusForwarderDataSource_Streams_STATUS_MicrosoftPrometheusMetrics = PrometheusForwarderDataSource_Streams_STATUS("Microsoft-PrometheusMetrics")
-
-// Mapping from string to PrometheusForwarderDataSource_Streams_STATUS
-var prometheusForwarderDataSource_Streams_STATUS_Values = map[string]PrometheusForwarderDataSource_Streams_STATUS{
-	"microsoft-prometheusmetrics": PrometheusForwarderDataSource_Streams_STATUS_MicrosoftPrometheusMetrics,
 }
 
 type StorageBlob_STATUS struct {
@@ -1089,28 +1029,6 @@ var syslogDataSource_LogLevels_STATUS_Values = map[string]SyslogDataSource_LogLe
 	"notice":    SyslogDataSource_LogLevels_STATUS_Notice,
 	"*":         SyslogDataSource_LogLevels_STATUS_Star,
 	"warning":   SyslogDataSource_LogLevels_STATUS_Warning,
-}
-
-type SyslogDataSource_Streams_STATUS string
-
-const SyslogDataSource_Streams_STATUS_MicrosoftSyslog = SyslogDataSource_Streams_STATUS("Microsoft-Syslog")
-
-// Mapping from string to SyslogDataSource_Streams_STATUS
-var syslogDataSource_Streams_STATUS_Values = map[string]SyslogDataSource_Streams_STATUS{
-	"microsoft-syslog": SyslogDataSource_Streams_STATUS_MicrosoftSyslog,
-}
-
-type WindowsEventLogDataSource_Streams_STATUS string
-
-const (
-	WindowsEventLogDataSource_Streams_STATUS_MicrosoftEvent        = WindowsEventLogDataSource_Streams_STATUS("Microsoft-Event")
-	WindowsEventLogDataSource_Streams_STATUS_MicrosoftWindowsEvent = WindowsEventLogDataSource_Streams_STATUS("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to WindowsEventLogDataSource_Streams_STATUS
-var windowsEventLogDataSource_Streams_STATUS_Values = map[string]WindowsEventLogDataSource_Streams_STATUS{
-	"microsoft-event":        WindowsEventLogDataSource_Streams_STATUS_MicrosoftEvent,
-	"microsoft-windowsevent": WindowsEventLogDataSource_Streams_STATUS_MicrosoftWindowsEvent,
 }
 
 type WindowsFirewallLogsDataSource_ProfileFilter_STATUS string

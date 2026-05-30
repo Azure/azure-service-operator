@@ -46,6 +46,20 @@ typeTransformers:
     property: ImmutableId
     remove: true
     because: This property should be marked readonly in Swagger
+  - name: DataFlow;DataFlow_STATUS
+    property: Streams
+    target:
+      slice:
+        element:
+          name: string
+    because: The enum restrictions on this type are incomplete. The service supports additional stream values like Microsoft-PrometheusMetrics that aren't listed in the enum. See https://github.com/Azure/azure-service-operator/issues/5350
+  - name: PerfCounterDataSource;PerfCounterDataSource_STATUS;ExtensionDataSource;ExtensionDataSource_STATUS;PrometheusForwarderDataSource;PrometheusForwarderDataSource_STATUS;SyslogDataSource;SyslogDataSource_STATUS;WindowsEventLogDataSource;WindowsEventLogDataSource_STATUS
+    property: Streams
+    target:
+      slice:
+        element:
+          name: string
+    because: The enum restrictions on this type are incomplete. The service supports additional stream values like Microsoft-PrometheusMetrics that aren't listed in the enum. See https://github.com/Azure/azure-service-operator/issues/5350
 groupModelConfiguration:
   2017-10-01:
     Components_PricingPlan:

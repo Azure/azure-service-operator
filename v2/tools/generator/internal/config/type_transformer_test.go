@@ -139,6 +139,28 @@ func Test_TransformTypeName_WhenConfiguredWithMap_ReturnsExpectedMapType(t *test
 	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(expected))
 }
 
+func Test_TransformTypeName_WhenConfiguredWithSlice_ReturnsExpectedSliceType(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	matcher := config.NewFieldMatcher("tutor")
+	matcher2 := config.NewFieldMatcher("string")
+	transformer := config.TypeTransformer{
+		Property: matcher,
+		Target: &config.TransformResult{
+			Slice: &config.SliceResult{
+				Element: config.TransformResult{
+					Name: matcher2,
+				},
+			},
+		},
+	}
+
+	expected := astmodel.NewArrayType(astmodel.StringType)
+
+	g.Expect(transformer.TransformTypeName(tutor2019)).To(Equal(expected))
+}
+
 func Test_TransformTypeName_WhenConfiguredWithEnum_ReturnsExpectedEnumType(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

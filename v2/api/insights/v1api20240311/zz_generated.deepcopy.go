@@ -1198,7 +1198,7 @@ func (in *DataFlow) DeepCopyInto(out *DataFlow) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]DataFlow_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -1243,7 +1243,7 @@ func (in *DataFlow_STATUS) DeepCopyInto(out *DataFlow_STATUS) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]DataFlow_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -2133,7 +2133,7 @@ func (in *ExtensionDataSource) DeepCopyInto(out *ExtensionDataSource) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]ExtensionDataSource_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -2175,7 +2175,7 @@ func (in *ExtensionDataSource_STATUS) DeepCopyInto(out *ExtensionDataSource_STAT
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]ExtensionDataSource_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3449,7 +3449,7 @@ func (in *PerfCounterDataSource) DeepCopyInto(out *PerfCounterDataSource) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]PerfCounterDataSource_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -3489,7 +3489,7 @@ func (in *PerfCounterDataSource_STATUS) DeepCopyInto(out *PerfCounterDataSource_
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]PerfCounterDataSource_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -3684,7 +3684,7 @@ func (in *PrometheusForwarderDataSource) DeepCopyInto(out *PrometheusForwarderDa
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]PrometheusForwarderDataSource_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3729,7 +3729,7 @@ func (in *PrometheusForwarderDataSource_STATUS) DeepCopyInto(out *PrometheusForw
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]PrometheusForwarderDataSource_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -4132,7 +4132,7 @@ func (in *SyslogDataSource) DeepCopyInto(out *SyslogDataSource) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]SyslogDataSource_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -4172,7 +4172,7 @@ func (in *SyslogDataSource_STATUS) DeepCopyInto(out *SyslogDataSource_STATUS) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]SyslogDataSource_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -4288,7 +4288,7 @@ func (in *WindowsEventLogDataSource) DeepCopyInto(out *WindowsEventLogDataSource
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]WindowsEventLogDataSource_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -4323,7 +4323,7 @@ func (in *WindowsEventLogDataSource_STATUS) DeepCopyInto(out *WindowsEventLogDat
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]WindowsEventLogDataSource_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
