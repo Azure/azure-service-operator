@@ -4436,7 +4436,7 @@ func (secrets *OpenShiftClusterOperatorSecrets) AssignProperties_From_OpenShiftC
 
 	// AdminCredentials
 	if source.AdminCredentials != nil {
-		adminCredential := source.AdminCredentials.Copy()
+		adminCredential := *source.AdminCredentials.DeepCopy()
 		secrets.AdminCredentials = &adminCredential
 	} else {
 		secrets.AdminCredentials = nil
@@ -4444,7 +4444,7 @@ func (secrets *OpenShiftClusterOperatorSecrets) AssignProperties_From_OpenShiftC
 
 	// Password
 	if source.Password != nil {
-		password := source.Password.Copy()
+		password := *source.Password.DeepCopy()
 		secrets.Password = &password
 	} else {
 		secrets.Password = nil
@@ -4452,7 +4452,7 @@ func (secrets *OpenShiftClusterOperatorSecrets) AssignProperties_From_OpenShiftC
 
 	// Username
 	if source.Username != nil {
-		username := source.Username.Copy()
+		username := *source.Username.DeepCopy()
 		secrets.Username = &username
 	} else {
 		secrets.Username = nil
@@ -4469,7 +4469,7 @@ func (secrets *OpenShiftClusterOperatorSecrets) AssignProperties_To_OpenShiftClu
 
 	// AdminCredentials
 	if secrets.AdminCredentials != nil {
-		adminCredential := secrets.AdminCredentials.Copy()
+		adminCredential := *secrets.AdminCredentials.DeepCopy()
 		destination.AdminCredentials = &adminCredential
 	} else {
 		destination.AdminCredentials = nil
@@ -4477,7 +4477,7 @@ func (secrets *OpenShiftClusterOperatorSecrets) AssignProperties_To_OpenShiftClu
 
 	// Password
 	if secrets.Password != nil {
-		password := secrets.Password.Copy()
+		password := *secrets.Password.DeepCopy()
 		destination.Password = &password
 	} else {
 		destination.Password = nil
@@ -4485,7 +4485,7 @@ func (secrets *OpenShiftClusterOperatorSecrets) AssignProperties_To_OpenShiftClu
 
 	// Username
 	if secrets.Username != nil {
-		username := secrets.Username.Copy()
+		username := *secrets.Username.DeepCopy()
 		destination.Username = &username
 	} else {
 		destination.Username = nil

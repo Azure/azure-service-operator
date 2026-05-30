@@ -10304,7 +10304,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_From_StorageAccou
 
 	// BlobEndpoint
 	if source.BlobEndpoint != nil {
-		blobEndpoint := source.BlobEndpoint.Copy()
+		blobEndpoint := *source.BlobEndpoint.DeepCopy()
 		maps.BlobEndpoint = &blobEndpoint
 	} else {
 		maps.BlobEndpoint = nil
@@ -10312,7 +10312,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_From_StorageAccou
 
 	// DfsEndpoint
 	if source.DfsEndpoint != nil {
-		dfsEndpoint := source.DfsEndpoint.Copy()
+		dfsEndpoint := *source.DfsEndpoint.DeepCopy()
 		maps.DfsEndpoint = &dfsEndpoint
 	} else {
 		maps.DfsEndpoint = nil
@@ -10320,7 +10320,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_From_StorageAccou
 
 	// FileEndpoint
 	if source.FileEndpoint != nil {
-		fileEndpoint := source.FileEndpoint.Copy()
+		fileEndpoint := *source.FileEndpoint.DeepCopy()
 		maps.FileEndpoint = &fileEndpoint
 	} else {
 		maps.FileEndpoint = nil
@@ -10328,7 +10328,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_From_StorageAccou
 
 	// QueueEndpoint
 	if source.QueueEndpoint != nil {
-		queueEndpoint := source.QueueEndpoint.Copy()
+		queueEndpoint := *source.QueueEndpoint.DeepCopy()
 		maps.QueueEndpoint = &queueEndpoint
 	} else {
 		maps.QueueEndpoint = nil
@@ -10336,7 +10336,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_From_StorageAccou
 
 	// TableEndpoint
 	if source.TableEndpoint != nil {
-		tableEndpoint := source.TableEndpoint.Copy()
+		tableEndpoint := *source.TableEndpoint.DeepCopy()
 		maps.TableEndpoint = &tableEndpoint
 	} else {
 		maps.TableEndpoint = nil
@@ -10344,7 +10344,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_From_StorageAccou
 
 	// WebEndpoint
 	if source.WebEndpoint != nil {
-		webEndpoint := source.WebEndpoint.Copy()
+		webEndpoint := *source.WebEndpoint.DeepCopy()
 		maps.WebEndpoint = &webEndpoint
 	} else {
 		maps.WebEndpoint = nil
@@ -10361,7 +10361,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_To_StorageAccount
 
 	// BlobEndpoint
 	if maps.BlobEndpoint != nil {
-		blobEndpoint := maps.BlobEndpoint.Copy()
+		blobEndpoint := *maps.BlobEndpoint.DeepCopy()
 		destination.BlobEndpoint = &blobEndpoint
 	} else {
 		destination.BlobEndpoint = nil
@@ -10369,7 +10369,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_To_StorageAccount
 
 	// DfsEndpoint
 	if maps.DfsEndpoint != nil {
-		dfsEndpoint := maps.DfsEndpoint.Copy()
+		dfsEndpoint := *maps.DfsEndpoint.DeepCopy()
 		destination.DfsEndpoint = &dfsEndpoint
 	} else {
 		destination.DfsEndpoint = nil
@@ -10377,7 +10377,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_To_StorageAccount
 
 	// FileEndpoint
 	if maps.FileEndpoint != nil {
-		fileEndpoint := maps.FileEndpoint.Copy()
+		fileEndpoint := *maps.FileEndpoint.DeepCopy()
 		destination.FileEndpoint = &fileEndpoint
 	} else {
 		destination.FileEndpoint = nil
@@ -10385,7 +10385,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_To_StorageAccount
 
 	// QueueEndpoint
 	if maps.QueueEndpoint != nil {
-		queueEndpoint := maps.QueueEndpoint.Copy()
+		queueEndpoint := *maps.QueueEndpoint.DeepCopy()
 		destination.QueueEndpoint = &queueEndpoint
 	} else {
 		destination.QueueEndpoint = nil
@@ -10393,7 +10393,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_To_StorageAccount
 
 	// TableEndpoint
 	if maps.TableEndpoint != nil {
-		tableEndpoint := maps.TableEndpoint.Copy()
+		tableEndpoint := *maps.TableEndpoint.DeepCopy()
 		destination.TableEndpoint = &tableEndpoint
 	} else {
 		destination.TableEndpoint = nil
@@ -10401,7 +10401,7 @@ func (maps *StorageAccountOperatorConfigMaps) AssignProperties_To_StorageAccount
 
 	// WebEndpoint
 	if maps.WebEndpoint != nil {
-		webEndpoint := maps.WebEndpoint.Copy()
+		webEndpoint := *maps.WebEndpoint.DeepCopy()
 		destination.WebEndpoint = &webEndpoint
 	} else {
 		destination.WebEndpoint = nil
@@ -10455,7 +10455,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_From_StorageAccou
 
 	// BlobEndpoint
 	if source.BlobEndpoint != nil {
-		blobEndpoint := source.BlobEndpoint.Copy()
+		blobEndpoint := *source.BlobEndpoint.DeepCopy()
 		secrets.BlobEndpoint = &blobEndpoint
 	} else {
 		secrets.BlobEndpoint = nil
@@ -10463,7 +10463,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_From_StorageAccou
 
 	// DfsEndpoint
 	if source.DfsEndpoint != nil {
-		dfsEndpoint := source.DfsEndpoint.Copy()
+		dfsEndpoint := *source.DfsEndpoint.DeepCopy()
 		secrets.DfsEndpoint = &dfsEndpoint
 	} else {
 		secrets.DfsEndpoint = nil
@@ -10471,7 +10471,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_From_StorageAccou
 
 	// FileEndpoint
 	if source.FileEndpoint != nil {
-		fileEndpoint := source.FileEndpoint.Copy()
+		fileEndpoint := *source.FileEndpoint.DeepCopy()
 		secrets.FileEndpoint = &fileEndpoint
 	} else {
 		secrets.FileEndpoint = nil
@@ -10479,7 +10479,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_From_StorageAccou
 
 	// Key1
 	if source.Key1 != nil {
-		key1 := source.Key1.Copy()
+		key1 := *source.Key1.DeepCopy()
 		secrets.Key1 = &key1
 	} else {
 		secrets.Key1 = nil
@@ -10487,7 +10487,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_From_StorageAccou
 
 	// Key2
 	if source.Key2 != nil {
-		key2 := source.Key2.Copy()
+		key2 := *source.Key2.DeepCopy()
 		secrets.Key2 = &key2
 	} else {
 		secrets.Key2 = nil
@@ -10495,7 +10495,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_From_StorageAccou
 
 	// QueueEndpoint
 	if source.QueueEndpoint != nil {
-		queueEndpoint := source.QueueEndpoint.Copy()
+		queueEndpoint := *source.QueueEndpoint.DeepCopy()
 		secrets.QueueEndpoint = &queueEndpoint
 	} else {
 		secrets.QueueEndpoint = nil
@@ -10503,7 +10503,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_From_StorageAccou
 
 	// TableEndpoint
 	if source.TableEndpoint != nil {
-		tableEndpoint := source.TableEndpoint.Copy()
+		tableEndpoint := *source.TableEndpoint.DeepCopy()
 		secrets.TableEndpoint = &tableEndpoint
 	} else {
 		secrets.TableEndpoint = nil
@@ -10511,7 +10511,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_From_StorageAccou
 
 	// WebEndpoint
 	if source.WebEndpoint != nil {
-		webEndpoint := source.WebEndpoint.Copy()
+		webEndpoint := *source.WebEndpoint.DeepCopy()
 		secrets.WebEndpoint = &webEndpoint
 	} else {
 		secrets.WebEndpoint = nil
@@ -10528,7 +10528,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_To_StorageAccount
 
 	// BlobEndpoint
 	if secrets.BlobEndpoint != nil {
-		blobEndpoint := secrets.BlobEndpoint.Copy()
+		blobEndpoint := *secrets.BlobEndpoint.DeepCopy()
 		destination.BlobEndpoint = &blobEndpoint
 	} else {
 		destination.BlobEndpoint = nil
@@ -10536,7 +10536,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_To_StorageAccount
 
 	// DfsEndpoint
 	if secrets.DfsEndpoint != nil {
-		dfsEndpoint := secrets.DfsEndpoint.Copy()
+		dfsEndpoint := *secrets.DfsEndpoint.DeepCopy()
 		destination.DfsEndpoint = &dfsEndpoint
 	} else {
 		destination.DfsEndpoint = nil
@@ -10544,7 +10544,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_To_StorageAccount
 
 	// FileEndpoint
 	if secrets.FileEndpoint != nil {
-		fileEndpoint := secrets.FileEndpoint.Copy()
+		fileEndpoint := *secrets.FileEndpoint.DeepCopy()
 		destination.FileEndpoint = &fileEndpoint
 	} else {
 		destination.FileEndpoint = nil
@@ -10552,7 +10552,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_To_StorageAccount
 
 	// Key1
 	if secrets.Key1 != nil {
-		key1 := secrets.Key1.Copy()
+		key1 := *secrets.Key1.DeepCopy()
 		destination.Key1 = &key1
 	} else {
 		destination.Key1 = nil
@@ -10560,7 +10560,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_To_StorageAccount
 
 	// Key2
 	if secrets.Key2 != nil {
-		key2 := secrets.Key2.Copy()
+		key2 := *secrets.Key2.DeepCopy()
 		destination.Key2 = &key2
 	} else {
 		destination.Key2 = nil
@@ -10568,7 +10568,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_To_StorageAccount
 
 	// QueueEndpoint
 	if secrets.QueueEndpoint != nil {
-		queueEndpoint := secrets.QueueEndpoint.Copy()
+		queueEndpoint := *secrets.QueueEndpoint.DeepCopy()
 		destination.QueueEndpoint = &queueEndpoint
 	} else {
 		destination.QueueEndpoint = nil
@@ -10576,7 +10576,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_To_StorageAccount
 
 	// TableEndpoint
 	if secrets.TableEndpoint != nil {
-		tableEndpoint := secrets.TableEndpoint.Copy()
+		tableEndpoint := *secrets.TableEndpoint.DeepCopy()
 		destination.TableEndpoint = &tableEndpoint
 	} else {
 		destination.TableEndpoint = nil
@@ -10584,7 +10584,7 @@ func (secrets *StorageAccountOperatorSecrets) AssignProperties_To_StorageAccount
 
 	// WebEndpoint
 	if secrets.WebEndpoint != nil {
-		webEndpoint := secrets.WebEndpoint.Copy()
+		webEndpoint := *secrets.WebEndpoint.DeepCopy()
 		destination.WebEndpoint = &webEndpoint
 	} else {
 		destination.WebEndpoint = nil

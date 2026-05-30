@@ -2533,7 +2533,7 @@ func (maps *PrivateLinkServiceOperatorConfigMaps) AssignProperties_From_PrivateL
 
 	// Alias
 	if source.Alias != nil {
-		alias := source.Alias.Copy()
+		alias := *source.Alias.DeepCopy()
 		maps.Alias = &alias
 	} else {
 		maps.Alias = nil
@@ -2550,7 +2550,7 @@ func (maps *PrivateLinkServiceOperatorConfigMaps) AssignProperties_To_PrivateLin
 
 	// Alias
 	if maps.Alias != nil {
-		alias := maps.Alias.Copy()
+		alias := *maps.Alias.DeepCopy()
 		destination.Alias = &alias
 	} else {
 		destination.Alias = nil

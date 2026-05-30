@@ -246,12 +246,12 @@ func (in *ClusterOperatorConfigMaps) DeepCopyInto(out *ClusterOperatorConfigMaps
 	if in.ClusterPrincipalId != nil {
 		in, out := &in.ClusterPrincipalId, &out.ClusterPrincipalId
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.ClusterTenantId != nil {
 		in, out := &in.ClusterTenantId, &out.ClusterTenantId
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -275,7 +275,7 @@ func (in *ClusterOperatorSpec) DeepCopyInto(out *ClusterOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -291,7 +291,7 @@ func (in *ClusterOperatorSpec) DeepCopyInto(out *ClusterOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -881,7 +881,7 @@ func (in *DataConnectionOperatorSpec) DeepCopyInto(out *DataConnectionOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -892,7 +892,7 @@ func (in *DataConnectionOperatorSpec) DeepCopyInto(out *DataConnectionOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1069,7 +1069,7 @@ func (in *DatabaseOperatorSpec) DeepCopyInto(out *DatabaseOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1080,7 +1080,7 @@ func (in *DatabaseOperatorSpec) DeepCopyInto(out *DatabaseOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2118,7 +2118,7 @@ func (in *PrincipalAssignmentOperatorSpec) DeepCopyInto(out *PrincipalAssignment
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2129,7 +2129,7 @@ func (in *PrincipalAssignmentOperatorSpec) DeepCopyInto(out *PrincipalAssignment
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

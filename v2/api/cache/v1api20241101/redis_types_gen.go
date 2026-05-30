@@ -4279,7 +4279,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_From_RedisOperatorSecrets(
 
 	// HostName
 	if source.HostName != nil {
-		hostName := source.HostName.Copy()
+		hostName := *source.HostName.DeepCopy()
 		secrets.HostName = &hostName
 	} else {
 		secrets.HostName = nil
@@ -4287,7 +4287,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_From_RedisOperatorSecrets(
 
 	// Port
 	if source.Port != nil {
-		port := source.Port.Copy()
+		port := *source.Port.DeepCopy()
 		secrets.Port = &port
 	} else {
 		secrets.Port = nil
@@ -4295,7 +4295,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_From_RedisOperatorSecrets(
 
 	// PrimaryKey
 	if source.PrimaryKey != nil {
-		primaryKey := source.PrimaryKey.Copy()
+		primaryKey := *source.PrimaryKey.DeepCopy()
 		secrets.PrimaryKey = &primaryKey
 	} else {
 		secrets.PrimaryKey = nil
@@ -4303,7 +4303,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_From_RedisOperatorSecrets(
 
 	// SSLPort
 	if source.SSLPort != nil {
-		sslPort := source.SSLPort.Copy()
+		sslPort := *source.SSLPort.DeepCopy()
 		secrets.SSLPort = &sslPort
 	} else {
 		secrets.SSLPort = nil
@@ -4311,7 +4311,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_From_RedisOperatorSecrets(
 
 	// SecondaryKey
 	if source.SecondaryKey != nil {
-		secondaryKey := source.SecondaryKey.Copy()
+		secondaryKey := *source.SecondaryKey.DeepCopy()
 		secrets.SecondaryKey = &secondaryKey
 	} else {
 		secrets.SecondaryKey = nil
@@ -4328,7 +4328,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_To_RedisOperatorSecrets(de
 
 	// HostName
 	if secrets.HostName != nil {
-		hostName := secrets.HostName.Copy()
+		hostName := *secrets.HostName.DeepCopy()
 		destination.HostName = &hostName
 	} else {
 		destination.HostName = nil
@@ -4336,7 +4336,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_To_RedisOperatorSecrets(de
 
 	// Port
 	if secrets.Port != nil {
-		port := secrets.Port.Copy()
+		port := *secrets.Port.DeepCopy()
 		destination.Port = &port
 	} else {
 		destination.Port = nil
@@ -4344,7 +4344,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_To_RedisOperatorSecrets(de
 
 	// PrimaryKey
 	if secrets.PrimaryKey != nil {
-		primaryKey := secrets.PrimaryKey.Copy()
+		primaryKey := *secrets.PrimaryKey.DeepCopy()
 		destination.PrimaryKey = &primaryKey
 	} else {
 		destination.PrimaryKey = nil
@@ -4352,7 +4352,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_To_RedisOperatorSecrets(de
 
 	// SSLPort
 	if secrets.SSLPort != nil {
-		sslPort := secrets.SSLPort.Copy()
+		sslPort := *secrets.SSLPort.DeepCopy()
 		destination.SSLPort = &sslPort
 	} else {
 		destination.SSLPort = nil
@@ -4360,7 +4360,7 @@ func (secrets *RedisOperatorSecrets) AssignProperties_To_RedisOperatorSecrets(de
 
 	// SecondaryKey
 	if secrets.SecondaryKey != nil {
-		secondaryKey := secrets.SecondaryKey.Copy()
+		secondaryKey := *secrets.SecondaryKey.DeepCopy()
 		destination.SecondaryKey = &secondaryKey
 	} else {
 		destination.SecondaryKey = nil

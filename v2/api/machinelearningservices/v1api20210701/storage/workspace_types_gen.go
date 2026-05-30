@@ -3918,7 +3918,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 
 	// AppInsightsInstrumentationKey
 	if source.AppInsightsInstrumentationKey != nil {
-		appInsightsInstrumentationKey := source.AppInsightsInstrumentationKey.Copy()
+		appInsightsInstrumentationKey := *source.AppInsightsInstrumentationKey.DeepCopy()
 		secrets.AppInsightsInstrumentationKey = &appInsightsInstrumentationKey
 	} else {
 		secrets.AppInsightsInstrumentationKey = nil
@@ -3926,7 +3926,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 
 	// ContainerRegistryPassword
 	if source.ContainerRegistryPassword != nil {
-		containerRegistryPassword := source.ContainerRegistryPassword.Copy()
+		containerRegistryPassword := *source.ContainerRegistryPassword.DeepCopy()
 		secrets.ContainerRegistryPassword = &containerRegistryPassword
 	} else {
 		secrets.ContainerRegistryPassword = nil
@@ -3934,7 +3934,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 
 	// ContainerRegistryPassword2
 	if source.ContainerRegistryPassword2 != nil {
-		containerRegistryPassword2 := source.ContainerRegistryPassword2.Copy()
+		containerRegistryPassword2 := *source.ContainerRegistryPassword2.DeepCopy()
 		secrets.ContainerRegistryPassword2 = &containerRegistryPassword2
 	} else {
 		secrets.ContainerRegistryPassword2 = nil
@@ -3942,7 +3942,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 
 	// ContainerRegistryUserName
 	if source.ContainerRegistryUserName != nil {
-		containerRegistryUserName := source.ContainerRegistryUserName.Copy()
+		containerRegistryUserName := *source.ContainerRegistryUserName.DeepCopy()
 		secrets.ContainerRegistryUserName = &containerRegistryUserName
 	} else {
 		secrets.ContainerRegistryUserName = nil
@@ -3950,7 +3950,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 
 	// PrimaryNotebookAccessKey
 	if source.PrimaryNotebookAccessKey != nil {
-		primaryNotebookAccessKey := source.PrimaryNotebookAccessKey.Copy()
+		primaryNotebookAccessKey := *source.PrimaryNotebookAccessKey.DeepCopy()
 		secrets.PrimaryNotebookAccessKey = &primaryNotebookAccessKey
 	} else {
 		secrets.PrimaryNotebookAccessKey = nil
@@ -3958,7 +3958,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 
 	// SecondaryNotebookAccessKey
 	if source.SecondaryNotebookAccessKey != nil {
-		secondaryNotebookAccessKey := source.SecondaryNotebookAccessKey.Copy()
+		secondaryNotebookAccessKey := *source.SecondaryNotebookAccessKey.DeepCopy()
 		secrets.SecondaryNotebookAccessKey = &secondaryNotebookAccessKey
 	} else {
 		secrets.SecondaryNotebookAccessKey = nil
@@ -3966,7 +3966,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 
 	// UserStorageKey
 	if source.UserStorageKey != nil {
-		userStorageKey := source.UserStorageKey.Copy()
+		userStorageKey := *source.UserStorageKey.DeepCopy()
 		secrets.UserStorageKey = &userStorageKey
 	} else {
 		secrets.UserStorageKey = nil
@@ -3999,7 +3999,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSe
 
 	// AppInsightsInstrumentationKey
 	if secrets.AppInsightsInstrumentationKey != nil {
-		appInsightsInstrumentationKey := secrets.AppInsightsInstrumentationKey.Copy()
+		appInsightsInstrumentationKey := *secrets.AppInsightsInstrumentationKey.DeepCopy()
 		destination.AppInsightsInstrumentationKey = &appInsightsInstrumentationKey
 	} else {
 		destination.AppInsightsInstrumentationKey = nil
@@ -4007,7 +4007,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSe
 
 	// ContainerRegistryPassword
 	if secrets.ContainerRegistryPassword != nil {
-		containerRegistryPassword := secrets.ContainerRegistryPassword.Copy()
+		containerRegistryPassword := *secrets.ContainerRegistryPassword.DeepCopy()
 		destination.ContainerRegistryPassword = &containerRegistryPassword
 	} else {
 		destination.ContainerRegistryPassword = nil
@@ -4015,7 +4015,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSe
 
 	// ContainerRegistryPassword2
 	if secrets.ContainerRegistryPassword2 != nil {
-		containerRegistryPassword2 := secrets.ContainerRegistryPassword2.Copy()
+		containerRegistryPassword2 := *secrets.ContainerRegistryPassword2.DeepCopy()
 		destination.ContainerRegistryPassword2 = &containerRegistryPassword2
 	} else {
 		destination.ContainerRegistryPassword2 = nil
@@ -4023,7 +4023,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSe
 
 	// ContainerRegistryUserName
 	if secrets.ContainerRegistryUserName != nil {
-		containerRegistryUserName := secrets.ContainerRegistryUserName.Copy()
+		containerRegistryUserName := *secrets.ContainerRegistryUserName.DeepCopy()
 		destination.ContainerRegistryUserName = &containerRegistryUserName
 	} else {
 		destination.ContainerRegistryUserName = nil
@@ -4031,7 +4031,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSe
 
 	// PrimaryNotebookAccessKey
 	if secrets.PrimaryNotebookAccessKey != nil {
-		primaryNotebookAccessKey := secrets.PrimaryNotebookAccessKey.Copy()
+		primaryNotebookAccessKey := *secrets.PrimaryNotebookAccessKey.DeepCopy()
 		destination.PrimaryNotebookAccessKey = &primaryNotebookAccessKey
 	} else {
 		destination.PrimaryNotebookAccessKey = nil
@@ -4039,7 +4039,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSe
 
 	// SecondaryNotebookAccessKey
 	if secrets.SecondaryNotebookAccessKey != nil {
-		secondaryNotebookAccessKey := secrets.SecondaryNotebookAccessKey.Copy()
+		secondaryNotebookAccessKey := *secrets.SecondaryNotebookAccessKey.DeepCopy()
 		destination.SecondaryNotebookAccessKey = &secondaryNotebookAccessKey
 	} else {
 		destination.SecondaryNotebookAccessKey = nil
@@ -4047,7 +4047,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSe
 
 	// UserStorageKey
 	if secrets.UserStorageKey != nil {
-		userStorageKey := secrets.UserStorageKey.Copy()
+		userStorageKey := *secrets.UserStorageKey.DeepCopy()
 		destination.UserStorageKey = &userStorageKey
 	} else {
 		destination.UserStorageKey = nil
