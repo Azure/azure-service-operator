@@ -32,7 +32,7 @@ How to provide ConfigMap data to ASO Resources may have fields in their spec tha
   <meta itemprop="name" content="Sharing data through ConfigMaps">
   <meta itemprop="description" content="Resources supported by Azure Service Operator may support dynamic input in the form of reading a ConfigMap. They may also support storing certain output into a ConfigMap (such as ManagedIdentity principalId and clientId).
 How to provide ConfigMap data to ASO Resources may have fields in their spec that allow a reference to a Kubernetes ConfigMap. In general, these fields are usually optional, and you can choose to specify the raw value or source it from a ConfigMap for something more dynamic.">
-  <meta itemprop="wordCount" content="411">
+  <meta itemprop="wordCount" content="575">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Sharing data through ConfigMaps">
   <meta name="twitter:description" content="Resources supported by Azure Service Operator may support dynamic input in the form of reading a ConfigMap. They may also support storing certain output into a ConfigMap (such as ManagedIdentity principalId and clientId).
@@ -978,7 +978,11 @@ How to provide ConfigMap data to ASO Resources may have fields in their spec tha
         <nav id="TableOfContents">
   <ul>
     <li><a href="#how-to-provide-configmap-data-to-aso">How to provide ConfigMap data to ASO</a></li>
-    <li><a href="#how-to-export-configmap-data-from-aso">How to export ConfigMap data from ASO</a></li>
+    <li><a href="#how-to-export-configmap-data-from-aso">How to export ConfigMap data from ASO</a>
+      <ul>
+        <li><a href="#custom-annotations-and-labels-on-configmaps">Custom annotations and labels on ConfigMaps</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       </div>
@@ -1079,7 +1083,46 @@ The data will be written to the destination(s) you specify once the resource has
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">clientId</span>:
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-settings</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">clientId</span>
-</span></span></code></pre></div>
+</span></span></code></pre></div><h3 id="custom-annotations-and-labels-on-configmaps">Custom annotations and labels on ConfigMaps</h3>
+<p>You can add custom annotations and labels to the Kubernetes ConfigMaps created by ASO using the <code>annotations</code> and <code>labels</code>
+fields on <code>ConfigMapDestination</code> or <code>DestinationExpression</code>. This is useful for integrating with tools like
+<a href="https://github.com/emberstack/kubernetes-reflector">kubernetes-reflector</a>, which can mirror ConfigMaps to other namespaces
+based on annotations.</p>
+<p>For <code>ConfigMapDestination</code>, annotation and label values are plain strings.
+For <code>DestinationExpression</code>, annotation and label values are <a href="/azure-service-operator/guide/expressions/">CEL expressions</a>
+that must return a string. Use <code>'&quot;value&quot;'</code> for static strings.</p>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    Multiple entries cannot write the same annotation or label key.
+
+</div>
+
+<p><strong>Example with <code>operatorSpec.configMaps</code>:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">operatorSpec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">configMaps</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">principalId</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-settings</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">principalId</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">reflector.v1/reflection-allowed</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">myapp</span>
+</span></span></code></pre></div><p><strong>Example with <code>operatorSpec.configMapExpressions</code>:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">operatorSpec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">configMapExpressions</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-settings</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">principalId</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">value</span>: <span style="color:#ae81ff">self.status.principalId</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">reflector.v1/reflection-allowed</span>: <span style="color:#e6db74">&#39;&#34;true&#34;&#39;</span>  <span style="color:#75715e"># Static string value (CEL expression)</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">principal-id</span>: <span style="color:#ae81ff">self.status.principalId </span> <span style="color:#75715e"># Dynamic value from resource status</span>
+</span></span></code></pre></div><p>When multiple destinations target the same Kubernetes ConfigMap, annotations and labels are merged.
+If two destinations specify the same annotation or label key with different values, an error is returned.</p>
+
 	
 </div>
 
