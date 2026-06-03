@@ -379,11 +379,13 @@ func (i *importableARMResource) importChildResources(
 // These error codes represent cases where the request we've made doesn't make sense,
 // so there's no point in alerting the user to the details.
 var skipCodes = set.Make(
-	"RequestUrlInvalid",
-	"ValidationFailed",
+	"BadRequest",
 	"NoRegisteredProviderFound",
+	"RequestUrlInvalid",
 	"ResourceTypeNotSupported",
 	"UnsupportedResourceType",
+	"UnsupportedFeature",
+	"ValidationFailed",
 )
 
 func (*importableARMResource) classifyError(err error) (string, bool) {
