@@ -7,12 +7,13 @@ on:
       - main
 
 
-permissions:
-  contents: write
+permissions: {}
 
 jobs:
   fast-forward:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       TARGET_BRANCHES: backplane-5.0 backplane-5.1
 

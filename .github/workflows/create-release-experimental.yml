@@ -11,6 +11,8 @@ on:
   # no content, allows manual triggering
   workflow_dispatch:
 
+permissions: {}
+
 env:
   ARTIFACT_VERSION: experimental
 
