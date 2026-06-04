@@ -328,7 +328,8 @@ func isIMDSAvailable(ctx context.Context) bool {
 		probeCtx,
 		http.MethodGet,
 		"http://169.254.169.254/metadata/identity/oauth2/token",
-		nil)
+		nil,
+	)
 	if err != nil {
 		return false
 	}
