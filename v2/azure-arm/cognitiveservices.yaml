@@ -1,8 +1,3 @@
-typeTransformers:
-  - name: DeploymentProperties
-    property: CurrentCapacity
-    remove: true
-    because: This property should have been marked readonly but wasn't.
 groupModelConfiguration:
   2025-06-01:
     Account:
