@@ -7,6 +7,7 @@ package jsonast
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"math"
 	"math/big"
@@ -852,9 +853,9 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, lo
 	}
 
 	if len(items) == 0 {
-		// there is no type to the elements, so we must assume interface{}
+		// there is no type to the elements, so we must assume any
 		log.V(1).Info(
-			"Interface assumption unproven",
+			"Assuming 'any' as no item detail available",
 			"url", schema.url(),
 		)
 
@@ -863,11 +864,24 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, lo
 	}
 
 	// get the only child type and wrap it up as an array type:
-
 	onlyChild := items[0]
 
 	astType, err := scanner.RunHandlerForSchema(ctx, onlyChild)
 	if err != nil {
+
+		// If we can't determine the type of the items, assume any
+		// (This can happen if the item has a description but no type information)
+		if _, ok := errors.AsType[*UnknownSchemaError](err); ok {
+			// there is no type to the elements, so we must assume any
+			log.V(1).Info(
+				"Assuming 'any' as item has no type specified",
+				"url", schema.url(),
+			)
+
+			result := astmodel.NewArrayType(astmodel.AnyType)
+			return withArrayValidations(schema, result), nil
+		}
+
 		return nil, err
 	}
 
@@ -910,7 +924,14 @@ func getSubSchemaType(schema Schema) (SchemaType, error) {
 		return Ref, nil
 	}
 
-	for _, t := range []SchemaType{Object, String, Number, Int, Bool, Array} {
+	for _, t := range []SchemaType{
+		Object,
+		String,
+		Number,
+		Int,
+		Bool,
+		Array,
+	} {
 		if schema.hasType(t) {
 			return t, nil
 		}
