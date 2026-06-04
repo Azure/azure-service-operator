@@ -335,10 +335,12 @@ func isIMDSAvailable(ctx context.Context) bool {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
+		if resp != nil && resp.Body != nil {
+			_ = resp.Body.Close()
+		}
 		return false
 	}
-
-	resp.Body.Close()
+	defer resp.Body.Close()
 	return true
 }
 
