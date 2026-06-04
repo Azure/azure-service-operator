@@ -103,7 +103,11 @@ func (scanner *SchemaScanner) AddTypeHandler(schemaType SchemaType, handler Type
 }
 
 // RunHandler triggers the appropriate handler for the specified schemaType
-func (scanner *SchemaScanner) RunHandler(ctx context.Context, schemaType SchemaType, schema Schema) (astmodel.Type, error) {
+func (scanner *SchemaScanner) RunHandler(
+	ctx context.Context,
+	schemaType SchemaType,
+	schema Schema,
+) (astmodel.Type, error) {
 	if ctx.Err() != nil { // check for cancellation
 		return nil, ctx.Err()
 	}
@@ -129,8 +133,7 @@ func (scanner *SchemaScanner) RunHandlersForSchemas(ctx context.Context, schemas
 	for _, schema := range schemas {
 		t, err := scanner.RunHandlerForSchema(ctx, schema)
 		if err != nil {
-			var unknownSchema *UnknownSchemaError
-			if eris.As(err, &unknownSchema) {
+			if unknownSchema, ok := errors.AsType[*UnknownSchemaError](err); ok {
 				if unknownSchema.Schema.description() != nil {
 					// some Swagger types (e.g. ServiceFabric Cluster) use allOf with a description-only schema
 					scanner.log.V(2).Info(
@@ -469,8 +472,7 @@ func generatePropertyDefinition(ctx context.Context, scanner *SchemaScanner, raw
 	propertyName := scanner.idFactory.CreatePropertyName(rawPropName, astmodel.Exported)
 
 	schemaType, err := getSubSchemaType(prop)
-	var use *UnknownSchemaError
-	if eris.As(err, &use) {
+	if _, ok := errors.AsType[*UnknownSchemaError](err); ok {
 		// if we don't know the type, we still need to provide the property, we will just provide open interface
 		property := astmodel.NewPropertyDefinition(propertyName, rawPropName, astmodel.AnyType)
 		return property, nil
@@ -481,7 +483,7 @@ func generatePropertyDefinition(ctx context.Context, scanner *SchemaScanner, raw
 	}
 
 	propType, err := scanner.RunHandler(ctx, schemaType, prop)
-	if eris.As(err, &use) {
+	if _, ok := errors.AsType[*UnknownSchemaError](err); ok {
 		// if we don't know the type, we still need to provide the property, we will just provide open interface
 		property := astmodel.NewPropertyDefinition(propertyName, rawPropName, astmodel.AnyType)
 		return property, nil
@@ -604,8 +606,7 @@ func getProperties(
 				// If the error is an UnknownSchemaError AND we have properties already, we skip generating
 				// the additional properties. As mentioned above, this isn't 100% following the spec, but
 				// it seems to do the right thing
-				var use *UnknownSchemaError
-				if eris.As(err, &use) && len(properties) > 0 {
+				if _, ok := errors.AsType[*UnknownSchemaError](err); ok && len(properties) > 0 {
 					return properties, nil
 				}
 
@@ -795,6 +796,7 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ 
 
 	// If there are any properties, we need to create an object type to wrap them
 	if len(schema.properties()) > 0 {
+
 		t, err := scanner.RunHandler(ctx, Object, schema)
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to generate object for properties of %s", schema.ID())
