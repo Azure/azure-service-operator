@@ -12,6 +12,10 @@ typeFilters:
   - action: include
     version: v*20250101preview
     because: We need the latest ScheduledQueryRules from this.
+  - action: include
+    version: v*20240301preview
+    because: Cross references from other preview versions
+
 typeTransformers:
   #
   # In the group 'insights'
