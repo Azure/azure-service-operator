@@ -6,13 +6,14 @@ on:
     - cron: "0 12 * * 1"
   workflow_dispatch:
 
-permissions:
-  contents: read
-  security-events: write
-  issues: write
+permissions: {}
 
 jobs:
   scan:
+    permissions:
+      contents: read
+      security-events: write
+      issues: write
     concurrency:
       group: weekly-security-scan-${{ matrix.branch }}
       cancel-in-progress: false
