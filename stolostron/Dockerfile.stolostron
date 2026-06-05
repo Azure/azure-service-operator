@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9/go-toolset:9.8-1779959429 AS toolchain
+FROM registry.access.redhat.com/ubi9/go-toolset:9.8-1779959429@sha256:a2ba4645e7c424b08aa83ed7792e279683b0d33acbc5131b18183fd21e336c55 AS toolchain
 
 # Run this with docker build --build_arg $(go env GOPROXY) to override the goproxy
 ARG goproxy=https://proxy.golang.org
@@ -26,7 +26,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build \
     CGO_ENABLED=1 GOOS=linux GOARCH=${ARCH} go build -o ./aso-controller ./cmd/controller/
 
 # Copy the aso-controller into a thin image
-FROM registry.access.redhat.com/ubi9/ubi:9.8-1779808651
+FROM registry.access.redhat.com/ubi9/ubi:9.8-1779808651@sha256:8942b73866f8434571d6fc4c10cbebd48982995d2249c39302e4d71e7df3afd9
 COPY --from=builder /workspace/aso-controller /aso-controller
 COPY stolostron/crds ./crds
 USER 65532:65532
