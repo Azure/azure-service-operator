@@ -4,6 +4,6 @@ metadata:
   name: sampleproductgroup
   namespace: default
 spec:
-  azureName: samplegroup
+  azureName: samplegroup  # This must match the group name
   owner:
     name: sampleproduct

@@ -5678,7 +5678,7 @@ func (in *ProductGroupOperatorSpec) DeepCopyInto(out *ProductGroupOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5689,7 +5689,7 @@ func (in *ProductGroupOperatorSpec) DeepCopyInto(out *ProductGroupOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
