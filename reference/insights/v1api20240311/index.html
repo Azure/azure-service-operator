@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
   <meta itemprop="description" content="APIVersion Value Description “2024-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
 Used by: DataCollectionEndpointList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionEndpoint_SpecOptional status DataCollectionEndpointResource_STATUSOptional DataCollectionEndpoint_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description Description of the data collection endpoint. stringOptional identity Managed service identity of the resource. ManagedServiceIdentityOptional kind The kind of the resource. DataCollectionEndpoint_Kind_SpecOptional location The geo-location where the resource lives. stringRequired networkAcls Network access control rules for the endpoints. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DataCollectionEndpointOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The SKU of the resource. SkuOptional tags Resource tags. map[string]stringOptional DataCollectionEndpointResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional configurationAccess The endpoint used by clients to access their configuration. ConfigurationAccessEndpointSpec_STATUSOptional description Description of the data collection endpoint. stringOptional etag Resource entity tag (ETag). stringOptional failoverConfiguration Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. FailoverConfigurationSpec_STATUSOptional id Fully qualified ID of the resource. stringOptional identity Managed service identity of the resource. ManagedServiceIdentity_STATUSOptional immutableId The immutable ID of this data collection endpoint resource. This property is READ-ONLY. stringOptional kind The kind of the resource. DataCollectionEndpointResource_Kind_STATUSOptional location The geo-location where the resource lives. stringOptional logsIngestion The endpoint used by clients to ingest logs. LogsIngestionEndpointSpec_STATUSOptional metadata Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. Metadata_STATUSOptional metricsIngestion The endpoint used by clients to ingest metrics. MetricsIngestionEndpointSpec_STATUSOptional name The name of the resource. stringOptional networkAcls Network access control rules for the endpoints. NetworkRuleSet_STATUSOptional privateLinkScopedResources List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. PrivateLinkScopedResource_STATUS[]Optional provisioningState The resource provisioning state. This property is READ-ONLY. DataCollectionEndpoint_ProvisioningState_STATUSOptional sku The SKU of the resource. Sku_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. stringOptional DataCollectionEndpointList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}">
-  <meta itemprop="wordCount" content="10236">
+  <meta itemprop="wordCount" content="10132">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="insights.azure.com/v1api20240311">
   <meta name="twitter:description" content="APIVersion Value Description “2024-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
@@ -1058,8 +1058,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
     <li><a href="#AzureMonitorMetricsDestination_STATUS">AzureMonitorMetricsDestination_STATUS</a></li>
     <li><a href="#ColumnDefinition">ColumnDefinition</a></li>
     <li><a href="#ColumnDefinition_STATUS">ColumnDefinition_STATUS</a></li>
-    <li><a href="#DataFlow_Streams">DataFlow_Streams</a></li>
-    <li><a href="#DataFlow_Streams_STATUS">DataFlow_Streams_STATUS</a></li>
     <li><a href="#DataImportSources">DataImportSources</a></li>
     <li><a href="#DataImportSources_STATUS">DataImportSources_STATUS</a></li>
     <li><a href="#EnrichmentData">EnrichmentData</a></li>
@@ -1134,8 +1132,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
     <li><a href="#EtwProviderDataSource_ProviderType_STATUS">EtwProviderDataSource_ProviderType_STATUS</a></li>
     <li><a href="#EventHubDataSource">EventHubDataSource</a></li>
     <li><a href="#EventHubDataSource_STATUS">EventHubDataSource_STATUS</a></li>
-    <li><a href="#ExtensionDataSource_Streams">ExtensionDataSource_Streams</a></li>
-    <li><a href="#ExtensionDataSource_Streams_STATUS">ExtensionDataSource_Streams_STATUS</a></li>
     <li><a href="#LocationSpec_ProvisioningStatus_STATUS">LocationSpec_ProvisioningStatus_STATUS</a></li>
     <li><a href="#LogFilesDataSource_Format">LogFilesDataSource_Format</a></li>
     <li><a href="#LogFilesDataSource_Format_STATUS">LogFilesDataSource_Format_STATUS</a></li>
@@ -1151,22 +1147,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
     <li><a href="#OtelTracesDataSource_Streams_STATUS">OtelTracesDataSource_Streams_STATUS</a></li>
     <li><a href="#OtelTracesDirectDataSource_Streams">OtelTracesDirectDataSource_Streams</a></li>
     <li><a href="#OtelTracesDirectDataSource_Streams_STATUS">OtelTracesDirectDataSource_Streams_STATUS</a></li>
-    <li><a href="#PerfCounterDataSource_Streams">PerfCounterDataSource_Streams</a></li>
-    <li><a href="#PerfCounterDataSource_Streams_STATUS">PerfCounterDataSource_Streams_STATUS</a></li>
     <li><a href="#PerformanceCountersOTelDataSource_Streams">PerformanceCountersOTelDataSource_Streams</a></li>
     <li><a href="#PerformanceCountersOTelDataSource_Streams_STATUS">PerformanceCountersOTelDataSource_Streams_STATUS</a></li>
-    <li><a href="#PrometheusForwarderDataSource_Streams">PrometheusForwarderDataSource_Streams</a></li>
-    <li><a href="#PrometheusForwarderDataSource_Streams_STATUS">PrometheusForwarderDataSource_Streams_STATUS</a></li>
     <li><a href="#StorageBlob">StorageBlob</a></li>
     <li><a href="#StorageBlob_STATUS">StorageBlob_STATUS</a></li>
     <li><a href="#SyslogDataSource_FacilityNames">SyslogDataSource_FacilityNames</a></li>
     <li><a href="#SyslogDataSource_FacilityNames_STATUS">SyslogDataSource_FacilityNames_STATUS</a></li>
     <li><a href="#SyslogDataSource_LogLevels">SyslogDataSource_LogLevels</a></li>
     <li><a href="#SyslogDataSource_LogLevels_STATUS">SyslogDataSource_LogLevels_STATUS</a></li>
-    <li><a href="#SyslogDataSource_Streams">SyslogDataSource_Streams</a></li>
-    <li><a href="#SyslogDataSource_Streams_STATUS">SyslogDataSource_Streams_STATUS</a></li>
-    <li><a href="#WindowsEventLogDataSource_Streams">WindowsEventLogDataSource_Streams</a></li>
-    <li><a href="#WindowsEventLogDataSource_Streams_STATUS">WindowsEventLogDataSource_Streams_STATUS</a></li>
     <li><a href="#WindowsFirewallLogsDataSource_ProfileFilter">WindowsFirewallLogsDataSource_ProfileFilter</a></li>
     <li><a href="#WindowsFirewallLogsDataSource_ProfileFilter_STATUS">WindowsFirewallLogsDataSource_ProfileFilter_STATUS</a></li>
     <li><a href="#LogFileTextSettings">LogFileTextSettings</a></li>
@@ -2810,7 +2798,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams for this data flow.</td>
-          <td><a href="#DataFlow_Streams">DataFlow_Streams[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>transformKql</td>
@@ -2854,7 +2842,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams for this data flow.</td>
-          <td><a href="#DataFlow_Streams_STATUS">DataFlow_Streams_STATUS[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>transformKql</td>
@@ -3929,70 +3917,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="DataFlow_Streams">DataFlow_Streams</h2>
-<p>Used by: <a href="#DataFlow">DataFlow</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-Event&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-Perf&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataFlow_Streams_STATUS">DataFlow_Streams_STATUS</h2>
-<p>Used by: <a href="#DataFlow_STATUS">DataFlow_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-Event&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-Perf&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
 <h2 id="DataImportSources">DataImportSources</h2>
 <p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
 <table>
@@ -4292,7 +4216,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#ExtensionDataSource_Streams">ExtensionDataSource_Streams[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4331,7 +4255,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#ExtensionDataSource_Streams_STATUS">ExtensionDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -5333,7 +5257,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#PerfCounterDataSource_Streams">PerfCounterDataSource_Streams[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>transformKql</td>
@@ -5372,7 +5296,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#PerfCounterDataSource_Streams_STATUS">PerfCounterDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>transformKql</td>
@@ -5527,7 +5451,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to.</td>
-          <td><a href="#PrometheusForwarderDataSource_Streams">PrometheusForwarderDataSource_Streams[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -5561,7 +5485,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to.</td>
-          <td><a href="#PrometheusForwarderDataSource_Streams_STATUS">PrometheusForwarderDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -5765,7 +5689,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#SyslogDataSource_Streams">SyslogDataSource_Streams[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>transformKql</td>
@@ -5804,7 +5728,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#SyslogDataSource_Streams_STATUS">SyslogDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>transformKql</td>
@@ -5932,7 +5856,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#WindowsEventLogDataSource_Streams">WindowsEventLogDataSource_Streams[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>transformKql</td>
@@ -5966,7 +5890,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#WindowsEventLogDataSource_Streams_STATUS">WindowsEventLogDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+          <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>transformKql</td>
@@ -6326,70 +6250,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="ExtensionDataSource_Streams">ExtensionDataSource_Streams</h2>
-<p>Used by: <a href="#ExtensionDataSource">ExtensionDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-Event&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-Perf&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ExtensionDataSource_Streams_STATUS">ExtensionDataSource_Streams_STATUS</h2>
-<p>Used by: <a href="#ExtensionDataSource_STATUS">ExtensionDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-Event&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-Perf&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
 <h2 id="LocationSpec_ProvisioningStatus_STATUS">LocationSpec_ProvisioningStatus_STATUS</h2>
 <p>Used by: <a href="#LocationSpec_STATUS">LocationSpec_STATUS</a>.</p>
 <table>
@@ -6712,46 +6572,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="PerfCounterDataSource_Streams">PerfCounterDataSource_Streams</h2>
-<p>Used by: <a href="#PerfCounterDataSource">PerfCounterDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-Perf&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PerfCounterDataSource_Streams_STATUS">PerfCounterDataSource_Streams_STATUS</h2>
-<p>Used by: <a href="#PerfCounterDataSource_STATUS">PerfCounterDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-InsightsMetrics&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-Perf&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
 <h2 id="PerformanceCountersOTelDataSource_Streams">PerformanceCountersOTelDataSource_Streams</h2>
 <p>Used by: <a href="#PerformanceCountersOTelDataSource">PerformanceCountersOTelDataSource</a>.</p>
 <table>
@@ -6780,38 +6600,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
   <tbody>
       <tr>
           <td>&ldquo;Microsoft-OtelPerfMetrics&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PrometheusForwarderDataSource_Streams">PrometheusForwarderDataSource_Streams</h2>
-<p>Used by: <a href="#PrometheusForwarderDataSource">PrometheusForwarderDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-PrometheusMetrics&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PrometheusForwarderDataSource_Streams_STATUS">PrometheusForwarderDataSource_Streams_STATUS</h2>
-<p>Used by: <a href="#PrometheusForwarderDataSource_STATUS">PrometheusForwarderDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-PrometheusMetrics&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
@@ -7214,78 +7002,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>&ldquo;Warning&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SyslogDataSource_Streams">SyslogDataSource_Streams</h2>
-<p>Used by: <a href="#SyslogDataSource">SyslogDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SyslogDataSource_Streams_STATUS">SyslogDataSource_Streams_STATUS</h2>
-<p>Used by: <a href="#SyslogDataSource_STATUS">SyslogDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-Syslog&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="WindowsEventLogDataSource_Streams">WindowsEventLogDataSource_Streams</h2>
-<p>Used by: <a href="#WindowsEventLogDataSource">WindowsEventLogDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-Event&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="WindowsEventLogDataSource_Streams_STATUS">WindowsEventLogDataSource_Streams_STATUS</h2>
-<p>Used by: <a href="#WindowsEventLogDataSource_STATUS">WindowsEventLogDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-Event&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-WindowsEvent&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
