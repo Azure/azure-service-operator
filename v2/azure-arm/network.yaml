@@ -91,6 +91,7 @@ typeTransformers:
     property: SecurityRules
     remove: true
     because: This is an embedded resource
+
 groupModelConfiguration:
   2018-05-01:
     DnsZone:
@@ -166,6 +167,8 @@ groupModelConfiguration:
       # TODO[breaking]: This is actually a real resource that can be created as a child of a loadbalancer,
       # but we didn't model it that way initially, so marking it as not a resource for now to maintain backcompat
       $resourceEmbeddedInParent: LoadBalancer
+    # BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded:
+    #   $nameInNextVersion: BackendAddressPool_STATUS
     BackendAddressPool_STATUS:
       $resourceEmbeddedInParent: LoadBalancer
     Delegation:
@@ -187,6 +190,8 @@ groupModelConfiguration:
       $resourceEmbeddedInParent: LoadBalancer
     InboundNatRule_STATUS:
       $resourceEmbeddedInParent: LoadBalancer
+    # InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded:
+    #   $nameInNextVersion: InboundNatRule_STATUS
     InboundNatPool:
       $resourceEmbeddedInParent: LoadBalancer # This is not a real resource
     InboundNatPool_STATUS:
@@ -243,6 +248,10 @@ groupModelConfiguration:
       #      Subnet_VirtualNetwork_SubResourceEmbedded:
       #        Id:
       #          $referenceType: arm
+    # RouteTableSpec_VirtualNetworks_Subnet_SubResourceEmbedded:
+    #   $nameInNextVersion: RouteTableSpec
+    # ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded:
+    #   $nameInNextVersion: ServiceEndpointPolicySpec
     VirtualNetwork:
       $exportAs: VirtualNetwork
       $supportedFrom: v2.0.0-alpha.1
@@ -441,6 +450,9 @@ groupModelConfiguration:
     AzureFirewall:
       $exportAs: AzureFirewall
       $supportedFrom: v2.15.0
+    BastionHost:
+      $exportAs: BastionHost
+      $supportedFrom: v2.11.0
     FirewallPolicy:
       $exportAs: FirewallPolicy
       $supportedFrom: v2.15.0
@@ -462,9 +474,10 @@ groupModelConfiguration:
     FirewallPolicyIntrusionDetectionSignatureSpecification:
       Id:
         $referenceType: simple
-    BastionHost:
-      $exportAs: BastionHost
-      $supportedFrom: v2.11.0
+    # FlowLog_STATUS_NetworkSecurityGroup_SubResourceEmbedded:
+    #   $renameTo: FlowLog_STATUS
+    # InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded:
+    #   $nameInNextVersion: InboundNatRule_STATUS
     BastionHostIPConfiguration:
       $resourceEmbeddedInParent: BastionHost
     NatGateway:
@@ -575,6 +588,8 @@ groupModelConfiguration:
     RouteTables_Route: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
       $exportAs: RouteTablesRoute
       $supportedFrom: v2.11.0
+    # ServiceEndpointPolicySpec_VirtualNetworks_Subnet_SubResourceEmbedded:
+    #   $nameInNextVersion: ServiceEndpointPolicySpec
     VirtualNetwork:
       $exportAs: VirtualNetwork
       $supportedFrom: v2.11.0
@@ -683,17 +698,20 @@ groupModelConfiguration:
     AzureFirewall:
       $exportAs: AzureFirewall
       $supportedFrom: v2.19.0
-    FirewallPolicy:
-      $exportAs: FirewallPolicy
-      $supportedFrom: v2.19.0
-    AzureFirewallIPConfiguration:
-      $resourceEmbeddedInParent: AzureFirewall
     AzureFirewallApplicationRuleCollection:
+      $resourceEmbeddedInParent: AzureFirewall
+    AzureFirewallIPConfiguration:
       $resourceEmbeddedInParent: AzureFirewall
     AzureFirewallNatRuleCollection:
       $resourceEmbeddedInParent: AzureFirewall
     AzureFirewallNetworkRuleCollection:
       $resourceEmbeddedInParent: AzureFirewall
+    BastionHost:
+      $exportAs: BastionHost
+      $supportedFrom: v2.19.0
+    FirewallPolicy:
+      $exportAs: FirewallPolicy
+      $supportedFrom: v2.19.0
     FirewallPolicies_RuleCollectionGroup:
       $exportAs: FirewallPoliciesRuleCollectionGroup
       $supportedFrom: v2.19.0
@@ -704,11 +722,10 @@ groupModelConfiguration:
     FirewallPolicyIntrusionDetectionSignatureSpecification:
       Id:
         $referenceType: simple
-    BastionHost:
-      $exportAs: BastionHost
-      $supportedFrom: v2.19.0
     BastionHostIPConfiguration:
       $resourceEmbeddedInParent: BastionHost
+    # FlowLog_STATUS_NetworkSecurityGroup_SubResourceEmbedded:
+    #   $renameTo: FlowLog_STATUS
     NatGateway:
       $exportAs: NatGateway
       $supportedFrom: v2.19.0
