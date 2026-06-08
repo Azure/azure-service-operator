@@ -374,6 +374,9 @@ groupModelConfiguration:
     Service_Products_Api:
       $exportAs: ProductApi
       $supportedFrom: v2.16.0
+    Service_Products_Group:
+      $exportAs: ProductGroup
+      $supportedFrom: v2.20.0
     Service_Products_Policy:
       $exportAs: ProductPolicy
       $supportedFrom: v2.16.0

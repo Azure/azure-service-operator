@@ -663,6 +663,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.PolicyFragment)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Product)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ProductApi)})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ProductGroup)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.ProductPolicy)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20240501s.Service),
@@ -3687,6 +3688,11 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &apimanagement_v20240501w.ProductApi{},
 		},
 		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.ProductGroup),
+			Defaulter: &apimanagement_v20240501w.ProductGroup{},
+			Validator: &apimanagement_v20240501w.ProductGroup{},
+		},
+		&registration.KnownType{
 			Obj:       new(apimanagement_v20240501.ProductPolicy),
 			Defaulter: &apimanagement_v20240501w.ProductPolicy{},
 			Validator: &apimanagement_v20240501w.ProductPolicy{},
@@ -3744,6 +3750,7 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.PolicyFragment)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Product)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.ProductApi)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.ProductGroup)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.ProductPolicy)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Service)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.ServiceGateway)},
@@ -7551,6 +7558,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.PolicyFragmentExtension{})
 	result = append(result, &apimanagement_customizations.ProductApiExtension{})
 	result = append(result, &apimanagement_customizations.ProductExtension{})
+	result = append(result, &apimanagement_customizations.ProductGroupExtension{})
 	result = append(result, &apimanagement_customizations.ProductPolicyExtension{})
 	result = append(result, &apimanagement_customizations.ServiceExtension{})
 	result = append(result, &apimanagement_customizations.ServiceGatewayApiExtension{})

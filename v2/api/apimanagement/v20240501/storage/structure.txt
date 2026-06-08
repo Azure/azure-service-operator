@@ -823,6 +823,21 @@ ProductApi: Resource
     ├── Conditions: conditions.Condition[]
     └── PropertyBag: genruntime.PropertyBag
 
+ProductGroup: Resource
+├── Owner: apimanagement/v20240501.Product
+├── Spec: Object (5 properties)
+│   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   └── PropertyBag: genruntime.PropertyBag
+└── Status: Object (2 properties)
+    ├── Conditions: conditions.Condition[]
+    └── PropertyBag: genruntime.PropertyBag
+
 ProductPolicy: Resource
 ├── Owner: apimanagement/v20240501.Product
 ├── Spec: Object (6 properties)
