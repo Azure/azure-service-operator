@@ -959,7 +959,6 @@ func ConvertToARMResourceImpl(
 var skipDeletionPrecheck = sets.NewString(
 	"compute.azure.com",
 	"containerinstance.azure.com",
-	"containerregistry.azure.com",
 	"containerservice.azure.com",
 	"datafactory.azure.com",
 	"dbformariadb.azure.com",
