@@ -114,8 +114,20 @@ groupModelConfiguration:
         $referenceType: simple
     WebTestProperties_Configuration:
       $nameInNextVersion: WebTestPropertiesConfiguration
+    WebTestProperties_Configuration_STATUS:
+      $nameInNextVersion: WebTestPropertiesConfiguration_STATUS
+    WebTestProperties_Request:
+      $nameInNextVersion: WebTestPropertiesRequest
+    WebTestProperties_Request_STATUS:
+      $nameInNextVersion: WebTestPropertiesRequest_STATUS
+    WebTestProperties_ValidationRules:
+      $nameInNextVersion: WebTestPropertiesValidationRules
     WebTestProperties_ValidationRules_STATUS:
       $nameInNextVersion: WebTestPropertiesValidationRules_STATUS
+    WebTestProperties_ValidationRules_ContentValidation:
+      $nameInNextVersion: WebTestPropertiesValidationRulesContentValidation
+    WebTestProperties_ValidationRules_ContentValidation_STATUS:
+      $nameInNextVersion: WebTestPropertiesValidationRulesContentValidation_STATUS
   2020-02-02:
     ApplicationInsightsComponentProperties:
       HockeyAppToken:
@@ -183,22 +195,22 @@ groupModelConfiguration:
       ServiceUri:
         $importSecretMode: optional
   2022-06-15:
-    ScheduledQueryRule:
-      $exportAs: ScheduledQueryRule
-      $supportedFrom: v2.4.0
     Actions:
       ActionGroups:
         $referenceType: arm
     Condition:
       ResourceIdColumn:
         $referenceType: arm
-    ConditionFailingPeriods:
-      $nameInNextVersion: Condition_FailingPeriods
-    ConditionFailingPeriods_STATUS:
-      $nameInNextVersion: Condition_FailingPeriods_STATUS
+    Condition_FailingPeriods:
+      $renameTo: ConditionFailingPeriods
+    Condition_FailingPeriods_STATUS:
+      $renameTo: ConditionFailingPeriods_STATUS
     ScheduledQueryRuleProperties:
       Scopes:
         $referenceType: arm
+    ScheduledQueryRule:
+      $exportAs: ScheduledQueryRule
+      $supportedFrom: v2.4.0
     Webtest:
       $exportAs: Webtest
       $supportedFrom: v2.7.0
@@ -320,10 +332,6 @@ groupModelConfiguration:
     Condition:
       ResourceIdColumn:
         $referenceType: arm
-    Condition_FailingPeriods:
-      $nameInNextVersion: ConditionFailingPeriods
-    Condition_FailingPeriods_STATUS:
-      $nameInNextVersion: ConditionFailingPeriods_STATUS
     ScheduledQueryRuleProperties:
       Scopes:
         $referenceType: arm
