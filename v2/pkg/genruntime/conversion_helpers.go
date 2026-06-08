@@ -103,9 +103,13 @@ func GetOptionalIntValue(ptr *int) int {
 }
 
 // GetIntFromFloat returns the int value of the given float64.
-// Primarily used when initializing Spec properties from Status properties.
 func GetIntFromFloat(f float64) int {
 	return int(math.Round(f))
+}
+
+// GetFloatFromInt returns the float64 value of the given int.
+func GetFloatFromInt(i int) float64 {
+	return float64(i)
 }
 
 // ConvertJSONToString returns the string value of the given v1.JSON.
