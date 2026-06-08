@@ -38,18 +38,22 @@ typeTransformers:
     property: Kind
     remove: true
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+
   - name: WebTest_Status
     property: Kind
     remove: true
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+
   - name: Workbook_Spec
     property: Etag
     remove: true
     because: This property should be marked readonly in Swagger
+
   - name: DataCollectionEndpointSpec
     property: ImmutableId
     remove: true
     because: This property should be marked readonly in Swagger
+
   - name: DataFlow;DataFlow_STATUS
     property: Streams
     target:
@@ -57,6 +61,7 @@ typeTransformers:
         element:
           name: string
     because: The enum restrictions on this type are incomplete. The service supports additional stream values like Microsoft-PrometheusMetrics that aren't listed in the enum. See https://github.com/Azure/azure-service-operator/issues/5350
+
   - name: PerfCounterDataSource;PerfCounterDataSource_STATUS;ExtensionDataSource;ExtensionDataSource_STATUS;PrometheusForwarderDataSource;PrometheusForwarderDataSource_STATUS;SyslogDataSource;SyslogDataSource_STATUS;WindowsEventLogDataSource;WindowsEventLogDataSource_STATUS
     property: Streams
     target:
@@ -64,6 +69,24 @@ typeTransformers:
         element:
           name: string
     because: The enum restrictions on this type are incomplete. The service supports additional stream values like Microsoft-PrometheusMetrics that aren't listed in the enum. See https://github.com/Azure/azure-service-operator/issues/5350
+
+  - name: ExtensionDataSource;ExtensionDataSource_STATUS
+    property: ExtensionSettings
+    target:
+      map:
+        key:
+          name: string
+        value:
+          name: any
+    because: some ExtensionSettings are defined as map[string]any and some are defined as any  
+
+  - name: AlertSeverity;AlertSeverity_STATUS
+    target:
+      enum: 
+        base: int
+        values: [0,1,2,3,4]
+    because: Using float64 as the underlying type for an int enum is weird and causes conversion problems with earlier versions of the resource.
+
 groupModelConfiguration:
   2017-10-01:
     Components_PricingPlan:
@@ -89,6 +112,10 @@ groupModelConfiguration:
     WebTestGeolocation:
       Id:
         $referenceType: simple
+    WebTestProperties_Configuration:
+      $nameInNextVersion: WebTestPropertiesConfiguration
+    WebTestProperties_ValidationRules_STATUS:
+      $nameInNextVersion: WebTestPropertiesValidationRules_STATUS
   2020-02-02:
     ApplicationInsightsComponentProperties:
       HockeyAppToken:
@@ -101,6 +128,8 @@ groupModelConfiguration:
       $generatedConfigs:
         ConnectionString: $.Status.ConnectionString
         InstrumentationKey: $.Status.InstrumentationKey
+    WebTestProperties_Configuration:
+      $nameInNextVersion: WebTestPropertiesConfiguration
   2020-10-01:
     ActionGroup:
       $renameTo: ActionGroupReference
@@ -163,6 +192,10 @@ groupModelConfiguration:
     Condition:
       ResourceIdColumn:
         $referenceType: arm
+    ConditionFailingPeriods:
+      $nameInNextVersion: Condition_FailingPeriods
+    ConditionFailingPeriods_STATUS:
+      $nameInNextVersion: Condition_FailingPeriods_STATUS
     ScheduledQueryRuleProperties:
       Scopes:
         $referenceType: arm
@@ -274,6 +307,9 @@ groupModelConfiguration:
         $referenceType: arm
       DataCollectionRuleId:
         $referenceType: arm
+    ExtensionDataSource_STATUS:
+      ExtensionSettings:
+        $conversionStrategy: manual
   2025-01-01-preview:
     ScheduledQueryRule:
       $exportAs: ScheduledQueryRule
@@ -284,6 +320,10 @@ groupModelConfiguration:
     Condition:
       ResourceIdColumn:
         $referenceType: arm
+    Condition_FailingPeriods:
+      $nameInNextVersion: ConditionFailingPeriods
+    Condition_FailingPeriods_STATUS:
+      $nameInNextVersion: ConditionFailingPeriods_STATUS
     ScheduledQueryRuleProperties:
       Scopes:
         $referenceType: arm
