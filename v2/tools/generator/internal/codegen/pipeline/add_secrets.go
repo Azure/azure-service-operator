@@ -42,7 +42,8 @@ func AddSecrets(config *config.Configuration) *Stage {
 			}
 
 			return state.WithOverlaidDefinitions(astmodel.TypesDisjointUnion(updatedSpecs, updatedStatuses)), nil
-		})
+		},
+	)
 
 	stage.RequiresPostrequisiteStages(CreateARMTypesStageID)
 
@@ -65,24 +66,24 @@ func applyConfigSecretOverrides(
 		for _, prop := range it.Properties().Copy() {
 			maybeSecret := mightBeSecretProperty(prop, definitions)
 
-			isSecret, isSecretConfigured := config.ObjectModelConfiguration.IsSecret.Lookup(ctx, prop.PropertyName())
-			if ctx.IsStatus() && !isSecretConfigured {
-				isSecret, isSecretConfigured = config.ObjectModelConfiguration.IsSecret.Lookup(strippedTypeName, prop.PropertyName())
+			secrecy, secrecyConfigured := config.ObjectModelConfiguration.Secrecy.Lookup(ctx, prop.PropertyName())
+			if ctx.IsStatus() && !secrecyConfigured {
+				secrecy, secrecyConfigured = config.ObjectModelConfiguration.Secrecy.Lookup(strippedTypeName, prop.PropertyName())
 			}
 
 			// If it's not a secret, but it looks like a secret, and we don't have any configuration to tell us for
 			// sure, request configuration so we know for sure.
-			if !prop.IsSecret() && maybeSecret && !isSecretConfigured {
+			if prop.Secrecy() != astmodel.ImportSecretModeRequired && prop.Secrecy() != astmodel.ImportSecretModeOptional && maybeSecret && !secrecyConfigured {
 				// Property might be a secret, but isn't already configured as one,
 				// and we don't have config to tell us for sure
 				return nil, eris.Errorf(
-					"property %s might be a secret and must be configured with $isSecret",
-					prop.PropertyName())
+					"property %s might be a secret and must be configured with $importSecretMode",
+					prop.PropertyName(),
+				)
 			}
 
-			if isSecretConfigured {
-				propWithSecret := prop.WithIsSecret(isSecret)
-				it = it.WithProperty(propWithSecret)
+			if secrecyConfigured {
+				it = it.WithProperty(prop.WithSecrecy(secrecy))
 			}
 		}
 
@@ -112,15 +113,17 @@ func applyConfigSecretOverrides(
 	if len(errs) > 0 {
 		return nil, eris.Wrap(
 			kerrors.NewAggregate(errs),
-			"encountered errors while applying config secrets")
+			"encountered errors while applying config secrets",
+		)
 	}
 
 	// Verify that all 'isSecret' modifiers are consumed before returning the result
-	err := config.ObjectModelConfiguration.IsSecret.VerifyConsumed()
+	err := config.ObjectModelConfiguration.Secrecy.VerifyConsumed()
 	if err != nil {
 		return nil, eris.Wrap(
 			err,
-			"Found unused $isSecret configurations; these need to be fixed or removed.")
+			"Found unused $importSecretMode configurations; these need to be fixed or removed.",
+		)
 	}
 
 	return result, nil
@@ -269,7 +272,8 @@ func isTypeSecretMapCandidate(t astmodel.Type) bool {
 
 func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
-		if prop.IsSecret() {
+		switch prop.Secrecy() {
+		case astmodel.ImportSecretModeRequired, astmodel.ImportSecretModeOptional:
 			propType := prop.PropertyType()
 
 			// We only remove pure secret references here. For the case of secret maps, different services seem to treat them
@@ -278,7 +282,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 			// redact the ones that are secret. Since it's hard to know statically what will be returned for any given service, we
 			// default to having the map[string]string on the Status type and letting the service return what it wants.
 			if isTypeSecretMapCandidate(propType) {
-				it = it.WithProperty(prop.WithIsSecret(false))
+				it = it.WithProperty(prop.WithSecrecy(astmodel.ImportSecretModeNever))
 				continue
 			}
 
@@ -286,10 +290,13 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 				return nil, eris.Errorf(
 					"expected property %q to be a string, optional string, map[string]string, or []string, but was: %s",
 					prop.PropertyName(),
-					astmodel.DebugDescription(propType))
+					astmodel.DebugDescription(propType),
+				)
 			}
 
 			it = it.WithoutProperty(prop.PropertyName())
+		case astmodel.ImportSecretModeNever:
+			// Not a secret, nothing to do
 		}
 	}
 
@@ -298,31 +305,84 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 
 func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
-		if prop.IsSecret() {
+		switch prop.Secrecy() {
+		case astmodel.ImportSecretModeRequired, astmodel.ImportSecretModeOptional:
 			propType := prop.PropertyType()
 
 			if !isTypeSecretReferenceCandidate(propType) {
 				return nil, eris.Errorf(
 					"expected property %q to be a string, optional string, map[string]string, or []string, but was: %s",
 					prop.PropertyName(),
-					astmodel.DebugDescription(propType))
+					astmodel.DebugDescription(propType),
+				)
 			}
 
+			// Work out the secret reference type
 			var newType astmodel.Type
-			if isTypeSecretSliceCandidate(prop.PropertyType()) {
+			if isTypeSecretSliceCandidate(propType) {
 				newType = astmodel.NewArrayType(astmodel.SecretReferenceType)
-			} else if isTypeSecretMapCandidate(prop.PropertyType()) {
+			} else if isTypeSecretMapCandidate(propType) {
 				newType = astmodel.OptionalSecretMapReferenceType
-			} else if _, ok := astmodel.AsOptionalType(prop.PropertyType()); ok {
+			} else if _, ok := astmodel.AsOptionalType(propType); ok {
 				newType = astmodel.NewOptionalType(astmodel.SecretReferenceType)
 			} else {
 				newType = astmodel.SecretReferenceType
 			}
 
-			updatedProp := prop.WithType(newType)
-			it = it.WithProperty(updatedProp)
+			if prop.Secrecy() == astmodel.ImportSecretModeOptional {
+				// For optional secrets, create a dual-field pair: original value + new SecretReference
+				updatedProp, newProp, err := createNewSecretReference(prop, newType)
+				if err != nil {
+					return nil, eris.Wrapf(err, "failed to create optional secret pair for property %s", prop.PropertyName())
+				}
+
+				it = it.WithProperty(updatedProp)
+
+				// If the property we're about to add already exists, that's bad!
+				if _, ok := it.Property(newProp.PropertyName()); ok {
+					return nil, eris.Errorf(
+						"property %q already exists on type, can't create optional secret pair",
+						newProp.PropertyName(),
+					)
+				}
+
+				it = it.WithProperty(newProp)
+			} else {
+				// For always-secret properties, replace with the secret reference type
+				it = it.WithProperty(prop.WithType(newType))
+			}
+		case astmodel.ImportSecretModeNever:
+			// Not a secret, nothing to do
 		}
 	}
 
 	return it, nil
+}
+
+func createNewSecretReference(
+	prop *astmodel.PropertyDefinition,
+	newType astmodel.Type,
+) (*astmodel.PropertyDefinition, *astmodel.PropertyDefinition, error) {
+	jsonName, ok := prop.JSONName()
+	if !ok {
+		return nil, nil, eris.Errorf("property %s didn't have a JSON name", prop.PropertyName())
+	}
+
+	// Neither property can be required anymore.
+	updatedProp := prop.
+		WithTag(astmodel.OptionalSecretPairTag, string(prop.PropertyName())).
+		WithSecrecy(astmodel.ImportSecretModeNever). // Clear secret flag on the plain value property
+		MakeOptional().
+		MakeTypeOptional()
+
+	newProp := prop.
+		WithName(prop.PropertyName()+astmodel.OptionalSecretReferenceSuffix).
+		WithType(newType).
+		WithJSONName(jsonName+astmodel.OptionalSecretReferenceSuffix).
+		WithTag(astmodel.OptionalSecretPairTag, string(prop.PropertyName())).
+		WithSecrecy(astmodel.ImportSecretModeNever). // The FromSecret property is a reference, not itself a secret
+		MakeOptional().
+		MakeTypeOptional()
+
+	return updatedProp, newProp, nil
 }

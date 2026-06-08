@@ -47,7 +47,8 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armID,
-		"2020-06-01")
+		"2020-06-01",
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 
@@ -66,7 +67,8 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 	exists, _, err = tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armID,
-		"2020-06-01")
+		"2020-06-01",
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
 }

@@ -863,7 +863,7 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_From_UserAs
 
 	// ClientId
 	if source.ClientId != nil {
-		clientId := source.ClientId.Copy()
+		clientId := *source.ClientId.DeepCopy()
 		maps.ClientId = &clientId
 	} else {
 		maps.ClientId = nil
@@ -871,7 +871,7 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_From_UserAs
 
 	// PrincipalId
 	if source.PrincipalId != nil {
-		principalId := source.PrincipalId.Copy()
+		principalId := *source.PrincipalId.DeepCopy()
 		maps.PrincipalId = &principalId
 	} else {
 		maps.PrincipalId = nil
@@ -879,7 +879,7 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_From_UserAs
 
 	// TenantId
 	if source.TenantId != nil {
-		tenantId := source.TenantId.Copy()
+		tenantId := *source.TenantId.DeepCopy()
 		maps.TenantId = &tenantId
 	} else {
 		maps.TenantId = nil
@@ -912,7 +912,7 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssi
 
 	// ClientId
 	if maps.ClientId != nil {
-		clientId := maps.ClientId.Copy()
+		clientId := *maps.ClientId.DeepCopy()
 		destination.ClientId = &clientId
 	} else {
 		destination.ClientId = nil
@@ -920,7 +920,7 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssi
 
 	// PrincipalId
 	if maps.PrincipalId != nil {
-		principalId := maps.PrincipalId.Copy()
+		principalId := *maps.PrincipalId.DeepCopy()
 		destination.PrincipalId = &principalId
 	} else {
 		destination.PrincipalId = nil
@@ -928,7 +928,7 @@ func (maps *UserAssignedIdentityOperatorConfigMaps) AssignProperties_To_UserAssi
 
 	// TenantId
 	if maps.TenantId != nil {
-		tenantId := maps.TenantId.Copy()
+		tenantId := *maps.TenantId.DeepCopy()
 		destination.TenantId = &tenantId
 	} else {
 		destination.TenantId = nil

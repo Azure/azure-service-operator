@@ -39,7 +39,8 @@ func SimplifyDefinitions() *Stage {
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }
 
 func createSimplifyingVisitor() astmodel.TypeVisitor[any] {

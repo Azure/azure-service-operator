@@ -51,7 +51,8 @@ func Test_Devices_IotHub_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				IotHub_WriteSecrets(tc, iothub)
 			},
-		})
+		},
+	)
 
 	tc.DeleteResourceAndWait(iothub)
 
@@ -92,5 +93,6 @@ func IotHub_WriteSecrets(tc *testcommon.KubePerTestContext, iotHub *devices.IotH
 		"registryReadWritePrimaryKey",
 		"registryReadWriteSecondaryKey",
 		"servicePrimaryKey",
-		"serviceSecondaryKey")
+		"serviceSecondaryKey",
+	)
 }

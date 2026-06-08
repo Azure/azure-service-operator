@@ -37,7 +37,8 @@ func MakeReadyConditionImpactingErrorFromError(azureErr error, classifier extens
 		return conditions.NewReadyConditionImpactingError(
 			azureErr,
 			conditions.ConditionSeverityWarning,
-			conditions.MakeReason(core.UnknownErrorCode, retry.Slow))
+			conditions.MakeReason(core.UnknownErrorCode, retry.Slow),
+		)
 	}
 
 	details, err := classifier(cloudError)
@@ -45,7 +46,8 @@ func MakeReadyConditionImpactingErrorFromError(azureErr error, classifier extens
 		return eris.Wrapf(
 			err,
 			"Unable to classify cloud error (%s)",
-			cloudError.Error())
+			cloudError.Error(),
+		)
 	}
 
 	var severity conditions.ConditionSeverity
@@ -57,7 +59,8 @@ func MakeReadyConditionImpactingErrorFromError(azureErr error, classifier extens
 	default:
 		return eris.Errorf(
 			"unknown error classification %q while making Ready condition",
-			details.Classification)
+			details.Classification,
+		)
 	}
 
 	// Stick errorDetails.Message into an error so that it will be displayed as the message on the condition

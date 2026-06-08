@@ -65,7 +65,8 @@ func NewLeaderElector(
 			LeaderElection:             ctrlOptions.LeaderElection,
 			LeaderElectionResourceLock: ctrlOptions.LeaderElectionResourceLock,
 			LeaderElectionID:           ctrlOptions.LeaderElectionID,
-		})
+		},
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -268,7 +269,8 @@ func (m *Manager) FindNonMatchingCRDs(
 			invertedComparators,
 			func(a apiextensions.CustomResourceDefinition, b apiextensions.CustomResourceDefinition) bool {
 				return !c(a, b)
-			})
+			},
+		)
 	}
 
 	return m.FindMatchingCRDs(existing, goal, invertedComparators...)
@@ -385,7 +387,8 @@ func (m *Manager) applyCRDs(
 		m.logger.V(Verbose).Info(
 			"Applying CRD",
 			"progress", fmt.Sprintf("%d/%d", i, len(instructionsToApply)),
-			"crd", instruction.CRD.Name)
+			"crd", instruction.CRD.Name,
+		)
 
 		result, err := controllerutil.CreateOrUpdate(ctx, m.kubeClient, toApply, func() error {
 			resourceVersion := toApply.ResourceVersion
@@ -514,14 +517,16 @@ func (m *Manager) filterInstallationInstructions(instructions []*CRDInstallation
 					"crd", item.CRD.Name,
 					"diffResult", item.DiffResult,
 					"filterReason", item.FilterReason,
-					"reason", reason)
+					"reason", reason,
+				)
 			}
 		} else {
 			if log {
 				m.logger.V(Verbose).Info(
 					"Will NOT update CRD",
 					"crd", item.CRD.Name,
-					"reason", reason)
+					"reason", reason,
+				)
 			}
 		}
 	}

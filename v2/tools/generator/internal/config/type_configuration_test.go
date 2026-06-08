@@ -70,7 +70,7 @@ func TestTypeConfiguration_WhenAzureSecretsBadlyFormed_ReturnsError(t *testing.T
 	var typeConfig TypeConfiguration
 	err := yaml.Unmarshal(yamlBytes, &typeConfig)
 	g.Expect(err).NotTo(Succeed())
-	g.Expect(err.Error()).To((ContainSubstring(azureGeneratedSecretsTag)))
+	g.Expect(err.Error()).To(ContainSubstring(azureGeneratedSecretsTag))
 }
 
 func TestTypeConfiguration_WhenExportDeprecated_ReturnsError(t *testing.T) {
@@ -194,7 +194,7 @@ func TestTypeConfiguration_UnmarshalYAML_WhenDuplicateProperties_ReturnsError(t 
 
 	yamlContent := `
 Name:
-  $isSecret: true
+  $importSecretMode: required
 Name:
   $renameTo: "FullName"
 `
@@ -212,7 +212,7 @@ func TestTypeConfiguration_UnmarshalYAML_WhenDuplicatePropertiesCaseInsensitive_
 
 	yamlContent := `
 name:
-  $isSecret: true
+  $importSecretMode: required
 NAME:
   $renameTo: "FullName"
 `

@@ -32,7 +32,7 @@ func TestParseReconcilePolicy(t *testing.T) {
 
 	// test default value
 	returnedPolicy, err := ParseReconcilePolicy("", annotations.ReconcilePolicySkip)
-	g.Expect(err).ToNot((HaveOccurred()))
+	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(returnedPolicy).Should(Equal(annotations.ReconcilePolicySkip))
 
 	// test error in case of any other value

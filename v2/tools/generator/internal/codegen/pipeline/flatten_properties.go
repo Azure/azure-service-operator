@@ -36,7 +36,8 @@ func FlattenProperties(log logr.Logger) *Stage {
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }
 
 func makeFlatteningVisitor(defs astmodel.TypeDefinitionSet, log logr.Logger) astmodel.TypeVisitor[astmodel.TypeName] {
@@ -160,7 +161,8 @@ func collectAndFlattenProperties(
 				"Skipping flatten",
 				"property", prop.PropertyName(),
 				"container", container,
-				"reason", err)
+				"reason", err,
+			)
 
 			innerProps = []*astmodel.PropertyDefinition{
 				prop.SetFlatten(false),

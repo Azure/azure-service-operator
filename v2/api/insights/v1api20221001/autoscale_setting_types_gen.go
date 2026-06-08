@@ -4145,7 +4145,10 @@ type WebhookNotification struct {
 	Properties map[string]string `json:"properties,omitempty"`
 
 	// ServiceUri: the service address to receive the notification.
-	ServiceUri *string `json:"serviceUri,omitempty"`
+	ServiceUri *string `json:"serviceUri,omitempty" optionalSecretPair:"ServiceUri"`
+
+	// ServiceUriFromSecret: the service address to receive the notification.
+	ServiceUriFromSecret *genruntime.SecretReference `json:"serviceUriFromSecret,omitempty" optionalSecretPair:"ServiceUri"`
 }
 
 var _ genruntime.ARMTransformer = &WebhookNotification{}
@@ -4168,6 +4171,14 @@ func (notification *WebhookNotification) ConvertToARM(resolved genruntime.Conver
 	// Set property "ServiceUri":
 	if notification.ServiceUri != nil {
 		serviceUri := *notification.ServiceUri
+		result.ServiceUri = &serviceUri
+	}
+	if notification.ServiceUriFromSecret != nil {
+		serviceUriSecret, err := resolved.ResolvedSecrets.Lookup(*notification.ServiceUriFromSecret)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up secret for property ServiceUri")
+		}
+		serviceUri := serviceUriSecret
 		result.ServiceUri = &serviceUri
 	}
 	return result, nil
@@ -4199,6 +4210,8 @@ func (notification *WebhookNotification) PopulateFromARM(owner genruntime.Arbitr
 		notification.ServiceUri = &serviceUri
 	}
 
+	// no assignment for property "ServiceUriFromSecret"
+
 	// No error
 	return nil
 }
@@ -4211,6 +4224,14 @@ func (notification *WebhookNotification) AssignProperties_From_WebhookNotificati
 
 	// ServiceUri
 	notification.ServiceUri = genruntime.ClonePointerToString(source.ServiceUri)
+
+	// ServiceUriFromSecret
+	if source.ServiceUriFromSecret != nil {
+		serviceUriFromSecret := source.ServiceUriFromSecret.Copy()
+		notification.ServiceUriFromSecret = &serviceUriFromSecret
+	} else {
+		notification.ServiceUriFromSecret = nil
+	}
 
 	// No error
 	return nil
@@ -4226,6 +4247,14 @@ func (notification *WebhookNotification) AssignProperties_To_WebhookNotification
 
 	// ServiceUri
 	destination.ServiceUri = genruntime.ClonePointerToString(notification.ServiceUri)
+
+	// ServiceUriFromSecret
+	if notification.ServiceUriFromSecret != nil {
+		serviceUriFromSecret := notification.ServiceUriFromSecret.Copy()
+		destination.ServiceUriFromSecret = &serviceUriFromSecret
+	} else {
+		destination.ServiceUriFromSecret = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4244,9 +4273,6 @@ func (notification *WebhookNotification) Initialize_From_WebhookNotification_STA
 	// Properties
 	notification.Properties = genruntime.CloneMapOfStringToString(source.Properties)
 
-	// ServiceUri
-	notification.ServiceUri = genruntime.ClonePointerToString(source.ServiceUri)
-
 	// No error
 	return nil
 }
@@ -4255,9 +4281,6 @@ func (notification *WebhookNotification) Initialize_From_WebhookNotification_STA
 type WebhookNotification_STATUS struct {
 	// Properties: a property bag of settings. This value can be empty.
 	Properties map[string]string `json:"properties,omitempty"`
-
-	// ServiceUri: the service address to receive the notification.
-	ServiceUri *string `json:"serviceUri,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &WebhookNotification_STATUS{}
@@ -4282,12 +4305,6 @@ func (notification *WebhookNotification_STATUS) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// Set property "ServiceUri":
-	if typedInput.ServiceUri != nil {
-		serviceUri := *typedInput.ServiceUri
-		notification.ServiceUri = &serviceUri
-	}
-
 	// No error
 	return nil
 }
@@ -4297,9 +4314,6 @@ func (notification *WebhookNotification_STATUS) AssignProperties_From_WebhookNot
 
 	// Properties
 	notification.Properties = genruntime.CloneMapOfStringToString(source.Properties)
-
-	// ServiceUri
-	notification.ServiceUri = genruntime.ClonePointerToString(source.ServiceUri)
 
 	// No error
 	return nil
@@ -4312,9 +4326,6 @@ func (notification *WebhookNotification_STATUS) AssignProperties_To_WebhookNotif
 
 	// Properties
 	destination.Properties = genruntime.CloneMapOfStringToString(notification.Properties)
-
-	// ServiceUri
-	destination.ServiceUri = genruntime.ClonePointerToString(notification.ServiceUri)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -1,0 +1,285 @@
+typeFilters:
+  - action: include
+    version: v*20180501preview
+    because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
+  - action: include
+    version: v*20210501preview
+    because: We're using DiagnosticSetting from this.
+    # Latest non-preview version is not supported, see https://github.com/Azure/bicep-types-az/issues/2185
+  - action: include
+    version: v*20240101preview
+    because: We need ScheduledQueryRules from this.
+  - action: include
+    version: v*20250101preview
+    because: We need the latest ScheduledQueryRules from this.
+typeTransformers:
+  #
+  # In the group 'insights'
+  # rename the object 'AutoscaleSetting' 
+  # to 'AutoscaleSettingProperties'.
+  #
+  # Using object: true so that we don't rename the 
+  # resource `Autoscalesetting` (with a lowercase 's') as well
+  #
+  - name: AutoscaleSetting
+    renameTo: AutoscaleSettingProperties
+    ifType:
+      object: true
+    because: We want to use the name `AutoscaleSetting` (with a capital 'S') for the resource
+  # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
+  # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
+
+  # Deal with service Swaggers that are just wrong
+  - name: Webtest_Spec
+    property: Kind
+    remove: true
+    because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+  - name: WebTest_Status
+    property: Kind
+    remove: true
+    because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+  - name: Workbook_Spec
+    property: Etag
+    remove: true
+    because: This property should be marked readonly in Swagger
+  - name: DataCollectionEndpointSpec
+    property: ImmutableId
+    remove: true
+    because: This property should be marked readonly in Swagger
+  - name: DataFlow;DataFlow_STATUS
+    property: Streams
+    target:
+      slice:
+        element:
+          name: string
+    because: The enum restrictions on this type are incomplete. The service supports additional stream values like Microsoft-PrometheusMetrics that aren't listed in the enum. See https://github.com/Azure/azure-service-operator/issues/5350
+  - name: PerfCounterDataSource;PerfCounterDataSource_STATUS;ExtensionDataSource;ExtensionDataSource_STATUS;PrometheusForwarderDataSource;PrometheusForwarderDataSource_STATUS;SyslogDataSource;SyslogDataSource_STATUS;WindowsEventLogDataSource;WindowsEventLogDataSource_STATUS
+    property: Streams
+    target:
+      slice:
+        element:
+          name: string
+    because: The enum restrictions on this type are incomplete. The service supports additional stream values like Microsoft-PrometheusMetrics that aren't listed in the enum. See https://github.com/Azure/azure-service-operator/issues/5350
+groupModelConfiguration:
+  2017-10-01:
+    Components_PricingPlan:
+      $exportAs: PricingPlan
+      $supportedFrom: v2.15.0
+  2018-03-01:
+    MetricAlert:
+      $exportAs: MetricAlert
+      $supportedFrom: v2.4.0
+    WebtestLocationAvailabilityCriteria:
+      ComponentId:
+        $referenceType: arm
+    MetricAlertAction:
+      ActionGroupId:
+        $referenceType: arm+compat
+    MetricAlertProperties:
+      Scopes:
+        $referenceType: arm
+  2018-05-01-preview:
+    Webtest:
+      $exportAs: Webtest
+      $supportedFrom: v2.0.0-alpha.4
+    WebTestGeolocation:
+      Id:
+        $referenceType: simple
+  2020-02-02:
+    ApplicationInsightsComponentProperties:
+      HockeyAppToken:
+        $importSecretMode: never
+      WorkspaceResourceId:
+        $referenceType: arm
+    Component:
+      $exportAs: Component
+      $supportedFrom: v2.0.0-alpha.2
+      $generatedConfigs:
+        ConnectionString: $.Status.ConnectionString
+        InstrumentationKey: $.Status.InstrumentationKey
+  2020-10-01:
+    ActionGroup:
+      $renameTo: ActionGroupReference
+      ActionGroupId:
+        $referenceType: arm
+    ActivityLogAlert:
+      $exportAs: ActivityLogAlert
+      $supportedFrom: v2.15.0
+    AlertRuleAnyOfOrLeafCondition:
+      Field:
+        $referenceType: simple
+    AlertRuleLeafCondition:
+      Field:
+        $referenceType: simple
+    AlertRuleProperties:
+      Scopes:
+        $referenceType: arm
+  2021-05-01-preview:
+    DiagnosticSetting:
+      $exportAs: DiagnosticSetting
+      $supportedFrom: v2.11.0
+    DiagnosticSettings:
+      MarketplacePartnerId:
+        $referenceType: arm
+      WorkspaceId:
+        $referenceType: arm
+      EventHubAuthorizationRuleId:
+        $referenceType: arm
+      StorageAccountId:
+        $referenceType: arm
+  2023-06-01:
+    Workbook:
+      $exportAs: Workbook
+      $supportedFrom: v2.15.0
+    WorkbookProperties:
+      SourceId:
+        $referenceType: arm
+      StorageUri:
+        $referenceType: arm
+  2022-10-01:
+    Autoscalesetting:
+      $exportAs: AutoscaleSetting
+      $supportedFrom: v2.4.0
+    AutoscaleSettingProperties:
+      TargetResourceUri:
+        $referenceType: arm
+    MetricTrigger:
+      MetricResourceUri:
+        $referenceType: arm
+    WebhookNotification:
+      ServiceUri:
+        $importSecretMode: optional
+  2022-06-15:
+    ScheduledQueryRule:
+      $exportAs: ScheduledQueryRule
+      $supportedFrom: v2.4.0
+    Actions:
+      ActionGroups:
+        $referenceType: arm
+    Condition:
+      ResourceIdColumn:
+        $referenceType: arm
+    ScheduledQueryRuleProperties:
+      Scopes:
+        $referenceType: arm
+    Webtest:
+      $exportAs: Webtest
+      $supportedFrom: v2.7.0
+    WebTestGeolocation:
+      Id:
+        $referenceType: simple
+  2023-01-01:
+    ActionGroup:
+      $exportAs: ActionGroup
+      $supportedFrom: v2.4.0
+    AutomationRunbookReceiver:
+      ServiceUri:
+        $importSecretMode: optional
+      WebhookResourceId:
+        $referenceType: arm
+    AzureFunctionReceiver:
+      FunctionAppResourceId:
+        $referenceType: arm
+    LogicAppReceiver:
+      ResourceId:
+        $referenceType: arm
+    WebhookReceiver:
+      ServiceUri:
+        $importSecretMode: optional
+  2023-03-11:
+    DataCollectionRule:
+      $exportAs: DataCollectionRule
+      $supportedFrom: v2.15.0
+    LogAnalyticsDestination:
+      WorkspaceResourceId:
+        $referenceType: arm
+    StorageBlobDestination:
+      StorageAccountResourceId:
+        $referenceType: arm
+    DataCollectionRuleSpec:
+      DataCollectionEndpointId:
+        $referenceType: arm
+    StorageTableDestination:
+      StorageAccountResourceId:
+        $referenceType: arm
+    EventHubDirectDestination:
+      EventHubResourceId:
+        $referenceType: arm
+    AdxDestination:
+      ResourceId:
+        $referenceType: arm
+    StorageBlob:
+      ResourceId:
+        $referenceType: arm
+    MonitoringAccountDestination:
+      AccountResourceId:
+        $referenceType: arm
+    EventHubDestination:
+      EventHubResourceId:
+        $referenceType: arm
+    DataCollectionEndpoint:
+      $exportAs: DataCollectionEndpoint
+      $supportedFrom: v2.15.0
+    DataCollectionRuleAssociation:
+      $exportAs: DataCollectionRuleAssociation
+      $supportedFrom: v2.15.0
+    DataCollectionRuleAssociationSpec:
+      DataCollectionEndpointId:
+        $referenceType: arm
+      DataCollectionRuleId:
+        $referenceType: arm
+  2024-03-11:
+    DataCollectionRule:
+      $exportAs: DataCollectionRule
+      $supportedFrom: v2.15.0
+    LogAnalyticsDestination:
+      WorkspaceResourceId:
+        $referenceType: arm
+    StorageBlobDestination:
+      StorageAccountResourceId:
+        $referenceType: arm
+    DataCollectionRuleSpec:
+      DataCollectionEndpointId:
+        $referenceType: arm
+    StorageTableDestination:
+      StorageAccountResourceId:
+        $referenceType: arm
+    EventHubDirectDestination:
+      EventHubResourceId:
+        $referenceType: arm
+    AdxDestination:
+      ResourceId:
+        $referenceType: arm
+    StorageBlob:
+      ResourceId:
+        $referenceType: arm
+    MonitoringAccountDestination:
+      AccountResourceId:
+        $referenceType: arm
+    EventHubDestination:
+      EventHubResourceId:
+        $referenceType: arm
+    DataCollectionEndpoint:
+      $exportAs: DataCollectionEndpoint
+      $supportedFrom: v2.15.0
+    DataCollectionRuleAssociation:
+      $exportAs: DataCollectionRuleAssociation
+      $supportedFrom: v2.15.0
+    DataCollectionRuleAssociationSpec:
+      DataCollectionEndpointId:
+        $referenceType: arm
+      DataCollectionRuleId:
+        $referenceType: arm
+  2025-01-01-preview:
+    ScheduledQueryRule:
+      $exportAs: ScheduledQueryRule
+      $supportedFrom: v2.12.0
+    Actions:
+      ActionGroups:
+        $referenceType: arm
+    Condition:
+      ResourceIdColumn:
+        $referenceType: arm
+    ScheduledQueryRuleProperties:
+      Scopes:
+        $referenceType: arm

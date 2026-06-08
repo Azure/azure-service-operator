@@ -33,7 +33,8 @@ func CatalogKnownResources() *Stage {
 			}
 
 			return StateWithData(state, AllKnownResources, catalog), nil
-		})
+		},
+	)
 
 	// We're cataloging all known resources, so we have to do this before we reduce the set of
 	// resources we're processing by applying the export filters.

@@ -950,7 +950,6 @@ func AddIndependentPropertyGeneratorsForAutomationRunbookReceiver_STATUS(gens ma
 	gens["IsGlobalRunbook"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["RunbookName"] = gen.PtrOf(gen.AlphaString())
-	gens["ServiceUri"] = gen.PtrOf(gen.AlphaString())
 	gens["UseCommonAlertSchema"] = gen.PtrOf(gen.Bool())
 	gens["WebhookResourceId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2853,7 +2852,6 @@ func AddIndependentPropertyGeneratorsForWebhookReceiver_STATUS(gens map[string]g
 	gens["IdentifierUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
-	gens["ServiceUri"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["UseAadAuth"] = gen.PtrOf(gen.Bool())
 	gens["UseCommonAlertSchema"] = gen.PtrOf(gen.Bool())

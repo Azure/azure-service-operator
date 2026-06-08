@@ -1,0 +1,50 @@
+typeFilters:
+  - action: include
+    version: v*20200801preview
+    because: We want to export this particular preview version
+groupModelConfiguration:
+  2020-08-01-preview:
+    RoleAssignment:
+      $exportAs: RoleAssignment
+      $supportedFrom: v2.0.0-alpha.2
+      $defaultAzureName: false
+      $operatorSpecProperties:
+        - name: NamingConvention
+          type: string
+          description: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. <br> +kubebuilder:validation:Enum={"random","stable"}
+    RoleAssignmentProperties:
+      DelegatedManagedIdentityResourceId:
+        $referenceType: arm
+      RoleDefinitionId:
+        $description: The role definition ID. This can be the ARM ID of a custom role definition, or the well-known name of a built-in role definition. See https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles for well-known role definition names.
+        $referenceType: arm+wellknown
+      PrincipalId:
+        $importConfigMapMode: optional
+  2022-04-01:
+    RoleAssignment:
+      $exportAs: RoleAssignment
+      $supportedFrom: v2.4.0
+      $defaultAzureName: false
+      $operatorSpecProperties:
+        - name: NamingConvention
+          type: string
+          description: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. <br> +kubebuilder:validation:Enum={"random","stable"}
+    RoleAssignmentProperties:
+      DelegatedManagedIdentityResourceId:
+        $referenceType: arm
+      RoleDefinitionId:
+        $description: The role definition ID. This can be the ARM ID of a custom role definition, or the well-known name of a built-in role definition. See https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles for well-known role definition names.
+        $referenceType: arm+wellknown
+      PrincipalId:
+        $importConfigMapMode: optional
+    RoleDefinition:
+      $exportAs: RoleDefinition
+      $supportedFrom: v2.8.0
+      $defaultAzureName: false
+      $operatorSpecProperties:
+        - name: NamingConvention
+          type: string
+          description: The uuid generation technique to use for any role without an explicit AzureName. One of 'stable' or 'random'. <br> +kubebuilder:validation:Enum={"random","stable"}
+    RoleDefinitionProperties:
+      AssignableScopes:
+        $referenceType: arm

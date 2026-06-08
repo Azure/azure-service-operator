@@ -22,7 +22,8 @@ func TestConversionFunctionBuilderBuildConversion_GivenSourceAndDestinationTypes
 		MakeEnumValue("Alpha", "alpha"),
 		MakeEnumValue("Beta", "beta"),
 		MakeEnumValue("Gamma", "gamma"),
-		MakeEnumValue("Delta", "delta"))
+		MakeEnumValue("Delta", "delta"),
+	)
 	enumDef := MakeTypeDefinition(enumName, enumType)
 
 	pkgDef := NewPackageDefinition(pkg)

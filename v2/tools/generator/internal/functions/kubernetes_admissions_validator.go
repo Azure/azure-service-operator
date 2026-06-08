@@ -50,7 +50,8 @@ func NewValidateFunction(
 		data,
 		idFactory,
 		asFunc,
-		requiredPackages...)
+		requiredPackages...,
+	)
 }
 
 // ValidatorBuilder helps in building an interface implementation for webhook.CustomValidator.
@@ -118,7 +119,8 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 		group,
 		resource,
 		version,
-		name)
+		name,
+	)
 
 	// Count total validations for preallocation
 	totalValidations := 0
@@ -135,7 +137,8 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 			v.validateCreate,
 			v.resourceName.PackageReference(),
 			astmodel.FmtReference,
-			astmodel.GenRuntimeReference),
+			astmodel.GenRuntimeReference,
+		),
 		NewValidateFunction(
 			"ValidateUpdate",
 			v.resourceName,
@@ -143,7 +146,8 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 			v.validateUpdate,
 			v.resourceName.PackageReference(),
 			astmodel.FmtReference,
-			astmodel.GenRuntimeReference),
+			astmodel.GenRuntimeReference,
+		),
 		NewValidateFunction(
 			"ValidateDelete",
 			v.resourceName,
@@ -151,22 +155,26 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 			v.validateDelete,
 			v.resourceName.PackageReference(),
 			astmodel.FmtReference,
-			astmodel.GenRuntimeReference),
+			astmodel.GenRuntimeReference,
+		),
 		NewValidateFunction(
 			"createValidations",
 			v.resourceName,
 			v.idFactory,
-			v.localCreateValidations),
+			v.localCreateValidations,
+		),
 		NewValidateFunction(
 			"updateValidations",
 			v.resourceName,
 			v.idFactory,
-			v.localUpdateValidations),
+			v.localUpdateValidations,
+		),
 		NewValidateFunction(
 			"deleteValidations",
 			v.resourceName,
 			v.idFactory,
-			v.localDeleteValidations))
+			v.localDeleteValidations,
+		))
 
 	// Add the actual individual validation functions
 	for _, validations := range v.validations {
@@ -206,7 +214,8 @@ func (v *ValidatorBuilder) validateCreate(
 		"createValidations",
 		"CreateValidations",
 		"ValidateCreate",
-		"")
+		"",
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating validation body")
 	}
@@ -263,7 +272,8 @@ func (v *ValidatorBuilder) validateUpdate(
 		"updateValidations",
 		"UpdateValidations",
 		"ValidateUpdate",
-		oldResourceIdent)
+		oldResourceIdent,
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating validation body")
 	}
@@ -320,7 +330,8 @@ func (v *ValidatorBuilder) validateDelete(
 		"deleteValidations",
 		"DeleteValidations",
 		"ValidateDelete",
-		"")
+		"",
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "creating validation body")
 	}
@@ -433,14 +444,16 @@ func (v *ValidatorBuilder) validateBody(
 		castStmts,
 		astbuilder.ShortDeclaration(
 			validationsIdent,
-			astbuilder.CallQualifiedFunc(receiverIdent, implFunctionName)),
+			astbuilder.CallQualifiedFunc(receiverIdent, implFunctionName),
+		),
 		astbuilder.AssignToInterface(tempVarIdent, dst.NewIdent(receiverIdent)),
 		astbuilder.IfType(
 			dst.NewIdent(tempVarIdent),
 			overrideInterfaceType,
 			runtimeValidatorIdent,
 			// Not using astbuilder.AppendList here as we want to tack on a "..." at the end
-			astbuilder.SimpleAssignment(dst.NewIdent(validationsIdent), appendFuncCall)),
+			astbuilder.SimpleAssignment(dst.NewIdent(validationsIdent), appendFuncCall),
+		),
 		astbuilder.Returns(astbuilder.CallQualifiedFunc(astmodel.GenRuntimeReference.PackageName(), validationFunctionName, args...)),
 	)
 
@@ -568,7 +581,8 @@ func (v *ValidatorBuilder) localValidationFuncBody(
 	if len(errs) > 0 {
 		return nil, eris.Wrap(
 			kerrors.NewAggregate(errs),
-			"failed to create local validation function body")
+			"failed to create local validation function body",
+		)
 	}
 
 	if len(elements) == 0 {

@@ -1,0 +1,22 @@
+groupModelConfiguration:
+  2021-06-01:
+    KekIdentityProperties:
+      UserAssignedIdentity:
+        $referenceType: arm
+    DataLakeStorageAccountDetails:
+      ResourceId:
+        $referenceType: arm
+      AccountUrl:
+        $importConfigMapMode: optional
+    PurviewConfiguration:
+      PurviewResourceId:
+        $referenceType: arm
+    Workspace:
+      $exportAs: Workspace
+      $supportedFrom: v2.0.0
+    WorkspaceProperties:
+      SqlAdministratorLoginPassword:
+        $importSecretMode: required
+    Workspaces_BigDataPool:
+      $exportAs: WorkspacesBigDataPool
+      $supportedFrom: v2.0.0

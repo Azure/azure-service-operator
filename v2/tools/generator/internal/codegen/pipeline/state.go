@@ -155,7 +155,8 @@ func GetStateData[I any](
 				"state information found for key %s of type %T, expected %T",
 				key,
 				value,
-				zero)
+				zero,
+			)
 
 	}
 

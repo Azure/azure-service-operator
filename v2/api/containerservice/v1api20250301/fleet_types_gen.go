@@ -2871,7 +2871,7 @@ func (secrets *FleetOperatorSecrets) AssignProperties_From_FleetOperatorSecrets(
 
 	// UserCredentials
 	if source.UserCredentials != nil {
-		userCredential := source.UserCredentials.Copy()
+		userCredential := *source.UserCredentials.DeepCopy()
 		secrets.UserCredentials = &userCredential
 	} else {
 		secrets.UserCredentials = nil
@@ -2888,7 +2888,7 @@ func (secrets *FleetOperatorSecrets) AssignProperties_To_FleetOperatorSecrets(de
 
 	// UserCredentials
 	if secrets.UserCredentials != nil {
-		userCredential := secrets.UserCredentials.Copy()
+		userCredential := *secrets.UserCredentials.DeepCopy()
 		destination.UserCredentials = &userCredential
 	} else {
 		destination.UserCredentials = nil

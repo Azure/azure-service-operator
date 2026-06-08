@@ -27,7 +27,8 @@ func TestGolden_JSONSerializationTestCase_AsFunc(t *testing.T) {
 		"Person",
 		test.FullNameProperty,
 		test.KnownAsProperty,
-		test.FamilyNameProperty)
+		test.FamilyNameProperty,
+	)
 
 	container, ok := astmodel.AsPropertyContainer(currentSpec.Type())
 	g.Expect(ok).To(BeTrue())

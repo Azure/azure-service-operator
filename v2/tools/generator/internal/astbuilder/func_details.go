@@ -67,7 +67,8 @@ func (fn *FuncDetails) defineFunc(noBody bool) *dst.FuncDecl {
 		reason := fmt.Sprintf(
 			"ReceiverIdent and ReceiverType must both be specified, or both omitted. ReceiverIdent: %q, ReceiverType: %q",
 			fn.ReceiverIdent,
-			fn.ReceiverType)
+			fn.ReceiverType,
+		)
 		panic(reason)
 	}
 

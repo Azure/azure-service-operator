@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"sync"
 	"time"
@@ -76,14 +77,16 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		"output",
 		"o",
 		"",
-		"Write ARM resource CRDs to a single file")
+		"Write ARM resource CRDs to a single file",
+	)
 
 	cmd.Flags().StringVarP(
 		&options.outputFolder,
 		"output-folder",
 		"f",
 		"",
-		"Write ARM resource CRDs to individual files in a folder")
+		"Write ARM resource CRDs to individual files in a folder",
+	)
 
 	cmd.MarkFlagsMutuallyExclusive("output", "output-folder")
 
@@ -92,35 +95,40 @@ https://docs.microsoft.com/azure/active-directory/develop/authentication-nationa
 		"namespace",
 		"n",
 		"",
-		"Set the namespace of the the imported resources")
+		"Set the namespace of the the imported resources",
+	)
 
 	cmd.Flags().StringSliceVarP(
 		&options.labels,
 		"label",
 		"l",
 		nil,
-		"Add labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)")
+		"Add labels to the imported resources. Multiple comma-separated labels can be specified (--label example.com/mylabel=foo,example.com/mylabel2=bar) or the --label (-l) argument can be used multiple times (-l example.com/mylabel=foo -l example.com/mylabel2=bar)",
+	)
 
 	cmd.Flags().StringSliceVarP(
 		&options.annotations,
 		"annotation",
 		"a",
 		nil,
-		"Add annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)")
+		"Add annotations to the imported resources. Multiple comma-separated annotations can be specified (--annotation example.com/myannotation=foo,example.com/myannotation2=bar) or the --annotation (-a) argument can be used multiple times (-a example.com/myannotation=foo -a example.com/myannotation2=bar)",
+	)
 
 	cmd.Flags().IntVarP(
 		&options.workers,
 		"workers",
 		"w",
 		4,
-		"The number of parallel workers to use when importing resources")
+		"The number of parallel workers to use when importing resources",
+	)
 
 	cmd.Flags().BoolVarP(
 		&options.simpleLogging,
 		"simple-logging",
 		"s",
 		false,
-		"Use simple logging instead of progress bars")
+		"Use simple logging instead of progress bars",
+	)
 
 	return cmd
 }
@@ -137,7 +145,7 @@ func importAzureResource(
 	}
 
 	// Create an ARM client for requesting resources
-	client, err := createARMClient(options)
+	client, err := createARMClient(ctx, options)
 	if err != nil {
 		return eris.Wrapf(err, "failed to create ARM client")
 	}
@@ -228,10 +236,13 @@ func importAzureResource(
 }
 
 // createARMClient creates our client for talking to ARM
-func createARMClient(options *importAzureResourceOptions) (*genericarmclient.GenericClient, error) {
+func createARMClient(
+	ctx context.Context,
+	options *importAzureResourceOptions,
+) (*genericarmclient.GenericClient, error) {
 	activeCloud := options.cloud()
 
-	creds, err := newChainedCredential(activeCloud)
+	creds, err := newChainedCredential(ctx, activeCloud)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to create Azure credential")
 	}
@@ -244,7 +255,10 @@ func createARMClient(options *importAzureResourceOptions) (*genericarmclient.Gen
 }
 
 // newChainedCredential creates a ChainedTokenCredential with multiple credential types for asoctl.
-func newChainedCredential(cloud cloud.Configuration) (azcore.TokenCredential, error) {
+func newChainedCredential(
+	ctx context.Context,
+	cloud cloud.Configuration,
+) (azcore.TokenCredential, error) {
 	var creds []azcore.TokenCredential
 	var credErrors []string
 
@@ -253,7 +267,8 @@ func newChainedCredential(cloud cloud.Configuration) (azcore.TokenCredential, er
 			ClientOptions: azcore.ClientOptions{
 				Cloud: cloud,
 			},
-		})
+		},
+	)
 	if err != nil {
 		credErrors = append(credErrors, fmt.Sprintf("EnvironmentCredential: %s", err.Error()))
 	} else {
@@ -265,23 +280,27 @@ func newChainedCredential(cloud cloud.Configuration) (azcore.TokenCredential, er
 			ClientOptions: azcore.ClientOptions{
 				Cloud: cloud,
 			},
-		})
+		},
+	)
 	if err != nil {
 		credErrors = append(credErrors, fmt.Sprintf("WorkloadIdentityCredential: %s", err.Error()))
 	} else {
 		creds = append(creds, wiCred)
 	}
 
-	miCred, err := azidentity.NewManagedIdentityCredential(
-		&azidentity.ManagedIdentityCredentialOptions{
-			ClientOptions: azcore.ClientOptions{
-				Cloud: cloud,
+	if isIMDSAvailable(ctx) {
+		miCred, err := azidentity.NewManagedIdentityCredential(
+			&azidentity.ManagedIdentityCredentialOptions{
+				ClientOptions: azcore.ClientOptions{
+					Cloud: cloud,
+				},
 			},
-		})
-	if err != nil {
-		credErrors = append(credErrors, fmt.Sprintf("ManagedIdentityCredential: %s", err.Error()))
-	} else {
-		creds = append(creds, miCred)
+		)
+		if err != nil {
+			credErrors = append(credErrors, fmt.Sprintf("ManagedIdentityCredential: %s", err.Error()))
+		} else {
+			creds = append(creds, miCred)
+		}
 	}
 
 	cliCred, err := azidentity.NewAzureCLICredential(nil)
@@ -299,6 +318,31 @@ func newChainedCredential(cloud cloud.Configuration) (azcore.TokenCredential, er
 	}
 
 	return azidentity.NewChainedTokenCredential(creds, nil)
+}
+
+func isIMDSAvailable(ctx context.Context) bool {
+	probeCtx, cancel := context.WithTimeout(ctx, 1*time.Second)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(
+		probeCtx,
+		http.MethodGet,
+		"http://169.254.169.254/metadata/identity/oauth2/token",
+		nil,
+	)
+	if err != nil {
+		return false
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		if resp != nil && resp.Body != nil {
+			_ = resp.Body.Close()
+		}
+		return false
+	}
+	defer resp.Body.Close()
+	return true
 }
 
 // configureImportedResources applies additional configuration to imported resources
@@ -340,7 +384,8 @@ func writeResources(
 	if file, ok := options.writeToFile(); ok {
 		log.Info(
 			"Writing to a single file",
-			"file", file)
+			"file", file,
+		)
 		err := result.SaveToSingleFile(file)
 		if err != nil {
 			return eris.Wrapf(err, "failed to write to file %s", file)
@@ -353,7 +398,8 @@ func writeResources(
 	if folder, ok := options.writeToFolder(); ok {
 		log.Info(
 			"Writing to individual files in folder",
-			"folder", folder)
+			"folder", folder,
+		)
 		err := result.SaveToIndividualFilesInFolder(folder)
 		if err != nil {
 			return eris.Wrapf(err, "failed to write into folder %s", folder)

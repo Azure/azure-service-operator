@@ -214,7 +214,7 @@ type WebhookNotification struct {
 	Properties map[string]string `json:"properties,omitempty"`
 
 	// ServiceUri: the service address to receive the notification.
-	ServiceUri *string `json:"serviceUri,omitempty"`
+	ServiceUri *string `json:"serviceUri,omitempty" optionalSecretPair:"ServiceUri"`
 }
 
 // The trigger that results in a scaling action.

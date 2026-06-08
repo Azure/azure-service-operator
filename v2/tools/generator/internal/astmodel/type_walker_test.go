@@ -26,22 +26,29 @@ func makeSimpleTestTypeGraph() TypeDefinitionSet {
 	result := make(TypeDefinitionSet)
 
 	leftChildType := NewObjectType().WithProperty(
-		NewPropertyDefinition("SimpleString", "simpleString", StringType))
+		NewPropertyDefinition("SimpleString", "simpleString", StringType),
+	)
 	leftChildDef := MakeTypeDefinition(
 		leftTypeName,
-		leftChildType)
+		leftChildType,
+	)
 	rightChildType := NewObjectType().WithProperty(
-		NewPropertyDefinition("SimpleInt", "simpleInt", IntType))
+		NewPropertyDefinition("SimpleInt", "simpleInt", IntType),
+	)
 	rightChildDef := MakeTypeDefinition(
 		rightTypeName,
-		rightChildType)
+		rightChildType,
+	)
 
 	rootType := NewObjectType().WithProperty(
-		NewPropertyDefinition("Left", "left", leftChildDef.Name())).WithProperty(
-		NewPropertyDefinition("Right", "right", rightChildDef.Name()))
+		NewPropertyDefinition("Left", "left", leftChildDef.Name()),
+	).WithProperty(
+		NewPropertyDefinition("Right", "right", rightChildDef.Name()),
+	)
 	rootDef := MakeTypeDefinition(
 		rootTypeName,
-		rootType)
+		rootType,
+	)
 
 	result.Add(leftChildDef)
 	result.Add(rightChildDef)
@@ -54,17 +61,22 @@ func makeDuplicateReferencesTypeGraph() TypeDefinitionSet {
 	result := make(TypeDefinitionSet)
 
 	childType := NewObjectType().WithProperty(
-		NewPropertyDefinition("SimpleString", "simpleString", StringType))
+		NewPropertyDefinition("SimpleString", "simpleString", StringType),
+	)
 	childDef := MakeTypeDefinition(
 		leftTypeName,
-		childType)
+		childType,
+	)
 
 	rootType := NewObjectType().WithProperty(
-		NewPropertyDefinition("Left", "left", childDef.Name())).WithProperty(
-		NewPropertyDefinition("Right", "right", childDef.Name()))
+		NewPropertyDefinition("Left", "left", childDef.Name()),
+	).WithProperty(
+		NewPropertyDefinition("Right", "right", childDef.Name()),
+	)
 	rootDef := MakeTypeDefinition(
 		rootTypeName,
-		rootType)
+		rootType,
+	)
 
 	result.Add(childDef)
 	result.Add(rootDef)
@@ -76,22 +88,29 @@ func makeCycleTypeGraph() TypeDefinitionSet {
 	result := make(TypeDefinitionSet)
 
 	leftChildType := NewObjectType().WithProperty(
-		NewPropertyDefinition("Root", "root", rootTypeName))
+		NewPropertyDefinition("Root", "root", rootTypeName),
+	)
 	leftChildDef := MakeTypeDefinition(
 		leftTypeName,
-		leftChildType)
+		leftChildType,
+	)
 	rightChildType := NewObjectType().WithProperty(
-		NewPropertyDefinition("SimpleInt", "simpleInt", IntType))
+		NewPropertyDefinition("SimpleInt", "simpleInt", IntType),
+	)
 	rightChildDef := MakeTypeDefinition(
 		rightTypeName,
-		rightChildType)
+		rightChildType,
+	)
 
 	rootType := NewObjectType().WithProperty(
-		NewPropertyDefinition("Left", "left", leftChildDef.Name())).WithProperty(
-		NewPropertyDefinition("Right", "right", rightChildDef.Name()))
+		NewPropertyDefinition("Left", "left", leftChildDef.Name()),
+	).WithProperty(
+		NewPropertyDefinition("Right", "right", rightChildDef.Name()),
+	)
 	rootDef := MakeTypeDefinition(
 		rootTypeName,
-		rootType)
+		rootType,
+	)
 
 	result.Add(leftChildDef)
 	result.Add(rightChildDef)

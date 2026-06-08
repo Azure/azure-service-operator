@@ -167,7 +167,8 @@ func FlexibleServer_20230601Preview_ConfigValuesWrittenToSameConfigMap(tc *testc
 	tc.ExpectConfigMapHasKeysAndValues(
 		flexibleServerConfigMap,
 		flexibleServerConfigMapKey,
-		*flexibleServer.Status.FullyQualifiedDomainName)
+		*flexibleServer.Status.FullyQualifiedDomainName,
+	)
 }
 
 func FlexibleServer_Database_20230601Preview_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {

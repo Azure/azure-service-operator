@@ -192,7 +192,7 @@ func (in *CassandraClusterOperatorSpec) DeepCopyInto(out *CassandraClusterOperat
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -203,7 +203,7 @@ func (in *CassandraClusterOperatorSpec) DeepCopyInto(out *CassandraClusterOperat
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -781,7 +781,7 @@ func (in *CassandraDataCenterOperatorSpec) DeepCopyInto(out *CassandraDataCenter
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -792,7 +792,7 @@ func (in *CassandraDataCenterOperatorSpec) DeepCopyInto(out *CassandraDataCenter
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

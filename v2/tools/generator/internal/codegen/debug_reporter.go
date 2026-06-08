@@ -33,7 +33,8 @@ func (dr *debugReporter) ReportStage(stage int, description string, state *pipel
 		func(def astmodel.TypeDefinition) bool {
 			// Allow matching just the group (e.g. network)
 			return dr.settings.MatchesGroup(def.Name().InternalPackageReference())
-		})
+		},
+	)
 
 	tcr := reporting.NewTypeCatalogReport(included, reporting.IncludeFunctions)
 	name := strconv.Itoa(stage) + "-" + description + ".txt"

@@ -39,7 +39,8 @@ func OverrideDescriptions(configuration *config.Configuration) *Stage {
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(FlattenPropertiesStageID, RenamePropertiesStageID)
 	return stage

@@ -71,7 +71,8 @@ func Test_Authorization_RoleDefinitionSubscriptionScope_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(authorization.APIVersion_Value))
+		string(authorization.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -113,7 +114,8 @@ func Test_Authorization_RoleDefinitionResourceGroupScope_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(authorization.APIVersion_Value))
+		string(authorization.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

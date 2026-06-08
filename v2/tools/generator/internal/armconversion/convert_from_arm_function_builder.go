@@ -110,7 +110,8 @@ func (builder *convertFromARMBuilder) functionDeclaration() (*dst.FuncDecl, erro
 
 	fn.AddParameter(
 		builder.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		ownerReferenceExpr)
+		ownerReferenceExpr,
+	)
 
 	fn.AddParameter(builder.inputIdent, dst.NewIdent("interface{}"))
 	fn.AddReturns("error")
@@ -124,7 +125,8 @@ func (builder *convertFromARMBuilder) functionBodyStatements() ([]dst.Stmt, erro
 	conversionStmts, err := generateTypeConversionAssignments(
 		builder.sourceType,
 		builder.destinationType,
-		builder.propertyConversionHandler(promotions))
+		builder.propertyConversionHandler(promotions),
+	)
 	if err != nil {
 		return nil, eris.Wrapf(err, "unable to generate conversion statements for %s", builder.methodName)
 	}
@@ -140,7 +142,8 @@ func (builder *convertFromARMBuilder) functionBodyStatements() ([]dst.Stmt, erro
 	return astbuilder.Statements(
 		assertStmts,
 		conversionStmts,
-		astbuilder.ReturnNoError()), nil
+		astbuilder.ReturnNoError(),
+	), nil
 }
 
 func (builder *convertFromARMBuilder) propertyConversionHandler(
@@ -176,11 +179,14 @@ func (builder *convertFromARMBuilder) propertyConversionHandler(
 					assign := astbuilder.SimpleAssignment(
 						astbuilder.Selector(
 							dst.NewIdent(builder.receiverIdent),
-							promotion.crdProperty),
+							promotion.crdProperty,
+						),
 						astbuilder.Selector(
 							dst.NewIdent(builder.typedInputIdent),
 							string(toProp.PropertyName()),
-							promotion.armProperty))
+							promotion.armProperty,
+						),
+					)
 					promotionStmts = append(promotionStmts, assign)
 				}
 
@@ -212,7 +218,8 @@ func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []d
 	typeAssert := astbuilder.TypeAssert(
 		dst.NewIdent(dest),
 		dst.NewIdent(builder.inputIdent),
-		builder.sourceTypeIdent())
+		builder.sourceTypeIdent(),
+	)
 
 	// Check the result of the type assert
 	// if !ok {
@@ -224,7 +231,9 @@ func (builder *convertFromARMBuilder) assertInputTypeIsARM(needsResult bool) []d
 			fmt.Sprintf("unexpected type supplied for %s() function. Expected %s, got %%T",
 				builder.methodName,
 				builder.sourceTypeString()),
-			dst.NewIdent(builder.inputIdent)))
+			dst.NewIdent(builder.inputIdent),
+		),
+	)
 
 	return astbuilder.Statements(typeAssert, returnIfNotOk)
 }
@@ -254,7 +263,9 @@ func (builder *convertFromARMBuilder) namePropertyHandler(
 		astbuilder.CallQualifiedFunc(
 			astmodel.GenRuntimeReference.PackageName(),
 			"ExtractKubernetesResourceNameFromARMName",
-			astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))))
+			astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName())),
+		),
+	)
 
 	return handleWith(setAzureName), nil
 }
@@ -339,7 +350,8 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 			eris.Errorf(
 				"owner property was not of type TypeName. Kube: %s, ARM: %s",
 				kubeDescription.String(),
-				armDescription.String())
+				armDescription.String(),
+			)
 
 	}
 
@@ -362,14 +374,16 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 		return notHandled,
 			eris.Errorf(
 				"found Owner property on spec with unexpected TypeName %s",
-				ownerNameType.String())
+				ownerNameType.String(),
+			)
 	}
 
 	setOwner := astbuilder.QualifiedAssignment(
 		dst.NewIdent(builder.receiverIdent),
 		string(toProp.PropertyName()),
 		token.ASSIGN,
-		convertedOwner)
+		convertedOwner,
+	)
 
 	return handleWith(setOwner), nil
 }
@@ -440,7 +454,8 @@ func (builder *convertFromARMBuilder) flattenedPropertyHandler(
 		eris.Errorf(
 			"couldn’t find source ARM property %q that k8s property %q was flattened from",
 			toProp.FlattenedFrom()[0],
-			toProp.PropertyName())
+			toProp.PropertyName(),
+		)
 }
 
 func (builder *convertFromARMBuilder) buildFlattenedAssignment(
@@ -460,7 +475,8 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 				"need to implement multiple levels of flattening: property %q on %s was flattened from %q",
 				toProp.PropertyName(),
 				builder.receiverIdent,
-				strings.Join(props, "."))
+				strings.Join(props, "."),
+			)
 
 	}
 
@@ -479,7 +495,8 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 			eris.Wrapf(
 				err,
 				"failed to resolve type for property %s",
-				fromProp.PropertyName())
+				fromProp.PropertyName(),
+			)
 	}
 
 	var fromPropObjType *astmodel.ObjectType
@@ -496,7 +513,8 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 				eris.Wrapf(
 					err,
 					"failed to resolve type for property %s",
-					fromProp.PropertyName())
+					fromProp.PropertyName(),
+				)
 		}
 
 		// (4.) resolve the inner object type
@@ -512,7 +530,8 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 			eris.Errorf(
 				"property %q marked as flattened from non-object type %T, which shouldn’t be possible",
 				toProp.PropertyName(),
-				fromPropType)
+				fromPropType,
+			)
 	}
 
 	// *** Now generate the code! ***
@@ -524,7 +543,8 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 			eris.Errorf(
 				"couldn't find source of flattened property %q on %s",
 				toProp.PropertyName(),
-				builder.receiverIdent)
+				builder.receiverIdent,
+			)
 	}
 
 	// need to make a clone of builder.locals if we are going to nest in an if statement
@@ -545,13 +565,15 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 			Locals:              locals,
 			SourceProperty:      fromProp,
 			DestinationProperty: toProp,
-		})
+		},
+	)
 	if err != nil {
 		return notHandled,
 			eris.Wrapf(
 				err,
 				"failed to generate conversion for flattened property %s",
-				toProp.PropertyName())
+				toProp.PropertyName(),
+			)
 	}
 
 	// we were unable to generate an inner conversion, so we cannot generate the overall conversion
@@ -562,12 +584,14 @@ func (builder *convertFromARMBuilder) buildFlattenedAssignment(
 	if generateNilCheck {
 		propToCheck := astbuilder.Selector(dst.NewIdent(builder.typedInputIdent), string(fromProp.PropertyName()))
 		stmts = astbuilder.Statements(
-			astbuilder.IfNotNil(propToCheck, stmts...))
+			astbuilder.IfNotNil(propToCheck, stmts...),
+		)
 	}
 
 	astbuilder.AddComment(
 		&stmts[0].Decorations().Start,
-		"// copying flattened property:")
+		"// copying flattened property:",
+	)
 
 	return handleWith(stmts), nil
 }
@@ -601,13 +625,15 @@ func (builder *convertFromARMBuilder) propertiesByNameHandler(
 			Locals:              builder.locals,
 			SourceProperty:      fromProp,
 			DestinationProperty: toProp,
-		})
+		},
+	)
 	if err != nil {
 		return notHandled,
 			eris.Wrapf(
 				err,
 				"failed to generate conversion for property %s",
-				toProp.PropertyName())
+				toProp.PropertyName(),
+			)
 	}
 
 	return handleWith(conversion), nil
@@ -655,7 +681,8 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(
 		newVariable = astbuilder.NewVariableQualified(
 			propertyLocalVar,
 			packageName,
-			destinationType.Name())
+			destinationType.Name(),
+		)
 	}
 
 	tok := token.ASSIGN
@@ -672,18 +699,24 @@ func (builder *convertFromARMBuilder) convertComplexTypeNameProperty(
 			dst.NewIdent("err"),
 			tok,
 			astbuilder.CallQualifiedFunc(
-				propertyLocalVar, builder.methodName, dst.NewIdent(ownerName), params.GetSource())))
+				propertyLocalVar, builder.methodName, dst.NewIdent(ownerName), params.GetSource(),
+			),
+		),
+	)
 	results = append(results, astbuilder.CheckErrorAndReturn())
 	if params.AssignmentHandler == nil {
 		results = append(
 			results,
 			astbuilder.SimpleAssignment(
 				params.GetDestination(),
-				dst.NewIdent(propertyLocalVar)))
+				dst.NewIdent(propertyLocalVar),
+			),
+		)
 	} else {
 		results = append(
 			results,
-			params.AssignmentHandler(params.GetDestination(), dst.NewIdent(propertyLocalVar)))
+			params.AssignmentHandler(params.GetDestination(), dst.NewIdent(propertyLocalVar)),
+		)
 	}
 
 	return results, nil

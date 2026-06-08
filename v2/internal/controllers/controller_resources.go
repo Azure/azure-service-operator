@@ -79,7 +79,8 @@ func GetKnownStorageTypes(
 		resourceResolver,
 		positiveConditions,
 		expressionEvaluator,
-		options)
+		options,
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +105,8 @@ func GetKnownStorageTypes(
 				resourceResolver,
 				positiveConditions,
 				credentialProvider,
-				options.Config),
+				options.Config,
+			),
 			Predicate: makeStandardPredicate(),
 			Indexes: []registration.Index{
 				{
@@ -118,7 +120,8 @@ func GetKnownStorageTypes(
 					MakeEventHandler: watchSecretsFactory([]string{".spec.localUser.password"}, &mysqlv1.UserList{}),
 				},
 			},
-		})
+		},
+	)
 
 	// dbforpostgresql
 	knownStorageTypes = append(
@@ -130,7 +133,8 @@ func GetKnownStorageTypes(
 				clients.KubeClient,
 				resourceResolver,
 				positiveConditions,
-				options.Config),
+				options.Config,
+			),
 			Predicate: makeStandardPredicate(),
 			Indexes: []registration.Index{
 				{
@@ -144,7 +148,8 @@ func GetKnownStorageTypes(
 					MakeEventHandler: watchSecretsFactory([]string{".spec.localUser.password"}, &postgresqlv1.UserList{}),
 				},
 			},
-		})
+		},
+	)
 
 	// azuresql
 	knownStorageTypes = append(
@@ -157,7 +162,8 @@ func GetKnownStorageTypes(
 				resourceResolver,
 				positiveConditions,
 				credentialProvider,
-				options.Config),
+				options.Config,
+			),
 			Predicate: makeStandardPredicate(),
 			Indexes: []registration.Index{
 				{
@@ -171,7 +177,8 @@ func GetKnownStorageTypes(
 					MakeEventHandler: watchSecretsFactory([]string{".spec.localUser.password"}, &azuresqlv1.UserList{}),
 				},
 			},
-		})
+		},
+	)
 
 	// entra
 	knownStorageTypes = append(
@@ -184,11 +191,13 @@ func GetKnownStorageTypes(
 				clients.EntraConnectionFactory,
 				resourceResolver,
 				positiveConditions,
-				options.Config),
+				options.Config,
+			),
 			Predicate: makeStandardPredicate(),
 			Indexes:   []registration.Index{},
 			Watches:   []registration.Watch{},
-		})
+		},
+	)
 
 	return knownStorageTypes, nil
 }
@@ -232,7 +241,8 @@ func getGeneratedStorageTypes(
 			expressionEvaluator,
 			options,
 			extension,
-			t)
+			t,
+		)
 	}
 
 	return knownStorageTypes, nil
@@ -255,7 +265,8 @@ func augmentWithARMReconciler(
 		positiveConditions,
 		expressionEvaluator,
 		options.Config,
-		extension)
+		extension,
+	)
 }
 
 func augmentWithPredicate(t *registration.StorageType) {
@@ -268,7 +279,8 @@ func makeStandardPredicate() predicate.Predicate {
 	return predicate.Or(
 		predicate.GenerationChangedPredicate{},
 		reconcilers.ARMReconcilerAnnotationChangedPredicate(),
-		reconcilers.ARMPerResourceSecretAnnotationChangedPredicate())
+		reconcilers.ARMPerResourceSecretAnnotationChangedPredicate(),
+	)
 }
 
 func augmentWithControllerName(t *registration.StorageType) error {
@@ -311,7 +323,8 @@ func GetKnownTypes() []*registration.KnownType {
 			Obj:       &mysqlv1.User{},
 			Defaulter: &mysqlv1webhook.User_Webhook{},
 			Validator: &mysqlv1webhook.User_Webhook{},
-		})
+		},
+	)
 
 	// dbforpostgresql
 	knownTypes = append(
@@ -320,7 +333,8 @@ func GetKnownTypes() []*registration.KnownType {
 			Obj:       &postgresqlv1.User{},
 			Defaulter: &postgresqlv1webhook.User_Webhook{},
 			Validator: &postgresqlv1webhook.User_Webhook{},
-		})
+		},
+	)
 
 	// Azure SQL
 	knownTypes = append(
@@ -329,7 +343,8 @@ func GetKnownTypes() []*registration.KnownType {
 			Obj:       &azuresqlv1.User{},
 			Defaulter: &azuresqlv1webhook.User_Webhook{},
 			Validator: &azuresqlv1webhook.User_Webhook{},
-		})
+		},
+	)
 	// Entra
 	knownTypes = append(
 		knownTypes,
@@ -337,7 +352,8 @@ func GetKnownTypes() []*registration.KnownType {
 			Obj:       &entrav1.SecurityGroup{},
 			Defaulter: &entrav1webhook.SecurityGroup_Webhook{},
 			Validator: &entrav1webhook.SecurityGroup_Webhook{},
-		})
+		},
+	)
 
 	return knownTypes
 }
@@ -404,7 +420,8 @@ func watchEntity(c client.Client, log logr.Logger, keys []string, objList client
 				"namespace", o.GetNamespace(),
 				"name", o.GetName(),
 				"actual", fmt.Sprintf("%T", o),
-				"expected", fmt.Sprintf("%T", entity))
+				"expected", fmt.Sprintf("%T", entity),
+			)
 			return nil
 		}
 

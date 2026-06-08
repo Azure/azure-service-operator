@@ -52,7 +52,8 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }
 
 func nameInnerTypes(
@@ -206,7 +207,8 @@ func newNameHint(name astmodel.TypeName) nameHint {
 				baseName = strings.TrimSuffix(baseName, s)
 				suffixes = append(
 					[]string{strings.TrimPrefix(s, "_")},
-					suffixes...)
+					suffixes...,
+				)
 				done = false
 				break
 			}

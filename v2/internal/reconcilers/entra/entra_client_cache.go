@@ -102,7 +102,8 @@ func (c *EntraClientCache) getEntraClientFromCredential(
 		authProvider,
 		nil, // ParseNodeFactory
 		nil, // SerializationWriterFactory
-		c.httpClient)
+		c.httpClient,
+	)
 	if err != nil {
 		return nil, err
 	}

@@ -126,6 +126,15 @@ tasks:
       - task: generator:go-mod-tidy
       - task: mangle-test:go-mod-tidy
 
+  lint:
+    desc: Run lint checks.
+    dir: v2
+    cmds:
+      - task: asoctl:lint
+      - task: generator:lint
+      - task: controller:lint
+      - task: mangle-test:lint
+
   build-docs-site:
     cmds:
       - task: doc:build-site
@@ -838,6 +847,7 @@ tasks:
     sources:
       - ./bin/{{.GENERATOR_APP}}
       - azure-arm.yaml
+      - azure-arm/**/*
       - ../docs/hugo/content/reference
     cmds:
       - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml
@@ -1275,7 +1285,7 @@ tasks:
       - "kubectl create namespace t1-items"
       - "kubectl create namespace t1-more"
       # Wait for the other operator to be ready - not using controller:wait-for-operator-ready because that also waits for CRDs, etc which this doesn't install
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n tenant1-system -l control-plane=controller-manager"
+      - "kubectl wait --for=condition=ready --timeout=4m pod --namespace tenant1-system --selector control-plane=controller-manager -v=6"
 
   controller:kind-create-helm-workload-identity:
     desc: Creates a local kind cluster with Workload identity installed alongside ASO helm chart using UMI auth.

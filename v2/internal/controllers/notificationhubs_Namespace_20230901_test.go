@@ -49,7 +49,8 @@ func Test_Notificationhubs_Namespace_20230901_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				Namespace_WriteSecrets(tc, namespace)
 			},
-		})
+		},
+	)
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -116,7 +117,8 @@ func NotificationHub_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.K
 			Test: func(tc *testcommon.KubePerTestContext) {
 				NotificationHub_WriteSecrets(tc, notificationHub)
 			},
-		})
+		},
+	)
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{

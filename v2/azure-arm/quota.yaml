@@ -1,0 +1,5 @@
+groupModelConfiguration:
+  2025-09-01:
+    Quota:
+      $exportAs: Quota
+      $supportedFrom: v2.16.0

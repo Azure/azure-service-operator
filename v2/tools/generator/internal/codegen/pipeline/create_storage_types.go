@@ -72,7 +72,8 @@ func CreateStorageTypes() *Stage {
 			}
 
 			return state.WithOverlaidDefinitions(storageDefs), nil
-		})
+		},
+	)
 
 	return stage
 }

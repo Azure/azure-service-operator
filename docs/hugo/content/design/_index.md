@@ -31,6 +31,13 @@ These ADRs reflect work that is being discussed, has been proposed, or is curren
 
 These ADRs reflect work that has been completed, grouped by year of proposal.
 
+### 2026
+
+| Title                                                     | Description                                                                                                                                                   |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [**Templating**]({{< relref "ADR-2026-05-Templating" >}}) | A design articulating why ASO will not provide built-in templating for resource properties, and will instead rely on OSS tools like KRO, Helm, and Kustomize. |
+
+
 ### 2025
 
 | Title                                                                                                     | Description                                                                                                                                                                          |

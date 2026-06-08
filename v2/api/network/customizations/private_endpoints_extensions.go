@@ -62,7 +62,9 @@ func (extension *PrivateEndpointExtension) PostReconcileCheck(
 		return extensions.PostReconcileCheckResultFailure(
 			fmt.Sprintf(
 				"Private connection(s) '%q' to the PrivateEndpoint requires approval",
-				reqApprovals)), nil
+				reqApprovals,
+			),
+		), nil
 	}
 
 	return extensions.PostReconcileCheckResultSuccess(), nil

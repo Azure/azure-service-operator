@@ -107,7 +107,8 @@ func (i InterfaceImplementer) AsDeclarations(
 			return nil, eris.Wrapf(
 				kerrors.NewAggregate(errs),
 				"generating declarations for interface %s",
-				iface.name.Name())
+				iface.name.Name(),
+			)
 		}
 	}
 
@@ -170,7 +171,8 @@ func (i InterfaceImplementer) generateInterfaceImplAssertion(
 			&dst.ValueSpec{
 				Type: astbuilder.Selector(
 					dst.NewIdent(ifacePackageName),
-					iface.name.Name()),
+					iface.name.Name(),
+				),
 				Names: []*dst.Ident{
 					dst.NewIdent("_"),
 				},
@@ -178,7 +180,9 @@ func (i InterfaceImplementer) generateInterfaceImplAssertion(
 					astbuilder.AddrOf(
 						&dst.CompositeLit{
 							Type: dst.NewIdent(typeName.Name()),
-						})),
+						},
+					),
+				),
 			},
 		},
 	}

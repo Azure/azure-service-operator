@@ -56,7 +56,8 @@ func CreateConversionGraph(
 			}
 
 			return StateWithData(state, ConversionGraphInfo, graph), nil
-		})
+		},
+	)
 
 	stage.AddDiagnostic(exportConversionGraph)
 

@@ -69,7 +69,8 @@ func CreateSpec(
 	specName := MakeSpecName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		specName,
-		astmodel.NewObjectType().WithProperties(properties...))
+		astmodel.NewObjectType().WithProperties(properties...),
+	)
 }
 
 func MakeStatusName(
@@ -88,7 +89,8 @@ func CreateStatus(
 	statusName := MakeStatusName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		statusName,
-		astmodel.NewObjectType().WithProperties(StatusProperty).WithProperties(properties...))
+		astmodel.NewObjectType().WithProperties(StatusProperty).WithProperties(properties...),
+	)
 }
 
 // CreateObjectDefinition makes a type definition with an object for testing
@@ -100,7 +102,8 @@ func CreateObjectDefinition(
 	typeName := astmodel.MakeInternalTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
-		CreateObjectType(properties...))
+		CreateObjectType(properties...),
+	)
 }
 
 // CreateObjectDefinitionWithFunction makes an object with function for testing
@@ -113,7 +116,8 @@ func CreateObjectDefinitionWithFunction(
 	typeName := astmodel.MakeInternalTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
-		CreateObjectType(properties...).WithFunction(function))
+		CreateObjectType(properties...).WithFunction(function),
+	)
 }
 
 func CreateObjectType(properties ...*astmodel.PropertyDefinition) *astmodel.ObjectType {

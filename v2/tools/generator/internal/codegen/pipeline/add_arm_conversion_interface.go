@@ -39,7 +39,8 @@ func ApplyARMConversionInterface(idFactory astmodel.IdentifierFactory, config *c
 			}
 
 			return state.WithDefinitions(definitions), nil
-		})
+		},
+	)
 }
 
 // LookupARMTypeDefinition gets the ARM type definition for a given Kubernetes type name.
@@ -242,7 +243,8 @@ func (c *armConversionApplier) addARMConversionInterface(
 			objectType,
 			kubeDef.Name(),
 			c.idFactory,
-			typeKind))
+			typeKind,
+		))
 		return result, nil
 	}
 
@@ -264,12 +266,14 @@ func (c *armConversionApplier) createOwnerProperty(ownerTypeName astmodel.Intern
 	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
 		c.idFactory.CreateStringIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astmodel.OptionalKnownResourceReferenceType)
+		astmodel.OptionalKnownResourceReferenceType,
+	)
 	prop = prop.WithDescription(
 		fmt.Sprintf("The owner of the resource. The owner controls where the resource goes when it is deployed. "+
 			"The owner also controls the resources lifecycle. "+
 			"When the owner is deleted the resource will also be deleted. Owner is expected to "+
-			"be a reference to a %s/%s resource", group, kind))
+			"be a reference to a %s/%s resource", group, kind),
+	)
 	prop = prop.WithTag("group", group)
 	prop = prop.WithTag("kind", kind)
 	prop = prop.MakeRequired() // Owner is always required
@@ -281,11 +285,13 @@ func (c *armConversionApplier) createExtensionResourceOwnerProperty() *astmodel.
 	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),
 		c.idFactory.CreateStringIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
-		astmodel.NewOptionalType(astmodel.ArbitraryOwnerReference)).MakeRequired()
+		astmodel.NewOptionalType(astmodel.ArbitraryOwnerReference),
+	).MakeRequired()
 	prop = prop.WithDescription(
 		"The owner of the resource. The owner controls where the resource goes when it is deployed. " +
 			"The owner also controls the resources lifecycle. " +
 			"When the owner is deleted the resource will also be deleted. " +
-			"This resource is an extension resource, which means that any other Azure resource can be its owner.")
+			"This resource is an extension resource, which means that any other Azure resource can be its owner.",
+	)
 	return prop
 }

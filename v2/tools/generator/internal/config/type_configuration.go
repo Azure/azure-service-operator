@@ -134,7 +134,8 @@ func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) erro
 	return eris.Wrapf(
 		kerrors.NewAggregate(errs),
 		"type %s",
-		tc.name)
+		tc.name,
+	)
 }
 
 // findProperty uses the provided property name to work out which nested PropertyConfiguration should be used
@@ -182,7 +183,8 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 						"unexpected yam value for %s (line %d col %d)",
 						generatedConfigsTag,
 						content.Line,
-						content.Column)
+						content.Column,
+					)
 				}
 
 				// first value is the key
@@ -250,7 +252,8 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 						"unexpected yam value for %s (line %d col %d)",
 						azureGeneratedSecretsTag,
 						content.Line,
-						content.Column)
+						content.Column,
+					)
 				}
 			}
 
@@ -271,7 +274,8 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 						"unexpected yam value for %s (line %d col %d)",
 						manualConfigsTag,
 						content.Line,
-						content.Column)
+						content.Column,
+					)
 				}
 			}
 
@@ -379,7 +383,8 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 						"unexpected yam value for %s (line %d col %d)",
 						operatorSpecPropertiesTag,
 						content.Line,
-						content.Column)
+						content.Column,
+					)
 				}
 			}
 
@@ -389,7 +394,8 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// No handler for this value, return an error
 		return eris.Errorf(
-			"type configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column)
+			"type configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column,
+		)
 
 	}
 

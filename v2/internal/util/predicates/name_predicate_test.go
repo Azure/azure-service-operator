@@ -70,25 +70,29 @@ func Test_NamePredicate(t *testing.T) {
 				event.UpdateEvent{
 					ObjectOld: tt.obj,
 					ObjectNew: tt.obj,
-				})
+				},
+			)
 			g.Expect(result).To(Equal(tt.expected))
 
 			result = predicate.Create(
 				event.CreateEvent{
 					Object: tt.obj,
-				})
+				},
+			)
 			g.Expect(result).To(Equal(tt.expected))
 
 			result = predicate.Delete(
 				event.DeleteEvent{
 					Object: tt.obj,
-				})
+				},
+			)
 			g.Expect(result).To(Equal(tt.expected))
 
 			result = predicate.Generic(
 				event.GenericEvent{
 					Object: tt.obj,
-				})
+				},
+			)
 			g.Expect(result).To(Equal(tt.expected))
 		})
 	}

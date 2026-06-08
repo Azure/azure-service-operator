@@ -25,7 +25,8 @@ func NewGetAPIVersionFunction(
 			astbuilder.TextLiteral(apiVersionEnumValue.Value),
 			astmodel.StringType,
 			comment,
-			ReceiverTypeStruct))
+			ReceiverTypeStruct,
+		))
 
 	return result
 }

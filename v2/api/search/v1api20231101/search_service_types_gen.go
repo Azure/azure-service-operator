@@ -3690,7 +3690,7 @@ func (maps *SearchServiceOperatorConfigMaps) AssignProperties_From_SearchService
 
 	// IdentityPrincipalId
 	if source.IdentityPrincipalId != nil {
-		identityPrincipalId := source.IdentityPrincipalId.Copy()
+		identityPrincipalId := *source.IdentityPrincipalId.DeepCopy()
 		maps.IdentityPrincipalId = &identityPrincipalId
 	} else {
 		maps.IdentityPrincipalId = nil
@@ -3698,7 +3698,7 @@ func (maps *SearchServiceOperatorConfigMaps) AssignProperties_From_SearchService
 
 	// IdentityTenantId
 	if source.IdentityTenantId != nil {
-		identityTenantId := source.IdentityTenantId.Copy()
+		identityTenantId := *source.IdentityTenantId.DeepCopy()
 		maps.IdentityTenantId = &identityTenantId
 	} else {
 		maps.IdentityTenantId = nil
@@ -3715,7 +3715,7 @@ func (maps *SearchServiceOperatorConfigMaps) AssignProperties_To_SearchServiceOp
 
 	// IdentityPrincipalId
 	if maps.IdentityPrincipalId != nil {
-		identityPrincipalId := maps.IdentityPrincipalId.Copy()
+		identityPrincipalId := *maps.IdentityPrincipalId.DeepCopy()
 		destination.IdentityPrincipalId = &identityPrincipalId
 	} else {
 		destination.IdentityPrincipalId = nil
@@ -3723,7 +3723,7 @@ func (maps *SearchServiceOperatorConfigMaps) AssignProperties_To_SearchServiceOp
 
 	// IdentityTenantId
 	if maps.IdentityTenantId != nil {
-		identityTenantId := maps.IdentityTenantId.Copy()
+		identityTenantId := *maps.IdentityTenantId.DeepCopy()
 		destination.IdentityTenantId = &identityTenantId
 	} else {
 		destination.IdentityTenantId = nil
@@ -3758,7 +3758,7 @@ func (secrets *SearchServiceOperatorSecrets) AssignProperties_From_SearchService
 
 	// AdminPrimaryKey
 	if source.AdminPrimaryKey != nil {
-		adminPrimaryKey := source.AdminPrimaryKey.Copy()
+		adminPrimaryKey := *source.AdminPrimaryKey.DeepCopy()
 		secrets.AdminPrimaryKey = &adminPrimaryKey
 	} else {
 		secrets.AdminPrimaryKey = nil
@@ -3766,7 +3766,7 @@ func (secrets *SearchServiceOperatorSecrets) AssignProperties_From_SearchService
 
 	// AdminSecondaryKey
 	if source.AdminSecondaryKey != nil {
-		adminSecondaryKey := source.AdminSecondaryKey.Copy()
+		adminSecondaryKey := *source.AdminSecondaryKey.DeepCopy()
 		secrets.AdminSecondaryKey = &adminSecondaryKey
 	} else {
 		secrets.AdminSecondaryKey = nil
@@ -3774,7 +3774,7 @@ func (secrets *SearchServiceOperatorSecrets) AssignProperties_From_SearchService
 
 	// QueryKey
 	if source.QueryKey != nil {
-		queryKey := source.QueryKey.Copy()
+		queryKey := *source.QueryKey.DeepCopy()
 		secrets.QueryKey = &queryKey
 	} else {
 		secrets.QueryKey = nil
@@ -3791,7 +3791,7 @@ func (secrets *SearchServiceOperatorSecrets) AssignProperties_To_SearchServiceOp
 
 	// AdminPrimaryKey
 	if secrets.AdminPrimaryKey != nil {
-		adminPrimaryKey := secrets.AdminPrimaryKey.Copy()
+		adminPrimaryKey := *secrets.AdminPrimaryKey.DeepCopy()
 		destination.AdminPrimaryKey = &adminPrimaryKey
 	} else {
 		destination.AdminPrimaryKey = nil
@@ -3799,7 +3799,7 @@ func (secrets *SearchServiceOperatorSecrets) AssignProperties_To_SearchServiceOp
 
 	// AdminSecondaryKey
 	if secrets.AdminSecondaryKey != nil {
-		adminSecondaryKey := secrets.AdminSecondaryKey.Copy()
+		adminSecondaryKey := *secrets.AdminSecondaryKey.DeepCopy()
 		destination.AdminSecondaryKey = &adminSecondaryKey
 	} else {
 		destination.AdminSecondaryKey = nil
@@ -3807,7 +3807,7 @@ func (secrets *SearchServiceOperatorSecrets) AssignProperties_To_SearchServiceOp
 
 	// QueryKey
 	if secrets.QueryKey != nil {
-		queryKey := secrets.QueryKey.Copy()
+		queryKey := *secrets.QueryKey.DeepCopy()
 		destination.QueryKey = &queryKey
 	} else {
 		destination.QueryKey = nil

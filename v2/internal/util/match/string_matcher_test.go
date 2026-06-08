@@ -40,6 +40,7 @@ func TestStringMatcher_GivenMatcher_ReturnsExpectedResults(t *testing.T) {
 				matcher := NewStringMatcher(c.matcher)
 
 				g.Expect(matcher.Matches(c.value).Matched).To(Equal(c.expected))
-			})
+			},
+		)
 	}
 }

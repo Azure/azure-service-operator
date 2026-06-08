@@ -65,7 +65,8 @@ func Test_Storage_StorageAccount_20210401_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(storage.APIVersion_Value))
+		string(storage.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -90,7 +91,8 @@ func StorageAccount_BlobServices_20210401_CRUD(tc *testcommon.KubePerTestContext
 			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_BlobServices_Container_20210401_CRUD(tc, blobService)
 			},
-		})
+		},
+	)
 }
 
 func StorageAccount_BlobServices_Container_20210401_CRUD(tc *testcommon.KubePerTestContext, blobService *storage.StorageAccountsBlobService) {
@@ -266,7 +268,8 @@ func StorageAccount_20210401_ConfigMapsWritten(tc *testcommon.KubePerTestContext
 		"blob",
 		*acct.Status.PrimaryEndpoints.Blob,
 		"dfs",
-		*acct.Status.PrimaryEndpoints.Dfs)
+		*acct.Status.PrimaryEndpoints.Dfs,
+	)
 }
 
 func StorageAccount_ManagementPolicy_20210401_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {

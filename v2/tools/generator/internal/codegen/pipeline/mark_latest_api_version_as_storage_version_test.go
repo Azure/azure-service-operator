@@ -38,7 +38,8 @@ func TestGolden_MarkLatestAPIVersionAsStorageVersion(t *testing.T) {
 
 	finalState, err := RunTestPipeline(
 		initialState,
-		MarkLatestAPIVersionAsStorageVersion())
+		MarkLatestAPIVersionAsStorageVersion(),
+	)
 	g.Expect(err).To(Succeed())
 
 	// Check that the expected types are flagged as storage types

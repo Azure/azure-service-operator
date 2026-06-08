@@ -51,7 +51,8 @@ func (domain *Domain) validateAzureManagedDomainName(_ context.Context, obj *v20
 			"when spec.domainManagement is %q, spec.azureName must be %q, but got %q",
 			v20230401.DomainManagement_AzureManaged,
 			"AzureManagedDomain",
-			obj.Spec.AzureName)
+			obj.Spec.AzureName,
+		)
 	}
 
 	return nil, nil

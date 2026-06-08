@@ -15,6 +15,9 @@ on:
       - main
     types: [checks_requested]
 
+  workflow_dispatch:
+  # no content, allows manual triggering
+
 jobs:
   test-go-get:
     runs-on: ubuntu-latest
@@ -66,7 +69,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # pinned to 6.0.3
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -79,7 +82,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # pinned to v4.2.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -180,7 +183,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # pinned to 6.0.3
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -193,7 +196,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # pinned to v4.2.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -238,7 +241,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # pinned to 6.0.3
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -251,7 +254,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # pinned to v4.2.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -293,8 +296,9 @@ jobs:
   integration-tests:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testintegration-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     if: 
-      # Run on pull requests in this repository that are not from @dependabot, and run for merge groups
+      # Run on pull requests in this repository that are not from @dependabot, run for merge groups, and run for workflow_dispatch
       github.event_name == 'merge_group' ||
+      github.event_name == 'workflow_dispatch' ||
       ( github.event_name == 'pull_request' &&
         github.actor != 'dependabot[bot]' &&
         github.event.pull_request.head.repo.full_name == github.repository )
@@ -304,7 +308,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # pinned to 6.0.3
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -317,7 +321,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # pinned to v4.1.0
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # pinned to v4.2.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}

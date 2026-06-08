@@ -307,7 +307,10 @@ func (factory *StorageConversionPropertyTestCaseFactory) createPathologicalTestC
 		astmodel.NewMapType(
 			astmodel.StringType,
 			astmodel.NewArrayType(
-				astmodel.NewMapType(astmodel.StringType, astmodel.BoolType))))
+				astmodel.NewMapType(astmodel.StringType, astmodel.BoolType),
+			),
+		),
+	)
 
 	factory.createPropertyAssignmentTest("NastyTest", nastyProperty, nastyProperty)
 }
@@ -350,48 +353,56 @@ func (factory *StorageConversionPropertyTestCaseFactory) createPathBasedTestCase
 	factory.createPropertyAssignmentTest(
 		"No assignment when identically named properties have different paths",
 		typeProperty,
-		flattenedTypeProperty)
+		flattenedTypeProperty,
+	)
 
 	factory.createPropertyAssignmentTest(
 		"Assignment when properties have same paths even with different names",
 		flattenedTypeProperty,
-		propertiesTypeProperty)
+		propertiesTypeProperty,
+	)
 
 	// Test case: When property names haven't been mangled by flattening, we generate the expected assignment
 	// copying Type to Type and ignoring TypeFromConfig
 	currentDefinition := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(factory.currentPackage, "Person"),
 		astmodel.NewObjectType().
-			WithProperty(flattenedTypeProperty))
+			WithProperty(flattenedTypeProperty),
+	)
 
 	otherDefinition := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(factory.nextPackage, "Person"),
 		astmodel.NewObjectType().
 			WithProperty(flattenedTypeProperty).
-			WithProperty(configurableTypeProperty))
+			WithProperty(configurableTypeProperty),
+	)
 
 	factory.createDefinitionAssignmentTest(
 		"Assigns to property with same name and path",
 		currentDefinition,
-		otherDefinition)
+		otherDefinition,
+	)
 
 	// Test case: When property names HAVE been mangled by inconsistent flattening, we generate the expected assignment
 	// copying PropertiesType to Type and ignoring PropertiesTypeFromConfig
 	currentDefinition = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(factory.currentPackage, "Person"),
 		astmodel.NewObjectType().
-			WithProperty(flattenedTypeProperty))
+			WithProperty(flattenedTypeProperty),
+	)
 
 	otherDefinition = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(factory.nextPackage, "Person"),
 		astmodel.NewObjectType().
 			WithProperty(propertiesTypeProperty).
-			WithProperty(configurablePropertiesTypeProperty))
+			WithProperty(configurablePropertiesTypeProperty),
+	)
 
 	factory.createDefinitionAssignmentTest(
 		"Does not try to assign to configurable variant of property",
 		currentDefinition,
-		otherDefinition)
+		otherDefinition,
+	)
 }
 
 func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmentTest(
@@ -403,12 +414,14 @@ func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmen
 	currentType := astmodel.NewObjectType().WithProperty(currentProperty)
 	currentDefinition := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(factory.currentPackage, "Person"),
-		currentType)
+		currentType,
+	)
 
 	hubType := astmodel.NewObjectType().WithProperty(hubProperty)
 	hubDefinition := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(factory.nextPackage, "Person"),
-		hubType)
+		hubType,
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(currentDefinition)
@@ -425,7 +438,8 @@ func (factory *StorageConversionPropertyTestCaseFactory) createPropertyAssignmen
 			func(tc *config.PropertyConfiguration) error {
 				tc.NameInNextVersion.Set(string(hubProperty.PropertyName()))
 				return nil
-			})
+			},
+		)
 		if err != nil {
 			panic(err)
 		}
@@ -471,12 +485,14 @@ func (factory *StorageConversionPropertyTestCaseFactory) createFunctionAssignmen
 	currentType := astmodel.NewObjectType().WithFunction(function)
 	currentDefinition := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(factory.currentPackage, "Person"),
-		currentType)
+		currentType,
+	)
 
 	hubType := astmodel.NewObjectType().WithProperty(property)
 	hubDefinition := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(factory.nextPackage, "Person"),
-		hubType)
+		hubType,
+	)
 
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.Add(currentDefinition)
@@ -543,13 +559,15 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) 
 		"Person",
 		test.FullNameProperty,
 		test.KnownAsProperty,
-		test.FamilyNameProperty)
+		test.FamilyNameProperty,
+	)
 
 	person2021 := test.CreateObjectDefinition(
 		test.Pkg2021,
 		"Person",
 		test.FullNameProperty,
-		test.PropertyBagProperty)
+		test.PropertyBagProperty,
+	)
 
 	conversionContext := conversions.NewPropertyConversionContext(conversions.AssignPropertiesMethodPrefix, make(astmodel.TypeDefinitionSet), idFactory)
 	assignFromBuilder := NewPropertyAssignmentFunctionBuilder(person2020, person2021, conversions.ConvertFrom)
@@ -577,28 +595,32 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 		test.Pkg2020,
 		"Location",
 		test.FullAddressProperty,
-		test.CityProperty)
+		test.CityProperty,
+	)
 
 	// ... which gets renamed to Venue in a later version
 	venue := test.CreateObjectDefinition(
 		test.Pkg2021,
 		"Venue",
 		test.FullAddressProperty,
-		test.CityProperty)
+		test.CityProperty,
+	)
 
 	// The earlier version of Event has a property "Where" of type "Location" ...
 	whereLocationProperty := astmodel.NewPropertyDefinition("Where", "where", location.Name())
 	event2020 := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Event",
-		whereLocationProperty)
+		whereLocationProperty,
+	)
 
 	// ... in the later version of Event, the property "Where" is now of type "Venue"
 	whereVenueProperty := astmodel.NewPropertyDefinition("Where", "where", venue.Name())
 	event2021 := test.CreateObjectDefinition(
 		test.Pkg2021,
 		"Event",
-		whereVenueProperty)
+		whereVenueProperty,
+	)
 
 	omc := config.NewObjectModelConfiguration()
 	g.Expect(
@@ -607,7 +629,9 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 			func(tc *config.TypeConfiguration) error {
 				tc.NameInNextVersion.Set(venue.Name().Name())
 				return nil
-			})).
+			},
+		),
+	).
 		To(Succeed())
 
 	defs := make(astmodel.TypeDefinitionSet)
@@ -658,17 +682,20 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasIntermediateVersio
 	location2020 := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	location2021 := test.CreateObjectDefinition(
 		test.Pkg2021,
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	location2022 := test.CreateObjectDefinition(
 		test.Pkg2022,
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	// Arrange - create two different version of Person - in packages v2020, and v2022.
 	// Each has a property "Residence" of type "Location",
@@ -676,12 +703,14 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasIntermediateVersio
 	person2020 := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Person",
-		astmodel.NewPropertyDefinition("Residence", "residence", location2020.Name()))
+		astmodel.NewPropertyDefinition("Residence", "residence", location2020.Name()),
+	)
 
 	person2022 := test.CreateObjectDefinition(
 		test.Pkg2022,
 		"Person",
-		astmodel.NewPropertyDefinition("Residence", "residence", location2022.Name()))
+		astmodel.NewPropertyDefinition("Residence", "residence", location2022.Name()),
+	)
 
 	// Arrange - create the conversion graph between all these object versions
 	definitions := make(astmodel.TypeDefinitionSet)
@@ -741,38 +770,45 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasMultipleIntermedia
 	location2020 := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	location202101 := test.CreateObjectDefinition(
 		test.MakeLocalPackageReference(test.Group, "v20210301"),
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	location202106 := test.CreateObjectDefinition(
 		test.MakeLocalPackageReference(test.Group, "v20210306"),
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	location202112 := test.CreateObjectDefinition(
 		test.MakeLocalPackageReference(test.Group, "v20210312"),
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	location2022 := test.CreateObjectDefinition(
 		test.Pkg2022,
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	// Arrange - create two different version of Person - in packages v2020, and v2022.
 	person2020 := test.CreateObjectDefinition(
 		test.Pkg2020,
 		"Person",
-		astmodel.NewPropertyDefinition("Residence", "residence", location2020.Name()))
+		astmodel.NewPropertyDefinition("Residence", "residence", location2020.Name()),
+	)
 
 	person2022 := test.CreateObjectDefinition(
 		test.Pkg2022,
 		"Person",
-		astmodel.NewPropertyDefinition("Residence", "residence", location2022.Name()))
+		astmodel.NewPropertyDefinition("Residence", "residence", location2022.Name()),
+	)
 
 	definitions := make(astmodel.TypeDefinitionSet)
 	definitions.AddAll(location2020, location202101, location202106, location202112, location2022)
@@ -788,7 +824,8 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeHasMultipleIntermedia
 		location202101.Name(),
 		location202106.Name(),
 		location202112.Name(),
-		location2022.Name())
+		location2022.Name(),
+	)
 
 	graph, err := builder.Build()
 	g.Expect(err).To(BeNil())
@@ -843,38 +880,45 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeVersionsAreNotInline_
 	location2020 := test.CreateObjectDefinition(
 		test.MakeLocalPackageReference(test.Group, "v20200101"),
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	location2020p := test.CreateObjectDefinition(
 		test.MakeLocalPackageReference(test.Group, "v20200601preview"),
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	location2021 := test.CreateObjectDefinition(
 		test.MakeLocalPackageReference(test.Group, "v20210101"),
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	location2021p := test.CreateObjectDefinition(
 		test.MakeLocalPackageReference(test.Group, "v20210601preview"),
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	location2022 := test.CreateObjectDefinition(
 		test.MakeLocalPackageReference(test.Group, "v20220101"),
 		"Location",
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	// Arrange - create two different version of Person - in packages v2020p, and v2022p.
 	person2020p := test.CreateObjectDefinition(
 		test.MakeLocalPackageReference(test.Group, "v20200601preview"),
 		"Person",
-		astmodel.NewPropertyDefinition("Residence", "residence", location2020p.Name()))
+		astmodel.NewPropertyDefinition("Residence", "residence", location2020p.Name()),
+	)
 
 	person2021p := test.CreateObjectDefinition(
 		test.MakeLocalPackageReference(test.Group, "v20210601preview"),
 		"Person",
-		astmodel.NewPropertyDefinition("Residence", "residence", location2021p.Name()))
+		astmodel.NewPropertyDefinition("Residence", "residence", location2021p.Name()),
+	)
 
 	definitions := make(astmodel.TypeDefinitionSet)
 	definitions.AddAll(location2020, location2020p, location2021, location2021p, location2022)
@@ -890,7 +934,8 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyTypeVersionsAreNotInline_
 		location2020p.Name(),
 		location2021.Name(),
 		location2021p.Name(),
-		location2022.Name())
+		location2022.Name(),
+	)
 
 	graph, err := builder.Build()
 	g.Expect(err).To(BeNil())
@@ -930,13 +975,15 @@ func TestGolden_PropertyAssignmentFunction_WhenOverrideInterfacePresent(t *testi
 		"Person",
 		test.FullNameProperty,
 		test.KnownAsProperty,
-		test.FamilyNameProperty)
+		test.FamilyNameProperty,
+	)
 
 	person2021 := test.CreateObjectDefinition(
 		test.Pkg2021,
 		"Person",
 		test.FullNameProperty,
-		test.PropertyBagProperty)
+		test.PropertyBagProperty,
+	)
 
 	overrideInterfaceName := astmodel.MakeInternalTypeName(test.Pkg2020, "personAssignable")
 

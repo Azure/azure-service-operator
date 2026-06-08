@@ -95,13 +95,17 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 			astbuilder.CallQualifiedFunc(
 				jsonPackage,
 				"Marshal",
-				astbuilder.Selector(receiverIdent, propName)))
+				astbuilder.Selector(receiverIdent, propName),
+			),
+		)
 
 		ifStatement := astbuilder.IfNotNil(
 			astbuilder.Selector(
 				receiverIdent,
-				string(property.PropertyName())),
-			ret)
+				string(property.PropertyName()),
+			),
+			ret,
+		)
 		ifStatement.Decorations().After = dst.EmptyLine
 		statements = append(statements, ifStatement)
 	}
@@ -117,7 +121,8 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 
 	fn.AddComments(fmt.Sprintf(
 		"defers JSON marshaling to the first non-nil property, because %s represents a discriminated union (JSON OneOf)",
-		receiver.Name()))
+		receiver.Name(),
+	))
 	fn.AddReturns("[]byte", "error")
 	return fn.DefineFunc(), nil
 }

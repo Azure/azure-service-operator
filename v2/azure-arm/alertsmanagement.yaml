@@ -1,0 +1,24 @@
+groupModelConfiguration:
+  2021-04-01:
+    SmartDetectorAlertRule:
+      $exportAs: SmartDetectorAlertRule
+      $supportedFrom: v2.11.0
+    AlertRuleProperties:
+      Scope:
+        $referenceType: arm
+    ActionGroupsInformation:
+      GroupIds:
+        $referenceType: arm
+    Detector:
+      Id:
+        $referenceType: simple
+  2023-03-01:
+    PrometheusRuleGroup:
+      $exportAs: PrometheusRuleGroup
+      $supportedFrom: v2.8.0
+    PrometheusRuleGroupProperties:
+      Scopes:
+        $referenceType: arm
+    PrometheusRuleGroupAction:
+      ActionGroupId:
+        $referenceType: arm

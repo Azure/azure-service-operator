@@ -51,14 +51,16 @@ func setup() error {
 		testcommon.ResourcePrefix,
 		"-",
 		6,
-		testcommon.ResourceNamerModeRandomBasedOnTestName)
+		testcommon.ResourceNamerModeRandomBasedOnTestName,
+	)
 
 	// set global context var
 	newGlobalTestContext, err := testcommon.NewKubeContext(
 		options.useEnvTest,
 		options.recordReplay,
 		testcommon.DefaultTestRegion,
-		nameConfig)
+		nameConfig,
+	)
 	if err != nil {
 		return err
 	}

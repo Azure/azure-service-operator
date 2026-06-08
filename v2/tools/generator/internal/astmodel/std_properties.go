@@ -20,6 +20,7 @@ const (
 	OperatorSpecConfigMapExpressionsProperty = "ConfigMapExpressions"
 	ConditionsProperty                       = "Conditions"
 	OptionalConfigMapReferenceSuffix         = "FromConfig"
+	OptionalSecretReferenceSuffix            = "FromSecret"
 	UserAssignedIdentitiesProperty           = "UserAssignedIdentities"
 	UserAssignedIdentitiesTypeName           = "UserAssignedIdentityDetails"
 )

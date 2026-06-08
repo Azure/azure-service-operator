@@ -126,12 +126,14 @@ func (fn *PivotConversionFunction) RequiredPackageReferences() *astmodel.Package
 		astmodel.ControllerRuntimeConversion,
 		astmodel.FmtReference,
 		astmodel.GenRuntimeReference,
-		fn.parameterType.PackageReference())
+		fn.parameterType.PackageReference(),
+	)
 }
 
 func (fn *PivotConversionFunction) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet(
-		fn.parameterType)
+		fn.parameterType,
+	)
 }
 
 func (fn *PivotConversionFunction) AsFunc(
@@ -188,10 +190,12 @@ func (fn *PivotConversionFunction) bodyForPivot(
 
 	errorMessage := astbuilder.StringLiteralf(
 		"attempted conversion between unrelated implementations of %s",
-		fn.parameterType)
+		fn.parameterType,
+	)
 	recursionCheck := astbuilder.ReturnIfExpr(
 		astbuilder.AreEqual(parameter, receiver),
-		astbuilder.CallQualifiedFunc(errorsPkg, "New", errorMessage))
+		astbuilder.CallQualifiedFunc(errorsPkg, "New", errorMessage),
+	)
 	recursionCheck.Decorations().After = dst.EmptyLine
 
 	callAndReturn := astbuilder.Returns(astbuilder.CallExpr(parameter, fnNameForOtherDirection, receiver))
@@ -202,7 +206,8 @@ func (fn *PivotConversionFunction) bodyForPivot(
 func (fn *PivotConversionFunction) declarationDocComment(receiver astmodel.TypeName, parameter string) string {
 	return fn.direction.SelectString(
 		fmt.Sprintf("populates our %s from the provided %s", receiver.Name(), parameter),
-		fmt.Sprintf("populates the provided %s from our %s", parameter, receiver.Name()))
+		fmt.Sprintf("populates the provided %s from our %s", parameter, receiver.Name()),
+	)
 }
 
 func (fn *PivotConversionFunction) Equals(otherFn astmodel.Function, _ astmodel.EqualityOverrides) bool {

@@ -37,7 +37,8 @@ func main() {
 	for _, testOutputFile := range os.Args[1:] {
 		log.Info(
 			"Parsing",
-			"file", testOutputFile)
+			"file", testOutputFile,
+		)
 		fmt.Printf("# `%s`\n\n", testOutputFile)
 
 		byPackage := loadJSON(testOutputFile, log)
@@ -70,7 +71,8 @@ func loadJSON(
 	if err != nil {
 		log.Error(
 			err,
-			"Unable to get current working directory")
+			"Unable to get current working directory",
+		)
 		return make(map[string][]TestRun)
 	}
 
@@ -81,7 +83,8 @@ func loadJSON(
 		log.Error(
 			err,
 			"Unable to set root directory",
-			"directory", cwd)
+			"directory", cwd,
+		)
 		return make(map[string][]TestRun)
 	}
 	defer root.Close()
@@ -92,7 +95,8 @@ func loadJSON(
 		log.Error(
 			err,
 			"Unable to open file",
-			"file", testOutputFile)
+			"file", testOutputFile,
+		)
 		return make(map[string][]TestRun)
 	}
 	defer file.Close()
@@ -115,7 +119,8 @@ func loadJSON(
 			text := string(line)
 			log.Info(
 				"Unable to parse",
-				"line", text)
+				"line", text,
+			)
 
 			if text != "" && !strings.HasPrefix(text, "FAIL") {
 				// It's a parse failure we care about, write details
@@ -134,13 +139,15 @@ func loadJSON(
 		log.Error(
 			err,
 			"Error reading file",
-			"file", testOutputFile)
+			"file", testOutputFile,
+		)
 	}
 
 	if errCount > 0 {
 		log.Info(
 			"Errors parsing JSON",
-			"count", errCount)
+			"count", errCount,
+		)
 	}
 
 	// package → list of tests

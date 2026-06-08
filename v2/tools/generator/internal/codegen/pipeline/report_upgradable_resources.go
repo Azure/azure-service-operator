@@ -64,7 +64,8 @@ func ReportUpgradableResources(configuration *config.Configuration) *Stage {
 			}
 
 			return state, nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(CatalogKnownResourcesStageID)
 	return stage
@@ -330,7 +331,8 @@ func (r *UpgradableResourcesReport) writeTo(buffer *strings.Builder, now time.Ti
 				"Available Stable",
 				"Supported Stable",
 				"Available Preview",
-				"Supported Preview")
+				"Supported Preview",
+			)
 		}
 
 		stableSupported := pkgRefVersion(item.supportedStable)
@@ -368,7 +370,8 @@ func (r *UpgradableResourcesReport) writeTo(buffer *strings.Builder, now time.Ti
 			stableAvail,
 			orDash(stableSupported),
 			previewAvail,
-			orDash(previewSupported))
+			orDash(previewSupported),
+		)
 	}
 
 	flushTable()

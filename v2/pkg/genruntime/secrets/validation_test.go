@@ -176,3 +176,241 @@ func Test_ValidateSecretDestinationExpressions_EmptyKeyIgnored(t *testing.T) {
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
+
+func Test_ValidateOptionalReferences_BothSet_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	value := "myvalue"
+	ref := &genruntime.SecretReference{Name: "mysecret", Key: "mykey"}
+
+	pairs := []*secrets.OptionalReferencePair{
+		{
+			Name:    "Spec.Foo",
+			RefName: "Spec.FooFromSecret",
+			Value:   &value,
+			Ref:     ref,
+		},
+	}
+
+	_, err := secrets.ValidateOptionalReferences(pairs)
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("Spec.Foo"))
+	g.Expect(err.Error()).To(ContainSubstring("Spec.FooFromSecret"))
+}
+
+func Test_ValidateOptionalReferences_OnlyValueSet_Validates(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	value := "myvalue"
+
+	pairs := []*secrets.OptionalReferencePair{
+		{
+			Name:    "Spec.Foo",
+			RefName: "Spec.FooFromSecret",
+			Value:   &value,
+			Ref:     nil,
+		},
+	}
+
+	warnings, err := secrets.ValidateOptionalReferences(pairs)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
+}
+
+func Test_ValidateOptionalReferences_OnlyRefSet_Validates(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	ref := &genruntime.SecretReference{Name: "mysecret", Key: "mykey"}
+
+	pairs := []*secrets.OptionalReferencePair{
+		{
+			Name:    "Spec.Foo",
+			RefName: "Spec.FooFromSecret",
+			Value:   nil,
+			Ref:     ref,
+		},
+	}
+
+	warnings, err := secrets.ValidateOptionalReferences(pairs)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
+}
+
+func Test_ValidateOptionalReferences_NeitherSet_Validates(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	pairs := []*secrets.OptionalReferencePair{
+		{
+			Name:    "Spec.Foo",
+			RefName: "Spec.FooFromSecret",
+			Value:   nil,
+			Ref:     nil,
+		},
+	}
+
+	warnings, err := secrets.ValidateOptionalReferences(pairs)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
+}
+
+func Test_ValidateOptionalReferences_NilPairEntry_Validates(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	value := "myvalue"
+
+	pairs := []*secrets.OptionalReferencePair{
+		nil,
+		{
+			Name:    "Spec.Foo",
+			RefName: "Spec.FooFromSecret",
+			Value:   &value,
+			Ref:     nil,
+		},
+	}
+
+	// Nil entries should not cause a panic - ValidateOptionalReferences should handle or skip them
+	warnings, err := secrets.ValidateOptionalReferences(pairs)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
+}
+
+func Test_ValidateSecretDestination_DuplicateAnnotationKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.SecretDestination{
+		{
+			Name: "mysecret",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+		{
+			Name: "mysecret",
+			Key:  "key2",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+
+	_, err := secrets.ValidateDestinations(nil, destinations, nil)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for annotation on secret "mysecret": key "reflector.v1/reflect" is set by multiple destinations`))
+}
+
+func Test_ValidateSecretDestination_DuplicateLabelKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.SecretDestination{
+		{
+			Name: "mysecret",
+			Key:  "key1",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+		{
+			Name: "mysecret",
+			Key:  "key2",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+	}
+
+	_, err := secrets.ValidateDestinations(nil, destinations, nil)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for label on secret "mysecret": key "app" is set by multiple destinations`))
+}
+
+func Test_ValidateSecretDestination_DifferentSecrets_SameAnnotationKey_Validates(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.SecretDestination{
+		{
+			Name: "secret1",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+		{
+			Name: "secret2",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+
+	warnings, err := secrets.ValidateDestinations(nil, destinations, nil)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
+}
+
+func Test_ValidateSecretDestinationExpressions_DuplicateAnnotationKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.SecretDestination{
+		{
+			Name: "mysecret",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+	expressions := []*core.DestinationExpression{
+		{
+			Name:  "mysecret",
+			Key:   "key2",
+			Value: "resource.status.id",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+
+	_, err := secrets.ValidateDestinations(nil, destinations, expressions)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for annotation on secret "mysecret": key "reflector.v1/reflect" is set by multiple destinations`))
+}
+
+func Test_ValidateSecretDestinationExpressions_DuplicateLabelKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.SecretDestination{
+		{
+			Name: "mysecret",
+			Key:  "key1",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+	}
+	expressions := []*core.DestinationExpression{
+		{
+			Name:  "mysecret",
+			Key:   "key2",
+			Value: "resource.status.id",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+	}
+
+	_, err := secrets.ValidateDestinations(nil, destinations, expressions)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for label on secret "mysecret": key "app" is set by multiple destinations`))
+}

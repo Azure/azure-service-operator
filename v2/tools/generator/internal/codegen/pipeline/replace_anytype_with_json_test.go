@@ -78,7 +78,8 @@ func TestReplacingMapMapInterface(t *testing.T) {
 	// should be a map[string]JSON.
 	expectedType := astmodel.NewMapType(
 		astmodel.StringType,
-		astmodel.JSONType)
+		astmodel.JSONType,
+	)
 
 	finalDefinitions := finalState.Definitions()
 	aDef := finalDefinitions[aName]

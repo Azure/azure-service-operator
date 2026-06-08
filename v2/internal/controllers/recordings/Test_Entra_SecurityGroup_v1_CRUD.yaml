@@ -36,7 +36,7 @@ interactions:
                 - Accept-Encoding
         status: 200 OK
         code: 200
-        duration: 991.596479ms
+        duration: 468.726121ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -62,14 +62,14 @@ interactions:
         proto_minor: 0
         content_length: -1
         uncompressed: true
-        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","id":"04e5dfde-e663-4856-af65-99b8ef73bad2","deletedDateTime":null,"classification":null,"createdDateTime":"2001-02-03T04:05:06Z","creationOptions":[],"description":null,"displayName":"ASO Test Security Group","expirationDateTime":null,"groupTypes":["Unified"],"infoCatalogs":[],"isAssignableToRole":null,"mail":"asotest-security-group@microsoft.onmicrosoft.com","mailEnabled":true,"mailNickname":"asotest-security-group","membershipRule":null,"membershipRuleProcessingState":null,"onPremisesDomainName":null,"onPremisesLastSyncDateTime":null,"onPremisesNetBiosName":null,"onPremisesSamAccountName":null,"onPremisesSecurityIdentifier":null,"onPremisesSyncEnabled":null,"preferredDataLocation":"APC","preferredLanguage":null,"proxyAddresses":["SMTP:asotest-security-group@microsoft.onmicrosoft.com"],"renewedDateTime":"2001-02-03T04:05:06Z","resourceBehaviorOptions":[],"resourceProvisioningOptions":[],"securityEnabled":true,"securityIdentifier":"S-1-12-1-82173918-1213654627-3097060783-3535434735","theme":null,"uniqueName":null,"visibility":"Public","onPremisesProvisioningErrors":[],"serviceProvisioningErrors":[]}'
+        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","id":"94d49167-f076-4490-bb92-7c0f40388605","deletedDateTime":null,"classification":null,"createdDateTime":"2001-02-03T04:05:06Z","creationOptions":[],"description":null,"displayName":"ASO Test Security Group","expirationDateTime":null,"groupTypes":["Unified"],"infoCatalogs":[],"isAssignableToRole":null,"mail":"asotest-security-group@microsoft.onmicrosoft.com","mailEnabled":true,"mailNickname":"asotest-security-group","membershipRule":null,"membershipRuleProcessingState":null,"onPremisesDomainName":null,"onPremisesLastSyncDateTime":null,"onPremisesNetBiosName":null,"onPremisesSamAccountName":null,"onPremisesSecurityIdentifier":null,"onPremisesSyncEnabled":null,"preferredDataLocation":"APC","preferredLanguage":null,"proxyAddresses":["SMTP:asotest-security-group@microsoft.onmicrosoft.com"],"renewedDateTime":"2001-02-03T04:05:06Z","resourceBehaviorOptions":[],"resourceProvisioningOptions":[],"securityEnabled":true,"securityIdentifier":"S-1-12-1-2496958823-1150349430-259822267-92682304","theme":null,"uniqueName":null,"visibility":"Public","onPremisesProvisioningErrors":[],"serviceProvisioningErrors":[]}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Type:
                 - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
             Location:
-                - https://graph.microsoft.com/v1.0/00000000-0000-0000-0000-000000000000/directoryObjects/04e5dfde-e663-4856-af65-99b8ef73bad2/Microsoft.DirectoryServices.Group
+                - https://graph.microsoft.com/v1.0/00000000-0000-0000-0000-000000000000/directoryObjects/94d49167-f076-4490-bb92-7c0f40388605/Microsoft.DirectoryServices.Group
             Odata-Version:
                 - "4.0"
             Strict-Transport-Security:
@@ -78,7 +78,7 @@ interactions:
                 - Accept-Encoding
         status: 201 Created
         code: 201
-        duration: 2.559418103s
+        duration: 1.573195384s
     - id: 2
       request:
         proto: HTTP/1.1
@@ -89,7 +89,7 @@ interactions:
         headers:
             Accept:
                 - application/json
-        url: https://graph.microsoft.com/v1.0/groups/04e5dfde-e663-4856-af65-99b8ef73bad2
+        url: https://graph.microsoft.com/v1.0/groups/94d49167-f076-4490-bb92-7c0f40388605
         method: GET
       response:
         proto: HTTP/2.0
@@ -97,7 +97,7 @@ interactions:
         proto_minor: 0
         content_length: -1
         uncompressed: true
-        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","id":"04e5dfde-e663-4856-af65-99b8ef73bad2","deletedDateTime":null,"classification":null,"createdDateTime":"2001-02-03T04:05:06Z","creationOptions":[],"description":null,"displayName":"ASO Test Security Group","expirationDateTime":null,"groupTypes":["Unified"],"infoCatalogs":[],"isAssignableToRole":null,"mail":"asotest-security-group@microsoft.onmicrosoft.com","mailEnabled":true,"mailNickname":"asotest-security-group","membershipRule":null,"membershipRuleProcessingState":null,"onPremisesDomainName":null,"onPremisesLastSyncDateTime":null,"onPremisesNetBiosName":null,"onPremisesSamAccountName":null,"onPremisesSecurityIdentifier":null,"onPremisesSyncEnabled":null,"preferredDataLocation":"APC","preferredLanguage":null,"proxyAddresses":["SMTP:asotest-security-group@microsoft.onmicrosoft.com"],"renewedDateTime":"2001-02-03T04:05:06Z","resourceBehaviorOptions":[],"resourceProvisioningOptions":[],"securityEnabled":true,"securityIdentifier":"S-1-12-1-82173918-1213654627-3097060783-3535434735","theme":null,"uniqueName":null,"visibility":"Public","onPremisesProvisioningErrors":[],"serviceProvisioningErrors":[]}'
+        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","id":"94d49167-f076-4490-bb92-7c0f40388605","deletedDateTime":null,"classification":null,"createdDateTime":"2001-02-03T04:05:06Z","creationOptions":[],"description":null,"displayName":"ASO Test Security Group","expirationDateTime":null,"groupTypes":["Unified"],"infoCatalogs":[],"isAssignableToRole":null,"mail":"asotest-security-group@microsoft.onmicrosoft.com","mailEnabled":true,"mailNickname":"asotest-security-group","membershipRule":null,"membershipRuleProcessingState":null,"onPremisesDomainName":null,"onPremisesLastSyncDateTime":null,"onPremisesNetBiosName":null,"onPremisesSamAccountName":null,"onPremisesSecurityIdentifier":null,"onPremisesSyncEnabled":null,"preferredDataLocation":"APC","preferredLanguage":null,"proxyAddresses":["SMTP:asotest-security-group@microsoft.onmicrosoft.com"],"renewedDateTime":"2001-02-03T04:05:06Z","resourceBehaviorOptions":[],"resourceProvisioningOptions":[],"securityEnabled":true,"securityIdentifier":"S-1-12-1-2496958823-1150349430-259822267-92682304","theme":null,"uniqueName":null,"visibility":"Public","onPremisesProvisioningErrors":[],"serviceProvisioningErrors":[]}'
         headers:
             Cache-Control:
                 - no-cache
@@ -111,7 +111,7 @@ interactions:
                 - Accept-Encoding
         status: 200 OK
         code: 200
-        duration: 306.182874ms
+        duration: 219.378605ms
     - id: 3
       request:
         proto: HTTP/1.1
@@ -119,17 +119,17 @@ interactions:
         proto_minor: 1
         content_length: 0
         host: graph.microsoft.com
-        body: '{"@odata.type":"#microsoft.graph.group","creationOptions":[],"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","infoCatalogs":[]}'
+        body: '{"@odata.type":"#microsoft.graph.group","@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","creationOptions":[]}'
         headers:
             Accept:
                 - application/json
             Content-Type:
                 - application/json
             Test-Request-Canonical-Hash:
-                - 195917c55bc098c0a896637b75a11035564dd3923973a1e46d965146a54903f6
+                - a5eb2750bf28ef85de4e9461f6d5f61d28e63fc79dd3931f6f52cd9d71b9d6a0
             Test-Request-Hash:
-                - ebbc3045b0434e9d09e413f14ac5563429198167fb52b60c0425aa434b29abfd
-        url: https://graph.microsoft.com/v1.0/groups/04e5dfde-e663-4856-af65-99b8ef73bad2
+                - c7e9483a100cee6a8e8c4941aaf6775b59e7428ae61a827526d0fffa5b8f2ded
+        url: https://graph.microsoft.com/v1.0/groups/94d49167-f076-4490-bb92-7c0f40388605
         method: PATCH
       response:
         proto: HTTP/2.0
@@ -144,7 +144,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 219.961272ms
+        duration: 253.534186ms
     - id: 4
       request:
         proto: HTTP/1.1
@@ -155,22 +155,19 @@ interactions:
         headers:
             Accept:
                 - application/json
-        url: https://graph.microsoft.com/v1.0/groups/04e5dfde-e663-4856-af65-99b8ef73bad2
+        url: https://graph.microsoft.com/v1.0/groups/94d49167-f076-4490-bb92-7c0f40388605
         method: DELETE
       response:
         proto: HTTP/2.0
         proto_major: 2
         proto_minor: 0
         content_length: -1
-        uncompressed: true
-        body: '{"error":{"code":"InternalServerError","message":"{\"odata.error\":{\"code\":\"ResourceNotFound\",\"message\":{\"lang\":\"en-US\",\"value\":\"Group with identifier 04e5dfde-e663-4856-af65-99b8ef73bad2 not found\"}}}","innerError":{"date":"2026-03-25T01:26:40","request-id":"a8510358-1a75-4196-93d0-53f9e77ebf08","client-request-id":"a8510358-1a75-4196-93d0-53f9e77ebf08"}}}'
+        body: ""
         headers:
-            Content-Type:
-                - application/json
+            Cache-Control:
+                - no-cache
             Strict-Transport-Security:
                 - max-age=31536000
-            Vary:
-                - Accept-Encoding
-        status: 404 Not Found
-        code: 404
-        duration: 1.131209566s
+        status: 204 No Content
+        code: 204
+        duration: 1.434684001s

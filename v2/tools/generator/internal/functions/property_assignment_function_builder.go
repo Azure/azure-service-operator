@@ -110,7 +110,8 @@ func (builder *PropertyAssignmentFunctionBuilder) AddAssignmentSelector(selector
 			} else {
 				return 0
 			}
-		})
+		},
+	)
 }
 
 // AddSuffixMatchingAssignmentSelector adds a new assignment selector that will match a property with the specified
@@ -120,7 +121,8 @@ func (builder *PropertyAssignmentFunctionBuilder) AddSuffixMatchingAssignmentSel
 	destinationSuffix string,
 ) {
 	builder.AddAssignmentSelector(
-		builder.createSuffixMatchingAssignmentSelector(sourceSuffix, destinationSuffix))
+		builder.createSuffixMatchingAssignmentSelector(sourceSuffix, destinationSuffix),
+	)
 }
 
 func (builder *PropertyAssignmentFunctionBuilder) Build(
@@ -134,7 +136,8 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 		conversionContext.FunctionBaseName(),
 		builder.otherDefinition.Name(),
 		builder.direction,
-		idFactory)
+		idFactory,
+	)
 
 	// Select names for receiver and parameter
 	receiverName := idFactory.CreateReceiver(builder.receiverDefinition.Name().Name())
@@ -161,7 +164,8 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 		astmodel.ErisReference,
 		astmodel.GenRuntimeReference,
 		builder.otherDefinition.Name().PackageReference(),
-		compatPkg)
+		compatPkg,
+	)
 
 	cc := conversionContext.WithDirection(builder.direction).
 		WithPropertyBag(propertyBagName).
@@ -272,7 +276,8 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversions(
 				err,
 				"creating conversion to %s by %s",
 				destinationEndpoint,
-				sourceEndpoint)
+				sourceEndpoint,
+			)
 		}
 
 		if conv != nil {
@@ -330,12 +335,14 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversion(
 	conversion, err := conversions.CreateTypeConversion(
 		sourceEndpoint.Endpoint(),
 		destinationEndpoint.Endpoint(),
-		conversionContext)
+		conversionContext,
+	)
 	if err != nil {
 		return nil, eris.Wrapf(
 			err,
 			"trying to %s and %s",
-			sourceEndpoint, destinationEndpoint)
+			sourceEndpoint, destinationEndpoint,
+		)
 	}
 
 	return func(
@@ -354,7 +361,8 @@ func (builder *PropertyAssignmentFunctionBuilder) createConversion(
 			return nil, eris.Wrapf(
 				err,
 				"converting %s to %s",
-				sourceEndpoint, destinationEndpoint)
+				sourceEndpoint, destinationEndpoint,
+			)
 		}
 
 		return stmts, nil
@@ -460,7 +468,8 @@ func (builder *PropertyAssignmentFunctionBuilder) selectPropertiesWithIdenticalP
 				return eris.Errorf(
 					"multiple source properties with path %s are compatible with destination %s, no way to select",
 					path,
-					destinationName)
+					destinationName,
+				)
 			}
 
 			sourceEndpoint = src
@@ -498,7 +507,8 @@ func (builder *PropertyAssignmentFunctionBuilder) selectRenamedProperties(
 		for source := range sourceProperties {
 			if name, renamed := conversionContext.PropertyRename(
 				builder.receiverDefinition.Name(),
-				astmodel.PropertyName(source)); renamed {
+				astmodel.PropertyName(source),
+			); renamed {
 				renames[source] = name
 			}
 		}
@@ -507,7 +517,8 @@ func (builder *PropertyAssignmentFunctionBuilder) selectRenamedProperties(
 		for destination := range destinationProperties {
 			if name, renamed := conversionContext.PropertyRename(
 				builder.receiverDefinition.Name(),
-				astmodel.PropertyName(destination)); renamed {
+				astmodel.PropertyName(destination),
+			); renamed {
 				renames[name] = destination
 			}
 		}
@@ -665,7 +676,8 @@ func (builder *PropertyAssignmentFunctionBuilder) findTypeForBag(
 	// If t is a TypeName, check for the existence of a compatibility type in a subpackage under the receiver
 	if tn, ok := astmodel.AsInternalTypeName(t); ok {
 		compatPkg := astmodel.MakeCompatPackageReference(
-			builder.receiverDefinition.Name().InternalPackageReference())
+			builder.receiverDefinition.Name().InternalPackageReference(),
+		)
 		compatType := tn.WithPackageReference(compatPkg)
 		if conversionContext.Types().Contains(compatType) {
 			// Compatibility type exists - use that

@@ -4043,7 +4043,7 @@ func (secrets *AccountOperatorSecrets) AssignProperties_From_AccountOperatorSecr
 
 	// Key1
 	if source.Key1 != nil {
-		key1 := source.Key1.Copy()
+		key1 := *source.Key1.DeepCopy()
 		secrets.Key1 = &key1
 	} else {
 		secrets.Key1 = nil
@@ -4051,7 +4051,7 @@ func (secrets *AccountOperatorSecrets) AssignProperties_From_AccountOperatorSecr
 
 	// Key2
 	if source.Key2 != nil {
-		key2 := source.Key2.Copy()
+		key2 := *source.Key2.DeepCopy()
 		secrets.Key2 = &key2
 	} else {
 		secrets.Key2 = nil
@@ -4068,7 +4068,7 @@ func (secrets *AccountOperatorSecrets) AssignProperties_To_AccountOperatorSecret
 
 	// Key1
 	if secrets.Key1 != nil {
-		key1 := secrets.Key1.Copy()
+		key1 := *secrets.Key1.DeepCopy()
 		destination.Key1 = &key1
 	} else {
 		destination.Key1 = nil
@@ -4076,7 +4076,7 @@ func (secrets *AccountOperatorSecrets) AssignProperties_To_AccountOperatorSecret
 
 	// Key2
 	if secrets.Key2 != nil {
-		key2 := secrets.Key2.Copy()
+		key2 := *secrets.Key2.DeepCopy()
 		destination.Key2 = &key2
 	} else {
 		destination.Key2 = nil

@@ -6140,7 +6140,7 @@ func (maps *ClusterOperatorConfigMaps) AssignProperties_From_ClusterOperatorConf
 
 	// ClusterPrincipalId
 	if source.ClusterPrincipalId != nil {
-		clusterPrincipalId := source.ClusterPrincipalId.Copy()
+		clusterPrincipalId := *source.ClusterPrincipalId.DeepCopy()
 		maps.ClusterPrincipalId = &clusterPrincipalId
 	} else {
 		maps.ClusterPrincipalId = nil
@@ -6148,7 +6148,7 @@ func (maps *ClusterOperatorConfigMaps) AssignProperties_From_ClusterOperatorConf
 
 	// ClusterTenantId
 	if source.ClusterTenantId != nil {
-		clusterTenantId := source.ClusterTenantId.Copy()
+		clusterTenantId := *source.ClusterTenantId.DeepCopy()
 		maps.ClusterTenantId = &clusterTenantId
 	} else {
 		maps.ClusterTenantId = nil
@@ -6165,7 +6165,7 @@ func (maps *ClusterOperatorConfigMaps) AssignProperties_To_ClusterOperatorConfig
 
 	// ClusterPrincipalId
 	if maps.ClusterPrincipalId != nil {
-		clusterPrincipalId := maps.ClusterPrincipalId.Copy()
+		clusterPrincipalId := *maps.ClusterPrincipalId.DeepCopy()
 		destination.ClusterPrincipalId = &clusterPrincipalId
 	} else {
 		destination.ClusterPrincipalId = nil
@@ -6173,7 +6173,7 @@ func (maps *ClusterOperatorConfigMaps) AssignProperties_To_ClusterOperatorConfig
 
 	// ClusterTenantId
 	if maps.ClusterTenantId != nil {
-		clusterTenantId := maps.ClusterTenantId.Copy()
+		clusterTenantId := *maps.ClusterTenantId.DeepCopy()
 		destination.ClusterTenantId = &clusterTenantId
 	} else {
 		destination.ClusterTenantId = nil

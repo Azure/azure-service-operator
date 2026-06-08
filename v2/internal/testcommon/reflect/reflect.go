@@ -22,7 +22,7 @@ func PopulateStruct(s any) {
 		fieldType := valType.Field(i)
 
 		switch field.Kind() {
-		case reflect.Ptr:
+		case reflect.Pointer:
 			newVal := reflect.New(fieldType.Type.Elem())
 			field.Set(newVal)
 			PopulateStruct(field.Interface())

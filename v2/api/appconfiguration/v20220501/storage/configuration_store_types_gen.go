@@ -1996,7 +1996,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryConnectionString
 	if source.PrimaryConnectionString != nil {
-		primaryConnectionString := source.PrimaryConnectionString.Copy()
+		primaryConnectionString := *source.PrimaryConnectionString.DeepCopy()
 		secrets.PrimaryConnectionString = &primaryConnectionString
 	} else {
 		secrets.PrimaryConnectionString = nil
@@ -2004,7 +2004,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryKey
 	if source.PrimaryKey != nil {
-		primaryKey := source.PrimaryKey.Copy()
+		primaryKey := *source.PrimaryKey.DeepCopy()
 		secrets.PrimaryKey = &primaryKey
 	} else {
 		secrets.PrimaryKey = nil
@@ -2012,7 +2012,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryKeyID
 	if source.PrimaryKeyID != nil {
-		primaryKeyID := source.PrimaryKeyID.Copy()
+		primaryKeyID := *source.PrimaryKeyID.DeepCopy()
 		secrets.PrimaryKeyID = &primaryKeyID
 	} else {
 		secrets.PrimaryKeyID = nil
@@ -2020,7 +2020,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryReadOnlyConnectionString
 	if source.PrimaryReadOnlyConnectionString != nil {
-		primaryReadOnlyConnectionString := source.PrimaryReadOnlyConnectionString.Copy()
+		primaryReadOnlyConnectionString := *source.PrimaryReadOnlyConnectionString.DeepCopy()
 		secrets.PrimaryReadOnlyConnectionString = &primaryReadOnlyConnectionString
 	} else {
 		secrets.PrimaryReadOnlyConnectionString = nil
@@ -2028,7 +2028,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryReadOnlyKey
 	if source.PrimaryReadOnlyKey != nil {
-		primaryReadOnlyKey := source.PrimaryReadOnlyKey.Copy()
+		primaryReadOnlyKey := *source.PrimaryReadOnlyKey.DeepCopy()
 		secrets.PrimaryReadOnlyKey = &primaryReadOnlyKey
 	} else {
 		secrets.PrimaryReadOnlyKey = nil
@@ -2036,7 +2036,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryReadOnlyKeyID
 	if source.PrimaryReadOnlyKeyID != nil {
-		primaryReadOnlyKeyID := source.PrimaryReadOnlyKeyID.Copy()
+		primaryReadOnlyKeyID := *source.PrimaryReadOnlyKeyID.DeepCopy()
 		secrets.PrimaryReadOnlyKeyID = &primaryReadOnlyKeyID
 	} else {
 		secrets.PrimaryReadOnlyKeyID = nil
@@ -2044,7 +2044,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryConnectionString
 	if source.SecondaryConnectionString != nil {
-		secondaryConnectionString := source.SecondaryConnectionString.Copy()
+		secondaryConnectionString := *source.SecondaryConnectionString.DeepCopy()
 		secrets.SecondaryConnectionString = &secondaryConnectionString
 	} else {
 		secrets.SecondaryConnectionString = nil
@@ -2052,7 +2052,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryKey
 	if source.SecondaryKey != nil {
-		secondaryKey := source.SecondaryKey.Copy()
+		secondaryKey := *source.SecondaryKey.DeepCopy()
 		secrets.SecondaryKey = &secondaryKey
 	} else {
 		secrets.SecondaryKey = nil
@@ -2060,7 +2060,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryKeyID
 	if source.SecondaryKeyID != nil {
-		secondaryKeyID := source.SecondaryKeyID.Copy()
+		secondaryKeyID := *source.SecondaryKeyID.DeepCopy()
 		secrets.SecondaryKeyID = &secondaryKeyID
 	} else {
 		secrets.SecondaryKeyID = nil
@@ -2068,7 +2068,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryReadOnlyConnectionString
 	if source.SecondaryReadOnlyConnectionString != nil {
-		secondaryReadOnlyConnectionString := source.SecondaryReadOnlyConnectionString.Copy()
+		secondaryReadOnlyConnectionString := *source.SecondaryReadOnlyConnectionString.DeepCopy()
 		secrets.SecondaryReadOnlyConnectionString = &secondaryReadOnlyConnectionString
 	} else {
 		secrets.SecondaryReadOnlyConnectionString = nil
@@ -2076,7 +2076,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryReadOnlyKey
 	if source.SecondaryReadOnlyKey != nil {
-		secondaryReadOnlyKey := source.SecondaryReadOnlyKey.Copy()
+		secondaryReadOnlyKey := *source.SecondaryReadOnlyKey.DeepCopy()
 		secrets.SecondaryReadOnlyKey = &secondaryReadOnlyKey
 	} else {
 		secrets.SecondaryReadOnlyKey = nil
@@ -2084,7 +2084,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryReadOnlyKeyID
 	if source.SecondaryReadOnlyKeyID != nil {
-		secondaryReadOnlyKeyID := source.SecondaryReadOnlyKeyID.Copy()
+		secondaryReadOnlyKeyID := *source.SecondaryReadOnlyKeyID.DeepCopy()
 		secrets.SecondaryReadOnlyKeyID = &secondaryReadOnlyKeyID
 	} else {
 		secrets.SecondaryReadOnlyKeyID = nil
@@ -2117,7 +2117,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryConnectionString
 	if secrets.PrimaryConnectionString != nil {
-		primaryConnectionString := secrets.PrimaryConnectionString.Copy()
+		primaryConnectionString := *secrets.PrimaryConnectionString.DeepCopy()
 		destination.PrimaryConnectionString = &primaryConnectionString
 	} else {
 		destination.PrimaryConnectionString = nil
@@ -2125,7 +2125,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryKey
 	if secrets.PrimaryKey != nil {
-		primaryKey := secrets.PrimaryKey.Copy()
+		primaryKey := *secrets.PrimaryKey.DeepCopy()
 		destination.PrimaryKey = &primaryKey
 	} else {
 		destination.PrimaryKey = nil
@@ -2133,7 +2133,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryKeyID
 	if secrets.PrimaryKeyID != nil {
-		primaryKeyID := secrets.PrimaryKeyID.Copy()
+		primaryKeyID := *secrets.PrimaryKeyID.DeepCopy()
 		destination.PrimaryKeyID = &primaryKeyID
 	} else {
 		destination.PrimaryKeyID = nil
@@ -2141,7 +2141,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryReadOnlyConnectionString
 	if secrets.PrimaryReadOnlyConnectionString != nil {
-		primaryReadOnlyConnectionString := secrets.PrimaryReadOnlyConnectionString.Copy()
+		primaryReadOnlyConnectionString := *secrets.PrimaryReadOnlyConnectionString.DeepCopy()
 		destination.PrimaryReadOnlyConnectionString = &primaryReadOnlyConnectionString
 	} else {
 		destination.PrimaryReadOnlyConnectionString = nil
@@ -2149,7 +2149,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryReadOnlyKey
 	if secrets.PrimaryReadOnlyKey != nil {
-		primaryReadOnlyKey := secrets.PrimaryReadOnlyKey.Copy()
+		primaryReadOnlyKey := *secrets.PrimaryReadOnlyKey.DeepCopy()
 		destination.PrimaryReadOnlyKey = &primaryReadOnlyKey
 	} else {
 		destination.PrimaryReadOnlyKey = nil
@@ -2157,7 +2157,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryReadOnlyKeyID
 	if secrets.PrimaryReadOnlyKeyID != nil {
-		primaryReadOnlyKeyID := secrets.PrimaryReadOnlyKeyID.Copy()
+		primaryReadOnlyKeyID := *secrets.PrimaryReadOnlyKeyID.DeepCopy()
 		destination.PrimaryReadOnlyKeyID = &primaryReadOnlyKeyID
 	} else {
 		destination.PrimaryReadOnlyKeyID = nil
@@ -2165,7 +2165,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryConnectionString
 	if secrets.SecondaryConnectionString != nil {
-		secondaryConnectionString := secrets.SecondaryConnectionString.Copy()
+		secondaryConnectionString := *secrets.SecondaryConnectionString.DeepCopy()
 		destination.SecondaryConnectionString = &secondaryConnectionString
 	} else {
 		destination.SecondaryConnectionString = nil
@@ -2173,7 +2173,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryKey
 	if secrets.SecondaryKey != nil {
-		secondaryKey := secrets.SecondaryKey.Copy()
+		secondaryKey := *secrets.SecondaryKey.DeepCopy()
 		destination.SecondaryKey = &secondaryKey
 	} else {
 		destination.SecondaryKey = nil
@@ -2181,7 +2181,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryKeyID
 	if secrets.SecondaryKeyID != nil {
-		secondaryKeyID := secrets.SecondaryKeyID.Copy()
+		secondaryKeyID := *secrets.SecondaryKeyID.DeepCopy()
 		destination.SecondaryKeyID = &secondaryKeyID
 	} else {
 		destination.SecondaryKeyID = nil
@@ -2189,7 +2189,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryReadOnlyConnectionString
 	if secrets.SecondaryReadOnlyConnectionString != nil {
-		secondaryReadOnlyConnectionString := secrets.SecondaryReadOnlyConnectionString.Copy()
+		secondaryReadOnlyConnectionString := *secrets.SecondaryReadOnlyConnectionString.DeepCopy()
 		destination.SecondaryReadOnlyConnectionString = &secondaryReadOnlyConnectionString
 	} else {
 		destination.SecondaryReadOnlyConnectionString = nil
@@ -2197,7 +2197,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryReadOnlyKey
 	if secrets.SecondaryReadOnlyKey != nil {
-		secondaryReadOnlyKey := secrets.SecondaryReadOnlyKey.Copy()
+		secondaryReadOnlyKey := *secrets.SecondaryReadOnlyKey.DeepCopy()
 		destination.SecondaryReadOnlyKey = &secondaryReadOnlyKey
 	} else {
 		destination.SecondaryReadOnlyKey = nil
@@ -2205,7 +2205,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryReadOnlyKeyID
 	if secrets.SecondaryReadOnlyKeyID != nil {
-		secondaryReadOnlyKeyID := secrets.SecondaryReadOnlyKeyID.Copy()
+		secondaryReadOnlyKeyID := *secrets.SecondaryReadOnlyKeyID.DeepCopy()
 		destination.SecondaryReadOnlyKeyID = &secondaryReadOnlyKeyID
 	} else {
 		destination.SecondaryReadOnlyKeyID = nil

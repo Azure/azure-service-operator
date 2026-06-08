@@ -11,6 +11,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	"gopkg.in/yaml.v3"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 func TestPropertyConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
@@ -92,26 +94,26 @@ func TestPropertyConfiguration_VerifyReferenceTypeConsumed_WhenReferenceNotUsed_
 	g.Expect(err).To(MatchError(ContainSubstring(property.name)))
 }
 
-func TestPropertyConfiguration_IsSecret_WhenSpecified_ReturnsExpectedResult(t *testing.T) {
+func TestPropertyConfiguration_Secrecy_WhenSpecified_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
-	property.IsSecret.Set(true)
+	property.Secrecy.Set(astmodel.ImportSecretModeRequired)
 
-	isSecret, ok := property.IsSecret.Lookup()
+	secrecy, ok := property.Secrecy.Lookup()
 	g.Expect(ok).To(BeTrue())
-	g.Expect(isSecret).To(BeTrue())
+	g.Expect(secrecy).To(Equal(astmodel.ImportSecretModeRequired))
 }
 
-func TestPropertyConfiguration_IsSecret_WhenNotSpecified_ReturnsExpectedResult(t *testing.T) {
+func TestPropertyConfiguration_Secrecy_WhenNotSpecified_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
 
-	isSecret, ok := property.IsSecret.Lookup()
+	secrecy, ok := property.Secrecy.Lookup()
 
-	g.Expect(isSecret).To(BeFalse())
+	g.Expect(secrecy).To(Equal(astmodel.ImportSecretMode("")))
 	g.Expect(ok).To(BeFalse())
 }

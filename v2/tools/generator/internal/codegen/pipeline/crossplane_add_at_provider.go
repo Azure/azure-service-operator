@@ -25,7 +25,8 @@ func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) *Stage {
 			for _, typeDef := range definitions {
 				if _, ok := astmodel.AsResourceType(typeDef.Type()); ok {
 					atProviderTypes, err := nestStatusIntoAtProvider(
-						idFactory, definitions, typeDef)
+						idFactory, definitions, typeDef,
+					)
 					if err != nil {
 						return nil, eris.Wrapf(err, "creating AtProvider definitions")
 					}
@@ -44,7 +45,8 @@ func AddCrossplaneAtProvider(idFactory astmodel.IdentifierFactory) *Stage {
 			result.AddTypes(unmodified)
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }
 
 // nestStatusIntoAtProvider returns the type definitions required to nest the contents of the "Status" type

@@ -228,17 +228,17 @@ if should-install "$TOOL_DEST/setup-envtest"; then
 fi
 
 # Stricter GO formatting
-#doc# | gofumpt | latest | https://pkg.go.dev/mvdan.cc/gofumpt |
-go-install gofumpt mvdan.cc/gofumpt@latest
+#doc# | gofumpt | v0.10.0 | https://github.com/mvdan/gofumpt |
+go-install gofumpt mvdan.cc/gofumpt@v0.10.0
 
 # Install golangci-lint
-#doc# | golangci-lint | 2.8.0 | https://github.com/golangci/golangci-lint |
+#doc# | golangci-lint | 2.12.1 | https://github.com/golangci/golangci-lint |
 write-verbose "Checking for $TOOL_DEST/golangci-lint"
 if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v2.8.0 2>&1
+    curl -sSfL https://golangci-lint.run/install.sh  | sh -s -- -b "$TOOL_DEST" v2.12.1 2>&1
 fi
 
 # Install Task

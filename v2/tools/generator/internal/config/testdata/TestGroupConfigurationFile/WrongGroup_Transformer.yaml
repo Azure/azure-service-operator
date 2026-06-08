@@ -1,0 +1,5 @@
+typeTransformers:
+  - group: wronggroup
+    name: SomeType
+    remove: true
+    because: "wrong group"

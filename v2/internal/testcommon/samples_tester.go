@@ -455,7 +455,7 @@ func isField(field string) func(name string) bool {
 }
 
 func (t *SamplesTester) conditionalAssignString(field reflect.Value, match string, value string) {
-	if field.Kind() == reflect.Ptr {
+	if field.Kind() == reflect.Pointer {
 		field = field.Elem()
 	}
 
@@ -469,7 +469,7 @@ func (t *SamplesTester) conditionalAssignString(field reflect.Value, match strin
 }
 
 func (t *SamplesTester) replaceString(field reflect.Value, old string, new string) {
-	if field.Kind() == reflect.Ptr {
+	if field.Kind() == reflect.Pointer {
 		field = field.Elem()
 	}
 

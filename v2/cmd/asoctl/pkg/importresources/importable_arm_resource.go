@@ -198,7 +198,8 @@ func (i *importableARMResource) findChildren(
 		eris.Wrapf(
 			kerrors.NewAggregate(errs),
 			"importing childresources of %s",
-			i.armID)
+			i.armID,
+		)
 }
 
 func (i *importableARMResource) createImportFunction(
@@ -332,7 +333,8 @@ func (i *importableARMResource) importChildResources(
 	imp, ok := obj.(genruntime.ImportableARMResource)
 	if !ok {
 		return nil, eris.Errorf(
-			"unable to create blank resource, expected %s to identify an importable ARM object", childResourceType)
+			"unable to create blank resource, expected %s to identify an importable ARM object", childResourceType,
+		)
 	}
 
 	// Based on the ARM ID of our owner, create the container URI to list the child resources
@@ -341,8 +343,17 @@ func (i *importableARMResource) importChildResources(
 		ctx,
 		i.client,
 		containerURI,
-		imp.GetAPIVersion())
+		imp.GetAPIVersion(),
+	)
 	if err != nil {
+		// If this is an extension resource, errors will mean it's not supported in this location,
+		// we can safely skip it without alarming the user
+		if kr, ok := obj.(genruntime.KubernetesResource); ok {
+			if kr.GetResourceScope() == genruntime.ResourceScopeExtension {
+				return nil, nil
+			}
+		}
+
 		if _, nonfatal := i.classifyError(err); nonfatal {
 			// Non-fatal error, we'll just skip this child resource type
 			return nil, nil
@@ -368,11 +379,13 @@ func (i *importableARMResource) importChildResources(
 // These error codes represent cases where the request we've made doesn't make sense,
 // so there's no point in alerting the user to the details.
 var skipCodes = set.Make(
-	"RequestUrlInvalid",
-	"ValidationFailed",
+	"BadRequest",
 	"NoRegisteredProviderFound",
+	"RequestUrlInvalid",
 	"ResourceTypeNotSupported",
 	"UnsupportedResourceType",
+	"UnsupportedFeature",
+	"ValidationFailed",
 )
 
 func (*importableARMResource) classifyError(err error) (string, bool) {
@@ -427,7 +440,8 @@ func (i *importableARMResource) createImportableObjectFromID(
 	importable, ok := obj.(genruntime.ImportableARMResource)
 	if !ok {
 		return nil, eris.Errorf(
-			"unable to create blank resource, expected %s to identify an importable ARM object", armID)
+			"unable to create blank resource, expected %s to identify an importable ARM object", armID,
+		)
 	}
 
 	i.SetAzureName(armID.Name, importable)

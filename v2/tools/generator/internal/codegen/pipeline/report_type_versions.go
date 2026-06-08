@@ -35,7 +35,8 @@ func ReportOnTypesAndVersions(configuration *config.Configuration) *Stage {
 			report.Summarize(definitions)
 			err := report.WriteTo(configuration.FullTypesOutputPath())
 			return state, err
-		})
+		},
+	)
 }
 
 type PackagesMatrixReport struct {

@@ -78,7 +78,8 @@ func RepairSkippingProperties(
 			}
 
 			return state.WithOverlaidDefinitions(defs), err
-		})
+		},
+	)
 
 	// We have to have a conversion graph to detect skipping properties
 	stage.RequiresPrerequisiteStages(CreateConversionGraphStageID)
@@ -190,7 +191,8 @@ func (repairer *skippingPropertyRepairer) RepairSkippedProperties() (astmodel.Ty
 			return nil, eris.Wrapf(
 				err,
 				"failed to find connected definitions from %s",
-				originalDef.Name())
+				originalDef.Name(),
+			)
 		}
 
 		// Rename all the types, and their references, to copy them into the compat package
@@ -203,14 +205,16 @@ func (repairer *skippingPropertyRepairer) RepairSkippedProperties() (astmodel.Ty
 				}
 
 				return result
-			})
+			},
+		)
 		newDefs, err := renamer.RenameAll(defs)
 		if err != nil {
 			return nil, eris.Wrapf(
 				err,
 				"failed to rename connected definitions from %s into package %s",
 				originalDef.Name(),
-				compatPackage)
+				compatPackage,
+			)
 		}
 
 		// If the repair added any new types (mostly it won't), include them in the result.
@@ -226,7 +230,8 @@ func (repairer *skippingPropertyRepairer) RepairSkippedProperties() (astmodel.Ty
 	if len(errs) > 0 {
 		return nil, eris.Wrapf(
 			kerrors.NewAggregate(errs),
-			"failed to repair skipping properties")
+			"failed to repair skipping properties",
+		)
 	}
 
 	return result, nil
@@ -313,7 +318,8 @@ func (repairer *skippingPropertyRepairer) createRepairs(
 	repairer.log.V(2).Info(
 		"Found skipping property with different shape, constructing compat types to repair",
 		"lastObserved", lastObserved.String(),
-		"reintroduced", reintroduced.String())
+		"reintroduced", reintroduced.String(),
+	)
 
 	// We've found a skipping property with a different shape. If it's a TypeName we need to repair it.
 	// We do this by creating a new type that has the same shape as the missing property, injected just prior to
@@ -344,7 +350,8 @@ func (repairer *skippingPropertyRepairer) createRepairs(
 		return nil, eris.Wrapf(
 			err,
 			"failed to repair the rest of the chain after reintroduction at %s",
-			reintroduced)
+			reintroduced,
+		)
 	}
 
 	if result == nil {
@@ -451,12 +458,14 @@ func (repairer *skippingPropertyRepairer) mergeRepairs(
 		// as a part of the conversion process bewteeen an API version and the storage version.
 		if astmodel.ComparePathAndVersion(
 			proposedRepair.InternalPackageReference().ImportPath(),
-			existingRepair.InternalPackageReference().ImportPath()) > 0 {
+			existingRepair.InternalPackageReference().ImportPath(),
+		) > 0 {
 			repairer.log.V(1).Info(
 				"Conflicting repairs for compatibility type, using newer",
 				"type", source,
 				"using", proposedRepair,
-				"discarding", existingRepair)
+				"discarding", existingRepair,
+			)
 			into[source] = proposedRepair
 		}
 	}

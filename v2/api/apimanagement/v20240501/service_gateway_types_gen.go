@@ -1147,7 +1147,7 @@ func (secrets *ServiceGatewayOperatorSecrets) AssignProperties_From_ServiceGatew
 
 	// PrimaryKey
 	if source.PrimaryKey != nil {
-		primaryKey := source.PrimaryKey.Copy()
+		primaryKey := *source.PrimaryKey.DeepCopy()
 		secrets.PrimaryKey = &primaryKey
 	} else {
 		secrets.PrimaryKey = nil
@@ -1155,7 +1155,7 @@ func (secrets *ServiceGatewayOperatorSecrets) AssignProperties_From_ServiceGatew
 
 	// SecondaryKey
 	if source.SecondaryKey != nil {
-		secondaryKey := source.SecondaryKey.Copy()
+		secondaryKey := *source.SecondaryKey.DeepCopy()
 		secrets.SecondaryKey = &secondaryKey
 	} else {
 		secrets.SecondaryKey = nil
@@ -1172,7 +1172,7 @@ func (secrets *ServiceGatewayOperatorSecrets) AssignProperties_To_ServiceGateway
 
 	// PrimaryKey
 	if secrets.PrimaryKey != nil {
-		primaryKey := secrets.PrimaryKey.Copy()
+		primaryKey := *secrets.PrimaryKey.DeepCopy()
 		destination.PrimaryKey = &primaryKey
 	} else {
 		destination.PrimaryKey = nil
@@ -1180,7 +1180,7 @@ func (secrets *ServiceGatewayOperatorSecrets) AssignProperties_To_ServiceGateway
 
 	// SecondaryKey
 	if secrets.SecondaryKey != nil {
-		secondaryKey := secrets.SecondaryKey.Copy()
+		secondaryKey := *secrets.SecondaryKey.DeepCopy()
 		destination.SecondaryKey = &secondaryKey
 	} else {
 		destination.SecondaryKey = nil

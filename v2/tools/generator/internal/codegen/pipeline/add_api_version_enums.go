@@ -59,14 +59,17 @@ func (vs apiVersions) Get(pr astmodel.InternalPackageReference) apiVersion {
 	name := astmodel.MakeInternalTypeName(pr, "APIVersion") // TODO: constant?
 	value := astmodel.MakeEnumValue(
 		"Value",
-		fmt.Sprintf("%q", apiVersionFromPackageReference(pr)))
+		fmt.Sprintf("%q", apiVersionFromPackageReference(pr)),
+	)
 
 	result := apiVersion{name: name, value: value}
 	vs.generated[pr] = result
 	vs.output.Add(
 		astmodel.MakeTypeDefinition(
 			name,
-			astmodel.NewEnumType(astmodel.StringType, value)))
+			astmodel.NewEnumType(astmodel.StringType, value),
+		),
+	)
 	return result
 }
 

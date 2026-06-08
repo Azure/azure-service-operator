@@ -605,7 +605,7 @@ func (in *FleetOperatorSecrets) DeepCopyInto(out *FleetOperatorSecrets) {
 	if in.UserCredentials != nil {
 		in, out := &in.UserCredentials, &out.UserCredentials
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -629,7 +629,7 @@ func (in *FleetOperatorSpec) DeepCopyInto(out *FleetOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -647,7 +647,7 @@ func (in *FleetOperatorSpec) DeepCopyInto(out *FleetOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -909,7 +909,7 @@ func (in *FleetsAutoUpgradeProfileOperatorSpec) DeepCopyInto(out *FleetsAutoUpgr
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -927,7 +927,7 @@ func (in *FleetsAutoUpgradeProfileOperatorSpec) DeepCopyInto(out *FleetsAutoUpgr
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1148,7 +1148,7 @@ func (in *FleetsMemberOperatorSpec) DeepCopyInto(out *FleetsMemberOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1166,7 +1166,7 @@ func (in *FleetsMemberOperatorSpec) DeepCopyInto(out *FleetsMemberOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1367,7 +1367,7 @@ func (in *FleetsUpdateRunOperatorSpec) DeepCopyInto(out *FleetsUpdateRunOperator
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1385,7 +1385,7 @@ func (in *FleetsUpdateRunOperatorSpec) DeepCopyInto(out *FleetsUpdateRunOperator
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1601,7 +1601,7 @@ func (in *FleetsUpdateStrategyOperatorSpec) DeepCopyInto(out *FleetsUpdateStrate
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1619,7 +1619,7 @@ func (in *FleetsUpdateStrategyOperatorSpec) DeepCopyInto(out *FleetsUpdateStrate
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

@@ -85,10 +85,12 @@ func TestOneOfType_WithAdditionalPropertiesFromObject_GivenProperties_ReturnsOne
 	oneOf := NewOneOfType("oneOf")
 	objA := NewObjectType().WithProperties(
 		NewPropertyDefinition("FullName", "fullName", StringType),
-		NewPropertyDefinition("KnownAs", "knownAs", StringType))
+		NewPropertyDefinition("KnownAs", "knownAs", StringType),
+	)
 	objB := NewObjectType().WithProperties(
 		NewPropertyDefinition("FullName", "fullName", StringType),
-		NewPropertyDefinition("KnownAs", "knownAs", StringType))
+		NewPropertyDefinition("KnownAs", "knownAs", StringType),
+	)
 
 	result := oneOf.WithAdditionalPropertyObject(objA).WithAdditionalPropertyObject(objB)
 	g.Expect(result).NotTo(BeNil())
@@ -103,7 +105,8 @@ func TestOneOfType_WithoutAnyPropertyObjects_GivenProperties_ReturnsOneOfWithNon
 	oneOf := NewOneOfType("oneOf")
 	obj := NewObjectType().WithProperties(
 		NewPropertyDefinition("FullName", "fullName", StringType),
-		NewPropertyDefinition("KnownAs", "knownAs", StringType))
+		NewPropertyDefinition("KnownAs", "knownAs", StringType),
+	)
 
 	oneOf = oneOf.WithAdditionalPropertyObject(obj)
 
@@ -116,9 +119,11 @@ func TestOneOfType_Equals_GivenChange_RecognisesDifference(t *testing.T) {
 	t.Parallel()
 
 	nameMixin := NewObjectType().WithProperties(
-		NewPropertyDefinition("Name", "name", StringType))
+		NewPropertyDefinition("Name", "name", StringType),
+	)
 	locationMixin := NewObjectType().WithProperties(
-		NewPropertyDefinition("Location", "location", StringType))
+		NewPropertyDefinition("Location", "location", StringType),
+	)
 
 	cases := map[string]struct {
 		change         func(*OneOfType) *OneOfType

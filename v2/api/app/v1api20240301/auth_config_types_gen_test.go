@@ -6,7 +6,7 @@ package v1api20240301
 import (
 	"encoding/json"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/app/v1api20240301/storage"
-	v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/app/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"

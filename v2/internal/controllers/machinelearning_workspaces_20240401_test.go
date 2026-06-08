@@ -48,7 +48,8 @@ func Test_MachineLearning_Workspaces_20240401_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				Workspaces_WriteSecrets_20240401(tc, workspace)
 			},
-		})
+		},
+	)
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
@@ -82,7 +83,8 @@ func Workspaces_WriteSecrets_20240401(tc *testcommon.KubePerTestContext, workspa
 		workspaceKeysSecret,
 		"primaryNotebookAccessKey",
 		"secondaryNotebookAccessKey",
-		"userStorageKey")
+		"userStorageKey",
+	)
 }
 
 func newWorkspace_20240401(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *keyvault.Vault, location *string) *machinelearningservices.Workspace {

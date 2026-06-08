@@ -459,12 +459,12 @@ func (in *SearchServiceOperatorConfigMaps) DeepCopyInto(out *SearchServiceOperat
 	if in.IdentityPrincipalId != nil {
 		in, out := &in.IdentityPrincipalId, &out.IdentityPrincipalId
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.IdentityTenantId != nil {
 		in, out := &in.IdentityTenantId, &out.IdentityTenantId
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
@@ -491,12 +491,12 @@ func (in *SearchServiceOperatorSecrets) DeepCopyInto(out *SearchServiceOperatorS
 	if in.AdminPrimaryKey != nil {
 		in, out := &in.AdminPrimaryKey, &out.AdminPrimaryKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.AdminSecondaryKey != nil {
 		in, out := &in.AdminSecondaryKey, &out.AdminSecondaryKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
@@ -508,7 +508,7 @@ func (in *SearchServiceOperatorSecrets) DeepCopyInto(out *SearchServiceOperatorS
 	if in.QueryKey != nil {
 		in, out := &in.QueryKey, &out.QueryKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -532,7 +532,7 @@ func (in *SearchServiceOperatorSpec) DeepCopyInto(out *SearchServiceOperatorSpec
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -555,7 +555,7 @@ func (in *SearchServiceOperatorSpec) DeepCopyInto(out *SearchServiceOperatorSpec
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

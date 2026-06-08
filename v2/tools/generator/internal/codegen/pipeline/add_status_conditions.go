@@ -30,7 +30,8 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) *Stage {
 				conditionsProp := astmodel.NewPropertyDefinition(
 					astmodel.ConditionsProperty,
 					"conditions",
-					astmodel.NewArrayType(astmodel.ConditionType))
+					astmodel.NewArrayType(astmodel.ConditionType),
+				)
 				conditionsProp = conditionsProp.WithDescription("The observed state of the resource").MakeOptional()
 				updatedDef, err := propInjector.Inject(def, conditionsProp)
 				if err != nil {
@@ -59,7 +60,8 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) *Stage {
 			}
 
 			return state.WithOverlaidDefinitions(result), nil
-		})
+		},
+	)
 }
 
 // NewConditionerInterfaceImpl creates an InterfaceImplementation with GetConditions() and
@@ -73,19 +75,22 @@ func NewConditionerInterfaceImpl(
 		resource,
 		idFactory,
 		functions.GetConditionsFunction,
-		astmodel.GenRuntimeConditionsReference)
+		astmodel.GenRuntimeConditionsReference,
+	)
 
 	setConditions := functions.NewResourceFunction(
 		"Set"+astmodel.ConditionsProperty,
 		resource,
 		idFactory,
 		functions.SetConditionsFunction,
-		astmodel.GenRuntimeConditionsReference)
+		astmodel.GenRuntimeConditionsReference,
+	)
 
 	result := astmodel.NewInterfaceImplementation(
 		astmodel.ConditionerType,
 		getConditions,
-		setConditions)
+		setConditions,
+	)
 
 	return result, nil
 }

@@ -75,7 +75,8 @@ func checkForAnyType(description string, packages []string) *Stage {
 			}
 
 			return state.WithDefinitions(output), nil
-		})
+		},
+	)
 }
 
 func containsAnyType(theType astmodel.Type) bool {
@@ -127,7 +128,8 @@ func collectBadPackages(
 		}
 		sort.Strings(leftovers)
 		return nil, eris.Errorf(
-			"no AnyTypes found in: %s", strings.Join(leftovers, ", "))
+			"no AnyTypes found in: %s", strings.Join(leftovers, ", "),
+		)
 
 	}
 
