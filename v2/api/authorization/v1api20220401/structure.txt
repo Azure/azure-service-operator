@@ -25,7 +25,7 @@ RoleAssignment: Resource
 │   │   ├── "ServicePrincipal"
 │   │   └── "User"
 │   └── RoleDefinitionReference: *genruntime.WellKnownResourceReference
-└── Status: Object (16 properties)
+└── Status: Object (17 properties)
     ├── Condition: *string
     ├── ConditionVersion: *string
     ├── Conditions: conditions.Condition[]
@@ -44,6 +44,21 @@ RoleAssignment: Resource
     │   └── "User"
     ├── RoleDefinitionId: *string
     ├── Scope: *string
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Type: *string
     ├── UpdatedBy: *string
     └── UpdatedOn: *string
