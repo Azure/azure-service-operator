@@ -10,15 +10,11 @@ type Extension_Spec struct {
 	Identity *Identity `json:"identity,omitempty"`
 	Name     string    `json:"name,omitempty"`
 
-	// Plan: The plan information.
+	// Plan: Details of the resource plan.
 	Plan *Plan `json:"plan,omitempty"`
 
 	// Properties: Properties of an Extension resource
-	Properties *Extension_Properties_Spec `json:"properties,omitempty"`
-
-	// SystemData: Top level metadata
-	// https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
-	SystemData *SystemData `json:"systemData,omitempty"`
+	Properties *ExtensionProperties `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Extension_Spec{}
@@ -38,9 +34,10 @@ func (extension *Extension_Spec) GetType() string {
 	return "Microsoft.KubernetesConfiguration/extensions"
 }
 
-type Extension_Properties_Spec struct {
+// Properties of an Extension resource
+type ExtensionProperties struct {
 	// AksAssignedIdentity: Identity of the Extension resource in an AKS cluster
-	AksAssignedIdentity *Extension_Properties_AksAssignedIdentity_Spec `json:"aksAssignedIdentity,omitempty"`
+	AksAssignedIdentity *ExtensionPropertiesAksAssignedIdentity `json:"aksAssignedIdentity,omitempty"`
 
 	// AutoUpgradeMinorVersion: Flag to note if this extension participates in auto upgrade of minor version, or not.
 	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
@@ -62,6 +59,9 @@ type Extension_Properties_Spec struct {
 
 	// Scope: Scope at which the extension is installed.
 	Scope *Scope `json:"scope,omitempty"`
+
+	// Statuses: Status from this extension.
+	Statuses []ExtensionStatus `json:"statuses,omitempty"`
 
 	// Version: User-specified version of the extension for this extension to 'pin'. To use 'version', autoUpgradeMinorVersion
 	// must be 'false'.
@@ -93,30 +93,28 @@ type Plan struct {
 	Version *string `json:"version,omitempty"`
 }
 
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+// Identity of the Extension resource in an AKS cluster
+type ExtensionPropertiesAksAssignedIdentity struct {
+	// Type: The identity type.
+	Type *AKSIdentityType `json:"type,omitempty"`
 }
 
-type Extension_Properties_AksAssignedIdentity_Spec struct {
-	// Type: The identity type.
-	Type *Extension_Properties_AksAssignedIdentity_Type_Spec `json:"type,omitempty"`
+// Status from the extension.
+type ExtensionStatus struct {
+	// Code: Status code provided by the Extension
+	Code *string `json:"code,omitempty"`
+
+	// DisplayStatus: Short description of status of the extension.
+	DisplayStatus *string `json:"displayStatus,omitempty"`
+
+	// Level: Level of the status.
+	Level *ExtensionStatus_Level `json:"level,omitempty"`
+
+	// Message: Detailed message of the status from the Extension.
+	Message *string `json:"message,omitempty"`
+
+	// Time: DateLiteral (per ISO8601) noting the time of installation status.
+	Time *string `json:"time,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"SystemAssigned"}
@@ -138,54 +136,35 @@ type Scope struct {
 	Namespace *ScopeNamespace `json:"namespace,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// Mapping from string to SystemData_CreatedByType
-var systemData_CreatedByType_Values = map[string]SystemData_CreatedByType{
-	"application":     SystemData_CreatedByType_Application,
-	"key":             SystemData_CreatedByType_Key,
-	"managedidentity": SystemData_CreatedByType_ManagedIdentity,
-	"user":            SystemData_CreatedByType_User,
-}
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
-)
-
-// Mapping from string to SystemData_LastModifiedByType
-var systemData_LastModifiedByType_Values = map[string]SystemData_LastModifiedByType{
-	"application":     SystemData_LastModifiedByType_Application,
-	"key":             SystemData_LastModifiedByType_Key,
-	"managedidentity": SystemData_LastModifiedByType_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_User,
-}
-
+// The identity type.
 // +kubebuilder:validation:Enum={"SystemAssigned","UserAssigned"}
-type Extension_Properties_AksAssignedIdentity_Type_Spec string
+type AKSIdentityType string
 
 const (
-	Extension_Properties_AksAssignedIdentity_Type_Spec_SystemAssigned = Extension_Properties_AksAssignedIdentity_Type_Spec("SystemAssigned")
-	Extension_Properties_AksAssignedIdentity_Type_Spec_UserAssigned   = Extension_Properties_AksAssignedIdentity_Type_Spec("UserAssigned")
+	AKSIdentityType_SystemAssigned = AKSIdentityType("SystemAssigned")
+	AKSIdentityType_UserAssigned   = AKSIdentityType("UserAssigned")
 )
 
-// Mapping from string to Extension_Properties_AksAssignedIdentity_Type_Spec
-var extension_Properties_AksAssignedIdentity_Type_Spec_Values = map[string]Extension_Properties_AksAssignedIdentity_Type_Spec{
-	"systemassigned": Extension_Properties_AksAssignedIdentity_Type_Spec_SystemAssigned,
-	"userassigned":   Extension_Properties_AksAssignedIdentity_Type_Spec_UserAssigned,
+// Mapping from string to AKSIdentityType
+var aKSIdentityType_Values = map[string]AKSIdentityType{
+	"systemassigned": AKSIdentityType_SystemAssigned,
+	"userassigned":   AKSIdentityType_UserAssigned,
+}
+
+// +kubebuilder:validation:Enum={"Error","Information","Warning"}
+type ExtensionStatus_Level string
+
+const (
+	ExtensionStatus_Level_Error       = ExtensionStatus_Level("Error")
+	ExtensionStatus_Level_Information = ExtensionStatus_Level("Information")
+	ExtensionStatus_Level_Warning     = ExtensionStatus_Level("Warning")
+)
+
+// Mapping from string to ExtensionStatus_Level
+var extensionStatus_Level_Values = map[string]ExtensionStatus_Level{
+	"error":       ExtensionStatus_Level_Error,
+	"information": ExtensionStatus_Level_Information,
+	"warning":     ExtensionStatus_Level_Warning,
 }
 
 // Specifies that the scope of the extension is Cluster
