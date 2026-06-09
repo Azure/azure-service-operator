@@ -1,3 +1,9 @@
+typeTransformers:
+  - name: DeploymentProperties
+    property: CurrentCapacity
+    remove: true
+    because: This property is read-only and cannot be set by the user.
+
 groupModelConfiguration:
   2025-06-01:
     Account:
