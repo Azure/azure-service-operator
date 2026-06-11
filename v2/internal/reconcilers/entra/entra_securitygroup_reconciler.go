@@ -379,7 +379,7 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Groupable, error) {
 	// Try to get the group by display name
-	filterStr := fmt.Sprintf("displayName eq '%s'", displayName)
+	filterStr := fmt.Sprintf("displayName eq '%s'", escapeODataString(displayName))
 
 	query := &groups.GroupsRequestBuilderGetQueryParameters{
 		Filter: &filterStr,
