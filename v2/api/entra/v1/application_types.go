@@ -95,31 +95,30 @@ func (spec *ApplicationSpec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-// AssignToApplication configures the provided instance with the details of the application
+// AssignToApplication configures the provided instance with the details of the application.
+// All fields are always set (even when nil/empty) so that previously-set values can be cleared.
 func (spec *ApplicationSpec) AssignToApplication(model models.Applicationable) {
 	model.SetDisplayName(spec.DisplayName)
-
-	// Description
-	if spec.Description != nil {
-		model.SetDescription(spec.Description)
-	}
+	model.SetDescription(spec.Description)
 
 	// SignInAudience
 	if spec.SignInAudience != nil {
 		signInAudience := string(*spec.SignInAudience)
 		model.SetSignInAudience(&signInAudience)
+	} else {
+		model.SetSignInAudience(nil)
 	}
 
 	// IdentifierUris
-	if len(spec.IdentifierUris) > 0 {
-		model.SetIdentifierUris(spec.IdentifierUris)
-	}
+	model.SetIdentifierUris(spec.IdentifierUris)
 
 	// Web
 	if spec.Web != nil {
 		web := models.NewWebApplication()
 		spec.Web.AssignToWebApplication(web)
 		model.SetWeb(web)
+	} else {
+		model.SetWeb(nil)
 	}
 
 	// Spa
@@ -127,6 +126,8 @@ func (spec *ApplicationSpec) AssignToApplication(model models.Applicationable) {
 		spa := models.NewSpaApplication()
 		spec.Spa.AssignToSpaApplication(spa)
 		model.SetSpa(spa)
+	} else {
+		model.SetSpa(nil)
 	}
 
 	// PublicClient
@@ -134,22 +135,15 @@ func (spec *ApplicationSpec) AssignToApplication(model models.Applicationable) {
 		publicClient := models.NewPublicClientApplication()
 		spec.PublicClient.AssignToPublicClientApplication(publicClient)
 		model.SetPublicClient(publicClient)
+	} else {
+		model.SetPublicClient(nil)
 	}
 
 	// Tags
-	if len(spec.Tags) > 0 {
-		model.SetTags(spec.Tags)
-	}
+	model.SetTags(spec.Tags)
 
-	// IsFallbackPublicClient
-	if spec.IsFallbackPublicClient != nil {
-		model.SetIsFallbackPublicClient(spec.IsFallbackPublicClient)
-	}
-
-	// GroupMembershipClaims
-	if spec.GroupMembershipClaims != nil {
-		model.SetGroupMembershipClaims(spec.GroupMembershipClaims)
-	}
+	model.SetIsFallbackPublicClient(spec.IsFallbackPublicClient)
+	model.SetGroupMembershipClaims(spec.GroupMembershipClaims)
 }
 
 type ApplicationStatus struct {
@@ -191,14 +185,14 @@ type WebApplication struct {
 
 // AssignToWebApplication configures the provided instance with the details of the web application
 func (web *WebApplication) AssignToWebApplication(model models.WebApplicationable) {
-	if len(web.RedirectUris) > 0 {
-		model.SetRedirectUris(web.RedirectUris)
-	}
+	model.SetRedirectUris(web.RedirectUris)
 
 	if web.ImplicitGrantSettings != nil {
 		implicitGrant := models.NewImplicitGrantSettings()
 		web.ImplicitGrantSettings.AssignToImplicitGrantSettings(implicitGrant)
 		model.SetImplicitGrantSettings(implicitGrant)
+	} else {
+		model.SetImplicitGrantSettings(nil)
 	}
 }
 
@@ -229,9 +223,7 @@ type SpaApplication struct {
 
 // AssignToSpaApplication configures the provided instance with the details of the SPA application
 func (spa *SpaApplication) AssignToSpaApplication(model models.SpaApplicationable) {
-	if len(spa.RedirectUris) > 0 {
-		model.SetRedirectUris(spa.RedirectUris)
-	}
+	model.SetRedirectUris(spa.RedirectUris)
 }
 
 // PublicClientApplication specifies public client (desktop/mobile) configuration
@@ -242,9 +234,7 @@ type PublicClientApplication struct {
 
 // AssignToPublicClientApplication configures the provided instance with the details of the public client application
 func (pc *PublicClientApplication) AssignToPublicClientApplication(model models.PublicClientApplicationable) {
-	if len(pc.RedirectUris) > 0 {
-		model.SetRedirectUris(pc.RedirectUris)
-	}
+	model.SetRedirectUris(pc.RedirectUris)
 }
 
 // +kubebuilder:validation:Enum=AzureADMyOrg;AzureADMultipleOrgs;AzureADandPersonalMicrosoftAccount;PersonalMicrosoftAccount
