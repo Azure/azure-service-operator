@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20220501.WebApplicationFirewallPolicy
 // Generator information:
-// - Generated from: /frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/webapplicationfirewall.json
+// - Generated from: /frontdoor/resource-manager/Microsoft.Network/FrontDoor/stable/2022-05-01/webapplicationfirewall.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}
 type WebApplicationFirewallPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (policy *WebApplicationFirewallPolicy) OriginalGVK() *schema.GroupVersionKi
 // +kubebuilder:object:root=true
 // Storage version of v1api20220501.WebApplicationFirewallPolicy
 // Generator information:
-// - Generated from: /frontdoor/resource-manager/Microsoft.Network/stable/2022-05-01/webapplicationfirewall.json
+// - Generated from: /frontdoor/resource-manager/Microsoft.Network/FrontDoor/stable/2022-05-01/webapplicationfirewall.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}
 type WebApplicationFirewallPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
