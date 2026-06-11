@@ -16,7 +16,7 @@ type Workbook_STATUS struct {
 	Identity *ManagedServiceIdentity_STATUS `json:"identity,omitempty"`
 
 	// Kind: The kind of workbook. Only valid value is shared.
-	Kind *Workbook_Kind_STATUS `json:"kind,omitempty"`
+	Kind *ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS `json:"kind,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -27,7 +27,7 @@ type Workbook_STATUS struct {
 	// Properties: Metadata describing a workbook for an Azure resource.
 	Properties *WorkbookProperties_STATUS `json:"properties,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
@@ -35,6 +35,16 @@ type Workbook_STATUS struct {
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
+}
+
+// The kind of workbook. Only valid value is shared.
+type ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS string
+
+const ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS_Shared = ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS("shared")
+
+// Mapping from string to ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS
+var applicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS_Values = map[string]ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS{
+	"shared": ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS_Shared,
 }
 
 // Managed service identity (system assigned and/or user assigned identities)
@@ -71,15 +81,6 @@ type SystemData_STATUS struct {
 
 	// LastModifiedByType: The type of identity that last modified the resource.
 	LastModifiedByType *SystemData_LastModifiedByType_STATUS `json:"lastModifiedByType,omitempty"`
-}
-
-type Workbook_Kind_STATUS string
-
-const Workbook_Kind_STATUS_Shared = Workbook_Kind_STATUS("shared")
-
-// Mapping from string to Workbook_Kind_STATUS
-var workbook_Kind_STATUS_Values = map[string]Workbook_Kind_STATUS{
-	"shared": Workbook_Kind_STATUS_Shared,
 }
 
 // Properties that contain a workbook.

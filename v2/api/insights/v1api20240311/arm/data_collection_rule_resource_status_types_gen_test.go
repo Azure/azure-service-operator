@@ -139,7 +139,7 @@ func AgentSetting_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAgentSetting_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAgentSetting_STATUS(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(AgentSetting_Name_STATUS_MaxDiskQuotaInMB, AgentSetting_Name_STATUS_Tags, AgentSetting_Name_STATUS_UseTimeReceivedForForwardedEvents))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(KnownAgentSettingName_STATUS_MaxDiskQuotaInMB, KnownAgentSettingName_STATUS_Tags, KnownAgentSettingName_STATUS_UseTimeReceivedForForwardedEvents))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -387,13 +387,13 @@ func ColumnDefinition_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForColumnDefinition_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ColumnDefinition_Type_STATUS_Boolean,
-		ColumnDefinition_Type_STATUS_Datetime,
-		ColumnDefinition_Type_STATUS_Dynamic,
-		ColumnDefinition_Type_STATUS_Int,
-		ColumnDefinition_Type_STATUS_Long,
-		ColumnDefinition_Type_STATUS_Real,
-		ColumnDefinition_Type_STATUS_String))
+		KnownColumnDefinitionType_STATUS_Boolean,
+		KnownColumnDefinitionType_STATUS_Datetime,
+		KnownColumnDefinitionType_STATUS_Dynamic,
+		KnownColumnDefinitionType_STATUS_Int,
+		KnownColumnDefinitionType_STATUS_Long,
+		KnownColumnDefinitionType_STATUS_Real,
+		KnownColumnDefinitionType_STATUS_String))
 }
 
 func Test_DataCollectionRuleResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -465,7 +465,7 @@ func DataCollectionRuleResource_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDataCollectionRuleResource_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DataCollectionRuleResource_Kind_STATUS_Linux, DataCollectionRuleResource_Kind_STATUS_Windows))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(KnownDataCollectionRuleResourceKind_STATUS_Linux, KnownDataCollectionRuleResourceKind_STATUS_Windows))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(
@@ -553,12 +553,12 @@ func AddIndependentPropertyGeneratorsForDataCollectionRule_STATUS(gens map[strin
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["ImmutableId"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DataCollectionRule_ProvisioningState_STATUS_Canceled,
-		DataCollectionRule_ProvisioningState_STATUS_Creating,
-		DataCollectionRule_ProvisioningState_STATUS_Deleting,
-		DataCollectionRule_ProvisioningState_STATUS_Failed,
-		DataCollectionRule_ProvisioningState_STATUS_Succeeded,
-		DataCollectionRule_ProvisioningState_STATUS_Updating))
+		KnownDataCollectionRuleProvisioningState_STATUS_Canceled,
+		KnownDataCollectionRuleProvisioningState_STATUS_Creating,
+		KnownDataCollectionRuleProvisioningState_STATUS_Deleting,
+		KnownDataCollectionRuleProvisioningState_STATUS_Failed,
+		KnownDataCollectionRuleProvisioningState_STATUS_Succeeded,
+		KnownDataCollectionRuleProvisioningState_STATUS_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForDataCollectionRule_STATUS is a factory method for creating gopter generators
@@ -1095,14 +1095,14 @@ func AddIndependentPropertyGeneratorsForEtwProviderDataSource_STATUS(gens map[st
 	gens["EventIds"] = gen.SliceOf(gen.AlphaString())
 	gens["Keyword"] = gen.PtrOf(gen.AlphaString())
 	gens["LogLevel"] = gen.PtrOf(gen.OneConstOf(
-		EtwProviderDataSource_LogLevel_STATUS_Critical,
-		EtwProviderDataSource_LogLevel_STATUS_Error,
-		EtwProviderDataSource_LogLevel_STATUS_Informational,
-		EtwProviderDataSource_LogLevel_STATUS_Verbose,
-		EtwProviderDataSource_LogLevel_STATUS_Warning))
+		KnownEtwProviderDataSourceLogLevel_STATUS_Critical,
+		KnownEtwProviderDataSourceLogLevel_STATUS_Error,
+		KnownEtwProviderDataSourceLogLevel_STATUS_Informational,
+		KnownEtwProviderDataSourceLogLevel_STATUS_Verbose,
+		KnownEtwProviderDataSourceLogLevel_STATUS_Warning))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Provider"] = gen.PtrOf(gen.AlphaString())
-	gens["ProviderType"] = gen.PtrOf(gen.OneConstOf(EtwProviderDataSource_ProviderType_STATUS_EventSource, EtwProviderDataSource_ProviderType_STATUS_Manifest))
+	gens["ProviderType"] = gen.PtrOf(gen.OneConstOf(KnownEtwProviderType_STATUS_EventSource, KnownEtwProviderType_STATUS_Manifest))
 	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -1665,15 +1665,15 @@ func LogFileTextSettings_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLogFileTextSettings_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogFileTextSettings_STATUS(gens map[string]gopter.Gen) {
 	gens["RecordStartTimestampFormat"] = gen.PtrOf(gen.OneConstOf(
-		LogFileTextSettings_RecordStartTimestampFormat_STATUS_DdMMMYyyyHHMmSsZzz,
-		LogFileTextSettings_RecordStartTimestampFormat_STATUS_DdMMyyHHMmSs,
-		LogFileTextSettings_RecordStartTimestampFormat_STATUS_ISO8601,
-		LogFileTextSettings_RecordStartTimestampFormat_STATUS_MDYYYYHHMMSSAMPM,
-		LogFileTextSettings_RecordStartTimestampFormat_STATUS_MMMDHhMmSs,
-		LogFileTextSettings_RecordStartTimestampFormat_STATUS_MonDDYYYYHHMMSS,
-		LogFileTextSettings_RecordStartTimestampFormat_STATUS_YYYYMMDDHHMMSS,
-		LogFileTextSettings_RecordStartTimestampFormat_STATUS_YyMMddHHMmSs,
-		LogFileTextSettings_RecordStartTimestampFormat_STATUS_YyyyMMDdTHHMmSsK))
+		KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_DdMMMYyyyHHMmSsZzz,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_DdMMyyHHMmSs,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_ISO8601,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_MDYYYYHHMMSSAMPM,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_MMMDHhMmSs,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_MonDDYYYYHHMMSS,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_YYYYMMDDHHMMSS,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_YyMMddHHMmSs,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_YyyyMMDdTHHMmSsK))
 }
 
 func Test_LogFilesDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1744,7 +1744,7 @@ func LogFilesDataSource_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLogFilesDataSource_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogFilesDataSource_STATUS(gens map[string]gopter.Gen) {
 	gens["FilePatterns"] = gen.SliceOf(gen.AlphaString())
-	gens["Format"] = gen.PtrOf(gen.OneConstOf(LogFilesDataSource_Format_STATUS_Json, LogFilesDataSource_Format_STATUS_Text))
+	gens["Format"] = gen.PtrOf(gen.OneConstOf(KnownLogFilesDataSourceFormat_STATUS_Json, KnownLogFilesDataSourceFormat_STATUS_Text))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
@@ -2078,7 +2078,7 @@ func AddIndependentPropertyGeneratorsForOtelLogsDataSource_STATUS(gens map[strin
 	gens["EnrichWithResourceAttributes"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplaceResourceIdWithReference"] = gen.PtrOf(gen.Bool())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(OtelLogsDataSource_Streams_STATUS_MicrosoftOTelLogs))
+	gens["Streams"] = gen.SliceOf(gen.OneConstOf(KnownOtelLogsDataSourceStreams_STATUS_MicrosoftOTelLogs))
 }
 
 // AddRelatedPropertyGeneratorsForOtelLogsDataSource_STATUS is a factory method for creating gopter generators
@@ -2148,7 +2148,7 @@ func AddIndependentPropertyGeneratorsForOtelLogsDirectDataSource_STATUS(gens map
 	gens["EnrichWithResourceAttributes"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplaceResourceIdWithReference"] = gen.PtrOf(gen.Bool())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(OtelLogsDirectDataSource_Streams_STATUS_MicrosoftOTelLogs))
+	gens["Streams"] = gen.SliceOf(gen.OneConstOf(KnownOtelLogsDirectDataSourceStreams_STATUS_MicrosoftOTelLogs))
 }
 
 func Test_OtelMetricsDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2364,7 +2364,7 @@ func AddIndependentPropertyGeneratorsForOtelTracesDataSource_STATUS(gens map[str
 	gens["EnrichWithResourceAttributes"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplaceResourceIdWithReference"] = gen.PtrOf(gen.Bool())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(OtelTracesDataSource_Streams_STATUS_MicrosoftOTelTracesEvents, OtelTracesDataSource_Streams_STATUS_MicrosoftOTelTracesResources, OtelTracesDataSource_Streams_STATUS_MicrosoftOTelTracesSpans))
+	gens["Streams"] = gen.SliceOf(gen.OneConstOf(KnownOtelTracesDataSourceStreams_STATUS_MicrosoftOTelTracesEvents, KnownOtelTracesDataSourceStreams_STATUS_MicrosoftOTelTracesResources, KnownOtelTracesDataSourceStreams_STATUS_MicrosoftOTelTracesSpans))
 }
 
 // AddRelatedPropertyGeneratorsForOtelTracesDataSource_STATUS is a factory method for creating gopter generators
@@ -2434,7 +2434,7 @@ func AddIndependentPropertyGeneratorsForOtelTracesDirectDataSource_STATUS(gens m
 	gens["EnrichWithResourceAttributes"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplaceResourceIdWithReference"] = gen.PtrOf(gen.Bool())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(OtelTracesDirectDataSource_Streams_STATUS_MicrosoftOTelTracesEvents, OtelTracesDirectDataSource_Streams_STATUS_MicrosoftOTelTracesResources, OtelTracesDirectDataSource_Streams_STATUS_MicrosoftOTelTracesSpans))
+	gens["Streams"] = gen.SliceOf(gen.OneConstOf(KnownOtelTracesDirectDataSourceStreams_STATUS_MicrosoftOTelTracesEvents, KnownOtelTracesDirectDataSourceStreams_STATUS_MicrosoftOTelTracesResources, KnownOtelTracesDirectDataSourceStreams_STATUS_MicrosoftOTelTracesSpans))
 }
 
 func Test_PerfCounterDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2563,7 +2563,7 @@ func AddIndependentPropertyGeneratorsForPerformanceCountersOTelDataSource_STATUS
 	gens["CounterSpecifiers"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["SamplingFrequencyInSeconds"] = gen.PtrOf(gen.Int())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(PerformanceCountersOTelDataSource_Streams_STATUS_MicrosoftOtelPerfMetrics))
+	gens["Streams"] = gen.SliceOf(gen.OneConstOf(KnownPerformanceCountersOTelDataSourceStreams_STATUS_MicrosoftOtelPerfMetrics))
 }
 
 func Test_PlatformTelemetryDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2876,7 +2876,7 @@ func StorageBlob_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageBlob_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageBlob_STATUS(gens map[string]gopter.Gen) {
 	gens["BlobUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["LookupType"] = gen.PtrOf(gen.OneConstOf(StorageBlob_LookupType_STATUS_Cidr, StorageBlob_LookupType_STATUS_String))
+	gens["LookupType"] = gen.PtrOf(gen.OneConstOf(KnownStorageBlobLookupType_STATUS_Cidr, KnownStorageBlobLookupType_STATUS_String))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -3064,43 +3064,43 @@ func SyslogDataSource_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSyslogDataSource_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSyslogDataSource_STATUS(gens map[string]gopter.Gen) {
 	gens["FacilityNames"] = gen.SliceOf(gen.OneConstOf(
-		SyslogDataSource_FacilityNames_STATUS_Alert,
-		SyslogDataSource_FacilityNames_STATUS_Audit,
-		SyslogDataSource_FacilityNames_STATUS_Auth,
-		SyslogDataSource_FacilityNames_STATUS_Authpriv,
-		SyslogDataSource_FacilityNames_STATUS_Clock,
-		SyslogDataSource_FacilityNames_STATUS_Cron,
-		SyslogDataSource_FacilityNames_STATUS_Daemon,
-		SyslogDataSource_FacilityNames_STATUS_Ftp,
-		SyslogDataSource_FacilityNames_STATUS_Kern,
-		SyslogDataSource_FacilityNames_STATUS_Local0,
-		SyslogDataSource_FacilityNames_STATUS_Local1,
-		SyslogDataSource_FacilityNames_STATUS_Local2,
-		SyslogDataSource_FacilityNames_STATUS_Local3,
-		SyslogDataSource_FacilityNames_STATUS_Local4,
-		SyslogDataSource_FacilityNames_STATUS_Local5,
-		SyslogDataSource_FacilityNames_STATUS_Local6,
-		SyslogDataSource_FacilityNames_STATUS_Local7,
-		SyslogDataSource_FacilityNames_STATUS_Lpr,
-		SyslogDataSource_FacilityNames_STATUS_Mail,
-		SyslogDataSource_FacilityNames_STATUS_Mark,
-		SyslogDataSource_FacilityNames_STATUS_News,
-		SyslogDataSource_FacilityNames_STATUS_Nopri,
-		SyslogDataSource_FacilityNames_STATUS_Ntp,
-		SyslogDataSource_FacilityNames_STATUS_Star,
-		SyslogDataSource_FacilityNames_STATUS_Syslog,
-		SyslogDataSource_FacilityNames_STATUS_User,
-		SyslogDataSource_FacilityNames_STATUS_Uucp))
+		KnownSyslogDataSourceFacilityNames_STATUS_Alert,
+		KnownSyslogDataSourceFacilityNames_STATUS_Audit,
+		KnownSyslogDataSourceFacilityNames_STATUS_Auth,
+		KnownSyslogDataSourceFacilityNames_STATUS_Authpriv,
+		KnownSyslogDataSourceFacilityNames_STATUS_Clock,
+		KnownSyslogDataSourceFacilityNames_STATUS_Cron,
+		KnownSyslogDataSourceFacilityNames_STATUS_Daemon,
+		KnownSyslogDataSourceFacilityNames_STATUS_Ftp,
+		KnownSyslogDataSourceFacilityNames_STATUS_Kern,
+		KnownSyslogDataSourceFacilityNames_STATUS_Local0,
+		KnownSyslogDataSourceFacilityNames_STATUS_Local1,
+		KnownSyslogDataSourceFacilityNames_STATUS_Local2,
+		KnownSyslogDataSourceFacilityNames_STATUS_Local3,
+		KnownSyslogDataSourceFacilityNames_STATUS_Local4,
+		KnownSyslogDataSourceFacilityNames_STATUS_Local5,
+		KnownSyslogDataSourceFacilityNames_STATUS_Local6,
+		KnownSyslogDataSourceFacilityNames_STATUS_Local7,
+		KnownSyslogDataSourceFacilityNames_STATUS_Lpr,
+		KnownSyslogDataSourceFacilityNames_STATUS_Mail,
+		KnownSyslogDataSourceFacilityNames_STATUS_Mark,
+		KnownSyslogDataSourceFacilityNames_STATUS_News,
+		KnownSyslogDataSourceFacilityNames_STATUS_Nopri,
+		KnownSyslogDataSourceFacilityNames_STATUS_Ntp,
+		KnownSyslogDataSourceFacilityNames_STATUS_Star,
+		KnownSyslogDataSourceFacilityNames_STATUS_Syslog,
+		KnownSyslogDataSourceFacilityNames_STATUS_User,
+		KnownSyslogDataSourceFacilityNames_STATUS_Uucp))
 	gens["LogLevels"] = gen.SliceOf(gen.OneConstOf(
-		SyslogDataSource_LogLevels_STATUS_Alert,
-		SyslogDataSource_LogLevels_STATUS_Critical,
-		SyslogDataSource_LogLevels_STATUS_Debug,
-		SyslogDataSource_LogLevels_STATUS_Emergency,
-		SyslogDataSource_LogLevels_STATUS_Error,
-		SyslogDataSource_LogLevels_STATUS_Info,
-		SyslogDataSource_LogLevels_STATUS_Notice,
-		SyslogDataSource_LogLevels_STATUS_Star,
-		SyslogDataSource_LogLevels_STATUS_Warning))
+		KnownSyslogDataSourceLogLevels_STATUS_Alert,
+		KnownSyslogDataSourceLogLevels_STATUS_Critical,
+		KnownSyslogDataSourceLogLevels_STATUS_Debug,
+		KnownSyslogDataSourceLogLevels_STATUS_Emergency,
+		KnownSyslogDataSourceLogLevels_STATUS_Error,
+		KnownSyslogDataSourceLogLevels_STATUS_Info,
+		KnownSyslogDataSourceLogLevels_STATUS_Notice,
+		KnownSyslogDataSourceLogLevels_STATUS_Star,
+		KnownSyslogDataSourceLogLevels_STATUS_Warning))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
@@ -3229,6 +3229,6 @@ func WindowsFirewallLogsDataSource_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWindowsFirewallLogsDataSource_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWindowsFirewallLogsDataSource_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProfileFilter"] = gen.SliceOf(gen.OneConstOf(WindowsFirewallLogsDataSource_ProfileFilter_STATUS_Domain, WindowsFirewallLogsDataSource_ProfileFilter_STATUS_Private, WindowsFirewallLogsDataSource_ProfileFilter_STATUS_Public))
+	gens["ProfileFilter"] = gen.SliceOf(gen.OneConstOf(KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS_Domain, KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS_Private, KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS_Public))
 	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 }

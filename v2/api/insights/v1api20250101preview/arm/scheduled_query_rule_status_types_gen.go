@@ -4,10 +4,10 @@
 package arm
 
 type ScheduledQueryRule_STATUS struct {
-	// Etag: The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per
-	// the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource.
-	// HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and
-	// If-Range (section 14.27) header fields.
+	// Etag: "If etag is provided in the response body, it may also be provided as a header per the normal etag convention.
+	// Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
+	// the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
+	// fields.")
 	Etag *string `json:"etag,omitempty"`
 
 	// Id: Fully qualified resource ID for the resource. Ex -
@@ -15,10 +15,10 @@ type ScheduledQueryRule_STATUS struct {
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
-	Identity *Identity_STATUS `json:"identity,omitempty"`
+	Identity *MicrosoftCommonIdentity_STATUS `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of scheduled query rule. The default is LogAlert.
-	Kind *ScheduledQueryRule_Kind_STATUS `json:"kind,omitempty"`
+	Kind *Kind_STATUS `json:"kind,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -29,7 +29,7 @@ type ScheduledQueryRule_STATUS struct {
 	// Properties: The rule properties of the resource.
 	Properties *ScheduledQueryRuleProperties_STATUS `json:"properties,omitempty"`
 
-	// SystemData: SystemData of ScheduledQueryRule.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
@@ -39,8 +39,24 @@ type ScheduledQueryRule_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
+// Indicates the type of scheduled query rule. The default is LogAlert.
+type Kind_STATUS string
+
+const (
+	Kind_STATUS_LogAlert       = Kind_STATUS("LogAlert")
+	Kind_STATUS_LogToMetric    = Kind_STATUS("LogToMetric")
+	Kind_STATUS_SimpleLogAlert = Kind_STATUS("SimpleLogAlert")
+)
+
+// Mapping from string to Kind_STATUS
+var kind_STATUS_Values = map[string]Kind_STATUS{
+	"logalert":       Kind_STATUS_LogAlert,
+	"logtometric":    Kind_STATUS_LogToMetric,
+	"simplelogalert": Kind_STATUS_SimpleLogAlert,
+}
+
 // Identity for the resource.
-type Identity_STATUS struct {
+type MicrosoftCommonIdentity_STATUS struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -48,27 +64,12 @@ type Identity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
+	Type *MicrosoftCommonIdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity dictionary key
 	// references will be ARM resource ids in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]UserIdentityProperties_STATUS `json:"userAssignedIdentities,omitempty"`
-}
-
-type ScheduledQueryRule_Kind_STATUS string
-
-const (
-	ScheduledQueryRule_Kind_STATUS_LogAlert       = ScheduledQueryRule_Kind_STATUS("LogAlert")
-	ScheduledQueryRule_Kind_STATUS_LogToMetric    = ScheduledQueryRule_Kind_STATUS("LogToMetric")
-	ScheduledQueryRule_Kind_STATUS_SimpleLogAlert = ScheduledQueryRule_Kind_STATUS("SimpleLogAlert")
-)
-
-// Mapping from string to ScheduledQueryRule_Kind_STATUS
-var scheduledQueryRule_Kind_STATUS_Values = map[string]ScheduledQueryRule_Kind_STATUS{
-	"logalert":       ScheduledQueryRule_Kind_STATUS_LogAlert,
-	"logtometric":    ScheduledQueryRule_Kind_STATUS_LogToMetric,
-	"simplelogalert": ScheduledQueryRule_Kind_STATUS_SimpleLogAlert,
+	UserAssignedIdentities map[string]MicrosoftCommonUserIdentityProperties_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // scheduled query rule Definition
@@ -127,7 +128,7 @@ type ScheduledQueryRuleProperties_STATUS struct {
 
 	// Severity: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only
 	// for rules of the kind LogAlert.
-	Severity *ScheduledQueryRuleProperties_Severity_STATUS `json:"severity,omitempty"`
+	Severity *AlertSeverity_STATUS `json:"severity,omitempty"`
 
 	// SkipQueryValidation: The flag which indicates whether the provided query should be validated or not. The default is
 	// false. Relevant only for rules of the kind LogAlert.
@@ -177,19 +178,41 @@ type Actions_STATUS struct {
 	CustomProperties map[string]string `json:"customProperties,omitempty"`
 }
 
-type Identity_Type_STATUS string
+// Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules
+// of the kind LogAlert.
+type AlertSeverity_STATUS float64
 
 const (
-	Identity_Type_STATUS_None           = Identity_Type_STATUS("None")
-	Identity_Type_STATUS_SystemAssigned = Identity_Type_STATUS("SystemAssigned")
-	Identity_Type_STATUS_UserAssigned   = Identity_Type_STATUS("UserAssigned")
+	AlertSeverity_STATUS_0 = AlertSeverity_STATUS(0)
+	AlertSeverity_STATUS_1 = AlertSeverity_STATUS(1)
+	AlertSeverity_STATUS_2 = AlertSeverity_STATUS(2)
+	AlertSeverity_STATUS_3 = AlertSeverity_STATUS(3)
+	AlertSeverity_STATUS_4 = AlertSeverity_STATUS(4)
 )
 
-// Mapping from string to Identity_Type_STATUS
-var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
-	"none":           Identity_Type_STATUS_None,
-	"systemassigned": Identity_Type_STATUS_SystemAssigned,
-	"userassigned":   Identity_Type_STATUS_UserAssigned,
+// Type of managed service identity.
+type MicrosoftCommonIdentityType_STATUS string
+
+const (
+	MicrosoftCommonIdentityType_STATUS_None           = MicrosoftCommonIdentityType_STATUS("None")
+	MicrosoftCommonIdentityType_STATUS_SystemAssigned = MicrosoftCommonIdentityType_STATUS("SystemAssigned")
+	MicrosoftCommonIdentityType_STATUS_UserAssigned   = MicrosoftCommonIdentityType_STATUS("UserAssigned")
+)
+
+// Mapping from string to MicrosoftCommonIdentityType_STATUS
+var microsoftCommonIdentityType_STATUS_Values = map[string]MicrosoftCommonIdentityType_STATUS{
+	"none":           MicrosoftCommonIdentityType_STATUS_None,
+	"systemassigned": MicrosoftCommonIdentityType_STATUS_SystemAssigned,
+	"userassigned":   MicrosoftCommonIdentityType_STATUS_UserAssigned,
+}
+
+// Properties of the user assigned identity.
+type MicrosoftCommonUserIdentityProperties_STATUS struct {
+	// ClientId: The client ID of resource identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// PrincipalId: The principal ID of resource identity.
+	PrincipalId *string `json:"principalId,omitempty"`
 }
 
 // TBD. Relevant only for rules of the kind LogAlert.
@@ -207,16 +230,6 @@ type ScheduledQueryRuleCriteria_STATUS struct {
 	// AllOf: A list of conditions to evaluate against the specified scopes
 	AllOf []Condition_STATUS `json:"allOf,omitempty"`
 }
-
-type ScheduledQueryRuleProperties_Severity_STATUS int
-
-const (
-	ScheduledQueryRuleProperties_Severity_STATUS_0 = ScheduledQueryRuleProperties_Severity_STATUS(0)
-	ScheduledQueryRuleProperties_Severity_STATUS_1 = ScheduledQueryRuleProperties_Severity_STATUS(1)
-	ScheduledQueryRuleProperties_Severity_STATUS_2 = ScheduledQueryRuleProperties_Severity_STATUS(2)
-	ScheduledQueryRuleProperties_Severity_STATUS_3 = ScheduledQueryRuleProperties_Severity_STATUS(3)
-	ScheduledQueryRuleProperties_Severity_STATUS_4 = ScheduledQueryRuleProperties_Severity_STATUS(4)
-)
 
 type SystemData_CreatedByType_STATUS string
 
@@ -252,15 +265,6 @@ var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModi
 	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
-// User assigned identity properties.
-type UserIdentityProperties_STATUS struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-}
-
 // A condition of the scheduled query rule.
 type Condition_STATUS struct {
 	// AlertSensitivity: The extent of deviation required to trigger an alert. Allowed values are 'Low', 'Medium' and 'High'.
@@ -269,14 +273,14 @@ type Condition_STATUS struct {
 	AlertSensitivity *string `json:"alertSensitivity,omitempty"`
 
 	// CriterionType: Specifies the type of threshold criteria
-	CriterionType *Condition_CriterionType_STATUS `json:"criterionType,omitempty"`
+	CriterionType *MicrosoftCommonCriterionType_STATUS `json:"criterionType,omitempty"`
 
 	// Dimensions: List of Dimensions conditions
 	Dimensions []Dimension_STATUS `json:"dimensions,omitempty"`
 
 	// FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
 	// alert. Relevant only for rules of the kind LogAlert.
-	FailingPeriods *Condition_FailingPeriods_STATUS `json:"failingPeriods,omitempty"`
+	FailingPeriods *ConditionFailingPeriods_STATUS `json:"failingPeriods,omitempty"`
 
 	// IgnoreDataBefore: Use this option to set the date from which to start learning the metric historical data and calculate
 	// the dynamic thresholds (in ISO8601 format). Relevant only for dynamic threshold rules of the kind LogAlert.
@@ -293,7 +297,7 @@ type Condition_STATUS struct {
 	MinRecurrenceCount *int `json:"minRecurrenceCount,omitempty"`
 
 	// Operator: The criteria operator. Relevant and required only for rules of the kind LogAlert.
-	Operator *Condition_Operator_STATUS `json:"operator,omitempty"`
+	Operator *ConditionOperator_STATUS `json:"operator,omitempty"`
 
 	// Query: Log query alert
 	Query *string `json:"query,omitempty"`
@@ -307,23 +311,12 @@ type Condition_STATUS struct {
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: Aggregation type. Relevant and required only for rules of the kind LogAlert.
-	TimeAggregation *Condition_TimeAggregation_STATUS `json:"timeAggregation,omitempty"`
+	TimeAggregation *TimeAggregation_STATUS `json:"timeAggregation,omitempty"`
 }
 
-type Condition_CriterionType_STATUS string
-
-const (
-	Condition_CriterionType_STATUS_DynamicThresholdCriterion = Condition_CriterionType_STATUS("DynamicThresholdCriterion")
-	Condition_CriterionType_STATUS_StaticThresholdCriterion  = Condition_CriterionType_STATUS("StaticThresholdCriterion")
-)
-
-// Mapping from string to Condition_CriterionType_STATUS
-var condition_CriterionType_STATUS_Values = map[string]Condition_CriterionType_STATUS{
-	"dynamicthresholdcriterion": Condition_CriterionType_STATUS_DynamicThresholdCriterion,
-	"staticthresholdcriterion":  Condition_CriterionType_STATUS_StaticThresholdCriterion,
-}
-
-type Condition_FailingPeriods_STATUS struct {
+// The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant
+// only for rules of the kind LogAlert.
+type ConditionFailingPeriods_STATUS struct {
 	// MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
 	// numberOfEvaluationPeriods. Default value is 1
 	MinFailingPeriodsToAlert *int `json:"minFailingPeriodsToAlert,omitempty"`
@@ -333,44 +326,26 @@ type Condition_FailingPeriods_STATUS struct {
 	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
 }
 
-type Condition_Operator_STATUS string
+// The criteria operator. Relevant and required only for rules of the kind LogAlert.
+type ConditionOperator_STATUS string
 
 const (
-	Condition_Operator_STATUS_Equals             = Condition_Operator_STATUS("Equals")
-	Condition_Operator_STATUS_GreaterOrLessThan  = Condition_Operator_STATUS("GreaterOrLessThan")
-	Condition_Operator_STATUS_GreaterThan        = Condition_Operator_STATUS("GreaterThan")
-	Condition_Operator_STATUS_GreaterThanOrEqual = Condition_Operator_STATUS("GreaterThanOrEqual")
-	Condition_Operator_STATUS_LessThan           = Condition_Operator_STATUS("LessThan")
-	Condition_Operator_STATUS_LessThanOrEqual    = Condition_Operator_STATUS("LessThanOrEqual")
+	ConditionOperator_STATUS_Equals             = ConditionOperator_STATUS("Equals")
+	ConditionOperator_STATUS_GreaterOrLessThan  = ConditionOperator_STATUS("GreaterOrLessThan")
+	ConditionOperator_STATUS_GreaterThan        = ConditionOperator_STATUS("GreaterThan")
+	ConditionOperator_STATUS_GreaterThanOrEqual = ConditionOperator_STATUS("GreaterThanOrEqual")
+	ConditionOperator_STATUS_LessThan           = ConditionOperator_STATUS("LessThan")
+	ConditionOperator_STATUS_LessThanOrEqual    = ConditionOperator_STATUS("LessThanOrEqual")
 )
 
-// Mapping from string to Condition_Operator_STATUS
-var condition_Operator_STATUS_Values = map[string]Condition_Operator_STATUS{
-	"equals":             Condition_Operator_STATUS_Equals,
-	"greaterorlessthan":  Condition_Operator_STATUS_GreaterOrLessThan,
-	"greaterthan":        Condition_Operator_STATUS_GreaterThan,
-	"greaterthanorequal": Condition_Operator_STATUS_GreaterThanOrEqual,
-	"lessthan":           Condition_Operator_STATUS_LessThan,
-	"lessthanorequal":    Condition_Operator_STATUS_LessThanOrEqual,
-}
-
-type Condition_TimeAggregation_STATUS string
-
-const (
-	Condition_TimeAggregation_STATUS_Average = Condition_TimeAggregation_STATUS("Average")
-	Condition_TimeAggregation_STATUS_Count   = Condition_TimeAggregation_STATUS("Count")
-	Condition_TimeAggregation_STATUS_Maximum = Condition_TimeAggregation_STATUS("Maximum")
-	Condition_TimeAggregation_STATUS_Minimum = Condition_TimeAggregation_STATUS("Minimum")
-	Condition_TimeAggregation_STATUS_Total   = Condition_TimeAggregation_STATUS("Total")
-)
-
-// Mapping from string to Condition_TimeAggregation_STATUS
-var condition_TimeAggregation_STATUS_Values = map[string]Condition_TimeAggregation_STATUS{
-	"average": Condition_TimeAggregation_STATUS_Average,
-	"count":   Condition_TimeAggregation_STATUS_Count,
-	"maximum": Condition_TimeAggregation_STATUS_Maximum,
-	"minimum": Condition_TimeAggregation_STATUS_Minimum,
-	"total":   Condition_TimeAggregation_STATUS_Total,
+// Mapping from string to ConditionOperator_STATUS
+var conditionOperator_STATUS_Values = map[string]ConditionOperator_STATUS{
+	"equals":             ConditionOperator_STATUS_Equals,
+	"greaterorlessthan":  ConditionOperator_STATUS_GreaterOrLessThan,
+	"greaterthan":        ConditionOperator_STATUS_GreaterThan,
+	"greaterthanorequal": ConditionOperator_STATUS_GreaterThanOrEqual,
+	"lessthan":           ConditionOperator_STATUS_LessThan,
+	"lessthanorequal":    ConditionOperator_STATUS_LessThanOrEqual,
 }
 
 // Dimension splitting and filtering definition
@@ -379,21 +354,56 @@ type Dimension_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Operator: Operator for dimension values
-	Operator *Dimension_Operator_STATUS `json:"operator,omitempty"`
+	Operator *DimensionOperator_STATUS `json:"operator,omitempty"`
 
 	// Values: List of dimension values
 	Values []string `json:"values,omitempty"`
 }
 
-type Dimension_Operator_STATUS string
+// Specifies the type of threshold criteria. Previously undocumented values might be returned
+type MicrosoftCommonCriterionType_STATUS string
 
 const (
-	Dimension_Operator_STATUS_Exclude = Dimension_Operator_STATUS("Exclude")
-	Dimension_Operator_STATUS_Include = Dimension_Operator_STATUS("Include")
+	MicrosoftCommonCriterionType_STATUS_DynamicThresholdCriterion = MicrosoftCommonCriterionType_STATUS("DynamicThresholdCriterion")
+	MicrosoftCommonCriterionType_STATUS_StaticThresholdCriterion  = MicrosoftCommonCriterionType_STATUS("StaticThresholdCriterion")
 )
 
-// Mapping from string to Dimension_Operator_STATUS
-var dimension_Operator_STATUS_Values = map[string]Dimension_Operator_STATUS{
-	"exclude": Dimension_Operator_STATUS_Exclude,
-	"include": Dimension_Operator_STATUS_Include,
+// Mapping from string to MicrosoftCommonCriterionType_STATUS
+var microsoftCommonCriterionType_STATUS_Values = map[string]MicrosoftCommonCriterionType_STATUS{
+	"dynamicthresholdcriterion": MicrosoftCommonCriterionType_STATUS_DynamicThresholdCriterion,
+	"staticthresholdcriterion":  MicrosoftCommonCriterionType_STATUS_StaticThresholdCriterion,
+}
+
+// Aggregation type. Relevant and required only for rules of the kind LogAlert.
+type TimeAggregation_STATUS string
+
+const (
+	TimeAggregation_STATUS_Average = TimeAggregation_STATUS("Average")
+	TimeAggregation_STATUS_Count   = TimeAggregation_STATUS("Count")
+	TimeAggregation_STATUS_Maximum = TimeAggregation_STATUS("Maximum")
+	TimeAggregation_STATUS_Minimum = TimeAggregation_STATUS("Minimum")
+	TimeAggregation_STATUS_Total   = TimeAggregation_STATUS("Total")
+)
+
+// Mapping from string to TimeAggregation_STATUS
+var timeAggregation_STATUS_Values = map[string]TimeAggregation_STATUS{
+	"average": TimeAggregation_STATUS_Average,
+	"count":   TimeAggregation_STATUS_Count,
+	"maximum": TimeAggregation_STATUS_Maximum,
+	"minimum": TimeAggregation_STATUS_Minimum,
+	"total":   TimeAggregation_STATUS_Total,
+}
+
+// Operator for dimension values
+type DimensionOperator_STATUS string
+
+const (
+	DimensionOperator_STATUS_Exclude = DimensionOperator_STATUS("Exclude")
+	DimensionOperator_STATUS_Include = DimensionOperator_STATUS("Include")
+)
+
+// Mapping from string to DimensionOperator_STATUS
+var dimensionOperator_STATUS_Values = map[string]DimensionOperator_STATUS{
+	"exclude": DimensionOperator_STATUS_Exclude,
+	"include": DimensionOperator_STATUS_Include,
 }

@@ -7,10 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type ScheduledQueryRule_Spec struct {
 	// Identity: The identity of the resource.
-	Identity *Identity `json:"identity,omitempty"`
+	Identity *MicrosoftCommonIdentity `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of scheduled query rule. The default is LogAlert.
-	Kind *ScheduledQueryRule_Kind_Spec `json:"kind,omitempty"`
+	Kind *Kind `json:"kind,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -40,27 +40,28 @@ func (rule *ScheduledQueryRule_Spec) GetType() string {
 	return "Microsoft.Insights/scheduledQueryRules"
 }
 
-// Identity for the resource.
-type Identity struct {
-	// Type: Type of managed service identity.
-	Type                   *Identity_Type                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
-}
-
+// Indicates the type of scheduled query rule. The default is LogAlert.
 // +kubebuilder:validation:Enum={"LogAlert","LogToMetric","SimpleLogAlert"}
-type ScheduledQueryRule_Kind_Spec string
+type Kind string
 
 const (
-	ScheduledQueryRule_Kind_Spec_LogAlert       = ScheduledQueryRule_Kind_Spec("LogAlert")
-	ScheduledQueryRule_Kind_Spec_LogToMetric    = ScheduledQueryRule_Kind_Spec("LogToMetric")
-	ScheduledQueryRule_Kind_Spec_SimpleLogAlert = ScheduledQueryRule_Kind_Spec("SimpleLogAlert")
+	Kind_LogAlert       = Kind("LogAlert")
+	Kind_LogToMetric    = Kind("LogToMetric")
+	Kind_SimpleLogAlert = Kind("SimpleLogAlert")
 )
 
-// Mapping from string to ScheduledQueryRule_Kind_Spec
-var scheduledQueryRule_Kind_Spec_Values = map[string]ScheduledQueryRule_Kind_Spec{
-	"logalert":       ScheduledQueryRule_Kind_Spec_LogAlert,
-	"logtometric":    ScheduledQueryRule_Kind_Spec_LogToMetric,
-	"simplelogalert": ScheduledQueryRule_Kind_Spec_SimpleLogAlert,
+// Mapping from string to Kind
+var kind_Values = map[string]Kind{
+	"logalert":       Kind_LogAlert,
+	"logtometric":    Kind_LogToMetric,
+	"simplelogalert": Kind_SimpleLogAlert,
+}
+
+// Identity for the resource.
+type MicrosoftCommonIdentity struct {
+	// Type: Type of managed service identity.
+	Type                   *MicrosoftCommonIdentityType           `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
 // scheduled query rule Definition
@@ -109,7 +110,7 @@ type ScheduledQueryRuleProperties struct {
 
 	// Severity: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only
 	// for rules of the kind LogAlert.
-	Severity *ScheduledQueryRuleProperties_Severity `json:"severity,omitempty"`
+	Severity *AlertSeverity `json:"severity,omitempty"`
 
 	// SkipQueryValidation: The flag which indicates whether the provided query should be validated or not. The default is
 	// false. Relevant only for rules of the kind LogAlert.
@@ -138,20 +139,34 @@ type Actions struct {
 	CustomProperties map[string]string `json:"customProperties,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type Identity_Type string
+// Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules
+// of the kind LogAlert.
+// +kubebuilder:validation:Enum={0,1,2,3,4}
+type AlertSeverity float64
 
 const (
-	Identity_Type_None           = Identity_Type("None")
-	Identity_Type_SystemAssigned = Identity_Type("SystemAssigned")
-	Identity_Type_UserAssigned   = Identity_Type("UserAssigned")
+	AlertSeverity_0 = AlertSeverity(0)
+	AlertSeverity_1 = AlertSeverity(1)
+	AlertSeverity_2 = AlertSeverity(2)
+	AlertSeverity_3 = AlertSeverity(3)
+	AlertSeverity_4 = AlertSeverity(4)
 )
 
-// Mapping from string to Identity_Type
-var identity_Type_Values = map[string]Identity_Type{
-	"none":           Identity_Type_None,
-	"systemassigned": Identity_Type_SystemAssigned,
-	"userassigned":   Identity_Type_UserAssigned,
+// Type of managed service identity.
+// +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
+type MicrosoftCommonIdentityType string
+
+const (
+	MicrosoftCommonIdentityType_None           = MicrosoftCommonIdentityType("None")
+	MicrosoftCommonIdentityType_SystemAssigned = MicrosoftCommonIdentityType("SystemAssigned")
+	MicrosoftCommonIdentityType_UserAssigned   = MicrosoftCommonIdentityType("UserAssigned")
+)
+
+// Mapping from string to MicrosoftCommonIdentityType
+var microsoftCommonIdentityType_Values = map[string]MicrosoftCommonIdentityType{
+	"none":           MicrosoftCommonIdentityType_None,
+	"systemassigned": MicrosoftCommonIdentityType_SystemAssigned,
+	"userassigned":   MicrosoftCommonIdentityType_UserAssigned,
 }
 
 // TBD. Relevant only for rules of the kind LogAlert.
@@ -170,17 +185,6 @@ type ScheduledQueryRuleCriteria struct {
 	AllOf []Condition `json:"allOf,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={0,1,2,3,4}
-type ScheduledQueryRuleProperties_Severity int
-
-const (
-	ScheduledQueryRuleProperties_Severity_0 = ScheduledQueryRuleProperties_Severity(0)
-	ScheduledQueryRuleProperties_Severity_1 = ScheduledQueryRuleProperties_Severity(1)
-	ScheduledQueryRuleProperties_Severity_2 = ScheduledQueryRuleProperties_Severity(2)
-	ScheduledQueryRuleProperties_Severity_3 = ScheduledQueryRuleProperties_Severity(3)
-	ScheduledQueryRuleProperties_Severity_4 = ScheduledQueryRuleProperties_Severity(4)
-)
-
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
 }
@@ -193,14 +197,14 @@ type Condition struct {
 	AlertSensitivity *string `json:"alertSensitivity,omitempty"`
 
 	// CriterionType: Specifies the type of threshold criteria
-	CriterionType *Condition_CriterionType `json:"criterionType,omitempty"`
+	CriterionType *MicrosoftCommonCriterionType `json:"criterionType,omitempty"`
 
 	// Dimensions: List of Dimensions conditions
 	Dimensions []Dimension `json:"dimensions,omitempty"`
 
 	// FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
 	// alert. Relevant only for rules of the kind LogAlert.
-	FailingPeriods *Condition_FailingPeriods `json:"failingPeriods,omitempty"`
+	FailingPeriods *ConditionFailingPeriods `json:"failingPeriods,omitempty"`
 
 	// IgnoreDataBefore: Use this option to set the date from which to start learning the metric historical data and calculate
 	// the dynamic thresholds (in ISO8601 format). Relevant only for dynamic threshold rules of the kind LogAlert.
@@ -217,7 +221,7 @@ type Condition struct {
 	MinRecurrenceCount *int `json:"minRecurrenceCount,omitempty"`
 
 	// Operator: The criteria operator. Relevant and required only for rules of the kind LogAlert.
-	Operator *Condition_Operator `json:"operator,omitempty"`
+	Operator *ConditionOperator `json:"operator,omitempty"`
 
 	// Query: Log query alert
 	Query *string `json:"query,omitempty"`
@@ -231,24 +235,12 @@ type Condition struct {
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: Aggregation type. Relevant and required only for rules of the kind LogAlert.
-	TimeAggregation *Condition_TimeAggregation `json:"timeAggregation,omitempty"`
+	TimeAggregation *TimeAggregation `json:"timeAggregation,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"DynamicThresholdCriterion","StaticThresholdCriterion"}
-type Condition_CriterionType string
-
-const (
-	Condition_CriterionType_DynamicThresholdCriterion = Condition_CriterionType("DynamicThresholdCriterion")
-	Condition_CriterionType_StaticThresholdCriterion  = Condition_CriterionType("StaticThresholdCriterion")
-)
-
-// Mapping from string to Condition_CriterionType
-var condition_CriterionType_Values = map[string]Condition_CriterionType{
-	"dynamicthresholdcriterion": Condition_CriterionType_DynamicThresholdCriterion,
-	"staticthresholdcriterion":  Condition_CriterionType_StaticThresholdCriterion,
-}
-
-type Condition_FailingPeriods struct {
+// The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant
+// only for rules of the kind LogAlert.
+type ConditionFailingPeriods struct {
 	// MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
 	// numberOfEvaluationPeriods. Default value is 1
 	MinFailingPeriodsToAlert *int `json:"minFailingPeriodsToAlert,omitempty"`
@@ -258,46 +250,27 @@ type Condition_FailingPeriods struct {
 	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
 }
 
+// The criteria operator. Relevant and required only for rules of the kind LogAlert.
 // +kubebuilder:validation:Enum={"Equals","GreaterOrLessThan","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual"}
-type Condition_Operator string
+type ConditionOperator string
 
 const (
-	Condition_Operator_Equals             = Condition_Operator("Equals")
-	Condition_Operator_GreaterOrLessThan  = Condition_Operator("GreaterOrLessThan")
-	Condition_Operator_GreaterThan        = Condition_Operator("GreaterThan")
-	Condition_Operator_GreaterThanOrEqual = Condition_Operator("GreaterThanOrEqual")
-	Condition_Operator_LessThan           = Condition_Operator("LessThan")
-	Condition_Operator_LessThanOrEqual    = Condition_Operator("LessThanOrEqual")
+	ConditionOperator_Equals             = ConditionOperator("Equals")
+	ConditionOperator_GreaterOrLessThan  = ConditionOperator("GreaterOrLessThan")
+	ConditionOperator_GreaterThan        = ConditionOperator("GreaterThan")
+	ConditionOperator_GreaterThanOrEqual = ConditionOperator("GreaterThanOrEqual")
+	ConditionOperator_LessThan           = ConditionOperator("LessThan")
+	ConditionOperator_LessThanOrEqual    = ConditionOperator("LessThanOrEqual")
 )
 
-// Mapping from string to Condition_Operator
-var condition_Operator_Values = map[string]Condition_Operator{
-	"equals":             Condition_Operator_Equals,
-	"greaterorlessthan":  Condition_Operator_GreaterOrLessThan,
-	"greaterthan":        Condition_Operator_GreaterThan,
-	"greaterthanorequal": Condition_Operator_GreaterThanOrEqual,
-	"lessthan":           Condition_Operator_LessThan,
-	"lessthanorequal":    Condition_Operator_LessThanOrEqual,
-}
-
-// +kubebuilder:validation:Enum={"Average","Count","Maximum","Minimum","Total"}
-type Condition_TimeAggregation string
-
-const (
-	Condition_TimeAggregation_Average = Condition_TimeAggregation("Average")
-	Condition_TimeAggregation_Count   = Condition_TimeAggregation("Count")
-	Condition_TimeAggregation_Maximum = Condition_TimeAggregation("Maximum")
-	Condition_TimeAggregation_Minimum = Condition_TimeAggregation("Minimum")
-	Condition_TimeAggregation_Total   = Condition_TimeAggregation("Total")
-)
-
-// Mapping from string to Condition_TimeAggregation
-var condition_TimeAggregation_Values = map[string]Condition_TimeAggregation{
-	"average": Condition_TimeAggregation_Average,
-	"count":   Condition_TimeAggregation_Count,
-	"maximum": Condition_TimeAggregation_Maximum,
-	"minimum": Condition_TimeAggregation_Minimum,
-	"total":   Condition_TimeAggregation_Total,
+// Mapping from string to ConditionOperator
+var conditionOperator_Values = map[string]ConditionOperator{
+	"equals":             ConditionOperator_Equals,
+	"greaterorlessthan":  ConditionOperator_GreaterOrLessThan,
+	"greaterthan":        ConditionOperator_GreaterThan,
+	"greaterthanorequal": ConditionOperator_GreaterThanOrEqual,
+	"lessthan":           ConditionOperator_LessThan,
+	"lessthanorequal":    ConditionOperator_LessThanOrEqual,
 }
 
 // Dimension splitting and filtering definition
@@ -306,22 +279,59 @@ type Dimension struct {
 	Name *string `json:"name,omitempty"`
 
 	// Operator: Operator for dimension values
-	Operator *Dimension_Operator `json:"operator,omitempty"`
+	Operator *DimensionOperator `json:"operator,omitempty"`
 
 	// Values: List of dimension values
 	Values []string `json:"values,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Exclude","Include"}
-type Dimension_Operator string
+// Specifies the type of threshold criteria. Previously undocumented values might be returned
+// +kubebuilder:validation:Enum={"DynamicThresholdCriterion","StaticThresholdCriterion"}
+type MicrosoftCommonCriterionType string
 
 const (
-	Dimension_Operator_Exclude = Dimension_Operator("Exclude")
-	Dimension_Operator_Include = Dimension_Operator("Include")
+	MicrosoftCommonCriterionType_DynamicThresholdCriterion = MicrosoftCommonCriterionType("DynamicThresholdCriterion")
+	MicrosoftCommonCriterionType_StaticThresholdCriterion  = MicrosoftCommonCriterionType("StaticThresholdCriterion")
 )
 
-// Mapping from string to Dimension_Operator
-var dimension_Operator_Values = map[string]Dimension_Operator{
-	"exclude": Dimension_Operator_Exclude,
-	"include": Dimension_Operator_Include,
+// Mapping from string to MicrosoftCommonCriterionType
+var microsoftCommonCriterionType_Values = map[string]MicrosoftCommonCriterionType{
+	"dynamicthresholdcriterion": MicrosoftCommonCriterionType_DynamicThresholdCriterion,
+	"staticthresholdcriterion":  MicrosoftCommonCriterionType_StaticThresholdCriterion,
+}
+
+// Aggregation type. Relevant and required only for rules of the kind LogAlert.
+// +kubebuilder:validation:Enum={"Average","Count","Maximum","Minimum","Total"}
+type TimeAggregation string
+
+const (
+	TimeAggregation_Average = TimeAggregation("Average")
+	TimeAggregation_Count   = TimeAggregation("Count")
+	TimeAggregation_Maximum = TimeAggregation("Maximum")
+	TimeAggregation_Minimum = TimeAggregation("Minimum")
+	TimeAggregation_Total   = TimeAggregation("Total")
+)
+
+// Mapping from string to TimeAggregation
+var timeAggregation_Values = map[string]TimeAggregation{
+	"average": TimeAggregation_Average,
+	"count":   TimeAggregation_Count,
+	"maximum": TimeAggregation_Maximum,
+	"minimum": TimeAggregation_Minimum,
+	"total":   TimeAggregation_Total,
+}
+
+// Operator for dimension values
+// +kubebuilder:validation:Enum={"Exclude","Include"}
+type DimensionOperator string
+
+const (
+	DimensionOperator_Exclude = DimensionOperator("Exclude")
+	DimensionOperator_Include = DimensionOperator("Include")
+)
+
+// Mapping from string to DimensionOperator
+var dimensionOperator_Values = map[string]DimensionOperator{
+	"exclude": DimensionOperator_Exclude,
+	"include": DimensionOperator_Include,
 }

@@ -172,15 +172,6 @@ groupModelConfiguration:
         $referenceType: arm
       StorageAccountId:
         $referenceType: arm
-  2023-06-01:
-    Workbook:
-      $exportAs: Workbook
-      $supportedFrom: v2.15.0
-    WorkbookProperties:
-      SourceId:
-        $referenceType: arm
-      StorageUri:
-        $referenceType: arm
   2022-10-01:
     Autoscalesetting:
       $exportAs: AutoscaleSetting
@@ -276,6 +267,17 @@ groupModelConfiguration:
       DataCollectionEndpointId:
         $referenceType: arm
       DataCollectionRuleId:
+        $referenceType: arm
+  2023-06-01:
+    ApplicationInsightsCommonTypesWorkbookSharedTypeKind:
+      $renameTo: Workbook_Kind_Spec
+    Workbook:
+      $exportAs: Workbook
+      $supportedFrom: v2.15.0
+    WorkbookProperties:
+      SourceId:
+        $referenceType: arm
+      StorageUri:
         $referenceType: arm
   2024-03-11:
     DataCollectionRule:

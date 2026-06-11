@@ -45,52 +45,52 @@ upgradableResourcesReport:
 
 # Per-group configuration files
 imports:
-  alertsmanagement: azure-arm/alertsmanagement.yaml
-  apimanagement: azure-arm/apimanagement.yaml
-  app: azure-arm/app.yaml
-  appconfiguration: azure-arm/appconfiguration.yaml
-  authorization: azure-arm/authorization.yaml
-  batch: azure-arm/batch.yaml
-  cache: azure-arm/cache.yaml
-  cdn: azure-arm/cdn.yaml
-  cognitiveservices: azure-arm/cognitiveservices.yaml
-  communication: azure-arm/communication.yaml
-  compute: azure-arm/compute.yaml
-  containerinstance: azure-arm/containerinstance.yaml
-  containerregistry: azure-arm/containerregistry.yaml
-  containerservice: azure-arm/containerservice.yaml
-  datafactory: azure-arm/datafactory.yaml
-  dataprotection: azure-arm/dataprotection.yaml
-  dbformariadb: azure-arm/dbformariadb.yaml
-  dbformysql: azure-arm/dbformysql.yaml
-  dbforpostgresql: azure-arm/dbforpostgresql.yaml
-  devices: azure-arm/devices.yaml
-  documentdb: azure-arm/documentdb.yaml
-  entra: azure-arm/entra.yaml
-  eventgrid: azure-arm/eventgrid.yaml
-  eventhub: azure-arm/eventhub.yaml
-  insights: azure-arm/insights.yaml
-  keyvault: azure-arm/keyvault.yaml
-  kubernetesconfiguration: azure-arm/kubernetesconfiguration.yaml
-  kusto: azure-arm/kusto.yaml
-  machinelearningservices: azure-arm/machinelearningservices.yaml
-  managedidentity: azure-arm/managedidentity.yaml
-  monitor: azure-arm/monitor.yaml
-  network: azure-arm/network.yaml
-  network.frontdoor: azure-arm/network.frontdoor.yaml
-  notificationhubs: azure-arm/notificationhubs.yaml
-  operationalinsights: azure-arm/operationalinsights.yaml
-  quota: azure-arm/quota.yaml
-  redhatopenshift: azure-arm/redhatopenshift.yaml
-  resources: azure-arm/resources.yaml
-  search: azure-arm/search.yaml
-  servicebus: azure-arm/servicebus.yaml
-  signalrservice: azure-arm/signalrservice.yaml
-  sql: azure-arm/sql.yaml
-  storage: azure-arm/storage.yaml
-  subscription: azure-arm/subscription.yaml
-  synapse: azure-arm/synapse.yaml
-  web: azure-arm/web.yaml
+  # alertsmanagement: azure-arm/alertsmanagement.yaml
+  # apimanagement: azure-arm/apimanagement.yaml
+  # app: azure-arm/app.yaml
+  # appconfiguration: azure-arm/appconfiguration.yaml
+  # authorization: azure-arm/authorization.yaml
+  # batch: azure-arm/batch.yaml
+  # cache: azure-arm/cache.yaml
+  # cdn: azure-arm/cdn.yaml
+  # cognitiveservices: azure-arm/cognitiveservices.yaml
+  # communication: azure-arm/communication.yaml
+  # compute: azure-arm/compute.yaml
+  # containerinstance: azure-arm/containerinstance.yaml
+  # containerregistry: azure-arm/containerregistry.yaml
+  # containerservice: azure-arm/containerservice.yaml
+   datafactory: azure-arm/datafactory.yaml
+  # dataprotection: azure-arm/dataprotection.yaml
+  # dbformariadb: azure-arm/dbformariadb.yaml
+  # dbformysql: azure-arm/dbformysql.yaml
+  # dbforpostgresql: azure-arm/dbforpostgresql.yaml
+  # devices: azure-arm/devices.yaml
+  # documentdb: azure-arm/documentdb.yaml
+  # entra: azure-arm/entra.yaml
+  # eventgrid: azure-arm/eventgrid.yaml
+  # eventhub: azure-arm/eventhub.yaml
+  # insights: azure-arm/insights.yaml
+  # keyvault: azure-arm/keyvault.yaml
+  # kubernetesconfiguration: azure-arm/kubernetesconfiguration.yaml
+  # kusto: azure-arm/kusto.yaml
+  # machinelearningservices: azure-arm/machinelearningservices.yaml
+  # managedidentity: azure-arm/managedidentity.yaml
+  # monitor: azure-arm/monitor.yaml
+  # network: azure-arm/network.yaml
+  # network.frontdoor: azure-arm/network.frontdoor.yaml
+  # notificationhubs: azure-arm/notificationhubs.yaml
+  # operationalinsights: azure-arm/operationalinsights.yaml
+  # quota: azure-arm/quota.yaml
+  # redhatopenshift: azure-arm/redhatopenshift.yaml
+  # resources: azure-arm/resources.yaml
+  # search: azure-arm/search.yaml
+  # servicebus: azure-arm/servicebus.yaml
+  # signalrservice: azure-arm/signalrservice.yaml
+  # sql: azure-arm/sql.yaml
+  # storage: azure-arm/storage.yaml
+  # subscription: azure-arm/subscription.yaml
+  # synapse: azure-arm/synapse.yaml
+  # web: azure-arm/web.yaml
 #
 # These filters are used early in the processing pipeline. 
 #

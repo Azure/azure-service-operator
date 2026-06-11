@@ -65,7 +65,7 @@ ScheduledQueryRule: Resource
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── TimeToResolve: *string
 │   ├── ScopesReferences: genruntime.ResourceReference[]
-│   ├── Severity: *int
+│   ├── Severity: *float64
 │   ├── SkipQueryValidation: *bool
 │   ├── Tags: map[string]string
 │   ├── TargetResourceTypes: string[]
@@ -132,7 +132,7 @@ ScheduledQueryRule: Resource
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── TimeToResolve: *string
     ├── Scopes: string[]
-    ├── Severity: *int
+    ├── Severity: *float64
     ├── SkipQueryValidation: *bool
     ├── SystemData: *Object (7 properties)
     │   ├── CreatedAt: *string
@@ -153,9 +153,9 @@ augmentConversionForActions_STATUS: Interface
 
 augmentConversionForCondition: Interface
 
-augmentConversionForCondition_FailingPeriods: Interface
+augmentConversionForConditionFailingPeriods: Interface
 
-augmentConversionForCondition_FailingPeriods_STATUS: Interface
+augmentConversionForConditionFailingPeriods_STATUS: Interface
 
 augmentConversionForCondition_STATUS: Interface
 

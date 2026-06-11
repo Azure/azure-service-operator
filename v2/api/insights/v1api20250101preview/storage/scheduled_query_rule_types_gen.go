@@ -30,7 +30,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20250101preview.ScheduledQueryRule
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}
 type ScheduledQueryRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -250,7 +250,7 @@ func (rule *ScheduledQueryRule) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20250101preview.ScheduledQueryRule
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}
 type ScheduledQueryRuleList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -283,7 +283,7 @@ type ScheduledQueryRule_Spec struct {
 	DisplayName                           *string                         `json:"displayName,omitempty"`
 	Enabled                               *bool                           `json:"enabled,omitempty"`
 	EvaluationFrequency                   *string                         `json:"evaluationFrequency,omitempty"`
-	Identity                              *Identity                       `json:"identity,omitempty"`
+	Identity                              *MicrosoftCommonIdentity        `json:"identity,omitempty"`
 	Kind                                  *string                         `json:"kind,omitempty"`
 	Location                              *string                         `json:"location,omitempty"`
 	MuteActionsDuration                   *string                         `json:"muteActionsDuration,omitempty"`
@@ -299,7 +299,7 @@ type ScheduledQueryRule_Spec struct {
 	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ResolveConfiguration *RuleResolveConfiguration          `json:"resolveConfiguration,omitempty"`
 	ScopesReferences     []genruntime.ResourceReference     `armReference:"Scopes" json:"scopesReferences,omitempty"`
-	Severity             *int                               `json:"severity,omitempty"`
+	Severity             *float64                           `json:"severity,omitempty"`
 	SkipQueryValidation  *bool                              `json:"skipQueryValidation,omitempty"`
 	Tags                 map[string]string                  `json:"tags,omitempty"`
 	TargetResourceTypes  []string                           `json:"targetResourceTypes,omitempty"`
@@ -423,7 +423,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Sp
 
 	// Identity
 	if propertyBag.Contains("Identity") {
-		var identity Identity
+		var identity MicrosoftCommonIdentity
 		err := propertyBag.Pull("Identity", &identity)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
@@ -494,7 +494,12 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Sp
 	}
 
 	// Severity
-	rule.Severity = genruntime.ClonePointerToInt(source.Severity)
+	if source.Severity != nil {
+		severity := genruntime.GetFloatFromInt(*source.Severity)
+		rule.Severity = &severity
+	} else {
+		rule.Severity = nil
+	}
 
 	// SkipQueryValidation
 	if source.SkipQueryValidation != nil {
@@ -659,7 +664,12 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_To_ScheduledQueryRule_Spec
 	}
 
 	// Severity
-	destination.Severity = genruntime.ClonePointerToInt(rule.Severity)
+	if rule.Severity != nil {
+		severity := genruntime.GetIntFromFloat(*rule.Severity)
+		destination.Severity = &severity
+	} else {
+		destination.Severity = nil
+	}
 
 	// SkipQueryValidation
 	if rule.SkipQueryValidation != nil {
@@ -712,7 +722,7 @@ type ScheduledQueryRule_STATUS struct {
 	Etag                                  *string                            `json:"etag,omitempty"`
 	EvaluationFrequency                   *string                            `json:"evaluationFrequency,omitempty"`
 	Id                                    *string                            `json:"id,omitempty"`
-	Identity                              *Identity_STATUS                   `json:"identity,omitempty"`
+	Identity                              *MicrosoftCommonIdentity_STATUS    `json:"identity,omitempty"`
 	IsLegacyLogAnalyticsRule              *bool                              `json:"isLegacyLogAnalyticsRule,omitempty"`
 	IsWorkspaceAlertsStorageConfigured    *bool                              `json:"isWorkspaceAlertsStorageConfigured,omitempty"`
 	Kind                                  *string                            `json:"kind,omitempty"`
@@ -723,7 +733,7 @@ type ScheduledQueryRule_STATUS struct {
 	PropertyBag                           genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ResolveConfiguration                  *RuleResolveConfiguration_STATUS   `json:"resolveConfiguration,omitempty"`
 	Scopes                                []string                           `json:"scopes,omitempty"`
-	Severity                              *int                               `json:"severity,omitempty"`
+	Severity                              *float64                           `json:"severity,omitempty"`
 	SkipQueryValidation                   *bool                              `json:"skipQueryValidation,omitempty"`
 	SystemData                            *SystemData_STATUS                 `json:"systemData,omitempty"`
 	Tags                                  map[string]string                  `json:"tags,omitempty"`
@@ -858,7 +868,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 
 	// Identity
 	if propertyBag.Contains("Identity") {
-		var identity Identity_STATUS
+		var identity MicrosoftCommonIdentity_STATUS
 		err := propertyBag.Pull("Identity", &identity)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
@@ -917,7 +927,12 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 	rule.Scopes = genruntime.CloneSliceOfString(source.Scopes)
 
 	// Severity
-	rule.Severity = genruntime.ClonePointerToInt(source.Severity)
+	if source.Severity != nil {
+		severity := genruntime.GetFloatFromInt(*source.Severity)
+		rule.Severity = &severity
+	} else {
+		rule.Severity = nil
+	}
 
 	// SkipQueryValidation
 	if source.SkipQueryValidation != nil {
@@ -1114,7 +1129,12 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_ST
 	destination.Scopes = genruntime.CloneSliceOfString(rule.Scopes)
 
 	// Severity
-	destination.Severity = genruntime.ClonePointerToInt(rule.Severity)
+	if rule.Severity != nil {
+		severity := genruntime.GetIntFromFloat(*rule.Severity)
+		destination.Severity = &severity
+	} else {
+		destination.Severity = nil
+	}
 
 	// SkipQueryValidation
 	if rule.SkipQueryValidation != nil {
@@ -1396,22 +1416,22 @@ type augmentConversionForScheduledQueryRule_STATUS interface {
 	AssignPropertiesTo(dst *v20220615s.ScheduledQueryRule_STATUS) error
 }
 
-// Storage version of v1api20250101preview.Identity
+// Storage version of v1api20250101preview.MicrosoftCommonIdentity
 // Identity for the resource.
-type Identity struct {
+type MicrosoftCommonIdentity struct {
 	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Type                   *string                       `json:"type,omitempty"`
 	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1api20250101preview.Identity_STATUS
+// Storage version of v1api20250101preview.MicrosoftCommonIdentity_STATUS
 // Identity for the resource.
-type Identity_STATUS struct {
-	PrincipalId            *string                                  `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
-	TenantId               *string                                  `json:"tenantId,omitempty"`
-	Type                   *string                                  `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserIdentityProperties_STATUS `json:"userAssignedIdentities,omitempty"`
+type MicrosoftCommonIdentity_STATUS struct {
+	PrincipalId            *string                                                 `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag                                  `json:"$propertyBag,omitempty"`
+	TenantId               *string                                                 `json:"tenantId,omitempty"`
+	Type                   *string                                                 `json:"type,omitempty"`
+	UserAssignedIdentities map[string]MicrosoftCommonUserIdentityProperties_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1api20250101preview.RuleResolveConfiguration
@@ -1861,17 +1881,17 @@ type augmentConversionForSystemData_STATUS interface {
 // Storage version of v1api20250101preview.Condition
 // A condition of the scheduled query rule.
 type Condition struct {
-	AlertSensitivity    *string                   `json:"alertSensitivity,omitempty"`
-	CriterionType       *string                   `json:"criterionType,omitempty"`
-	Dimensions          []Dimension               `json:"dimensions,omitempty"`
-	FailingPeriods      *Condition_FailingPeriods `json:"failingPeriods,omitempty"`
-	IgnoreDataBefore    *string                   `json:"ignoreDataBefore,omitempty"`
-	MetricMeasureColumn *string                   `json:"metricMeasureColumn,omitempty"`
-	MetricName          *string                   `json:"metricName,omitempty"`
-	MinRecurrenceCount  *int                      `json:"minRecurrenceCount,omitempty"`
-	Operator            *string                   `json:"operator,omitempty"`
-	PropertyBag         genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	Query               *string                   `json:"query,omitempty"`
+	AlertSensitivity    *string                  `json:"alertSensitivity,omitempty"`
+	CriterionType       *string                  `json:"criterionType,omitempty"`
+	Dimensions          []Dimension              `json:"dimensions,omitempty"`
+	FailingPeriods      *ConditionFailingPeriods `json:"failingPeriods,omitempty"`
+	IgnoreDataBefore    *string                  `json:"ignoreDataBefore,omitempty"`
+	MetricMeasureColumn *string                  `json:"metricMeasureColumn,omitempty"`
+	MetricName          *string                  `json:"metricName,omitempty"`
+	MinRecurrenceCount  *int                     `json:"minRecurrenceCount,omitempty"`
+	Operator            *string                  `json:"operator,omitempty"`
+	PropertyBag         genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
+	Query               *string                  `json:"query,omitempty"`
 
 	// ResourceIdColumnReference: The column containing the resource id. The content of the column must be a uri formatted as
 	// resource id. Relevant only for rules of the kind LogAlert.
@@ -1929,10 +1949,10 @@ func (condition *Condition) AssignProperties_From_Condition(source *v20220615s.C
 
 	// FailingPeriods
 	if source.FailingPeriods != nil {
-		var failingPeriod Condition_FailingPeriods
-		err := failingPeriod.AssignProperties_From_Condition_FailingPeriods(source.FailingPeriods)
+		var failingPeriod ConditionFailingPeriods
+		err := failingPeriod.AssignProperties_From_ConditionFailingPeriods(source.FailingPeriods)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Condition_FailingPeriods() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_From_ConditionFailingPeriods() to populate field FailingPeriods")
 		}
 		condition.FailingPeriods = &failingPeriod
 	} else {
@@ -2053,10 +2073,10 @@ func (condition *Condition) AssignProperties_To_Condition(destination *v20220615
 
 	// FailingPeriods
 	if condition.FailingPeriods != nil {
-		var failingPeriod v20220615s.Condition_FailingPeriods
-		err := condition.FailingPeriods.AssignProperties_To_Condition_FailingPeriods(&failingPeriod)
+		var failingPeriod v20220615s.ConditionFailingPeriods
+		err := condition.FailingPeriods.AssignProperties_To_ConditionFailingPeriods(&failingPeriod)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_To_ConditionFailingPeriods() to populate field FailingPeriods")
 		}
 		destination.FailingPeriods = &failingPeriod
 	} else {
@@ -2131,20 +2151,20 @@ func (condition *Condition) AssignProperties_To_Condition(destination *v20220615
 // Storage version of v1api20250101preview.Condition_STATUS
 // A condition of the scheduled query rule.
 type Condition_STATUS struct {
-	AlertSensitivity    *string                          `json:"alertSensitivity,omitempty"`
-	CriterionType       *string                          `json:"criterionType,omitempty"`
-	Dimensions          []Dimension_STATUS               `json:"dimensions,omitempty"`
-	FailingPeriods      *Condition_FailingPeriods_STATUS `json:"failingPeriods,omitempty"`
-	IgnoreDataBefore    *string                          `json:"ignoreDataBefore,omitempty"`
-	MetricMeasureColumn *string                          `json:"metricMeasureColumn,omitempty"`
-	MetricName          *string                          `json:"metricName,omitempty"`
-	MinRecurrenceCount  *int                             `json:"minRecurrenceCount,omitempty"`
-	Operator            *string                          `json:"operator,omitempty"`
-	PropertyBag         genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-	Query               *string                          `json:"query,omitempty"`
-	ResourceIdColumn    *string                          `json:"resourceIdColumn,omitempty"`
-	Threshold           *float64                         `json:"threshold,omitempty"`
-	TimeAggregation     *string                          `json:"timeAggregation,omitempty"`
+	AlertSensitivity    *string                         `json:"alertSensitivity,omitempty"`
+	CriterionType       *string                         `json:"criterionType,omitempty"`
+	Dimensions          []Dimension_STATUS              `json:"dimensions,omitempty"`
+	FailingPeriods      *ConditionFailingPeriods_STATUS `json:"failingPeriods,omitempty"`
+	IgnoreDataBefore    *string                         `json:"ignoreDataBefore,omitempty"`
+	MetricMeasureColumn *string                         `json:"metricMeasureColumn,omitempty"`
+	MetricName          *string                         `json:"metricName,omitempty"`
+	MinRecurrenceCount  *int                            `json:"minRecurrenceCount,omitempty"`
+	Operator            *string                         `json:"operator,omitempty"`
+	PropertyBag         genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
+	Query               *string                         `json:"query,omitempty"`
+	ResourceIdColumn    *string                         `json:"resourceIdColumn,omitempty"`
+	Threshold           *float64                        `json:"threshold,omitempty"`
+	TimeAggregation     *string                         `json:"timeAggregation,omitempty"`
 }
 
 // AssignProperties_From_Condition_STATUS populates our Condition_STATUS from the provided source Condition_STATUS
@@ -2196,10 +2216,10 @@ func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source
 
 	// FailingPeriods
 	if source.FailingPeriods != nil {
-		var failingPeriod Condition_FailingPeriods_STATUS
-		err := failingPeriod.AssignProperties_From_Condition_FailingPeriods_STATUS(source.FailingPeriods)
+		var failingPeriod ConditionFailingPeriods_STATUS
+		err := failingPeriod.AssignProperties_From_ConditionFailingPeriods_STATUS(source.FailingPeriods)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_From_ConditionFailingPeriods_STATUS() to populate field FailingPeriods")
 		}
 		condition.FailingPeriods = &failingPeriod
 	} else {
@@ -2315,10 +2335,10 @@ func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destinat
 
 	// FailingPeriods
 	if condition.FailingPeriods != nil {
-		var failingPeriod v20220615s.Condition_FailingPeriods_STATUS
-		err := condition.FailingPeriods.AssignProperties_To_Condition_FailingPeriods_STATUS(&failingPeriod)
+		var failingPeriod v20220615s.ConditionFailingPeriods_STATUS
+		err := condition.FailingPeriods.AssignProperties_To_ConditionFailingPeriods_STATUS(&failingPeriod)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_To_ConditionFailingPeriods_STATUS() to populate field FailingPeriods")
 		}
 		destination.FailingPeriods = &failingPeriod
 	} else {
@@ -2385,6 +2405,14 @@ func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destinat
 	return nil
 }
 
+// Storage version of v1api20250101preview.MicrosoftCommonUserIdentityProperties_STATUS
+// Properties of the user assigned identity.
+type MicrosoftCommonUserIdentityProperties_STATUS struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1api20250101preview.UserAssignedIdentityDetails
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
@@ -2448,14 +2476,6 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 	return nil
 }
 
-// Storage version of v1api20250101preview.UserIdentityProperties_STATUS
-// User assigned identity properties.
-type UserIdentityProperties_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 type augmentConversionForCondition interface {
 	AssignPropertiesFrom(src *v20220615s.Condition) error
 	AssignPropertiesTo(dst *v20220615s.Condition) error
@@ -2471,15 +2491,17 @@ type augmentConversionForUserAssignedIdentityDetails interface {
 	AssignPropertiesTo(dst *v20240311s.UserAssignedIdentityDetails) error
 }
 
-// Storage version of v1api20250101preview.Condition_FailingPeriods
-type Condition_FailingPeriods struct {
+// Storage version of v1api20250101preview.ConditionFailingPeriods
+// The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant
+// only for rules of the kind LogAlert.
+type ConditionFailingPeriods struct {
 	MinFailingPeriodsToAlert  *int                   `json:"minFailingPeriodsToAlert,omitempty"`
 	NumberOfEvaluationPeriods *int                   `json:"numberOfEvaluationPeriods,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_Condition_FailingPeriods populates our Condition_FailingPeriods from the provided source Condition_FailingPeriods
-func (periods *Condition_FailingPeriods) AssignProperties_From_Condition_FailingPeriods(source *v20220615s.Condition_FailingPeriods) error {
+// AssignProperties_From_ConditionFailingPeriods populates our ConditionFailingPeriods from the provided source ConditionFailingPeriods
+func (periods *ConditionFailingPeriods) AssignProperties_From_ConditionFailingPeriods(source *v20220615s.ConditionFailingPeriods) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2496,9 +2518,9 @@ func (periods *Condition_FailingPeriods) AssignProperties_From_Condition_Failing
 		periods.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForCondition_FailingPeriods interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForConditionFailingPeriods interface (if implemented) to customize the conversion
 	var periodsAsAny any = periods
-	if augmentedPeriods, ok := periodsAsAny.(augmentConversionForCondition_FailingPeriods); ok {
+	if augmentedPeriods, ok := periodsAsAny.(augmentConversionForConditionFailingPeriods); ok {
 		err := augmentedPeriods.AssignPropertiesFrom(source)
 		if err != nil {
 			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -2509,8 +2531,8 @@ func (periods *Condition_FailingPeriods) AssignProperties_From_Condition_Failing
 	return nil
 }
 
-// AssignProperties_To_Condition_FailingPeriods populates the provided destination Condition_FailingPeriods from our Condition_FailingPeriods
-func (periods *Condition_FailingPeriods) AssignProperties_To_Condition_FailingPeriods(destination *v20220615s.Condition_FailingPeriods) error {
+// AssignProperties_To_ConditionFailingPeriods populates the provided destination ConditionFailingPeriods from our ConditionFailingPeriods
+func (periods *ConditionFailingPeriods) AssignProperties_To_ConditionFailingPeriods(destination *v20220615s.ConditionFailingPeriods) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(periods.PropertyBag)
 
@@ -2527,9 +2549,9 @@ func (periods *Condition_FailingPeriods) AssignProperties_To_Condition_FailingPe
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForCondition_FailingPeriods interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForConditionFailingPeriods interface (if implemented) to customize the conversion
 	var periodsAsAny any = periods
-	if augmentedPeriods, ok := periodsAsAny.(augmentConversionForCondition_FailingPeriods); ok {
+	if augmentedPeriods, ok := periodsAsAny.(augmentConversionForConditionFailingPeriods); ok {
 		err := augmentedPeriods.AssignPropertiesTo(destination)
 		if err != nil {
 			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -2540,15 +2562,17 @@ func (periods *Condition_FailingPeriods) AssignProperties_To_Condition_FailingPe
 	return nil
 }
 
-// Storage version of v1api20250101preview.Condition_FailingPeriods_STATUS
-type Condition_FailingPeriods_STATUS struct {
+// Storage version of v1api20250101preview.ConditionFailingPeriods_STATUS
+// The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant
+// only for rules of the kind LogAlert.
+type ConditionFailingPeriods_STATUS struct {
 	MinFailingPeriodsToAlert  *int                   `json:"minFailingPeriodsToAlert,omitempty"`
 	NumberOfEvaluationPeriods *int                   `json:"numberOfEvaluationPeriods,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_Condition_FailingPeriods_STATUS populates our Condition_FailingPeriods_STATUS from the provided source Condition_FailingPeriods_STATUS
-func (periods *Condition_FailingPeriods_STATUS) AssignProperties_From_Condition_FailingPeriods_STATUS(source *v20220615s.Condition_FailingPeriods_STATUS) error {
+// AssignProperties_From_ConditionFailingPeriods_STATUS populates our ConditionFailingPeriods_STATUS from the provided source ConditionFailingPeriods_STATUS
+func (periods *ConditionFailingPeriods_STATUS) AssignProperties_From_ConditionFailingPeriods_STATUS(source *v20220615s.ConditionFailingPeriods_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2565,9 +2589,9 @@ func (periods *Condition_FailingPeriods_STATUS) AssignProperties_From_Condition_
 		periods.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForCondition_FailingPeriods_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForConditionFailingPeriods_STATUS interface (if implemented) to customize the conversion
 	var periodsAsAny any = periods
-	if augmentedPeriods, ok := periodsAsAny.(augmentConversionForCondition_FailingPeriods_STATUS); ok {
+	if augmentedPeriods, ok := periodsAsAny.(augmentConversionForConditionFailingPeriods_STATUS); ok {
 		err := augmentedPeriods.AssignPropertiesFrom(source)
 		if err != nil {
 			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -2578,8 +2602,8 @@ func (periods *Condition_FailingPeriods_STATUS) AssignProperties_From_Condition_
 	return nil
 }
 
-// AssignProperties_To_Condition_FailingPeriods_STATUS populates the provided destination Condition_FailingPeriods_STATUS from our Condition_FailingPeriods_STATUS
-func (periods *Condition_FailingPeriods_STATUS) AssignProperties_To_Condition_FailingPeriods_STATUS(destination *v20220615s.Condition_FailingPeriods_STATUS) error {
+// AssignProperties_To_ConditionFailingPeriods_STATUS populates the provided destination ConditionFailingPeriods_STATUS from our ConditionFailingPeriods_STATUS
+func (periods *ConditionFailingPeriods_STATUS) AssignProperties_To_ConditionFailingPeriods_STATUS(destination *v20220615s.ConditionFailingPeriods_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(periods.PropertyBag)
 
@@ -2596,9 +2620,9 @@ func (periods *Condition_FailingPeriods_STATUS) AssignProperties_To_Condition_Fa
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForCondition_FailingPeriods_STATUS interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForConditionFailingPeriods_STATUS interface (if implemented) to customize the conversion
 	var periodsAsAny any = periods
-	if augmentedPeriods, ok := periodsAsAny.(augmentConversionForCondition_FailingPeriods_STATUS); ok {
+	if augmentedPeriods, ok := periodsAsAny.(augmentConversionForConditionFailingPeriods_STATUS); ok {
 		err := augmentedPeriods.AssignPropertiesTo(destination)
 		if err != nil {
 			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -2763,14 +2787,14 @@ func (dimension *Dimension_STATUS) AssignProperties_To_Dimension_STATUS(destinat
 	return nil
 }
 
-type augmentConversionForCondition_FailingPeriods interface {
-	AssignPropertiesFrom(src *v20220615s.Condition_FailingPeriods) error
-	AssignPropertiesTo(dst *v20220615s.Condition_FailingPeriods) error
+type augmentConversionForConditionFailingPeriods interface {
+	AssignPropertiesFrom(src *v20220615s.ConditionFailingPeriods) error
+	AssignPropertiesTo(dst *v20220615s.ConditionFailingPeriods) error
 }
 
-type augmentConversionForCondition_FailingPeriods_STATUS interface {
-	AssignPropertiesFrom(src *v20220615s.Condition_FailingPeriods_STATUS) error
-	AssignPropertiesTo(dst *v20220615s.Condition_FailingPeriods_STATUS) error
+type augmentConversionForConditionFailingPeriods_STATUS interface {
+	AssignPropertiesFrom(src *v20220615s.ConditionFailingPeriods_STATUS) error
+	AssignPropertiesTo(dst *v20220615s.ConditionFailingPeriods_STATUS) error
 }
 
 type augmentConversionForDimension interface {

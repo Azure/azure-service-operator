@@ -378,12 +378,12 @@ func AddIndependentPropertyGeneratorsForDataCollectionRuleAssociationProxyOnlyRe
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DataCollectionRuleAssociation_ProvisioningState_STATUS_Canceled,
-		DataCollectionRuleAssociation_ProvisioningState_STATUS_Creating,
-		DataCollectionRuleAssociation_ProvisioningState_STATUS_Deleting,
-		DataCollectionRuleAssociation_ProvisioningState_STATUS_Failed,
-		DataCollectionRuleAssociation_ProvisioningState_STATUS_Succeeded,
-		DataCollectionRuleAssociation_ProvisioningState_STATUS_Updating))
+		KnownDataCollectionRuleAssociationProvisioningState_STATUS_Canceled,
+		KnownDataCollectionRuleAssociationProvisioningState_STATUS_Creating,
+		KnownDataCollectionRuleAssociationProvisioningState_STATUS_Deleting,
+		KnownDataCollectionRuleAssociationProvisioningState_STATUS_Failed,
+		KnownDataCollectionRuleAssociationProvisioningState_STATUS_Succeeded,
+		KnownDataCollectionRuleAssociationProvisioningState_STATUS_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

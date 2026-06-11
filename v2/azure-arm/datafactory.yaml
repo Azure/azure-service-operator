@@ -24,3 +24,6 @@ groupModelConfiguration:
     Factory:
       $exportAs: Factory
       $supportedFrom: v2.1.0
+    UserAssignedIdentityDetails:
+      Reference: 
+        $referenceType: arm
