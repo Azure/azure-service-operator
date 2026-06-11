@@ -8,7 +8,6 @@ package entra
 import (
 	"context"
 	"fmt"
-	"net/http"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -16,16 +15,13 @@ import (
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
 	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
-	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
-	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -40,7 +36,6 @@ import (
 type EntraSecurityGroupReconciler struct {
 	reconcilers.ReconcilerCommon
 	ResourceResolver   *resolver.Resolver
-	CredentialProvider identity.CredentialProvider
 	Config             config.Values
 	EntraClientFactory EntraConnectionFactory
 }
@@ -131,7 +126,7 @@ func (r *EntraSecurityGroupReconciler) Delete(
 	err = client.Client().Groups().ByGroupId(id).Delete(ctx, nil)
 	if err != nil {
 		// If the group doesn't exist, return nil and nil as we've successfully ensured that it doesn't exist
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			return ctrl.Result{}, nil
 		}
 
@@ -182,29 +177,34 @@ func (r *EntraSecurityGroupReconciler) update(
 	// Load the existing group by ID
 	g, err := r.loadGroupByID(ctx, id, client.Client())
 	if err != nil {
-		if r.isNotFound(err) {
-			// Group used to exist, but no longer does - it's probably been deleted
-			// Remove the existing annotation and requeue the reconciliation to create a replacement
-			log.V(Status).Info("Group no longer exists")
-			setEntraID(group, "")
-			return ctrl.Result{
-				Requeue: true,
-			}, nil
-		}
-
 		return ctrl.Result{}, eris.Wrapf(err, "getting group by ID %s", id)
+	}
+
+	if g == nil {
+		// Group used to exist, but no longer does - it's probably been deleted
+		// Remove the existing annotation and requeue the reconciliation to create a replacement
+		log.V(Status).Info("Group no longer exists")
+		setEntraID(group, "")
+		return ctrl.Result{
+			Requeue: true,
+		}, nil
 	}
 
 	// Update - PATCH
 	group.Spec.AssignToGroup(g)
 
-	_, err = client.Client().Groups().ByGroupId(id).Patch(ctx, g, nil)
+	result, err := client.Client().Groups().ByGroupId(id).Patch(ctx, g, nil)
 	if err != nil {
 		// Failed to update
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update group %s", id)
 	}
 
-	group.Status.AssignFromGroup(g)
+	group.Status.AssignFromGroup(result)
+
+	err = r.saveAssociatedKubernetesResources(ctx, group, log)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed to save associated Kubernetes resources for group %s", group.Name)
+	}
 
 	return ctrl.Result{}, nil
 }
@@ -241,7 +241,7 @@ func (r *EntraSecurityGroupReconciler) tryAdopt(
 	log.V(Status).Info("Searching for existing Entra security group by display name", "displayName", *displayName)
 	groups, err := r.loadGroupsByDisplayName(ctx, *displayName, client.Client())
 	if err != nil {
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			// No group to adopt
 			return "", nil
 		}
@@ -286,7 +286,7 @@ func (r *EntraSecurityGroupReconciler) create(
 	// Create our Entra Client
 	client, err := r.EntraClientFactory(ctx, group)
 	if err != nil {
-		return reconcile.Result{}, eris.Wrap(err, "creating entra client prior to adoption search")
+		return ctrl.Result{}, eris.Wrap(err, "creating entra client prior to adoption search")
 	}
 
 	g := msgraphmodels.NewGroup()
@@ -338,7 +338,7 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 	groupable, err := r.loadGroupByID(ctx, id, client.Client())
 	if err != nil {
 		// If the group doesn't exist, nothing to do as we're probably in the midst of deleting it
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			return nil
 		}
 
@@ -367,7 +367,7 @@ func (r *EntraSecurityGroupReconciler) loadGroupByID(
 	groupable, err := client.Groups().ByGroupId(id).Get(ctx, nil)
 	if err != nil {
 		// If the only problem is that the group doesn't exist, return nil and nil
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			return nil, nil
 		}
 
@@ -384,7 +384,7 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Groupable, error) {
 	// Try to get the group by display name
-	filterStr := fmt.Sprintf("displayName eq '%s'", displayName)
+	filterStr := fmt.Sprintf("displayName eq '%s'", escapeODataString(displayName))
 
 	query := &groups.GroupsRequestBuilderGetQueryParameters{
 		Filter: &filterStr,
@@ -401,18 +401,6 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 
 	groups := result.GetValue()
 	return groups, nil
-}
-
-// isNotFound returns true if the error is a 404 error.
-func (r *EntraSecurityGroupReconciler) isNotFound(err error) bool {
-	var odataError *odataerrors.ODataError
-	if eris.As(err, &odataError) {
-		if odataError.ResponseStatusCode == http.StatusNotFound {
-			return true
-		}
-	}
-
-	return false
 }
 
 func (r *EntraSecurityGroupReconciler) asSecurityGroup(
