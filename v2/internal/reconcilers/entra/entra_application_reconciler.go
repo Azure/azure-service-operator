@@ -185,13 +185,13 @@ func (r *EntraApplicationReconciler) update(
 	// Update - PATCH
 	app.Spec.AssignToApplication(a)
 
-	_, err = client.Client().Applications().ByApplicationId(id).Patch(ctx, a, nil)
+	result, err := client.Client().Applications().ByApplicationId(id).Patch(ctx, a, nil)
 	if err != nil {
 		// Failed to update
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update application %s", id)
 	}
 
-	app.Status.AssignFromApplication(a)
+	app.Status.AssignFromApplication(result)
 
 	return ctrl.Result{}, nil
 }

@@ -193,13 +193,13 @@ func (r *EntraSecurityGroupReconciler) update(
 	// Update - PATCH
 	group.Spec.AssignToGroup(g)
 
-	_, err = client.Client().Groups().ByGroupId(id).Patch(ctx, g, nil)
+	result, err := client.Client().Groups().ByGroupId(id).Patch(ctx, g, nil)
 	if err != nil {
 		// Failed to update
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update group %s", id)
 	}
 
-	group.Status.AssignFromGroup(g)
+	group.Status.AssignFromGroup(result)
 
 	return ctrl.Result{}, nil
 }
