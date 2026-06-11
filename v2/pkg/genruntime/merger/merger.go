@@ -65,6 +65,10 @@ func mergeSecrets(namespace string, s []*v1.Secret) ([]*v1.Secret, error) {
 				&genruntime.SecretDestination{
 					Name: secret.Name,
 					Key:  key,
+					// Safe to copy these maps as-is because they're solely used by this merge function
+					// and are deep-copied by the collector
+					Annotations: secret.Annotations,
+					Labels:      secret.Labels,
 				}, value,
 			)
 		}
@@ -73,6 +77,10 @@ func mergeSecrets(namespace string, s []*v1.Secret) ([]*v1.Secret, error) {
 				&genruntime.SecretDestination{
 					Name: secret.Name,
 					Key:  key,
+					// Safe to copy these maps as-is because they're solely used by this merge function
+					// and are deep-copied by the collector
+					Annotations: secret.Annotations,
+					Labels:      secret.Labels,
 				}, value,
 			)
 		}
@@ -89,6 +97,10 @@ func mergeConfigMaps(namespace string, c []*v1.ConfigMap) ([]*v1.ConfigMap, erro
 				&genruntime.ConfigMapDestination{
 					Name: configMap.Name,
 					Key:  key,
+					// Safe to copy these maps as-is because they're solely used by this merge function
+					// and are deep-copied by the collector
+					Annotations: configMap.Annotations,
+					Labels:      configMap.Labels,
 				}, value,
 			)
 		}
@@ -97,6 +109,10 @@ func mergeConfigMaps(namespace string, c []*v1.ConfigMap) ([]*v1.ConfigMap, erro
 				&genruntime.ConfigMapDestination{
 					Name: configMap.Name,
 					Key:  key,
+					// Safe to copy these maps as-is because they're solely used by this merge function
+					// and are deep-copied by the collector
+					Annotations: configMap.Annotations,
+					Labels:      configMap.Labels,
 				}, value,
 			)
 		}

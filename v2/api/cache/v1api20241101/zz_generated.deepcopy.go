@@ -221,7 +221,7 @@ func (in *RedisAccessPolicyAssignmentOperatorSpec) DeepCopyInto(out *RedisAccess
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -232,7 +232,7 @@ func (in *RedisAccessPolicyAssignmentOperatorSpec) DeepCopyInto(out *RedisAccess
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -402,7 +402,7 @@ func (in *RedisAccessPolicyOperatorSpec) DeepCopyInto(out *RedisAccessPolicyOper
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -413,7 +413,7 @@ func (in *RedisAccessPolicyOperatorSpec) DeepCopyInto(out *RedisAccessPolicyOper
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -790,7 +790,7 @@ func (in *RedisFirewallRuleOperatorSpec) DeepCopyInto(out *RedisFirewallRuleOper
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -801,7 +801,7 @@ func (in *RedisFirewallRuleOperatorSpec) DeepCopyInto(out *RedisFirewallRuleOper
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1018,7 +1018,7 @@ func (in *RedisLinkedServerOperatorSpec) DeepCopyInto(out *RedisLinkedServerOper
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1029,7 +1029,7 @@ func (in *RedisLinkedServerOperatorSpec) DeepCopyInto(out *RedisLinkedServerOper
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1143,27 +1143,27 @@ func (in *RedisOperatorSecrets) DeepCopyInto(out *RedisOperatorSecrets) {
 	if in.HostName != nil {
 		in, out := &in.HostName, &out.HostName
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Port != nil {
 		in, out := &in.Port, &out.Port
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PrimaryKey != nil {
 		in, out := &in.PrimaryKey, &out.PrimaryKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SSLPort != nil {
 		in, out := &in.SSLPort, &out.SSLPort
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondaryKey != nil {
 		in, out := &in.SecondaryKey, &out.SecondaryKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -1187,7 +1187,7 @@ func (in *RedisOperatorSpec) DeepCopyInto(out *RedisOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1198,7 +1198,7 @@ func (in *RedisOperatorSpec) DeepCopyInto(out *RedisOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1288,7 +1288,7 @@ func (in *RedisPatchScheduleOperatorSpec) DeepCopyInto(out *RedisPatchScheduleOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1299,7 +1299,7 @@ func (in *RedisPatchScheduleOperatorSpec) DeepCopyInto(out *RedisPatchScheduleOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

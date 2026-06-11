@@ -573,12 +573,7 @@ func AddIndependentPropertyGeneratorsForDataFlow_STATUS(gens map[string]gopter.G
 	gens["CaptureOverflow"] = gen.PtrOf(gen.Bool())
 	gens["Destinations"] = gen.SliceOf(gen.AlphaString())
 	gens["OutputStream"] = gen.PtrOf(gen.AlphaString())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(
-		DataFlow_Streams_STATUS_MicrosoftEvent,
-		DataFlow_Streams_STATUS_MicrosoftInsightsMetrics,
-		DataFlow_Streams_STATUS_MicrosoftPerf,
-		DataFlow_Streams_STATUS_MicrosoftSyslog,
-		DataFlow_Streams_STATUS_MicrosoftWindowsEvent))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1154,12 +1149,7 @@ func AddIndependentPropertyGeneratorsForExtensionDataSource_STATUS(gens map[stri
 	gens["ExtensionName"] = gen.PtrOf(gen.AlphaString())
 	gens["InputDataSources"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(
-		ExtensionDataSource_Streams_STATUS_MicrosoftEvent,
-		ExtensionDataSource_Streams_STATUS_MicrosoftInsightsMetrics,
-		ExtensionDataSource_Streams_STATUS_MicrosoftPerf,
-		ExtensionDataSource_Streams_STATUS_MicrosoftSyslog,
-		ExtensionDataSource_Streams_STATUS_MicrosoftWindowsEvent))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_IisLogsDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1688,7 +1678,7 @@ func AddIndependentPropertyGeneratorsForPerfCounterDataSource_STATUS(gens map[st
 	gens["CounterSpecifiers"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["SamplingFrequencyInSeconds"] = gen.PtrOf(gen.Int())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(PerfCounterDataSource_Streams_STATUS_MicrosoftInsightsMetrics, PerfCounterDataSource_Streams_STATUS_MicrosoftPerf))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1816,7 +1806,7 @@ func AddIndependentPropertyGeneratorsForPrometheusForwarderDataSource_STATUS(gen
 		gen.AlphaString(),
 		gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(PrometheusForwarderDataSource_Streams_STATUS_MicrosoftPrometheusMetrics))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_ReferencesSpec_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2227,7 +2217,7 @@ func AddIndependentPropertyGeneratorsForSyslogDataSource_STATUS(gens map[string]
 		SyslogDataSource_LogLevels_STATUS_Star,
 		SyslogDataSource_LogLevels_STATUS_Warning))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(SyslogDataSource_Streams_STATUS_MicrosoftSyslog))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2290,7 +2280,7 @@ func WindowsEventLogDataSource_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWindowsEventLogDataSource_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWindowsEventLogDataSource_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(WindowsEventLogDataSource_Streams_STATUS_MicrosoftEvent, WindowsEventLogDataSource_Streams_STATUS_MicrosoftWindowsEvent))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
 	gens["XPathQueries"] = gen.SliceOf(gen.AlphaString())
 }

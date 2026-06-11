@@ -226,12 +226,12 @@ func (in *FlexibleServerOperatorConfigMaps) DeepCopyInto(out *FlexibleServerOper
 	if in.AdministratorLogin != nil {
 		in, out := &in.AdministratorLogin, &out.AdministratorLogin
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.FullyQualifiedDomainName != nil {
 		in, out := &in.FullyQualifiedDomainName, &out.FullyQualifiedDomainName
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -251,7 +251,7 @@ func (in *FlexibleServerOperatorSecrets) DeepCopyInto(out *FlexibleServerOperato
 	if in.FullyQualifiedDomainName != nil {
 		in, out := &in.FullyQualifiedDomainName, &out.FullyQualifiedDomainName
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -275,7 +275,7 @@ func (in *FlexibleServerOperatorSpec) DeepCopyInto(out *FlexibleServerOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -291,7 +291,7 @@ func (in *FlexibleServerOperatorSpec) DeepCopyInto(out *FlexibleServerOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -694,7 +694,7 @@ func (in *FlexibleServersAdministratorOperatorSpec) DeepCopyInto(out *FlexibleSe
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -705,7 +705,7 @@ func (in *FlexibleServersAdministratorOperatorSpec) DeepCopyInto(out *FlexibleSe
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -917,7 +917,7 @@ func (in *FlexibleServersConfigurationOperatorSpec) DeepCopyInto(out *FlexibleSe
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -928,7 +928,7 @@ func (in *FlexibleServersConfigurationOperatorSpec) DeepCopyInto(out *FlexibleSe
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1150,7 +1150,7 @@ func (in *FlexibleServersDatabaseOperatorSpec) DeepCopyInto(out *FlexibleServers
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1161,7 +1161,7 @@ func (in *FlexibleServersDatabaseOperatorSpec) DeepCopyInto(out *FlexibleServers
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1333,7 +1333,7 @@ func (in *FlexibleServersFirewallRuleOperatorSpec) DeepCopyInto(out *FlexibleSer
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1344,7 +1344,7 @@ func (in *FlexibleServersFirewallRuleOperatorSpec) DeepCopyInto(out *FlexibleSer
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

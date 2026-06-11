@@ -386,7 +386,7 @@ func (in *AuthConfigOperatorSpec) DeepCopyInto(out *AuthConfigOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -397,7 +397,7 @@ func (in *AuthConfigOperatorSpec) DeepCopyInto(out *AuthConfigOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1466,12 +1466,12 @@ func (in *ContainerAppOperatorConfigMaps) DeepCopyInto(out *ContainerAppOperator
 	if in.EventStreamEndpoint != nil {
 		in, out := &in.EventStreamEndpoint, &out.EventStreamEndpoint
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Fqdn != nil {
 		in, out := &in.Fqdn, &out.Fqdn
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -1495,7 +1495,7 @@ func (in *ContainerAppOperatorSpec) DeepCopyInto(out *ContainerAppOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1511,7 +1511,7 @@ func (in *ContainerAppOperatorSpec) DeepCopyInto(out *ContainerAppOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4280,7 +4280,7 @@ func (in *JobOperatorSpec) DeepCopyInto(out *JobOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4291,7 +4291,7 @@ func (in *JobOperatorSpec) DeepCopyInto(out *JobOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5051,7 +5051,7 @@ func (in *ManagedEnvironmentOperatorSpec) DeepCopyInto(out *ManagedEnvironmentOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5062,7 +5062,7 @@ func (in *ManagedEnvironmentOperatorSpec) DeepCopyInto(out *ManagedEnvironmentOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

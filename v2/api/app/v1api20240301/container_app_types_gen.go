@@ -4540,7 +4540,7 @@ func (maps *ContainerAppOperatorConfigMaps) AssignProperties_From_ContainerAppOp
 
 	// EventStreamEndpoint
 	if source.EventStreamEndpoint != nil {
-		eventStreamEndpoint := source.EventStreamEndpoint.Copy()
+		eventStreamEndpoint := *source.EventStreamEndpoint.DeepCopy()
 		maps.EventStreamEndpoint = &eventStreamEndpoint
 	} else {
 		maps.EventStreamEndpoint = nil
@@ -4548,7 +4548,7 @@ func (maps *ContainerAppOperatorConfigMaps) AssignProperties_From_ContainerAppOp
 
 	// Fqdn
 	if source.Fqdn != nil {
-		fqdn := source.Fqdn.Copy()
+		fqdn := *source.Fqdn.DeepCopy()
 		maps.Fqdn = &fqdn
 	} else {
 		maps.Fqdn = nil
@@ -4565,7 +4565,7 @@ func (maps *ContainerAppOperatorConfigMaps) AssignProperties_To_ContainerAppOper
 
 	// EventStreamEndpoint
 	if maps.EventStreamEndpoint != nil {
-		eventStreamEndpoint := maps.EventStreamEndpoint.Copy()
+		eventStreamEndpoint := *maps.EventStreamEndpoint.DeepCopy()
 		destination.EventStreamEndpoint = &eventStreamEndpoint
 	} else {
 		destination.EventStreamEndpoint = nil
@@ -4573,7 +4573,7 @@ func (maps *ContainerAppOperatorConfigMaps) AssignProperties_To_ContainerAppOper
 
 	// Fqdn
 	if maps.Fqdn != nil {
-		fqdn := maps.Fqdn.Copy()
+		fqdn := *maps.Fqdn.DeepCopy()
 		destination.Fqdn = &fqdn
 	} else {
 		destination.Fqdn = nil

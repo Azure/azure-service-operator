@@ -195,12 +195,7 @@ DataCollectionRuleResource_STATUS: Object (11 properties)
 │   │   ├── CaptureOverflow: *bool
 │   │   ├── Destinations: string[]
 │   │   ├── OutputStream: *string
-│   │   ├── Streams: Enum (5 values)[]
-│   │   │   ├── "Microsoft-Event"
-│   │   │   ├── "Microsoft-InsightsMetrics"
-│   │   │   ├── "Microsoft-Perf"
-│   │   │   ├── "Microsoft-Syslog"
-│   │   │   └── "Microsoft-WindowsEvent"
+│   │   ├── Streams: string[]
 │   │   └── TransformKql: *string
 │   ├── DataSources: *Object (15 properties)
 │   │   ├── DataImports: *Object (1 property)
@@ -228,12 +223,7 @@ DataCollectionRuleResource_STATUS: Object (11 properties)
 │   │   │   ├── ExtensionSettings: map[string]v1.JSON
 │   │   │   ├── InputDataSources: string[]
 │   │   │   ├── Name: *string
-│   │   │   └── Streams: Enum (5 values)[]
-│   │   │       ├── "Microsoft-Event"
-│   │   │       ├── "Microsoft-InsightsMetrics"
-│   │   │       ├── "Microsoft-Perf"
-│   │   │       ├── "Microsoft-Syslog"
-│   │   │       └── "Microsoft-WindowsEvent"
+│   │   │   └── Streams: string[]
 │   │   ├── IisLogs: Object (4 properties)[]
 │   │   │   ├── LogDirectories: string[]
 │   │   │   ├── Name: *string
@@ -293,9 +283,7 @@ DataCollectionRuleResource_STATUS: Object (11 properties)
 │   │   │   ├── CounterSpecifiers: string[]
 │   │   │   ├── Name: *string
 │   │   │   ├── SamplingFrequencyInSeconds: *int
-│   │   │   ├── Streams: Enum (2 values)[]
-│   │   │   │   ├── "Microsoft-InsightsMetrics"
-│   │   │   │   └── "Microsoft-Perf"
+│   │   │   ├── Streams: string[]
 │   │   │   └── TransformKql: *string
 │   │   ├── PerformanceCountersOTel: Object (4 properties)[]
 │   │   │   ├── CounterSpecifiers: string[]
@@ -310,8 +298,7 @@ DataCollectionRuleResource_STATUS: Object (11 properties)
 │   │   │   ├── CustomVMScrapeConfig: map[string]v1.JSON[]
 │   │   │   ├── LabelIncludeFilter: map[string]string
 │   │   │   ├── Name: *string
-│   │   │   └── Streams: Enum (1 value)[]
-│   │   │       └── "Microsoft-PrometheusMetrics"
+│   │   │   └── Streams: string[]
 │   │   ├── Syslog: Object (5 properties)[]
 │   │   │   ├── FacilityNames: Enum (27 values)[]
 │   │   │   │   ├── "alert"
@@ -352,14 +339,11 @@ DataCollectionRuleResource_STATUS: Object (11 properties)
 │   │   │   │   ├── "*"
 │   │   │   │   └── "Warning"
 │   │   │   ├── Name: *string
-│   │   │   ├── Streams: Enum (1 value)[]
-│   │   │   │   └── "Microsoft-Syslog"
+│   │   │   ├── Streams: string[]
 │   │   │   └── TransformKql: *string
 │   │   ├── WindowsEventLogs: Object (4 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   ├── Streams: Enum (2 values)[]
-│   │   │   │   ├── "Microsoft-Event"
-│   │   │   │   └── "Microsoft-WindowsEvent"
+│   │   │   ├── Streams: string[]
 │   │   │   ├── TransformKql: *string
 │   │   │   └── XPathQueries: string[]
 │   │   └── WindowsFirewallLogs: Object (3 properties)[]
@@ -529,12 +513,7 @@ DataCollectionRule_Spec: Object (7 properties)
 │   │   ├── CaptureOverflow: *bool
 │   │   ├── Destinations: string[]
 │   │   ├── OutputStream: *string
-│   │   ├── Streams: Enum (5 values)[]
-│   │   │   ├── "Microsoft-Event"
-│   │   │   ├── "Microsoft-InsightsMetrics"
-│   │   │   ├── "Microsoft-Perf"
-│   │   │   ├── "Microsoft-Syslog"
-│   │   │   └── "Microsoft-WindowsEvent"
+│   │   ├── Streams: string[]
 │   │   └── TransformKql: *string
 │   ├── DataSources: *Object (15 properties)
 │   │   ├── DataImports: *Object (1 property)
@@ -562,12 +541,7 @@ DataCollectionRule_Spec: Object (7 properties)
 │   │   │   ├── ExtensionSettings: map[string]v1.JSON
 │   │   │   ├── InputDataSources: string[]
 │   │   │   ├── Name: *string
-│   │   │   └── Streams: Enum (5 values)[]
-│   │   │       ├── "Microsoft-Event"
-│   │   │       ├── "Microsoft-InsightsMetrics"
-│   │   │       ├── "Microsoft-Perf"
-│   │   │       ├── "Microsoft-Syslog"
-│   │   │       └── "Microsoft-WindowsEvent"
+│   │   │   └── Streams: string[]
 │   │   ├── IisLogs: Object (4 properties)[]
 │   │   │   ├── LogDirectories: string[]
 │   │   │   ├── Name: *string
@@ -627,9 +601,7 @@ DataCollectionRule_Spec: Object (7 properties)
 │   │   │   ├── CounterSpecifiers: string[]
 │   │   │   ├── Name: *string
 │   │   │   ├── SamplingFrequencyInSeconds: *int
-│   │   │   ├── Streams: Enum (2 values)[]
-│   │   │   │   ├── "Microsoft-InsightsMetrics"
-│   │   │   │   └── "Microsoft-Perf"
+│   │   │   ├── Streams: string[]
 │   │   │   └── TransformKql: *string
 │   │   ├── PerformanceCountersOTel: Object (4 properties)[]
 │   │   │   ├── CounterSpecifiers: string[]
@@ -644,8 +616,7 @@ DataCollectionRule_Spec: Object (7 properties)
 │   │   │   ├── CustomVMScrapeConfig: map[string]v1.JSON[]
 │   │   │   ├── LabelIncludeFilter: map[string]string
 │   │   │   ├── Name: *string
-│   │   │   └── Streams: Enum (1 value)[]
-│   │   │       └── "Microsoft-PrometheusMetrics"
+│   │   │   └── Streams: string[]
 │   │   ├── Syslog: Object (5 properties)[]
 │   │   │   ├── FacilityNames: Enum (27 values)[]
 │   │   │   │   ├── "alert"
@@ -686,14 +657,11 @@ DataCollectionRule_Spec: Object (7 properties)
 │   │   │   │   ├── "*"
 │   │   │   │   └── "Warning"
 │   │   │   ├── Name: *string
-│   │   │   ├── Streams: Enum (1 value)[]
-│   │   │   │   └── "Microsoft-Syslog"
+│   │   │   ├── Streams: string[]
 │   │   │   └── TransformKql: *string
 │   │   ├── WindowsEventLogs: Object (4 properties)[]
 │   │   │   ├── Name: *string
-│   │   │   ├── Streams: Enum (2 values)[]
-│   │   │   │   ├── "Microsoft-Event"
-│   │   │   │   └── "Microsoft-WindowsEvent"
+│   │   │   ├── Streams: string[]
 │   │   │   ├── TransformKql: *string
 │   │   │   └── XPathQueries: string[]
 │   │   └── WindowsFirewallLogs: Object (3 properties)[]

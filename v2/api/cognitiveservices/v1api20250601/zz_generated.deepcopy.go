@@ -112,12 +112,12 @@ func (in *AccountOperatorSecrets) DeepCopyInto(out *AccountOperatorSecrets) {
 	if in.Key1 != nil {
 		in, out := &in.Key1, &out.Key1
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.Key2 != nil {
 		in, out := &in.Key2, &out.Key2
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -141,7 +141,7 @@ func (in *AccountOperatorSpec) DeepCopyInto(out *AccountOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -152,7 +152,7 @@ func (in *AccountOperatorSpec) DeepCopyInto(out *AccountOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1065,7 +1065,7 @@ func (in *DeploymentOperatorSpec) DeepCopyInto(out *DeploymentOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1076,7 +1076,7 @@ func (in *DeploymentOperatorSpec) DeepCopyInto(out *DeploymentOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

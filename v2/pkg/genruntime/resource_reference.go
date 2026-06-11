@@ -16,8 +16,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
-
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 )
 
 // KnownResourceReference is a resource reference to a known type.
@@ -272,10 +270,10 @@ func (ref *KubernetesOwnerReference) Copy() KubernetesOwnerReference {
 }
 
 // ValidateResourceReferences calls Validate on each ResourceReference
-func ValidateResourceReferences(refs set.Set[ResourceReference]) (admission.Warnings, error) {
+func ValidateResourceReferences(refs []ResourceReference) (admission.Warnings, error) {
 	errs := make([]error, 0, len(refs))
 	var warnings admission.Warnings
-	for ref := range refs {
+	for _, ref := range refs {
 		warning, err := ref.Validate()
 		if warning != nil {
 			warnings = append(warnings, warning...)

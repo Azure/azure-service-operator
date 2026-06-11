@@ -3899,7 +3899,7 @@ func (maps *RegistryOperatorConfigMaps) AssignProperties_From_RegistryOperatorCo
 
 	// DiscoveryUrl
 	if source.DiscoveryUrl != nil {
-		discoveryUrl := source.DiscoveryUrl.Copy()
+		discoveryUrl := *source.DiscoveryUrl.DeepCopy()
 		maps.DiscoveryUrl = &discoveryUrl
 	} else {
 		maps.DiscoveryUrl = nil
@@ -3907,7 +3907,7 @@ func (maps *RegistryOperatorConfigMaps) AssignProperties_From_RegistryOperatorCo
 
 	// MlFlowRegistryUri
 	if source.MlFlowRegistryUri != nil {
-		mlFlowRegistryUri := source.MlFlowRegistryUri.Copy()
+		mlFlowRegistryUri := *source.MlFlowRegistryUri.DeepCopy()
 		maps.MlFlowRegistryUri = &mlFlowRegistryUri
 	} else {
 		maps.MlFlowRegistryUri = nil
@@ -3924,7 +3924,7 @@ func (maps *RegistryOperatorConfigMaps) AssignProperties_To_RegistryOperatorConf
 
 	// DiscoveryUrl
 	if maps.DiscoveryUrl != nil {
-		discoveryUrl := maps.DiscoveryUrl.Copy()
+		discoveryUrl := *maps.DiscoveryUrl.DeepCopy()
 		destination.DiscoveryUrl = &discoveryUrl
 	} else {
 		destination.DiscoveryUrl = nil
@@ -3932,7 +3932,7 @@ func (maps *RegistryOperatorConfigMaps) AssignProperties_To_RegistryOperatorConf
 
 	// MlFlowRegistryUri
 	if maps.MlFlowRegistryUri != nil {
-		mlFlowRegistryUri := maps.MlFlowRegistryUri.Copy()
+		mlFlowRegistryUri := *maps.MlFlowRegistryUri.DeepCopy()
 		destination.MlFlowRegistryUri = &mlFlowRegistryUri
 	} else {
 		destination.MlFlowRegistryUri = nil

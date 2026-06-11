@@ -81,32 +81,32 @@ func (in *ConfigurationStoreOperatorSecrets) DeepCopyInto(out *ConfigurationStor
 	if in.PrimaryConnectionString != nil {
 		in, out := &in.PrimaryConnectionString, &out.PrimaryConnectionString
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PrimaryKey != nil {
 		in, out := &in.PrimaryKey, &out.PrimaryKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PrimaryKeyID != nil {
 		in, out := &in.PrimaryKeyID, &out.PrimaryKeyID
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PrimaryReadOnlyConnectionString != nil {
 		in, out := &in.PrimaryReadOnlyConnectionString, &out.PrimaryReadOnlyConnectionString
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PrimaryReadOnlyKey != nil {
 		in, out := &in.PrimaryReadOnlyKey, &out.PrimaryReadOnlyKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PrimaryReadOnlyKeyID != nil {
 		in, out := &in.PrimaryReadOnlyKeyID, &out.PrimaryReadOnlyKeyID
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
@@ -118,32 +118,32 @@ func (in *ConfigurationStoreOperatorSecrets) DeepCopyInto(out *ConfigurationStor
 	if in.SecondaryConnectionString != nil {
 		in, out := &in.SecondaryConnectionString, &out.SecondaryConnectionString
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondaryKey != nil {
 		in, out := &in.SecondaryKey, &out.SecondaryKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondaryKeyID != nil {
 		in, out := &in.SecondaryKeyID, &out.SecondaryKeyID
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondaryReadOnlyConnectionString != nil {
 		in, out := &in.SecondaryReadOnlyConnectionString, &out.SecondaryReadOnlyConnectionString
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondaryReadOnlyKey != nil {
 		in, out := &in.SecondaryReadOnlyKey, &out.SecondaryReadOnlyKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondaryReadOnlyKeyID != nil {
 		in, out := &in.SecondaryReadOnlyKeyID, &out.SecondaryReadOnlyKeyID
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -167,7 +167,7 @@ func (in *ConfigurationStoreOperatorSpec) DeepCopyInto(out *ConfigurationStoreOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -185,7 +185,7 @@ func (in *ConfigurationStoreOperatorSpec) DeepCopyInto(out *ConfigurationStoreOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -684,7 +684,7 @@ func (in *KeyValueOperatorSpec) DeepCopyInto(out *KeyValueOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -702,7 +702,7 @@ func (in *KeyValueOperatorSpec) DeepCopyInto(out *KeyValueOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1102,7 +1102,7 @@ func (in *ReplicaOperatorSpec) DeepCopyInto(out *ReplicaOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1120,7 +1120,7 @@ func (in *ReplicaOperatorSpec) DeepCopyInto(out *ReplicaOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1438,7 +1438,7 @@ func (in *SnapshotOperatorSpec) DeepCopyInto(out *SnapshotOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1456,7 +1456,7 @@ func (in *SnapshotOperatorSpec) DeepCopyInto(out *SnapshotOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

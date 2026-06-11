@@ -3398,7 +3398,7 @@ func (maps *TrafficManagerProfileOperatorConfigMaps) AssignProperties_From_Traff
 
 	// DnsConfigFqdn
 	if source.DnsConfigFqdn != nil {
-		dnsConfigFqdn := source.DnsConfigFqdn.Copy()
+		dnsConfigFqdn := *source.DnsConfigFqdn.DeepCopy()
 		maps.DnsConfigFqdn = &dnsConfigFqdn
 	} else {
 		maps.DnsConfigFqdn = nil
@@ -3415,7 +3415,7 @@ func (maps *TrafficManagerProfileOperatorConfigMaps) AssignProperties_To_Traffic
 
 	// DnsConfigFqdn
 	if maps.DnsConfigFqdn != nil {
-		dnsConfigFqdn := maps.DnsConfigFqdn.Copy()
+		dnsConfigFqdn := *maps.DnsConfigFqdn.DeepCopy()
 		destination.DnsConfigFqdn = &dnsConfigFqdn
 	} else {
 		destination.DnsConfigFqdn = nil

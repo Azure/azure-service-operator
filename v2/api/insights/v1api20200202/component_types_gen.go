@@ -2321,7 +2321,7 @@ func (maps *ComponentOperatorConfigMaps) AssignProperties_From_ComponentOperator
 
 	// ConnectionString
 	if source.ConnectionString != nil {
-		connectionString := source.ConnectionString.Copy()
+		connectionString := *source.ConnectionString.DeepCopy()
 		maps.ConnectionString = &connectionString
 	} else {
 		maps.ConnectionString = nil
@@ -2329,7 +2329,7 @@ func (maps *ComponentOperatorConfigMaps) AssignProperties_From_ComponentOperator
 
 	// InstrumentationKey
 	if source.InstrumentationKey != nil {
-		instrumentationKey := source.InstrumentationKey.Copy()
+		instrumentationKey := *source.InstrumentationKey.DeepCopy()
 		maps.InstrumentationKey = &instrumentationKey
 	} else {
 		maps.InstrumentationKey = nil
@@ -2346,7 +2346,7 @@ func (maps *ComponentOperatorConfigMaps) AssignProperties_To_ComponentOperatorCo
 
 	// ConnectionString
 	if maps.ConnectionString != nil {
-		connectionString := maps.ConnectionString.Copy()
+		connectionString := *maps.ConnectionString.DeepCopy()
 		destination.ConnectionString = &connectionString
 	} else {
 		destination.ConnectionString = nil
@@ -2354,7 +2354,7 @@ func (maps *ComponentOperatorConfigMaps) AssignProperties_To_ComponentOperatorCo
 
 	// InstrumentationKey
 	if maps.InstrumentationKey != nil {
-		instrumentationKey := maps.InstrumentationKey.Copy()
+		instrumentationKey := *maps.InstrumentationKey.DeepCopy()
 		destination.InstrumentationKey = &instrumentationKey
 	} else {
 		destination.InstrumentationKey = nil

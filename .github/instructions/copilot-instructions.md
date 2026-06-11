@@ -71,6 +71,7 @@ Please reference the following additional files for detailed instructions in spe
 
 * If you are adding a new resource, or a new version of an existing resource, consult `new-resource.instructions.md`.
 * If you are reviewing a change, consult `code-review.instructions.md`.
+* If you are investigating or filing a security issue, consult `SECURITY.md` in the repository root.
 
 ## Reference Documentation
 

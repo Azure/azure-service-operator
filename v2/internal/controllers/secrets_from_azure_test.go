@@ -42,6 +42,11 @@ func Test_WhenObjectDeleted_SecretIsDeleted(t *testing.T) {
 	tc.Expect(secret.OwnerReferences).To(HaveLen(1))
 	tc.Expect(secret.OwnerReferences[0].UID).To(Equal(acct.GetUID()))
 
+	// Ensure that the secret has the expected annotations and labels
+	tc.Expect(secret.Annotations).To(HaveKeyWithValue("custom-annotation", "custom-value"))
+	tc.Expect(secret.Labels).To(HaveKeyWithValue("app", "myapp"))
+	tc.Expect(secret.Labels).To(HaveKeyWithValue("env", "test"))
+
 	// Delete the resource
 	tc.DeleteResourceAndWait(acct)
 }
@@ -148,6 +153,13 @@ func makeSimpleStorageAccountWithOperatorSpecSecrets(tc *testcommon.KubePerTestC
 					Key1: &genruntime.SecretDestination{
 						Name: secretName,
 						Key:  secretKey,
+						Annotations: map[string]string{
+							"custom-annotation": "custom-value",
+						},
+						Labels: map[string]string{
+							"app": "myapp",
+							"env": "test",
+						},
 					},
 				},
 			},

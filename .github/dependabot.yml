@@ -14,6 +14,7 @@ updates:
       - "/v2/cmd/asoctl"
       - "/v2/tools/generator"
       - "/v2/tools/mangle-test-json"
+      - "/hack/crossplane"
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"

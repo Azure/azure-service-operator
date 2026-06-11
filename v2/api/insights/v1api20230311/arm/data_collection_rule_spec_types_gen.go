@@ -107,7 +107,7 @@ type DataFlow struct {
 	OutputStream *string `json:"outputStream,omitempty"`
 
 	// Streams: List of streams for this data flow.
-	Streams []DataFlow_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform stream data.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -231,26 +231,6 @@ type ColumnDefinition struct {
 	Type *ColumnDefinition_Type `json:"type,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Microsoft-Event","Microsoft-InsightsMetrics","Microsoft-Perf","Microsoft-Syslog","Microsoft-WindowsEvent"}
-type DataFlow_Streams string
-
-const (
-	DataFlow_Streams_MicrosoftEvent           = DataFlow_Streams("Microsoft-Event")
-	DataFlow_Streams_MicrosoftInsightsMetrics = DataFlow_Streams("Microsoft-InsightsMetrics")
-	DataFlow_Streams_MicrosoftPerf            = DataFlow_Streams("Microsoft-Perf")
-	DataFlow_Streams_MicrosoftSyslog          = DataFlow_Streams("Microsoft-Syslog")
-	DataFlow_Streams_MicrosoftWindowsEvent    = DataFlow_Streams("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to DataFlow_Streams
-var dataFlow_Streams_Values = map[string]DataFlow_Streams{
-	"microsoft-event":           DataFlow_Streams_MicrosoftEvent,
-	"microsoft-insightsmetrics": DataFlow_Streams_MicrosoftInsightsMetrics,
-	"microsoft-perf":            DataFlow_Streams_MicrosoftPerf,
-	"microsoft-syslog":          DataFlow_Streams_MicrosoftSyslog,
-	"microsoft-windowsevent":    DataFlow_Streams_MicrosoftWindowsEvent,
-}
-
 type DataImportSources struct {
 	// EventHub: Definition of Event Hub configuration.
 	EventHub *EventHubDataSource `json:"eventHub,omitempty"`
@@ -300,7 +280,7 @@ type ExtensionDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []ExtensionDataSource_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 }
 
 // Enables IIS logs to be collected by this data collection rule.
@@ -400,7 +380,7 @@ type PerfCounterDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []PerfCounterDataSource_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -428,7 +408,7 @@ type PrometheusForwarderDataSource struct {
 	Name *string `json:"name,omitempty"`
 
 	// Streams: List of streams that this data source will be sent to.
-	Streams []PrometheusForwarderDataSource_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 }
 
 type StorageBlobDestination struct {
@@ -471,7 +451,7 @@ type SyslogDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []SyslogDataSource_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -488,7 +468,7 @@ type WindowsEventLogDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []WindowsEventLogDataSource_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -560,26 +540,6 @@ type EventHubDataSource struct {
 	Stream *string `json:"stream,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Microsoft-Event","Microsoft-InsightsMetrics","Microsoft-Perf","Microsoft-Syslog","Microsoft-WindowsEvent"}
-type ExtensionDataSource_Streams string
-
-const (
-	ExtensionDataSource_Streams_MicrosoftEvent           = ExtensionDataSource_Streams("Microsoft-Event")
-	ExtensionDataSource_Streams_MicrosoftInsightsMetrics = ExtensionDataSource_Streams("Microsoft-InsightsMetrics")
-	ExtensionDataSource_Streams_MicrosoftPerf            = ExtensionDataSource_Streams("Microsoft-Perf")
-	ExtensionDataSource_Streams_MicrosoftSyslog          = ExtensionDataSource_Streams("Microsoft-Syslog")
-	ExtensionDataSource_Streams_MicrosoftWindowsEvent    = ExtensionDataSource_Streams("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to ExtensionDataSource_Streams
-var extensionDataSource_Streams_Values = map[string]ExtensionDataSource_Streams{
-	"microsoft-event":           ExtensionDataSource_Streams_MicrosoftEvent,
-	"microsoft-insightsmetrics": ExtensionDataSource_Streams_MicrosoftInsightsMetrics,
-	"microsoft-perf":            ExtensionDataSource_Streams_MicrosoftPerf,
-	"microsoft-syslog":          ExtensionDataSource_Streams_MicrosoftSyslog,
-	"microsoft-windowsevent":    ExtensionDataSource_Streams_MicrosoftWindowsEvent,
-}
-
 // +kubebuilder:validation:Enum={"json","text"}
 type LogFilesDataSource_Format string
 
@@ -598,30 +558,6 @@ var logFilesDataSource_Format_Values = map[string]LogFilesDataSource_Format{
 type LogFileSettings struct {
 	// Text: Text settings
 	Text *LogFileTextSettings `json:"text,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-InsightsMetrics","Microsoft-Perf"}
-type PerfCounterDataSource_Streams string
-
-const (
-	PerfCounterDataSource_Streams_MicrosoftInsightsMetrics = PerfCounterDataSource_Streams("Microsoft-InsightsMetrics")
-	PerfCounterDataSource_Streams_MicrosoftPerf            = PerfCounterDataSource_Streams("Microsoft-Perf")
-)
-
-// Mapping from string to PerfCounterDataSource_Streams
-var perfCounterDataSource_Streams_Values = map[string]PerfCounterDataSource_Streams{
-	"microsoft-insightsmetrics": PerfCounterDataSource_Streams_MicrosoftInsightsMetrics,
-	"microsoft-perf":            PerfCounterDataSource_Streams_MicrosoftPerf,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-PrometheusMetrics"}
-type PrometheusForwarderDataSource_Streams string
-
-const PrometheusForwarderDataSource_Streams_MicrosoftPrometheusMetrics = PrometheusForwarderDataSource_Streams("Microsoft-PrometheusMetrics")
-
-// Mapping from string to PrometheusForwarderDataSource_Streams
-var prometheusForwarderDataSource_Streams_Values = map[string]PrometheusForwarderDataSource_Streams{
-	"microsoft-prometheusmetrics": PrometheusForwarderDataSource_Streams_MicrosoftPrometheusMetrics,
 }
 
 type StorageBlob struct {
@@ -728,30 +664,6 @@ var syslogDataSource_LogLevels_Values = map[string]SyslogDataSource_LogLevels{
 	"notice":    SyslogDataSource_LogLevels_Notice,
 	"*":         SyslogDataSource_LogLevels_Star,
 	"warning":   SyslogDataSource_LogLevels_Warning,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-Syslog"}
-type SyslogDataSource_Streams string
-
-const SyslogDataSource_Streams_MicrosoftSyslog = SyslogDataSource_Streams("Microsoft-Syslog")
-
-// Mapping from string to SyslogDataSource_Streams
-var syslogDataSource_Streams_Values = map[string]SyslogDataSource_Streams{
-	"microsoft-syslog": SyslogDataSource_Streams_MicrosoftSyslog,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-Event","Microsoft-WindowsEvent"}
-type WindowsEventLogDataSource_Streams string
-
-const (
-	WindowsEventLogDataSource_Streams_MicrosoftEvent        = WindowsEventLogDataSource_Streams("Microsoft-Event")
-	WindowsEventLogDataSource_Streams_MicrosoftWindowsEvent = WindowsEventLogDataSource_Streams("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to WindowsEventLogDataSource_Streams
-var windowsEventLogDataSource_Streams_Values = map[string]WindowsEventLogDataSource_Streams{
-	"microsoft-event":        WindowsEventLogDataSource_Streams_MicrosoftEvent,
-	"microsoft-windowsevent": WindowsEventLogDataSource_Streams_MicrosoftWindowsEvent,
 }
 
 // +kubebuilder:validation:Enum={"Domain","Private","Public"}

@@ -175,3 +175,139 @@ func Test_ValidateConfigMapDestinationExpressions_EmptyKeyIgnored(t *testing.T) 
 	g.Expect(warnings).To(BeNil())
 	g.Expect(err).To(BeNil())
 }
+
+func Test_ValidateConfigMapDestination_DuplicateAnnotationKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.ConfigMapDestination{
+		{
+			Name: "myconfig",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+		{
+			Name: "myconfig",
+			Key:  "key2",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+
+	_, err := configmaps.ValidateDestinations(nil, destinations, nil)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for annotation on configmap "myconfig": key "reflector.v1/reflect" is set by multiple destinations`))
+}
+
+func Test_ValidateConfigMapDestination_DuplicateLabelKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.ConfigMapDestination{
+		{
+			Name: "myconfig",
+			Key:  "key1",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+		{
+			Name: "myconfig",
+			Key:  "key2",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+	}
+
+	_, err := configmaps.ValidateDestinations(nil, destinations, nil)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for label on configmap "myconfig": key "app" is set by multiple destinations`))
+}
+
+func Test_ValidateConfigMapDestination_DifferentConfigMaps_SameAnnotationKey_Validates(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.ConfigMapDestination{
+		{
+			Name: "config1",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+		{
+			Name: "config2",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+
+	warnings, err := configmaps.ValidateDestinations(nil, destinations, nil)
+	g.Expect(warnings).To(BeNil())
+	g.Expect(err).To(BeNil())
+}
+
+func Test_ValidateConfigMapDestinationExpressions_DuplicateAnnotationKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.ConfigMapDestination{
+		{
+			Name: "myconfig",
+			Key:  "key1",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+	expressions := []*core.DestinationExpression{
+		{
+			Name:  "myconfig",
+			Key:   "key2",
+			Value: "resource.status.id",
+			Annotations: map[string]string{
+				"reflector.v1/reflect": "true",
+			},
+		},
+	}
+
+	_, err := configmaps.ValidateDestinations(nil, destinations, expressions)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for annotation on configmap "myconfig": key "reflector.v1/reflect" is set by multiple destinations`))
+}
+
+func Test_ValidateConfigMapDestinationExpressions_DuplicateLabelKey_FailsValidation(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destinations := []*genruntime.ConfigMapDestination{
+		{
+			Name: "myconfig",
+			Key:  "key1",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+	}
+	expressions := []*core.DestinationExpression{
+		{
+			Name:  "myconfig",
+			Key:   "key2",
+			Value: "resource.status.id",
+			Labels: map[string]string{
+				"app": "myapp",
+			},
+		},
+	}
+
+	_, err := configmaps.ValidateDestinations(nil, destinations, expressions)
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(`collision for label on configmap "myconfig": key "app" is set by multiple destinations`))
+}

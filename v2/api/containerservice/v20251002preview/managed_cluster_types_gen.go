@@ -24728,7 +24728,7 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_From_ManagedClust
 
 	// OIDCIssuerProfile
 	if source.OIDCIssuerProfile != nil {
-		oidcIssuerProfile := source.OIDCIssuerProfile.Copy()
+		oidcIssuerProfile := *source.OIDCIssuerProfile.DeepCopy()
 		maps.OIDCIssuerProfile = &oidcIssuerProfile
 	} else {
 		maps.OIDCIssuerProfile = nil
@@ -24745,7 +24745,7 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_To_ManagedCluster
 
 	// OIDCIssuerProfile
 	if maps.OIDCIssuerProfile != nil {
-		oidcIssuerProfile := maps.OIDCIssuerProfile.Copy()
+		oidcIssuerProfile := *maps.OIDCIssuerProfile.DeepCopy()
 		destination.OIDCIssuerProfile = &oidcIssuerProfile
 	} else {
 		destination.OIDCIssuerProfile = nil
@@ -24777,7 +24777,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_From_ManagedClust
 
 	// AdminCredentials
 	if source.AdminCredentials != nil {
-		adminCredential := source.AdminCredentials.Copy()
+		adminCredential := *source.AdminCredentials.DeepCopy()
 		secrets.AdminCredentials = &adminCredential
 	} else {
 		secrets.AdminCredentials = nil
@@ -24785,7 +24785,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_From_ManagedClust
 
 	// UserCredentials
 	if source.UserCredentials != nil {
-		userCredential := source.UserCredentials.Copy()
+		userCredential := *source.UserCredentials.DeepCopy()
 		secrets.UserCredentials = &userCredential
 	} else {
 		secrets.UserCredentials = nil
@@ -24802,7 +24802,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_To_ManagedCluster
 
 	// AdminCredentials
 	if secrets.AdminCredentials != nil {
-		adminCredential := secrets.AdminCredentials.Copy()
+		adminCredential := *secrets.AdminCredentials.DeepCopy()
 		destination.AdminCredentials = &adminCredential
 	} else {
 		destination.AdminCredentials = nil
@@ -24810,7 +24810,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_To_ManagedCluster
 
 	// UserCredentials
 	if secrets.UserCredentials != nil {
-		userCredential := secrets.UserCredentials.Copy()
+		userCredential := *secrets.UserCredentials.DeepCopy()
 		destination.UserCredentials = &userCredential
 	} else {
 		destination.UserCredentials = nil

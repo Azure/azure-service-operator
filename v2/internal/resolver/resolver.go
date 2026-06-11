@@ -118,7 +118,7 @@ func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject gen
 
 	// Include the namespace
 	namespacedRefs := make(map[genruntime.NamespacedResourceReference]struct{}, len(refs))
-	for ref := range refs {
+	for _, ref := range refs {
 		namespacedRefs[ref.AsNamespacedRef(metaObject.GetNamespace())] = struct{}{}
 	}
 
@@ -321,7 +321,7 @@ func (r *Resolver) ResolveResourceSecretReferences(ctx context.Context, metaObje
 
 	// Include the namespace
 	namespacedSecretRefs := set.Make[genruntime.NamespacedSecretReference]()
-	for ref := range refs {
+	for _, ref := range refs {
 		namespacedSecretRefs.Add(ref.AsNamespacedRef(metaObject.GetNamespace()))
 	}
 
@@ -354,7 +354,7 @@ func (r *Resolver) ResolveResourceSecretMapReferences(
 
 	// Include the namespace
 	namespacedSecretRefs := set.Make[genruntime.NamespacedSecretMapReference]()
-	for ref := range refs {
+	for _, ref := range refs {
 		namespacedSecretRefs.Add(ref.AsNamespacedRef(metaObject.GetNamespace()))
 	}
 
@@ -384,7 +384,7 @@ func (r *Resolver) ResolveResourceConfigMapReferences(ctx context.Context, metaO
 
 	// Include the namespace
 	namespacedConfigMapReferences := set.Make[genruntime.NamespacedConfigMapReference]()
-	for ref := range refs {
+	for _, ref := range refs {
 		namespacedConfigMapReferences.Add(ref.AsNamespacedRef(metaObject.GetNamespace()))
 	}
 

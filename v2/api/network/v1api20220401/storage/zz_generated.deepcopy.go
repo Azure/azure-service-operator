@@ -669,7 +669,7 @@ func (in *TrafficManagerProfileOperatorConfigMaps) DeepCopyInto(out *TrafficMana
 	if in.DnsConfigFqdn != nil {
 		in, out := &in.DnsConfigFqdn, &out.DnsConfigFqdn
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
@@ -700,7 +700,7 @@ func (in *TrafficManagerProfileOperatorSpec) DeepCopyInto(out *TrafficManagerPro
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -723,7 +723,7 @@ func (in *TrafficManagerProfileOperatorSpec) DeepCopyInto(out *TrafficManagerPro
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -990,7 +990,7 @@ func (in *TrafficManagerProfilesAzureEndpointOperatorSpec) DeepCopyInto(out *Tra
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1008,7 +1008,7 @@ func (in *TrafficManagerProfilesAzureEndpointOperatorSpec) DeepCopyInto(out *Tra
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1322,7 +1322,7 @@ func (in *TrafficManagerProfilesExternalEndpointOperatorSpec) DeepCopyInto(out *
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1340,7 +1340,7 @@ func (in *TrafficManagerProfilesExternalEndpointOperatorSpec) DeepCopyInto(out *
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1654,7 +1654,7 @@ func (in *TrafficManagerProfilesNestedEndpointOperatorSpec) DeepCopyInto(out *Tr
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1672,7 +1672,7 @@ func (in *TrafficManagerProfilesNestedEndpointOperatorSpec) DeepCopyInto(out *Tr
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
