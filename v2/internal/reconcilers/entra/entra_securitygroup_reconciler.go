@@ -177,17 +177,17 @@ func (r *EntraSecurityGroupReconciler) update(
 	// Load the existing group by ID
 	g, err := r.loadGroupByID(ctx, id, client.Client())
 	if err != nil {
-		if isNotFound(err) {
-			// Group used to exist, but no longer does - it's probably been deleted
-			// Remove the existing annotation and requeue the reconciliation to create a replacement
-			log.V(Status).Info("Group no longer exists")
-			setEntraID(group, "")
-			return ctrl.Result{
-				Requeue: true,
-			}, nil
-		}
-
 		return ctrl.Result{}, eris.Wrapf(err, "getting group by ID %s", id)
+	}
+
+	if g == nil {
+		// Group used to exist, but no longer does - it's probably been deleted
+		// Remove the existing annotation and requeue the reconciliation to create a replacement
+		log.V(Status).Info("Group no longer exists")
+		setEntraID(group, "")
+		return ctrl.Result{
+			Requeue: true,
+		}, nil
 	}
 
 	// Update - PATCH

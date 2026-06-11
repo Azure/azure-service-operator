@@ -169,17 +169,17 @@ func (r *EntraApplicationReconciler) update(
 	// Load the existing application by ID
 	a, err := r.loadApplicationByID(ctx, id, client.Client())
 	if err != nil {
-		if isNotFound(err) {
-			// Application used to exist, but no longer does - it's probably been deleted
-			// Remove the existing annotation and requeue the reconciliation to create a replacement
-			log.V(Status).Info("Application no longer exists")
-			setEntraID(app, "")
-			return ctrl.Result{
-				Requeue: true,
-			}, nil
-		}
-
 		return ctrl.Result{}, eris.Wrapf(err, "getting application by ID %s", id)
+	}
+
+	if a == nil {
+		// Application used to exist, but no longer does - it's probably been deleted
+		// Remove the existing annotation and requeue the reconciliation to create a replacement
+		log.V(Status).Info("Application no longer exists")
+		setEntraID(app, "")
+		return ctrl.Result{
+			Requeue: true,
+		}, nil
 	}
 
 	// Update - PATCH
