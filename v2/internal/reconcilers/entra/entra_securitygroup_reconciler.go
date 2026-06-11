@@ -474,6 +474,7 @@ func (r *EntraSecurityGroupReconciler) create(
 
 	g := msgraphmodels.NewGroup()
 	group.Spec.AssignToGroup(g)
+	group.Spec.AssignODataBindOnCreate(g)
 
 	// Resolve config map references for this resource so we can populate any
 	// ObjectIDFromConfig values used in owners/members.
