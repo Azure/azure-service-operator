@@ -961,7 +961,6 @@ var skipDeletionPrecheck = sets.NewString(
 	"containerinstance.azure.com",
 	"containerservice.azure.com",
 	"datafactory.azure.com",
-	"dbformariadb.azure.com",
 	"dbforpostgresql.azure.com",
 	"devices.azure.com",
 	"documentdb.azure.com",
