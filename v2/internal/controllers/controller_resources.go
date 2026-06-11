@@ -209,11 +209,13 @@ func GetKnownStorageTypes(
 				clients.EntraConnectionFactory,
 				resourceResolver,
 				positiveConditions,
-				options.Config),
+				options.Config,
+			),
 			Predicate: makeStandardPredicate(),
 			Indexes:   []registration.Index{},
 			Watches:   []registration.Watch{},
-		})
+		},
+	)
 
 	return knownStorageTypes, nil
 }
@@ -377,7 +379,8 @@ func GetKnownTypes() []*registration.KnownType {
 			Obj:       &entrav1.Application{},
 			Defaulter: &entrav1webhook.Application_Webhook{},
 			Validator: &entrav1webhook.Application_Webhook{},
-		})
+		},
+	)
 
 	return knownTypes
 }
