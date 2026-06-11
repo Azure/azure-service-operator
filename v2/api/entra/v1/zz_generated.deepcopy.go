@@ -80,12 +80,12 @@ func (in *ApplicationOperatorConfigMaps) DeepCopyInto(out *ApplicationOperatorCo
 	if in.EntraID != nil {
 		in, out := &in.EntraID, &out.EntraID
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.AppId != nil {
 		in, out := &in.AppId, &out.AppId
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
