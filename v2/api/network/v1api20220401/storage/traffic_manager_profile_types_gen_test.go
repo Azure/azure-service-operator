@@ -183,9 +183,6 @@ func RunJSONSerializationTestForEndpoint_STATUS(subject Endpoint_STATUS) string 
 var endpoint_STATUSGenerator gopter.Gen
 
 // Endpoint_STATUSGenerator returns a generator of Endpoint_STATUS instances for property testing.
-// We first initialize endpoint_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func Endpoint_STATUSGenerator() gopter.Gen {
 	if endpoint_STATUSGenerator != nil {
 		return endpoint_STATUSGenerator
@@ -195,38 +192,12 @@ func Endpoint_STATUSGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForEndpoint_STATUS(generators)
 	endpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(Endpoint_STATUS{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEndpoint_STATUS(generators)
-	AddRelatedPropertyGeneratorsForEndpoint_STATUS(generators)
-	endpoint_STATUSGenerator = gen.Struct(reflect.TypeOf(Endpoint_STATUS{}), generators)
-
 	return endpoint_STATUSGenerator
 }
 
 // AddIndependentPropertyGeneratorsForEndpoint_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["AlwaysServe"] = gen.PtrOf(gen.AlphaString())
-	gens["EndpointLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["EndpointMonitorStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["EndpointStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["GeoMapping"] = gen.SliceOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["MinChildEndpoints"] = gen.PtrOf(gen.Int())
-	gens["MinChildEndpointsIPv4"] = gen.PtrOf(gen.Int())
-	gens["MinChildEndpointsIPv6"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["Target"] = gen.PtrOf(gen.AlphaString())
-	gens["TargetResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Weight"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForEndpoint_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEndpoint_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomHeaders"] = gen.SliceOf(EndpointPropertiesCustomHeadersItem_STATUSGenerator())
-	gens["Subnets"] = gen.SliceOf(EndpointPropertiesSubnetsItem_STATUSGenerator())
 }
 
 func Test_MonitorConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
