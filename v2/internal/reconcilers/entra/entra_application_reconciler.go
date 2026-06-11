@@ -8,7 +8,6 @@ package entra
 import (
 	"context"
 	"fmt"
-	"net/http"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -16,7 +15,6 @@ import (
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
 	"github.com/microsoftgraph/msgraph-sdk-go/applications"
 	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
-	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -127,7 +125,7 @@ func (r *EntraApplicationReconciler) Delete(
 	err = client.Client().Applications().ByApplicationId(id).Delete(ctx, nil)
 	if err != nil {
 		// If the application doesn't exist, return nil as we've successfully ensured that it doesn't exist
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			return ctrl.Result{}, nil
 		}
 
@@ -171,7 +169,7 @@ func (r *EntraApplicationReconciler) update(
 	// Load the existing application by ID
 	a, err := r.loadApplicationByID(ctx, id, client.Client())
 	if err != nil {
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			// Application used to exist, but no longer does - it's probably been deleted
 			// Remove the existing annotation and requeue the reconciliation to create a replacement
 			log.V(Status).Info("Application no longer exists")
@@ -225,7 +223,7 @@ func (r *EntraApplicationReconciler) tryAdopt(
 	log.V(Status).Info("Searching for existing Entra application by display name", "displayName", *displayName)
 	apps, err := r.loadApplicationsByDisplayName(ctx, *displayName, client.Client())
 	if err != nil {
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			// No application to adopt
 			return "", nil
 		}
@@ -318,7 +316,7 @@ func (r *EntraApplicationReconciler) UpdateStatus(
 	applicationable, err := r.loadApplicationByID(ctx, id, client.Client())
 	if err != nil {
 		// If the application doesn't exist, nothing to do as we're probably in the midst of deleting it
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			return nil
 		}
 
@@ -347,7 +345,7 @@ func (r *EntraApplicationReconciler) loadApplicationByID(
 	applicationable, err := client.Applications().ByApplicationId(id).Get(ctx, nil)
 	if err != nil {
 		// If the only problem is that the application doesn't exist, return nil and nil
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			return nil, nil
 		}
 
@@ -381,18 +379,6 @@ func (r *EntraApplicationReconciler) loadApplicationsByDisplayName(
 
 	apps := result.GetValue()
 	return apps, nil
-}
-
-// isNotFound returns true if the error is a 404 error.
-func (r *EntraApplicationReconciler) isNotFound(err error) bool {
-	var odataError *odataerrors.ODataError
-	if eris.As(err, &odataError) {
-		if odataError.ResponseStatusCode == http.StatusNotFound {
-			return true
-		}
-	}
-
-	return false
 }
 
 func (r *EntraApplicationReconciler) asApplication(

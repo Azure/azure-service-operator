@@ -8,7 +8,6 @@ package entra
 import (
 	"context"
 	"fmt"
-	"net/http"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -16,7 +15,6 @@ import (
 	msgraphsdkgo "github.com/microsoftgraph/msgraph-sdk-go"
 	"github.com/microsoftgraph/msgraph-sdk-go/groups"
 	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
-	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -128,7 +126,7 @@ func (r *EntraSecurityGroupReconciler) Delete(
 	err = client.Client().Groups().ByGroupId(id).Delete(ctx, nil)
 	if err != nil {
 		// If the group doesn't exist, return nil and nil as we've successfully ensured that it doesn't exist
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			return ctrl.Result{}, nil
 		}
 
@@ -179,7 +177,7 @@ func (r *EntraSecurityGroupReconciler) update(
 	// Load the existing group by ID
 	g, err := r.loadGroupByID(ctx, id, client.Client())
 	if err != nil {
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			// Group used to exist, but no longer does - it's probably been deleted
 			// Remove the existing annotation and requeue the reconciliation to create a replacement
 			log.V(Status).Info("Group no longer exists")
@@ -238,7 +236,7 @@ func (r *EntraSecurityGroupReconciler) tryAdopt(
 	log.V(Status).Info("Searching for existing Entra security group by display name", "displayName", *displayName)
 	groups, err := r.loadGroupsByDisplayName(ctx, *displayName, client.Client())
 	if err != nil {
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			// No group to adopt
 			return "", nil
 		}
@@ -335,7 +333,7 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 	groupable, err := r.loadGroupByID(ctx, id, client.Client())
 	if err != nil {
 		// If the group doesn't exist, nothing to do as we're probably in the midst of deleting it
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			return nil
 		}
 
@@ -364,7 +362,7 @@ func (r *EntraSecurityGroupReconciler) loadGroupByID(
 	groupable, err := client.Groups().ByGroupId(id).Get(ctx, nil)
 	if err != nil {
 		// If the only problem is that the group doesn't exist, return nil and nil
-		if r.isNotFound(err) {
+		if isNotFound(err) {
 			return nil, nil
 		}
 
@@ -398,18 +396,6 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 
 	groups := result.GetValue()
 	return groups, nil
-}
-
-// isNotFound returns true if the error is a 404 error.
-func (r *EntraSecurityGroupReconciler) isNotFound(err error) bool {
-	var odataError *odataerrors.ODataError
-	if eris.As(err, &odataError) {
-		if odataError.ResponseStatusCode == http.StatusNotFound {
-			return true
-		}
-	}
-
-	return false
 }
 
 func (r *EntraSecurityGroupReconciler) asSecurityGroup(
