@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v20210701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &Image{}
 
 // ConvertFrom populates our Image from the provided hub Image
 func (image *Image) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Image)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/Image but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Image
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return image.AssignProperties_From_Image(source)
+	err = image.AssignProperties_From_Image(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to image")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Image from our Image
 func (image *Image) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Image)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/Image but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Image
+	err := image.AssignProperties_To_Image(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from image")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return image.AssignProperties_To_Image(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Image{}

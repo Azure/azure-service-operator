@@ -5,7 +5,8 @@ package v1api20250401
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/storage"
+	compute_v1api20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/storage"
+	compute_v20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v20250401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForCapacityReservation(subject CapacityReservation
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.CapacityReservation
+	var hub compute_v20250401s.CapacityReservation
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForCapacityReservation(subject CapacityReservation
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservation
+	var other compute_v1api20250401s.CapacityReservation
 	err := copied.AssignProperties_To_CapacityReservation(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForCapacityReservationInstanceView_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservationInstanceView_STATUS
+	var other compute_v1api20250401s.CapacityReservationInstanceView_STATUS
 	err := copied.AssignProperties_To_CapacityReservationInstanceView_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -286,7 +287,7 @@ func RunPropertyAssignmentTestForCapacityReservationOperatorSpec(subject Capacit
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservationOperatorSpec
+	var other compute_v1api20250401s.CapacityReservationOperatorSpec
 	err := copied.AssignProperties_To_CapacityReservationOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -383,7 +384,7 @@ func RunPropertyAssignmentTestForCapacityReservationUtilization_STATUS(subject C
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservationUtilization_STATUS
+	var other compute_v1api20250401s.CapacityReservationUtilization_STATUS
 	err := copied.AssignProperties_To_CapacityReservationUtilization_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -500,7 +501,7 @@ func RunPropertyAssignmentTestForCapacityReservation_STATUS(subject CapacityRese
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservation_STATUS
+	var other compute_v1api20250401s.CapacityReservation_STATUS
 	err := copied.AssignProperties_To_CapacityReservation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -633,7 +634,7 @@ func RunPropertyAssignmentTestForCapacityReservation_Spec(subject CapacityReserv
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservation_Spec
+	var other compute_v1api20250401s.CapacityReservation_Spec
 	err := copied.AssignProperties_To_CapacityReservation_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -757,7 +758,7 @@ func RunPropertyAssignmentTestForInstanceViewStatus_STATUS(subject InstanceViewS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.InstanceViewStatus_STATUS
+	var other compute_v1api20250401s.InstanceViewStatus_STATUS
 	err := copied.AssignProperties_To_InstanceViewStatus_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -864,7 +865,7 @@ func RunPropertyAssignmentTestForScheduleProfile(subject ScheduleProfile) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduleProfile
+	var other compute_v1api20250401s.ScheduleProfile
 	err := copied.AssignProperties_To_ScheduleProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -967,7 +968,7 @@ func RunPropertyAssignmentTestForScheduleProfile_STATUS(subject ScheduleProfile_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduleProfile_STATUS
+	var other compute_v1api20250401s.ScheduleProfile_STATUS
 	err := copied.AssignProperties_To_ScheduleProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1071,7 +1072,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku
+	var other compute_v1api20250401s.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -1175,7 +1176,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku_STATUS
+	var other compute_v1api20250401s.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1279,7 +1280,7 @@ func RunPropertyAssignmentTestForSubResourceReadOnly_STATUS(subject SubResourceR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResourceReadOnly_STATUS
+	var other compute_v1api20250401s.SubResourceReadOnly_STATUS
 	err := copied.AssignProperties_To_SubResourceReadOnly_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1382,7 +1383,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other compute_v1api20250401s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()

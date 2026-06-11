@@ -5,7 +5,8 @@ package v1api20250401
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/storage"
+	compute_v1api20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/storage"
+	compute_v20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v20250401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForCapacityReservationGroup(subject CapacityReserv
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.CapacityReservationGroup
+	var hub compute_v20250401s.CapacityReservationGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForCapacityReservationGroup(subject CapacityReserv
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservationGroup
+	var other compute_v1api20250401s.CapacityReservationGroup
 	err := copied.AssignProperties_To_CapacityReservationGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -182,7 +183,7 @@ func RunPropertyAssignmentTestForCapacityReservationGroupInstanceView_STATUS(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservationGroupInstanceView_STATUS
+	var other compute_v1api20250401s.CapacityReservationGroupInstanceView_STATUS
 	err := copied.AssignProperties_To_CapacityReservationGroupInstanceView_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -286,7 +287,7 @@ func RunPropertyAssignmentTestForCapacityReservationGroupOperatorSpec(subject Ca
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservationGroupOperatorSpec
+	var other compute_v1api20250401s.CapacityReservationGroupOperatorSpec
 	err := copied.AssignProperties_To_CapacityReservationGroupOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -383,7 +384,7 @@ func RunPropertyAssignmentTestForCapacityReservationGroup_STATUS(subject Capacit
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservationGroup_STATUS
+	var other compute_v1api20250401s.CapacityReservationGroup_STATUS
 	err := copied.AssignProperties_To_CapacityReservationGroup_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -512,7 +513,7 @@ func RunPropertyAssignmentTestForCapacityReservationGroup_Spec(subject CapacityR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservationGroup_Spec
+	var other compute_v1api20250401s.CapacityReservationGroup_Spec
 	err := copied.AssignProperties_To_CapacityReservationGroup_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -636,7 +637,7 @@ func RunPropertyAssignmentTestForCapacityReservationInstanceViewWithName_STATUS(
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CapacityReservationInstanceViewWithName_STATUS
+	var other compute_v1api20250401s.CapacityReservationInstanceViewWithName_STATUS
 	err := copied.AssignProperties_To_CapacityReservationInstanceViewWithName_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -754,7 +755,7 @@ func RunPropertyAssignmentTestForResourceSharingProfile(subject ResourceSharingP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceSharingProfile
+	var other compute_v1api20250401s.ResourceSharingProfile
 	err := copied.AssignProperties_To_ResourceSharingProfile(&other)
 	if err != nil {
 		return err.Error()
@@ -857,7 +858,7 @@ func RunPropertyAssignmentTestForResourceSharingProfile_STATUS(subject ResourceS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceSharingProfile_STATUS
+	var other compute_v1api20250401s.ResourceSharingProfile_STATUS
 	err := copied.AssignProperties_To_ResourceSharingProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -960,7 +961,7 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource
+	var other compute_v1api20250401s.SubResource
 	err := copied.AssignProperties_To_SubResource(&other)
 	if err != nil {
 		return err.Error()
@@ -1056,7 +1057,7 @@ func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubResource_STATUS
+	var other compute_v1api20250401s.SubResource_STATUS
 	err := copied.AssignProperties_To_SubResource_STATUS(&other)
 	if err != nil {
 		return err.Error()

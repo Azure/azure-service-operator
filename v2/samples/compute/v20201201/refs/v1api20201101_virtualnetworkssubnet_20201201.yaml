@@ -1,0 +1,9 @@
+apiVersion: network.azure.com/v1api20201101
+kind: VirtualNetworksSubnet
+metadata:
+  name: samplesubnet
+  namespace: default
+spec:
+  owner:
+    name: samplevnet
+  addressPrefix: 10.0.0.0/24

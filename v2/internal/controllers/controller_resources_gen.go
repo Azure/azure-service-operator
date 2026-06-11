@@ -117,30 +117,54 @@ import (
 	communication_v20230401s "github.com/Azure/azure-service-operator/v2/api/communication/v20230401/storage"
 	communication_v20230401w "github.com/Azure/azure-service-operator/v2/api/communication/v20230401/webhook"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
-	compute_v20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
-	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
-	compute_v20200930w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/webhook"
-	compute_v20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
-	compute_v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage"
-	compute_v20201201w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/webhook"
-	compute_v20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701"
-	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701/storage"
-	compute_v20210701w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701/webhook"
-	compute_v20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301"
-	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
-	compute_v20220301w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/webhook"
-	compute_v20220702 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
-	compute_v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
-	compute_v20220702w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/webhook"
-	compute_v20240302 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302"
-	compute_v20240302s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
-	compute_v20240302w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/webhook"
-	compute_v20241101 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101"
-	compute_v20241101s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/storage"
-	compute_v20241101w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/webhook"
-	compute_v20250401 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401"
-	compute_v20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/storage"
-	compute_v20250401w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/webhook"
+	compute_v1api20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930"
+	compute_v1api20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/storage"
+	compute_v1api20200930w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20200930/webhook"
+	compute_v1api20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201"
+	compute_v1api20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/storage"
+	compute_v1api20201201w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20201201/webhook"
+	compute_v1api20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701"
+	compute_v1api20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701/storage"
+	compute_v1api20210701w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20210701/webhook"
+	compute_v1api20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301"
+	compute_v1api20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
+	compute_v1api20220301w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/webhook"
+	compute_v1api20220702 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702"
+	compute_v1api20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/storage"
+	compute_v1api20220702w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220702/webhook"
+	compute_v1api20240302 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302"
+	compute_v1api20240302s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
+	compute_v1api20240302w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/webhook"
+	compute_v1api20241101 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101"
+	compute_v1api20241101s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/storage"
+	compute_v1api20241101w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/webhook"
+	compute_v1api20250401 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401"
+	compute_v1api20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/storage"
+	compute_v1api20250401w "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/webhook"
+	compute_v20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v20200930"
+	compute_v20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v20200930/storage"
+	compute_v20200930w "github.com/Azure/azure-service-operator/v2/api/compute/v20200930/webhook"
+	compute_v20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v20201201"
+	compute_v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v20201201/storage"
+	compute_v20201201w "github.com/Azure/azure-service-operator/v2/api/compute/v20201201/webhook"
+	compute_v20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v20210701"
+	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v20210701/storage"
+	compute_v20210701w "github.com/Azure/azure-service-operator/v2/api/compute/v20210701/webhook"
+	compute_v20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v20220301"
+	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v20220301/storage"
+	compute_v20220301w "github.com/Azure/azure-service-operator/v2/api/compute/v20220301/webhook"
+	compute_v20220702 "github.com/Azure/azure-service-operator/v2/api/compute/v20220702"
+	compute_v20220702s "github.com/Azure/azure-service-operator/v2/api/compute/v20220702/storage"
+	compute_v20220702w "github.com/Azure/azure-service-operator/v2/api/compute/v20220702/webhook"
+	compute_v20240302 "github.com/Azure/azure-service-operator/v2/api/compute/v20240302"
+	compute_v20240302s "github.com/Azure/azure-service-operator/v2/api/compute/v20240302/storage"
+	compute_v20240302w "github.com/Azure/azure-service-operator/v2/api/compute/v20240302/webhook"
+	compute_v20241101 "github.com/Azure/azure-service-operator/v2/api/compute/v20241101"
+	compute_v20241101s "github.com/Azure/azure-service-operator/v2/api/compute/v20241101/storage"
+	compute_v20241101w "github.com/Azure/azure-service-operator/v2/api/compute/v20241101/webhook"
+	compute_v20250401 "github.com/Azure/azure-service-operator/v2/api/compute/v20250401"
+	compute_v20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v20250401/storage"
+	compute_v20250401w "github.com/Azure/azure-service-operator/v2/api/compute/v20250401/webhook"
 	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
 	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
 	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/storage"
@@ -4218,6 +4242,134 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(communication_v20230401s.EmailService)},
 		&registration.KnownType{Obj: new(communication_v20230401s.SenderUsername)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(compute_v1api20200930.Disk),
+		Defaulter: &compute_v1api20200930w.Disk{},
+		Validator: &compute_v1api20200930w.Disk{},
+	}, &registration.KnownType{
+		Obj:       new(compute_v1api20200930.Snapshot),
+		Defaulter: &compute_v1api20200930w.Snapshot{},
+		Validator: &compute_v1api20200930w.Snapshot{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(compute_v1api20200930s.Disk)}, &registration.KnownType{Obj: new(compute_v1api20200930s.Snapshot)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(compute_v1api20201201.VirtualMachine),
+			Defaulter: &compute_v1api20201201w.VirtualMachine{},
+			Validator: &compute_v1api20201201w.VirtualMachine{},
+		},
+		&registration.KnownType{
+			Obj:       new(compute_v1api20201201.VirtualMachineScaleSet),
+			Defaulter: &compute_v1api20201201w.VirtualMachineScaleSet{},
+			Validator: &compute_v1api20201201w.VirtualMachineScaleSet{},
+		},
+		&registration.KnownType{
+			Obj:       new(compute_v1api20201201.VirtualMachineScaleSetsExtension),
+			Defaulter: &compute_v1api20201201w.VirtualMachineScaleSetsExtension{},
+			Validator: &compute_v1api20201201w.VirtualMachineScaleSetsExtension{},
+		},
+		&registration.KnownType{
+			Obj:       new(compute_v1api20201201.VirtualMachinesExtension),
+			Defaulter: &compute_v1api20201201w.VirtualMachinesExtension{},
+			Validator: &compute_v1api20201201w.VirtualMachinesExtension{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(compute_v1api20201201s.VirtualMachine)},
+		&registration.KnownType{Obj: new(compute_v1api20201201s.VirtualMachineScaleSet)},
+		&registration.KnownType{Obj: new(compute_v1api20201201s.VirtualMachineScaleSetsExtension)},
+		&registration.KnownType{Obj: new(compute_v1api20201201s.VirtualMachinesExtension)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(compute_v1api20210701.Image),
+		Defaulter: &compute_v1api20210701w.Image{},
+		Validator: &compute_v1api20210701w.Image{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(compute_v1api20210701s.Image)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(compute_v1api20220301.Image),
+			Defaulter: &compute_v1api20220301w.Image{},
+			Validator: &compute_v1api20220301w.Image{},
+		},
+		&registration.KnownType{
+			Obj:       new(compute_v1api20220301.VirtualMachine),
+			Defaulter: &compute_v1api20220301w.VirtualMachine{},
+			Validator: &compute_v1api20220301w.VirtualMachine{},
+		},
+		&registration.KnownType{
+			Obj:       new(compute_v1api20220301.VirtualMachineScaleSet),
+			Defaulter: &compute_v1api20220301w.VirtualMachineScaleSet{},
+			Validator: &compute_v1api20220301w.VirtualMachineScaleSet{},
+		},
+		&registration.KnownType{
+			Obj:       new(compute_v1api20220301.VirtualMachineScaleSetsExtension),
+			Defaulter: &compute_v1api20220301w.VirtualMachineScaleSetsExtension{},
+			Validator: &compute_v1api20220301w.VirtualMachineScaleSetsExtension{},
+		},
+		&registration.KnownType{
+			Obj:       new(compute_v1api20220301.VirtualMachinesExtension),
+			Defaulter: &compute_v1api20220301w.VirtualMachinesExtension{},
+			Validator: &compute_v1api20220301w.VirtualMachinesExtension{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(compute_v1api20220301s.Image)},
+		&registration.KnownType{Obj: new(compute_v1api20220301s.VirtualMachine)},
+		&registration.KnownType{Obj: new(compute_v1api20220301s.VirtualMachineScaleSet)},
+		&registration.KnownType{Obj: new(compute_v1api20220301s.VirtualMachineScaleSetsExtension)},
+		&registration.KnownType{Obj: new(compute_v1api20220301s.VirtualMachinesExtension)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(compute_v1api20220702.DiskEncryptionSet),
+		Defaulter: &compute_v1api20220702w.DiskEncryptionSet{},
+		Validator: &compute_v1api20220702w.DiskEncryptionSet{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(compute_v1api20220702s.DiskEncryptionSet)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(compute_v1api20240302.Disk),
+			Defaulter: &compute_v1api20240302w.Disk{},
+			Validator: &compute_v1api20240302w.Disk{},
+		},
+		&registration.KnownType{
+			Obj:       new(compute_v1api20240302.DiskAccess),
+			Defaulter: &compute_v1api20240302w.DiskAccess{},
+			Validator: &compute_v1api20240302w.DiskAccess{},
+		},
+		&registration.KnownType{
+			Obj:       new(compute_v1api20240302.DiskEncryptionSet),
+			Defaulter: &compute_v1api20240302w.DiskEncryptionSet{},
+			Validator: &compute_v1api20240302w.DiskEncryptionSet{},
+		},
+		&registration.KnownType{
+			Obj:       new(compute_v1api20240302.Snapshot),
+			Defaulter: &compute_v1api20240302w.Snapshot{},
+			Validator: &compute_v1api20240302w.Snapshot{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(compute_v1api20240302s.Disk)},
+		&registration.KnownType{Obj: new(compute_v1api20240302s.DiskAccess)},
+		&registration.KnownType{Obj: new(compute_v1api20240302s.DiskEncryptionSet)},
+		&registration.KnownType{Obj: new(compute_v1api20240302s.Snapshot)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(compute_v1api20241101.AvailabilitySet),
+		Defaulter: &compute_v1api20241101w.AvailabilitySet{},
+		Validator: &compute_v1api20241101w.AvailabilitySet{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(compute_v1api20241101s.AvailabilitySet)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(compute_v1api20250401.CapacityReservation),
+		Defaulter: &compute_v1api20250401w.CapacityReservation{},
+		Validator: &compute_v1api20250401w.CapacityReservation{},
+	}, &registration.KnownType{
+		Obj:       new(compute_v1api20250401.CapacityReservationGroup),
+		Defaulter: &compute_v1api20250401w.CapacityReservationGroup{},
+		Validator: &compute_v1api20250401w.CapacityReservationGroup{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(compute_v1api20250401s.CapacityReservation)}, &registration.KnownType{Obj: new(compute_v1api20250401s.CapacityReservationGroup)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(compute_v20200930.Disk),
 		Defaulter: &compute_v20200930w.Disk{},
 		Validator: &compute_v20200930w.Disk{},
@@ -7314,6 +7466,22 @@ func createScheme() *runtime.Scheme {
 	_ = cognitiveservices_v20250601s.AddToScheme(scheme)
 	_ = communication_v20230401.AddToScheme(scheme)
 	_ = communication_v20230401s.AddToScheme(scheme)
+	_ = compute_v1api20200930.AddToScheme(scheme)
+	_ = compute_v1api20200930s.AddToScheme(scheme)
+	_ = compute_v1api20201201.AddToScheme(scheme)
+	_ = compute_v1api20201201s.AddToScheme(scheme)
+	_ = compute_v1api20210701.AddToScheme(scheme)
+	_ = compute_v1api20210701s.AddToScheme(scheme)
+	_ = compute_v1api20220301.AddToScheme(scheme)
+	_ = compute_v1api20220301s.AddToScheme(scheme)
+	_ = compute_v1api20220702.AddToScheme(scheme)
+	_ = compute_v1api20220702s.AddToScheme(scheme)
+	_ = compute_v1api20240302.AddToScheme(scheme)
+	_ = compute_v1api20240302s.AddToScheme(scheme)
+	_ = compute_v1api20241101.AddToScheme(scheme)
+	_ = compute_v1api20241101s.AddToScheme(scheme)
+	_ = compute_v1api20250401.AddToScheme(scheme)
+	_ = compute_v1api20250401s.AddToScheme(scheme)
 	_ = compute_v20200930.AddToScheme(scheme)
 	_ = compute_v20200930s.AddToScheme(scheme)
 	_ = compute_v20201201.AddToScheme(scheme)

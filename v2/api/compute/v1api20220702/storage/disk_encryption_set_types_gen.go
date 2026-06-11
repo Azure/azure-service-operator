@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v20220702/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &DiskEncryptionSet{}
 
 // ConvertFrom populates our DiskEncryptionSet from the provided hub DiskEncryptionSet
 func (encryptionSet *DiskEncryptionSet) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.DiskEncryptionSet)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20240302/storage/DiskEncryptionSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.DiskEncryptionSet
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return encryptionSet.AssignProperties_From_DiskEncryptionSet(source)
+	err = encryptionSet.AssignProperties_From_DiskEncryptionSet(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to encryptionSet")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub DiskEncryptionSet from our DiskEncryptionSet
 func (encryptionSet *DiskEncryptionSet) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.DiskEncryptionSet)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20240302/storage/DiskEncryptionSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.DiskEncryptionSet
+	err := encryptionSet.AssignProperties_To_DiskEncryptionSet(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from encryptionSet")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return encryptionSet.AssignProperties_To_DiskEncryptionSet(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &DiskEncryptionSet{}
@@ -706,13 +719,6 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_From_DiskEncrypt
 		encryptionSet.RotationToLatestKeyVersionEnabled = nil
 	}
 
-	// SystemData
-	if source.SystemData != nil {
-		propertyBag.Add("SystemData", *source.SystemData)
-	} else {
-		propertyBag.Remove("SystemData")
-	}
-
 	// Tags
 	encryptionSet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -826,19 +832,6 @@ func (encryptionSet *DiskEncryptionSet_STATUS) AssignProperties_To_DiskEncryptio
 		destination.RotationToLatestKeyVersionEnabled = &rotationToLatestKeyVersionEnabled
 	} else {
 		destination.RotationToLatestKeyVersionEnabled = nil
-	}
-
-	// SystemData
-	if propertyBag.Contains("SystemData") {
-		var systemDatum storage.SystemData_STATUS
-		err := propertyBag.Pull("SystemData", &systemDatum)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
-		}
-
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
 	}
 
 	// Tags
