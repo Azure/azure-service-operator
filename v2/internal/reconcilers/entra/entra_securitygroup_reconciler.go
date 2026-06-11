@@ -291,6 +291,7 @@ func (r *EntraSecurityGroupReconciler) create(
 
 	g := msgraphmodels.NewGroup()
 	group.Spec.AssignToGroup(g)
+	group.Spec.AssignODataBindOnCreate(g)
 
 	status, err := client.Client().Groups().Post(ctx, g, nil)
 	if err != nil {
