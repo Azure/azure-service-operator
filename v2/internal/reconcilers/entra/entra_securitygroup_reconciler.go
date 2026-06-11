@@ -21,7 +21,6 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
@@ -284,7 +283,7 @@ func (r *EntraSecurityGroupReconciler) create(
 	// Create our Entra Client
 	client, err := r.EntraClientFactory(ctx, group)
 	if err != nil {
-		return reconcile.Result{}, eris.Wrap(err, "creating entra client prior to adoption search")
+		return ctrl.Result{}, eris.Wrap(err, "creating entra client prior to adoption search")
 	}
 
 	g := msgraphmodels.NewGroup()
