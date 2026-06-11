@@ -201,6 +201,11 @@ func (r *EntraSecurityGroupReconciler) update(
 
 	group.Status.AssignFromGroup(result)
 
+	err = r.saveAssociatedKubernetesResources(ctx, group, log)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed to save associated Kubernetes resources for group %s", group.Name)
+	}
+
 	return ctrl.Result{}, nil
 }
 

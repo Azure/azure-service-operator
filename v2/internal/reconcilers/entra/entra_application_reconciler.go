@@ -193,6 +193,11 @@ func (r *EntraApplicationReconciler) update(
 
 	app.Status.AssignFromApplication(result)
 
+	err = r.saveAssociatedKubernetesResources(ctx, app, log)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed to save associated Kubernetes resources for application %s", app.Name)
+	}
+
 	return ctrl.Result{}, nil
 }
 
