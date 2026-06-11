@@ -141,10 +141,11 @@ func secretsSpecified(obj *containerservice.ManagedCluster) set.Set[string] {
 }
 
 func secretsToWrite(obj *containerservice.ManagedCluster, adminCreds string, userCreds string) ([]*v1.Secret, error) {
-	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
-	if operatorSpecSecrets == nil {
+	if obj.Spec.OperatorSpec == nil || obj.Spec.OperatorSpec.Secrets == nil {
 		return nil, nil
 	}
+
+	operatorSpecSecrets := obj.Spec.OperatorSpec.Secrets
 
 	collector := secrets.NewCollector(obj.Namespace)
 	collector.AddValue(operatorSpecSecrets.AdminCredentials, adminCreds)
@@ -192,7 +193,8 @@ func (ext *ManagedClusterExtension) PreReconcileCheck(
 	state := managedCluster.Status.ProvisioningState
 	if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
 		return extensions.BlockReconcile(
-				fmt.Sprintf("Managed cluster is in provisioning state %q", *state)),
+				fmt.Sprintf("Managed cluster is in provisioning state %q", *state),
+			),
 			nil
 	}
 

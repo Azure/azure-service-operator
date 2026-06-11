@@ -49,7 +49,8 @@ func (ext *DatabaseExtension) PreReconcileOwnerCheck(
 		state := cluster.Status.ProvisioningState
 		if state != nil && clusterProvisioningStateBlocksReconciliation(state) {
 			return extensions.BlockReconcile(
-					fmt.Sprintf("Owning cluster is in provisioning state %q", *state)),
+					fmt.Sprintf("Owning cluster is in provisioning state %q", *state),
+				),
 				nil
 		}
 

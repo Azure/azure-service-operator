@@ -1,0 +1,5 @@
+typeFilters:
+  - action: include
+    group: wronggroup
+    version: v*20210601
+    because: "wrong group"

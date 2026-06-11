@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
@@ -53,22 +52,36 @@ var _ conversion.Convertible = &NetworkInterface{}
 
 // ConvertFrom populates our NetworkInterface from the provided hub NetworkInterface
 func (networkInterface *NetworkInterface) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20240301s.NetworkInterface)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/NetworkInterface but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20240301s.NetworkInterface
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return networkInterface.AssignProperties_From_NetworkInterface(source)
+	err = networkInterface.AssignProperties_From_NetworkInterface(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to networkInterface")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub NetworkInterface from our NetworkInterface
 func (networkInterface *NetworkInterface) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20240301s.NetworkInterface)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/NetworkInterface but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20240301s.NetworkInterface
+	err := networkInterface.AssignProperties_To_NetworkInterface(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from networkInterface")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return networkInterface.AssignProperties_To_NetworkInterface(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &NetworkInterface{}

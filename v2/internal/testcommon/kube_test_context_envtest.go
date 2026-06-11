@@ -262,7 +262,8 @@ func createSharedEnvTest(
 				ErrorMaxSlowDelay:    maxBackoff,
 				ErrorVerySlowDelay:   maxBackoff,
 				RequeueDelayOverride: requeueDelay,
-			}),
+			},
+		),
 	}
 	positiveConditions := conditions.NewPositiveConditionBuilder(clock.New())
 
@@ -280,7 +281,8 @@ func createSharedEnvTest(
 			credentialProviderWrapper,
 			positiveConditions,
 			expressionEvaluator,
-			options)
+			options,
+		)
 		if err != nil {
 			return nil, err
 		}
@@ -292,7 +294,8 @@ func createSharedEnvTest(
 			kubeClient,
 			positiveConditions,
 			objs,
-			options)
+			options,
+		)
 		if err != nil {
 			stopEnvironment()
 			return nil, eris.Wrapf(err, "registering reconcilers")
@@ -379,7 +382,8 @@ func cfgToKey(cfg testConfig) string {
 	return fmt.Sprintf(
 		"%s/Replaying:%t",
 		cfg.Values,
-		cfg.Replaying)
+		cfg.Replaying,
+	)
 }
 
 func (set *sharedEnvTests) stopAll() {
@@ -551,11 +555,13 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 				credentialProvider,
 				cfg.Cloud(),
 				perTestContext.HTTPClient,
-				metrics.NewARMClientMetrics())
+				metrics.NewARMClientMetrics(),
+			)
 
 			entraClientCache := entra.NewEntraClientCache(
 				credentialProvider,
-				perTestContext.HTTPClient)
+				perTestContext.HTTPClient,
+			)
 
 			resources := &perNamespace{
 				armClientCache:     armClientCache,

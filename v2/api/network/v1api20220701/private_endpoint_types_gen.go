@@ -2346,7 +2346,7 @@ type PrivateLinkServiceConnection struct {
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState `json:"privateLinkServiceConnectionState,omitempty"`
 
 	// PrivateLinkServiceReference: The resource id of private link service.
-	PrivateLinkServiceReference *genruntime.ResourceReference `armReference:"PrivateLinkServiceId" json:"privateLinkServiceReference,omitempty"`
+	PrivateLinkServiceReference *genruntime.WellKnownResourceReference `armReference:"PrivateLinkServiceId" json:"privateLinkServiceReference,omitempty"`
 
 	// RequestMessage: A message passed to the owner of the remote resource with this connection request. Restricted to 140
 	// chars.
@@ -2387,11 +2387,19 @@ func (connection *PrivateLinkServiceConnection) ConvertToARM(resolved genruntime
 		result.Properties.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	}
 	if connection.PrivateLinkServiceReference != nil {
-		privateLinkServiceIdARMID, err := resolved.ResolvedReferences.Lookup(*connection.PrivateLinkServiceReference)
-		if err != nil {
-			return nil, err
+		var privateLinkServiceIdTemp string
+		if connection.PrivateLinkServiceReference.WellKnownName != "" {
+			privateLinkServiceIdTemp = connection.PrivateLinkServiceReference.WellKnownName
+		} else {
+			armID, err := resolved.ResolvedReferences.Lookup(connection.PrivateLinkServiceReference.ResourceReference)
+			if err != nil {
+				return nil, err
+			}
+
+			privateLinkServiceIdTemp = armID
 		}
-		privateLinkServiceId := privateLinkServiceIdARMID
+
+		privateLinkServiceId := privateLinkServiceIdTemp
 		result.Properties.PrivateLinkServiceId = &privateLinkServiceId
 	}
 	if connection.RequestMessage != nil {
@@ -2943,7 +2951,7 @@ func (maps *PrivateEndpointOperatorConfigMaps) AssignProperties_From_PrivateEndp
 
 	// PrimaryNicPrivateIpAddress
 	if source.PrimaryNicPrivateIpAddress != nil {
-		primaryNicPrivateIpAddress := source.PrimaryNicPrivateIpAddress.Copy()
+		primaryNicPrivateIpAddress := *source.PrimaryNicPrivateIpAddress.DeepCopy()
 		maps.PrimaryNicPrivateIpAddress = &primaryNicPrivateIpAddress
 	} else {
 		maps.PrimaryNicPrivateIpAddress = nil
@@ -2960,7 +2968,7 @@ func (maps *PrivateEndpointOperatorConfigMaps) AssignProperties_To_PrivateEndpoi
 
 	// PrimaryNicPrivateIpAddress
 	if maps.PrimaryNicPrivateIpAddress != nil {
-		primaryNicPrivateIpAddress := maps.PrimaryNicPrivateIpAddress.Copy()
+		primaryNicPrivateIpAddress := *maps.PrimaryNicPrivateIpAddress.DeepCopy()
 		destination.PrimaryNicPrivateIpAddress = &primaryNicPrivateIpAddress
 	} else {
 		destination.PrimaryNicPrivateIpAddress = nil

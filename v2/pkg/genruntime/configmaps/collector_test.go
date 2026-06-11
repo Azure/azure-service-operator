@@ -127,3 +127,165 @@ func TestCollector_BinaryDestinationSameKey_ReturnsError(t *testing.T) {
 	_, err := collector.Values()
 	g.Expect(err).To(HaveOccurred())
 }
+
+func TestCollector_AnnotationsApplied(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destination := &genruntime.ConfigMapDestination{
+		Name: "myconfig",
+		Key:  "foo",
+		Annotations: map[string]string{
+			"reflector.v1/reflect": "true",
+		},
+	}
+
+	collector := configmaps.NewCollector("ns")
+	collector.AddValue(destination, "value1")
+
+	result, err := collector.Values()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result).To(HaveLen(1))
+	g.Expect(result[0].Annotations).To(Equal(map[string]string{
+		"reflector.v1/reflect": "true",
+	}))
+}
+
+func TestCollector_LabelsApplied(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destination := &genruntime.ConfigMapDestination{
+		Name: "myconfig",
+		Key:  "foo",
+		Labels: map[string]string{
+			"app": "myapp",
+		},
+	}
+
+	collector := configmaps.NewCollector("ns")
+	collector.AddValue(destination, "value1")
+
+	result, err := collector.Values()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result).To(HaveLen(1))
+	g.Expect(result[0].Labels).To(Equal(map[string]string{
+		"app": "myapp",
+	}))
+}
+
+func TestCollector_MultipleDestinationsSameConfigMapSameAnnotations_Merges(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destination1 := &genruntime.ConfigMapDestination{
+		Name: "myconfig",
+		Key:  "foo",
+		Annotations: map[string]string{
+			"reflector.v1/reflect": "true",
+		},
+		Labels: map[string]string{
+			"app": "myapp",
+		},
+	}
+	destination2 := &genruntime.ConfigMapDestination{
+		Name: "myconfig",
+		Key:  "bar",
+		Annotations: map[string]string{
+			"reflector.v1/reflect": "true",
+		},
+		Labels: map[string]string{
+			"app": "myapp",
+		},
+	}
+
+	collector := configmaps.NewCollector("ns")
+	collector.AddValue(destination1, "value1")
+	collector.AddValue(destination2, "value2")
+
+	result, err := collector.Values()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result).To(HaveLen(1))
+	g.Expect(result[0].Data).To(HaveLen(2))
+	g.Expect(result[0].Annotations).To(Equal(map[string]string{
+		"reflector.v1/reflect": "true",
+	}))
+	g.Expect(result[0].Labels).To(Equal(map[string]string{
+		"app": "myapp",
+	}))
+}
+
+func TestCollector_ConflictingAnnotations_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destination1 := &genruntime.ConfigMapDestination{
+		Name: "myconfig",
+		Key:  "foo",
+		Annotations: map[string]string{
+			"mykey": "value1",
+		},
+	}
+	destination2 := &genruntime.ConfigMapDestination{
+		Name: "myconfig",
+		Key:  "bar",
+		Annotations: map[string]string{
+			"mykey": "value2",
+		},
+	}
+
+	collector := configmaps.NewCollector("ns")
+	collector.AddValue(destination1, "value1")
+	collector.AddValue(destination2, "value2")
+
+	_, err := collector.Values()
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring(`annotation collision for configmap "myconfig": annotation "mykey" has conflicting values "value1" and "value2"`))
+}
+
+func TestCollector_ConflictingLabels_ReturnsError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destination1 := &genruntime.ConfigMapDestination{
+		Name: "myconfig",
+		Key:  "foo",
+		Labels: map[string]string{
+			"app": "myapp",
+		},
+	}
+	destination2 := &genruntime.ConfigMapDestination{
+		Name: "myconfig",
+		Key:  "bar",
+		Labels: map[string]string{
+			"app": "otherapp",
+		},
+	}
+
+	collector := configmaps.NewCollector("ns")
+	collector.AddValue(destination1, "value1")
+	collector.AddValue(destination2, "value2")
+
+	_, err := collector.Values()
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring(`label collision for configmap "myconfig": label "app" has conflicting values "myapp" and "otherapp"`))
+}
+
+func TestCollector_NoAnnotationsOrLabels_HasNilMetadata(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	destination := &genruntime.ConfigMapDestination{
+		Name: "myconfig",
+		Key:  "foo",
+	}
+
+	collector := configmaps.NewCollector("ns")
+	collector.AddValue(destination, "value1")
+
+	result, err := collector.Values()
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result).To(HaveLen(1))
+	g.Expect(result[0].Annotations).To(BeNil())
+	g.Expect(result[0].Labels).To(BeNil())
+}

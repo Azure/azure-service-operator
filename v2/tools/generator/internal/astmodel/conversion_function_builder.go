@@ -204,7 +204,8 @@ func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParam
 	msg := fmt.Sprintf(
 		"don't know how to perform conversion for %s -> %s",
 		DebugDescription(params.SourceType),
-		DebugDescription(params.DestinationType))
+		DebugDescription(params.DestinationType),
+	)
 	panic(msg)
 }
 
@@ -244,7 +245,8 @@ func IdentityConvertComplexOptionalProperty(
 			Locals:              locals,
 			SourceProperty:      params.SourceProperty,
 			DestinationProperty: params.DestinationProperty,
-		})
+		},
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to build conversion for optional element")
 	}
@@ -254,11 +256,14 @@ func IdentityConvertComplexOptionalProperty(
 		conversion,
 		astbuilder.SimpleAssignment(
 			params.GetDestination(),
-			astbuilder.AddrOf(dst.NewIdent(tempVarIdent))))
+			astbuilder.AddrOf(dst.NewIdent(tempVarIdent)),
+		),
+	)
 
 	result := astbuilder.IfNotNil(
 		params.GetSource(),
-		conversion...)
+		conversion...,
+	)
 
 	return astbuilder.Statements(result), nil
 }
@@ -308,7 +313,9 @@ func IdentityConvertComplexArrayProperty(
 			astbuilder.LocalVariableDeclaration(
 				innerDestinationIdent,
 				destinationTypeExpr,
-				""))
+				"",
+			),
+		)
 	}
 
 	conversion, err := builder.BuildConversion(
@@ -323,7 +330,8 @@ func IdentityConvertComplexArrayProperty(
 			Locals:              locals,
 			SourceProperty:      params.SourceProperty,
 			DestinationProperty: params.DestinationProperty,
-		})
+		},
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to build conversion for array element")
 	}
@@ -356,12 +364,14 @@ func IdentityConvertComplexArrayProperty(
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptySlice)
 		astbuilder.AddComment(
 			&assignEmpty.Decs.Start,
-			"// Set property to empty map, as this resource is set to serialize all collections explicitly")
+			"// Set property to empty map, as this resource is set to serialize all collections explicitly",
+		)
 		assignEmpty.Decs.Before = dst.NewLine
 
 		ifNil := astbuilder.IfNil(
 			params.GetDestination(),
-			assignEmpty)
+			assignEmpty,
+		)
 		results = append(results, ifNil)
 	}
 
@@ -396,7 +406,8 @@ func IdentityConvertComplexMapProperty(
 	if _, ok := destinationType.KeyType().(*PrimitiveType); !ok {
 		msg := fmt.Sprintf(
 			"map had non-primitive key type: %s",
-			DebugDescription(destinationType.KeyType()))
+			DebugDescription(destinationType.KeyType()),
+		)
 		panic(msg)
 	}
 
@@ -437,7 +448,8 @@ func IdentityConvertComplexMapProperty(
 		destination,
 		makeMapToken,
 		astbuilder.MakeMapWithCapacity(keyTypeExpr, valueTypeExpr,
-			astbuilder.CallFunc("len", params.GetSource())))
+			astbuilder.CallFunc("len", params.GetSource())),
+	)
 
 	conversion, err := builder.BuildConversion(
 		ConversionParameters{
@@ -451,7 +463,8 @@ func IdentityConvertComplexMapProperty(
 			Locals:              locals,
 			SourceProperty:      params.SourceProperty,
 			DestinationProperty: params.DestinationProperty,
-		})
+		},
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to build conversion for map value")
 	}
@@ -473,7 +486,8 @@ func IdentityConvertComplexMapProperty(
 		assignEmpty := astbuilder.SimpleAssignment(params.GetDestination(), emptyMap)
 		astbuilder.AddComment(
 			&assignEmpty.Decs.Start,
-			"// Set property to empty map, as this resource is set to serialize all collections explicitly")
+			"// Set property to empty map, as this resource is set to serialize all collections explicitly",
+		)
 		assignEmpty.Decs.Before = dst.NewLine
 
 		result = astbuilder.SimpleIfElse(
@@ -490,7 +504,8 @@ func IdentityConvertComplexMapProperty(
 		result = astbuilder.IfNotNil(
 			params.GetSource(),
 			makeMapStatement,
-			rangeStatement)
+			rangeStatement,
+		)
 	}
 
 	// If we have an assignment handler, we need to make sure to call it. This only happens in the case of nested
@@ -531,7 +546,9 @@ func IdentityAssignTypeName(
 	return astbuilder.Statements(
 		params.AssignmentHandlerOrDefault()(
 			params.GetDestination(),
-			params.GetSource())), nil
+			params.GetSource(),
+		),
+	), nil
 }
 
 // IdentityAssignPrimitiveType just assigns source to destination directly, no conversion needed.
@@ -552,7 +569,9 @@ func IdentityAssignPrimitiveType(
 	return astbuilder.Statements(
 		params.AssignmentHandlerOrDefault()(
 			params.GetDestination(),
-			params.GetSource())), nil
+			params.GetSource(),
+		),
+	), nil
 }
 
 // AssignToOptional assigns address of source to destination.
@@ -575,7 +594,9 @@ func AssignToOptional(
 		return astbuilder.Statements(
 			params.AssignmentHandlerOrDefault()(
 				params.GetDestination(),
-				astbuilder.AddrOf(params.GetSource()))), nil
+				astbuilder.AddrOf(params.GetSource()),
+			),
+		), nil
 	}
 
 	// a more complex conversion is needed
@@ -594,7 +615,8 @@ func AssignToOptional(
 			Locals:              params.Locals,
 			SourceProperty:      params.SourceProperty,
 			DestinationProperty: params.DestinationProperty,
-		})
+		},
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to build inner conversion to optional")
 	}
@@ -613,7 +635,9 @@ func AssignToOptional(
 		conversion,
 		params.AssignmentHandlerOrDefault()(
 			params.GetDestination(),
-			astbuilder.AddrOf(dst.NewIdent(tmpLocal)))), nil
+			astbuilder.AddrOf(dst.NewIdent(tmpLocal)),
+		),
+	), nil
 }
 
 // AssignFromOptional assigns address of source to destination.
@@ -640,9 +664,11 @@ func AssignFromOptional(
 
 	if TypeEquals(optSrc.Element(), params.DestinationType) {
 		return astbuilder.Statements(
-			astbuilder.IfNotNil(params.GetSource(),
+			astbuilder.IfNotNil(
+				params.GetSource(),
 				params.AssignmentHandlerOrDefault()(params.GetDestination(), astbuilder.Dereference(params.GetSource())),
-			)), nil
+			),
+		), nil
 	}
 
 	// a more complex conversion is needed
@@ -662,7 +688,8 @@ func AssignFromOptional(
 			Locals:              locals,
 			SourceProperty:      params.SourceProperty,
 			DestinationProperty: params.DestinationProperty,
-		})
+		},
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to build inner conversion from optional")
 	}
@@ -684,7 +711,9 @@ func AssignFromOptional(
 	return astbuilder.Statements(
 		astbuilder.IfNotNil(
 			params.GetSource(),
-			result...)), nil
+			result...,
+		),
+	), nil
 }
 
 // AssignToAliasOfPrimitive assigns a primitive value to an alias of that same type.
@@ -735,7 +764,10 @@ func AssignToAliasOfPrimitive(
 				params.GetDestination(),
 				astbuilder.CallFunc(
 					dstName.Name(),
-					params.GetSource()))),
+					params.GetSource(),
+				),
+			),
+		),
 		nil
 }
 
@@ -787,7 +819,10 @@ func AssignFromAliasOfPrimitive(
 				params.GetDestination(),
 				astbuilder.CallFunc(
 					dstPrim.String(),
-					params.GetSource()))),
+					params.GetSource(),
+				),
+			),
+		),
 		nil
 }
 
@@ -853,12 +888,15 @@ func AssignToAliasOfCollection(
 					lhs,
 					astbuilder.CallFunc(
 						dstName.Name(),
-						rhs))
+						rhs,
+					),
+				)
 			},
 			Locals:              params.Locals,
 			SourceProperty:      params.SourceProperty,
 			DestinationProperty: params.DestinationProperty,
-		})
+		},
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to build conversion for array element")
 	}
@@ -922,12 +960,14 @@ func AssignFromAliasOfCollection(
 				// Use the existing assignment handler if there is one, but make sure we always assign
 				return params.AssignmentHandlerOrDefault()(
 					lhs,
-					rhs)
+					rhs,
+				)
 			},
 			Locals:              params.Locals,
 			SourceProperty:      params.SourceProperty,
 			DestinationProperty: params.DestinationProperty,
-		})
+		},
+	)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to build conversion for array element")
 	}
@@ -978,7 +1018,9 @@ func AssignToEnum(
 		return astbuilder.Statements(
 			params.AssignmentHandlerOrDefault()(
 				params.GetDestination(),
-				cast)), nil
+				cast,
+			),
+		), nil
 	}
 
 	// a more complex conversion is needed
@@ -997,7 +1039,8 @@ func AssignToEnum(
 			Locals:              params.Locals,
 			SourceProperty:      params.SourceProperty,
 			DestinationProperty: params.DestinationProperty,
-		})
+		},
+	)
 	if err != nil {
 		return nil, eris.Wrapf(err, "unable to build inner conversion to enum %s", itn.name)
 	}
@@ -1025,7 +1068,9 @@ func AssignToEnum(
 		conversion,
 		params.AssignmentHandlerOrDefault()(
 			params.GetDestination(),
-			cast)), nil
+			cast,
+		),
+	), nil
 }
 
 // AssignFromEnum reads a value from an enum type.
@@ -1068,7 +1113,8 @@ func AssignFromEnum(
 			Locals:              params.Locals,
 			SourceProperty:      params.SourceProperty,
 			DestinationProperty: params.DestinationProperty,
-		})
+		},
+	)
 	if err != nil {
 		return nil, eris.Wrapf(err, "unable to build inner conversion to enum %s", itn.name)
 	}
@@ -1127,10 +1173,12 @@ func IdentityDeepCopyJSON(
 		&dst.CallExpr{
 			Fun:  astbuilder.Selector(params.GetSource(), "DeepCopy"),
 			Args: []dst.Expr{},
-		})
+		},
+	)
 
 	return astbuilder.Statements(
-		params.AssignmentHandlerOrDefault()(params.GetDestination(), newSource)), nil
+		params.AssignmentHandlerOrDefault()(params.GetDestination(), newSource),
+	), nil
 }
 
 // AssignmentHandlerDefine is an assignment handler for definitions, using :=

@@ -390,7 +390,6 @@ func RadiusServer_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRadiusServer_STATUS(gens map[string]gopter.Gen) {
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerScore"] = gen.PtrOf(gen.Int())
-	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualNetworkGatewayAutoScaleBounds_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1476,7 +1475,6 @@ func AddIndependentPropertyGeneratorsForVpnClientConfiguration_STATUS(gens map[s
 	gens["AadIssuer"] = gen.PtrOf(gen.AlphaString())
 	gens["AadTenant"] = gen.PtrOf(gen.AlphaString())
 	gens["RadiusServerAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["RadiusServerSecret"] = gen.PtrOf(gen.AlphaString())
 	gens["VpnAuthenticationTypes"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_VpnAuthenticationTypes_STATUS_AAD, VpnClientConfiguration_VpnAuthenticationTypes_STATUS_Certificate, VpnClientConfiguration_VpnAuthenticationTypes_STATUS_Radius))
 	gens["VpnClientProtocols"] = gen.SliceOf(gen.OneConstOf(VpnClientConfiguration_VpnClientProtocols_STATUS_IkeV2, VpnClientConfiguration_VpnClientProtocols_STATUS_OpenVPN, VpnClientConfiguration_VpnClientProtocols_STATUS_SSTP))
 }

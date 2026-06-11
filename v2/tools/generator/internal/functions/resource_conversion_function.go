@@ -184,22 +184,27 @@ func (fn *ResourceConversionFunction) directConversion(
 	assignLocal := astbuilder.TypeAssert(
 		localIdent,
 		hubIdent,
-		astbuilder.PointerTo(hubExpr))
+		astbuilder.PointerTo(hubExpr),
+	)
 
 	checkAssert := astbuilder.ReturnIfNotOk(
 		astbuilder.FormatError(
 			fmtPackage,
 			fmt.Sprintf("expected %s/%s but received %%T instead", hubPackage, fn.Hub().Name()),
-			hubIdent))
+			hubIdent,
+		),
+	)
 
 	copyAndReturn := astbuilder.Returns(
-		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), localIdent))
+		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), localIdent),
+	)
 	copyAndReturn.Decorations().Before = dst.EmptyLine
 
 	return astbuilder.Statements(
 		assignLocal,
 		checkAssert,
-		copyAndReturn), nil
+		copyAndReturn,
+	), nil
 }
 
 // indirectConversionFromHub generates a conversion when the type we know about isn't the hub type, but is closer to it
@@ -233,26 +238,31 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 	}
 
 	declareLocal := astbuilder.LocalVariableDeclaration(
-		localID, intermediateTypeExpr, "// intermediate variable for conversion")
+		localID, intermediateTypeExpr, "// intermediate variable for conversion",
+	)
 	declareLocal.Decorations().Before = dst.NewLine
 
 	populateLocalFromHub := astbuilder.ShortDeclaration(
 		"err",
-		astbuilder.CallExpr(dst.NewIdent(localID), fn.Name(), dst.NewIdent("hub")))
+		astbuilder.CallExpr(dst.NewIdent(localID), fn.Name(), dst.NewIdent("hub")),
+	)
 	populateLocalFromHub.Decs.Before = dst.EmptyLine
 
 	checkForErrorsPopulatingLocal := astbuilder.CheckErrorAndWrap(
 		errorsPackage,
-		fmt.Sprintf("converting from hub to %s", localID))
+		fmt.Sprintf("converting from hub to %s", localID),
+	)
 
 	populateReceiverFromLocal := astbuilder.SimpleAssignment(
 		errIdent,
-		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), astbuilder.AddrOf(dst.NewIdent(localID))))
+		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), astbuilder.AddrOf(dst.NewIdent(localID))),
+	)
 	populateReceiverFromLocal.Decs.Before = dst.EmptyLine
 
 	checkForErrorsPopulatingReceiver := astbuilder.CheckErrorAndWrap(
 		errorsPackage,
-		fmt.Sprintf("converting from %s to %s", localID, receiverName))
+		fmt.Sprintf("converting from %s to %s", localID, receiverName),
+	)
 
 	returnNil := astbuilder.Returns(dst.NewIdent("nil"))
 	returnNil.Decorations().Before = dst.EmptyLine
@@ -263,7 +273,8 @@ func (fn *ResourceConversionFunction) indirectConversionFromHub(
 		checkForErrorsPopulatingLocal,
 		populateReceiverFromLocal,
 		checkForErrorsPopulatingReceiver,
-		returnNil), nil
+		returnNil,
+	), nil
 }
 
 // indirectConversionToHub generates a conversion when the type we know about isn't the hub type, but is closer to it in
@@ -297,24 +308,29 @@ func (fn *ResourceConversionFunction) indirectConversionToHub(
 	}
 
 	declareLocal := astbuilder.LocalVariableDeclaration(
-		localID, intermediateTypeExpr, "// intermediate variable for conversion")
+		localID, intermediateTypeExpr, "// intermediate variable for conversion",
+	)
 	declareLocal.Decorations().Before = dst.NewLine
 
 	populateLocalFromReceiver := astbuilder.ShortDeclaration(
 		"err",
-		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), astbuilder.AddrOf(dst.NewIdent(localID))))
+		astbuilder.CallExpr(dst.NewIdent(receiverName), fn.propertyFunction.Name(), astbuilder.AddrOf(dst.NewIdent(localID))),
+	)
 
 	checkForErrorsPopulatingLocal := astbuilder.CheckErrorAndWrap(
 		errorsPackage,
-		fmt.Sprintf("converting to %s from %s", localID, receiverName))
+		fmt.Sprintf("converting to %s from %s", localID, receiverName),
+	)
 
 	populateHubFromLocal := astbuilder.SimpleAssignment(
 		errIdent,
-		astbuilder.CallExpr(dst.NewIdent(localID), fn.Name(), dst.NewIdent("hub")))
+		astbuilder.CallExpr(dst.NewIdent(localID), fn.Name(), dst.NewIdent("hub")),
+	)
 
 	checkForErrorsPopulatingHub := astbuilder.CheckErrorAndWrap(
 		errorsPackage,
-		fmt.Sprintf("converting from %s to hub", localID))
+		fmt.Sprintf("converting from %s to hub", localID),
+	)
 
 	returnNil := astbuilder.Returns(dst.NewIdent("nil"))
 	returnNil.Decorations().Before = dst.EmptyLine
@@ -325,7 +341,8 @@ func (fn *ResourceConversionFunction) indirectConversionToHub(
 		checkForErrorsPopulatingLocal,
 		populateHubFromLocal,
 		checkForErrorsPopulatingHub,
-		returnNil), nil
+		returnNil,
+	), nil
 }
 
 // localVariableID returns a good identifier to use for a local variable in our function,
@@ -337,7 +354,8 @@ func (fn *ResourceConversionFunction) localVariableID() string {
 func (fn *ResourceConversionFunction) declarationDocComment(receiver astmodel.TypeName) string {
 	return fn.propertyFunction.direction.SelectString(
 		fmt.Sprintf("populates our %s from the provided hub %s", receiver.Name(), fn.hub.Name()),
-		fmt.Sprintf("populates the provided hub %s from our %s", fn.hub.Name(), receiver.Name()))
+		fmt.Sprintf("populates the provided hub %s from our %s", fn.hub.Name(), receiver.Name()),
+	)
 }
 
 func (fn *ResourceConversionFunction) Equals(otherFn astmodel.Function, override astmodel.EqualityOverrides) bool {

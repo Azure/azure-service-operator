@@ -31,7 +31,8 @@ func TestGolden_AddStatusConditions(t *testing.T) {
 	initialState := NewState(defs)
 	finalState, err := RunTestPipeline(
 		initialState,
-		AddStatusConditions(idFactory))
+		AddStatusConditions(idFactory),
+	)
 	g.Expect(err).To(Succeed())
 
 	// When verifying the golden file, check to ensure that the Conditions property on the Status type looks correct,

@@ -10,6 +10,8 @@ import (
 
 	"github.com/rotisserie/eris"
 	"gopkg.in/yaml.v3"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // PropertyConfiguration contains additional information about a specific property and forms part of a hierarchy
@@ -23,15 +25,15 @@ import (
 type PropertyConfiguration struct {
 	name string
 	// Configurable properties here (alphabetical, please)
-	ConversionStrategy             configurable[ConversionStrategy]  // Specify the conversion strategy for this property
-	Description                    configurable[string]              // Specify a description override for this property
-	ImportConfigMapMode            configurable[ImportConfigMapMode] // The config map mode
-	IsSecret                       configurable[bool]                // Specify whether this property is a secret
-	NameInNextVersion              configurable[string]              // Name this property has in the next version
-	PayloadType                    configurable[PayloadType]         // Specify how this property should be serialized for ARM
-	ReferenceType                  configurable[ReferenceType]       // Specify whether this property is an ARM reference or some other kind
-	RenameTo                       configurable[string]              // Name this property should be renamed to
-	ResourceLifecycleOwnedByParent configurable[string]              // Name of the parent resource which owns the lifecycle of the sub-resource.
+	ConversionStrategy             configurable[ConversionStrategy]        // Specify the conversion strategy for this property
+	Description                    configurable[string]                    // Specify a description override for this property
+	ImportConfigMapMode            configurable[ImportConfigMapMode]       // The config map mode
+	Secrecy                        configurable[astmodel.ImportSecretMode] // Specify the secrecy classification of this property
+	NameInNextVersion              configurable[string]                    // Name this property has in the next version
+	PayloadType                    configurable[PayloadType]               // Specify how this property should be serialized for ARM
+	ReferenceType                  configurable[ReferenceType]             // Specify whether this property is an ARM reference or some other kind
+	RenameTo                       configurable[string]                    // Name this property should be renamed to
+	ResourceLifecycleOwnedByParent configurable[string]                    // Name of the parent resource which owns the lifecycle of the sub-resource.
 }
 
 type ImportConfigMapMode string
@@ -66,7 +68,8 @@ const (
 	descriptionTag                    = "$description"                    // String overriding the properties default description
 	exportAsConfigMapPropertyNameTag  = "$exportAsConfigMapPropertyName"  // String specifying the name of the property set to export this property as a config map.
 	importConfigMapModeTag            = "$importConfigMapMode"            // string specifying the ImportConfigMapMode mode
-	isSecretTag                       = "$isSecret"                       // Bool specifying whether a property contains a secret
+	isSecretTag                       = "$isSecret"                       // Deprecated: use secretTag instead. Kept for backward compatibility during migration.
+	secretTag                         = "$importSecretMode"               // String specifying the secrecy classification of a property (required, optional, or never)
 	referenceTypeTag                  = "$referenceType"                  // String specifying what kind of reference we have
 	renamePropertyToTag               = "$renameTo"                       // String specifying the name this property should be renamed to
 	resourceLifecycleOwnedByParentTag = "$resourceLifecycleOwnedByParent" // String specifying whether a property represents a subresource whose lifecycle is owned by the parent resource (and what that parent resource is)
@@ -81,7 +84,7 @@ func NewPropertyConfiguration(name string) *PropertyConfiguration {
 		ConversionStrategy:             makeConfigurable[ConversionStrategy](conversionStrategyTag, scope),
 		Description:                    makeConfigurable[string](descriptionTag, scope),
 		ImportConfigMapMode:            makeConfigurable[ImportConfigMapMode](importConfigMapModeTag, scope),
-		IsSecret:                       makeConfigurable[bool](isSecretTag, scope),
+		Secrecy:                        makeConfigurable[astmodel.ImportSecretMode](secretTag, scope),
 		NameInNextVersion:              makeConfigurable[string](nameInNextVersionTag, scope),
 		ReferenceType:                  makeConfigurable[ReferenceType](referenceTypeTag, scope),
 		RenameTo:                       makeConfigurable[string](renamePropertyToTag, scope),
@@ -124,7 +127,23 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		// $isSecret: <bool>
+		// $importSecretMode: <string> (preferred)
+		if strings.EqualFold(lastID, secretTag) && c.Kind == yaml.ScalarNode {
+			switch strings.ToLower(c.Value) {
+			case string(astmodel.ImportSecretModeRequired):
+				pc.Secrecy.Set(astmodel.ImportSecretModeRequired)
+			case string(astmodel.ImportSecretModeNever):
+				pc.Secrecy.Set(astmodel.ImportSecretModeNever)
+			case string(astmodel.ImportSecretModeOptional):
+				pc.Secrecy.Set(astmodel.ImportSecretModeOptional)
+			default:
+				return eris.Errorf("unknown %s value: %s.", secretTag, c.Value)
+			}
+
+			continue
+		}
+
+		// $isSecret: <bool> (legacy, for backward compatibility during migration)
 		if strings.EqualFold(lastID, isSecretTag) && c.Kind == yaml.ScalarNode {
 			var isSecret bool
 			err := c.Decode(&isSecret)
@@ -132,7 +151,12 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return eris.Wrapf(err, "decoding %s", isSecretTag)
 			}
 
-			pc.IsSecret.Set(isSecret)
+			if isSecret {
+				pc.Secrecy.Set(astmodel.ImportSecretModeRequired)
+			} else {
+				pc.Secrecy.Set(astmodel.ImportSecretModeNever)
+			}
+
 			continue
 		}
 
@@ -224,7 +248,8 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// No handler for this value, return an error
 		return eris.Errorf(
-			"property configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column)
+			"property configuration, unexpected yaml value %s: %s (line %d col %d)", lastID, c.Value, c.Line, c.Column,
+		)
 
 	}
 

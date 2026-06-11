@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20220501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ConfigurationStore{}
 
 // ConvertFrom populates our ConfigurationStore from the provided hub ConfigurationStore
 func (store *ConfigurationStore) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ConfigurationStore)
-	if !ok {
-		return fmt.Errorf("expected appconfiguration/v20240601/storage/ConfigurationStore but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ConfigurationStore
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return store.AssignProperties_From_ConfigurationStore(source)
+	err = store.AssignProperties_From_ConfigurationStore(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to store")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ConfigurationStore from our ConfigurationStore
 func (store *ConfigurationStore) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ConfigurationStore)
-	if !ok {
-		return fmt.Errorf("expected appconfiguration/v20240601/storage/ConfigurationStore but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ConfigurationStore
+	err := store.AssignProperties_To_ConfigurationStore(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from store")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return store.AssignProperties_To_ConfigurationStore(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ConfigurationStore{}
@@ -352,20 +365,6 @@ func (store *ConfigurationStore_Spec) AssignProperties_From_ConfigurationStore_S
 	// CreateMode
 	store.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
 
-	// DataPlaneProxy
-	if source.DataPlaneProxy != nil {
-		propertyBag.Add("DataPlaneProxy", *source.DataPlaneProxy)
-	} else {
-		propertyBag.Remove("DataPlaneProxy")
-	}
-
-	// DefaultKeyValueRevisionRetentionPeriodInSeconds
-	if source.DefaultKeyValueRevisionRetentionPeriodInSeconds != nil {
-		propertyBag.Add("DefaultKeyValueRevisionRetentionPeriodInSeconds", *source.DefaultKeyValueRevisionRetentionPeriodInSeconds)
-	} else {
-		propertyBag.Remove("DefaultKeyValueRevisionRetentionPeriodInSeconds")
-	}
-
 	// DisableLocalAuth
 	if source.DisableLocalAuth != nil {
 		disableLocalAuth := *source.DisableLocalAuth
@@ -483,32 +482,6 @@ func (store *ConfigurationStore_Spec) AssignProperties_To_ConfigurationStore_Spe
 
 	// CreateMode
 	destination.CreateMode = genruntime.ClonePointerToString(store.CreateMode)
-
-	// DataPlaneProxy
-	if propertyBag.Contains("DataPlaneProxy") {
-		var dataPlaneProxy storage.DataPlaneProxyProperties
-		err := propertyBag.Pull("DataPlaneProxy", &dataPlaneProxy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DataPlaneProxy' from propertyBag")
-		}
-
-		destination.DataPlaneProxy = &dataPlaneProxy
-	} else {
-		destination.DataPlaneProxy = nil
-	}
-
-	// DefaultKeyValueRevisionRetentionPeriodInSeconds
-	if propertyBag.Contains("DefaultKeyValueRevisionRetentionPeriodInSeconds") {
-		var defaultKeyValueRevisionRetentionPeriodInSecond int
-		err := propertyBag.Pull("DefaultKeyValueRevisionRetentionPeriodInSeconds", &defaultKeyValueRevisionRetentionPeriodInSecond)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DefaultKeyValueRevisionRetentionPeriodInSeconds' from propertyBag")
-		}
-
-		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = &defaultKeyValueRevisionRetentionPeriodInSecond
-	} else {
-		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = nil
-	}
 
 	// DisableLocalAuth
 	if store.DisableLocalAuth != nil {
@@ -707,20 +680,6 @@ func (store *ConfigurationStore_STATUS) AssignProperties_From_ConfigurationStore
 	// CreationDate
 	store.CreationDate = genruntime.ClonePointerToString(source.CreationDate)
 
-	// DataPlaneProxy
-	if source.DataPlaneProxy != nil {
-		propertyBag.Add("DataPlaneProxy", *source.DataPlaneProxy)
-	} else {
-		propertyBag.Remove("DataPlaneProxy")
-	}
-
-	// DefaultKeyValueRevisionRetentionPeriodInSeconds
-	if source.DefaultKeyValueRevisionRetentionPeriodInSeconds != nil {
-		propertyBag.Add("DefaultKeyValueRevisionRetentionPeriodInSeconds", *source.DefaultKeyValueRevisionRetentionPeriodInSeconds)
-	} else {
-		propertyBag.Remove("DefaultKeyValueRevisionRetentionPeriodInSeconds")
-	}
-
 	// DisableLocalAuth
 	if source.DisableLocalAuth != nil {
 		disableLocalAuth := *source.DisableLocalAuth
@@ -861,32 +820,6 @@ func (store *ConfigurationStore_STATUS) AssignProperties_To_ConfigurationStore_S
 
 	// CreationDate
 	destination.CreationDate = genruntime.ClonePointerToString(store.CreationDate)
-
-	// DataPlaneProxy
-	if propertyBag.Contains("DataPlaneProxy") {
-		var dataPlaneProxy storage.DataPlaneProxyProperties_STATUS
-		err := propertyBag.Pull("DataPlaneProxy", &dataPlaneProxy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DataPlaneProxy' from propertyBag")
-		}
-
-		destination.DataPlaneProxy = &dataPlaneProxy
-	} else {
-		destination.DataPlaneProxy = nil
-	}
-
-	// DefaultKeyValueRevisionRetentionPeriodInSeconds
-	if propertyBag.Contains("DefaultKeyValueRevisionRetentionPeriodInSeconds") {
-		var defaultKeyValueRevisionRetentionPeriodInSecond int
-		err := propertyBag.Pull("DefaultKeyValueRevisionRetentionPeriodInSeconds", &defaultKeyValueRevisionRetentionPeriodInSecond)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DefaultKeyValueRevisionRetentionPeriodInSeconds' from propertyBag")
-		}
-
-		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = &defaultKeyValueRevisionRetentionPeriodInSecond
-	} else {
-		destination.DefaultKeyValueRevisionRetentionPeriodInSeconds = nil
-	}
 
 	// DisableLocalAuth
 	if store.DisableLocalAuth != nil {
@@ -1349,41 +1282,6 @@ func (reference *PrivateEndpointConnectionReference_STATUS) AssignProperties_Fro
 	// Id
 	reference.Id = genruntime.ClonePointerToString(source.Id)
 
-	// Name
-	if source.Name != nil {
-		propertyBag.Add("Name", *source.Name)
-	} else {
-		propertyBag.Remove("Name")
-	}
-
-	// PrivateEndpoint
-	if source.PrivateEndpoint != nil {
-		propertyBag.Add("PrivateEndpoint", *source.PrivateEndpoint)
-	} else {
-		propertyBag.Remove("PrivateEndpoint")
-	}
-
-	// PrivateLinkServiceConnectionState
-	if source.PrivateLinkServiceConnectionState != nil {
-		propertyBag.Add("PrivateLinkServiceConnectionState", *source.PrivateLinkServiceConnectionState)
-	} else {
-		propertyBag.Remove("PrivateLinkServiceConnectionState")
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		propertyBag.Add("ProvisioningState", *source.ProvisioningState)
-	} else {
-		propertyBag.Remove("ProvisioningState")
-	}
-
-	// Type
-	if source.Type != nil {
-		propertyBag.Add("Type", *source.Type)
-	} else {
-		propertyBag.Remove("Type")
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		reference.PropertyBag = propertyBag
@@ -1411,71 +1309,6 @@ func (reference *PrivateEndpointConnectionReference_STATUS) AssignProperties_To_
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(reference.Id)
-
-	// Name
-	if propertyBag.Contains("Name") {
-		var name string
-		err := propertyBag.Pull("Name", &name)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Name' from propertyBag")
-		}
-
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// PrivateEndpoint
-	if propertyBag.Contains("PrivateEndpoint") {
-		var privateEndpoint storage.PrivateEndpoint_STATUS
-		err := propertyBag.Pull("PrivateEndpoint", &privateEndpoint)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrivateEndpoint' from propertyBag")
-		}
-
-		destination.PrivateEndpoint = &privateEndpoint
-	} else {
-		destination.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if propertyBag.Contains("PrivateLinkServiceConnectionState") {
-		var privateLinkServiceConnectionState storage.PrivateLinkServiceConnectionState_STATUS
-		err := propertyBag.Pull("PrivateLinkServiceConnectionState", &privateLinkServiceConnectionState)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrivateLinkServiceConnectionState' from propertyBag")
-		}
-
-		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		destination.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	if propertyBag.Contains("ProvisioningState") {
-		var provisioningState string
-		err := propertyBag.Pull("ProvisioningState", &provisioningState)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProvisioningState' from propertyBag")
-		}
-
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// Type
-	if propertyBag.Contains("Type") {
-		var typeVar string
-		err := propertyBag.Pull("Type", &typeVar)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Type' from propertyBag")
-		}
-
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1996,7 +1829,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryConnectionString
 	if source.PrimaryConnectionString != nil {
-		primaryConnectionString := source.PrimaryConnectionString.Copy()
+		primaryConnectionString := *source.PrimaryConnectionString.DeepCopy()
 		secrets.PrimaryConnectionString = &primaryConnectionString
 	} else {
 		secrets.PrimaryConnectionString = nil
@@ -2004,7 +1837,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryKey
 	if source.PrimaryKey != nil {
-		primaryKey := source.PrimaryKey.Copy()
+		primaryKey := *source.PrimaryKey.DeepCopy()
 		secrets.PrimaryKey = &primaryKey
 	} else {
 		secrets.PrimaryKey = nil
@@ -2012,7 +1845,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryKeyID
 	if source.PrimaryKeyID != nil {
-		primaryKeyID := source.PrimaryKeyID.Copy()
+		primaryKeyID := *source.PrimaryKeyID.DeepCopy()
 		secrets.PrimaryKeyID = &primaryKeyID
 	} else {
 		secrets.PrimaryKeyID = nil
@@ -2020,7 +1853,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryReadOnlyConnectionString
 	if source.PrimaryReadOnlyConnectionString != nil {
-		primaryReadOnlyConnectionString := source.PrimaryReadOnlyConnectionString.Copy()
+		primaryReadOnlyConnectionString := *source.PrimaryReadOnlyConnectionString.DeepCopy()
 		secrets.PrimaryReadOnlyConnectionString = &primaryReadOnlyConnectionString
 	} else {
 		secrets.PrimaryReadOnlyConnectionString = nil
@@ -2028,7 +1861,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryReadOnlyKey
 	if source.PrimaryReadOnlyKey != nil {
-		primaryReadOnlyKey := source.PrimaryReadOnlyKey.Copy()
+		primaryReadOnlyKey := *source.PrimaryReadOnlyKey.DeepCopy()
 		secrets.PrimaryReadOnlyKey = &primaryReadOnlyKey
 	} else {
 		secrets.PrimaryReadOnlyKey = nil
@@ -2036,7 +1869,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// PrimaryReadOnlyKeyID
 	if source.PrimaryReadOnlyKeyID != nil {
-		primaryReadOnlyKeyID := source.PrimaryReadOnlyKeyID.Copy()
+		primaryReadOnlyKeyID := *source.PrimaryReadOnlyKeyID.DeepCopy()
 		secrets.PrimaryReadOnlyKeyID = &primaryReadOnlyKeyID
 	} else {
 		secrets.PrimaryReadOnlyKeyID = nil
@@ -2044,7 +1877,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryConnectionString
 	if source.SecondaryConnectionString != nil {
-		secondaryConnectionString := source.SecondaryConnectionString.Copy()
+		secondaryConnectionString := *source.SecondaryConnectionString.DeepCopy()
 		secrets.SecondaryConnectionString = &secondaryConnectionString
 	} else {
 		secrets.SecondaryConnectionString = nil
@@ -2052,7 +1885,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryKey
 	if source.SecondaryKey != nil {
-		secondaryKey := source.SecondaryKey.Copy()
+		secondaryKey := *source.SecondaryKey.DeepCopy()
 		secrets.SecondaryKey = &secondaryKey
 	} else {
 		secrets.SecondaryKey = nil
@@ -2060,7 +1893,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryKeyID
 	if source.SecondaryKeyID != nil {
-		secondaryKeyID := source.SecondaryKeyID.Copy()
+		secondaryKeyID := *source.SecondaryKeyID.DeepCopy()
 		secrets.SecondaryKeyID = &secondaryKeyID
 	} else {
 		secrets.SecondaryKeyID = nil
@@ -2068,7 +1901,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryReadOnlyConnectionString
 	if source.SecondaryReadOnlyConnectionString != nil {
-		secondaryReadOnlyConnectionString := source.SecondaryReadOnlyConnectionString.Copy()
+		secondaryReadOnlyConnectionString := *source.SecondaryReadOnlyConnectionString.DeepCopy()
 		secrets.SecondaryReadOnlyConnectionString = &secondaryReadOnlyConnectionString
 	} else {
 		secrets.SecondaryReadOnlyConnectionString = nil
@@ -2076,7 +1909,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryReadOnlyKey
 	if source.SecondaryReadOnlyKey != nil {
-		secondaryReadOnlyKey := source.SecondaryReadOnlyKey.Copy()
+		secondaryReadOnlyKey := *source.SecondaryReadOnlyKey.DeepCopy()
 		secrets.SecondaryReadOnlyKey = &secondaryReadOnlyKey
 	} else {
 		secrets.SecondaryReadOnlyKey = nil
@@ -2084,7 +1917,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_From_Configur
 
 	// SecondaryReadOnlyKeyID
 	if source.SecondaryReadOnlyKeyID != nil {
-		secondaryReadOnlyKeyID := source.SecondaryReadOnlyKeyID.Copy()
+		secondaryReadOnlyKeyID := *source.SecondaryReadOnlyKeyID.DeepCopy()
 		secrets.SecondaryReadOnlyKeyID = &secondaryReadOnlyKeyID
 	} else {
 		secrets.SecondaryReadOnlyKeyID = nil
@@ -2117,7 +1950,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryConnectionString
 	if secrets.PrimaryConnectionString != nil {
-		primaryConnectionString := secrets.PrimaryConnectionString.Copy()
+		primaryConnectionString := *secrets.PrimaryConnectionString.DeepCopy()
 		destination.PrimaryConnectionString = &primaryConnectionString
 	} else {
 		destination.PrimaryConnectionString = nil
@@ -2125,7 +1958,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryKey
 	if secrets.PrimaryKey != nil {
-		primaryKey := secrets.PrimaryKey.Copy()
+		primaryKey := *secrets.PrimaryKey.DeepCopy()
 		destination.PrimaryKey = &primaryKey
 	} else {
 		destination.PrimaryKey = nil
@@ -2133,7 +1966,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryKeyID
 	if secrets.PrimaryKeyID != nil {
-		primaryKeyID := secrets.PrimaryKeyID.Copy()
+		primaryKeyID := *secrets.PrimaryKeyID.DeepCopy()
 		destination.PrimaryKeyID = &primaryKeyID
 	} else {
 		destination.PrimaryKeyID = nil
@@ -2141,7 +1974,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryReadOnlyConnectionString
 	if secrets.PrimaryReadOnlyConnectionString != nil {
-		primaryReadOnlyConnectionString := secrets.PrimaryReadOnlyConnectionString.Copy()
+		primaryReadOnlyConnectionString := *secrets.PrimaryReadOnlyConnectionString.DeepCopy()
 		destination.PrimaryReadOnlyConnectionString = &primaryReadOnlyConnectionString
 	} else {
 		destination.PrimaryReadOnlyConnectionString = nil
@@ -2149,7 +1982,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryReadOnlyKey
 	if secrets.PrimaryReadOnlyKey != nil {
-		primaryReadOnlyKey := secrets.PrimaryReadOnlyKey.Copy()
+		primaryReadOnlyKey := *secrets.PrimaryReadOnlyKey.DeepCopy()
 		destination.PrimaryReadOnlyKey = &primaryReadOnlyKey
 	} else {
 		destination.PrimaryReadOnlyKey = nil
@@ -2157,7 +1990,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// PrimaryReadOnlyKeyID
 	if secrets.PrimaryReadOnlyKeyID != nil {
-		primaryReadOnlyKeyID := secrets.PrimaryReadOnlyKeyID.Copy()
+		primaryReadOnlyKeyID := *secrets.PrimaryReadOnlyKeyID.DeepCopy()
 		destination.PrimaryReadOnlyKeyID = &primaryReadOnlyKeyID
 	} else {
 		destination.PrimaryReadOnlyKeyID = nil
@@ -2165,7 +1998,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryConnectionString
 	if secrets.SecondaryConnectionString != nil {
-		secondaryConnectionString := secrets.SecondaryConnectionString.Copy()
+		secondaryConnectionString := *secrets.SecondaryConnectionString.DeepCopy()
 		destination.SecondaryConnectionString = &secondaryConnectionString
 	} else {
 		destination.SecondaryConnectionString = nil
@@ -2173,7 +2006,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryKey
 	if secrets.SecondaryKey != nil {
-		secondaryKey := secrets.SecondaryKey.Copy()
+		secondaryKey := *secrets.SecondaryKey.DeepCopy()
 		destination.SecondaryKey = &secondaryKey
 	} else {
 		destination.SecondaryKey = nil
@@ -2181,7 +2014,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryKeyID
 	if secrets.SecondaryKeyID != nil {
-		secondaryKeyID := secrets.SecondaryKeyID.Copy()
+		secondaryKeyID := *secrets.SecondaryKeyID.DeepCopy()
 		destination.SecondaryKeyID = &secondaryKeyID
 	} else {
 		destination.SecondaryKeyID = nil
@@ -2189,7 +2022,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryReadOnlyConnectionString
 	if secrets.SecondaryReadOnlyConnectionString != nil {
-		secondaryReadOnlyConnectionString := secrets.SecondaryReadOnlyConnectionString.Copy()
+		secondaryReadOnlyConnectionString := *secrets.SecondaryReadOnlyConnectionString.DeepCopy()
 		destination.SecondaryReadOnlyConnectionString = &secondaryReadOnlyConnectionString
 	} else {
 		destination.SecondaryReadOnlyConnectionString = nil
@@ -2197,7 +2030,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryReadOnlyKey
 	if secrets.SecondaryReadOnlyKey != nil {
-		secondaryReadOnlyKey := secrets.SecondaryReadOnlyKey.Copy()
+		secondaryReadOnlyKey := *secrets.SecondaryReadOnlyKey.DeepCopy()
 		destination.SecondaryReadOnlyKey = &secondaryReadOnlyKey
 	} else {
 		destination.SecondaryReadOnlyKey = nil
@@ -2205,7 +2038,7 @@ func (secrets *ConfigurationStoreOperatorSecrets) AssignProperties_To_Configurat
 
 	// SecondaryReadOnlyKeyID
 	if secrets.SecondaryReadOnlyKeyID != nil {
-		secondaryReadOnlyKeyID := secrets.SecondaryReadOnlyKeyID.Copy()
+		secondaryReadOnlyKeyID := *secrets.SecondaryReadOnlyKeyID.DeepCopy()
 		destination.SecondaryReadOnlyKeyID = &secondaryReadOnlyKeyID
 	} else {
 		destination.SecondaryReadOnlyKeyID = nil

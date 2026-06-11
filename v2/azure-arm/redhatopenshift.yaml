@@ -1,0 +1,32 @@
+typeTransformers:
+  - name: OpenShiftClusterProperties
+    property: ProvisioningState
+    remove: true
+    because: This property should be marked readonly in Swagger
+groupModelConfiguration:
+  2023-11-22:
+    OpenShiftCluster:
+      $exportAs: OpenShiftCluster
+      $supportedFrom: v2.9.0
+      $azureGeneratedSecrets:
+        - AdminCredentials
+        - Username
+        - Password
+    WorkerProfile:
+      SubnetId:
+        $referenceType: arm
+      DiskEncryptionSetId:
+        $referenceType: arm
+    MasterProfile:
+      SubnetId:
+        $referenceType: arm
+      DiskEncryptionSetId:
+        $referenceType: arm
+    ClusterProfile:
+      PullSecret:
+        $importSecretMode: required
+    ServicePrincipalProfile:
+      ClientSecret:
+        $importSecretMode: required
+      ClientId:
+        $importConfigMapMode: optional

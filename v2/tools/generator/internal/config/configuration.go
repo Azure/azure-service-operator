@@ -11,6 +11,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/rotisserie/eris"
@@ -59,8 +60,12 @@ type Configuration struct {
 	EmitDocFiles bool `yaml:"emitDocFiles"`
 	// Destination file and additional information for our supported resources report
 	SupportedResourcesReport *SupportedResourcesReport `yaml:"supportedResourcesReport"`
+	// Destination file and additional information for our upgradable resources report
+	UpgradableResourcesReport *UpgradableResourcesReport `yaml:"upgradableResourcesReport"`
 	// Additional information about our object model
 	ObjectModelConfiguration *ObjectModelConfiguration `yaml:"objectModelConfiguration"`
+	// Imported group-specific configuration files, keyed by group name
+	Imports map[string]string `yaml:"imports,omitempty"`
 
 	goModulePath string
 }
@@ -77,7 +82,8 @@ func (config *Configuration) LocalPathPrefix() string {
 func (config *Configuration) FullTypesOutputPath() string {
 	return filepath.Join(
 		filepath.Dir(config.DestinationGoModuleFile),
-		config.TypesOutputPath)
+		config.TypesOutputPath,
+	)
 }
 
 func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
@@ -87,7 +93,8 @@ func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
 
 	return filepath.Join(
 		filepath.Dir(config.DestinationGoModuleFile),
-		config.TypeRegistrationOutputFile)
+		config.TypeRegistrationOutputFile,
+	)
 }
 
 func (config *Configuration) FullSamplesPath() string {
@@ -98,7 +105,8 @@ func (config *Configuration) FullSamplesPath() string {
 	if config.DestinationGoModuleFile != "" {
 		return filepath.Join(
 			filepath.Dir(config.DestinationGoModuleFile),
-			config.SamplesPath)
+			config.SamplesPath,
+		)
 	}
 
 	result, err := filepath.Abs(config.SamplesPath)
@@ -146,8 +154,42 @@ func NewConfiguration() *Configuration {
 	}
 
 	result.SupportedResourcesReport = NewSupportedResourcesReport(result)
+	result.UpgradableResourcesReport = NewUpgradableResourcesReport(result)
 
 	return result
+}
+
+// loadImports loads and merges all imported group configuration files
+func (c *Configuration) loadImports(configDir string) error {
+	if len(c.Imports) == 0 {
+		return nil
+	}
+
+	// Sort keys for deterministic ordering.
+	// Note: When multiple groups prepend TypeFilters, later groups (alphabetically)
+	// end up earlier in the final slice. This is functionally harmless because
+	// group-specific filters only match their own group.
+	groups := make([]string, 0, len(c.Imports))
+	for group := range c.Imports {
+		groups = append(groups, group)
+	}
+	sort.Strings(groups)
+
+	for _, group := range groups {
+		filePath := c.Imports[group]
+		absPath := filepath.Join(configDir, filePath)
+
+		gcf, err := loadGroupConfigurationFile(absPath, group)
+		if err != nil {
+			return eris.Wrapf(err, "loading import for group %q from %q", group, filePath)
+		}
+
+		if err := gcf.mergeInto(c, group); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 // LoadConfiguration loads a `Configuration` from the specified file
@@ -167,6 +209,12 @@ func LoadConfiguration(configurationFile string) (*Configuration, error) {
 	err = decoder.Decode(result)
 	if err != nil {
 		return nil, eris.Wrapf(err, "configuration file loaded from %q is not valid YAML", configurationFile)
+	}
+
+	// Load and merge any imported group configuration files
+	configDir := filepath.Dir(configurationFile)
+	if err := result.loadImports(configDir); err != nil {
+		return nil, err
 	}
 
 	err = result.initialize(configurationFile)
@@ -285,7 +333,8 @@ func (config *Configuration) ShouldPrune(typeName astmodel.InternalTypeName) (re
 	if !config.ObjectModelConfiguration.IsEmpty() &&
 		!config.ObjectModelConfiguration.IsGroupConfigured(typeName.InternalPackageReference()) {
 		return Prune, fmt.Sprintf(
-			"No resources configured for export from %s", typeName.InternalPackageReference().PackagePath())
+			"No resources configured for export from %s", typeName.InternalPackageReference().PackagePath(),
+		)
 	}
 
 	// By default, we include all types

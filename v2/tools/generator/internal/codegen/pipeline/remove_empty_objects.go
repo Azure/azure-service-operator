@@ -27,5 +27,6 @@ func RemoveEmptyObjects(log logr.Logger) *Stage {
 			}
 
 			return state.WithDefinitions(updatedDefs), nil
-		})
+		},
+	)
 }

@@ -3,6 +3,10 @@ version: '3.7'
 run: when_changed
 output: prefixed
 
+includes:
+  ci: ./ci/Taskfile.yml
+  mangle-test: ./v2/tools/mangle-test-json/Taskfile.yml
+
 vars:
   PACKAGE: github.com/Azure/azure-service-operator/v2
 
@@ -17,8 +21,6 @@ vars:
   CONTROLLER_OUTPUT:
     sh: 'realpath v2/config'
 
-  MANGLE_ROOT: v2/tools/mangle-test-json
-
   TEST_RESOURCE_PREFIX: asotest
   TEST_LIVE_RESOURCE_PREFIX: asolivetest
   SCRIPTS_ROOT:
@@ -27,8 +29,7 @@ vars:
   HEADER_FILE:
     sh: 'realpath v2/boilerplate.go.txt'
 
-  TEST_OUT:
-    sh: 'realpath reports'
+  TEST_OUT: '{{joinPath .ROOT_DIR "reports"}}'
 
   VERSION:
     # Version tags for the v2 controller must start with "v2", e.g. "v2.0.0-alpha.0".
@@ -61,6 +62,14 @@ vars:
   AKS_WORKLOAD_IDENTITY_PATH: "v2/out/aks-identity"
 
 tasks:
+
+  debug:
+    silent: true
+    cmds:
+    - 'echo "ROOT_DIR: {{.ROOT_DIR}}"'
+    - 'echo "TASKFILE_DIR: {{.TASKFILE_DIR}}"'
+    - 'echo "TASK_DIR: {{.TASK_DIR}}"'
+
   default:
     cmds:
       - task: format-code # Run before quick-checks to avoid racing with generated file creation
@@ -78,7 +87,8 @@ tasks:
   setup:
     desc: Perform setup tasks
     cmds:
-      - "mkdir -p {{.TEST_OUT}}"
+      - echo "Tests output to {{.TEST_OUT}}"
+      - mkdir -p {{.TEST_OUT}}
 
   ci:
     desc: Run all CI checks.
@@ -105,6 +115,7 @@ tasks:
       - task: asoctl:format-code
       - task: generator:format-code
       - task: controller:format-code
+      - task: mangle-test:format-code
 
   go-mod-tidy:
     desc: Tidy the go.mod files
@@ -113,6 +124,16 @@ tasks:
       - task: controller:go-mod-tidy
       - task: asoctl:go-mod-tidy
       - task: generator:go-mod-tidy
+      - task: mangle-test:go-mod-tidy
+
+  lint:
+    desc: Run lint checks.
+    dir: v2
+    cmds:
+      - task: asoctl:lint
+      - task: generator:lint
+      - task: controller:lint
+      - task: mangle-test:lint
 
   build-docs-site:
     cmds:
@@ -170,7 +191,7 @@ tasks:
       - controller:generate-crds
     cmds:
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/asoctl-unit-tests.md'
@@ -264,7 +285,7 @@ tasks:
       - setup
     cmds:
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/generator-unit-tests.md'
@@ -395,7 +416,7 @@ tasks:
     - controller:bundle-crds # bundle-crds is here because some tests assert on generated CRD shape
     cmds:
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-unit-tests.md'
@@ -585,10 +606,10 @@ tasks:
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers | tee '{{.TEST_OUT}}/test-controllers.log'
     vars:
       VERBOSE:
-        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+        sh: if [ $TEST_FILTER ]; then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
 
   controller:test-samples:
@@ -598,10 +619,10 @@ tasks:
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples
+      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples | tee '{{.TEST_OUT}}/test-samples.log'
     vars:
       VERBOSE:
-        sh: if [ $TEST_FILTER ];  then echo "-v"; fi
+        sh: if [ $TEST_FILTER ]; then echo "-v"; fi
       TIMEOUT: '{{default "25m" .TIMEOUT}}'  # Should be kept in sync with the tests below
 
   # Once we've finished integrating go-vcr-tidy into our test framework, we won't need these tasks anymore as the
@@ -689,17 +710,17 @@ tasks:
       - controller:run-kustomize-for-envtest
     cmds:
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-tests.md'
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genruntime-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genruntime-tests.md'
       - defer: # want to run even on failure
-          task: produce-markdown-summary
+          task: mangle-test:produce-markdown-summary
           vars:
             INPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.json'
             OUTPUT_FILE: '{{.TEST_OUT}}/controller-integration-genericarmclient-tests.md'
@@ -826,6 +847,7 @@ tasks:
     sources:
       - ./bin/{{.GENERATOR_APP}}
       - azure-arm.yaml
+      - azure-arm/**/*
       - ../docs/hugo/content/reference
     cmds:
       - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml
@@ -1263,7 +1285,7 @@ tasks:
       - "kubectl create namespace t1-items"
       - "kubectl create namespace t1-more"
       # Wait for the other operator to be ready - not using controller:wait-for-operator-ready because that also waits for CRDs, etc which this doesn't install
-      - "kubectl wait --for=condition=ready --timeout=2m pod -n tenant1-system -l control-plane=controller-manager"
+      - "kubectl wait --for=condition=ready --timeout=4m pod --namespace tenant1-system --selector control-plane=controller-manager -v=6"
 
   controller:kind-create-helm-workload-identity:
     desc: Creates a local kind cluster with Workload identity installed alongside ASO helm chart using UMI auth.
@@ -1297,18 +1319,6 @@ tasks:
   controller:gen-crd-docs:
     cmds:
       - task: doc:crd-api
-
-  ############### Utility targets ###############
-
-  mangle-test:quick-checks:
-    cmds:
-      - task: mangle-test:lint
-
-  mangle-test:lint:
-    desc: Run mangle-test fast lint checks.
-    dir: '{{.MANGLE_ROOT}}'
-    cmds:
-      - golangci-lint run --verbose --fix --timeout 5m ./...  
 
   ############### Crossplane targets ###############
 
@@ -1491,18 +1501,9 @@ tasks:
       CHANGED:
         sh: git status --porcelain
 
-  produce-markdown-summary:
-    desc: Builds a test output summary for Github
-    deps: 
-       - build-mangle-test
-    cmds:
-      - cmd: ./v2/tools/mangle-test-json/mangle-test-json "{{.INPUT_FILE}}" > "{{.OUTPUT_FILE}}"
 
-  build-mangle-test:
-    desc: Builds the tool we use for mangling test results
-    dir: v2/tools/mangle-test-json
-    cmds:
-      - go build
+
+
 
   provision-oidc-storage-acct:
     desc: Creates a storage account for use in OIDC federation with a random name in resource group "aso-wi-storage"

@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20220901/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20210401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -1331,13 +1331,6 @@ func (policy *DeleteRetentionPolicy) AssignProperties_From_DeleteRetentionPolicy
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AllowPermanentDelete
-	if source.AllowPermanentDelete != nil {
-		propertyBag.Add("AllowPermanentDelete", *source.AllowPermanentDelete)
-	} else {
-		propertyBag.Remove("AllowPermanentDelete")
-	}
-
 	// Days
 	policy.Days = genruntime.ClonePointerToInt(source.Days)
 
@@ -1373,19 +1366,6 @@ func (policy *DeleteRetentionPolicy) AssignProperties_From_DeleteRetentionPolicy
 func (policy *DeleteRetentionPolicy) AssignProperties_To_DeleteRetentionPolicy(destination *storage.DeleteRetentionPolicy) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
-
-	// AllowPermanentDelete
-	if propertyBag.Contains("AllowPermanentDelete") {
-		var allowPermanentDelete bool
-		err := propertyBag.Pull("AllowPermanentDelete", &allowPermanentDelete)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AllowPermanentDelete' from propertyBag")
-		}
-
-		destination.AllowPermanentDelete = &allowPermanentDelete
-	} else {
-		destination.AllowPermanentDelete = nil
-	}
 
 	// Days
 	destination.Days = genruntime.ClonePointerToInt(policy.Days)
@@ -1431,13 +1411,6 @@ func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_From_DeleteRetentio
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AllowPermanentDelete
-	if source.AllowPermanentDelete != nil {
-		propertyBag.Add("AllowPermanentDelete", *source.AllowPermanentDelete)
-	} else {
-		propertyBag.Remove("AllowPermanentDelete")
-	}
-
 	// Days
 	policy.Days = genruntime.ClonePointerToInt(source.Days)
 
@@ -1473,19 +1446,6 @@ func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_From_DeleteRetentio
 func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_To_DeleteRetentionPolicy_STATUS(destination *storage.DeleteRetentionPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
-
-	// AllowPermanentDelete
-	if propertyBag.Contains("AllowPermanentDelete") {
-		var allowPermanentDelete bool
-		err := propertyBag.Pull("AllowPermanentDelete", &allowPermanentDelete)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AllowPermanentDelete' from propertyBag")
-		}
-
-		destination.AllowPermanentDelete = &allowPermanentDelete
-	} else {
-		destination.AllowPermanentDelete = nil
-	}
 
 	// Days
 	destination.Days = genruntime.ClonePointerToInt(policy.Days)

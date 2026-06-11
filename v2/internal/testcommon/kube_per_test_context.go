@@ -311,17 +311,40 @@ func (tc *KubePerTestContext) PollingInterval() time.Duration {
 // the current task stacks to output. If gomega.Eventually hits its
 // timeout it will produce a nicer error message and stack trace.)
 func (tc *KubePerTestContext) OperationTimeout() time.Duration {
+	deadlineTimeout := tc.deadlineTimeout()
+
+	// return lesser of (operation timeout, deadline timeout)
+	if tc.DefaultOperationTimeout() < deadlineTimeout {
+		return tc.DefaultOperationTimeout()
+	}
+
+	return deadlineTimeout
+}
+
+func (tc *KubePerTestContext) CustomOperationTimeout(t time.Duration) time.Duration {
+	deadlineTimeout := tc.deadlineTimeout()
+
+	timeout := t
+	if tc.AzureClientRecorder.IsReplaying() {
+		// if we're replaying, always use the replay timeout
+		timeout = OperationTimeoutReplaying
+	}
+
+	// return lesser of (operation timeout, deadline timeout)
+	if timeout < deadlineTimeout {
+		return timeout
+	}
+
+	return deadlineTimeout
+}
+
+func (tc *KubePerTestContext) deadlineTimeout() time.Duration {
 	// how long until overall test timeout is hit
 	deadlineTimeout := time.Duration(math.MaxInt64)
 
 	deadline, hasDeadline := tc.T.Deadline()
 	if hasDeadline {
 		deadlineTimeout = time.Until(deadline) - time.Second // give us 1 second to clean up
-	}
-
-	// return lesser of (operation timeout, deadline timeout)
-	if tc.DefaultOperationTimeout() < deadlineTimeout {
-		return tc.DefaultOperationTimeout()
 	}
 
 	return deadlineTimeout
@@ -359,11 +382,13 @@ func (tc *KubePerTestContext) CreateResource(obj client.Object) {
 		tc.LogSubsectionf(
 			"Creating %s resource %s",
 			arm.GetType(),
-			obj.GetName())
+			obj.GetName(),
+		)
 	} else {
 		tc.LogSubsectionf(
 			"Creating resource %s",
-			obj.GetName())
+			obj.GetName(),
+		)
 	}
 
 	tc.CreateResourceUntracked(obj)
@@ -428,7 +453,8 @@ func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 
 	tc.LogSubsectionf(
 		"Creating %d resources",
-		len(objs))
+		len(objs),
+	)
 
 	for _, obj := range objs {
 		tc.CreateResource(obj)
@@ -560,7 +586,8 @@ func (tc *KubePerTestContext) PatchAndExpectError(old client.Object, new client.
 func (tc *KubePerTestContext) DeleteResourceAndWait(obj client.Object) {
 	tc.LogSubsectionf(
 		"Deleting resource %s",
-		obj.GetName())
+		obj.GetName(),
+	)
 	tc.DeleteResource(obj)
 	tc.Eventually(obj).Should(tc.Match.BeDeleted())
 }

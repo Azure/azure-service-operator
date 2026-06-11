@@ -237,7 +237,8 @@ func Test_RepairSkippingProperties_WhenPropertyTypesDiffer_InjectsExpectedAdditi
 
 	expected := astmodel.MakeInternalTypeName(
 		astmodel.MakeCompatPackageReference(test.Pkg2021s),
-		"Residence")
+		"Residence",
+	)
 	g.Expect(finalState.definitions).To(HaveKey(expected))
 }
 

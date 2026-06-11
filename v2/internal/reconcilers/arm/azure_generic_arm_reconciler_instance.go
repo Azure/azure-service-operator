@@ -232,7 +232,8 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 	msg := fmt.Sprintf(
 		"Resource does not support deletion in Azure; set annotation '%s: %s' to permit deletion in Kubernetes",
 		annotations.ReconcilePolicy,
-		annotations.ReconcilePolicyDetachOnDelete)
+		annotations.ReconcilePolicyDetachOnDelete,
+	)
 	r.Log.V(Verbose).Info(msg)
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionNotPossibleInAzure), msg)
 
@@ -247,7 +248,8 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 		conditions.NewReadyConditionImpactingError(
 			err,
 			conditions.ConditionSeverityWarning,
-			conditions.ReasonDeletionNotSupported)
+			conditions.ReasonDeletionNotSupported,
+		)
 }
 
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
@@ -256,11 +258,13 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	if r.Obj.AzureName() == "" {
 		err := eris.Errorf(
 			"AzureName was not set on %s. A webhook should default this to .metadata.name if it was omitted. Is the ASO webhook service running?",
-			r.Obj.GetType())
+			r.Obj.GetType(),
+		)
 
 		return ctrl.Result{},
 			conditions.NewReadyConditionImpactingError(
-				err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+				err, conditions.ConditionSeverityError, conditions.ReasonFailed,
+			)
 	}
 
 	// We want to set the latest reconciled generation annotation to keep a track of reconciles per generation.
@@ -277,7 +281,8 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 			impactingError = conditions.NewReadyConditionImpactingError(
 				err,
 				conditions.ConditionSeverityWarning,
-				conditions.ReasonFailed)
+				conditions.ReasonFailed,
+			)
 		}
 
 		return ctrl.Result{}, impactingError
@@ -398,8 +403,9 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 				return extensions.PreReconcileCheckResult{}, checkErr
 			}
 
-			// If the check says we're postponing reconcile, we're done for now as there's nothing to do.
-			if check.PostponeReconciliation() {
+			// If the check says we're postponing (because a reconcile is not needed) or blocking (because we can't
+			// reconcile at all), we're done for now as there's nothing to do.
+			if check.PostponeReconciliation() || check.BlockReconciliation() {
 				return check, nil
 			}
 		}
@@ -428,15 +434,32 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 // checkSubscription checks if subscription on resource matches with credentials used while creating a resource.
 // Which prevents users to modify subscription in their credential.
 func (r *azureDeploymentReconcilerInstance) checkSubscription(resourceID string) error {
+	// Some resources like '/providers/Microsoft.Subscription/aliases' do not have subscriptionID,
+	// so we need to make sure subscriptionID exists before we check.
 	parsedRID, err := arm.ParseResourceID(resourceID)
-	// Some resources like '/providers/Microsoft.Subscription/aliases' do not have subscriptionID, so we need to make sure subscriptionID exists before we check.
-	// TODO: we need a better way?
-	if err == nil {
-		if parsedRID.ResourceGroupName != "" && parsedRID.SubscriptionID != r.ARMConnection.SubscriptionID() {
-			err = eris.Errorf("SubscriptionID %q for %q resource does not match with Client Credential: %q", parsedRID.SubscriptionID, resourceID, r.ARMConnection.SubscriptionID())
-			return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonSubscriptionMismatch)
-		}
+	if err != nil {
+		// We never expect the resource ID to be invalid, so return an error here to avoid someone
+		// mangling a resource annotation and bypassing the check
+		err = eris.Wrapf(err, "parsing resource ID %q", resourceID)
+
+		return conditions.NewReadyConditionImpactingError(
+			err, conditions.ConditionSeverityError, conditions.ReasonFailed,
+		)
 	}
+
+	if !genruntime.CheckARMIDMatchesSubscription(r.ARMConnection.SubscriptionID(), parsedRID) {
+		err = eris.Errorf(
+			"SubscriptionID %q for %q resource does not match with Client Credential: %q",
+			parsedRID.SubscriptionID,
+			resourceID,
+			r.ARMConnection.SubscriptionID(),
+		)
+
+		return conditions.NewReadyConditionImpactingError(
+			err, conditions.ConditionSeverityError, conditions.ReasonSubscriptionMismatch,
+		)
+	}
+
 	return nil
 }
 
@@ -444,7 +467,8 @@ func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateFailed(err error
 	r.Log.V(Debug).Info(
 		"Resource creation/update failure",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
-		"error", err.Error())
+		"error", err.Error(),
+	)
 
 	err = r.MakeReadyConditionImpactingErrorFromError(err)
 	ClearPollerResumeToken(r.Obj)
@@ -456,7 +480,8 @@ func (r *azureDeploymentReconcilerInstance) handleDeleteFailed(err error) error 
 	r.Log.V(Debug).Info(
 		"Resource deletion failure",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
-		"error", err.Error())
+		"error", err.Error(),
+	)
 
 	err = r.MakeReadyConditionImpactingErrorFromError(err)
 	// Force all delete errors to have severity Warning, as we don't want to block the deletion of the resource
@@ -478,9 +503,21 @@ const (
 )
 
 func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(ctx context.Context, mode CreateOrUpdateSuccessMode) error {
+	// Ensure that we're checking a resource for a subscription that matches the credentials used to create it.
+	// Note that this check was already run for most create cases, but in the reconcile-policy: skip case, this is the first
+	// chance we have to check the subscription, so we do it here too.
+	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
+	if resourceID != "" {
+		err := r.checkSubscription(resourceID)
+		if err != nil {
+			return err
+		}
+	}
+
 	r.Log.V(Status).Info(
 		"Resource successfully created/updated",
-		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj))
+		"resourceID", resourceID,
+	)
 
 	err := r.updateStatus(ctx, r.Obj)
 	if err != nil {
@@ -506,7 +543,8 @@ func (r *azureDeploymentReconcilerInstance) handleCreateOrUpdateSuccess(ctx cont
 			impactingError = conditions.NewReadyConditionImpactingError(
 				err,
 				conditions.ConditionSeverityWarning,
-				conditions.ReasonFailed)
+				conditions.ReasonFailed,
+			)
 		}
 
 		return impactingError
@@ -598,7 +636,8 @@ func (r *azureDeploymentReconcilerInstance) resultBasedOnGenerationCount() ctrl.
 		r.Log.V(Debug).Info(
 			"Generation mismatch detected, requeue-ing the resource",
 			"resourceID",
-			genruntime.GetResourceIDOrDefault(r.Obj))
+			genruntime.GetResourceIDOrDefault(r.Obj),
+		)
 
 		return ctrl.Result{Requeue: true}
 	}
@@ -918,49 +957,31 @@ func ConvertToARMResourceImpl(
 // skipDeletionPrecheck is a set of resource groups for which we skip the pre-deletion existence check.
 // This is to bypass the need to re-record every test in one go - we enable the extra check group by group.
 var skipDeletionPrecheck = sets.NewString(
-	"alertsmanagement.azure.com",
-	"apimanagement.azure.com",
-	"app.azure.com",
-	"appconfiguration.azure.com",
-	"authorization.azure.com",
-	"cache.azure.com",
-	"cdn.azure.com",
-	"cognitiveservices.azure.com",
 	"compute.azure.com",
 	"containerinstance.azure.com",
 	"containerregistry.azure.com",
 	"containerservice.azure.com",
 	"datafactory.azure.com",
-	"dataprotection.azure.com",
 	"dbformariadb.azure.com",
-	"dbformysql.azure.com",
 	"dbforpostgresql.azure.com",
 	"devices.azure.com",
 	"documentdb.azure.com",
 	"eventgrid.azure.com",
-	"eventhub.azure.com",
 	"insights.azure.com",
 	"keyvault.azure.com",
 	"kubernetesconfiguration.azure.com",
-	"kusto.azure.com",
 	"machinelearningservices.azure.com",
-	"managedidentity.azure.com",
-	"monitor.azure.com",
 	"network.azure.com",
 	"network.frontdoor.azure.com",
-	"notificationhubs.azure.com",
 	"operationalinsights.azure.com",
-	"quota.azure.com",
 	"redhatopenshift.azure.com",
 	"resources.azure.com",
 	"search.azure.com",
 	"servicebus.azure.com",
-	"signalrservice.azure.com",
 	"sql.azure.com",
 	"storage.azure.com",
 	"subscription.azure.com",
 	"synapse.azure.com",
-	"web.azure.com",
 )
 
 // deleteResource deletes a resource in ARM. This function is used as the default deletion handler and can

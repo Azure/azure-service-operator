@@ -29,7 +29,8 @@ func TransformValidatedFloats() *Stage {
 			}
 
 			return state.WithOverlaidDefinitions(result), nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(RemoveStatusPropertyValidationsStageID)
 

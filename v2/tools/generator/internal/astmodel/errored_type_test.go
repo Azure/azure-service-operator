@@ -33,7 +33,8 @@ func TestErroredTypeProperties(t *testing.T) {
 			gen.SliceOf(gen.AnyString()),
 			gen.SliceOf(gen.AnyString()),
 			gen.SliceOf(gen.AnyString()),
-			gen.SliceOf(gen.AnyString())))
+			gen.SliceOf(gen.AnyString()),
+		))
 
 	g.TestingRun(t)
 }

@@ -85,7 +85,8 @@ func injectEmbeddedStructType() *pipeline.Stage {
 						prop := astmodel.NewPropertyDefinition(
 							"",
 							",inline",
-							embeddedTypeDef.Name())
+							embeddedTypeDef.Name(),
+						)
 						return objectType.WithEmbeddedProperty(prop)
 					})
 					if err != nil {
@@ -100,7 +101,8 @@ func injectEmbeddedStructType() *pipeline.Stage {
 			defs.Add(embeddedTypeDef)
 
 			return state.WithDefinitions(defs), nil
-		})
+		},
+	)
 }
 
 func runGoldenTest(t *testing.T, path string, testConfig GoldenTestConfig) {
@@ -160,12 +162,15 @@ func NewTestCodeGenerator(
 			pipeline.CreateResourceExtensionsStageID,
 			pipeline.ReportOnTypesAndVersionsStageID,
 			pipeline.ReportResourceVersionsStageID,
-			pipeline.ReportResourceStructureStageID)
+			pipeline.ReportResourceStructureStageID,
+			pipeline.ReportUpgradableResourcesStageID,
+		)
 		if !testConfig.HasARMResources {
 			codegen.RemoveStages(
 				pipeline.CreateARMTypesStageID,
 				pipeline.PruneResourcesWithLifecycleOwnedByParentStageID,
-				pipeline.ApplyARMConversionInterfaceStageID)
+				pipeline.ApplyARMConversionInterfaceStageID,
+			)
 
 			// These stages treat the collection of types as a graph of types rooted by a resource type.
 			// In the degenerate case where there are no resources it behaves the same as stripUnreferenced - removing
@@ -173,7 +178,8 @@ func NewTestCodeGenerator(
 			codegen.RemoveStages(
 				pipeline.RemoveEmbeddedResourcesStageID,
 				pipeline.CollapseCrossGroupReferencesStageID,
-				pipeline.TransformCrossResourceReferencesStageID)
+				pipeline.TransformCrossResourceReferencesStageID,
+			)
 
 			codegen.ReplaceStage(pipeline.StripUnreferencedTypeDefinitionsStageID, stripUnusedTypesPipelineStage())
 		} else {
@@ -185,7 +191,9 @@ func NewTestCodeGenerator(
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
 			pipeline.ReportResourceVersionsStageID,
-			pipeline.ReportResourceStructureStageID)
+			pipeline.ReportResourceStructureStageID,
+			pipeline.ReportUpgradableResourcesStageID,
+		)
 		if !testConfig.HasARMResources {
 			codegen.ReplaceStage(pipeline.StripUnreferencedTypeDefinitionsStageID, stripUnusedTypesPipelineStage())
 		}
@@ -246,7 +254,8 @@ func loadTestSchemaIntoTypes(
 			}
 
 			return state.WithDefinitions(scanner.Definitions()), nil
-		})
+		},
+	)
 }
 
 func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.Stage {
@@ -304,7 +313,8 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) *pipeline.St
 			}
 
 			return state, nil
-		})
+		},
+	)
 }
 
 func stripUnusedTypesPipelineStage() *pipeline.Stage {
@@ -321,7 +331,8 @@ func stripUnusedTypesPipelineStage() *pipeline.Stage {
 			}
 
 			return state.WithDefinitions(defs), nil
-		})
+		},
+	)
 }
 
 // TODO: Ideally we wouldn't need a test specific function here, but currently
@@ -375,7 +386,8 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 			}
 
 			return state.WithDefinitions(defs), nil
-		})
+		},
+	)
 }
 
 func TestGolden(t *testing.T) {

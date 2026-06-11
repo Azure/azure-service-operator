@@ -48,7 +48,8 @@ func Test_ServiceBus_Namespace_Basic_v1api20240101_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				ServiceBus_Namespace_Secrets_v1api20240101(tc, namespace)
 			},
-		})
+		},
+	)
 
 	tc.DeleteResourceAndWait(namespace)
 

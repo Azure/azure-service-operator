@@ -2033,7 +2033,7 @@ type DataFlow struct {
 	OutputStream *string `json:"outputStream,omitempty"`
 
 	// Streams: List of streams for this data flow.
-	Streams []DataFlow_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform stream data.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -2073,9 +2073,7 @@ func (flow *DataFlow) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 
 	// Set property "Streams":
 	for _, item := range flow.Streams {
-		var temp string
-		temp = string(item)
-		result.Streams = append(result.Streams, arm.DataFlow_Streams(temp))
+		result.Streams = append(result.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -2123,9 +2121,7 @@ func (flow *DataFlow) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		flow.Streams = append(flow.Streams, DataFlow_Streams(temp))
+		flow.Streams = append(flow.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -2159,15 +2155,7 @@ func (flow *DataFlow) AssignProperties_From_DataFlow(source *storage.DataFlow) e
 	flow.OutputStream = genruntime.ClonePointerToString(source.OutputStream)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]DataFlow_Streams, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, dataFlow_Streams_Values)
-		}
-		flow.Streams = streamList
-	} else {
-		flow.Streams = nil
-	}
+	flow.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// TransformKql
 	flow.TransformKql = genruntime.ClonePointerToString(source.TransformKql)
@@ -2199,15 +2187,7 @@ func (flow *DataFlow) AssignProperties_To_DataFlow(destination *storage.DataFlow
 	destination.OutputStream = genruntime.ClonePointerToString(flow.OutputStream)
 
 	// Streams
-	if flow.Streams != nil {
-		streamList := make([]string, len(flow.Streams))
-		for streamIndex, streamItem := range flow.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(flow.Streams)
 
 	// TransformKql
 	destination.TransformKql = genruntime.ClonePointerToString(flow.TransformKql)
@@ -2238,7 +2218,7 @@ type DataFlow_STATUS struct {
 	OutputStream *string `json:"outputStream,omitempty"`
 
 	// Streams: List of streams for this data flow.
-	Streams []DataFlow_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform stream data.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -2283,9 +2263,7 @@ func (flow *DataFlow_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		flow.Streams = append(flow.Streams, DataFlow_Streams_STATUS(temp))
+		flow.Streams = append(flow.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -2319,15 +2297,7 @@ func (flow *DataFlow_STATUS) AssignProperties_From_DataFlow_STATUS(source *stora
 	flow.OutputStream = genruntime.ClonePointerToString(source.OutputStream)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]DataFlow_Streams_STATUS, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, dataFlow_Streams_STATUS_Values)
-		}
-		flow.Streams = streamList
-	} else {
-		flow.Streams = nil
-	}
+	flow.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// TransformKql
 	flow.TransformKql = genruntime.ClonePointerToString(source.TransformKql)
@@ -2359,15 +2329,7 @@ func (flow *DataFlow_STATUS) AssignProperties_To_DataFlow_STATUS(destination *st
 	destination.OutputStream = genruntime.ClonePointerToString(flow.OutputStream)
 
 	// Streams
-	if flow.Streams != nil {
-		streamList := make([]string, len(flow.Streams))
-		for streamIndex, streamItem := range flow.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(flow.Streams)
 
 	// TransformKql
 	destination.TransformKql = genruntime.ClonePointerToString(flow.TransformKql)
@@ -5749,45 +5711,6 @@ func (definition *ColumnDefinition_STATUS) AssignProperties_To_ColumnDefinition_
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Microsoft-Event","Microsoft-InsightsMetrics","Microsoft-Perf","Microsoft-Syslog","Microsoft-WindowsEvent"}
-type DataFlow_Streams string
-
-const (
-	DataFlow_Streams_MicrosoftEvent           = DataFlow_Streams("Microsoft-Event")
-	DataFlow_Streams_MicrosoftInsightsMetrics = DataFlow_Streams("Microsoft-InsightsMetrics")
-	DataFlow_Streams_MicrosoftPerf            = DataFlow_Streams("Microsoft-Perf")
-	DataFlow_Streams_MicrosoftSyslog          = DataFlow_Streams("Microsoft-Syslog")
-	DataFlow_Streams_MicrosoftWindowsEvent    = DataFlow_Streams("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to DataFlow_Streams
-var dataFlow_Streams_Values = map[string]DataFlow_Streams{
-	"microsoft-event":           DataFlow_Streams_MicrosoftEvent,
-	"microsoft-insightsmetrics": DataFlow_Streams_MicrosoftInsightsMetrics,
-	"microsoft-perf":            DataFlow_Streams_MicrosoftPerf,
-	"microsoft-syslog":          DataFlow_Streams_MicrosoftSyslog,
-	"microsoft-windowsevent":    DataFlow_Streams_MicrosoftWindowsEvent,
-}
-
-type DataFlow_Streams_STATUS string
-
-const (
-	DataFlow_Streams_STATUS_MicrosoftEvent           = DataFlow_Streams_STATUS("Microsoft-Event")
-	DataFlow_Streams_STATUS_MicrosoftInsightsMetrics = DataFlow_Streams_STATUS("Microsoft-InsightsMetrics")
-	DataFlow_Streams_STATUS_MicrosoftPerf            = DataFlow_Streams_STATUS("Microsoft-Perf")
-	DataFlow_Streams_STATUS_MicrosoftSyslog          = DataFlow_Streams_STATUS("Microsoft-Syslog")
-	DataFlow_Streams_STATUS_MicrosoftWindowsEvent    = DataFlow_Streams_STATUS("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to DataFlow_Streams_STATUS
-var dataFlow_Streams_STATUS_Values = map[string]DataFlow_Streams_STATUS{
-	"microsoft-event":           DataFlow_Streams_STATUS_MicrosoftEvent,
-	"microsoft-insightsmetrics": DataFlow_Streams_STATUS_MicrosoftInsightsMetrics,
-	"microsoft-perf":            DataFlow_Streams_STATUS_MicrosoftPerf,
-	"microsoft-syslog":          DataFlow_Streams_STATUS_MicrosoftSyslog,
-	"microsoft-windowsevent":    DataFlow_Streams_STATUS_MicrosoftWindowsEvent,
-}
-
 type DataImportSources struct {
 	// EventHub: Definition of Event Hub configuration.
 	EventHub *EventHubDataSource `json:"eventHub,omitempty"`
@@ -6544,7 +6467,7 @@ type ExtensionDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []ExtensionDataSource_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ExtensionDataSource{}
@@ -6583,9 +6506,7 @@ func (source *ExtensionDataSource) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Streams":
 	for _, item := range source.Streams {
-		var temp string
-		temp = string(item)
-		result.Streams = append(result.Streams, arm.ExtensionDataSource_Streams(temp))
+		result.Streams = append(result.Streams, item)
 	}
 	return result, nil
 }
@@ -6629,9 +6550,7 @@ func (source *ExtensionDataSource) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		source.Streams = append(source.Streams, ExtensionDataSource_Streams(temp))
+		source.Streams = append(source.Streams, item)
 	}
 
 	// No error
@@ -6662,15 +6581,7 @@ func (source *ExtensionDataSource) AssignProperties_From_ExtensionDataSource(ori
 	source.Name = genruntime.ClonePointerToString(origin.Name)
 
 	// Streams
-	if origin.Streams != nil {
-		streamList := make([]ExtensionDataSource_Streams, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, extensionDataSource_Streams_Values)
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
+	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
 
 	// No error
 	return nil
@@ -6702,15 +6613,7 @@ func (source *ExtensionDataSource) AssignProperties_To_ExtensionDataSource(desti
 	destination.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]string, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6743,7 +6646,7 @@ type ExtensionDataSource_STATUS struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []ExtensionDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ExtensionDataSource_STATUS{}
@@ -6787,9 +6690,7 @@ func (source *ExtensionDataSource_STATUS) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		source.Streams = append(source.Streams, ExtensionDataSource_Streams_STATUS(temp))
+		source.Streams = append(source.Streams, item)
 	}
 
 	// No error
@@ -6820,15 +6721,7 @@ func (source *ExtensionDataSource_STATUS) AssignProperties_From_ExtensionDataSou
 	source.Name = genruntime.ClonePointerToString(origin.Name)
 
 	// Streams
-	if origin.Streams != nil {
-		streamList := make([]ExtensionDataSource_Streams_STATUS, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, extensionDataSource_Streams_STATUS_Values)
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
+	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
 
 	// No error
 	return nil
@@ -6860,15 +6753,7 @@ func (source *ExtensionDataSource_STATUS) AssignProperties_To_ExtensionDataSourc
 	destination.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]string, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -8201,7 +8086,7 @@ type PerfCounterDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []PerfCounterDataSource_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -8235,9 +8120,7 @@ func (source *PerfCounterDataSource) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property "Streams":
 	for _, item := range source.Streams {
-		var temp string
-		temp = string(item)
-		result.Streams = append(result.Streams, arm.PerfCounterDataSource_Streams(temp))
+		result.Streams = append(result.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -8279,9 +8162,7 @@ func (source *PerfCounterDataSource) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		source.Streams = append(source.Streams, PerfCounterDataSource_Streams(temp))
+		source.Streams = append(source.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -8307,15 +8188,7 @@ func (source *PerfCounterDataSource) AssignProperties_From_PerfCounterDataSource
 	source.SamplingFrequencyInSeconds = genruntime.ClonePointerToInt(origin.SamplingFrequencyInSeconds)
 
 	// Streams
-	if origin.Streams != nil {
-		streamList := make([]PerfCounterDataSource_Streams, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, perfCounterDataSource_Streams_Values)
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
+	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
 
 	// TransformKql
 	source.TransformKql = genruntime.ClonePointerToString(origin.TransformKql)
@@ -8339,15 +8212,7 @@ func (source *PerfCounterDataSource) AssignProperties_To_PerfCounterDataSource(d
 	destination.SamplingFrequencyInSeconds = genruntime.ClonePointerToInt(source.SamplingFrequencyInSeconds)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]string, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// TransformKql
 	destination.TransformKql = genruntime.ClonePointerToString(source.TransformKql)
@@ -8382,7 +8247,7 @@ type PerfCounterDataSource_STATUS struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []PerfCounterDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -8421,9 +8286,7 @@ func (source *PerfCounterDataSource_STATUS) PopulateFromARM(owner genruntime.Arb
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		source.Streams = append(source.Streams, PerfCounterDataSource_Streams_STATUS(temp))
+		source.Streams = append(source.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -8449,15 +8312,7 @@ func (source *PerfCounterDataSource_STATUS) AssignProperties_From_PerfCounterDat
 	source.SamplingFrequencyInSeconds = genruntime.ClonePointerToInt(origin.SamplingFrequencyInSeconds)
 
 	// Streams
-	if origin.Streams != nil {
-		streamList := make([]PerfCounterDataSource_Streams_STATUS, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, perfCounterDataSource_Streams_STATUS_Values)
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
+	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
 
 	// TransformKql
 	source.TransformKql = genruntime.ClonePointerToString(origin.TransformKql)
@@ -8481,15 +8336,7 @@ func (source *PerfCounterDataSource_STATUS) AssignProperties_To_PerfCounterDataS
 	destination.SamplingFrequencyInSeconds = genruntime.ClonePointerToInt(source.SamplingFrequencyInSeconds)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]string, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// TransformKql
 	destination.TransformKql = genruntime.ClonePointerToString(source.TransformKql)
@@ -8686,7 +8533,7 @@ type PrometheusForwarderDataSource struct {
 	Name *string `json:"name,omitempty"`
 
 	// Streams: List of streams that this data source will be sent to.
-	Streams []PrometheusForwarderDataSource_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PrometheusForwarderDataSource{}
@@ -8714,9 +8561,7 @@ func (source *PrometheusForwarderDataSource) ConvertToARM(resolved genruntime.Co
 
 	// Set property "Streams":
 	for _, item := range source.Streams {
-		var temp string
-		temp = string(item)
-		result.Streams = append(result.Streams, arm.PrometheusForwarderDataSource_Streams(temp))
+		result.Streams = append(result.Streams, item)
 	}
 	return result, nil
 }
@@ -8749,9 +8594,7 @@ func (source *PrometheusForwarderDataSource) PopulateFromARM(owner genruntime.Ar
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		source.Streams = append(source.Streams, PrometheusForwarderDataSource_Streams(temp))
+		source.Streams = append(source.Streams, item)
 	}
 
 	// No error
@@ -8768,15 +8611,7 @@ func (source *PrometheusForwarderDataSource) AssignProperties_From_PrometheusFor
 	source.Name = genruntime.ClonePointerToString(origin.Name)
 
 	// Streams
-	if origin.Streams != nil {
-		streamList := make([]PrometheusForwarderDataSource_Streams, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, prometheusForwarderDataSource_Streams_Values)
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
+	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
 
 	// No error
 	return nil
@@ -8794,15 +8629,7 @@ func (source *PrometheusForwarderDataSource) AssignProperties_To_PrometheusForwa
 	destination.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]string, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -8827,7 +8654,7 @@ type PrometheusForwarderDataSource_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Streams: List of streams that this data source will be sent to.
-	Streams []PrometheusForwarderDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PrometheusForwarderDataSource_STATUS{}
@@ -8860,9 +8687,7 @@ func (source *PrometheusForwarderDataSource_STATUS) PopulateFromARM(owner genrun
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		source.Streams = append(source.Streams, PrometheusForwarderDataSource_Streams_STATUS(temp))
+		source.Streams = append(source.Streams, item)
 	}
 
 	// No error
@@ -8879,15 +8704,7 @@ func (source *PrometheusForwarderDataSource_STATUS) AssignProperties_From_Promet
 	source.Name = genruntime.ClonePointerToString(origin.Name)
 
 	// Streams
-	if origin.Streams != nil {
-		streamList := make([]PrometheusForwarderDataSource_Streams_STATUS, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, prometheusForwarderDataSource_Streams_STATUS_Values)
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
+	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
 
 	// No error
 	return nil
@@ -8905,15 +8722,7 @@ func (source *PrometheusForwarderDataSource_STATUS) AssignProperties_To_Promethe
 	destination.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]string, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -9372,7 +9181,7 @@ type SyslogDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []SyslogDataSource_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -9409,9 +9218,7 @@ func (source *SyslogDataSource) ConvertToARM(resolved genruntime.ConvertToARMRes
 
 	// Set property "Streams":
 	for _, item := range source.Streams {
-		var temp string
-		temp = string(item)
-		result.Streams = append(result.Streams, arm.SyslogDataSource_Streams(temp))
+		result.Streams = append(result.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -9456,9 +9263,7 @@ func (source *SyslogDataSource) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		source.Streams = append(source.Streams, SyslogDataSource_Streams(temp))
+		source.Streams = append(source.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -9500,15 +9305,7 @@ func (source *SyslogDataSource) AssignProperties_From_SyslogDataSource(origin *s
 	source.Name = genruntime.ClonePointerToString(origin.Name)
 
 	// Streams
-	if origin.Streams != nil {
-		streamList := make([]SyslogDataSource_Streams, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, syslogDataSource_Streams_Values)
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
+	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
 
 	// TransformKql
 	source.TransformKql = genruntime.ClonePointerToString(origin.TransformKql)
@@ -9548,15 +9345,7 @@ func (source *SyslogDataSource) AssignProperties_To_SyslogDataSource(destination
 	destination.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]string, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// TransformKql
 	destination.TransformKql = genruntime.ClonePointerToString(source.TransformKql)
@@ -9588,7 +9377,7 @@ type SyslogDataSource_STATUS struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []SyslogDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -9630,9 +9419,7 @@ func (source *SyslogDataSource_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		source.Streams = append(source.Streams, SyslogDataSource_Streams_STATUS(temp))
+		source.Streams = append(source.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -9674,15 +9461,7 @@ func (source *SyslogDataSource_STATUS) AssignProperties_From_SyslogDataSource_ST
 	source.Name = genruntime.ClonePointerToString(origin.Name)
 
 	// Streams
-	if origin.Streams != nil {
-		streamList := make([]SyslogDataSource_Streams_STATUS, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, syslogDataSource_Streams_STATUS_Values)
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
+	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
 
 	// TransformKql
 	source.TransformKql = genruntime.ClonePointerToString(origin.TransformKql)
@@ -9722,15 +9501,7 @@ func (source *SyslogDataSource_STATUS) AssignProperties_To_SyslogDataSource_STAT
 	destination.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]string, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// TransformKql
 	destination.TransformKql = genruntime.ClonePointerToString(source.TransformKql)
@@ -9757,7 +9528,7 @@ type WindowsEventLogDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []WindowsEventLogDataSource_Streams `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -9783,9 +9554,7 @@ func (source *WindowsEventLogDataSource) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "Streams":
 	for _, item := range source.Streams {
-		var temp string
-		temp = string(item)
-		result.Streams = append(result.Streams, arm.WindowsEventLogDataSource_Streams(temp))
+		result.Streams = append(result.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -9821,9 +9590,7 @@ func (source *WindowsEventLogDataSource) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		source.Streams = append(source.Streams, WindowsEventLogDataSource_Streams(temp))
+		source.Streams = append(source.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -9848,15 +9615,7 @@ func (source *WindowsEventLogDataSource) AssignProperties_From_WindowsEventLogDa
 	source.Name = genruntime.ClonePointerToString(origin.Name)
 
 	// Streams
-	if origin.Streams != nil {
-		streamList := make([]WindowsEventLogDataSource_Streams, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, windowsEventLogDataSource_Streams_Values)
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
+	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
 
 	// TransformKql
 	source.TransformKql = genruntime.ClonePointerToString(origin.TransformKql)
@@ -9877,15 +9636,7 @@ func (source *WindowsEventLogDataSource) AssignProperties_To_WindowsEventLogData
 	destination.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]string, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// TransformKql
 	destination.TransformKql = genruntime.ClonePointerToString(source.TransformKql)
@@ -9915,7 +9666,7 @@ type WindowsEventLogDataSource_STATUS struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []WindowsEventLogDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []string `json:"streams,omitempty"`
 
 	// TransformKql: The KQL query to transform the data source.
 	TransformKql *string `json:"transformKql,omitempty"`
@@ -9946,9 +9697,7 @@ func (source *WindowsEventLogDataSource_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "Streams":
 	for _, item := range typedInput.Streams {
-		var temp string
-		temp = string(item)
-		source.Streams = append(source.Streams, WindowsEventLogDataSource_Streams_STATUS(temp))
+		source.Streams = append(source.Streams, item)
 	}
 
 	// Set property "TransformKql":
@@ -9973,15 +9722,7 @@ func (source *WindowsEventLogDataSource_STATUS) AssignProperties_From_WindowsEve
 	source.Name = genruntime.ClonePointerToString(origin.Name)
 
 	// Streams
-	if origin.Streams != nil {
-		streamList := make([]WindowsEventLogDataSource_Streams_STATUS, len(origin.Streams))
-		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, windowsEventLogDataSource_Streams_STATUS_Values)
-		}
-		source.Streams = streamList
-	} else {
-		source.Streams = nil
-	}
+	source.Streams = genruntime.CloneSliceOfString(origin.Streams)
 
 	// TransformKql
 	source.TransformKql = genruntime.ClonePointerToString(origin.TransformKql)
@@ -10002,15 +9743,7 @@ func (source *WindowsEventLogDataSource_STATUS) AssignProperties_To_WindowsEvent
 	destination.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Streams
-	if source.Streams != nil {
-		streamList := make([]string, len(source.Streams))
-		for streamIndex, streamItem := range source.Streams {
-			streamList[streamIndex] = string(streamItem)
-		}
-		destination.Streams = streamList
-	} else {
-		destination.Streams = nil
-	}
+	destination.Streams = genruntime.CloneSliceOfString(source.Streams)
 
 	// TransformKql
 	destination.TransformKql = genruntime.ClonePointerToString(source.TransformKql)
@@ -10548,45 +10281,6 @@ func (source *EventHubDataSource_STATUS) AssignProperties_To_EventHubDataSource_
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Microsoft-Event","Microsoft-InsightsMetrics","Microsoft-Perf","Microsoft-Syslog","Microsoft-WindowsEvent"}
-type ExtensionDataSource_Streams string
-
-const (
-	ExtensionDataSource_Streams_MicrosoftEvent           = ExtensionDataSource_Streams("Microsoft-Event")
-	ExtensionDataSource_Streams_MicrosoftInsightsMetrics = ExtensionDataSource_Streams("Microsoft-InsightsMetrics")
-	ExtensionDataSource_Streams_MicrosoftPerf            = ExtensionDataSource_Streams("Microsoft-Perf")
-	ExtensionDataSource_Streams_MicrosoftSyslog          = ExtensionDataSource_Streams("Microsoft-Syslog")
-	ExtensionDataSource_Streams_MicrosoftWindowsEvent    = ExtensionDataSource_Streams("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to ExtensionDataSource_Streams
-var extensionDataSource_Streams_Values = map[string]ExtensionDataSource_Streams{
-	"microsoft-event":           ExtensionDataSource_Streams_MicrosoftEvent,
-	"microsoft-insightsmetrics": ExtensionDataSource_Streams_MicrosoftInsightsMetrics,
-	"microsoft-perf":            ExtensionDataSource_Streams_MicrosoftPerf,
-	"microsoft-syslog":          ExtensionDataSource_Streams_MicrosoftSyslog,
-	"microsoft-windowsevent":    ExtensionDataSource_Streams_MicrosoftWindowsEvent,
-}
-
-type ExtensionDataSource_Streams_STATUS string
-
-const (
-	ExtensionDataSource_Streams_STATUS_MicrosoftEvent           = ExtensionDataSource_Streams_STATUS("Microsoft-Event")
-	ExtensionDataSource_Streams_STATUS_MicrosoftInsightsMetrics = ExtensionDataSource_Streams_STATUS("Microsoft-InsightsMetrics")
-	ExtensionDataSource_Streams_STATUS_MicrosoftPerf            = ExtensionDataSource_Streams_STATUS("Microsoft-Perf")
-	ExtensionDataSource_Streams_STATUS_MicrosoftSyslog          = ExtensionDataSource_Streams_STATUS("Microsoft-Syslog")
-	ExtensionDataSource_Streams_STATUS_MicrosoftWindowsEvent    = ExtensionDataSource_Streams_STATUS("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to ExtensionDataSource_Streams_STATUS
-var extensionDataSource_Streams_STATUS_Values = map[string]ExtensionDataSource_Streams_STATUS{
-	"microsoft-event":           ExtensionDataSource_Streams_STATUS_MicrosoftEvent,
-	"microsoft-insightsmetrics": ExtensionDataSource_Streams_STATUS_MicrosoftInsightsMetrics,
-	"microsoft-perf":            ExtensionDataSource_Streams_STATUS_MicrosoftPerf,
-	"microsoft-syslog":          ExtensionDataSource_Streams_STATUS_MicrosoftSyslog,
-	"microsoft-windowsevent":    ExtensionDataSource_Streams_STATUS_MicrosoftWindowsEvent,
-}
-
 // +kubebuilder:validation:Enum={"json","text"}
 type LogFilesDataSource_Format string
 
@@ -10795,52 +10489,6 @@ func (settings *LogFileSettings_STATUS) AssignProperties_To_LogFileSettings_STAT
 
 	// No error
 	return nil
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-InsightsMetrics","Microsoft-Perf"}
-type PerfCounterDataSource_Streams string
-
-const (
-	PerfCounterDataSource_Streams_MicrosoftInsightsMetrics = PerfCounterDataSource_Streams("Microsoft-InsightsMetrics")
-	PerfCounterDataSource_Streams_MicrosoftPerf            = PerfCounterDataSource_Streams("Microsoft-Perf")
-)
-
-// Mapping from string to PerfCounterDataSource_Streams
-var perfCounterDataSource_Streams_Values = map[string]PerfCounterDataSource_Streams{
-	"microsoft-insightsmetrics": PerfCounterDataSource_Streams_MicrosoftInsightsMetrics,
-	"microsoft-perf":            PerfCounterDataSource_Streams_MicrosoftPerf,
-}
-
-type PerfCounterDataSource_Streams_STATUS string
-
-const (
-	PerfCounterDataSource_Streams_STATUS_MicrosoftInsightsMetrics = PerfCounterDataSource_Streams_STATUS("Microsoft-InsightsMetrics")
-	PerfCounterDataSource_Streams_STATUS_MicrosoftPerf            = PerfCounterDataSource_Streams_STATUS("Microsoft-Perf")
-)
-
-// Mapping from string to PerfCounterDataSource_Streams_STATUS
-var perfCounterDataSource_Streams_STATUS_Values = map[string]PerfCounterDataSource_Streams_STATUS{
-	"microsoft-insightsmetrics": PerfCounterDataSource_Streams_STATUS_MicrosoftInsightsMetrics,
-	"microsoft-perf":            PerfCounterDataSource_Streams_STATUS_MicrosoftPerf,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-PrometheusMetrics"}
-type PrometheusForwarderDataSource_Streams string
-
-const PrometheusForwarderDataSource_Streams_MicrosoftPrometheusMetrics = PrometheusForwarderDataSource_Streams("Microsoft-PrometheusMetrics")
-
-// Mapping from string to PrometheusForwarderDataSource_Streams
-var prometheusForwarderDataSource_Streams_Values = map[string]PrometheusForwarderDataSource_Streams{
-	"microsoft-prometheusmetrics": PrometheusForwarderDataSource_Streams_MicrosoftPrometheusMetrics,
-}
-
-type PrometheusForwarderDataSource_Streams_STATUS string
-
-const PrometheusForwarderDataSource_Streams_STATUS_MicrosoftPrometheusMetrics = PrometheusForwarderDataSource_Streams_STATUS("Microsoft-PrometheusMetrics")
-
-// Mapping from string to PrometheusForwarderDataSource_Streams_STATUS
-var prometheusForwarderDataSource_Streams_STATUS_Values = map[string]PrometheusForwarderDataSource_Streams_STATUS{
-	"microsoft-prometheusmetrics": PrometheusForwarderDataSource_Streams_STATUS_MicrosoftPrometheusMetrics,
 }
 
 type StorageBlob struct {
@@ -11300,52 +10948,6 @@ var syslogDataSource_LogLevels_STATUS_Values = map[string]SyslogDataSource_LogLe
 	"notice":    SyslogDataSource_LogLevels_STATUS_Notice,
 	"*":         SyslogDataSource_LogLevels_STATUS_Star,
 	"warning":   SyslogDataSource_LogLevels_STATUS_Warning,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-Syslog"}
-type SyslogDataSource_Streams string
-
-const SyslogDataSource_Streams_MicrosoftSyslog = SyslogDataSource_Streams("Microsoft-Syslog")
-
-// Mapping from string to SyslogDataSource_Streams
-var syslogDataSource_Streams_Values = map[string]SyslogDataSource_Streams{
-	"microsoft-syslog": SyslogDataSource_Streams_MicrosoftSyslog,
-}
-
-type SyslogDataSource_Streams_STATUS string
-
-const SyslogDataSource_Streams_STATUS_MicrosoftSyslog = SyslogDataSource_Streams_STATUS("Microsoft-Syslog")
-
-// Mapping from string to SyslogDataSource_Streams_STATUS
-var syslogDataSource_Streams_STATUS_Values = map[string]SyslogDataSource_Streams_STATUS{
-	"microsoft-syslog": SyslogDataSource_Streams_STATUS_MicrosoftSyslog,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-Event","Microsoft-WindowsEvent"}
-type WindowsEventLogDataSource_Streams string
-
-const (
-	WindowsEventLogDataSource_Streams_MicrosoftEvent        = WindowsEventLogDataSource_Streams("Microsoft-Event")
-	WindowsEventLogDataSource_Streams_MicrosoftWindowsEvent = WindowsEventLogDataSource_Streams("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to WindowsEventLogDataSource_Streams
-var windowsEventLogDataSource_Streams_Values = map[string]WindowsEventLogDataSource_Streams{
-	"microsoft-event":        WindowsEventLogDataSource_Streams_MicrosoftEvent,
-	"microsoft-windowsevent": WindowsEventLogDataSource_Streams_MicrosoftWindowsEvent,
-}
-
-type WindowsEventLogDataSource_Streams_STATUS string
-
-const (
-	WindowsEventLogDataSource_Streams_STATUS_MicrosoftEvent        = WindowsEventLogDataSource_Streams_STATUS("Microsoft-Event")
-	WindowsEventLogDataSource_Streams_STATUS_MicrosoftWindowsEvent = WindowsEventLogDataSource_Streams_STATUS("Microsoft-WindowsEvent")
-)
-
-// Mapping from string to WindowsEventLogDataSource_Streams_STATUS
-var windowsEventLogDataSource_Streams_STATUS_Values = map[string]WindowsEventLogDataSource_Streams_STATUS{
-	"microsoft-event":        WindowsEventLogDataSource_Streams_STATUS_MicrosoftEvent,
-	"microsoft-windowsevent": WindowsEventLogDataSource_Streams_STATUS_MicrosoftWindowsEvent,
 }
 
 // +kubebuilder:validation:Enum={"Domain","Private","Public"}

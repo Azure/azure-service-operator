@@ -341,7 +341,7 @@ func (in *SecurityGroupOperatorConfigMaps) DeepCopyInto(out *SecurityGroupOperat
 	if in.EntraID != nil {
 		in, out := &in.EntraID, &out.EntraID
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 

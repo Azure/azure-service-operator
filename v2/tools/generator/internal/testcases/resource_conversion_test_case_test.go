@@ -32,7 +32,8 @@ func TestGolden_ResourceConversionTestCase_AsFunc(t *testing.T) {
 		"Person",
 		test.FullNameProperty,
 		test.KnownAsProperty,
-		test.FamilyNameProperty)
+		test.FamilyNameProperty,
+	)
 
 	personStatus2020 := test.CreateStatus(test.Pkg2020, "Person")
 
@@ -44,7 +45,8 @@ func TestGolden_ResourceConversionTestCase_AsFunc(t *testing.T) {
 		test.FullNameProperty,
 		test.KnownAsProperty,
 		test.FamilyNameProperty,
-		test.FullAddressProperty)
+		test.FullAddressProperty,
+	)
 
 	personStatus2021 := test.CreateStatus(test.Pkg2021, "Person")
 
@@ -88,5 +90,6 @@ func TestGolden_ResourceConversionTestCase_AsFunc(t *testing.T) {
 		person2020modified,
 		test.DiffWith(person2020),
 		test.IncludeTestFiles(),
-		test.ExcludeCodeFiles())
+		test.ExcludeCodeFiles(),
+	)
 }

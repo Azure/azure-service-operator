@@ -50,7 +50,8 @@ func RemoveTypeAliases() *Stage {
 			}
 
 			return state.WithDefinitions(result), nil
-		})
+		},
+	)
 }
 
 func resolveTypeName(

@@ -51,22 +51,36 @@ var _ conversion.Convertible = &PublicIPPrefix{}
 
 // ConvertFrom populates our PublicIPPrefix from the provided hub PublicIPPrefix
 func (prefix *PublicIPPrefix) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.PublicIPPrefix)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PublicIPPrefix but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.PublicIPPrefix
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return prefix.AssignProperties_From_PublicIPPrefix(source)
+	err = prefix.AssignProperties_From_PublicIPPrefix(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to prefix")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub PublicIPPrefix from our PublicIPPrefix
 func (prefix *PublicIPPrefix) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.PublicIPPrefix)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/PublicIPPrefix but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.PublicIPPrefix
+	err := prefix.AssignProperties_To_PublicIPPrefix(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from prefix")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return prefix.AssignProperties_To_PublicIPPrefix(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &PublicIPPrefix{}
@@ -87,17 +101,6 @@ func (prefix *PublicIPPrefix) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return prefix.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &PublicIPPrefix{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (prefix *PublicIPPrefix) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*PublicIPPrefix_STATUS); ok {
-		return prefix.Spec.Initialize_From_PublicIPPrefix_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type PublicIPPrefix_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &PublicIPPrefix{}
@@ -802,97 +805,6 @@ func (prefix *PublicIPPrefix_Spec) AssignProperties_To_PublicIPPrefix_Spec(desti
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PublicIPPrefix_STATUS populates our PublicIPPrefix_Spec from the provided source PublicIPPrefix_STATUS
-func (prefix *PublicIPPrefix_Spec) Initialize_From_PublicIPPrefix_STATUS(source *PublicIPPrefix_STATUS) error {
-
-	// CustomIPPrefix
-	if source.CustomIPPrefix != nil {
-		var customIPPrefix SubResource
-		err := customIPPrefix.Initialize_From_SubResource_STATUS(source.CustomIPPrefix)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field CustomIPPrefix")
-		}
-		prefix.CustomIPPrefix = &customIPPrefix
-	} else {
-		prefix.CustomIPPrefix = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		prefix.ExtendedLocation = &extendedLocation
-	} else {
-		prefix.ExtendedLocation = nil
-	}
-
-	// IpTags
-	if source.IpTags != nil {
-		ipTagList := make([]IpTag, len(source.IpTags))
-		for ipTagIndex, ipTagItem := range source.IpTags {
-			var ipTag IpTag
-			err := ipTag.Initialize_From_IpTag_STATUS(&ipTagItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_IpTag_STATUS() to populate field IpTags")
-			}
-			ipTagList[ipTagIndex] = ipTag
-		}
-		prefix.IpTags = ipTagList
-	} else {
-		prefix.IpTags = nil
-	}
-
-	// Location
-	prefix.Location = genruntime.ClonePointerToString(source.Location)
-
-	// NatGateway
-	if source.NatGateway != nil {
-		var natGateway NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded
-		err := natGateway.Initialize_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded(source.NatGateway)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded() to populate field NatGateway")
-		}
-		prefix.NatGateway = &natGateway
-	} else {
-		prefix.NatGateway = nil
-	}
-
-	// PrefixLength
-	prefix.PrefixLength = genruntime.ClonePointerToInt(source.PrefixLength)
-
-	// PublicIPAddressVersion
-	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := genruntime.ToEnum(string(*source.PublicIPAddressVersion), iPVersion_Values)
-		prefix.PublicIPAddressVersion = &publicIPAddressVersion
-	} else {
-		prefix.PublicIPAddressVersion = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku PublicIPPrefixSku
-		err := sku.Initialize_From_PublicIPPrefixSku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_PublicIPPrefixSku_STATUS() to populate field Sku")
-		}
-		prefix.Sku = &sku
-	} else {
-		prefix.Sku = nil
-	}
-
-	// Tags
-	prefix.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Zones
-	prefix.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1672,21 +1584,6 @@ func (embedded *NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded) AssignPropert
 	return nil
 }
 
-// Initialize_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded populates our NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded from the provided source NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded
-func (embedded *NatGatewaySpec_PublicIPPrefix_SubResourceEmbedded) Initialize_From_NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded(source *NatGateway_STATUS_PublicIPPrefix_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		embedded.Reference = &reference
-	} else {
-		embedded.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type PublicIPPrefixOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
@@ -1902,29 +1799,6 @@ func (prefixSku *PublicIPPrefixSku) AssignProperties_To_PublicIPPrefixSku(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PublicIPPrefixSku_STATUS populates our PublicIPPrefixSku from the provided source PublicIPPrefixSku_STATUS
-func (prefixSku *PublicIPPrefixSku) Initialize_From_PublicIPPrefixSku_STATUS(source *PublicIPPrefixSku_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), publicIPPrefixSku_Name_Values)
-		prefixSku.Name = &name
-	} else {
-		prefixSku.Name = nil
-	}
-
-	// Tier
-	if source.Tier != nil {
-		tier := genruntime.ToEnum(string(*source.Tier), publicIPPrefixSku_Tier_Values)
-		prefixSku.Tier = &tier
-	} else {
-		prefixSku.Tier = nil
 	}
 
 	// No error

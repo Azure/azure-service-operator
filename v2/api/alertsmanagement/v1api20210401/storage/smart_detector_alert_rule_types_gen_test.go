@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20210401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,48 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ActionGroupsInformation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ActionGroupsInformation to ActionGroupsInformation via AssignProperties_To_ActionGroupsInformation & AssignProperties_From_ActionGroupsInformation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForActionGroupsInformation, ActionGroupsInformationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForActionGroupsInformation tests if a specific instance of ActionGroupsInformation can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForActionGroupsInformation(subject ActionGroupsInformation) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ActionGroupsInformation
+	err := copied.AssignProperties_To_ActionGroupsInformation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ActionGroupsInformation
+	err = actual.AssignProperties_From_ActionGroupsInformation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ActionGroupsInformation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -77,6 +120,48 @@ func ActionGroupsInformationGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForActionGroupsInformation(gens map[string]gopter.Gen) {
 	gens["CustomEmailSubject"] = gen.PtrOf(gen.AlphaString())
 	gens["CustomWebhookPayload"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ActionGroupsInformation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ActionGroupsInformation_STATUS to ActionGroupsInformation_STATUS via AssignProperties_To_ActionGroupsInformation_STATUS & AssignProperties_From_ActionGroupsInformation_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForActionGroupsInformation_STATUS, ActionGroupsInformation_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForActionGroupsInformation_STATUS tests if a specific instance of ActionGroupsInformation_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForActionGroupsInformation_STATUS(subject ActionGroupsInformation_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ActionGroupsInformation_STATUS
+	err := copied.AssignProperties_To_ActionGroupsInformation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ActionGroupsInformation_STATUS
+	err = actual.AssignProperties_From_ActionGroupsInformation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ActionGroupsInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -142,6 +227,48 @@ func AddIndependentPropertyGeneratorsForActionGroupsInformation_STATUS(gens map[
 	gens["GroupIds"] = gen.SliceOf(gen.AlphaString())
 }
 
+func Test_Detector_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Detector to Detector via AssignProperties_To_Detector & AssignProperties_From_Detector returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDetector, DetectorGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDetector tests if a specific instance of Detector can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDetector(subject Detector) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Detector
+	err := copied.AssignProperties_To_Detector(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Detector
+	err = actual.AssignProperties_From_Detector(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Detector_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -200,6 +327,48 @@ func DetectorGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDetector is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDetector(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_DetectorParameterDefinition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DetectorParameterDefinition_STATUS to DetectorParameterDefinition_STATUS via AssignProperties_To_DetectorParameterDefinition_STATUS & AssignProperties_From_DetectorParameterDefinition_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDetectorParameterDefinition_STATUS, DetectorParameterDefinition_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDetectorParameterDefinition_STATUS tests if a specific instance of DetectorParameterDefinition_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDetectorParameterDefinition_STATUS(subject DetectorParameterDefinition_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.DetectorParameterDefinition_STATUS
+	err := copied.AssignProperties_To_DetectorParameterDefinition_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DetectorParameterDefinition_STATUS
+	err = actual.AssignProperties_From_DetectorParameterDefinition_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_DetectorParameterDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -265,6 +434,48 @@ func AddIndependentPropertyGeneratorsForDetectorParameterDefinition_STATUS(gens 
 	gens["IsMandatory"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Detector_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Detector_STATUS to Detector_STATUS via AssignProperties_To_Detector_STATUS & AssignProperties_From_Detector_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDetector_STATUS, Detector_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDetector_STATUS tests if a specific instance of Detector_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForDetector_STATUS(subject Detector_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Detector_STATUS
+	err := copied.AssignProperties_To_Detector_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Detector_STATUS
+	err = actual.AssignProperties_From_Detector_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Detector_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -346,6 +557,91 @@ func AddRelatedPropertyGeneratorsForDetector_STATUS(gens map[string]gopter.Gen) 
 	gens["ParameterDefinitions"] = gen.SliceOf(DetectorParameterDefinition_STATUSGenerator())
 }
 
+func Test_SmartDetectorAlertRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SmartDetectorAlertRule to hub returns original",
+		prop.ForAll(RunResourceConversionTestForSmartDetectorAlertRule, SmartDetectorAlertRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForSmartDetectorAlertRule tests if a specific instance of SmartDetectorAlertRule round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForSmartDetectorAlertRule(subject SmartDetectorAlertRule) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.SmartDetectorAlertRule
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual SmartDetectorAlertRule
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SmartDetectorAlertRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SmartDetectorAlertRule to SmartDetectorAlertRule via AssignProperties_To_SmartDetectorAlertRule & AssignProperties_From_SmartDetectorAlertRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSmartDetectorAlertRule, SmartDetectorAlertRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSmartDetectorAlertRule tests if a specific instance of SmartDetectorAlertRule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSmartDetectorAlertRule(subject SmartDetectorAlertRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SmartDetectorAlertRule
+	err := copied.AssignProperties_To_SmartDetectorAlertRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SmartDetectorAlertRule
+	err = actual.AssignProperties_From_SmartDetectorAlertRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SmartDetectorAlertRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -408,6 +704,48 @@ func AddRelatedPropertyGeneratorsForSmartDetectorAlertRule(gens map[string]gopte
 	gens["Status"] = SmartDetectorAlertRule_STATUSGenerator()
 }
 
+func Test_SmartDetectorAlertRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SmartDetectorAlertRuleOperatorSpec to SmartDetectorAlertRuleOperatorSpec via AssignProperties_To_SmartDetectorAlertRuleOperatorSpec & AssignProperties_From_SmartDetectorAlertRuleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSmartDetectorAlertRuleOperatorSpec, SmartDetectorAlertRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSmartDetectorAlertRuleOperatorSpec tests if a specific instance of SmartDetectorAlertRuleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSmartDetectorAlertRuleOperatorSpec(subject SmartDetectorAlertRuleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SmartDetectorAlertRuleOperatorSpec
+	err := copied.AssignProperties_To_SmartDetectorAlertRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SmartDetectorAlertRuleOperatorSpec
+	err = actual.AssignProperties_From_SmartDetectorAlertRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SmartDetectorAlertRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -461,6 +799,48 @@ func SmartDetectorAlertRuleOperatorSpecGenerator() gopter.Gen {
 	smartDetectorAlertRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SmartDetectorAlertRuleOperatorSpec{}), generators)
 
 	return smartDetectorAlertRuleOperatorSpecGenerator
+}
+
+func Test_SmartDetectorAlertRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SmartDetectorAlertRule_STATUS to SmartDetectorAlertRule_STATUS via AssignProperties_To_SmartDetectorAlertRule_STATUS & AssignProperties_From_SmartDetectorAlertRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSmartDetectorAlertRule_STATUS, SmartDetectorAlertRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSmartDetectorAlertRule_STATUS tests if a specific instance of SmartDetectorAlertRule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSmartDetectorAlertRule_STATUS(subject SmartDetectorAlertRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SmartDetectorAlertRule_STATUS
+	err := copied.AssignProperties_To_SmartDetectorAlertRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SmartDetectorAlertRule_STATUS
+	err = actual.AssignProperties_From_SmartDetectorAlertRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SmartDetectorAlertRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -551,6 +931,48 @@ func AddRelatedPropertyGeneratorsForSmartDetectorAlertRule_STATUS(gens map[strin
 	gens["Throttling"] = gen.PtrOf(ThrottlingInformation_STATUSGenerator())
 }
 
+func Test_SmartDetectorAlertRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SmartDetectorAlertRule_Spec to SmartDetectorAlertRule_Spec via AssignProperties_To_SmartDetectorAlertRule_Spec & AssignProperties_From_SmartDetectorAlertRule_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSmartDetectorAlertRule_Spec, SmartDetectorAlertRule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSmartDetectorAlertRule_Spec tests if a specific instance of SmartDetectorAlertRule_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSmartDetectorAlertRule_Spec(subject SmartDetectorAlertRule_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SmartDetectorAlertRule_Spec
+	err := copied.AssignProperties_To_SmartDetectorAlertRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SmartDetectorAlertRule_Spec
+	err = actual.AssignProperties_From_SmartDetectorAlertRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SmartDetectorAlertRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -638,6 +1060,48 @@ func AddRelatedPropertyGeneratorsForSmartDetectorAlertRule_Spec(gens map[string]
 	gens["Throttling"] = gen.PtrOf(ThrottlingInformationGenerator())
 }
 
+func Test_ThrottlingInformation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ThrottlingInformation to ThrottlingInformation via AssignProperties_To_ThrottlingInformation & AssignProperties_From_ThrottlingInformation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForThrottlingInformation, ThrottlingInformationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForThrottlingInformation tests if a specific instance of ThrottlingInformation can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForThrottlingInformation(subject ThrottlingInformation) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ThrottlingInformation
+	err := copied.AssignProperties_To_ThrottlingInformation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ThrottlingInformation
+	err = actual.AssignProperties_From_ThrottlingInformation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ThrottlingInformation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -697,6 +1161,48 @@ func ThrottlingInformationGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForThrottlingInformation is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForThrottlingInformation(gens map[string]gopter.Gen) {
 	gens["Duration"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ThrottlingInformation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ThrottlingInformation_STATUS to ThrottlingInformation_STATUS via AssignProperties_To_ThrottlingInformation_STATUS & AssignProperties_From_ThrottlingInformation_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForThrottlingInformation_STATUS, ThrottlingInformation_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForThrottlingInformation_STATUS tests if a specific instance of ThrottlingInformation_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForThrottlingInformation_STATUS(subject ThrottlingInformation_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ThrottlingInformation_STATUS
+	err := copied.AssignProperties_To_ThrottlingInformation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ThrottlingInformation_STATUS
+	err = actual.AssignProperties_From_ThrottlingInformation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ThrottlingInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -36,7 +36,8 @@ func DeleteGeneratedCode(outputFolder string) *Stage {
 			}
 
 			return state, nil
-		})
+		},
+	)
 }
 
 func deleteGeneratedCodeFromFolder(ctx context.Context, outputFolder string) error {

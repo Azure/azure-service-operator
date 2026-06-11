@@ -66,7 +66,8 @@ func NewConfigMapExporterInterface(
 		[]string{"Spec", astmodel.OperatorSpecProperty, astmodel.OperatorSpecConfigMapExpressionsProperty},
 		"ConfigMapDestinationExpressions",
 		astmodel.DestinationExpressionCollectionType,
-		astmodel.ConfigMapExporterType)
+		astmodel.ConfigMapExporterType,
+	)
 }
 
 func NewSecretsExporterInterface(
@@ -82,7 +83,8 @@ func NewSecretsExporterInterface(
 		[]string{"Spec", astmodel.OperatorSpecProperty, astmodel.OperatorSpecSecretExpressionsProperty},
 		"SecretDestinationExpressions",
 		astmodel.DestinationExpressionCollectionType,
-		astmodel.SecretExporterType)
+		astmodel.SecretExporterType,
+	)
 }
 
 func (d *PropertyExporter) ToInterfaceImplementation() *astmodel.InterfaceImplementation {
@@ -91,12 +93,14 @@ func (d *PropertyExporter) ToInterfaceImplementation() *astmodel.InterfaceImplem
 			d.functionName,
 			d.resource,
 			d.idFactory,
-			d.getPropertyFunction),
+			d.getPropertyFunction,
+		),
 	}
 
 	return astmodel.NewInterfaceImplementation(
 		d.interfaceName,
-		funcs...)
+		funcs...,
+	)
 }
 
 // getPropertyFunction returns a function declaration for getting the property.
@@ -125,7 +129,8 @@ func (d *PropertyExporter) getPropertyFunction(
 			nilChecks,
 			astbuilder.ReturnIfNil(
 				astbuilder.Selector(
-					dst.NewIdent(receiverIdent), check...), astbuilder.Nil(),
+					dst.NewIdent(receiverIdent), check...,
+				), astbuilder.Nil(),
 			),
 		)
 	}
@@ -138,7 +143,8 @@ func (d *PropertyExporter) getPropertyFunction(
 		Name:          d.functionName,
 		Body: astbuilder.Statements(
 			nilChecks,
-			ret),
+			ret,
+		),
 	}
 
 	exportTypeExpr, err := d.exportType.AsTypeExpr(genContext)

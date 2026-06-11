@@ -7,7 +7,7 @@ metadata:
   {{- end }}
   labels:
     app.kubernetes.io/name: azure-service-operator
-    app.kubernetes.io/version: v2.18.0
+    app.kubernetes.io/version: v2.19.0
     control-plane: controller-manager
   name: azureserviceoperator-controller-manager
   namespace: {{ .Release.Namespace }}
@@ -31,7 +31,7 @@ spec:
         aadpodidbinding: aso-manager-binding
         {{- end }}
         app.kubernetes.io/name: azure-service-operator
-        app.kubernetes.io/version: v2.18.0
+        app.kubernetes.io/version: v2.19.0
         control-plane: controller-manager
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
@@ -55,6 +55,9 @@ spec:
         - --metrics-addr={{ tpl .Values.metrics.address . }}
         - --secure-metrics={{ .Values.metrics.secure }}
         - --profiling-metrics={{ .Values.metrics.profiling }}
+        {{- if .Values.metrics.secure }}
+        - --metrics-cert-dir=/tmp/k8s-metrics-server/serving-certs
+        {{- end }}
         {{- end }}
         - --health-addr=:8081
         - --enable-leader-election
@@ -256,6 +259,11 @@ spec:
           name: cert
           readOnly: true
         {{- end }}
+        {{- if and .Values.metrics.enable .Values.metrics.secure }}
+        - mountPath: /tmp/k8s-metrics-server/serving-certs
+          name: metrics-cert
+          readOnly: true
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
       {{- toYaml . | nindent 8 }}
@@ -275,6 +283,12 @@ spec:
         secret:
           defaultMode: 420
           secretName: webhook-server-cert
+      {{- end }}
+      {{- if and .Values.metrics.enable .Values.metrics.secure }}
+      - name: metrics-cert
+        secret:
+          defaultMode: 420
+          secretName: metrics-server-cert
       {{- end }}
       - name: azure-identity
         projected:

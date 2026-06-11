@@ -167,7 +167,8 @@ func (file *FileDefinition) AsAst() (result *dst.File, err error) {
 	codeGenContext := NewCodeGenerationContext(
 		file.packageReference,
 		file.generateImports(),
-		file.generatedPackages)
+		file.generatedPackages,
+	)
 
 	// Create all definitions:
 	var declarations []dst.Decl

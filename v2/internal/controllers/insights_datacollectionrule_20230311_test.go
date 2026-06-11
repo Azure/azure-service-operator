@@ -53,8 +53,8 @@ func Test_Insights_DataCollectionRule_v20210601_CRUD(t *testing.T) {
 							"\\Processor Information(_Total)\\% User Time",
 						},
 						SamplingFrequencyInSeconds: to.Ptr(10),
-						Streams: []insights.PerfCounterDataSource_Streams{
-							insights.PerfCounterDataSource_Streams_MicrosoftPerf,
+						Streams: []string{
+							"Microsoft-Perf",
 						},
 					},
 				},
@@ -69,8 +69,8 @@ func Test_Insights_DataCollectionRule_v20210601_CRUD(t *testing.T) {
 			},
 			DataFlows: []insights.DataFlow{
 				{
-					Streams: []insights.DataFlow_Streams{
-						insights.DataFlow_Streams_MicrosoftPerf,
+					Streams: []string{
+						"Microsoft-Perf",
 					},
 					Destinations: []string{
 						"logAnalyticsDestination",
@@ -98,7 +98,8 @@ func Test_Insights_DataCollectionRule_v20210601_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(insights.APIVersion_Value))
+		string(insights.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 

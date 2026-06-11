@@ -47,13 +47,15 @@ func MarkLatestStorageVariantAsHubVersion() *Stage {
 
 					// Nothing to modify, nothing to return
 					return nil, nil
-				})
+				},
+			)
 			if err != nil {
 				return nil, eris.Wrap(err, "marking storage versions")
 			}
 
 			return state.WithOverlaidDefinitions(updatedDefs), nil
-		})
+		},
+	)
 
 	stage.RequiresPrerequisiteStages(CreateConversionGraphStageID)
 	return stage

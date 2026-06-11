@@ -44,7 +44,8 @@ func Test_Success_WithoutSyncPeriod_ReturnsEmptyResult(t *testing.T) {
 			ErrorMaxFastDelay:  5 * time.Second,
 			ErrorMaxSlowDelay:  10 * time.Second,
 			ErrorVerySlowDelay: 20 * time.Second,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
@@ -67,7 +68,8 @@ func Test_Success_WithSyncPeriod_ReturnsSyncPeriod(t *testing.T) {
 			ErrorMaxSlowDelay:  10 * time.Second,
 			ErrorVerySlowDelay: 20 * time.Second,
 			SyncPeriod:         &syncPeriod,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
@@ -94,7 +96,8 @@ func Test_Requeue_ReturnsResultUnmodified(t *testing.T) {
 			ErrorMaxSlowDelay:  10 * time.Second,
 			ErrorVerySlowDelay: 20 * time.Second,
 			SyncPeriod:         &syncPeriod,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
@@ -118,7 +121,8 @@ func Test_RequeueWithDelayOverride_ReturnsResultWithDelay(t *testing.T) {
 			ErrorVerySlowDelay:   20 * time.Second,
 			SyncPeriod:           &syncPeriod,
 			RequeueDelayOverride: 77 * time.Second,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
@@ -139,7 +143,8 @@ func Test_Error_ReturnedAsIs(t *testing.T) {
 			ErrorMaxFastDelay:  5 * time.Second,
 			ErrorMaxSlowDelay:  10 * time.Second,
 			ErrorVerySlowDelay: 20 * time.Second,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
@@ -161,7 +166,8 @@ func Test_ErrorFollowedBySuccess_ClearsFailureTracking(t *testing.T) {
 			ErrorMaxFastDelay:  5 * time.Second,
 			ErrorMaxSlowDelay:  10 * time.Second,
 			ErrorVerySlowDelay: 20 * time.Second,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
@@ -187,7 +193,8 @@ func Test_ReadyConditionErrorWithErrorSeverity_ReturnsSuccess(t *testing.T) {
 			ErrorMaxFastDelay:  5 * time.Second,
 			ErrorMaxSlowDelay:  10 * time.Second,
 			ErrorVerySlowDelay: 20 * time.Second,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
@@ -209,14 +216,16 @@ func Test_ReadyConditionErrorWithSlowBackoff_UsesSlowBackoff(t *testing.T) {
 			ErrorMaxFastDelay:  5 * time.Second,
 			ErrorMaxSlowDelay:  10 * time.Second,
 			ErrorVerySlowDelay: 20 * time.Second,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
 	inputErr := conditions.NewReadyConditionImpactingError(
 		eris.New("problem"),
 		conditions.ConditionSeverityWarning,
-		conditions.Reason{Name: "Abc", RetryClassification: retry.Slow})
+		conditions.Reason{Name: "Abc", RetryClassification: retry.Slow},
+	)
 
 	expectedDelaySec := []int64{1, 2, 4, 8, 10, 10, 10}
 
@@ -246,14 +255,16 @@ func Test_ReadyConditionErrorWithFastBackoff_UsesFastBackoff(t *testing.T) {
 			ErrorMaxFastDelay:  5 * time.Second,
 			ErrorMaxSlowDelay:  10 * time.Second,
 			ErrorVerySlowDelay: 20 * time.Second,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
 	inputErr := conditions.NewReadyConditionImpactingError(
 		eris.New("problem"),
 		conditions.ConditionSeverityWarning,
-		conditions.Reason{Name: "Abc", RetryClassification: retry.Fast})
+		conditions.Reason{Name: "Abc", RetryClassification: retry.Fast},
+	)
 
 	expectedDelaySec := []int64{1, 2, 4, 5, 5, 5, 5}
 
@@ -283,14 +294,16 @@ func Test_ReadyConditionErrorWithVerySlowBackoff_UsesVerySlowBackoff(t *testing.
 			ErrorMaxFastDelay:  5 * time.Second,
 			ErrorMaxSlowDelay:  10 * time.Second,
 			ErrorVerySlowDelay: 20 * time.Second,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
 	inputErr := conditions.NewReadyConditionImpactingError(
 		eris.New("problem"),
 		conditions.ConditionSeverityWarning,
-		conditions.Reason{Name: "Abc", RetryClassification: retry.VerySlow})
+		conditions.Reason{Name: "Abc", RetryClassification: retry.VerySlow},
+	)
 
 	result, err := calc.NextInterval(req, ctrl.Result{}, inputErr)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -322,7 +335,8 @@ func Test_KubeClientNotFoundError_ReturnsSuccess(t *testing.T) {
 			ErrorMaxFastDelay:  5 * time.Second,
 			ErrorMaxSlowDelay:  10 * time.Second,
 			ErrorVerySlowDelay: 20 * time.Second,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 
@@ -349,7 +363,8 @@ func Test_KubeClientConflict_ReturnsBackoff(t *testing.T) {
 			ErrorMaxFastDelay:  5 * time.Second,
 			ErrorMaxSlowDelay:  10 * time.Second,
 			ErrorVerySlowDelay: 20 * time.Second,
-		})
+		},
+	)
 
 	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
 

@@ -816,3 +816,7 @@ PrivateDnsZonesVirtualNetworkLink: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     └── VirtualNetworkLinkState: *string
 
+augmentConversionForSubResource: Interface
+
+augmentConversionForSubResource_STATUS: Interface
+

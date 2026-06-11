@@ -39,7 +39,9 @@ func createGetStatusFunction(
 		Name:          "GetStatus",
 		Body: astbuilder.Statements(
 			astbuilder.Returns(
-				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")))),
+				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Status")),
+			),
+		),
 	}
 
 	convertibleStatusInterfaceExpr, err := astmodel.ConvertibleStatusInterfaceType.AsTypeExpr(genContext)

@@ -1672,7 +1672,7 @@ func (maps *BackupVaultOperatorConfigMaps) AssignProperties_From_BackupVaultOper
 
 	// PrincipalId
 	if source.PrincipalId != nil {
-		principalId := source.PrincipalId.Copy()
+		principalId := *source.PrincipalId.DeepCopy()
 		maps.PrincipalId = &principalId
 	} else {
 		maps.PrincipalId = nil
@@ -1705,7 +1705,7 @@ func (maps *BackupVaultOperatorConfigMaps) AssignProperties_To_BackupVaultOperat
 
 	// PrincipalId
 	if maps.PrincipalId != nil {
-		principalId := maps.PrincipalId.Copy()
+		principalId := *maps.PrincipalId.DeepCopy()
 		destination.PrincipalId = &principalId
 	} else {
 		destination.PrincipalId = nil

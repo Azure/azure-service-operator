@@ -114,9 +114,11 @@ func newPrivateEndpoint20240301(tc *testcommon.KubePerTestContext, rg *resources
 			Owner:    testcommon.AsOwner(rg),
 			PrivateLinkServiceConnections: []network.PrivateLinkServiceConnection{
 				{
-					Name:                        to.Ptr("testEndpoint"),
-					PrivateLinkServiceReference: tc.MakeReferenceFromResource(sa),
-					GroupIds:                    []string{"blob"}, // TODO: This is a bit weird that user has to figure out the group ID(s).
+					Name: to.Ptr("testEndpoint"),
+					PrivateLinkServiceReference: &genruntime.WellKnownResourceReference{
+						ResourceReference: *tc.MakeReferenceFromResource(sa),
+					},
+					GroupIds: []string{"blob"}, // TODO: This is a bit weird that user has to figure out the group ID(s).
 				},
 			},
 			Subnet: &network.Subnet_PrivateEndpoint_SubResourceEmbedded{

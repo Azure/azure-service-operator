@@ -1352,7 +1352,7 @@ func (in *ApplicationGatewayOperatorSpec) DeepCopyInto(out *ApplicationGatewayOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1370,7 +1370,7 @@ func (in *ApplicationGatewayOperatorSpec) DeepCopyInto(out *ApplicationGatewayOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3613,7 +3613,7 @@ func (in *BastionHostOperatorSpec) DeepCopyInto(out *BastionHostOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3631,7 +3631,7 @@ func (in *BastionHostOperatorSpec) DeepCopyInto(out *BastionHostOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3952,7 +3952,7 @@ func (in *DnsForwardingRuleSetsForwardingRuleOperatorSpec) DeepCopyInto(out *Dns
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3970,7 +3970,7 @@ func (in *DnsForwardingRuleSetsForwardingRuleOperatorSpec) DeepCopyInto(out *Dns
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4194,7 +4194,7 @@ func (in *DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec) DeepCopyInto(out 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4212,7 +4212,7 @@ func (in *DnsForwardingRuleSetsVirtualNetworkLinkOperatorSpec) DeepCopyInto(out 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4412,7 +4412,7 @@ func (in *DnsForwardingRulesetOperatorSpec) DeepCopyInto(out *DnsForwardingRules
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4430,7 +4430,7 @@ func (in *DnsForwardingRulesetOperatorSpec) DeepCopyInto(out *DnsForwardingRules
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4649,7 +4649,7 @@ func (in *DnsResolverOperatorSpec) DeepCopyInto(out *DnsResolverOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4667,7 +4667,7 @@ func (in *DnsResolverOperatorSpec) DeepCopyInto(out *DnsResolverOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4887,7 +4887,7 @@ func (in *DnsResolversInboundEndpointOperatorSpec) DeepCopyInto(out *DnsResolver
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4905,7 +4905,7 @@ func (in *DnsResolversInboundEndpointOperatorSpec) DeepCopyInto(out *DnsResolver
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5124,7 +5124,7 @@ func (in *DnsResolversOutboundEndpointOperatorSpec) DeepCopyInto(out *DnsResolve
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5142,7 +5142,7 @@ func (in *DnsResolversOutboundEndpointOperatorSpec) DeepCopyInto(out *DnsResolve
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5723,7 +5723,7 @@ func (in *NatGatewayOperatorSpec) DeepCopyInto(out *NatGatewayOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5741,7 +5741,7 @@ func (in *NatGatewayOperatorSpec) DeepCopyInto(out *NatGatewayOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6356,7 +6356,7 @@ func (in *PrivateEndpointOperatorConfigMaps) DeepCopyInto(out *PrivateEndpointOp
 	if in.PrimaryNicPrivateIpAddress != nil {
 		in, out := &in.PrimaryNicPrivateIpAddress, &out.PrimaryNicPrivateIpAddress
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
@@ -6387,7 +6387,7 @@ func (in *PrivateEndpointOperatorSpec) DeepCopyInto(out *PrivateEndpointOperator
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6410,7 +6410,7 @@ func (in *PrivateEndpointOperatorSpec) DeepCopyInto(out *PrivateEndpointOperator
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6705,7 +6705,7 @@ func (in *PrivateEndpointsPrivateDnsZoneGroupOperatorSpec) DeepCopyInto(out *Pri
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6723,7 +6723,7 @@ func (in *PrivateEndpointsPrivateDnsZoneGroupOperatorSpec) DeepCopyInto(out *Pri
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6881,7 +6881,7 @@ func (in *PrivateLinkServiceConnection) DeepCopyInto(out *PrivateLinkServiceConn
 	}
 	if in.PrivateLinkServiceReference != nil {
 		in, out := &in.PrivateLinkServiceReference, &out.PrivateLinkServiceReference
-		*out = new(genruntime.ResourceReference)
+		*out = new(genruntime.WellKnownResourceReference)
 		**out = **in
 	}
 	if in.PropertyBag != nil {
@@ -7211,7 +7211,7 @@ func (in *PrivateLinkServiceOperatorConfigMaps) DeepCopyInto(out *PrivateLinkSer
 	if in.Alias != nil {
 		in, out := &in.Alias, &out.Alias
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
@@ -7242,7 +7242,7 @@ func (in *PrivateLinkServiceOperatorSpec) DeepCopyInto(out *PrivateLinkServiceOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -7265,7 +7265,7 @@ func (in *PrivateLinkServiceOperatorSpec) DeepCopyInto(out *PrivateLinkServiceOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -7557,7 +7557,7 @@ func (in *PublicIPPrefixOperatorSpec) DeepCopyInto(out *PublicIPPrefixOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -7575,7 +7575,7 @@ func (in *PublicIPPrefixOperatorSpec) DeepCopyInto(out *PublicIPPrefixOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

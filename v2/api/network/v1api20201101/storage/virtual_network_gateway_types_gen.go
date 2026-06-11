@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	v20240101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240101/storage"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
@@ -53,22 +52,36 @@ var _ conversion.Convertible = &VirtualNetworkGateway{}
 
 // ConvertFrom populates our VirtualNetworkGateway from the provided hub VirtualNetworkGateway
 func (gateway *VirtualNetworkGateway) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*v20240301s.VirtualNetworkGateway)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/VirtualNetworkGateway but received %T instead", hub)
+	// intermediate variable for conversion
+	var source v20240301s.VirtualNetworkGateway
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return gateway.AssignProperties_From_VirtualNetworkGateway(source)
+	err = gateway.AssignProperties_From_VirtualNetworkGateway(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to gateway")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualNetworkGateway from our VirtualNetworkGateway
 func (gateway *VirtualNetworkGateway) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*v20240301s.VirtualNetworkGateway)
-	if !ok {
-		return fmt.Errorf("expected network/v1api20240301/storage/VirtualNetworkGateway but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination v20240301s.VirtualNetworkGateway
+	err := gateway.AssignProperties_To_VirtualNetworkGateway(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from gateway")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return gateway.AssignProperties_To_VirtualNetworkGateway(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &VirtualNetworkGateway{}
@@ -2496,7 +2509,7 @@ type VpnClientConfiguration struct {
 	AadTenant                    *string                       `json:"aadTenant,omitempty"`
 	PropertyBag                  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	RadiusServerAddress          *string                       `json:"radiusServerAddress,omitempty"`
-	RadiusServerSecret           *string                       `json:"radiusServerSecret,omitempty"`
+	RadiusServerSecret           *genruntime.SecretReference   `json:"radiusServerSecret,omitempty"`
 	RadiusServers                []RadiusServer                `json:"radiusServers,omitempty"`
 	VpnAuthenticationTypes       []string                      `json:"vpnAuthenticationTypes,omitempty"`
 	VpnClientAddressPool         *AddressSpace                 `json:"vpnClientAddressPool,omitempty"`
@@ -2524,7 +2537,12 @@ func (configuration *VpnClientConfiguration) AssignProperties_From_VpnClientConf
 	configuration.RadiusServerAddress = genruntime.ClonePointerToString(source.RadiusServerAddress)
 
 	// RadiusServerSecret
-	configuration.RadiusServerSecret = genruntime.ClonePointerToString(source.RadiusServerSecret)
+	if source.RadiusServerSecret != nil {
+		radiusServerSecret := source.RadiusServerSecret.Copy()
+		configuration.RadiusServerSecret = &radiusServerSecret
+	} else {
+		configuration.RadiusServerSecret = nil
+	}
 
 	// RadiusServers
 	if source.RadiusServers != nil {
@@ -2653,7 +2671,12 @@ func (configuration *VpnClientConfiguration) AssignProperties_To_VpnClientConfig
 	destination.RadiusServerAddress = genruntime.ClonePointerToString(configuration.RadiusServerAddress)
 
 	// RadiusServerSecret
-	destination.RadiusServerSecret = genruntime.ClonePointerToString(configuration.RadiusServerSecret)
+	if configuration.RadiusServerSecret != nil {
+		radiusServerSecret := configuration.RadiusServerSecret.Copy()
+		destination.RadiusServerSecret = &radiusServerSecret
+	} else {
+		destination.RadiusServerSecret = nil
+	}
 
 	// RadiusServers
 	if configuration.RadiusServers != nil {
@@ -2778,7 +2801,6 @@ type VpnClientConfiguration_STATUS struct {
 	AadTenant                    *string                              `json:"aadTenant,omitempty"`
 	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	RadiusServerAddress          *string                              `json:"radiusServerAddress,omitempty"`
-	RadiusServerSecret           *string                              `json:"radiusServerSecret,omitempty"`
 	RadiusServers                []RadiusServer_STATUS                `json:"radiusServers,omitempty"`
 	VpnAuthenticationTypes       []string                             `json:"vpnAuthenticationTypes,omitempty"`
 	VpnClientAddressPool         *AddressSpace_STATUS                 `json:"vpnClientAddressPool,omitempty"`
@@ -2804,9 +2826,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_From_VpnCli
 
 	// RadiusServerAddress
 	configuration.RadiusServerAddress = genruntime.ClonePointerToString(source.RadiusServerAddress)
-
-	// RadiusServerSecret
-	configuration.RadiusServerSecret = genruntime.ClonePointerToString(source.RadiusServerSecret)
 
 	// RadiusServers
 	if source.RadiusServers != nil {
@@ -2933,9 +2952,6 @@ func (configuration *VpnClientConfiguration_STATUS) AssignProperties_To_VpnClien
 
 	// RadiusServerAddress
 	destination.RadiusServerAddress = genruntime.ClonePointerToString(configuration.RadiusServerAddress)
-
-	// RadiusServerSecret
-	destination.RadiusServerSecret = genruntime.ClonePointerToString(configuration.RadiusServerSecret)
 
 	// RadiusServers
 	if configuration.RadiusServers != nil {
@@ -3478,10 +3494,10 @@ func (policy *IpsecPolicy_STATUS) AssignProperties_To_IpsecPolicy_STATUS(destina
 // Storage version of v1api20201101.RadiusServer
 // Radius Server Settings.
 type RadiusServer struct {
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RadiusServerAddress *string                `json:"radiusServerAddress,omitempty"`
-	RadiusServerScore   *int                   `json:"radiusServerScore,omitempty"`
-	RadiusServerSecret  *string                `json:"radiusServerSecret,omitempty"`
+	PropertyBag         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	RadiusServerAddress *string                     `json:"radiusServerAddress,omitempty"`
+	RadiusServerScore   *int                        `json:"radiusServerScore,omitempty"`
+	RadiusServerSecret  *genruntime.SecretReference `json:"radiusServerSecret,omitempty"`
 }
 
 // AssignProperties_From_RadiusServer populates our RadiusServer from the provided source RadiusServer
@@ -3496,7 +3512,12 @@ func (server *RadiusServer) AssignProperties_From_RadiusServer(source *v20240301
 	server.RadiusServerScore = genruntime.ClonePointerToInt(source.RadiusServerScore)
 
 	// RadiusServerSecret
-	server.RadiusServerSecret = genruntime.ClonePointerToString(source.RadiusServerSecret)
+	if source.RadiusServerSecret != nil {
+		radiusServerSecret := source.RadiusServerSecret.Copy()
+		server.RadiusServerSecret = &radiusServerSecret
+	} else {
+		server.RadiusServerSecret = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3530,7 +3551,12 @@ func (server *RadiusServer) AssignProperties_To_RadiusServer(destination *v20240
 	destination.RadiusServerScore = genruntime.ClonePointerToInt(server.RadiusServerScore)
 
 	// RadiusServerSecret
-	destination.RadiusServerSecret = genruntime.ClonePointerToString(server.RadiusServerSecret)
+	if server.RadiusServerSecret != nil {
+		radiusServerSecret := server.RadiusServerSecret.Copy()
+		destination.RadiusServerSecret = &radiusServerSecret
+	} else {
+		destination.RadiusServerSecret = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3558,7 +3584,6 @@ type RadiusServer_STATUS struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RadiusServerAddress *string                `json:"radiusServerAddress,omitempty"`
 	RadiusServerScore   *int                   `json:"radiusServerScore,omitempty"`
-	RadiusServerSecret  *string                `json:"radiusServerSecret,omitempty"`
 }
 
 // AssignProperties_From_RadiusServer_STATUS populates our RadiusServer_STATUS from the provided source RadiusServer_STATUS
@@ -3571,9 +3596,6 @@ func (server *RadiusServer_STATUS) AssignProperties_From_RadiusServer_STATUS(sou
 
 	// RadiusServerScore
 	server.RadiusServerScore = genruntime.ClonePointerToInt(source.RadiusServerScore)
-
-	// RadiusServerSecret
-	server.RadiusServerSecret = genruntime.ClonePointerToString(source.RadiusServerSecret)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3605,9 +3627,6 @@ func (server *RadiusServer_STATUS) AssignProperties_To_RadiusServer_STATUS(desti
 
 	// RadiusServerScore
 	destination.RadiusServerScore = genruntime.ClonePointerToInt(server.RadiusServerScore)
-
-	// RadiusServerSecret
-	destination.RadiusServerSecret = genruntime.ClonePointerToString(server.RadiusServerSecret)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

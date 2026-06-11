@@ -63,7 +63,8 @@ func (a *typeAccess[T]) lookupCore(
 		func(configuration *TypeConfiguration) error {
 			c = a.accessor(configuration)
 			return nil
-		})
+		},
+	)
 
 	err := visitor.visit(a.model)
 	if err != nil {
@@ -85,7 +86,8 @@ func (a *typeAccess[T]) VerifyConsumed() error {
 		func(configuration *TypeConfiguration) error {
 			c := a.accessor(configuration)
 			return c.VerifyConsumed()
-		})
+		},
+	)
 	err := visitor.visit(a.model)
 	if err != nil {
 		return err
@@ -105,7 +107,8 @@ func (a *typeAccess[T]) MarkUnconsumed() error {
 			c := a.accessor(configuration)
 			c.MarkUnconsumed()
 			return nil
-		})
+		},
+	)
 
 	return visitor.visit(a.model)
 }

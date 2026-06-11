@@ -72,12 +72,14 @@ func NewResourceConversionTestCase(
 			"expected ConvertFrom(%s) and ConvertTo(%s) on %s to have the same parameter type",
 			result.fromFn.Hub(),
 			result.toFn.Hub(),
-			name)
+			name,
+		)
 	}
 
 	result.testName = fmt.Sprintf(
 		"%s_WhenConvertedToHub_RoundTripsWithoutLoss",
-		name.Name())
+		name.Name(),
+	)
 
 	return result, nil
 }
@@ -91,7 +93,8 @@ func (tc *ResourceConversionTestCase) Name() string {
 func (tc *ResourceConversionTestCase) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet(
 		tc.subject,
-		tc.toFn.Hub())
+		tc.toFn.Hub(),
+	)
 }
 
 // RequiredImports returns a set of the package imports required by this test case
@@ -177,26 +180,30 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.ShortDeclaration(
 		parametersLocal,
-		astbuilder.CallQualifiedFunc(gopterPackage, "DefaultTestParameters"))
+		astbuilder.CallQualifiedFunc(gopterPackage, "DefaultTestParameters"),
+	)
 
 	// parameters.MaxSize = 10
 	configureMaxSize := astbuilder.QualifiedAssignment(
 		dst.NewIdent(parametersLocal),
 		"MaxSize",
 		token.ASSIGN,
-		astbuilder.IntLiteral(10))
+		astbuilder.IntLiteral(10),
+	)
 
 	// parameters.MinSuccessfulTests = 10
 	configureMinSuccessfulTests := astbuilder.QualifiedAssignment(
 		dst.NewIdent(parametersLocal),
 		"MinSuccessfulTests",
 		token.ASSIGN,
-		astbuilder.IntLiteral(10))
+		astbuilder.IntLiteral(10),
+	)
 
 	// properties := gopter.NewProperties(parameters)
 	defineProperties := astbuilder.ShortDeclaration(
 		propertiesLocal,
-		astbuilder.CallQualifiedFunc(gopterPackage, "NewProperties", dst.NewIdent(parametersLocal)))
+		astbuilder.CallQualifiedFunc(gopterPackage, "NewProperties", dst.NewIdent(parametersLocal)),
+	)
 
 	// partial expression: description of the test
 	testName := astbuilder.StringLiteralf("Round trip from %s to hub returns original", tc.subject.Name())
@@ -207,7 +214,8 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 		propPackage,
 		"ForAll",
 		dst.NewIdent(tc.idOfTestMethod()),
-		astbuilder.CallFunc(idOfGeneratorMethod(tc.subject, tc.idFactory)))
+		astbuilder.CallFunc(idOfGeneratorMethod(tc.subject, tc.idFactory)),
+	)
 	propForAll.Decs.Before = dst.NewLine
 
 	// properties.Property("...", prop.ForAll(RunTestForX, XGenerator())
@@ -215,7 +223,8 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 		propertiesLocal,
 		propertyMethod,
 		testName,
-		propForAll)
+		propForAll,
+	)
 
 	// properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 	createReporter := astbuilder.CallQualifiedFunc(
@@ -223,7 +232,8 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 		"NewFormatedReporter",
 		dst.NewIdent("false"),
 		astbuilder.IntLiteral(240),
-		astbuilder.Selector(dst.NewIdent(osPackage), "Stdout"))
+		astbuilder.Selector(dst.NewIdent(osPackage), "Stdout"),
+	)
 	runTests := astbuilder.CallQualifiedFuncAsStmt(propertiesLocal, testingRunMethod, t, createReporter)
 
 	// Define our function
@@ -236,7 +246,8 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 		configureMinSuccessfulTests,
 		defineProperties,
 		defineTestCase,
-		runTests)
+		runTests,
+	)
 
 	return fn.DefineFunc()
 }
@@ -289,7 +300,8 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	// copied := subject.DeepCopy()
 	assignCopied := astbuilder.ShortDeclaration(
 		copiedID,
-		astbuilder.CallQualifiedFunc(subjectID, "DeepCopy"))
+		astbuilder.CallQualifiedFunc(subjectID, "DeepCopy"),
+	)
 	assignCopied.Decorations().Before = dst.NewLine
 	astbuilder.AddComment(&assignCopied.Decorations().Start, "// Copy subject to make sure conversion doesn't modify it")
 
@@ -302,7 +314,8 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	declareOther := astbuilder.LocalVariableDeclaration(
 		hubID,
 		hubExpr,
-		"// Convert to our hub version")
+		"// Convert to our hub version",
+	)
 	declareOther.Decorations().Before = dst.EmptyLine
 
 	// err := subject.ConvertTo(&hub)
@@ -311,12 +324,15 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 		astbuilder.CallQualifiedFunc(
 			copiedID,
 			tc.toFn.Name(),
-			astbuilder.AddrOf(dst.NewIdent(hubID))))
+			astbuilder.AddrOf(dst.NewIdent(hubID)),
+		),
+	)
 
 	// if err != nil { return err.Error() }
 	assignToFailed := astbuilder.ReturnIfNotNil(
 		dst.NewIdent(errID),
-		astbuilder.CallQualifiedFunc("err", "Error"))
+		astbuilder.CallQualifiedFunc("err", "Error"),
+	)
 
 	// var result OurType
 	subjectExpr, err := subject.AsTypeExpr(codegenContext)
@@ -327,7 +343,8 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	declareResult := astbuilder.LocalVariableDeclaration(
 		actualID,
 		subjectExpr,
-		"// Convert from our hub version")
+		"// Convert from our hub version",
+	)
 	declareResult.Decorations().Before = dst.EmptyLine
 
 	// err = result.ConvertFrom(&hub)
@@ -336,12 +353,15 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 		astbuilder.CallQualifiedFunc(
 			actualID,
 			tc.fromFn.Name(),
-			astbuilder.AddrOf(dst.NewIdent(hubID))))
+			astbuilder.AddrOf(dst.NewIdent(hubID)),
+		),
+	)
 
 	// if err != nil { return err.Error() }
 	assignFromFailed := astbuilder.ReturnIfNotNil(
 		dst.NewIdent(errID),
-		astbuilder.CallQualifiedFunc("err", "Error"))
+		astbuilder.CallQualifiedFunc("err", "Error"),
+	)
 
 	// match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
 	equateEmpty := astbuilder.CallQualifiedFunc(cmpoptsPackage, "EquateEmpty")
@@ -350,24 +370,28 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 		astbuilder.CallQualifiedFunc(cmpPackage, "Equal",
 			dst.NewIdent(subjectID),
 			dst.NewIdent(actualID),
-			equateEmpty))
+			equateEmpty),
+	)
 	compare.Decorations().Before = dst.EmptyLine
 	astbuilder.AddComment(&compare.Decorations().Start, "// Compare actual with what we started with")
 
 	// actualFmt := pretty.Sprint(actual)
 	declareActual := astbuilder.ShortDeclaration(
 		actualFmtID,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualID)))
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(actualID)),
+	)
 
 	// subjectFmt := pretty.Sprint(subject)
 	declareSubject := astbuilder.ShortDeclaration(
 		subjectFmtID,
-		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectID)))
+		astbuilder.CallQualifiedFunc(prettyPackage, "Sprint", dst.NewIdent(subjectID)),
+	)
 
 	// result := diff.Diff(subject, actual)
 	declareDiff := astbuilder.ShortDeclaration(
 		resultID,
-		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)))
+		astbuilder.CallQualifiedFunc(diffPackage, "Diff", dst.NewIdent(subjectFmtID), dst.NewIdent(actualFmtID)),
+	)
 
 	// return result
 	returnDiff := astbuilder.Returns(dst.NewIdent(resultID))
@@ -381,7 +405,8 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 		declareActual,
 		declareSubject,
 		declareDiff,
-		returnDiff)
+		returnDiff,
+	)
 
 	// return ""
 	ret := astbuilder.Returns(astbuilder.StringLiteral(""))
@@ -400,7 +425,8 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 			assignFromFailed,
 			compare,
 			prettyPrint,
-			ret),
+			ret,
+		),
 	}
 
 	subjectExpr, err = tc.subject.AsTypeExpr(codegenContext)
@@ -411,7 +437,8 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	fn.AddParameter("subject", subjectExpr)
 	fn.AddComments(fmt.Sprintf(
 		"tests if a specific instance of %s round trips to the hub storage version and back losslessly",
-		tc.subject.Name()))
+		tc.subject.Name(),
+	))
 	fn.AddReturns("string")
 
 	return fn.DefineFunc(), nil
@@ -420,5 +447,6 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 func (tc *ResourceConversionTestCase) idOfTestMethod() string {
 	return tc.idFactory.CreateIdentifier(
 		fmt.Sprintf("RunResourceConversionTestFor%s", tc.subject.Name()),
-		astmodel.Exported)
+		astmodel.Exported,
+	)
 }

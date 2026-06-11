@@ -122,7 +122,7 @@ func (replayer *replayRoundTripper) roundTripGet(request *http.Request) (*http.R
 	}
 
 	// We have a response; if it has a status, cache only if that represents a terminal state
-	cacheable := true
+	cacheable := replayer.isTerminalHTTPStatus(response.StatusCode)
 	if state, ok := replayer.resourceStateFromBody(response); ok {
 		cacheable = replayer.isTerminalProvisioningState(state)
 	}
@@ -247,6 +247,18 @@ func (replayer *replayRoundTripper) resourceStateFromBody(response *http.Respons
 	}
 
 	return "", false
+}
+
+// isTerminalHTTPStatus returns true if the specified HTTP status code represents a terminal state for a resource.
+// "Not existing" is pretty terminal.
+func (*replayRoundTripper) isTerminalHTTPStatus(status int) bool {
+	// Why these statuses?
+	// - 404 Not Found and 410 Gone indicate that the resource doesn't exist, that's not going to change unless we do a PUT
+	// - 201 Created and 200 OK indicate that the resource exists, and that no further processing is required by the server
+	return status == http.StatusNotFound ||
+		status == http.StatusGone ||
+		status == http.StatusCreated ||
+		status == http.StatusOK
 }
 
 // isTerminalStatus returns true if the specified status represents a terminal state a resource

@@ -28,7 +28,7 @@ func Test_KubernetesConfiguration_Extension_20230501_CRUD(t *testing.T) {
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	cluster := NewManagedCluster20240402preview(tc, rg, adminUsername, sshPublicKey)
+	cluster := NewManagedCluster20250801(tc, rg, adminUsername, sshPublicKey)
 
 	extension := &kubernetesconfiguration.Extension{
 		ObjectMeta: tc.MakeObjectMeta("extension"),
@@ -71,7 +71,7 @@ func Test_KubernetesConfiguration_Extension_ProtectedSettings_20230501(t *testin
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	cluster := NewManagedCluster20240402preview(tc, rg, adminUsername, sshPublicKey)
+	cluster := NewManagedCluster20250801(tc, rg, adminUsername, sshPublicKey)
 
 	secretName := "mysecret"
 

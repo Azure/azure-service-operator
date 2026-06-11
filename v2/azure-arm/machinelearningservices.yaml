@@ -1,0 +1,269 @@
+typeTransformers:
+  - name: EncryptionProperty
+    property: Status
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - name: SystemCreatedStorageAccount
+    property: ArmResourceId
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+  - name: SystemCreatedAcrAccount
+    property: ArmResourceId
+    remove: true
+    because: it is supposed to be marked ReadOnly in Swagger
+groupModelConfiguration:
+  2021-07-01:
+    AksNetworkingConfiguration:
+      SubnetId:
+        $referenceType: arm
+    IdentityForCmk:
+      UserAssignedIdentity:
+        $referenceType: arm+compat
+    KeyVaultProperties:
+      $nameInNextVersion: EncryptionKeyVaultProperties
+      KeyVaultArmId:
+        $referenceType: arm+compat
+    Kubernetes:
+      ResourceId:
+        $referenceType: arm
+    Workspace:
+      $exportAs: Workspace
+      $supportedFrom: v2.0.0-beta.2
+      $azureGeneratedSecrets:
+        - AppInsightsInstrumentationKey
+        - ContainerRegistryUserName
+        - ContainerRegistryPassword
+        - ContainerRegistryPassword2
+        - PrimaryNotebookAccessKey
+        - SecondaryNotebookAccessKey
+        - UserStorageKey
+    WorkspaceProperties:
+      ApplicationInsights:
+        $referenceType: arm
+      ContainerRegistry:
+        $referenceType: arm
+      KeyVault:
+        $referenceType: arm
+      PrimaryUserAssignedIdentity:
+        $referenceType: arm
+      StorageAccount:
+        $referenceType: arm
+    SharedPrivateLinkResourceProperty:
+      PrivateLinkResourceId:
+        $referenceType: arm
+    Workspaces_Compute:
+      $exportAs: WorkspacesCompute
+      $supportedFrom: v2.0.0-beta.2
+    HDInsight:
+      ResourceId:
+        $referenceType: arm
+    DataFactory:
+      ResourceId:
+        $referenceType: arm
+    DataLakeAnalytics:
+      ResourceId:
+        $referenceType: arm
+    Databricks:
+      ResourceId:
+        $referenceType: arm
+    DatabricksProperties:
+      DatabricksAccessToken:
+        $importSecretMode: required
+    AKS:
+      ResourceId:
+        $referenceType: arm
+    ComputeInstance:
+      ResourceId:
+        $referenceType: arm
+    SynapseSpark:
+      ResourceId:
+        $referenceType: arm
+    AmlCompute:
+      ResourceId:
+        $referenceType: arm
+    VirtualMachine:
+      ResourceId:
+        $referenceType: arm
+    VirtualMachineImage:
+      Id:
+        $referenceType: arm
+    UserAccountCredentials:
+      AdminUserPassword:
+        $importSecretMode: required
+      AdminUserSshPublicKey:
+        $importSecretMode: required
+    VirtualMachineSshCredentials:
+      Password:
+        $importSecretMode: required
+      PrivateKeyData:
+        $importSecretMode: required
+      PublicKeyData:
+        $importSecretMode: required
+    Workspaces_Connection:
+      $exportAs: WorkspacesConnection
+      $supportedFrom: v2.0.0-beta.2
+    Identity:
+      $nameInNextVersion: ManagedServiceIdentity
+    KeyVaultProperties_STATUS:
+      $nameInNextVersion: EncryptionKeyVaultProperties_STATUS
+    Identity_STATUS:
+      $nameInNextVersion: ManagedServiceIdentity_STATUS
+    SslConfiguration:
+      Key:
+        $importSecretMode: required
+      Cert:
+        $importSecretMode: required
+  2024-04-01:
+    AksNetworkingConfiguration:
+      SubnetId:
+        $referenceType: arm
+    IdentityForCmk:
+      UserAssignedIdentity:
+        $referenceType: arm
+    Kubernetes:
+      ResourceId:
+        $referenceType: arm
+    Workspace:
+      $exportAs: Workspace
+      $supportedFrom: v2.10.0
+      $azureGeneratedSecrets:
+        - AppInsightsInstrumentationKey
+        - ContainerRegistryUserName
+        - ContainerRegistryPassword
+        - ContainerRegistryPassword2
+        - PrimaryNotebookAccessKey
+        - SecondaryNotebookAccessKey
+        - UserStorageKey
+    WorkspaceConnectionUsernamePassword:
+      Password:
+        $importSecretMode: required
+    WorkspaceConnectionPersonalAccessToken:
+      Pat:
+        $importSecretMode: required
+    WorkspaceProperties:
+      HubResourceId:
+        $referenceType: arm
+      ApplicationInsights:
+        $referenceType: arm
+      ContainerRegistry:
+        $referenceType: arm
+      KeyVault:
+        $referenceType: arm
+      PrimaryUserAssignedIdentity:
+        $referenceType: arm
+      StorageAccount:
+        $referenceType: arm
+    WorkspaceConnectionManagedIdentity:
+      ResourceId:
+        $referenceType: arm
+      ClientId:
+        $importConfigMapMode: optional
+    ScheduleBase:
+      Id:
+        $referenceType: arm
+    EncryptionKeyVaultProperties:
+      KeyVaultArmId:
+        $referenceType: arm
+      IdentityClientId:
+        $importConfigMapMode: optional
+    SharedPrivateLinkResourceProperty:
+      PrivateLinkResourceId:
+        $referenceType: arm
+    Workspaces_Compute:
+      $exportAs: WorkspacesCompute
+      $supportedFrom: v2.10.0
+    HDInsight:
+      ResourceId:
+        $referenceType: arm
+    DataFactory:
+      ResourceId:
+        $referenceType: arm
+    DataLakeAnalytics:
+      ResourceId:
+        $referenceType: arm
+    Databricks:
+      ResourceId:
+        $referenceType: arm
+    AKS:
+      ResourceId:
+        $referenceType: arm
+    ComputeInstance:
+      ResourceId:
+        $referenceType: arm
+    SynapseSpark:
+      ResourceId:
+        $referenceType: arm
+    AmlCompute:
+      ResourceId:
+        $referenceType: arm
+    VirtualMachine:
+      ResourceId:
+        $referenceType: arm
+    VirtualMachineImage:
+      Id:
+        $referenceType: arm
+    UserAccountCredentials:
+      AdminUserPassword:
+        $importSecretMode: required
+    VirtualMachineSshCredentials:
+      Password:
+        $importSecretMode: required
+      PrivateKeyData:
+        $importSecretMode: required
+    Workspaces_Connection:
+      $exportAs: WorkspacesConnection
+      $supportedFrom: v2.10.0
+    AssignedUser:
+      ObjectId:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    KubernetesProperties:
+      ExtensionPrincipalId:
+        $importConfigMapMode: optional
+    PrivateEndpointDestination:
+      SubresourceTarget:
+        $referenceType: arm
+    AKS_Properties:
+      LoadBalancerSubnet:
+        $referenceType: arm
+    DatabricksProperties:
+      DatabricksAccessToken:
+        $importSecretMode: required
+    WorkspaceConnectionAccessKey:
+      SecretAccessKey:
+        $importSecretMode: required
+    WorkspaceConnectionApiKey:
+      Key:
+        $importSecretMode: required
+    CustomKeys:
+      Keys:
+        $importSecretMode: required
+    WorkspaceConnectionSharedAccessSignature:
+      Sas:
+        $importSecretMode: required
+    WorkspaceConnectionOAuth2:
+      ClientId:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    WorkspaceConnectionServicePrincipal:
+      ClientId:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
+    Registry:
+      $exportAs: Registry
+      $supportedFrom: v2.10.0
+      $generatedConfigs:
+        DiscoveryUrl: $.Status.DiscoveryUrl
+        MlFlowRegistryUri: $.Status.MlFlowRegistryUri
+    PrivateEndpointResource:
+      SubnetArmId:
+        $referenceType: arm
+    ArmResourceId:
+      ResourceId:
+        $referenceType: arm
+    RegistryPrivateEndpointConnection:
+      Id:
+        $referenceType: arm

@@ -169,7 +169,7 @@ func (in *RoleAssignmentOperatorSpec) DeepCopyInto(out *RoleAssignmentOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -192,7 +192,7 @@ func (in *RoleAssignmentOperatorSpec) DeepCopyInto(out *RoleAssignmentOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -453,7 +453,7 @@ func (in *RoleDefinitionOperatorSpec) DeepCopyInto(out *RoleDefinitionOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -476,7 +476,7 @@ func (in *RoleDefinitionOperatorSpec) DeepCopyInto(out *RoleDefinitionOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

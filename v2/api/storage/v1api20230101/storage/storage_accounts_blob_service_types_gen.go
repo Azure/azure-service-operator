@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20210401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -1333,13 +1333,8 @@ func (policy *DeleteRetentionPolicy) AssignProperties_From_DeleteRetentionPolicy
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AllowPermanentDelete
-	if propertyBag.Contains("AllowPermanentDelete") {
-		var allowPermanentDelete bool
-		err := propertyBag.Pull("AllowPermanentDelete", &allowPermanentDelete)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AllowPermanentDelete' from propertyBag")
-		}
-
+	if source.AllowPermanentDelete != nil {
+		allowPermanentDelete := *source.AllowPermanentDelete
 		policy.AllowPermanentDelete = &allowPermanentDelete
 	} else {
 		policy.AllowPermanentDelete = nil
@@ -1383,9 +1378,10 @@ func (policy *DeleteRetentionPolicy) AssignProperties_To_DeleteRetentionPolicy(d
 
 	// AllowPermanentDelete
 	if policy.AllowPermanentDelete != nil {
-		propertyBag.Add("AllowPermanentDelete", *policy.AllowPermanentDelete)
+		allowPermanentDelete := *policy.AllowPermanentDelete
+		destination.AllowPermanentDelete = &allowPermanentDelete
 	} else {
-		propertyBag.Remove("AllowPermanentDelete")
+		destination.AllowPermanentDelete = nil
 	}
 
 	// Days
@@ -1434,13 +1430,8 @@ func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_From_DeleteRetentio
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AllowPermanentDelete
-	if propertyBag.Contains("AllowPermanentDelete") {
-		var allowPermanentDelete bool
-		err := propertyBag.Pull("AllowPermanentDelete", &allowPermanentDelete)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AllowPermanentDelete' from propertyBag")
-		}
-
+	if source.AllowPermanentDelete != nil {
+		allowPermanentDelete := *source.AllowPermanentDelete
 		policy.AllowPermanentDelete = &allowPermanentDelete
 	} else {
 		policy.AllowPermanentDelete = nil
@@ -1484,9 +1475,10 @@ func (policy *DeleteRetentionPolicy_STATUS) AssignProperties_To_DeleteRetentionP
 
 	// AllowPermanentDelete
 	if policy.AllowPermanentDelete != nil {
-		propertyBag.Add("AllowPermanentDelete", *policy.AllowPermanentDelete)
+		allowPermanentDelete := *policy.AllowPermanentDelete
+		destination.AllowPermanentDelete = &allowPermanentDelete
 	} else {
-		propertyBag.Remove("AllowPermanentDelete")
+		destination.AllowPermanentDelete = nil
 	}
 
 	// Days

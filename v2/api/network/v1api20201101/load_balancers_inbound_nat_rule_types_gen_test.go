@@ -6,7 +6,7 @@ package v1api20201101
 import (
 	"encoding/json"
 	v20201101s "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101/storage"
-	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -37,7 +37,7 @@ func RunResourceConversionTestForLoadBalancersInboundNatRule(subject LoadBalance
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20240301s.LoadBalancersInboundNatRule
+	var hub v20250301s.LoadBalancersInboundNatRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

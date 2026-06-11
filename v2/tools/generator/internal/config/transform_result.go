@@ -23,12 +23,17 @@ type TransformResult struct {
 	Optional bool         `yaml:",omitempty"`
 	Required bool         `yaml:",omitempty"`
 	Map      *MapResult   `yaml:",omitempty"`
+	Slice    *SliceResult `yaml:",omitempty"`
 	Enum     *EnumResult  `yaml:",omitempty"`
 }
 
 type MapResult struct {
 	Key   TransformResult `yaml:",omitempty"`
 	Value TransformResult `yaml:",omitempty"`
+}
+
+type SliceResult struct {
+	Element TransformResult `yaml:",omitempty"`
 }
 
 type EnumResult struct {
@@ -69,6 +74,15 @@ func (tr *TransformResult) produceTargetType(
 		resultType = t
 	}
 
+	if tr.Slice != nil {
+		t, err := tr.produceTargetSliceType(descriptor, original)
+		if err != nil {
+			return nil, err
+		}
+
+		resultType = t
+	}
+
 	if tr.Enum != nil {
 		t, err := tr.produceTargetEnumType(descriptor)
 		if err != nil {
@@ -95,6 +109,10 @@ func (tr *TransformResult) produceTargetNamedType(original astmodel.Type) (astmo
 		return nil, eris.Errorf("cannot specify both Name transformation and Map transformation")
 	}
 
+	if tr.Slice != nil {
+		return nil, eris.Errorf("cannot specify both Name transformation and Slice transformation")
+	}
+
 	if tr.Enum != nil {
 		return nil, eris.Errorf("cannot specify both Name transformation and Enum transformation")
 	}
@@ -116,7 +134,8 @@ func (tr *TransformResult) produceTargetNamedType(original astmodel.Type) (astmo
 	if !ok {
 		return nil, eris.Errorf(
 			"cannot apply type transformation; expected InternalTypeName, but have %s",
-			astmodel.DebugDescription(original))
+			astmodel.DebugDescription(original),
+		)
 	}
 
 	result := tn
@@ -137,6 +156,10 @@ func (tr *TransformResult) produceTargetMapType(
 		return nil, eris.Errorf("cannot specify both Name transformation and Map transformation")
 	}
 
+	if tr.Slice != nil {
+		return nil, eris.Errorf("cannot specify both Map transformation and Slice transformation")
+	}
+
 	if tr.Enum != nil {
 		return nil, eris.Errorf("cannot specify both Map transformation and Enum transformation")
 	}
@@ -154,6 +177,31 @@ func (tr *TransformResult) produceTargetMapType(
 	return astmodel.NewMapType(keyType, valueType), nil
 }
 
+func (tr *TransformResult) produceTargetSliceType(
+	descriptor string,
+	original astmodel.Type,
+) (astmodel.Type, error) {
+	// Transform to slice, ensure we have no other transformation
+	if tr.Name.IsRestrictive() {
+		return nil, eris.Errorf("cannot specify both Name transformation and Slice transformation")
+	}
+
+	if tr.Map != nil {
+		return nil, eris.Errorf("cannot specify both Map transformation and Slice transformation")
+	}
+
+	if tr.Enum != nil {
+		return nil, eris.Errorf("cannot specify both Slice transformation and Enum transformation")
+	}
+
+	elementType, err := tr.Slice.Element.produceTargetType(descriptor+"/slice/element", original)
+	if err != nil {
+		return nil, err
+	}
+
+	return astmodel.NewArrayType(elementType), nil
+}
+
 func (tr *TransformResult) produceTargetEnumType(
 	_ string,
 ) (astmodel.Type, error) {
@@ -164,6 +212,10 @@ func (tr *TransformResult) produceTargetEnumType(
 
 	if tr.Map != nil {
 		return nil, eris.Errorf("cannot specify both Map transformation and Enum transformation")
+	}
+
+	if tr.Slice != nil {
+		return nil, eris.Errorf("cannot specify both Slice transformation and Enum transformation")
 	}
 
 	if tr.Enum.Base == "" {
@@ -244,6 +296,7 @@ func (tr *TransformResult) asPrimitiveType(name string) (*astmodel.PrimitiveType
 func (tr *TransformResult) validate() error {
 	if !tr.Name.IsRestrictive() &&
 		tr.Map == nil &&
+		tr.Slice == nil &&
 		tr.Enum == nil &&
 		!tr.Optional &&
 		!tr.Required {

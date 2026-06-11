@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForRouteTable(subject RouteTable) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RouteTable
+	var hub v20250301s.RouteTable
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForRouteTable(subject RouteTable) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteTable
+	var other v20240301s.RouteTable
 	err := copied.AssignProperties_To_RouteTable(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForRouteTableOperatorSpec(subject RouteTableOperat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteTableOperatorSpec
+	var other v20240301s.RouteTableOperatorSpec
 	err := copied.AssignProperties_To_RouteTableOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForRouteTable_STATUS(subject RouteTable_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteTable_STATUS
+	var other v20240301s.RouteTable_STATUS
 	err := copied.AssignProperties_To_RouteTable_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -390,7 +391,7 @@ func RunPropertyAssignmentTestForRouteTable_Spec(subject RouteTable_Spec) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteTable_Spec
+	var other v20240301s.RouteTable_Spec
 	err := copied.AssignProperties_To_RouteTable_Spec(&other)
 	if err != nil {
 		return err.Error()

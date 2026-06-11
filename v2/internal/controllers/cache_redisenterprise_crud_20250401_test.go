@@ -13,6 +13,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
+	cache20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v20250401"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -76,12 +79,19 @@ func Test_Cache_RedisEnterprise_20250401_CRUD(t *testing.T) {
 	tc.Expect(redis.Status.Sku.Name).ToNot(BeNil())
 	tc.Expect(*redis.Status.Sku.Name).To(Equal(cache.Sku_Name_STATUS_Balanced_B0))
 
-	// Run parallel subtests to exercise different aspects of the cluster
-	tc.RunParallelSubtests(
+	// Run subtests sequentially because the assignment scenario also uses a database named "default"
+	// beneath the same Redis Enterprise owner.
+	tc.RunSubtests(
 		testcommon.Subtest{
-			Name: "Database creation",
+			Name: "RedisEnterprise database CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				RedisEnterprise_Database_20250401(tc, &redis)
+				RedisEnterprise_Database_20250401_CRUD(tc, &redis)
+			},
+		},
+		testcommon.Subtest{
+			Name: "RedisEnterprise database access policy assignment CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc, rg, &redis)
 			},
 		},
 	)
@@ -95,13 +105,8 @@ func Test_Cache_RedisEnterprise_20250401_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func RedisEnterprise_Database_20250401(tc *testcommon.KubePerTestContext, redis *cache.RedisEnterprise) {
+func RedisEnterprise_Database_20250401_CRUD(tc *testcommon.KubePerTestContext, redis *cache.RedisEnterprise) {
 	// Create a redis database on the newly-created cluster
-	objectKey := client.ObjectKeyFromObject(redis)
-
-	var redisCurrent cache.RedisEnterprise
-	tc.GetResource(objectKey, &redisCurrent)
-
 	secretName := "redissecret"
 
 	db := cache.RedisEnterpriseDatabase{
@@ -138,6 +143,77 @@ func RedisEnterprise_Database_20250401(tc *testcommon.KubePerTestContext, redis 
 
 	tc.DeleteResourceAndWait(&db)
 	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, armId, string(cache.APIVersion_Value))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
+}
+
+func RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, redis *cache.RedisEnterprise) {
+	configMapName := "identity-settings"
+	principalIdKey := "principalId"
+
+	mi := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				ConfigMaps: &managedidentity.UserAssignedIdentityOperatorConfigMaps{
+					PrincipalId: &genruntime.ConfigMapDestination{
+						Name: configMapName,
+						Key:  principalIdKey,
+					},
+				},
+			},
+		},
+	}
+
+	assignmentName := tc.NoSpaceNamer.GenerateName("assign")
+	accessKeysAuthenticationDisabled := cache.DatabaseProperties_AccessKeysAuthentication_Disabled
+
+	db := cache.RedisEnterpriseDatabase{
+		ObjectMeta: tc.MakeObjectMeta("redisdbassign"),
+		Spec: cache.RedisEnterpriseDatabase_Spec{
+			Owner:                    testcommon.AsOwner(redis),
+			AzureName:                "default",
+			ClusteringPolicy:         to.Ptr(cache.DatabaseProperties_ClusteringPolicy_OSSCluster),
+			AccessKeysAuthentication: &accessKeysAuthenticationDisabled,
+		},
+	}
+
+	assignment := cache20250401.RedisEnterpriseDatabaseAccessPolicyAssignment{
+		ObjectMeta: tc.MakeObjectMetaWithName(assignmentName),
+		Spec: cache20250401.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec{
+			Owner:            testcommon.AsOwner(&db),
+			AccessPolicyName: to.Ptr("default"),
+			User: &cache20250401.AccessPolicyAssignmentProperties_User{
+				ObjectIdFromConfig: &genruntime.ConfigMapReference{
+					Name: configMapName,
+					Key:  principalIdKey,
+				},
+			},
+		},
+	}
+
+	tc.CreateResourcesAndWait(mi, &db, &assignment)
+	defer tc.DeleteResourceAndWait(&db)
+
+	tc.Expect(mi.Status.PrincipalId).ToNot(BeNil())
+
+	tc.Expect(db.Status.Id).ToNot(BeNil())
+	tc.Expect(db.Status.AccessKeysAuthentication).ToNot(BeNil())
+	tc.Expect(*db.Status.AccessKeysAuthentication).To(Equal(cache.DatabaseProperties_AccessKeysAuthentication_STATUS_Disabled))
+
+	tc.Expect(assignment.Status.Id).ToNot(BeNil())
+	tc.Expect(assignment.Status.AccessPolicyName).ToNot(BeNil())
+	tc.Expect(*assignment.Status.AccessPolicyName).To(Equal("default"))
+	tc.Expect(assignment.Status.User).ToNot(BeNil())
+	tc.Expect(assignment.Status.User.ObjectId).ToNot(BeNil())
+	tc.Expect(*assignment.Status.User.ObjectId).To(Equal(*mi.Status.PrincipalId))
+	assignmentARMID := *assignment.Status.Id
+
+	tc.DeleteResourceAndWait(&assignment)
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, assignmentARMID, string(cache20250401.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

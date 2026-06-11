@@ -43,7 +43,8 @@ func makeClientSets() *clientSet {
 		fakeAPIExtClient.CustomResourceDefinitions(),
 		fakeClient,
 		false, // dry-run
-		logr.Discard())
+		logr.Discard(),
+	)
 	return &clientSet{
 		fakeAPIExtClient: fakeAPIExtClient,
 		fakeClient:       fakeClient,
@@ -120,7 +121,8 @@ func Test_CleanDeprecatedCRDVersions_CleansTrustedAccessRoleBindings(t *testing.
 		"trustedaccessrolebindings",
 		"TrustedAccessRoleBindingList",
 		oldVersion,
-		newVersion)
+		newVersion,
+	)
 
 	_, err := c.fakeAPIExtClient.CustomResourceDefinitions().Create(context.TODO(), definition, metav1.CreateOptions{})
 	g.Expect(err).To(BeNil())
@@ -298,7 +300,8 @@ func Test_MigrateAndCleanDeprecatedCRDResources_DryRun_NoAction(t *testing.T) {
 		fakeAPIExtClient.CustomResourceDefinitions(),
 		fakeClient,
 		true, // dry-run
-		logr.Discard())
+		logr.Discard(),
+	)
 
 	betaVersion := "v1beta20200601"
 	gaVersion := "v1api20200601"

@@ -58,7 +58,8 @@ func TransformCrossResourceReferences(configuration *config.Configuration, idFac
 			}
 
 			return state.WithDefinitions(resultDefs), nil
-		})
+		},
+	)
 }
 
 func makeReferencePropertyName(existing *astmodel.PropertyDefinition, isSlice bool, isMap bool) string {
@@ -295,7 +296,8 @@ func makeResourceReferenceProperty(
 	newProp := astmodel.NewPropertyDefinition(
 		idFactory.CreatePropertyName(referencePropertyName, astmodel.Exported),
 		idFactory.CreateStringIdentifier(referencePropertyName, astmodel.NotExported),
-		existing.PropertyType())
+		existing.PropertyType(),
+	)
 	// TODO: We could pass this information forward some other way?
 	// Add tag so that we remember what this field was before
 	newProp = newProp.WithTag(astmodel.ARMReferenceTag, originalName)

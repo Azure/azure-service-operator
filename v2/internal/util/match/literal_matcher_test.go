@@ -40,7 +40,8 @@ func TestLiteralMatcher_Matches_GivesExpectedResults(t *testing.T) {
 				g := NewGomegaWithT(t)
 				matcher := newLiteralMatcher(c.literal)
 				g.Expect(matcher.Matches(c.value).Matched).To(Equal(c.expected))
-			})
+			},
+		)
 	}
 }
 
@@ -66,6 +67,7 @@ func TestLiteralMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
 				g := NewGomegaWithT(t)
 				matcher := newLiteralMatcher(c.literal)
 				g.Expect(matcher.IsRestrictive()).To(Equal(c.restrictive))
-			})
+			},
+		)
 	}
 }

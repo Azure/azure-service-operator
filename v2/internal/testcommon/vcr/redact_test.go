@@ -48,6 +48,14 @@ func Test_Redactor_givenInput_returnsExpectedResult(t *testing.T) {
 			input:    `body: '{"primaryConnectionString":"Endpoint=https://asotest-signalr-mposrl.service.signalr.net;AccessKey=SECRETVALUEFROMAZURE;Version=1.0;","secondaryConnectionString":"Endpoint=https://asotest-signalr-mposrl.service.signalr.net;AccessKey=SECRETVALUEFROMAZURE;Version=1.0;"}'`,
 			expected: `body: '{"primaryConnectionString":"Endpoint=https://asotest-signalr-mposrl.service.signalr.net;AccessKey={KEY};Version=1.0;","secondaryConnectionString":"Endpoint=https://asotest-signalr-mposrl.service.signalr.net;AccessKey={KEY};Version=1.0;"}'`,
 		},
+		"Communication Service Connection String": {
+			input:    `{"primaryKey":"{KEY}","secondaryKey":"{KEY}","primaryConnectionString":"endpoint=https://asotest-commssvc.unitedstates.communication.azure.com/;accesskey=FAKESECRETVALUEFROMAZURE1234567890abcdef","secondaryConnectionString":"endpoint=https://asotest-commssvc.unitedstates.communication.azure.com/;accesskey=FAKESECRETVALUEFROMAZURE0987654321fedcba"}`,
+			expected: `{"primaryKey":"{KEY}","secondaryKey":"{KEY}","primaryConnectionString":"endpoint=https://asotest-commssvc.unitedstates.communication.azure.com/;accesskey={KEY}","secondaryConnectionString":"endpoint=https://asotest-commssvc.unitedstates.communication.azure.com/;accesskey={KEY}"}`,
+		},
+		"Mixed casing AccessKey preserves original case": {
+			input:    `primary;AccessKey=SECRET1;Version=1.0; secondary;accesskey=SECRET2`,
+			expected: `primary;AccessKey={KEY};Version=1.0; secondary;accesskey={KEY}`,
+		},
 	}
 
 	ids := creds.AzureIDs{}

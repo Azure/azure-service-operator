@@ -1,0 +1,24 @@
+groupModelConfiguration:
+  2021-06-01:
+    Workspace:
+      $exportAs: Workspace
+      $supportedFrom: v2.0.0-alpha.4
+      $azureGeneratedSecrets:
+        - PrimarySharedKey
+        - SecondarySharedKey
+    WorkspaceFeatures:
+      ClusterResourceId:
+        $referenceType: arm
+  2025-07-01:
+    Workspace:
+      $exportAs: Workspace
+      $supportedFrom: v2.17.0
+      $azureGeneratedSecrets:
+        - PrimarySharedKey
+        - SecondarySharedKey
+    WorkspaceProperties:
+      DefaultDataCollectionRuleResourceId:
+        $referenceType: arm
+    WorkspaceFeatures:
+      ClusterResourceId:
+        $referenceType: arm

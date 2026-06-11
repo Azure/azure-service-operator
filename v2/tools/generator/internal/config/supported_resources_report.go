@@ -38,7 +38,8 @@ func (srr *SupportedResourcesReport) FullOutputPath() string {
 	return filepath.Join(
 		filepath.Dir(srr.cfg.DestinationGoModuleFile),
 		srr.OutputFolder,
-		"_index.md")
+		"_index.md",
+	)
 }
 
 // FullOutputPath returns the fully qualified path to the output file for a given group
@@ -47,12 +48,14 @@ func (srr *SupportedResourcesReport) GroupFullOutputPath(group string) string {
 		filepath.Dir(srr.cfg.DestinationGoModuleFile),
 		srr.OutputFolder,
 		group,
-		"_index.md")
+		"_index.md",
+	)
 }
 
 // FullFragmentFolderPath returns the fully qualified path to our fragment folder
 func (srr *SupportedResourcesReport) FullFragmentPath() string {
 	return filepath.Join(
 		filepath.Dir(srr.cfg.DestinationGoModuleFile),
-		srr.FragmentPath)
+		srr.FragmentPath,
+	)
 }

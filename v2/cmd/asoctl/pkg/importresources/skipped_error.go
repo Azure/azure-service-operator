@@ -43,5 +43,6 @@ func (e SkippedError) Error() string {
 		e.GroupKind.Group,
 		e.GroupKind.Kind,
 		e.Name,
-		e.Because)
+		e.Because,
+	)
 }

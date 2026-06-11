@@ -4,9 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	compat "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20220801/storage/compat"
-	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v1api20240501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20220801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -52,22 +50,36 @@ var _ conversion.Convertible = &Backend{}
 
 // ConvertFrom populates our Backend from the provided hub Backend
 func (backend *Backend) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Backend)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20240501/storage/Backend but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Backend
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return backend.AssignProperties_From_Backend(source)
+	err = backend.AssignProperties_From_Backend(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to backend")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Backend from our Backend
 func (backend *Backend) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Backend)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20240501/storage/Backend but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Backend
+	err := backend.AssignProperties_To_Backend(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from backend")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return backend.AssignProperties_To_Backend(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Backend{}
@@ -347,18 +359,6 @@ func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.
 	// AzureName
 	backend.AzureName = source.AzureName
 
-	// CircuitBreaker
-	if source.CircuitBreaker != nil {
-		var circuitBreaker compat.BackendCircuitBreaker
-		err := circuitBreaker.AssignProperties_From_BackendCircuitBreaker(source.CircuitBreaker)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_BackendCircuitBreaker() to populate field CircuitBreaker")
-		}
-		propertyBag.Add("CircuitBreaker", circuitBreaker)
-	} else {
-		propertyBag.Remove("CircuitBreaker")
-	}
-
 	// Credentials
 	if source.Credentials != nil {
 		var credential BackendCredentialsContract
@@ -395,18 +395,6 @@ func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.
 		backend.Owner = &owner
 	} else {
 		backend.Owner = nil
-	}
-
-	// Pool
-	if source.Pool != nil {
-		var pool compat.BackendPool
-		err := pool.AssignProperties_From_BackendPool(source.Pool)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_BackendPool() to populate field Pool")
-		}
-		propertyBag.Add("Pool", pool)
-	} else {
-		propertyBag.Remove("Pool")
 	}
 
 	// Properties
@@ -459,13 +447,6 @@ func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.
 		backend.Tls = nil
 	}
 
-	// Type
-	if source.Type != nil {
-		propertyBag.Add("Type", *source.Type)
-	} else {
-		propertyBag.Remove("Type")
-	}
-
 	// Url
 	backend.Url = genruntime.ClonePointerToString(source.Url)
 
@@ -496,24 +477,6 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 
 	// AzureName
 	destination.AzureName = backend.AzureName
-
-	// CircuitBreaker
-	if propertyBag.Contains("CircuitBreaker") {
-		var circuitBreakerFromBag compat.BackendCircuitBreaker
-		err := propertyBag.Pull("CircuitBreaker", &circuitBreakerFromBag)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'CircuitBreaker' from propertyBag")
-		}
-
-		var circuitBreaker storage.BackendCircuitBreaker
-		err = circuitBreakerFromBag.AssignProperties_To_BackendCircuitBreaker(&circuitBreaker)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_BackendCircuitBreaker() to populate field CircuitBreaker")
-		}
-		destination.CircuitBreaker = &circuitBreaker
-	} else {
-		destination.CircuitBreaker = nil
-	}
 
 	// Credentials
 	if backend.Credentials != nil {
@@ -551,24 +514,6 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// Pool
-	if propertyBag.Contains("Pool") {
-		var poolFromBag compat.BackendPool
-		err := propertyBag.Pull("Pool", &poolFromBag)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Pool' from propertyBag")
-		}
-
-		var pool storage.BackendPool
-		err = poolFromBag.AssignProperties_To_BackendPool(&pool)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_BackendPool() to populate field Pool")
-		}
-		destination.Pool = &pool
-	} else {
-		destination.Pool = nil
 	}
 
 	// Properties
@@ -619,19 +564,6 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 		destination.Tls = &tl
 	} else {
 		destination.Tls = nil
-	}
-
-	// Type
-	if propertyBag.Contains("Type") {
-		var typeVar string
-		err := propertyBag.Pull("Type", &typeVar)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Type' from propertyBag")
-		}
-
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
 	}
 
 	// Url
@@ -730,18 +662,6 @@ func (backend *Backend_STATUS) AssignProperties_From_Backend_STATUS(source *stor
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// CircuitBreaker
-	if source.CircuitBreaker != nil {
-		var circuitBreaker compat.BackendCircuitBreaker_STATUS
-		err := circuitBreaker.AssignProperties_From_BackendCircuitBreaker_STATUS(source.CircuitBreaker)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_BackendCircuitBreaker_STATUS() to populate field CircuitBreaker")
-		}
-		propertyBag.Add("CircuitBreaker", circuitBreaker)
-	} else {
-		propertyBag.Remove("CircuitBreaker")
-	}
-
 	// Conditions
 	backend.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
@@ -766,18 +686,6 @@ func (backend *Backend_STATUS) AssignProperties_From_Backend_STATUS(source *stor
 	// Name
 	backend.Name = genruntime.ClonePointerToString(source.Name)
 
-	// Pool
-	if source.Pool != nil {
-		var pool compat.BackendPool_STATUS
-		err := pool.AssignProperties_From_BackendPool_STATUS(source.Pool)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_BackendPool_STATUS() to populate field Pool")
-		}
-		propertyBag.Add("Pool", pool)
-	} else {
-		propertyBag.Remove("Pool")
-	}
-
 	// Properties
 	if source.Properties != nil {
 		var property BackendProperties_STATUS
@@ -788,13 +696,6 @@ func (backend *Backend_STATUS) AssignProperties_From_Backend_STATUS(source *stor
 		backend.Properties = &property
 	} else {
 		backend.Properties = nil
-	}
-
-	// PropertiesType
-	if source.PropertiesType != nil {
-		propertyBag.Add("PropertiesType", *source.PropertiesType)
-	} else {
-		propertyBag.Remove("PropertiesType")
 	}
 
 	// Protocol
@@ -861,24 +762,6 @@ func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *s
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(backend.PropertyBag)
 
-	// CircuitBreaker
-	if propertyBag.Contains("CircuitBreaker") {
-		var circuitBreakerFromBag compat.BackendCircuitBreaker_STATUS
-		err := propertyBag.Pull("CircuitBreaker", &circuitBreakerFromBag)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'CircuitBreaker' from propertyBag")
-		}
-
-		var circuitBreaker storage.BackendCircuitBreaker_STATUS
-		err = circuitBreakerFromBag.AssignProperties_To_BackendCircuitBreaker_STATUS(&circuitBreaker)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_BackendCircuitBreaker_STATUS() to populate field CircuitBreaker")
-		}
-		destination.CircuitBreaker = &circuitBreaker
-	} else {
-		destination.CircuitBreaker = nil
-	}
-
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(backend.Conditions)
 
@@ -903,24 +786,6 @@ func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *s
 	// Name
 	destination.Name = genruntime.ClonePointerToString(backend.Name)
 
-	// Pool
-	if propertyBag.Contains("Pool") {
-		var poolFromBag compat.BackendPool_STATUS
-		err := propertyBag.Pull("Pool", &poolFromBag)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Pool' from propertyBag")
-		}
-
-		var pool storage.BackendPool_STATUS
-		err = poolFromBag.AssignProperties_To_BackendPool_STATUS(&pool)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_BackendPool_STATUS() to populate field Pool")
-		}
-		destination.Pool = &pool
-	} else {
-		destination.Pool = nil
-	}
-
 	// Properties
 	if backend.Properties != nil {
 		var property storage.BackendProperties_STATUS
@@ -931,19 +796,6 @@ func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *s
 		destination.Properties = &property
 	} else {
 		destination.Properties = nil
-	}
-
-	// PropertiesType
-	if propertyBag.Contains("PropertiesType") {
-		var propertiesType string
-		err := propertyBag.Pull("PropertiesType", &propertiesType)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PropertiesType' from propertyBag")
-		}
-
-		destination.PropertiesType = &propertiesType
-	} else {
-		destination.PropertiesType = nil
 	}
 
 	// Protocol

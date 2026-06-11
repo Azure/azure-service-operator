@@ -24,6 +24,13 @@ const (
 	// PrincipalIdRef *genruntime.ConfigMapReference `optionalConfigMapPair:"PrincipalId"`
 	OptionalConfigMapPairTag = "optionalConfigMapPair"
 
+	// OptionalSecretPairTag is the tag ID used for specifying an optional secret reference pair.
+	// There will be 2 of these tags on two different properties, each pointing to the ARM property they apply to.
+	// For example:
+	// Password *string `optionalSecretPair:"Password"`
+	// PasswordFromSecret *genruntime.SecretReference `optionalSecretPair:"Password"`
+	OptionalSecretPairTag = "optionalSecretPair"
+
 	// SerializationType is the tag ID used for controlling if resources have special serialization rules
 	SerializationType                        = "serializationType"
 	SerializationTypeExplicitEmptyCollection = "explicitEmptyCollection"

@@ -53,7 +53,8 @@ func Test_NetworkFrontDoorFirewallPolicy_CRUD(t *testing.T) {
 					},
 				},
 			},
-		})
+		},
+	)
 	tc.PatchResourceAndWait(old, afdFirewall)
 	tc.Expect(afdFirewall.Status.CustomRules.Rules).To(HaveLen(2))
 
@@ -63,7 +64,8 @@ func Test_NetworkFrontDoorFirewallPolicy_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armID,
-		string(frontdoor.APIVersion_Value))
+		string(frontdoor.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

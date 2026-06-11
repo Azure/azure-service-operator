@@ -42,10 +42,12 @@ func Test_MissingCrossResourceReference_ReturnsError(t *testing.T) {
 	tc.Expect(message).To(
 		ContainSubstring("%s/%s does not exist",
 			tc.Namespace,
-			networkInterface.Name))
+			networkInterface.Name),
+	)
 	tc.Expect(message).To(
 		ContainSubstring(`(networkinterfaces.network.azure.com "%s" not found)`,
-			networkInterface.Name))
+			networkInterface.Name),
+	)
 
 	// Delete VM and resources.
 	tc.DeleteResourcesAndWait(vm)

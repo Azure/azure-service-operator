@@ -1890,7 +1890,7 @@ func (in *LoadBalancerOperatorSpec) DeepCopyInto(out *LoadBalancerOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1908,7 +1908,7 @@ func (in *LoadBalancerOperatorSpec) DeepCopyInto(out *LoadBalancerOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2290,7 +2290,7 @@ func (in *LoadBalancersInboundNatRuleOperatorSpec) DeepCopyInto(out *LoadBalance
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2308,7 +2308,7 @@ func (in *LoadBalancersInboundNatRuleOperatorSpec) DeepCopyInto(out *LoadBalance
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3171,7 +3171,7 @@ func (in *NetworkInterfaceOperatorSpec) DeepCopyInto(out *NetworkInterfaceOperat
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3189,7 +3189,7 @@ func (in *NetworkInterfaceOperatorSpec) DeepCopyInto(out *NetworkInterfaceOperat
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3569,7 +3569,7 @@ func (in *NetworkSecurityGroupOperatorSpec) DeepCopyInto(out *NetworkSecurityGro
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3587,7 +3587,7 @@ func (in *NetworkSecurityGroupOperatorSpec) DeepCopyInto(out *NetworkSecurityGro
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3923,7 +3923,7 @@ func (in *NetworkSecurityGroupsSecurityRuleOperatorSpec) DeepCopyInto(out *Netwo
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3941,7 +3941,7 @@ func (in *NetworkSecurityGroupsSecurityRuleOperatorSpec) DeepCopyInto(out *Netwo
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4721,7 +4721,7 @@ func (in *PublicIPAddressOperatorSpec) DeepCopyInto(out *PublicIPAddressOperator
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4739,7 +4739,7 @@ func (in *PublicIPAddressOperatorSpec) DeepCopyInto(out *PublicIPAddressOperator
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5235,7 +5235,7 @@ func (in *RadiusServer) DeepCopyInto(out *RadiusServer) {
 	}
 	if in.RadiusServerSecret != nil {
 		in, out := &in.RadiusServerSecret, &out.RadiusServerSecret
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 }
@@ -5268,11 +5268,6 @@ func (in *RadiusServer_STATUS) DeepCopyInto(out *RadiusServer_STATUS) {
 	if in.RadiusServerScore != nil {
 		in, out := &in.RadiusServerScore, &out.RadiusServerScore
 		*out = new(int)
-		**out = **in
-	}
-	if in.RadiusServerSecret != nil {
-		in, out := &in.RadiusServerSecret, &out.RadiusServerSecret
-		*out = new(string)
 		**out = **in
 	}
 }
@@ -5383,7 +5378,7 @@ func (in *RouteTableOperatorSpec) DeepCopyInto(out *RouteTableOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5401,7 +5396,7 @@ func (in *RouteTableOperatorSpec) DeepCopyInto(out *RouteTableOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5665,7 +5660,7 @@ func (in *RouteTablesRouteOperatorSpec) DeepCopyInto(out *RouteTablesRouteOperat
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5683,7 +5678,7 @@ func (in *RouteTablesRouteOperatorSpec) DeepCopyInto(out *RouteTablesRouteOperat
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6445,7 +6440,7 @@ func (in *VirtualNetworkGatewayOperatorSpec) DeepCopyInto(out *VirtualNetworkGat
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6463,7 +6458,7 @@ func (in *VirtualNetworkGatewayOperatorSpec) DeepCopyInto(out *VirtualNetworkGat
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6864,7 +6859,7 @@ func (in *VirtualNetworkOperatorSpec) DeepCopyInto(out *VirtualNetworkOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6882,7 +6877,7 @@ func (in *VirtualNetworkOperatorSpec) DeepCopyInto(out *VirtualNetworkOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -7220,7 +7215,7 @@ func (in *VirtualNetworksSubnetOperatorSpec) DeepCopyInto(out *VirtualNetworksSu
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -7238,7 +7233,7 @@ func (in *VirtualNetworksSubnetOperatorSpec) DeepCopyInto(out *VirtualNetworksSu
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -7589,7 +7584,7 @@ func (in *VirtualNetworksVirtualNetworkPeeringOperatorSpec) DeepCopyInto(out *Vi
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -7607,7 +7602,7 @@ func (in *VirtualNetworksVirtualNetworkPeeringOperatorSpec) DeepCopyInto(out *Vi
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -7836,7 +7831,7 @@ func (in *VpnClientConfiguration) DeepCopyInto(out *VpnClientConfiguration) {
 	}
 	if in.RadiusServerSecret != nil {
 		in, out := &in.RadiusServerSecret, &out.RadiusServerSecret
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.RadiusServers != nil {
@@ -7921,11 +7916,6 @@ func (in *VpnClientConfiguration_STATUS) DeepCopyInto(out *VpnClientConfiguratio
 	}
 	if in.RadiusServerAddress != nil {
 		in, out := &in.RadiusServerAddress, &out.RadiusServerAddress
-		*out = new(string)
-		**out = **in
-	}
-	if in.RadiusServerSecret != nil {
-		in, out := &in.RadiusServerSecret, &out.RadiusServerSecret
 		*out = new(string)
 		**out = **in
 	}

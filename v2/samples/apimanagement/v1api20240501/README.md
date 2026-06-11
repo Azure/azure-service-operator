@@ -1,46 +1,53 @@
-# API Management v1api20240501 Samples
+# Test Tips
 
-This directory contains sample YAML configurations for Azure API Management using the `v1api20240501` API version.
+API Management Services are soft-deleted by default, which can make running tests difficult.
 
-## Available Samples
+Before you can do a clean run of a test, you need to ensure any soft-deleted debris from prior test runs has been purged.
 
-### Core Resources
-- `v1api20240501_service.yaml` - API Management service instance
-- `v1api20240501_subscription.yaml` - API subscription for accessing APIs
-- `v1api20240501_backend.yaml` - Backend service configuration
-- `v1api20240501_namedvalue.yaml` - Named value for configuration parameters
+To purge a soft-deleted service, you have to use **az** - as of March 2025, it cannot be done via the Azure portal.
 
-### API and Product Management
-- `v1api20240501_apiversionset.yaml` - API version set for managing multiple API versions
-- `v1api20240501_api.yaml` - API definition and configuration
-- `v1api20240501_product.yaml` - Product definition for grouping APIs
-- `v1api20240501_productapi.yaml` - Link between product and API
+## Checking for soft-deleted services
 
-### Policies
-- `v1api20240501_policy.yaml` - Global policy configuration
-- `v1api20240501_policyfragment.yaml` - Reusable policy fragment
-- `v1api20240501_productpolicy.yaml` - Product-specific policy
+### Using az apim
 
-### Authorization
-- `v1api20240501_authorizationprovider.yaml` - OAuth2 authorization provider
-- `v1api20240501_authorizationprovidersauthorization.yaml` - Authorization configuration
-- `v1api20240501_authorizationprovidersauthorizationsaccesspolicy.yaml` - Access policy for authorization
+List all known soft-deleted services.
 
-### Reference Resources
-The `refs/` directory contains supporting resources:
-- `v1api20230131_userassignedidentity.yaml` - Managed identity for authorization
-- `v1api20240501_secrets.yaml` - Secret containing OAuth2 client credentials
+```bash
+$ az apim deletedservice list --query "[].[name, location]"
+[
+  [
+    "asotest-apimsvcv2-yovquu",
+    "East US 2"
+  ],
+  [
+    "asotest-apimanagementv2-yovquu",
+    "East US"
+  ],
+  [
+    "asotestqpewjd",
+    "East US"
+  ],
+  [
+    "asotest-apimanagementv2-twykac",
+    "East US"
+  ]
+]
+```
 
-## Dependencies
+## Purging soft-deleted services
 
-Most samples depend on the existence of a resource group named `aso-sample-rg`. The authorization samples also require the reference resources in the `refs/` directory.
+### Using az apim
 
-## API Version Features
+You need to specify both the service name and location.
 
-The `v1api20240501` API version is the latest stable release for Azure API Management, providing:
-- All features from previous versions
-- Latest stable API capabilities
-- Production-ready functionality
-- Enhanced security and performance features
+```bash
+az apim deletedservice purge --service-name "asotestqpewjd" --location "eastus"
+```
 
-This version replaces `v1api20230501preview` as the recommended version for new deployments.
+Deletion is slow - it can take a few minutes for az to return. After that, give it another 10m or so before rerunning your test.
+
+For more information, see <https://andrewilson.co.uk/post/2022/09/apim-purge-soft-deleted-instance/>
+
+## Troubleshooting
+
+If APIM are having an outage, or their API doesn't work for whatever reason, you may find you simply need to wait 48h+ for the soft-delete to turn into a hard-delete.

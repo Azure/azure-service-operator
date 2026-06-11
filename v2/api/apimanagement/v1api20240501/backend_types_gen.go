@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Backend{}
 
 // ConvertFrom populates our Backend from the provided hub Backend
 func (backend *Backend) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Backend)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20240501/storage/Backend but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Backend
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return backend.AssignProperties_From_Backend(source)
+	err = backend.AssignProperties_From_Backend(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to backend")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Backend from our Backend
 func (backend *Backend) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Backend)
-	if !ok {
-		return fmt.Errorf("expected apimanagement/v1api20240501/storage/Backend but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Backend
+	err := backend.AssignProperties_To_Backend(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from backend")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return backend.AssignProperties_To_Backend(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Backend{}
@@ -87,17 +101,6 @@ func (backend *Backend) SecretDestinationExpressions() []*core.DestinationExpres
 		return nil
 	}
 	return backend.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Backend{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (backend *Backend) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Backend_STATUS); ok {
-		return backend.Spec.Initialize_From_Backend_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Backend_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Backend{}
@@ -914,118 +917,6 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 	return nil
 }
 
-// Initialize_From_Backend_STATUS populates our Backend_Spec from the provided source Backend_STATUS
-func (backend *Backend_Spec) Initialize_From_Backend_STATUS(source *Backend_STATUS) error {
-
-	// CircuitBreaker
-	if source.CircuitBreaker != nil {
-		var circuitBreaker BackendCircuitBreaker
-		err := circuitBreaker.Initialize_From_BackendCircuitBreaker_STATUS(source.CircuitBreaker)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BackendCircuitBreaker_STATUS() to populate field CircuitBreaker")
-		}
-		backend.CircuitBreaker = &circuitBreaker
-	} else {
-		backend.CircuitBreaker = nil
-	}
-
-	// Credentials
-	if source.Credentials != nil {
-		var credential BackendCredentialsContract
-		err := credential.Initialize_From_BackendCredentialsContract_STATUS(source.Credentials)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BackendCredentialsContract_STATUS() to populate field Credentials")
-		}
-		backend.Credentials = &credential
-	} else {
-		backend.Credentials = nil
-	}
-
-	// Description
-	backend.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Pool
-	if source.Pool != nil {
-		var pool BackendPool
-		err := pool.Initialize_From_BackendPool_STATUS(source.Pool)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BackendPool_STATUS() to populate field Pool")
-		}
-		backend.Pool = &pool
-	} else {
-		backend.Pool = nil
-	}
-
-	// Properties
-	if source.Properties != nil {
-		var property BackendProperties
-		err := property.Initialize_From_BackendProperties_STATUS(source.Properties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BackendProperties_STATUS() to populate field Properties")
-		}
-		backend.Properties = &property
-	} else {
-		backend.Properties = nil
-	}
-
-	// Protocol
-	if source.Protocol != nil {
-		protocol := genruntime.ToEnum(string(*source.Protocol), backendContractProperties_Protocol_Values)
-		backend.Protocol = &protocol
-	} else {
-		backend.Protocol = nil
-	}
-
-	// Proxy
-	if source.Proxy != nil {
-		var proxy BackendProxyContract
-		err := proxy.Initialize_From_BackendProxyContract_STATUS(source.Proxy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BackendProxyContract_STATUS() to populate field Proxy")
-		}
-		backend.Proxy = &proxy
-	} else {
-		backend.Proxy = nil
-	}
-
-	// ResourceReference
-	if source.ResourceId != nil {
-		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		backend.ResourceReference = &resourceReference
-	} else {
-		backend.ResourceReference = nil
-	}
-
-	// Title
-	backend.Title = genruntime.ClonePointerToString(source.Title)
-
-	// Tls
-	if source.Tls != nil {
-		var tl BackendTlsProperties
-		err := tl.Initialize_From_BackendTlsProperties_STATUS(source.Tls)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BackendTlsProperties_STATUS() to populate field Tls")
-		}
-		backend.Tls = &tl
-	} else {
-		backend.Tls = nil
-	}
-
-	// Type
-	if source.PropertiesType != nil {
-		typeVar := genruntime.ToEnum(string(*source.PropertiesType), backendContractProperties_Type_Values)
-		backend.Type = &typeVar
-	} else {
-		backend.Type = nil
-	}
-
-	// Url
-	backend.Url = genruntime.ClonePointerToString(source.Url)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (backend *Backend_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1673,29 +1564,6 @@ func (breaker *BackendCircuitBreaker) AssignProperties_To_BackendCircuitBreaker(
 	return nil
 }
 
-// Initialize_From_BackendCircuitBreaker_STATUS populates our BackendCircuitBreaker from the provided source BackendCircuitBreaker_STATUS
-func (breaker *BackendCircuitBreaker) Initialize_From_BackendCircuitBreaker_STATUS(source *BackendCircuitBreaker_STATUS) error {
-
-	// Rules
-	if source.Rules != nil {
-		ruleList := make([]CircuitBreakerRule, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			var rule CircuitBreakerRule
-			err := rule.Initialize_From_CircuitBreakerRule_STATUS(&ruleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_CircuitBreakerRule_STATUS() to populate field Rules")
-			}
-			ruleList[ruleIndex] = rule
-		}
-		breaker.Rules = ruleList
-	} else {
-		breaker.Rules = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration of the backend circuit breaker
 type BackendCircuitBreaker_STATUS struct {
 	// Rules: The rules for tripping the backend.
@@ -2072,53 +1940,6 @@ func (contract *BackendCredentialsContract) AssignProperties_To_BackendCredentia
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackendCredentialsContract_STATUS populates our BackendCredentialsContract from the provided source BackendCredentialsContract_STATUS
-func (contract *BackendCredentialsContract) Initialize_From_BackendCredentialsContract_STATUS(source *BackendCredentialsContract_STATUS) error {
-
-	// Authorization
-	if source.Authorization != nil {
-		var authorization BackendAuthorizationHeaderCredentials
-		err := authorization.Initialize_From_BackendAuthorizationHeaderCredentials_STATUS(source.Authorization)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BackendAuthorizationHeaderCredentials_STATUS() to populate field Authorization")
-		}
-		contract.Authorization = &authorization
-	} else {
-		contract.Authorization = nil
-	}
-
-	// Certificate
-	contract.Certificate = genruntime.CloneSliceOfString(source.Certificate)
-
-	// CertificateIds
-	contract.CertificateIds = genruntime.CloneSliceOfString(source.CertificateIds)
-
-	// Header
-	if source.Header != nil {
-		headerMap := make(map[string][]string, len(source.Header))
-		for headerKey, headerValue := range source.Header {
-			headerMap[headerKey] = genruntime.CloneSliceOfString(headerValue)
-		}
-		contract.Header = headerMap
-	} else {
-		contract.Header = nil
-	}
-
-	// Query
-	if source.Query != nil {
-		queryMap := make(map[string][]string, len(source.Query))
-		for queryKey, queryValue := range source.Query {
-			queryMap[queryKey] = genruntime.CloneSliceOfString(queryValue)
-		}
-		contract.Query = queryMap
-	} else {
-		contract.Query = nil
 	}
 
 	// No error
@@ -2513,29 +2334,6 @@ func (pool *BackendPool) AssignProperties_To_BackendPool(destination *storage.Ba
 	return nil
 }
 
-// Initialize_From_BackendPool_STATUS populates our BackendPool from the provided source BackendPool_STATUS
-func (pool *BackendPool) Initialize_From_BackendPool_STATUS(source *BackendPool_STATUS) error {
-
-	// Services
-	if source.Services != nil {
-		serviceList := make([]BackendPoolItem, len(source.Services))
-		for serviceIndex, serviceItem := range source.Services {
-			var service BackendPoolItem
-			err := service.Initialize_From_BackendPoolItem_STATUS(&serviceItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_BackendPoolItem_STATUS() to populate field Services")
-			}
-			serviceList[serviceIndex] = service
-		}
-		pool.Services = serviceList
-	} else {
-		pool.Services = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Backend pool information
 type BackendPool_STATUS struct {
 	// Services: The list of backend entities belonging to a pool.
@@ -2720,25 +2518,6 @@ func (properties *BackendProperties) AssignProperties_To_BackendProperties(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackendProperties_STATUS populates our BackendProperties from the provided source BackendProperties_STATUS
-func (properties *BackendProperties) Initialize_From_BackendProperties_STATUS(source *BackendProperties_STATUS) error {
-
-	// ServiceFabricCluster
-	if source.ServiceFabricCluster != nil {
-		var serviceFabricCluster BackendServiceFabricClusterProperties
-		err := serviceFabricCluster.Initialize_From_BackendServiceFabricClusterProperties_STATUS(source.ServiceFabricCluster)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BackendServiceFabricClusterProperties_STATUS() to populate field ServiceFabricCluster")
-		}
-		properties.ServiceFabricCluster = &serviceFabricCluster
-	} else {
-		properties.ServiceFabricCluster = nil
 	}
 
 	// No error
@@ -2957,19 +2736,6 @@ func (contract *BackendProxyContract) AssignProperties_To_BackendProxyContract(d
 	return nil
 }
 
-// Initialize_From_BackendProxyContract_STATUS populates our BackendProxyContract from the provided source BackendProxyContract_STATUS
-func (contract *BackendProxyContract) Initialize_From_BackendProxyContract_STATUS(source *BackendProxyContract_STATUS) error {
-
-	// Url
-	contract.Url = genruntime.ClonePointerToString(source.Url)
-
-	// Username
-	contract.Username = genruntime.ClonePointerToString(source.Username)
-
-	// No error
-	return nil
-}
-
 // Details of the Backend WebProxy Server to use in the Request to Backend.
 type BackendProxyContract_STATUS struct {
 	// Url: WebProxy Server AbsoluteUri property which includes the entire URI stored in the Uri instance, including all
@@ -3156,29 +2922,6 @@ func (properties *BackendTlsProperties) AssignProperties_To_BackendTlsProperties
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackendTlsProperties_STATUS populates our BackendTlsProperties from the provided source BackendTlsProperties_STATUS
-func (properties *BackendTlsProperties) Initialize_From_BackendTlsProperties_STATUS(source *BackendTlsProperties_STATUS) error {
-
-	// ValidateCertificateChain
-	if source.ValidateCertificateChain != nil {
-		validateCertificateChain := *source.ValidateCertificateChain
-		properties.ValidateCertificateChain = &validateCertificateChain
-	} else {
-		properties.ValidateCertificateChain = nil
-	}
-
-	// ValidateCertificateName
-	if source.ValidateCertificateName != nil {
-		validateCertificateName := *source.ValidateCertificateName
-		properties.ValidateCertificateName = &validateCertificateName
-	} else {
-		properties.ValidateCertificateName = nil
 	}
 
 	// No error
@@ -3377,19 +3120,6 @@ func (credentials *BackendAuthorizationHeaderCredentials) AssignProperties_To_Ba
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackendAuthorizationHeaderCredentials_STATUS populates our BackendAuthorizationHeaderCredentials from the provided source BackendAuthorizationHeaderCredentials_STATUS
-func (credentials *BackendAuthorizationHeaderCredentials) Initialize_From_BackendAuthorizationHeaderCredentials_STATUS(source *BackendAuthorizationHeaderCredentials_STATUS) error {
-
-	// Parameter
-	credentials.Parameter = genruntime.ClonePointerToString(source.Parameter)
-
-	// Scheme
-	credentials.Scheme = genruntime.ClonePointerToString(source.Scheme)
 
 	// No error
 	return nil
@@ -3597,27 +3327,6 @@ func (item *BackendPoolItem) AssignProperties_To_BackendPoolItem(destination *st
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackendPoolItem_STATUS populates our BackendPoolItem from the provided source BackendPoolItem_STATUS
-func (item *BackendPoolItem) Initialize_From_BackendPoolItem_STATUS(source *BackendPoolItem_STATUS) error {
-
-	// Priority
-	item.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		item.Reference = &reference
-	} else {
-		item.Reference = nil
-	}
-
-	// Weight
-	item.Weight = genruntime.ClonePointerToInt(source.Weight)
 
 	// No error
 	return nil
@@ -3923,44 +3632,6 @@ func (properties *BackendServiceFabricClusterProperties) AssignProperties_To_Bac
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackendServiceFabricClusterProperties_STATUS populates our BackendServiceFabricClusterProperties from the provided source BackendServiceFabricClusterProperties_STATUS
-func (properties *BackendServiceFabricClusterProperties) Initialize_From_BackendServiceFabricClusterProperties_STATUS(source *BackendServiceFabricClusterProperties_STATUS) error {
-
-	// ClientCertificateId
-	properties.ClientCertificateId = genruntime.ClonePointerToString(source.ClientCertificateId)
-
-	// ClientCertificatethumbprint
-	properties.ClientCertificatethumbprint = genruntime.ClonePointerToString(source.ClientCertificatethumbprint)
-
-	// ManagementEndpoints
-	properties.ManagementEndpoints = genruntime.CloneSliceOfString(source.ManagementEndpoints)
-
-	// MaxPartitionResolutionRetries
-	properties.MaxPartitionResolutionRetries = genruntime.ClonePointerToInt(source.MaxPartitionResolutionRetries)
-
-	// ServerCertificateThumbprints
-	properties.ServerCertificateThumbprints = genruntime.CloneSliceOfString(source.ServerCertificateThumbprints)
-
-	// ServerX509Names
-	if source.ServerX509Names != nil {
-		serverX509NameList := make([]X509CertificateName, len(source.ServerX509Names))
-		for serverX509NameIndex, serverX509NameItem := range source.ServerX509Names {
-			var serverX509Name X509CertificateName
-			err := serverX509Name.Initialize_From_X509CertificateName_STATUS(&serverX509NameItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_X509CertificateName_STATUS() to populate field ServerX509Names")
-			}
-			serverX509NameList[serverX509NameIndex] = serverX509Name
-		}
-		properties.ServerX509Names = serverX509NameList
-	} else {
-		properties.ServerX509Names = nil
 	}
 
 	// No error
@@ -4299,39 +3970,6 @@ func (rule *CircuitBreakerRule) AssignProperties_To_CircuitBreakerRule(destinati
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CircuitBreakerRule_STATUS populates our CircuitBreakerRule from the provided source CircuitBreakerRule_STATUS
-func (rule *CircuitBreakerRule) Initialize_From_CircuitBreakerRule_STATUS(source *CircuitBreakerRule_STATUS) error {
-
-	// AcceptRetryAfter
-	if source.AcceptRetryAfter != nil {
-		acceptRetryAfter := *source.AcceptRetryAfter
-		rule.AcceptRetryAfter = &acceptRetryAfter
-	} else {
-		rule.AcceptRetryAfter = nil
-	}
-
-	// FailureCondition
-	if source.FailureCondition != nil {
-		var failureCondition CircuitBreakerFailureCondition
-		err := failureCondition.Initialize_From_CircuitBreakerFailureCondition_STATUS(source.FailureCondition)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CircuitBreakerFailureCondition_STATUS() to populate field FailureCondition")
-		}
-		rule.FailureCondition = &failureCondition
-	} else {
-		rule.FailureCondition = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// TripDuration
-	rule.TripDuration = genruntime.ClonePointerToString(source.TripDuration)
 
 	// No error
 	return nil
@@ -4681,49 +4319,6 @@ func (condition *CircuitBreakerFailureCondition) AssignProperties_To_CircuitBrea
 	return nil
 }
 
-// Initialize_From_CircuitBreakerFailureCondition_STATUS populates our CircuitBreakerFailureCondition from the provided source CircuitBreakerFailureCondition_STATUS
-func (condition *CircuitBreakerFailureCondition) Initialize_From_CircuitBreakerFailureCondition_STATUS(source *CircuitBreakerFailureCondition_STATUS) error {
-
-	// Count
-	condition.Count = genruntime.ClonePointerToInt(source.Count)
-
-	// ErrorReasons
-	if source.ErrorReasons != nil {
-		errorReasonList := make([]CircuitBreakerFailureCondition_ErrorReasons, len(source.ErrorReasons))
-		for errorReasonIndex, errorReasonItem := range source.ErrorReasons {
-			errorReasonList[errorReasonIndex] = CircuitBreakerFailureCondition_ErrorReasons(errorReasonItem)
-		}
-		condition.ErrorReasons = errorReasonList
-	} else {
-		condition.ErrorReasons = nil
-	}
-
-	// Interval
-	condition.Interval = genruntime.ClonePointerToString(source.Interval)
-
-	// Percentage
-	condition.Percentage = genruntime.ClonePointerToInt(source.Percentage)
-
-	// StatusCodeRanges
-	if source.StatusCodeRanges != nil {
-		statusCodeRangeList := make([]FailureStatusCodeRange, len(source.StatusCodeRanges))
-		for statusCodeRangeIndex, statusCodeRangeItem := range source.StatusCodeRanges {
-			var statusCodeRange FailureStatusCodeRange
-			err := statusCodeRange.Initialize_From_FailureStatusCodeRange_STATUS(&statusCodeRangeItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_FailureStatusCodeRange_STATUS() to populate field StatusCodeRanges")
-			}
-			statusCodeRangeList[statusCodeRangeIndex] = statusCodeRange
-		}
-		condition.StatusCodeRanges = statusCodeRangeList
-	} else {
-		condition.StatusCodeRanges = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The trip conditions of the circuit breaker
 type CircuitBreakerFailureCondition_STATUS struct {
 	// Count: The threshold for opening the circuit.
@@ -4985,19 +4580,6 @@ func (name *X509CertificateName) AssignProperties_To_X509CertificateName(destina
 	return nil
 }
 
-// Initialize_From_X509CertificateName_STATUS populates our X509CertificateName from the provided source X509CertificateName_STATUS
-func (name *X509CertificateName) Initialize_From_X509CertificateName_STATUS(source *X509CertificateName_STATUS) error {
-
-	// IssuerCertificateThumbprint
-	name.IssuerCertificateThumbprint = genruntime.ClonePointerToString(source.IssuerCertificateThumbprint)
-
-	// Name
-	name.Name = genruntime.ClonePointerToString(source.Name)
-
-	// No error
-	return nil
-}
-
 // Properties of server X509Names.
 type X509CertificateName_STATUS struct {
 	// IssuerCertificateThumbprint: Thumbprint for the Issuer of the Certificate.
@@ -5172,19 +4754,6 @@ func (codeRange *FailureStatusCodeRange) AssignProperties_To_FailureStatusCodeRa
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_FailureStatusCodeRange_STATUS populates our FailureStatusCodeRange from the provided source FailureStatusCodeRange_STATUS
-func (codeRange *FailureStatusCodeRange) Initialize_From_FailureStatusCodeRange_STATUS(source *FailureStatusCodeRange_STATUS) error {
-
-	// Max
-	codeRange.Max = genruntime.ClonePointerToInt(source.Max)
-
-	// Min
-	codeRange.Min = genruntime.ClonePointerToInt(source.Min)
 
 	// No error
 	return nil

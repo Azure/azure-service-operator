@@ -1,0 +1,9 @@
+apiVersion: apimanagement.azure.com/v20240501
+kind: ServiceGatewayApi
+metadata:
+  name: samplegatewayapi
+  namespace: default
+spec:
+  azureName: sampleapi
+  owner:
+    name: samplegateway

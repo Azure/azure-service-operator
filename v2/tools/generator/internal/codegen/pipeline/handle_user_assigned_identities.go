@@ -36,7 +36,8 @@ func HandleUserAssignedIdentities() *Stage {
 			updatedDefs.AddTypes(transformer.typesToAdd)
 
 			return state.WithDefinitions(updatedDefs), nil
-		})
+		},
+	)
 
 	return stage
 }

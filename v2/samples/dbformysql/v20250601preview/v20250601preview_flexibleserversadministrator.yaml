@@ -1,0 +1,20 @@
+apiVersion: dbformysql.azure.com/v20250601preview
+kind: FlexibleServersAdministrator
+metadata:
+  name: sampleadministrator
+  namespace: default
+spec:
+  owner:
+    name: samplemysql
+  administratorType: ActiveDirectory
+  identityResourceReference:
+    group: managedidentity.azure.com
+    kind: UserAssignedIdentity
+    name: adminidentity
+  login: useradmin@microsoft.com
+  sidFromConfig:
+    name: admin-settings
+    key: clientId
+  tenantIdFromConfig:
+    name: admin-settings
+    key: tenantId

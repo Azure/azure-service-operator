@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/app/v1api20250101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/app/v20240301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ManagedEnvironment{}
 
 // ConvertFrom populates our ManagedEnvironment from the provided hub ManagedEnvironment
 func (environment *ManagedEnvironment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ManagedEnvironment)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20250101/storage/ManagedEnvironment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ManagedEnvironment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return environment.AssignProperties_From_ManagedEnvironment(source)
+	err = environment.AssignProperties_From_ManagedEnvironment(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to environment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ManagedEnvironment from our ManagedEnvironment
 func (environment *ManagedEnvironment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ManagedEnvironment)
-	if !ok {
-		return fmt.Errorf("expected app/v1api20250101/storage/ManagedEnvironment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ManagedEnvironment
+	err := environment.AssignProperties_To_ManagedEnvironment(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from environment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return environment.AssignProperties_To_ManagedEnvironment(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ManagedEnvironment{}
@@ -387,13 +400,6 @@ func (environment *ManagedEnvironment_Spec) AssignProperties_From_ManagedEnviron
 		environment.DaprAIInstrumentationKey = nil
 	}
 
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
-	}
-
 	// InfrastructureResourceGroup
 	environment.InfrastructureResourceGroup = genruntime.ClonePointerToString(source.InfrastructureResourceGroup)
 
@@ -555,19 +561,6 @@ func (environment *ManagedEnvironment_Spec) AssignProperties_To_ManagedEnvironme
 		destination.DaprAIInstrumentationKey = &daprAIInstrumentationKey
 	} else {
 		destination.DaprAIInstrumentationKey = nil
-	}
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity storage.ManagedServiceIdentity
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
 	}
 
 	// InfrastructureResourceGroup
@@ -820,13 +813,6 @@ func (environment *ManagedEnvironment_STATUS) AssignProperties_From_ManagedEnvir
 	// Id
 	environment.Id = genruntime.ClonePointerToString(source.Id)
 
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
-	}
-
 	// InfrastructureResourceGroup
 	environment.InfrastructureResourceGroup = genruntime.ClonePointerToString(source.InfrastructureResourceGroup)
 
@@ -1010,19 +996,6 @@ func (environment *ManagedEnvironment_STATUS) AssignProperties_To_ManagedEnviron
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(environment.Id)
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity storage.ManagedServiceIdentity_STATUS
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
 
 	// InfrastructureResourceGroup
 	destination.InfrastructureResourceGroup = genruntime.ClonePointerToString(environment.InfrastructureResourceGroup)
@@ -1352,13 +1325,6 @@ func (configuration *CustomDomainConfiguration) AssignProperties_From_CustomDoma
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// CertificateKeyVaultProperties
-	if source.CertificateKeyVaultProperties != nil {
-		propertyBag.Add("CertificateKeyVaultProperties", *source.CertificateKeyVaultProperties)
-	} else {
-		propertyBag.Remove("CertificateKeyVaultProperties")
-	}
-
 	// CertificatePassword
 	if source.CertificatePassword != nil {
 		certificatePassword := source.CertificatePassword.Copy()
@@ -1402,19 +1368,6 @@ func (configuration *CustomDomainConfiguration) AssignProperties_From_CustomDoma
 func (configuration *CustomDomainConfiguration) AssignProperties_To_CustomDomainConfiguration(destination *storage.CustomDomainConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
-
-	// CertificateKeyVaultProperties
-	if propertyBag.Contains("CertificateKeyVaultProperties") {
-		var certificateKeyVaultProperty storage.CertificateKeyVaultProperties
-		err := propertyBag.Pull("CertificateKeyVaultProperties", &certificateKeyVaultProperty)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'CertificateKeyVaultProperties' from propertyBag")
-		}
-
-		destination.CertificateKeyVaultProperties = &certificateKeyVaultProperty
-	} else {
-		destination.CertificateKeyVaultProperties = nil
-	}
 
 	// CertificatePassword
 	if configuration.CertificatePassword != nil {
@@ -1471,13 +1424,6 @@ func (configuration *CustomDomainConfiguration_STATUS) AssignProperties_From_Cus
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// CertificateKeyVaultProperties
-	if source.CertificateKeyVaultProperties != nil {
-		propertyBag.Add("CertificateKeyVaultProperties", *source.CertificateKeyVaultProperties)
-	} else {
-		propertyBag.Remove("CertificateKeyVaultProperties")
-	}
-
 	// CustomDomainVerificationId
 	configuration.CustomDomainVerificationId = genruntime.ClonePointerToString(source.CustomDomainVerificationId)
 
@@ -1517,19 +1463,6 @@ func (configuration *CustomDomainConfiguration_STATUS) AssignProperties_From_Cus
 func (configuration *CustomDomainConfiguration_STATUS) AssignProperties_To_CustomDomainConfiguration_STATUS(destination *storage.CustomDomainConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
-
-	// CertificateKeyVaultProperties
-	if propertyBag.Contains("CertificateKeyVaultProperties") {
-		var certificateKeyVaultProperty storage.CertificateKeyVaultProperties_STATUS
-		err := propertyBag.Pull("CertificateKeyVaultProperties", &certificateKeyVaultProperty)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'CertificateKeyVaultProperties' from propertyBag")
-		}
-
-		destination.CertificateKeyVaultProperties = &certificateKeyVaultProperty
-	} else {
-		destination.CertificateKeyVaultProperties = nil
-	}
 
 	// CustomDomainVerificationId
 	destination.CustomDomainVerificationId = genruntime.ClonePointerToString(configuration.CustomDomainVerificationId)

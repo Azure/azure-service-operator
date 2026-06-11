@@ -5,7 +5,8 @@ package v1api20210401
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/storage"
+	alertsmanagement_v1api20210401s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v1api20210401/storage"
+	alertsmanagement_v20210401s "github.com/Azure/azure-service-operator/v2/api/alertsmanagement/v20210401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForActionGroupsInformation(subject ActionGroupsInf
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ActionGroupsInformation
+	var other alertsmanagement_v1api20210401s.ActionGroupsInformation
 	err := copied.AssignProperties_To_ActionGroupsInformation(&other)
 	if err != nil {
 		return err.Error()
@@ -139,7 +140,7 @@ func RunPropertyAssignmentTestForActionGroupsInformation_STATUS(subject ActionGr
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ActionGroupsInformation_STATUS
+	var other alertsmanagement_v1api20210401s.ActionGroupsInformation_STATUS
 	err := copied.AssignProperties_To_ActionGroupsInformation_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -244,7 +245,7 @@ func RunPropertyAssignmentTestForDetector(subject Detector) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Detector
+	var other alertsmanagement_v1api20210401s.Detector
 	err := copied.AssignProperties_To_Detector(&other)
 	if err != nil {
 		return err.Error()
@@ -346,7 +347,7 @@ func RunPropertyAssignmentTestForDetectorParameterDefinition_STATUS(subject Dete
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DetectorParameterDefinition_STATUS
+	var other alertsmanagement_v1api20210401s.DetectorParameterDefinition_STATUS
 	err := copied.AssignProperties_To_DetectorParameterDefinition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -458,7 +459,7 @@ func RunPropertyAssignmentTestForDetector_STATUS(subject Detector_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Detector_STATUS
+	var other alertsmanagement_v1api20210401s.Detector_STATUS
 	err := copied.AssignProperties_To_Detector_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -580,7 +581,7 @@ func RunResourceConversionTestForSmartDetectorAlertRule(subject SmartDetectorAle
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.SmartDetectorAlertRule
+	var hub alertsmanagement_v20210401s.SmartDetectorAlertRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -622,7 +623,7 @@ func RunPropertyAssignmentTestForSmartDetectorAlertRule(subject SmartDetectorAle
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SmartDetectorAlertRule
+	var other alertsmanagement_v1api20210401s.SmartDetectorAlertRule
 	err := copied.AssignProperties_To_SmartDetectorAlertRule(&other)
 	if err != nil {
 		return err.Error()
@@ -726,7 +727,7 @@ func RunPropertyAssignmentTestForSmartDetectorAlertRuleOperatorSpec(subject Smar
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SmartDetectorAlertRuleOperatorSpec
+	var other alertsmanagement_v1api20210401s.SmartDetectorAlertRuleOperatorSpec
 	err := copied.AssignProperties_To_SmartDetectorAlertRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -823,7 +824,7 @@ func RunPropertyAssignmentTestForSmartDetectorAlertRule_STATUS(subject SmartDete
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SmartDetectorAlertRule_STATUS
+	var other alertsmanagement_v1api20210401s.SmartDetectorAlertRule_STATUS
 	err := copied.AssignProperties_To_SmartDetectorAlertRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -958,7 +959,7 @@ func RunPropertyAssignmentTestForSmartDetectorAlertRule_Spec(subject SmartDetect
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SmartDetectorAlertRule_Spec
+	var other alertsmanagement_v1api20210401s.SmartDetectorAlertRule_Spec
 	err := copied.AssignProperties_To_SmartDetectorAlertRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1091,7 +1092,7 @@ func RunPropertyAssignmentTestForThrottlingInformation(subject ThrottlingInforma
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ThrottlingInformation
+	var other alertsmanagement_v1api20210401s.ThrottlingInformation
 	err := copied.AssignProperties_To_ThrottlingInformation(&other)
 	if err != nil {
 		return err.Error()
@@ -1194,7 +1195,7 @@ func RunPropertyAssignmentTestForThrottlingInformation_STATUS(subject Throttling
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ThrottlingInformation_STATUS
+	var other alertsmanagement_v1api20210401s.ThrottlingInformation_STATUS
 	err := copied.AssignProperties_To_ThrottlingInformation_STATUS(&other)
 	if err != nil {
 		return err.Error()

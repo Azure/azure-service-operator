@@ -94,7 +94,8 @@ func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				CosmosDB_SQL_Database_ThroughputSettings_v20231115_CRUD(tc, db)
 			},
-		})
+		},
+	)
 
 	// There aren't any attributes to update for databases, other than
 	// throughput settings once they're available.
@@ -105,7 +106,8 @@ func Test_DocumentDB_SQLDatabase_v20231115_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		acctId,
-		string(documentdb.APIVersion_Value))
+		string(documentdb.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -175,7 +177,8 @@ func CosmosDB_SQL_Container_v20231115_CRUD(tc *testcommon.KubePerTestContext, db
 			Test: func(tc *testcommon.KubePerTestContext) {
 				CosmosDB_SQL_Database_Container_ThroughputSettings_v20231115_CRUD(tc, container)
 			},
-		})
+		},
+	)
 
 	tc.LogSubsectionf("Updating the default TTL on container %q", name)
 	old := container.DeepCopy()
@@ -416,7 +419,8 @@ func CosmosDB_SQL_RoleAssignment_v20231115_CRUD(tc *testcommon.KubePerTestContex
 		"/subscriptions/%s/resourceGroups/%s/providers/Microsoft.DocumentDB/databaseAccounts/%s/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002",
 		tc.AzureSubscription,
 		rg.AzureName(),
-		acct.AzureName())
+		acct.AzureName(),
+	)
 
 	scope := fmt.Sprintf("/subscriptions/%s/resourceGroups/%s/providers/Microsoft.DocumentDB/databaseAccounts/%s",
 		tc.AzureSubscription,

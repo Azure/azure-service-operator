@@ -31,7 +31,8 @@ func NewValidateResourceReferencesFunction(resource astmodel.TypeDefinition, idF
 		idFactory,
 		validateResourceReferences,
 		astmodel.GenRuntimeReference,
-		astmodel.ReflectHelpersReference)
+		astmodel.ReflectHelpersReference,
+	)
 }
 
 // NewValidateOwnerReferenceFunction creates a function for validating the owner reference, if it exists
@@ -45,7 +46,8 @@ func NewValidateOwnerReferenceFunction(resource astmodel.TypeDefinition, idFacto
 		resource.Name(),
 		idFactory,
 		validateOwnerReferences,
-		astmodel.GenRuntimeReference)
+		astmodel.GenRuntimeReference,
+	)
 }
 
 // NewValidateWriteOncePropertiesFunction creates a function for validating write-once properties
@@ -58,7 +60,8 @@ func NewValidateWriteOncePropertiesFunction(resource astmodel.TypeDefinition, id
 		"validateWriteOnceProperties",
 		resource.Name(),
 		idFactory,
-		validateWriteOncePropertiesFunction)
+		validateWriteOncePropertiesFunction,
+	)
 }
 
 // NewValidateOptionalConfigMapReferenceFunction creates a function for validating optional configmap references
@@ -77,7 +80,28 @@ func NewValidateOptionalConfigMapReferenceFunction(resource astmodel.TypeDefinit
 		idFactory,
 		validateOptionalConfigMapReferences,
 		astmodel.GenRuntimeConfigMapsReference,
-		astmodel.ReflectHelpersReference)
+		astmodel.ReflectHelpersReference,
+	)
+}
+
+// NewValidateOptionalSecretReferenceFunction creates a function for validating optional secret references
+//
+//	func (obj *<obj>) validateOptionalSecretReferences(ctx context.Context, obj *<obj>) (admission.Warnings, error) {
+//		refs, err := reflecthelpers.FindOptionalSecretReferences(&obj.Spec)
+//		if err != nil {
+//			return nil, err
+//		}
+//		return secrets.ValidateOptionalReferences(refs)
+//	}
+func NewValidateOptionalSecretReferenceFunction(resource astmodel.TypeDefinition, idFactory astmodel.IdentifierFactory) *ValidateFunction {
+	return NewValidateFunction(
+		"validateOptionalSecretReferences",
+		resource.Name(),
+		idFactory,
+		validateOptionalSecretReferences,
+		astmodel.GenRuntimeSecretsReference,
+		astmodel.ReflectHelpersReference,
+	)
 }
 
 func validateResourceReferences(
@@ -141,7 +165,10 @@ func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerati
 			astbuilder.CallQualifiedFunc(
 				reflectHelpers,
 				"FindResourceReferences",
-				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(objIdent), "Spec")))))
+				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(objIdent), "Spec")),
+			),
+		),
+	)
 	body = append(body, astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
 	body = append(
 		body,
@@ -149,7 +176,10 @@ func validateResourceReferencesBody(codeGenerationContext *astmodel.CodeGenerati
 			astbuilder.CallQualifiedFunc(
 				genRuntime,
 				"ValidateResourceReferences",
-				dst.NewIdent("refs"))))
+				dst.NewIdent("refs"),
+			),
+		),
+	)
 
 	return body
 }
@@ -210,7 +240,10 @@ func validateOwnerReferencesBody(codeGenerationContext *astmodel.CodeGenerationC
 			astbuilder.CallQualifiedFunc(
 				genRuntime,
 				"ValidateOwner",
-				dst.NewIdent(objIdent))))
+				dst.NewIdent(objIdent),
+			),
+		),
+	)
 
 	return body
 }
@@ -280,7 +313,9 @@ func validateWriteOncePropertiesFunctionBody(
 			genRuntime,
 			"ValidateWriteOnceProperties",
 			dst.NewIdent(oldObjIdent),
-			dst.NewIdent(newObjIdent)))
+			dst.NewIdent(newObjIdent),
+		),
+	)
 	return astbuilder.Statements(returnStmt)
 }
 
@@ -345,7 +380,10 @@ func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.Cod
 			astbuilder.CallQualifiedFunc(
 				reflectHelpers,
 				"FindOptionalConfigMapReferences",
-				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(objIdent), "Spec")))))
+				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(objIdent), "Spec")),
+			),
+		),
+	)
 	body = append(body, astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
 	body = append(
 		body,
@@ -353,7 +391,90 @@ func validateOptionalConfigMapReferencesBody(codeGenerationContext *astmodel.Cod
 			astbuilder.CallQualifiedFunc(
 				genRuntimeConfigMaps,
 				"ValidateOptionalReferences",
-				dst.NewIdent("refs"))))
+				dst.NewIdent("refs"),
+			),
+		),
+	)
+
+	return body
+}
+
+func validateOptionalSecretReferences(
+	k *ValidateFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
+	objectIdent := "obj"
+	contextIdent := "ctx"
+
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
+	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating receiver type expression")
+	}
+
+	fn := &astbuilder.FuncDetails{
+		Name:          methodName,
+		ReceiverIdent: receiverIdent,
+		ReceiverType:  astbuilder.PointerTo(receiverExpr),
+		Body:          validateOptionalSecretReferencesBody(codeGenerationContext, objectIdent),
+	}
+
+	contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating context type expression")
+	}
+	fn.AddParameter(contextIdent, contextTypeExpr)
+
+	typedObjExpr, err := k.data.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating object type expression")
+	}
+	fn.AddParameter(objectIdent, astbuilder.PointerTo(typedObjExpr))
+
+	fn.AddReturn(astbuilder.QualifiedTypeName(codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission), "Warnings"))
+	fn.AddReturn(dst.NewIdent("error"))
+	fn.AddComments("validates all optional secret reference pairs to ensure that at most 1 is set")
+	return fn.DefineFunc(), nil
+}
+
+// validateOptionalSecretReferencesBody helps generate the body of the validateOptionalSecretReferences function:
+//
+//	refs, err := reflecthelpers.FindOptionalSecretReferences(&<resource>.Spec)
+//	if err != nil {
+//		return nil, err
+//	}
+//	return secrets.ValidateOptionalReferences(refs)
+func validateOptionalSecretReferencesBody(codeGenerationContext *astmodel.CodeGenerationContext, objIdent string) []dst.Stmt {
+	reflectHelpers := codeGenerationContext.MustGetImportedPackageName(astmodel.ReflectHelpersReference)
+	genRuntimeSecrets := codeGenerationContext.MustGetImportedPackageName(astmodel.GenRuntimeSecretsReference)
+
+	body := make([]dst.Stmt, 0, 3)
+
+	body = append(
+		body,
+		astbuilder.SimpleAssignmentWithErr(
+			dst.NewIdent("refs"),
+			token.DEFINE,
+			astbuilder.CallQualifiedFunc(
+				reflectHelpers,
+				"FindOptionalSecretReferences",
+				astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(objIdent), "Spec")),
+			),
+		),
+	)
+	body = append(body, astbuilder.CheckErrorAndReturn(astbuilder.Nil()))
+	body = append(
+		body,
+		astbuilder.Returns(
+			astbuilder.CallQualifiedFunc(
+				genRuntimeSecrets,
+				"ValidateOptionalReferences",
+				dst.NewIdent("refs"),
+			),
+		),
+	)
 
 	return body
 }

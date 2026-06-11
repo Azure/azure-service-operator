@@ -5,7 +5,8 @@ package v1api20240301
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForApplicationSecurityGroupSpec_PrivateEndpoint_Su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
+	var other v20240301s.ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationSecurityGroupSpec_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -132,7 +133,7 @@ func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_PrivateEndpoint
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var other v20240301s.ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationSecurityGroup_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -235,7 +236,7 @@ func RunPropertyAssignmentTestForCustomDnsConfigPropertiesFormat_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CustomDnsConfigPropertiesFormat_STATUS
+	var other v20240301s.CustomDnsConfigPropertiesFormat_STATUS
 	err := copied.AssignProperties_To_CustomDnsConfigPropertiesFormat_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -339,7 +340,7 @@ func RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateEndpoint_SubReso
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var other v20240301s.NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterface_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -443,7 +444,7 @@ func RunResourceConversionTestForPrivateEndpoint(subject PrivateEndpoint) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.PrivateEndpoint
+	var hub v20250301s.PrivateEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -485,7 +486,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint(subject PrivateEndpoint) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpoint
+	var other v20240301s.PrivateEndpoint
 	err := copied.AssignProperties_To_PrivateEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -588,7 +589,7 @@ func RunPropertyAssignmentTestForPrivateEndpointIPConfiguration(subject PrivateE
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpointIPConfiguration
+	var other v20240301s.PrivateEndpointIPConfiguration
 	err := copied.AssignProperties_To_PrivateEndpointIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -694,7 +695,7 @@ func RunPropertyAssignmentTestForPrivateEndpointIPConfiguration_STATUS(subject P
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpointIPConfiguration_STATUS
+	var other v20240301s.PrivateEndpointIPConfiguration_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -802,7 +803,7 @@ func RunPropertyAssignmentTestForPrivateEndpointOperatorConfigMaps(subject Priva
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpointOperatorConfigMaps
+	var other v20240301s.PrivateEndpointOperatorConfigMaps
 	err := copied.AssignProperties_To_PrivateEndpointOperatorConfigMaps(&other)
 	if err != nil {
 		return err.Error()
@@ -899,7 +900,7 @@ func RunPropertyAssignmentTestForPrivateEndpointOperatorSpec(subject PrivateEndp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpointOperatorSpec
+	var other v20240301s.PrivateEndpointOperatorSpec
 	err := copied.AssignProperties_To_PrivateEndpointOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1002,7 +1003,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint_STATUS(subject PrivateEndpoint_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpoint_STATUS
+	var other v20240301s.PrivateEndpoint_STATUS
 	err := copied.AssignProperties_To_PrivateEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1139,7 +1140,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint_Spec(subject PrivateEndpoint_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpoint_Spec
+	var other v20240301s.PrivateEndpoint_Spec
 	err := copied.AssignProperties_To_PrivateEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1267,7 +1268,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnection(subject PrivateLin
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateLinkServiceConnection
+	var other v20240301s.PrivateLinkServiceConnection
 	err := copied.AssignProperties_To_PrivateLinkServiceConnection(&other)
 	if err != nil {
 		return err.Error()
@@ -1386,7 +1387,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState(subject Priva
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateLinkServiceConnectionState
+	var other v20240301s.PrivateLinkServiceConnectionState
 	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState(&other)
 	if err != nil {
 		return err.Error()
@@ -1491,7 +1492,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnectionState_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateLinkServiceConnectionState_STATUS
+	var other v20240301s.PrivateLinkServiceConnectionState_STATUS
 	err := copied.AssignProperties_To_PrivateLinkServiceConnectionState_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1596,7 +1597,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnection_STATUS(subject Pri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateLinkServiceConnection_STATUS
+	var other v20240301s.PrivateLinkServiceConnection_STATUS
 	err := copied.AssignProperties_To_PrivateLinkServiceConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1724,7 +1725,7 @@ func RunPropertyAssignmentTestForSubnet_PrivateEndpoint_SubResourceEmbedded(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Subnet_PrivateEndpoint_SubResourceEmbedded
+	var other v20240301s.Subnet_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1821,7 +1822,7 @@ func RunPropertyAssignmentTestForSubnet_STATUS_PrivateEndpoint_SubResourceEmbedd
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
+	var other v20240301s.Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_STATUS_PrivateEndpoint_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

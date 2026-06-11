@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/web/v20220301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,48 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_GitHubActionCodeConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from GitHubActionCodeConfiguration to GitHubActionCodeConfiguration via AssignProperties_To_GitHubActionCodeConfiguration & AssignProperties_From_GitHubActionCodeConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForGitHubActionCodeConfiguration, GitHubActionCodeConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForGitHubActionCodeConfiguration tests if a specific instance of GitHubActionCodeConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForGitHubActionCodeConfiguration(subject GitHubActionCodeConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.GitHubActionCodeConfiguration
+	err := copied.AssignProperties_To_GitHubActionCodeConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual GitHubActionCodeConfiguration
+	err = actual.AssignProperties_From_GitHubActionCodeConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_GitHubActionCodeConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -79,6 +122,48 @@ func AddIndependentPropertyGeneratorsForGitHubActionCodeConfiguration(gens map[s
 	gens["RuntimeVersion"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_GitHubActionCodeConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from GitHubActionCodeConfiguration_STATUS to GitHubActionCodeConfiguration_STATUS via AssignProperties_To_GitHubActionCodeConfiguration_STATUS & AssignProperties_From_GitHubActionCodeConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForGitHubActionCodeConfiguration_STATUS, GitHubActionCodeConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForGitHubActionCodeConfiguration_STATUS tests if a specific instance of GitHubActionCodeConfiguration_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForGitHubActionCodeConfiguration_STATUS(subject GitHubActionCodeConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.GitHubActionCodeConfiguration_STATUS
+	err := copied.AssignProperties_To_GitHubActionCodeConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual GitHubActionCodeConfiguration_STATUS
+	err = actual.AssignProperties_From_GitHubActionCodeConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_GitHubActionCodeConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -139,6 +224,48 @@ func GitHubActionCodeConfiguration_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForGitHubActionCodeConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["RuntimeStack"] = gen.PtrOf(gen.AlphaString())
 	gens["RuntimeVersion"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_GitHubActionConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from GitHubActionConfiguration to GitHubActionConfiguration via AssignProperties_To_GitHubActionConfiguration & AssignProperties_From_GitHubActionConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForGitHubActionConfiguration, GitHubActionConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForGitHubActionConfiguration tests if a specific instance of GitHubActionConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForGitHubActionConfiguration(subject GitHubActionConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.GitHubActionConfiguration
+	err := copied.AssignProperties_To_GitHubActionConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual GitHubActionConfiguration
+	err = actual.AssignProperties_From_GitHubActionConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_GitHubActionConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -218,6 +345,48 @@ func AddRelatedPropertyGeneratorsForGitHubActionConfiguration(gens map[string]go
 	gens["ContainerConfiguration"] = gen.PtrOf(GitHubActionContainerConfigurationGenerator())
 }
 
+func Test_GitHubActionConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from GitHubActionConfiguration_STATUS to GitHubActionConfiguration_STATUS via AssignProperties_To_GitHubActionConfiguration_STATUS & AssignProperties_From_GitHubActionConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForGitHubActionConfiguration_STATUS, GitHubActionConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForGitHubActionConfiguration_STATUS tests if a specific instance of GitHubActionConfiguration_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForGitHubActionConfiguration_STATUS(subject GitHubActionConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.GitHubActionConfiguration_STATUS
+	err := copied.AssignProperties_To_GitHubActionConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual GitHubActionConfiguration_STATUS
+	err = actual.AssignProperties_From_GitHubActionConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_GitHubActionConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -295,6 +464,48 @@ func AddRelatedPropertyGeneratorsForGitHubActionConfiguration_STATUS(gens map[st
 	gens["ContainerConfiguration"] = gen.PtrOf(GitHubActionContainerConfiguration_STATUSGenerator())
 }
 
+func Test_GitHubActionContainerConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from GitHubActionContainerConfiguration to GitHubActionContainerConfiguration via AssignProperties_To_GitHubActionContainerConfiguration & AssignProperties_From_GitHubActionContainerConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForGitHubActionContainerConfiguration, GitHubActionContainerConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForGitHubActionContainerConfiguration tests if a specific instance of GitHubActionContainerConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForGitHubActionContainerConfiguration(subject GitHubActionContainerConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.GitHubActionContainerConfiguration
+	err := copied.AssignProperties_To_GitHubActionContainerConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual GitHubActionContainerConfiguration
+	err = actual.AssignProperties_From_GitHubActionContainerConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_GitHubActionContainerConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -356,6 +567,48 @@ func AddIndependentPropertyGeneratorsForGitHubActionContainerConfiguration(gens 
 	gens["ImageName"] = gen.PtrOf(gen.AlphaString())
 	gens["ServerUrl"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_GitHubActionContainerConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from GitHubActionContainerConfiguration_STATUS to GitHubActionContainerConfiguration_STATUS via AssignProperties_To_GitHubActionContainerConfiguration_STATUS & AssignProperties_From_GitHubActionContainerConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForGitHubActionContainerConfiguration_STATUS, GitHubActionContainerConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForGitHubActionContainerConfiguration_STATUS tests if a specific instance of GitHubActionContainerConfiguration_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForGitHubActionContainerConfiguration_STATUS(subject GitHubActionContainerConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.GitHubActionContainerConfiguration_STATUS
+	err := copied.AssignProperties_To_GitHubActionContainerConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual GitHubActionContainerConfiguration_STATUS
+	err = actual.AssignProperties_From_GitHubActionContainerConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_GitHubActionContainerConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -421,6 +674,91 @@ func AddIndependentPropertyGeneratorsForGitHubActionContainerConfiguration_STATU
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SitesSourcecontrol_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SitesSourcecontrol to hub returns original",
+		prop.ForAll(RunResourceConversionTestForSitesSourcecontrol, SitesSourcecontrolGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForSitesSourcecontrol tests if a specific instance of SitesSourcecontrol round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForSitesSourcecontrol(subject SitesSourcecontrol) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.SitesSourcecontrol
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual SitesSourcecontrol
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SitesSourcecontrol_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SitesSourcecontrol to SitesSourcecontrol via AssignProperties_To_SitesSourcecontrol & AssignProperties_From_SitesSourcecontrol returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSitesSourcecontrol, SitesSourcecontrolGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSitesSourcecontrol tests if a specific instance of SitesSourcecontrol can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSitesSourcecontrol(subject SitesSourcecontrol) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SitesSourcecontrol
+	err := copied.AssignProperties_To_SitesSourcecontrol(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SitesSourcecontrol
+	err = actual.AssignProperties_From_SitesSourcecontrol(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SitesSourcecontrol_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -482,6 +820,48 @@ func AddRelatedPropertyGeneratorsForSitesSourcecontrol(gens map[string]gopter.Ge
 	gens["Status"] = SitesSourcecontrol_STATUSGenerator()
 }
 
+func Test_SitesSourcecontrolOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SitesSourcecontrolOperatorSpec to SitesSourcecontrolOperatorSpec via AssignProperties_To_SitesSourcecontrolOperatorSpec & AssignProperties_From_SitesSourcecontrolOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSitesSourcecontrolOperatorSpec, SitesSourcecontrolOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSitesSourcecontrolOperatorSpec tests if a specific instance of SitesSourcecontrolOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSitesSourcecontrolOperatorSpec(subject SitesSourcecontrolOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SitesSourcecontrolOperatorSpec
+	err := copied.AssignProperties_To_SitesSourcecontrolOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SitesSourcecontrolOperatorSpec
+	err = actual.AssignProperties_From_SitesSourcecontrolOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SitesSourcecontrolOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -535,6 +915,48 @@ func SitesSourcecontrolOperatorSpecGenerator() gopter.Gen {
 	sitesSourcecontrolOperatorSpecGenerator = gen.Struct(reflect.TypeOf(SitesSourcecontrolOperatorSpec{}), generators)
 
 	return sitesSourcecontrolOperatorSpecGenerator
+}
+
+func Test_SitesSourcecontrol_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SitesSourcecontrol_STATUS to SitesSourcecontrol_STATUS via AssignProperties_To_SitesSourcecontrol_STATUS & AssignProperties_From_SitesSourcecontrol_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSitesSourcecontrol_STATUS, SitesSourcecontrol_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSitesSourcecontrol_STATUS tests if a specific instance of SitesSourcecontrol_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSitesSourcecontrol_STATUS(subject SitesSourcecontrol_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SitesSourcecontrol_STATUS
+	err := copied.AssignProperties_To_SitesSourcecontrol_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SitesSourcecontrol_STATUS
+	err = actual.AssignProperties_From_SitesSourcecontrol_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SitesSourcecontrol_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -619,6 +1041,48 @@ func AddIndependentPropertyGeneratorsForSitesSourcecontrol_STATUS(gens map[strin
 // AddRelatedPropertyGeneratorsForSitesSourcecontrol_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSitesSourcecontrol_STATUS(gens map[string]gopter.Gen) {
 	gens["GitHubActionConfiguration"] = gen.PtrOf(GitHubActionConfiguration_STATUSGenerator())
+}
+
+func Test_SitesSourcecontrol_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SitesSourcecontrol_Spec to SitesSourcecontrol_Spec via AssignProperties_To_SitesSourcecontrol_Spec & AssignProperties_From_SitesSourcecontrol_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSitesSourcecontrol_Spec, SitesSourcecontrol_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSitesSourcecontrol_Spec tests if a specific instance of SitesSourcecontrol_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSitesSourcecontrol_Spec(subject SitesSourcecontrol_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SitesSourcecontrol_Spec
+	err := copied.AssignProperties_To_SitesSourcecontrol_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SitesSourcecontrol_Spec
+	err = actual.AssignProperties_From_SitesSourcecontrol_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SitesSourcecontrol_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

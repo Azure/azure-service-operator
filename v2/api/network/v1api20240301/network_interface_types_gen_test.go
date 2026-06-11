@@ -5,7 +5,8 @@ package v1api20240301
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_NetworkInt
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -132,7 +133,7 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_STATUS_Net
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -236,7 +237,7 @@ func RunPropertyAssignmentTestForApplicationSecurityGroupSpec_NetworkInterface_S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -333,7 +334,7 @@ func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkInterfac
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -436,7 +437,7 @@ func RunPropertyAssignmentTestForBackendAddressPool_NetworkInterface_SubResource
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendAddressPool_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.BackendAddressPool_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_BackendAddressPool_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -533,7 +534,7 @@ func RunPropertyAssignmentTestForBackendAddressPool_STATUS_NetworkInterface_SubR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -636,7 +637,7 @@ func RunPropertyAssignmentTestForInboundNatRule_NetworkInterface_SubResourceEmbe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.InboundNatRule_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.InboundNatRule_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_InboundNatRule_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -733,7 +734,7 @@ func RunPropertyAssignmentTestForInboundNatRule_STATUS_NetworkInterface_SubResou
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -837,7 +838,7 @@ func RunResourceConversionTestForNetworkInterface(subject NetworkInterface) stri
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.NetworkInterface
+	var hub v20250301s.NetworkInterface
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -879,7 +880,7 @@ func RunPropertyAssignmentTestForNetworkInterface(subject NetworkInterface) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterface
+	var other v20240301s.NetworkInterface
 	err := copied.AssignProperties_To_NetworkInterface(&other)
 	if err != nil {
 		return err.Error()
@@ -982,7 +983,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceDnsSettings(subject NetworkInte
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterfaceDnsSettings
+	var other v20240301s.NetworkInterfaceDnsSettings
 	err := copied.AssignProperties_To_NetworkInterfaceDnsSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1086,7 +1087,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceDnsSettings_STATUS(subject Netw
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterfaceDnsSettings_STATUS
+	var other v20240301s.NetworkInterfaceDnsSettings_STATUS
 	err := copied.AssignProperties_To_NetworkInterfaceDnsSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1193,7 +1194,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
+	var other v20240301s.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS
 	err := copied.AssignProperties_To_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1298,7 +1299,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_NetworkInterfac
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1427,7 +1428,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_NetworkI
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1565,7 +1566,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceOperatorSpec(subject NetworkInt
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterfaceOperatorSpec
+	var other v20240301s.NetworkInterfaceOperatorSpec
 	err := copied.AssignProperties_To_NetworkInterfaceOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1662,7 +1663,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceTapConfiguration_STATUS_Network
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1765,7 +1766,7 @@ func RunPropertyAssignmentTestForNetworkInterface_STATUS(subject NetworkInterfac
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterface_STATUS
+	var other v20240301s.NetworkInterface_STATUS
 	err := copied.AssignProperties_To_NetworkInterface_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1929,7 +1930,7 @@ func RunPropertyAssignmentTestForNetworkInterface_Spec(subject NetworkInterface_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkInterface_Spec
+	var other v20240301s.NetworkInterface_Spec
 	err := copied.AssignProperties_To_NetworkInterface_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -2071,7 +2072,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupSpec_NetworkInterface_SubRe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2168,7 +2169,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkInterface_Su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2271,7 +2272,7 @@ func RunPropertyAssignmentTestForPrivateEndpoint_STATUS_NetworkInterface_SubReso
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2374,7 +2375,7 @@ func RunPropertyAssignmentTestForPrivateLinkServiceSpec(subject PrivateLinkServi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateLinkServiceSpec
+	var other v20240301s.PrivateLinkServiceSpec
 	err := copied.AssignProperties_To_PrivateLinkServiceSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -2471,7 +2472,7 @@ func RunPropertyAssignmentTestForPrivateLinkService_STATUS_NetworkInterface_SubR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2574,7 +2575,7 @@ func RunPropertyAssignmentTestForPublicIPAddressSpec_NetworkInterface_SubResourc
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2671,7 +2672,7 @@ func RunPropertyAssignmentTestForPublicIPAddress_STATUS_NetworkInterface_SubReso
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2774,7 +2775,7 @@ func RunPropertyAssignmentTestForSubnet_NetworkInterface_SubResourceEmbedded(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Subnet_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.Subnet_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2871,7 +2872,7 @@ func RunPropertyAssignmentTestForSubnet_STATUS_NetworkInterface_SubResourceEmbed
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Subnet_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.Subnet_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_Subnet_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -2974,7 +2975,7 @@ func RunPropertyAssignmentTestForVirtualNetworkTapSpec_NetworkInterface_SubResou
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -3071,7 +3072,7 @@ func RunPropertyAssignmentTestForVirtualNetworkTap_STATUS_NetworkInterface_SubRe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
+	var other v20240301s.VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded
 	err := copied.AssignProperties_To_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()

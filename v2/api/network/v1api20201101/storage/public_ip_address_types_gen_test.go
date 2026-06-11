@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	v20220701s "github.com/Azure/azure-service-operator/v2/api/network/v1api20220701/storage"
 	v20240301s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240301/storage"
+	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -781,7 +782,7 @@ func RunResourceConversionTestForPublicIPAddress(subject PublicIPAddress) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20240301s.PublicIPAddress
+	var hub v20250301s.PublicIPAddress
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()

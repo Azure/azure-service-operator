@@ -33,5 +33,6 @@ func AssertTypesCollectionValid() *Stage {
 			}
 
 			return state, nil
-		})
+		},
+	)
 }

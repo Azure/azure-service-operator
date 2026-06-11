@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20210401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -1944,13 +1944,12 @@ func (blob *ManagementPolicyBaseBlob) AssignProperties_From_ManagementPolicyBase
 	}
 
 	// TierToCold
-	if propertyBag.Contains("TierToCold") {
+	if source.TierToCold != nil {
 		var tierToCold DateAfterModification
-		err := propertyBag.Pull("TierToCold", &tierToCold)
+		err := tierToCold.AssignProperties_From_DateAfterModification(source.TierToCold)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToCold' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterModification() to populate field TierToCold")
 		}
-
 		blob.TierToCold = &tierToCold
 	} else {
 		blob.TierToCold = nil
@@ -1969,13 +1968,12 @@ func (blob *ManagementPolicyBaseBlob) AssignProperties_From_ManagementPolicyBase
 	}
 
 	// TierToHot
-	if propertyBag.Contains("TierToHot") {
+	if source.TierToHot != nil {
 		var tierToHot DateAfterModification
-		err := propertyBag.Pull("TierToHot", &tierToHot)
+		err := tierToHot.AssignProperties_From_DateAfterModification(source.TierToHot)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToHot' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterModification() to populate field TierToHot")
 		}
-
 		blob.TierToHot = &tierToHot
 	} else {
 		blob.TierToHot = nil
@@ -2040,9 +2038,14 @@ func (blob *ManagementPolicyBaseBlob) AssignProperties_To_ManagementPolicyBaseBl
 
 	// TierToCold
 	if blob.TierToCold != nil {
-		propertyBag.Add("TierToCold", *blob.TierToCold)
+		var tierToCold storage.DateAfterModification
+		err := blob.TierToCold.AssignProperties_To_DateAfterModification(&tierToCold)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterModification() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
 	} else {
-		propertyBag.Remove("TierToCold")
+		destination.TierToCold = nil
 	}
 
 	// TierToCool
@@ -2059,9 +2062,14 @@ func (blob *ManagementPolicyBaseBlob) AssignProperties_To_ManagementPolicyBaseBl
 
 	// TierToHot
 	if blob.TierToHot != nil {
-		propertyBag.Add("TierToHot", *blob.TierToHot)
+		var tierToHot storage.DateAfterModification
+		err := blob.TierToHot.AssignProperties_To_DateAfterModification(&tierToHot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterModification() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
 	} else {
-		propertyBag.Remove("TierToHot")
+		destination.TierToHot = nil
 	}
 
 	// Update the property bag
@@ -2134,13 +2142,12 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignProperties_From_ManagementPol
 	}
 
 	// TierToCold
-	if propertyBag.Contains("TierToCold") {
+	if source.TierToCold != nil {
 		var tierToCold DateAfterModification_STATUS
-		err := propertyBag.Pull("TierToCold", &tierToCold)
+		err := tierToCold.AssignProperties_From_DateAfterModification_STATUS(source.TierToCold)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToCold' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterModification_STATUS() to populate field TierToCold")
 		}
-
 		blob.TierToCold = &tierToCold
 	} else {
 		blob.TierToCold = nil
@@ -2159,13 +2166,12 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignProperties_From_ManagementPol
 	}
 
 	// TierToHot
-	if propertyBag.Contains("TierToHot") {
+	if source.TierToHot != nil {
 		var tierToHot DateAfterModification_STATUS
-		err := propertyBag.Pull("TierToHot", &tierToHot)
+		err := tierToHot.AssignProperties_From_DateAfterModification_STATUS(source.TierToHot)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToHot' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterModification_STATUS() to populate field TierToHot")
 		}
-
 		blob.TierToHot = &tierToHot
 	} else {
 		blob.TierToHot = nil
@@ -2230,9 +2236,14 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignProperties_To_ManagementPolic
 
 	// TierToCold
 	if blob.TierToCold != nil {
-		propertyBag.Add("TierToCold", *blob.TierToCold)
+		var tierToCold storage.DateAfterModification_STATUS
+		err := blob.TierToCold.AssignProperties_To_DateAfterModification_STATUS(&tierToCold)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterModification_STATUS() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
 	} else {
-		propertyBag.Remove("TierToCold")
+		destination.TierToCold = nil
 	}
 
 	// TierToCool
@@ -2249,9 +2260,14 @@ func (blob *ManagementPolicyBaseBlob_STATUS) AssignProperties_To_ManagementPolic
 
 	// TierToHot
 	if blob.TierToHot != nil {
-		propertyBag.Add("TierToHot", *blob.TierToHot)
+		var tierToHot storage.DateAfterModification_STATUS
+		err := blob.TierToHot.AssignProperties_To_DateAfterModification_STATUS(&tierToHot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterModification_STATUS() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
 	} else {
-		propertyBag.Remove("TierToHot")
+		destination.TierToHot = nil
 	}
 
 	// Update the property bag
@@ -2315,13 +2331,12 @@ func (shot *ManagementPolicySnapShot) AssignProperties_From_ManagementPolicySnap
 	}
 
 	// TierToCold
-	if propertyBag.Contains("TierToCold") {
+	if source.TierToCold != nil {
 		var tierToCold DateAfterCreation
-		err := propertyBag.Pull("TierToCold", &tierToCold)
+		err := tierToCold.AssignProperties_From_DateAfterCreation(source.TierToCold)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToCold' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToCold")
 		}
-
 		shot.TierToCold = &tierToCold
 	} else {
 		shot.TierToCold = nil
@@ -2340,13 +2355,12 @@ func (shot *ManagementPolicySnapShot) AssignProperties_From_ManagementPolicySnap
 	}
 
 	// TierToHot
-	if propertyBag.Contains("TierToHot") {
+	if source.TierToHot != nil {
 		var tierToHot DateAfterCreation
-		err := propertyBag.Pull("TierToHot", &tierToHot)
+		err := tierToHot.AssignProperties_From_DateAfterCreation(source.TierToHot)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToHot' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToHot")
 		}
-
 		shot.TierToHot = &tierToHot
 	} else {
 		shot.TierToHot = nil
@@ -2403,9 +2417,14 @@ func (shot *ManagementPolicySnapShot) AssignProperties_To_ManagementPolicySnapSh
 
 	// TierToCold
 	if shot.TierToCold != nil {
-		propertyBag.Add("TierToCold", *shot.TierToCold)
+		var tierToCold storage.DateAfterCreation
+		err := shot.TierToCold.AssignProperties_To_DateAfterCreation(&tierToCold)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
 	} else {
-		propertyBag.Remove("TierToCold")
+		destination.TierToCold = nil
 	}
 
 	// TierToCool
@@ -2422,9 +2441,14 @@ func (shot *ManagementPolicySnapShot) AssignProperties_To_ManagementPolicySnapSh
 
 	// TierToHot
 	if shot.TierToHot != nil {
-		propertyBag.Add("TierToHot", *shot.TierToHot)
+		var tierToHot storage.DateAfterCreation
+		err := shot.TierToHot.AssignProperties_To_DateAfterCreation(&tierToHot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
 	} else {
-		propertyBag.Remove("TierToHot")
+		destination.TierToHot = nil
 	}
 
 	// Update the property bag
@@ -2488,13 +2512,12 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignProperties_From_ManagementPol
 	}
 
 	// TierToCold
-	if propertyBag.Contains("TierToCold") {
+	if source.TierToCold != nil {
 		var tierToCold DateAfterCreation_STATUS
-		err := propertyBag.Pull("TierToCold", &tierToCold)
+		err := tierToCold.AssignProperties_From_DateAfterCreation_STATUS(source.TierToCold)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToCold' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToCold")
 		}
-
 		shot.TierToCold = &tierToCold
 	} else {
 		shot.TierToCold = nil
@@ -2513,13 +2536,12 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignProperties_From_ManagementPol
 	}
 
 	// TierToHot
-	if propertyBag.Contains("TierToHot") {
+	if source.TierToHot != nil {
 		var tierToHot DateAfterCreation_STATUS
-		err := propertyBag.Pull("TierToHot", &tierToHot)
+		err := tierToHot.AssignProperties_From_DateAfterCreation_STATUS(source.TierToHot)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToHot' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToHot")
 		}
-
 		shot.TierToHot = &tierToHot
 	} else {
 		shot.TierToHot = nil
@@ -2576,9 +2598,14 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignProperties_To_ManagementPolic
 
 	// TierToCold
 	if shot.TierToCold != nil {
-		propertyBag.Add("TierToCold", *shot.TierToCold)
+		var tierToCold storage.DateAfterCreation_STATUS
+		err := shot.TierToCold.AssignProperties_To_DateAfterCreation_STATUS(&tierToCold)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
 	} else {
-		propertyBag.Remove("TierToCold")
+		destination.TierToCold = nil
 	}
 
 	// TierToCool
@@ -2595,9 +2622,14 @@ func (shot *ManagementPolicySnapShot_STATUS) AssignProperties_To_ManagementPolic
 
 	// TierToHot
 	if shot.TierToHot != nil {
-		propertyBag.Add("TierToHot", *shot.TierToHot)
+		var tierToHot storage.DateAfterCreation_STATUS
+		err := shot.TierToHot.AssignProperties_To_DateAfterCreation_STATUS(&tierToHot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
 	} else {
-		propertyBag.Remove("TierToHot")
+		destination.TierToHot = nil
 	}
 
 	// Update the property bag
@@ -2661,13 +2693,12 @@ func (version *ManagementPolicyVersion) AssignProperties_From_ManagementPolicyVe
 	}
 
 	// TierToCold
-	if propertyBag.Contains("TierToCold") {
+	if source.TierToCold != nil {
 		var tierToCold DateAfterCreation
-		err := propertyBag.Pull("TierToCold", &tierToCold)
+		err := tierToCold.AssignProperties_From_DateAfterCreation(source.TierToCold)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToCold' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToCold")
 		}
-
 		version.TierToCold = &tierToCold
 	} else {
 		version.TierToCold = nil
@@ -2686,13 +2717,12 @@ func (version *ManagementPolicyVersion) AssignProperties_From_ManagementPolicyVe
 	}
 
 	// TierToHot
-	if propertyBag.Contains("TierToHot") {
+	if source.TierToHot != nil {
 		var tierToHot DateAfterCreation
-		err := propertyBag.Pull("TierToHot", &tierToHot)
+		err := tierToHot.AssignProperties_From_DateAfterCreation(source.TierToHot)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToHot' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterCreation() to populate field TierToHot")
 		}
-
 		version.TierToHot = &tierToHot
 	} else {
 		version.TierToHot = nil
@@ -2749,9 +2779,14 @@ func (version *ManagementPolicyVersion) AssignProperties_To_ManagementPolicyVers
 
 	// TierToCold
 	if version.TierToCold != nil {
-		propertyBag.Add("TierToCold", *version.TierToCold)
+		var tierToCold storage.DateAfterCreation
+		err := version.TierToCold.AssignProperties_To_DateAfterCreation(&tierToCold)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
 	} else {
-		propertyBag.Remove("TierToCold")
+		destination.TierToCold = nil
 	}
 
 	// TierToCool
@@ -2768,9 +2803,14 @@ func (version *ManagementPolicyVersion) AssignProperties_To_ManagementPolicyVers
 
 	// TierToHot
 	if version.TierToHot != nil {
-		propertyBag.Add("TierToHot", *version.TierToHot)
+		var tierToHot storage.DateAfterCreation
+		err := version.TierToHot.AssignProperties_To_DateAfterCreation(&tierToHot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterCreation() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
 	} else {
-		propertyBag.Remove("TierToHot")
+		destination.TierToHot = nil
 	}
 
 	// Update the property bag
@@ -2834,13 +2874,12 @@ func (version *ManagementPolicyVersion_STATUS) AssignProperties_From_ManagementP
 	}
 
 	// TierToCold
-	if propertyBag.Contains("TierToCold") {
+	if source.TierToCold != nil {
 		var tierToCold DateAfterCreation_STATUS
-		err := propertyBag.Pull("TierToCold", &tierToCold)
+		err := tierToCold.AssignProperties_From_DateAfterCreation_STATUS(source.TierToCold)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToCold' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToCold")
 		}
-
 		version.TierToCold = &tierToCold
 	} else {
 		version.TierToCold = nil
@@ -2859,13 +2898,12 @@ func (version *ManagementPolicyVersion_STATUS) AssignProperties_From_ManagementP
 	}
 
 	// TierToHot
-	if propertyBag.Contains("TierToHot") {
+	if source.TierToHot != nil {
 		var tierToHot DateAfterCreation_STATUS
-		err := propertyBag.Pull("TierToHot", &tierToHot)
+		err := tierToHot.AssignProperties_From_DateAfterCreation_STATUS(source.TierToHot)
 		if err != nil {
-			return eris.Wrap(err, "pulling 'TierToHot' from propertyBag")
+			return eris.Wrap(err, "calling AssignProperties_From_DateAfterCreation_STATUS() to populate field TierToHot")
 		}
-
 		version.TierToHot = &tierToHot
 	} else {
 		version.TierToHot = nil
@@ -2922,9 +2960,14 @@ func (version *ManagementPolicyVersion_STATUS) AssignProperties_To_ManagementPol
 
 	// TierToCold
 	if version.TierToCold != nil {
-		propertyBag.Add("TierToCold", *version.TierToCold)
+		var tierToCold storage.DateAfterCreation_STATUS
+		err := version.TierToCold.AssignProperties_To_DateAfterCreation_STATUS(&tierToCold)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToCold")
+		}
+		destination.TierToCold = &tierToCold
 	} else {
-		propertyBag.Remove("TierToCold")
+		destination.TierToCold = nil
 	}
 
 	// TierToCool
@@ -2941,9 +2984,14 @@ func (version *ManagementPolicyVersion_STATUS) AssignProperties_To_ManagementPol
 
 	// TierToHot
 	if version.TierToHot != nil {
-		propertyBag.Add("TierToHot", *version.TierToHot)
+		var tierToHot storage.DateAfterCreation_STATUS
+		err := version.TierToHot.AssignProperties_To_DateAfterCreation_STATUS(&tierToHot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DateAfterCreation_STATUS() to populate field TierToHot")
+		}
+		destination.TierToHot = &tierToHot
 	} else {
-		propertyBag.Remove("TierToHot")
+		destination.TierToHot = nil
 	}
 
 	// Update the property bag
@@ -3177,17 +3225,7 @@ func (creation *DateAfterCreation) AssignProperties_From_DateAfterCreation(sourc
 	creation.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterCreationGreaterThan)
 
 	// DaysAfterLastTierChangeGreaterThan
-	if propertyBag.Contains("DaysAfterLastTierChangeGreaterThan") {
-		var daysAfterLastTierChangeGreaterThan int
-		err := propertyBag.Pull("DaysAfterLastTierChangeGreaterThan", &daysAfterLastTierChangeGreaterThan)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DaysAfterLastTierChangeGreaterThan' from propertyBag")
-		}
-
-		creation.DaysAfterLastTierChangeGreaterThan = &daysAfterLastTierChangeGreaterThan
-	} else {
-		creation.DaysAfterLastTierChangeGreaterThan = nil
-	}
+	creation.DaysAfterLastTierChangeGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterLastTierChangeGreaterThan)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3218,11 +3256,7 @@ func (creation *DateAfterCreation) AssignProperties_To_DateAfterCreation(destina
 	destination.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(creation.DaysAfterCreationGreaterThan)
 
 	// DaysAfterLastTierChangeGreaterThan
-	if creation.DaysAfterLastTierChangeGreaterThan != nil {
-		propertyBag.Add("DaysAfterLastTierChangeGreaterThan", *creation.DaysAfterLastTierChangeGreaterThan)
-	} else {
-		propertyBag.Remove("DaysAfterLastTierChangeGreaterThan")
-	}
+	destination.DaysAfterLastTierChangeGreaterThan = genruntime.ClonePointerToInt(creation.DaysAfterLastTierChangeGreaterThan)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3266,13 +3300,8 @@ func (creation *DateAfterCreation_STATUS) AssignProperties_From_DateAfterCreatio
 	}
 
 	// DaysAfterLastTierChangeGreaterThan
-	if propertyBag.Contains("DaysAfterLastTierChangeGreaterThan") {
-		var daysAfterLastTierChangeGreaterThan float64
-		err := propertyBag.Pull("DaysAfterLastTierChangeGreaterThan", &daysAfterLastTierChangeGreaterThan)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DaysAfterLastTierChangeGreaterThan' from propertyBag")
-		}
-
+	if source.DaysAfterLastTierChangeGreaterThan != nil {
+		daysAfterLastTierChangeGreaterThan := *source.DaysAfterLastTierChangeGreaterThan
 		creation.DaysAfterLastTierChangeGreaterThan = &daysAfterLastTierChangeGreaterThan
 	} else {
 		creation.DaysAfterLastTierChangeGreaterThan = nil
@@ -3313,9 +3342,10 @@ func (creation *DateAfterCreation_STATUS) AssignProperties_To_DateAfterCreation_
 
 	// DaysAfterLastTierChangeGreaterThan
 	if creation.DaysAfterLastTierChangeGreaterThan != nil {
-		propertyBag.Add("DaysAfterLastTierChangeGreaterThan", *creation.DaysAfterLastTierChangeGreaterThan)
+		daysAfterLastTierChangeGreaterThan := *creation.DaysAfterLastTierChangeGreaterThan
+		destination.DaysAfterLastTierChangeGreaterThan = &daysAfterLastTierChangeGreaterThan
 	} else {
-		propertyBag.Remove("DaysAfterLastTierChangeGreaterThan")
+		destination.DaysAfterLastTierChangeGreaterThan = nil
 	}
 
 	// Update the property bag
@@ -3358,33 +3388,13 @@ func (modification *DateAfterModification) AssignProperties_From_DateAfterModifi
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// DaysAfterCreationGreaterThan
-	if propertyBag.Contains("DaysAfterCreationGreaterThan") {
-		var daysAfterCreationGreaterThan int
-		err := propertyBag.Pull("DaysAfterCreationGreaterThan", &daysAfterCreationGreaterThan)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DaysAfterCreationGreaterThan' from propertyBag")
-		}
-
-		modification.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
-	} else {
-		modification.DaysAfterCreationGreaterThan = nil
-	}
+	modification.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterCreationGreaterThan)
 
 	// DaysAfterLastAccessTimeGreaterThan
 	modification.DaysAfterLastAccessTimeGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterLastAccessTimeGreaterThan)
 
 	// DaysAfterLastTierChangeGreaterThan
-	if propertyBag.Contains("DaysAfterLastTierChangeGreaterThan") {
-		var daysAfterLastTierChangeGreaterThan int
-		err := propertyBag.Pull("DaysAfterLastTierChangeGreaterThan", &daysAfterLastTierChangeGreaterThan)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DaysAfterLastTierChangeGreaterThan' from propertyBag")
-		}
-
-		modification.DaysAfterLastTierChangeGreaterThan = &daysAfterLastTierChangeGreaterThan
-	} else {
-		modification.DaysAfterLastTierChangeGreaterThan = nil
-	}
+	modification.DaysAfterLastTierChangeGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterLastTierChangeGreaterThan)
 
 	// DaysAfterModificationGreaterThan
 	modification.DaysAfterModificationGreaterThan = genruntime.ClonePointerToInt(source.DaysAfterModificationGreaterThan)
@@ -3415,21 +3425,13 @@ func (modification *DateAfterModification) AssignProperties_To_DateAfterModifica
 	propertyBag := genruntime.NewPropertyBag(modification.PropertyBag)
 
 	// DaysAfterCreationGreaterThan
-	if modification.DaysAfterCreationGreaterThan != nil {
-		propertyBag.Add("DaysAfterCreationGreaterThan", *modification.DaysAfterCreationGreaterThan)
-	} else {
-		propertyBag.Remove("DaysAfterCreationGreaterThan")
-	}
+	destination.DaysAfterCreationGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterCreationGreaterThan)
 
 	// DaysAfterLastAccessTimeGreaterThan
 	destination.DaysAfterLastAccessTimeGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterLastAccessTimeGreaterThan)
 
 	// DaysAfterLastTierChangeGreaterThan
-	if modification.DaysAfterLastTierChangeGreaterThan != nil {
-		propertyBag.Add("DaysAfterLastTierChangeGreaterThan", *modification.DaysAfterLastTierChangeGreaterThan)
-	} else {
-		propertyBag.Remove("DaysAfterLastTierChangeGreaterThan")
-	}
+	destination.DaysAfterLastTierChangeGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterLastTierChangeGreaterThan)
 
 	// DaysAfterModificationGreaterThan
 	destination.DaysAfterModificationGreaterThan = genruntime.ClonePointerToInt(modification.DaysAfterModificationGreaterThan)
@@ -3474,13 +3476,8 @@ func (modification *DateAfterModification_STATUS) AssignProperties_From_DateAfte
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// DaysAfterCreationGreaterThan
-	if propertyBag.Contains("DaysAfterCreationGreaterThan") {
-		var daysAfterCreationGreaterThan float64
-		err := propertyBag.Pull("DaysAfterCreationGreaterThan", &daysAfterCreationGreaterThan)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DaysAfterCreationGreaterThan' from propertyBag")
-		}
-
+	if source.DaysAfterCreationGreaterThan != nil {
+		daysAfterCreationGreaterThan := *source.DaysAfterCreationGreaterThan
 		modification.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
 	} else {
 		modification.DaysAfterCreationGreaterThan = nil
@@ -3495,13 +3492,8 @@ func (modification *DateAfterModification_STATUS) AssignProperties_From_DateAfte
 	}
 
 	// DaysAfterLastTierChangeGreaterThan
-	if propertyBag.Contains("DaysAfterLastTierChangeGreaterThan") {
-		var daysAfterLastTierChangeGreaterThan float64
-		err := propertyBag.Pull("DaysAfterLastTierChangeGreaterThan", &daysAfterLastTierChangeGreaterThan)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DaysAfterLastTierChangeGreaterThan' from propertyBag")
-		}
-
+	if source.DaysAfterLastTierChangeGreaterThan != nil {
+		daysAfterLastTierChangeGreaterThan := *source.DaysAfterLastTierChangeGreaterThan
 		modification.DaysAfterLastTierChangeGreaterThan = &daysAfterLastTierChangeGreaterThan
 	} else {
 		modification.DaysAfterLastTierChangeGreaterThan = nil
@@ -3542,9 +3534,10 @@ func (modification *DateAfterModification_STATUS) AssignProperties_To_DateAfterM
 
 	// DaysAfterCreationGreaterThan
 	if modification.DaysAfterCreationGreaterThan != nil {
-		propertyBag.Add("DaysAfterCreationGreaterThan", *modification.DaysAfterCreationGreaterThan)
+		daysAfterCreationGreaterThan := *modification.DaysAfterCreationGreaterThan
+		destination.DaysAfterCreationGreaterThan = &daysAfterCreationGreaterThan
 	} else {
-		propertyBag.Remove("DaysAfterCreationGreaterThan")
+		destination.DaysAfterCreationGreaterThan = nil
 	}
 
 	// DaysAfterLastAccessTimeGreaterThan
@@ -3557,9 +3550,10 @@ func (modification *DateAfterModification_STATUS) AssignProperties_To_DateAfterM
 
 	// DaysAfterLastTierChangeGreaterThan
 	if modification.DaysAfterLastTierChangeGreaterThan != nil {
-		propertyBag.Add("DaysAfterLastTierChangeGreaterThan", *modification.DaysAfterLastTierChangeGreaterThan)
+		daysAfterLastTierChangeGreaterThan := *modification.DaysAfterLastTierChangeGreaterThan
+		destination.DaysAfterLastTierChangeGreaterThan = &daysAfterLastTierChangeGreaterThan
 	} else {
-		propertyBag.Remove("DaysAfterLastTierChangeGreaterThan")
+		destination.DaysAfterLastTierChangeGreaterThan = nil
 	}
 
 	// DaysAfterModificationGreaterThan

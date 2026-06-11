@@ -228,41 +228,40 @@ if should-install "$TOOL_DEST/setup-envtest"; then
 fi
 
 # Stricter GO formatting
-#doc# | gofumpt | latest | https://pkg.go.dev/mvdan.cc/gofumpt |
-go-install gofumpt mvdan.cc/gofumpt@latest
+#doc# | gofumpt | v0.10.0 | https://github.com/mvdan/gofumpt |
+go-install gofumpt mvdan.cc/gofumpt@v0.10.0
 
 # Install golangci-lint
-#doc# | golangci-lint | 2.8.0 | https://github.com/golangci/golangci-lint |
+#doc# | golangci-lint | 2.12.1 | https://github.com/golangci/golangci-lint |
 write-verbose "Checking for $TOOL_DEST/golangci-lint"
 if should-install "$TOOL_DEST/golangci-lint"; then
     write-info "Installing golangci-lint"
     # golangci-lint is provided by base image if in devcontainer
     # this command copied from there
-    curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v2.8.0 2>&1
+    curl -sSfL https://golangci-lint.run/install.sh  | sh -s -- -b "$TOOL_DEST" v2.12.1 2>&1
 fi
 
 # Install Task
-#doc# | Task | v3.44.0 | https://taskfile.dev/ |
-# not using 3.44.1+ due to https://github.com/go-task/task/issues/2355
+#doc# | Task | v3.49.1 | https://taskfile.dev/ |
 write-verbose "Checking for $TOOL_DEST/go-task"
 if should-install "$TOOL_DEST/task"; then 
     write-info "Installing go-task"
-    curl -sL "https://github.com/go-task/task/releases/download/v3.44.0/task_${os}_${arch}.tar.gz" | tar xz -C "$TOOL_DEST" task
+    curl -sL "https://github.com/go-task/task/releases/download/v3.49.1/task_${os}_${arch}.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
 
 # Install Trivy
-#doc# | Trivy | v0.67.2 | https://trivy.dev/ |
-# write-verbose "Checking for $TOOL_DEST/trivy"
-# if should-install "$TOOL_DEST/trivy"; then
-#     write-info "Installing trivy"
-#     # These guys decided to use different naming conventions for os(go env GOOS) and arch(go env GOARCH) despite trivy is 98.6% written in Go
-#     # This fixes macos arm64 architechture. Every other os/arch is named differently. Consider adding a workaround of your own ¯\_(ツ)_/¯
-#     if [[ ${os} == "darwin" ]] && [[ ${arch} == "arm64" ]]; then
-#         curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.67.2/trivy_0.67.2_macOS-ARM64.tar.gz" | tar xz -C "$TOOL_DEST" trivy
-#     else
-#         curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.67.2/trivy_0.67.2_Linux-64bit.tar.gz" | tar xz -C "$TOOL_DEST" trivy
-#     fi
-# fi
+#doc# | Trivy | v0.69.3 | https://trivy.dev/ |
+write-verbose "Checking for $TOOL_DEST/trivy"
+if should-install "$TOOL_DEST/trivy"; then
+    write-info "Installing trivy"
+    # These guys decided to use different naming conventions for os(go env GOOS) and arch(go env GOARCH) despite trivy is 98.6% written in Go
+    # This fixes macos arm64 architechture. Every other os/arch is named differently. Consider adding a workaround of your own ¯\_(ツ)_/¯
+    if [[ ${os} == "darwin" ]] && [[ ${arch} == "arm64" ]]; then
+        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.69.3/trivy_0.69.3_macOS-ARM64.tar.gz" | tar xz -C "$TOOL_DEST" trivy
+    else
+        curl -sL "https://github.com/aquasecurity/trivy/releases/download/v0.69.3/trivy_0.69.3_Linux-64bit.tar.gz" | tar xz -C "$TOOL_DEST" trivy
+    fi
+fi
 
 # Install helm
 #doc# | Helm | v3.19.0 | https://helm.sh/ |

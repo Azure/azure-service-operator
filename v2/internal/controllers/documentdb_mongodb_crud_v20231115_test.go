@@ -98,7 +98,8 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				DocumentDB_MongoDB_Database_ThroughputSettings_v20231115_CRUD(tc, &db)
 			},
-		})
+		},
+	)
 
 	// Delete the database and make sure it goes away
 	armId := *db.Status.Id
@@ -107,7 +108,8 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(documentdb.APIVersion_Value))
+		string(documentdb.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 
@@ -118,7 +120,8 @@ func Test_DocumentDB_MongoDatabase_v20231115_CRUD(t *testing.T) {
 	exists, _, err = tc.AzureClient.CheckExistenceWithGetByID(
 		tc.Ctx,
 		armId,
-		string(documentdb.APIVersion_Value))
+		string(documentdb.APIVersion_Value),
+	)
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -181,7 +184,8 @@ func DocumentDB_MongoDB_Collection_v20231115_CRUD(tc *testcommon.KubePerTestCont
 			Test: func(tc *testcommon.KubePerTestContext) {
 				DocumentDB_MongoDB_Database_Collections_ThroughputSettings_v20231515_CRUD(tc, &collection)
 			},
-		})
+		},
+	)
 }
 
 func DocumentDB_MongoDB_Database_ThroughputSettings_v20231115_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
