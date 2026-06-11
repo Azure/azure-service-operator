@@ -141,7 +141,7 @@ func (in *CapacityReservationGroupOperatorSpec) DeepCopyInto(out *CapacityReserv
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -152,7 +152,7 @@ func (in *CapacityReservationGroupOperatorSpec) DeepCopyInto(out *CapacityReserv
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -409,7 +409,7 @@ func (in *CapacityReservationOperatorSpec) DeepCopyInto(out *CapacityReservation
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -420,7 +420,7 @@ func (in *CapacityReservationOperatorSpec) DeepCopyInto(out *CapacityReservation
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

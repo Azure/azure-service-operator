@@ -200,7 +200,7 @@ func (in *DiskOperatorSpec) DeepCopyInto(out *DiskOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -211,7 +211,7 @@ func (in *DiskOperatorSpec) DeepCopyInto(out *DiskOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1113,7 +1113,7 @@ func (in *SnapshotOperatorSpec) DeepCopyInto(out *SnapshotOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1124,7 +1124,7 @@ func (in *SnapshotOperatorSpec) DeepCopyInto(out *SnapshotOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
