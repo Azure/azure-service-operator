@@ -756,7 +756,7 @@ Development of these new resources is complete and they will be available in the
 
 | Resource                                                        | ARM Version | CRD Version | Supported From | Sample                                                                                                    |
 |-----------------------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------|
-| [Application]({{< relref "/reference/entra/v1#Application" >}}) | v1          | v1          | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/entra/v1/v1_application.yaml) |
+| [Application]({{< relref "/reference/entra/v1#Application" >}}) | v1          | v1          | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/entra/v1/v1_application.yaml) |
 
 ### Released
 
