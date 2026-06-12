@@ -1292,12 +1292,17 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.servicePrincipalProfile.secret",
 				Func: indexContainerserviceManagedClusterSecret,
 			},
+			{
+				Key:  ".spec.aadProfile.serverAppSecret",
+				Func: indexContainerserviceManagedClusterServerAppSecret,
+			},
 		},
 		Watches: []registration.Watch{
 			{
 				Type: &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory(
 					[]string{
+						".spec.aadProfile.serverAppSecret",
 						".spec.servicePrincipalProfile.secret",
 						".spec.windowsProfile.adminPassword",
 					},
@@ -9060,6 +9065,21 @@ func indexContainerserviceManagedClusterSecret(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.ServicePrincipalProfile.Secret.Index()
+}
+
+// indexContainerserviceManagedClusterServerAppSecret an index function for containerservice_v20250801s.ManagedCluster .spec.aadProfile.serverAppSecret
+func indexContainerserviceManagedClusterServerAppSecret(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerservice_v20250801s.ManagedCluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AadProfile == nil {
+		return nil
+	}
+	if obj.Spec.AadProfile.ServerAppSecret == nil {
+		return nil
+	}
+	return obj.Spec.AadProfile.ServerAppSecret.Index()
 }
 
 // indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.default.administratorLoginPassword
