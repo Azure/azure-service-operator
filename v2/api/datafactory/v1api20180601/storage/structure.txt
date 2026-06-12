@@ -26,7 +26,7 @@ Factory: Resource
 │   │   ├── Type: *string
 │   │   └── UserAssignedIdentities: Object (2 properties)[]
 │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │       └── Reference: genruntime.ResourceReference
+│   │       └── Reference: *genruntime.ResourceReference
 │   ├── Location: *string
 │   ├── OperatorSpec: *Object (3 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
@@ -68,7 +68,7 @@ Factory: Resource
 │   │   │   └── Type: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   └── Tags: map[string]string
-└── Status: Object (18 properties)
+└── Status: Object (19 properties)
     ├── AdditionalProperties: map[string]v1.JSON
     ├── Conditions: conditions.Condition[]
     ├── CreateTime: *string
@@ -128,6 +128,14 @@ Factory: Resource
     │   │   ├── TenantId: *string
     │   │   └── Type: *string
     │   └── PropertyBag: genruntime.PropertyBag
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     ├── Tags: map[string]string
     ├── Type: *string
     └── Version: *string
@@ -175,6 +183,8 @@ augmentConversionForGlobalParameterSpecification_STATUS: Interface
 augmentConversionForPurviewConfiguration: Interface
 
 augmentConversionForPurviewConfiguration_STATUS: Interface
+
+augmentConversionForSystemData_STATUS: Interface
 
 augmentConversionForUserAssignedIdentityDetails: Interface
 
