@@ -76,11 +76,71 @@ type SecurityGroupSpec struct {
 
 	// IsAssignableToRole: Indicates whether the group can be assigned to a role.
 	IsAssignableToRole *bool `json:"isAssignableToRole,omitempty"`
+
+	// Owners: Directory objects (users, service principals, groups) to assign as owners of the security
+	// group at creation time. Applied only during the initial POST to Microsoft Graph via `owners@odata.bind`
+	// and never reconciled afterward. Required when ASO authenticates with an app-only token and the calling
+	// principal lacks Group.ReadWrite.All — otherwise the created group has no owners and is unmanageable.
+	// This field is immutable after creation.
+	// +kubebuilder:validation:MaxItems=20
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="owners is immutable after creation"
+	Owners []SecurityGroupMemberReference `json:"owners,omitempty"`
+
+	// Members: Directory objects (users, service principals, groups) to assign as members of the security
+	// group at creation time. Applied only during the initial POST to Microsoft Graph via `members@odata.bind`
+	// and never reconciled afterward. This field is immutable after creation.
+	// +kubebuilder:validation:MaxItems=20
+	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="members is immutable after creation"
+	Members []SecurityGroupMemberReference `json:"members,omitempty"`
+}
+
+// SecurityGroupMemberReference is a reference to a directory object (user, service principal, or group) by its
+// Entra Object ID.
+type SecurityGroupMemberReference struct {
+	// ObjectID: The Entra Object ID (GUID) of the directory object.
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+	ObjectID string `json:"objectID"`
 }
 
 // OriginalVersion returns the original API version used to create the resource.
 func (spec *SecurityGroupSpec) OriginalVersion() string {
 	return GroupVersion.Version
+}
+
+// graphDirectoryObjectURI returns the Microsoft Graph URI for a directory object with the given ID.
+func graphDirectoryObjectURI(objectID string) string {
+	return "https://graph.microsoft.com/v1.0/directoryObjects/" + objectID
+}
+
+// AssignODataBindOnCreate sets the `owners@odata.bind` and `members@odata.bind` additional data
+// on the group model. These annotations are only valid during the initial POST to Microsoft Graph;
+// they must NOT be included in PATCH requests.
+// The typed setters (SetOwners/SetMembers) serialize as nested objects which Graph rejects on create —
+// the @odata.bind annotation is the only working shape for setting owners/members inline at creation time.
+func (spec *SecurityGroupSpec) AssignODataBindOnCreate(model models.Groupable) {
+	additionalData := model.GetAdditionalData()
+	if additionalData == nil {
+		additionalData = make(map[string]any)
+	}
+
+	if len(spec.Owners) > 0 {
+		owners := make([]string, 0, len(spec.Owners))
+		for _, o := range spec.Owners {
+			owners = append(owners, graphDirectoryObjectURI(o.ObjectID))
+		}
+		additionalData["owners@odata.bind"] = owners
+	}
+
+	if len(spec.Members) > 0 {
+		members := make([]string, 0, len(spec.Members))
+		for _, m := range spec.Members {
+			members = append(members, graphDirectoryObjectURI(m.ObjectID))
+		}
+		additionalData["members@odata.bind"] = members
+	}
+
+	model.SetAdditionalData(additionalData)
 }
 
 // AssignToGroup configures the provided instance with the details of the group
