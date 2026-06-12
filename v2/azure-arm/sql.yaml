@@ -39,6 +39,9 @@ groupModelConfiguration:
     Servers_ElasticPool:
       $exportAs: ServersElasticPool
       $supportedFrom: v2.0.0
+    Servers_EncryptionProtector:
+      $exportAs: ServersEncryptionProtector
+      $supportedFrom: v2.12.0
     Servers_FailoverGroup:
       $exportAs: ServersFailoverGroup
       $supportedFrom: v2.0.0
@@ -51,6 +54,9 @@ groupModelConfiguration:
       #      Servers_JobAgent:
       #        $exportAs: ServersJobAgent
       #        $supportedFrom: v2.0.0
+    Servers_Key:
+      $exportAs: ServersKey
+      $supportedFrom: v2.12.0
     Servers_OutboundFirewallRule:
       $exportAs: ServersOutboundFirewallRule
       $supportedFrom: v2.0.0
