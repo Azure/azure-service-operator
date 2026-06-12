@@ -6,14 +6,12 @@ package webhook
 import (
 	"context"
 	"fmt"
-
-	"github.com/rotisserie/eris"
-
 	v20250801 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v20250801"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
+	"github.com/rotisserie/eris"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
@@ -159,6 +157,14 @@ func (administrator *FlexibleServersAdministrator) updateValidations() []func(ct
 	}
 }
 
+// validateAzureName validates that azureName and azureNameFromConfig are not both set
+func (administrator *FlexibleServersAdministrator) validateAzureName(ctx context.Context, obj *v20250801.FlexibleServersAdministrator) (admission.Warnings, error) {
+	if obj.Spec.AzureName != "" && obj.Spec.AzureNameFromConfig != nil {
+		return nil, eris.Errorf("cannot specify both AzureName and AzureNameFromConfig")
+	}
+	return nil, nil
+}
+
 // validateConfigMapDestinations validates there are no colliding genruntime.ConfigMapDestinations
 func (administrator *FlexibleServersAdministrator) validateConfigMapDestinations(ctx context.Context, obj *v20250801.FlexibleServersAdministrator) (admission.Warnings, error) {
 	if obj.Spec.OperatorSpec == nil {
@@ -201,12 +207,4 @@ func (administrator *FlexibleServersAdministrator) validateSecretDestinations(ct
 // validateWriteOnceProperties validates all WriteOnce properties
 func (administrator *FlexibleServersAdministrator) validateWriteOnceProperties(ctx context.Context, oldObj *v20250801.FlexibleServersAdministrator, newObj *v20250801.FlexibleServersAdministrator) (admission.Warnings, error) {
 	return genruntime.ValidateWriteOnceProperties(oldObj, newObj)
-}
-
-// validateAzureName validates that azureName and azureNameFromConfig are not both set
-func (administrator *FlexibleServersAdministrator) validateAzureName(ctx context.Context, obj *v20250801.FlexibleServersAdministrator) (admission.Warnings, error) {
-	if obj.Spec.AzureName != "" && obj.Spec.AzureNameFromConfig != nil {
-		return nil, eris.Errorf("cannot specify both AzureName and AzureNameFromConfig")
-	}
-	return nil, nil
 }

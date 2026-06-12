@@ -60,7 +60,6 @@ func AddAzureNameFromConfig(configuration *config.Configuration, idFactory astmo
 		},
 	)
 
-	stage.RequiresPrerequisiteStages(AddOperatorSpecStageID)
 	stage.RequiresPostrequisiteStages(ApplyDefaulterAndValidatorInterfaceStageID)
 	return stage
 }

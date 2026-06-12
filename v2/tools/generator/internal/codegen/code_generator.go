@@ -194,6 +194,7 @@ func createAllPipelineStages(
 		pipeline.PruneResourcesWithLifecycleOwnedByParent(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.MakeOneOfDiscriminantRequired().UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyARMConversionInterface(idFactory, configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),
+		pipeline.AddAzureNameFromConfig(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyKubernetesResourceInterface(idFactory, log).UsedFor(pipeline.ARMTarget),
 
 		// Effects the "flatten" property of Properties:
@@ -209,8 +210,6 @@ func createAllPipelineStages(
 		pipeline.AddOperatorSpec(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		// To be added when needed
 		// pipeline.AddOperatorStatus(idFactory).UsedFor(pipeline.ARMTarget),
-
-		pipeline.AddAzureNameFromConfig(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.AddKubernetesExporter(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyDefaulterAndValidatorInterfaces(configuration, idFactory).UsedFor(pipeline.ARMTarget),

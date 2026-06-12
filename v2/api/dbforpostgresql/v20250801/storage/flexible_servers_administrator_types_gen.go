@@ -70,9 +70,17 @@ func (administrator *FlexibleServersAdministrator) SecretDestinationExpressions(
 
 var _ genruntime.KubernetesResource = &FlexibleServersAdministrator{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (from Spec, or from the azure-name-from-config annotation)
 func (administrator *FlexibleServersAdministrator) AzureName() string {
-	return administrator.Spec.AzureName
+	if administrator.Spec.AzureName != "" {
+		return administrator.Spec.AzureName
+	}
+	if ann := administrator.GetAnnotations(); ann != nil {
+		if name, ok := ann["serviceoperator.azure.com/azure-name-from-config"]; ok {
+			return name
+		}
+	}
+	return ""
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2025-08-01"
@@ -206,16 +214,6 @@ func (administrator *FlexibleServersAdministrator_Spec) ConvertSpecTo(destinatio
 	}
 
 	return destination.ConvertSpecFrom(administrator)
-}
-
-// GetAzureNameFromConfig returns the AzureNameFromConfig property of the spec, used to resolve the Azure name from a ConfigMap
-func (administrator *FlexibleServersAdministrator_Spec) GetAzureNameFromConfig() *genruntime.ConfigMapReference {
-	return administrator.AzureNameFromConfig
-}
-
-// SetAzureName sets the Azure name of the resource
-func (administrator *FlexibleServersAdministrator_Spec) SetAzureName(azureName string) {
-	administrator.AzureName = azureName
 }
 
 // Storage version of v20250801.FlexibleServersAdministrator_STATUS

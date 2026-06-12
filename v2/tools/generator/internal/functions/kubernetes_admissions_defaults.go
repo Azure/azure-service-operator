@@ -156,4 +156,3 @@ func defaultAzureNameWithConfigFunction(
 	fn.AddComments("defaults the Azure name of the resource to the Kubernetes name, but only when AzureNameFromConfig is not set")
 	return fn.DefineFunc(), nil
 }
-

@@ -1414,6 +1414,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(dbforpostgresql_v20250801s.FlexibleServersAdministrator),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.azureNameFromConfig",
+				Func: indexDbforpostgresqlFlexibleServersAdministratorAzureNameFromConfig,
+			},
+			{
 				Key:  ".spec.principalNameFromConfig",
 				Func: indexDbforpostgresqlFlexibleServersAdministratorPrincipalNameFromConfig,
 			},
@@ -1427,6 +1431,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Type: &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
+						".spec.azureNameFromConfig",
 						".spec.principalNameFromConfig",
 						".spec.tenantIdFromConfig",
 					},
@@ -9010,6 +9015,18 @@ func indexDbforpostgresqlFlexibleServerTenantIdFromConfig(rawObj client.Object) 
 		return nil
 	}
 	return obj.Spec.AuthConfig.TenantIdFromConfig.Index()
+}
+
+// indexDbforpostgresqlFlexibleServersAdministratorAzureNameFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServersAdministrator .spec.azureNameFromConfig
+func indexDbforpostgresqlFlexibleServersAdministratorAzureNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbforpostgresql_v20250801s.FlexibleServersAdministrator)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AzureNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.AzureNameFromConfig.Index()
 }
 
 // indexDbforpostgresqlFlexibleServersAdministratorPrincipalNameFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServersAdministrator .spec.principalNameFromConfig
