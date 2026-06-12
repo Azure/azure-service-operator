@@ -941,7 +941,7 @@ func getSubSchemaType(schema Schema) (SchemaType, error) {
 
 	// TODO: this whole switch is a bit wrong because type: 'object' can
 	// be combined with OneOf/AnyOf/etc. still, it works okay for now...
-	if len(schema.properties()) > 0 || schema.additionalPropertiesSchema() != nil {
+	if len(schema.properties()) > 0 || schema.additionalPropertiesAllowed() {
 		// haven't figured out a type but it has properties, treat it as an object
 		return Object, nil
 	}
