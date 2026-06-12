@@ -254,7 +254,7 @@ type CustomerManagedKeyDetails_STATUS struct {
 // Key encryption key properties
 type KekIdentityProperties_STATUS struct {
 	// UseSystemAssignedIdentity: Boolean specifying whether to use system assigned identity or not
-	UseSystemAssignedIdentity *v1.JSON `json:"useSystemAssignedIdentity,omitempty"`
+	UseSystemAssignedIdentity map[string]v1.JSON `json:"useSystemAssignedIdentity,omitempty"`
 
 	// UserAssignedIdentity: User assigned identity resource Id
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
