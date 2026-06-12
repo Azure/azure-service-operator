@@ -9,3 +9,5 @@ spec:
     name: aso-sample-rg
   sku:
     name: Balanced_B0
+  minimumTlsVersion: "1.2"
+  highAvailability: Enabled
