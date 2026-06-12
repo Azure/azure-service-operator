@@ -37,6 +37,7 @@ addSecrets                                 azure      Replace properties flagged
 addConfigMaps                              azure      Replace properties flagged as a configMap with genruntime.ConfigMapReference. For properties flagged as an optional configMap, add a new <property>FromConfig property.
 addSerializationTypeTag                               Adds a property tag to properties with special serialization instructions to initialize empty collections when serializing the payload to Azure
 makeOneOfDiscriminantRequired              azure      Fix one of types to a discriminator which is not omitempty/optional
+addAzureNameFromConfig                     azure      Injects the AzureNameFromConfig property into Spec types for resources that support it
 applyKubernetesResourceInterface           azure      Add the KubernetesResource interface to every resource
 flattenProperties                                     Apply flattening to properties marked for flattening
 stripUnused                                           Strip unused types for test

@@ -55,6 +55,13 @@ func AddKubernetesResourceInterfaceImpls(
 		return nil, err
 	}
 
+	// If the resource supports AzureNameFromConfig, use a modified AzureName() function that
+	// checks the annotation as a fallback when spec.AzureName is empty.
+	azureNameFromConfigProp := idFactory.CreatePropertyName(astmodel.AzureNameFromConfigProperty, astmodel.Exported)
+	if _, hasAzureNameFromConfig := resolved.SpecType.Property(azureNameFromConfigProp); hasAzureNameFromConfig {
+		nameFns.getNameFunction = getStringAzureNameWithAnnotationFallbackFunction
+	}
+
 	// Sometimes we need to remove the AzureName property from our Spec because the name is forced
 	if nameFns.removeAzureNameProperty {
 		// remove the AzureName property from the spec of the resource
@@ -684,6 +691,64 @@ func getStringAzureNameFunction(
 	}
 
 	fn.AddComments("returns the Azure name of the resource")
+	fn.AddReturns("string")
+	return fn.DefineFunc(), nil
+}
+
+// getStringAzureNameWithAnnotationFallbackFunction returns a function that returns the Name property
+// of the resource spec, falling back to the azure-name-from-config annotation if the spec value is empty.
+// This is used for resources that support AzureNameFromConfig.
+func getStringAzureNameWithAnnotationFallbackFunction(
+	k *functions.ObjectFunction,
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName,
+	methodName string,
+) (*dst.FuncDecl, error) {
+	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
+	receiverTypeExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+	if err != nil {
+		return nil, eris.Wrap(err, "creating receiver type expression")
+	}
+
+	specAzureName := astbuilder.Selector(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec"), astmodel.AzureNameProperty)
+
+	// if <receiver>.Spec.AzureName != "" {
+	//     return <receiver>.Spec.AzureName
+	// }
+	checkSpec := astbuilder.SimpleIf(
+		astbuilder.AreNotEqual(dst.Clone(specAzureName).(dst.Expr), astbuilder.StringLiteral("")),
+		astbuilder.Returns(dst.Clone(specAzureName).(dst.Expr)),
+	)
+
+	// if ann := <receiver>.GetAnnotations(); ann != nil {
+	//     if name, ok := ann["serviceoperator.azure.com/azure-name-from-config"]; ok {
+	//         return name
+	//     }
+	// }
+	annotationKey := astbuilder.StringLiteral("serviceoperator.azure.com/azure-name-from-config")
+
+	innerIf := astbuilder.IfOk(astbuilder.Returns(dst.NewIdent("name")))
+	innerIf.Init = &dst.AssignStmt{
+		Lhs: []dst.Expr{dst.NewIdent("name"), dst.NewIdent("ok")},
+		Tok: token.DEFINE,
+		Rhs: []dst.Expr{&dst.IndexExpr{X: dst.NewIdent("ann"), Index: annotationKey}},
+	}
+
+	checkAnnotation := astbuilder.IfNotNil(dst.NewIdent("ann"), innerIf)
+	checkAnnotation.Init = astbuilder.ShortDeclaration("ann", astbuilder.CallExpr(dst.NewIdent(receiverIdent), "GetAnnotations"))
+
+	fn := &astbuilder.FuncDetails{
+		Name:          methodName,
+		ReceiverIdent: receiverIdent,
+		ReceiverType:  astbuilder.PointerTo(receiverTypeExpr),
+		Body: astbuilder.Statements(
+			checkSpec,
+			checkAnnotation,
+			astbuilder.Returns(astbuilder.StringLiteral("")),
+		),
+	}
+
+	fn.AddComments("returns the Azure name of the resource (from Spec, or from the azure-name-from-config annotation)")
 	fn.AddReturns("string")
 	return fn.DefineFunc(), nil
 }

@@ -255,6 +255,19 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	ctx context.Context,
 ) (ctrl.Result, error) {
+	// If the spec supports AzureNameFromConfig, resolve the name from the ConfigMap and store it
+	// as an annotation. We must not modify spec directly since the object will be saved back to etcd.
+	resolvedName, err := r.resolveAzureNameFromConfig(ctx)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+	if resolvedName != "" {
+		if err := r.ensureAzureNameUnchanged(resolvedName); err != nil {
+			return ctrl.Result{}, err
+		}
+		genruntime.AddAnnotation(r.Obj, annotations.AzureNameFromConfig, resolvedName)
+	}
+
 	if r.Obj.AzureName() == "" {
 		err := eris.Errorf(
 			"AzureName was not set on %s. A webhook should default this to .metadata.name if it was omitted. Is the ASO webhook service running?",
@@ -429,6 +442,58 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 	}
 
 	return check, nil
+}
+
+// resolveAzureNameFromConfig resolves the Azure name from a ConfigMap if the resource supports AzureNameFromConfig.
+// Returns the resolved name (empty string if the resource doesn't use this feature), or an error if resolution fails.
+func (r *azureDeploymentReconcilerInstance) resolveAzureNameFromConfig(ctx context.Context) (string, error) {
+	resourceSpec := r.Obj.GetSpec()
+	provider, ok := resourceSpec.(genruntime.AzureNameFromConfigProvider)
+	if !ok {
+		return "", nil
+	}
+
+	configRef := provider.GetAzureNameFromConfig()
+	if configRef == nil {
+		return "", nil
+	}
+
+	namespacedRef := configRef.AsNamespacedRef(r.Obj.GetNamespace())
+	resolvedName, err := r.ResourceResolver.ResolveConfigMapReference(ctx, namespacedRef)
+	if err != nil {
+		return "", conditions.NewReadyConditionImpactingError(
+			err,
+			conditions.ConditionSeverityError,
+			conditions.ReasonFailed,
+		)
+	}
+
+	return resolvedName, nil
+}
+
+// ensureAzureNameUnchanged checks that the resolved Azure name hasn't changed from a previously stored value.
+// AzureName is immutable once set.
+func (r *azureDeploymentReconcilerInstance) ensureAzureNameUnchanged(resolvedName string) error {
+	existingAnnotations := r.Obj.GetAnnotations()
+	if existingAnnotations == nil {
+		return nil
+	}
+
+	existing, ok := existingAnnotations[annotations.AzureNameFromConfig]
+	if !ok || existing == resolvedName {
+		return nil
+	}
+
+	return conditions.NewReadyConditionImpactingError(
+		eris.Errorf(
+			"cannot change AzureName for %s: ConfigMap value changed from %q to %q",
+			r.Obj.GetType(),
+			existing,
+			resolvedName,
+		),
+		conditions.ConditionSeverityError,
+		conditions.ReasonFailed,
+	)
 }
 
 // checkSubscription checks if subscription on resource matches with credentials used while creating a resource.
