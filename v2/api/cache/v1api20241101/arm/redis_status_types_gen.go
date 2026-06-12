@@ -3,6 +3,8 @@
 // Licensed under the MIT license.
 package arm
 
+import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
 type Redis_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. E.g.
 	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
@@ -215,7 +217,8 @@ var publicNetworkAccess_STATUS_Values = map[string]PublicNetworkAccess_STATUS{
 // aof-storage-connection-string-1 etc.
 type RedisCommonPropertiesRedisConfiguration_STATUS struct {
 	// AadEnabled: Specifies whether AAD based authentication has been enabled or disabled for the cache
-	AadEnabled *string `json:"aad-enabled,omitempty"`
+	AadEnabled           *string            `json:"aad-enabled,omitempty"`
+	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 
 	// AofBackupEnabled: Specifies whether the aof backup is enabled
 	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`

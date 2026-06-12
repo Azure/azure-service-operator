@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -2174,7 +2175,8 @@ var redisCreateProperties_PublicNetworkAccess_Values = map[string]RedisCreatePro
 
 type RedisCreateProperties_RedisConfiguration struct {
 	// AadEnabled: Specifies whether AAD based authentication has been enabled or disabled for the cache
-	AadEnabled *string `json:"aad-enabled,omitempty"`
+	AadEnabled           *string            `json:"aad-enabled,omitempty"`
+	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 
 	// AofBackupEnabled: Specifies whether the aof backup is enabled
 	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`
@@ -2238,6 +2240,14 @@ func (configuration *RedisCreateProperties_RedisConfiguration) ConvertToARM(reso
 	if configuration.AadEnabled != nil {
 		aadEnabled := *configuration.AadEnabled
 		result.AadEnabled = &aadEnabled
+	}
+
+	// Set property "AdditionalProperties":
+	if configuration.AdditionalProperties != nil {
+		result.AdditionalProperties = make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for key, value := range configuration.AdditionalProperties {
+			result.AdditionalProperties[key] = *value.DeepCopy()
+		}
 	}
 
 	// Set property "AofBackupEnabled":
@@ -2350,6 +2360,14 @@ func (configuration *RedisCreateProperties_RedisConfiguration) PopulateFromARM(o
 		configuration.AadEnabled = &aadEnabled
 	}
 
+	// Set property "AdditionalProperties":
+	if typedInput.AdditionalProperties != nil {
+		configuration.AdditionalProperties = make(map[string]v1.JSON, len(typedInput.AdditionalProperties))
+		for key, value := range typedInput.AdditionalProperties {
+			configuration.AdditionalProperties[key] = *value.DeepCopy()
+		}
+	}
+
 	// Set property "AofBackupEnabled":
 	if typedInput.AofBackupEnabled != nil {
 		aofBackupEnabled := *typedInput.AofBackupEnabled
@@ -2450,6 +2468,17 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 	// AadEnabled
 	configuration.AadEnabled = genruntime.ClonePointerToString(source.AadEnabled)
 
+	// AdditionalProperties
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		configuration.AdditionalProperties = additionalPropertyMap
+	} else {
+		configuration.AdditionalProperties = nil
+	}
+
 	// AofBackupEnabled
 	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
 
@@ -2506,6 +2535,17 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 
 	// AadEnabled
 	destination.AadEnabled = genruntime.ClonePointerToString(configuration.AadEnabled)
+
+	// AdditionalProperties
+	if configuration.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range configuration.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		destination.AdditionalProperties = additionalPropertyMap
+	} else {
+		destination.AdditionalProperties = nil
+	}
 
 	// AofBackupEnabled
 	destination.AofBackupEnabled = genruntime.ClonePointerToString(configuration.AofBackupEnabled)
@@ -2978,7 +3018,8 @@ var redisProperties_PublicNetworkAccess_STATUS_Values = map[string]RedisProperti
 
 type RedisProperties_RedisConfiguration_STATUS struct {
 	// AadEnabled: Specifies whether AAD based authentication has been enabled or disabled for the cache
-	AadEnabled *string `json:"aad-enabled,omitempty"`
+	AadEnabled           *string            `json:"aad-enabled,omitempty"`
+	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 
 	// AofBackupEnabled: Specifies whether the aof backup is enabled
 	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`
@@ -3057,6 +3098,14 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) PopulateFromARM(
 	if typedInput.AadEnabled != nil {
 		aadEnabled := *typedInput.AadEnabled
 		configuration.AadEnabled = &aadEnabled
+	}
+
+	// Set property "AdditionalProperties":
+	if typedInput.AdditionalProperties != nil {
+		configuration.AdditionalProperties = make(map[string]v1.JSON, len(typedInput.AdditionalProperties))
+		for key, value := range typedInput.AdditionalProperties {
+			configuration.AdditionalProperties[key] = *value.DeepCopy()
+		}
 	}
 
 	// Set property "AofBackupEnabled":
@@ -3177,6 +3226,17 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 	// AadEnabled
 	configuration.AadEnabled = genruntime.ClonePointerToString(source.AadEnabled)
 
+	// AdditionalProperties
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		configuration.AdditionalProperties = additionalPropertyMap
+	} else {
+		configuration.AdditionalProperties = nil
+	}
+
 	// AofBackupEnabled
 	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
 
@@ -3242,6 +3302,17 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 
 	// AadEnabled
 	destination.AadEnabled = genruntime.ClonePointerToString(configuration.AadEnabled)
+
+	// AdditionalProperties
+	if configuration.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range configuration.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		destination.AdditionalProperties = additionalPropertyMap
+	} else {
+		destination.AdditionalProperties = nil
+	}
 
 	// AofBackupEnabled
 	destination.AofBackupEnabled = genruntime.ClonePointerToString(configuration.AofBackupEnabled)
