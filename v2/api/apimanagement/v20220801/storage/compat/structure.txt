@@ -35,13 +35,15 @@ BackendCircuitBreaker_STATUS: Object (2 properties)
     ├── PropertyBag: genruntime.PropertyBag
     └── TripDuration: *string
 
-BackendPool: Object (2 properties)
+BackendContractProperties_Pool: Object (3 properties)
+├── AdditionalProperties: map[string]v1.JSON
 ├── PropertyBag: genruntime.PropertyBag
 └── Services: Object (2 properties)[]
     ├── PropertyBag: genruntime.PropertyBag
     └── Reference: *genruntime.ResourceReference
 
-BackendPool_STATUS: Object (2 properties)
+BackendContractProperties_Pool_STATUS: Object (3 properties)
+├── AdditionalProperties: map[string]v1.JSON
 ├── PropertyBag: genruntime.PropertyBag
 └── Services: Object (2 properties)[]
     ├── Id: *string
@@ -51,13 +53,13 @@ augmentConversionForBackendCircuitBreaker: Interface
 
 augmentConversionForBackendCircuitBreaker_STATUS: Interface
 
-augmentConversionForBackendPool: Interface
+augmentConversionForBackendContractProperties_Pool: Interface
+
+augmentConversionForBackendContractProperties_Pool_STATUS: Interface
 
 augmentConversionForBackendPoolItem: Interface
 
 augmentConversionForBackendPoolItem_STATUS: Interface
-
-augmentConversionForBackendPool_STATUS: Interface
 
 augmentConversionForCircuitBreakerFailureCondition: Interface
 

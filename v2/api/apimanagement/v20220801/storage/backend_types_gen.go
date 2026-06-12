@@ -399,10 +399,10 @@ func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.
 
 	// Pool
 	if source.Pool != nil {
-		var pool compat.BackendPool
-		err := pool.AssignProperties_From_BackendPool(source.Pool)
+		var pool compat.BackendContractProperties_Pool
+		err := pool.AssignProperties_From_BackendContractProperties_Pool(source.Pool)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_BackendPool() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendContractProperties_Pool() to populate field Pool")
 		}
 		propertyBag.Add("Pool", pool)
 	} else {
@@ -555,16 +555,16 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 
 	// Pool
 	if propertyBag.Contains("Pool") {
-		var poolFromBag compat.BackendPool
+		var poolFromBag compat.BackendContractProperties_Pool
 		err := propertyBag.Pull("Pool", &poolFromBag)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'Pool' from propertyBag")
 		}
 
-		var pool storage.BackendPool
-		err = poolFromBag.AssignProperties_To_BackendPool(&pool)
+		var pool storage.BackendContractProperties_Pool
+		err = poolFromBag.AssignProperties_To_BackendContractProperties_Pool(&pool)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_BackendPool() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendContractProperties_Pool() to populate field Pool")
 		}
 		destination.Pool = &pool
 	} else {
@@ -768,10 +768,10 @@ func (backend *Backend_STATUS) AssignProperties_From_Backend_STATUS(source *stor
 
 	// Pool
 	if source.Pool != nil {
-		var pool compat.BackendPool_STATUS
-		err := pool.AssignProperties_From_BackendPool_STATUS(source.Pool)
+		var pool compat.BackendContractProperties_Pool_STATUS
+		err := pool.AssignProperties_From_BackendContractProperties_Pool_STATUS(source.Pool)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_BackendPool_STATUS() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendContractProperties_Pool_STATUS() to populate field Pool")
 		}
 		propertyBag.Add("Pool", pool)
 	} else {
@@ -905,16 +905,16 @@ func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *s
 
 	// Pool
 	if propertyBag.Contains("Pool") {
-		var poolFromBag compat.BackendPool_STATUS
+		var poolFromBag compat.BackendContractProperties_Pool_STATUS
 		err := propertyBag.Pull("Pool", &poolFromBag)
 		if err != nil {
 			return eris.Wrap(err, "pulling 'Pool' from propertyBag")
 		}
 
-		var pool storage.BackendPool_STATUS
-		err = poolFromBag.AssignProperties_To_BackendPool_STATUS(&pool)
+		var pool storage.BackendContractProperties_Pool_STATUS
+		err = poolFromBag.AssignProperties_To_BackendContractProperties_Pool_STATUS(&pool)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_BackendPool_STATUS() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendContractProperties_Pool_STATUS() to populate field Pool")
 		}
 		destination.Pool = &pool
 	} else {

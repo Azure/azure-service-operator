@@ -324,6 +324,128 @@ func AddRelatedPropertyGeneratorsForBackendCircuitBreaker_STATUS(gens map[string
 	gens["Rules"] = gen.SliceOf(CircuitBreakerRule_STATUSGenerator())
 }
 
+func Test_BackendContractProperties_Pool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackendContractProperties_Pool via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackendContractProperties_Pool, BackendContractProperties_PoolGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackendContractProperties_Pool runs a test to see if a specific instance of BackendContractProperties_Pool round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackendContractProperties_Pool(subject BackendContractProperties_Pool) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackendContractProperties_Pool
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackendContractProperties_Pool instances for property testing - lazily instantiated by
+// BackendContractProperties_PoolGenerator()
+var backendContractProperties_PoolGenerator gopter.Gen
+
+// BackendContractProperties_PoolGenerator returns a generator of BackendContractProperties_Pool instances for property testing.
+func BackendContractProperties_PoolGenerator() gopter.Gen {
+	if backendContractProperties_PoolGenerator != nil {
+		return backendContractProperties_PoolGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForBackendContractProperties_Pool(generators)
+	backendContractProperties_PoolGenerator = gen.Struct(reflect.TypeOf(BackendContractProperties_Pool{}), generators)
+
+	return backendContractProperties_PoolGenerator
+}
+
+// AddRelatedPropertyGeneratorsForBackendContractProperties_Pool is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackendContractProperties_Pool(gens map[string]gopter.Gen) {
+	gens["Services"] = gen.SliceOf(BackendPoolItemGenerator())
+}
+
+func Test_BackendContractProperties_Pool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackendContractProperties_Pool_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackendContractProperties_Pool_STATUS, BackendContractProperties_Pool_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackendContractProperties_Pool_STATUS runs a test to see if a specific instance of BackendContractProperties_Pool_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackendContractProperties_Pool_STATUS(subject BackendContractProperties_Pool_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackendContractProperties_Pool_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackendContractProperties_Pool_STATUS instances for property testing - lazily instantiated by
+// BackendContractProperties_Pool_STATUSGenerator()
+var backendContractProperties_Pool_STATUSGenerator gopter.Gen
+
+// BackendContractProperties_Pool_STATUSGenerator returns a generator of BackendContractProperties_Pool_STATUS instances for property testing.
+func BackendContractProperties_Pool_STATUSGenerator() gopter.Gen {
+	if backendContractProperties_Pool_STATUSGenerator != nil {
+		return backendContractProperties_Pool_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForBackendContractProperties_Pool_STATUS(generators)
+	backendContractProperties_Pool_STATUSGenerator = gen.Struct(reflect.TypeOf(BackendContractProperties_Pool_STATUS{}), generators)
+
+	return backendContractProperties_Pool_STATUSGenerator
+}
+
+// AddRelatedPropertyGeneratorsForBackendContractProperties_Pool_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackendContractProperties_Pool_STATUS(gens map[string]gopter.Gen) {
+	gens["Services"] = gen.SliceOf(BackendPoolItem_STATUSGenerator())
+}
+
 func Test_BackendCredentialsContract_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -543,66 +665,6 @@ func BackendOperatorSpecGenerator() gopter.Gen {
 	return backendOperatorSpecGenerator
 }
 
-func Test_BackendPool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackendPool via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendPool, BackendPoolGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBackendPool runs a test to see if a specific instance of BackendPool round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendPool(subject BackendPool) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BackendPool
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BackendPool instances for property testing - lazily instantiated by BackendPoolGenerator()
-var backendPoolGenerator gopter.Gen
-
-// BackendPoolGenerator returns a generator of BackendPool instances for property testing.
-func BackendPoolGenerator() gopter.Gen {
-	if backendPoolGenerator != nil {
-		return backendPoolGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForBackendPool(generators)
-	backendPoolGenerator = gen.Struct(reflect.TypeOf(BackendPool{}), generators)
-
-	return backendPoolGenerator
-}
-
-// AddRelatedPropertyGeneratorsForBackendPool is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackendPool(gens map[string]gopter.Gen) {
-	gens["Services"] = gen.SliceOf(BackendPoolItemGenerator())
-}
-
 func Test_BackendPoolItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -725,66 +787,6 @@ func AddIndependentPropertyGeneratorsForBackendPoolItem_STATUS(gens map[string]g
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["Weight"] = gen.PtrOf(gen.Int())
-}
-
-func Test_BackendPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of BackendPool_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendPool_STATUS, BackendPool_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForBackendPool_STATUS runs a test to see if a specific instance of BackendPool_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendPool_STATUS(subject BackendPool_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual BackendPool_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of BackendPool_STATUS instances for property testing - lazily instantiated by BackendPool_STATUSGenerator()
-var backendPool_STATUSGenerator gopter.Gen
-
-// BackendPool_STATUSGenerator returns a generator of BackendPool_STATUS instances for property testing.
-func BackendPool_STATUSGenerator() gopter.Gen {
-	if backendPool_STATUSGenerator != nil {
-		return backendPool_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForBackendPool_STATUS(generators)
-	backendPool_STATUSGenerator = gen.Struct(reflect.TypeOf(BackendPool_STATUS{}), generators)
-
-	return backendPool_STATUSGenerator
-}
-
-// AddRelatedPropertyGeneratorsForBackendPool_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackendPool_STATUS(gens map[string]gopter.Gen) {
-	gens["Services"] = gen.SliceOf(BackendPoolItem_STATUSGenerator())
 }
 
 func Test_BackendProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1395,7 +1397,7 @@ func AddIndependentPropertyGeneratorsForBackend_STATUS(gens map[string]gopter.Ge
 func AddRelatedPropertyGeneratorsForBackend_STATUS(gens map[string]gopter.Gen) {
 	gens["CircuitBreaker"] = gen.PtrOf(BackendCircuitBreaker_STATUSGenerator())
 	gens["Credentials"] = gen.PtrOf(BackendCredentialsContract_STATUSGenerator())
-	gens["Pool"] = gen.PtrOf(BackendPool_STATUSGenerator())
+	gens["Pool"] = gen.PtrOf(BackendContractProperties_Pool_STATUSGenerator())
 	gens["Properties"] = gen.PtrOf(BackendProperties_STATUSGenerator())
 	gens["Proxy"] = gen.PtrOf(BackendProxyContract_STATUSGenerator())
 	gens["Tls"] = gen.PtrOf(BackendTlsProperties_STATUSGenerator())
@@ -1481,7 +1483,7 @@ func AddRelatedPropertyGeneratorsForBackend_Spec(gens map[string]gopter.Gen) {
 	gens["CircuitBreaker"] = gen.PtrOf(BackendCircuitBreakerGenerator())
 	gens["Credentials"] = gen.PtrOf(BackendCredentialsContractGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(BackendOperatorSpecGenerator())
-	gens["Pool"] = gen.PtrOf(BackendPoolGenerator())
+	gens["Pool"] = gen.PtrOf(BackendContractProperties_PoolGenerator())
 	gens["Properties"] = gen.PtrOf(BackendPropertiesGenerator())
 	gens["Proxy"] = gen.PtrOf(BackendProxyContractGenerator())
 	gens["Tls"] = gen.PtrOf(BackendTlsPropertiesGenerator())

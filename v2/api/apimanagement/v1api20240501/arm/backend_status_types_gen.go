@@ -3,6 +3,8 @@
 // Licensed under the MIT license.
 package arm
 
+import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
 type Backend_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -27,10 +29,8 @@ type BackendContractProperties_STATUS struct {
 	Credentials *BackendCredentialsContract_STATUS `json:"credentials,omitempty"`
 
 	// Description: Backend Description.
-	Description *string `json:"description,omitempty"`
-
-	// Pool: Backend pool information
-	Pool *BackendPool_STATUS `json:"pool,omitempty"`
+	Description *string                                `json:"description,omitempty"`
+	Pool        *BackendContractProperties_Pool_STATUS `json:"pool,omitempty"`
 
 	// Properties: Backend Properties contract
 	Properties *BackendProperties_STATUS `json:"properties,omitempty"`
@@ -62,6 +62,13 @@ type BackendContractProperties_STATUS struct {
 type BackendCircuitBreaker_STATUS struct {
 	// Rules: The rules for tripping the backend.
 	Rules []CircuitBreakerRule_STATUS `json:"rules,omitempty"`
+}
+
+type BackendContractProperties_Pool_STATUS struct {
+	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
+
+	// Services: The list of backend entities belonging to a pool.
+	Services []BackendPoolItem_STATUS `json:"services,omitempty"`
 }
 
 type BackendContractProperties_Protocol_STATUS string
@@ -106,12 +113,6 @@ type BackendCredentialsContract_STATUS struct {
 
 	// Query: Query Parameter description.
 	Query map[string][]string `json:"query,omitempty"`
-}
-
-// Backend pool information
-type BackendPool_STATUS struct {
-	// Services: The list of backend entities belonging to a pool.
-	Services []BackendPoolItem_STATUS `json:"services,omitempty"`
 }
 
 // Properties specific to the Backend Type.

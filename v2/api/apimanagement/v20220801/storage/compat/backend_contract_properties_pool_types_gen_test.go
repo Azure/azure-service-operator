@@ -18,32 +18,32 @@ import (
 	"testing"
 )
 
-func Test_BackendPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_BackendContractProperties_Pool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from BackendPool to BackendPool via AssignProperties_To_BackendPool & AssignProperties_From_BackendPool returns original",
-		prop.ForAll(RunPropertyAssignmentTestForBackendPool, BackendPoolGenerator()))
+		"Round trip from BackendContractProperties_Pool to BackendContractProperties_Pool via AssignProperties_To_BackendContractProperties_Pool & AssignProperties_From_BackendContractProperties_Pool returns original",
+		prop.ForAll(RunPropertyAssignmentTestForBackendContractProperties_Pool, BackendContractProperties_PoolGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForBackendPool tests if a specific instance of BackendPool can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForBackendPool(subject BackendPool) string {
+// RunPropertyAssignmentTestForBackendContractProperties_Pool tests if a specific instance of BackendContractProperties_Pool can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForBackendContractProperties_Pool(subject BackendContractProperties_Pool) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.BackendPool
-	err := copied.AssignProperties_To_BackendPool(&other)
+	var other storage.BackendContractProperties_Pool
+	err := copied.AssignProperties_To_BackendContractProperties_Pool(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual BackendPool
-	err = actual.AssignProperties_From_BackendPool(&other)
+	var actual BackendContractProperties_Pool
+	err = actual.AssignProperties_From_BackendContractProperties_Pool(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -60,20 +60,20 @@ func RunPropertyAssignmentTestForBackendPool(subject BackendPool) string {
 	return ""
 }
 
-func Test_BackendPool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BackendContractProperties_Pool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BackendPool via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBackendPool, BackendPoolGenerator()))
+		"Round trip of BackendContractProperties_Pool via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackendContractProperties_Pool, BackendContractProperties_PoolGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBackendPool runs a test to see if a specific instance of BackendPool round trips to JSON and back losslessly
-func RunJSONSerializationTestForBackendPool(subject BackendPool) string {
+// RunJSONSerializationTestForBackendContractProperties_Pool runs a test to see if a specific instance of BackendContractProperties_Pool round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackendContractProperties_Pool(subject BackendContractProperties_Pool) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -81,7 +81,7 @@ func RunJSONSerializationTestForBackendPool(subject BackendPool) string {
 	}
 
 	// Deserialize back into memory
-	var actual BackendPool
+	var actual BackendContractProperties_Pool
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -99,24 +99,25 @@ func RunJSONSerializationTestForBackendPool(subject BackendPool) string {
 	return ""
 }
 
-// Generator of BackendPool instances for property testing - lazily instantiated by BackendPoolGenerator()
-var backendPoolGenerator gopter.Gen
+// Generator of BackendContractProperties_Pool instances for property testing - lazily instantiated by
+// BackendContractProperties_PoolGenerator()
+var backendContractProperties_PoolGenerator gopter.Gen
 
-// BackendPoolGenerator returns a generator of BackendPool instances for property testing.
-func BackendPoolGenerator() gopter.Gen {
-	if backendPoolGenerator != nil {
-		return backendPoolGenerator
+// BackendContractProperties_PoolGenerator returns a generator of BackendContractProperties_Pool instances for property testing.
+func BackendContractProperties_PoolGenerator() gopter.Gen {
+	if backendContractProperties_PoolGenerator != nil {
+		return backendContractProperties_PoolGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForBackendPool(generators)
-	backendPoolGenerator = gen.Struct(reflect.TypeOf(BackendPool{}), generators)
+	AddRelatedPropertyGeneratorsForBackendContractProperties_Pool(generators)
+	backendContractProperties_PoolGenerator = gen.Struct(reflect.TypeOf(BackendContractProperties_Pool{}), generators)
 
-	return backendPoolGenerator
+	return backendContractProperties_PoolGenerator
 }
 
-// AddRelatedPropertyGeneratorsForBackendPool is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBackendPool(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForBackendContractProperties_Pool is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackendContractProperties_Pool(gens map[string]gopter.Gen) {
 	gens["Services"] = gen.SliceOf(BackendPoolItemGenerator())
 }
 

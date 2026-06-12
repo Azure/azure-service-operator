@@ -578,7 +578,8 @@ Backend: Resource
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Pool: *Object (1 property)
+│   ├── Pool: *Object (2 properties)
+│   │   ├── AdditionalProperties: map[string]v1.JSON
 │   │   └── Services: Validated<Object (3 properties)[]> (1 rule)
 │   │       ├── Priority: Validated<*int> (2 rules)
 │   │       │   ├── Rule 0: Maximum: 100
@@ -653,7 +654,8 @@ Backend: Resource
     ├── Description: *string
     ├── Id: *string
     ├── Name: *string
-    ├── Pool: *Object (1 property)
+    ├── Pool: *Object (2 properties)
+    │   ├── AdditionalProperties: map[string]v1.JSON
     │   └── Services: Object (3 properties)[]
     │       ├── Id: *string
     │       ├── Priority: Validated<*int> (2 rules)
