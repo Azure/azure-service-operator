@@ -8,6 +8,8 @@ on:
     # to ensure the docs are never too stale
     - cron: "35 17 * * 0"
 
+permissions: {}
+
 jobs:
   gen-crd-docs:
 
