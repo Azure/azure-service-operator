@@ -210,7 +210,9 @@ func (r *EntraApplicationReconciler) tryAdopt(
 	app *asoentra.Application,
 	log logr.Logger,
 ) (string, error) {
-	log.V(Status).Info("Searching for existing Entra application to adopt", "application", app.Name)
+	log.V(Status).Info(
+		"Searching for existing Entra application to adopt",
+		"application", app.Name)
 
 	// Create our Entra Client
 	client, err := r.EntraClientFactory(ctx, app)
@@ -225,7 +227,9 @@ func (r *EntraApplicationReconciler) tryAdopt(
 		return "", nil
 	}
 
-	log.V(Status).Info("Searching for existing Entra application by display name", "displayName", *displayName)
+	log.V(Status).Info(
+		"Searching for existing Entra application by display name",
+		"displayName", *displayName)
 	apps, err := r.loadApplicationsByDisplayName(ctx, *displayName, client.Client())
 	if err != nil {
 		if isNotFound(err) {
@@ -238,14 +242,20 @@ func (r *EntraApplicationReconciler) tryAdopt(
 
 	if len(apps) == 0 {
 		// No application to adopt
-		log.V(Status).Info("No existing Entra application found by display name", "displayName", *displayName)
+		log.V(Status).Info(
+			"No existing Entra application found by display name",
+			"displayName", *displayName)
 		return "", nil
 	}
 
 	if len(apps) > 1 {
 		// Multiple applications found with the same display name
-		log.V(Status).Info("Multiple existing Entra applications found by display name", "displayName", *displayName)
-		return "", eris.Errorf("multiple existing Entra applications found with display name %s", *displayName)
+		log.V(Status).Info(
+			"Cannot adopt as multiple existing Entra applications found by display name",
+			"displayName", *displayName)
+		return "", eris.Errorf(
+			"cannot adopt as multiple existing Entra applications found with display name %s",
+			*displayName)
 	}
 
 	// We found a single application to adopt
@@ -254,6 +264,11 @@ func (r *EntraApplicationReconciler) tryAdopt(
 	if id == nil {
 		return "", nil
 	}
+
+	log.V(Status).Info(
+		"Found existing Entra application to adopt",
+		"displayName", *displayName,
+		"id", *id)
 
 	return *id, nil
 }
