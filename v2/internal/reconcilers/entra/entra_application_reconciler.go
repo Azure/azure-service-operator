@@ -183,12 +183,25 @@ func (r *EntraApplicationReconciler) update(
 	}
 
 	// Update - PATCH
+	// Graph weirdness: Updating the existing copy of the application that we loaded from Graph consistently FAILS
+	// Creating a new instance seems to be the only thing that works.
+	a = msgraphmodels.NewApplication()
 	app.Spec.AssignToApplication(a)
 
 	result, err := client.Client().Applications().ByApplicationId(id).Patch(ctx, a, nil)
 	if err != nil {
 		// Failed to update
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update application %s", id)
+	}
+
+	if result == nil {
+		// Didn't get a result back from the patch, load the application again to get the latest state
+		log.V(Status).Info("No result returned from update, reloading application to get latest state")
+
+		result, err = r.loadApplicationByID(ctx, id, client.Client())
+		if err != nil {
+			return ctrl.Result{}, eris.Wrapf(err, "getting application by ID %s after update returned no result", id)
+		}
 	}
 
 	app.Status.AssignFromApplication(result)
@@ -296,10 +309,12 @@ func (r *EntraApplicationReconciler) create(
 		return ctrl.Result{}, eris.Wrapf(err, "failed to create application %s", app.Name)
 	}
 
-	app.Status.AssignFromApplication(status)
+	if status != nil {
+		app.Status.AssignFromApplication(status)
 
-	if id := status.GetId(); id != nil {
-		setEntraID(app, *id)
+		if id := status.GetId(); id != nil {
+			setEntraID(app, *id)
+		}
 	}
 
 	err = r.saveAssociatedKubernetesResources(ctx, app, log)

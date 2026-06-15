@@ -161,16 +161,18 @@ type ApplicationStatus struct {
 }
 
 func (status *ApplicationStatus) AssignFromApplication(model models.Applicationable) {
-	if id := model.GetId(); id != nil {
-		status.EntraID = id
-	}
+	if model != nil {
+		if id := model.GetId(); id != nil {
+			status.EntraID = id
+		}
 
-	if appId := model.GetAppId(); appId != nil {
-		status.AppId = appId
-	}
+		if appId := model.GetAppId(); appId != nil {
+			status.AppId = appId
+		}
 
-	if name := model.GetDisplayName(); name != nil {
-		status.DisplayName = name
+		if name := model.GetDisplayName(); name != nil {
+			status.DisplayName = name
+		}
 	}
 }
 
