@@ -18,6 +18,8 @@ on:
   workflow_dispatch:
   # no content, allows manual triggering
 
+permissions: {}
+
 jobs:
   test-go-get:
     runs-on: ubuntu-latest
