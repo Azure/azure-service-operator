@@ -225,7 +225,8 @@ func (r *EntraApplicationReconciler) tryAdopt(
 ) (string, error) {
 	log.V(Status).Info(
 		"Searching for existing Entra application to adopt",
-		"application", app.Name)
+		"application", app.Name,
+	)
 
 	// Create our Entra Client
 	client, err := r.EntraClientFactory(ctx, app)
@@ -242,7 +243,8 @@ func (r *EntraApplicationReconciler) tryAdopt(
 
 	log.V(Status).Info(
 		"Searching for existing Entra application by display name",
-		"displayName", *displayName)
+		"displayName", *displayName,
+	)
 	apps, err := r.loadApplicationsByDisplayName(ctx, *displayName, client.Client())
 	if err != nil {
 		if isNotFound(err) {
@@ -257,7 +259,8 @@ func (r *EntraApplicationReconciler) tryAdopt(
 		// No application to adopt
 		log.V(Status).Info(
 			"No existing Entra application found by display name",
-			"displayName", *displayName)
+			"displayName", *displayName,
+		)
 		return "", nil
 	}
 
@@ -265,10 +268,12 @@ func (r *EntraApplicationReconciler) tryAdopt(
 		// Multiple applications found with the same display name
 		log.V(Status).Info(
 			"Cannot adopt as multiple existing Entra applications found by display name",
-			"displayName", *displayName)
+			"displayName", *displayName,
+		)
 		return "", eris.Errorf(
 			"cannot adopt as multiple existing Entra applications found with display name %s",
-			*displayName)
+			*displayName,
+		)
 	}
 
 	// We found a single application to adopt
@@ -281,7 +286,8 @@ func (r *EntraApplicationReconciler) tryAdopt(
 	log.V(Status).Info(
 		"Found existing Entra application to adopt",
 		"displayName", *displayName,
-		"id", *id)
+		"id", *id,
+	)
 
 	return *id, nil
 }
