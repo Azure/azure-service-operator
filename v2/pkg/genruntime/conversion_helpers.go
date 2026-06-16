@@ -114,6 +114,13 @@ func GetFloatFromInt(i int) float64 {
 
 // ConvertJSONToString returns the string value of the given v1.JSON.
 func ConvertJSONToString(json v1.JSON) string {
+	// An empty v1.JSON marshals to the literal "null" (see (v1.JSON).MarshalJSON), but the value we want to
+	// round trip is the empty string. v1.JSON.UnmarshalJSON treats both "" and "null" as an empty Raw, so
+	// treating an empty Raw as the empty string here makes ConvertJSONToString(ConvertStringToJSON("")) lossless.
+	if len(json.Raw) == 0 {
+		return ""
+	}
+
 	// Ignoring error here, its always nil
 	marshalJSON, _ := json.MarshalJSON()
 	return string(marshalJSON)
