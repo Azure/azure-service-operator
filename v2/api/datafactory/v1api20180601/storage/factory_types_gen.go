@@ -2889,8 +2889,8 @@ func (configuration *FactoryVSTSConfiguration_STATUS) AssignProperties_To_Factor
 // Storage version of v1api20180601.UserAssignedIdentityDetails
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
-	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Reference   *genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
@@ -2899,12 +2899,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedId
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		details.Reference = &reference
-	} else {
-		details.Reference = nil
-	}
+	details.Reference = source.Reference.Copy()
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2932,12 +2927,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
 
 	// Reference
-	if details.Reference != nil {
-		reference := details.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
+	destination.Reference = details.Reference.Copy()
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

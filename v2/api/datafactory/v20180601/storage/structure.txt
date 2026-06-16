@@ -26,7 +26,7 @@ Factory: Resource
 │   │   ├── Type: *string
 │   │   └── UserAssignedIdentities: Object (2 properties)[]
 │   │       ├── PropertyBag: genruntime.PropertyBag
-│   │       └── Reference: *genruntime.ResourceReference
+│   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
 │   ├── OperatorSpec: *Object (3 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]

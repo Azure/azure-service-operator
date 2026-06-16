@@ -444,8 +444,8 @@ type FactoryVSTSConfiguration_STATUS struct {
 // Storage version of v20180601.UserAssignedIdentityDetails
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
-	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Reference   *genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // Storage version of v20180601.GitHubClientSecret

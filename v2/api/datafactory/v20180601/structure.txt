@@ -33,7 +33,7 @@ Factory: Resource
 │   │   │   ├── "SystemAssigned,UserAssigned"
 │   │   │   └── "UserAssigned"
 │   │   └── UserAssignedIdentities: Object (1 property)[]
-│   │       └── Reference: *genruntime.ResourceReference
+│   │       └── Reference: genruntime.ResourceReference
 │   ├── Location: *string
 │   ├── OperatorSpec: *Object (2 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]

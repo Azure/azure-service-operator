@@ -1847,15 +1847,11 @@ func (identity *FactoryIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 	// Set property "UserAssignedIdentities":
 	result.UserAssignedIdentities = make(map[string]arm.UserAssignedIdentityDetails, len(identity.UserAssignedIdentities))
 	for _, ident := range identity.UserAssignedIdentities {
-		if ident.Reference != nil {
-			var temp string
-			tempARMID, err := resolved.ResolvedReferences.Lookup(*ident.Reference)
-			if err != nil {
-				return nil, err
-			}
-			temp = tempARMID
-			key := temp
+		identARMID, err := resolved.ResolvedReferences.Lookup(ident.Reference)
+		if err != nil {
+			return nil, err
 		}
+		key := identARMID
 		result.UserAssignedIdentities[key] = arm.UserAssignedIdentityDetails{}
 	}
 	return result, nil
@@ -4518,19 +4514,14 @@ var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModi
 
 // Information about the user assigned identity for the resource
 type UserAssignedIdentityDetails struct {
-	Reference *genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
+	Reference genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 // AssignProperties_From_UserAssignedIdentityDetails populates our UserAssignedIdentityDetails from the provided source UserAssignedIdentityDetails
 func (details *UserAssignedIdentityDetails) AssignProperties_From_UserAssignedIdentityDetails(source *storage.UserAssignedIdentityDetails) error {
 
 	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		details.Reference = &reference
-	} else {
-		details.Reference = nil
-	}
+	details.Reference = source.Reference.Copy()
 
 	// No error
 	return nil
@@ -4542,12 +4533,7 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Reference
-	if details.Reference != nil {
-		reference := details.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
+	destination.Reference = details.Reference.Copy()
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
