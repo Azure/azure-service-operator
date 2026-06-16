@@ -407,8 +407,10 @@ func (in *KekIdentityProperties) DeepCopyInto(out *KekIdentityProperties) {
 	*out = *in
 	if in.UseSystemAssignedIdentity != nil {
 		in, out := &in.UseSystemAssignedIdentity, &out.UseSystemAssignedIdentity
-		*out = new(v1.JSON)
-		(*in).DeepCopyInto(*out)
+		*out = make(map[string]v1.JSON, len(*in))
+		for key, val := range *in {
+			(*out)[key] = *val.DeepCopy()
+		}
 	}
 	if in.UserAssignedIdentityReference != nil {
 		in, out := &in.UserAssignedIdentityReference, &out.UserAssignedIdentityReference
@@ -432,8 +434,10 @@ func (in *KekIdentityProperties_STATUS) DeepCopyInto(out *KekIdentityProperties_
 	*out = *in
 	if in.UseSystemAssignedIdentity != nil {
 		in, out := &in.UseSystemAssignedIdentity, &out.UseSystemAssignedIdentity
-		*out = new(v1.JSON)
-		(*in).DeepCopyInto(*out)
+		*out = make(map[string]v1.JSON, len(*in))
+		for key, val := range *in {
+			(*out)[key] = *val.DeepCopy()
+		}
 	}
 	if in.UserAssignedIdentity != nil {
 		in, out := &in.UserAssignedIdentity, &out.UserAssignedIdentity
