@@ -191,12 +191,23 @@ func (r *EntraSecurityGroupReconciler) update(
 	}
 
 	// Update - PATCH
+	g = msgraphmodels.NewGroup()
 	group.Spec.AssignToGroup(g)
 
 	result, err := client.Client().Groups().ByGroupId(id).Patch(ctx, g, nil)
 	if err != nil {
 		// Failed to update
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update group %s", id)
+	}
+
+	if result == nil {
+		// Didn't get a result back from the patch, load the group again to get the latest state
+		log.V(Status).Info("No result returned from update, reloading group to get latest state")
+
+		result, err = r.loadGroupByID(ctx, id, client.Client())
+		if err != nil {
+			return ctrl.Result{}, eris.Wrapf(err, "getting group by ID %s after update returned no result", id)
+		}
 	}
 
 	group.Status.AssignFromGroup(result)
