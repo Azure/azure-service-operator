@@ -24,7 +24,7 @@ func Test_OperationalInsights_Workspace_v1api20250701_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a workspace
-	sku := operationalinsights.WorkspaceSku_Name_Standalone
+	sku := operationalinsights.WorkspaceSkuName_Standalone
 	workspace := &operationalinsights.Workspace{
 		ObjectMeta: tc.MakeObjectMeta("workspace"),
 		Spec: operationalinsights.Workspace_Spec{
