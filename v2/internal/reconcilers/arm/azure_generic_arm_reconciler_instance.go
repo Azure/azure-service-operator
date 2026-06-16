@@ -974,7 +974,6 @@ var skipDeletionPrecheck = sets.NewString(
 	"redhatopenshift.azure.com",
 	"resources.azure.com",
 	"servicebus.azure.com",
-	"sql.azure.com",
 	"storage.azure.com",
 	"subscription.azure.com",
 )
