@@ -115,6 +115,15 @@ func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFrom
 }
 
 func (r *azureDeploymentReconcilerInstance) AddInitialResourceState(ctx context.Context) error {
+	// Resolve AzureNameFromConfig before building the ARM ID, since AzureName() depends on the annotation
+	resolvedName, err := r.resolveAzureNameFromConfig(ctx)
+	if err != nil {
+		return err
+	}
+	if resolvedName != "" {
+		genruntime.AddAnnotation(r.Obj, annotations.AzureNameFromConfig, resolvedName)
+	}
+
 	armResource, err := r.ConvertResourceToARMResource(ctx)
 	if err != nil {
 		return err
@@ -262,9 +271,6 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 		return ctrl.Result{}, err
 	}
 	if resolvedName != "" {
-		if err := r.ensureAzureNameUnchanged(resolvedName); err != nil {
-			return ctrl.Result{}, err
-		}
 		genruntime.AddAnnotation(r.Obj, annotations.AzureNameFromConfig, resolvedName)
 	}
 
@@ -445,7 +451,8 @@ func (r *azureDeploymentReconcilerInstance) preReconciliationCheck(
 }
 
 // resolveAzureNameFromConfig resolves the Azure name from a ConfigMap if the resource supports AzureNameFromConfig.
-// Returns the resolved name (empty string if the resource doesn't use this feature), or an error if resolution fails.
+// Returns the resolved name (empty string if the resource doesn't use this feature), or an error if resolution fails
+// or the name has changed from a previously resolved value.
 func (r *azureDeploymentReconcilerInstance) resolveAzureNameFromConfig(ctx context.Context) (string, error) {
 	resourceSpec := r.Obj.GetSpec()
 	provider, ok := resourceSpec.(genruntime.AzureNameFromConfigProvider)
@@ -466,6 +473,10 @@ func (r *azureDeploymentReconcilerInstance) resolveAzureNameFromConfig(ctx conte
 			conditions.ConditionSeverityError,
 			conditions.ReasonFailed,
 		)
+	}
+
+	if err := r.ensureAzureNameUnchanged(resolvedName); err != nil {
+		return "", err
 	}
 
 	return resolvedName, nil

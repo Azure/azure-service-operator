@@ -61,6 +61,7 @@ createConversionGraph                             azure      Create the graph of
 repairSkippingProperties                          azure      Repair property bag serialization for properties that skip resource or object versions
 createConversionGraph                             azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionProperty                     azure      Inject the property OriginalVersion into each Storage Spec type
+injectAzureNameFromConfigMethod                   azure      Inject GetAzureNameFromConfig method on storage specs that have the AzureNameFromConfig property
 injectPropertyAssignmentFunctions                 azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
 implementConvertibleSpecInterface                 azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
 implementConvertibleStatusInterface               azure      Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type

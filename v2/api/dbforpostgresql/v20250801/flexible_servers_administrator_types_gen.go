@@ -603,11 +603,6 @@ func (administrator *FlexibleServersAdministrator_Spec) AssignProperties_To_Flex
 	return nil
 }
 
-// GetAzureNameFromConfig returns the AzureNameFromConfig property of the spec, used to resolve the Azure name from a ConfigMap
-func (administrator *FlexibleServersAdministrator_Spec) GetAzureNameFromConfig() *genruntime.ConfigMapReference {
-	return administrator.AzureNameFromConfig
-}
-
 // Initialize_From_FlexibleServersAdministrator_STATUS populates our FlexibleServersAdministrator_Spec from the provided source FlexibleServersAdministrator_STATUS
 func (administrator *FlexibleServersAdministrator_Spec) Initialize_From_FlexibleServersAdministrator_STATUS(source *FlexibleServersAdministrator_STATUS) error {
 

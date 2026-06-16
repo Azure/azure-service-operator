@@ -96,8 +96,9 @@ func getDefaults(
 
 	// Determine if the resource has a SetName function
 	if resolved.SpecType.HasFunctionWithName(astmodel.SetAzureNameFunc) && defaultAzureName {
-		// If the spec has AzureNameFromConfig, use the variant that skips defaulting when it's set
-		if resolved.SpecType.HasFunctionWithName(astmodel.GetAzureNameFromConfigFunc) {
+		// If the spec has AzureNameFromConfig property, use the variant that skips defaulting when it's set
+		azureNameFromConfigProp := idFactory.CreatePropertyName(astmodel.AzureNameFromConfigProperty, astmodel.Exported)
+		if _, hasAzureNameFromConfig := resolved.SpecType.Property(azureNameFromConfigProp); hasAzureNameFromConfig {
 			result = append(result, functions.NewDefaultAzureNameWithConfigFunction(resolved.ResourceDef, idFactory))
 		} else {
 			result = append(result, functions.NewDefaultAzureNameFunction(resolved.ResourceDef, idFactory))

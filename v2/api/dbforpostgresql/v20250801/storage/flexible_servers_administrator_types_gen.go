@@ -216,6 +216,11 @@ func (administrator *FlexibleServersAdministrator_Spec) ConvertSpecTo(destinatio
 	return destination.ConvertSpecFrom(administrator)
 }
 
+// GetAzureNameFromConfig returns the AzureNameFromConfig property of the spec, used to resolve the Azure name from a ConfigMap
+func (administrator *FlexibleServersAdministrator_Spec) GetAzureNameFromConfig() *genruntime.ConfigMapReference {
+	return administrator.AzureNameFromConfig
+}
+
 // Storage version of v20250801.FlexibleServersAdministrator_STATUS
 type FlexibleServersAdministrator_STATUS struct {
 	Conditions    []conditions.Condition `json:"conditions,omitempty"`

@@ -8,13 +8,10 @@ package pipeline
 import (
 	"context"
 
-	"github.com/dave/dst"
 	"github.com/rotisserie/eris"
 
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
 // AddAzureNameFromConfigStageID is the unique identifier for this pipeline stage
@@ -64,8 +61,8 @@ func AddAzureNameFromConfig(configuration *config.Configuration, idFactory astmo
 	return stage
 }
 
-// injectAzureNameFromConfigProperty adds the AzureNameFromConfig property and GetAzureNameFromConfig method to
-// the provided Spec type definition.
+// injectAzureNameFromConfigProperty adds the AzureNameFromConfig property to the provided Spec type definition.
+// The GetAzureNameFromConfig method is injected separately on storage specs by InjectAzureNameFromConfigMethod.
 func injectAzureNameFromConfigProperty(
 	specDef astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
@@ -83,58 +80,5 @@ func injectAzureNameFromConfigProperty(
 		return astmodel.TypeDefinition{}, eris.Wrapf(err, "adding AzureNameFromConfig property to %s", specDef.Name())
 	}
 
-	// Create and inject the GetAzureNameFromConfig method
-	getAzureNameFromConfigFn := functions.NewObjectFunction(
-		astmodel.GetAzureNameFromConfigFunc,
-		idFactory,
-		getAzureNameFromConfigFunction,
-		astmodel.GenRuntimeReference,
-	)
-
-	fnInjector := astmodel.NewFunctionInjector()
-	updatedDef, err = fnInjector.Inject(updatedDef, getAzureNameFromConfigFn)
-	if err != nil {
-		return astmodel.TypeDefinition{}, eris.Wrapf(err, "adding GetAzureNameFromConfig method to %s", specDef.Name())
-	}
-
 	return updatedDef, nil
-}
-
-// getAzureNameFromConfigFunction generates the GetAzureNameFromConfig method body:
-//
-//	func (spec *MyResource_Spec) GetAzureNameFromConfig() *genruntime.ConfigMapReference {
-//	    return spec.AzureNameFromConfig
-//	}
-func getAzureNameFromConfigFunction(
-	k *functions.ObjectFunction,
-	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
-	methodName string,
-) (*dst.FuncDecl, error) {
-	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
-	receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
-	if err != nil {
-		return nil, eris.Wrap(err, "creating receiver type expression")
-	}
-
-	configMapRefExpr, err := astmodel.OptionalConfigMapReferenceType.AsTypeExpr(codeGenerationContext)
-	if err != nil {
-		return nil, eris.Wrap(err, "creating ConfigMapReference type expression")
-	}
-
-	fn := &astbuilder.FuncDetails{
-		Name:          methodName,
-		ReceiverIdent: receiverIdent,
-		ReceiverType:  astbuilder.PointerTo(receiverExpr),
-		Body: astbuilder.Statements(
-			astbuilder.Returns(
-				astbuilder.Selector(dst.NewIdent(receiverIdent), astmodel.AzureNameFromConfigProperty),
-			),
-		),
-	}
-
-	fn.AddReturn(configMapRefExpr)
-	fn.AddComments("returns the AzureNameFromConfig property of the spec, used to resolve the Azure name from a ConfigMap")
-
-	return fn.DefineFunc(), nil
 }
