@@ -67,6 +67,7 @@ jobs:
   test-generator:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testgenerator-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
+      contents: read
       packages: read
 
     steps:
@@ -181,6 +182,7 @@ jobs:
   test-controllers:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testcontrollers-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
+      contents: read
       packages: read
 
     steps:
@@ -239,6 +241,7 @@ jobs:
   test-samples:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testsamples-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
+      contents: read
       packages: read
 
     steps:
@@ -305,8 +308,9 @@ jobs:
         github.actor != 'dependabot[bot]' &&
         github.event.pull_request.head.repo.full_name == github.repository )
     permissions:
-      packages: read
       checks: write
+      contents: read
+      packages: read
 
     steps:
       - name: Checkout code

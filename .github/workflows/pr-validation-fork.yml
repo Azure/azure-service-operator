@@ -16,7 +16,9 @@ jobs:
 
     permissions:
       checks: write
+      contents: read
       packages: read
+      pull-requests: read
 
     steps:
       # Create check called "integration-tests-fork", and set to in_progress

@@ -19,6 +19,7 @@ jobs:
   validate-site-links:
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       packages: read
 
     steps:
