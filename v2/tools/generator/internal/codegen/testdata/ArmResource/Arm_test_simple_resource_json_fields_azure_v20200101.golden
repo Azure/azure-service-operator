@@ -202,12 +202,12 @@ type FakeResource_Spec struct {
 	JsonObject map[string]v1.JSON `json:"jsonObject,omitempty"`
 
 	// +kubebuilder:validation:Required
-	MandatoryJson *v1.JSON `json:"mandatoryJson,omitempty"`
+	MandatoryJson map[string]v1.JSON `json:"mandatoryJson,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
 	OperatorSpec *FakeResourceOperatorSpec `json:"operatorSpec,omitempty"`
-	OptionalJson *v1.JSON                  `json:"optionalJson,omitempty"`
+	OptionalJson map[string]v1.JSON        `json:"optionalJson,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -243,8 +243,10 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "MandatoryJson":
 	if resource.MandatoryJson != nil {
-		mandatoryJson := *resource.MandatoryJson.DeepCopy()
-		result.MandatoryJson = &mandatoryJson
+		result.MandatoryJson = make(map[string]v1.JSON, len(resource.MandatoryJson))
+		for key, value := range resource.MandatoryJson {
+			result.MandatoryJson[key] = *value.DeepCopy()
+		}
 	}
 
 	// Set property "Name":
@@ -252,8 +254,10 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "OptionalJson":
 	if resource.OptionalJson != nil {
-		optionalJson := *resource.OptionalJson.DeepCopy()
-		result.OptionalJson = &optionalJson
+		result.OptionalJson = make(map[string]v1.JSON, len(resource.OptionalJson))
+		for key, value := range resource.OptionalJson {
+			result.OptionalJson[key] = *value.DeepCopy()
+		}
 	}
 
 	// Set property "Type":
@@ -293,16 +297,20 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "MandatoryJson":
 	if typedInput.MandatoryJson != nil {
-		mandatoryJson := *typedInput.MandatoryJson.DeepCopy()
-		resource.MandatoryJson = &mandatoryJson
+		resource.MandatoryJson = make(map[string]v1.JSON, len(typedInput.MandatoryJson))
+		for key, value := range typedInput.MandatoryJson {
+			resource.MandatoryJson[key] = *value.DeepCopy()
+		}
 	}
 
 	// no assignment for property "OperatorSpec"
 
 	// Set property "OptionalJson":
 	if typedInput.OptionalJson != nil {
-		optionalJson := *typedInput.OptionalJson.DeepCopy()
-		resource.OptionalJson = &optionalJson
+		resource.OptionalJson = make(map[string]v1.JSON, len(typedInput.OptionalJson))
+		for key, value := range typedInput.OptionalJson {
+			resource.OptionalJson[key] = *value.DeepCopy()
+		}
 	}
 
 	// Set property "Owner":
@@ -397,8 +405,11 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 
 	// MandatoryJson
 	if source.MandatoryJson != nil {
-		mandatoryJson := *source.MandatoryJson.DeepCopy()
-		resource.MandatoryJson = &mandatoryJson
+		mandatoryJsonMap := make(map[string]v1.JSON, len(source.MandatoryJson))
+		for mandatoryJsonKey, mandatoryJsonValue := range source.MandatoryJson {
+			mandatoryJsonMap[mandatoryJsonKey] = *mandatoryJsonValue.DeepCopy()
+		}
+		resource.MandatoryJson = mandatoryJsonMap
 	} else {
 		resource.MandatoryJson = nil
 	}
@@ -417,8 +428,11 @@ func (resource *FakeResource_Spec) AssignProperties_From_FakeResource_Spec(sourc
 
 	// OptionalJson
 	if source.OptionalJson != nil {
-		optionalJson := *source.OptionalJson.DeepCopy()
-		resource.OptionalJson = &optionalJson
+		optionalJsonMap := make(map[string]v1.JSON, len(source.OptionalJson))
+		for optionalJsonKey, optionalJsonValue := range source.OptionalJson {
+			optionalJsonMap[optionalJsonKey] = *optionalJsonValue.DeepCopy()
+		}
+		resource.OptionalJson = optionalJsonMap
 	} else {
 		resource.OptionalJson = nil
 	}
@@ -468,8 +482,11 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 
 	// MandatoryJson
 	if resource.MandatoryJson != nil {
-		mandatoryJson := *resource.MandatoryJson.DeepCopy()
-		destination.MandatoryJson = &mandatoryJson
+		mandatoryJsonMap := make(map[string]v1.JSON, len(resource.MandatoryJson))
+		for mandatoryJsonKey, mandatoryJsonValue := range resource.MandatoryJson {
+			mandatoryJsonMap[mandatoryJsonKey] = *mandatoryJsonValue.DeepCopy()
+		}
+		destination.MandatoryJson = mandatoryJsonMap
 	} else {
 		destination.MandatoryJson = nil
 	}
@@ -488,8 +505,11 @@ func (resource *FakeResource_Spec) AssignProperties_To_FakeResource_Spec(destina
 
 	// OptionalJson
 	if resource.OptionalJson != nil {
-		optionalJson := *resource.OptionalJson.DeepCopy()
-		destination.OptionalJson = &optionalJson
+		optionalJsonMap := make(map[string]v1.JSON, len(resource.OptionalJson))
+		for optionalJsonKey, optionalJsonValue := range resource.OptionalJson {
+			optionalJsonMap[optionalJsonKey] = *optionalJsonValue.DeepCopy()
+		}
+		destination.OptionalJson = optionalJsonMap
 	} else {
 		destination.OptionalJson = nil
 	}
