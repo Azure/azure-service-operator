@@ -17,10 +17,10 @@ require (
 	github.com/spf13/cobra v1.10.2
 	github.com/vbauerster/mpb/v8 v8.12.1
 	golang.org/x/exp v0.0.0-20251219203646-944ab1f22d93
-	k8s.io/api v0.36.1
-	k8s.io/apiextensions-apiserver v0.36.1
-	k8s.io/apimachinery v0.36.1
-	k8s.io/client-go v0.36.1
+	k8s.io/api v0.36.2
+	k8s.io/apiextensions-apiserver v0.36.2
+	k8s.io/apimachinery v0.36.2
+	k8s.io/client-go v0.36.2
 	sigs.k8s.io/controller-runtime v0.24.1
 	sigs.k8s.io/yaml v1.6.0
 )
