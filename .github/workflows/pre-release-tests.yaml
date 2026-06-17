@@ -7,6 +7,8 @@ on:
     # 5:30 pm every Sunday (UTC)
     - cron: '30 17 * * 0'
 
+permissions: {}
+
 jobs:
   generate:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testprerelease-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]

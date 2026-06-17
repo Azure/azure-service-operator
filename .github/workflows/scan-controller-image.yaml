@@ -15,11 +15,14 @@ on:
     paths:
       - ./v2/go.mod
 
+permissions: {}
+
 jobs:
   scan-image:
     runs-on: ubuntu-latest
     
     permissions:
+      contents: read
       packages: read
 
     # Only run this scheduled job on the main repo, it can't work elsewhere
