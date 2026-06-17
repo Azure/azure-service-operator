@@ -12,6 +12,8 @@ on:
     tags:
       - v2*
 
+permissions: {}
+
 env:
   ref: "${{ github.event.inputs.ref || github.ref_name }}"
 
