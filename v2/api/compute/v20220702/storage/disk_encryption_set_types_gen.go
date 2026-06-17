@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20220702.DiskEncryptionSet
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-07-02/diskEncryptionSet.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
 type DiskEncryptionSet struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -246,7 +246,7 @@ func (encryptionSet *DiskEncryptionSet) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v20220702.DiskEncryptionSet
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/diskEncryptionSet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-07-02/diskEncryptionSet.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
 type DiskEncryptionSetList struct {
 	metav1.TypeMeta `json:",inline"`
