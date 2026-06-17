@@ -116,6 +116,9 @@ func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFrom
 
 func (r *azureDeploymentReconcilerInstance) AddInitialResourceState(ctx context.Context) error {
 	// Resolve AzureNameFromConfig before building the ARM ID, since AzureName() depends on the annotation
+	// If the spec supports AzureNameFromConfig, resolve the name from the ConfigMap and store it
+	// as an annotation. We must not modify spec directly since the object will be saved back to etcd and we don't
+	// want to trigger another reconcile.
 	resolvedName, err := r.resolveAzureNameFromConfig(ctx)
 	if err != nil {
 		return err
@@ -264,16 +267,6 @@ func (r *azureDeploymentReconcilerInstance) DeleteNotPossibleInAzure(ctx context
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(
 	ctx context.Context,
 ) (ctrl.Result, error) {
-	// If the spec supports AzureNameFromConfig, resolve the name from the ConfigMap and store it
-	// as an annotation. We must not modify spec directly since the object will be saved back to etcd.
-	resolvedName, err := r.resolveAzureNameFromConfig(ctx)
-	if err != nil {
-		return ctrl.Result{}, err
-	}
-	if resolvedName != "" {
-		genruntime.AddAnnotation(r.Obj, annotations.AzureNameFromConfig, resolvedName)
-	}
-
 	if r.Obj.AzureName() == "" {
 		err := eris.Errorf(
 			"AzureName was not set on %s. A webhook should default this to .metadata.name if it was omitted. Is the ASO webhook service running?",

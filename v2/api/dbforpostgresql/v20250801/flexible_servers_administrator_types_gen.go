@@ -259,8 +259,8 @@ type FlexibleServersAdministrator_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// AzureNameFromConfig: AzureNameFromConfig: if specified, the Azure name of the resource is resolved from this ConfigMap
-	// key at reconciliation time, overriding any AzureName specified directly.
+	// AzureNameFromConfig: if specified, the Azure name of the resource is resolved from this ConfigMap key at reconciliation
+	// time, overriding any AzureName specified directly.
 	AzureNameFromConfig *genruntime.ConfigMapReference `json:"azureNameFromConfig,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
