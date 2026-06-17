@@ -1818,7 +1818,7 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRule_STATUS(gens map[strin
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OverrideQueryTimeRange"] = gen.PtrOf(gen.AlphaString())
 	gens["Scopes"] = gen.SliceOf(gen.AlphaString())
-	gens["Severity"] = gen.PtrOf(gen.Float64())
+	gens["Severity"] = gen.PtrOf(gen.Int())
 	gens["SkipQueryValidation"] = gen.PtrOf(gen.Bool())
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
@@ -1958,7 +1958,7 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRule_Spec(gens map[string]
 	gens["MuteActionsDuration"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["OverrideQueryTimeRange"] = gen.PtrOf(gen.AlphaString())
-	gens["Severity"] = gen.PtrOf(gen.Float64())
+	gens["Severity"] = gen.PtrOf(gen.Int())
 	gens["SkipQueryValidation"] = gen.PtrOf(gen.Bool())
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),

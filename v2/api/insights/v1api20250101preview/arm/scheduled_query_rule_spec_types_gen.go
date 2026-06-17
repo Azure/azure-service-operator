@@ -142,7 +142,7 @@ type Actions struct {
 // Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules
 // of the kind LogAlert.
 // +kubebuilder:validation:Enum={0,1,2,3,4}
-type AlertSeverity float64
+type AlertSeverity int
 
 const (
 	AlertSeverity_0 = AlertSeverity(0)

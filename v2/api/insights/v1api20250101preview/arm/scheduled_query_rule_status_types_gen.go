@@ -180,7 +180,7 @@ type Actions_STATUS struct {
 
 // Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules
 // of the kind LogAlert.
-type AlertSeverity_STATUS float64
+type AlertSeverity_STATUS int
 
 const (
 	AlertSeverity_STATUS_0 = AlertSeverity_STATUS(0)

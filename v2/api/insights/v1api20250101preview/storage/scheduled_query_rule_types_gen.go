@@ -299,7 +299,7 @@ type ScheduledQueryRule_Spec struct {
 	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ResolveConfiguration *RuleResolveConfiguration          `json:"resolveConfiguration,omitempty"`
 	ScopesReferences     []genruntime.ResourceReference     `armReference:"Scopes" json:"scopesReferences,omitempty"`
-	Severity             *float64                           `json:"severity,omitempty"`
+	Severity             *int                               `json:"severity,omitempty"`
 	SkipQueryValidation  *bool                              `json:"skipQueryValidation,omitempty"`
 	Tags                 map[string]string                  `json:"tags,omitempty"`
 	TargetResourceTypes  []string                           `json:"targetResourceTypes,omitempty"`
@@ -494,12 +494,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Sp
 	}
 
 	// Severity
-	if source.Severity != nil {
-		severity := genruntime.GetFloatFromInt(*source.Severity)
-		rule.Severity = &severity
-	} else {
-		rule.Severity = nil
-	}
+	rule.Severity = genruntime.ClonePointerToInt(source.Severity)
 
 	// SkipQueryValidation
 	if source.SkipQueryValidation != nil {
@@ -664,12 +659,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_To_ScheduledQueryRule_Spec
 	}
 
 	// Severity
-	if rule.Severity != nil {
-		severity := genruntime.GetIntFromFloat(*rule.Severity)
-		destination.Severity = &severity
-	} else {
-		destination.Severity = nil
-	}
+	destination.Severity = genruntime.ClonePointerToInt(rule.Severity)
 
 	// SkipQueryValidation
 	if rule.SkipQueryValidation != nil {
@@ -733,7 +723,7 @@ type ScheduledQueryRule_STATUS struct {
 	PropertyBag                           genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ResolveConfiguration                  *RuleResolveConfiguration_STATUS   `json:"resolveConfiguration,omitempty"`
 	Scopes                                []string                           `json:"scopes,omitempty"`
-	Severity                              *float64                           `json:"severity,omitempty"`
+	Severity                              *int                               `json:"severity,omitempty"`
 	SkipQueryValidation                   *bool                              `json:"skipQueryValidation,omitempty"`
 	SystemData                            *SystemData_STATUS                 `json:"systemData,omitempty"`
 	Tags                                  map[string]string                  `json:"tags,omitempty"`
@@ -927,12 +917,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 	rule.Scopes = genruntime.CloneSliceOfString(source.Scopes)
 
 	// Severity
-	if source.Severity != nil {
-		severity := genruntime.GetFloatFromInt(*source.Severity)
-		rule.Severity = &severity
-	} else {
-		rule.Severity = nil
-	}
+	rule.Severity = genruntime.ClonePointerToInt(source.Severity)
 
 	// SkipQueryValidation
 	if source.SkipQueryValidation != nil {
@@ -1129,12 +1114,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_ST
 	destination.Scopes = genruntime.CloneSliceOfString(rule.Scopes)
 
 	// Severity
-	if rule.Severity != nil {
-		severity := genruntime.GetIntFromFloat(*rule.Severity)
-		destination.Severity = &severity
-	} else {
-		destination.Severity = nil
-	}
+	destination.Severity = genruntime.ClonePointerToInt(rule.Severity)
 
 	// SkipQueryValidation
 	if rule.SkipQueryValidation != nil {

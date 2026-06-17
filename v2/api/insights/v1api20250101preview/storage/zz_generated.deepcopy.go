@@ -873,7 +873,7 @@ func (in *ScheduledQueryRule_STATUS) DeepCopyInto(out *ScheduledQueryRule_STATUS
 	}
 	if in.Severity != nil {
 		in, out := &in.Severity, &out.Severity
-		*out = new(float64)
+		*out = new(int)
 		**out = **in
 	}
 	if in.SkipQueryValidation != nil {
@@ -1017,7 +1017,7 @@ func (in *ScheduledQueryRule_Spec) DeepCopyInto(out *ScheduledQueryRule_Spec) {
 	}
 	if in.Severity != nil {
 		in, out := &in.Severity, &out.Severity
-		*out = new(float64)
+		*out = new(int)
 		**out = **in
 	}
 	if in.SkipQueryValidation != nil {

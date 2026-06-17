@@ -463,8 +463,8 @@ func (rule *ScheduledQueryRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.Scopes = append(result.Properties.Scopes, itemARMID)
 	}
 	if rule.Severity != nil {
-		var temp float64
-		temp = float64(*rule.Severity)
+		var temp int
+		temp = int(*rule.Severity)
 		severity := arm.AlertSeverity(temp)
 		result.Properties.Severity = &severity
 	}
@@ -658,8 +658,8 @@ func (rule *ScheduledQueryRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Severity != nil {
-			var temp float64
-			temp = float64(*typedInput.Properties.Severity)
+			var temp int
+			temp = int(*typedInput.Properties.Severity)
 			severity := AlertSeverity(temp)
 			rule.Severity = &severity
 		}
@@ -1060,7 +1060,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_To_ScheduledQueryRule_Spec
 
 	// Severity
 	if rule.Severity != nil {
-		severity := float64(*rule.Severity)
+		severity := int(*rule.Severity)
 		destination.Severity = &severity
 	} else {
 		destination.Severity = nil
@@ -1470,8 +1470,8 @@ func (rule *ScheduledQueryRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Severity != nil {
-			var temp float64
-			temp = float64(*typedInput.Properties.Severity)
+			var temp int
+			temp = int(*typedInput.Properties.Severity)
 			severity := AlertSeverity_STATUS(temp)
 			rule.Severity = &severity
 		}
@@ -1851,7 +1851,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_ST
 
 	// Severity
 	if rule.Severity != nil {
-		severity := float64(*rule.Severity)
+		severity := int(*rule.Severity)
 		destination.Severity = &severity
 	} else {
 		destination.Severity = nil
@@ -2134,7 +2134,7 @@ func (actions *Actions_STATUS) AssignProperties_To_Actions_STATUS(destination *s
 // Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules
 // of the kind LogAlert.
 // +kubebuilder:validation:Enum={0,1,2,3,4}
-type AlertSeverity float64
+type AlertSeverity int
 
 const (
 	AlertSeverity_0 = AlertSeverity(0)
@@ -2146,7 +2146,7 @@ const (
 
 // Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules
 // of the kind LogAlert.
-type AlertSeverity_STATUS float64
+type AlertSeverity_STATUS int
 
 const (
 	AlertSeverity_STATUS_0 = AlertSeverity_STATUS(0)
