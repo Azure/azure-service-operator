@@ -475,6 +475,14 @@ func (r *azureDeploymentReconcilerInstance) resolveAzureNameFromConfig(ctx conte
 		)
 	}
 
+	if resolvedName == "" {
+		return "", conditions.NewReadyConditionImpactingError(
+			eris.Errorf("resolved azureNameFromConfig %s is empty", namespacedRef.String()),
+			conditions.ConditionSeverityError,
+			conditions.ReasonFailed,
+		)
+	}
+
 	if err := r.ensureAzureNameUnchanged(resolvedName); err != nil {
 		return "", err
 	}

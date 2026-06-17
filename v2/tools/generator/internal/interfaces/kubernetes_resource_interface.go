@@ -695,7 +695,7 @@ func getStringAzureNameFunction(
 	return fn.DefineFunc(), nil
 }
 
-// getStringAzureNameWithAnnotationFallbackFunction returns a function that returns the Name property
+// getStringAzureNameWithAnnotationFallbackFunction returns a function that returns the AzureName property
 // of the resource spec, falling back to the azure-name-from-config annotation if the spec value is empty.
 // This is used for resources that support AzureNameFromConfig.
 func getStringAzureNameWithAnnotationFallbackFunction(

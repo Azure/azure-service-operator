@@ -28,6 +28,7 @@ func AddAzureNameFromConfig(configuration *config.Configuration, idFactory astmo
 			defs := state.Definitions()
 			result := make(astmodel.TypeDefinitionSet)
 
+			propInjector := astmodel.NewPropertyInjector()
 			for _, resource := range defs.AllResources() {
 				azureNameFromConfig, ok := configuration.ObjectModelConfiguration.AzureNameFromConfig.Lookup(resource.Name())
 				if !ok || !azureNameFromConfig {
@@ -41,7 +42,7 @@ func AddAzureNameFromConfig(configuration *config.Configuration, idFactory astmo
 				}
 
 				// Inject the AzureNameFromConfig property into the Spec
-				updatedSpecDef, err := injectAzureNameFromConfigProperty(resolved.SpecDef, idFactory)
+				updatedSpecDef, err := injectAzureNameFromConfigProperty(propInjector, resolved.SpecDef, idFactory)
 				if err != nil {
 					return nil, eris.Wrapf(err, "injecting AzureNameFromConfig property into %s", resolved.SpecDef.Name())
 				}
@@ -64,6 +65,7 @@ func AddAzureNameFromConfig(configuration *config.Configuration, idFactory astmo
 // injectAzureNameFromConfigProperty adds the AzureNameFromConfig property to the provided Spec type definition.
 // The GetAzureNameFromConfig method is injected separately on storage specs by InjectAzureNameFromConfigMethod.
 func injectAzureNameFromConfigProperty(
+	propInjector *astmodel.PropertyInjector,
 	specDef astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
 ) (astmodel.TypeDefinition, error) {
@@ -72,9 +74,8 @@ func injectAzureNameFromConfigProperty(
 	jsonName := idFactory.CreateStringIdentifier(astmodel.AzureNameFromConfigProperty, astmodel.NotExported)
 
 	prop := astmodel.NewPropertyDefinition(propName, jsonName, astmodel.OptionalConfigMapReferenceType).
-		WithDescription("AzureNameFromConfig: if specified, the Azure name of the resource is resolved from this ConfigMap key at reconciliation time, overriding any AzureName specified directly.")
+		WithDescription("if specified, the Azure name of the resource is resolved from this ConfigMap key at reconciliation time, overriding any AzureName specified directly.")
 
-	propInjector := astmodel.NewPropertyInjector()
 	updatedDef, err := propInjector.Inject(specDef, prop)
 	if err != nil {
 		return astmodel.TypeDefinition{}, eris.Wrapf(err, "adding AzureNameFromConfig property to %s", specDef.Name())

@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package gen
+package genruntime
 
 // AzureNameFromConfigProvider is implemented by resource Spec types that support resolving their
 // AzureName from a ConfigMap at reconciliation time.

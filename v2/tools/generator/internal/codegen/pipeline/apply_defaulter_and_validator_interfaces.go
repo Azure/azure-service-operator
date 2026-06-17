@@ -684,7 +684,7 @@ func validateAzureNameBody() functions.DataFunctionHandler[astmodel.InternalType
 				astbuilder.Returns(
 					astbuilder.Nil(),
 					astbuilder.CallQualifiedFunc(erisPackage, "Errorf",
-						astbuilder.StringLiteral("cannot specify both AzureName and AzureNameFromConfig")),
+						astbuilder.StringLiteral("cannot specify both azureName and azureNameFromConfig")),
 				),
 			),
 			astbuilder.Returns(astbuilder.Nil(), astbuilder.Nil()),
