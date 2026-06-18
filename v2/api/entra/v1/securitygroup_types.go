@@ -84,14 +84,16 @@ type SecurityGroupSpec struct {
 	// and used as desired owner state for reconciliation. Required when ASO authenticates with an app-only token and the calling
 	// principal lacks Group.ReadWrite.All — otherwise the created group has no owners and is unmanageable.
 	// +kubebuilder:validation:MaxItems=20
-	// +kubebuilder:validation:XValidation:rule="size(self) == size(self.map(x, x.objectID != null ? x.objectID : (x.objectIDFromConfig != null ? x.objectIDFromConfig.name + \"/\" + x.objectIDFromConfig.key : \"\")).toSet())",message="owners must be unique"
+	// +kubebuilder:validation:XValidation:rule="size(self.filter(x, has(x.objectID)).map(x, x.objectID).distinct()) == size(self.filter(x, has(x.objectID)))",message="owners must be unique"
+	// +kubebuilder:validation:XValidation:rule="size(self.filter(x, has(x.objectIDFromConfig)).map(x, x.objectIDFromConfig).distinct()) == size(self.filter(x, has(x.objectIDFromConfig)))",message="owners must be unique"
 	Owners []SecurityGroupMemberReference `json:"owners,omitempty"`
 
 	// Members: Directory objects (users, service principals, groups) to assign as members of the security
 	// group at creation time. Applied only during the initial POST to Microsoft Graph via `members@odata.bind`
 	// and used as desired member state for reconciliation.
 	// +kubebuilder:validation:MaxItems=20
-	// +kubebuilder:validation:XValidation:rule="size(self) == size(self.map(x, x.objectID != null ? x.objectID : (x.objectIDFromConfig != null ? x.objectIDFromConfig.name + \"/\" + x.objectIDFromConfig.key : \"\")).toSet())",message="members must be unique"
+	// +kubebuilder:validation:XValidation:rule="size(self.filter(x, has(x.objectID)).map(x, x.objectID).distinct()) == size(self.filter(x, has(x.objectID)))",message="members must be unique"
+	// +kubebuilder:validation:XValidation:rule="size(self.filter(x, has(x.objectIDFromConfig)).map(x, x.objectIDFromConfig).distinct()) == size(self.filter(x, has(x.objectIDFromConfig)))",message="members must be unique"
 	Members []SecurityGroupMemberReference `json:"members,omitempty"`
 }
 

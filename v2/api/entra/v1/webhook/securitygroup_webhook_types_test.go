@@ -5,10 +5,15 @@ package webhook
 
 import (
 	"context"
-	"fmt"
 	"testing"
 
 	. "github.com/onsi/gomega"
+	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+	v1core "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
 	v1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
@@ -60,11 +65,19 @@ func TestSecurityGroupWebhook_ValidateOptionalConfigMapReferences_OneOrZeroSetPa
 	g.Expect(warnings).To(BeNil())
 }
 
-func TestSecurityGroup_Validation_RejectsDuplicateOwners_AllowsOwnerMemberOverlap(t *testing.T) {
+func TestSecurityGroup_Validation_AdmissionSchemaUniqueness(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
+	ctx := context.Background()
 
-	duplicate := &v1.SecurityGroup{
+	kubeClient, namespace, stop := startSecurityGroupValidationEnvtest(t)
+	t.Cleanup(stop)
+
+	duplicateOwners := &v1.SecurityGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "dup-owners",
+			Namespace: namespace,
+		},
 		Spec: v1.SecurityGroupSpec{
 			DisplayName:  to.Ptr("dup-owners"),
 			MailNickname: to.Ptr("dup-owners"),
@@ -74,8 +87,33 @@ func TestSecurityGroup_Validation_RejectsDuplicateOwners_AllowsOwnerMemberOverla
 			},
 		},
 	}
+	err := kubeClient.Create(ctx, duplicateOwners)
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("owners must be unique"))
+
+	duplicateMembers := &v1.SecurityGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "dup-members",
+			Namespace: namespace,
+		},
+		Spec: v1.SecurityGroupSpec{
+			DisplayName:  to.Ptr("dup-members"),
+			MailNickname: to.Ptr("dup-members"),
+			Members: []v1.SecurityGroupMemberReference{
+				{ObjectID: to.Ptr("33333333-3333-3333-3333-333333333333")},
+				{ObjectID: to.Ptr("33333333-3333-3333-3333-333333333333")},
+			},
+		},
+	}
+	err = kubeClient.Create(ctx, duplicateMembers)
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("members must be unique"))
 
 	overlap := &v1.SecurityGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "owner-member-overlap",
+			Namespace: namespace,
+		},
 		Spec: v1.SecurityGroupSpec{
 			DisplayName:  to.Ptr("owner-member-overlap"),
 			MailNickname: to.Ptr("owner-member-overlap"),
@@ -87,44 +125,152 @@ func TestSecurityGroup_Validation_RejectsDuplicateOwners_AllowsOwnerMemberOverla
 			},
 		},
 	}
-
-	g.Expect(validateSecurityGroup(duplicate)).To(MatchError(ContainSubstring("owners must be unique")))
-	g.Expect(validateSecurityGroup(overlap)).To(Succeed())
+	err = kubeClient.Create(ctx, overlap)
+	g.Expect(err).ToNot(HaveOccurred())
 }
 
-func validateSecurityGroup(group *v1.SecurityGroup) error {
-	_, err := (&SecurityGroup_Webhook{}).ValidateCreate(context.Background(), group)
-	if err != nil {
-		return err
+func startSecurityGroupValidationEnvtest(t *testing.T) (client.Client, string, func()) {
+	t.Helper()
+	g := NewGomegaWithT(t)
+
+	scheme := runtime.NewScheme()
+	g.Expect(v1core.AddToScheme(scheme)).To(Succeed())
+	g.Expect(v1.AddToScheme(scheme)).To(Succeed())
+
+	crd := securityGroupValidationTestCRD()
+
+	env := &envtest.Environment{
+		CRDInstallOptions: envtest.CRDInstallOptions{
+			CRDs: []*apiextensions.CustomResourceDefinition{
+				&crd,
+			},
+			Scheme: scheme,
+		},
+		Scheme: scheme,
 	}
 
-	if err := validateUniqueMemberReferences(group.Spec.Owners, "owners"); err != nil {
-		return err
+	cfg, err := env.Start()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	kubeClient, err := client.New(cfg, client.Options{Scheme: scheme})
+	g.Expect(err).ToNot(HaveOccurred())
+
+	namespace := "securitygroup-validation"
+	ns := &v1core.Namespace{ObjectMeta: metav1.ObjectMeta{Name: namespace}}
+	err = kubeClient.Create(context.Background(), ns)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	stop := func() {
+		g.Expect(env.Stop()).To(Succeed())
 	}
 
-	if err := validateUniqueMemberReferences(group.Spec.Members, "members"); err != nil {
-		return err
-	}
-
-	return nil
+	return kubeClient, namespace, stop
 }
 
-func validateUniqueMemberReferences(references []v1.SecurityGroupMemberReference, field string) error {
-	seen := make(map[string]struct{}, len(references))
-	for _, ref := range references {
-		key := ""
-		if ref.ObjectID != nil {
-			key = *ref.ObjectID
-		} else if ref.ObjectIDFromConfig != nil {
-			key = ref.ObjectIDFromConfig.Name + "/" + ref.ObjectIDFromConfig.Key
-		}
+func securityGroupValidationTestCRD() apiextensions.CustomResourceDefinition {
+	const objectIDUniquenessRule = "size(self.filter(x, has(x.objectID)).map(x, x.objectID).distinct()) == size(self.filter(x, has(x.objectID)))"
+	const objectIDFromConfigUniquenessRule = "size(self.filter(x, has(x.objectIDFromConfig)).map(x, x.objectIDFromConfig).distinct()) == size(self.filter(x, has(x.objectIDFromConfig)))"
 
-		if _, ok := seen[key]; ok {
-			return fmt.Errorf("%s must be unique", field)
-		}
-
-		seen[key] = struct{}{}
+	memberReferenceSchema := apiextensions.JSONSchemaProps{
+		Type: "object",
+		Properties: map[string]apiextensions.JSONSchemaProps{
+			"objectID": {
+				Type:      "string",
+				MaxLength: to.Ptr[int64](36),
+			},
+			"objectIDFromConfig": {
+				Type: "object",
+				Properties: map[string]apiextensions.JSONSchemaProps{
+					"name": {
+						Type:      "string",
+						MaxLength: to.Ptr[int64](253),
+					},
+					"key": {
+						Type:      "string",
+						MaxLength: to.Ptr[int64](253),
+					},
+				},
+			},
+		},
 	}
 
-	return nil
+	return apiextensions.CustomResourceDefinition{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: "securitygroups.entra.azure.com",
+		},
+		Spec: apiextensions.CustomResourceDefinitionSpec{
+			Group: "entra.azure.com",
+			Names: apiextensions.CustomResourceDefinitionNames{
+				Kind:     "SecurityGroup",
+				ListKind: "SecurityGroupList",
+				Singular: "securitygroup",
+				Plural:   "securitygroups",
+			},
+			Scope: apiextensions.NamespaceScoped,
+			Versions: []apiextensions.CustomResourceDefinitionVersion{
+				{
+					Name:    "v1",
+					Served:  true,
+					Storage: true,
+					Schema: &apiextensions.CustomResourceValidation{
+						OpenAPIV3Schema: &apiextensions.JSONSchemaProps{
+							Type: "object",
+							Properties: map[string]apiextensions.JSONSchemaProps{
+								"spec": {
+									Type: "object",
+									Properties: map[string]apiextensions.JSONSchemaProps{
+										"displayName": {
+											Type: "string",
+										},
+										"mailNickname": {
+											Type: "string",
+										},
+										"owners": {
+											Type:     "array",
+											MaxItems: to.Ptr[int64](20),
+											Items: &apiextensions.JSONSchemaPropsOrArray{
+												Schema: &memberReferenceSchema,
+											},
+											XValidations: apiextensions.ValidationRules{
+												{
+													Rule:    objectIDUniquenessRule,
+													Message: "owners must be unique",
+												},
+												{
+													Rule:    objectIDFromConfigUniquenessRule,
+													Message: "owners must be unique",
+												},
+											},
+										},
+										"members": {
+											Type:     "array",
+											MaxItems: to.Ptr[int64](20),
+											Items: &apiextensions.JSONSchemaPropsOrArray{
+												Schema: &memberReferenceSchema,
+											},
+											XValidations: apiextensions.ValidationRules{
+												{
+													Rule:    objectIDUniquenessRule,
+													Message: "members must be unique",
+												},
+												{
+													Rule:    objectIDFromConfigUniquenessRule,
+													Message: "members must be unique",
+												},
+											},
+										},
+									},
+									Required: []string{
+										"displayName",
+										"mailNickname",
+									},
+								},
+							},
+							Required: []string{"spec"},
+						},
+					},
+				},
+			},
+		},
+	}
 }
