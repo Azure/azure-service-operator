@@ -330,8 +330,9 @@ FlexibleServer: Resource
 
 FlexibleServersAdministrator: Resource
 ├── Owner: FlexibleServer
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
+│   ├── AzureNameFromConfig: *genruntime.ConfigMapReference
 │   ├── OperatorSpec: *Object (2 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]

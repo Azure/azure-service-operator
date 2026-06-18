@@ -13,7 +13,9 @@ on:
     # 5:35 pm every Sunday (UTC)
     # to ensure the site is rebuilt weekly to publish scheduled blog posts
     - cron: "35 17 * * 0"
-  
+
+permissions: {}
+
 jobs:
   deploy-site:
 

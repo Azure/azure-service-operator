@@ -4,6 +4,8 @@ on:
   repository_dispatch:
     types: [ok-to-test-command]
 
+permissions: {}
+
 jobs:
   integration-tests-fork:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=integrationfork-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
@@ -14,7 +16,9 @@ jobs:
 
     permissions:
       checks: write
+      contents: read
       packages: read
+      pull-requests: read
 
     steps:
       # Create check called "integration-tests-fork", and set to in_progress

@@ -33,6 +33,8 @@ Product: Object (0 properties)
 
 ProductApi: Object (0 properties)
 
+ProductGroup: Object (0 properties)
+
 ProductPolicy: Object (0 properties)
 
 Service: Object (0 properties)

@@ -43,6 +43,7 @@ var wholeSampleExclusions = []*regexp.Regexp{
 	regexp.MustCompile(`/subscription/`),                        // Can't easily be run/recorded in our standard subscription
 	regexp.MustCompile(`/redhatopenshift/`),                     // This requires SP creation
 	regexp.MustCompile(`/documentdb/sqldatabase/v1api20210515`), // This is blocked by corp policy (can't set DisableLocalAuth)
+	regexp.MustCompile(`/compute/v20250401`),                    // Quota restrictions mean we can't rerecord capacity reservation
 }
 
 var exclusions = []*regexp.Regexp{
@@ -116,9 +117,6 @@ var exclusions = []*regexp.Regexp{
 
 	// Excluding quota as Azure Quota API does not support deletion - quotas are read-only system resources
 	regexp.MustCompile(`quota/.*_quota.yaml`),
-
-	// Excluding flexible servers administrator as we don't currently support AzureNameFromConfig and it is required for the sample
-	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversadministrator.yaml`),
 }
 
 // referenceKey identifies a resource by its Kind and Name for rename tracking.

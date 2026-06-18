@@ -96,7 +96,13 @@ func getDefaults(
 
 	// Determine if the resource has a SetName function
 	if resolved.SpecType.HasFunctionWithName(astmodel.SetAzureNameFunc) && defaultAzureName {
-		result = append(result, functions.NewDefaultAzureNameFunction(resolved.ResourceDef, idFactory))
+		// If the spec has AzureNameFromConfig property, use the variant that skips defaulting when it's set
+		azureNameFromConfigProp := idFactory.CreatePropertyName(astmodel.AzureNameFromConfigProperty, astmodel.Exported)
+		if _, hasAzureNameFromConfig := resolved.SpecType.Property(azureNameFromConfigProp); hasAzureNameFromConfig {
+			result = append(result, functions.NewDefaultAzureNameWithConfigFunction(resolved.ResourceDef, idFactory))
+		} else {
+			result = append(result, functions.NewDefaultAzureNameFunction(resolved.ResourceDef, idFactory))
+		}
 	}
 
 	return result, nil
@@ -180,6 +186,23 @@ func getValidations(
 		validations[functions.ValidationKindUpdate] = append(
 			validations[functions.ValidationKindUpdate],
 			functions.NewValidateOptionalSecretReferenceFunction(resourceDef, idFactory),
+		)
+	}
+
+	// If the resource supports AzureNameFromConfig, add a validator to ensure AzureName and AzureNameFromConfig
+	// are not both set at the same time.
+	resolved, err := defs.ResolveResourceSpecAndStatus(resourceDef)
+	if err != nil {
+		return nil, eris.Wrapf(err, "unable to resolve resource %s", resourceDef.Name())
+	}
+	if resolved.SpecType.HasFunctionWithName(astmodel.GetAzureNameFromConfigFunc) {
+		validations[functions.ValidationKindCreate] = append(
+			validations[functions.ValidationKindCreate],
+			NewValidateAzureNameFunction(resourceDef, idFactory),
+		)
+		validations[functions.ValidationKindUpdate] = append(
+			validations[functions.ValidationKindUpdate],
+			NewValidateAzureNameFunction(resourceDef, idFactory),
 		)
 	}
 
@@ -610,4 +633,87 @@ func hasOptionalSecretReferencePairs(resourceDef astmodel.TypeDefinition, defs a
 	}
 
 	return result, nil
+}
+
+// NewValidateAzureNameFunction creates a function for validating that azureName and azureNameFromConfig
+// are not both set at the same time:
+//
+//	func (resource *<obj>) validateAzureName(ctx context.Context, obj *<obj>) (admission.Warnings, error) {
+//	    if obj.Spec.AzureName != "" && obj.Spec.AzureNameFromConfig != nil {
+//	        return nil, eris.Errorf("cannot specify both azureName and azureNameFromConfig")
+//	    }
+//	    return nil, nil
+//	}
+func NewValidateAzureNameFunction(resourceDef astmodel.TypeDefinition, idFactory astmodel.IdentifierFactory) *functions.ValidateFunction {
+	return functions.NewValidateFunction(
+		"validateAzureName",
+		resourceDef.Name(),
+		idFactory,
+		validateAzureNameBody(),
+		astmodel.ErisReference,
+	)
+}
+
+func validateAzureNameBody() functions.DataFunctionHandler[astmodel.InternalTypeName] {
+	return func(k *functions.ValidateFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) (*dst.FuncDecl, error) {
+		objIdent := "obj"
+		contextIdent := "ctx"
+
+		receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
+		receiverExpr, err := receiver.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, eris.Wrapf(err, "creating receiver expression")
+		}
+
+		azureNameProp := astbuilder.Selector(dst.NewIdent(objIdent), "Spec", astmodel.AzureNameProperty)
+		azureNameFromConfigProp := astbuilder.Selector(dst.NewIdent(objIdent), "Spec", astmodel.AzureNameFromConfigProperty)
+
+		erisPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.ErisReference)
+
+		// if obj.Spec.AzureName != "" && obj.Spec.AzureNameFromConfig != nil {
+		//     return nil, eris.Errorf("cannot specify both azureName and azureNameFromConfig")
+		// }
+		condition := astbuilder.JoinAnd(
+			astbuilder.AreNotEqual(azureNameProp, astbuilder.StringLiteral("")),
+			astbuilder.NotNil(azureNameFromConfigProp),
+		)
+
+		body := astbuilder.Statements(
+			astbuilder.SimpleIf(
+				condition,
+				astbuilder.Returns(
+					astbuilder.Nil(),
+					astbuilder.CallQualifiedFunc(erisPackage, "Errorf",
+						astbuilder.StringLiteral("cannot specify both azureName and azureNameFromConfig")),
+				),
+			),
+			astbuilder.Returns(astbuilder.Nil(), astbuilder.Nil()),
+		)
+
+		fn := &astbuilder.FuncDetails{
+			Name:          methodName,
+			ReceiverIdent: receiverIdent,
+			ReceiverType:  astbuilder.PointerTo(receiverExpr),
+			Body:          body,
+		}
+
+		contextTypeExpr, err := astmodel.ContextType.AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, eris.Wrap(err, "creating context type expression")
+		}
+		fn.AddParameter(contextIdent, contextTypeExpr)
+
+		resourceTypeExpr, err := k.Data().AsTypeExpr(codeGenerationContext)
+		if err != nil {
+			return nil, eris.Wrap(err, "creating resource type expression")
+		}
+		fn.AddParameter(objIdent, astbuilder.PointerTo(resourceTypeExpr))
+
+		runtimeAdmission := codeGenerationContext.MustGetImportedPackageName(astmodel.ControllerRuntimeAdmission)
+		fn.AddReturn(astbuilder.QualifiedTypeName(runtimeAdmission, "Warnings"))
+		fn.AddReturn(dst.NewIdent("error"))
+		fn.AddComments("validates that azureName and azureNameFromConfig are not both set")
+
+		return fn.DefineFunc(), nil
+	}
 }

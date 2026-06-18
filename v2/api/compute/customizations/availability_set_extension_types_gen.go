@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	v20241101 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101"
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/storage"
+	compute_v1api20241101 "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101"
+	compute_v1api20241101s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20241101/storage"
+	compute_v20241101 "github.com/Azure/azure-service-operator/v2/api/compute/v20241101"
+	compute_v20241101s "github.com/Azure/azure-service-operator/v2/api/compute/v20241101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type AvailabilitySetExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *AvailabilitySetExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20241101.AvailabilitySet{},
-		&storage.AvailabilitySet{}}
+		&compute_v1api20241101.AvailabilitySet{},
+		&compute_v1api20241101s.AvailabilitySet{},
+		&compute_v20241101.AvailabilitySet{},
+		&compute_v20241101s.AvailabilitySet{}}
 }

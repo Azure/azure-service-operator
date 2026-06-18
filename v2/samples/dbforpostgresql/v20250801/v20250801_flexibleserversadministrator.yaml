@@ -4,7 +4,9 @@ metadata:
   name: my-admin
   namespace: default
 spec:
-  azureName: TODO:REPLACE_WITH_PRINCIPAL_ID
+  azureNameFromConfig:
+    name: admin-settings
+    key: principalId
   owner:
     name: asosampleserver20250801
   principalNameFromConfig:

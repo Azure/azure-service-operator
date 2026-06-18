@@ -148,3 +148,49 @@ CapacityReservationGroup: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     └── Zones: string[]
 
+augmentConversionForCapacityReservation: Interface
+
+augmentConversionForCapacityReservationGroup: Interface
+
+augmentConversionForCapacityReservationGroupInstanceView_STATUS: Interface
+
+augmentConversionForCapacityReservationGroupOperatorSpec: Interface
+
+augmentConversionForCapacityReservationGroup_STATUS: Interface
+
+augmentConversionForCapacityReservationGroup_Spec: Interface
+
+augmentConversionForCapacityReservationInstanceViewWithName_STATUS: Interface
+
+augmentConversionForCapacityReservationInstanceView_STATUS: Interface
+
+augmentConversionForCapacityReservationOperatorSpec: Interface
+
+augmentConversionForCapacityReservationUtilization_STATUS: Interface
+
+augmentConversionForCapacityReservation_STATUS: Interface
+
+augmentConversionForCapacityReservation_Spec: Interface
+
+augmentConversionForInstanceViewStatus_STATUS: Interface
+
+augmentConversionForResourceSharingProfile: Interface
+
+augmentConversionForResourceSharingProfile_STATUS: Interface
+
+augmentConversionForScheduleProfile: Interface
+
+augmentConversionForScheduleProfile_STATUS: Interface
+
+augmentConversionForSku: Interface
+
+augmentConversionForSku_STATUS: Interface
+
+augmentConversionForSubResource: Interface
+
+augmentConversionForSubResourceReadOnly_STATUS: Interface
+
+augmentConversionForSubResource_STATUS: Interface
+
+augmentConversionForSystemData_STATUS: Interface
+

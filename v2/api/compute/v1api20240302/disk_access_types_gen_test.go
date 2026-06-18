@@ -5,7 +5,8 @@ package v1api20240302
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
+	compute_v1api20240302s "github.com/Azure/azure-service-operator/v2/api/compute/v1api20240302/storage"
+	compute_v20240302s "github.com/Azure/azure-service-operator/v2/api/compute/v20240302/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForDiskAccess(subject DiskAccess) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.DiskAccess
+	var hub compute_v20240302s.DiskAccess
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForDiskAccess(subject DiskAccess) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DiskAccess
+	var other compute_v1api20240302s.DiskAccess
 	err := copied.AssignProperties_To_DiskAccess(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForDiskAccessOperatorSpec(subject DiskAccessOperat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DiskAccessOperatorSpec
+	var other compute_v1api20240302s.DiskAccessOperatorSpec
 	err := copied.AssignProperties_To_DiskAccessOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForDiskAccess_STATUS(subject DiskAccess_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DiskAccess_STATUS
+	var other compute_v1api20240302s.DiskAccess_STATUS
 	err := copied.AssignProperties_To_DiskAccess_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -404,7 +405,7 @@ func RunPropertyAssignmentTestForDiskAccess_Spec(subject DiskAccess_Spec) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DiskAccess_Spec
+	var other compute_v1api20240302s.DiskAccess_Spec
 	err := copied.AssignProperties_To_DiskAccess_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -525,7 +526,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PrivateEndpointConnection_STATUS
+	var other compute_v1api20240302s.PrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()

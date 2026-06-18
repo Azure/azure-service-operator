@@ -52,22 +52,36 @@ var _ conversion.Convertible = &VirtualMachineScaleSet{}
 
 // ConvertFrom populates our VirtualMachineScaleSet from the provided hub VirtualMachineScaleSet
 func (scaleSet *VirtualMachineScaleSet) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.VirtualMachineScaleSet)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachineScaleSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.VirtualMachineScaleSet
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return scaleSet.AssignProperties_From_VirtualMachineScaleSet(source)
+	err = scaleSet.AssignProperties_From_VirtualMachineScaleSet(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to scaleSet")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualMachineScaleSet from our VirtualMachineScaleSet
 func (scaleSet *VirtualMachineScaleSet) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.VirtualMachineScaleSet)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachineScaleSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.VirtualMachineScaleSet
+	err := scaleSet.AssignProperties_To_VirtualMachineScaleSet(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from scaleSet")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return scaleSet.AssignProperties_To_VirtualMachineScaleSet(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &VirtualMachineScaleSet{}
@@ -88,17 +102,6 @@ func (scaleSet *VirtualMachineScaleSet) SecretDestinationExpressions() []*core.D
 		return nil
 	}
 	return scaleSet.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &VirtualMachineScaleSet{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (scaleSet *VirtualMachineScaleSet) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*VirtualMachineScaleSet_STATUS); ok {
-		return scaleSet.Spec.Initialize_From_VirtualMachineScaleSet_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type VirtualMachineScaleSet_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &VirtualMachineScaleSet{}
@@ -1295,209 +1298,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignProperties_To_VirtualMachineS
 	return nil
 }
 
-// Initialize_From_VirtualMachineScaleSet_STATUS populates our VirtualMachineScaleSet_Spec from the provided source VirtualMachineScaleSet_STATUS
-func (scaleSet *VirtualMachineScaleSet_Spec) Initialize_From_VirtualMachineScaleSet_STATUS(source *VirtualMachineScaleSet_STATUS) error {
-
-	// AdditionalCapabilities
-	if source.AdditionalCapabilities != nil {
-		var additionalCapability AdditionalCapabilities
-		err := additionalCapability.Initialize_From_AdditionalCapabilities_STATUS(source.AdditionalCapabilities)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AdditionalCapabilities_STATUS() to populate field AdditionalCapabilities")
-		}
-		scaleSet.AdditionalCapabilities = &additionalCapability
-	} else {
-		scaleSet.AdditionalCapabilities = nil
-	}
-
-	// AutomaticRepairsPolicy
-	if source.AutomaticRepairsPolicy != nil {
-		var automaticRepairsPolicy AutomaticRepairsPolicy
-		err := automaticRepairsPolicy.Initialize_From_AutomaticRepairsPolicy_STATUS(source.AutomaticRepairsPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AutomaticRepairsPolicy_STATUS() to populate field AutomaticRepairsPolicy")
-		}
-		scaleSet.AutomaticRepairsPolicy = &automaticRepairsPolicy
-	} else {
-		scaleSet.AutomaticRepairsPolicy = nil
-	}
-
-	// DoNotRunExtensionsOnOverprovisionedVMs
-	if source.DoNotRunExtensionsOnOverprovisionedVMs != nil {
-		doNotRunExtensionsOnOverprovisionedVM := *source.DoNotRunExtensionsOnOverprovisionedVMs
-		scaleSet.DoNotRunExtensionsOnOverprovisionedVMs = &doNotRunExtensionsOnOverprovisionedVM
-	} else {
-		scaleSet.DoNotRunExtensionsOnOverprovisionedVMs = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		scaleSet.ExtendedLocation = &extendedLocation
-	} else {
-		scaleSet.ExtendedLocation = nil
-	}
-
-	// HostGroup
-	if source.HostGroup != nil {
-		var hostGroup SubResource
-		err := hostGroup.Initialize_From_SubResource_STATUS(source.HostGroup)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field HostGroup")
-		}
-		scaleSet.HostGroup = &hostGroup
-	} else {
-		scaleSet.HostGroup = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity VirtualMachineScaleSetIdentity
-		err := identity.Initialize_From_VirtualMachineScaleSetIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetIdentity_STATUS() to populate field Identity")
-		}
-		scaleSet.Identity = &identity
-	} else {
-		scaleSet.Identity = nil
-	}
-
-	// Location
-	scaleSet.Location = genruntime.ClonePointerToString(source.Location)
-
-	// OrchestrationMode
-	if source.OrchestrationMode != nil {
-		orchestrationMode := genruntime.ToEnum(string(*source.OrchestrationMode), orchestrationMode_Values)
-		scaleSet.OrchestrationMode = &orchestrationMode
-	} else {
-		scaleSet.OrchestrationMode = nil
-	}
-
-	// Overprovision
-	if source.Overprovision != nil {
-		overprovision := *source.Overprovision
-		scaleSet.Overprovision = &overprovision
-	} else {
-		scaleSet.Overprovision = nil
-	}
-
-	// Plan
-	if source.Plan != nil {
-		var plan Plan
-		err := plan.Initialize_From_Plan_STATUS(source.Plan)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Plan_STATUS() to populate field Plan")
-		}
-		scaleSet.Plan = &plan
-	} else {
-		scaleSet.Plan = nil
-	}
-
-	// PlatformFaultDomainCount
-	scaleSet.PlatformFaultDomainCount = genruntime.ClonePointerToInt(source.PlatformFaultDomainCount)
-
-	// ProximityPlacementGroup
-	if source.ProximityPlacementGroup != nil {
-		var proximityPlacementGroup SubResource
-		err := proximityPlacementGroup.Initialize_From_SubResource_STATUS(source.ProximityPlacementGroup)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field ProximityPlacementGroup")
-		}
-		scaleSet.ProximityPlacementGroup = &proximityPlacementGroup
-	} else {
-		scaleSet.ProximityPlacementGroup = nil
-	}
-
-	// ScaleInPolicy
-	if source.ScaleInPolicy != nil {
-		var scaleInPolicy ScaleInPolicy
-		err := scaleInPolicy.Initialize_From_ScaleInPolicy_STATUS(source.ScaleInPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ScaleInPolicy_STATUS() to populate field ScaleInPolicy")
-		}
-		scaleSet.ScaleInPolicy = &scaleInPolicy
-	} else {
-		scaleSet.ScaleInPolicy = nil
-	}
-
-	// SinglePlacementGroup
-	if source.SinglePlacementGroup != nil {
-		singlePlacementGroup := *source.SinglePlacementGroup
-		scaleSet.SinglePlacementGroup = &singlePlacementGroup
-	} else {
-		scaleSet.SinglePlacementGroup = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		scaleSet.Sku = &sku
-	} else {
-		scaleSet.Sku = nil
-	}
-
-	// SpotRestorePolicy
-	if source.SpotRestorePolicy != nil {
-		var spotRestorePolicy SpotRestorePolicy
-		err := spotRestorePolicy.Initialize_From_SpotRestorePolicy_STATUS(source.SpotRestorePolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SpotRestorePolicy_STATUS() to populate field SpotRestorePolicy")
-		}
-		scaleSet.SpotRestorePolicy = &spotRestorePolicy
-	} else {
-		scaleSet.SpotRestorePolicy = nil
-	}
-
-	// Tags
-	scaleSet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// UpgradePolicy
-	if source.UpgradePolicy != nil {
-		var upgradePolicy UpgradePolicy
-		err := upgradePolicy.Initialize_From_UpgradePolicy_STATUS(source.UpgradePolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UpgradePolicy_STATUS() to populate field UpgradePolicy")
-		}
-		scaleSet.UpgradePolicy = &upgradePolicy
-	} else {
-		scaleSet.UpgradePolicy = nil
-	}
-
-	// VirtualMachineProfile
-	if source.VirtualMachineProfile != nil {
-		var virtualMachineProfile VirtualMachineScaleSetVMProfile
-		err := virtualMachineProfile.Initialize_From_VirtualMachineScaleSetVMProfile_STATUS(source.VirtualMachineProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetVMProfile_STATUS() to populate field VirtualMachineProfile")
-		}
-		scaleSet.VirtualMachineProfile = &virtualMachineProfile
-	} else {
-		scaleSet.VirtualMachineProfile = nil
-	}
-
-	// ZoneBalance
-	if source.ZoneBalance != nil {
-		zoneBalance := *source.ZoneBalance
-		scaleSet.ZoneBalance = &zoneBalance
-	} else {
-		scaleSet.ZoneBalance = nil
-	}
-
-	// Zones
-	scaleSet.Zones = genruntime.CloneSliceOfString(source.Zones)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (scaleSet *VirtualMachineScaleSet_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -2560,32 +2360,6 @@ func (policy *AutomaticRepairsPolicy) AssignProperties_To_AutomaticRepairsPolicy
 	return nil
 }
 
-// Initialize_From_AutomaticRepairsPolicy_STATUS populates our AutomaticRepairsPolicy from the provided source AutomaticRepairsPolicy_STATUS
-func (policy *AutomaticRepairsPolicy) Initialize_From_AutomaticRepairsPolicy_STATUS(source *AutomaticRepairsPolicy_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		policy.Enabled = &enabled
-	} else {
-		policy.Enabled = nil
-	}
-
-	// GracePeriod
-	policy.GracePeriod = genruntime.ClonePointerToString(source.GracePeriod)
-
-	// RepairAction
-	if source.RepairAction != nil {
-		repairAction := genruntime.ToEnum(string(*source.RepairAction), automaticRepairsPolicy_RepairAction_Values)
-		policy.RepairAction = &repairAction
-	} else {
-		policy.RepairAction = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Specifies the configuration parameters for automatic repairs on the virtual machine scale set.
 type AutomaticRepairsPolicy_STATUS struct {
 	// Enabled: Specifies whether automatic repairs should be enabled on the virtual machine scale set. The default value is
@@ -2866,33 +2640,6 @@ func (policy *ScaleInPolicy) AssignProperties_To_ScaleInPolicy(destination *stor
 	return nil
 }
 
-// Initialize_From_ScaleInPolicy_STATUS populates our ScaleInPolicy from the provided source ScaleInPolicy_STATUS
-func (policy *ScaleInPolicy) Initialize_From_ScaleInPolicy_STATUS(source *ScaleInPolicy_STATUS) error {
-
-	// ForceDeletion
-	if source.ForceDeletion != nil {
-		forceDeletion := *source.ForceDeletion
-		policy.ForceDeletion = &forceDeletion
-	} else {
-		policy.ForceDeletion = nil
-	}
-
-	// Rules
-	if source.Rules != nil {
-		ruleList := make([]ScaleInPolicy_Rules, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			rule := genruntime.ToEnum(string(ruleItem), scaleInPolicy_Rules_Values)
-			ruleList[ruleIndex] = rule
-		}
-		policy.Rules = ruleList
-	} else {
-		policy.Rules = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Describes a scale-in policy for a virtual machine scale set.
 type ScaleInPolicy_STATUS struct {
 	// ForceDeletion: This property allows you to specify if virtual machines chosen for removal have to be force deleted when
@@ -3125,22 +2872,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	return nil
 }
 
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Name
-	sku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Tier
-	sku.Tier = genruntime.ClonePointerToString(source.Tier)
-
-	// No error
-	return nil
-}
-
 // Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the hardware the scale set is
 // currently on, you need to deallocate the VMs in the scale set before you modify the SKU name.
 type Sku_STATUS struct {
@@ -3339,24 +3070,6 @@ func (policy *SpotRestorePolicy) AssignProperties_To_SpotRestorePolicy(destinati
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SpotRestorePolicy_STATUS populates our SpotRestorePolicy from the provided source SpotRestorePolicy_STATUS
-func (policy *SpotRestorePolicy) Initialize_From_SpotRestorePolicy_STATUS(source *SpotRestorePolicy_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		policy.Enabled = &enabled
-	} else {
-		policy.Enabled = nil
-	}
-
-	// RestoreTimeout
-	policy.RestoreTimeout = genruntime.ClonePointerToString(source.RestoreTimeout)
 
 	// No error
 	return nil
@@ -3634,45 +3347,6 @@ func (policy *UpgradePolicy) AssignProperties_To_UpgradePolicy(destination *stor
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UpgradePolicy_STATUS populates our UpgradePolicy from the provided source UpgradePolicy_STATUS
-func (policy *UpgradePolicy) Initialize_From_UpgradePolicy_STATUS(source *UpgradePolicy_STATUS) error {
-
-	// AutomaticOSUpgradePolicy
-	if source.AutomaticOSUpgradePolicy != nil {
-		var automaticOSUpgradePolicy AutomaticOSUpgradePolicy
-		err := automaticOSUpgradePolicy.Initialize_From_AutomaticOSUpgradePolicy_STATUS(source.AutomaticOSUpgradePolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AutomaticOSUpgradePolicy_STATUS() to populate field AutomaticOSUpgradePolicy")
-		}
-		policy.AutomaticOSUpgradePolicy = &automaticOSUpgradePolicy
-	} else {
-		policy.AutomaticOSUpgradePolicy = nil
-	}
-
-	// Mode
-	if source.Mode != nil {
-		mode := genruntime.ToEnum(string(*source.Mode), upgradePolicy_Mode_Values)
-		policy.Mode = &mode
-	} else {
-		policy.Mode = nil
-	}
-
-	// RollingUpgradePolicy
-	if source.RollingUpgradePolicy != nil {
-		var rollingUpgradePolicy RollingUpgradePolicy
-		err := rollingUpgradePolicy.Initialize_From_RollingUpgradePolicy_STATUS(source.RollingUpgradePolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RollingUpgradePolicy_STATUS() to populate field RollingUpgradePolicy")
-		}
-		policy.RollingUpgradePolicy = &rollingUpgradePolicy
-	} else {
-		policy.RollingUpgradePolicy = nil
 	}
 
 	// No error
@@ -3966,33 +3640,6 @@ func (identity *VirtualMachineScaleSetIdentity) AssignProperties_To_VirtualMachi
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachineScaleSetIdentity_STATUS populates our VirtualMachineScaleSetIdentity from the provided source VirtualMachineScaleSetIdentity_STATUS
-func (identity *VirtualMachineScaleSetIdentity) Initialize_From_VirtualMachineScaleSetIdentity_STATUS(source *VirtualMachineScaleSetIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), virtualMachineScaleSetIdentity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -4967,167 +4614,6 @@ func (profile *VirtualMachineScaleSetVMProfile) AssignProperties_To_VirtualMachi
 	return nil
 }
 
-// Initialize_From_VirtualMachineScaleSetVMProfile_STATUS populates our VirtualMachineScaleSetVMProfile from the provided source VirtualMachineScaleSetVMProfile_STATUS
-func (profile *VirtualMachineScaleSetVMProfile) Initialize_From_VirtualMachineScaleSetVMProfile_STATUS(source *VirtualMachineScaleSetVMProfile_STATUS) error {
-
-	// ApplicationProfile
-	if source.ApplicationProfile != nil {
-		var applicationProfile ApplicationProfile
-		err := applicationProfile.Initialize_From_ApplicationProfile_STATUS(source.ApplicationProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApplicationProfile_STATUS() to populate field ApplicationProfile")
-		}
-		profile.ApplicationProfile = &applicationProfile
-	} else {
-		profile.ApplicationProfile = nil
-	}
-
-	// BillingProfile
-	if source.BillingProfile != nil {
-		var billingProfile BillingProfile
-		err := billingProfile.Initialize_From_BillingProfile_STATUS(source.BillingProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BillingProfile_STATUS() to populate field BillingProfile")
-		}
-		profile.BillingProfile = &billingProfile
-	} else {
-		profile.BillingProfile = nil
-	}
-
-	// CapacityReservation
-	if source.CapacityReservation != nil {
-		var capacityReservation CapacityReservationProfile
-		err := capacityReservation.Initialize_From_CapacityReservationProfile_STATUS(source.CapacityReservation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CapacityReservationProfile_STATUS() to populate field CapacityReservation")
-		}
-		profile.CapacityReservation = &capacityReservation
-	} else {
-		profile.CapacityReservation = nil
-	}
-
-	// DiagnosticsProfile
-	if source.DiagnosticsProfile != nil {
-		var diagnosticsProfile DiagnosticsProfile
-		err := diagnosticsProfile.Initialize_From_DiagnosticsProfile_STATUS(source.DiagnosticsProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DiagnosticsProfile_STATUS() to populate field DiagnosticsProfile")
-		}
-		profile.DiagnosticsProfile = &diagnosticsProfile
-	} else {
-		profile.DiagnosticsProfile = nil
-	}
-
-	// EvictionPolicy
-	if source.EvictionPolicy != nil {
-		evictionPolicy := genruntime.ToEnum(string(*source.EvictionPolicy), evictionPolicy_Values)
-		profile.EvictionPolicy = &evictionPolicy
-	} else {
-		profile.EvictionPolicy = nil
-	}
-
-	// ExtensionProfile
-	if source.ExtensionProfile != nil {
-		var extensionProfile VirtualMachineScaleSetExtensionProfile
-		err := extensionProfile.Initialize_From_VirtualMachineScaleSetExtensionProfile_STATUS(source.ExtensionProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetExtensionProfile_STATUS() to populate field ExtensionProfile")
-		}
-		profile.ExtensionProfile = &extensionProfile
-	} else {
-		profile.ExtensionProfile = nil
-	}
-
-	// HardwareProfile
-	if source.HardwareProfile != nil {
-		var hardwareProfile VirtualMachineScaleSetHardwareProfile
-		err := hardwareProfile.Initialize_From_VirtualMachineScaleSetHardwareProfile_STATUS(source.HardwareProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetHardwareProfile_STATUS() to populate field HardwareProfile")
-		}
-		profile.HardwareProfile = &hardwareProfile
-	} else {
-		profile.HardwareProfile = nil
-	}
-
-	// LicenseType
-	profile.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
-
-	// NetworkProfile
-	if source.NetworkProfile != nil {
-		var networkProfile VirtualMachineScaleSetNetworkProfile
-		err := networkProfile.Initialize_From_VirtualMachineScaleSetNetworkProfile_STATUS(source.NetworkProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetNetworkProfile_STATUS() to populate field NetworkProfile")
-		}
-		profile.NetworkProfile = &networkProfile
-	} else {
-		profile.NetworkProfile = nil
-	}
-
-	// OsProfile
-	if source.OsProfile != nil {
-		var osProfile VirtualMachineScaleSetOSProfile
-		err := osProfile.Initialize_From_VirtualMachineScaleSetOSProfile_STATUS(source.OsProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetOSProfile_STATUS() to populate field OsProfile")
-		}
-		profile.OsProfile = &osProfile
-	} else {
-		profile.OsProfile = nil
-	}
-
-	// Priority
-	if source.Priority != nil {
-		priority := genruntime.ToEnum(string(*source.Priority), priority_Values)
-		profile.Priority = &priority
-	} else {
-		profile.Priority = nil
-	}
-
-	// ScheduledEventsProfile
-	if source.ScheduledEventsProfile != nil {
-		var scheduledEventsProfile ScheduledEventsProfile
-		err := scheduledEventsProfile.Initialize_From_ScheduledEventsProfile_STATUS(source.ScheduledEventsProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ScheduledEventsProfile_STATUS() to populate field ScheduledEventsProfile")
-		}
-		profile.ScheduledEventsProfile = &scheduledEventsProfile
-	} else {
-		profile.ScheduledEventsProfile = nil
-	}
-
-	// SecurityProfile
-	if source.SecurityProfile != nil {
-		var securityProfile SecurityProfile
-		err := securityProfile.Initialize_From_SecurityProfile_STATUS(source.SecurityProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SecurityProfile_STATUS() to populate field SecurityProfile")
-		}
-		profile.SecurityProfile = &securityProfile
-	} else {
-		profile.SecurityProfile = nil
-	}
-
-	// StorageProfile
-	if source.StorageProfile != nil {
-		var storageProfile VirtualMachineScaleSetStorageProfile
-		err := storageProfile.Initialize_From_VirtualMachineScaleSetStorageProfile_STATUS(source.StorageProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetStorageProfile_STATUS() to populate field StorageProfile")
-		}
-		profile.StorageProfile = &storageProfile
-	} else {
-		profile.StorageProfile = nil
-	}
-
-	// UserData
-	profile.UserData = genruntime.ClonePointerToString(source.UserData)
-
-	// No error
-	return nil
-}
-
 // Describes a virtual machine scale set virtual machine profile.
 type VirtualMachineScaleSetVMProfile_STATUS struct {
 	// ApplicationProfile: Specifies the gallery applications that should be made available to the VM/VMSS
@@ -5848,37 +5334,6 @@ func (policy *AutomaticOSUpgradePolicy) AssignProperties_To_AutomaticOSUpgradePo
 	return nil
 }
 
-// Initialize_From_AutomaticOSUpgradePolicy_STATUS populates our AutomaticOSUpgradePolicy from the provided source AutomaticOSUpgradePolicy_STATUS
-func (policy *AutomaticOSUpgradePolicy) Initialize_From_AutomaticOSUpgradePolicy_STATUS(source *AutomaticOSUpgradePolicy_STATUS) error {
-
-	// DisableAutomaticRollback
-	if source.DisableAutomaticRollback != nil {
-		disableAutomaticRollback := *source.DisableAutomaticRollback
-		policy.DisableAutomaticRollback = &disableAutomaticRollback
-	} else {
-		policy.DisableAutomaticRollback = nil
-	}
-
-	// EnableAutomaticOSUpgrade
-	if source.EnableAutomaticOSUpgrade != nil {
-		enableAutomaticOSUpgrade := *source.EnableAutomaticOSUpgrade
-		policy.EnableAutomaticOSUpgrade = &enableAutomaticOSUpgrade
-	} else {
-		policy.EnableAutomaticOSUpgrade = nil
-	}
-
-	// UseRollingUpgradePolicy
-	if source.UseRollingUpgradePolicy != nil {
-		useRollingUpgradePolicy := *source.UseRollingUpgradePolicy
-		policy.UseRollingUpgradePolicy = &useRollingUpgradePolicy
-	} else {
-		policy.UseRollingUpgradePolicy = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration parameters used for performing automatic OS upgrade.
 type AutomaticOSUpgradePolicy_STATUS struct {
 	// DisableAutomaticRollback: Whether OS image rollback feature should be disabled. Default value is false.
@@ -6248,41 +5703,6 @@ func (policy *RollingUpgradePolicy) AssignProperties_To_RollingUpgradePolicy(des
 	return nil
 }
 
-// Initialize_From_RollingUpgradePolicy_STATUS populates our RollingUpgradePolicy from the provided source RollingUpgradePolicy_STATUS
-func (policy *RollingUpgradePolicy) Initialize_From_RollingUpgradePolicy_STATUS(source *RollingUpgradePolicy_STATUS) error {
-
-	// EnableCrossZoneUpgrade
-	if source.EnableCrossZoneUpgrade != nil {
-		enableCrossZoneUpgrade := *source.EnableCrossZoneUpgrade
-		policy.EnableCrossZoneUpgrade = &enableCrossZoneUpgrade
-	} else {
-		policy.EnableCrossZoneUpgrade = nil
-	}
-
-	// MaxBatchInstancePercent
-	policy.MaxBatchInstancePercent = genruntime.ClonePointerToInt(source.MaxBatchInstancePercent)
-
-	// MaxUnhealthyInstancePercent
-	policy.MaxUnhealthyInstancePercent = genruntime.ClonePointerToInt(source.MaxUnhealthyInstancePercent)
-
-	// MaxUnhealthyUpgradedInstancePercent
-	policy.MaxUnhealthyUpgradedInstancePercent = genruntime.ClonePointerToInt(source.MaxUnhealthyUpgradedInstancePercent)
-
-	// PauseTimeBetweenBatches
-	policy.PauseTimeBetweenBatches = genruntime.ClonePointerToString(source.PauseTimeBetweenBatches)
-
-	// PrioritizeUnhealthyInstances
-	if source.PrioritizeUnhealthyInstances != nil {
-		prioritizeUnhealthyInstance := *source.PrioritizeUnhealthyInstances
-		policy.PrioritizeUnhealthyInstances = &prioritizeUnhealthyInstance
-	} else {
-		policy.PrioritizeUnhealthyInstances = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The configuration parameters used while performing a rolling upgrade.
 type RollingUpgradePolicy_STATUS struct {
 	// EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration
@@ -6639,32 +6059,6 @@ func (profile *VirtualMachineScaleSetExtensionProfile) AssignProperties_To_Virtu
 	return nil
 }
 
-// Initialize_From_VirtualMachineScaleSetExtensionProfile_STATUS populates our VirtualMachineScaleSetExtensionProfile from the provided source VirtualMachineScaleSetExtensionProfile_STATUS
-func (profile *VirtualMachineScaleSetExtensionProfile) Initialize_From_VirtualMachineScaleSetExtensionProfile_STATUS(source *VirtualMachineScaleSetExtensionProfile_STATUS) error {
-
-	// Extensions
-	if source.Extensions != nil {
-		extensionList := make([]VirtualMachineScaleSetExtension, len(source.Extensions))
-		for extensionIndex, extensionItem := range source.Extensions {
-			var extension VirtualMachineScaleSetExtension
-			err := extension.Initialize_From_VirtualMachineScaleSetExtension_STATUS(&extensionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetExtension_STATUS() to populate field Extensions")
-			}
-			extensionList[extensionIndex] = extension
-		}
-		profile.Extensions = extensionList
-	} else {
-		profile.Extensions = nil
-	}
-
-	// ExtensionsTimeBudget
-	profile.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
-
-	// No error
-	return nil
-}
-
 // Describes a virtual machine scale set extension profile.
 type VirtualMachineScaleSetExtensionProfile_STATUS struct {
 	// Extensions: The virtual machine scale set child extension resources.
@@ -6869,25 +6263,6 @@ func (profile *VirtualMachineScaleSetHardwareProfile) AssignProperties_To_Virtua
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachineScaleSetHardwareProfile_STATUS populates our VirtualMachineScaleSetHardwareProfile from the provided source VirtualMachineScaleSetHardwareProfile_STATUS
-func (profile *VirtualMachineScaleSetHardwareProfile) Initialize_From_VirtualMachineScaleSetHardwareProfile_STATUS(source *VirtualMachineScaleSetHardwareProfile_STATUS) error {
-
-	// VmSizeProperties
-	if source.VmSizeProperties != nil {
-		var vmSizeProperty VMSizeProperties
-		err := vmSizeProperty.Initialize_From_VMSizeProperties_STATUS(source.VmSizeProperties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VMSizeProperties_STATUS() to populate field VmSizeProperties")
-		}
-		profile.VmSizeProperties = &vmSizeProperty
-	} else {
-		profile.VmSizeProperties = nil
 	}
 
 	// No error
@@ -7274,49 +6649,6 @@ func (profile *VirtualMachineScaleSetNetworkProfile) AssignProperties_To_Virtual
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachineScaleSetNetworkProfile_STATUS populates our VirtualMachineScaleSetNetworkProfile from the provided source VirtualMachineScaleSetNetworkProfile_STATUS
-func (profile *VirtualMachineScaleSetNetworkProfile) Initialize_From_VirtualMachineScaleSetNetworkProfile_STATUS(source *VirtualMachineScaleSetNetworkProfile_STATUS) error {
-
-	// HealthProbe
-	if source.HealthProbe != nil {
-		var healthProbe ApiEntityReference
-		err := healthProbe.Initialize_From_ApiEntityReference_STATUS(source.HealthProbe)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApiEntityReference_STATUS() to populate field HealthProbe")
-		}
-		profile.HealthProbe = &healthProbe
-	} else {
-		profile.HealthProbe = nil
-	}
-
-	// NetworkApiVersion
-	if source.NetworkApiVersion != nil {
-		networkApiVersion := genruntime.ToEnum(string(*source.NetworkApiVersion), virtualMachineScaleSetNetworkProfile_NetworkApiVersion_Values)
-		profile.NetworkApiVersion = &networkApiVersion
-	} else {
-		profile.NetworkApiVersion = nil
-	}
-
-	// NetworkInterfaceConfigurations
-	if source.NetworkInterfaceConfigurations != nil {
-		networkInterfaceConfigurationList := make([]VirtualMachineScaleSetNetworkConfiguration, len(source.NetworkInterfaceConfigurations))
-		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range source.NetworkInterfaceConfigurations {
-			var networkInterfaceConfiguration VirtualMachineScaleSetNetworkConfiguration
-			err := networkInterfaceConfiguration.Initialize_From_VirtualMachineScaleSetNetworkConfiguration_STATUS(&networkInterfaceConfigurationItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetNetworkConfiguration_STATUS() to populate field NetworkInterfaceConfigurations")
-			}
-			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
-		}
-		profile.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
-	} else {
-		profile.NetworkInterfaceConfigurations = nil
 	}
 
 	// No error
@@ -7841,70 +7173,6 @@ func (profile *VirtualMachineScaleSetOSProfile) AssignProperties_To_VirtualMachi
 	return nil
 }
 
-// Initialize_From_VirtualMachineScaleSetOSProfile_STATUS populates our VirtualMachineScaleSetOSProfile from the provided source VirtualMachineScaleSetOSProfile_STATUS
-func (profile *VirtualMachineScaleSetOSProfile) Initialize_From_VirtualMachineScaleSetOSProfile_STATUS(source *VirtualMachineScaleSetOSProfile_STATUS) error {
-
-	// AdminUsername
-	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
-
-	// AllowExtensionOperations
-	if source.AllowExtensionOperations != nil {
-		allowExtensionOperation := *source.AllowExtensionOperations
-		profile.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		profile.AllowExtensionOperations = nil
-	}
-
-	// ComputerNamePrefix
-	profile.ComputerNamePrefix = genruntime.ClonePointerToString(source.ComputerNamePrefix)
-
-	// CustomData
-	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
-
-	// LinuxConfiguration
-	if source.LinuxConfiguration != nil {
-		var linuxConfiguration LinuxConfiguration
-		err := linuxConfiguration.Initialize_From_LinuxConfiguration_STATUS(source.LinuxConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_LinuxConfiguration_STATUS() to populate field LinuxConfiguration")
-		}
-		profile.LinuxConfiguration = &linuxConfiguration
-	} else {
-		profile.LinuxConfiguration = nil
-	}
-
-	// Secrets
-	if source.Secrets != nil {
-		secretList := make([]VaultSecretGroup, len(source.Secrets))
-		for secretIndex, secretItem := range source.Secrets {
-			var secret VaultSecretGroup
-			err := secret.Initialize_From_VaultSecretGroup_STATUS(&secretItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VaultSecretGroup_STATUS() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		profile.Secrets = secretList
-	} else {
-		profile.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if source.WindowsConfiguration != nil {
-		var windowsConfiguration WindowsConfiguration
-		err := windowsConfiguration.Initialize_From_WindowsConfiguration_STATUS(source.WindowsConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_WindowsConfiguration_STATUS() to populate field WindowsConfiguration")
-		}
-		profile.WindowsConfiguration = &windowsConfiguration
-	} else {
-		profile.WindowsConfiguration = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Describes a virtual machine scale set OS profile.
 type VirtualMachineScaleSetOSProfile_STATUS struct {
 	// AdminUsername: Specifies the name of the administrator account.
@@ -8366,53 +7634,6 @@ func (profile *VirtualMachineScaleSetStorageProfile) AssignProperties_To_Virtual
 	return nil
 }
 
-// Initialize_From_VirtualMachineScaleSetStorageProfile_STATUS populates our VirtualMachineScaleSetStorageProfile from the provided source VirtualMachineScaleSetStorageProfile_STATUS
-func (profile *VirtualMachineScaleSetStorageProfile) Initialize_From_VirtualMachineScaleSetStorageProfile_STATUS(source *VirtualMachineScaleSetStorageProfile_STATUS) error {
-
-	// DataDisks
-	if source.DataDisks != nil {
-		dataDiskList := make([]VirtualMachineScaleSetDataDisk, len(source.DataDisks))
-		for dataDiskIndex, dataDiskItem := range source.DataDisks {
-			var dataDisk VirtualMachineScaleSetDataDisk
-			err := dataDisk.Initialize_From_VirtualMachineScaleSetDataDisk_STATUS(&dataDiskItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetDataDisk_STATUS() to populate field DataDisks")
-			}
-			dataDiskList[dataDiskIndex] = dataDisk
-		}
-		profile.DataDisks = dataDiskList
-	} else {
-		profile.DataDisks = nil
-	}
-
-	// ImageReference
-	if source.ImageReference != nil {
-		var imageReference ImageReference
-		err := imageReference.Initialize_From_ImageReference_STATUS(source.ImageReference)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ImageReference_STATUS() to populate field ImageReference")
-		}
-		profile.ImageReference = &imageReference
-	} else {
-		profile.ImageReference = nil
-	}
-
-	// OsDisk
-	if source.OsDisk != nil {
-		var osDisk VirtualMachineScaleSetOSDisk
-		err := osDisk.Initialize_From_VirtualMachineScaleSetOSDisk_STATUS(source.OsDisk)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetOSDisk_STATUS() to populate field OsDisk")
-		}
-		profile.OsDisk = &osDisk
-	} else {
-		profile.OsDisk = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Describes a virtual machine scale set storage profile.
 type VirtualMachineScaleSetStorageProfile_STATUS struct {
 	// DataDisks: Specifies the parameters that are used to add data disks to the virtual machines in the scale set.
@@ -8662,21 +7883,6 @@ func (reference *ApiEntityReference) AssignProperties_To_ApiEntityReference(dest
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ApiEntityReference_STATUS populates our ApiEntityReference from the provided source ApiEntityReference_STATUS
-func (reference *ApiEntityReference) Initialize_From_ApiEntityReference_STATUS(source *ApiEntityReference_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		referenceTemp := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
 	}
 
 	// No error
@@ -9098,72 +8304,6 @@ func (disk *VirtualMachineScaleSetDataDisk) AssignProperties_To_VirtualMachineSc
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachineScaleSetDataDisk_STATUS populates our VirtualMachineScaleSetDataDisk from the provided source VirtualMachineScaleSetDataDisk_STATUS
-func (disk *VirtualMachineScaleSetDataDisk) Initialize_From_VirtualMachineScaleSetDataDisk_STATUS(source *VirtualMachineScaleSetDataDisk_STATUS) error {
-
-	// Caching
-	if source.Caching != nil {
-		caching := genruntime.ToEnum(string(*source.Caching), caching_Values)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
-
-	// CreateOption
-	if source.CreateOption != nil {
-		createOption := genruntime.ToEnum(string(*source.CreateOption), createOption_Values)
-		disk.CreateOption = &createOption
-	} else {
-		disk.CreateOption = nil
-	}
-
-	// DeleteOption
-	if source.DeleteOption != nil {
-		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), deleteOption_Values)
-		disk.DeleteOption = &deleteOption
-	} else {
-		disk.DeleteOption = nil
-	}
-
-	// DiskIOPSReadWrite
-	disk.DiskIOPSReadWrite = genruntime.ClonePointerToInt(source.DiskIOPSReadWrite)
-
-	// DiskMBpsReadWrite
-	disk.DiskMBpsReadWrite = genruntime.ClonePointerToInt(source.DiskMBpsReadWrite)
-
-	// DiskSizeGB
-	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// Lun
-	disk.Lun = genruntime.ClonePointerToInt(source.Lun)
-
-	// ManagedDisk
-	if source.ManagedDisk != nil {
-		var managedDisk VirtualMachineScaleSetManagedDiskParameters
-		err := managedDisk.Initialize_From_VirtualMachineScaleSetManagedDiskParameters_STATUS(source.ManagedDisk)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetManagedDiskParameters_STATUS() to populate field ManagedDisk")
-		}
-		disk.ManagedDisk = &managedDisk
-	} else {
-		disk.ManagedDisk = nil
-	}
-
-	// Name
-	disk.Name = genruntime.ClonePointerToString(source.Name)
-
-	// WriteAcceleratorEnabled
-	if source.WriteAcceleratorEnabled != nil {
-		writeAcceleratorEnabled := *source.WriteAcceleratorEnabled
-		disk.WriteAcceleratorEnabled = &writeAcceleratorEnabled
-	} else {
-		disk.WriteAcceleratorEnabled = nil
 	}
 
 	// No error
@@ -9867,78 +9007,6 @@ func (extension *VirtualMachineScaleSetExtension) AssignProperties_To_VirtualMac
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachineScaleSetExtension_STATUS populates our VirtualMachineScaleSetExtension from the provided source VirtualMachineScaleSetExtension_STATUS
-func (extension *VirtualMachineScaleSetExtension) Initialize_From_VirtualMachineScaleSetExtension_STATUS(source *VirtualMachineScaleSetExtension_STATUS) error {
-
-	// AutoUpgradeMinorVersion
-	if source.AutoUpgradeMinorVersion != nil {
-		autoUpgradeMinorVersion := *source.AutoUpgradeMinorVersion
-		extension.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
-	} else {
-		extension.AutoUpgradeMinorVersion = nil
-	}
-
-	// EnableAutomaticUpgrade
-	if source.EnableAutomaticUpgrade != nil {
-		enableAutomaticUpgrade := *source.EnableAutomaticUpgrade
-		extension.EnableAutomaticUpgrade = &enableAutomaticUpgrade
-	} else {
-		extension.EnableAutomaticUpgrade = nil
-	}
-
-	// ForceUpdateTag
-	extension.ForceUpdateTag = genruntime.ClonePointerToString(source.ForceUpdateTag)
-
-	// Name
-	extension.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ProtectedSettingsFromKeyVault
-	if source.ProtectedSettingsFromKeyVault != nil {
-		var protectedSettingsFromKeyVault KeyVaultSecretReference
-		err := protectedSettingsFromKeyVault.Initialize_From_KeyVaultSecretReference_STATUS(source.ProtectedSettingsFromKeyVault)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KeyVaultSecretReference_STATUS() to populate field ProtectedSettingsFromKeyVault")
-		}
-		extension.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
-	} else {
-		extension.ProtectedSettingsFromKeyVault = nil
-	}
-
-	// ProvisionAfterExtensions
-	extension.ProvisionAfterExtensions = genruntime.CloneSliceOfString(source.ProvisionAfterExtensions)
-
-	// Publisher
-	extension.Publisher = genruntime.ClonePointerToString(source.Publisher)
-
-	// Settings
-	if source.Settings != nil {
-		settingMap := make(map[string]v1.JSON, len(source.Settings))
-		for settingKey, settingValue := range source.Settings {
-			settingMap[settingKey] = *settingValue.DeepCopy()
-		}
-		extension.Settings = settingMap
-	} else {
-		extension.Settings = nil
-	}
-
-	// SuppressFailures
-	if source.SuppressFailures != nil {
-		suppressFailure := *source.SuppressFailures
-		extension.SuppressFailures = &suppressFailure
-	} else {
-		extension.SuppressFailures = nil
-	}
-
-	// Type
-	extension.Type = genruntime.ClonePointerToString(source.PropertiesType)
-
-	// TypeHandlerVersion
-	extension.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
 
 	// No error
 	return nil
@@ -10738,104 +9806,6 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachineScaleSetNetworkConfiguration_STATUS populates our VirtualMachineScaleSetNetworkConfiguration from the provided source VirtualMachineScaleSetNetworkConfiguration_STATUS
-func (configuration *VirtualMachineScaleSetNetworkConfiguration) Initialize_From_VirtualMachineScaleSetNetworkConfiguration_STATUS(source *VirtualMachineScaleSetNetworkConfiguration_STATUS) error {
-
-	// DeleteOption
-	if source.DeleteOption != nil {
-		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), virtualMachineScaleSetNetworkConfigurationProperties_DeleteOption_Values)
-		configuration.DeleteOption = &deleteOption
-	} else {
-		configuration.DeleteOption = nil
-	}
-
-	// DnsSettings
-	if source.DnsSettings != nil {
-		var dnsSetting VirtualMachineScaleSetNetworkConfigurationDnsSettings
-		err := dnsSetting.Initialize_From_VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS(source.DnsSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS() to populate field DnsSettings")
-		}
-		configuration.DnsSettings = &dnsSetting
-	} else {
-		configuration.DnsSettings = nil
-	}
-
-	// EnableAcceleratedNetworking
-	if source.EnableAcceleratedNetworking != nil {
-		enableAcceleratedNetworking := *source.EnableAcceleratedNetworking
-		configuration.EnableAcceleratedNetworking = &enableAcceleratedNetworking
-	} else {
-		configuration.EnableAcceleratedNetworking = nil
-	}
-
-	// EnableFpga
-	if source.EnableFpga != nil {
-		enableFpga := *source.EnableFpga
-		configuration.EnableFpga = &enableFpga
-	} else {
-		configuration.EnableFpga = nil
-	}
-
-	// EnableIPForwarding
-	if source.EnableIPForwarding != nil {
-		enableIPForwarding := *source.EnableIPForwarding
-		configuration.EnableIPForwarding = &enableIPForwarding
-	} else {
-		configuration.EnableIPForwarding = nil
-	}
-
-	// IpConfigurations
-	if source.IpConfigurations != nil {
-		ipConfigurationList := make([]VirtualMachineScaleSetIPConfiguration, len(source.IpConfigurations))
-		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-			var ipConfiguration VirtualMachineScaleSetIPConfiguration
-			err := ipConfiguration.Initialize_From_VirtualMachineScaleSetIPConfiguration_STATUS(&ipConfigurationItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetIPConfiguration_STATUS() to populate field IpConfigurations")
-			}
-			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
-		}
-		configuration.IpConfigurations = ipConfigurationList
-	} else {
-		configuration.IpConfigurations = nil
-	}
-
-	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
-
-	// NetworkSecurityGroup
-	if source.NetworkSecurityGroup != nil {
-		var networkSecurityGroup SubResource
-		err := networkSecurityGroup.Initialize_From_SubResource_STATUS(source.NetworkSecurityGroup)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field NetworkSecurityGroup")
-		}
-		configuration.NetworkSecurityGroup = &networkSecurityGroup
-	} else {
-		configuration.NetworkSecurityGroup = nil
-	}
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		configuration.Primary = &primary
-	} else {
-		configuration.Primary = nil
-	}
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		configuration.Reference = &reference
-	} else {
-		configuration.Reference = nil
 	}
 
 	// No error
@@ -11657,98 +10627,6 @@ func (disk *VirtualMachineScaleSetOSDisk) AssignProperties_To_VirtualMachineScal
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachineScaleSetOSDisk_STATUS populates our VirtualMachineScaleSetOSDisk from the provided source VirtualMachineScaleSetOSDisk_STATUS
-func (disk *VirtualMachineScaleSetOSDisk) Initialize_From_VirtualMachineScaleSetOSDisk_STATUS(source *VirtualMachineScaleSetOSDisk_STATUS) error {
-
-	// Caching
-	if source.Caching != nil {
-		caching := genruntime.ToEnum(string(*source.Caching), caching_Values)
-		disk.Caching = &caching
-	} else {
-		disk.Caching = nil
-	}
-
-	// CreateOption
-	if source.CreateOption != nil {
-		createOption := genruntime.ToEnum(string(*source.CreateOption), createOption_Values)
-		disk.CreateOption = &createOption
-	} else {
-		disk.CreateOption = nil
-	}
-
-	// DeleteOption
-	if source.DeleteOption != nil {
-		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), deleteOption_Values)
-		disk.DeleteOption = &deleteOption
-	} else {
-		disk.DeleteOption = nil
-	}
-
-	// DiffDiskSettings
-	if source.DiffDiskSettings != nil {
-		var diffDiskSetting DiffDiskSettings
-		err := diffDiskSetting.Initialize_From_DiffDiskSettings_STATUS(source.DiffDiskSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DiffDiskSettings_STATUS() to populate field DiffDiskSettings")
-		}
-		disk.DiffDiskSettings = &diffDiskSetting
-	} else {
-		disk.DiffDiskSettings = nil
-	}
-
-	// DiskSizeGB
-	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// Image
-	if source.Image != nil {
-		var image VirtualHardDisk
-		err := image.Initialize_From_VirtualHardDisk_STATUS(source.Image)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualHardDisk_STATUS() to populate field Image")
-		}
-		disk.Image = &image
-	} else {
-		disk.Image = nil
-	}
-
-	// ManagedDisk
-	if source.ManagedDisk != nil {
-		var managedDisk VirtualMachineScaleSetManagedDiskParameters
-		err := managedDisk.Initialize_From_VirtualMachineScaleSetManagedDiskParameters_STATUS(source.ManagedDisk)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetManagedDiskParameters_STATUS() to populate field ManagedDisk")
-		}
-		disk.ManagedDisk = &managedDisk
-	} else {
-		disk.ManagedDisk = nil
-	}
-
-	// Name
-	disk.Name = genruntime.ClonePointerToString(source.Name)
-
-	// OsType
-	if source.OsType != nil {
-		osType := genruntime.ToEnum(string(*source.OsType), virtualMachineScaleSetOSDisk_OsType_Values)
-		disk.OsType = &osType
-	} else {
-		disk.OsType = nil
-	}
-
-	// VhdContainers
-	disk.VhdContainers = genruntime.CloneSliceOfString(source.VhdContainers)
-
-	// WriteAcceleratorEnabled
-	if source.WriteAcceleratorEnabled != nil {
-		writeAcceleratorEnabled := *source.WriteAcceleratorEnabled
-		disk.WriteAcceleratorEnabled = &writeAcceleratorEnabled
-	} else {
-		disk.WriteAcceleratorEnabled = nil
 	}
 
 	// No error
@@ -12627,128 +11505,6 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignProperties_To_
 	return nil
 }
 
-// Initialize_From_VirtualMachineScaleSetIPConfiguration_STATUS populates our VirtualMachineScaleSetIPConfiguration from the provided source VirtualMachineScaleSetIPConfiguration_STATUS
-func (configuration *VirtualMachineScaleSetIPConfiguration) Initialize_From_VirtualMachineScaleSetIPConfiguration_STATUS(source *VirtualMachineScaleSetIPConfiguration_STATUS) error {
-
-	// ApplicationGatewayBackendAddressPools
-	if source.ApplicationGatewayBackendAddressPools != nil {
-		applicationGatewayBackendAddressPoolList := make([]SubResource, len(source.ApplicationGatewayBackendAddressPools))
-		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
-			var applicationGatewayBackendAddressPool SubResource
-			err := applicationGatewayBackendAddressPool.Initialize_From_SubResource_STATUS(&applicationGatewayBackendAddressPoolItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field ApplicationGatewayBackendAddressPools")
-			}
-			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
-		}
-		configuration.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
-	} else {
-		configuration.ApplicationGatewayBackendAddressPools = nil
-	}
-
-	// ApplicationSecurityGroups
-	if source.ApplicationSecurityGroups != nil {
-		applicationSecurityGroupList := make([]SubResource, len(source.ApplicationSecurityGroups))
-		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-			var applicationSecurityGroup SubResource
-			err := applicationSecurityGroup.Initialize_From_SubResource_STATUS(&applicationSecurityGroupItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field ApplicationSecurityGroups")
-			}
-			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
-		}
-		configuration.ApplicationSecurityGroups = applicationSecurityGroupList
-	} else {
-		configuration.ApplicationSecurityGroups = nil
-	}
-
-	// LoadBalancerBackendAddressPools
-	if source.LoadBalancerBackendAddressPools != nil {
-		loadBalancerBackendAddressPoolList := make([]SubResource, len(source.LoadBalancerBackendAddressPools))
-		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
-			var loadBalancerBackendAddressPool SubResource
-			err := loadBalancerBackendAddressPool.Initialize_From_SubResource_STATUS(&loadBalancerBackendAddressPoolItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field LoadBalancerBackendAddressPools")
-			}
-			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
-		}
-		configuration.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
-	} else {
-		configuration.LoadBalancerBackendAddressPools = nil
-	}
-
-	// LoadBalancerInboundNatPools
-	if source.LoadBalancerInboundNatPools != nil {
-		loadBalancerInboundNatPoolList := make([]SubResource, len(source.LoadBalancerInboundNatPools))
-		for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range source.LoadBalancerInboundNatPools {
-			var loadBalancerInboundNatPool SubResource
-			err := loadBalancerInboundNatPool.Initialize_From_SubResource_STATUS(&loadBalancerInboundNatPoolItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field LoadBalancerInboundNatPools")
-			}
-			loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
-		}
-		configuration.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
-	} else {
-		configuration.LoadBalancerInboundNatPools = nil
-	}
-
-	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		configuration.Primary = &primary
-	} else {
-		configuration.Primary = nil
-	}
-
-	// PrivateIPAddressVersion
-	if source.PrivateIPAddressVersion != nil {
-		privateIPAddressVersion := genruntime.ToEnum(string(*source.PrivateIPAddressVersion), virtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_Values)
-		configuration.PrivateIPAddressVersion = &privateIPAddressVersion
-	} else {
-		configuration.PrivateIPAddressVersion = nil
-	}
-
-	// PublicIPAddressConfiguration
-	if source.PublicIPAddressConfiguration != nil {
-		var publicIPAddressConfiguration VirtualMachineScaleSetPublicIPAddressConfiguration
-		err := publicIPAddressConfiguration.Initialize_From_VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(source.PublicIPAddressConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS() to populate field PublicIPAddressConfiguration")
-		}
-		configuration.PublicIPAddressConfiguration = &publicIPAddressConfiguration
-	} else {
-		configuration.PublicIPAddressConfiguration = nil
-	}
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		configuration.Reference = &reference
-	} else {
-		configuration.Reference = nil
-	}
-
-	// Subnet
-	if source.Subnet != nil {
-		var subnet ApiEntityReference
-		err := subnet.Initialize_From_ApiEntityReference_STATUS(source.Subnet)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ApiEntityReference_STATUS() to populate field Subnet")
-		}
-		configuration.Subnet = &subnet
-	} else {
-		configuration.Subnet = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Describes a virtual machine scale set network profile's IP configuration.
 type VirtualMachineScaleSetIPConfiguration_STATUS struct {
 	// ApplicationGatewayBackendAddressPools: Specifies an array of references to backend address pools of application
@@ -13349,45 +12105,6 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) AssignProperties_
 	return nil
 }
 
-// Initialize_From_VirtualMachineScaleSetManagedDiskParameters_STATUS populates our VirtualMachineScaleSetManagedDiskParameters from the provided source VirtualMachineScaleSetManagedDiskParameters_STATUS
-func (parameters *VirtualMachineScaleSetManagedDiskParameters) Initialize_From_VirtualMachineScaleSetManagedDiskParameters_STATUS(source *VirtualMachineScaleSetManagedDiskParameters_STATUS) error {
-
-	// DiskEncryptionSet
-	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet SubResource
-		err := diskEncryptionSet.Initialize_From_SubResource_STATUS(source.DiskEncryptionSet)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field DiskEncryptionSet")
-		}
-		parameters.DiskEncryptionSet = &diskEncryptionSet
-	} else {
-		parameters.DiskEncryptionSet = nil
-	}
-
-	// SecurityProfile
-	if source.SecurityProfile != nil {
-		var securityProfile VMDiskSecurityProfile
-		err := securityProfile.Initialize_From_VMDiskSecurityProfile_STATUS(source.SecurityProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VMDiskSecurityProfile_STATUS() to populate field SecurityProfile")
-		}
-		parameters.SecurityProfile = &securityProfile
-	} else {
-		parameters.SecurityProfile = nil
-	}
-
-	// StorageAccountType
-	if source.StorageAccountType != nil {
-		storageAccountType := genruntime.ToEnum(string(*source.StorageAccountType), storageAccountType_Values)
-		parameters.StorageAccountType = &storageAccountType
-	} else {
-		parameters.StorageAccountType = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Describes the parameters of a ScaleSet managed disk.
 type VirtualMachineScaleSetManagedDiskParameters_STATUS struct {
 	// DiskEncryptionSet: Specifies the customer managed disk encryption set resource id for the managed disk.
@@ -13604,16 +12321,6 @@ func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) AssignPro
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS populates our VirtualMachineScaleSetNetworkConfigurationDnsSettings from the provided source VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS
-func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) Initialize_From_VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS(source *VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS) error {
-
-	// DnsServers
-	settings.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
 
 	// No error
 	return nil
@@ -14141,87 +12848,6 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration) AssignP
 	return nil
 }
 
-// Initialize_From_VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS populates our VirtualMachineScaleSetPublicIPAddressConfiguration from the provided source VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS
-func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration) Initialize_From_VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(source *VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS) error {
-
-	// DeleteOption
-	if source.DeleteOption != nil {
-		deleteOption := genruntime.ToEnum(string(*source.DeleteOption), virtualMachineScaleSetPublicIPAddressConfigurationProperties_DeleteOption_Values)
-		configuration.DeleteOption = &deleteOption
-	} else {
-		configuration.DeleteOption = nil
-	}
-
-	// DnsSettings
-	if source.DnsSettings != nil {
-		var dnsSetting VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
-		err := dnsSetting.Initialize_From_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS(source.DnsSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS() to populate field DnsSettings")
-		}
-		configuration.DnsSettings = &dnsSetting
-	} else {
-		configuration.DnsSettings = nil
-	}
-
-	// IdleTimeoutInMinutes
-	configuration.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
-
-	// IpTags
-	if source.IpTags != nil {
-		ipTagList := make([]VirtualMachineScaleSetIpTag, len(source.IpTags))
-		for ipTagIndex, ipTagItem := range source.IpTags {
-			var ipTag VirtualMachineScaleSetIpTag
-			err := ipTag.Initialize_From_VirtualMachineScaleSetIpTag_STATUS(&ipTagItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_VirtualMachineScaleSetIpTag_STATUS() to populate field IpTags")
-			}
-			ipTagList[ipTagIndex] = ipTag
-		}
-		configuration.IpTags = ipTagList
-	} else {
-		configuration.IpTags = nil
-	}
-
-	// Name
-	configuration.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PublicIPAddressVersion
-	if source.PublicIPAddressVersion != nil {
-		publicIPAddressVersion := genruntime.ToEnum(string(*source.PublicIPAddressVersion), virtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_Values)
-		configuration.PublicIPAddressVersion = &publicIPAddressVersion
-	} else {
-		configuration.PublicIPAddressVersion = nil
-	}
-
-	// PublicIPPrefix
-	if source.PublicIPPrefix != nil {
-		var publicIPPrefix SubResource
-		err := publicIPPrefix.Initialize_From_SubResource_STATUS(source.PublicIPPrefix)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field PublicIPPrefix")
-		}
-		configuration.PublicIPPrefix = &publicIPPrefix
-	} else {
-		configuration.PublicIPPrefix = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku PublicIPAddressSku
-		err := sku.Initialize_From_PublicIPAddressSku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_PublicIPAddressSku_STATUS() to populate field Sku")
-		}
-		configuration.Sku = &sku
-	} else {
-		configuration.Sku = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Describes a virtual machines scale set IP Configuration's PublicIPAddress configuration
 type VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS struct {
 	// DeleteOption: Specify what happens to the public IP when the VM is deleted
@@ -14625,19 +13251,6 @@ func (ipTag *VirtualMachineScaleSetIpTag) AssignProperties_To_VirtualMachineScal
 	return nil
 }
 
-// Initialize_From_VirtualMachineScaleSetIpTag_STATUS populates our VirtualMachineScaleSetIpTag from the provided source VirtualMachineScaleSetIpTag_STATUS
-func (ipTag *VirtualMachineScaleSetIpTag) Initialize_From_VirtualMachineScaleSetIpTag_STATUS(source *VirtualMachineScaleSetIpTag_STATUS) error {
-
-	// IpTagType
-	ipTag.IpTagType = genruntime.ClonePointerToString(source.IpTagType)
-
-	// Tag
-	ipTag.Tag = genruntime.ClonePointerToString(source.Tag)
-
-	// No error
-	return nil
-}
-
 // Contains the IP tag associated with the public IP address.
 type VirtualMachineScaleSetIpTag_STATUS struct {
 	// IpTagType: IP tag type. Example: FirstPartyUsage.
@@ -14783,16 +13396,6 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) A
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS populates our VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings from the provided source VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS
-func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) Initialize_From_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS(source *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS) error {
-
-	// DomainNameLabel
-	settings.DomainNameLabel = genruntime.ClonePointerToString(source.DomainNameLabel)
 
 	// No error
 	return nil

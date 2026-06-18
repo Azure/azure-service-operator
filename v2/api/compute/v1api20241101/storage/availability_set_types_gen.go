@@ -4,7 +4,8 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20250401/storage"
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v20241101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -13,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=compute.azure.com,resources=availabilitysets,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=compute.azure.com,resources={availabilitysets/status,availabilitysets/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,compute}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -47,6 +45,28 @@ func (availabilitySet *AvailabilitySet) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (availabilitySet *AvailabilitySet) SetConditions(conditions conditions.Conditions) {
 	availabilitySet.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &AvailabilitySet{}
+
+// ConvertFrom populates our AvailabilitySet from the provided hub AvailabilitySet
+func (availabilitySet *AvailabilitySet) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.AvailabilitySet)
+	if !ok {
+		return fmt.Errorf("expected compute/v20241101/storage/AvailabilitySet but received %T instead", hub)
+	}
+
+	return availabilitySet.AssignProperties_From_AvailabilitySet(source)
+}
+
+// ConvertTo populates the provided hub AvailabilitySet from our AvailabilitySet
+func (availabilitySet *AvailabilitySet) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.AvailabilitySet)
+	if !ok {
+		return fmt.Errorf("expected compute/v20241101/storage/AvailabilitySet but received %T instead", hub)
+	}
+
+	return availabilitySet.AssignProperties_To_AvailabilitySet(destination)
 }
 
 var _ configmaps.Exporter = &AvailabilitySet{}
@@ -144,8 +164,75 @@ func (availabilitySet *AvailabilitySet) SetStatus(status genruntime.ConvertibleS
 	return nil
 }
 
-// Hub marks that this AvailabilitySet is the hub type for conversion
-func (availabilitySet *AvailabilitySet) Hub() {}
+// AssignProperties_From_AvailabilitySet populates our AvailabilitySet from the provided source AvailabilitySet
+func (availabilitySet *AvailabilitySet) AssignProperties_From_AvailabilitySet(source *storage.AvailabilitySet) error {
+
+	// ObjectMeta
+	availabilitySet.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec AvailabilitySet_Spec
+	err := spec.AssignProperties_From_AvailabilitySet_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_AvailabilitySet_Spec() to populate field Spec")
+	}
+	availabilitySet.Spec = spec
+
+	// Status
+	var status AvailabilitySet_STATUS
+	err = status.AssignProperties_From_AvailabilitySet_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_AvailabilitySet_STATUS() to populate field Status")
+	}
+	availabilitySet.Status = status
+
+	// Invoke the augmentConversionForAvailabilitySet interface (if implemented) to customize the conversion
+	var availabilitySetAsAny any = availabilitySet
+	if augmentedAvailabilitySet, ok := availabilitySetAsAny.(augmentConversionForAvailabilitySet); ok {
+		err := augmentedAvailabilitySet.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AvailabilitySet populates the provided destination AvailabilitySet from our AvailabilitySet
+func (availabilitySet *AvailabilitySet) AssignProperties_To_AvailabilitySet(destination *storage.AvailabilitySet) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *availabilitySet.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.AvailabilitySet_Spec
+	err := availabilitySet.Spec.AssignProperties_To_AvailabilitySet_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_AvailabilitySet_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.AvailabilitySet_STATUS
+	err = availabilitySet.Status.AssignProperties_To_AvailabilitySet_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_AvailabilitySet_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForAvailabilitySet interface (if implemented) to customize the conversion
+	var availabilitySetAsAny any = availabilitySet
+	if augmentedAvailabilitySet, ok := availabilitySetAsAny.(augmentConversionForAvailabilitySet); ok {
+		err := augmentedAvailabilitySet.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (availabilitySet *AvailabilitySet) OriginalGVK() *schema.GroupVersionKind {
@@ -172,6 +259,11 @@ type AvailabilitySetList struct {
 type APIVersion string
 
 const APIVersion_Value = APIVersion("2024-11-01")
+
+type augmentConversionForAvailabilitySet interface {
+	AssignPropertiesFrom(src *storage.AvailabilitySet) error
+	AssignPropertiesTo(dst *storage.AvailabilitySet) error
+}
 
 // Storage version of v1api20241101.AvailabilitySet_Spec
 type AvailabilitySet_Spec struct {
@@ -200,20 +292,248 @@ var _ genruntime.ConvertibleSpec = &AvailabilitySet_Spec{}
 
 // ConvertSpecFrom populates our AvailabilitySet_Spec from the provided source
 func (availabilitySet *AvailabilitySet_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == availabilitySet {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.AvailabilitySet_Spec)
+	if ok {
+		// Populate our instance from source
+		return availabilitySet.AssignProperties_From_AvailabilitySet_Spec(src)
 	}
 
-	return source.ConvertSpecTo(availabilitySet)
+	// Convert to an intermediate form
+	src = &storage.AvailabilitySet_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = availabilitySet.AssignProperties_From_AvailabilitySet_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our AvailabilitySet_Spec
 func (availabilitySet *AvailabilitySet_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == availabilitySet {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.AvailabilitySet_Spec)
+	if ok {
+		// Populate destination from our instance
+		return availabilitySet.AssignProperties_To_AvailabilitySet_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(availabilitySet)
+	// Convert to an intermediate form
+	dst = &storage.AvailabilitySet_Spec{}
+	err := availabilitySet.AssignProperties_To_AvailabilitySet_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_AvailabilitySet_Spec populates our AvailabilitySet_Spec from the provided source AvailabilitySet_Spec
+func (availabilitySet *AvailabilitySet_Spec) AssignProperties_From_AvailabilitySet_Spec(source *storage.AvailabilitySet_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	availabilitySet.AzureName = source.AzureName
+
+	// Location
+	availabilitySet.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec AvailabilitySetOperatorSpec
+		err := operatorSpec.AssignProperties_From_AvailabilitySetOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_AvailabilitySetOperatorSpec() to populate field OperatorSpec")
+		}
+		availabilitySet.OperatorSpec = &operatorSpec
+	} else {
+		availabilitySet.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	availabilitySet.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		availabilitySet.Owner = &owner
+	} else {
+		availabilitySet.Owner = nil
+	}
+
+	// PlatformFaultDomainCount
+	availabilitySet.PlatformFaultDomainCount = genruntime.ClonePointerToInt(source.PlatformFaultDomainCount)
+
+	// PlatformUpdateDomainCount
+	availabilitySet.PlatformUpdateDomainCount = genruntime.ClonePointerToInt(source.PlatformUpdateDomainCount)
+
+	// ProximityPlacementGroup
+	if source.ProximityPlacementGroup != nil {
+		var proximityPlacementGroup SubResource
+		err := proximityPlacementGroup.AssignProperties_From_SubResource(source.ProximityPlacementGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field ProximityPlacementGroup")
+		}
+		availabilitySet.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		availabilitySet.ProximityPlacementGroup = nil
+	}
+
+	// ScheduledEventsPolicy
+	if source.ScheduledEventsPolicy != nil {
+		var scheduledEventsPolicy ScheduledEventsPolicy
+		err := scheduledEventsPolicy.AssignProperties_From_ScheduledEventsPolicy(source.ScheduledEventsPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ScheduledEventsPolicy() to populate field ScheduledEventsPolicy")
+		}
+		availabilitySet.ScheduledEventsPolicy = &scheduledEventsPolicy
+	} else {
+		availabilitySet.ScheduledEventsPolicy = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.AssignProperties_From_Sku(source.Sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+		}
+		availabilitySet.Sku = &sku
+	} else {
+		availabilitySet.Sku = nil
+	}
+
+	// Tags
+	availabilitySet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		availabilitySet.PropertyBag = propertyBag
+	} else {
+		availabilitySet.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAvailabilitySet_Spec interface (if implemented) to customize the conversion
+	var availabilitySetAsAny any = availabilitySet
+	if augmentedAvailabilitySet, ok := availabilitySetAsAny.(augmentConversionForAvailabilitySet_Spec); ok {
+		err := augmentedAvailabilitySet.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AvailabilitySet_Spec populates the provided destination AvailabilitySet_Spec from our AvailabilitySet_Spec
+func (availabilitySet *AvailabilitySet_Spec) AssignProperties_To_AvailabilitySet_Spec(destination *storage.AvailabilitySet_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(availabilitySet.PropertyBag)
+
+	// AzureName
+	destination.AzureName = availabilitySet.AzureName
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(availabilitySet.Location)
+
+	// OperatorSpec
+	if availabilitySet.OperatorSpec != nil {
+		var operatorSpec storage.AvailabilitySetOperatorSpec
+		err := availabilitySet.OperatorSpec.AssignProperties_To_AvailabilitySetOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AvailabilitySetOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = availabilitySet.OriginalVersion
+
+	// Owner
+	if availabilitySet.Owner != nil {
+		owner := availabilitySet.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PlatformFaultDomainCount
+	destination.PlatformFaultDomainCount = genruntime.ClonePointerToInt(availabilitySet.PlatformFaultDomainCount)
+
+	// PlatformUpdateDomainCount
+	destination.PlatformUpdateDomainCount = genruntime.ClonePointerToInt(availabilitySet.PlatformUpdateDomainCount)
+
+	// ProximityPlacementGroup
+	if availabilitySet.ProximityPlacementGroup != nil {
+		var proximityPlacementGroup storage.SubResource
+		err := availabilitySet.ProximityPlacementGroup.AssignProperties_To_SubResource(&proximityPlacementGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field ProximityPlacementGroup")
+		}
+		destination.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		destination.ProximityPlacementGroup = nil
+	}
+
+	// ScheduledEventsPolicy
+	if availabilitySet.ScheduledEventsPolicy != nil {
+		var scheduledEventsPolicy storage.ScheduledEventsPolicy
+		err := availabilitySet.ScheduledEventsPolicy.AssignProperties_To_ScheduledEventsPolicy(&scheduledEventsPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ScheduledEventsPolicy() to populate field ScheduledEventsPolicy")
+		}
+		destination.ScheduledEventsPolicy = &scheduledEventsPolicy
+	} else {
+		destination.ScheduledEventsPolicy = nil
+	}
+
+	// Sku
+	if availabilitySet.Sku != nil {
+		var sku storage.Sku
+		err := availabilitySet.Sku.AssignProperties_To_Sku(&sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(availabilitySet.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAvailabilitySet_Spec interface (if implemented) to customize the conversion
+	var availabilitySetAsAny any = availabilitySet
+	if augmentedAvailabilitySet, ok := availabilitySetAsAny.(augmentConversionForAvailabilitySet_Spec); ok {
+		err := augmentedAvailabilitySet.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20241101.AvailabilitySet_STATUS
@@ -247,20 +567,342 @@ var _ genruntime.ConvertibleStatus = &AvailabilitySet_STATUS{}
 
 // ConvertStatusFrom populates our AvailabilitySet_STATUS from the provided source
 func (availabilitySet *AvailabilitySet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == availabilitySet {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.AvailabilitySet_STATUS)
+	if ok {
+		// Populate our instance from source
+		return availabilitySet.AssignProperties_From_AvailabilitySet_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(availabilitySet)
+	// Convert to an intermediate form
+	src = &storage.AvailabilitySet_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = availabilitySet.AssignProperties_From_AvailabilitySet_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our AvailabilitySet_STATUS
 func (availabilitySet *AvailabilitySet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == availabilitySet {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.AvailabilitySet_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return availabilitySet.AssignProperties_To_AvailabilitySet_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(availabilitySet)
+	// Convert to an intermediate form
+	dst = &storage.AvailabilitySet_STATUS{}
+	err := availabilitySet.AssignProperties_To_AvailabilitySet_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_AvailabilitySet_STATUS populates our AvailabilitySet_STATUS from the provided source AvailabilitySet_STATUS
+func (availabilitySet *AvailabilitySet_STATUS) AssignProperties_From_AvailabilitySet_STATUS(source *storage.AvailabilitySet_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	availabilitySet.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	availabilitySet.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	availabilitySet.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	availabilitySet.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PlatformFaultDomainCount
+	availabilitySet.PlatformFaultDomainCount = genruntime.ClonePointerToInt(source.PlatformFaultDomainCount)
+
+	// PlatformUpdateDomainCount
+	availabilitySet.PlatformUpdateDomainCount = genruntime.ClonePointerToInt(source.PlatformUpdateDomainCount)
+
+	// ProximityPlacementGroup
+	if source.ProximityPlacementGroup != nil {
+		var proximityPlacementGroup SubResource_STATUS
+		err := proximityPlacementGroup.AssignProperties_From_SubResource_STATUS(source.ProximityPlacementGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field ProximityPlacementGroup")
+		}
+		availabilitySet.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		availabilitySet.ProximityPlacementGroup = nil
+	}
+
+	// ScheduledEventsPolicy
+	if source.ScheduledEventsPolicy != nil {
+		var scheduledEventsPolicy ScheduledEventsPolicy_STATUS
+		err := scheduledEventsPolicy.AssignProperties_From_ScheduledEventsPolicy_STATUS(source.ScheduledEventsPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ScheduledEventsPolicy_STATUS() to populate field ScheduledEventsPolicy")
+		}
+		availabilitySet.ScheduledEventsPolicy = &scheduledEventsPolicy
+	} else {
+		availabilitySet.ScheduledEventsPolicy = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku_STATUS
+		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+		}
+		availabilitySet.Sku = &sku
+	} else {
+		availabilitySet.Sku = nil
+	}
+
+	// Statuses
+	if source.Statuses != nil {
+		statusList := make([]InstanceViewStatus_STATUS, len(source.Statuses))
+		for statusIndex, statusItem := range source.Statuses {
+			var status InstanceViewStatus_STATUS
+			err := status.AssignProperties_From_InstanceViewStatus_STATUS(&statusItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_InstanceViewStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
+		}
+		availabilitySet.Statuses = statusList
+	} else {
+		availabilitySet.Statuses = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		availabilitySet.SystemData = &systemDatum
+	} else {
+		availabilitySet.SystemData = nil
+	}
+
+	// Tags
+	availabilitySet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	availabilitySet.Type = genruntime.ClonePointerToString(source.Type)
+
+	// VirtualMachineScaleSetMigrationInfo
+	if source.VirtualMachineScaleSetMigrationInfo != nil {
+		var virtualMachineScaleSetMigrationInfo VirtualMachineScaleSetMigrationInfo_STATUS
+		err := virtualMachineScaleSetMigrationInfo.AssignProperties_From_VirtualMachineScaleSetMigrationInfo_STATUS(source.VirtualMachineScaleSetMigrationInfo)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_VirtualMachineScaleSetMigrationInfo_STATUS() to populate field VirtualMachineScaleSetMigrationInfo")
+		}
+		availabilitySet.VirtualMachineScaleSetMigrationInfo = &virtualMachineScaleSetMigrationInfo
+	} else {
+		availabilitySet.VirtualMachineScaleSetMigrationInfo = nil
+	}
+
+	// VirtualMachines
+	if source.VirtualMachines != nil {
+		virtualMachineList := make([]SubResource_STATUS, len(source.VirtualMachines))
+		for virtualMachineIndex, virtualMachineItem := range source.VirtualMachines {
+			var virtualMachine SubResource_STATUS
+			err := virtualMachine.AssignProperties_From_SubResource_STATUS(&virtualMachineItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualMachines")
+			}
+			virtualMachineList[virtualMachineIndex] = virtualMachine
+		}
+		availabilitySet.VirtualMachines = virtualMachineList
+	} else {
+		availabilitySet.VirtualMachines = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		availabilitySet.PropertyBag = propertyBag
+	} else {
+		availabilitySet.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAvailabilitySet_STATUS interface (if implemented) to customize the conversion
+	var availabilitySetAsAny any = availabilitySet
+	if augmentedAvailabilitySet, ok := availabilitySetAsAny.(augmentConversionForAvailabilitySet_STATUS); ok {
+		err := augmentedAvailabilitySet.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AvailabilitySet_STATUS populates the provided destination AvailabilitySet_STATUS from our AvailabilitySet_STATUS
+func (availabilitySet *AvailabilitySet_STATUS) AssignProperties_To_AvailabilitySet_STATUS(destination *storage.AvailabilitySet_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(availabilitySet.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(availabilitySet.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(availabilitySet.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(availabilitySet.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(availabilitySet.Name)
+
+	// PlatformFaultDomainCount
+	destination.PlatformFaultDomainCount = genruntime.ClonePointerToInt(availabilitySet.PlatformFaultDomainCount)
+
+	// PlatformUpdateDomainCount
+	destination.PlatformUpdateDomainCount = genruntime.ClonePointerToInt(availabilitySet.PlatformUpdateDomainCount)
+
+	// ProximityPlacementGroup
+	if availabilitySet.ProximityPlacementGroup != nil {
+		var proximityPlacementGroup storage.SubResource_STATUS
+		err := availabilitySet.ProximityPlacementGroup.AssignProperties_To_SubResource_STATUS(&proximityPlacementGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ProximityPlacementGroup")
+		}
+		destination.ProximityPlacementGroup = &proximityPlacementGroup
+	} else {
+		destination.ProximityPlacementGroup = nil
+	}
+
+	// ScheduledEventsPolicy
+	if availabilitySet.ScheduledEventsPolicy != nil {
+		var scheduledEventsPolicy storage.ScheduledEventsPolicy_STATUS
+		err := availabilitySet.ScheduledEventsPolicy.AssignProperties_To_ScheduledEventsPolicy_STATUS(&scheduledEventsPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ScheduledEventsPolicy_STATUS() to populate field ScheduledEventsPolicy")
+		}
+		destination.ScheduledEventsPolicy = &scheduledEventsPolicy
+	} else {
+		destination.ScheduledEventsPolicy = nil
+	}
+
+	// Sku
+	if availabilitySet.Sku != nil {
+		var sku storage.Sku_STATUS
+		err := availabilitySet.Sku.AssignProperties_To_Sku_STATUS(&sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Statuses
+	if availabilitySet.Statuses != nil {
+		statusList := make([]storage.InstanceViewStatus_STATUS, len(availabilitySet.Statuses))
+		for statusIndex, statusItem := range availabilitySet.Statuses {
+			var status storage.InstanceViewStatus_STATUS
+			err := statusItem.AssignProperties_To_InstanceViewStatus_STATUS(&status)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_InstanceViewStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
+		}
+		destination.Statuses = statusList
+	} else {
+		destination.Statuses = nil
+	}
+
+	// SystemData
+	if availabilitySet.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := availabilitySet.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(availabilitySet.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(availabilitySet.Type)
+
+	// VirtualMachineScaleSetMigrationInfo
+	if availabilitySet.VirtualMachineScaleSetMigrationInfo != nil {
+		var virtualMachineScaleSetMigrationInfo storage.VirtualMachineScaleSetMigrationInfo_STATUS
+		err := availabilitySet.VirtualMachineScaleSetMigrationInfo.AssignProperties_To_VirtualMachineScaleSetMigrationInfo_STATUS(&virtualMachineScaleSetMigrationInfo)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_VirtualMachineScaleSetMigrationInfo_STATUS() to populate field VirtualMachineScaleSetMigrationInfo")
+		}
+		destination.VirtualMachineScaleSetMigrationInfo = &virtualMachineScaleSetMigrationInfo
+	} else {
+		destination.VirtualMachineScaleSetMigrationInfo = nil
+	}
+
+	// VirtualMachines
+	if availabilitySet.VirtualMachines != nil {
+		virtualMachineList := make([]storage.SubResource_STATUS, len(availabilitySet.VirtualMachines))
+		for virtualMachineIndex, virtualMachineItem := range availabilitySet.VirtualMachines {
+			var virtualMachine storage.SubResource_STATUS
+			err := virtualMachineItem.AssignProperties_To_SubResource_STATUS(&virtualMachine)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualMachines")
+			}
+			virtualMachineList[virtualMachineIndex] = virtualMachine
+		}
+		destination.VirtualMachines = virtualMachineList
+	} else {
+		destination.VirtualMachines = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAvailabilitySet_STATUS interface (if implemented) to customize the conversion
+	var availabilitySetAsAny any = availabilitySet
+	if augmentedAvailabilitySet, ok := availabilitySetAsAny.(augmentConversionForAvailabilitySet_STATUS); ok {
+		err := augmentedAvailabilitySet.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForAvailabilitySet_Spec interface {
+	AssignPropertiesFrom(src *storage.AvailabilitySet_Spec) error
+	AssignPropertiesTo(dst *storage.AvailabilitySet_Spec) error
+}
+
+type augmentConversionForAvailabilitySet_STATUS interface {
+	AssignPropertiesFrom(src *storage.AvailabilitySet_STATUS) error
+	AssignPropertiesTo(dst *storage.AvailabilitySet_STATUS) error
 }
 
 // Storage version of v1api20241101.AvailabilitySetOperatorSpec
@@ -269,6 +911,120 @@ type AvailabilitySetOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_AvailabilitySetOperatorSpec populates our AvailabilitySetOperatorSpec from the provided source AvailabilitySetOperatorSpec
+func (operator *AvailabilitySetOperatorSpec) AssignProperties_From_AvailabilitySetOperatorSpec(source *storage.AvailabilitySetOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAvailabilitySetOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForAvailabilitySetOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AvailabilitySetOperatorSpec populates the provided destination AvailabilitySetOperatorSpec from our AvailabilitySetOperatorSpec
+func (operator *AvailabilitySetOperatorSpec) AssignProperties_To_AvailabilitySetOperatorSpec(destination *storage.AvailabilitySetOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAvailabilitySetOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForAvailabilitySetOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20241101.InstanceViewStatus_STATUS
@@ -371,6 +1127,128 @@ type ScheduledEventsPolicy struct {
 	UserInitiatedRedeploy                      *UserInitiatedRedeploy                      `json:"userInitiatedRedeploy,omitempty"`
 }
 
+// AssignProperties_From_ScheduledEventsPolicy populates our ScheduledEventsPolicy from the provided source ScheduledEventsPolicy
+func (policy *ScheduledEventsPolicy) AssignProperties_From_ScheduledEventsPolicy(source *storage.ScheduledEventsPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ScheduledEventsAdditionalPublishingTargets
+	if source.ScheduledEventsAdditionalPublishingTargets != nil {
+		var scheduledEventsAdditionalPublishingTarget ScheduledEventsAdditionalPublishingTargets
+		err := scheduledEventsAdditionalPublishingTarget.AssignProperties_From_ScheduledEventsAdditionalPublishingTargets(source.ScheduledEventsAdditionalPublishingTargets)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ScheduledEventsAdditionalPublishingTargets() to populate field ScheduledEventsAdditionalPublishingTargets")
+		}
+		policy.ScheduledEventsAdditionalPublishingTargets = &scheduledEventsAdditionalPublishingTarget
+	} else {
+		policy.ScheduledEventsAdditionalPublishingTargets = nil
+	}
+
+	// UserInitiatedReboot
+	if source.UserInitiatedReboot != nil {
+		var userInitiatedReboot UserInitiatedReboot
+		err := userInitiatedReboot.AssignProperties_From_UserInitiatedReboot(source.UserInitiatedReboot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserInitiatedReboot() to populate field UserInitiatedReboot")
+		}
+		policy.UserInitiatedReboot = &userInitiatedReboot
+	} else {
+		policy.UserInitiatedReboot = nil
+	}
+
+	// UserInitiatedRedeploy
+	if source.UserInitiatedRedeploy != nil {
+		var userInitiatedRedeploy UserInitiatedRedeploy
+		err := userInitiatedRedeploy.AssignProperties_From_UserInitiatedRedeploy(source.UserInitiatedRedeploy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserInitiatedRedeploy() to populate field UserInitiatedRedeploy")
+		}
+		policy.UserInitiatedRedeploy = &userInitiatedRedeploy
+	} else {
+		policy.UserInitiatedRedeploy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForScheduledEventsPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForScheduledEventsPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ScheduledEventsPolicy populates the provided destination ScheduledEventsPolicy from our ScheduledEventsPolicy
+func (policy *ScheduledEventsPolicy) AssignProperties_To_ScheduledEventsPolicy(destination *storage.ScheduledEventsPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// ScheduledEventsAdditionalPublishingTargets
+	if policy.ScheduledEventsAdditionalPublishingTargets != nil {
+		var scheduledEventsAdditionalPublishingTarget storage.ScheduledEventsAdditionalPublishingTargets
+		err := policy.ScheduledEventsAdditionalPublishingTargets.AssignProperties_To_ScheduledEventsAdditionalPublishingTargets(&scheduledEventsAdditionalPublishingTarget)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ScheduledEventsAdditionalPublishingTargets() to populate field ScheduledEventsAdditionalPublishingTargets")
+		}
+		destination.ScheduledEventsAdditionalPublishingTargets = &scheduledEventsAdditionalPublishingTarget
+	} else {
+		destination.ScheduledEventsAdditionalPublishingTargets = nil
+	}
+
+	// UserInitiatedReboot
+	if policy.UserInitiatedReboot != nil {
+		var userInitiatedReboot storage.UserInitiatedReboot
+		err := policy.UserInitiatedReboot.AssignProperties_To_UserInitiatedReboot(&userInitiatedReboot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UserInitiatedReboot() to populate field UserInitiatedReboot")
+		}
+		destination.UserInitiatedReboot = &userInitiatedReboot
+	} else {
+		destination.UserInitiatedReboot = nil
+	}
+
+	// UserInitiatedRedeploy
+	if policy.UserInitiatedRedeploy != nil {
+		var userInitiatedRedeploy storage.UserInitiatedRedeploy
+		err := policy.UserInitiatedRedeploy.AssignProperties_To_UserInitiatedRedeploy(&userInitiatedRedeploy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UserInitiatedRedeploy() to populate field UserInitiatedRedeploy")
+		}
+		destination.UserInitiatedRedeploy = &userInitiatedRedeploy
+	} else {
+		destination.UserInitiatedRedeploy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForScheduledEventsPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForScheduledEventsPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20241101.ScheduledEventsPolicy_STATUS
 // Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations.
 type ScheduledEventsPolicy_STATUS struct {
@@ -378,6 +1256,128 @@ type ScheduledEventsPolicy_STATUS struct {
 	ScheduledEventsAdditionalPublishingTargets *ScheduledEventsAdditionalPublishingTargets_STATUS `json:"scheduledEventsAdditionalPublishingTargets,omitempty"`
 	UserInitiatedReboot                        *UserInitiatedReboot_STATUS                        `json:"userInitiatedReboot,omitempty"`
 	UserInitiatedRedeploy                      *UserInitiatedRedeploy_STATUS                      `json:"userInitiatedRedeploy,omitempty"`
+}
+
+// AssignProperties_From_ScheduledEventsPolicy_STATUS populates our ScheduledEventsPolicy_STATUS from the provided source ScheduledEventsPolicy_STATUS
+func (policy *ScheduledEventsPolicy_STATUS) AssignProperties_From_ScheduledEventsPolicy_STATUS(source *storage.ScheduledEventsPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ScheduledEventsAdditionalPublishingTargets
+	if source.ScheduledEventsAdditionalPublishingTargets != nil {
+		var scheduledEventsAdditionalPublishingTarget ScheduledEventsAdditionalPublishingTargets_STATUS
+		err := scheduledEventsAdditionalPublishingTarget.AssignProperties_From_ScheduledEventsAdditionalPublishingTargets_STATUS(source.ScheduledEventsAdditionalPublishingTargets)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ScheduledEventsAdditionalPublishingTargets_STATUS() to populate field ScheduledEventsAdditionalPublishingTargets")
+		}
+		policy.ScheduledEventsAdditionalPublishingTargets = &scheduledEventsAdditionalPublishingTarget
+	} else {
+		policy.ScheduledEventsAdditionalPublishingTargets = nil
+	}
+
+	// UserInitiatedReboot
+	if source.UserInitiatedReboot != nil {
+		var userInitiatedReboot UserInitiatedReboot_STATUS
+		err := userInitiatedReboot.AssignProperties_From_UserInitiatedReboot_STATUS(source.UserInitiatedReboot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserInitiatedReboot_STATUS() to populate field UserInitiatedReboot")
+		}
+		policy.UserInitiatedReboot = &userInitiatedReboot
+	} else {
+		policy.UserInitiatedReboot = nil
+	}
+
+	// UserInitiatedRedeploy
+	if source.UserInitiatedRedeploy != nil {
+		var userInitiatedRedeploy UserInitiatedRedeploy_STATUS
+		err := userInitiatedRedeploy.AssignProperties_From_UserInitiatedRedeploy_STATUS(source.UserInitiatedRedeploy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_UserInitiatedRedeploy_STATUS() to populate field UserInitiatedRedeploy")
+		}
+		policy.UserInitiatedRedeploy = &userInitiatedRedeploy
+	} else {
+		policy.UserInitiatedRedeploy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForScheduledEventsPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForScheduledEventsPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ScheduledEventsPolicy_STATUS populates the provided destination ScheduledEventsPolicy_STATUS from our ScheduledEventsPolicy_STATUS
+func (policy *ScheduledEventsPolicy_STATUS) AssignProperties_To_ScheduledEventsPolicy_STATUS(destination *storage.ScheduledEventsPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// ScheduledEventsAdditionalPublishingTargets
+	if policy.ScheduledEventsAdditionalPublishingTargets != nil {
+		var scheduledEventsAdditionalPublishingTarget storage.ScheduledEventsAdditionalPublishingTargets_STATUS
+		err := policy.ScheduledEventsAdditionalPublishingTargets.AssignProperties_To_ScheduledEventsAdditionalPublishingTargets_STATUS(&scheduledEventsAdditionalPublishingTarget)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ScheduledEventsAdditionalPublishingTargets_STATUS() to populate field ScheduledEventsAdditionalPublishingTargets")
+		}
+		destination.ScheduledEventsAdditionalPublishingTargets = &scheduledEventsAdditionalPublishingTarget
+	} else {
+		destination.ScheduledEventsAdditionalPublishingTargets = nil
+	}
+
+	// UserInitiatedReboot
+	if policy.UserInitiatedReboot != nil {
+		var userInitiatedReboot storage.UserInitiatedReboot_STATUS
+		err := policy.UserInitiatedReboot.AssignProperties_To_UserInitiatedReboot_STATUS(&userInitiatedReboot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UserInitiatedReboot_STATUS() to populate field UserInitiatedReboot")
+		}
+		destination.UserInitiatedReboot = &userInitiatedReboot
+	} else {
+		destination.UserInitiatedReboot = nil
+	}
+
+	// UserInitiatedRedeploy
+	if policy.UserInitiatedRedeploy != nil {
+		var userInitiatedRedeploy storage.UserInitiatedRedeploy_STATUS
+		err := policy.UserInitiatedRedeploy.AssignProperties_To_UserInitiatedRedeploy_STATUS(&userInitiatedRedeploy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_UserInitiatedRedeploy_STATUS() to populate field UserInitiatedRedeploy")
+		}
+		destination.UserInitiatedRedeploy = &userInitiatedRedeploy
+	} else {
+		destination.UserInitiatedRedeploy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForScheduledEventsPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForScheduledEventsPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20241101.Sku
@@ -778,9 +1778,122 @@ type VirtualMachineScaleSetMigrationInfo_STATUS struct {
 	PropertyBag                       genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_VirtualMachineScaleSetMigrationInfo_STATUS populates our VirtualMachineScaleSetMigrationInfo_STATUS from the provided source VirtualMachineScaleSetMigrationInfo_STATUS
+func (info *VirtualMachineScaleSetMigrationInfo_STATUS) AssignProperties_From_VirtualMachineScaleSetMigrationInfo_STATUS(source *storage.VirtualMachineScaleSetMigrationInfo_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DefaultVirtualMachineScaleSetInfo
+	if source.DefaultVirtualMachineScaleSetInfo != nil {
+		var defaultVirtualMachineScaleSetInfo DefaultVirtualMachineScaleSetInfo_STATUS
+		err := defaultVirtualMachineScaleSetInfo.AssignProperties_From_DefaultVirtualMachineScaleSetInfo_STATUS(source.DefaultVirtualMachineScaleSetInfo)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DefaultVirtualMachineScaleSetInfo_STATUS() to populate field DefaultVirtualMachineScaleSetInfo")
+		}
+		info.DefaultVirtualMachineScaleSetInfo = &defaultVirtualMachineScaleSetInfo
+	} else {
+		info.DefaultVirtualMachineScaleSetInfo = nil
+	}
+
+	// MigrateToVirtualMachineScaleSet
+	if source.MigrateToVirtualMachineScaleSet != nil {
+		var migrateToVirtualMachineScaleSet SubResource_STATUS
+		err := migrateToVirtualMachineScaleSet.AssignProperties_From_SubResource_STATUS(source.MigrateToVirtualMachineScaleSet)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field MigrateToVirtualMachineScaleSet")
+		}
+		info.MigrateToVirtualMachineScaleSet = &migrateToVirtualMachineScaleSet
+	} else {
+		info.MigrateToVirtualMachineScaleSet = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		info.PropertyBag = propertyBag
+	} else {
+		info.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForVirtualMachineScaleSetMigrationInfo_STATUS interface (if implemented) to customize the conversion
+	var infoAsAny any = info
+	if augmentedInfo, ok := infoAsAny.(augmentConversionForVirtualMachineScaleSetMigrationInfo_STATUS); ok {
+		err := augmentedInfo.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_VirtualMachineScaleSetMigrationInfo_STATUS populates the provided destination VirtualMachineScaleSetMigrationInfo_STATUS from our VirtualMachineScaleSetMigrationInfo_STATUS
+func (info *VirtualMachineScaleSetMigrationInfo_STATUS) AssignProperties_To_VirtualMachineScaleSetMigrationInfo_STATUS(destination *storage.VirtualMachineScaleSetMigrationInfo_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(info.PropertyBag)
+
+	// DefaultVirtualMachineScaleSetInfo
+	if info.DefaultVirtualMachineScaleSetInfo != nil {
+		var defaultVirtualMachineScaleSetInfo storage.DefaultVirtualMachineScaleSetInfo_STATUS
+		err := info.DefaultVirtualMachineScaleSetInfo.AssignProperties_To_DefaultVirtualMachineScaleSetInfo_STATUS(&defaultVirtualMachineScaleSetInfo)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DefaultVirtualMachineScaleSetInfo_STATUS() to populate field DefaultVirtualMachineScaleSetInfo")
+		}
+		destination.DefaultVirtualMachineScaleSetInfo = &defaultVirtualMachineScaleSetInfo
+	} else {
+		destination.DefaultVirtualMachineScaleSetInfo = nil
+	}
+
+	// MigrateToVirtualMachineScaleSet
+	if info.MigrateToVirtualMachineScaleSet != nil {
+		var migrateToVirtualMachineScaleSet storage.SubResource_STATUS
+		err := info.MigrateToVirtualMachineScaleSet.AssignProperties_To_SubResource_STATUS(&migrateToVirtualMachineScaleSet)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field MigrateToVirtualMachineScaleSet")
+		}
+		destination.MigrateToVirtualMachineScaleSet = &migrateToVirtualMachineScaleSet
+	} else {
+		destination.MigrateToVirtualMachineScaleSet = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForVirtualMachineScaleSetMigrationInfo_STATUS interface (if implemented) to customize the conversion
+	var infoAsAny any = info
+	if augmentedInfo, ok := infoAsAny.(augmentConversionForVirtualMachineScaleSetMigrationInfo_STATUS); ok {
+		err := augmentedInfo.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForAvailabilitySetOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.AvailabilitySetOperatorSpec) error
+	AssignPropertiesTo(dst *storage.AvailabilitySetOperatorSpec) error
+}
+
 type augmentConversionForInstanceViewStatus_STATUS interface {
 	AssignPropertiesFrom(src *storage.InstanceViewStatus_STATUS) error
 	AssignPropertiesTo(dst *storage.InstanceViewStatus_STATUS) error
+}
+
+type augmentConversionForScheduledEventsPolicy interface {
+	AssignPropertiesFrom(src *storage.ScheduledEventsPolicy) error
+	AssignPropertiesTo(dst *storage.ScheduledEventsPolicy) error
+}
+
+type augmentConversionForScheduledEventsPolicy_STATUS interface {
+	AssignPropertiesFrom(src *storage.ScheduledEventsPolicy_STATUS) error
+	AssignPropertiesTo(dst *storage.ScheduledEventsPolicy_STATUS) error
 }
 
 type augmentConversionForSku interface {
@@ -808,6 +1921,11 @@ type augmentConversionForSystemData_STATUS interface {
 	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
 }
 
+type augmentConversionForVirtualMachineScaleSetMigrationInfo_STATUS interface {
+	AssignPropertiesFrom(src *storage.VirtualMachineScaleSetMigrationInfo_STATUS) error
+	AssignPropertiesTo(dst *storage.VirtualMachineScaleSetMigrationInfo_STATUS) error
+}
+
 // Storage version of v1api20241101.DefaultVirtualMachineScaleSetInfo_STATUS
 // Indicates the target Virtual Machine ScaleSet properties upon triggering a seamless migration without downtime of the
 // VMs via the ConvertToVirtualMachineScaleSet API.
@@ -817,16 +1935,254 @@ type DefaultVirtualMachineScaleSetInfo_STATUS struct {
 	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_DefaultVirtualMachineScaleSetInfo_STATUS populates our DefaultVirtualMachineScaleSetInfo_STATUS from the provided source DefaultVirtualMachineScaleSetInfo_STATUS
+func (info *DefaultVirtualMachineScaleSetInfo_STATUS) AssignProperties_From_DefaultVirtualMachineScaleSetInfo_STATUS(source *storage.DefaultVirtualMachineScaleSetInfo_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConstrainedMaximumCapacity
+	if source.ConstrainedMaximumCapacity != nil {
+		constrainedMaximumCapacity := *source.ConstrainedMaximumCapacity
+		info.ConstrainedMaximumCapacity = &constrainedMaximumCapacity
+	} else {
+		info.ConstrainedMaximumCapacity = nil
+	}
+
+	// DefaultVirtualMachineScaleSet
+	if source.DefaultVirtualMachineScaleSet != nil {
+		var defaultVirtualMachineScaleSet SubResource_STATUS
+		err := defaultVirtualMachineScaleSet.AssignProperties_From_SubResource_STATUS(source.DefaultVirtualMachineScaleSet)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DefaultVirtualMachineScaleSet")
+		}
+		info.DefaultVirtualMachineScaleSet = &defaultVirtualMachineScaleSet
+	} else {
+		info.DefaultVirtualMachineScaleSet = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		info.PropertyBag = propertyBag
+	} else {
+		info.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDefaultVirtualMachineScaleSetInfo_STATUS interface (if implemented) to customize the conversion
+	var infoAsAny any = info
+	if augmentedInfo, ok := infoAsAny.(augmentConversionForDefaultVirtualMachineScaleSetInfo_STATUS); ok {
+		err := augmentedInfo.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DefaultVirtualMachineScaleSetInfo_STATUS populates the provided destination DefaultVirtualMachineScaleSetInfo_STATUS from our DefaultVirtualMachineScaleSetInfo_STATUS
+func (info *DefaultVirtualMachineScaleSetInfo_STATUS) AssignProperties_To_DefaultVirtualMachineScaleSetInfo_STATUS(destination *storage.DefaultVirtualMachineScaleSetInfo_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(info.PropertyBag)
+
+	// ConstrainedMaximumCapacity
+	if info.ConstrainedMaximumCapacity != nil {
+		constrainedMaximumCapacity := *info.ConstrainedMaximumCapacity
+		destination.ConstrainedMaximumCapacity = &constrainedMaximumCapacity
+	} else {
+		destination.ConstrainedMaximumCapacity = nil
+	}
+
+	// DefaultVirtualMachineScaleSet
+	if info.DefaultVirtualMachineScaleSet != nil {
+		var defaultVirtualMachineScaleSet storage.SubResource_STATUS
+		err := info.DefaultVirtualMachineScaleSet.AssignProperties_To_SubResource_STATUS(&defaultVirtualMachineScaleSet)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DefaultVirtualMachineScaleSet")
+		}
+		destination.DefaultVirtualMachineScaleSet = &defaultVirtualMachineScaleSet
+	} else {
+		destination.DefaultVirtualMachineScaleSet = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDefaultVirtualMachineScaleSetInfo_STATUS interface (if implemented) to customize the conversion
+	var infoAsAny any = info
+	if augmentedInfo, ok := infoAsAny.(augmentConversionForDefaultVirtualMachineScaleSetInfo_STATUS); ok {
+		err := augmentedInfo.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20241101.ScheduledEventsAdditionalPublishingTargets
 type ScheduledEventsAdditionalPublishingTargets struct {
 	EventGridAndResourceGraph *EventGridAndResourceGraph `json:"eventGridAndResourceGraph,omitempty"`
 	PropertyBag               genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_ScheduledEventsAdditionalPublishingTargets populates our ScheduledEventsAdditionalPublishingTargets from the provided source ScheduledEventsAdditionalPublishingTargets
+func (targets *ScheduledEventsAdditionalPublishingTargets) AssignProperties_From_ScheduledEventsAdditionalPublishingTargets(source *storage.ScheduledEventsAdditionalPublishingTargets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EventGridAndResourceGraph
+	if source.EventGridAndResourceGraph != nil {
+		var eventGridAndResourceGraph EventGridAndResourceGraph
+		err := eventGridAndResourceGraph.AssignProperties_From_EventGridAndResourceGraph(source.EventGridAndResourceGraph)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_EventGridAndResourceGraph() to populate field EventGridAndResourceGraph")
+		}
+		targets.EventGridAndResourceGraph = &eventGridAndResourceGraph
+	} else {
+		targets.EventGridAndResourceGraph = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		targets.PropertyBag = propertyBag
+	} else {
+		targets.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForScheduledEventsAdditionalPublishingTargets interface (if implemented) to customize the conversion
+	var targetsAsAny any = targets
+	if augmentedTargets, ok := targetsAsAny.(augmentConversionForScheduledEventsAdditionalPublishingTargets); ok {
+		err := augmentedTargets.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ScheduledEventsAdditionalPublishingTargets populates the provided destination ScheduledEventsAdditionalPublishingTargets from our ScheduledEventsAdditionalPublishingTargets
+func (targets *ScheduledEventsAdditionalPublishingTargets) AssignProperties_To_ScheduledEventsAdditionalPublishingTargets(destination *storage.ScheduledEventsAdditionalPublishingTargets) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(targets.PropertyBag)
+
+	// EventGridAndResourceGraph
+	if targets.EventGridAndResourceGraph != nil {
+		var eventGridAndResourceGraph storage.EventGridAndResourceGraph
+		err := targets.EventGridAndResourceGraph.AssignProperties_To_EventGridAndResourceGraph(&eventGridAndResourceGraph)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_EventGridAndResourceGraph() to populate field EventGridAndResourceGraph")
+		}
+		destination.EventGridAndResourceGraph = &eventGridAndResourceGraph
+	} else {
+		destination.EventGridAndResourceGraph = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForScheduledEventsAdditionalPublishingTargets interface (if implemented) to customize the conversion
+	var targetsAsAny any = targets
+	if augmentedTargets, ok := targetsAsAny.(augmentConversionForScheduledEventsAdditionalPublishingTargets); ok {
+		err := augmentedTargets.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20241101.ScheduledEventsAdditionalPublishingTargets_STATUS
 type ScheduledEventsAdditionalPublishingTargets_STATUS struct {
 	EventGridAndResourceGraph *EventGridAndResourceGraph_STATUS `json:"eventGridAndResourceGraph,omitempty"`
 	PropertyBag               genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ScheduledEventsAdditionalPublishingTargets_STATUS populates our ScheduledEventsAdditionalPublishingTargets_STATUS from the provided source ScheduledEventsAdditionalPublishingTargets_STATUS
+func (targets *ScheduledEventsAdditionalPublishingTargets_STATUS) AssignProperties_From_ScheduledEventsAdditionalPublishingTargets_STATUS(source *storage.ScheduledEventsAdditionalPublishingTargets_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EventGridAndResourceGraph
+	if source.EventGridAndResourceGraph != nil {
+		var eventGridAndResourceGraph EventGridAndResourceGraph_STATUS
+		err := eventGridAndResourceGraph.AssignProperties_From_EventGridAndResourceGraph_STATUS(source.EventGridAndResourceGraph)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_EventGridAndResourceGraph_STATUS() to populate field EventGridAndResourceGraph")
+		}
+		targets.EventGridAndResourceGraph = &eventGridAndResourceGraph
+	} else {
+		targets.EventGridAndResourceGraph = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		targets.PropertyBag = propertyBag
+	} else {
+		targets.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForScheduledEventsAdditionalPublishingTargets_STATUS interface (if implemented) to customize the conversion
+	var targetsAsAny any = targets
+	if augmentedTargets, ok := targetsAsAny.(augmentConversionForScheduledEventsAdditionalPublishingTargets_STATUS); ok {
+		err := augmentedTargets.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ScheduledEventsAdditionalPublishingTargets_STATUS populates the provided destination ScheduledEventsAdditionalPublishingTargets_STATUS from our ScheduledEventsAdditionalPublishingTargets_STATUS
+func (targets *ScheduledEventsAdditionalPublishingTargets_STATUS) AssignProperties_To_ScheduledEventsAdditionalPublishingTargets_STATUS(destination *storage.ScheduledEventsAdditionalPublishingTargets_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(targets.PropertyBag)
+
+	// EventGridAndResourceGraph
+	if targets.EventGridAndResourceGraph != nil {
+		var eventGridAndResourceGraph storage.EventGridAndResourceGraph_STATUS
+		err := targets.EventGridAndResourceGraph.AssignProperties_To_EventGridAndResourceGraph_STATUS(&eventGridAndResourceGraph)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_EventGridAndResourceGraph_STATUS() to populate field EventGridAndResourceGraph")
+		}
+		destination.EventGridAndResourceGraph = &eventGridAndResourceGraph
+	} else {
+		destination.EventGridAndResourceGraph = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForScheduledEventsAdditionalPublishingTargets_STATUS interface (if implemented) to customize the conversion
+	var targetsAsAny any = targets
+	if augmentedTargets, ok := targetsAsAny.(augmentConversionForScheduledEventsAdditionalPublishingTargets_STATUS); ok {
+		err := augmentedTargets.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20241101.UserInitiatedReboot
@@ -836,11 +2192,143 @@ type UserInitiatedReboot struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_UserInitiatedReboot populates our UserInitiatedReboot from the provided source UserInitiatedReboot
+func (reboot *UserInitiatedReboot) AssignProperties_From_UserInitiatedReboot(source *storage.UserInitiatedReboot) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutomaticallyApprove
+	if source.AutomaticallyApprove != nil {
+		automaticallyApprove := *source.AutomaticallyApprove
+		reboot.AutomaticallyApprove = &automaticallyApprove
+	} else {
+		reboot.AutomaticallyApprove = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		reboot.PropertyBag = propertyBag
+	} else {
+		reboot.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserInitiatedReboot interface (if implemented) to customize the conversion
+	var rebootAsAny any = reboot
+	if augmentedReboot, ok := rebootAsAny.(augmentConversionForUserInitiatedReboot); ok {
+		err := augmentedReboot.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserInitiatedReboot populates the provided destination UserInitiatedReboot from our UserInitiatedReboot
+func (reboot *UserInitiatedReboot) AssignProperties_To_UserInitiatedReboot(destination *storage.UserInitiatedReboot) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(reboot.PropertyBag)
+
+	// AutomaticallyApprove
+	if reboot.AutomaticallyApprove != nil {
+		automaticallyApprove := *reboot.AutomaticallyApprove
+		destination.AutomaticallyApprove = &automaticallyApprove
+	} else {
+		destination.AutomaticallyApprove = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserInitiatedReboot interface (if implemented) to customize the conversion
+	var rebootAsAny any = reboot
+	if augmentedReboot, ok := rebootAsAny.(augmentConversionForUserInitiatedReboot); ok {
+		err := augmentedReboot.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20241101.UserInitiatedReboot_STATUS
 // Specifies Reboot related Scheduled Event related configurations.
 type UserInitiatedReboot_STATUS struct {
 	AutomaticallyApprove *bool                  `json:"automaticallyApprove,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_UserInitiatedReboot_STATUS populates our UserInitiatedReboot_STATUS from the provided source UserInitiatedReboot_STATUS
+func (reboot *UserInitiatedReboot_STATUS) AssignProperties_From_UserInitiatedReboot_STATUS(source *storage.UserInitiatedReboot_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutomaticallyApprove
+	if source.AutomaticallyApprove != nil {
+		automaticallyApprove := *source.AutomaticallyApprove
+		reboot.AutomaticallyApprove = &automaticallyApprove
+	} else {
+		reboot.AutomaticallyApprove = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		reboot.PropertyBag = propertyBag
+	} else {
+		reboot.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserInitiatedReboot_STATUS interface (if implemented) to customize the conversion
+	var rebootAsAny any = reboot
+	if augmentedReboot, ok := rebootAsAny.(augmentConversionForUserInitiatedReboot_STATUS); ok {
+		err := augmentedReboot.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserInitiatedReboot_STATUS populates the provided destination UserInitiatedReboot_STATUS from our UserInitiatedReboot_STATUS
+func (reboot *UserInitiatedReboot_STATUS) AssignProperties_To_UserInitiatedReboot_STATUS(destination *storage.UserInitiatedReboot_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(reboot.PropertyBag)
+
+	// AutomaticallyApprove
+	if reboot.AutomaticallyApprove != nil {
+		automaticallyApprove := *reboot.AutomaticallyApprove
+		destination.AutomaticallyApprove = &automaticallyApprove
+	} else {
+		destination.AutomaticallyApprove = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserInitiatedReboot_STATUS interface (if implemented) to customize the conversion
+	var rebootAsAny any = reboot
+	if augmentedReboot, ok := rebootAsAny.(augmentConversionForUserInitiatedReboot_STATUS); ok {
+		err := augmentedReboot.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20241101.UserInitiatedRedeploy
@@ -850,11 +2338,178 @@ type UserInitiatedRedeploy struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_UserInitiatedRedeploy populates our UserInitiatedRedeploy from the provided source UserInitiatedRedeploy
+func (redeploy *UserInitiatedRedeploy) AssignProperties_From_UserInitiatedRedeploy(source *storage.UserInitiatedRedeploy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutomaticallyApprove
+	if source.AutomaticallyApprove != nil {
+		automaticallyApprove := *source.AutomaticallyApprove
+		redeploy.AutomaticallyApprove = &automaticallyApprove
+	} else {
+		redeploy.AutomaticallyApprove = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		redeploy.PropertyBag = propertyBag
+	} else {
+		redeploy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserInitiatedRedeploy interface (if implemented) to customize the conversion
+	var redeployAsAny any = redeploy
+	if augmentedRedeploy, ok := redeployAsAny.(augmentConversionForUserInitiatedRedeploy); ok {
+		err := augmentedRedeploy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserInitiatedRedeploy populates the provided destination UserInitiatedRedeploy from our UserInitiatedRedeploy
+func (redeploy *UserInitiatedRedeploy) AssignProperties_To_UserInitiatedRedeploy(destination *storage.UserInitiatedRedeploy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(redeploy.PropertyBag)
+
+	// AutomaticallyApprove
+	if redeploy.AutomaticallyApprove != nil {
+		automaticallyApprove := *redeploy.AutomaticallyApprove
+		destination.AutomaticallyApprove = &automaticallyApprove
+	} else {
+		destination.AutomaticallyApprove = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserInitiatedRedeploy interface (if implemented) to customize the conversion
+	var redeployAsAny any = redeploy
+	if augmentedRedeploy, ok := redeployAsAny.(augmentConversionForUserInitiatedRedeploy); ok {
+		err := augmentedRedeploy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20241101.UserInitiatedRedeploy_STATUS
 // Specifies Redeploy related Scheduled Event related configurations.
 type UserInitiatedRedeploy_STATUS struct {
 	AutomaticallyApprove *bool                  `json:"automaticallyApprove,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_UserInitiatedRedeploy_STATUS populates our UserInitiatedRedeploy_STATUS from the provided source UserInitiatedRedeploy_STATUS
+func (redeploy *UserInitiatedRedeploy_STATUS) AssignProperties_From_UserInitiatedRedeploy_STATUS(source *storage.UserInitiatedRedeploy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutomaticallyApprove
+	if source.AutomaticallyApprove != nil {
+		automaticallyApprove := *source.AutomaticallyApprove
+		redeploy.AutomaticallyApprove = &automaticallyApprove
+	} else {
+		redeploy.AutomaticallyApprove = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		redeploy.PropertyBag = propertyBag
+	} else {
+		redeploy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserInitiatedRedeploy_STATUS interface (if implemented) to customize the conversion
+	var redeployAsAny any = redeploy
+	if augmentedRedeploy, ok := redeployAsAny.(augmentConversionForUserInitiatedRedeploy_STATUS); ok {
+		err := augmentedRedeploy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UserInitiatedRedeploy_STATUS populates the provided destination UserInitiatedRedeploy_STATUS from our UserInitiatedRedeploy_STATUS
+func (redeploy *UserInitiatedRedeploy_STATUS) AssignProperties_To_UserInitiatedRedeploy_STATUS(destination *storage.UserInitiatedRedeploy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(redeploy.PropertyBag)
+
+	// AutomaticallyApprove
+	if redeploy.AutomaticallyApprove != nil {
+		automaticallyApprove := *redeploy.AutomaticallyApprove
+		destination.AutomaticallyApprove = &automaticallyApprove
+	} else {
+		destination.AutomaticallyApprove = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUserInitiatedRedeploy_STATUS interface (if implemented) to customize the conversion
+	var redeployAsAny any = redeploy
+	if augmentedRedeploy, ok := redeployAsAny.(augmentConversionForUserInitiatedRedeploy_STATUS); ok {
+		err := augmentedRedeploy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForDefaultVirtualMachineScaleSetInfo_STATUS interface {
+	AssignPropertiesFrom(src *storage.DefaultVirtualMachineScaleSetInfo_STATUS) error
+	AssignPropertiesTo(dst *storage.DefaultVirtualMachineScaleSetInfo_STATUS) error
+}
+
+type augmentConversionForScheduledEventsAdditionalPublishingTargets interface {
+	AssignPropertiesFrom(src *storage.ScheduledEventsAdditionalPublishingTargets) error
+	AssignPropertiesTo(dst *storage.ScheduledEventsAdditionalPublishingTargets) error
+}
+
+type augmentConversionForScheduledEventsAdditionalPublishingTargets_STATUS interface {
+	AssignPropertiesFrom(src *storage.ScheduledEventsAdditionalPublishingTargets_STATUS) error
+	AssignPropertiesTo(dst *storage.ScheduledEventsAdditionalPublishingTargets_STATUS) error
+}
+
+type augmentConversionForUserInitiatedReboot interface {
+	AssignPropertiesFrom(src *storage.UserInitiatedReboot) error
+	AssignPropertiesTo(dst *storage.UserInitiatedReboot) error
+}
+
+type augmentConversionForUserInitiatedReboot_STATUS interface {
+	AssignPropertiesFrom(src *storage.UserInitiatedReboot_STATUS) error
+	AssignPropertiesTo(dst *storage.UserInitiatedReboot_STATUS) error
+}
+
+type augmentConversionForUserInitiatedRedeploy interface {
+	AssignPropertiesFrom(src *storage.UserInitiatedRedeploy) error
+	AssignPropertiesTo(dst *storage.UserInitiatedRedeploy) error
+}
+
+type augmentConversionForUserInitiatedRedeploy_STATUS interface {
+	AssignPropertiesFrom(src *storage.UserInitiatedRedeploy_STATUS) error
+	AssignPropertiesTo(dst *storage.UserInitiatedRedeploy_STATUS) error
 }
 
 // Storage version of v1api20241101.EventGridAndResourceGraph
@@ -864,11 +2519,153 @@ type EventGridAndResourceGraph struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_EventGridAndResourceGraph populates our EventGridAndResourceGraph from the provided source EventGridAndResourceGraph
+func (graph *EventGridAndResourceGraph) AssignProperties_From_EventGridAndResourceGraph(source *storage.EventGridAndResourceGraph) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enable
+	if source.Enable != nil {
+		enable := *source.Enable
+		graph.Enable = &enable
+	} else {
+		graph.Enable = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		graph.PropertyBag = propertyBag
+	} else {
+		graph.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventGridAndResourceGraph interface (if implemented) to customize the conversion
+	var graphAsAny any = graph
+	if augmentedGraph, ok := graphAsAny.(augmentConversionForEventGridAndResourceGraph); ok {
+		err := augmentedGraph.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventGridAndResourceGraph populates the provided destination EventGridAndResourceGraph from our EventGridAndResourceGraph
+func (graph *EventGridAndResourceGraph) AssignProperties_To_EventGridAndResourceGraph(destination *storage.EventGridAndResourceGraph) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(graph.PropertyBag)
+
+	// Enable
+	if graph.Enable != nil {
+		enable := *graph.Enable
+		destination.Enable = &enable
+	} else {
+		destination.Enable = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventGridAndResourceGraph interface (if implemented) to customize the conversion
+	var graphAsAny any = graph
+	if augmentedGraph, ok := graphAsAny.(augmentConversionForEventGridAndResourceGraph); ok {
+		err := augmentedGraph.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20241101.EventGridAndResourceGraph_STATUS
 // Specifies eventGridAndResourceGraph related Scheduled Event related configurations.
 type EventGridAndResourceGraph_STATUS struct {
 	Enable      *bool                  `json:"enable,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_EventGridAndResourceGraph_STATUS populates our EventGridAndResourceGraph_STATUS from the provided source EventGridAndResourceGraph_STATUS
+func (graph *EventGridAndResourceGraph_STATUS) AssignProperties_From_EventGridAndResourceGraph_STATUS(source *storage.EventGridAndResourceGraph_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enable
+	if source.Enable != nil {
+		enable := *source.Enable
+		graph.Enable = &enable
+	} else {
+		graph.Enable = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		graph.PropertyBag = propertyBag
+	} else {
+		graph.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventGridAndResourceGraph_STATUS interface (if implemented) to customize the conversion
+	var graphAsAny any = graph
+	if augmentedGraph, ok := graphAsAny.(augmentConversionForEventGridAndResourceGraph_STATUS); ok {
+		err := augmentedGraph.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EventGridAndResourceGraph_STATUS populates the provided destination EventGridAndResourceGraph_STATUS from our EventGridAndResourceGraph_STATUS
+func (graph *EventGridAndResourceGraph_STATUS) AssignProperties_To_EventGridAndResourceGraph_STATUS(destination *storage.EventGridAndResourceGraph_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(graph.PropertyBag)
+
+	// Enable
+	if graph.Enable != nil {
+		enable := *graph.Enable
+		destination.Enable = &enable
+	} else {
+		destination.Enable = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEventGridAndResourceGraph_STATUS interface (if implemented) to customize the conversion
+	var graphAsAny any = graph
+	if augmentedGraph, ok := graphAsAny.(augmentConversionForEventGridAndResourceGraph_STATUS); ok {
+		err := augmentedGraph.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForEventGridAndResourceGraph interface {
+	AssignPropertiesFrom(src *storage.EventGridAndResourceGraph) error
+	AssignPropertiesTo(dst *storage.EventGridAndResourceGraph) error
+}
+
+type augmentConversionForEventGridAndResourceGraph_STATUS interface {
+	AssignPropertiesFrom(src *storage.EventGridAndResourceGraph_STATUS) error
+	AssignPropertiesTo(dst *storage.EventGridAndResourceGraph_STATUS) error
 }
 
 func init() {
