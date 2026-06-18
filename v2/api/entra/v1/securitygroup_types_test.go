@@ -6,8 +6,9 @@ package v1
 import (
 	"testing"
 
-	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
 	. "github.com/onsi/gomega"
+
+	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
