@@ -175,6 +175,7 @@ groupModelConfiguration:
         FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
     FlexibleServers_Administrator:
       $exportAs: FlexibleServersAdministrator
+      $azureNameFromConfig: true
       $supportedFrom: v2.17.0
     FlexibleServers_Configuration:
       $exportAs: FlexibleServersConfiguration
