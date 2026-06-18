@@ -81,18 +81,15 @@ type SecurityGroupSpec struct {
 
 	// Owners: Directory objects (users, service principals, groups) to assign as owners of the security
 	// group at creation time. Applied only during the initial POST to Microsoft Graph via `owners@odata.bind`
-	// and never reconciled afterward. Required when ASO authenticates with an app-only token and the calling
+	// and used as desired owner state for reconciliation. Required when ASO authenticates with an app-only token and the calling
 	// principal lacks Group.ReadWrite.All — otherwise the created group has no owners and is unmanageable.
-	// This field is immutable after creation.
 	// +kubebuilder:validation:MaxItems=20
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="owners is immutable after creation"
 	Owners []SecurityGroupMemberReference `json:"owners,omitempty"`
 
 	// Members: Directory objects (users, service principals, groups) to assign as members of the security
 	// group at creation time. Applied only during the initial POST to Microsoft Graph via `members@odata.bind`
-	// and never reconciled afterward. This field is immutable after creation.
+	// and used as desired member state for reconciliation.
 	// +kubebuilder:validation:MaxItems=20
-	// +kubebuilder:validation:XValidation:rule="self == oldSelf",message="members is immutable after creation"
 	Members []SecurityGroupMemberReference `json:"members,omitempty"`
 }
 
@@ -170,6 +167,55 @@ func (spec *SecurityGroupSpec) AssignODataBindOnCreate(model models.Groupable, r
 
 	model.SetAdditionalData(additionalData)
 	return nil
+}
+
+// ResolveOwnerObjectIDs resolves and de-duplicates owner object IDs.
+func (spec *SecurityGroupSpec) ResolveOwnerObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]string, error) {
+	return resolveMemberObjectIDs(spec.Owners, "owners", resolved)
+}
+
+// ResolveMemberObjectIDs resolves and de-duplicates member object IDs.
+func (spec *SecurityGroupSpec) ResolveMemberObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]string, error) {
+	return resolveMemberObjectIDs(spec.Members, "members", resolved)
+}
+
+func resolveMemberObjectIDs(
+	references []SecurityGroupMemberReference,
+	field string,
+	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
+) ([]string, error) {
+	result := make([]string, 0, len(references))
+	for i, ref := range references {
+		switch {
+		case ref.ObjectID != nil:
+			result = append(result, *ref.ObjectID)
+		case ref.ObjectIDFromConfig != nil:
+			v, err := resolved.Lookup(*ref.ObjectIDFromConfig)
+			if err != nil {
+				return nil, fmt.Errorf("failed resolving %s[%d].objectIDFromConfig: %w", field, i, err)
+			}
+			result = append(result, v)
+		default:
+			return nil, fmt.Errorf("%s[%d] missing objectID or objectIDFromConfig", field, i)
+		}
+	}
+
+	return UniqueStrings(result), nil
+}
+
+func UniqueStrings(values []string) []string {
+	seen := make(map[string]struct{}, len(values))
+	result := make([]string, 0, len(values))
+	for _, v := range values {
+		if _, ok := seen[v]; ok {
+			continue
+		}
+
+		seen[v] = struct{}{}
+		result = append(result, v)
+	}
+
+	return result
 }
 
 // AssignToGroup configures the provided instance with the details of the group

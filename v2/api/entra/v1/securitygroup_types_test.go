@@ -97,3 +97,41 @@ func TestSecurityGroupSpec_AssignODataBindOnCreate_ErrorsWhenConfigLookupFails(t
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(err.Error()).To(ContainSubstring("members[0].objectIDFromConfig"))
 }
+
+func TestSecurityGroupSpec_ResolveOwnerObjectIDs_DeduplicatesResolvedValues(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	ref := genruntime.ConfigMapReference{Name: "ids", Key: "owner"}
+	resolved := genruntime.MakeResolved(map[genruntime.ConfigMapReference]string{ref: "11111111-1111-1111-1111-111111111111"})
+
+	spec := &SecurityGroupSpec{
+		Owners: []SecurityGroupMemberReference{
+			{ObjectID: to.Ptr("11111111-1111-1111-1111-111111111111")},
+			{ObjectIDFromConfig: &ref},
+		},
+	}
+
+	ids, err := spec.ResolveOwnerObjectIDs(resolved)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(ids).To(Equal([]string{"11111111-1111-1111-1111-111111111111"}))
+}
+
+func TestSecurityGroupSpec_ResolveMemberObjectIDs_DeduplicatesResolvedValues(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	ref := genruntime.ConfigMapReference{Name: "ids", Key: "member"}
+	resolved := genruntime.MakeResolved(map[genruntime.ConfigMapReference]string{ref: "22222222-2222-2222-2222-222222222222"})
+
+	spec := &SecurityGroupSpec{
+		Members: []SecurityGroupMemberReference{
+			{ObjectID: to.Ptr("22222222-2222-2222-2222-222222222222")},
+			{ObjectIDFromConfig: &ref},
+		},
+	}
+
+	ids, err := spec.ResolveMemberObjectIDs(resolved)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(ids).To(Equal([]string{"22222222-2222-2222-2222-222222222222"}))
+}
