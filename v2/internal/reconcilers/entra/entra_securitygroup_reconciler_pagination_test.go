@@ -23,10 +23,10 @@ func TestRelationshipSidesToManage_OmittedVsEmpty(t *testing.T) {
 	memberRef := asoentra.SecurityGroupMemberReference{ObjectID: stringPtr("22222222-2222-2222-2222-222222222222")}
 
 	cases := []struct {
-		name          string
-		spec          asoentra.SecurityGroupSpec
-		wantOwners    bool
-		wantMembers   bool
+		name        string
+		spec        asoentra.SecurityGroupSpec
+		wantOwners  bool
+		wantMembers bool
 	}{
 		{
 			name:        "both omitted are unmanaged",

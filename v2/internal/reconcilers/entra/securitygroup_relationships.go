@@ -94,7 +94,8 @@ func (r *EntraSecurityGroupReconciler) reconcileRelationshipSide(
 		"Reconciled relationship side",
 		"side", side,
 		"added", len(delta.ToAdd),
-		"removed", len(delta.ToRemove))
+		"removed", len(delta.ToRemove),
+	)
 
 	return nil
 }

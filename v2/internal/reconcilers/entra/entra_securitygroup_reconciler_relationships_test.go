@@ -10,8 +10,8 @@ import (
 	"errors"
 	"testing"
 
-	. "github.com/onsi/gomega"
 	"github.com/go-logr/logr"
+	. "github.com/onsi/gomega"
 )
 
 func TestReconcileRelationshipSide_AddBeforeRemove_AndSkipRemoveWhenAddFails(t *testing.T) {
