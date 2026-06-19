@@ -5,6 +5,14 @@
 
 package entra
 
+import (
+	"context"
+	"fmt"
+	"strings"
+
+	"github.com/go-logr/logr"
+)
+
 type relationshipDelta struct {
 	ToAdd    []string
 	ToRemove []string
@@ -56,4 +64,65 @@ func orderedUnique(values []string) []string {
 	}
 
 	return result
+}
+
+func (r *EntraSecurityGroupReconciler) reconcileRelationshipSide(
+	ctx context.Context,
+	side string,
+	current []string,
+	desired []string,
+	add func(context.Context, string) error,
+	remove func(context.Context, string) error,
+	log logr.Logger,
+) error {
+	delta := planRelationshipDelta(current, desired)
+
+	for _, id := range delta.ToAdd {
+		if err := add(ctx, id); err != nil {
+			// Add failures intentionally skip remove for this side in this pass.
+			return fmt.Errorf("%s add %s: %w", side, id, err)
+		}
+	}
+
+	for _, id := range delta.ToRemove {
+		if err := remove(ctx, id); err != nil {
+			return fmt.Errorf("%s remove %s: %w", side, id, err)
+		}
+	}
+
+	log.V(1).Info(
+		"Reconciled relationship side",
+		"side", side,
+		"added", len(delta.ToAdd),
+		"removed", len(delta.ToRemove))
+
+	return nil
+}
+
+func directoryObjectRefURI(objectID string) string {
+	return "https://graph.microsoft.com/v1.0/directoryObjects/" + objectID
+}
+
+func directoryObjectIDFromRef(value string) string {
+	trimmed := strings.TrimSpace(value)
+	if trimmed == "" {
+		return ""
+	}
+
+	lastSlash := strings.LastIndex(trimmed, "/")
+	if lastSlash < 0 || lastSlash == len(trimmed)-1 {
+		return trimmed
+	}
+
+	trimmed = trimmed[lastSlash+1:]
+
+	if questionMark := strings.Index(trimmed, "?"); questionMark >= 0 {
+		trimmed = trimmed[:questionMark]
+	}
+
+	if hash := strings.Index(trimmed, "#"); hash >= 0 {
+		trimmed = trimmed[:hash]
+	}
+
+	return trimmed
 }

@@ -7,6 +7,7 @@ package entra
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -204,9 +205,129 @@ func (r *EntraSecurityGroupReconciler) update(
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update group %s", id)
 	}
 
+	result, err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log)
+	if err != nil {
+		return result, err
+	}
+
 	group.Status.AssignFromGroup(g)
 
 	return ctrl.Result{}, nil
+}
+
+func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
+	ctx context.Context,
+	group *asoentra.SecurityGroup,
+	graphClient *msgraphsdkgo.GraphServiceClient,
+	log logr.Logger,
+) (ctrl.Result, error) {
+	id, ok := getEntraID(group)
+	if !ok || id == "" {
+		return ctrl.Result{}, eris.Errorf("missing Entra ID annotation for security group %s", group.Name)
+	}
+
+	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
+	}
+
+	desiredOwners, err := group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
+	}
+
+	desiredMembers, err := group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
+	}
+
+	groupRequestBuilder := graphClient.Groups().ByGroupId(id)
+	ownersRefBuilder := groupRequestBuilder.Owners().Ref()
+	membersRefBuilder := groupRequestBuilder.Members().Ref()
+
+	var sideErrors []error
+
+	currentOwnersResponse, err := ownersRefBuilder.Get(ctx, nil)
+	if err != nil {
+		sideErrors = append(sideErrors, eris.Wrapf(err, "owners list for group %s", id))
+	} else {
+		currentOwners := extractDirectoryObjectIDs(currentOwnersResponse.GetValue())
+		err = r.reconcileRelationshipSide(
+			ctx,
+			"owners",
+			currentOwners,
+			desiredOwners,
+			func(ctx context.Context, objectID string) error {
+				ref := msgraphmodels.NewReferenceCreate()
+				ref.SetOdataId(to.Ptr(directoryObjectRefURI(objectID)))
+				return ownersRefBuilder.Post(ctx, ref, nil)
+			},
+			func(ctx context.Context, objectID string) error {
+				deleteID := directoryObjectRefURI(objectID)
+				deleteConfig := &groups.ItemOwnersRefRequestBuilderDeleteRequestConfiguration{
+					QueryParameters: &groups.ItemOwnersRefRequestBuilderDeleteQueryParameters{
+						Id: &deleteID,
+					},
+				}
+				return ownersRefBuilder.Delete(ctx, deleteConfig)
+			},
+			log,
+		)
+		if err != nil {
+			sideErrors = append(sideErrors, eris.Wrapf(err, "reconciling owners for group %s", id))
+		}
+	}
+
+	currentMembersResponse, err := membersRefBuilder.Get(ctx, nil)
+	if err != nil {
+		sideErrors = append(sideErrors, eris.Wrapf(err, "members list for group %s", id))
+	} else {
+		currentMembers := extractDirectoryObjectIDs(currentMembersResponse.GetValue())
+		err = r.reconcileRelationshipSide(
+			ctx,
+			"members",
+			currentMembers,
+			desiredMembers,
+			func(ctx context.Context, objectID string) error {
+				ref := msgraphmodels.NewReferenceCreate()
+				ref.SetOdataId(to.Ptr(directoryObjectRefURI(objectID)))
+				return membersRefBuilder.Post(ctx, ref, nil)
+			},
+			func(ctx context.Context, objectID string) error {
+				deleteID := directoryObjectRefURI(objectID)
+				deleteConfig := &groups.ItemMembersRefRequestBuilderDeleteRequestConfiguration{
+					QueryParameters: &groups.ItemMembersRefRequestBuilderDeleteQueryParameters{
+						Id: &deleteID,
+					},
+				}
+				return membersRefBuilder.Delete(ctx, deleteConfig)
+			},
+			log,
+		)
+		if err != nil {
+			sideErrors = append(sideErrors, eris.Wrapf(err, "reconciling members for group %s", id))
+		}
+	}
+
+	if len(sideErrors) > 0 {
+		return ctrl.Result{}, errors.Join(sideErrors...)
+	}
+
+	return ctrl.Result{}, nil
+}
+
+func extractDirectoryObjectIDs(values []string) []string {
+	result := make([]string, 0, len(values))
+	for _, value := range values {
+		objectID := directoryObjectIDFromRef(value)
+		if objectID == "" {
+			continue
+		}
+
+		result = append(result, objectID)
+	}
+
+	return orderedUnique(result)
 }
 
 // tryAdopt tries to find an existing Entra security group to adopt.
