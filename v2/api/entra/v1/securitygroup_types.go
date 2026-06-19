@@ -136,11 +136,6 @@ func (spec *SecurityGroupSpec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-// graphDirectoryObjectURI returns the Microsoft Graph URI for a directory object with the given ID.
-func graphDirectoryObjectURI(objectID string) string {
-	return "https://graph.microsoft.com/v1.0/directoryObjects/" + objectID
-}
-
 // AssignODataBindOnCreate sets the `owners@odata.bind` and `members@odata.bind` additional data
 // on the group model. These annotations are only valid during the initial POST to Microsoft Graph;
 // they must NOT be included in PATCH requests.
@@ -156,28 +151,18 @@ func (spec *SecurityGroupSpec) AssignODataBindOnCreate(
 	}
 
 	if len(spec.Owners) > 0 {
-		owners := make([]string, 0, len(spec.Owners))
-		for i, o := range spec.Owners {
-			id, err := o.ResolveObjectID(resolved)
-			if err != nil {
-				return fmt.Errorf("owners[%d]: %w", i, err)
-			}
-
-			owners = append(owners, graphDirectoryObjectURI(id))
+		owners, err := graphDirectoryURIs(spec.Owners, "owners", resolved)
+		if err != nil {
+			return err
 		}
 
 		additionalData["owners@odata.bind"] = owners
 	}
 
 	if len(spec.Members) > 0 {
-		members := make([]string, 0, len(spec.Members))
-		for i, m := range spec.Members {
-			id, err := m.ResolveObjectID(resolved)
-			if err != nil {
-				return fmt.Errorf("members[%d]: %w", i, err)
-			}
-
-			members = append(members, graphDirectoryObjectURI(id))
+		members, err := graphDirectoryURIs(spec.Members, "members", resolved)
+		if err != nil {
+			return err
 		}
 
 		additionalData["members@odata.bind"] = members
@@ -357,6 +342,31 @@ func (spec *SecurityGroupOperatorSpec) AdoptionAllowed() bool {
 type SecurityGroupOperatorConfigMaps struct {
 	// EntraID: The Entra ID of the group.
 	EntraID *genruntime.ConfigMapDestination `json:"entraID,omitempty"`
+}
+
+// graphDirectoryObjectURI returns the Microsoft Graph URI for a directory object with the given ID.
+func graphDirectoryObjectURI(objectID string) string {
+	return "https://graph.microsoft.com/v1.0/directoryObjects/" + objectID
+}
+
+// graphDirectoryURIs resolves a slice of member references to Microsoft Graph directory object URIs.
+// fieldName (e.g. "owners" or "members") is used to provide context in error messages.
+func graphDirectoryURIs(
+	references []SecurityGroupMemberReference,
+	fieldName string,
+	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
+) ([]string, error) {
+	uris := make([]string, 0, len(references))
+	for i, ref := range references {
+		id, err := ref.ResolveObjectID(resolved)
+		if err != nil {
+			return nil, fmt.Errorf("%s[%d]: %w", fieldName, i, err)
+		}
+
+		uris = append(uris, graphDirectoryObjectURI(id))
+	}
+
+	return uris, nil
 }
 
 func init() {
