@@ -9,6 +9,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -187,6 +188,7 @@ func resolveMemberObjectIDs(
 	field string,
 	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
 ) ([]string, error) {
+	seen := set.Make[string]()
 	result := make([]string, 0, len(references))
 	for i, ref := range references {
 		id, err := ref.ResolveObjectID(resolved)
@@ -194,25 +196,15 @@ func resolveMemberObjectIDs(
 			return nil, fmt.Errorf("%s[%d]: %w", field, i, err)
 		}
 
-		result = append(result, id)
-	}
-
-	return UniqueStrings(result), nil
-}
-
-func UniqueStrings(values []string) []string {
-	seen := make(map[string]struct{}, len(values))
-	result := make([]string, 0, len(values))
-	for _, v := range values {
-		if _, ok := seen[v]; ok {
+		if seen.Contains(id) {
 			continue
 		}
 
-		seen[v] = struct{}{}
-		result = append(result, v)
+		seen.Add(id)
+		result = append(result, id)
 	}
 
-	return result
+	return result, nil
 }
 
 // AssignToGroup configures the provided instance with the details of the group
