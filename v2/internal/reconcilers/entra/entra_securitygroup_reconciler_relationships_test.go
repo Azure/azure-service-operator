@@ -78,136 +78,105 @@ func TestReconcileRelationshipSide_AddBeforeRemove_AndSkipRemoveWhenAddFails(t *
 func TestReconcileRelationshipSide_CrossSideBestEffort(t *testing.T) {
 	t.Parallel()
 
-	reconcileBothSides := func(
-		ctx context.Context,
-		reconciler *EntraSecurityGroupReconciler,
-		ownersCurrent []string,
-		ownersDesired []string,
-		ownersAdd func(context.Context, string) error,
-		ownersRemove func(context.Context, string) error,
-		membersCurrent []string,
-		membersDesired []string,
-		membersAdd func(context.Context, string) error,
-		membersRemove func(context.Context, string) error,
-	) error {
-		var joinedErr error
+	t.Run("owners fail and members still run", testCrossSideOwnersFailMembersStillRun)
+	t.Run("members fail and owners still run", testCrossSideMembersFailOwnersStillRun)
+	t.Run("both sides fail and aggregate both contexts", testCrossSideBothSidesFail)
+}
 
-		ownersErr := reconciler.reconcileRelationshipSide(
-			ctx,
-			"owners",
-			ownersCurrent,
-			ownersDesired,
-			ownersAdd,
-			ownersRemove,
-			logr.Discard(),
-		)
-		joinedErr = errors.Join(joinedErr, ownersErr)
+func testCrossSideOwnersFailMembersStillRun(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
 
-		membersErr := reconciler.reconcileRelationshipSide(
-			ctx,
-			"members",
-			membersCurrent,
-			membersDesired,
-			membersAdd,
-			membersRemove,
-			logr.Discard(),
-		)
-		joinedErr = errors.Join(joinedErr, membersErr)
+	reconciler := &EntraSecurityGroupReconciler{}
+	ctx := context.Background()
+	var membersCalls []string
 
-		return joinedErr
-	}
+	ownersErr := reconciler.reconcileRelationshipSide(
+		ctx, "owners",
+		nil, []string{"owner-a"},
+		func(_ context.Context, _ string) error { return errors.New("owners list failed") },
+		func(_ context.Context, _ string) error { return nil },
+		logr.Discard(),
+	)
+	membersErr := reconciler.reconcileRelationshipSide(
+		ctx, "members",
+		[]string{"member-a"}, []string{"member-b"},
+		func(_ context.Context, id string) error {
+			membersCalls = append(membersCalls, "add:"+id)
+			return nil
+		},
+		func(_ context.Context, id string) error {
+			membersCalls = append(membersCalls, "remove:"+id)
+			return nil
+		},
+		logr.Discard(),
+	)
+	err := errors.Join(ownersErr, membersErr)
 
-	t.Run("owners fail and members still run", func(t *testing.T) {
-		t.Parallel()
-		g := NewGomegaWithT(t)
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("owners"))
+	g.Expect(membersCalls).To(Equal([]string{"add:member-b", "remove:member-a"}))
+}
 
-		reconciler := &EntraSecurityGroupReconciler{}
-		var membersCalls []string
+func testCrossSideMembersFailOwnersStillRun(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
 
-		err := reconcileBothSides(
-			context.Background(),
-			reconciler,
-			nil,
-			[]string{"owner-a"},
-			func(_ context.Context, _ string) error {
-				return errors.New("owners list failed")
-			},
-			func(_ context.Context, _ string) error { return nil },
-			[]string{"member-a"},
-			[]string{"member-b"},
-			func(_ context.Context, id string) error {
-				membersCalls = append(membersCalls, "add:"+id)
-				return nil
-			},
-			func(_ context.Context, id string) error {
-				membersCalls = append(membersCalls, "remove:"+id)
-				return nil
-			},
-		)
+	reconciler := &EntraSecurityGroupReconciler{}
+	ctx := context.Background()
+	var ownersCalls []string
 
-		g.Expect(err).To(HaveOccurred())
-		g.Expect(err.Error()).To(ContainSubstring("owners"))
-		g.Expect(membersCalls).To(Equal([]string{"add:member-b", "remove:member-a"}))
-	})
+	ownersErr := reconciler.reconcileRelationshipSide(
+		ctx, "owners",
+		[]string{"owner-a"}, []string{"owner-b"},
+		func(_ context.Context, id string) error {
+			ownersCalls = append(ownersCalls, "add:"+id)
+			return nil
+		},
+		func(_ context.Context, id string) error {
+			ownersCalls = append(ownersCalls, "remove:"+id)
+			return nil
+		},
+		logr.Discard(),
+	)
+	membersErr := reconciler.reconcileRelationshipSide(
+		ctx, "members",
+		nil, []string{"member-a"},
+		func(_ context.Context, _ string) error { return errors.New("members list failed") },
+		func(_ context.Context, _ string) error { return nil },
+		logr.Discard(),
+	)
+	err := errors.Join(ownersErr, membersErr)
 
-	t.Run("members fail and owners still run", func(t *testing.T) {
-		t.Parallel()
-		g := NewGomegaWithT(t)
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("members"))
+	g.Expect(ownersCalls).To(Equal([]string{"add:owner-b", "remove:owner-a"}))
+}
 
-		reconciler := &EntraSecurityGroupReconciler{}
-		var ownersCalls []string
+func testCrossSideBothSidesFail(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
 
-		err := reconcileBothSides(
-			context.Background(),
-			reconciler,
-			[]string{"owner-a"},
-			[]string{"owner-b"},
-			func(_ context.Context, id string) error {
-				ownersCalls = append(ownersCalls, "add:"+id)
-				return nil
-			},
-			func(_ context.Context, id string) error {
-				ownersCalls = append(ownersCalls, "remove:"+id)
-				return nil
-			},
-			nil,
-			[]string{"member-a"},
-			func(_ context.Context, _ string) error {
-				return errors.New("members list failed")
-			},
-			func(_ context.Context, _ string) error { return nil },
-		)
+	reconciler := &EntraSecurityGroupReconciler{}
+	ctx := context.Background()
 
-		g.Expect(err).To(HaveOccurred())
-		g.Expect(err.Error()).To(ContainSubstring("members"))
-		g.Expect(ownersCalls).To(Equal([]string{"add:owner-b", "remove:owner-a"}))
-	})
+	ownersErr := reconciler.reconcileRelationshipSide(
+		ctx, "owners",
+		nil, []string{"owner-a"},
+		func(_ context.Context, _ string) error { return errors.New("owners side failed") },
+		func(_ context.Context, _ string) error { return nil },
+		logr.Discard(),
+	)
+	membersErr := reconciler.reconcileRelationshipSide(
+		ctx, "members",
+		nil, []string{"member-a"},
+		func(_ context.Context, _ string) error { return errors.New("members side failed") },
+		func(_ context.Context, _ string) error { return nil },
+		logr.Discard(),
+	)
+	err := errors.Join(ownersErr, membersErr)
 
-	t.Run("both sides fail and aggregate both contexts", func(t *testing.T) {
-		t.Parallel()
-		g := NewGomegaWithT(t)
-
-		reconciler := &EntraSecurityGroupReconciler{}
-
-		err := reconcileBothSides(
-			context.Background(),
-			reconciler,
-			nil,
-			[]string{"owner-a"},
-			func(_ context.Context, _ string) error {
-				return errors.New("owners side failed")
-			},
-			func(_ context.Context, _ string) error { return nil },
-			nil,
-			[]string{"member-a"},
-			func(_ context.Context, _ string) error {
-				return errors.New("members side failed")
-			},
-			func(_ context.Context, _ string) error { return nil },
-		)
-
-		g.Expect(err).To(HaveOccurred())
-		g.Expect(err.Error()).To(ContainSubstring("owners"))
-		g.Expect(err.Error()).To(ContainSubstring("members"))
-	})
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(err.Error()).To(ContainSubstring("owners"))
+	g.Expect(err.Error()).To(ContainSubstring("members"))
 }
