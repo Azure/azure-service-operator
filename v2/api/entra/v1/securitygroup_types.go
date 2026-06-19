@@ -3,6 +3,8 @@
 package v1
 
 import (
+	"fmt"
+
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -98,9 +100,11 @@ type SecurityGroupSpec struct {
 // Entra Object ID.
 type SecurityGroupMemberReference struct {
 	// ObjectID: The Entra Object ID (GUID) of the directory object.
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
-	ObjectID string `json:"objectID"`
+	ObjectID *string `json:"objectID,omitempty" optionalConfigMapPair:"ObjectID"`
+
+	// ObjectIDFromConfig: Reference to a configmap value containing the Entra Object ID.
+	ObjectIDFromConfig *genruntime.ConfigMapReference `json:"objectIDFromConfig,omitempty" optionalConfigMapPair:"ObjectID"`
 }
 
 // OriginalVersion returns the original API version used to create the resource.
@@ -118,7 +122,7 @@ func graphDirectoryObjectURI(objectID string) string {
 // they must NOT be included in PATCH requests.
 // The typed setters (SetOwners/SetMembers) serialize as nested objects which Graph rejects on create —
 // the @odata.bind annotation is the only working shape for setting owners/members inline at creation time.
-func (spec *SecurityGroupSpec) AssignODataBindOnCreate(model models.Groupable) {
+func (spec *SecurityGroupSpec) AssignODataBindOnCreate(model models.Groupable, resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) error {
 	additionalData := model.GetAdditionalData()
 	if additionalData == nil {
 		additionalData = make(map[string]any)
@@ -126,21 +130,46 @@ func (spec *SecurityGroupSpec) AssignODataBindOnCreate(model models.Groupable) {
 
 	if len(spec.Owners) > 0 {
 		owners := make([]string, 0, len(spec.Owners))
-		for _, o := range spec.Owners {
-			owners = append(owners, graphDirectoryObjectURI(o.ObjectID))
+		for i, o := range spec.Owners {
+			var id string
+			if o.ObjectID != nil {
+				id = *o.ObjectID
+			} else if o.ObjectIDFromConfig != nil {
+				val, err := resolved.Lookup(*o.ObjectIDFromConfig)
+				if err != nil {
+					return fmt.Errorf("failed resolving owners[%d].objectIDFromConfig: %w", i, err)
+				}
+				id = val
+			} else {
+				return fmt.Errorf("owners[%d] missing objectID or objectIDFromConfig", i)
+			}
+			owners = append(owners, graphDirectoryObjectURI(id))
 		}
 		additionalData["owners@odata.bind"] = owners
 	}
 
 	if len(spec.Members) > 0 {
 		members := make([]string, 0, len(spec.Members))
-		for _, m := range spec.Members {
-			members = append(members, graphDirectoryObjectURI(m.ObjectID))
+		for i, m := range spec.Members {
+			var id string
+			if m.ObjectID != nil {
+				id = *m.ObjectID
+			} else if m.ObjectIDFromConfig != nil {
+				val, err := resolved.Lookup(*m.ObjectIDFromConfig)
+				if err != nil {
+					return fmt.Errorf("failed resolving members[%d].objectIDFromConfig: %w", i, err)
+				}
+				id = val
+			} else {
+				return fmt.Errorf("members[%d] missing objectID or objectIDFromConfig", i)
+			}
+			members = append(members, graphDirectoryObjectURI(id))
 		}
 		additionalData["members@odata.bind"] = members
 	}
 
 	model.SetAdditionalData(additionalData)
+	return nil
 }
 
 // AssignToGroup configures the provided instance with the details of the group

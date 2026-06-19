@@ -291,7 +291,17 @@ func (r *EntraSecurityGroupReconciler) create(
 
 	g := msgraphmodels.NewGroup()
 	group.Spec.AssignToGroup(g)
-	group.Spec.AssignODataBindOnCreate(g)
+
+	// Resolve config map references for this resource so we can populate any
+	// ObjectIDFromConfig values used in owners/members.
+	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
+	}
+
+	if err := group.Spec.AssignODataBindOnCreate(g, resolvedConfigMaps); err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed preparing create payload for group %s", group.Name)
+	}
 
 	status, err := client.Client().Groups().Post(ctx, g, nil)
 	if err != nil {
