@@ -22,32 +22,27 @@ func TestRelationshipSidesToManage_OmittedVsEmpty(t *testing.T) {
 	ownerRef := asoentra.SecurityGroupMemberReference{ObjectID: stringPtr("11111111-1111-1111-1111-111111111111")}
 	memberRef := asoentra.SecurityGroupMemberReference{ObjectID: stringPtr("22222222-2222-2222-2222-222222222222")}
 
-	cases := []struct {
-		name        string
+	cases := map[string]struct {
 		spec        asoentra.SecurityGroupSpec
 		wantOwners  bool
 		wantMembers bool
 	}{
-		{
-			name:        "both omitted are unmanaged",
+		"both omitted are unmanaged": {
 			spec:        asoentra.SecurityGroupSpec{},
 			wantOwners:  false,
 			wantMembers: false,
 		},
-		{
-			name:        "owners explicit empty is managed",
+		"owners explicit empty is managed": {
 			spec:        asoentra.SecurityGroupSpec{Owners: []asoentra.SecurityGroupMemberReference{}},
 			wantOwners:  true,
 			wantMembers: false,
 		},
-		{
-			name:        "members explicit empty is managed",
+		"members explicit empty is managed": {
 			spec:        asoentra.SecurityGroupSpec{Members: []asoentra.SecurityGroupMemberReference{}},
 			wantOwners:  false,
 			wantMembers: true,
 		},
-		{
-			name: "both present are managed",
+		"both present are managed": {
 			spec: asoentra.SecurityGroupSpec{
 				Owners:  []asoentra.SecurityGroupMemberReference{ownerRef},
 				Members: []asoentra.SecurityGroupMemberReference{memberRef},
@@ -57,9 +52,9 @@ func TestRelationshipSidesToManage_OmittedVsEmpty(t *testing.T) {
 		},
 	}
 
-	for _, tc := range cases {
+	for name, tc := range cases {
 		tc := tc
-		t.Run(tc.name, func(t *testing.T) {
+		t.Run(name, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
