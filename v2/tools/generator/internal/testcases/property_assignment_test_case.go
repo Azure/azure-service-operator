@@ -167,6 +167,16 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 	// t.Parallel()
 	declareParallel := astbuilder.CallExprAsStmt(t, "Parallel")
 
+	// if testing.Short() {
+	//     return
+	// }
+	checkShort := astbuilder.SimpleIf(
+		astbuilder.CallQualifiedFunc(testingPackage, "Short"),
+		astbuilder.Returns(),
+	)
+	checkShort.Decs.Before = dst.EmptyLine
+	checkShort.Decs.After = dst.EmptyLine
+
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.ShortDeclaration(
 		parametersLocal,
@@ -227,6 +237,7 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 		testingPackage,
 		p.testName,
 		declareParallel,
+		checkShort,
 		defineParameters,
 		configureMaxSize,
 		defineProperties,
