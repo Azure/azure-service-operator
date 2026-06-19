@@ -108,6 +108,29 @@ type SecurityGroupMemberReference struct {
 	ObjectIDFromConfig *genruntime.ConfigMapReference `json:"objectIDFromConfig,omitempty" optionalConfigMapPair:"ObjectID"`
 }
 
+// ResolveObjectID returns the Entra Object ID for this reference, looking it up via the resolved
+// config maps when ObjectIDFromConfig is set. Returns an error if neither ObjectID nor
+// ObjectIDFromConfig is populated, or if the configmap lookup fails.
+func (ref *SecurityGroupMemberReference) ResolveObjectID(
+	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
+) (string, error) {
+	switch {
+	case ref.ObjectID != nil:
+		return *ref.ObjectID, nil
+
+	case ref.ObjectIDFromConfig != nil:
+		val, err := resolved.Lookup(*ref.ObjectIDFromConfig)
+		if err != nil {
+			return "", fmt.Errorf("failed resolving objectIDFromConfig: %w", err)
+		}
+
+		return val, nil
+
+	default:
+		return "", fmt.Errorf("missing objectID or objectIDFromConfig")
+	}
+}
+
 // OriginalVersion returns the original API version used to create the resource.
 func (spec *SecurityGroupSpec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -123,7 +146,10 @@ func graphDirectoryObjectURI(objectID string) string {
 // they must NOT be included in PATCH requests.
 // The typed setters (SetOwners/SetMembers) serialize as nested objects which Graph rejects on create —
 // the @odata.bind annotation is the only working shape for setting owners/members inline at creation time.
-func (spec *SecurityGroupSpec) AssignODataBindOnCreate(model models.Groupable, resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) error {
+func (spec *SecurityGroupSpec) AssignODataBindOnCreate(
+	model models.Groupable,
+	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
+) error {
 	additionalData := model.GetAdditionalData()
 	if additionalData == nil {
 		additionalData = make(map[string]any)
@@ -132,40 +158,28 @@ func (spec *SecurityGroupSpec) AssignODataBindOnCreate(model models.Groupable, r
 	if len(spec.Owners) > 0 {
 		owners := make([]string, 0, len(spec.Owners))
 		for i, o := range spec.Owners {
-			var id string
-			if o.ObjectID != nil {
-				id = *o.ObjectID
-			} else if o.ObjectIDFromConfig != nil {
-				val, err := resolved.Lookup(*o.ObjectIDFromConfig)
-				if err != nil {
-					return fmt.Errorf("failed resolving owners[%d].objectIDFromConfig: %w", i, err)
-				}
-				id = val
-			} else {
-				return fmt.Errorf("owners[%d] missing objectID or objectIDFromConfig", i)
+			id, err := o.ResolveObjectID(resolved)
+			if err != nil {
+				return fmt.Errorf("owners[%d]: %w", i, err)
 			}
+
 			owners = append(owners, graphDirectoryObjectURI(id))
 		}
+
 		additionalData["owners@odata.bind"] = owners
 	}
 
 	if len(spec.Members) > 0 {
 		members := make([]string, 0, len(spec.Members))
 		for i, m := range spec.Members {
-			var id string
-			if m.ObjectID != nil {
-				id = *m.ObjectID
-			} else if m.ObjectIDFromConfig != nil {
-				val, err := resolved.Lookup(*m.ObjectIDFromConfig)
-				if err != nil {
-					return fmt.Errorf("failed resolving members[%d].objectIDFromConfig: %w", i, err)
-				}
-				id = val
-			} else {
-				return fmt.Errorf("members[%d] missing objectID or objectIDFromConfig", i)
+			id, err := m.ResolveObjectID(resolved)
+			if err != nil {
+				return fmt.Errorf("members[%d]: %w", i, err)
 			}
+
 			members = append(members, graphDirectoryObjectURI(id))
 		}
+
 		additionalData["members@odata.bind"] = members
 	}
 
@@ -190,18 +204,12 @@ func resolveMemberObjectIDs(
 ) ([]string, error) {
 	result := make([]string, 0, len(references))
 	for i, ref := range references {
-		switch {
-		case ref.ObjectID != nil:
-			result = append(result, *ref.ObjectID)
-		case ref.ObjectIDFromConfig != nil:
-			v, err := resolved.Lookup(*ref.ObjectIDFromConfig)
-			if err != nil {
-				return nil, fmt.Errorf("failed resolving %s[%d].objectIDFromConfig: %w", field, i, err)
-			}
-			result = append(result, v)
-		default:
-			return nil, fmt.Errorf("%s[%d] missing objectID or objectIDFromConfig", field, i)
+		id, err := ref.ResolveObjectID(resolved)
+		if err != nil {
+			return nil, fmt.Errorf("%s[%d]: %w", field, i, err)
 		}
+
+		result = append(result, id)
 	}
 
 	return UniqueStrings(result), nil
