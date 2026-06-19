@@ -42,7 +42,7 @@ func tryThrottleRequeue(err error) (ctrl.Result, bool) {
 
 	retryAfter := retryAfterFromODataError(odataError)
 	if retryAfter <= 0 {
-		retryAfter = relationshipRetryFast
+		return ctrl.Result{}, false
 	}
 
 	return ctrl.Result{RequeueAfter: retryAfter}, true

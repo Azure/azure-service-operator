@@ -43,7 +43,7 @@ func TestClassifyRelationshipError_UsesRetryAfterForThrottle(t *testing.T) {
 	g.Expect(classifiedErr).ToNot(HaveOccurred())
 }
 
-func TestClassifyRelationshipError_ThrottleWithoutRetryAfterFallsBackToFast(t *testing.T) {
+func TestClassifyRelationshipError_ThrottleWithoutRetryAfterFallsBackToGenericClassification(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -52,7 +52,8 @@ func TestClassifyRelationshipError_ThrottleWithoutRetryAfterFallsBackToFast(t *t
 	result, classifiedErr := classifyRelationshipError(err)
 
 	g.Expect(result).To(Equal(ctrl.Result{RequeueAfter: 20 * time.Second}))
-	g.Expect(classifiedErr).ToNot(HaveOccurred())
+	g.Expect(classifiedErr).To(HaveOccurred())
+	g.Expect(classifiedErr.Error()).To(ContainSubstring("error reconciling SecurityGroup owners/members"))
 }
 
 func TestClassifyRelationshipError_UsesRetryFastForGenericError(t *testing.T) {
