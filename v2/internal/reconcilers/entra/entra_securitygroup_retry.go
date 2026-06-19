@@ -13,27 +13,54 @@ import (
 	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
 	"github.com/rotisserie/eris"
 	ctrl "sigs.k8s.io/controller-runtime"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
 )
 
-const (
-	relationshipRetryFast = 20 * time.Second
-	relationshipRetrySlow = 5 * time.Minute
-)
-
-func classifyRelationshipError(err error) (ctrl.Result, error) {
-	if result, ok := tryThrottleRequeue(err); ok {
-		return result, nil
+// Domain-specific Reasons for Entra SecurityGroup owner/member reconciliation.
+// We pick retry classifications so that the standard interval.Calculator gives us the
+// existing semantics: permission errors back off slowly, generic Graph errors back off
+// quickly. The calculator combines these classifications with any caller-supplied
+// RequeueAfter (e.g. parsed from a 429 Retry-After header) by taking the larger value.
+var (
+	reasonRelationshipPermissionDenied = conditions.Reason{
+		Name:                "GraphPermissionDenied",
+		RetryClassification: retry.Slow,
 	}
+	reasonRelationshipFailed = conditions.Reason{
+		Name:                "GraphRelationshipReconcileFailed",
+		RetryClassification: retry.Fast,
+	}
+)
+
+// classifyRelationshipError wraps an error from owner/member reconciliation as a
+// ReadyConditionImpactingError carrying the appropriate retry classification, and
+// surfaces any HTTP 429 Retry-After delay via ctrl.Result.RequeueAfter. The
+// interval.Calculator combines these signals: throttling can only slow us down,
+// never speed us up beyond the classification-based exponential backoff.
+func classifyRelationshipError(err error) (ctrl.Result, error) {
+	result, _ := tryThrottleRequeue(err)
 
 	if isPermissionError(err) {
-		return ctrl.Result{RequeueAfter: relationshipRetrySlow},
-			eris.Wrap(err, "permission denied reconciling SecurityGroup owners/members")
+		return result, conditions.NewReadyConditionImpactingError(
+			eris.Wrap(err, "permission denied reconciling SecurityGroup owners/members"),
+			conditions.ConditionSeverityWarning,
+			reasonRelationshipPermissionDenied,
+		)
 	}
 
-	return ctrl.Result{RequeueAfter: relationshipRetryFast},
-		eris.Wrap(err, "error reconciling SecurityGroup owners/members")
+	return result, conditions.NewReadyConditionImpactingError(
+		eris.Wrap(err, "error reconciling SecurityGroup owners/members"),
+		conditions.ConditionSeverityWarning,
+		reasonRelationshipFailed,
+	)
 }
 
+// tryThrottleRequeue extracts an HTTP 429 Retry-After header from an OData error and
+// returns it as a ctrl.Result.RequeueAfter. The bool indicates whether a usable
+// Retry-After value was found. A zero result is returned when no throttle signal is
+// present — callers can pass this straight to the calculator.
 func tryThrottleRequeue(err error) (ctrl.Result, bool) {
 	odataError, ok := asODataError(err)
 	if !ok || odataError.ResponseStatusCode != http.StatusTooManyRequests {

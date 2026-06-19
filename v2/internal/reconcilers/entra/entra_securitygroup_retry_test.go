@@ -16,9 +16,11 @@ import (
 	. "github.com/onsi/gomega"
 	"github.com/rotisserie/eris"
 	ctrl "sigs.k8s.io/controller-runtime"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-func TestClassifyRelationshipError_UsesRetrySlowForPermission(t *testing.T) {
+func TestClassifyRelationshipError_PermissionDenied_ReturnsSlowReadyConditionError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -26,12 +28,17 @@ func TestClassifyRelationshipError_UsesRetrySlowForPermission(t *testing.T) {
 
 	result, classifiedErr := classifyRelationshipError(err)
 
-	g.Expect(result).To(Equal(ctrl.Result{RequeueAfter: 5 * time.Minute}))
+	g.Expect(result).To(Equal(ctrl.Result{}))
 	g.Expect(classifiedErr).To(HaveOccurred())
 	g.Expect(classifiedErr.Error()).To(ContainSubstring("permission denied reconciling SecurityGroup owners/members"))
+
+	readyErr, ok := conditions.AsReadyConditionImpactingError(classifiedErr)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(readyErr.Reason).To(Equal(reasonRelationshipPermissionDenied.Name))
+	g.Expect(readyErr.RetryClassification).To(Equal(reasonRelationshipPermissionDenied.RetryClassification))
 }
 
-func TestClassifyRelationshipError_UsesRetryAfterForThrottle(t *testing.T) {
+func TestClassifyRelationshipError_Throttle_PropagatesRetryAfterInResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -39,11 +46,18 @@ func TestClassifyRelationshipError_UsesRetryAfterForThrottle(t *testing.T) {
 
 	result, classifiedErr := classifyRelationshipError(err)
 
+	// Throttle Retry-After is surfaced via result.RequeueAfter so the interval.Calculator
+	// can take the max of it and the classification-based backoff.
 	g.Expect(result).To(Equal(ctrl.Result{RequeueAfter: 42 * time.Second}))
-	g.Expect(classifiedErr).ToNot(HaveOccurred())
+	g.Expect(classifiedErr).To(HaveOccurred())
+
+	readyErr, ok := conditions.AsReadyConditionImpactingError(classifiedErr)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(readyErr.Reason).To(Equal(reasonRelationshipFailed.Name))
+	g.Expect(readyErr.RetryClassification).To(Equal(reasonRelationshipFailed.RetryClassification))
 }
 
-func TestClassifyRelationshipError_ThrottleWithoutRetryAfterFallsBackToGenericClassification(t *testing.T) {
+func TestClassifyRelationshipError_ThrottleWithoutRetryAfter_ReturnsFastReadyConditionError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -51,20 +65,30 @@ func TestClassifyRelationshipError_ThrottleWithoutRetryAfterFallsBackToGenericCl
 
 	result, classifiedErr := classifyRelationshipError(err)
 
-	g.Expect(result).To(Equal(ctrl.Result{RequeueAfter: 20 * time.Second}))
+	g.Expect(result).To(Equal(ctrl.Result{}))
 	g.Expect(classifiedErr).To(HaveOccurred())
 	g.Expect(classifiedErr.Error()).To(ContainSubstring("error reconciling SecurityGroup owners/members"))
+
+	readyErr, ok := conditions.AsReadyConditionImpactingError(classifiedErr)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(readyErr.Reason).To(Equal(reasonRelationshipFailed.Name))
+	g.Expect(readyErr.RetryClassification).To(Equal(reasonRelationshipFailed.RetryClassification))
 }
 
-func TestClassifyRelationshipError_UsesRetryFastForGenericError(t *testing.T) {
+func TestClassifyRelationshipError_GenericError_ReturnsFastReadyConditionError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	result, classifiedErr := classifyRelationshipError(errors.New("boom"))
 
-	g.Expect(result).To(Equal(ctrl.Result{RequeueAfter: 20 * time.Second}))
+	g.Expect(result).To(Equal(ctrl.Result{}))
 	g.Expect(classifiedErr).To(HaveOccurred())
 	g.Expect(classifiedErr.Error()).To(ContainSubstring("error reconciling SecurityGroup owners/members"))
+
+	readyErr, ok := conditions.AsReadyConditionImpactingError(classifiedErr)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(readyErr.Reason).To(Equal(reasonRelationshipFailed.Name))
+	g.Expect(readyErr.RetryClassification).To(Equal(reasonRelationshipFailed.RetryClassification))
 }
 
 func TestTryThrottleRequeue_UsesRetryAfterHTTPDate(t *testing.T) {

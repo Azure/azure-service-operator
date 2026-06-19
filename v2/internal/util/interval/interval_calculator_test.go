@@ -380,3 +380,70 @@ func Test_KubeClientConflict_ReturnsBackoff(t *testing.T) {
 
 	g.Expect(calc.(*calculator).failures).To(HaveLen(1))
 }
+
+// Test_ReadyConditionErrorWithCallerSuppliedRequeueAfter_LargerThanBackoff_UsesCallerValue verifies that
+// when the caller supplies a RequeueAfter (e.g. from an HTTP Retry-After header) that is larger than the
+// classification-based exponential backoff, the calculator honors the larger caller value. Upstream
+// throttling signals must slow us down beyond our own backoff schedule.
+func Test_ReadyConditionErrorWithCallerSuppliedRequeueAfter_LargerThanBackoff_UsesCallerValue(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	calc := newCalculator(
+		CalculatorParameters{
+			ErrorBaseDelay:     1 * time.Second,
+			ErrorMaxFastDelay:  5 * time.Second,
+			ErrorMaxSlowDelay:  10 * time.Second,
+			ErrorVerySlowDelay: 20 * time.Second,
+		},
+	)
+
+	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
+
+	inputErr := conditions.NewReadyConditionImpactingError(
+		eris.New("throttled"),
+		conditions.ConditionSeverityWarning,
+		conditions.Reason{Name: "Throttled", RetryClassification: retry.Fast},
+	)
+
+	// First failure → exponential backoff would be 1s, but caller asked for 42s
+	callerSupplied := ctrl.Result{RequeueAfter: 42 * time.Second}
+	result, err := calc.NextInterval(req, callerSupplied, inputErr)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result).To(Equal(ctrl.Result{RequeueAfter: 42 * time.Second}))
+}
+
+// Test_ReadyConditionErrorWithCallerSuppliedRequeueAfter_SmallerThanBackoff_UsesBackoff verifies that
+// when the caller-supplied RequeueAfter is smaller than the classification-based backoff, the calculator
+// uses its own backoff. Upstream throttling signals must never speed us up beyond our own backoff schedule.
+func Test_ReadyConditionErrorWithCallerSuppliedRequeueAfter_SmallerThanBackoff_UsesBackoff(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	calc := newCalculator(
+		CalculatorParameters{
+			ErrorBaseDelay:     1 * time.Second,
+			ErrorMaxFastDelay:  5 * time.Second,
+			ErrorMaxSlowDelay:  10 * time.Second,
+			ErrorVerySlowDelay: 20 * time.Second,
+		},
+	)
+
+	req := ctrl.Request{NamespacedName: types.NamespacedName{Namespace: "foo", Name: "bar"}}
+
+	inputErr := conditions.NewReadyConditionImpactingError(
+		eris.New("problem"),
+		conditions.ConditionSeverityWarning,
+		conditions.Reason{Name: "Abc", RetryClassification: retry.Slow},
+	)
+
+	// Drive the failure counter up so the Slow backoff is 8s
+	for i := 0; i < 3; i++ {
+		_, _ = calc.NextInterval(req, ctrl.Result{}, inputErr)
+	}
+
+	// 4th failure → Slow backoff is 8s, caller asked for 1s → calculator wins
+	result, err := calc.NextInterval(req, ctrl.Result{RequeueAfter: 1 * time.Second}, inputErr)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(result).To(Equal(ctrl.Result{RequeueAfter: 8 * time.Second}))
+}
