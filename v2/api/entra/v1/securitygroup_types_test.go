@@ -78,7 +78,7 @@ func TestSecurityGroupSpec_AssignODataBindOnCreate_ErrorsWhenNeitherSet(t *testi
 	group := msgraphmodels.NewGroup()
 	err := spec.AssignODataBindOnCreate(group, genruntime.MakeResolved[genruntime.ConfigMapReference, string](nil))
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("owners[0]"))
+	g.Expect(err).To(MatchError(ContainSubstring("owners[0]")))
 }
 
 func TestSecurityGroupSpec_AssignODataBindOnCreate_ErrorsWhenConfigLookupFails(t *testing.T) {
@@ -95,7 +95,8 @@ func TestSecurityGroupSpec_AssignODataBindOnCreate_ErrorsWhenConfigLookupFails(t
 	group := msgraphmodels.NewGroup()
 	err := spec.AssignODataBindOnCreate(group, genruntime.MakeResolved[genruntime.ConfigMapReference, string](nil))
 	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("members[0].objectIDFromConfig"))
+	g.Expect(err).To(MatchError(ContainSubstring("members[0]")))
+	g.Expect(err).To(MatchError(ContainSubstring("objectIDFromConfig")))
 }
 
 func TestSecurityGroupSpec_ResolveOwnerObjectIDs_DeduplicatesResolvedValues(t *testing.T) {
