@@ -5,7 +5,7 @@ metadata:
 spec:
   identity:
     type: SystemAssigned
-  kind: OpenAI
+  kind: AIServices
   location: westus3
   operatorSpec:
     secrets:
@@ -20,10 +20,13 @@ spec:
         key: endpoint
         value: self.status.properties.endpoint
       - name: sample-secrets
-        value: 'self.status.properties.endpoints.transformMapEntry(k, v, {k.replace(" ", "-").lowerAscii(): v})'
+        key: openai-endpoint
+        value: 'self.status.properties.endpoints["OpenAI Language Model Instance API"]'
   owner:
     name: sample-rg
   properties:
+    allowProjectManagement: true
+    customSubDomainName: sample-name
     publicNetworkAccess: Enabled
   sku:
     name: S0

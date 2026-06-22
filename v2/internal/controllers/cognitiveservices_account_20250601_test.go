@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	cognitiveservices "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601"
+	cognitiveservicesv20250601 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v20250601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -33,7 +34,7 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 			Identity: &cognitiveservices.Identity{
 				Type: to.Ptr(cognitiveservices.Identity_Type_SystemAssigned),
 			},
-			Kind:     to.Ptr("OpenAI"),
+			Kind:     to.Ptr("AIServices"),
 			Location: tc.AzureRegion,
 			OperatorSpec: &cognitiveservices.AccountOperatorSpec{
 				Secrets: &cognitiveservices.AccountOperatorSecrets{
@@ -48,13 +49,16 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 					},
 					{
 						Name:  "cogsecrets",
-						Value: `self.status.properties.endpoints.transformMapEntry(k, v, {k.replace(" ", "-").lowerAscii(): v})`,
+						Key:   "openai-endpoint",
+						Value: `self.status.properties.endpoints["OpenAI Language Model Instance API"]`,
 					},
 				},
 			},
 			Owner: testcommon.AsOwner(rg),
 			Properties: &cognitiveservices.AccountProperties{
-				PublicNetworkAccess: to.Ptr(cognitiveservices.AccountProperties_PublicNetworkAccess_Enabled),
+				AllowProjectManagement: to.Ptr(true),
+				CustomSubDomainName:    to.Ptr(tc.NoSpaceNamer.GenerateName("cogsvcacc")),
+				PublicNetworkAccess:    to.Ptr(cognitiveservices.AccountProperties_PublicNetworkAccess_Enabled),
 			},
 			Sku: &cognitiveservices.Sku{
 				Name: to.Ptr("S0"),
@@ -69,14 +73,7 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 		"key1",
 		"key2",
 		"endpoint",
-		"openai-dall-e-api",
-		"openai-language-model-instance-api",
-		"openai-model-scaleset-api",
-		"openai-moderations-api",
-		"openai-realtime-api",
-		"openai-sora-api",
-		"openai-whisper-api",
-		"token-service-api",
+		"openai-endpoint",
 	)
 
 	oldAcc := account.DeepCopy()
@@ -92,12 +89,51 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 			Name: "CognitiveServices Deployment CRUD",
 			Test: cognitiveServicesDeploymentCRUD(account),
 		},
+		testcommon.Subtest{
+			Name: "CognitiveServices Project CRUD",
+			Test: cognitiveServicesProjectCRUD(account),
+		},
 	)
 
 	tc.DeleteResourceAndWait(account)
 	exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, *account.Status.Id, string(cognitiveservices.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
+}
+
+func cognitiveServicesProjectCRUD(account *cognitiveservices.Account) func(tc *testcommon.KubePerTestContext) {
+	return func(tc *testcommon.KubePerTestContext) {
+		project := &cognitiveservicesv20250601.Project{
+			ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("cogsvcprj")),
+			Spec: cognitiveservicesv20250601.Project_Spec{
+				Identity: &cognitiveservicesv20250601.Identity{
+					Type: to.Ptr(cognitiveservicesv20250601.Identity_Type_SystemAssigned),
+				},
+				Location: tc.AzureRegion,
+				Owner:    testcommon.AsOwner(account),
+				Properties: &cognitiveservicesv20250601.ProjectProperties{
+					Description: to.Ptr("Test project for ASO integration tests"),
+					DisplayName: to.Ptr("ASO Test Project"),
+				},
+			},
+		}
+
+		tc.CreateResourcesAndWait(project)
+		tc.Expect(project.Status.Id).ToNot(BeNil())
+		tc.Expect(project.Status.Properties).ToNot(BeNil())
+		tc.Expect(project.Status.Properties.DisplayName).To(Equal(to.Ptr("ASO Test Project")))
+
+		// Update the project description
+		oldProject := project.DeepCopy()
+		project.Spec.Properties.Description = to.Ptr("Updated description")
+		tc.PatchResourceAndWait(oldProject, project)
+		tc.Expect(project.Status.Properties.Description).To(Equal(to.Ptr("Updated description")))
+
+		tc.DeleteResourceAndWait(project)
+		exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, *project.Status.Id, string(cognitiveservicesv20250601.APIVersion_Value))
+		tc.Expect(err).ToNot(HaveOccurred())
+		tc.Expect(exists).To(BeFalse())
+	}
 }
 
 func cognitiveServicesDeploymentCRUD(account *cognitiveservices.Account) func(tc *testcommon.KubePerTestContext) {
@@ -111,7 +147,7 @@ func cognitiveServicesDeploymentCRUD(account *cognitiveservices.Account) func(tc
 						Name:      to.Ptr("gpt-4o"),
 						Format:    to.Ptr("OpenAI"),
 						Publisher: to.Ptr("OpenAI"),
-						Version:   to.Ptr("2024-08-06"),
+						Version:   to.Ptr("2024-11-20"),
 					},
 				},
 				Sku: &cognitiveservices.Sku{
@@ -125,10 +161,9 @@ func cognitiveServicesDeploymentCRUD(account *cognitiveservices.Account) func(tc
 		tc.Expect(deployment.Status.Id).ToNot(BeNil())
 
 		oldDep := deployment.DeepCopy()
-		deployment.Spec.Properties.Model.Version = to.Ptr("2024-11-20")
+		deployment.Spec.Sku.Capacity = to.Ptr(2)
 		tc.PatchResourceAndWait(oldDep, deployment)
-		tc.Expect(deployment.Status.Properties.Model.Version).To(Equal(to.Ptr("2024-11-20")))
-
+		tc.Expect(deployment.Status.Sku.Capacity).To(Equal(to.Ptr(2)))
 		tc.DeleteResourceAndWait(deployment)
 		exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, *deployment.Status.Id, string(cognitiveservices.APIVersion_Value))
 		tc.Expect(err).ToNot(HaveOccurred())
