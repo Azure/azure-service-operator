@@ -21,10 +21,10 @@ import (
 // independent from those of the receiver. In practice, several of those structures are shared by
 // reference rather than deep-copied — this is safe because:
 //
-//   - The pipeline runner replaces the previous state with the new one immediately and never
-//     reads the previous state again (see CodeGenerator.Generate).
-//   - All mutations are performed only via the "With…" helpers, which either replace the entire
-//     map (definitions) or perform a single targeted mutation just after copy() returns.
+//   - The pipeline runner may still read the prior state for logging/debugging (for example,
+//     to diff definitions in CodeGenerator.Generate/logStateChanges) but then replaces it.
+//   - Callers must not mutate the shared definitions map in-place; when definitions change,
+//     "With…" helpers must replace it with a newly allocated map (for example via OverlayWith).
 //
 // Sharing the definitions map (rather than cloning the full 100k+ entry TypeDefinitionSet on
 // every stage transition) is a significant performance win.
@@ -114,7 +114,7 @@ func (s *State) CheckFinalState() error {
 	return kerrors.NewAggregate(errs)
 }
 
-// copy creates a new independent copy of the state.
+// copy creates a new State instance based on the receiver.
 //
 // definitions, stagesSeen, and stagesExpected are intentionally shared by reference with the
 // receiver: see the documentation on State for the reasoning. The caller is responsible for
