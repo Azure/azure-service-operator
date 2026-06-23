@@ -3,7 +3,7 @@ module github.com/Azure/azure-service-operator/hack/crossplane
 go 1.26.0
 
 require (
-	github.com/crossplane/crossplane-runtime v1.20.9
+	github.com/crossplane/crossplane-runtime v1.20.10
 	k8s.io/apimachinery v0.36.2
 	sigs.k8s.io/controller-runtime v0.24.1
 )
