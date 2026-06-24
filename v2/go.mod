@@ -38,7 +38,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/hbollon/go-edlib v1.7.0
 	github.com/jackc/pgx/v5 v5.10.0
-	github.com/jellydator/ttlcache/v3 v3.4.0
+	github.com/jellydator/ttlcache/v3 v3.4.1
 	github.com/kr/pretty v0.3.1
 	github.com/kylelemons/godebug v1.1.0
 	github.com/leanovate/gopter v0.2.11
