@@ -100,7 +100,7 @@ jobs:
           branch: ${{ format('bot/update-helm-chart-{0}', env.ref) }}
           base: main
           delete-branch: true
-          title: "[Automated] Add Helm Chart"
+          title: "chore: Add Helm Chart [Automated]"
           body: |
             Add new helm chart for latest release
 
