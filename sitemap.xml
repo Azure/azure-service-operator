@@ -704,6 +704,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v20250401/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cognitiveservices/v20250601/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20250601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20250601preview/</loc>

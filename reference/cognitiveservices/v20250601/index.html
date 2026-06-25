@@ -17,30 +17,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>eventhub.azure.com/v1api20240101 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2024-01-01” Namespace Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/namespaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}
-Used by: NamespaceList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecOptional status Namespace_STATUSOptional Namespace_Spec Property Description Type alternateName Alternate name specified when alias and namespace names are same. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional clusterArmReference Cluster ARM ID of the Namespace. genruntime.ResourceReferenceOptional disableLocalAuth This property disables SAS authentication for the Event Hubs namespace. boolOptional encryption Properties of BYOK Encryption description EncryptionOptional identity Properties of BYOK Identity description IdentityOptional isAutoInflateEnabled Value that indicates whether AutoInflate is enabled for eventhub namespace. boolOptional kafkaEnabled Value that indicates whether Kafka is enabled for eventhub namespace. boolOptional location Resource location. stringOptional maximumThroughputUnits Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true) intOptional minimumTlsVersion The minimum TLS version for the cluster to support, e.g. 1.2 Namespace_Properties_MinimumTlsVersion_SpecOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure NamespaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. Namespace_Properties_PublicNetworkAccess_SpecOptional sku Properties of sku resource SkuOptional tags Resource tags. map[string]stringOptional zoneRedundant Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones. boolOptional Namespace_STATUS Property Description Type alternateName Alternate name specified when alias and namespace names are same. stringOptional clusterArmId Cluster ARM ID of the Namespace. stringOptional conditions The observed state of the resource conditions.Condition[]Optional createdAt The time the Namespace was created. stringOptional disableLocalAuth This property disables SAS authentication for the Event Hubs namespace. boolOptional encryption Properties of BYOK Encryption description Encryption_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Properties of BYOK Identity description Identity_STATUSOptional isAutoInflateEnabled Value that indicates whether AutoInflate is enabled for eventhub namespace. boolOptional kafkaEnabled Value that indicates whether Kafka is enabled for eventhub namespace. boolOptional location Resource location. stringOptional maximumThroughputUnits Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true) intOptional metricId Identifier for Azure Insights metrics. stringOptional minimumTlsVersion The minimum TLS version for the cluster to support, e.g. 1.2 Namespace_Properties_MinimumTlsVersion_STATUSOptional name The name of the resource stringOptional privateEndpointConnections List of private endpoint connections. PrivateEndpointConnection_STATUS[]Optional provisioningState Provisioning state of the Namespace. stringOptional publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. Namespace_Properties_PublicNetworkAccess_STATUSOptional serviceBusEndpoint Endpoint you can use to perform Service Bus operations. stringOptional sku Properties of sku resource Sku_STATUSOptional status Status of the Namespace. stringOptional systemData The system meta data relating to this resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updatedAt The time the Namespace was updated. stringOptional zoneRedundant Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones. boolOptional NamespaceList Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/namespaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}">
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/eventhub/v1api20240101/">
+<title>cognitiveservices.azure.com/v20250601 | Azure Service Operator</title>
+<meta name="description" content="APIVersion Value Description “2025-06-01” Project Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}/​projects/​{projectName}
+Used by: ProjectList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Project_SpecOptional status Project_STATUSOptional Project_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity Identity for the resource. IdentityOptional location The geo-location where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ProjectOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cognitiveservices.azure.com/Account resource genruntime.KnownResourceReferenceRequired properties Properties of Cognitive Services project. ProjectPropertiesOptional tags Resource tags. map[string]stringOptional Project_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag Resource Etag. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Identity for the resource. Identity_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional properties Properties of Cognitive Services project. ProjectProperties_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional ProjectList Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}/​projects/​{projectName}">
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/cognitiveservices/v20250601/">
   <meta property="og:site_name" content="Azure Service Operator">
-  <meta property="og:title" content="eventhub.azure.com/v1api20240101">
-  <meta property="og:description" content="APIVersion Value Description “2024-01-01” Namespace Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/namespaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}
-Used by: NamespaceList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecOptional status Namespace_STATUSOptional Namespace_Spec Property Description Type alternateName Alternate name specified when alias and namespace names are same. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional clusterArmReference Cluster ARM ID of the Namespace. genruntime.ResourceReferenceOptional disableLocalAuth This property disables SAS authentication for the Event Hubs namespace. boolOptional encryption Properties of BYOK Encryption description EncryptionOptional identity Properties of BYOK Identity description IdentityOptional isAutoInflateEnabled Value that indicates whether AutoInflate is enabled for eventhub namespace. boolOptional kafkaEnabled Value that indicates whether Kafka is enabled for eventhub namespace. boolOptional location Resource location. stringOptional maximumThroughputUnits Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true) intOptional minimumTlsVersion The minimum TLS version for the cluster to support, e.g. 1.2 Namespace_Properties_MinimumTlsVersion_SpecOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure NamespaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. Namespace_Properties_PublicNetworkAccess_SpecOptional sku Properties of sku resource SkuOptional tags Resource tags. map[string]stringOptional zoneRedundant Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones. boolOptional Namespace_STATUS Property Description Type alternateName Alternate name specified when alias and namespace names are same. stringOptional clusterArmId Cluster ARM ID of the Namespace. stringOptional conditions The observed state of the resource conditions.Condition[]Optional createdAt The time the Namespace was created. stringOptional disableLocalAuth This property disables SAS authentication for the Event Hubs namespace. boolOptional encryption Properties of BYOK Encryption description Encryption_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Properties of BYOK Identity description Identity_STATUSOptional isAutoInflateEnabled Value that indicates whether AutoInflate is enabled for eventhub namespace. boolOptional kafkaEnabled Value that indicates whether Kafka is enabled for eventhub namespace. boolOptional location Resource location. stringOptional maximumThroughputUnits Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true) intOptional metricId Identifier for Azure Insights metrics. stringOptional minimumTlsVersion The minimum TLS version for the cluster to support, e.g. 1.2 Namespace_Properties_MinimumTlsVersion_STATUSOptional name The name of the resource stringOptional privateEndpointConnections List of private endpoint connections. PrivateEndpointConnection_STATUS[]Optional provisioningState Provisioning state of the Namespace. stringOptional publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. Namespace_Properties_PublicNetworkAccess_STATUSOptional serviceBusEndpoint Endpoint you can use to perform Service Bus operations. stringOptional sku Properties of sku resource Sku_STATUSOptional status Status of the Namespace. stringOptional systemData The system meta data relating to this resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updatedAt The time the Namespace was updated. stringOptional zoneRedundant Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones. boolOptional NamespaceList Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/namespaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}">
+  <meta property="og:title" content="cognitiveservices.azure.com/v20250601">
+  <meta property="og:description" content="APIVersion Value Description “2025-06-01” Project Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}/​projects/​{projectName}
+Used by: ProjectList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Project_SpecOptional status Project_STATUSOptional Project_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity Identity for the resource. IdentityOptional location The geo-location where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ProjectOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cognitiveservices.azure.com/Account resource genruntime.KnownResourceReferenceRequired properties Properties of Cognitive Services project. ProjectPropertiesOptional tags Resource tags. map[string]stringOptional Project_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag Resource Etag. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Identity for the resource. Identity_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional properties Properties of Cognitive Services project. ProjectProperties_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional ProjectList Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}/​projects/​{projectName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
-  <meta itemprop="name" content="eventhub.azure.com/v1api20240101">
-  <meta itemprop="description" content="APIVersion Value Description “2024-01-01” Namespace Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/namespaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}
-Used by: NamespaceList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecOptional status Namespace_STATUSOptional Namespace_Spec Property Description Type alternateName Alternate name specified when alias and namespace names are same. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional clusterArmReference Cluster ARM ID of the Namespace. genruntime.ResourceReferenceOptional disableLocalAuth This property disables SAS authentication for the Event Hubs namespace. boolOptional encryption Properties of BYOK Encryption description EncryptionOptional identity Properties of BYOK Identity description IdentityOptional isAutoInflateEnabled Value that indicates whether AutoInflate is enabled for eventhub namespace. boolOptional kafkaEnabled Value that indicates whether Kafka is enabled for eventhub namespace. boolOptional location Resource location. stringOptional maximumThroughputUnits Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true) intOptional minimumTlsVersion The minimum TLS version for the cluster to support, e.g. 1.2 Namespace_Properties_MinimumTlsVersion_SpecOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure NamespaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. Namespace_Properties_PublicNetworkAccess_SpecOptional sku Properties of sku resource SkuOptional tags Resource tags. map[string]stringOptional zoneRedundant Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones. boolOptional Namespace_STATUS Property Description Type alternateName Alternate name specified when alias and namespace names are same. stringOptional clusterArmId Cluster ARM ID of the Namespace. stringOptional conditions The observed state of the resource conditions.Condition[]Optional createdAt The time the Namespace was created. stringOptional disableLocalAuth This property disables SAS authentication for the Event Hubs namespace. boolOptional encryption Properties of BYOK Encryption description Encryption_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Properties of BYOK Identity description Identity_STATUSOptional isAutoInflateEnabled Value that indicates whether AutoInflate is enabled for eventhub namespace. boolOptional kafkaEnabled Value that indicates whether Kafka is enabled for eventhub namespace. boolOptional location Resource location. stringOptional maximumThroughputUnits Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true) intOptional metricId Identifier for Azure Insights metrics. stringOptional minimumTlsVersion The minimum TLS version for the cluster to support, e.g. 1.2 Namespace_Properties_MinimumTlsVersion_STATUSOptional name The name of the resource stringOptional privateEndpointConnections List of private endpoint connections. PrivateEndpointConnection_STATUS[]Optional provisioningState Provisioning state of the Namespace. stringOptional publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. Namespace_Properties_PublicNetworkAccess_STATUSOptional serviceBusEndpoint Endpoint you can use to perform Service Bus operations. stringOptional sku Properties of sku resource Sku_STATUSOptional status Status of the Namespace. stringOptional systemData The system meta data relating to this resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updatedAt The time the Namespace was updated. stringOptional zoneRedundant Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones. boolOptional NamespaceList Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/namespaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}">
-  <meta itemprop="wordCount" content="5256">
+  <meta itemprop="name" content="cognitiveservices.azure.com/v20250601">
+  <meta itemprop="description" content="APIVersion Value Description “2025-06-01” Project Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}/​projects/​{projectName}
+Used by: ProjectList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Project_SpecOptional status Project_STATUSOptional Project_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity Identity for the resource. IdentityOptional location The geo-location where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ProjectOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cognitiveservices.azure.com/Account resource genruntime.KnownResourceReferenceRequired properties Properties of Cognitive Services project. ProjectPropertiesOptional tags Resource tags. map[string]stringOptional Project_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag Resource Etag. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Identity for the resource. Identity_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional properties Properties of Cognitive Services project. ProjectProperties_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional ProjectList Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}/​projects/​{projectName}">
+  <meta itemprop="wordCount" content="903">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="eventhub.azure.com/v1api20240101">
-  <meta name="twitter:description" content="APIVersion Value Description “2024-01-01” Namespace Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/namespaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}
-Used by: NamespaceList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecOptional status Namespace_STATUSOptional Namespace_Spec Property Description Type alternateName Alternate name specified when alias and namespace names are same. stringOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional clusterArmReference Cluster ARM ID of the Namespace. genruntime.ResourceReferenceOptional disableLocalAuth This property disables SAS authentication for the Event Hubs namespace. boolOptional encryption Properties of BYOK Encryption description EncryptionOptional identity Properties of BYOK Identity description IdentityOptional isAutoInflateEnabled Value that indicates whether AutoInflate is enabled for eventhub namespace. boolOptional kafkaEnabled Value that indicates whether Kafka is enabled for eventhub namespace. boolOptional location Resource location. stringOptional maximumThroughputUnits Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true) intOptional minimumTlsVersion The minimum TLS version for the cluster to support, e.g. 1.2 Namespace_Properties_MinimumTlsVersion_SpecOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure NamespaceOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. Namespace_Properties_PublicNetworkAccess_SpecOptional sku Properties of sku resource SkuOptional tags Resource tags. map[string]stringOptional zoneRedundant Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones. boolOptional Namespace_STATUS Property Description Type alternateName Alternate name specified when alias and namespace names are same. stringOptional clusterArmId Cluster ARM ID of the Namespace. stringOptional conditions The observed state of the resource conditions.Condition[]Optional createdAt The time the Namespace was created. stringOptional disableLocalAuth This property disables SAS authentication for the Event Hubs namespace. boolOptional encryption Properties of BYOK Encryption description Encryption_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Properties of BYOK Identity description Identity_STATUSOptional isAutoInflateEnabled Value that indicates whether AutoInflate is enabled for eventhub namespace. boolOptional kafkaEnabled Value that indicates whether Kafka is enabled for eventhub namespace. boolOptional location Resource location. stringOptional maximumThroughputUnits Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( 0 if AutoInflateEnabled = true) intOptional metricId Identifier for Azure Insights metrics. stringOptional minimumTlsVersion The minimum TLS version for the cluster to support, e.g. 1.2 Namespace_Properties_MinimumTlsVersion_STATUSOptional name The name of the resource stringOptional privateEndpointConnections List of private endpoint connections. PrivateEndpointConnection_STATUS[]Optional provisioningState Provisioning state of the Namespace. stringOptional publicNetworkAccess This determines if traffic is allowed over public network. By default it is enabled. Namespace_Properties_PublicNetworkAccess_STATUSOptional serviceBusEndpoint Endpoint you can use to perform Service Bus operations. stringOptional sku Properties of sku resource Sku_STATUSOptional status Status of the Namespace. stringOptional systemData The system meta data relating to this resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional updatedAt The time the Namespace was updated. stringOptional zoneRedundant Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones. boolOptional NamespaceList Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/namespaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}">
+  <meta name="twitter:title" content="cognitiveservices.azure.com/v20250601">
+  <meta name="twitter:description" content="APIVersion Value Description “2025-06-01” Project Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}/​projects/​{projectName}
+Used by: ProjectList.
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Project_SpecOptional status Project_STATUSOptional Project_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional identity Identity for the resource. IdentityOptional location The geo-location where the resource lives stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ProjectOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cognitiveservices.azure.com/Account resource genruntime.KnownResourceReferenceRequired properties Properties of Cognitive Services project. ProjectPropertiesOptional tags Resource tags. map[string]stringOptional Project_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional etag Resource Etag. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Identity for the resource. Identity_STATUSOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional properties Properties of Cognitive Services project. ProjectProperties_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional ProjectList Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}/​projects/​{projectName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -383,13 +383,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   <a href="/azure-service-operator/reference/cdn/v1api20230501/" title="cdn.azure.com/v1api20230501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecdnv1api20230501"><span class="">v1api20230501</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecognitiveservices-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferencecognitiveservices-li">
   <a href="/azure-service-operator/reference/cognitiveservices/" title="CognitiveServices Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferencecognitiveservices"><span class="">CognitiveServices</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecognitiveservicesv1api20250601-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferencecognitiveservicesv1api20250601-li">
   <a href="/azure-service-operator/reference/cognitiveservices/v1api20250601/" title="cognitiveservices.azure.com/v1api20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecognitiveservicesv1api20250601"><span class="">v1api20250601</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecognitiveservicesv20250601-li">
-  <a href="/azure-service-operator/reference/cognitiveservices/v20250601/" title="cognitiveservices.azure.com/v20250601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecognitiveservicesv20250601"><span class="">v20250601</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferencecognitiveservicesv20250601-li">
+  <a href="/azure-service-operator/reference/cognitiveservices/v20250601/" title="cognitiveservices.azure.com/v20250601" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecognitiveservicesv20250601"><span class="td-sidebar-nav-active-item">v20250601</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecommunication-li">
@@ -574,13 +574,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   <a href="/azure-service-operator/reference/eventgrid/v20200601/" title="eventgrid.azure.com/v20200601" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventgridv20200601"><span class="">v20200601</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorreferenceeventhub-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferenceeventhub-li">
   <a href="/azure-service-operator/reference/eventhub/" title="EventHub Supported Resources" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorreferenceeventhub"><span class="">EventHub</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20211101-li">
   <a href="/azure-service-operator/reference/eventhub/v1api20211101/" title="eventhub.azure.com/v1api20211101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20211101"><span class="">v1api20211101</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorreferenceeventhubv1api20240101-li">
-  <a href="/azure-service-operator/reference/eventhub/v1api20240101/" title="eventhub.azure.com/v1api20240101" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="td-sidebar-nav-active-item">v1api20240101</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferenceeventhubv1api20240101-li">
+  <a href="/azure-service-operator/reference/eventhub/v1api20240101/" title="eventhub.azure.com/v1api20240101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferenceeventhubv1api20240101"><span class="">v1api20240101</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencenetworkfrontdoor-li">
@@ -1000,106 +1000,28 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
         <nav id="TableOfContents">
   <ul>
     <li><a href="#APIVersion">APIVersion</a></li>
-    <li><a href="#Namespace">Namespace</a>
+    <li><a href="#Project">Project</a>
       <ul>
-        <li><a href="#Namespace_Spec">Namespace_Spec</a></li>
-        <li><a href="#Namespace_STATUS">Namespace_STATUS</a></li>
+        <li><a href="#Project_Spec">Project_Spec</a></li>
+        <li><a href="#Project_STATUS">Project_STATUS</a></li>
       </ul>
     </li>
-    <li><a href="#NamespaceList">NamespaceList</a></li>
-    <li><a href="#NamespacesAuthorizationRule">NamespacesAuthorizationRule</a>
-      <ul>
-        <li><a href="#NamespacesAuthorizationRule_Spec">NamespacesAuthorizationRule_Spec</a></li>
-        <li><a href="#NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#NamespacesAuthorizationRuleList">NamespacesAuthorizationRuleList</a></li>
-    <li><a href="#NamespacesEventhub">NamespacesEventhub</a>
-      <ul>
-        <li><a href="#NamespacesEventhub_Spec">NamespacesEventhub_Spec</a></li>
-        <li><a href="#NamespacesEventhub_STATUS">NamespacesEventhub_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#NamespacesEventhubList">NamespacesEventhubList</a></li>
-    <li><a href="#NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</a>
-      <ul>
-        <li><a href="#NamespacesEventhubsAuthorizationRule_Spec">NamespacesEventhubsAuthorizationRule_Spec</a></li>
-        <li><a href="#NamespacesEventhubsAuthorizationRule_STATUS">NamespacesEventhubsAuthorizationRule_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#NamespacesEventhubsAuthorizationRuleList">NamespacesEventhubsAuthorizationRuleList</a></li>
-    <li><a href="#NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup</a>
-      <ul>
-        <li><a href="#NamespacesEventhubsConsumerGroup_Spec">NamespacesEventhubsConsumerGroup_Spec</a></li>
-        <li><a href="#NamespacesEventhubsConsumerGroup_STATUS">NamespacesEventhubsConsumerGroup_STATUS</a></li>
-      </ul>
-    </li>
-    <li><a href="#NamespacesEventhubsConsumerGroupList">NamespacesEventhubsConsumerGroupList</a></li>
-    <li><a href="#Namespace_Spec">Namespace_Spec</a></li>
-    <li><a href="#Namespace_STATUS">Namespace_STATUS</a></li>
-    <li><a href="#NamespacesAuthorizationRule_Spec">NamespacesAuthorizationRule_Spec</a></li>
-    <li><a href="#NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS</a></li>
-    <li><a href="#NamespacesEventhub_Spec">NamespacesEventhub_Spec</a></li>
-    <li><a href="#NamespacesEventhub_STATUS">NamespacesEventhub_STATUS</a></li>
-    <li><a href="#NamespacesEventhubsAuthorizationRule_Spec">NamespacesEventhubsAuthorizationRule_Spec</a></li>
-    <li><a href="#NamespacesEventhubsAuthorizationRule_STATUS">NamespacesEventhubsAuthorizationRule_STATUS</a></li>
-    <li><a href="#NamespacesEventhubsConsumerGroup_Spec">NamespacesEventhubsConsumerGroup_Spec</a></li>
-    <li><a href="#NamespacesEventhubsConsumerGroup_STATUS">NamespacesEventhubsConsumerGroup_STATUS</a></li>
-    <li><a href="#CaptureDescription">CaptureDescription</a></li>
-    <li><a href="#CaptureDescription_STATUS">CaptureDescription_STATUS</a></li>
-    <li><a href="#Encryption">Encryption</a></li>
-    <li><a href="#Encryption_STATUS">Encryption_STATUS</a></li>
+    <li><a href="#ProjectList">ProjectList</a></li>
+    <li><a href="#Project_Spec">Project_Spec</a></li>
+    <li><a href="#Project_STATUS">Project_STATUS</a></li>
     <li><a href="#Identity">Identity</a></li>
     <li><a href="#Identity_STATUS">Identity_STATUS</a></li>
-    <li><a href="#Namespace_Properties_MinimumTlsVersion_Spec">Namespace_Properties_MinimumTlsVersion_Spec</a></li>
-    <li><a href="#Namespace_Properties_MinimumTlsVersion_STATUS">Namespace_Properties_MinimumTlsVersion_STATUS</a></li>
-    <li><a href="#Namespace_Properties_PublicNetworkAccess_Spec">Namespace_Properties_PublicNetworkAccess_Spec</a></li>
-    <li><a href="#Namespace_Properties_PublicNetworkAccess_STATUS">Namespace_Properties_PublicNetworkAccess_STATUS</a></li>
-    <li><a href="#NamespaceOperatorSpec">NamespaceOperatorSpec</a></li>
-    <li><a href="#Namespaces_AuthorizationRule_Properties_Rights_Spec">Namespaces_AuthorizationRule_Properties_Rights_Spec</a></li>
-    <li><a href="#Namespaces_AuthorizationRule_Properties_Rights_STATUS">Namespaces_AuthorizationRule_Properties_Rights_STATUS</a></li>
-    <li><a href="#Namespaces_Eventhub_Properties_Status_STATUS">Namespaces_Eventhub_Properties_Status_STATUS</a></li>
-    <li><a href="#Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec</a></li>
-    <li><a href="#Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS</a></li>
-    <li><a href="#NamespacesAuthorizationRuleOperatorSpec">NamespacesAuthorizationRuleOperatorSpec</a></li>
-    <li><a href="#NamespacesEventhubOperatorSpec">NamespacesEventhubOperatorSpec</a></li>
-    <li><a href="#NamespacesEventhubsAuthorizationRuleOperatorSpec">NamespacesEventhubsAuthorizationRuleOperatorSpec</a></li>
-    <li><a href="#NamespacesEventhubsConsumerGroupOperatorSpec">NamespacesEventhubsConsumerGroupOperatorSpec</a></li>
-    <li><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS</a></li>
-    <li><a href="#RetentionDescription">RetentionDescription</a></li>
-    <li><a href="#RetentionDescription_STATUS">RetentionDescription_STATUS</a></li>
-    <li><a href="#Sku">Sku</a></li>
-    <li><a href="#Sku_STATUS">Sku_STATUS</a></li>
+    <li><a href="#ProjectOperatorSpec">ProjectOperatorSpec</a></li>
+    <li><a href="#ProjectProperties">ProjectProperties</a></li>
+    <li><a href="#ProjectProperties_STATUS">ProjectProperties_STATUS</a></li>
     <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
-    <li><a href="#CaptureDescription_Encoding">CaptureDescription_Encoding</a></li>
-    <li><a href="#CaptureDescription_Encoding_STATUS">CaptureDescription_Encoding_STATUS</a></li>
-    <li><a href="#Destination">Destination</a></li>
-    <li><a href="#Destination_STATUS">Destination_STATUS</a></li>
-    <li><a href="#Encryption_KeySource">Encryption_KeySource</a></li>
-    <li><a href="#Encryption_KeySource_STATUS">Encryption_KeySource_STATUS</a></li>
     <li><a href="#Identity_Type">Identity_Type</a></li>
     <li><a href="#Identity_Type_STATUS">Identity_Type_STATUS</a></li>
-    <li><a href="#KeyVaultProperties">KeyVaultProperties</a></li>
-    <li><a href="#KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</a></li>
-    <li><a href="#NamespaceOperatorSecrets">NamespaceOperatorSecrets</a></li>
-    <li><a href="#NamespacesAuthorizationRuleOperatorSecrets">NamespacesAuthorizationRuleOperatorSecrets</a></li>
-    <li><a href="#NamespacesEventhubsAuthorizationRuleOperatorSecrets">NamespacesEventhubsAuthorizationRuleOperatorSecrets</a></li>
-    <li><a href="#RetentionDescription_CleanupPolicy">RetentionDescription_CleanupPolicy</a></li>
-    <li><a href="#RetentionDescription_CleanupPolicy_STATUS">RetentionDescription_CleanupPolicy_STATUS</a></li>
-    <li><a href="#Sku_Name">Sku_Name</a></li>
-    <li><a href="#Sku_Name_STATUS">Sku_Name_STATUS</a></li>
-    <li><a href="#Sku_Tier">Sku_Tier</a></li>
-    <li><a href="#Sku_Tier_STATUS">Sku_Tier_STATUS</a></li>
+    <li><a href="#ProjectProperties_ProvisioningState_STATUS">ProjectProperties_ProvisioningState_STATUS</a></li>
     <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
     <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
     <li><a href="#UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</a></li>
     <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
-    <li><a href="#CaptureIdentity">CaptureIdentity</a></li>
-    <li><a href="#CaptureIdentity_STATUS">CaptureIdentity_STATUS</a></li>
-    <li><a href="#UserAssignedIdentityProperties">UserAssignedIdentityProperties</a></li>
-    <li><a href="#UserAssignedIdentityProperties_STATUS">UserAssignedIdentityProperties_STATUS</a></li>
-    <li><a href="#CaptureIdentity_Type">CaptureIdentity_Type</a></li>
-    <li><a href="#CaptureIdentity_Type_STATUS">CaptureIdentity_Type_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -1116,13 +1038,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   <li class="breadcrumb-item">
     <a href="/azure-service-operator/reference/">Supported Resources</a></li>
   <li class="breadcrumb-item">
-    <a href="/azure-service-operator/reference/eventhub/">EventHub</a></li>
+    <a href="/azure-service-operator/reference/cognitiveservices/">CognitiveServices</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    v1api20240101</li>
+    v20250601</li>
   </ol>
 </nav>
 <div class="td-content">
-	<h1>eventhub.azure.com/v1api20240101</h1>
+	<h1>cognitiveservices.azure.com/v20250601</h1>
 	
 	<header class="article-meta">
 		
@@ -1139,14 +1061,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;2024-01-01&rdquo;</td>
+          <td>&ldquo;2025-06-01&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
 </table>
-<h2 id="Namespace">Namespace</h2>
-<p>Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/namespaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}</p>
-<p>Used by: <a href="#NamespaceList">NamespaceList</a>.</p>
+<h2 id="Project">Project</h2>
+<p>Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}/​projects/​{projectName}</p>
+<p>Used by: <a href="#ProjectList">ProjectList</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1169,16 +1091,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       <tr>
           <td>spec</td>
           <td></td>
-          <td><a href="#Namespace_Spec">Namespace_Spec</a><br/><small>Optional</small></td>
+          <td><a href="#Project_Spec">Project_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>status</td>
           <td></td>
-          <td><a href="#Namespace_STATUS">Namespace_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#Project_STATUS">Project_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h3 id="Namespace_Spec">Namespace_Spec</h3>
+<h3 id="Project_Spec">Project_Spec</h3>
 <table>
   <thead>
       <tr>
@@ -1188,94 +1110,44 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       </tr>
   </thead>
   <tbody>
-      <tr>
-          <td>alternateName</td>
-          <td>Alternate name specified when alias and namespace names are same.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
       <tr>
           <td>azureName</td>
           <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>clusterArmReference</td>
-          <td>Cluster ARM ID of the Namespace.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>disableLocalAuth</td>
-          <td>This property disables SAS authentication for the Event Hubs namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>encryption</td>
-          <td>Properties of BYOK Encryption description</td>
-          <td><a href="#Encryption">Encryption</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>identity</td>
-          <td>Properties of BYOK Identity description</td>
+          <td>Identity for the resource.</td>
           <td><a href="#Identity">Identity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>isAutoInflateEnabled</td>
-          <td>Value that indicates whether AutoInflate is enabled for eventhub namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>kafkaEnabled</td>
-          <td>Value that indicates whether Kafka is enabled for eventhub namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>location</td>
-          <td>Resource location.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maximumThroughputUnits</td>
-          <td>Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( <code>0</code> if AutoInflateEnabled = true)</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minimumTlsVersion</td>
-          <td>The minimum TLS version for the cluster to support, e.g. <code>1.2</code></td>
-          <td><a href="#Namespace_Properties_MinimumTlsVersion_Spec">Namespace_Properties_MinimumTlsVersion_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>operatorSpec</td>
           <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#NamespaceOperatorSpec">NamespaceOperatorSpec</a><br/><small>Optional</small></td>
+          <td><a href="#ProjectOperatorSpec">ProjectOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cognitiveservices.azure.com/Account resource</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td>publicNetworkAccess</td>
-          <td>This determines if traffic is allowed over public network. By default it is enabled.</td>
-          <td><a href="#Namespace_Properties_PublicNetworkAccess_Spec">Namespace_Properties_PublicNetworkAccess_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sku</td>
-          <td>Properties of sku resource</td>
-          <td><a href="#Sku">Sku</a><br/><small>Optional</small></td>
+          <td>properties</td>
+          <td>Properties of Cognitive Services project.</td>
+          <td><a href="#ProjectProperties">ProjectProperties</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
           <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
-      <tr>
-          <td>zoneRedundant</td>
-          <td>Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
   </tbody>
 </table>
-<h3 id="Namespace_STATUS">Namespace_STATUS</h3>
+<h3 id="Project_STATUS">Project_STATUS</h3>
 <table>
   <thead>
       <tr>
@@ -1286,34 +1158,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   </thead>
   <tbody>
       <tr>
-          <td>alternateName</td>
-          <td>Alternate name specified when alias and namespace names are same.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>clusterArmId</td>
-          <td>Cluster ARM ID of the Namespace.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>conditions</td>
           <td>The observed state of the resource</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>createdAt</td>
-          <td>The time the Namespace was created.</td>
+          <td>etag</td>
+          <td>Resource Etag.</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>disableLocalAuth</td>
-          <td>This property disables SAS authentication for the Event Hubs namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>encryption</td>
-          <td>Properties of BYOK Encryption description</td>
-          <td><a href="#Encryption_STATUS">Encryption_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>id</td>
@@ -1322,38 +1174,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       </tr>
       <tr>
           <td>identity</td>
-          <td>Properties of BYOK Identity description</td>
+          <td>Identity for the resource.</td>
           <td><a href="#Identity_STATUS">Identity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>isAutoInflateEnabled</td>
-          <td>Value that indicates whether AutoInflate is enabled for eventhub namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>kafkaEnabled</td>
-          <td>Value that indicates whether Kafka is enabled for eventhub namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>location</td>
-          <td>Resource location.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maximumThroughputUnits</td>
-          <td>Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( <code>0</code> if AutoInflateEnabled = true)</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>metricId</td>
-          <td>Identifier for Azure Insights metrics.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minimumTlsVersion</td>
-          <td>The minimum TLS version for the cluster to support, e.g. <code>1.2</code></td>
-          <td><a href="#Namespace_Properties_MinimumTlsVersion_STATUS">Namespace_Properties_MinimumTlsVersion_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -1361,38 +1188,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>privateEndpointConnections</td>
-          <td>List of private endpoint connections.</td>
-          <td><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>provisioningState</td>
-          <td>Provisioning state of the Namespace.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>publicNetworkAccess</td>
-          <td>This determines if traffic is allowed over public network. By default it is enabled.</td>
-          <td><a href="#Namespace_Properties_PublicNetworkAccess_STATUS">Namespace_Properties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serviceBusEndpoint</td>
-          <td>Endpoint you can use to perform Service Bus operations.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sku</td>
-          <td>Properties of sku resource</td>
-          <td><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td>Status of the Namespace.</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>properties</td>
+          <td>Properties of Cognitive Services project.</td>
+          <td><a href="#ProjectProperties_STATUS">ProjectProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>systemData</td>
-          <td>The system meta data relating to this resource.</td>
+          <td>Metadata pertaining to creation and last modification of the resource.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1405,20 +1207,10 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
           <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
-      <tr>
-          <td>updatedAt</td>
-          <td>The time the Namespace was updated.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>zoneRedundant</td>
-          <td>Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
   </tbody>
 </table>
-<h2 id="NamespaceList">NamespaceList</h2>
-<p>Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/namespaces.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}</p>
+<h2 id="ProjectList">ProjectList</h2>
+<p>Generator information: - Generated from: /cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2025-06-01/cognitiveservices.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.CognitiveServices/​accounts/​{accountName}/​projects/​{projectName}</p>
 <table>
   <thead>
       <tr>
@@ -1441,45 +1233,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       <tr>
           <td>items</td>
           <td></td>
-          <td><a href="#Namespace">Namespace[]</a><br/><small>Optional</small></td>
+          <td><a href="#Project">Project[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="NamespacesAuthorizationRule">NamespacesAuthorizationRule</h2>
-<p>Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/AuthorizationRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}/​authorizationRules/​{authorizationRuleName}</p>
-<p>Used by: <a href="#NamespacesAuthorizationRuleList">NamespacesAuthorizationRuleList</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#NamespacesAuthorizationRule_Spec">NamespacesAuthorizationRule_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="NamespacesAuthorizationRule_Spec">NamespacesAuthorizationRule_Spec</h3>
+<h2 id="Project_Spec">Project_Spec</h2>
+<p>Used by: <a href="#Project">Project</a>.</p>
 <table>
   <thead>
       <tr>
@@ -1493,692 +1252,41 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
           <td>azureName</td>
           <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#NamespacesAuthorizationRuleOperatorSpec">NamespacesAuthorizationRuleOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a eventhub.azure.com/Namespace resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>rights</td>
-          <td>The rights associated with the rule.</td>
-          <td><a href="#Namespaces_AuthorizationRule_Properties_Rights_Spec">Namespaces_AuthorizationRule_Properties_Rights_Spec[]</a><br/><small>Required</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>rights</td>
-          <td>The rights associated with the rule.</td>
-          <td><a href="#Namespaces_AuthorizationRule_Properties_Rights_STATUS">Namespaces_AuthorizationRule_Properties_Rights_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system meta data relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesAuthorizationRuleList">NamespacesAuthorizationRuleList</h2>
-<p>Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/AuthorizationRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}/​authorizationRules/​{authorizationRuleName}</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#NamespacesAuthorizationRule">NamespacesAuthorizationRule[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhub">NamespacesEventhub</h2>
-<p>Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/eventhubs.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}/​eventhubs/​{eventHubName}</p>
-<p>Used by: <a href="#NamespacesEventhubList">NamespacesEventhubList</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#NamespacesEventhub_Spec">NamespacesEventhub_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#NamespacesEventhub_STATUS">NamespacesEventhub_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="NamespacesEventhub_Spec">NamespacesEventhub_Spec</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>captureDescription</td>
-          <td>Properties of capture description</td>
-          <td><a href="#CaptureDescription">CaptureDescription</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>messageRetentionInDays</td>
-          <td>Number of days to retain the events for this Event Hub, value should be 1 to 7 days</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#NamespacesEventhubOperatorSpec">NamespacesEventhubOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a eventhub.azure.com/Namespace resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>partitionCount</td>
-          <td>Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>retentionDescription</td>
-          <td>Event Hub retention settings</td>
-          <td><a href="#RetentionDescription">RetentionDescription</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>userMetadata</td>
-          <td>Gets and Sets Metadata of User.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="NamespacesEventhub_STATUS">NamespacesEventhub_STATUS</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>captureDescription</td>
-          <td>Properties of capture description</td>
-          <td><a href="#CaptureDescription_STATUS">CaptureDescription_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>createdAt</td>
-          <td>Exact time the Event Hub was created.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>messageRetentionInDays</td>
-          <td>Number of days to retain the events for this Event Hub, value should be 1 to 7 days</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>partitionCount</td>
-          <td>Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>partitionIds</td>
-          <td>Current number of shards on the Event Hub.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>retentionDescription</td>
-          <td>Event Hub retention settings</td>
-          <td><a href="#RetentionDescription_STATUS">RetentionDescription_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td>Enumerates the possible values for the status of the Event Hub.</td>
-          <td><a href="#Namespaces_Eventhub_Properties_Status_STATUS">Namespaces_Eventhub_Properties_Status_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system meta data relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>updatedAt</td>
-          <td>The exact time the message was updated.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>userMetadata</td>
-          <td>Gets and Sets Metadata of User.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubList">NamespacesEventhubList</h2>
-<p>Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/eventhubs.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}/​eventhubs/​{eventHubName}</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#NamespacesEventhub">NamespacesEventhub[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</h2>
-<p>Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/AuthorizationRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}/​eventhubs/​{eventHubName}/​authorizationRules/​{authorizationRuleName}</p>
-<p>Used by: <a href="#NamespacesEventhubsAuthorizationRuleList">NamespacesEventhubsAuthorizationRuleList</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#NamespacesEventhubsAuthorizationRule_Spec">NamespacesEventhubsAuthorizationRule_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#NamespacesEventhubsAuthorizationRule_STATUS">NamespacesEventhubsAuthorizationRule_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="NamespacesEventhubsAuthorizationRule_Spec">NamespacesEventhubsAuthorizationRule_Spec</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#NamespacesEventhubsAuthorizationRuleOperatorSpec">NamespacesEventhubsAuthorizationRuleOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a eventhub.azure.com/NamespacesEventhub resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>rights</td>
-          <td>The rights associated with the rule.</td>
-          <td><a href="#Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec[]</a><br/><small>Required</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="NamespacesEventhubsAuthorizationRule_STATUS">NamespacesEventhubsAuthorizationRule_STATUS</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>rights</td>
-          <td>The rights associated with the rule.</td>
-          <td><a href="#Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system meta data relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubsAuthorizationRuleList">NamespacesEventhubsAuthorizationRuleList</h2>
-<p>Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/AuthorizationRules.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}/​eventhubs/​{eventHubName}/​authorizationRules/​{authorizationRuleName}</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup</h2>
-<p>Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/consumergroups.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}/​eventhubs/​{eventHubName}/​consumergroups/​{consumerGroupName}</p>
-<p>Used by: <a href="#NamespacesEventhubsConsumerGroupList">NamespacesEventhubsConsumerGroupList</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>spec</td>
-          <td></td>
-          <td><a href="#NamespacesEventhubsConsumerGroup_Spec">NamespacesEventhubsConsumerGroup_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td></td>
-          <td><a href="#NamespacesEventhubsConsumerGroup_STATUS">NamespacesEventhubsConsumerGroup_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="NamespacesEventhubsConsumerGroup_Spec">NamespacesEventhubsConsumerGroup_Spec</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#NamespacesEventhubsConsumerGroupOperatorSpec">NamespacesEventhubsConsumerGroupOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a eventhub.azure.com/NamespacesEventhub resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>userMetadata</td>
-          <td>User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="NamespacesEventhubsConsumerGroup_STATUS">NamespacesEventhubsConsumerGroup_STATUS</h3>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>createdAt</td>
-          <td>Exact time the message was created.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system meta data relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>updatedAt</td>
-          <td>The exact time the message was updated.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>userMetadata</td>
-          <td>User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubsConsumerGroupList">NamespacesEventhubsConsumerGroupList</h2>
-<p>Generator information: - Generated from: /eventhub/resource-manager/Microsoft.EventHub/Eventhub/stable/2024-01-01/consumergroups.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.EventHub/​namespaces/​{namespaceName}/​eventhubs/​{eventHubName}/​consumergroups/​{consumerGroupName}</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>items</td>
-          <td></td>
-          <td><a href="#NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Namespace_Spec">Namespace_Spec</h2>
-<p>Used by: <a href="#Namespace">Namespace</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>alternateName</td>
-          <td>Alternate name specified when alias and namespace names are same.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>clusterArmReference</td>
-          <td>Cluster ARM ID of the Namespace.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>disableLocalAuth</td>
-          <td>This property disables SAS authentication for the Event Hubs namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>encryption</td>
-          <td>Properties of BYOK Encryption description</td>
-          <td><a href="#Encryption">Encryption</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>identity</td>
-          <td>Properties of BYOK Identity description</td>
+          <td>Identity for the resource.</td>
           <td><a href="#Identity">Identity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>isAutoInflateEnabled</td>
-          <td>Value that indicates whether AutoInflate is enabled for eventhub namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>kafkaEnabled</td>
-          <td>Value that indicates whether Kafka is enabled for eventhub namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>location</td>
-          <td>Resource location.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maximumThroughputUnits</td>
-          <td>Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( <code>0</code> if AutoInflateEnabled = true)</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minimumTlsVersion</td>
-          <td>The minimum TLS version for the cluster to support, e.g. <code>1.2</code></td>
-          <td><a href="#Namespace_Properties_MinimumTlsVersion_Spec">Namespace_Properties_MinimumTlsVersion_Spec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>operatorSpec</td>
           <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#NamespaceOperatorSpec">NamespaceOperatorSpec</a><br/><small>Optional</small></td>
+          <td><a href="#ProjectOperatorSpec">ProjectOperatorSpec</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a cognitiveservices.azure.com/Account resource</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
       </tr>
       <tr>
-          <td>publicNetworkAccess</td>
-          <td>This determines if traffic is allowed over public network. By default it is enabled.</td>
-          <td><a href="#Namespace_Properties_PublicNetworkAccess_Spec">Namespace_Properties_PublicNetworkAccess_Spec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sku</td>
-          <td>Properties of sku resource</td>
-          <td><a href="#Sku">Sku</a><br/><small>Optional</small></td>
+          <td>properties</td>
+          <td>Properties of Cognitive Services project.</td>
+          <td><a href="#ProjectProperties">ProjectProperties</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
           <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
-      <tr>
-          <td>zoneRedundant</td>
-          <td>Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
   </tbody>
 </table>
-<h2 id="Namespace_STATUS">Namespace_STATUS</h2>
-<p>Used by: <a href="#Namespace">Namespace</a>.</p>
+<h2 id="Project_STATUS">Project_STATUS</h2>
+<p>Used by: <a href="#Project">Project</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2189,34 +1297,14 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   </thead>
   <tbody>
       <tr>
-          <td>alternateName</td>
-          <td>Alternate name specified when alias and namespace names are same.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>clusterArmId</td>
-          <td>Cluster ARM ID of the Namespace.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>conditions</td>
           <td>The observed state of the resource</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>createdAt</td>
-          <td>The time the Namespace was created.</td>
+          <td>etag</td>
+          <td>Resource Etag.</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>disableLocalAuth</td>
-          <td>This property disables SAS authentication for the Event Hubs namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>encryption</td>
-          <td>Properties of BYOK Encryption description</td>
-          <td><a href="#Encryption_STATUS">Encryption_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>id</td>
@@ -2225,38 +1313,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       </tr>
       <tr>
           <td>identity</td>
-          <td>Properties of BYOK Identity description</td>
+          <td>Identity for the resource.</td>
           <td><a href="#Identity_STATUS">Identity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>isAutoInflateEnabled</td>
-          <td>Value that indicates whether AutoInflate is enabled for eventhub namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>kafkaEnabled</td>
-          <td>Value that indicates whether Kafka is enabled for eventhub namespace.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
           <td>location</td>
-          <td>Resource location.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>maximumThroughputUnits</td>
-          <td>Upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( <code>0</code> if AutoInflateEnabled = true)</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>metricId</td>
-          <td>Identifier for Azure Insights metrics.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>minimumTlsVersion</td>
-          <td>The minimum TLS version for the cluster to support, e.g. <code>1.2</code></td>
-          <td><a href="#Namespace_Properties_MinimumTlsVersion_STATUS">Namespace_Properties_MinimumTlsVersion_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -2264,38 +1327,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>privateEndpointConnections</td>
-          <td>List of private endpoint connections.</td>
-          <td><a href="#PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>provisioningState</td>
-          <td>Provisioning state of the Namespace.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>publicNetworkAccess</td>
-          <td>This determines if traffic is allowed over public network. By default it is enabled.</td>
-          <td><a href="#Namespace_Properties_PublicNetworkAccess_STATUS">Namespace_Properties_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serviceBusEndpoint</td>
-          <td>Endpoint you can use to perform Service Bus operations.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sku</td>
-          <td>Properties of sku resource</td>
-          <td><a href="#Sku_STATUS">Sku_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td>Status of the Namespace.</td>
-          <td>string<br/><small>Optional</small></td>
+          <td>properties</td>
+          <td>Properties of Cognitive Services project.</td>
+          <td><a href="#ProjectProperties_STATUS">ProjectProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>systemData</td>
-          <td>The system meta data relating to this resource.</td>
+          <td>Metadata pertaining to creation and last modification of the resource.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2307,562 +1345,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
           <td>type</td>
           <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>updatedAt</td>
-          <td>The time the Namespace was updated.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>zoneRedundant</td>
-          <td>Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesAuthorizationRule_Spec">NamespacesAuthorizationRule_Spec</h2>
-<p>Used by: <a href="#NamespacesAuthorizationRule">NamespacesAuthorizationRule</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#NamespacesAuthorizationRuleOperatorSpec">NamespacesAuthorizationRuleOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a eventhub.azure.com/Namespace resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>rights</td>
-          <td>The rights associated with the rule.</td>
-          <td><a href="#Namespaces_AuthorizationRule_Properties_Rights_Spec">Namespaces_AuthorizationRule_Properties_Rights_Spec[]</a><br/><small>Required</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS</h2>
-<p>Used by: <a href="#NamespacesAuthorizationRule">NamespacesAuthorizationRule</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>rights</td>
-          <td>The rights associated with the rule.</td>
-          <td><a href="#Namespaces_AuthorizationRule_Properties_Rights_STATUS">Namespaces_AuthorizationRule_Properties_Rights_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system meta data relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhub_Spec">NamespacesEventhub_Spec</h2>
-<p>Used by: <a href="#NamespacesEventhub">NamespacesEventhub</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>captureDescription</td>
-          <td>Properties of capture description</td>
-          <td><a href="#CaptureDescription">CaptureDescription</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>messageRetentionInDays</td>
-          <td>Number of days to retain the events for this Event Hub, value should be 1 to 7 days</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#NamespacesEventhubOperatorSpec">NamespacesEventhubOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a eventhub.azure.com/Namespace resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>partitionCount</td>
-          <td>Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>retentionDescription</td>
-          <td>Event Hub retention settings</td>
-          <td><a href="#RetentionDescription">RetentionDescription</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>userMetadata</td>
-          <td>Gets and Sets Metadata of User.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhub_STATUS">NamespacesEventhub_STATUS</h2>
-<p>Used by: <a href="#NamespacesEventhub">NamespacesEventhub</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>captureDescription</td>
-          <td>Properties of capture description</td>
-          <td><a href="#CaptureDescription_STATUS">CaptureDescription_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>createdAt</td>
-          <td>Exact time the Event Hub was created.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>messageRetentionInDays</td>
-          <td>Number of days to retain the events for this Event Hub, value should be 1 to 7 days</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>partitionCount</td>
-          <td>Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>partitionIds</td>
-          <td>Current number of shards on the Event Hub.</td>
-          <td>string[]<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>retentionDescription</td>
-          <td>Event Hub retention settings</td>
-          <td><a href="#RetentionDescription_STATUS">RetentionDescription_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>status</td>
-          <td>Enumerates the possible values for the status of the Event Hub.</td>
-          <td><a href="#Namespaces_Eventhub_Properties_Status_STATUS">Namespaces_Eventhub_Properties_Status_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system meta data relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>updatedAt</td>
-          <td>The exact time the message was updated.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>userMetadata</td>
-          <td>Gets and Sets Metadata of User.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubsAuthorizationRule_Spec">NamespacesEventhubsAuthorizationRule_Spec</h2>
-<p>Used by: <a href="#NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#NamespacesEventhubsAuthorizationRuleOperatorSpec">NamespacesEventhubsAuthorizationRuleOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a eventhub.azure.com/NamespacesEventhub resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>rights</td>
-          <td>The rights associated with the rule.</td>
-          <td><a href="#Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec[]</a><br/><small>Required</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubsAuthorizationRule_STATUS">NamespacesEventhubsAuthorizationRule_STATUS</h2>
-<p>Used by: <a href="#NamespacesEventhubsAuthorizationRule">NamespacesEventhubsAuthorizationRule</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>rights</td>
-          <td>The rights associated with the rule.</td>
-          <td><a href="#Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system meta data relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubsConsumerGroup_Spec">NamespacesEventhubsConsumerGroup_Spec</h2>
-<p>Used by: <a href="#NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>azureName</td>
-          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>operatorSpec</td>
-          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
-          <td><a href="#NamespacesEventhubsConsumerGroupOperatorSpec">NamespacesEventhubsConsumerGroupOperatorSpec</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>owner</td>
-          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a eventhub.azure.com/NamespacesEventhub resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>userMetadata</td>
-          <td>User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubsConsumerGroup_STATUS">NamespacesEventhubsConsumerGroup_STATUS</h2>
-<p>Used by: <a href="#NamespacesEventhubsConsumerGroup">NamespacesEventhubsConsumerGroup</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>conditions</td>
-          <td>The observed state of the resource</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>createdAt</td>
-          <td>Exact time the message was created.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>location</td>
-          <td>The geo-location where the resource lives</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>The name of the resource</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>systemData</td>
-          <td>The system meta data relating to this resource.</td>
-          <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>type</td>
-          <td>The type of the resource. E.g. &ldquo;Microsoft.EventHub/Namespaces&rdquo; or &ldquo;Microsoft.EventHub/Namespaces/EventHubs&rdquo;</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>updatedAt</td>
-          <td>The exact time the message was updated.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>userMetadata</td>
-          <td>User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="CaptureDescription">CaptureDescription</h2>
-<p>Properties to configure capture description for eventhub</p>
-<p>Used by: <a href="#NamespacesEventhub_Spec">NamespacesEventhub_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>destination</td>
-          <td>Properties of Destination where capture will be stored. (Storage Account, Blob Names)</td>
-          <td><a href="#Destination">Destination</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>enabled</td>
-          <td>A value that indicates whether capture description is enabled.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>encoding</td>
-          <td>Enumerates the possible values for the encoding format of capture description. Note: <code>AvroDeflate</code> will be deprecated in New API Version</td>
-          <td><a href="#CaptureDescription_Encoding">CaptureDescription_Encoding</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>intervalInSeconds</td>
-          <td>The time window allows you to set the frequency with which the capture to Azure Blobs will happen, value should between 60 to 900 seconds</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sizeLimitInBytes</td>
-          <td>The size window defines the amount of data built up in your Event Hub before an capture operation, value should be between 10485760 to 524288000 bytes</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>skipEmptyArchives</td>
-          <td>A value that indicates whether to Skip Empty Archives</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="CaptureDescription_STATUS">CaptureDescription_STATUS</h2>
-<p>Properties to configure capture description for eventhub</p>
-<p>Used by: <a href="#NamespacesEventhub_STATUS">NamespacesEventhub_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>destination</td>
-          <td>Properties of Destination where capture will be stored. (Storage Account, Blob Names)</td>
-          <td><a href="#Destination_STATUS">Destination_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>enabled</td>
-          <td>A value that indicates whether capture description is enabled.</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>encoding</td>
-          <td>Enumerates the possible values for the encoding format of capture description. Note: <code>AvroDeflate</code> will be deprecated in New API Version</td>
-          <td><a href="#CaptureDescription_Encoding_STATUS">CaptureDescription_Encoding_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>intervalInSeconds</td>
-          <td>The time window allows you to set the frequency with which the capture to Azure Blobs will happen, value should between 60 to 900 seconds</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>sizeLimitInBytes</td>
-          <td>The size window defines the amount of data built up in your Event Hub before an capture operation, value should be between 10485760 to 524288000 bytes</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>skipEmptyArchives</td>
-          <td>A value that indicates whether to Skip Empty Archives</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Encryption">Encryption</h2>
-<p>Properties to configure Encryption</p>
-<p>Used by: <a href="#Namespace_Spec">Namespace_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>keySource</td>
-          <td>Enumerates the possible value of keySource for Encryption</td>
-          <td><a href="#Encryption_KeySource">Encryption_KeySource</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyVaultProperties</td>
-          <td>Properties of KeyVault</td>
-          <td><a href="#KeyVaultProperties">KeyVaultProperties[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>requireInfrastructureEncryption</td>
-          <td>Enable Infrastructure Encryption (Double Encryption)</td>
-          <td>bool<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Encryption_STATUS">Encryption_STATUS</h2>
-<p>Properties to configure Encryption</p>
-<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>keySource</td>
-          <td>Enumerates the possible value of keySource for Encryption</td>
-          <td><a href="#Encryption_KeySource_STATUS">Encryption_KeySource_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyVaultProperties</td>
-          <td>Properties of KeyVault</td>
-          <td><a href="#KeyVaultProperties_STATUS">KeyVaultProperties_STATUS[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>requireInfrastructureEncryption</td>
-          <td>Enable Infrastructure Encryption (Double Encryption)</td>
-          <td>bool<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="Identity">Identity</h2>
-<p>Properties to configure Identity for Bring your Own Keys</p>
-<p>Used by: <a href="#Namespace_Spec">Namespace_Spec</a>.</p>
+<p>Identity for the resource.</p>
+<p>Used by: <a href="#Project_Spec">Project_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2874,19 +1362,19 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   <tbody>
       <tr>
           <td>type</td>
-          <td>Type of managed service identity.</td>
+          <td>The identity type.</td>
           <td><a href="#Identity_Type">Identity_Type</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>userAssignedIdentities</td>
-          <td>Properties for User Assigned Identities</td>
+          <td>The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/​userAssignedIdentities/​{identityName}</td>
           <td><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="Identity_STATUS">Identity_STATUS</h2>
-<p>Properties to configure Identity for Bring your Own Keys</p>
-<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
+<p>Identity for the resource.</p>
+<p>Used by: <a href="#Project_STATUS">Project_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2898,327 +1386,29 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   <tbody>
       <tr>
           <td>principalId</td>
-          <td>ObjectId from the KeyVault</td>
+          <td>The principal ID of resource identity.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tenantId</td>
-          <td>TenantId from the KeyVault</td>
+          <td>The tenant ID of resource.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
-          <td>Type of managed service identity.</td>
+          <td>The identity type.</td>
           <td><a href="#Identity_Type_STATUS">Identity_Type_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>userAssignedIdentities</td>
-          <td>Properties for User Assigned Identities</td>
+          <td>The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/​userAssignedIdentities/​{identityName}</td>
           <td><a href="#UserAssignedIdentity_STATUS">map[string]UserAssignedIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="Namespace_Properties_MinimumTlsVersion_Spec">Namespace_Properties_MinimumTlsVersion_Spec</h2>
-<p>Used by: <a href="#Namespace_Spec">Namespace_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;1.0&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;1.1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;1.2&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Namespace_Properties_MinimumTlsVersion_STATUS">Namespace_Properties_MinimumTlsVersion_STATUS</h2>
-<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;1.0&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;1.1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;1.2&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Namespace_Properties_PublicNetworkAccess_Spec">Namespace_Properties_PublicNetworkAccess_Spec</h2>
-<p>Used by: <a href="#Namespace_Spec">Namespace_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SecuredByPerimeter&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Namespace_Properties_PublicNetworkAccess_STATUS">Namespace_Properties_PublicNetworkAccess_STATUS</h2>
-<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SecuredByPerimeter&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespaceOperatorSpec">NamespaceOperatorSpec</h2>
+<h2 id="ProjectOperatorSpec">ProjectOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#Namespace_Spec">Namespace_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secrets</td>
-          <td>configures where to place Azure generated secrets.</td>
-          <td><a href="#NamespaceOperatorSecrets">NamespaceOperatorSecrets</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Namespaces_AuthorizationRule_Properties_Rights_Spec">Namespaces_AuthorizationRule_Properties_Rights_Spec</h2>
-<p>Used by: <a href="#NamespacesAuthorizationRule_Spec">NamespacesAuthorizationRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Listen&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Manage&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Send&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Namespaces_AuthorizationRule_Properties_Rights_STATUS">Namespaces_AuthorizationRule_Properties_Rights_STATUS</h2>
-<p>Used by: <a href="#NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Listen&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Manage&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Send&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Namespaces_Eventhub_Properties_Status_STATUS">Namespaces_Eventhub_Properties_Status_STATUS</h2>
-<p>Used by: <a href="#NamespacesEventhub_STATUS">NamespacesEventhub_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Active&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Creating&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Deleting&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ReceiveDisabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Renaming&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Restoring&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SendDisabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Unknown&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_Spec</h2>
-<p>Used by: <a href="#NamespacesEventhubsAuthorizationRule_Spec">NamespacesEventhubsAuthorizationRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Listen&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Manage&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Send&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS">Namespaces_Eventhubs_AuthorizationRule_Properties_Rights_STATUS</h2>
-<p>Used by: <a href="#NamespacesEventhubsAuthorizationRule_STATUS">NamespacesEventhubsAuthorizationRule_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Listen&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Manage&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Send&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesAuthorizationRuleOperatorSpec">NamespacesAuthorizationRuleOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#NamespacesAuthorizationRule_Spec">NamespacesAuthorizationRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secrets</td>
-          <td>configures where to place Azure generated secrets.</td>
-          <td><a href="#NamespacesAuthorizationRuleOperatorSecrets">NamespacesAuthorizationRuleOperatorSecrets</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubOperatorSpec">NamespacesEventhubOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#NamespacesEventhub_Spec">NamespacesEventhub_Spec</a>.</p>
+<p>Used by: <a href="#Project_Spec">Project_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -3240,9 +1430,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       </tr>
   </tbody>
 </table>
-<h2 id="NamespacesEventhubsAuthorizationRuleOperatorSpec">NamespacesEventhubsAuthorizationRuleOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#NamespacesEventhubsAuthorizationRule_Spec">NamespacesEventhubsAuthorizationRule_Spec</a>.</p>
+<h2 id="ProjectProperties">ProjectProperties</h2>
+<p>Properties of Cognitive Services Project&rsquo;.</p>
+<p>Used by: <a href="#Project_Spec">Project_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -3253,68 +1443,20 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   </thead>
   <tbody>
       <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+          <td>description</td>
+          <td>The description of the Cognitive Services Project.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secrets</td>
-          <td>configures where to place Azure generated secrets.</td>
-          <td><a href="#NamespacesEventhubsAuthorizationRuleOperatorSecrets">NamespacesEventhubsAuthorizationRuleOperatorSecrets</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubsConsumerGroupOperatorSpec">NamespacesEventhubsConsumerGroupOperatorSpec</h2>
-<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
-<p>Used by: <a href="#NamespacesEventhubsConsumerGroup_Spec">NamespacesEventhubsConsumerGroup_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>configMapExpressions</td>
-          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secretExpressions</td>
-          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PrivateEndpointConnection_STATUS">PrivateEndpointConnection_STATUS</h2>
-<p>Properties of the PrivateEndpointConnection.</p>
-<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>id</td>
-          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>displayName</td>
+          <td>The display name of the Cognitive Services Project.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="RetentionDescription">RetentionDescription</h2>
-<p>Properties to configure retention settings for the eventhub</p>
-<p>Used by: <a href="#NamespacesEventhub_Spec">NamespacesEventhub_Spec</a>.</p>
+<h2 id="ProjectProperties_STATUS">ProjectProperties_STATUS</h2>
+<p>Properties of Cognitive Services Project&rsquo;.</p>
+<p>Used by: <a href="#Project_STATUS">Project_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -3325,112 +1467,35 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   </thead>
   <tbody>
       <tr>
-          <td>cleanupPolicy</td>
-          <td>Enumerates the possible values for cleanup policy</td>
-          <td><a href="#RetentionDescription_CleanupPolicy">RetentionDescription_CleanupPolicy</a><br/><small>Optional</small></td>
+          <td>description</td>
+          <td>The description of the Cognitive Services Project.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>retentionTimeInHours</td>
-          <td>Number of hours to retain the events for this Event Hub. This value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compact the returned value of this property is Long.MaxValue</td>
-          <td>int<br/><small>Optional</small></td>
+          <td>displayName</td>
+          <td>The display name of the Cognitive Services Project.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>tombstoneRetentionTimeInHours</td>
-          <td>Number of hours to retain the tombstone markers of a compacted Event Hub. This value is only used when cleanupPolicy is Compact. Consumer must complete reading the tombstone marker within this specified amount of time if consumer begins from starting offset to ensure they get a valid snapshot for the specific key described by the tombstone marker within the compacted Event Hub</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RetentionDescription_STATUS">RetentionDescription_STATUS</h2>
-<p>Properties to configure retention settings for the eventhub</p>
-<p>Used by: <a href="#NamespacesEventhub_STATUS">NamespacesEventhub_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>cleanupPolicy</td>
-          <td>Enumerates the possible values for cleanup policy</td>
-          <td><a href="#RetentionDescription_CleanupPolicy_STATUS">RetentionDescription_CleanupPolicy_STATUS</a><br/><small>Optional</small></td>
+          <td>endpoints</td>
+          <td>The list of endpoint for this Cognitive Services Project.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>retentionTimeInHours</td>
-          <td>Number of hours to retain the events for this Event Hub. This value is only used when cleanupPolicy is Delete. If cleanupPolicy is Compact the returned value of this property is Long.MaxValue</td>
-          <td>int<br/><small>Optional</small></td>
+          <td>isDefault</td>
+          <td>Indicates whether the project is the default project for the account.</td>
+          <td>bool<br/><small>Optional</small></td>
       </tr>
       <tr>
-          <td>tombstoneRetentionTimeInHours</td>
-          <td>Number of hours to retain the tombstone markers of a compacted Event Hub. This value is only used when cleanupPolicy is Compact. Consumer must complete reading the tombstone marker within this specified amount of time if consumer begins from starting offset to ensure they get a valid snapshot for the specific key described by the tombstone marker within the compacted Event Hub</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku">Sku</h2>
-<p>SKU parameters supplied to the create namespace operation</p>
-<p>Used by: <a href="#Namespace_Spec">Namespace_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>capacity</td>
-          <td>The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units. The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>Name of this SKU.</td>
-          <td><a href="#Sku_Name">Sku_Name</a><br/><small>Required</small></td>
-      </tr>
-      <tr>
-          <td>tier</td>
-          <td>The billing tier of this particular SKU.</td>
-          <td><a href="#Sku_Tier">Sku_Tier</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku_STATUS">Sku_STATUS</h2>
-<p>SKU parameters supplied to the create namespace operation</p>
-<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>capacity</td>
-          <td>The Event Hubs throughput units for Basic or Standard tiers, where value should be 0 to 20 throughput units. The Event Hubs premium units for Premium tier, where value should be 0 to 10 premium units.</td>
-          <td>int<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>Name of this SKU.</td>
-          <td><a href="#Sku_Name_STATUS">Sku_Name_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>tier</td>
-          <td>The billing tier of this particular SKU.</td>
-          <td><a href="#Sku_Tier_STATUS">Sku_Tier_STATUS</a><br/><small>Optional</small></td>
+          <td>provisioningState</td>
+          <td>Gets the status of the cognitive services project at the time the operation was called.</td>
+          <td><a href="#ProjectProperties_ProvisioningState_STATUS">ProjectProperties_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="SystemData_STATUS">SystemData_STATUS</h2>
 <p>Metadata pertaining to creation and last modification of the resource.</p>
-<p>Used by: <a href="#Namespace_STATUS">Namespace_STATUS</a>, <a href="#NamespacesAuthorizationRule_STATUS">NamespacesAuthorizationRule_STATUS</a>, <a href="#NamespacesEventhub_STATUS">NamespacesEventhub_STATUS</a>, <a href="#NamespacesEventhubsAuthorizationRule_STATUS">NamespacesEventhubsAuthorizationRule_STATUS</a>, and <a href="#NamespacesEventhubsConsumerGroup_STATUS">NamespacesEventhubsConsumerGroup_STATUS</a>.</p>
+<p>Used by: <a href="#Project_STATUS">Project_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -3457,7 +1522,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       </tr>
       <tr>
           <td>lastModifiedAt</td>
-          <td>The type of identity that last modified the resource.</td>
+          <td>The timestamp of resource last modification (UTC)</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3469,186 +1534,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
           <td>lastModifiedByType</td>
           <td>The type of identity that last modified the resource.</td>
           <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="CaptureDescription_Encoding">CaptureDescription_Encoding</h2>
-<p>Used by: <a href="#CaptureDescription">CaptureDescription</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Avro&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;AvroDeflate&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="CaptureDescription_Encoding_STATUS">CaptureDescription_Encoding_STATUS</h2>
-<p>Used by: <a href="#CaptureDescription_STATUS">CaptureDescription_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Avro&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;AvroDeflate&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Destination">Destination</h2>
-<p>Capture storage details for capture description</p>
-<p>Used by: <a href="#CaptureDescription">CaptureDescription</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>archiveNameFormat</td>
-          <td>Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>blobContainer</td>
-          <td>Blob container Name</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataLakeAccountName</td>
-          <td>The Azure Data Lake Store name for the captured events</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataLakeFolderPath</td>
-          <td>The destination folder path for the captured events</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataLakeSubscriptionId</td>
-          <td>Subscription Id of Azure Data Lake Store</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>identity</td>
-          <td>A value that indicates whether capture description is enabled.</td>
-          <td><a href="#CaptureIdentity">CaptureIdentity</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>Name for capture destination</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAccountResourceReference</td>
-          <td>Resource id of the storage account to be used to create the blobs</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Destination_STATUS">Destination_STATUS</h2>
-<p>Capture storage details for capture description</p>
-<p>Used by: <a href="#CaptureDescription_STATUS">CaptureDescription_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>archiveNameFormat</td>
-          <td>Blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>blobContainer</td>
-          <td>Blob container Name</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataLakeAccountName</td>
-          <td>The Azure Data Lake Store name for the captured events</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataLakeFolderPath</td>
-          <td>The destination folder path for the captured events</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>dataLakeSubscriptionId</td>
-          <td>Subscription Id of Azure Data Lake Store</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>identity</td>
-          <td>A value that indicates whether capture description is enabled.</td>
-          <td><a href="#CaptureIdentity_STATUS">CaptureIdentity_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>name</td>
-          <td>Name for capture destination</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>storageAccountResourceId</td>
-          <td>Resource id of the storage account to be used to create the blobs</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Encryption_KeySource">Encryption_KeySource</h2>
-<p>Used by: <a href="#Encryption">Encryption</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft.KeyVault&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Encryption_KeySource_STATUS">Encryption_KeySource_STATUS</h2>
-<p>Used by: <a href="#Encryption_STATUS">Encryption_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft.KeyVault&rdquo;</td>
-          <td></td>
       </tr>
   </tbody>
 </table>
@@ -3708,175 +1593,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
       </tr>
   </tbody>
 </table>
-<h2 id="KeyVaultProperties">KeyVaultProperties</h2>
-<p>Properties to configure keyVault Properties</p>
-<p>Used by: <a href="#Encryption">Encryption</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>identity</td>
-          <td></td>
-          <td><a href="#UserAssignedIdentityProperties">UserAssignedIdentityProperties</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyName</td>
-          <td>Name of the Key from KeyVault</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyVaultUri</td>
-          <td>Uri of KeyVault</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyVersion</td>
-          <td>Key Version</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</h2>
-<p>Properties to configure keyVault Properties</p>
-<p>Used by: <a href="#Encryption_STATUS">Encryption_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>identity</td>
-          <td></td>
-          <td><a href="#UserAssignedIdentityProperties_STATUS">UserAssignedIdentityProperties_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyName</td>
-          <td>Name of the Key from KeyVault</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyVaultUri</td>
-          <td>Uri of KeyVault</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>keyVersion</td>
-          <td>Key Version</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespaceOperatorSecrets">NamespaceOperatorSecrets</h2>
-<p>Used by: <a href="#NamespaceOperatorSpec">NamespaceOperatorSpec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>primaryConnectionString</td>
-          <td>indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>primaryKey</td>
-          <td>indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secondaryConnectionString</td>
-          <td>indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secondaryKey</td>
-          <td>indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesAuthorizationRuleOperatorSecrets">NamespacesAuthorizationRuleOperatorSecrets</h2>
-<p>Used by: <a href="#NamespacesAuthorizationRuleOperatorSpec">NamespacesAuthorizationRuleOperatorSpec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>primaryConnectionString</td>
-          <td>indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>primaryKey</td>
-          <td>indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secondaryConnectionString</td>
-          <td>indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secondaryKey</td>
-          <td>indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NamespacesEventhubsAuthorizationRuleOperatorSecrets">NamespacesEventhubsAuthorizationRuleOperatorSecrets</h2>
-<p>Used by: <a href="#NamespacesEventhubsAuthorizationRuleOperatorSpec">NamespacesEventhubsAuthorizationRuleOperatorSpec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>primaryConnectionString</td>
-          <td>indicates where the PrimaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>primaryKey</td>
-          <td>indicates where the PrimaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secondaryConnectionString</td>
-          <td>indicates where the SecondaryConnectionString secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>secondaryKey</td>
-          <td>indicates where the SecondaryKey secret should be placed. If omitted, the secret will not be retrieved from Azure.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretDestination">genruntime.SecretDestination</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RetentionDescription_CleanupPolicy">RetentionDescription_CleanupPolicy</h2>
-<p>Used by: <a href="#RetentionDescription">RetentionDescription</a>.</p>
+<h2 id="ProjectProperties_ProvisioningState_STATUS">ProjectProperties_ProvisioningState_STATUS</h2>
+<p>Used by: <a href="#ProjectProperties_STATUS">ProjectProperties_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -3886,127 +1604,35 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   </thead>
   <tbody>
       <tr>
-          <td>&ldquo;Compact&rdquo;</td>
+          <td>&ldquo;Accepted&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Delete&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="RetentionDescription_CleanupPolicy_STATUS">RetentionDescription_CleanupPolicy_STATUS</h2>
-<p>Used by: <a href="#RetentionDescription_STATUS">RetentionDescription_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Compact&rdquo;</td>
+          <td>&ldquo;Canceled&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Delete&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku_Name">Sku_Name</h2>
-<p>Used by: <a href="#Sku">Sku</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Basic&rdquo;</td>
+          <td>&ldquo;Creating&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Premium&rdquo;</td>
+          <td>&ldquo;Deleting&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Standard&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku_Name_STATUS">Sku_Name_STATUS</h2>
-<p>Used by: <a href="#Sku_STATUS">Sku_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Basic&rdquo;</td>
+          <td>&ldquo;Failed&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Premium&rdquo;</td>
+          <td>&ldquo;Moving&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Standard&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku_Tier">Sku_Tier</h2>
-<p>Used by: <a href="#Sku">Sku</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Basic&rdquo;</td>
+          <td>&ldquo;ResolvingDNS&rdquo;</td>
           <td></td>
       </tr>
       <tr>
-          <td>&ldquo;Premium&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Standard&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Sku_Tier_STATUS">Sku_Tier_STATUS</h2>
-<p>Used by: <a href="#Sku_STATUS">Sku_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Basic&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Premium&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Standard&rdquo;</td>
+          <td>&ldquo;Succeeded&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
@@ -4068,7 +1694,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   </tbody>
 </table>
 <h2 id="UserAssignedIdentity_STATUS">UserAssignedIdentity_STATUS</h2>
-<p>Recognized Dictionary value.</p>
+<p>User-assigned managed identity.</p>
 <p>Used by: <a href="#Identity_STATUS">Identity_STATUS</a>.</p>
 <table>
   <thead>
@@ -4081,12 +1707,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
   <tbody>
       <tr>
           <td>clientId</td>
-          <td>Client Id of user assigned identity</td>
+          <td>Client App Id associated with this identity.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>principalId</td>
-          <td>Principal Id of user assigned identity</td>
+          <td>Azure Active Directory principal ID associated with this Identity.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4107,130 +1733,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Namespace_SpecO
           <td>reference</td>
           <td></td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="CaptureIdentity">CaptureIdentity</h2>
-<p>A value that indicates whether capture description is enabled.</p>
-<p>Used by: <a href="#Destination">Destination</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>type</td>
-          <td>Type of Azure Active Directory Managed Identity.</td>
-          <td><a href="#CaptureIdentity_Type">CaptureIdentity_Type</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>userAssignedIdentityReference</td>
-          <td>ARM ID of Managed User Identity. This property is required is the type is UserAssignedIdentity. If type is SystemAssigned, then the System Assigned Identity Associated with the namespace will be used.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="CaptureIdentity_STATUS">CaptureIdentity_STATUS</h2>
-<p>A value that indicates whether capture description is enabled.</p>
-<p>Used by: <a href="#Destination_STATUS">Destination_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>type</td>
-          <td>Type of Azure Active Directory Managed Identity.</td>
-          <td><a href="#CaptureIdentity_Type_STATUS">CaptureIdentity_Type_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>userAssignedIdentity</td>
-          <td>ARM ID of Managed User Identity. This property is required is the type is UserAssignedIdentity. If type is SystemAssigned, then the System Assigned Identity Associated with the namespace will be used.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="UserAssignedIdentityProperties">UserAssignedIdentityProperties</h2>
-<p>Used by: <a href="#KeyVaultProperties">KeyVaultProperties</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>userAssignedIdentityReference</td>
-          <td>ARM ID of user Identity selected for encryption</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="UserAssignedIdentityProperties_STATUS">UserAssignedIdentityProperties_STATUS</h2>
-<p>Used by: <a href="#KeyVaultProperties_STATUS">KeyVaultProperties_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>userAssignedIdentity</td>
-          <td>ARM ID of user Identity selected for encryption</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="CaptureIdentity_Type">CaptureIdentity_Type</h2>
-<p>Used by: <a href="#CaptureIdentity">CaptureIdentity</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;SystemAssigned&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;UserAssigned&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="CaptureIdentity_Type_STATUS">CaptureIdentity_Type_STATUS</h2>
-<p>Used by: <a href="#CaptureIdentity_STATUS">CaptureIdentity_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;SystemAssigned&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;UserAssigned&rdquo;</td>
-          <td></td>
       </tr>
   </tbody>
 </table>
