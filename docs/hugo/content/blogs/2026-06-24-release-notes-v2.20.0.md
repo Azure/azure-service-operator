@@ -29,7 +29,7 @@ The `apimanagement` group gains a new [ProductGroup resource](https://github.com
 
 ## 🐛 Bug fixes
 
-- Fixed a bug where a generated [password or password snippet for Sql or PostgreSQL could contain invalid characters](https://github.com/Azure/azure-service-operator/pull/5401).
+- Fixed a bug where a generated [password or password snippet for SQL or PostgreSQL could contain invalid characters](https://github.com/Azure/azure-service-operator/pull/5401).
 - Fixed a bug where the [wrong certificate was used for the metrics endpoint](https://github.com/Azure/azure-service-operator/pull/5366).
 - Fixed a bug where the [subscription check for skipped resources was incorrect](https://github.com/Azure/azure-service-operator/pull/5360).
 - Fixed a bug where the [Helm PodDisruptionBudget template file name was incorrect](https://github.com/Azure/azure-service-operator/pull/5337).
