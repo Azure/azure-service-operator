@@ -15,8 +15,6 @@ While the difference in the ARM/Bicep level is just another SKU, older resource 
 
 ASO will be removing versions `v1api20210301` and `v1api20230701` of `RedisEnterprise` and `RedisEnterpriseDatabase` in version v2.21, scheduled for August 2026.
 
-See [Breaking Changes for Redis Enterprise]({{< relref "blogs/2026-07-01-redis-breaking-changes" >}}) for more details and migration guidance.
-
 ### Resource Versioning
 
 As first reported in [#4147](https://github.com/Azure/azure-service-operator/issues/4147) and explored in the ADR [Resources and Version Priority]({{< relref "adr-2025-05-version-priority" >}}), the way we're defining our resource versions in ASO is not compliant with Kubernetes rules.
