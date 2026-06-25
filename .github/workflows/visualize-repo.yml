@@ -83,7 +83,7 @@ jobs:
           branch: bot/update-diagrams
           base: main
           delete-branch: true
-          title: "[Automated] Update Code Structure Diagrams"
+          title: "chore: Update Code Structure Diagrams [Automated]"
           body: |
             Update visualisation diagrams showing the structure of ASO code
 
