@@ -7,6 +7,14 @@ We go to great lengths to avoid breaking changes as much as possible, as we're w
 
 ## Upcoming Breaking Changes
 
+### Azure Cache for Redis Enterprise (v2.21)
+
+Azure has retired _Azure Cache for Redis Enterprise_ in favour of _Azure Managed Redis_.
+
+While the difference in the ARM/Bicep level is just another SKU, older resource versions _cannot_ be used to create or manage the newer product, requiring all users to upgrade.
+
+ASO will be removing versions `v1api20210301` and `v1api20230701` of `RedisEnterprise` and `RedisEnterpriseDatabase` in version v2.21, scheduled for August 2026.
+
 ### Resource Versioning
 
 As first reported in [#4147](https://github.com/Azure/azure-service-operator/issues/4147) and explored in the ADR [Resources and Version Priority]({{< relref "adr-2025-05-version-priority" >}}), the way we're defining our resource versions in ASO is not compliant with Kubernetes rules.
@@ -23,7 +31,7 @@ This will, eventually, be a breaking change but we're going to try and make this
 
 We know that breaking changes are a problem for many of our users, so we're making the following commitments to keep such things to a minimum.
 
-**No breaking changes to existing resource versions**
+### No breaking changes to existing resource versions
 
 We will not introduce a breaking change in an existing version of a resource such as `v1api20230101`.
 
@@ -32,17 +40,21 @@ In the case of such a change being forced upon us, we will take all reasonable s
 The most likely cause of this will be a security issue that requires action - such as if we discover a password field that hasn't been correctly flagged as a secret.
 There's also a possibilty of a change ocurring upstream, but we consider this to be extremely unlikely because of the stringent API change criteria used by Azure.
 
-**Minimal breaking changes in new resource versions**
+### Minimal breaking changes in new resource versions
 
 We _may_ introduce breaking changes between versions of resources, such as between `v1api20230101` and `v1api20230201`. These two versions correspond to two different Azure API versions (that is, `2023-01-01` and `2023-02-01`), and if the upstream Azure service introduces a breaking change in the newer of these two API versions we may pass that breaking change along.
 
-### Mitigation techniques
+## Mitigation techniques
 
-**Automatic conversion**: By manually augmenting the intra-version conversions produced by our code-generator, we may be able to automatically upgrade resources from the older version to the new. Migration would be zero-touch for our users.
+### Automatic conversion
+
+By manually augmenting the intra-version conversions produced by our code-generator, we may be able to automatically upgrade resources from the older version to the new. Migration would be zero-touch for our users.
 
 We've done this before when a new version of a resource API introduced a breaking change, see [managed_cluster_conversion_overrides.go](https://github.com/Azure/azure-service-operator/blob/main/v2/api/containerservice/v1api20210501/storage/managed_cluster_conversion_overrides.go).
 
-**Custom Tooling**: For our `v2.0.0` release, we provided a specialized tool (`asoctl`) specifically designed to smooth the way for upgrading users. In addition to the existing two modes, we may add further functions to cater for other scenarios.
+### Custom Tooling
+
+For our `v2.0.0` release, we provided a specialized tool (`asoctl`) specifically designed to smooth the way for upgrading users. In addition to the existing two modes, we may add further functions to cater for other scenarios.
 
 For users upgrading from ASO v1, [`asoctl import azure-resource`]( {{< relref "asoctl#import-azure-resource" >}} ) provides a way to scaffold an ASO v2 resource based on an existing Azure resource.
 
@@ -50,4 +62,6 @@ For clusters that once had an alpha release of ASO v2 installed, [`asoctl clean 
 
 We may, in future, create additional tooling designed to smooth the way for users encountering what would otherwise be breaking changes.
 
-**Documentation**: As a last resort, if we have a breaking change that we can't avoid (or can't transparently mitigate), we'll explicitly document it, both here and in the release notes for that version.
+### Documentation
+
+As a last resort, if we have a breaking change that we can't avoid (or can't transparently mitigate), we'll explicitly document it, both here and in the release notes for that version.
