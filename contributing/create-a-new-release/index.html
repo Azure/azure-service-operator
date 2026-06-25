@@ -21,18 +21,18 @@
 <meta name="description" content="Ensure that the controller CVE scan action is green.
 Ensure that the pre-release upgrade tests are passing.
 Ensure that experimental release passed on the most recent commit.
-Go to the releases page and draft a new release.
-In the tag dropdown, type the name of the new tag you’d like to create (it should match the pattern of previous releases tags, for example: v2.10.0). The release target should be main (the default).
-Use the GitHub “auto-generate release notes” button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it.">
+Generate release notes using the create-release-notes skill (in .agents/skills/create-release-notes/SKILL.md), or manually by running:
+scripts/v2/generate-raw-changelog.sh Then format the raw changelog into polished release notes with sections for New resources, Features, Bug fixes, and Documentation. Save the result to a file (e.g. /tmp/aso-v2.20.0-release-notes.md).
+Create a draft release using the release script:">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="Creating a new release">
   <meta property="og:description" content="Ensure that the controller CVE scan action is green.
 Ensure that the pre-release upgrade tests are passing.
 Ensure that experimental release passed on the most recent commit.
-Go to the releases page and draft a new release.
-In the tag dropdown, type the name of the new tag you’d like to create (it should match the pattern of previous releases tags, for example: v2.10.0). The release target should be main (the default).
-Use the GitHub “auto-generate release notes” button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it.">
+Generate release notes using the create-release-notes skill (in .agents/skills/create-release-notes/SKILL.md), or manually by running:
+scripts/v2/generate-raw-changelog.sh Then format the raw changelog into polished release notes with sections for New resources, Features, Bug fixes, and Documentation. Save the result to a file (e.g. /tmp/aso-v2.20.0-release-notes.md).
+Create a draft release using the release script:">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="contributing">
@@ -41,18 +41,18 @@ Use the GitHub “auto-generate release notes” button to generate a set of rel
   <meta itemprop="description" content="Ensure that the controller CVE scan action is green.
 Ensure that the pre-release upgrade tests are passing.
 Ensure that experimental release passed on the most recent commit.
-Go to the releases page and draft a new release.
-In the tag dropdown, type the name of the new tag you’d like to create (it should match the pattern of previous releases tags, for example: v2.10.0). The release target should be main (the default).
-Use the GitHub “auto-generate release notes” button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it.">
-  <meta itemprop="wordCount" content="983">
+Generate release notes using the create-release-notes skill (in .agents/skills/create-release-notes/SKILL.md), or manually by running:
+scripts/v2/generate-raw-changelog.sh Then format the raw changelog into polished release notes with sections for New resources, Features, Bug fixes, and Documentation. Save the result to a file (e.g. /tmp/aso-v2.20.0-release-notes.md).
+Create a draft release using the release script:">
+  <meta itemprop="wordCount" content="946">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Creating a new release">
   <meta name="twitter:description" content="Ensure that the controller CVE scan action is green.
 Ensure that the pre-release upgrade tests are passing.
 Ensure that experimental release passed on the most recent commit.
-Go to the releases page and draft a new release.
-In the tag dropdown, type the name of the new tag you’d like to create (it should match the pattern of previous releases tags, for example: v2.10.0). The release target should be main (the default).
-Use the GitHub “auto-generate release notes” button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it.">
+Generate release notes using the create-release-notes skill (in .agents/skills/create-release-notes/SKILL.md), or manually by running:
+scripts/v2/generate-raw-changelog.sh Then format the raw changelog into polished release notes with sections for New resources, Features, Bug fixes, and Documentation. Save the result to a file (e.g. /tmp/aso-v2.20.0-release-notes.md).
+Create a draft release using the release script:">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1060,20 +1060,17 @@ Use the GitHub “auto-generate release notes” button to generate a set of rel
 <p>Ensure that <a href="https://github.com/Azure/azure-service-operator/releases/tag/experimental">experimental release</a> passed on the most recent commit.</p>
 </li>
 <li>
-<p>Go to the <a href="https://github.com/Azure/azure-service-operator/releases">releases</a> page and draft a new release.</p>
+<p>Generate release notes using the <code>create-release-notes</code> skill (in <code>.agents/skills/create-release-notes/SKILL.md</code>), or manually by running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>scripts/v2/generate-raw-changelog.sh
+</span></span></code></pre></div><p>Then format the raw changelog into polished release notes with sections for New resources, Features, Bug fixes, and Documentation. Save the result to a file (e.g. <code>/tmp/aso-v2.20.0-release-notes.md</code>).</p>
 </li>
 <li>
-<p>In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: <code>v2.10.0</code>). The release target should be <code>main</code> (the default).</p>
+<p>Create a draft release using the release script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>scripts/v2/create-release.sh &lt;VERSION&gt; &lt;RELEASE_NOTES_FILE&gt;
+</span></span></code></pre></div><p>For example: <code>scripts/v2/create-release.sh v2.20.0 /tmp/aso-v2.20.0-release-notes.md</code>. This creates a draft release on GitHub targeting <code>main</code>.</p>
 </li>
 <li>
-<p>Use the GitHub &ldquo;auto-generate release notes&rdquo; button to generate a set of release notes to work with. You will need to clean this up quite a bit before actually publishing it.</p>
-</li>
-<li>
-<p>Write a &ldquo;Release Notes&rdquo; section. You can edit the autogenerated section as a start. You can also look through the commits between the last release and now:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git log v2.4.0..main
-</span></span></code></pre></div></li>
-<li>
-<p>Publish the release. This will automatically trigger a GitHub action to build and publish an updated Docker image with the latest manager changes.</p>
+<p>Review and publish the draft release. This will automatically trigger a GitHub action to build and publish an updated Docker image with the latest manager changes.</p>
 </li>
 <li>
 <p>Ensure that the action associated with your release finishes successfully.</p>
