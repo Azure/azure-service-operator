@@ -9,11 +9,13 @@ We go to great lengths to avoid breaking changes as much as possible, as we're w
 
 ### Azure Cache for Redis Enterprise (v2.21)
 
-Azure has retired _Azure Cache for Redis Enterprise_ in favour of _Azure Managed Redis_.
+Azure is retiring _Azure Cache for Redis Enterprise_ in favour of _Azure Managed Redis_.
 
 While the difference in the ARM/Bicep level is just another SKU, older resource versions _cannot_ be used to create or manage the newer product, requiring all users to upgrade.
 
 ASO will be removing versions `v1api20210301` and `v1api20230701` of `RedisEnterprise` and `RedisEnterpriseDatabase` in version v2.21, scheduled for August 2026.
+
+See [Breaking Changes for Redis Enterprise]({{< relref "blogs/2026-07-01-redis-breaking-changes" >}}) for more details and migration guidance.
 
 ### Resource Versioning
 
