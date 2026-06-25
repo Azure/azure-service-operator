@@ -19,15 +19,11 @@ import (
 // Conceptually the State is immutable: each "With…" method returns a new *State whose internal
 // data structures (definitions, stagesSeen, stagesExpected, stateInfo) are treated as logically
 // independent from those of the receiver. In practice, several of those structures are shared by
-// reference rather than deep-copied — this is safe because:
+// reference rather than deep-copied — this is safe because all mutation is done through the
+// "With…" methods.
 //
-//   - The pipeline runner may still read the prior state for logging/debugging (for example,
-//     to diff definitions in CodeGenerator.Generate/logStateChanges) but then replaces it.
-//   - Callers must not mutate the shared definitions map in-place; when definitions change,
-//     "With…" helpers must replace it with a newly allocated map (for example via OverlayWith).
-//
-// Sharing the definitions map (rather than cloning the full 100k+ entry TypeDefinitionSet on
-// every stage transition) is a significant performance win.
+// Clients MUST use those methods to create new states rather than mutating the fields of an existing state,
+// and MUST NOT mutate the fields directly.
 type State struct {
 	definitions    astmodel.TypeDefinitionSet // set of type definitions generated so far
 	stagesSeen     set.Set[string]            // set of ids of the stages already run
