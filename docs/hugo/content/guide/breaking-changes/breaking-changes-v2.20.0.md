@@ -1,7 +1,7 @@
 ---
 title: "v2.20.0 Breaking Changes"
 linkTitle: "v2.20.0"
-weight: -55  # This should be 5 lower than the previous breaking change document
+weight: -75  # This should be 5 lower than the previous breaking change document
 ---
 ## Future breaking changes
 
