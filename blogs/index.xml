@@ -6,8 +6,15 @@
     <description>Recent content in Blog on Azure Service Operator</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 24 Apr 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://azure.github.io/azure-service-operator/blogs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ASO v2.20 Release Notes</title>
+      <link>https://azure.github.io/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/</link>
+      <pubDate>Wed, 24 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/</guid>
+      <description>&lt;p&gt;We&amp;rsquo;re excited to announce the release of Azure Service Operator v2.20.0! This release extends simplified versioning to four more resource groups, rolls smart deletion prechecks out across more than twenty groups, adds a way to resolve Azure resource names from ConfigMaps at reconciliation time, and introduces support for Microsoft Foundry projects.&lt;/p&gt;&#xA;&lt;h2 id=&#34;-headline-features&#34;&gt;🎇 Headline Features&lt;/h2&gt;&#xA;&lt;p&gt;Four more resource groups now support &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4831&#34;&gt;simplified API versioning&lt;/a&gt;: &lt;code&gt;compute&lt;/code&gt;, &lt;code&gt;app&lt;/code&gt;, &lt;code&gt;eventgrid&lt;/code&gt;, and &lt;code&gt;datafactory&lt;/code&gt; (&lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5348&#34;&gt;#5348&lt;/a&gt;, &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5342&#34;&gt;#5342&lt;/a&gt;, &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5344&#34;&gt;#5344&lt;/a&gt;, &lt;a href=&#34;https://github.com/Azure/azure-service-operator/pull/5343&#34;&gt;#5343&lt;/a&gt;). You can now use resources in these groups with the new &lt;code&gt;v&lt;/code&gt; prefix (e.g. &lt;code&gt;v20250701&lt;/code&gt; instead of &lt;code&gt;v1api20250701&lt;/code&gt;), while the legacy &lt;code&gt;v1api&lt;/code&gt; versions remain available for backward compatibility. We strongly recommend using the new version format wherever it&amp;rsquo;s available, as it sorts correctly for &lt;code&gt;kubectl get&lt;/code&gt; (see &lt;a href=&#34;https://github.com/Azure/azure-service-operator/issues/4147&#34;&gt;#4147&lt;/a&gt;) and the &lt;code&gt;v1api&lt;/code&gt; versions will eventually be removed after a deprecation period.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>ASO v2.19 Release Notes</title>
       <link>https://azure.github.io/azure-service-operator/blogs/2026-04-24-release-notes-v2.19.0/</link>

@@ -2,15 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.19.0/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.20.0/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/</loc>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.19.0/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.18.0/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.17.0/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/</loc>
   </url><url>
@@ -99,7 +101,7 @@
     <loc>https://azure.github.io/azure-service-operator/guide/uninstalling/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/blogs/</loc>
-    <lastmod>2026-04-24T00:00:00+00:00</lastmod>
+    <lastmod>2026-07-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/run-the-code-generator/</loc>
   </url><url>
@@ -141,10 +143,13 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/extension-points/successful-creation-handler/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/blogs/2026-04-24-release-notes-v2.19.0/</loc>
-    <lastmod>2026-04-24T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/</loc>
+    <lastmod>2026-07-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/</loc>
+    <lastmod>2026-06-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/blogs/2026-04-24-release-notes-v2.19.0/</loc>
     <lastmod>2026-04-24T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/</loc>

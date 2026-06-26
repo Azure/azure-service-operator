@@ -18,21 +18,25 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>v2.19.0 Breaking Changes | Azure Service Operator</title>
-<meta name="description" content="Breaking changes Removed containerservice v1api20240402preview versions of ManagedCluster, ManagedClustersAgentPool, and TrustedAccessRoleBinding resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading. Updated network.azure.com/VirtualNetworkGateway field radiusServerSecret to be a secret (#5295) spec.vpnClientConfiguration.radiusServerSecret is now a secret reference instead of a string. spec.vpnClientConfiguration.radiusServers[].radiusServerSecret is now a secret instead of a string. status.vpnClientConfiguration.radiusServerSecret was removed. status.vpnClientConfiguration.radiusServers[].radiusServerSecret was removed. Removed insights.azure.com/AutoscaleSetting field status.notifications[].webhooks[].serviceUri, as it may contain secrets (#5308). Removed insights.azure.com/ActionGroup field status.automationRunbookReceivers[].serviceUri and status.webhookReceivers[].serviceUri as it may contain secrets (#5308). Upcoming breaking changes">
+<meta name="description" content="Breaking changes Removed containerservice v1api20240402preview versions of ManagedCluster, ManagedClustersAgentPool, and TrustedAccessRoleBinding resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading.
+Updated network.azure.com/VirtualNetworkGateway field radiusServerSecret to be a secret (#5295)">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/guide/breaking-changes/breaking-changes-v2.19.0/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="v2.19.0 Breaking Changes">
-  <meta property="og:description" content="Breaking changes Removed containerservice v1api20240402preview versions of ManagedCluster, ManagedClustersAgentPool, and TrustedAccessRoleBinding resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading. Updated network.azure.com/VirtualNetworkGateway field radiusServerSecret to be a secret (#5295) spec.vpnClientConfiguration.radiusServerSecret is now a secret reference instead of a string. spec.vpnClientConfiguration.radiusServers[].radiusServerSecret is now a secret instead of a string. status.vpnClientConfiguration.radiusServerSecret was removed. status.vpnClientConfiguration.radiusServers[].radiusServerSecret was removed. Removed insights.azure.com/AutoscaleSetting field status.notifications[].webhooks[].serviceUri, as it may contain secrets (#5308). Removed insights.azure.com/ActionGroup field status.automationRunbookReceivers[].serviceUri and status.webhookReceivers[].serviceUri as it may contain secrets (#5308). Upcoming breaking changes">
+  <meta property="og:description" content="Breaking changes Removed containerservice v1api20240402preview versions of ManagedCluster, ManagedClustersAgentPool, and TrustedAccessRoleBinding resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading.
+Updated network.azure.com/VirtualNetworkGateway field radiusServerSecret to be a secret (#5295)">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="guide">
 
   <meta itemprop="name" content="v2.19.0 Breaking Changes">
-  <meta itemprop="description" content="Breaking changes Removed containerservice v1api20240402preview versions of ManagedCluster, ManagedClustersAgentPool, and TrustedAccessRoleBinding resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading. Updated network.azure.com/VirtualNetworkGateway field radiusServerSecret to be a secret (#5295) spec.vpnClientConfiguration.radiusServerSecret is now a secret reference instead of a string. spec.vpnClientConfiguration.radiusServers[].radiusServerSecret is now a secret instead of a string. status.vpnClientConfiguration.radiusServerSecret was removed. status.vpnClientConfiguration.radiusServers[].radiusServerSecret was removed. Removed insights.azure.com/AutoscaleSetting field status.notifications[].webhooks[].serviceUri, as it may contain secrets (#5308). Removed insights.azure.com/ActionGroup field status.automationRunbookReceivers[].serviceUri and status.webhookReceivers[].serviceUri as it may contain secrets (#5308). Upcoming breaking changes">
-  <meta itemprop="wordCount" content="121">
+  <meta itemprop="description" content="Breaking changes Removed containerservice v1api20240402preview versions of ManagedCluster, ManagedClustersAgentPool, and TrustedAccessRoleBinding resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading.
+Updated network.azure.com/VirtualNetworkGateway field radiusServerSecret to be a secret (#5295)">
+  <meta itemprop="wordCount" content="118">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="v2.19.0 Breaking Changes">
-  <meta name="twitter:description" content="Breaking changes Removed containerservice v1api20240402preview versions of ManagedCluster, ManagedClustersAgentPool, and TrustedAccessRoleBinding resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading. Updated network.azure.com/VirtualNetworkGateway field radiusServerSecret to be a secret (#5295) spec.vpnClientConfiguration.radiusServerSecret is now a secret reference instead of a string. spec.vpnClientConfiguration.radiusServers[].radiusServerSecret is now a secret instead of a string. status.vpnClientConfiguration.radiusServerSecret was removed. status.vpnClientConfiguration.radiusServers[].radiusServerSecret was removed. Removed insights.azure.com/AutoscaleSetting field status.notifications[].webhooks[].serviceUri, as it may contain secrets (#5308). Removed insights.azure.com/ActionGroup field status.automationRunbookReceivers[].serviceUri and status.webhookReceivers[].serviceUri as it may contain secrets (#5308). Upcoming breaking changes">
+  <meta name="twitter:description" content="Breaking changes Removed containerservice v1api20240402preview versions of ManagedCluster, ManagedClustersAgentPool, and TrustedAccessRoleBinding resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via --crd-pattern, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you’ll need to run asoctl clean crds before upgrading.
+Updated network.azure.com/VirtualNetworkGateway field radiusServerSecret to be a secret (#5295)">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -150,16 +154,18 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorguidebreaking-changes-li">
   <a href="/azure-service-operator/guide/breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorguidebreaking-changes"><span class="">Breaking Changes</span></a>
   <ul class="ul-3 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2190-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2200-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.20.0/" title="v2.20.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2200"><span class="">v2.20.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2190-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.19.0/" title="v2.19.0 Breaking Changes" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2190"><span class="td-sidebar-nav-active-item">v2.19.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
-  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/" title="v2.16.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160"><span class="">v2.16.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2180-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.18.0/" title="v2.18.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2180"><span class="">v2.18.0</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
-  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/" title="v2.15.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150"><span class="">v2.15.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2170-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.17.0/" title="v2.17.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2170"><span class="">v2.17.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.16.0/" title="v2.16.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2160"><span class="">v2.16.0</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150-li">
+  <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.15.0/" title="v2.15.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2150"><span class="">v2.15.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110-li">
   <a href="/azure-service-operator/guide/breaking-changes/breaking-changes-v2.11.0/" title="v2.11.0 Breaking Changes" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2110"><span class="">v2.11.0</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorguidebreaking-changesbreaking-changes-v2100-li">
@@ -228,7 +234,9 @@
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorblogs-li">
   <a href="/azure-service-operator/blogs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorblogs"><span class="">Blog</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-04-24-release-notes-v2190-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-06-24-release-notes-v2200-li">
+  <a href="/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-06-24-release-notes-v2200"><span class="">ASO v2.20 Release Notes</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-04-24-release-notes-v2190-li">
   <a href="/azure-service-operator/blogs/2026-04-24-release-notes-v2.19.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-04-24-release-notes-v2190"><span class="">ASO v2.19 Release Notes</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-02-27-release-notes-v2180-li">
   <a href="/azure-service-operator/blogs/2026-02-27-release-notes-v2.18.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-02-27-release-notes-v2180"><span class="">ASO v2.18 Release Notes</span></a>
@@ -992,7 +1000,6 @@
         <nav id="TableOfContents">
   <ul>
     <li><a href="#breaking-changes">Breaking changes</a></li>
-    <li><a href="#upcoming-breaking-changes">Upcoming breaking changes</a></li>
   </ul>
 </nav>
       </div>
@@ -1022,8 +1029,11 @@
 </header>
 	<h2 id="breaking-changes">Breaking changes</h2>
 <ul>
-<li>Removed containerservice v1api20240402preview versions of ManagedCluster, ManagedClustersAgentPool, and TrustedAccessRoleBinding resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via <code>--crd-pattern</code>, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you&rsquo;ll need to run <a href="https://azure.github.io/azure-service-operator/tools/asoctl/#clean-crds">asoctl clean crds</a> before upgrading.</li>
-<li>Updated <code>network.azure.com/VirtualNetworkGateway</code> field <code>radiusServerSecret</code> to be a secret (#5295)
+<li>
+<p>Removed containerservice v1api20240402preview versions of ManagedCluster, ManagedClustersAgentPool, and TrustedAccessRoleBinding resources as the API has been deprecated by Azure. If you allow the operator to manage its own CRDs via <code>--crd-pattern</code>, no action is needed as the operator will take care of removing these versions. If you manage the CRD versions yourself, you&rsquo;ll need to run <a href="https://azure.github.io/azure-service-operator/tools/asoctl/#clean-crds">asoctl clean crds</a> before upgrading.</p>
+</li>
+<li>
+<p>Updated <code>network.azure.com/VirtualNetworkGateway</code> field <code>radiusServerSecret</code> to be a secret (#5295)</p>
 <ul>
 <li><code>spec.vpnClientConfiguration.radiusServerSecret</code> is now a secret reference instead of a string.</li>
 <li><code>spec.vpnClientConfiguration.radiusServers[].radiusServerSecret</code> is now a secret instead of a string.</li>
@@ -1031,12 +1041,13 @@
 <li><code>status.vpnClientConfiguration.radiusServers[].radiusServerSecret</code> was removed.</li>
 </ul>
 </li>
+<li>
+<p>Removed <code>insights.azure.com/AutoscaleSetting</code> field <code>status.notifications[].webhooks[].serviceUri</code>, as it may contain secrets (#5308).</p>
+</li>
+<li>
+<p>Removed <code>insights.azure.com/ActionGroup</code> field <code>status.automationRunbookReceivers[].serviceUri</code> and <code>status.webhookReceivers[].serviceUri</code> as it may contain secrets (#5308).</p>
+</li>
 </ul>
-<ul>
-<li>Removed <code>insights.azure.com/AutoscaleSetting</code> field <code>status.notifications[].webhooks[].serviceUri</code>, as it may contain secrets (#5308).</li>
-<li>Removed <code>insights.azure.com/ActionGroup</code> field <code>status.automationRunbookReceivers[].serviceUri</code> and <code>status.webhookReceivers[].serviceUri</code> as it may contain secrets (#5308).</li>
-</ul>
-<h2 id="upcoming-breaking-changes">Upcoming breaking changes</h2>
 
 	
 </div>
