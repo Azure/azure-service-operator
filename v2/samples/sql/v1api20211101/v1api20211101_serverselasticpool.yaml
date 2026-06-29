@@ -6,7 +6,7 @@ metadata:
 spec:
   owner:
     name: aso-sample-sqlserver
-  location: eastus
+  location: australiaeast
   perDatabaseSettings:
     maxCapacity: 100
     minCapacity: 0

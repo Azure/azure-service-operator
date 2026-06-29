@@ -10,6 +10,13 @@ groupModelConfiguration:
       $supportedFrom: v2.0.0
       $generatedConfigs:
         FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+    ServerExternalAdministrator:
+      Login:
+        $importConfigMapMode: optional
+      Sid:
+        $importConfigMapMode: optional
+      TenantId:
+        $importConfigMapMode: optional
     Servers_Administrator:
       $exportAs: ServersAdministrator
       $supportedFrom: v2.0.0

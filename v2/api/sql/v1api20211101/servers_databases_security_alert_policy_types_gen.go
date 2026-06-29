@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersDatabasesSecurityAlertPolicy{}
 
 // ConvertFrom populates our ServersDatabasesSecurityAlertPolicy from the provided hub ServersDatabasesSecurityAlertPolicy
 func (policy *ServersDatabasesSecurityAlertPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersDatabasesSecurityAlertPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesSecurityAlertPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersDatabasesSecurityAlertPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_ServersDatabasesSecurityAlertPolicy(source)
+	err = policy.AssignProperties_From_ServersDatabasesSecurityAlertPolicy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersDatabasesSecurityAlertPolicy from our ServersDatabasesSecurityAlertPolicy
 func (policy *ServersDatabasesSecurityAlertPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersDatabasesSecurityAlertPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesSecurityAlertPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersDatabasesSecurityAlertPolicy
+	err := policy.AssignProperties_To_ServersDatabasesSecurityAlertPolicy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_ServersDatabasesSecurityAlertPolicy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersDatabasesSecurityAlertPolicy{}
@@ -87,17 +101,6 @@ func (policy *ServersDatabasesSecurityAlertPolicy) SecretDestinationExpressions(
 		return nil
 	}
 	return policy.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersDatabasesSecurityAlertPolicy{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (policy *ServersDatabasesSecurityAlertPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersDatabasesSecurityAlertPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_ServersDatabasesSecurityAlertPolicy_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersDatabasesSecurityAlertPolicy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabasesSecurityAlertPolicy{}
@@ -603,41 +606,6 @@ func (policy *ServersDatabasesSecurityAlertPolicy_Spec) AssignProperties_To_Serv
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersDatabasesSecurityAlertPolicy_STATUS populates our ServersDatabasesSecurityAlertPolicy_Spec from the provided source ServersDatabasesSecurityAlertPolicy_STATUS
-func (policy *ServersDatabasesSecurityAlertPolicy_Spec) Initialize_From_ServersDatabasesSecurityAlertPolicy_STATUS(source *ServersDatabasesSecurityAlertPolicy_STATUS) error {
-
-	// DisabledAlerts
-	policy.DisabledAlerts = genruntime.CloneSliceOfString(source.DisabledAlerts)
-
-	// EmailAccountAdmins
-	if source.EmailAccountAdmins != nil {
-		emailAccountAdmin := *source.EmailAccountAdmins
-		policy.EmailAccountAdmins = &emailAccountAdmin
-	} else {
-		policy.EmailAccountAdmins = nil
-	}
-
-	// EmailAddresses
-	policy.EmailAddresses = genruntime.CloneSliceOfString(source.EmailAddresses)
-
-	// RetentionDays
-	policy.RetentionDays = genruntime.ClonePointerToInt(source.RetentionDays)
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), databaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_Values)
-		policy.State = &state
-	} else {
-		policy.State = nil
-	}
-
-	// StorageEndpoint
-	policy.StorageEndpoint = genruntime.ClonePointerToString(source.StorageEndpoint)
 
 	// No error
 	return nil

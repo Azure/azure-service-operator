@@ -5,7 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForServersDatabasesAuditingSetting(subject Servers
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersDatabasesAuditingSetting
+	var hub sql_v20211101s.ServersDatabasesAuditingSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSetting(subject Servers
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAuditingSetting
+	var other sql_v1api20211101s.ServersDatabasesAuditingSetting
 	err := copied.AssignProperties_To_ServersDatabasesAuditingSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSettingOperatorSpec(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAuditingSettingOperatorSpec
+	var other sql_v1api20211101s.ServersDatabasesAuditingSettingOperatorSpec
 	err := copied.AssignProperties_To_ServersDatabasesAuditingSettingOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSetting_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAuditingSetting_STATUS
+	var other sql_v1api20211101s.ServersDatabasesAuditingSetting_STATUS
 	err := copied.AssignProperties_To_ServersDatabasesAuditingSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -434,7 +435,7 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSetting_Spec(subject Se
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAuditingSetting_Spec
+	var other sql_v1api20211101s.ServersDatabasesAuditingSetting_Spec
 	err := copied.AssignProperties_To_ServersDatabasesAuditingSetting_Spec(&other)
 	if err != nil {
 		return err.Error()

@@ -95,7 +95,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"search":                  VersionMigrationModeLegacy,
 	"servicebus":              VersionMigrationModeLegacy,
 	"signalrservice":          VersionMigrationModeLegacy,
-	"sql":                     VersionMigrationModeLegacy,
+	"sql":                     VersionMigrationModeHybrid,
 
 	"storage": VersionMigrationModeHybrid,
 

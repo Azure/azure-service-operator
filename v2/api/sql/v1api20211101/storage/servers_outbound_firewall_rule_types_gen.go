@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serversoutboundfirewallrules,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serversoutboundfirewallrules/status,serversoutboundfirewallrules/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (rule *ServersOutboundFirewallRule) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (rule *ServersOutboundFirewallRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersOutboundFirewallRule{}
+
+// ConvertFrom populates our ServersOutboundFirewallRule from the provided hub ServersOutboundFirewallRule
+func (rule *ServersOutboundFirewallRule) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersOutboundFirewallRule)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersOutboundFirewallRule but received %T instead", hub)
+	}
+
+	return rule.AssignProperties_From_ServersOutboundFirewallRule(source)
+}
+
+// ConvertTo populates the provided hub ServersOutboundFirewallRule from our ServersOutboundFirewallRule
+func (rule *ServersOutboundFirewallRule) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersOutboundFirewallRule)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersOutboundFirewallRule but received %T instead", hub)
+	}
+
+	return rule.AssignProperties_To_ServersOutboundFirewallRule(destination)
 }
 
 var _ configmaps.Exporter = &ServersOutboundFirewallRule{}
@@ -143,8 +164,75 @@ func (rule *ServersOutboundFirewallRule) SetStatus(status genruntime.Convertible
 	return nil
 }
 
-// Hub marks that this ServersOutboundFirewallRule is the hub type for conversion
-func (rule *ServersOutboundFirewallRule) Hub() {}
+// AssignProperties_From_ServersOutboundFirewallRule populates our ServersOutboundFirewallRule from the provided source ServersOutboundFirewallRule
+func (rule *ServersOutboundFirewallRule) AssignProperties_From_ServersOutboundFirewallRule(source *storage.ServersOutboundFirewallRule) error {
+
+	// ObjectMeta
+	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersOutboundFirewallRule_Spec
+	err := spec.AssignProperties_From_ServersOutboundFirewallRule_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersOutboundFirewallRule_Spec() to populate field Spec")
+	}
+	rule.Spec = spec
+
+	// Status
+	var status ServersOutboundFirewallRule_STATUS
+	err = status.AssignProperties_From_ServersOutboundFirewallRule_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersOutboundFirewallRule_STATUS() to populate field Status")
+	}
+	rule.Status = status
+
+	// Invoke the augmentConversionForServersOutboundFirewallRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersOutboundFirewallRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersOutboundFirewallRule populates the provided destination ServersOutboundFirewallRule from our ServersOutboundFirewallRule
+func (rule *ServersOutboundFirewallRule) AssignProperties_To_ServersOutboundFirewallRule(destination *storage.ServersOutboundFirewallRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersOutboundFirewallRule_Spec
+	err := rule.Spec.AssignProperties_To_ServersOutboundFirewallRule_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersOutboundFirewallRule_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersOutboundFirewallRule_STATUS
+	err = rule.Status.AssignProperties_To_ServersOutboundFirewallRule_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersOutboundFirewallRule_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersOutboundFirewallRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersOutboundFirewallRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (rule *ServersOutboundFirewallRule) OriginalGVK() *schema.GroupVersionKind {
@@ -164,6 +252,11 @@ type ServersOutboundFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ServersOutboundFirewallRule `json:"items"`
+}
+
+type augmentConversionForServersOutboundFirewallRule interface {
+	AssignPropertiesFrom(src *storage.ServersOutboundFirewallRule) error
+	AssignPropertiesTo(dst *storage.ServersOutboundFirewallRule) error
 }
 
 // Storage version of v1api20211101.ServersOutboundFirewallRule_Spec
@@ -186,20 +279,152 @@ var _ genruntime.ConvertibleSpec = &ServersOutboundFirewallRule_Spec{}
 
 // ConvertSpecFrom populates our ServersOutboundFirewallRule_Spec from the provided source
 func (rule *ServersOutboundFirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersOutboundFirewallRule_Spec)
+	if ok {
+		// Populate our instance from source
+		return rule.AssignProperties_From_ServersOutboundFirewallRule_Spec(src)
 	}
 
-	return source.ConvertSpecTo(rule)
+	// Convert to an intermediate form
+	src = &storage.ServersOutboundFirewallRule_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = rule.AssignProperties_From_ServersOutboundFirewallRule_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersOutboundFirewallRule_Spec
 func (rule *ServersOutboundFirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersOutboundFirewallRule_Spec)
+	if ok {
+		// Populate destination from our instance
+		return rule.AssignProperties_To_ServersOutboundFirewallRule_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(rule)
+	// Convert to an intermediate form
+	dst = &storage.ServersOutboundFirewallRule_Spec{}
+	err := rule.AssignProperties_To_ServersOutboundFirewallRule_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersOutboundFirewallRule_Spec populates our ServersOutboundFirewallRule_Spec from the provided source ServersOutboundFirewallRule_Spec
+func (rule *ServersOutboundFirewallRule_Spec) AssignProperties_From_ServersOutboundFirewallRule_Spec(source *storage.ServersOutboundFirewallRule_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	rule.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersOutboundFirewallRuleOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersOutboundFirewallRuleOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersOutboundFirewallRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		rule.OperatorSpec = &operatorSpec
+	} else {
+		rule.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	rule.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		rule.Owner = &owner
+	} else {
+		rule.Owner = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersOutboundFirewallRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersOutboundFirewallRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersOutboundFirewallRule_Spec populates the provided destination ServersOutboundFirewallRule_Spec from our ServersOutboundFirewallRule_Spec
+func (rule *ServersOutboundFirewallRule_Spec) AssignProperties_To_ServersOutboundFirewallRule_Spec(destination *storage.ServersOutboundFirewallRule_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// AzureName
+	destination.AzureName = rule.AzureName
+
+	// OperatorSpec
+	if rule.OperatorSpec != nil {
+		var operatorSpec storage.ServersOutboundFirewallRuleOperatorSpec
+		err := rule.OperatorSpec.AssignProperties_To_ServersOutboundFirewallRuleOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersOutboundFirewallRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = rule.OriginalVersion
+
+	// Owner
+	if rule.Owner != nil {
+		owner := rule.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersOutboundFirewallRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersOutboundFirewallRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20211101.ServersOutboundFirewallRule_STATUS
@@ -216,20 +441,140 @@ var _ genruntime.ConvertibleStatus = &ServersOutboundFirewallRule_STATUS{}
 
 // ConvertStatusFrom populates our ServersOutboundFirewallRule_STATUS from the provided source
 func (rule *ServersOutboundFirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersOutboundFirewallRule_STATUS)
+	if ok {
+		// Populate our instance from source
+		return rule.AssignProperties_From_ServersOutboundFirewallRule_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(rule)
+	// Convert to an intermediate form
+	src = &storage.ServersOutboundFirewallRule_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = rule.AssignProperties_From_ServersOutboundFirewallRule_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersOutboundFirewallRule_STATUS
 func (rule *ServersOutboundFirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersOutboundFirewallRule_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return rule.AssignProperties_To_ServersOutboundFirewallRule_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(rule)
+	// Convert to an intermediate form
+	dst = &storage.ServersOutboundFirewallRule_STATUS{}
+	err := rule.AssignProperties_To_ServersOutboundFirewallRule_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersOutboundFirewallRule_STATUS populates our ServersOutboundFirewallRule_STATUS from the provided source ServersOutboundFirewallRule_STATUS
+func (rule *ServersOutboundFirewallRule_STATUS) AssignProperties_From_ServersOutboundFirewallRule_STATUS(source *storage.ServersOutboundFirewallRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	rule.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersOutboundFirewallRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersOutboundFirewallRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersOutboundFirewallRule_STATUS populates the provided destination ServersOutboundFirewallRule_STATUS from our ServersOutboundFirewallRule_STATUS
+func (rule *ServersOutboundFirewallRule_STATUS) AssignProperties_To_ServersOutboundFirewallRule_STATUS(destination *storage.ServersOutboundFirewallRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(rule.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(rule.ProvisioningState)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersOutboundFirewallRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersOutboundFirewallRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersOutboundFirewallRule_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersOutboundFirewallRule_Spec) error
+	AssignPropertiesTo(dst *storage.ServersOutboundFirewallRule_Spec) error
+}
+
+type augmentConversionForServersOutboundFirewallRule_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersOutboundFirewallRule_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersOutboundFirewallRule_STATUS) error
 }
 
 // Storage version of v1api20211101.ServersOutboundFirewallRuleOperatorSpec
@@ -238,6 +583,125 @@ type ServersOutboundFirewallRuleOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersOutboundFirewallRuleOperatorSpec populates our ServersOutboundFirewallRuleOperatorSpec from the provided source ServersOutboundFirewallRuleOperatorSpec
+func (operator *ServersOutboundFirewallRuleOperatorSpec) AssignProperties_From_ServersOutboundFirewallRuleOperatorSpec(source *storage.ServersOutboundFirewallRuleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersOutboundFirewallRuleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersOutboundFirewallRuleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersOutboundFirewallRuleOperatorSpec populates the provided destination ServersOutboundFirewallRuleOperatorSpec from our ServersOutboundFirewallRuleOperatorSpec
+func (operator *ServersOutboundFirewallRuleOperatorSpec) AssignProperties_To_ServersOutboundFirewallRuleOperatorSpec(destination *storage.ServersOutboundFirewallRuleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersOutboundFirewallRuleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersOutboundFirewallRuleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersOutboundFirewallRuleOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersOutboundFirewallRuleOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersOutboundFirewallRuleOperatorSpec) error
 }
 
 func init() {

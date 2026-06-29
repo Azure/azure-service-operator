@@ -12,7 +12,7 @@ import (
 	ctrlconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	asosql "github.com/Azure/azure-service-operator/v2/api/sql/v1"
-	sql "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )

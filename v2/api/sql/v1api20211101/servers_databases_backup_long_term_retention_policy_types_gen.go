@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersDatabasesBackupLongTermRetentionPolicy{}
 
 // ConvertFrom populates our ServersDatabasesBackupLongTermRetentionPolicy from the provided hub ServersDatabasesBackupLongTermRetentionPolicy
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersDatabasesBackupLongTermRetentionPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesBackupLongTermRetentionPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersDatabasesBackupLongTermRetentionPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy(source)
+	err = policy.AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersDatabasesBackupLongTermRetentionPolicy from our ServersDatabasesBackupLongTermRetentionPolicy
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersDatabasesBackupLongTermRetentionPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesBackupLongTermRetentionPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersDatabasesBackupLongTermRetentionPolicy
+	err := policy.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersDatabasesBackupLongTermRetentionPolicy{}
@@ -87,17 +101,6 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy) SecretDestinationEx
 		return nil
 	}
 	return policy.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersDatabasesBackupLongTermRetentionPolicy{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (policy *ServersDatabasesBackupLongTermRetentionPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersDatabasesBackupLongTermRetentionPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_ServersDatabasesBackupLongTermRetentionPolicy_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersDatabasesBackupLongTermRetentionPolicy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabasesBackupLongTermRetentionPolicy{}
@@ -502,25 +505,6 @@ func (policy *ServersDatabasesBackupLongTermRetentionPolicy_Spec) AssignProperti
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersDatabasesBackupLongTermRetentionPolicy_STATUS populates our ServersDatabasesBackupLongTermRetentionPolicy_Spec from the provided source ServersDatabasesBackupLongTermRetentionPolicy_STATUS
-func (policy *ServersDatabasesBackupLongTermRetentionPolicy_Spec) Initialize_From_ServersDatabasesBackupLongTermRetentionPolicy_STATUS(source *ServersDatabasesBackupLongTermRetentionPolicy_STATUS) error {
-
-	// MonthlyRetention
-	policy.MonthlyRetention = genruntime.ClonePointerToString(source.MonthlyRetention)
-
-	// WeekOfYear
-	policy.WeekOfYear = genruntime.ClonePointerToInt(source.WeekOfYear)
-
-	// WeeklyRetention
-	policy.WeeklyRetention = genruntime.ClonePointerToString(source.WeeklyRetention)
-
-	// YearlyRetention
-	policy.YearlyRetention = genruntime.ClonePointerToString(source.YearlyRetention)
 
 	// No error
 	return nil
