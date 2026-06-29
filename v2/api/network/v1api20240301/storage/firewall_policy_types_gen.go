@@ -7,6 +7,7 @@ import (
 	"fmt"
 	v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
 	v20241001s "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/network/v20240501/storage"
 	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -832,13 +833,18 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_From_FirewallPolicy_STATUS
 
 	// BasePolicy
 	if source.BasePolicy != nil {
-		var subResourceSTATUSStash v20240601s.SubResource_STATUS
+		var subResourceSTATUSStash v20240501s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.BasePolicy)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from BasePolicy")
 		}
+		var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var basePolicy SubResource_STATUS
-		err = basePolicy.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = basePolicy.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field BasePolicy from SubResource_STATUSStash")
 		}
@@ -851,13 +857,18 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_From_FirewallPolicy_STATUS
 	if source.ChildPolicies != nil {
 		childPolicyList := make([]SubResource_STATUS, len(source.ChildPolicies))
 		for childPolicyIndex, childPolicyItem := range source.ChildPolicies {
-			var subResourceSTATUSStash v20240601s.SubResource_STATUS
+			var subResourceSTATUSStash v20240501s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&childPolicyItem)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from ChildPolicies")
 			}
+			var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+			err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+			}
 			var childPolicy SubResource_STATUS
-			err = childPolicy.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+			err = childPolicy.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field ChildPolicies from SubResource_STATUSStash")
 			}
@@ -902,13 +913,18 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_From_FirewallPolicy_STATUS
 	if source.Firewalls != nil {
 		firewallList := make([]SubResource_STATUS, len(source.Firewalls))
 		for firewallIndex, firewallItem := range source.Firewalls {
-			var subResourceSTATUSStash v20240601s.SubResource_STATUS
+			var subResourceSTATUSStash v20240501s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&firewallItem)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from Firewalls")
 			}
+			var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+			err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+			}
 			var firewall SubResource_STATUS
-			err = firewall.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+			err = firewall.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Firewalls from SubResource_STATUSStash")
 			}
@@ -976,13 +992,18 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_From_FirewallPolicy_STATUS
 	if source.RuleCollectionGroups != nil {
 		ruleCollectionGroupList := make([]SubResource_STATUS, len(source.RuleCollectionGroups))
 		for ruleCollectionGroupIndex, ruleCollectionGroupItem := range source.RuleCollectionGroups {
-			var subResourceSTATUSStash v20240601s.SubResource_STATUS
+			var subResourceSTATUSStash v20240501s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&ruleCollectionGroupItem)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from RuleCollectionGroups")
 			}
+			var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+			err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+			}
 			var ruleCollectionGroup SubResource_STATUS
-			err = ruleCollectionGroup.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+			err = ruleCollectionGroup.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field RuleCollectionGroups from SubResource_STATUSStash")
 			}
@@ -1097,8 +1118,13 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_To_FirewallPolicy_STATUS(d
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from BasePolicy")
 		}
+		var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var basePolicy v20250301s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&basePolicy)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&basePolicy)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field BasePolicy from SubResource_STATUSStash")
 		}
@@ -1116,8 +1142,13 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_To_FirewallPolicy_STATUS(d
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from ChildPolicies")
 			}
+			var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+			}
 			var childPolicy v20250301s.SubResource_STATUS
-			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&childPolicy)
+			err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&childPolicy)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field ChildPolicies from SubResource_STATUSStash")
 			}
@@ -1167,8 +1198,13 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_To_FirewallPolicy_STATUS(d
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from Firewalls")
 			}
+			var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+			}
 			var firewall v20250301s.SubResource_STATUS
-			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&firewall)
+			err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&firewall)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Firewalls from SubResource_STATUSStash")
 			}
@@ -1241,8 +1277,13 @@ func (policy *FirewallPolicy_STATUS) AssignProperties_To_FirewallPolicy_STATUS(d
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from RuleCollectionGroups")
 			}
+			var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+			}
 			var ruleCollectionGroup v20250301s.SubResource_STATUS
-			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&ruleCollectionGroup)
+			err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&ruleCollectionGroup)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field RuleCollectionGroups from SubResource_STATUSStash")
 			}
@@ -3869,13 +3910,18 @@ func (resources *FirewallPolicyLogAnalyticsResources_STATUS) AssignProperties_Fr
 
 	// DefaultWorkspaceId
 	if source.DefaultWorkspaceId != nil {
-		var subResourceSTATUSStash v20240601s.SubResource_STATUS
+		var subResourceSTATUSStash v20240501s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.DefaultWorkspaceId)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from DefaultWorkspaceId")
 		}
+		var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var defaultWorkspaceId SubResource_STATUS
-		err = defaultWorkspaceId.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = defaultWorkspaceId.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DefaultWorkspaceId from SubResource_STATUSStash")
 		}
@@ -3932,8 +3978,13 @@ func (resources *FirewallPolicyLogAnalyticsResources_STATUS) AssignProperties_To
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from DefaultWorkspaceId")
 		}
+		var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var defaultWorkspaceId v20250301s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&defaultWorkspaceId)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&defaultWorkspaceId)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DefaultWorkspaceId from SubResource_STATUSStash")
 		}
@@ -4630,13 +4681,18 @@ func (workspace *FirewallPolicyLogAnalyticsWorkspace_STATUS) AssignProperties_Fr
 
 	// WorkspaceId
 	if source.WorkspaceId != nil {
-		var subResourceSTATUSStash v20240601s.SubResource_STATUS
+		var subResourceSTATUSStash v20240501s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.WorkspaceId)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from WorkspaceId")
 		}
+		var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var workspaceId SubResource_STATUS
-		err = workspaceId.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = workspaceId.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field WorkspaceId from SubResource_STATUSStash")
 		}
@@ -4680,8 +4736,13 @@ func (workspace *FirewallPolicyLogAnalyticsWorkspace_STATUS) AssignProperties_To
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from WorkspaceId")
 		}
+		var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var workspaceId v20250301s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&workspaceId)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&workspaceId)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field WorkspaceId from SubResource_STATUSStash")
 		}
