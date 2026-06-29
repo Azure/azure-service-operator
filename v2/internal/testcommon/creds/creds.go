@@ -32,6 +32,7 @@ type AzureIDs struct {
 	SubscriptionID   string
 	TenantID         string
 	BillingInvoiceID string
+	EntraAppID       string
 }
 
 // getCredentials returns the token credential authentication modes supported by
@@ -91,6 +92,9 @@ func GetCreds() (azcore.TokenCredential, AzureIDs, error) {
 		return nil, AzureIDs{}, eris.Errorf("required environment variable %q was not supplied", config.AzureTenantID)
 	}
 
+	// EntraID is optional - it's only needed if using Entra resources
+	entraID := os.Getenv(config.EntraAppID)
+
 	// This is test specific and doesn't have a corresponding config entry. It's also optional as it's only required for
 	// a small number of tests. Those tests will check for it explicitly
 	billingInvoiceID := os.Getenv(TestBillingIDVar)
@@ -99,6 +103,7 @@ func GetCreds() (azcore.TokenCredential, AzureIDs, error) {
 		SubscriptionID:   subscriptionID,
 		TenantID:         tenantID,
 		BillingInvoiceID: billingInvoiceID,
+		EntraAppID:       entraID,
 	}
 
 	cachedCreds = creds
