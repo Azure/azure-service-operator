@@ -491,9 +491,12 @@ import (
 	storage_v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
 	storage_v20250601w "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/webhook"
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
-	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
-	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
-	subscription_v20211001w "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/webhook"
+	subscription_v1api20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
+	subscription_v1api20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
+	subscription_v1api20211001w "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/webhook"
+	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v20211001"
+	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v20211001/storage"
+	subscription_v20211001w "github.com/Azure/azure-service-operator/v2/api/subscription/v20211001/webhook"
 	synapse_customizations "github.com/Azure/azure-service-operator/v2/api/synapse/customizations"
 	synapse_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
 	synapse_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
@@ -7337,6 +7340,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsTableService)},
 		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsTableServicesTable)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(subscription_v1api20211001.Alias),
+		Defaulter: &subscription_v1api20211001w.Alias{},
+		Validator: &subscription_v1api20211001w.Alias{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(subscription_v1api20211001s.Alias)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(subscription_v20211001.Alias),
 		Defaulter: &subscription_v20211001w.Alias{},
 		Validator: &subscription_v20211001w.Alias{},
@@ -7709,6 +7718,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_v20230101s.AddToScheme(scheme)
 	_ = storage_v20250601.AddToScheme(scheme)
 	_ = storage_v20250601s.AddToScheme(scheme)
+	_ = subscription_v1api20211001.AddToScheme(scheme)
+	_ = subscription_v1api20211001s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
 	_ = subscription_v20211001s.AddToScheme(scheme)
 	_ = synapse_v1api20210601.AddToScheme(scheme)

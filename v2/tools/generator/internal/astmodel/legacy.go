@@ -99,7 +99,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 
 	"storage": VersionMigrationModeHybrid,
 
-	"subscription": VersionMigrationModeLegacy,
+	"subscription": VersionMigrationModeHybrid,
 
 	"synapse": VersionMigrationModeHybrid,
 	"web":     VersionMigrationModeHybrid,
