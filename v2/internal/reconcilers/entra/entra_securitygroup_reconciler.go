@@ -7,6 +7,7 @@ package entra
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -204,9 +205,191 @@ func (r *EntraSecurityGroupReconciler) update(
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update group %s", id)
 	}
 
+	result, err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log)
+	if err != nil {
+		return classifyRelationshipError(err)
+	}
+
 	group.Status.AssignFromGroup(g)
 
+	return result, nil
+}
+
+func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
+	ctx context.Context,
+	group *asoentra.SecurityGroup,
+	graphClient *msgraphsdkgo.GraphServiceClient,
+	log logr.Logger,
+) (ctrl.Result, error) {
+	id, ok := getEntraID(group)
+	if !ok || id == "" {
+		return ctrl.Result{}, eris.Errorf("missing Entra ID annotation for security group %s", group.Name)
+	}
+
+	manageOwners, manageMembers := relationshipSidesToManage(group.Spec)
+	if !manageOwners && !manageMembers {
+		return ctrl.Result{}, nil
+	}
+
+	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
+	}
+
+	var desiredOwners []string
+	if manageOwners {
+		desiredOwners, err = group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
+		if err != nil {
+			return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
+		}
+	}
+
+	var desiredMembers []string
+	if manageMembers {
+		desiredMembers, err = group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
+		if err != nil {
+			return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
+		}
+	}
+
+	groupRequestBuilder := graphClient.Groups().ByGroupId(id)
+	ownersRefBuilder := groupRequestBuilder.Owners().Ref()
+	membersRefBuilder := groupRequestBuilder.Members().Ref()
+
+	var sideErrors []error
+
+	if manageOwners {
+		currentOwners, err := collectDirectoryObjectIDs(
+			ctx,
+			func(ctx context.Context) (msgraphmodels.StringCollectionResponseable, error) {
+				return ownersRefBuilder.Get(ctx, nil)
+			},
+			func(nextLink string) (msgraphmodels.StringCollectionResponseable, error) {
+				return ownersRefBuilder.WithUrl(nextLink).Get(ctx, nil)
+			},
+		)
+		if err != nil {
+			sideErrors = append(sideErrors, eris.Wrapf(err, "owners list for group %s", id))
+		} else {
+			err = r.reconcileRelationshipSide(
+				ctx,
+				"owners",
+				currentOwners,
+				desiredOwners,
+				func(ctx context.Context, objectID string) error {
+					ref := msgraphmodels.NewReferenceCreate()
+					ref.SetOdataId(to.Ptr(directoryObjectRefURI(objectID)))
+					return ownersRefBuilder.Post(ctx, ref, nil)
+				},
+				func(ctx context.Context, objectID string) error {
+					deleteID := directoryObjectRefURI(objectID)
+					deleteConfig := &groups.ItemOwnersRefRequestBuilderDeleteRequestConfiguration{
+						QueryParameters: &groups.ItemOwnersRefRequestBuilderDeleteQueryParameters{
+							Id: &deleteID,
+						},
+					}
+					return ownersRefBuilder.Delete(ctx, deleteConfig)
+				},
+				log,
+			)
+			if err != nil {
+				sideErrors = append(sideErrors, eris.Wrapf(err, "reconciling owners for group %s", id))
+			}
+		}
+	}
+
+	if manageMembers {
+		currentMembers, err := collectDirectoryObjectIDs(
+			ctx,
+			func(ctx context.Context) (msgraphmodels.StringCollectionResponseable, error) {
+				return membersRefBuilder.Get(ctx, nil)
+			},
+			func(nextLink string) (msgraphmodels.StringCollectionResponseable, error) {
+				return membersRefBuilder.WithUrl(nextLink).Get(ctx, nil)
+			},
+		)
+		if err != nil {
+			sideErrors = append(sideErrors, eris.Wrapf(err, "members list for group %s", id))
+		} else {
+			err = r.reconcileRelationshipSide(
+				ctx,
+				"members",
+				currentMembers,
+				desiredMembers,
+				func(ctx context.Context, objectID string) error {
+					ref := msgraphmodels.NewReferenceCreate()
+					ref.SetOdataId(to.Ptr(directoryObjectRefURI(objectID)))
+					return membersRefBuilder.Post(ctx, ref, nil)
+				},
+				func(ctx context.Context, objectID string) error {
+					deleteID := directoryObjectRefURI(objectID)
+					deleteConfig := &groups.ItemMembersRefRequestBuilderDeleteRequestConfiguration{
+						QueryParameters: &groups.ItemMembersRefRequestBuilderDeleteQueryParameters{
+							Id: &deleteID,
+						},
+					}
+					return membersRefBuilder.Delete(ctx, deleteConfig)
+				},
+				log,
+			)
+			if err != nil {
+				sideErrors = append(sideErrors, eris.Wrapf(err, "reconciling members for group %s", id))
+			}
+		}
+	}
+
+	if len(sideErrors) > 0 {
+		return ctrl.Result{}, errors.Join(sideErrors...)
+	}
+
 	return ctrl.Result{}, nil
+}
+
+func relationshipSidesToManage(spec asoentra.SecurityGroupSpec) (bool, bool) {
+	// Nil means omitted (unmanaged); explicit empty means managed-to-empty.
+	return spec.Owners != nil, spec.Members != nil
+}
+
+func collectDirectoryObjectIDs(
+	ctx context.Context,
+	firstPage func(context.Context) (msgraphmodels.StringCollectionResponseable, error),
+	nextPage func(string) (msgraphmodels.StringCollectionResponseable, error),
+) ([]string, error) {
+	response, err := firstPage(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	result := make([]string, 0)
+	for response != nil {
+		result = append(result, extractDirectoryObjectIDs(response.GetValue())...)
+
+		nextLink := to.Value(response.GetOdataNextLink())
+		if nextLink == "" {
+			break
+		}
+
+		response, err = nextPage(nextLink)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return orderedUnique(result), nil
+}
+
+func extractDirectoryObjectIDs(values []string) []string {
+	result := make([]string, 0, len(values))
+	for _, value := range values {
+		objectID := directoryObjectIDFromRef(value)
+		if objectID == "" {
+			continue
+		}
+
+		result = append(result, objectID)
+	}
+
+	return orderedUnique(result)
 }
 
 // tryAdopt tries to find an existing Entra security group to adopt.
@@ -291,6 +474,17 @@ func (r *EntraSecurityGroupReconciler) create(
 
 	g := msgraphmodels.NewGroup()
 	group.Spec.AssignToGroup(g)
+
+	// Resolve config map references for this resource so we can populate any
+	// ObjectIDFromConfig values used in owners/members.
+	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
+	}
+
+	if err := group.Spec.AssignODataBindOnCreate(g, resolvedConfigMaps); err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed preparing create payload for group %s", group.Name)
+	}
 
 	status, err := client.Client().Groups().Post(ctx, g, nil)
 	if err != nil {
