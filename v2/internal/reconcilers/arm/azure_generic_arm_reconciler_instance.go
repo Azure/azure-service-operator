@@ -1044,7 +1044,6 @@ var skipDeletionPrecheck = sets.NewString(
 	"kubernetesconfiguration.azure.com",
 	"machinelearningservices.azure.com",
 	"network.azure.com",
-	"network.frontdoor.azure.com",
 	"redhatopenshift.azure.com",
 	"resources.azure.com",
 	"servicebus.azure.com",
