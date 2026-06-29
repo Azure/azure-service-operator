@@ -2450,6 +2450,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20241001s.NetworkWatchersFlowLog)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.AzureFirewall)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.BastionHost)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.DdosProtectionPlan)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.FirewallPoliciesRuleCollectionGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.FirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.LoadBalancer)})
@@ -6723,6 +6724,11 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &network_v20250301w.BastionHost{},
 		},
 		&registration.KnownType{
+			Obj:       new(network_v20250301.DdosProtectionPlan),
+			Defaulter: &network_v20250301w.DdosProtectionPlan{},
+			Validator: &network_v20250301w.DdosProtectionPlan{},
+		},
+		&registration.KnownType{
 			Obj:       new(network_v20250301.FirewallPoliciesRuleCollectionGroup),
 			Defaulter: &network_v20250301w.FirewallPoliciesRuleCollectionGroup{},
 			Validator: &network_v20250301w.FirewallPoliciesRuleCollectionGroup{},
@@ -6821,6 +6827,7 @@ func getKnownTypes() []*registration.KnownType {
 		result,
 		&registration.KnownType{Obj: new(network_v20250301s.AzureFirewall)},
 		&registration.KnownType{Obj: new(network_v20250301s.BastionHost)},
+		&registration.KnownType{Obj: new(network_v20250301s.DdosProtectionPlan)},
 		&registration.KnownType{Obj: new(network_v20250301s.FirewallPoliciesRuleCollectionGroup)},
 		&registration.KnownType{Obj: new(network_v20250301s.FirewallPolicy)},
 		&registration.KnownType{Obj: new(network_v20250301s.LoadBalancer)},
@@ -8400,6 +8407,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.ApplicationSecurityGroupExtension{})
 	result = append(result, &network_customizations.AzureFirewallExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
+	result = append(result, &network_customizations.DdosProtectionPlanExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsVirtualNetworkLinkExtension{})
 	result = append(result, &network_customizations.DnsForwardingRulesetExtension{})
