@@ -82,17 +82,19 @@ func GetCreds() (azcore.TokenCredential, AzureIDs, error) {
 		return nil, AzureIDs{}, eris.Wrapf(err, "creating credentials")
 	}
 
+	// Read AZURE_SUBSCRIPTION_ID
 	subscriptionID := os.Getenv(config.AzureSubscriptionID)
 	if subscriptionID == "" {
 		return nil, AzureIDs{}, eris.Errorf("required environment variable %q was not supplied", config.AzureSubscriptionID)
 	}
 
+	// Read AZURE_TENANT_ID
 	tenantID := os.Getenv(config.AzureTenantID)
 	if tenantID == "" {
 		return nil, AzureIDs{}, eris.Errorf("required environment variable %q was not supplied", config.AzureTenantID)
 	}
 
-	// EntraID is optional - it's only needed if using Entra resources
+	// Read AZURE_ENTRA_APP_ID (optional; only used if Entra resources are used)
 	entraID := os.Getenv(config.EntraAppID)
 
 	// This is test specific and doesn't have a corresponding config entry. It's also optional as it's only required for
