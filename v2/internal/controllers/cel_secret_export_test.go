@@ -323,3 +323,63 @@ func Test_CELExportSecretPropertyOnDifferentVersion(t *testing.T) {
 
 	tc.ExpectSecretHasKeys(secretName, "policy")
 }
+
+func Test_CELExportASOCredentialSecret(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	secretName := "mysecret"
+
+	mi := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				SecretExpressions: []*core.DestinationExpression{
+					{
+						Name:  secretName,
+						Key:   "AZURE_SUBSCRIPTION_ID",
+						Value: `aso.parseResourceId(self.status.id).subscriptionId`,
+					},
+					{
+						Name:  secretName,
+						Key:   "AZURE_TENANT_ID",
+						Value: `self.status.tenantId`,
+					},
+					{
+						Name:  secretName,
+						Key:   "AZURE_CLIENT_ID",
+						Value: `self.status.clientId`,
+					},
+					{
+						Name:  secretName,
+						Key:   "USE_WORKLOAD_IDENTITY_AUTH",
+						Value: `string(true)`,
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(mi)
+
+	// Verify that status fields were populated
+	tc.Expect(mi.Status.Id).ToNot(BeNil())
+	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
+	tc.Expect(mi.Status.ClientId).ToNot(BeNil())
+
+	// The secret should exist with the expected keys
+	tc.ExpectSecretHasKeys(secretName, "AZURE_SUBSCRIPTION_ID", "AZURE_TENANT_ID", "AZURE_CLIENT_ID", "USE_WORKLOAD_IDENTITY_AUTH")
+
+	secretKey := types.NamespacedName{Namespace: tc.Namespace, Name: secretName}
+	var secret v1.Secret
+	tc.GetResource(secretKey, &secret)
+
+	tc.Expect(secret.Data["AZURE_SUBSCRIPTION_ID"]).ToNot(BeEmpty())
+	tc.Expect(string(secret.Data["AZURE_TENANT_ID"])).To(Equal(*mi.Status.TenantId))
+	tc.Expect(string(secret.Data["AZURE_CLIENT_ID"])).To(Equal(*mi.Status.ClientId))
+	tc.Expect(string(secret.Data["USE_WORKLOAD_IDENTITY_AUTH"])).To(Equal("true"))
+}
