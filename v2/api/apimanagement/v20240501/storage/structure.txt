@@ -494,7 +494,8 @@ Backend: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Pool: *Object (2 properties)
+│   ├── Pool: *Object (3 properties)
+│   │   ├── AdditionalProperties: map[string]v1.JSON
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Services: Object (4 properties)[]
 │   │       ├── Priority: *int
@@ -561,7 +562,8 @@ Backend: Resource
     ├── Description: *string
     ├── Id: *string
     ├── Name: *string
-    ├── Pool: *Object (2 properties)
+    ├── Pool: *Object (3 properties)
+    │   ├── AdditionalProperties: map[string]v1.JSON
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── Services: Object (4 properties)[]
     │       ├── Id: *string

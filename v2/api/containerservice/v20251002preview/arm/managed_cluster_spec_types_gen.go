@@ -499,6 +499,9 @@ type ManagedClusterAgentPoolProfile struct {
 	// NodeCustomizationProfile: Settings to determine the node customization used to provision nodes in a pool.
 	NodeCustomizationProfile *NodeCustomizationProfile `json:"nodeCustomizationProfile,omitempty"`
 
+	// NodeImageVersion: The version of node image
+	NodeImageVersion *string `json:"nodeImageVersion,omitempty"`
+
 	// NodeInitializationTaints: Taints added on the nodes during creation that will not be reconciled by AKS. These taints
 	// will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is
 	// created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node
@@ -743,6 +746,7 @@ type ManagedClusterMetricsProfile struct {
 	CostAnalysis *ManagedClusterCostAnalysis `json:"costAnalysis,omitempty"`
 }
 
+// Node provisioning profile for the managed cluster.
 type ManagedClusterNodeProvisioningProfile struct {
 	// DefaultNodePools: The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no
 	// effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default
@@ -1023,7 +1027,7 @@ type PrivateLinkResource struct {
 	// Id: The ID of the private link resource.
 	Id *string `json:"id,omitempty"`
 
-	// Name: The name of the private link resource.
+	// Name: The name of the private link resource. See [naming rules](https://aka.ms/search-naming-rules) for more details.
 	Name *string `json:"name,omitempty"`
 
 	// RequiredMembers: The RequiredMembers of the resource
@@ -1399,6 +1403,7 @@ type ManagedClusterIngressProfileApplicationLoadBalancer struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
+// Configuration for the ingress managed gateway. See https://aka.ms/k8s-gateway-api for more details.
 type ManagedClusterIngressProfileGatewayConfiguration struct {
 	// Installation: Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See
 	// https://aka.ms/k8s-gateway-api for more details.
@@ -1958,11 +1963,13 @@ type ManagedClusterAzureMonitorProfileKubeStateMetrics struct {
 	MetricLabelsAllowlist *string `json:"metricLabelsAllowlist,omitempty"`
 }
 
+// Default domain profile for the managed cluster ingress profile.
 type ManagedClusterIngressDefaultDomainProfile struct {
 	// Enabled: Whether to enable Default Domain.
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
+// Nginx ingress controller configuration for the managed cluster ingress profile.
 type ManagedClusterIngressProfileNginx struct {
 	// DefaultIngressControllerType: Ingress type for the default NginxIngressController custom resource
 	DefaultIngressControllerType *NginxIngressControllerType `json:"defaultIngressControllerType,omitempty"`
@@ -2207,6 +2214,7 @@ type IstioPluginCertificateAuthority struct {
 	RootCertObjectName *string `json:"rootCertObjectName,omitempty"`
 }
 
+// Identity information used by Defender security gating to access container registries.
 type ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem struct {
 	// AzureContainerRegistry: The container registry for which the identity will be used; the identity specified here should
 	// have a federated identity credential attached to it.

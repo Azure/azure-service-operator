@@ -18,7 +18,7 @@ removeAliases                                                Remove type aliases
 collapseCrossGroupReferences                                 Find and remove cross group references
 stripUnreferenced                                            Strip unreferenced types
 assertTypesStructureValid                                    Verify that all local TypeNames refer to a type
-removeEmbeddedResources                           azure      Remove properties that point to embedded resources.
+removeEmbeddedResources                           azure      Remove properties that point to embedded resources
 catalogKnownResources                                        Catalog known resources
 filterTypes                                                  Apply export filters to reduce the number of generated types
 promoteRootOneOfProperties                                   Promote selected properties on OneOf objects directly referenced by resources

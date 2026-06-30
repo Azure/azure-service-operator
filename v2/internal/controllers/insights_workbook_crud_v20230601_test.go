@@ -77,7 +77,7 @@ func Test_Insights_Workbook_v20230601_CRUD(t *testing.T) {
 	// Perform some assertions on the workbook we just created
 	tc.Expect(workbook.Status.Id).ToNot(BeNil())
 	tc.Expect(workbook.Status.Kind).ToNot(BeNil())
-	tc.Expect(*workbook.Status.Kind).To(Equal(insights.Workbook_Kind_STATUS_Shared))
+	tc.Expect(*workbook.Status.Kind).To(Equal(insights.ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS_Shared))
 
 	// Test updating the workbook
 	tc.LogSectionf("Updating workbook description and tags")

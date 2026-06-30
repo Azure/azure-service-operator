@@ -19,6 +19,12 @@ groupModelConfiguration:
     WorkspaceProperties:
       DefaultDataCollectionRuleResourceId:
         $referenceType: arm
+    WorkspaceProperties_PublicNetworkAccessForQuery:
+      $renameTo: PublicNetworkAccessForQuery
+    WorkspaceProperties_PublicNetworkAccessForIngestion:
+      $renameTo: PublicNetworkAccessForIngestion
+    WorkspaceSkuNameEnum:
+      $renameTo: WorkspaceSkuName
     WorkspaceFeatures:
       ClusterResourceId:
         $referenceType: arm

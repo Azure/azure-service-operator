@@ -15,3 +15,6 @@
 | RoleDefinitionProperties_STATUS               |                      | v1api20220401 |
 | RoleDefinition_STATUS                         |                      | v1api20220401 |
 | RoleDefinition_Spec                           |                      | v1api20220401 |
+| SystemData_CreatedByType_STATUS               |                      | v1api20220401 |
+| SystemData_LastModifiedByType_STATUS          |                      | v1api20220401 |
+| SystemData_STATUS                             |                      | v1api20220401 |

@@ -11,7 +11,7 @@ import (
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	Foo *v1.JSON `json:"foo,omitempty"`
+	Foo map[string]v1.JSON `json:"foo,omitempty"`
 }
 
 // AssignProperties_From_Test populates our Test from the provided source Test
@@ -19,8 +19,11 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 
 	// Foo
 	if source.Foo != nil {
-		foo := *source.Foo.DeepCopy()
-		test.Foo = &foo
+		fooMap := make(map[string]v1.JSON, len(source.Foo))
+		for fooKey, fooValue := range source.Foo {
+			fooMap[fooKey] = *fooValue.DeepCopy()
+		}
+		test.Foo = fooMap
 	} else {
 		test.Foo = nil
 	}
@@ -36,8 +39,11 @@ func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 
 	// Foo
 	if test.Foo != nil {
-		foo := *test.Foo.DeepCopy()
-		destination.Foo = &foo
+		fooMap := make(map[string]v1.JSON, len(test.Foo))
+		for fooKey, fooValue := range test.Foo {
+			fooMap[fooKey] = *fooValue.DeepCopy()
+		}
+		destination.Foo = fooMap
 	} else {
 		destination.Foo = nil
 	}

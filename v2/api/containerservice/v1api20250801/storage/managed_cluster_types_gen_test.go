@@ -2594,7 +2594,6 @@ func AddIndependentPropertyGeneratorsForManagedClusterAADProfile(gens map[string
 	gens["EnableAzureRBAC"] = gen.PtrOf(gen.Bool())
 	gens["Managed"] = gen.PtrOf(gen.Bool())
 	gens["ServerAppID"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerAppSecret"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantID"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2661,7 +2660,6 @@ func AddIndependentPropertyGeneratorsForManagedClusterAADProfile_STATUS(gens map
 	gens["EnableAzureRBAC"] = gen.PtrOf(gen.Bool())
 	gens["Managed"] = gen.PtrOf(gen.Bool())
 	gens["ServerAppID"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerAppSecret"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantID"] = gen.PtrOf(gen.AlphaString())
 }
 

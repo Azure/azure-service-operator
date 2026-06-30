@@ -301,24 +301,8 @@ type DnsConfig_STATUS struct {
 // Storage version of v1api20220401.Endpoint_STATUS
 // Class representing a Traffic Manager endpoint.
 type Endpoint_STATUS struct {
-	AlwaysServe           *string                                      `json:"alwaysServe,omitempty"`
-	CustomHeaders         []EndpointPropertiesCustomHeadersItem_STATUS `json:"customHeaders,omitempty"`
-	EndpointLocation      *string                                      `json:"endpointLocation,omitempty"`
-	EndpointMonitorStatus *string                                      `json:"endpointMonitorStatus,omitempty"`
-	EndpointStatus        *string                                      `json:"endpointStatus,omitempty"`
-	GeoMapping            []string                                     `json:"geoMapping,omitempty"`
-	Id                    *string                                      `json:"id,omitempty"`
-	MinChildEndpoints     *int                                         `json:"minChildEndpoints,omitempty"`
-	MinChildEndpointsIPv4 *int                                         `json:"minChildEndpointsIPv4,omitempty"`
-	MinChildEndpointsIPv6 *int                                         `json:"minChildEndpointsIPv6,omitempty"`
-	Name                  *string                                      `json:"name,omitempty"`
-	Priority              *int                                         `json:"priority,omitempty"`
-	PropertyBag           genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
-	Subnets               []EndpointPropertiesSubnetsItem_STATUS       `json:"subnets,omitempty"`
-	Target                *string                                      `json:"target,omitempty"`
-	TargetResourceId      *string                                      `json:"targetResourceId,omitempty"`
-	Type                  *string                                      `json:"type,omitempty"`
-	Weight                *int                                         `json:"weight,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1api20220401.MonitorConfig

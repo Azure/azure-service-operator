@@ -414,10 +414,12 @@ func AddIndependentPropertyGeneratorsForHighAvailability_STATUS(gens map[string]
 	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailability_Mode_STATUS_Disabled, HighAvailability_Mode_STATUS_SameZone, HighAvailability_Mode_STATUS_ZoneRedundant))
 	gens["StandbyAvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
+		HighAvailabilityState_STATUS_ComputeUpdatingByFailover,
 		HighAvailabilityState_STATUS_CreatingStandby,
 		HighAvailabilityState_STATUS_FailingOver,
 		HighAvailabilityState_STATUS_Healthy,
 		HighAvailabilityState_STATUS_NotEnabled,
+		HighAvailabilityState_STATUS_RecreatingStandby,
 		HighAvailabilityState_STATUS_RemovingStandby,
 		HighAvailabilityState_STATUS_ReplicatingData))
 }

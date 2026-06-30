@@ -818,7 +818,7 @@ func Test_Extension_Properties_AksAssignedIdentity_STATUS_WhenPropertiesConverte
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Extension_Properties_AksAssignedIdentity_STATUS to Extension_Properties_AksAssignedIdentity_STATUS via AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS & AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS returns original",
+		"Round trip from Extension_Properties_AksAssignedIdentity_STATUS to ExtensionPropertiesAksAssignedIdentity_STATUS via AssignProperties_To_ExtensionPropertiesAksAssignedIdentity_STATUS & AssignProperties_From_ExtensionPropertiesAksAssignedIdentity_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForExtension_Properties_AksAssignedIdentity_STATUS, Extension_Properties_AksAssignedIdentity_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -829,15 +829,15 @@ func RunPropertyAssignmentTestForExtension_Properties_AksAssignedIdentity_STATUS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Extension_Properties_AksAssignedIdentity_STATUS
-	err := copied.AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS(&other)
+	var other storage.ExtensionPropertiesAksAssignedIdentity_STATUS
+	err := copied.AssignProperties_To_ExtensionPropertiesAksAssignedIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Extension_Properties_AksAssignedIdentity_STATUS
-	err = actual.AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS(&other)
+	err = actual.AssignProperties_From_ExtensionPropertiesAksAssignedIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -923,7 +923,7 @@ func Test_Extension_Properties_AksAssignedIdentity_Spec_WhenPropertiesConverted_
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Extension_Properties_AksAssignedIdentity_Spec to Extension_Properties_AksAssignedIdentity_Spec via AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec & AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec returns original",
+		"Round trip from Extension_Properties_AksAssignedIdentity_Spec to ExtensionPropertiesAksAssignedIdentity via AssignProperties_To_ExtensionPropertiesAksAssignedIdentity & AssignProperties_From_ExtensionPropertiesAksAssignedIdentity returns original",
 		prop.ForAll(RunPropertyAssignmentTestForExtension_Properties_AksAssignedIdentity_Spec, Extension_Properties_AksAssignedIdentity_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -934,15 +934,15 @@ func RunPropertyAssignmentTestForExtension_Properties_AksAssignedIdentity_Spec(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Extension_Properties_AksAssignedIdentity_Spec
-	err := copied.AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec(&other)
+	var other storage.ExtensionPropertiesAksAssignedIdentity
+	err := copied.AssignProperties_To_ExtensionPropertiesAksAssignedIdentity(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual Extension_Properties_AksAssignedIdentity_Spec
-	err = actual.AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec(&other)
+	err = actual.AssignProperties_From_ExtensionPropertiesAksAssignedIdentity(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2322,48 +2322,6 @@ func Scope_STATUSGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForScope_STATUS(gens map[string]gopter.Gen) {
 	gens["Cluster"] = gen.PtrOf(ScopeCluster_STATUSGenerator())
 	gens["Namespace"] = gen.PtrOf(ScopeNamespace_STATUSGenerator())
-}
-
-func Test_SystemData_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SystemData to SystemData via AssignProperties_To_SystemData & AssignProperties_From_SystemData returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSystemData, SystemDataGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSystemData tests if a specific instance of SystemData can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForSystemData(subject SystemData) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData
-	err := copied.AssignProperties_To_SystemData(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SystemData
-	err = actual.AssignProperties_From_SystemData(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_SystemData_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

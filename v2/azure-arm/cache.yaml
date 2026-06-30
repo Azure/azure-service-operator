@@ -8,6 +8,7 @@ typeTransformers:
     property: AccessKeys
     remove: true
     because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
+
 groupModelConfiguration:
   2020-12-01:
     Redis:

@@ -112,7 +112,7 @@ ManagedCluster: Resource
 │   │   ├── Managed: *bool
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── ServerAppID: *string
-│   │   ├── ServerAppSecret: *string
+│   │   ├── ServerAppSecret: *genruntime.SecretReference
 │   │   └── TenantID: *string
 │   ├── AddonProfiles: map[string]Object (3 properties)
 │   │   ├── Config: map[string]string
@@ -534,14 +534,13 @@ ManagedCluster: Resource
 │           ├── Enabled: *bool
 │           └── PropertyBag: genruntime.PropertyBag
 └── Status: Object (54 properties)
-    ├── AadProfile: *Object (8 properties)
+    ├── AadProfile: *Object (7 properties)
     │   ├── AdminGroupObjectIDs: string[]
     │   ├── ClientAppID: *string
     │   ├── EnableAzureRBAC: *bool
     │   ├── Managed: *bool
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── ServerAppID: *string
-    │   ├── ServerAppSecret: *string
     │   └── TenantID: *string
     ├── AddonProfiles: map[string]Object (4 properties)
     │   ├── Config: map[string]string

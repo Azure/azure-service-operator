@@ -159,7 +159,7 @@ func DataCollectionEndpoint_SpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDataCollectionEndpoint_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataCollectionEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DataCollectionEndpoint_Kind_Spec_Linux, DataCollectionEndpoint_Kind_Spec_Windows))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(KnownDataCollectionEndpointResourceKind_Linux, KnownDataCollectionEndpointResourceKind_Windows))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(
@@ -312,7 +312,7 @@ func NetworkRuleSetGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSet is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSet(gens map[string]gopter.Gen) {
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_PublicNetworkAccess_Disabled, NetworkRuleSet_PublicNetworkAccess_Enabled, NetworkRuleSet_PublicNetworkAccess_SecuredByPerimeter))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(KnownPublicNetworkAccessOptions_Disabled, KnownPublicNetworkAccessOptions_Enabled, KnownPublicNetworkAccessOptions_SecuredByPerimeter))
 }
 
 func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
