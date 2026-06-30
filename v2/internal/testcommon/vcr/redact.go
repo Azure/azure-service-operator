@@ -43,6 +43,10 @@ func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 		redactor.AddLiteralRedaction(azureIDs.BillingInvoiceID, creds.DummyBillingID)
 	}
 
+	if azureIDs.EntraAppID != "" {
+		redactor.AddLiteralRedaction(azureIDs.EntraAppID, nilGUID)
+	}
+
 	// OpenAI keys
 	redactor.AddRegexRedaction(
 		`"(?<key>key\d)":"[A-Za-z0-9]*"`,
@@ -67,6 +71,12 @@ func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 	redactor.AddRegexRedaction(
 		`-----BEGIN CERTIFICATE-----[A-Za-z0-9\\+/=]+-----END CERTIFICATE-----`,
 		`-----BEGIN CERTIFICATE-----REDACTED-----END CERTIFICATE-----`,
+	)
+
+	// Entra Publisher Domain
+	redactor.AddRegexRedaction(
+		`[A-Za-z0-9-]+\.onmicrosoft\.com`,
+		`redactedtenant.onmicrosoft.com`,
 	)
 
 	return redactor
