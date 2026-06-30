@@ -313,7 +313,7 @@ func (report *ResourceVersionsReport) WriteAllResourcesReportToBuffer(
 			continue
 		}
 
-		err = report.writeGroupSections(info, items, buffer)
+		err = report.writeGroupSections(info, items, buffer, masterIndexPartitions)
 		if err != nil {
 			errs = append(errs, err) // Don't need to wrap, will already specify the group
 		}
@@ -362,7 +362,7 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 		return eris.Wrapf(err, "writing fragment for group %s", group)
 	}
 
-	return report.writeGroupSections(info, items, buffer)
+	return report.writeGroupSections(info, items, buffer, groupIndexPartitions)
 }
 
 type resourceVersionsReportSection struct {
@@ -371,94 +371,40 @@ type resourceVersionsReportSection struct {
 	kinds set.Set[resourceVersionsReportItem]
 }
 
+var partitionTitles = map[partitionID]string{
+	partitionIDPrerelease: "Next Release",
+	partitionIDLatest:     "Latest Released Versions",
+	partitionIDOther:      "Other Supported Versions",
+	partitionIDReleased:   "Released",
+	partitionIDDeprecated: "Deprecated",
+}
+
 func (report *ResourceVersionsReport) writeGroupSections(
 	group *ResourceVersionsReportGroupInfo,
 	kinds set.Set[resourceVersionsReportItem],
 	buffer *strings.Builder,
+	activeSections []partitionID,
 ) error {
-	// By default, we treat everything as released
-	releasedResources := kinds
+	partitions := partitionResources(kinds, report.reportConfiguration.CurrentRelease)
 
-	createSection := func(
-		id string,
-		title string,
-		kinds set.Set[resourceVersionsReportItem],
-	) resourceVersionsReportSection {
-		releasedResources = releasedResources.Except(kinds)
-
-		return resourceVersionsReportSection{
-			id:    id,
-			title: title,
-			kinds: kinds,
-		}
-	}
-
-	// Create a section for all deprecated resources (this is commonly empty)
-	deprecatedSection := createSection(
-		"deprecated",
-		"Deprecated",
-		releasedResources.Where(report.isDeprecatedResource),
-	)
-
-	// Create a section for all prerelease resources (those not yet released)
-	prereleaseSection := createSection(
-		"prerelease",
-		"Next Release",
-		releasedResources.Where(report.isUnreleasedResource),
-	)
-
-	// Create a section for the latest versions of all supported resources
-	latestSection := createSection(
-		"latest",
-		"Latest Released Versions",
-		findRecommendedReleases(releasedResources),
-	)
-
-	// Create a section for all other supported versions
-	otherSection := createSection(
-		"other",
-		"Other Supported Versions",
-		releasedResources,
-	)
-
-	// Create an empty section for all released resources
-	// (This will initially be empty, but )
-	releasedSection := createSection(
-		"released",
-		"Released",
-		set.Make[resourceVersionsReportItem](),
-	)
-
-	// If every resource is the latest version, move them to the released section
-	if len(otherSection.kinds) == 0 {
-		releasedSection.kinds = latestSection.kinds
-		latestSection.kinds = nil
-	}
-
-	sections := []resourceVersionsReportSection{
-		prereleaseSection,
-		latestSection,
-		otherSection,
-		releasedSection,
-		deprecatedSection,
-	}
-
-	for _, section := range sections {
+	for _, section := range activeSections {
+		resources := partitions[section]
 		err := report.writeSection(
 			group,
-			section.id,
-			"### "+section.title,
-			section.kinds,
+			string(section),
+			"### "+partitionTitles[section],
+			resources,
 			buffer,
 		)
 		if err != nil {
-			return eris.Wrapf(err, "writing section %s for group %s", section.id, group)
+			return eris.Wrapf(err, "writing section %s for group %s", section, group)
 		}
 	}
 
 	// Always flag the prerelease and deprecated fragments as used
 	report.typoAdvisor.AddTerm("prerelease")
 	report.typoAdvisor.AddTerm("deprecated")
+	report.typoAdvisor.AddTerm("other")
 
 	return nil
 }
