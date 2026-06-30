@@ -75,15 +75,15 @@ type ResourceVersionsReport struct {
 	objectModelConfiguration *config.ObjectModelConfiguration
 	rootURL                  string
 	samplesPath              string
-	availableFragments       map[string]string                                      // A collection of the fragments to use in the report
-	groups                   set.Set[string]                                        // A set of all our groups
-	items                    map[string]set.Set[ResourceVersionsReportResourceItem] // For each group, the set of all available items
-	typoAdvisor              *typo.Advisor                                          // Advisor used to troubleshoot unused fragments
-	titleCase                cases.Caser                                            // Helper for title casing
-	localPath                string                                                 // Prefix to use for local packages
+	availableFragments       map[string]string                              // A collection of the fragments to use in the report
+	groups                   set.Set[string]                                // A set of all our groups
+	items                    map[string]set.Set[resourceVersionsReportItem] // For each group, the set of all available items
+	typoAdvisor              *typo.Advisor                                  // Advisor used to troubleshoot unused fragments
+	titleCase                cases.Caser                                    // Helper for title casing
+	localPath                string                                         // Prefix to use for local packages
 }
 
-type ResourceVersionsReportResourceItem struct {
+type resourceVersionsReportItem struct {
 	name          astmodel.InternalTypeName
 	armType       string
 	armVersion    string
@@ -107,7 +107,7 @@ func NewResourceVersionsReport(
 		samplesPath:              cfg.FullSamplesPath(),
 		availableFragments:       make(map[string]string),
 		groups:                   set.Make[string](),
-		items:                    make(map[string]set.Set[ResourceVersionsReportResourceItem]),
+		items:                    make(map[string]set.Set[resourceVersionsReportItem]),
 		typoAdvisor:              typo.NewAdvisor(),
 		titleCase:                cases.Title(language.English),
 		localPath:                cfg.LocalPathPrefix(),
@@ -207,13 +207,13 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 	return nil
 }
 
-func (report *ResourceVersionsReport) addItem(item ResourceVersionsReportResourceItem) {
+func (report *ResourceVersionsReport) addItem(item resourceVersionsReportItem) {
 	grp := item.name.InternalPackageReference().Group()
 	report.groups.Add(grp)
 
 	items, ok := report.items[grp]
 	if !ok {
-		items = set.Make[ResourceVersionsReportResourceItem]()
+		items = set.Make[resourceVersionsReportItem]()
 		report.items[grp] = items
 	}
 
@@ -368,12 +368,12 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 type resourceVersionsReportSection struct {
 	id    string
 	title string
-	kinds set.Set[ResourceVersionsReportResourceItem]
+	kinds set.Set[resourceVersionsReportItem]
 }
 
 func (report *ResourceVersionsReport) writeGroupSections(
 	group *ResourceVersionsReportGroupInfo,
-	kinds set.Set[ResourceVersionsReportResourceItem],
+	kinds set.Set[resourceVersionsReportItem],
 	buffer *strings.Builder,
 ) error {
 	// By default, we treat everything as released
@@ -382,7 +382,7 @@ func (report *ResourceVersionsReport) writeGroupSections(
 	createSection := func(
 		id string,
 		title string,
-		kinds set.Set[ResourceVersionsReportResourceItem],
+		kinds set.Set[resourceVersionsReportItem],
 	) resourceVersionsReportSection {
 		releasedResources = releasedResources.Except(kinds)
 
@@ -426,7 +426,7 @@ func (report *ResourceVersionsReport) writeGroupSections(
 	releasedSection := createSection(
 		"released",
 		"Released",
-		set.Make[ResourceVersionsReportResourceItem](),
+		set.Make[resourceVersionsReportItem](),
 	)
 
 	// If every resource is the latest version, move them to the released section
@@ -464,7 +464,7 @@ func (report *ResourceVersionsReport) writeGroupSections(
 }
 
 // isUnreleasedResource returns true if the type definition is for an unreleased resource
-func (report *ResourceVersionsReport) isUnreleasedResource(item ResourceVersionsReportResourceItem) bool {
+func (report *ResourceVersionsReport) isUnreleasedResource(item resourceVersionsReportItem) bool {
 	currentRelease := report.reportConfiguration.CurrentRelease
 	if item.supportedFrom == currentRelease {
 		return false
@@ -475,7 +475,7 @@ func (report *ResourceVersionsReport) isUnreleasedResource(item ResourceVersions
 }
 
 // isDeprecatedResource returns true if the type definition is for a deprecated resource
-func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersionsReportResourceItem) bool {
+func (report *ResourceVersionsReport) isDeprecatedResource(item resourceVersionsReportItem) bool {
 	pkg := item.name.InternalPackageReference()
 	grp, ver := pkg.GroupVersion()
 
@@ -511,9 +511,9 @@ func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersions
 // Stable versions are preferred over preview.
 // Later versions are preferred over earlier.
 func findRecommendedReleases(
-	kinds set.Set[ResourceVersionsReportResourceItem],
-) set.Set[ResourceVersionsReportResourceItem] {
-	index := make(map[string]ResourceVersionsReportResourceItem)
+	kinds set.Set[resourceVersionsReportItem],
+) set.Set[resourceVersionsReportItem] {
+	index := make(map[string]resourceVersionsReportItem)
 
 	for _, item := range kinds.Values() {
 		known, ok := index[item.name.Name()]
@@ -544,7 +544,7 @@ func findRecommendedReleases(
 		}
 	}
 
-	result := set.Make[ResourceVersionsReportResourceItem]()
+	result := set.Make[resourceVersionsReportItem]()
 
 	for _, item := range index {
 		result.Add(item)
@@ -558,7 +558,7 @@ func (report *ResourceVersionsReport) writeSection(
 	info *ResourceVersionsReportGroupInfo,
 	id string,
 	heading string,
-	items set.Set[ResourceVersionsReportResourceItem],
+	items set.Set[resourceVersionsReportItem],
 	buffer *strings.Builder,
 ) error {
 	// Skip if nothing to do
@@ -593,7 +593,7 @@ func (report *ResourceVersionsReport) writeSection(
 
 func (report *ResourceVersionsReport) createTable(
 	info *ResourceVersionsReportGroupInfo,
-	items set.Set[ResourceVersionsReportResourceItem],
+	items set.Set[resourceVersionsReportItem],
 ) (*reporting.MarkdownTable, error) {
 	const (
 		name          = "Resource"
@@ -614,7 +614,7 @@ func (report *ResourceVersionsReport) createTable(
 	toIterate := items.Values()
 	slices.SortFunc(
 		toIterate,
-		func(i ResourceVersionsReportResourceItem, j ResourceVersionsReportResourceItem) int {
+		func(i resourceVersionsReportItem, j resourceVersionsReportItem) int {
 			left := i.name
 			right := j.name
 			if left.Name() < right.Name() {
@@ -709,8 +709,8 @@ func (report *ResourceVersionsReport) createItem(
 	name astmodel.InternalTypeName,
 	armType string,
 	armVersion string,
-) ResourceVersionsReportResourceItem {
-	return ResourceVersionsReportResourceItem{
+) resourceVersionsReportItem {
+	return resourceVersionsReportItem{
 		name:          name,
 		armType:       armType,
 		armVersion:    armVersion,
@@ -895,7 +895,7 @@ const (
 // look for the best information we have.
 func (report *ResourceVersionsReport) groupInfo(
 	group string,
-	items set.Set[ResourceVersionsReportResourceItem],
+	items set.Set[resourceVersionsReportItem],
 ) *ResourceVersionsReportGroupInfo {
 	caser := cases.Title(language.English, cases.NoLower)
 	result := &ResourceVersionsReportGroupInfo{

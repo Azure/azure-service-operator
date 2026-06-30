@@ -109,7 +109,7 @@ func TestResourceVersionsReportGroupInfo_GivenGroup_ReturnsExpectedResult(t *tes
 
 	storagePkg := test.MakeLocalPackageReference("storage", "v20230101")
 
-	storageAccount := ResourceVersionsReportResourceItem{
+	storageAccount := resourceVersionsReportItem{
 		name:          astmodel.MakeInternalTypeName(storagePkg, "StorageAccount"),
 		armType:       "Microsoft.Storage/storageAccounts",
 		armVersion:    "2023-01-01",
@@ -118,21 +118,21 @@ func TestResourceVersionsReportGroupInfo_GivenGroup_ReturnsExpectedResult(t *tes
 
 	alertsManagementPkg := test.MakeLocalPackageReference("alertsmanagement", "v20210401")
 
-	smartDetector := ResourceVersionsReportResourceItem{
+	smartDetector := resourceVersionsReportItem{
 		name:          astmodel.MakeInternalTypeName(alertsManagementPkg, "SmartDetector"),
 		armType:       "microsoft.alertsManagement/smartDetectorAlertRules",
 		armVersion:    "2021-04-01",
 		supportedFrom: "v2.11.0",
 	}
 
-	prometheusRuleGroup := ResourceVersionsReportResourceItem{
+	prometheusRuleGroup := resourceVersionsReportItem{
 		name:    astmodel.MakeInternalTypeName(alertsManagementPkg, "PrometheusRuleGroup"),
 		armType: "Microsoft.AlertsManagement/prometheusRuleGroups",
 	}
 
 	cases := map[string]struct {
 		group            string
-		items            set.Set[ResourceVersionsReportResourceItem]
+		items            set.Set[resourceVersionsReportItem]
 		expectedGroup    string
 		expectedProvider string
 		expectedTitle    string
