@@ -279,8 +279,20 @@ type ApplicationGatewayPrivateEndpointConnection_STATUS struct {
 
 // Private Link Configuration on an application gateway.
 type ApplicationGatewayPrivateLinkConfiguration_STATUS struct {
+	// Etag: A unique read-only string that changes whenever the resource is updated.
+	Etag *string `json:"etag,omitempty"`
+
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
+
+	// Name: Name of the private link configuration that is unique within an Application Gateway.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of the application gateway private link configuration.
+	Properties *ApplicationGatewayPrivateLinkConfigurationProperties_STATUS `json:"properties,omitempty"`
+
+	// Type: Type of the resource.
+	Type *string `json:"type,omitempty"`
 }
 
 // Probe of the application gateway.
@@ -508,6 +520,15 @@ type ApplicationGatewayFirewallExclusion_STATUS struct {
 	SelectorMatchOperator *string `json:"selectorMatchOperator,omitempty"`
 }
 
+// Properties of private link configuration on an application gateway.
+type ApplicationGatewayPrivateLinkConfigurationProperties_STATUS struct {
+	// IpConfigurations: An array of application gateway private link ip configurations.
+	IpConfigurations []ApplicationGatewayPrivateLinkIpConfiguration_STATUS `json:"ipConfigurations,omitempty"`
+
+	// ProvisioningState: The provisioning state of the application gateway private link configuration.
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+}
+
 type ApplicationGatewaySku_Name_STATUS string
 
 const (
@@ -678,4 +699,40 @@ var protocolsEnum_STATUS_Values = map[string]ProtocolsEnum_STATUS{
 	"tlsv1_1": ProtocolsEnum_STATUS_TLSv1_1,
 	"tlsv1_2": ProtocolsEnum_STATUS_TLSv1_2,
 	"tlsv1_3": ProtocolsEnum_STATUS_TLSv1_3,
+}
+
+// The application gateway private link ip configuration.
+type ApplicationGatewayPrivateLinkIpConfiguration_STATUS struct {
+	// Etag: A unique read-only string that changes whenever the resource is updated.
+	Etag *string `json:"etag,omitempty"`
+
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
+	// Name: The name of application gateway private link ip configuration.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of an application gateway private link ip configuration.
+	Properties *ApplicationGatewayPrivateLinkIpConfigurationProperties_STATUS `json:"properties,omitempty"`
+
+	// Type: The resource type.
+	Type *string `json:"type,omitempty"`
+}
+
+// Properties of an application gateway private link IP configuration.
+type ApplicationGatewayPrivateLinkIpConfigurationProperties_STATUS struct {
+	// Primary: Whether the ip configuration is primary or not.
+	Primary *bool `json:"primary,omitempty"`
+
+	// PrivateIPAddress: The private IP address of the IP configuration.
+	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
+
+	// PrivateIPAllocationMethod: The private IP address allocation method.
+	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
+
+	// ProvisioningState: The provisioning state of the application gateway private link IP configuration.
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+
+	// Subnet: Reference to the subnet resource.
+	Subnet *SubResource_STATUS `json:"subnet,omitempty"`
 }
