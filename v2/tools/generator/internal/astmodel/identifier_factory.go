@@ -232,10 +232,13 @@ func (factory *identifierFactory) CreateReceiver(name string) string {
 
 	base := words[len(words)-1]
 
-	// Prefix with a qualifying term if one is available,
-	// AND either base is a reserved word, or it is too short (3 characters or less)
+	// Prefix with a qualifying term if one is available, AND the base is a reserved word, is too
+	// short (3 characters or less), or collides with a conversion-package alias (arm/storage) that
+	// the generated code imports - a bare receiver named after one of those would shadow the package.
 	if len(words) > 1 {
-		if _, found := factory.reservedWords[strings.ToLower(base)]; found || len(base) <= 3 {
+		lowerBase := strings.ToLower(base)
+		_, reserved := factory.reservedWords[lowerBase]
+		if reserved || len(base) <= 3 || forbiddenReceiverNames.Contains(lowerBase) {
 			base = words[len(words)-2] + base
 		}
 	}
@@ -295,6 +298,10 @@ func createForbiddenReceiverSuffixes() set.Set[string] {
 	spec := strings.TrimPrefix(SpecSuffix, "_")
 	return set.Make(status, spec)
 }
+
+// forbiddenReceiverNames are lowercase receiver names that would shadow a conversion-package import
+// (e.g. a type ending in "Storage" yields receiver "storage", clashing with the storage subpackage alias).
+var forbiddenReceiverNames = set.Make(strings.ToLower(ARMPackageName), strings.ToLower(StoragePackageName))
 
 func (factory *identifierFactory) CreateGroupName(group string) string {
 	return strings.TrimPrefix(strings.ToLower(group), "microsoft.")
