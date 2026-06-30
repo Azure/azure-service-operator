@@ -332,6 +332,12 @@ groupModelConfiguration:
       $resourceEmbeddedInParent: ApplicationGateway
     ApplicationGatewayPrivateLinkConfiguration:
       $resourceEmbeddedInParent: ApplicationGateway
+    ApplicationGatewayPrivateLinkConfiguration_STATUS:
+      $resourceEmbeddedInParent: ApplicationGateway
+    ApplicationGatewayPrivateLinkIpConfiguration:
+      $resourceEmbeddedInParent: ApplicationGateway
+    ApplicationGatewayPrivateLinkIpConfiguration_STATUS:
+      $resourceEmbeddedInParent: ApplicationGateway
     ApplicationGatewayProbe:
       $resourceEmbeddedInParent: ApplicationGateway
     ApplicationGatewayRedirectConfiguration:
