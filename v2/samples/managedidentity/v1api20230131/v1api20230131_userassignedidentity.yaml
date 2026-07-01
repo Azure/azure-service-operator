@@ -8,6 +8,8 @@ spec:
   owner:
     name: aso-sample-rg
   operatorSpec:
+    # This section showcases how to write the clientId, principalId, and tenantId fields to a configmap for consumption by other resources.
+    # The configmap name must be unique within the namespace.
     configMaps:
       clientId:
         name: umi-cm
@@ -18,6 +20,8 @@ spec:
       tenantId:
         name: umi-cm
         key: tenantId
+    # This section showcases how to write the clientId, principalId, tenantId, and subscriptionId fields to a secret for consumption by other resources.
+    # The secret name must be unique within the namespace.
     secrets:
       clientId:
         name: umi-secret
@@ -31,3 +35,27 @@ spec:
       subscriptionId:
         name: umi-secret
         key: subscriptionId
+    # This section showcases how to write a credential named sample-credential in the ASO credential format.
+    # You can use it as the namespace-scoped credential for resources in other namespaces by mirroring the secret to another namespace with a tool like 
+    # https://github.com/emberstack/kubernetes-reflector (you'll need to mirror the secret as aso-credential if you want it to be the namespace-scoped 
+    # credential for the target namespace). See https://azure.github.io/azure-service-operator/guide/authentication/ for more details.
+    # You can also use this pattern to write a credential with a different name and use it in the serviceoperator.azure.com/credential-from annotation. 
+    # For more information about these credentials, see https://azure.github.io/azure-service-operator/guide/authentication/credential-scope/
+    secretExpressions:
+      - name: sample-credential
+        key: AZURE_SUBSCRIPTION_ID
+        value: "aso.parseResourceId(self.status.id).subscriptionId"
+        # If you need to reflect the secret in other namespaces
+        # Use another tool such as reflector with support for auto secret reflection: https://github.com/emberstack/kubernetes-reflector
+        # annotations:
+        #   reflector.v1.k8s.emberstack.com/reflection-allowed: '"true"'
+        #   reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: '"other-namespace"'
+      - name: sample-credential
+        key: AZURE_TENANT_ID
+        value: "self.status.tenantId"
+      - name: sample-credential
+        key: AZURE_CLIENT_ID
+        value: "self.status.clientId"
+      - name: sample-credential
+        key: USE_WORKLOAD_IDENTITY_AUTH
+        value: "string(true)"
