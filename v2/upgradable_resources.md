@@ -172,9 +172,3 @@ The following resources have newer versions available in the Azure REST API spec
 |------|----------|------------------|------------------|-------------------|-------------------|
 | 💡    | Server   | **2023-08-01**   | 2021-11-01       | -                 | -                 |
 
-## web
-
-|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|------|----------|------------------|------------------|-------------------|-------------------|
-| 💡    | Site     | **2025-05-01**   | 2022-03-01       | -                 | -                 |
-
