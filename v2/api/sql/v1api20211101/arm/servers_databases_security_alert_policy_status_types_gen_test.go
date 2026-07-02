@@ -19,6 +19,11 @@ import (
 
 func Test_DatabaseSecurityAlertPoliciesSecurityAlertsPolicyProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -86,6 +91,11 @@ func AddIndependentPropertyGeneratorsForDatabaseSecurityAlertPoliciesSecurityAle
 
 func Test_ServersDatabasesSecurityAlertPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

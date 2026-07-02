@@ -20,6 +20,11 @@ import (
 
 func Test_Permission_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForPermission(subject Permission) string {
 
 func Test_Permission_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -125,6 +135,11 @@ func AddIndependentPropertyGeneratorsForPermission(gens map[string]gopter.Gen) {
 
 func Test_Permission_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -167,6 +182,11 @@ func RunPropertyAssignmentTestForPermission_STATUS(subject Permission_STATUS) st
 
 func Test_Permission_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -230,6 +250,11 @@ func AddIndependentPropertyGeneratorsForPermission_STATUS(gens map[string]gopter
 
 func Test_RoleDefinition_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -273,6 +298,11 @@ func RunResourceConversionTestForRoleDefinition(subject RoleDefinition) string {
 
 func Test_RoleDefinition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -315,6 +345,11 @@ func RunPropertyAssignmentTestForRoleDefinition(subject RoleDefinition) string {
 
 func Test_RoleDefinition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -376,6 +411,11 @@ func AddRelatedPropertyGeneratorsForRoleDefinition(gens map[string]gopter.Gen) {
 
 func Test_RoleDefinitionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -418,6 +458,11 @@ func RunPropertyAssignmentTestForRoleDefinitionOperatorSpec(subject RoleDefiniti
 
 func Test_RoleDefinitionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -479,6 +524,11 @@ func AddIndependentPropertyGeneratorsForRoleDefinitionOperatorSpec(gens map[stri
 
 func Test_RoleDefinition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -521,6 +571,11 @@ func RunPropertyAssignmentTestForRoleDefinition_STATUS(subject RoleDefinition_ST
 
 func Test_RoleDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -606,6 +661,11 @@ func AddRelatedPropertyGeneratorsForRoleDefinition_STATUS(gens map[string]gopter
 
 func Test_RoleDefinition_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -648,6 +708,11 @@ func RunPropertyAssignmentTestForRoleDefinition_Spec(subject RoleDefinition_Spec
 
 func Test_RoleDefinition_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

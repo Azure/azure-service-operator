@@ -19,6 +19,11 @@ import (
 
 func Test_AccessPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -81,6 +86,11 @@ func AddIndependentPropertyGeneratorsForAccessPolicy(gens map[string]gopter.Gen)
 
 func Test_AccessPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -144,6 +154,11 @@ func AddIndependentPropertyGeneratorsForAccessPolicy_STATUS(gens map[string]gopt
 
 func Test_FileSharePropertiesFileSharePaidBursting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -207,6 +222,11 @@ func AddIndependentPropertyGeneratorsForFileSharePropertiesFileSharePaidBursting
 
 func Test_FileSharePropertiesFileSharePaidBursting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -270,6 +290,11 @@ func AddIndependentPropertyGeneratorsForFileSharePropertiesFileSharePaidBursting
 
 func Test_SignedIdentifier_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -330,6 +355,11 @@ func AddRelatedPropertyGeneratorsForSignedIdentifier(gens map[string]gopter.Gen)
 
 func Test_SignedIdentifier_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -405,6 +435,11 @@ func AddRelatedPropertyGeneratorsForSignedIdentifier_STATUS(gens map[string]gopt
 
 func Test_StorageAccountsFileServicesShare_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -467,6 +502,11 @@ func AddRelatedPropertyGeneratorsForStorageAccountsFileServicesShare(gens map[st
 
 func Test_StorageAccountsFileServicesShareOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -522,6 +562,11 @@ func StorageAccountsFileServicesShareOperatorSpecGenerator() gopter.Gen {
 
 func Test_StorageAccountsFileServicesShare_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -628,6 +673,11 @@ func AddRelatedPropertyGeneratorsForStorageAccountsFileServicesShare_STATUS(gens
 
 func Test_StorageAccountsFileServicesShare_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

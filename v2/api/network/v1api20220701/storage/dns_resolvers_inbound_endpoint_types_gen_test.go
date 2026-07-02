@@ -19,6 +19,11 @@ import (
 
 func Test_DnsResolversInboundEndpoint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -81,6 +86,11 @@ func AddRelatedPropertyGeneratorsForDnsResolversInboundEndpoint(gens map[string]
 
 func Test_DnsResolversInboundEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -136,6 +146,11 @@ func DnsResolversInboundEndpointOperatorSpecGenerator() gopter.Gen {
 
 func Test_DnsResolversInboundEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -221,6 +236,11 @@ func AddRelatedPropertyGeneratorsForDnsResolversInboundEndpoint_STATUS(gens map[
 
 func Test_DnsResolversInboundEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -302,6 +322,11 @@ func AddRelatedPropertyGeneratorsForDnsResolversInboundEndpoint_Spec(gens map[st
 
 func Test_IpConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -377,6 +402,11 @@ func AddRelatedPropertyGeneratorsForIpConfiguration(gens map[string]gopter.Gen) 
 
 func Test_IpConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

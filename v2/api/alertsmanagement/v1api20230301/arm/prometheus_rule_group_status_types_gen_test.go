@@ -19,6 +19,11 @@ import (
 
 func Test_PrometheusRuleGroupAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -83,6 +88,11 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_STATUS(gens ma
 
 func Test_PrometheusRuleGroupProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -162,6 +172,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRuleGroupProperties_STATUS(gens ma
 
 func Test_PrometheusRuleGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -244,6 +259,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRuleGroup_STATUS(gens map[string]g
 
 func Test_PrometheusRuleResolveConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -306,6 +326,11 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_STATU
 
 func Test_PrometheusRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -393,6 +418,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRule_STATUS(gens map[string]gopter
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

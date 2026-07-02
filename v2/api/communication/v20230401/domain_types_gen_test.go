@@ -20,6 +20,11 @@ import (
 
 func Test_DnsRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForDnsRecord_STATUS(subject DnsRecord_STATUS) stri
 
 func Test_DnsRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -125,6 +135,11 @@ func AddIndependentPropertyGeneratorsForDnsRecord_STATUS(gens map[string]gopter.
 
 func Test_Domain_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -168,6 +183,11 @@ func RunResourceConversionTestForDomain(subject Domain) string {
 
 func Test_Domain_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -210,6 +230,11 @@ func RunPropertyAssignmentTestForDomain(subject Domain) string {
 
 func Test_Domain_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -271,6 +296,11 @@ func AddRelatedPropertyGeneratorsForDomain(gens map[string]gopter.Gen) {
 
 func Test_DomainOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -313,6 +343,11 @@ func RunPropertyAssignmentTestForDomainOperatorSpec(subject DomainOperatorSpec) 
 
 func Test_DomainOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -367,6 +402,11 @@ func DomainOperatorSpecGenerator() gopter.Gen {
 
 func Test_DomainProperties_VerificationRecords_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -409,6 +449,11 @@ func RunPropertyAssignmentTestForDomainProperties_VerificationRecords_STATUS(sub
 
 func Test_DomainProperties_VerificationRecords_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -474,6 +519,11 @@ func AddRelatedPropertyGeneratorsForDomainProperties_VerificationRecords_STATUS(
 
 func Test_DomainProperties_VerificationStates_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -516,6 +566,11 @@ func RunPropertyAssignmentTestForDomainProperties_VerificationStates_STATUS(subj
 
 func Test_DomainProperties_VerificationStates_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -581,6 +636,11 @@ func AddRelatedPropertyGeneratorsForDomainProperties_VerificationStates_STATUS(g
 
 func Test_Domain_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -623,6 +683,11 @@ func RunPropertyAssignmentTestForDomain_STATUS(subject Domain_STATUS) string {
 
 func Test_Domain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -720,6 +785,11 @@ func AddRelatedPropertyGeneratorsForDomain_STATUS(gens map[string]gopter.Gen) {
 
 func Test_Domain_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -762,6 +832,11 @@ func RunPropertyAssignmentTestForDomain_Spec(subject Domain_Spec) string {
 
 func Test_Domain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -842,6 +917,11 @@ func AddRelatedPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) {
 
 func Test_VerificationStatusRecord_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -884,6 +964,11 @@ func RunPropertyAssignmentTestForVerificationStatusRecord_STATUS(subject Verific
 
 func Test_VerificationStatusRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

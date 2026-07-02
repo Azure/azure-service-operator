@@ -19,6 +19,11 @@ import (
 
 func Test_ARecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -79,6 +84,11 @@ func AddIndependentPropertyGeneratorsForARecord_STATUS(gens map[string]gopter.Ge
 
 func Test_AaaaRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -139,6 +149,11 @@ func AddIndependentPropertyGeneratorsForAaaaRecord_STATUS(gens map[string]gopter
 
 func Test_CaaRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -201,6 +216,11 @@ func AddIndependentPropertyGeneratorsForCaaRecord_STATUS(gens map[string]gopter.
 
 func Test_CnameRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -261,6 +281,11 @@ func AddIndependentPropertyGeneratorsForCnameRecord_STATUS(gens map[string]gopte
 
 func Test_DnsZonesAAAARecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -339,6 +364,11 @@ func AddRelatedPropertyGeneratorsForDnsZonesAAAARecord_STATUS(gens map[string]go
 
 func Test_MxRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -400,6 +430,11 @@ func AddIndependentPropertyGeneratorsForMxRecord_STATUS(gens map[string]gopter.G
 
 func Test_NsRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -460,6 +495,11 @@ func AddIndependentPropertyGeneratorsForNsRecord_STATUS(gens map[string]gopter.G
 
 func Test_PtrRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -520,6 +560,11 @@ func AddIndependentPropertyGeneratorsForPtrRecord_STATUS(gens map[string]gopter.
 
 func Test_RecordSetProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -610,6 +655,11 @@ func AddRelatedPropertyGeneratorsForRecordSetProperties_STATUS(gens map[string]g
 
 func Test_SoaRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -676,6 +726,11 @@ func AddIndependentPropertyGeneratorsForSoaRecord_STATUS(gens map[string]gopter.
 
 func Test_SrvRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -739,6 +794,11 @@ func AddIndependentPropertyGeneratorsForSrvRecord_STATUS(gens map[string]gopter.
 
 func Test_TxtRecord_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

@@ -19,6 +19,11 @@ import (
 
 func Test_InstanceViewStatus_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -83,6 +88,11 @@ func AddIndependentPropertyGeneratorsForInstanceViewStatus(gens map[string]gopte
 
 func Test_VirtualMachineExtensionInstanceView_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -161,6 +171,11 @@ func AddRelatedPropertyGeneratorsForVirtualMachineExtensionInstanceView(gens map
 
 func Test_VirtualMachineExtensionProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -246,6 +261,11 @@ func AddRelatedPropertyGeneratorsForVirtualMachineExtensionProperties(gens map[s
 
 func Test_VirtualMachinesExtension_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

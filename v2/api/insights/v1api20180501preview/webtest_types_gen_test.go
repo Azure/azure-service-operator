@@ -21,6 +21,11 @@ import (
 
 func Test_HeaderField_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -63,6 +68,11 @@ func RunPropertyAssignmentTestForHeaderField(subject HeaderField) string {
 
 func Test_HeaderField_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -124,6 +134,11 @@ func AddIndependentPropertyGeneratorsForHeaderField(gens map[string]gopter.Gen) 
 
 func Test_HeaderField_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -166,6 +181,11 @@ func RunPropertyAssignmentTestForHeaderField_STATUS(subject HeaderField_STATUS) 
 
 func Test_HeaderField_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -227,6 +247,11 @@ func AddIndependentPropertyGeneratorsForHeaderField_STATUS(gens map[string]gopte
 
 func Test_WebTestGeolocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -269,6 +294,11 @@ func RunPropertyAssignmentTestForWebTestGeolocation(subject WebTestGeolocation) 
 
 func Test_WebTestGeolocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -329,6 +359,11 @@ func AddIndependentPropertyGeneratorsForWebTestGeolocation(gens map[string]gopte
 
 func Test_WebTestGeolocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -371,6 +406,11 @@ func RunPropertyAssignmentTestForWebTestGeolocation_STATUS(subject WebTestGeoloc
 
 func Test_WebTestGeolocation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -432,6 +472,11 @@ func AddIndependentPropertyGeneratorsForWebTestGeolocation_STATUS(gens map[strin
 
 func Test_WebTestProperties_Configuration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -474,6 +519,11 @@ func RunPropertyAssignmentTestForWebTestProperties_Configuration(subject WebTest
 
 func Test_WebTestProperties_Configuration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -535,6 +585,11 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_Configuration(gens map
 
 func Test_WebTestProperties_Configuration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -577,6 +632,11 @@ func RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS(subject 
 
 func Test_WebTestProperties_Configuration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -638,6 +698,11 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_Configuration_STATUS(g
 
 func Test_WebTestProperties_Request_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -680,6 +745,11 @@ func RunPropertyAssignmentTestForWebTestProperties_Request(subject WebTestProper
 
 func Test_WebTestProperties_Request_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -759,6 +829,11 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_Request(gens map[string]go
 
 func Test_WebTestProperties_Request_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -801,6 +876,11 @@ func RunPropertyAssignmentTestForWebTestProperties_Request_STATUS(subject WebTes
 
 func Test_WebTestProperties_Request_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -880,6 +960,11 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_Request_STATUS(gens map[st
 
 func Test_WebTestProperties_ValidationRules_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -922,6 +1007,11 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules(subject WebTe
 
 func Test_WebTestProperties_ValidationRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1000,6 +1090,11 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules(gens map[s
 
 func Test_WebTestProperties_ValidationRules_ContentValidation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1042,6 +1137,11 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValida
 
 func Test_WebTestProperties_ValidationRules_ContentValidation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1105,6 +1205,11 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_Conten
 
 func Test_WebTestProperties_ValidationRules_ContentValidation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1147,6 +1252,11 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValida
 
 func Test_WebTestProperties_ValidationRules_ContentValidation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1210,6 +1320,11 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_Conten
 
 func Test_WebTestProperties_ValidationRules_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1252,6 +1367,11 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS(subjec
 
 func Test_WebTestProperties_ValidationRules_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1330,6 +1450,11 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules_STATUS(gen
 
 func Test_Webtest_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -1373,6 +1498,11 @@ func RunResourceConversionTestForWebtest(subject Webtest) string {
 
 func Test_Webtest_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1415,6 +1545,11 @@ func RunPropertyAssignmentTestForWebtest(subject Webtest) string {
 
 func Test_Webtest_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -1476,6 +1611,11 @@ func AddRelatedPropertyGeneratorsForWebtest(gens map[string]gopter.Gen) {
 
 func Test_WebtestOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1518,6 +1658,11 @@ func RunPropertyAssignmentTestForWebtestOperatorSpec(subject WebtestOperatorSpec
 
 func Test_WebtestOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1573,6 +1718,11 @@ func WebtestOperatorSpecGenerator() gopter.Gen {
 
 func Test_Webtest_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1615,6 +1765,11 @@ func RunPropertyAssignmentTestForWebtest_STATUS(subject Webtest_STATUS) string {
 
 func Test_Webtest_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1711,6 +1866,11 @@ func AddRelatedPropertyGeneratorsForWebtest_STATUS(gens map[string]gopter.Gen) {
 
 func Test_Webtest_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1753,6 +1913,11 @@ func RunPropertyAssignmentTestForWebtest_Spec(subject Webtest_Spec) string {
 
 func Test_Webtest_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

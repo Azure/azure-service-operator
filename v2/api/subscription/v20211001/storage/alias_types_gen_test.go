@@ -19,6 +19,11 @@ import (
 
 func Test_Alias_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -80,6 +85,11 @@ func AddRelatedPropertyGeneratorsForAlias(gens map[string]gopter.Gen) {
 
 func Test_AliasOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -134,6 +144,11 @@ func AliasOperatorSpecGenerator() gopter.Gen {
 
 func Test_Alias_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -211,6 +226,11 @@ func AddRelatedPropertyGeneratorsForAlias_STATUS(gens map[string]gopter.Gen) {
 
 func Test_Alias_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -287,6 +307,11 @@ func AddRelatedPropertyGeneratorsForAlias_Spec(gens map[string]gopter.Gen) {
 
 func Test_PutAliasRequestAdditionalProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -353,6 +378,11 @@ func AddIndependentPropertyGeneratorsForPutAliasRequestAdditionalProperties(gens
 
 func Test_PutAliasRequestProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -432,6 +462,11 @@ func AddRelatedPropertyGeneratorsForPutAliasRequestProperties(gens map[string]go
 
 func Test_SubscriptionAliasResponseProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -506,6 +541,11 @@ func AddIndependentPropertyGeneratorsForSubscriptionAliasResponseProperties_STAT
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

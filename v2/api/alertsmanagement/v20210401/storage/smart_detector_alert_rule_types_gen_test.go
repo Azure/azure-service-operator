@@ -19,6 +19,11 @@ import (
 
 func Test_ActionGroupsInformation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -81,6 +86,11 @@ func AddIndependentPropertyGeneratorsForActionGroupsInformation(gens map[string]
 
 func Test_ActionGroupsInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -144,6 +154,11 @@ func AddIndependentPropertyGeneratorsForActionGroupsInformation_STATUS(gens map[
 
 func Test_Detector_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -204,6 +219,11 @@ func AddIndependentPropertyGeneratorsForDetector(gens map[string]gopter.Gen) {
 
 func Test_DetectorParameterDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -269,6 +289,11 @@ func AddIndependentPropertyGeneratorsForDetectorParameterDefinition_STATUS(gens 
 
 func Test_Detector_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -348,6 +373,11 @@ func AddRelatedPropertyGeneratorsForDetector_STATUS(gens map[string]gopter.Gen) 
 
 func Test_SmartDetectorAlertRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -410,6 +440,11 @@ func AddRelatedPropertyGeneratorsForSmartDetectorAlertRule(gens map[string]gopte
 
 func Test_SmartDetectorAlertRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -465,6 +500,11 @@ func SmartDetectorAlertRuleOperatorSpecGenerator() gopter.Gen {
 
 func Test_SmartDetectorAlertRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -553,6 +593,11 @@ func AddRelatedPropertyGeneratorsForSmartDetectorAlertRule_STATUS(gens map[strin
 
 func Test_SmartDetectorAlertRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -640,6 +685,11 @@ func AddRelatedPropertyGeneratorsForSmartDetectorAlertRule_Spec(gens map[string]
 
 func Test_ThrottlingInformation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -701,6 +751,11 @@ func AddIndependentPropertyGeneratorsForThrottlingInformation(gens map[string]go
 
 func Test_ThrottlingInformation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

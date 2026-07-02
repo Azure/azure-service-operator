@@ -19,6 +19,11 @@ import (
 
 func Test_ServersVirtualNetworkRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -94,6 +99,11 @@ func AddRelatedPropertyGeneratorsForServersVirtualNetworkRule_Spec(gens map[stri
 
 func Test_VirtualNetworkRuleProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
