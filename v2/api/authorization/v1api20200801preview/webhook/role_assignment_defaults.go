@@ -8,6 +8,7 @@ package webhook
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"k8s.io/apimachinery/pkg/runtime"
 
@@ -55,15 +56,25 @@ func (webhook *RoleAssignment) defaultAzureName(_ context.Context, assignment *v
 	}
 
 	if assignment.AzureName() == "" {
-		gk := assignment.GroupVersionKind().GroupKind()
-		assignment.Spec.AzureName = randextensions.MakeUUIDName(
-			assignment.Name,
-			randextensions.MakeUniqueOwnerScopedStringLegacy(
-				assignment.Owner(),
-				gk,
-				assignment.Namespace,
+		convention := "stable"
+		if assignment.Spec.OperatorSpec != nil &&
+			assignment.Spec.OperatorSpec.NamingConvention != nil {
+			convention = *assignment.Spec.OperatorSpec.NamingConvention
+		}
+
+		if strings.EqualFold(convention, "random") {
+			assignment.Spec.AzureName = randextensions.MakeRandomUUID()
+		} else if strings.EqualFold(convention, "stable") {
+			gk := assignment.GroupVersionKind().GroupKind()
+			assignment.Spec.AzureName = randextensions.MakeUUIDName(
 				assignment.Name,
-			),
-		)
+				randextensions.MakeUniqueOwnerScopedString(
+					assignment.Owner(),
+					gk,
+					assignment.Namespace,
+					assignment.Name,
+				),
+			)
+		}
 	}
 }

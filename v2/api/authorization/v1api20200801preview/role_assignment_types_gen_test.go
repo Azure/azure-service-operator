@@ -6,7 +6,7 @@ package v1api20200801preview
 import (
 	"encoding/json"
 	v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/storage"
-	v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"

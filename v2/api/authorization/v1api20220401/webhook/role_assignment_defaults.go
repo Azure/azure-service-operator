@@ -59,15 +59,19 @@ func (webhook *RoleAssignment) defaultAzureName(_ context.Context, assignment *v
 	}
 
 	if assignment.AzureName() == "" {
+		convention := "stable"
 		if assignment.Spec.OperatorSpec != nil &&
-			strings.EqualFold(*assignment.Spec.OperatorSpec.NamingConvention, "random") {
+			assignment.Spec.OperatorSpec.NamingConvention != nil {
+			convention = *assignment.Spec.OperatorSpec.NamingConvention
+		}
+
+		if strings.EqualFold(convention, "random") {
 			assignment.Spec.AzureName = randextensions.MakeRandomUUID()
-		} else if assignment.Spec.OperatorSpec == nil ||
-			assignment.Spec.OperatorSpec != nil && strings.EqualFold(*assignment.Spec.OperatorSpec.NamingConvention, "stable") {
+		} else if strings.EqualFold(convention, "stable") {
 			gk := assignment.GroupVersionKind().GroupKind()
 			assignment.Spec.AzureName = randextensions.MakeUUIDName(
 				assignment.Name,
-				randextensions.MakeUniqueOwnerScopedStringLegacy(
+				randextensions.MakeUniqueOwnerScopedString(
 					assignment.Owner(),
 					gk,
 					assignment.Namespace,
