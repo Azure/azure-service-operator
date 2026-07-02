@@ -6,6 +6,7 @@ package storage
 import (
 	"fmt"
 	v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/network/v20240501/storage"
 	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -921,13 +922,18 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_From_AzureFirewall_STATUS
 
 	// FirewallPolicy
 	if source.FirewallPolicy != nil {
-		var subResourceSTATUSStash v20240601s.SubResource_STATUS
+		var subResourceSTATUSStash v20240501s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.FirewallPolicy)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from FirewallPolicy")
 		}
+		var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var firewallPolicy SubResource_STATUS
-		err = firewallPolicy.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = firewallPolicy.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field FirewallPolicy from SubResource_STATUSStash")
 		}
@@ -1059,13 +1065,18 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_From_AzureFirewall_STATUS
 
 	// VirtualHub
 	if source.VirtualHub != nil {
-		var subResourceSTATUSStash v20240601s.SubResource_STATUS
+		var subResourceSTATUSStash v20240501s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.VirtualHub)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from VirtualHub")
 		}
+		var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var virtualHub SubResource_STATUS
-		err = virtualHub.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = virtualHub.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field VirtualHub from SubResource_STATUSStash")
 		}
@@ -1159,8 +1170,13 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_To_AzureFirewall_STATUS(d
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from FirewallPolicy")
 		}
+		var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var firewallPolicy v20250301s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&firewallPolicy)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&firewallPolicy)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field FirewallPolicy from SubResource_STATUSStash")
 		}
@@ -1297,8 +1313,13 @@ func (firewall *AzureFirewall_STATUS) AssignProperties_To_AzureFirewall_STATUS(d
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from VirtualHub")
 		}
+		var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var virtualHub v20250301s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&virtualHub)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&virtualHub)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field VirtualHub from SubResource_STATUSStash")
 		}

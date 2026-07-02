@@ -6,6 +6,7 @@ package storage
 import (
 	"fmt"
 	v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/network/v20240501/storage"
 	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -906,13 +907,18 @@ func (subnet *VirtualNetworksSubnet_STATUS) AssignProperties_From_VirtualNetwork
 	if source.IpAllocations != nil {
 		ipAllocationList := make([]SubResource_STATUS, len(source.IpAllocations))
 		for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
-			var subResourceSTATUSStash v20240601s.SubResource_STATUS
+			var subResourceSTATUSStash v20240501s.SubResource_STATUS
 			err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(&ipAllocationItem)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from IpAllocations")
 			}
+			var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+			err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+			}
 			var ipAllocation SubResource_STATUS
-			err = ipAllocation.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+			err = ipAllocation.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field IpAllocations from SubResource_STATUSStash")
 			}
@@ -967,13 +973,18 @@ func (subnet *VirtualNetworksSubnet_STATUS) AssignProperties_From_VirtualNetwork
 
 	// NatGateway
 	if source.NatGateway != nil {
-		var subResourceSTATUSStash v20240601s.SubResource_STATUS
+		var subResourceSTATUSStash v20240501s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.NatGateway)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from NatGateway")
 		}
+		var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var natGateway SubResource_STATUS
-		err = natGateway.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = natGateway.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field NatGateway from SubResource_STATUSStash")
 		}
@@ -1193,8 +1204,13 @@ func (subnet *VirtualNetworksSubnet_STATUS) AssignProperties_To_VirtualNetworksS
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from IpAllocations")
 			}
+			var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+			}
 			var ipAllocation v20250301s.SubResource_STATUS
-			err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&ipAllocation)
+			err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&ipAllocation)
 			if err != nil {
 				return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field IpAllocations from SubResource_STATUSStash")
 			}
@@ -1260,8 +1276,13 @@ func (subnet *VirtualNetworksSubnet_STATUS) AssignProperties_To_VirtualNetworksS
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from NatGateway")
 		}
+		var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var natGateway v20250301s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&natGateway)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&natGateway)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field NatGateway from SubResource_STATUSStash")
 		}
@@ -2589,13 +2610,18 @@ func (format *ServiceEndpointPropertiesFormat_STATUS) AssignProperties_From_Serv
 
 	// NetworkIdentifier
 	if source.NetworkIdentifier != nil {
-		var subResourceSTATUSStash v20240601s.SubResource_STATUS
+		var subResourceSTATUSStash v20240501s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.NetworkIdentifier)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from NetworkIdentifier")
 		}
+		var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var networkIdentifier SubResource_STATUS
-		err = networkIdentifier.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = networkIdentifier.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field NetworkIdentifier from SubResource_STATUSStash")
 		}
@@ -2645,8 +2671,13 @@ func (format *ServiceEndpointPropertiesFormat_STATUS) AssignProperties_To_Servic
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from NetworkIdentifier")
 		}
+		var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var networkIdentifier v20250301s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&networkIdentifier)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&networkIdentifier)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field NetworkIdentifier from SubResource_STATUSStash")
 		}

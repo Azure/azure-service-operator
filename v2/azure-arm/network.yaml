@@ -664,6 +664,10 @@ groupModelConfiguration:
     SubResource:
       Id:
         $referenceType: arm
+  2024-05-01:
+    DdosProtectionPlan:
+      $exportAs: DdosProtectionPlan
+      $supportedFrom: v2.20.0
   2024-10-01:
     NetworkWatcher:
       $exportAs: NetworkWatcher

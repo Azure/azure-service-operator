@@ -6,6 +6,7 @@ package storage
 import (
 	"fmt"
 	v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/network/v20240501/storage"
 	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -946,13 +947,18 @@ func (peering *VirtualNetworksVirtualNetworkPeering_STATUS) AssignProperties_Fro
 
 	// RemoteVirtualNetwork
 	if source.RemoteVirtualNetwork != nil {
-		var subResourceSTATUSStash v20240601s.SubResource_STATUS
+		var subResourceSTATUSStash v20240501s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.RemoteVirtualNetwork)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from RemoteVirtualNetwork")
 		}
+		var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var remoteVirtualNetwork SubResource_STATUS
-		err = remoteVirtualNetwork.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = remoteVirtualNetwork.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field RemoteVirtualNetwork from SubResource_STATUSStash")
 		}
@@ -1154,8 +1160,13 @@ func (peering *VirtualNetworksVirtualNetworkPeering_STATUS) AssignProperties_To_
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from RemoteVirtualNetwork")
 		}
+		var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var remoteVirtualNetwork v20250301s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&remoteVirtualNetwork)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&remoteVirtualNetwork)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field RemoteVirtualNetwork from SubResource_STATUSStash")
 		}

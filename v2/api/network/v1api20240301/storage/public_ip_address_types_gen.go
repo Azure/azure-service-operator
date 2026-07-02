@@ -6,6 +6,7 @@ package storage
 import (
 	"fmt"
 	v20240601s "github.com/Azure/azure-service-operator/v2/api/network/v1api20240601/storage"
+	v20240501s "github.com/Azure/azure-service-operator/v2/api/network/v20240501/storage"
 	v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -926,13 +927,18 @@ func (address *PublicIPAddress_STATUS) AssignProperties_From_PublicIPAddress_STA
 
 	// PublicIPPrefix
 	if source.PublicIPPrefix != nil {
-		var subResourceSTATUSStash v20240601s.SubResource_STATUS
+		var subResourceSTATUSStash v20240501s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.PublicIPPrefix)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPPrefix")
 		}
+		var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var publicIPPrefix SubResource_STATUS
-		err = publicIPPrefix.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = publicIPPrefix.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field PublicIPPrefix from SubResource_STATUSStash")
 		}
@@ -1109,8 +1115,13 @@ func (address *PublicIPAddress_STATUS) AssignProperties_To_PublicIPAddress_STATU
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from PublicIPPrefix")
 		}
+		var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var publicIPPrefix v20250301s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&publicIPPrefix)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&publicIPPrefix)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field PublicIPPrefix from SubResource_STATUSStash")
 		}
@@ -1286,13 +1297,18 @@ func (settings *DdosSettings_STATUS) AssignProperties_From_DdosSettings_STATUS(s
 
 	// DdosProtectionPlan
 	if source.DdosProtectionPlan != nil {
-		var subResourceSTATUSStash v20240601s.SubResource_STATUS
+		var subResourceSTATUSStash v20240501s.SubResource_STATUS
 		err := subResourceSTATUSStash.AssignProperties_From_SubResource_STATUS(source.DdosProtectionPlan)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash from DdosProtectionPlan")
 		}
+		var subResourceSTATUSStashLocal v20240601s.SubResource_STATUS
+		err = subResourceSTATUSStashLocal.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var ddosProtectionPlan SubResource_STATUS
-		err = ddosProtectionPlan.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStash)
+		err = ddosProtectionPlan.AssignProperties_From_SubResource_STATUS(&subResourceSTATUSStashLocal)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field DdosProtectionPlan from SubResource_STATUSStash")
 		}
@@ -1336,8 +1352,13 @@ func (settings *DdosSettings_STATUS) AssignProperties_To_DdosSettings_STATUS(des
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash from DdosProtectionPlan")
 		}
+		var subResourceSTATUSStashLocal v20240501s.SubResource_STATUS
+		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&subResourceSTATUSStashLocal)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field SubResource_STATUSStash")
+		}
 		var ddosProtectionPlan v20250301s.SubResource_STATUS
-		err = subResourceSTATUSStash.AssignProperties_To_SubResource_STATUS(&ddosProtectionPlan)
+		err = subResourceSTATUSStashLocal.AssignProperties_To_SubResource_STATUS(&ddosProtectionPlan)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field DdosProtectionPlan from SubResource_STATUSStash")
 		}

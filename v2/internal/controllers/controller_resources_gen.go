@@ -411,6 +411,9 @@ import (
 	network_v20241001 "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001"
 	network_v20241001s "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001/storage"
 	network_v20241001w "github.com/Azure/azure-service-operator/v2/api/network/v1api20241001/webhook"
+	network_v20240501 "github.com/Azure/azure-service-operator/v2/api/network/v20240501"
+	network_v20240501s "github.com/Azure/azure-service-operator/v2/api/network/v20240501/storage"
+	network_v20240501w "github.com/Azure/azure-service-operator/v2/api/network/v20240501/webhook"
 	network_v20250301 "github.com/Azure/azure-service-operator/v2/api/network/v20250301"
 	network_v20250301s "github.com/Azure/azure-service-operator/v2/api/network/v20250301/storage"
 	network_v20250301w "github.com/Azure/azure-service-operator/v2/api/network/v20250301/webhook"
@@ -2235,6 +2238,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20220701s.DnsResolversOutboundEndpoint)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.ApplicationSecurityGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240101s.WebApplicationFirewallPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20240501s.DdosProtectionPlan)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20240601s.PrivateDnsZone)})
 	result = append(result, &registration.StorageType{
 		Obj: new(network_v20240601s.PrivateDnsZonesAAAARecord),
@@ -6329,6 +6333,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(network_v20240301s.VirtualNetworkGateway)},
 		&registration.KnownType{Obj: new(network_v20240301s.VirtualNetworksSubnet)},
 		&registration.KnownType{Obj: new(network_v20240301s.VirtualNetworksVirtualNetworkPeering)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(network_v20240501.DdosProtectionPlan),
+		Defaulter: &network_v20240501w.DdosProtectionPlan{},
+		Validator: &network_v20240501w.DdosProtectionPlan{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(network_v20240501s.DdosProtectionPlan)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -7666,6 +7676,8 @@ func createScheme() *runtime.Scheme {
 	_ = network_v20240101s.AddToScheme(scheme)
 	_ = network_v20240301.AddToScheme(scheme)
 	_ = network_v20240301s.AddToScheme(scheme)
+	_ = network_v20240501.AddToScheme(scheme)
+	_ = network_v20240501s.AddToScheme(scheme)
 	_ = network_v20240601.AddToScheme(scheme)
 	_ = network_v20240601s.AddToScheme(scheme)
 	_ = network_v20241001.AddToScheme(scheme)
@@ -7905,6 +7917,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.ApplicationSecurityGroupExtension{})
 	result = append(result, &network_customizations.AzureFirewallExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
+	result = append(result, &network_customizations.DdosProtectionPlanExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsVirtualNetworkLinkExtension{})
 	result = append(result, &network_customizations.DnsForwardingRulesetExtension{})
