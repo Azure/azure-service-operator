@@ -12,7 +12,7 @@ import (
 
 	"k8s.io/apimachinery/pkg/runtime"
 
-	"github.com/Azure/azure-service-operator/v2/api/authorization/v20220401"
+	v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401"
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -51,11 +51,15 @@ func (webhook *RoleDefinition) defaultAzureName(_ context.Context, definition *v
 	}
 
 	if definition.AzureName() == "" {
+		convention := "stable"
 		if definition.Spec.OperatorSpec != nil &&
-			strings.EqualFold(*definition.Spec.OperatorSpec.NamingConvention, "random") {
+			definition.Spec.OperatorSpec.NamingConvention != nil {
+			convention = *definition.Spec.OperatorSpec.NamingConvention
+		}
+
+		if strings.EqualFold(convention, "random") {
 			definition.Spec.AzureName = randextensions.MakeRandomUUID()
-		} else if definition.Spec.OperatorSpec == nil ||
-			definition.Spec.OperatorSpec != nil && strings.EqualFold(*definition.Spec.OperatorSpec.NamingConvention, "stable") {
+		} else if strings.EqualFold(convention, "stable") {
 			gk := definition.GroupVersionKind().GroupKind()
 			definition.Spec.AzureName = randextensions.MakeUUIDName(
 				definition.Name,
