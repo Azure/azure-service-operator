@@ -224,6 +224,9 @@ func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
 		{"DiskSku" + StatusSuffix, "diskSku"},
 		// Conflicts with reserved words need more detail
 		{"BlobRestoreRange" + StatusSuffix, "restoreRange"},
+		// Conflicts with conversion-package import aliases (arm/storage) need more detail
+		{"FunctionsDeployment_Storage", "deploymentStorage"},
+		{"FunctionsDeployment_Storage" + StatusSuffix, "deploymentStorage"},
 	}
 
 	factory := NewIdentifierFactory()
