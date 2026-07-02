@@ -2462,6 +2462,9 @@ func RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfiguration(sub
 var applicationGatewayPrivateLinkIpConfigurationGenerator gopter.Gen
 
 // ApplicationGatewayPrivateLinkIpConfigurationGenerator returns a generator of ApplicationGatewayPrivateLinkIpConfiguration instances for property testing.
+// We first initialize applicationGatewayPrivateLinkIpConfigurationGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ApplicationGatewayPrivateLinkIpConfigurationGenerator() gopter.Gen {
 	if applicationGatewayPrivateLinkIpConfigurationGenerator != nil {
 		return applicationGatewayPrivateLinkIpConfigurationGenerator
@@ -2471,12 +2474,100 @@ func ApplicationGatewayPrivateLinkIpConfigurationGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration(generators)
 	applicationGatewayPrivateLinkIpConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkIpConfiguration{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration(generators)
+	applicationGatewayPrivateLinkIpConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkIpConfiguration{}), generators)
+
 	return applicationGatewayPrivateLinkIpConfigurationGenerator
 }
 
 // AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ApplicationGatewayPrivateLinkIpConfigurationPropertiesGenerator())
+}
+
+func Test_ApplicationGatewayPrivateLinkIpConfigurationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayPrivateLinkIpConfigurationProperties via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfigurationProperties, ApplicationGatewayPrivateLinkIpConfigurationPropertiesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfigurationProperties runs a test to see if a specific instance of ApplicationGatewayPrivateLinkIpConfigurationProperties round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfigurationProperties(subject ApplicationGatewayPrivateLinkIpConfigurationProperties) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayPrivateLinkIpConfigurationProperties
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayPrivateLinkIpConfigurationProperties instances for property testing - lazily
+// instantiated by ApplicationGatewayPrivateLinkIpConfigurationPropertiesGenerator()
+var applicationGatewayPrivateLinkIpConfigurationPropertiesGenerator gopter.Gen
+
+// ApplicationGatewayPrivateLinkIpConfigurationPropertiesGenerator returns a generator of ApplicationGatewayPrivateLinkIpConfigurationProperties instances for property testing.
+// We first initialize applicationGatewayPrivateLinkIpConfigurationPropertiesGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ApplicationGatewayPrivateLinkIpConfigurationPropertiesGenerator() gopter.Gen {
+	if applicationGatewayPrivateLinkIpConfigurationPropertiesGenerator != nil {
+		return applicationGatewayPrivateLinkIpConfigurationPropertiesGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfigurationProperties(generators)
+	applicationGatewayPrivateLinkIpConfigurationPropertiesGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkIpConfigurationProperties{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfigurationProperties(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfigurationProperties(generators)
+	applicationGatewayPrivateLinkIpConfigurationPropertiesGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkIpConfigurationProperties{}), generators)
+
+	return applicationGatewayPrivateLinkIpConfigurationPropertiesGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfigurationProperties is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfigurationProperties(gens map[string]gopter.Gen) {
+	gens["Primary"] = gen.PtrOf(gen.Bool())
+	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfigurationProperties is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfigurationProperties(gens map[string]gopter.Gen) {
+	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
 }
 
 func Test_ApplicationGatewayProbe_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

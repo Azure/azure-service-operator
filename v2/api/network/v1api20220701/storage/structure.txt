@@ -163,9 +163,15 @@ ApplicationGateway: Resource
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PrivateLinkConfigurations: Object (3 properties)[]
-│   │   ├── IpConfigurations: Object (2 properties)[]
+│   │   ├── IpConfigurations: Object (6 properties)[]
+│   │   │   ├── Name: *string
+│   │   │   ├── Primary: *bool
+│   │   │   ├── PrivateIPAddress: *string
+│   │   │   ├── PrivateIPAllocationMethod: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   │   └── Subnet: *Object (2 properties)
+│   │   │       ├── PropertyBag: genruntime.PropertyBag
+│   │   │       └── Reference: *genruntime.ResourceReference
 │   │   ├── Name: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── Probes: Object (13 properties)[]
@@ -445,9 +451,26 @@ ApplicationGateway: Resource
     ├── PrivateEndpointConnections: Object (2 properties)[]
     │   ├── Id: *string
     │   └── PropertyBag: genruntime.PropertyBag
-    ├── PrivateLinkConfigurations: Object (2 properties)[]
+    ├── PrivateLinkConfigurations: Object (7 properties)[]
+    │   ├── Etag: *string
     │   ├── Id: *string
-    │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── IpConfigurations: Object (10 properties)[]
+    │   │   ├── Etag: *string
+    │   │   ├── Id: *string
+    │   │   ├── Name: *string
+    │   │   ├── Primary: *bool
+    │   │   ├── PrivateIPAddress: *string
+    │   │   ├── PrivateIPAllocationMethod: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── ProvisioningState: *string
+    │   │   ├── Subnet: *Object (2 properties)
+    │   │   │   ├── Id: *string
+    │   │   │   └── PropertyBag: genruntime.PropertyBag
+    │   │   └── Type: *string
+    │   ├── Name: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── ProvisioningState: *string
+    │   └── Type: *string
     ├── Probes: Object (2 properties)[]
     │   ├── Id: *string
     │   └── PropertyBag: genruntime.PropertyBag
