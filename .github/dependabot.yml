@@ -18,6 +18,8 @@ updates:
     schedule:
       interval: "weekly"
     rebase-strategy: "disabled"
+    commit-message:
+      prefix: "chore"
     groups:
       # Group updates together, so that they are all applied in a single PR.
       # Grouped updates are currently in beta and is subject to change.
@@ -55,6 +57,8 @@ updates:
       - v2
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: "chore"
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
@@ -63,4 +67,6 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    commit-message:
+      prefix: "chore"
       

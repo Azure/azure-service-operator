@@ -1,7 +1,7 @@
 ---
 title: "v2.18.0 Breaking Changes"
 linkTitle: "v2.18.0"
-weight: -55  # This should be 5 lower than the previous breaking change document
+weight: -65  # This should be 5 lower than the previous breaking change document
 ---
 ## Breaking changes
 
@@ -13,4 +13,4 @@ weight: -55  # This should be 5 lower than the previous breaking change document
 
 ## Upcoming breaking changes
 
-* Will remove containerservice ManagedCluster and AgentPool api version v1api20240402preview in v2.19 of ASO.
+- Will remove containerservice ManagedCluster and AgentPool api version v1api20240402preview in v2.19 of ASO.

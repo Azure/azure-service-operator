@@ -18,6 +18,8 @@ on:
   workflow_dispatch:
   # no content, allows manual triggering
 
+permissions: {}
+
 jobs:
   test-go-get:
     runs-on: ubuntu-latest
@@ -65,11 +67,12 @@ jobs:
   test-generator:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testgenerator-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
+      contents: read
       packages: read
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # pinned to 6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # pinned to 7.0.0
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -179,11 +182,12 @@ jobs:
   test-controllers:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testcontrollers-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
+      contents: read
       packages: read
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # pinned to 6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # pinned to 7.0.0
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -237,11 +241,12 @@ jobs:
   test-samples:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=testsamples-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     permissions:
+      contents: read
       packages: read
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # pinned to 6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # pinned to 7.0.0
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
@@ -303,12 +308,13 @@ jobs:
         github.actor != 'dependabot[bot]' &&
         github.event.pull_request.head.repo.full_name == github.repository )
     permissions:
-      packages: read
       checks: write
+      contents: read
+      packages: read
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # pinned to 6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # pinned to 7.0.0
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'

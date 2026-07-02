@@ -52,7 +52,9 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 				}
 
 			}
-			state.definitions.AddTypes(extendedResourceDefs)
+
+			state = state.WithOverlaidDefinitions(extendedResourceDefs)
+
 			return state, nil
 		},
 	)
