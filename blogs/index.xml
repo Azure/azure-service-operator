@@ -6,8 +6,15 @@
     <description>Recent content in Blog on Azure Service Operator</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 24 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jul 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://azure.github.io/azure-service-operator/blogs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Breaking Changes for Redis Enterprise</title>
+      <link>https://azure.github.io/azure-service-operator/blogs/2026-07-01-redis-breaking-changes/</link>
+      <pubDate>Wed, 01 Jul 2026 00:00:00 +0000</pubDate>
+      <guid>https://azure.github.io/azure-service-operator/blogs/2026-07-01-redis-breaking-changes/</guid>
+      <description>&lt;p&gt;If you manage &lt;code&gt;RedisEnterprise&lt;/code&gt; or &lt;code&gt;RedisEnterpriseDatabase&lt;/code&gt; resources with ASO, this post is for you. In &lt;strong&gt;ASO v2.21&lt;/strong&gt; (scheduled for August 2026), we will remove the &lt;code&gt;v1api20210301&lt;/code&gt; and &lt;code&gt;v1api20230701&lt;/code&gt; versions of both resources. You&amp;rsquo;ll need to move your YAML to a newer API version before upgrading.&lt;/p&gt;&#xA;&lt;p&gt;This change is driven by an upstream Azure decision: &lt;em&gt;Azure Cache for Redis Enterprise&lt;/em&gt; is being retired in favour of &lt;em&gt;Azure Managed Redis&lt;/em&gt;, and the older ARM API versions cannot manage the new product.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>ASO v2.20 Release Notes</title>
       <link>https://azure.github.io/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/</link>

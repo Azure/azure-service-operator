@@ -35,7 +35,7 @@ Credential type Azure Service Operator supports five different styles of authent
   <meta itemprop="description" content="There are two key topics surrounding authentication in Azure Service Operator: The type of credential, and the credential scope.
 Credential type Azure Service Operator supports five different styles of authentication today.
 [Recommended for production] Azure Workload Identity (OIDC &#43; Managed Identity or Service Principal) Service Principal using a Client Secret Service Principal using a Client Certificate [Deprecated] aad-pod-identity authentication (Managed Identity) User Assigned Identity Credentials Credential scope Each supported credential type can be specified at one of three supported scopes:">
-  <meta itemprop="wordCount" content="335">
+  <meta itemprop="wordCount" content="667">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Authentication in Azure Service Operator">
   <meta name="twitter:description" content="There are two key topics surrounding authentication in Azure Service Operator: The type of credential, and the credential scope.
@@ -238,7 +238,9 @@ Credential type Azure Service Operator supports five different styles of authent
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorblogs-li">
   <a href="/azure-service-operator/blogs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorblogs"><span class="">Blog</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-06-24-release-notes-v2200-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-07-01-redis-breaking-changes-li">
+  <a href="/azure-service-operator/blogs/2026-07-01-redis-breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-07-01-redis-breaking-changes"><span class="">Breaking Changes for Redis Enterprise</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-06-24-release-notes-v2200-li">
   <a href="/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-06-24-release-notes-v2200"><span class="">ASO v2.20 Release Notes</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-04-24-release-notes-v2190-li">
   <a href="/azure-service-operator/blogs/2026-04-24-release-notes-v2.19.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-04-24-release-notes-v2190"><span class="">ASO v2.19 Release Notes</span></a>
@@ -1005,6 +1007,7 @@ Credential type Azure Service Operator supports five different styles of authent
   <ul>
     <li><a href="#credential-type">Credential type</a></li>
     <li><a href="#credential-scope">Credential scope</a></li>
+    <li><a href="#using-aso-to-create-its-own-credentials">Using ASO to create its own credentials</a></li>
     <li><a href="#using-multiple-operators-with-a-single-credential-per-operator">Using multiple operators with a single credential per operator</a></li>
   </ul>
 </nav>
@@ -1058,6 +1061,102 @@ via the identity the secret represents.</p>
 <p>The namespace is the security boundary. ASO will not allow users to read secrets from other namespaces. We recommend
 using separate namespaces for separate environments (dev, test, prod, etc) for this reason</p>
 </blockquote>
+<h2 id="using-aso-to-create-its-own-credentials">Using ASO to create its own credentials</h2>
+<p>It is possible to use ASO to create its own <a href="/azure-service-operator/guide/authentication/credential-scope/#namespace-scope">namespace-scoped</a> or
+<a href="/azure-service-operator/guide/authentication/credential-scope/#resource-scope">resource-scoped</a> credentials.</p>
+<p>Achieving this requires two things:</p>
+<ol>
+<li>A namespace for managing credentials, complete with <code>aso-credential</code> (namespace-scoped) or <a href="/azure-service-operator/guide/authentication/credential-scope/#global-scope">global credential (not recommended)</a>
+that has permission to create <code>managedidentity.azure.com/UserAssignedIdentity</code> and <code>authorization.azure.com/RoleAssignment</code> resources. This namespace will be used
+to create/manage the credentials.</li>
+<li>An operator such as <a href="https://github.com/emberstack/kubernetes-reflector">kubernetes-reflector</a>, used to mirror the credential into the target namespace, which will use the credential</li>
+</ol>
+<p>Here&rsquo;s an example where the management namespace creates a <code>resources.azure.com/ResourceGroup</code>, <code>managedidentity.azure.com/UserAssignedIdentity</code> and <code>authorization.azure.com/RoleAssignment</code>
+granting the identity Contributor on the resource group.</p>
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    ASO does not support creating secrets in namespaces other than the namespace the corresponding resource is in.
+
+</div>
+
+
+
+<div class="alert alert-primary" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    The secret written by <code>secretExpressions</code> must <strong>not</strong> be named <code>aso-credential</code> in the management namespace, as that
+would conflict with the existing namespace-scoped credential that ASO uses to manage resources there.
+Use a different name (e.g. <code>sample-identity-credential</code>) and have reflector mirror it into the target namespace
+under the name <code>aso-credential</code>.
+
+</div>
+
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">resources.azure.com/v1api20200601</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ResourceGroup</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">management</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westcentralus</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">managedidentity.azure.com/v1api20230131</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">UserAssignedIdentity</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample-identity</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">management</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westcentralus</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">owner</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">operatorSpec</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">secretExpressions</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample-identity-credential</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">AZURE_SUBSCRIPTION_ID</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;aso.parseResourceId(self.status.id).subscriptionId&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">reflector.v1.k8s.emberstack.com/reflection-allowed</span>: <span style="color:#e6db74">&#39;&#34;true&#34;&#39;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces</span>: <span style="color:#e6db74">&#39;&#34;app-namespace&#34;&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample-identity-credential</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">AZURE_TENANT_ID</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;self.status.tenantId&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample-identity-credential</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">AZURE_CLIENT_ID</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;self.status.clientId&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample-identity-credential</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">USE_WORKLOAD_IDENTITY_AUTH</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#e6db74">&#34;string(true)&#34;</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">authorization.azure.com/v1api20220401</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">RoleAssignment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample-identity-contributor</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">management</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">owner</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-sample-rg</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">group</span>: <span style="color:#ae81ff">resources.azure.com</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ResourceGroup</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">principalIdFromConfig</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">sample-identity-settings</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">key</span>: <span style="color:#ae81ff">principalId</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">roleDefinitionReference</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">wellKnownName</span>: <span style="color:#ae81ff">Contributor</span>
+</span></span></code></pre></div><p>Once the resources are provisioned, a user in <code>app-namespace</code> can mirror the credential by creating a stub secret
+with the <code>reflects</code> annotation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">aso-credential</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">app-namespace</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">reflector.v1.k8s.emberstack.com/reflects</span>: <span style="color:#e6db74">&#34;management/sample-identity-credential&#34;</span>
+</span></span></code></pre></div><p><a href="https://github.com/emberstack/kubernetes-reflector">kubernetes-reflector</a> will automatically populate this secret
+with the contents of <code>sample-identity-credential</code> from the <code>management</code> namespace. Since the destination secret is
+named <code>aso-credential</code>, ASO will use it as the namespace-scoped credential for resources in <code>app-namespace</code>,
+allowing them to manage Azure resources using workload identity.</p>
 <h2 id="using-multiple-operators-with-a-single-credential-per-operator">Using multiple operators with a single credential per operator</h2>
 <blockquote>
 <p><strong>This mode is not recommended unless you <em>really</em> need it</strong></p>

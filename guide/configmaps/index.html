@@ -234,7 +234,9 @@ How to provide ConfigMap data to ASO Resources may have fields in their spec tha
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorblogs-li">
   <a href="/azure-service-operator/blogs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorblogs"><span class="">Blog</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-06-24-release-notes-v2200-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-07-01-redis-breaking-changes-li">
+  <a href="/azure-service-operator/blogs/2026-07-01-redis-breaking-changes/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-07-01-redis-breaking-changes"><span class="">Breaking Changes for Redis Enterprise</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-06-24-release-notes-v2200-li">
   <a href="/azure-service-operator/blogs/2026-06-24-release-notes-v2.20.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-06-24-release-notes-v2200"><span class="">ASO v2.20 Release Notes</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorblogs2026-04-24-release-notes-v2190-li">
   <a href="/azure-service-operator/blogs/2026-04-24-release-notes-v2.19.0/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorblogs2026-04-24-release-notes-v2190"><span class="">ASO v2.19 Release Notes</span></a>
@@ -1129,7 +1131,7 @@ that must return a string. Use <code>'&quot;value&quot;'</code> for static strin
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">identity-settings</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">principalId</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">annotations</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">reflector.v1/reflection-allowed</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">my-annotation</span>: <span style="color:#ae81ff">foo</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">app</span>: <span style="color:#ae81ff">myapp</span>
 </span></span></code></pre></div><p><strong>Example with <code>operatorSpec.configMapExpressions</code>:</strong></p>
@@ -1139,7 +1141,7 @@ that must return a string. Use <code>'&quot;value&quot;'</code> for static strin
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">principalId</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">value</span>: <span style="color:#ae81ff">self.status.principalId</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">annotations</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">reflector.v1/reflection-allowed</span>: <span style="color:#e6db74">&#39;&#34;true&#34;&#39;</span>  <span style="color:#75715e"># Static string value (CEL expression)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">my-annotation</span>: <span style="color:#e6db74">&#39;&#34;foo&#34;&#39;</span> <span style="color:#75715e"># Static string value (CEL expression)</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">labels</span>:
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">principal-id</span>: <span style="color:#ae81ff">self.status.principalId </span> <span style="color:#75715e"># Dynamic value from resource status</span>
 </span></span></code></pre></div><p>When multiple destinations target the same Kubernetes ConfigMap, annotations and labels are merged.
