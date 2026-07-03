@@ -332,26 +332,26 @@ To install the CRDs for these resources, your ASO configuration must include `cd
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource         | ARM Version | CRD Version | Supported From | Sample |
-|------------------|-------------|-------------|----------------|--------|
-| AfdCustomDomain  | 2023-05-01  | v20230501   | v2.6.0         | -      |
-| AfdEndpoint      | 2023-05-01  | v20230501   | v2.6.0         | -      |
-| AfdOrigin        | 2023-05-01  | v20230501   | v2.6.0         | -      |
-| AfdOriginGroup   | 2023-05-01  | v20230501   | v2.6.0         | -      |
-| Profile          | 2023-05-01  | v20230501   | v2.6.0         | -      |
-| ProfilesEndpoint | 2021-06-01  | v20210601   | v2.0.0         | -      |
-| Route            | 2023-05-01  | v20230501   | v2.6.0         | -      |
-| Rule             | 2023-05-01  | v20230501   | v2.6.0         | -      |
-| RuleSet          | 2023-05-01  | v20230501   | v2.6.0         | -      |
-| Secret           | 2023-05-01  | v20230501   | v2.6.0         | -      |
-| SecurityPolicy   | 2023-05-01  | v20230501   | v2.6.0         | -      |
+| Resource         | ARM Version | CRD Version | Supported From | Sample                                                                                                                     |
+|------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------|
+| AfdCustomDomain  | 2023-05-01  | v20230501   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_afdcustomdomain.yaml)  |
+| AfdEndpoint      | 2023-05-01  | v20230501   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_afdendpoint.yaml)      |
+| AfdOrigin        | 2023-05-01  | v20230501   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_afdorigin.yaml)        |
+| AfdOriginGroup   | 2023-05-01  | v20230501   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_afdorigingroup.yaml)   |
+| Profile          | 2023-05-01  | v20230501   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_profile.yaml)          |
+| ProfilesEndpoint | 2021-06-01  | v20210601   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20210601/v20210601_profilesendpoint.yaml) |
+| Route            | 2023-05-01  | v20230501   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_route.yaml)            |
+| Rule             | 2023-05-01  | v20230501   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_rule.yaml)             |
+| RuleSet          | 2023-05-01  | v20230501   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_ruleset.yaml)          |
+| Secret           | 2023-05-01  | v20230501   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_secret.yaml)           |
+| SecurityPolicy   | 2023-05-01  | v20230501   | v2.6.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_securitypolicy.yaml)   |
 
 ### Other Supported Versions
 
 These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource | ARM Version | CRD Version | Supported From | Sample |
-|----------|-------------|-------------|----------------|--------|
-| Profile  | 2021-06-01  | v20210601   | v2.0.0         | -      |
+| Resource | ARM Version | CRD Version | Supported From | Sample                                                                                                            |
+|----------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------|
+| Profile  | 2021-06-01  | v20210601   | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20210601/v20210601_profile.yaml) |
 
 ### Deprecated
 
