@@ -51,6 +51,7 @@ func (webhook *RoleDefinition) defaultAzureName(_ context.Context, definition *v
 	}
 
 	if definition.AzureName() == "" {
+		// Select active naming convention, defaulting to stable if not specified
 		convention := "stable"
 		if definition.Spec.OperatorSpec != nil &&
 			definition.Spec.OperatorSpec.NamingConvention != nil {
@@ -59,11 +60,12 @@ func (webhook *RoleDefinition) defaultAzureName(_ context.Context, definition *v
 
 		if strings.EqualFold(convention, "random") {
 			definition.Spec.AzureName = randextensions.MakeRandomUUID()
-		} else if strings.EqualFold(convention, "stable") {
+		} else {
+			// Everything else is treated as stable
 			gk := definition.GroupVersionKind().GroupKind()
 			definition.Spec.AzureName = randextensions.MakeUUIDName(
 				definition.Name,
-				randextensions.MakeUniqueOwnerScopedString(
+				randextensions.MakeUniqueOwnerScopedStringLegacy(
 					definition.Owner(),
 					gk,
 					definition.Namespace,
