@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	v20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type SecretExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *SecretExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20230501.Secret{},
-		&storage.Secret{}}
+		&cdn_v1api20230501.Secret{},
+		&cdn_v1api20230501s.Secret{},
+		&cdn_v20230501.Secret{},
+		&cdn_v20230501s.Secret{}}
 }

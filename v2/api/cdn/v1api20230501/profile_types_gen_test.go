@@ -5,7 +5,8 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity(subject ManagedServiceId
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedServiceIdentity
+	var other cdn_v1api20230501s.ManagedServiceIdentity
 	err := copied.AssignProperties_To_ManagedServiceIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -156,7 +157,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity_STATUS(subject ManagedSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedServiceIdentity_STATUS
+	var other cdn_v1api20230501s.ManagedServiceIdentity_STATUS
 	err := copied.AssignProperties_To_ManagedServiceIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -282,7 +283,7 @@ func RunResourceConversionTestForProfile(subject Profile) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Profile
+	var hub cdn_v20230501s.Profile
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -324,7 +325,7 @@ func RunPropertyAssignmentTestForProfile(subject Profile) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Profile
+	var other cdn_v1api20230501s.Profile
 	err := copied.AssignProperties_To_Profile(&other)
 	if err != nil {
 		return err.Error()
@@ -427,7 +428,7 @@ func RunPropertyAssignmentTestForProfileOperatorSpec(subject ProfileOperatorSpec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ProfileOperatorSpec
+	var other cdn_v1api20230501s.ProfileOperatorSpec
 	err := copied.AssignProperties_To_ProfileOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -524,7 +525,7 @@ func RunPropertyAssignmentTestForProfile_STATUS(subject Profile_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Profile_STATUS
+	var other cdn_v1api20230501s.Profile_STATUS
 	err := copied.AssignProperties_To_Profile_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -670,7 +671,7 @@ func RunPropertyAssignmentTestForProfile_Spec(subject Profile_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Profile_Spec
+	var other cdn_v1api20230501s.Profile_Spec
 	err := copied.AssignProperties_To_Profile_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -793,7 +794,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku
+	var other cdn_v1api20230501s.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -908,7 +909,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Sku_STATUS
+	var other cdn_v1api20230501s.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1023,7 +1024,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UserAssignedIdentityDetails
+	var other cdn_v1api20230501s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -1120,7 +1121,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.UserAssignedIdentity_STATUS
+	var other cdn_v1api20230501s.UserAssignedIdentity_STATUS
 	err := copied.AssignProperties_To_UserAssignedIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()

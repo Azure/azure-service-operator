@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=cdn.azure.com,resources=afdorigingroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=cdn.azure.com,resources={afdorigingroups/status,afdorigingroups/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,cdn}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (group *AfdOriginGroup) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (group *AfdOriginGroup) SetConditions(conditions conditions.Conditions) {
 	group.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &AfdOriginGroup{}
+
+// ConvertFrom populates our AfdOriginGroup from the provided hub AfdOriginGroup
+func (group *AfdOriginGroup) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.AfdOriginGroup)
+	if !ok {
+		return fmt.Errorf("expected cdn/v20230501/storage/AfdOriginGroup but received %T instead", hub)
+	}
+
+	return group.AssignProperties_From_AfdOriginGroup(source)
+}
+
+// ConvertTo populates the provided hub AfdOriginGroup from our AfdOriginGroup
+func (group *AfdOriginGroup) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.AfdOriginGroup)
+	if !ok {
+		return fmt.Errorf("expected cdn/v20230501/storage/AfdOriginGroup but received %T instead", hub)
+	}
+
+	return group.AssignProperties_To_AfdOriginGroup(destination)
 }
 
 var _ configmaps.Exporter = &AfdOriginGroup{}
@@ -143,8 +164,75 @@ func (group *AfdOriginGroup) SetStatus(status genruntime.ConvertibleStatus) erro
 	return nil
 }
 
-// Hub marks that this AfdOriginGroup is the hub type for conversion
-func (group *AfdOriginGroup) Hub() {}
+// AssignProperties_From_AfdOriginGroup populates our AfdOriginGroup from the provided source AfdOriginGroup
+func (group *AfdOriginGroup) AssignProperties_From_AfdOriginGroup(source *storage.AfdOriginGroup) error {
+
+	// ObjectMeta
+	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec AfdOriginGroup_Spec
+	err := spec.AssignProperties_From_AfdOriginGroup_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_AfdOriginGroup_Spec() to populate field Spec")
+	}
+	group.Spec = spec
+
+	// Status
+	var status AfdOriginGroup_STATUS
+	err = status.AssignProperties_From_AfdOriginGroup_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_AfdOriginGroup_STATUS() to populate field Status")
+	}
+	group.Status = status
+
+	// Invoke the augmentConversionForAfdOriginGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForAfdOriginGroup); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdOriginGroup populates the provided destination AfdOriginGroup from our AfdOriginGroup
+func (group *AfdOriginGroup) AssignProperties_To_AfdOriginGroup(destination *storage.AfdOriginGroup) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.AfdOriginGroup_Spec
+	err := group.Spec.AssignProperties_To_AfdOriginGroup_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_AfdOriginGroup_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.AfdOriginGroup_STATUS
+	err = group.Status.AssignProperties_To_AfdOriginGroup_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_AfdOriginGroup_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForAfdOriginGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForAfdOriginGroup); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (group *AfdOriginGroup) OriginalGVK() *schema.GroupVersionKind {
@@ -190,20 +278,212 @@ var _ genruntime.ConvertibleSpec = &AfdOriginGroup_Spec{}
 
 // ConvertSpecFrom populates our AfdOriginGroup_Spec from the provided source
 func (group *AfdOriginGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.AfdOriginGroup_Spec)
+	if ok {
+		// Populate our instance from source
+		return group.AssignProperties_From_AfdOriginGroup_Spec(src)
 	}
 
-	return source.ConvertSpecTo(group)
+	// Convert to an intermediate form
+	src = &storage.AfdOriginGroup_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = group.AssignProperties_From_AfdOriginGroup_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our AfdOriginGroup_Spec
 func (group *AfdOriginGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.AfdOriginGroup_Spec)
+	if ok {
+		// Populate destination from our instance
+		return group.AssignProperties_To_AfdOriginGroup_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(group)
+	// Convert to an intermediate form
+	dst = &storage.AfdOriginGroup_Spec{}
+	err := group.AssignProperties_To_AfdOriginGroup_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_AfdOriginGroup_Spec populates our AfdOriginGroup_Spec from the provided source AfdOriginGroup_Spec
+func (group *AfdOriginGroup_Spec) AssignProperties_From_AfdOriginGroup_Spec(source *storage.AfdOriginGroup_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	group.AzureName = source.AzureName
+
+	// HealthProbeSettings
+	if source.HealthProbeSettings != nil {
+		var healthProbeSetting HealthProbeParameters
+		err := healthProbeSetting.AssignProperties_From_HealthProbeParameters(source.HealthProbeSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_HealthProbeParameters() to populate field HealthProbeSettings")
+		}
+		group.HealthProbeSettings = &healthProbeSetting
+	} else {
+		group.HealthProbeSettings = nil
+	}
+
+	// LoadBalancingSettings
+	if source.LoadBalancingSettings != nil {
+		var loadBalancingSetting LoadBalancingSettingsParameters
+		err := loadBalancingSetting.AssignProperties_From_LoadBalancingSettingsParameters(source.LoadBalancingSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_LoadBalancingSettingsParameters() to populate field LoadBalancingSettings")
+		}
+		group.LoadBalancingSettings = &loadBalancingSetting
+	} else {
+		group.LoadBalancingSettings = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec AfdOriginGroupOperatorSpec
+		err := operatorSpec.AssignProperties_From_AfdOriginGroupOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_AfdOriginGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		group.OperatorSpec = &operatorSpec
+	} else {
+		group.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	group.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		group.Owner = &owner
+	} else {
+		group.Owner = nil
+	}
+
+	// SessionAffinityState
+	group.SessionAffinityState = genruntime.ClonePointerToString(source.SessionAffinityState)
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		group.PropertyBag = propertyBag
+	} else {
+		group.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdOriginGroup_Spec interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForAfdOriginGroup_Spec); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdOriginGroup_Spec populates the provided destination AfdOriginGroup_Spec from our AfdOriginGroup_Spec
+func (group *AfdOriginGroup_Spec) AssignProperties_To_AfdOriginGroup_Spec(destination *storage.AfdOriginGroup_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
+
+	// AzureName
+	destination.AzureName = group.AzureName
+
+	// HealthProbeSettings
+	if group.HealthProbeSettings != nil {
+		var healthProbeSetting storage.HealthProbeParameters
+		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters(&healthProbeSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_HealthProbeParameters() to populate field HealthProbeSettings")
+		}
+		destination.HealthProbeSettings = &healthProbeSetting
+	} else {
+		destination.HealthProbeSettings = nil
+	}
+
+	// LoadBalancingSettings
+	if group.LoadBalancingSettings != nil {
+		var loadBalancingSetting storage.LoadBalancingSettingsParameters
+		err := group.LoadBalancingSettings.AssignProperties_To_LoadBalancingSettingsParameters(&loadBalancingSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_LoadBalancingSettingsParameters() to populate field LoadBalancingSettings")
+		}
+		destination.LoadBalancingSettings = &loadBalancingSetting
+	} else {
+		destination.LoadBalancingSettings = nil
+	}
+
+	// OperatorSpec
+	if group.OperatorSpec != nil {
+		var operatorSpec storage.AfdOriginGroupOperatorSpec
+		err := group.OperatorSpec.AssignProperties_To_AfdOriginGroupOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AfdOriginGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = group.OriginalVersion
+
+	// Owner
+	if group.Owner != nil {
+		owner := group.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// SessionAffinityState
+	destination.SessionAffinityState = genruntime.ClonePointerToString(group.SessionAffinityState)
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdOriginGroup_Spec interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForAfdOriginGroup_Spec); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501.AfdOriginGroup_STATUS
@@ -227,20 +507,231 @@ var _ genruntime.ConvertibleStatus = &AfdOriginGroup_STATUS{}
 
 // ConvertStatusFrom populates our AfdOriginGroup_STATUS from the provided source
 func (group *AfdOriginGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.AfdOriginGroup_STATUS)
+	if ok {
+		// Populate our instance from source
+		return group.AssignProperties_From_AfdOriginGroup_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(group)
+	// Convert to an intermediate form
+	src = &storage.AfdOriginGroup_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = group.AssignProperties_From_AfdOriginGroup_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our AfdOriginGroup_STATUS
 func (group *AfdOriginGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.AfdOriginGroup_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return group.AssignProperties_To_AfdOriginGroup_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(group)
+	// Convert to an intermediate form
+	dst = &storage.AfdOriginGroup_STATUS{}
+	err := group.AssignProperties_To_AfdOriginGroup_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_AfdOriginGroup_STATUS populates our AfdOriginGroup_STATUS from the provided source AfdOriginGroup_STATUS
+func (group *AfdOriginGroup_STATUS) AssignProperties_From_AfdOriginGroup_STATUS(source *storage.AfdOriginGroup_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	group.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// DeploymentStatus
+	group.DeploymentStatus = genruntime.ClonePointerToString(source.DeploymentStatus)
+
+	// HealthProbeSettings
+	if source.HealthProbeSettings != nil {
+		var healthProbeSetting HealthProbeParameters_STATUS
+		err := healthProbeSetting.AssignProperties_From_HealthProbeParameters_STATUS(source.HealthProbeSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
+		}
+		group.HealthProbeSettings = &healthProbeSetting
+	} else {
+		group.HealthProbeSettings = nil
+	}
+
+	// Id
+	group.Id = genruntime.ClonePointerToString(source.Id)
+
+	// LoadBalancingSettings
+	if source.LoadBalancingSettings != nil {
+		var loadBalancingSetting LoadBalancingSettingsParameters_STATUS
+		err := loadBalancingSetting.AssignProperties_From_LoadBalancingSettingsParameters_STATUS(source.LoadBalancingSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_LoadBalancingSettingsParameters_STATUS() to populate field LoadBalancingSettings")
+		}
+		group.LoadBalancingSettings = &loadBalancingSetting
+	} else {
+		group.LoadBalancingSettings = nil
+	}
+
+	// Name
+	group.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProfileName
+	group.ProfileName = genruntime.ClonePointerToString(source.ProfileName)
+
+	// ProvisioningState
+	group.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// SessionAffinityState
+	group.SessionAffinityState = genruntime.ClonePointerToString(source.SessionAffinityState)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		group.SystemData = &systemDatum
+	} else {
+		group.SystemData = nil
+	}
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
+
+	// Type
+	group.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		group.PropertyBag = propertyBag
+	} else {
+		group.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdOriginGroup_STATUS interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForAfdOriginGroup_STATUS); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdOriginGroup_STATUS populates the provided destination AfdOriginGroup_STATUS from our AfdOriginGroup_STATUS
+func (group *AfdOriginGroup_STATUS) AssignProperties_To_AfdOriginGroup_STATUS(destination *storage.AfdOriginGroup_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(group.Conditions)
+
+	// DeploymentStatus
+	destination.DeploymentStatus = genruntime.ClonePointerToString(group.DeploymentStatus)
+
+	// HealthProbeSettings
+	if group.HealthProbeSettings != nil {
+		var healthProbeSetting storage.HealthProbeParameters_STATUS
+		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters_STATUS(&healthProbeSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
+		}
+		destination.HealthProbeSettings = &healthProbeSetting
+	} else {
+		destination.HealthProbeSettings = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(group.Id)
+
+	// LoadBalancingSettings
+	if group.LoadBalancingSettings != nil {
+		var loadBalancingSetting storage.LoadBalancingSettingsParameters_STATUS
+		err := group.LoadBalancingSettings.AssignProperties_To_LoadBalancingSettingsParameters_STATUS(&loadBalancingSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_LoadBalancingSettingsParameters_STATUS() to populate field LoadBalancingSettings")
+		}
+		destination.LoadBalancingSettings = &loadBalancingSetting
+	} else {
+		destination.LoadBalancingSettings = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(group.Name)
+
+	// ProfileName
+	destination.ProfileName = genruntime.ClonePointerToString(group.ProfileName)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(group.ProvisioningState)
+
+	// SessionAffinityState
+	destination.SessionAffinityState = genruntime.ClonePointerToString(group.SessionAffinityState)
+
+	// SystemData
+	if group.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := group.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(group.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdOriginGroup_STATUS interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForAfdOriginGroup_STATUS); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForAfdOriginGroup interface {
+	AssignPropertiesFrom(src *storage.AfdOriginGroup) error
+	AssignPropertiesTo(dst *storage.AfdOriginGroup) error
 }
 
 // Storage version of v1api20230501.AfdOriginGroupOperatorSpec
@@ -249,6 +740,130 @@ type AfdOriginGroupOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_AfdOriginGroupOperatorSpec populates our AfdOriginGroupOperatorSpec from the provided source AfdOriginGroupOperatorSpec
+func (operator *AfdOriginGroupOperatorSpec) AssignProperties_From_AfdOriginGroupOperatorSpec(source *storage.AfdOriginGroupOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdOriginGroupOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForAfdOriginGroupOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdOriginGroupOperatorSpec populates the provided destination AfdOriginGroupOperatorSpec from our AfdOriginGroupOperatorSpec
+func (operator *AfdOriginGroupOperatorSpec) AssignProperties_To_AfdOriginGroupOperatorSpec(destination *storage.AfdOriginGroupOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdOriginGroupOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForAfdOriginGroupOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForAfdOriginGroup_Spec interface {
+	AssignPropertiesFrom(src *storage.AfdOriginGroup_Spec) error
+	AssignPropertiesTo(dst *storage.AfdOriginGroup_Spec) error
+}
+
+type augmentConversionForAfdOriginGroup_STATUS interface {
+	AssignPropertiesFrom(src *storage.AfdOriginGroup_STATUS) error
+	AssignPropertiesTo(dst *storage.AfdOriginGroup_STATUS) error
 }
 
 // Storage version of v1api20230501.HealthProbeParameters
@@ -261,6 +876,80 @@ type HealthProbeParameters struct {
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_HealthProbeParameters populates our HealthProbeParameters from the provided source HealthProbeParameters
+func (parameters *HealthProbeParameters) AssignProperties_From_HealthProbeParameters(source *storage.HealthProbeParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ProbeIntervalInSeconds
+	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
+
+	// ProbePath
+	parameters.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
+
+	// ProbeProtocol
+	parameters.ProbeProtocol = genruntime.ClonePointerToString(source.ProbeProtocol)
+
+	// ProbeRequestType
+	parameters.ProbeRequestType = genruntime.ClonePointerToString(source.ProbeRequestType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHealthProbeParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForHealthProbeParameters); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HealthProbeParameters populates the provided destination HealthProbeParameters from our HealthProbeParameters
+func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParameters(destination *storage.HealthProbeParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// ProbeIntervalInSeconds
+	destination.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(parameters.ProbeIntervalInSeconds)
+
+	// ProbePath
+	destination.ProbePath = genruntime.ClonePointerToString(parameters.ProbePath)
+
+	// ProbeProtocol
+	destination.ProbeProtocol = genruntime.ClonePointerToString(parameters.ProbeProtocol)
+
+	// ProbeRequestType
+	destination.ProbeRequestType = genruntime.ClonePointerToString(parameters.ProbeRequestType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHealthProbeParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForHealthProbeParameters); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.HealthProbeParameters_STATUS
 // The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters_STATUS struct {
@@ -269,6 +958,80 @@ type HealthProbeParameters_STATUS struct {
 	ProbeProtocol          *string                `json:"probeProtocol,omitempty"`
 	ProbeRequestType       *string                `json:"probeRequestType,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_HealthProbeParameters_STATUS populates our HealthProbeParameters_STATUS from the provided source HealthProbeParameters_STATUS
+func (parameters *HealthProbeParameters_STATUS) AssignProperties_From_HealthProbeParameters_STATUS(source *storage.HealthProbeParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ProbeIntervalInSeconds
+	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
+
+	// ProbePath
+	parameters.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
+
+	// ProbeProtocol
+	parameters.ProbeProtocol = genruntime.ClonePointerToString(source.ProbeProtocol)
+
+	// ProbeRequestType
+	parameters.ProbeRequestType = genruntime.ClonePointerToString(source.ProbeRequestType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHealthProbeParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForHealthProbeParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HealthProbeParameters_STATUS populates the provided destination HealthProbeParameters_STATUS from our HealthProbeParameters_STATUS
+func (parameters *HealthProbeParameters_STATUS) AssignProperties_To_HealthProbeParameters_STATUS(destination *storage.HealthProbeParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// ProbeIntervalInSeconds
+	destination.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(parameters.ProbeIntervalInSeconds)
+
+	// ProbePath
+	destination.ProbePath = genruntime.ClonePointerToString(parameters.ProbePath)
+
+	// ProbeProtocol
+	destination.ProbeProtocol = genruntime.ClonePointerToString(parameters.ProbeProtocol)
+
+	// ProbeRequestType
+	destination.ProbeRequestType = genruntime.ClonePointerToString(parameters.ProbeRequestType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHealthProbeParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForHealthProbeParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501.LoadBalancingSettingsParameters
@@ -280,6 +1043,74 @@ type LoadBalancingSettingsParameters struct {
 	SuccessfulSamplesRequired       *int                   `json:"successfulSamplesRequired,omitempty"`
 }
 
+// AssignProperties_From_LoadBalancingSettingsParameters populates our LoadBalancingSettingsParameters from the provided source LoadBalancingSettingsParameters
+func (parameters *LoadBalancingSettingsParameters) AssignProperties_From_LoadBalancingSettingsParameters(source *storage.LoadBalancingSettingsParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdditionalLatencyInMilliseconds
+	parameters.AdditionalLatencyInMilliseconds = genruntime.ClonePointerToInt(source.AdditionalLatencyInMilliseconds)
+
+	// SampleSize
+	parameters.SampleSize = genruntime.ClonePointerToInt(source.SampleSize)
+
+	// SuccessfulSamplesRequired
+	parameters.SuccessfulSamplesRequired = genruntime.ClonePointerToInt(source.SuccessfulSamplesRequired)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForLoadBalancingSettingsParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForLoadBalancingSettingsParameters); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_LoadBalancingSettingsParameters populates the provided destination LoadBalancingSettingsParameters from our LoadBalancingSettingsParameters
+func (parameters *LoadBalancingSettingsParameters) AssignProperties_To_LoadBalancingSettingsParameters(destination *storage.LoadBalancingSettingsParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// AdditionalLatencyInMilliseconds
+	destination.AdditionalLatencyInMilliseconds = genruntime.ClonePointerToInt(parameters.AdditionalLatencyInMilliseconds)
+
+	// SampleSize
+	destination.SampleSize = genruntime.ClonePointerToInt(parameters.SampleSize)
+
+	// SuccessfulSamplesRequired
+	destination.SuccessfulSamplesRequired = genruntime.ClonePointerToInt(parameters.SuccessfulSamplesRequired)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForLoadBalancingSettingsParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForLoadBalancingSettingsParameters); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.LoadBalancingSettingsParameters_STATUS
 // Round-Robin load balancing settings for a backend pool
 type LoadBalancingSettingsParameters_STATUS struct {
@@ -287,6 +1118,99 @@ type LoadBalancingSettingsParameters_STATUS struct {
 	PropertyBag                     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SampleSize                      *int                   `json:"sampleSize,omitempty"`
 	SuccessfulSamplesRequired       *int                   `json:"successfulSamplesRequired,omitempty"`
+}
+
+// AssignProperties_From_LoadBalancingSettingsParameters_STATUS populates our LoadBalancingSettingsParameters_STATUS from the provided source LoadBalancingSettingsParameters_STATUS
+func (parameters *LoadBalancingSettingsParameters_STATUS) AssignProperties_From_LoadBalancingSettingsParameters_STATUS(source *storage.LoadBalancingSettingsParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdditionalLatencyInMilliseconds
+	parameters.AdditionalLatencyInMilliseconds = genruntime.ClonePointerToInt(source.AdditionalLatencyInMilliseconds)
+
+	// SampleSize
+	parameters.SampleSize = genruntime.ClonePointerToInt(source.SampleSize)
+
+	// SuccessfulSamplesRequired
+	parameters.SuccessfulSamplesRequired = genruntime.ClonePointerToInt(source.SuccessfulSamplesRequired)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForLoadBalancingSettingsParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForLoadBalancingSettingsParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_LoadBalancingSettingsParameters_STATUS populates the provided destination LoadBalancingSettingsParameters_STATUS from our LoadBalancingSettingsParameters_STATUS
+func (parameters *LoadBalancingSettingsParameters_STATUS) AssignProperties_To_LoadBalancingSettingsParameters_STATUS(destination *storage.LoadBalancingSettingsParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// AdditionalLatencyInMilliseconds
+	destination.AdditionalLatencyInMilliseconds = genruntime.ClonePointerToInt(parameters.AdditionalLatencyInMilliseconds)
+
+	// SampleSize
+	destination.SampleSize = genruntime.ClonePointerToInt(parameters.SampleSize)
+
+	// SuccessfulSamplesRequired
+	destination.SuccessfulSamplesRequired = genruntime.ClonePointerToInt(parameters.SuccessfulSamplesRequired)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForLoadBalancingSettingsParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForLoadBalancingSettingsParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForAfdOriginGroupOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.AfdOriginGroupOperatorSpec) error
+	AssignPropertiesTo(dst *storage.AfdOriginGroupOperatorSpec) error
+}
+
+type augmentConversionForHealthProbeParameters interface {
+	AssignPropertiesFrom(src *storage.HealthProbeParameters) error
+	AssignPropertiesTo(dst *storage.HealthProbeParameters) error
+}
+
+type augmentConversionForHealthProbeParameters_STATUS interface {
+	AssignPropertiesFrom(src *storage.HealthProbeParameters_STATUS) error
+	AssignPropertiesTo(dst *storage.HealthProbeParameters_STATUS) error
+}
+
+type augmentConversionForLoadBalancingSettingsParameters interface {
+	AssignPropertiesFrom(src *storage.LoadBalancingSettingsParameters) error
+	AssignPropertiesTo(dst *storage.LoadBalancingSettingsParameters) error
+}
+
+type augmentConversionForLoadBalancingSettingsParameters_STATUS interface {
+	AssignPropertiesFrom(src *storage.LoadBalancingSettingsParameters_STATUS) error
+	AssignPropertiesTo(dst *storage.LoadBalancingSettingsParameters_STATUS) error
 }
 
 func init() {

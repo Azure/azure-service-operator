@@ -5,7 +5,8 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForAfdOriginGroup(subject AfdOriginGroup) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.AfdOriginGroup
+	var hub cdn_v20230501s.AfdOriginGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForAfdOriginGroup(subject AfdOriginGroup) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdOriginGroup
+	var other cdn_v1api20230501s.AfdOriginGroup
 	err := copied.AssignProperties_To_AfdOriginGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForAfdOriginGroupOperatorSpec(subject AfdOriginGro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdOriginGroupOperatorSpec
+	var other cdn_v1api20230501s.AfdOriginGroupOperatorSpec
 	err := copied.AssignProperties_To_AfdOriginGroupOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForAfdOriginGroup_STATUS(subject AfdOriginGroup_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdOriginGroup_STATUS
+	var other cdn_v1api20230501s.AfdOriginGroup_STATUS
 	err := copied.AssignProperties_To_AfdOriginGroup_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -413,7 +414,7 @@ func RunPropertyAssignmentTestForAfdOriginGroup_Spec(subject AfdOriginGroup_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdOriginGroup_Spec
+	var other cdn_v1api20230501s.AfdOriginGroup_Spec
 	err := copied.AssignProperties_To_AfdOriginGroup_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -534,7 +535,7 @@ func RunPropertyAssignmentTestForHealthProbeParameters(subject HealthProbeParame
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HealthProbeParameters
+	var other cdn_v1api20230501s.HealthProbeParameters
 	err := copied.AssignProperties_To_HealthProbeParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -640,7 +641,7 @@ func RunPropertyAssignmentTestForHealthProbeParameters_STATUS(subject HealthProb
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.HealthProbeParameters_STATUS
+	var other cdn_v1api20230501s.HealthProbeParameters_STATUS
 	err := copied.AssignProperties_To_HealthProbeParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -746,7 +747,7 @@ func RunPropertyAssignmentTestForLoadBalancingSettingsParameters(subject LoadBal
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LoadBalancingSettingsParameters
+	var other cdn_v1api20230501s.LoadBalancingSettingsParameters
 	err := copied.AssignProperties_To_LoadBalancingSettingsParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -851,7 +852,7 @@ func RunPropertyAssignmentTestForLoadBalancingSettingsParameters_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.LoadBalancingSettingsParameters_STATUS
+	var other cdn_v1api20230501s.LoadBalancingSettingsParameters_STATUS
 	err := copied.AssignProperties_To_LoadBalancingSettingsParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()

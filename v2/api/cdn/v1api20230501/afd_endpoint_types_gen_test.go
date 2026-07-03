@@ -5,7 +5,8 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -36,7 +37,7 @@ func RunResourceConversionTestForAfdEndpoint(subject AfdEndpoint) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.AfdEndpoint
+	var hub cdn_v20230501s.AfdEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -78,7 +79,7 @@ func RunPropertyAssignmentTestForAfdEndpoint(subject AfdEndpoint) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdEndpoint
+	var other cdn_v1api20230501s.AfdEndpoint
 	err := copied.AssignProperties_To_AfdEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -181,7 +182,7 @@ func RunPropertyAssignmentTestForAfdEndpointOperatorSpec(subject AfdEndpointOper
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdEndpointOperatorSpec
+	var other cdn_v1api20230501s.AfdEndpointOperatorSpec
 	err := copied.AssignProperties_To_AfdEndpointOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -278,7 +279,7 @@ func RunPropertyAssignmentTestForAfdEndpoint_STATUS(subject AfdEndpoint_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdEndpoint_STATUS
+	var other cdn_v1api20230501s.AfdEndpoint_STATUS
 	err := copied.AssignProperties_To_AfdEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -419,7 +420,7 @@ func RunPropertyAssignmentTestForAfdEndpoint_Spec(subject AfdEndpoint_Spec) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdEndpoint_Spec
+	var other cdn_v1api20230501s.AfdEndpoint_Spec
 	err := copied.AssignProperties_To_AfdEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
