@@ -15,7 +15,7 @@ require (
 	github.com/devigned/tab v0.1.1
 	github.com/go-logr/logr v1.4.3
 	github.com/go-logr/zerologr v1.2.3
-	github.com/go-openapi/jsonpointer v0.23.1
+	github.com/go-openapi/jsonpointer v0.24.0
 	github.com/go-openapi/spec v0.22.6
 	github.com/gobuffalo/flect v1.0.3
 	github.com/google/go-cmp v0.7.0
