@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	cdn "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
+	cdn "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501"
 	frontdoor "github.com/Azure/azure-service-operator/v2/api/network.frontdoor/v1api20220501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
