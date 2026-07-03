@@ -70,7 +70,7 @@ func (webhook *RoleAssignment) defaultAzureName(_ context.Context, assignment *v
 			gk := assignment.GroupVersionKind().GroupKind()
 			assignment.Spec.AzureName = randextensions.MakeUUIDName(
 				assignment.Name,
-				randextensions.MakeUniqueOwnerScopedString(
+				randextensions.MakeUniqueOwnerScopedStringLegacy(
 					assignment.Owner(),
 					gk,
 					assignment.Namespace,
