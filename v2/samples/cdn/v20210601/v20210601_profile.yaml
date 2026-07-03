@@ -8,4 +8,4 @@ spec:
     name: aso-sample-rg
   location: Global
   sku:
-    name: Standard_Microsoft
+    name: Standard_AzureFrontDoor
