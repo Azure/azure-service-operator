@@ -84,3 +84,23 @@ RoleDefinition: Resource
     ├── UpdatedBy: *string
     └── UpdatedOn: *string
 
+augmentConversionForPermission: Interface
+
+augmentConversionForPermission_STATUS: Interface
+
+augmentConversionForRoleAssignment: Interface
+
+augmentConversionForRoleAssignmentOperatorSpec: Interface
+
+augmentConversionForRoleAssignment_STATUS: Interface
+
+augmentConversionForRoleAssignment_Spec: Interface
+
+augmentConversionForRoleDefinition: Interface
+
+augmentConversionForRoleDefinitionOperatorSpec: Interface
+
+augmentConversionForRoleDefinition_STATUS: Interface
+
+augmentConversionForRoleDefinition_Spec: Interface
+

@@ -51,22 +51,36 @@ var _ conversion.Convertible = &RoleAssignment{}
 
 // ConvertFrom populates our RoleAssignment from the provided hub RoleAssignment
 func (assignment *RoleAssignment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected authorization/v1api20220401/storage/RoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RoleAssignment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return assignment.AssignProperties_From_RoleAssignment(source)
+	err = assignment.AssignProperties_From_RoleAssignment(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to assignment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RoleAssignment from our RoleAssignment
 func (assignment *RoleAssignment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected authorization/v1api20220401/storage/RoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RoleAssignment
+	err := assignment.AssignProperties_To_RoleAssignment(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from assignment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return assignment.AssignProperties_To_RoleAssignment(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RoleAssignment{}
@@ -87,17 +101,6 @@ func (assignment *RoleAssignment) SecretDestinationExpressions() []*core.Destina
 		return nil
 	}
 	return assignment.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RoleAssignment{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (assignment *RoleAssignment) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RoleAssignment_STATUS); ok {
-		return assignment.Spec.Initialize_From_RoleAssignment_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RoleAssignment_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RoleAssignment{}
@@ -655,49 +658,6 @@ func (assignment *RoleAssignment_Spec) AssignProperties_To_RoleAssignment_Spec(d
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RoleAssignment_STATUS populates our RoleAssignment_Spec from the provided source RoleAssignment_STATUS
-func (assignment *RoleAssignment_Spec) Initialize_From_RoleAssignment_STATUS(source *RoleAssignment_STATUS) error {
-
-	// Condition
-	assignment.Condition = genruntime.ClonePointerToString(source.Condition)
-
-	// ConditionVersion
-	assignment.ConditionVersion = genruntime.ClonePointerToString(source.ConditionVersion)
-
-	// DelegatedManagedIdentityResourceReference
-	if source.DelegatedManagedIdentityResourceId != nil {
-		delegatedManagedIdentityResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.DelegatedManagedIdentityResourceId)
-		assignment.DelegatedManagedIdentityResourceReference = &delegatedManagedIdentityResourceReference
-	} else {
-		assignment.DelegatedManagedIdentityResourceReference = nil
-	}
-
-	// Description
-	assignment.Description = genruntime.ClonePointerToString(source.Description)
-
-	// PrincipalId
-	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// PrincipalType
-	if source.PrincipalType != nil {
-		principalType := genruntime.ToEnum(string(*source.PrincipalType), roleAssignmentProperties_PrincipalType_Values)
-		assignment.PrincipalType = &principalType
-	} else {
-		assignment.PrincipalType = nil
-	}
-
-	// RoleDefinitionReference
-	if source.RoleDefinitionId != nil {
-		roleDefinitionReference := genruntime.CreateWellKnownResourceReferenceFromARMID(*source.RoleDefinitionId)
-		assignment.RoleDefinitionReference = &roleDefinitionReference
-	} else {
-		assignment.RoleDefinitionReference = nil
 	}
 
 	// No error

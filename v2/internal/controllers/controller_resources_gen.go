@@ -60,12 +60,18 @@ import (
 	appconfiguration_v20240601s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/storage"
 	appconfiguration_v20240601w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/webhook"
 	authorization_customizations "github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
-	authorization_v20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
-	authorization_v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/storage"
-	authorization_v20200801pw "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/webhook"
-	authorization_v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
-	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
-	authorization_v20220401w "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/webhook"
+	authorization_v1api20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
+	authorization_v1api20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/storage"
+	authorization_v1api20200801pw "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/webhook"
+	authorization_v1api20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
+	authorization_v1api20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	authorization_v1api20220401w "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/webhook"
+	authorization_v20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v20200801preview"
+	authorization_v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v20200801preview/storage"
+	authorization_v20200801pw "github.com/Azure/azure-service-operator/v2/api/authorization/v20200801preview/webhook"
+	authorization_v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401"
+	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
+	authorization_v20220401w "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/webhook"
 	batch_customizations "github.com/Azure/azure-service-operator/v2/api/batch/customizations"
 	batch_v1api20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	batch_v1api20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
@@ -3948,6 +3954,22 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(appconfiguration_v20240601s.Replica)},
 		&registration.KnownType{Obj: new(appconfiguration_v20240601s.Snapshot)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(authorization_v1api20200801p.RoleAssignment),
+		Defaulter: &authorization_v1api20200801pw.RoleAssignment{},
+		Validator: &authorization_v1api20200801pw.RoleAssignment{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(authorization_v1api20200801ps.RoleAssignment)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(authorization_v1api20220401.RoleAssignment),
+		Defaulter: &authorization_v1api20220401w.RoleAssignment{},
+		Validator: &authorization_v1api20220401w.RoleAssignment{},
+	}, &registration.KnownType{
+		Obj:       new(authorization_v1api20220401.RoleDefinition),
+		Defaulter: &authorization_v1api20220401w.RoleDefinition{},
+		Validator: &authorization_v1api20220401w.RoleDefinition{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(authorization_v1api20220401s.RoleAssignment)}, &registration.KnownType{Obj: new(authorization_v1api20220401s.RoleDefinition)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(authorization_v20200801p.RoleAssignment),
 		Defaulter: &authorization_v20200801pw.RoleAssignment{},
 		Validator: &authorization_v20200801pw.RoleAssignment{},
@@ -7456,6 +7478,10 @@ func createScheme() *runtime.Scheme {
 	_ = appconfiguration_v20220501s.AddToScheme(scheme)
 	_ = appconfiguration_v20240601.AddToScheme(scheme)
 	_ = appconfiguration_v20240601s.AddToScheme(scheme)
+	_ = authorization_v1api20200801p.AddToScheme(scheme)
+	_ = authorization_v1api20200801ps.AddToScheme(scheme)
+	_ = authorization_v1api20220401.AddToScheme(scheme)
+	_ = authorization_v1api20220401s.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
 	_ = authorization_v20200801ps.AddToScheme(scheme)
 	_ = authorization_v20220401.AddToScheme(scheme)

@@ -5,7 +5,8 @@ package v1api20220401
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	authorization_v1api20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -35,7 +36,7 @@ func RunPropertyAssignmentTestForPermission(subject Permission) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Permission
+	var other authorization_v1api20220401s.Permission
 	err := copied.AssignProperties_To_Permission(&other)
 	if err != nil {
 		return err.Error()
@@ -140,7 +141,7 @@ func RunPropertyAssignmentTestForPermission_STATUS(subject Permission_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Permission_STATUS
+	var other authorization_v1api20220401s.Permission_STATUS
 	err := copied.AssignProperties_To_Permission_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -246,7 +247,7 @@ func RunResourceConversionTestForRoleDefinition(subject RoleDefinition) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RoleDefinition
+	var hub authorization_v20220401s.RoleDefinition
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -288,7 +289,7 @@ func RunPropertyAssignmentTestForRoleDefinition(subject RoleDefinition) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinition
+	var other authorization_v1api20220401s.RoleDefinition
 	err := copied.AssignProperties_To_RoleDefinition(&other)
 	if err != nil {
 		return err.Error()
@@ -391,7 +392,7 @@ func RunPropertyAssignmentTestForRoleDefinitionOperatorSpec(subject RoleDefiniti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinitionOperatorSpec
+	var other authorization_v1api20220401s.RoleDefinitionOperatorSpec
 	err := copied.AssignProperties_To_RoleDefinitionOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -494,7 +495,7 @@ func RunPropertyAssignmentTestForRoleDefinition_STATUS(subject RoleDefinition_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinition_STATUS
+	var other authorization_v1api20220401s.RoleDefinition_STATUS
 	err := copied.AssignProperties_To_RoleDefinition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -621,7 +622,7 @@ func RunPropertyAssignmentTestForRoleDefinition_Spec(subject RoleDefinition_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinition_Spec
+	var other authorization_v1api20220401s.RoleDefinition_Spec
 	err := copied.AssignProperties_To_RoleDefinition_Spec(&other)
 	if err != nil {
 		return err.Error()
