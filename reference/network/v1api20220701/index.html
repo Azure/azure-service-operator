@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationGate
   <meta itemprop="description" content="APIVersion Value Description “2022-07-01” ApplicationGateway Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2022-07-01/applicationGateway.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​applicationGateways/​{applicationGatewayName}
 Used by: ApplicationGatewayList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationGateway_SpecOptional status ApplicationGateway_STATUSOptional ApplicationGateway_Spec Property Description Type authenticationCertificates Authentication certificates of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayAuthenticationCertificate[]Optional autoscaleConfiguration Autoscale Configuration. ApplicationGatewayAutoscaleConfigurationOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional backendAddressPools Backend address pool of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayBackendAddressPool[]Optional backendHttpSettingsCollection Backend http settings of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayBackendHttpSettings[]Optional backendSettingsCollection Backend settings of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayBackendSettings[]Optional customErrorConfigurations Custom error configurations of the application gateway resource. ApplicationGatewayCustomError[]Optional enableFips Whether FIPS is enabled on the application gateway resource. boolOptional enableHttp2 Whether HTTP2 is enabled on the application gateway resource. boolOptional firewallPolicy Reference to the FirewallPolicy resource. SubResourceOptional forceFirewallPolicyAssociation If true, associates a firewall policy with an application gateway regardless whether the policy differs from the WAF Config. boolOptional frontendIPConfigurations Frontend IP addresses of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayFrontendIPConfiguration[]Optional frontendPorts Frontend ports of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayFrontendPort[]Optional gatewayIPConfigurations Subnets of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded[]Optional globalConfiguration Global Configuration. ApplicationGatewayGlobalConfigurationOptional httpListeners Http listeners of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayHttpListener[]Optional identity The identity of the application gateway, if configured. ManagedServiceIdentityOptional listeners Listeners of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayListener[]Optional loadDistributionPolicies Load distribution policies of the application gateway resource. ApplicationGatewayLoadDistributionPolicy[]Optional location Resource location. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ApplicationGatewayOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired privateLinkConfigurations PrivateLink configurations on application gateway. ApplicationGatewayPrivateLinkConfiguration[]Optional probes Probes of the application gateway resource. ApplicationGatewayProbe[]Optional redirectConfigurations Redirect configurations of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayRedirectConfiguration[]Optional requestRoutingRules Request routing rules of the application gateway resource. ApplicationGatewayRequestRoutingRule[]Optional rewriteRuleSets Rewrite rules for the application gateway resource. ApplicationGatewayRewriteRuleSet[]Optional routingRules Routing rules of the application gateway resource. ApplicationGatewayRoutingRule[]Optional sku SKU of the application gateway resource. ApplicationGatewaySkuOptional sslCertificates SSL certificates of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewaySslCertificate[]Optional sslPolicy SSL policy of the application gateway resource. ApplicationGatewaySslPolicyOptional sslProfiles SSL profiles of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewaySslProfile[]Optional tags Resource tags. map[string]stringOptional trustedClientCertificates Trusted client certificates of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayTrustedClientCertificate[]Optional trustedRootCertificates Trusted Root certificates of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayTrustedRootCertificate[]Optional urlPathMaps URL path map of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayUrlPathMap[]Optional webApplicationFirewallConfiguration Web application firewall configuration. ApplicationGatewayWebApplicationFirewallConfigurationOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional ApplicationGateway_STATUS Property Description Type authenticationCertificates Authentication certificates of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayAuthenticationCertificate_STATUS[]Optional autoscaleConfiguration Autoscale Configuration. ApplicationGatewayAutoscaleConfiguration_STATUSOptional backendAddressPools Backend address pool of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayBackendAddressPool_STATUS[]Optional backendHttpSettingsCollection Backend http settings of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayBackendHttpSettings_STATUS[]Optional backendSettingsCollection Backend settings of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayBackendSettings_STATUS[]Optional conditions The observed state of the resource conditions.Condition[]Optional customErrorConfigurations Custom error configurations of the application gateway resource. ApplicationGatewayCustomError_STATUS[]Optional enableFips Whether FIPS is enabled on the application gateway resource. boolOptional enableHttp2 Whether HTTP2 is enabled on the application gateway resource. boolOptional etag A unique read-only string that changes whenever the resource is updated. stringOptional firewallPolicy Reference to the FirewallPolicy resource. SubResource_STATUSOptional forceFirewallPolicyAssociation If true, associates a firewall policy with an application gateway regardless whether the policy differs from the WAF Config. boolOptional frontendIPConfigurations Frontend IP addresses of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayFrontendIPConfiguration_STATUS[]Optional frontendPorts Frontend ports of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayFrontendPort_STATUS[]Optional gatewayIPConfigurations Subnets of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayIPConfiguration_STATUS_ApplicationGateway_SubResourceEmbedded[]Optional globalConfiguration Global Configuration. ApplicationGatewayGlobalConfiguration_STATUSOptional httpListeners Http listeners of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayHttpListener_STATUS[]Optional id Resource ID. stringOptional identity The identity of the application gateway, if configured. ManagedServiceIdentity_STATUSOptional listeners Listeners of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayListener_STATUS[]Optional loadDistributionPolicies Load distribution policies of the application gateway resource. ApplicationGatewayLoadDistributionPolicy_STATUS[]Optional location Resource location. stringOptional name Resource name. stringOptional operationalState Operational state of the application gateway resource. ApplicationGatewayPropertiesFormat_OperationalState_STATUSOptional privateEndpointConnections Private Endpoint connections on application gateway. ApplicationGatewayPrivateEndpointConnection_STATUS[]Optional privateLinkConfigurations PrivateLink configurations on application gateway. ApplicationGatewayPrivateLinkConfiguration_STATUS[]Optional probes Probes of the application gateway resource. ApplicationGatewayProbe_STATUS[]Optional provisioningState The provisioning state of the application gateway resource. ApplicationGatewayProvisioningState_STATUSOptional redirectConfigurations Redirect configurations of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayRedirectConfiguration_STATUS[]Optional requestRoutingRules Request routing rules of the application gateway resource. ApplicationGatewayRequestRoutingRule_STATUS[]Optional resourceGuid The resource GUID property of the application gateway resource. stringOptional rewriteRuleSets Rewrite rules for the application gateway resource. ApplicationGatewayRewriteRuleSet_STATUS[]Optional routingRules Routing rules of the application gateway resource. ApplicationGatewayRoutingRule_STATUS[]Optional sku SKU of the application gateway resource. ApplicationGatewaySku_STATUSOptional sslCertificates SSL certificates of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewaySslCertificate_STATUS[]Optional sslPolicy SSL policy of the application gateway resource. ApplicationGatewaySslPolicy_STATUSOptional sslProfiles SSL profiles of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewaySslProfile_STATUS[]Optional tags Resource tags. map[string]stringOptional trustedClientCertificates Trusted client certificates of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayTrustedClientCertificate_STATUS[]Optional trustedRootCertificates Trusted Root certificates of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayTrustedRootCertificate_STATUS[]Optional type Resource type. stringOptional urlPathMaps URL path map of the application gateway resource. For default limits, see Application Gateway limits. ApplicationGatewayUrlPathMap_STATUS[]Optional webApplicationFirewallConfiguration Web application firewall configuration. ApplicationGatewayWebApplicationFirewallConfiguration_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional ApplicationGatewayList Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2022-07-01/applicationGateway.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​applicationGateways/​{applicationGatewayName}">
-  <meta itemprop="wordCount" content="16707">
+  <meta itemprop="wordCount" content="16908">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="network.azure.com/v1api20220701">
   <meta name="twitter:description" content="APIVersion Value Description “2022-07-01” ApplicationGateway Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2022-07-01/applicationGateway.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​applicationGateways/​{applicationGatewayName}
@@ -813,6 +813,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationGate
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv1api20211001-li">
   <a href="/azure-service-operator/reference/subscription/v1api20211001/" title="subscription.azure.com/v1api20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv1api20211001"><span class="">v1api20211001</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencesubscriptionv20211001-li">
+  <a href="/azure-service-operator/reference/subscription/v20211001/" title="subscription.azure.com/v20211001" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencesubscriptionv20211001"><span class="">v20211001</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencesynapse-li">
@@ -1264,6 +1266,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationGate
     <li><a href="#ApplicationGatewayLoadDistributionTarget">ApplicationGatewayLoadDistributionTarget</a></li>
     <li><a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a></li>
     <li><a href="#ApplicationGatewayPrivateLinkIpConfiguration">ApplicationGatewayPrivateLinkIpConfiguration</a></li>
+    <li><a href="#ApplicationGatewayPrivateLinkIpConfiguration_STATUS">ApplicationGatewayPrivateLinkIpConfiguration_STATUS</a></li>
     <li><a href="#ApplicationGatewayProbeHealthResponseMatch">ApplicationGatewayProbeHealthResponseMatch</a></li>
     <li><a href="#ApplicationGatewayProtocol">ApplicationGatewayProtocol</a></li>
     <li><a href="#ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType">ApplicationGatewayRequestRoutingRulePropertiesFormat_RuleType</a></li>
@@ -7068,8 +7071,33 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationGate
   </thead>
   <tbody>
       <tr>
+          <td>etag</td>
+          <td>A unique read-only string that changes whenever the resource is updated.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>id</td>
           <td>Resource ID.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>ipConfigurations</td>
+          <td>An array of application gateway private link ip configurations.</td>
+          <td><a href="#ApplicationGatewayPrivateLinkIpConfiguration_STATUS">ApplicationGatewayPrivateLinkIpConfiguration_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>Name of the private link configuration that is unique within an Application Gateway.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the application gateway private link configuration.</td>
+          <td><a href="#ApplicationGatewayProvisioningState_STATUS">ApplicationGatewayProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>Type of the resource.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -7197,7 +7225,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationGate
 </table>
 <h2 id="ApplicationGatewayProvisioningState_STATUS">ApplicationGatewayProvisioningState_STATUS</h2>
 <p>The current provisioning state.</p>
-<p>Used by: <a href="#ApplicationGateway_STATUS">ApplicationGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#PrivateEndpoint_STATUS">PrivateEndpoint_STATUS</a>, <a href="#PrivateLinkService_STATUS">PrivateLinkService_STATUS</a>, <a href="#PrivateLinkServiceConnection_STATUS">PrivateLinkServiceConnection_STATUS</a>, and <a href="#PrivateLinkServiceIpConfiguration_STATUS">PrivateLinkServiceIpConfiguration_STATUS</a>.</p>
+<p>Used by: <a href="#ApplicationGateway_STATUS">ApplicationGateway_STATUS</a>, <a href="#ApplicationGatewayPrivateLinkConfiguration_STATUS">ApplicationGatewayPrivateLinkConfiguration_STATUS</a>, <a href="#ApplicationGatewayPrivateLinkIpConfiguration_STATUS">ApplicationGatewayPrivateLinkIpConfiguration_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#PrivateEndpoint_STATUS">PrivateEndpoint_STATUS</a>, <a href="#PrivateLinkService_STATUS">PrivateLinkService_STATUS</a>, <a href="#PrivateLinkServiceConnection_STATUS">PrivateLinkServiceConnection_STATUS</a>, and <a href="#PrivateLinkServiceIpConfiguration_STATUS">PrivateLinkServiceIpConfiguration_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -9562,7 +9590,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationGate
 </table>
 <h2 id="SubResource">SubResource</h2>
 <p>Reference to another ARM resource.</p>
-<p>Used by: <a href="#ApplicationGateway_Spec">ApplicationGateway_Spec</a>, <a href="#ApplicationGatewayBackendHttpSettings">ApplicationGatewayBackendHttpSettings</a>, <a href="#ApplicationGatewayBackendHttpSettings">ApplicationGatewayBackendHttpSettings</a>, <a href="#ApplicationGatewayBackendHttpSettings">ApplicationGatewayBackendHttpSettings</a>, <a href="#ApplicationGatewayBackendSettings">ApplicationGatewayBackendSettings</a>, <a href="#ApplicationGatewayBackendSettings">ApplicationGatewayBackendSettings</a>, <a href="#ApplicationGatewayFrontendIPConfiguration">ApplicationGatewayFrontendIPConfiguration</a>, <a href="#ApplicationGatewayFrontendIPConfiguration">ApplicationGatewayFrontendIPConfiguration</a>, <a href="#ApplicationGatewayFrontendIPConfiguration">ApplicationGatewayFrontendIPConfiguration</a>, <a href="#ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded">ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded</a>, <a href="#ApplicationGatewayListener">ApplicationGatewayListener</a>, <a href="#ApplicationGatewayListener">ApplicationGatewayListener</a>, <a href="#ApplicationGatewayListener">ApplicationGatewayListener</a>, <a href="#ApplicationGatewayListener">ApplicationGatewayListener</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayRedirectConfiguration">ApplicationGatewayRedirectConfiguration</a>, <a href="#ApplicationGatewayRedirectConfiguration">ApplicationGatewayRedirectConfiguration</a>, <a href="#ApplicationGatewayRedirectConfiguration">ApplicationGatewayRedirectConfiguration</a>, <a href="#ApplicationGatewayRedirectConfiguration">ApplicationGatewayRedirectConfiguration</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRoutingRule">ApplicationGatewayRoutingRule</a>, <a href="#ApplicationGatewayRoutingRule">ApplicationGatewayRoutingRule</a>, <a href="#ApplicationGatewayRoutingRule">ApplicationGatewayRoutingRule</a>, <a href="#ApplicationGatewaySslProfile">ApplicationGatewaySslProfile</a>, <a href="#ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#BastionHostIPConfiguration">BastionHostIPConfiguration</a>, <a href="#BastionHostIPConfiguration">BastionHostIPConfiguration</a>, <a href="#DnsForwardingRuleset_Spec">DnsForwardingRuleset_Spec</a>, <a href="#DnsForwardingRuleSetsVirtualNetworkLink_Spec">DnsForwardingRuleSetsVirtualNetworkLink_Spec</a>, <a href="#DnsResolver_Spec">DnsResolver_Spec</a>, <a href="#DnsResolversOutboundEndpoint_Spec">DnsResolversOutboundEndpoint_Spec</a>, <a href="#IpConfiguration">IpConfiguration</a>, <a href="#NatGateway_Spec">NatGateway_Spec</a>, <a href="#NatGateway_Spec">NatGateway_Spec</a>, and <a href="#PublicIPPrefix_Spec">PublicIPPrefix_Spec</a>.</p>
+<p>Used by: <a href="#ApplicationGateway_Spec">ApplicationGateway_Spec</a>, <a href="#ApplicationGatewayBackendHttpSettings">ApplicationGatewayBackendHttpSettings</a>, <a href="#ApplicationGatewayBackendHttpSettings">ApplicationGatewayBackendHttpSettings</a>, <a href="#ApplicationGatewayBackendHttpSettings">ApplicationGatewayBackendHttpSettings</a>, <a href="#ApplicationGatewayBackendSettings">ApplicationGatewayBackendSettings</a>, <a href="#ApplicationGatewayBackendSettings">ApplicationGatewayBackendSettings</a>, <a href="#ApplicationGatewayFrontendIPConfiguration">ApplicationGatewayFrontendIPConfiguration</a>, <a href="#ApplicationGatewayFrontendIPConfiguration">ApplicationGatewayFrontendIPConfiguration</a>, <a href="#ApplicationGatewayFrontendIPConfiguration">ApplicationGatewayFrontendIPConfiguration</a>, <a href="#ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#ApplicationGatewayHttpListener">ApplicationGatewayHttpListener</a>, <a href="#ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded">ApplicationGatewayIPConfiguration_ApplicationGateway_SubResourceEmbedded</a>, <a href="#ApplicationGatewayListener">ApplicationGatewayListener</a>, <a href="#ApplicationGatewayListener">ApplicationGatewayListener</a>, <a href="#ApplicationGatewayListener">ApplicationGatewayListener</a>, <a href="#ApplicationGatewayListener">ApplicationGatewayListener</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayPathRule">ApplicationGatewayPathRule</a>, <a href="#ApplicationGatewayPrivateLinkIpConfiguration">ApplicationGatewayPrivateLinkIpConfiguration</a>, <a href="#ApplicationGatewayRedirectConfiguration">ApplicationGatewayRedirectConfiguration</a>, <a href="#ApplicationGatewayRedirectConfiguration">ApplicationGatewayRedirectConfiguration</a>, <a href="#ApplicationGatewayRedirectConfiguration">ApplicationGatewayRedirectConfiguration</a>, <a href="#ApplicationGatewayRedirectConfiguration">ApplicationGatewayRedirectConfiguration</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRequestRoutingRule">ApplicationGatewayRequestRoutingRule</a>, <a href="#ApplicationGatewayRoutingRule">ApplicationGatewayRoutingRule</a>, <a href="#ApplicationGatewayRoutingRule">ApplicationGatewayRoutingRule</a>, <a href="#ApplicationGatewayRoutingRule">ApplicationGatewayRoutingRule</a>, <a href="#ApplicationGatewaySslProfile">ApplicationGatewaySslProfile</a>, <a href="#ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#ApplicationGatewayUrlPathMap">ApplicationGatewayUrlPathMap</a>, <a href="#BastionHostIPConfiguration">BastionHostIPConfiguration</a>, <a href="#BastionHostIPConfiguration">BastionHostIPConfiguration</a>, <a href="#DnsForwardingRuleset_Spec">DnsForwardingRuleset_Spec</a>, <a href="#DnsForwardingRuleSetsVirtualNetworkLink_Spec">DnsForwardingRuleSetsVirtualNetworkLink_Spec</a>, <a href="#DnsResolver_Spec">DnsResolver_Spec</a>, <a href="#DnsResolversOutboundEndpoint_Spec">DnsResolversOutboundEndpoint_Spec</a>, <a href="#IpConfiguration">IpConfiguration</a>, <a href="#NatGateway_Spec">NatGateway_Spec</a>, <a href="#NatGateway_Spec">NatGateway_Spec</a>, and <a href="#PublicIPPrefix_Spec">PublicIPPrefix_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -9581,7 +9609,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationGate
 </table>
 <h2 id="SubResource_STATUS">SubResource_STATUS</h2>
 <p>Reference to another ARM resource.</p>
-<p>Used by: <a href="#ApplicationGateway_STATUS">ApplicationGateway_STATUS</a>, <a href="#DnsForwardingRuleset_STATUS">DnsForwardingRuleset_STATUS</a>, <a href="#DnsForwardingRuleSetsVirtualNetworkLink_STATUS">DnsForwardingRuleSetsVirtualNetworkLink_STATUS</a>, <a href="#DnsResolver_STATUS">DnsResolver_STATUS</a>, <a href="#DnsResolversOutboundEndpoint_STATUS">DnsResolversOutboundEndpoint_STATUS</a>, <a href="#IpConfiguration_STATUS">IpConfiguration_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#PublicIPPrefix_STATUS">PublicIPPrefix_STATUS</a>, and <a href="#PublicIPPrefix_STATUS">PublicIPPrefix_STATUS</a>.</p>
+<p>Used by: <a href="#ApplicationGateway_STATUS">ApplicationGateway_STATUS</a>, <a href="#ApplicationGatewayPrivateLinkIpConfiguration_STATUS">ApplicationGatewayPrivateLinkIpConfiguration_STATUS</a>, <a href="#DnsForwardingRuleset_STATUS">DnsForwardingRuleset_STATUS</a>, <a href="#DnsForwardingRuleSetsVirtualNetworkLink_STATUS">DnsForwardingRuleSetsVirtualNetworkLink_STATUS</a>, <a href="#DnsResolver_STATUS">DnsResolver_STATUS</a>, <a href="#DnsResolversOutboundEndpoint_STATUS">DnsResolversOutboundEndpoint_STATUS</a>, <a href="#IpConfiguration_STATUS">IpConfiguration_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#PublicIPPrefix_STATUS">PublicIPPrefix_STATUS</a>, and <a href="#PublicIPPrefix_STATUS">PublicIPPrefix_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -10044,9 +10072,88 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationGate
   </thead>
   <tbody>
       <tr>
-          <td>reference</td>
+          <td>name</td>
+          <td>The name of application gateway private link ip configuration.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>primary</td>
+          <td>Whether the ip configuration is primary or not.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateIPAddress</td>
+          <td>The private IP address of the IP configuration.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateIPAllocationMethod</td>
+          <td>The private IP address allocation method.</td>
+          <td><a href="#IPAllocationMethod">IPAllocationMethod</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>subnet</td>
+          <td>Reference to the subnet resource.</td>
+          <td><a href="#SubResource">SubResource</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ApplicationGatewayPrivateLinkIpConfiguration_STATUS">ApplicationGatewayPrivateLinkIpConfiguration_STATUS</h2>
+<p>The application gateway private link ip configuration.</p>
+<p>Used by: <a href="#ApplicationGatewayPrivateLinkConfiguration_STATUS">ApplicationGatewayPrivateLinkConfiguration_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>etag</td>
+          <td>A unique read-only string that changes whenever the resource is updated.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
           <td>Resource ID.</td>
-          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Optional</small></td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of application gateway private link ip configuration.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>primary</td>
+          <td>Whether the ip configuration is primary or not.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateIPAddress</td>
+          <td>The private IP address of the IP configuration.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>privateIPAllocationMethod</td>
+          <td>The private IP address allocation method.</td>
+          <td><a href="#IPAllocationMethod_STATUS">IPAllocationMethod_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the application gateway private link IP configuration.</td>
+          <td><a href="#ApplicationGatewayProvisioningState_STATUS">ApplicationGatewayProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>subnet</td>
+          <td>Reference to the subnet resource.</td>
+          <td><a href="#SubResource_STATUS">SubResource_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The resource type.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -10687,7 +10794,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationGate
 </table>
 <h2 id="IPAllocationMethod">IPAllocationMethod</h2>
 <p>IP address allocation method.</p>
-<p>Used by: <a href="#ApplicationGatewayFrontendIPConfiguration">ApplicationGatewayFrontendIPConfiguration</a>, <a href="#BastionHostIPConfiguration">BastionHostIPConfiguration</a>, and <a href="#PrivateLinkServiceIpConfiguration">PrivateLinkServiceIpConfiguration</a>.</p>
+<p>Used by: <a href="#ApplicationGatewayFrontendIPConfiguration">ApplicationGatewayFrontendIPConfiguration</a>, <a href="#ApplicationGatewayPrivateLinkIpConfiguration">ApplicationGatewayPrivateLinkIpConfiguration</a>, <a href="#BastionHostIPConfiguration">BastionHostIPConfiguration</a>, and <a href="#PrivateLinkServiceIpConfiguration">PrivateLinkServiceIpConfiguration</a>.</p>
 <table>
   <thead>
       <tr>
@@ -10708,7 +10815,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ApplicationGate
 </table>
 <h2 id="IPAllocationMethod_STATUS">IPAllocationMethod_STATUS</h2>
 <p>IP address allocation method.</p>
-<p>Used by: <a href="#PrivateLinkServiceIpConfiguration_STATUS">PrivateLinkServiceIpConfiguration_STATUS</a>.</p>
+<p>Used by: <a href="#ApplicationGatewayPrivateLinkIpConfiguration_STATUS">ApplicationGatewayPrivateLinkIpConfiguration_STATUS</a>, and <a href="#PrivateLinkServiceIpConfiguration_STATUS">PrivateLinkServiceIpConfiguration_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
