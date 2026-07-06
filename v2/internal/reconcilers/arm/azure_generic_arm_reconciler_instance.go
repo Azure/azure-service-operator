@@ -1035,16 +1035,12 @@ func ConvertToARMResourceImpl(
 // This is to bypass the need to re-record every test in one go - we enable the extra check group by group.
 var skipDeletionPrecheck = sets.NewString(
 	"compute.azure.com",
-	"datafactory.azure.com",
 	"dbforpostgresql.azure.com",
 	"devices.azure.com",
-	"insights.azure.com",
-	"machinelearningservices.azure.com",
 	"network.azure.com",
 	"redhatopenshift.azure.com",
 	"resources.azure.com",
 	"servicebus.azure.com",
-	"storage.azure.com",
 )
 
 // deleteResource deletes a resource in ARM. This function is used as the default deletion handler and can
