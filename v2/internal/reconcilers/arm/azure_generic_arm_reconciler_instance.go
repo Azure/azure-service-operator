@@ -1037,7 +1037,6 @@ var skipDeletionPrecheck = sets.NewString(
 	"compute.azure.com",
 	"dbforpostgresql.azure.com",
 	"devices.azure.com",
-	"keyvault.azure.com",
 	"network.azure.com",
 	"redhatopenshift.azure.com",
 	"resources.azure.com",
