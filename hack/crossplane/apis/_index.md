@@ -10,9 +10,9 @@ These are the Crossplane resources committed to our **main** branch, grouped by 
 
 ### Released
 
-| Resource | ARM Version | CRD Version   | Supported From | Sample |
-|----------|-------------|---------------|----------------|--------|
-| Redis    | 2020-06-01  | v1api20200601 | -              | -      |
+| Resource | ARM Version | CRD Version | Supported From | Sample |
+|----------|-------------|-------------|----------------|--------|
+| Redis    | 2020-06-01  | v20200601   | -              | -      |
 
 ## Sql
 
