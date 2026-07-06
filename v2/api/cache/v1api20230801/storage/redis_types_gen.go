@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20230801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &Redis{}
 
 // ConvertFrom populates our Redis from the provided hub Redis
 func (redis *Redis) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Redis)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20241101/storage/Redis but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Redis
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return redis.AssignProperties_From_Redis(source)
+	err = redis.AssignProperties_From_Redis(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to redis")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Redis from our Redis
 func (redis *Redis) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Redis)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20241101/storage/Redis but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Redis
+	err := redis.AssignProperties_To_Redis(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from redis")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return redis.AssignProperties_To_Redis(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Redis{}
@@ -359,13 +372,6 @@ func (redis *Redis_Spec) AssignProperties_From_Redis_Spec(source *storage.Redis_
 	// AzureName
 	redis.AzureName = source.AzureName
 
-	// DisableAccessKeyAuthentication
-	if source.DisableAccessKeyAuthentication != nil {
-		propertyBag.Add("DisableAccessKeyAuthentication", *source.DisableAccessKeyAuthentication)
-	} else {
-		propertyBag.Remove("DisableAccessKeyAuthentication")
-	}
-
 	// EnableNonSslPort
 	if source.EnableNonSslPort != nil {
 		enableNonSslPort := *source.EnableNonSslPort
@@ -421,9 +427,9 @@ func (redis *Redis_Spec) AssignProperties_From_Redis_Spec(source *storage.Redis_
 	// RedisConfiguration
 	if source.RedisConfiguration != nil {
 		var redisConfiguration RedisCreateProperties_RedisConfiguration
-		err := redisConfiguration.AssignProperties_From_RedisCommonPropertiesRedisConfiguration(source.RedisConfiguration)
+		err := redisConfiguration.AssignProperties_From_RedisCreateProperties_RedisConfiguration(source.RedisConfiguration)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_RedisCommonPropertiesRedisConfiguration() to populate field RedisConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_RedisCreateProperties_RedisConfiguration() to populate field RedisConfiguration")
 		}
 		redis.RedisConfiguration = &redisConfiguration
 	} else {
@@ -474,13 +480,6 @@ func (redis *Redis_Spec) AssignProperties_From_Redis_Spec(source *storage.Redis_
 	// UpdateChannel
 	redis.UpdateChannel = genruntime.ClonePointerToString(source.UpdateChannel)
 
-	// ZonalAllocationPolicy
-	if source.ZonalAllocationPolicy != nil {
-		propertyBag.Add("ZonalAllocationPolicy", *source.ZonalAllocationPolicy)
-	} else {
-		propertyBag.Remove("ZonalAllocationPolicy")
-	}
-
 	// Zones
 	redis.Zones = genruntime.CloneSliceOfString(source.Zones)
 
@@ -511,19 +510,6 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *storage.Red
 
 	// AzureName
 	destination.AzureName = redis.AzureName
-
-	// DisableAccessKeyAuthentication
-	if propertyBag.Contains("DisableAccessKeyAuthentication") {
-		var disableAccessKeyAuthentication bool
-		err := propertyBag.Pull("DisableAccessKeyAuthentication", &disableAccessKeyAuthentication)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DisableAccessKeyAuthentication' from propertyBag")
-		}
-
-		destination.DisableAccessKeyAuthentication = &disableAccessKeyAuthentication
-	} else {
-		destination.DisableAccessKeyAuthentication = nil
-	}
 
 	// EnableNonSslPort
 	if redis.EnableNonSslPort != nil {
@@ -579,10 +565,10 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *storage.Red
 
 	// RedisConfiguration
 	if redis.RedisConfiguration != nil {
-		var redisConfiguration storage.RedisCommonPropertiesRedisConfiguration
-		err := redis.RedisConfiguration.AssignProperties_To_RedisCommonPropertiesRedisConfiguration(&redisConfiguration)
+		var redisConfiguration storage.RedisCreateProperties_RedisConfiguration
+		err := redis.RedisConfiguration.AssignProperties_To_RedisCreateProperties_RedisConfiguration(&redisConfiguration)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_RedisCommonPropertiesRedisConfiguration() to populate field RedisConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_RedisCreateProperties_RedisConfiguration() to populate field RedisConfiguration")
 		}
 		destination.RedisConfiguration = &redisConfiguration
 	} else {
@@ -632,19 +618,6 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *storage.Red
 
 	// UpdateChannel
 	destination.UpdateChannel = genruntime.ClonePointerToString(redis.UpdateChannel)
-
-	// ZonalAllocationPolicy
-	if propertyBag.Contains("ZonalAllocationPolicy") {
-		var zonalAllocationPolicy string
-		err := propertyBag.Pull("ZonalAllocationPolicy", &zonalAllocationPolicy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ZonalAllocationPolicy' from propertyBag")
-		}
-
-		destination.ZonalAllocationPolicy = &zonalAllocationPolicy
-	} else {
-		destination.ZonalAllocationPolicy = nil
-	}
 
 	// Zones
 	destination.Zones = genruntime.CloneSliceOfString(redis.Zones)
@@ -760,13 +733,6 @@ func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *storage.Re
 	// Conditions
 	redis.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
-	// DisableAccessKeyAuthentication
-	if source.DisableAccessKeyAuthentication != nil {
-		propertyBag.Add("DisableAccessKeyAuthentication", *source.DisableAccessKeyAuthentication)
-	} else {
-		propertyBag.Remove("DisableAccessKeyAuthentication")
-	}
-
 	// EnableNonSslPort
 	if source.EnableNonSslPort != nil {
 		enableNonSslPort := *source.EnableNonSslPort
@@ -862,9 +828,9 @@ func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *storage.Re
 	// RedisConfiguration
 	if source.RedisConfiguration != nil {
 		var redisConfiguration RedisProperties_RedisConfiguration_STATUS
-		err := redisConfiguration.AssignProperties_From_RedisCommonPropertiesRedisConfiguration_STATUS(source.RedisConfiguration)
+		err := redisConfiguration.AssignProperties_From_RedisProperties_RedisConfiguration_STATUS(source.RedisConfiguration)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_RedisCommonPropertiesRedisConfiguration_STATUS() to populate field RedisConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_From_RedisProperties_RedisConfiguration_STATUS() to populate field RedisConfiguration")
 		}
 		redis.RedisConfiguration = &redisConfiguration
 	} else {
@@ -904,13 +870,6 @@ func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *storage.Re
 	// SubnetId
 	redis.SubnetId = genruntime.ClonePointerToString(source.SubnetId)
 
-	// SystemData
-	if source.SystemData != nil {
-		propertyBag.Add("SystemData", *source.SystemData)
-	} else {
-		propertyBag.Remove("SystemData")
-	}
-
 	// Tags
 	redis.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
@@ -922,13 +881,6 @@ func (redis *Redis_STATUS) AssignProperties_From_Redis_STATUS(source *storage.Re
 
 	// UpdateChannel
 	redis.UpdateChannel = genruntime.ClonePointerToString(source.UpdateChannel)
-
-	// ZonalAllocationPolicy
-	if source.ZonalAllocationPolicy != nil {
-		propertyBag.Add("ZonalAllocationPolicy", *source.ZonalAllocationPolicy)
-	} else {
-		propertyBag.Remove("ZonalAllocationPolicy")
-	}
 
 	// Zones
 	redis.Zones = genruntime.CloneSliceOfString(source.Zones)
@@ -960,19 +912,6 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *storage
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(redis.Conditions)
-
-	// DisableAccessKeyAuthentication
-	if propertyBag.Contains("DisableAccessKeyAuthentication") {
-		var disableAccessKeyAuthentication bool
-		err := propertyBag.Pull("DisableAccessKeyAuthentication", &disableAccessKeyAuthentication)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DisableAccessKeyAuthentication' from propertyBag")
-		}
-
-		destination.DisableAccessKeyAuthentication = &disableAccessKeyAuthentication
-	} else {
-		destination.DisableAccessKeyAuthentication = nil
-	}
 
 	// EnableNonSslPort
 	if redis.EnableNonSslPort != nil {
@@ -1068,10 +1007,10 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *storage
 
 	// RedisConfiguration
 	if redis.RedisConfiguration != nil {
-		var redisConfiguration storage.RedisCommonPropertiesRedisConfiguration_STATUS
-		err := redis.RedisConfiguration.AssignProperties_To_RedisCommonPropertiesRedisConfiguration_STATUS(&redisConfiguration)
+		var redisConfiguration storage.RedisProperties_RedisConfiguration_STATUS
+		err := redis.RedisConfiguration.AssignProperties_To_RedisProperties_RedisConfiguration_STATUS(&redisConfiguration)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_RedisCommonPropertiesRedisConfiguration_STATUS() to populate field RedisConfiguration")
+			return eris.Wrap(err, "calling AssignProperties_To_RedisProperties_RedisConfiguration_STATUS() to populate field RedisConfiguration")
 		}
 		destination.RedisConfiguration = &redisConfiguration
 	} else {
@@ -1111,19 +1050,6 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *storage
 	// SubnetId
 	destination.SubnetId = genruntime.ClonePointerToString(redis.SubnetId)
 
-	// SystemData
-	if propertyBag.Contains("SystemData") {
-		var systemDatum storage.SystemData_STATUS
-		err := propertyBag.Pull("SystemData", &systemDatum)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
-		}
-
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(redis.Tags)
 
@@ -1135,19 +1061,6 @@ func (redis *Redis_STATUS) AssignProperties_To_Redis_STATUS(destination *storage
 
 	// UpdateChannel
 	destination.UpdateChannel = genruntime.ClonePointerToString(redis.UpdateChannel)
-
-	// ZonalAllocationPolicy
-	if propertyBag.Contains("ZonalAllocationPolicy") {
-		var zonalAllocationPolicy string
-		err := propertyBag.Pull("ZonalAllocationPolicy", &zonalAllocationPolicy)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ZonalAllocationPolicy' from propertyBag")
-		}
-
-		destination.ZonalAllocationPolicy = &zonalAllocationPolicy
-	} else {
-		destination.ZonalAllocationPolicy = nil
-	}
 
 	// Zones
 	destination.Zones = genruntime.CloneSliceOfString(redis.Zones)
@@ -1472,8 +1385,8 @@ type RedisCreateProperties_RedisConfiguration struct {
 	StorageSubscriptionId              *string                `json:"storage-subscription-id,omitempty"`
 }
 
-// AssignProperties_From_RedisCommonPropertiesRedisConfiguration populates our RedisCreateProperties_RedisConfiguration from the provided source RedisCommonPropertiesRedisConfiguration
-func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_From_RedisCommonPropertiesRedisConfiguration(source *storage.RedisCommonPropertiesRedisConfiguration) error {
+// AssignProperties_From_RedisCreateProperties_RedisConfiguration populates our RedisCreateProperties_RedisConfiguration from the provided source RedisCreateProperties_RedisConfiguration
+func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_From_RedisCreateProperties_RedisConfiguration(source *storage.RedisCreateProperties_RedisConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1545,8 +1458,8 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 	return nil
 }
 
-// AssignProperties_To_RedisCommonPropertiesRedisConfiguration populates the provided destination RedisCommonPropertiesRedisConfiguration from our RedisCreateProperties_RedisConfiguration
-func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_To_RedisCommonPropertiesRedisConfiguration(destination *storage.RedisCommonPropertiesRedisConfiguration) error {
+// AssignProperties_To_RedisCreateProperties_RedisConfiguration populates the provided destination RedisCreateProperties_RedisConfiguration from our RedisCreateProperties_RedisConfiguration
+func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_To_RedisCreateProperties_RedisConfiguration(destination *storage.RedisCreateProperties_RedisConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -1970,8 +1883,8 @@ type RedisProperties_RedisConfiguration_STATUS struct {
 	ZonalConfiguration                 *string                `json:"zonal-configuration,omitempty"`
 }
 
-// AssignProperties_From_RedisCommonPropertiesRedisConfiguration_STATUS populates our RedisProperties_RedisConfiguration_STATUS from the provided source RedisCommonPropertiesRedisConfiguration_STATUS
-func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties_From_RedisCommonPropertiesRedisConfiguration_STATUS(source *storage.RedisCommonPropertiesRedisConfiguration_STATUS) error {
+// AssignProperties_From_RedisProperties_RedisConfiguration_STATUS populates our RedisProperties_RedisConfiguration_STATUS from the provided source RedisProperties_RedisConfiguration_STATUS
+func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties_From_RedisProperties_RedisConfiguration_STATUS(source *storage.RedisProperties_RedisConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2052,8 +1965,8 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 	return nil
 }
 
-// AssignProperties_To_RedisCommonPropertiesRedisConfiguration_STATUS populates the provided destination RedisCommonPropertiesRedisConfiguration_STATUS from our RedisProperties_RedisConfiguration_STATUS
-func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties_To_RedisCommonPropertiesRedisConfiguration_STATUS(destination *storage.RedisCommonPropertiesRedisConfiguration_STATUS) error {
+// AssignProperties_To_RedisProperties_RedisConfiguration_STATUS populates the provided destination RedisProperties_RedisConfiguration_STATUS from our RedisProperties_RedisConfiguration_STATUS
+func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties_To_RedisProperties_RedisConfiguration_STATUS(destination *storage.RedisProperties_RedisConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -2304,8 +2217,8 @@ type augmentConversionForPrivateEndpointConnection_STATUS interface {
 }
 
 type augmentConversionForRedisCreateProperties_RedisConfiguration interface {
-	AssignPropertiesFrom(src *storage.RedisCommonPropertiesRedisConfiguration) error
-	AssignPropertiesTo(dst *storage.RedisCommonPropertiesRedisConfiguration) error
+	AssignPropertiesFrom(src *storage.RedisCreateProperties_RedisConfiguration) error
+	AssignPropertiesTo(dst *storage.RedisCreateProperties_RedisConfiguration) error
 }
 
 type augmentConversionForRedisInstanceDetails_STATUS interface {
@@ -2324,8 +2237,8 @@ type augmentConversionForRedisOperatorSpec interface {
 }
 
 type augmentConversionForRedisProperties_RedisConfiguration_STATUS interface {
-	AssignPropertiesFrom(src *storage.RedisCommonPropertiesRedisConfiguration_STATUS) error
-	AssignPropertiesTo(dst *storage.RedisCommonPropertiesRedisConfiguration_STATUS) error
+	AssignPropertiesFrom(src *storage.RedisProperties_RedisConfiguration_STATUS) error
+	AssignPropertiesTo(dst *storage.RedisProperties_RedisConfiguration_STATUS) error
 }
 
 type augmentConversionForSku interface {

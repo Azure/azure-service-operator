@@ -166,12 +166,6 @@ type RedisEnterpriseDatabaseAccessPolicyAssignmentList struct {
 	Items           []RedisEnterpriseDatabaseAccessPolicyAssignment `json:"items"`
 }
 
-// Storage version of v20250401.APIVersion
-// +kubebuilder:validation:Enum={"2025-04-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2025-04-01")
-
 // Storage version of v20250401.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec
 type RedisEnterpriseDatabaseAccessPolicyAssignment_Spec struct {
 	AccessPolicyName *string `json:"accessPolicyName,omitempty"`

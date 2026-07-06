@@ -4,12 +4,18 @@
 package customizations
 
 import (
-	v20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
-	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/storage"
-	v20230701 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701"
-	v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
-	v20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
-	v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
+	cache_v1api20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301"
+	cache_v1api20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20210301/storage"
+	cache_v1api20230701 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701"
+	cache_v1api20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
+	cache_v1api20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
+	cache_v1api20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
+	cache_v20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v20210301"
+	cache_v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v20210301/storage"
+	cache_v20230701 "github.com/Azure/azure-service-operator/v2/api/cache/v20230701"
+	cache_v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v20230701/storage"
+	cache_v20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v20250401"
+	cache_v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -19,10 +25,16 @@ type RedisEnterpriseDatabaseExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RedisEnterpriseDatabaseExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20210301.RedisEnterpriseDatabase{},
-		&v20210301s.RedisEnterpriseDatabase{},
-		&v20230701.RedisEnterpriseDatabase{},
-		&v20230701s.RedisEnterpriseDatabase{},
-		&v20250401.RedisEnterpriseDatabase{},
-		&v20250401s.RedisEnterpriseDatabase{}}
+		&cache_v1api20210301.RedisEnterpriseDatabase{},
+		&cache_v1api20210301s.RedisEnterpriseDatabase{},
+		&cache_v1api20230701.RedisEnterpriseDatabase{},
+		&cache_v1api20230701s.RedisEnterpriseDatabase{},
+		&cache_v1api20250401.RedisEnterpriseDatabase{},
+		&cache_v1api20250401s.RedisEnterpriseDatabase{},
+		&cache_v20210301.RedisEnterpriseDatabase{},
+		&cache_v20210301s.RedisEnterpriseDatabase{},
+		&cache_v20230701.RedisEnterpriseDatabase{},
+		&cache_v20230701s.RedisEnterpriseDatabase{},
+		&cache_v20250401.RedisEnterpriseDatabase{},
+		&cache_v20250401s.RedisEnterpriseDatabase{}}
 }

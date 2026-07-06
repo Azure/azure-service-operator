@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	v20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v20230801/storage"
+	v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForRedisPatchSchedule(subject RedisPatchSchedule) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RedisPatchSchedule
+	var hub v20241101s.RedisPatchSchedule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForRedisPatchSchedule(subject RedisPatchSchedule) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisPatchSchedule
+	var other v20230801s.RedisPatchSchedule
 	err := copied.AssignProperties_To_RedisPatchSchedule(&other)
 	if err != nil {
 		return err.Error()
@@ -201,7 +202,7 @@ func RunPropertyAssignmentTestForRedisPatchScheduleOperatorSpec(subject RedisPat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisPatchScheduleOperatorSpec
+	var other v20230801s.RedisPatchScheduleOperatorSpec
 	err := copied.AssignProperties_To_RedisPatchScheduleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -308,7 +309,7 @@ func RunPropertyAssignmentTestForRedisPatchSchedule_STATUS(subject RedisPatchSch
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisPatchSchedule_STATUS
+	var other v20230801s.RedisPatchSchedule_STATUS
 	err := copied.AssignProperties_To_RedisPatchSchedule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -438,7 +439,7 @@ func RunPropertyAssignmentTestForRedisPatchSchedule_Spec(subject RedisPatchSched
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisPatchSchedule_Spec
+	var other v20230801s.RedisPatchSchedule_Spec
 	err := copied.AssignProperties_To_RedisPatchSchedule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -566,7 +567,7 @@ func RunPropertyAssignmentTestForScheduleEntry(subject ScheduleEntry) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduleEntry
+	var other v20230801s.ScheduleEntry
 	err := copied.AssignProperties_To_ScheduleEntry(&other)
 	if err != nil {
 		return err.Error()
@@ -680,7 +681,7 @@ func RunPropertyAssignmentTestForScheduleEntry_STATUS(subject ScheduleEntry_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduleEntry_STATUS
+	var other v20230801s.ScheduleEntry_STATUS
 	err := copied.AssignProperties_To_ScheduleEntry_STATUS(&other)
 	if err != nil {
 		return err.Error()

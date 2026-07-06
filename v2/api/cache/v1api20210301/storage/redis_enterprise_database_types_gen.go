@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20210301/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -361,13 +361,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_From_RedisEnterpr
 	// EvictionPolicy
 	database.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
 
-	// GeoReplication
-	if source.GeoReplication != nil {
-		propertyBag.Add("GeoReplication", *source.GeoReplication)
-	} else {
-		propertyBag.Remove("GeoReplication")
-	}
-
 	// Modules
 	if source.Modules != nil {
 		moduleList := make([]Module, len(source.Modules))
@@ -458,19 +451,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_To_RedisEnterpris
 
 	// EvictionPolicy
 	destination.EvictionPolicy = genruntime.ClonePointerToString(database.EvictionPolicy)
-
-	// GeoReplication
-	if propertyBag.Contains("GeoReplication") {
-		var geoReplication storage.DatabaseProperties_GeoReplication
-		err := propertyBag.Pull("GeoReplication", &geoReplication)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GeoReplication' from propertyBag")
-		}
-
-		destination.GeoReplication = &geoReplication
-	} else {
-		destination.GeoReplication = nil
-	}
 
 	// Modules
 	if database.Modules != nil {
@@ -630,13 +610,6 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_From_RedisEnter
 	// EvictionPolicy
 	database.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
 
-	// GeoReplication
-	if source.GeoReplication != nil {
-		propertyBag.Add("GeoReplication", *source.GeoReplication)
-	} else {
-		propertyBag.Remove("GeoReplication")
-	}
-
 	// Id
 	database.Id = genruntime.ClonePointerToString(source.Id)
 
@@ -719,19 +692,6 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_To_RedisEnterpr
 
 	// EvictionPolicy
 	destination.EvictionPolicy = genruntime.ClonePointerToString(database.EvictionPolicy)
-
-	// GeoReplication
-	if propertyBag.Contains("GeoReplication") {
-		var geoReplication storage.DatabaseProperties_GeoReplication_STATUS
-		err := propertyBag.Pull("GeoReplication", &geoReplication)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GeoReplication' from propertyBag")
-		}
-
-		destination.GeoReplication = &geoReplication
-	} else {
-		destination.GeoReplication = nil
-	}
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(database.Id)
