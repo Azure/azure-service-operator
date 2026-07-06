@@ -1043,7 +1043,6 @@ var skipDeletionPrecheck = sets.NewString(
 	"redhatopenshift.azure.com",
 	"resources.azure.com",
 	"servicebus.azure.com",
-	"storage.azure.com",
 )
 
 // deleteResource deletes a resource in ARM. This function is used as the default deletion handler and can
