@@ -1,13 +1,13 @@
-apiVersion: cache.azure.com/v1api20250401
+apiVersion: cache.azure.com/v20210301
 kind: RedisEnterprise
 metadata:
-  name: sampleredisent
+  name: sampleredisenterprise
   namespace: default
 spec:
   location: westus2
   owner:
     name: aso-sample-rg
-  sku:
-    name: Balanced_B0
   minimumTlsVersion: "1.2"
-  highAvailability: Enabled
+  sku:
+    name: Enterprise_E10
+    capacity: 2
