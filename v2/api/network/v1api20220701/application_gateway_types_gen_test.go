@@ -4886,6 +4886,9 @@ func RunJSONSerializationTestForApplicationGatewayPrivateLinkConfiguration_STATU
 var applicationGatewayPrivateLinkConfiguration_STATUSGenerator gopter.Gen
 
 // ApplicationGatewayPrivateLinkConfiguration_STATUSGenerator returns a generator of ApplicationGatewayPrivateLinkConfiguration_STATUS instances for property testing.
+// We first initialize applicationGatewayPrivateLinkConfiguration_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ApplicationGatewayPrivateLinkConfiguration_STATUSGenerator() gopter.Gen {
 	if applicationGatewayPrivateLinkConfiguration_STATUSGenerator != nil {
 		return applicationGatewayPrivateLinkConfiguration_STATUSGenerator
@@ -4895,12 +4898,31 @@ func ApplicationGatewayPrivateLinkConfiguration_STATUSGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkConfiguration_STATUS(generators)
 	applicationGatewayPrivateLinkConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkConfiguration_STATUS{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkConfiguration_STATUS(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkConfiguration_STATUS(generators)
+	applicationGatewayPrivateLinkConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkConfiguration_STATUS{}), generators)
+
 	return applicationGatewayPrivateLinkConfiguration_STATUSGenerator
 }
 
 // AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkConfiguration_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ApplicationGatewayProvisioningState_STATUS_Deleting,
+		ApplicationGatewayProvisioningState_STATUS_Failed,
+		ApplicationGatewayProvisioningState_STATUS_Succeeded,
+		ApplicationGatewayProvisioningState_STATUS_Updating))
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkConfiguration_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["IpConfigurations"] = gen.SliceOf(ApplicationGatewayPrivateLinkIpConfiguration_STATUSGenerator())
 }
 
 func Test_ApplicationGatewayPrivateLinkIpConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4999,15 +5021,166 @@ func RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfiguration(sub
 var applicationGatewayPrivateLinkIpConfigurationGenerator gopter.Gen
 
 // ApplicationGatewayPrivateLinkIpConfigurationGenerator returns a generator of ApplicationGatewayPrivateLinkIpConfiguration instances for property testing.
+// We first initialize applicationGatewayPrivateLinkIpConfigurationGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ApplicationGatewayPrivateLinkIpConfigurationGenerator() gopter.Gen {
 	if applicationGatewayPrivateLinkIpConfigurationGenerator != nil {
 		return applicationGatewayPrivateLinkIpConfigurationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration(generators)
+	applicationGatewayPrivateLinkIpConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkIpConfiguration{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration(generators)
 	applicationGatewayPrivateLinkIpConfigurationGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkIpConfiguration{}), generators)
 
 	return applicationGatewayPrivateLinkIpConfigurationGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration(gens map[string]gopter.Gen) {
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Primary"] = gen.PtrOf(gen.Bool())
+	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration(gens map[string]gopter.Gen) {
+	gens["Subnet"] = gen.PtrOf(SubResourceGenerator())
+}
+
+func Test_ApplicationGatewayPrivateLinkIpConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ApplicationGatewayPrivateLinkIpConfiguration_STATUS to ApplicationGatewayPrivateLinkIpConfiguration_STATUS via AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration_STATUS & AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration_STATUS, ApplicationGatewayPrivateLinkIpConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration_STATUS tests if a specific instance of ApplicationGatewayPrivateLinkIpConfiguration_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForApplicationGatewayPrivateLinkIpConfiguration_STATUS(subject ApplicationGatewayPrivateLinkIpConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ApplicationGatewayPrivateLinkIpConfiguration_STATUS
+	err := copied.AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ApplicationGatewayPrivateLinkIpConfiguration_STATUS
+	err = actual.AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ApplicationGatewayPrivateLinkIpConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ApplicationGatewayPrivateLinkIpConfiguration_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfiguration_STATUS, ApplicationGatewayPrivateLinkIpConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfiguration_STATUS runs a test to see if a specific instance of ApplicationGatewayPrivateLinkIpConfiguration_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForApplicationGatewayPrivateLinkIpConfiguration_STATUS(subject ApplicationGatewayPrivateLinkIpConfiguration_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ApplicationGatewayPrivateLinkIpConfiguration_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ApplicationGatewayPrivateLinkIpConfiguration_STATUS instances for property testing - lazily instantiated
+// by ApplicationGatewayPrivateLinkIpConfiguration_STATUSGenerator()
+var applicationGatewayPrivateLinkIpConfiguration_STATUSGenerator gopter.Gen
+
+// ApplicationGatewayPrivateLinkIpConfiguration_STATUSGenerator returns a generator of ApplicationGatewayPrivateLinkIpConfiguration_STATUS instances for property testing.
+// We first initialize applicationGatewayPrivateLinkIpConfiguration_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ApplicationGatewayPrivateLinkIpConfiguration_STATUSGenerator() gopter.Gen {
+	if applicationGatewayPrivateLinkIpConfiguration_STATUSGenerator != nil {
+		return applicationGatewayPrivateLinkIpConfiguration_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration_STATUS(generators)
+	applicationGatewayPrivateLinkIpConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkIpConfiguration_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration_STATUS(generators)
+	AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration_STATUS(generators)
+	applicationGatewayPrivateLinkIpConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(ApplicationGatewayPrivateLinkIpConfiguration_STATUS{}), generators)
+
+	return applicationGatewayPrivateLinkIpConfiguration_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Primary"] = gen.PtrOf(gen.Bool())
+	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_STATUS_Dynamic, IPAllocationMethod_STATUS_Static))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ApplicationGatewayProvisioningState_STATUS_Deleting,
+		ApplicationGatewayProvisioningState_STATUS_Failed,
+		ApplicationGatewayProvisioningState_STATUS_Succeeded,
+		ApplicationGatewayProvisioningState_STATUS_Updating))
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["Subnet"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
 func Test_ApplicationGatewayProbe_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

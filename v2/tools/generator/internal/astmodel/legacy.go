@@ -52,7 +52,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"app":              VersionMigrationModeHybrid,
 	"appconfiguration": VersionMigrationModeHybrid,
 
-	"authorization": VersionMigrationModeLegacy,
+	"authorization": VersionMigrationModeHybrid,
 
 	"batch": VersionMigrationModeHybrid,
 

@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v20200801preview/storage"
+	v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForRoleAssignment(subject RoleAssignment) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RoleAssignment
+	var hub v20220401s.RoleAssignment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForRoleAssignment(subject RoleAssignment) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleAssignment
+	var other v20200801ps.RoleAssignment
 	err := copied.AssignProperties_To_RoleAssignment(&other)
 	if err != nil {
 		return err.Error()
@@ -201,7 +202,7 @@ func RunPropertyAssignmentTestForRoleAssignmentOperatorSpec(subject RoleAssignme
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleAssignmentOperatorSpec
+	var other v20200801ps.RoleAssignmentOperatorSpec
 	err := copied.AssignProperties_To_RoleAssignmentOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -314,7 +315,7 @@ func RunPropertyAssignmentTestForRoleAssignment_STATUS(subject RoleAssignment_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleAssignment_STATUS
+	var other v20200801ps.RoleAssignment_STATUS
 	err := copied.AssignProperties_To_RoleAssignment_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -441,7 +442,7 @@ func RunPropertyAssignmentTestForRoleAssignment_Spec(subject RoleAssignment_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleAssignment_Spec
+	var other v20200801ps.RoleAssignment_Spec
 	err := copied.AssignProperties_To_RoleAssignment_Spec(&other)
 	if err != nil {
 		return err.Error()

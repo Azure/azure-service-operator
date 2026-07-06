@@ -8675,14 +8675,48 @@ func (configuration *ApplicationGatewayPrivateLinkConfiguration) AssignPropertie
 // Initialize_From_ApplicationGatewayPrivateLinkConfiguration_STATUS populates our ApplicationGatewayPrivateLinkConfiguration from the provided source ApplicationGatewayPrivateLinkConfiguration_STATUS
 func (configuration *ApplicationGatewayPrivateLinkConfiguration) Initialize_From_ApplicationGatewayPrivateLinkConfiguration_STATUS(source *ApplicationGatewayPrivateLinkConfiguration_STATUS) error {
 
+	// IpConfigurations
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]ApplicationGatewayPrivateLinkIpConfiguration, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			var ipConfiguration ApplicationGatewayPrivateLinkIpConfiguration
+			err := ipConfiguration.Initialize_From_ApplicationGatewayPrivateLinkIpConfiguration_STATUS(&ipConfigurationItem)
+			if err != nil {
+				return eris.Wrap(err, "calling Initialize_From_ApplicationGatewayPrivateLinkIpConfiguration_STATUS() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		configuration.IpConfigurations = ipConfigurationList
+	} else {
+		configuration.IpConfigurations = nil
+	}
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
 	// No error
 	return nil
 }
 
 // Private Link Configuration on an application gateway.
 type ApplicationGatewayPrivateLinkConfiguration_STATUS struct {
+	// Etag: A unique read-only string that changes whenever the resource is updated.
+	Etag *string `json:"etag,omitempty"`
+
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
+
+	// IpConfigurations: An array of application gateway private link ip configurations.
+	IpConfigurations []ApplicationGatewayPrivateLinkIpConfiguration_STATUS `json:"ipConfigurations,omitempty"`
+
+	// Name: Name of the private link configuration that is unique within an Application Gateway.
+	Name *string `json:"name,omitempty"`
+
+	// ProvisioningState: The provisioning state of the application gateway private link configuration.
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+
+	// Type: Type of the resource.
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ApplicationGatewayPrivateLinkConfiguration_STATUS{}
@@ -8699,10 +8733,52 @@ func (configuration *ApplicationGatewayPrivateLinkConfiguration_STATUS) Populate
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayPrivateLinkConfiguration_STATUS, got %T", armInput)
 	}
 
+	// Set property "Etag":
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		configuration.Etag = &etag
+	}
+
 	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		configuration.Id = &id
+	}
+
+	// Set property "IpConfigurations":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.IpConfigurations {
+			var item1 ApplicationGatewayPrivateLinkIpConfiguration_STATUS
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			configuration.IpConfigurations = append(configuration.IpConfigurations, item1)
+		}
+	}
+
+	// Set property "Name":
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configuration.Name = &name
+	}
+
+	// Set property "ProvisioningState":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ApplicationGatewayProvisioningState_STATUS(temp)
+			configuration.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property "Type":
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		configuration.Type = &typeVar
 	}
 
 	// No error
@@ -8712,8 +8788,42 @@ func (configuration *ApplicationGatewayPrivateLinkConfiguration_STATUS) Populate
 // AssignProperties_From_ApplicationGatewayPrivateLinkConfiguration_STATUS populates our ApplicationGatewayPrivateLinkConfiguration_STATUS from the provided source ApplicationGatewayPrivateLinkConfiguration_STATUS
 func (configuration *ApplicationGatewayPrivateLinkConfiguration_STATUS) AssignProperties_From_ApplicationGatewayPrivateLinkConfiguration_STATUS(source *storage.ApplicationGatewayPrivateLinkConfiguration_STATUS) error {
 
+	// Etag
+	configuration.Etag = genruntime.ClonePointerToString(source.Etag)
+
 	// Id
 	configuration.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IpConfigurations
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]ApplicationGatewayPrivateLinkIpConfiguration_STATUS, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			var ipConfiguration ApplicationGatewayPrivateLinkIpConfiguration_STATUS
+			err := ipConfiguration.AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration_STATUS(&ipConfigurationItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration_STATUS() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		configuration.IpConfigurations = ipConfigurationList
+	} else {
+		configuration.IpConfigurations = nil
+	}
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, applicationGatewayProvisioningState_STATUS_Values)
+		configuration.ProvisioningState = &provisioningStateTemp
+	} else {
+		configuration.ProvisioningState = nil
+	}
+
+	// Type
+	configuration.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -8724,8 +8834,41 @@ func (configuration *ApplicationGatewayPrivateLinkConfiguration_STATUS) AssignPr
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(configuration.Etag)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(configuration.Id)
+
+	// IpConfigurations
+	if configuration.IpConfigurations != nil {
+		ipConfigurationList := make([]storage.ApplicationGatewayPrivateLinkIpConfiguration_STATUS, len(configuration.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range configuration.IpConfigurations {
+			var ipConfiguration storage.ApplicationGatewayPrivateLinkIpConfiguration_STATUS
+			err := ipConfigurationItem.AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration_STATUS(&ipConfiguration)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration_STATUS() to populate field IpConfigurations")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		}
+		destination.IpConfigurations = ipConfigurationList
+	} else {
+		destination.IpConfigurations = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
+
+	// ProvisioningState
+	if configuration.ProvisioningState != nil {
+		provisioningState := string(*configuration.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(configuration.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -15501,8 +15644,20 @@ func (rule *ApplicationGatewayPathRule) AssignProperties_To_ApplicationGatewayPa
 
 // The application gateway private link ip configuration.
 type ApplicationGatewayPrivateLinkIpConfiguration struct {
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	// Name: The name of application gateway private link ip configuration.
+	Name *string `json:"name,omitempty"`
+
+	// Primary: Whether the ip configuration is primary or not.
+	Primary *bool `json:"primary,omitempty"`
+
+	// PrivateIPAddress: The private IP address of the IP configuration.
+	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
+
+	// PrivateIPAllocationMethod: The private IP address allocation method.
+	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+
+	// Subnet: Reference to the subnet resource.
+	Subnet *SubResource `json:"subnet,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ApplicationGatewayPrivateLinkIpConfiguration{}
@@ -15514,14 +15669,40 @@ func (configuration *ApplicationGatewayPrivateLinkIpConfiguration) ConvertToARM(
 	}
 	result := &arm.ApplicationGatewayPrivateLinkIpConfiguration{}
 
-	// Set property "Id":
-	if configuration.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.Lookup(*configuration.Reference)
+	// Set property "Name":
+	if configuration.Name != nil {
+		name := *configuration.Name
+		result.Name = &name
+	}
+
+	// Set property "Properties":
+	if configuration.Primary != nil ||
+		configuration.PrivateIPAddress != nil ||
+		configuration.PrivateIPAllocationMethod != nil ||
+		configuration.Subnet != nil {
+		result.Properties = &arm.ApplicationGatewayPrivateLinkIpConfigurationProperties{}
+	}
+	if configuration.Primary != nil {
+		primary := *configuration.Primary
+		result.Properties.Primary = &primary
+	}
+	if configuration.PrivateIPAddress != nil {
+		privateIPAddress := *configuration.PrivateIPAddress
+		result.Properties.PrivateIPAddress = &privateIPAddress
+	}
+	if configuration.PrivateIPAllocationMethod != nil {
+		var temp string
+		temp = string(*configuration.PrivateIPAllocationMethod)
+		privateIPAllocationMethod := arm.IPAllocationMethod(temp)
+		result.Properties.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	}
+	if configuration.Subnet != nil {
+		subnet_ARM, err := configuration.Subnet.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		reference := referenceARMID
-		result.Id = &reference
+		subnet := *subnet_ARM.(*arm.SubResource)
+		result.Properties.Subnet = &subnet
 	}
 	return result, nil
 }
@@ -15533,12 +15714,59 @@ func (configuration *ApplicationGatewayPrivateLinkIpConfiguration) NewEmptyARMVa
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (configuration *ApplicationGatewayPrivateLinkIpConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(arm.ApplicationGatewayPrivateLinkIpConfiguration)
+	typedInput, ok := armInput.(arm.ApplicationGatewayPrivateLinkIpConfiguration)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayPrivateLinkIpConfiguration, got %T", armInput)
 	}
 
-	// no assignment for property "Reference"
+	// Set property "Name":
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configuration.Name = &name
+	}
+
+	// Set property "Primary":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Primary != nil {
+			primary := *typedInput.Properties.Primary
+			configuration.Primary = &primary
+		}
+	}
+
+	// Set property "PrivateIPAddress":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateIPAddress != nil {
+			privateIPAddress := *typedInput.Properties.PrivateIPAddress
+			configuration.PrivateIPAddress = &privateIPAddress
+		}
+	}
+
+	// Set property "PrivateIPAllocationMethod":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateIPAllocationMethod != nil {
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAllocationMethod)
+			privateIPAllocationMethod := IPAllocationMethod(temp)
+			configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		}
+	}
+
+	// Set property "Subnet":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Subnet != nil {
+			var subnet1 SubResource
+			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
+			if err != nil {
+				return err
+			}
+			subnet := subnet1
+			configuration.Subnet = &subnet
+		}
+	}
 
 	// No error
 	return nil
@@ -15547,12 +15775,39 @@ func (configuration *ApplicationGatewayPrivateLinkIpConfiguration) PopulateFromA
 // AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration populates our ApplicationGatewayPrivateLinkIpConfiguration from the provided source ApplicationGatewayPrivateLinkIpConfiguration
 func (configuration *ApplicationGatewayPrivateLinkIpConfiguration) AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration(source *storage.ApplicationGatewayPrivateLinkIpConfiguration) error {
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		configuration.Reference = &reference
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		configuration.Primary = &primary
 	} else {
-		configuration.Reference = nil
+		configuration.Primary = nil
+	}
+
+	// PrivateIPAddress
+	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
+
+	// PrivateIPAllocationMethod
+	if source.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_Values)
+		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
+	} else {
+		configuration.PrivateIPAllocationMethod = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet SubResource
+		err := subnet.AssignProperties_From_SubResource(source.Subnet)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource() to populate field Subnet")
+		}
+		configuration.Subnet = &subnet
+	} else {
+		configuration.Subnet = nil
 	}
 
 	// No error
@@ -15564,13 +15819,333 @@ func (configuration *ApplicationGatewayPrivateLinkIpConfiguration) AssignPropert
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Reference
-	if configuration.Reference != nil {
-		reference := configuration.Reference.Copy()
-		destination.Reference = &reference
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
+
+	// Primary
+	if configuration.Primary != nil {
+		primary := *configuration.Primary
+		destination.Primary = &primary
 	} else {
-		destination.Reference = nil
+		destination.Primary = nil
 	}
+
+	// PrivateIPAddress
+	destination.PrivateIPAddress = genruntime.ClonePointerToString(configuration.PrivateIPAddress)
+
+	// PrivateIPAllocationMethod
+	if configuration.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := string(*configuration.PrivateIPAllocationMethod)
+		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	} else {
+		destination.PrivateIPAllocationMethod = nil
+	}
+
+	// Subnet
+	if configuration.Subnet != nil {
+		var subnet storage.SubResource
+		err := configuration.Subnet.AssignProperties_To_SubResource(&subnet)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource() to populate field Subnet")
+		}
+		destination.Subnet = &subnet
+	} else {
+		destination.Subnet = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ApplicationGatewayPrivateLinkIpConfiguration_STATUS populates our ApplicationGatewayPrivateLinkIpConfiguration from the provided source ApplicationGatewayPrivateLinkIpConfiguration_STATUS
+func (configuration *ApplicationGatewayPrivateLinkIpConfiguration) Initialize_From_ApplicationGatewayPrivateLinkIpConfiguration_STATUS(source *ApplicationGatewayPrivateLinkIpConfiguration_STATUS) error {
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		configuration.Primary = &primary
+	} else {
+		configuration.Primary = nil
+	}
+
+	// PrivateIPAddress
+	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
+
+	// PrivateIPAllocationMethod
+	if source.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := genruntime.ToEnum(string(*source.PrivateIPAllocationMethod), iPAllocationMethod_Values)
+		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	} else {
+		configuration.PrivateIPAllocationMethod = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet SubResource
+		err := subnet.Initialize_From_SubResource_STATUS(source.Subnet)
+		if err != nil {
+			return eris.Wrap(err, "calling Initialize_From_SubResource_STATUS() to populate field Subnet")
+		}
+		configuration.Subnet = &subnet
+	} else {
+		configuration.Subnet = nil
+	}
+
+	// No error
+	return nil
+}
+
+// The application gateway private link ip configuration.
+type ApplicationGatewayPrivateLinkIpConfiguration_STATUS struct {
+	// Etag: A unique read-only string that changes whenever the resource is updated.
+	Etag *string `json:"etag,omitempty"`
+
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
+	// Name: The name of application gateway private link ip configuration.
+	Name *string `json:"name,omitempty"`
+
+	// Primary: Whether the ip configuration is primary or not.
+	Primary *bool `json:"primary,omitempty"`
+
+	// PrivateIPAddress: The private IP address of the IP configuration.
+	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
+
+	// PrivateIPAllocationMethod: The private IP address allocation method.
+	PrivateIPAllocationMethod *IPAllocationMethod_STATUS `json:"privateIPAllocationMethod,omitempty"`
+
+	// ProvisioningState: The provisioning state of the application gateway private link IP configuration.
+	ProvisioningState *ApplicationGatewayProvisioningState_STATUS `json:"provisioningState,omitempty"`
+
+	// Subnet: Reference to the subnet resource.
+	Subnet *SubResource_STATUS `json:"subnet,omitempty"`
+
+	// Type: The resource type.
+	Type *string `json:"type,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &ApplicationGatewayPrivateLinkIpConfiguration_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (configuration *ApplicationGatewayPrivateLinkIpConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ApplicationGatewayPrivateLinkIpConfiguration_STATUS{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (configuration *ApplicationGatewayPrivateLinkIpConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ApplicationGatewayPrivateLinkIpConfiguration_STATUS)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ApplicationGatewayPrivateLinkIpConfiguration_STATUS, got %T", armInput)
+	}
+
+	// Set property "Etag":
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		configuration.Etag = &etag
+	}
+
+	// Set property "Id":
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		configuration.Id = &id
+	}
+
+	// Set property "Name":
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		configuration.Name = &name
+	}
+
+	// Set property "Primary":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Primary != nil {
+			primary := *typedInput.Properties.Primary
+			configuration.Primary = &primary
+		}
+	}
+
+	// Set property "PrivateIPAddress":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateIPAddress != nil {
+			privateIPAddress := *typedInput.Properties.PrivateIPAddress
+			configuration.PrivateIPAddress = &privateIPAddress
+		}
+	}
+
+	// Set property "PrivateIPAllocationMethod":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateIPAllocationMethod != nil {
+			var temp string
+			temp = string(*typedInput.Properties.PrivateIPAllocationMethod)
+			privateIPAllocationMethod := IPAllocationMethod_STATUS(temp)
+			configuration.PrivateIPAllocationMethod = &privateIPAllocationMethod
+		}
+	}
+
+	// Set property "ProvisioningState":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ApplicationGatewayProvisioningState_STATUS(temp)
+			configuration.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property "Subnet":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Subnet != nil {
+			var subnet1 SubResource_STATUS
+			err := subnet1.PopulateFromARM(owner, *typedInput.Properties.Subnet)
+			if err != nil {
+				return err
+			}
+			subnet := subnet1
+			configuration.Subnet = &subnet
+		}
+	}
+
+	// Set property "Type":
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		configuration.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration_STATUS populates our ApplicationGatewayPrivateLinkIpConfiguration_STATUS from the provided source ApplicationGatewayPrivateLinkIpConfiguration_STATUS
+func (configuration *ApplicationGatewayPrivateLinkIpConfiguration_STATUS) AssignProperties_From_ApplicationGatewayPrivateLinkIpConfiguration_STATUS(source *storage.ApplicationGatewayPrivateLinkIpConfiguration_STATUS) error {
+
+	// Etag
+	configuration.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Id
+	configuration.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	configuration.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		configuration.Primary = &primary
+	} else {
+		configuration.Primary = nil
+	}
+
+	// PrivateIPAddress
+	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
+
+	// PrivateIPAllocationMethod
+	if source.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := *source.PrivateIPAllocationMethod
+		privateIPAllocationMethodTemp := genruntime.ToEnum(privateIPAllocationMethod, iPAllocationMethod_STATUS_Values)
+		configuration.PrivateIPAllocationMethod = &privateIPAllocationMethodTemp
+	} else {
+		configuration.PrivateIPAllocationMethod = nil
+	}
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, applicationGatewayProvisioningState_STATUS_Values)
+		configuration.ProvisioningState = &provisioningStateTemp
+	} else {
+		configuration.ProvisioningState = nil
+	}
+
+	// Subnet
+	if source.Subnet != nil {
+		var subnet SubResource_STATUS
+		err := subnet.AssignProperties_From_SubResource_STATUS(source.Subnet)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SubResource_STATUS() to populate field Subnet")
+		}
+		configuration.Subnet = &subnet
+	} else {
+		configuration.Subnet = nil
+	}
+
+	// Type
+	configuration.Type = genruntime.ClonePointerToString(source.Type)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration_STATUS populates the provided destination ApplicationGatewayPrivateLinkIpConfiguration_STATUS from our ApplicationGatewayPrivateLinkIpConfiguration_STATUS
+func (configuration *ApplicationGatewayPrivateLinkIpConfiguration_STATUS) AssignProperties_To_ApplicationGatewayPrivateLinkIpConfiguration_STATUS(destination *storage.ApplicationGatewayPrivateLinkIpConfiguration_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(configuration.Etag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configuration.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(configuration.Name)
+
+	// Primary
+	if configuration.Primary != nil {
+		primary := *configuration.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// PrivateIPAddress
+	destination.PrivateIPAddress = genruntime.ClonePointerToString(configuration.PrivateIPAddress)
+
+	// PrivateIPAllocationMethod
+	if configuration.PrivateIPAllocationMethod != nil {
+		privateIPAllocationMethod := string(*configuration.PrivateIPAllocationMethod)
+		destination.PrivateIPAllocationMethod = &privateIPAllocationMethod
+	} else {
+		destination.PrivateIPAllocationMethod = nil
+	}
+
+	// ProvisioningState
+	if configuration.ProvisioningState != nil {
+		provisioningState := string(*configuration.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// Subnet
+	if configuration.Subnet != nil {
+		var subnet storage.SubResource_STATUS
+		err := configuration.Subnet.AssignProperties_To_SubResource_STATUS(&subnet)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SubResource_STATUS() to populate field Subnet")
+		}
+		destination.Subnet = &subnet
+	} else {
+		destination.Subnet = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(configuration.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
