@@ -2670,6 +2670,11 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration
 
 func Test_ApplicationGatewayPrivateLinkIpConfigurationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

@@ -1082,6 +1082,11 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayPrivateEndpointConnect
 
 func Test_ApplicationGatewayPrivateLinkConfigurationProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1244,6 +1249,11 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkConfiguration_S
 
 func Test_ApplicationGatewayPrivateLinkIpConfigurationProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1326,6 +1336,11 @@ func AddRelatedPropertyGeneratorsForApplicationGatewayPrivateLinkIpConfiguration
 
 func Test_ApplicationGatewayPrivateLinkIpConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
