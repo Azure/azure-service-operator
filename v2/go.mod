@@ -33,7 +33,7 @@ require (
 	github.com/go-logr/logr v1.4.3
 	github.com/go-logr/zapr v1.3.0
 	github.com/go-sql-driver/mysql v1.10.0
-	github.com/google/cel-go v0.28.1
+	github.com/google/cel-go v0.29.1
 	github.com/google/go-cmp v0.7.0
 	github.com/google/uuid v1.6.0
 	github.com/hbollon/go-edlib v1.7.0
@@ -54,7 +54,7 @@ require (
 	golang.org/x/crypto v0.53.0
 	golang.org/x/exp v0.0.0-20251219203646-944ab1f22d93
 	golang.org/x/sync v0.21.0
-	golang.org/x/text v0.38.0
+	golang.org/x/text v0.39.0
 	golang.org/x/time v0.15.0
 	google.golang.org/protobuf v1.36.12-0.20260120151049-f2248ac996af // indirect
 	gopkg.in/dnaeon/go-vcr.v4 v4.0.7
