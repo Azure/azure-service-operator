@@ -19,6 +19,11 @@ import (
 
 func Test_CustomRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -104,6 +109,11 @@ func AddRelatedPropertyGeneratorsForCustomRule(gens map[string]gopter.Gen) {
 
 func Test_CustomRuleList_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -164,6 +174,11 @@ func AddRelatedPropertyGeneratorsForCustomRuleList(gens map[string]gopter.Gen) {
 
 func Test_ManagedRuleExclusion_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -237,6 +252,11 @@ func AddIndependentPropertyGeneratorsForManagedRuleExclusion(gens map[string]gop
 
 func Test_ManagedRuleGroupOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -313,6 +333,11 @@ func AddRelatedPropertyGeneratorsForManagedRuleGroupOverride(gens map[string]gop
 
 func Test_ManagedRuleOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -395,6 +420,11 @@ func AddRelatedPropertyGeneratorsForManagedRuleOverride(gens map[string]gopter.G
 
 func Test_ManagedRuleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -472,6 +502,11 @@ func AddRelatedPropertyGeneratorsForManagedRuleSet(gens map[string]gopter.Gen) {
 
 func Test_ManagedRuleSetList_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -532,6 +567,11 @@ func AddRelatedPropertyGeneratorsForManagedRuleSetList(gens map[string]gopter.Ge
 
 func Test_MatchCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -624,6 +664,11 @@ func AddIndependentPropertyGeneratorsForMatchCondition(gens map[string]gopter.Ge
 
 func Test_PolicySettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -689,6 +734,11 @@ func AddIndependentPropertyGeneratorsForPolicySettings(gens map[string]gopter.Ge
 
 func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -749,6 +799,11 @@ func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 
 func Test_WebApplicationFirewallPolicyProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -812,6 +867,11 @@ func AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicyProperties(gens 
 
 func Test_WebApplicationFirewallPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

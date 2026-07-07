@@ -19,6 +19,11 @@ import (
 
 func Test_FleetsUpdateRun_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -94,6 +99,11 @@ func AddRelatedPropertyGeneratorsForFleetsUpdateRun_Spec(gens map[string]gopter.
 
 func Test_ManagedClusterUpdate_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -156,6 +166,11 @@ func AddRelatedPropertyGeneratorsForManagedClusterUpdate(gens map[string]gopter.
 
 func Test_ManagedClusterUpgradeSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -218,6 +233,11 @@ func AddIndependentPropertyGeneratorsForManagedClusterUpgradeSpec(gens map[strin
 
 func Test_NodeImageSelection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -278,6 +298,11 @@ func AddIndependentPropertyGeneratorsForNodeImageSelection(gens map[string]gopte
 
 func Test_UpdateGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -338,6 +363,11 @@ func AddIndependentPropertyGeneratorsForUpdateGroup(gens map[string]gopter.Gen) 
 
 func Test_UpdateRunProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -414,6 +444,11 @@ func AddRelatedPropertyGeneratorsForUpdateRunProperties(gens map[string]gopter.G
 
 func Test_UpdateRunStrategy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -474,6 +509,11 @@ func AddRelatedPropertyGeneratorsForUpdateRunStrategy(gens map[string]gopter.Gen
 
 func Test_UpdateStage_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

@@ -21,6 +21,11 @@ import (
 
 func Test_FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -63,6 +68,11 @@ func RunPropertyAssignmentTestForFrontendIPConfiguration_PrivateLinkService_SubR
 
 func Test_FrontendIPConfiguration_PrivateLinkService_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -118,6 +128,11 @@ func FrontendIPConfiguration_PrivateLinkService_SubResourceEmbeddedGenerator() g
 
 func Test_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -160,6 +175,11 @@ func RunPropertyAssignmentTestForFrontendIPConfiguration_STATUS_PrivateLinkServi
 
 func Test_FrontendIPConfiguration_STATUS_PrivateLinkService_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -221,6 +241,11 @@ func AddIndependentPropertyGeneratorsForFrontendIPConfiguration_STATUS_PrivateLi
 
 func Test_NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -263,6 +288,11 @@ func RunPropertyAssignmentTestForNetworkInterface_STATUS_PrivateLinkService_SubR
 
 func Test_NetworkInterface_STATUS_PrivateLinkService_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -324,6 +354,11 @@ func AddIndependentPropertyGeneratorsForNetworkInterface_STATUS_PrivateLinkServi
 
 func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -366,6 +401,11 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject Privat
 
 func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -427,6 +467,11 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens ma
 
 func Test_PrivateLinkService_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -470,6 +515,11 @@ func RunResourceConversionTestForPrivateLinkService(subject PrivateLinkService) 
 
 func Test_PrivateLinkService_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -512,6 +562,11 @@ func RunPropertyAssignmentTestForPrivateLinkService(subject PrivateLinkService) 
 
 func Test_PrivateLinkService_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -573,6 +628,11 @@ func AddRelatedPropertyGeneratorsForPrivateLinkService(gens map[string]gopter.Ge
 
 func Test_PrivateLinkServiceIpConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -615,6 +675,11 @@ func RunPropertyAssignmentTestForPrivateLinkServiceIpConfiguration(subject Priva
 
 func Test_PrivateLinkServiceIpConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -694,6 +759,11 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceIpConfiguration(gens map[s
 
 func Test_PrivateLinkServiceIpConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -736,6 +806,11 @@ func RunPropertyAssignmentTestForPrivateLinkServiceIpConfiguration_STATUS(subjec
 
 func Test_PrivateLinkServiceIpConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -819,6 +894,11 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceIpConfiguration_STATUS(gen
 
 func Test_PrivateLinkServiceOperatorConfigMaps_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -861,6 +941,11 @@ func RunPropertyAssignmentTestForPrivateLinkServiceOperatorConfigMaps(subject Pr
 
 func Test_PrivateLinkServiceOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -916,6 +1001,11 @@ func PrivateLinkServiceOperatorConfigMapsGenerator() gopter.Gen {
 
 func Test_PrivateLinkServiceOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -958,6 +1048,11 @@ func RunPropertyAssignmentTestForPrivateLinkServiceOperatorSpec(subject PrivateL
 
 func Test_PrivateLinkServiceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1019,6 +1114,11 @@ func AddRelatedPropertyGeneratorsForPrivateLinkServiceOperatorSpec(gens map[stri
 
 func Test_PrivateLinkService_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1061,6 +1161,11 @@ func RunPropertyAssignmentTestForPrivateLinkService_STATUS(subject PrivateLinkSe
 
 func Test_PrivateLinkService_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1153,6 +1258,11 @@ func AddRelatedPropertyGeneratorsForPrivateLinkService_STATUS(gens map[string]go
 
 func Test_PrivateLinkService_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1195,6 +1305,11 @@ func RunPropertyAssignmentTestForPrivateLinkService_Spec(subject PrivateLinkServ
 
 func Test_PrivateLinkService_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1282,6 +1397,11 @@ func AddRelatedPropertyGeneratorsForPrivateLinkService_Spec(gens map[string]gopt
 
 func Test_ResourceSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1324,6 +1444,11 @@ func RunPropertyAssignmentTestForResourceSet(subject ResourceSet) string {
 
 func Test_ResourceSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1384,6 +1509,11 @@ func AddIndependentPropertyGeneratorsForResourceSet(gens map[string]gopter.Gen) 
 
 func Test_ResourceSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1426,6 +1556,11 @@ func RunPropertyAssignmentTestForResourceSet_STATUS(subject ResourceSet_STATUS) 
 
 func Test_ResourceSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1486,6 +1621,11 @@ func AddIndependentPropertyGeneratorsForResourceSet_STATUS(gens map[string]gopte
 
 func Test_Subnet_PrivateLinkService_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1528,6 +1668,11 @@ func RunPropertyAssignmentTestForSubnet_PrivateLinkService_SubResourceEmbedded(s
 
 func Test_Subnet_PrivateLinkService_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1583,6 +1728,11 @@ func Subnet_PrivateLinkService_SubResourceEmbeddedGenerator() gopter.Gen {
 
 func Test_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1625,6 +1775,11 @@ func RunPropertyAssignmentTestForSubnet_STATUS_PrivateLinkService_SubResourceEmb
 
 func Test_Subnet_STATUS_PrivateLinkService_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

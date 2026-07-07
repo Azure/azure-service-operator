@@ -19,6 +19,11 @@ import (
 
 func Test_CertificateCreateOrUpdateProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -95,6 +100,11 @@ func AddRelatedPropertyGeneratorsForCertificateCreateOrUpdateProperties(gens map
 
 func Test_Certificate_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -169,6 +179,11 @@ func AddRelatedPropertyGeneratorsForCertificate_Spec(gens map[string]gopter.Gen)
 
 func Test_KeyVaultContractCreateProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

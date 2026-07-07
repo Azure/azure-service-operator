@@ -20,6 +20,11 @@ import (
 
 func Test_KeyVaultSecretReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForKeyVaultSecretReference(subject KeyVaultSecretR
 
 func Test_KeyVaultSecretReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -137,6 +147,11 @@ func AddRelatedPropertyGeneratorsForKeyVaultSecretReference(gens map[string]gopt
 
 func Test_KeyVaultSecretReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -179,6 +194,11 @@ func RunPropertyAssignmentTestForKeyVaultSecretReference_STATUS(subject KeyVault
 
 func Test_KeyVaultSecretReference_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -254,6 +274,11 @@ func AddRelatedPropertyGeneratorsForKeyVaultSecretReference_STATUS(gens map[stri
 
 func Test_VirtualMachineScaleSetsExtension_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -297,6 +322,11 @@ func RunResourceConversionTestForVirtualMachineScaleSetsExtension(subject Virtua
 
 func Test_VirtualMachineScaleSetsExtension_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -339,6 +369,11 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension(subject Virtua
 
 func Test_VirtualMachineScaleSetsExtension_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -401,6 +436,11 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension(gens map[st
 
 func Test_VirtualMachineScaleSetsExtensionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -443,6 +483,11 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsExtensionOperatorSpec(su
 
 func Test_VirtualMachineScaleSetsExtensionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -498,6 +543,11 @@ func VirtualMachineScaleSetsExtensionOperatorSpecGenerator() gopter.Gen {
 
 func Test_VirtualMachineScaleSetsExtension_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -540,6 +590,11 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension_STATUS(subject
 
 func Test_VirtualMachineScaleSetsExtension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -626,6 +681,11 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension_STATUS(gens
 
 func Test_VirtualMachineScaleSetsExtension_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -668,6 +728,11 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsExtension_Spec(subject V
 
 func Test_VirtualMachineScaleSetsExtension_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

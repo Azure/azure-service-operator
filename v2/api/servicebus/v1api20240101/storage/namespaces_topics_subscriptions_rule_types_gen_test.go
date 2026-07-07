@@ -19,6 +19,11 @@ import (
 
 func Test_Action_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -81,6 +86,11 @@ func AddIndependentPropertyGeneratorsForAction(gens map[string]gopter.Gen) {
 
 func Test_Action_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -143,6 +153,11 @@ func AddIndependentPropertyGeneratorsForAction_STATUS(gens map[string]gopter.Gen
 
 func Test_CorrelationFilter_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -214,6 +229,11 @@ func AddIndependentPropertyGeneratorsForCorrelationFilter(gens map[string]gopter
 
 func Test_CorrelationFilter_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -286,6 +306,11 @@ func AddIndependentPropertyGeneratorsForCorrelationFilter_STATUS(gens map[string
 
 func Test_NamespacesTopicsSubscriptionsRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -348,6 +373,11 @@ func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscriptionsRule(gens map[s
 
 func Test_NamespacesTopicsSubscriptionsRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -403,6 +433,11 @@ func NamespacesTopicsSubscriptionsRuleOperatorSpecGenerator() gopter.Gen {
 
 func Test_NamespacesTopicsSubscriptionsRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -485,6 +520,11 @@ func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscriptionsRule_STATUS(gen
 
 func Test_NamespacesTopicsSubscriptionsRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -565,6 +605,11 @@ func AddRelatedPropertyGeneratorsForNamespacesTopicsSubscriptionsRule_Spec(gens 
 
 func Test_SqlFilter_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -627,6 +672,11 @@ func AddIndependentPropertyGeneratorsForSqlFilter(gens map[string]gopter.Gen) {
 
 func Test_SqlFilter_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

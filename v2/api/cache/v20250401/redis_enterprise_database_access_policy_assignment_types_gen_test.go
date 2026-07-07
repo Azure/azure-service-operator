@@ -20,6 +20,11 @@ import (
 
 func Test_AccessPolicyAssignmentProperties_User_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForAccessPolicyAssignmentProperties_User(subject A
 
 func Test_AccessPolicyAssignmentProperties_User_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -123,6 +133,11 @@ func AddIndependentPropertyGeneratorsForAccessPolicyAssignmentProperties_User(ge
 
 func Test_AccessPolicyAssignmentProperties_User_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -165,6 +180,11 @@ func RunPropertyAssignmentTestForAccessPolicyAssignmentProperties_User_STATUS(su
 
 func Test_AccessPolicyAssignmentProperties_User_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -226,6 +246,11 @@ func AddIndependentPropertyGeneratorsForAccessPolicyAssignmentProperties_User_ST
 
 func Test_RedisEnterpriseDatabaseAccessPolicyAssignment_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -269,6 +294,11 @@ func RunResourceConversionTestForRedisEnterpriseDatabaseAccessPolicyAssignment(s
 
 func Test_RedisEnterpriseDatabaseAccessPolicyAssignment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -311,6 +341,11 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabaseAccessPolicyAssignment(s
 
 func Test_RedisEnterpriseDatabaseAccessPolicyAssignment_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -373,6 +408,11 @@ func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabaseAccessPolicyAssignmen
 
 func Test_RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -415,6 +455,11 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabaseAccessPolicyAssignmentOp
 
 func Test_RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -470,6 +515,11 @@ func RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpecGenerator() gopter
 
 func Test_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -512,6 +562,11 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabaseAccessPolicyAssignment_S
 
 func Test_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -597,6 +652,11 @@ func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabaseAccessPolicyAssignmen
 
 func Test_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -639,6 +699,11 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabaseAccessPolicyAssignment_S
 
 func Test_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

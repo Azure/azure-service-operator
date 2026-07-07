@@ -19,6 +19,11 @@ import (
 
 func Test_CacheConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -83,6 +88,11 @@ func AddIndependentPropertyGeneratorsForCacheConfiguration(gens map[string]gopte
 
 func Test_CacheConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -148,6 +158,11 @@ func AddIndependentPropertyGeneratorsForCacheConfiguration_STATUS(gens map[strin
 
 func Test_CacheExpirationActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -212,6 +227,11 @@ func AddIndependentPropertyGeneratorsForCacheExpirationActionParameters(gens map
 
 func Test_CacheExpirationActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -276,6 +296,11 @@ func AddIndependentPropertyGeneratorsForCacheExpirationActionParameters_STATUS(g
 
 func Test_CacheKeyQueryStringActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -339,6 +364,11 @@ func AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters(gens
 
 func Test_CacheKeyQueryStringActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -402,6 +432,11 @@ func AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParameters_STAT
 
 func Test_ClientPortMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -467,6 +502,11 @@ func AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters(gens 
 
 func Test_ClientPortMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -532,6 +572,11 @@ func AddIndependentPropertyGeneratorsForClientPortMatchConditionParameters_STATU
 
 func Test_CookiesMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -598,6 +643,11 @@ func AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters(gens map
 
 func Test_CookiesMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -664,6 +714,11 @@ func AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS(g
 
 func Test_DeliveryRuleAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -757,6 +812,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleAction(gens map[string]gopter.Ge
 
 func Test_DeliveryRuleAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -851,6 +911,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleAction_STATUS(gens map[string]go
 
 func Test_DeliveryRuleCacheExpirationAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -926,6 +991,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction(gens map[s
 
 func Test_DeliveryRuleCacheExpirationAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1001,6 +1071,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationAction_STATUS(gen
 
 func Test_DeliveryRuleCacheKeyQueryStringAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1076,6 +1151,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction(gens m
 
 func Test_DeliveryRuleCacheKeyQueryStringAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1151,6 +1231,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringAction_STATUS
 
 func Test_DeliveryRuleClientPortCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1226,6 +1311,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition(gens map[str
 
 func Test_DeliveryRuleClientPortCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1301,6 +1391,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleClientPortCondition_STATUS(gens 
 
 func Test_DeliveryRuleCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1425,6 +1520,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleCondition(gens map[string]gopter
 
 func Test_DeliveryRuleCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1549,6 +1649,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleCondition_STATUS(gens map[string
 
 func Test_DeliveryRuleCookiesCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1624,6 +1729,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition(gens map[string
 
 func Test_DeliveryRuleCookiesCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1699,6 +1809,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleCookiesCondition_STATUS(gens map
 
 func Test_DeliveryRuleHostNameCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1774,6 +1889,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition(gens map[strin
 
 func Test_DeliveryRuleHostNameCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1849,6 +1969,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleHostNameCondition_STATUS(gens ma
 
 func Test_DeliveryRuleHttpVersionCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1924,6 +2049,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition(gens map[st
 
 func Test_DeliveryRuleHttpVersionCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1999,6 +2129,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionCondition_STATUS(gens
 
 func Test_DeliveryRuleIsDeviceCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2074,6 +2209,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition(gens map[strin
 
 func Test_DeliveryRuleIsDeviceCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2149,6 +2289,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceCondition_STATUS(gens ma
 
 func Test_DeliveryRulePostArgsCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2224,6 +2369,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition(gens map[strin
 
 func Test_DeliveryRulePostArgsCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2299,6 +2449,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRulePostArgsCondition_STATUS(gens ma
 
 func Test_DeliveryRuleQueryStringCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2374,6 +2529,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition(gens map[st
 
 func Test_DeliveryRuleQueryStringCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2449,6 +2609,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringCondition_STATUS(gens
 
 func Test_DeliveryRuleRemoteAddressCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2524,6 +2689,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition(gens map[
 
 func Test_DeliveryRuleRemoteAddressCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2599,6 +2769,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressCondition_STATUS(ge
 
 func Test_DeliveryRuleRequestBodyCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2674,6 +2849,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition(gens map[st
 
 func Test_DeliveryRuleRequestBodyCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2749,6 +2929,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyCondition_STATUS(gens
 
 func Test_DeliveryRuleRequestHeaderAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2824,6 +3009,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction(gens map[str
 
 func Test_DeliveryRuleRequestHeaderAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2899,6 +3089,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderAction_STATUS(gens 
 
 func Test_DeliveryRuleRequestHeaderCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2974,6 +3169,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition(gens map[
 
 func Test_DeliveryRuleRequestHeaderCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -3049,6 +3249,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderCondition_STATUS(ge
 
 func Test_DeliveryRuleRequestMethodCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -3124,6 +3329,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition(gens map[
 
 func Test_DeliveryRuleRequestMethodCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -3199,6 +3409,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodCondition_STATUS(ge
 
 func Test_DeliveryRuleRequestSchemeCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -3274,6 +3489,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition(gens map[
 
 func Test_DeliveryRuleRequestSchemeCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -3349,6 +3569,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeCondition_STATUS(ge
 
 func Test_DeliveryRuleRequestUriCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -3424,6 +3649,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition(gens map[str
 
 func Test_DeliveryRuleRequestUriCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -3499,6 +3729,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriCondition_STATUS(gens 
 
 func Test_DeliveryRuleResponseHeaderAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -3574,6 +3809,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction(gens map[st
 
 func Test_DeliveryRuleResponseHeaderAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -3649,6 +3889,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderAction_STATUS(gens
 
 func Test_DeliveryRuleRouteConfigurationOverrideAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -3724,6 +3969,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction
 
 func Test_DeliveryRuleRouteConfigurationOverrideAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -3799,6 +4049,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction
 
 func Test_DeliveryRuleServerPortCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -3874,6 +4129,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition(gens map[str
 
 func Test_DeliveryRuleServerPortCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -3949,6 +4209,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleServerPortCondition_STATUS(gens 
 
 func Test_DeliveryRuleSocketAddrCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -4024,6 +4289,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition(gens map[str
 
 func Test_DeliveryRuleSocketAddrCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -4099,6 +4369,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrCondition_STATUS(gens 
 
 func Test_DeliveryRuleSslProtocolCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -4174,6 +4449,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition(gens map[st
 
 func Test_DeliveryRuleSslProtocolCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -4249,6 +4529,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolCondition_STATUS(gens
 
 func Test_DeliveryRuleUrlFileExtensionCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -4324,6 +4609,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition(gens m
 
 func Test_DeliveryRuleUrlFileExtensionCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -4399,6 +4689,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionCondition_STATUS
 
 func Test_DeliveryRuleUrlFileNameCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -4474,6 +4769,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition(gens map[st
 
 func Test_DeliveryRuleUrlFileNameCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -4549,6 +4849,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameCondition_STATUS(gens
 
 func Test_DeliveryRuleUrlPathCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -4624,6 +4929,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition(gens map[string
 
 func Test_DeliveryRuleUrlPathCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -4699,6 +5009,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS(gens map
 
 func Test_HeaderActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -4763,6 +5078,11 @@ func AddIndependentPropertyGeneratorsForHeaderActionParameters(gens map[string]g
 
 func Test_HeaderActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -4827,6 +5147,11 @@ func AddIndependentPropertyGeneratorsForHeaderActionParameters_STATUS(gens map[s
 
 func Test_HostNameMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -4892,6 +5217,11 @@ func AddIndependentPropertyGeneratorsForHostNameMatchConditionParameters(gens ma
 
 func Test_HostNameMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -4957,6 +5287,11 @@ func AddIndependentPropertyGeneratorsForHostNameMatchConditionParameters_STATUS(
 
 func Test_HttpVersionMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -5022,6 +5357,11 @@ func AddIndependentPropertyGeneratorsForHttpVersionMatchConditionParameters(gens
 
 func Test_HttpVersionMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -5087,6 +5427,11 @@ func AddIndependentPropertyGeneratorsForHttpVersionMatchConditionParameters_STAT
 
 func Test_IsDeviceMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -5152,6 +5497,11 @@ func AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters(gens ma
 
 func Test_IsDeviceMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -5217,6 +5567,11 @@ func AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters_STATUS(
 
 func Test_OriginGroupOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -5292,6 +5647,11 @@ func AddRelatedPropertyGeneratorsForOriginGroupOverride(gens map[string]gopter.G
 
 func Test_OriginGroupOverrideAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -5367,6 +5727,11 @@ func AddRelatedPropertyGeneratorsForOriginGroupOverrideAction(gens map[string]go
 
 func Test_OriginGroupOverrideActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -5442,6 +5807,11 @@ func AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParameters(gens map
 
 func Test_OriginGroupOverrideActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -5517,6 +5887,11 @@ func AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParameters_STATUS(g
 
 func Test_OriginGroupOverrideAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -5592,6 +5967,11 @@ func AddRelatedPropertyGeneratorsForOriginGroupOverrideAction_STATUS(gens map[st
 
 func Test_OriginGroupOverride_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -5667,6 +6047,11 @@ func AddRelatedPropertyGeneratorsForOriginGroupOverride_STATUS(gens map[string]g
 
 func Test_PostArgsMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -5733,6 +6118,11 @@ func AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters(gens ma
 
 func Test_PostArgsMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -5799,6 +6189,11 @@ func AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters_STATUS(
 
 func Test_QueryStringMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -5864,6 +6259,11 @@ func AddIndependentPropertyGeneratorsForQueryStringMatchConditionParameters(gens
 
 func Test_QueryStringMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -5929,6 +6329,11 @@ func AddIndependentPropertyGeneratorsForQueryStringMatchConditionParameters_STAT
 
 func Test_RemoteAddressMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -5994,6 +6399,11 @@ func AddIndependentPropertyGeneratorsForRemoteAddressMatchConditionParameters(ge
 
 func Test_RemoteAddressMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -6059,6 +6469,11 @@ func AddIndependentPropertyGeneratorsForRemoteAddressMatchConditionParameters_ST
 
 func Test_RequestBodyMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -6124,6 +6539,11 @@ func AddIndependentPropertyGeneratorsForRequestBodyMatchConditionParameters(gens
 
 func Test_RequestBodyMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -6189,6 +6609,11 @@ func AddIndependentPropertyGeneratorsForRequestBodyMatchConditionParameters_STAT
 
 func Test_RequestHeaderMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -6255,6 +6680,11 @@ func AddIndependentPropertyGeneratorsForRequestHeaderMatchConditionParameters(ge
 
 func Test_RequestHeaderMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -6321,6 +6751,11 @@ func AddIndependentPropertyGeneratorsForRequestHeaderMatchConditionParameters_ST
 
 func Test_RequestMethodMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -6386,6 +6821,11 @@ func AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters(ge
 
 func Test_RequestMethodMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -6451,6 +6891,11 @@ func AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParameters_ST
 
 func Test_RequestSchemeMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -6516,6 +6961,11 @@ func AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters(ge
 
 func Test_RequestSchemeMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -6581,6 +7031,11 @@ func AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParameters_ST
 
 func Test_RequestUriMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -6646,6 +7101,11 @@ func AddIndependentPropertyGeneratorsForRequestUriMatchConditionParameters(gens 
 
 func Test_RequestUriMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -6711,6 +7171,11 @@ func AddIndependentPropertyGeneratorsForRequestUriMatchConditionParameters_STATU
 
 func Test_RouteConfigurationOverrideActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -6787,6 +7252,11 @@ func AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParameters(g
 
 func Test_RouteConfigurationOverrideActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -6863,6 +7333,11 @@ func AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParameters_S
 
 func Test_Rule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -6924,6 +7399,11 @@ func AddRelatedPropertyGeneratorsForRule(gens map[string]gopter.Gen) {
 
 func Test_RuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -6978,6 +7458,11 @@ func RuleOperatorSpecGenerator() gopter.Gen {
 
 func Test_Rule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -7061,6 +7546,11 @@ func AddRelatedPropertyGeneratorsForRule_STATUS(gens map[string]gopter.Gen) {
 
 func Test_Rule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -7140,6 +7630,11 @@ func AddRelatedPropertyGeneratorsForRule_Spec(gens map[string]gopter.Gen) {
 
 func Test_ServerPortMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -7205,6 +7700,11 @@ func AddIndependentPropertyGeneratorsForServerPortMatchConditionParameters(gens 
 
 func Test_ServerPortMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -7270,6 +7770,11 @@ func AddIndependentPropertyGeneratorsForServerPortMatchConditionParameters_STATU
 
 func Test_SocketAddrMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -7335,6 +7840,11 @@ func AddIndependentPropertyGeneratorsForSocketAddrMatchConditionParameters(gens 
 
 func Test_SocketAddrMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -7400,6 +7910,11 @@ func AddIndependentPropertyGeneratorsForSocketAddrMatchConditionParameters_STATU
 
 func Test_SslProtocolMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -7465,6 +7980,11 @@ func AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters(gens
 
 func Test_SslProtocolMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -7530,6 +8050,11 @@ func AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParameters_STAT
 
 func Test_UrlFileExtensionMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -7595,6 +8120,11 @@ func AddIndependentPropertyGeneratorsForUrlFileExtensionMatchConditionParameters
 
 func Test_UrlFileExtensionMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -7660,6 +8190,11 @@ func AddIndependentPropertyGeneratorsForUrlFileExtensionMatchConditionParameters
 
 func Test_UrlFileNameMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -7725,6 +8260,11 @@ func AddIndependentPropertyGeneratorsForUrlFileNameMatchConditionParameters(gens
 
 func Test_UrlFileNameMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -7790,6 +8330,11 @@ func AddIndependentPropertyGeneratorsForUrlFileNameMatchConditionParameters_STAT
 
 func Test_UrlPathMatchConditionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -7855,6 +8400,11 @@ func AddIndependentPropertyGeneratorsForUrlPathMatchConditionParameters(gens map
 
 func Test_UrlPathMatchConditionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -7920,6 +8470,11 @@ func AddIndependentPropertyGeneratorsForUrlPathMatchConditionParameters_STATUS(g
 
 func Test_UrlRedirectAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -7994,6 +8549,11 @@ func AddRelatedPropertyGeneratorsForUrlRedirectAction(gens map[string]gopter.Gen
 
 func Test_UrlRedirectActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -8061,6 +8621,11 @@ func AddIndependentPropertyGeneratorsForUrlRedirectActionParameters(gens map[str
 
 func Test_UrlRedirectActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -8128,6 +8693,11 @@ func AddIndependentPropertyGeneratorsForUrlRedirectActionParameters_STATUS(gens 
 
 func Test_UrlRedirectAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -8203,6 +8773,11 @@ func AddRelatedPropertyGeneratorsForUrlRedirectAction_STATUS(gens map[string]gop
 
 func Test_UrlRewriteAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -8277,6 +8852,11 @@ func AddRelatedPropertyGeneratorsForUrlRewriteAction(gens map[string]gopter.Gen)
 
 func Test_UrlRewriteActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -8341,6 +8921,11 @@ func AddIndependentPropertyGeneratorsForUrlRewriteActionParameters(gens map[stri
 
 func Test_UrlRewriteActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -8405,6 +8990,11 @@ func AddIndependentPropertyGeneratorsForUrlRewriteActionParameters_STATUS(gens m
 
 func Test_UrlRewriteAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -8480,6 +9070,11 @@ func AddRelatedPropertyGeneratorsForUrlRewriteAction_STATUS(gens map[string]gopt
 
 func Test_UrlSigningAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -8554,6 +9149,11 @@ func AddRelatedPropertyGeneratorsForUrlSigningAction(gens map[string]gopter.Gen)
 
 func Test_UrlSigningActionParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -8630,6 +9230,11 @@ func AddRelatedPropertyGeneratorsForUrlSigningActionParameters(gens map[string]g
 
 func Test_UrlSigningActionParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -8706,6 +9311,11 @@ func AddRelatedPropertyGeneratorsForUrlSigningActionParameters_STATUS(gens map[s
 
 func Test_UrlSigningAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -8781,6 +9391,11 @@ func AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS(gens map[string]gopt
 
 func Test_UrlSigningParamIdentifier_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -8843,6 +9458,11 @@ func AddIndependentPropertyGeneratorsForUrlSigningParamIdentifier(gens map[strin
 
 func Test_UrlSigningParamIdentifier_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

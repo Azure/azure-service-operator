@@ -20,6 +20,11 @@ import (
 
 func Test_ResourceLocationDataContract_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForResourceLocationDataContract(subject ResourceLo
 
 func Test_ResourceLocationDataContract_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -126,6 +136,11 @@ func AddIndependentPropertyGeneratorsForResourceLocationDataContract(gens map[st
 
 func Test_ResourceLocationDataContract_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -168,6 +183,11 @@ func RunPropertyAssignmentTestForResourceLocationDataContract_STATUS(subject Res
 
 func Test_ResourceLocationDataContract_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -232,6 +252,11 @@ func AddIndependentPropertyGeneratorsForResourceLocationDataContract_STATUS(gens
 
 func Test_ServiceGateway_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -275,6 +300,11 @@ func RunResourceConversionTestForServiceGateway(subject ServiceGateway) string {
 
 func Test_ServiceGateway_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -317,6 +347,11 @@ func RunPropertyAssignmentTestForServiceGateway(subject ServiceGateway) string {
 
 func Test_ServiceGateway_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -378,6 +413,11 @@ func AddRelatedPropertyGeneratorsForServiceGateway(gens map[string]gopter.Gen) {
 
 func Test_ServiceGatewayOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -420,6 +460,11 @@ func RunPropertyAssignmentTestForServiceGatewayOperatorSecrets(subject ServiceGa
 
 func Test_ServiceGatewayOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -475,6 +520,11 @@ func ServiceGatewayOperatorSecretsGenerator() gopter.Gen {
 
 func Test_ServiceGatewayOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -517,6 +567,11 @@ func RunPropertyAssignmentTestForServiceGatewayOperatorSpec(subject ServiceGatew
 
 func Test_ServiceGatewayOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -578,6 +633,11 @@ func AddRelatedPropertyGeneratorsForServiceGatewayOperatorSpec(gens map[string]g
 
 func Test_ServiceGateway_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -620,6 +680,11 @@ func RunPropertyAssignmentTestForServiceGateway_STATUS(subject ServiceGateway_ST
 
 func Test_ServiceGateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -698,6 +763,11 @@ func AddRelatedPropertyGeneratorsForServiceGateway_STATUS(gens map[string]gopter
 
 func Test_ServiceGateway_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -740,6 +810,11 @@ func RunPropertyAssignmentTestForServiceGateway_Spec(subject ServiceGateway_Spec
 
 func Test_ServiceGateway_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
