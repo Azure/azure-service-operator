@@ -296,8 +296,7 @@ Backend: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── OriginalVersion: string
 │   ├── Owner: *genruntime.KnownResourceReference
-│   ├── Pool: *Object (3 properties)
-│   │   ├── AdditionalProperties: map[string]v1.JSON
+│   ├── Pool: *Object (2 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── Services: Object (2 properties)[]
 │   │       ├── PropertyBag: genruntime.PropertyBag
@@ -361,8 +360,7 @@ Backend: Resource
     ├── Description: *string
     ├── Id: *string
     ├── Name: *string
-    ├── Pool: *Object (3 properties)
-    │   ├── AdditionalProperties: map[string]v1.JSON
+    ├── Pool: *Object (2 properties)
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── Services: Object (2 properties)[]
     │       ├── Id: *string
@@ -911,19 +909,19 @@ augmentConversionForBackendCircuitBreaker: Interface
 
 augmentConversionForBackendCircuitBreaker_STATUS: Interface
 
-augmentConversionForBackendContractProperties_Pool: Interface
-
-augmentConversionForBackendContractProperties_Pool_STATUS: Interface
-
 augmentConversionForBackendCredentialsContract: Interface
 
 augmentConversionForBackendCredentialsContract_STATUS: Interface
 
 augmentConversionForBackendOperatorSpec: Interface
 
+augmentConversionForBackendPool: Interface
+
 augmentConversionForBackendPoolItem: Interface
 
 augmentConversionForBackendPoolItem_STATUS: Interface
+
+augmentConversionForBackendPool_STATUS: Interface
 
 augmentConversionForBackendProperties: Interface
 

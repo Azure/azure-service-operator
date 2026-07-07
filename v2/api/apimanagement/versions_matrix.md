@@ -96,8 +96,6 @@
 | BackendCircuitBreaker                                        |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | BackendCircuitBreaker_STATUS                                 |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | BackendContractProperties                                    | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
-| BackendContractProperties_Pool                               |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
-| BackendContractProperties_Pool_STATUS                        |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | BackendContractProperties_Protocol                           | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | BackendContractProperties_Protocol_STATUS                    | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | BackendContractProperties_STATUS                             | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
@@ -105,8 +103,10 @@
 | BackendContractProperties_Type_STATUS                        |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | BackendCredentialsContract                                   | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | BackendCredentialsContract_STATUS                            | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
+| BackendPool                                                  |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | BackendPoolItem                                              |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | BackendPoolItem_STATUS                                       |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
+| BackendPool_STATUS                                           |               | v1api20230501preview | v1api20240501 |           | v20230501preview | v20240501 |
 | BackendProperties                                            | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | BackendProperties_STATUS                                     | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |
 | BackendProxyContract                                         | v1api20220801 | v1api20230501preview | v1api20240501 | v20220801 | v20230501preview | v20240501 |

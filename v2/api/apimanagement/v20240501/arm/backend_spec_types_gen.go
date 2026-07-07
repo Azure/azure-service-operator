@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package arm
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Backend_Spec struct {
 	Name string `json:"name,omitempty"`
@@ -41,8 +38,10 @@ type BackendContractProperties struct {
 	Credentials *BackendCredentialsContract `json:"credentials,omitempty"`
 
 	// Description: Backend Description.
-	Description *string                         `json:"description,omitempty"`
-	Pool        *BackendContractProperties_Pool `json:"pool,omitempty"`
+	Description *string `json:"description,omitempty"`
+
+	// Pool: Backend pool information
+	Pool *BackendPool `json:"pool,omitempty"`
 
 	// Properties: Backend Properties contract
 	Properties *BackendProperties `json:"properties,omitempty"`
@@ -74,13 +73,6 @@ type BackendContractProperties struct {
 type BackendCircuitBreaker struct {
 	// Rules: The rules for tripping the backend.
 	Rules []CircuitBreakerRule `json:"rules,omitempty"`
-}
-
-type BackendContractProperties_Pool struct {
-	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
-
-	// Services: The list of backend entities belonging to a pool.
-	Services []BackendPoolItem `json:"services,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"http","soap"}
@@ -127,6 +119,12 @@ type BackendCredentialsContract struct {
 
 	// Query: Query Parameter description.
 	Query map[string][]string `json:"query,omitempty"`
+}
+
+// Backend pool information
+type BackendPool struct {
+	// Services: The list of backend entities belonging to a pool.
+	Services []BackendPoolItem `json:"services,omitempty"`
 }
 
 // Properties specific to the Backend Type.

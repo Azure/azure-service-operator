@@ -832,7 +832,7 @@ type QuotaProperties struct {
 	Name *ResourceName `json:"name,omitempty"`
 
 	// Properties: Additional properties for the specific resource provider.
-	Properties map[string]v1.JSON `json:"properties,omitempty"`
+	Properties *v1.JSON `json:"properties,omitempty"`
 
 	// ResourceType: The name of the resource type. Optional field.
 	ResourceType *string `json:"resourceType,omitempty"`
@@ -869,10 +869,8 @@ func (properties *QuotaProperties) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property "Properties":
 	if properties.Properties != nil {
-		result.Properties = make(map[string]v1.JSON, len(properties.Properties))
-		for key, value := range properties.Properties {
-			result.Properties[key] = *value.DeepCopy()
-		}
+		properties1 := *properties.Properties.DeepCopy()
+		result.Properties = &properties1
 	}
 
 	// Set property "ResourceType":
@@ -919,10 +917,8 @@ func (properties *QuotaProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "Properties":
 	if typedInput.Properties != nil {
-		properties.Properties = make(map[string]v1.JSON, len(typedInput.Properties))
-		for key, value := range typedInput.Properties {
-			properties.Properties[key] = *value.DeepCopy()
-		}
+		properties1 := *typedInput.Properties.DeepCopy()
+		properties.Properties = &properties1
 	}
 
 	// Set property "ResourceType":
@@ -964,11 +960,8 @@ func (properties *QuotaProperties) AssignProperties_From_QuotaProperties(source 
 
 	// Properties
 	if source.Properties != nil {
-		propertyMap := make(map[string]v1.JSON, len(source.Properties))
-		for propertyKey, propertyValue := range source.Properties {
-			propertyMap[propertyKey] = *propertyValue.DeepCopy()
-		}
-		properties.Properties = propertyMap
+		property := *source.Properties.DeepCopy()
+		properties.Properties = &property
 	} else {
 		properties.Properties = nil
 	}
@@ -1011,11 +1004,8 @@ func (properties *QuotaProperties) AssignProperties_To_QuotaProperties(destinati
 
 	// Properties
 	if properties.Properties != nil {
-		propertyMap := make(map[string]v1.JSON, len(properties.Properties))
-		for propertyKey, propertyValue := range properties.Properties {
-			propertyMap[propertyKey] = *propertyValue.DeepCopy()
-		}
-		destination.Properties = propertyMap
+		property := *properties.Properties.DeepCopy()
+		destination.Properties = &property
 	} else {
 		destination.Properties = nil
 	}
@@ -1063,11 +1053,8 @@ func (properties *QuotaProperties) Initialize_From_QuotaProperties_STATUS(source
 
 	// Properties
 	if source.Properties != nil {
-		propertyMap := make(map[string]v1.JSON, len(source.Properties))
-		for propertyKey, propertyValue := range source.Properties {
-			propertyMap[propertyKey] = *propertyValue.DeepCopy()
-		}
-		properties.Properties = propertyMap
+		property := *source.Properties.DeepCopy()
+		properties.Properties = &property
 	} else {
 		properties.Properties = nil
 	}
@@ -1091,7 +1078,7 @@ type QuotaProperties_STATUS struct {
 	Name *ResourceName_STATUS `json:"name,omitempty"`
 
 	// Properties: Additional properties for the specific resource provider.
-	Properties map[string]v1.JSON `json:"properties,omitempty"`
+	Properties *v1.JSON `json:"properties,omitempty"`
 
 	// QuotaPeriod: The time period over which the quota usage values are summarized. For example:
 	// *P1D (per one day)
@@ -1152,10 +1139,8 @@ func (properties *QuotaProperties_STATUS) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property "Properties":
 	if typedInput.Properties != nil {
-		properties.Properties = make(map[string]v1.JSON, len(typedInput.Properties))
-		for key, value := range typedInput.Properties {
-			properties.Properties[key] = *value.DeepCopy()
-		}
+		properties1 := *typedInput.Properties.DeepCopy()
+		properties.Properties = &properties1
 	}
 
 	// Set property "QuotaPeriod":
@@ -1217,11 +1202,8 @@ func (properties *QuotaProperties_STATUS) AssignProperties_From_QuotaProperties_
 
 	// Properties
 	if source.Properties != nil {
-		propertyMap := make(map[string]v1.JSON, len(source.Properties))
-		for propertyKey, propertyValue := range source.Properties {
-			propertyMap[propertyKey] = *propertyValue.DeepCopy()
-		}
-		properties.Properties = propertyMap
+		property := *source.Properties.DeepCopy()
+		properties.Properties = &property
 	} else {
 		properties.Properties = nil
 	}
@@ -1278,11 +1260,8 @@ func (properties *QuotaProperties_STATUS) AssignProperties_To_QuotaProperties_ST
 
 	// Properties
 	if properties.Properties != nil {
-		propertyMap := make(map[string]v1.JSON, len(properties.Properties))
-		for propertyKey, propertyValue := range properties.Properties {
-			propertyMap[propertyKey] = *propertyValue.DeepCopy()
-		}
-		destination.Properties = propertyMap
+		property := *properties.Properties.DeepCopy()
+		destination.Properties = &property
 	} else {
 		destination.Properties = nil
 	}

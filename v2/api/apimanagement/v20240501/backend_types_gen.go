@@ -13,7 +13,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -275,7 +274,9 @@ type Backend_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a apimanagement.azure.com/Service resource
 	Owner *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Service"`
-	Pool  *BackendContractProperties_Pool    `json:"pool,omitempty"`
+
+	// Pool: Backend pool information
+	Pool *BackendPool `json:"pool,omitempty"`
 
 	// Properties: Backend Properties contract
 	Properties *BackendProperties `json:"properties,omitempty"`
@@ -359,7 +360,7 @@ func (backend *Backend_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		pool := *pool_ARM.(*arm.BackendContractProperties_Pool)
+		pool := *pool_ARM.(*arm.BackendPool)
 		result.Properties.Pool = &pool
 	}
 	if backend.Properties != nil {
@@ -481,7 +482,7 @@ func (backend *Backend_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Pool != nil {
-			var pool1 BackendContractProperties_Pool
+			var pool1 BackendPool
 			err := pool1.PopulateFromARM(owner, *typedInput.Properties.Pool)
 			if err != nil {
 				return err
@@ -684,10 +685,10 @@ func (backend *Backend_Spec) AssignProperties_From_Backend_Spec(source *storage.
 
 	// Pool
 	if source.Pool != nil {
-		var pool BackendContractProperties_Pool
-		err := pool.AssignProperties_From_BackendContractProperties_Pool(source.Pool)
+		var pool BackendPool
+		err := pool.AssignProperties_From_BackendPool(source.Pool)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_BackendContractProperties_Pool() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendPool() to populate field Pool")
 		}
 		backend.Pool = &pool
 	} else {
@@ -826,10 +827,10 @@ func (backend *Backend_Spec) AssignProperties_To_Backend_Spec(destination *stora
 
 	// Pool
 	if backend.Pool != nil {
-		var pool storage.BackendContractProperties_Pool
-		err := backend.Pool.AssignProperties_To_BackendContractProperties_Pool(&pool)
+		var pool storage.BackendPool
+		err := backend.Pool.AssignProperties_To_BackendPool(&pool)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_BackendContractProperties_Pool() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendPool() to populate field Pool")
 		}
 		destination.Pool = &pool
 	} else {
@@ -945,10 +946,10 @@ func (backend *Backend_Spec) Initialize_From_Backend_STATUS(source *Backend_STAT
 
 	// Pool
 	if source.Pool != nil {
-		var pool BackendContractProperties_Pool
-		err := pool.Initialize_From_BackendContractProperties_Pool_STATUS(source.Pool)
+		var pool BackendPool
+		err := pool.Initialize_From_BackendPool_STATUS(source.Pool)
 		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_BackendContractProperties_Pool_STATUS() to populate field Pool")
+			return eris.Wrap(err, "calling Initialize_From_BackendPool_STATUS() to populate field Pool")
 		}
 		backend.Pool = &pool
 	} else {
@@ -1051,8 +1052,10 @@ type Backend_STATUS struct {
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource
-	Name *string                                `json:"name,omitempty"`
-	Pool *BackendContractProperties_Pool_STATUS `json:"pool,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Pool: Backend pool information
+	Pool *BackendPool_STATUS `json:"pool,omitempty"`
 
 	// Properties: Backend Properties contract
 	Properties *BackendProperties_STATUS `json:"properties,omitempty"`
@@ -1202,7 +1205,7 @@ func (backend *Backend_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Pool != nil {
-			var pool1 BackendContractProperties_Pool_STATUS
+			var pool1 BackendPool_STATUS
 			err := pool1.PopulateFromARM(owner, *typedInput.Properties.Pool)
 			if err != nil {
 				return err
@@ -1354,10 +1357,10 @@ func (backend *Backend_STATUS) AssignProperties_From_Backend_STATUS(source *stor
 
 	// Pool
 	if source.Pool != nil {
-		var pool BackendContractProperties_Pool_STATUS
-		err := pool.AssignProperties_From_BackendContractProperties_Pool_STATUS(source.Pool)
+		var pool BackendPool_STATUS
+		err := pool.AssignProperties_From_BackendPool_STATUS(source.Pool)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_BackendContractProperties_Pool_STATUS() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_From_BackendPool_STATUS() to populate field Pool")
 		}
 		backend.Pool = &pool
 	} else {
@@ -1477,10 +1480,10 @@ func (backend *Backend_STATUS) AssignProperties_To_Backend_STATUS(destination *s
 
 	// Pool
 	if backend.Pool != nil {
-		var pool storage.BackendContractProperties_Pool_STATUS
-		err := backend.Pool.AssignProperties_To_BackendContractProperties_Pool_STATUS(&pool)
+		var pool storage.BackendPool_STATUS
+		err := backend.Pool.AssignProperties_To_BackendPool_STATUS(&pool)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_BackendContractProperties_Pool_STATUS() to populate field Pool")
+			return eris.Wrap(err, "calling AssignProperties_To_BackendPool_STATUS() to populate field Pool")
 		}
 		destination.Pool = &pool
 	} else {
@@ -1769,307 +1772,6 @@ func (breaker *BackendCircuitBreaker_STATUS) AssignProperties_To_BackendCircuitB
 		destination.Rules = ruleList
 	} else {
 		destination.Rules = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type BackendContractProperties_Pool struct {
-	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
-
-	// +kubebuilder:validation:MinItems=1
-	// Services: The list of backend entities belonging to a pool.
-	Services []BackendPoolItem `json:"services,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &BackendContractProperties_Pool{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (pool *BackendContractProperties_Pool) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if pool == nil {
-		return nil, nil
-	}
-	result := &arm.BackendContractProperties_Pool{}
-
-	// Set property "AdditionalProperties":
-	if pool.AdditionalProperties != nil {
-		result.AdditionalProperties = make(map[string]v1.JSON, len(pool.AdditionalProperties))
-		for key, value := range pool.AdditionalProperties {
-			result.AdditionalProperties[key] = *value.DeepCopy()
-		}
-	}
-
-	// Set property "Services":
-	for _, item := range pool.Services {
-		item_ARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Services = append(result.Services, *item_ARM.(*arm.BackendPoolItem))
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (pool *BackendContractProperties_Pool) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.BackendContractProperties_Pool{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (pool *BackendContractProperties_Pool) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.BackendContractProperties_Pool)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendContractProperties_Pool, got %T", armInput)
-	}
-
-	// Set property "AdditionalProperties":
-	if typedInput.AdditionalProperties != nil {
-		pool.AdditionalProperties = make(map[string]v1.JSON, len(typedInput.AdditionalProperties))
-		for key, value := range typedInput.AdditionalProperties {
-			pool.AdditionalProperties[key] = *value.DeepCopy()
-		}
-	}
-
-	// Set property "Services":
-	for _, item := range typedInput.Services {
-		var item1 BackendPoolItem
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		pool.Services = append(pool.Services, item1)
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_BackendContractProperties_Pool populates our BackendContractProperties_Pool from the provided source BackendContractProperties_Pool
-func (pool *BackendContractProperties_Pool) AssignProperties_From_BackendContractProperties_Pool(source *storage.BackendContractProperties_Pool) error {
-
-	// AdditionalProperties
-	if source.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		pool.AdditionalProperties = additionalPropertyMap
-	} else {
-		pool.AdditionalProperties = nil
-	}
-
-	// Services
-	if source.Services != nil {
-		serviceList := make([]BackendPoolItem, len(source.Services))
-		for serviceIndex, serviceItem := range source.Services {
-			var service BackendPoolItem
-			err := service.AssignProperties_From_BackendPoolItem(&serviceItem)
-			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_BackendPoolItem() to populate field Services")
-			}
-			serviceList[serviceIndex] = service
-		}
-		pool.Services = serviceList
-	} else {
-		pool.Services = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_BackendContractProperties_Pool populates the provided destination BackendContractProperties_Pool from our BackendContractProperties_Pool
-func (pool *BackendContractProperties_Pool) AssignProperties_To_BackendContractProperties_Pool(destination *storage.BackendContractProperties_Pool) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AdditionalProperties
-	if pool.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(pool.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range pool.AdditionalProperties {
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		destination.AdditionalProperties = additionalPropertyMap
-	} else {
-		destination.AdditionalProperties = nil
-	}
-
-	// Services
-	if pool.Services != nil {
-		serviceList := make([]storage.BackendPoolItem, len(pool.Services))
-		for serviceIndex, serviceItem := range pool.Services {
-			var service storage.BackendPoolItem
-			err := serviceItem.AssignProperties_To_BackendPoolItem(&service)
-			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_BackendPoolItem() to populate field Services")
-			}
-			serviceList[serviceIndex] = service
-		}
-		destination.Services = serviceList
-	} else {
-		destination.Services = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_BackendContractProperties_Pool_STATUS populates our BackendContractProperties_Pool from the provided source BackendContractProperties_Pool_STATUS
-func (pool *BackendContractProperties_Pool) Initialize_From_BackendContractProperties_Pool_STATUS(source *BackendContractProperties_Pool_STATUS) error {
-
-	// AdditionalProperties
-	if source.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		pool.AdditionalProperties = additionalPropertyMap
-	} else {
-		pool.AdditionalProperties = nil
-	}
-
-	// Services
-	if source.Services != nil {
-		serviceList := make([]BackendPoolItem, len(source.Services))
-		for serviceIndex, serviceItem := range source.Services {
-			var service BackendPoolItem
-			err := service.Initialize_From_BackendPoolItem_STATUS(&serviceItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_BackendPoolItem_STATUS() to populate field Services")
-			}
-			serviceList[serviceIndex] = service
-		}
-		pool.Services = serviceList
-	} else {
-		pool.Services = nil
-	}
-
-	// No error
-	return nil
-}
-
-type BackendContractProperties_Pool_STATUS struct {
-	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
-
-	// Services: The list of backend entities belonging to a pool.
-	Services []BackendPoolItem_STATUS `json:"services,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &BackendContractProperties_Pool_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (pool *BackendContractProperties_Pool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.BackendContractProperties_Pool_STATUS{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (pool *BackendContractProperties_Pool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.BackendContractProperties_Pool_STATUS)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendContractProperties_Pool_STATUS, got %T", armInput)
-	}
-
-	// Set property "AdditionalProperties":
-	if typedInput.AdditionalProperties != nil {
-		pool.AdditionalProperties = make(map[string]v1.JSON, len(typedInput.AdditionalProperties))
-		for key, value := range typedInput.AdditionalProperties {
-			pool.AdditionalProperties[key] = *value.DeepCopy()
-		}
-	}
-
-	// Set property "Services":
-	for _, item := range typedInput.Services {
-		var item1 BackendPoolItem_STATUS
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		pool.Services = append(pool.Services, item1)
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_BackendContractProperties_Pool_STATUS populates our BackendContractProperties_Pool_STATUS from the provided source BackendContractProperties_Pool_STATUS
-func (pool *BackendContractProperties_Pool_STATUS) AssignProperties_From_BackendContractProperties_Pool_STATUS(source *storage.BackendContractProperties_Pool_STATUS) error {
-
-	// AdditionalProperties
-	if source.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		pool.AdditionalProperties = additionalPropertyMap
-	} else {
-		pool.AdditionalProperties = nil
-	}
-
-	// Services
-	if source.Services != nil {
-		serviceList := make([]BackendPoolItem_STATUS, len(source.Services))
-		for serviceIndex, serviceItem := range source.Services {
-			var service BackendPoolItem_STATUS
-			err := service.AssignProperties_From_BackendPoolItem_STATUS(&serviceItem)
-			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_BackendPoolItem_STATUS() to populate field Services")
-			}
-			serviceList[serviceIndex] = service
-		}
-		pool.Services = serviceList
-	} else {
-		pool.Services = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_BackendContractProperties_Pool_STATUS populates the provided destination BackendContractProperties_Pool_STATUS from our BackendContractProperties_Pool_STATUS
-func (pool *BackendContractProperties_Pool_STATUS) AssignProperties_To_BackendContractProperties_Pool_STATUS(destination *storage.BackendContractProperties_Pool_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AdditionalProperties
-	if pool.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(pool.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range pool.AdditionalProperties {
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		destination.AdditionalProperties = additionalPropertyMap
-	} else {
-		destination.AdditionalProperties = nil
-	}
-
-	// Services
-	if pool.Services != nil {
-		serviceList := make([]storage.BackendPoolItem_STATUS, len(pool.Services))
-		for serviceIndex, serviceItem := range pool.Services {
-			var service storage.BackendPoolItem_STATUS
-			err := serviceItem.AssignProperties_To_BackendPoolItem_STATUS(&service)
-			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_BackendPoolItem_STATUS() to populate field Services")
-			}
-			serviceList[serviceIndex] = service
-		}
-		destination.Services = serviceList
-	} else {
-		destination.Services = nil
 	}
 
 	// Update the property bag
@@ -2690,6 +2392,226 @@ func (operator *BackendOperatorSpec) AssignProperties_To_BackendOperatorSpec(des
 		destination.SecretExpressions = secretExpressionList
 	} else {
 		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Backend pool information
+type BackendPool struct {
+	// +kubebuilder:validation:MinItems=1
+	// Services: The list of backend entities belonging to a pool.
+	Services []BackendPoolItem `json:"services,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &BackendPool{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (pool *BackendPool) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if pool == nil {
+		return nil, nil
+	}
+	result := &arm.BackendPool{}
+
+	// Set property "Services":
+	for _, item := range pool.Services {
+		item_ARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Services = append(result.Services, *item_ARM.(*arm.BackendPoolItem))
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (pool *BackendPool) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.BackendPool{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (pool *BackendPool) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.BackendPool)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendPool, got %T", armInput)
+	}
+
+	// Set property "Services":
+	for _, item := range typedInput.Services {
+		var item1 BackendPoolItem
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		pool.Services = append(pool.Services, item1)
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_BackendPool populates our BackendPool from the provided source BackendPool
+func (pool *BackendPool) AssignProperties_From_BackendPool(source *storage.BackendPool) error {
+
+	// Services
+	if source.Services != nil {
+		serviceList := make([]BackendPoolItem, len(source.Services))
+		for serviceIndex, serviceItem := range source.Services {
+			var service BackendPoolItem
+			err := service.AssignProperties_From_BackendPoolItem(&serviceItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_BackendPoolItem() to populate field Services")
+			}
+			serviceList[serviceIndex] = service
+		}
+		pool.Services = serviceList
+	} else {
+		pool.Services = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendPool populates the provided destination BackendPool from our BackendPool
+func (pool *BackendPool) AssignProperties_To_BackendPool(destination *storage.BackendPool) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Services
+	if pool.Services != nil {
+		serviceList := make([]storage.BackendPoolItem, len(pool.Services))
+		for serviceIndex, serviceItem := range pool.Services {
+			var service storage.BackendPoolItem
+			err := serviceItem.AssignProperties_To_BackendPoolItem(&service)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_BackendPoolItem() to populate field Services")
+			}
+			serviceList[serviceIndex] = service
+		}
+		destination.Services = serviceList
+	} else {
+		destination.Services = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_BackendPool_STATUS populates our BackendPool from the provided source BackendPool_STATUS
+func (pool *BackendPool) Initialize_From_BackendPool_STATUS(source *BackendPool_STATUS) error {
+
+	// Services
+	if source.Services != nil {
+		serviceList := make([]BackendPoolItem, len(source.Services))
+		for serviceIndex, serviceItem := range source.Services {
+			var service BackendPoolItem
+			err := service.Initialize_From_BackendPoolItem_STATUS(&serviceItem)
+			if err != nil {
+				return eris.Wrap(err, "calling Initialize_From_BackendPoolItem_STATUS() to populate field Services")
+			}
+			serviceList[serviceIndex] = service
+		}
+		pool.Services = serviceList
+	} else {
+		pool.Services = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Backend pool information
+type BackendPool_STATUS struct {
+	// Services: The list of backend entities belonging to a pool.
+	Services []BackendPoolItem_STATUS `json:"services,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &BackendPool_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (pool *BackendPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.BackendPool_STATUS{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (pool *BackendPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.BackendPool_STATUS)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.BackendPool_STATUS, got %T", armInput)
+	}
+
+	// Set property "Services":
+	for _, item := range typedInput.Services {
+		var item1 BackendPoolItem_STATUS
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		pool.Services = append(pool.Services, item1)
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_BackendPool_STATUS populates our BackendPool_STATUS from the provided source BackendPool_STATUS
+func (pool *BackendPool_STATUS) AssignProperties_From_BackendPool_STATUS(source *storage.BackendPool_STATUS) error {
+
+	// Services
+	if source.Services != nil {
+		serviceList := make([]BackendPoolItem_STATUS, len(source.Services))
+		for serviceIndex, serviceItem := range source.Services {
+			var service BackendPoolItem_STATUS
+			err := service.AssignProperties_From_BackendPoolItem_STATUS(&serviceItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_BackendPoolItem_STATUS() to populate field Services")
+			}
+			serviceList[serviceIndex] = service
+		}
+		pool.Services = serviceList
+	} else {
+		pool.Services = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_BackendPool_STATUS populates the provided destination BackendPool_STATUS from our BackendPool_STATUS
+func (pool *BackendPool_STATUS) AssignProperties_To_BackendPool_STATUS(destination *storage.BackendPool_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Services
+	if pool.Services != nil {
+		serviceList := make([]storage.BackendPoolItem_STATUS, len(pool.Services))
+		for serviceIndex, serviceItem := range pool.Services {
+			var service storage.BackendPoolItem_STATUS
+			err := serviceItem.AssignProperties_To_BackendPoolItem_STATUS(&service)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_BackendPoolItem_STATUS() to populate field Services")
+			}
+			serviceList[serviceIndex] = service
+		}
+		destination.Services = serviceList
+	} else {
+		destination.Services = nil
 	}
 
 	// Update the property bag

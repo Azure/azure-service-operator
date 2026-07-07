@@ -80,6 +80,22 @@ typeTransformers:
           name: any
     because: some ExtensionSettings are defined as map[string]any and some are defined as any  
 
+  - name: PrometheusForwarderDataSource;PrometheusForwarderDataSource_STATUS
+    property: CustomVMScrapeConfig
+    ifType:
+      slice:
+        element:
+          name: any
+    target:
+      slice:
+        element:
+          map:
+            key:
+              name: string
+            value:
+              name: any
+    because: The TypeSpec conversion incorrectly changed items from {"type":"object"} to {} losing the object type. This should be an array of objects (map[string]v1.JSON[]). See https://github.com/Azure/azure-rest-api-specs/issues/44513.
+
   - name: AlertSeverity;AlertSeverity_STATUS
     target:
       enum: 
