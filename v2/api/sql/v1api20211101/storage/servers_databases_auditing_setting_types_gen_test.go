@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ServersDatabasesAuditingSetting_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesAuditingSetting to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersDatabasesAuditingSetting, ServersDatabasesAuditingSettingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersDatabasesAuditingSetting tests if a specific instance of ServersDatabasesAuditingSetting round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersDatabasesAuditingSetting(subject ServersDatabasesAuditingSetting) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersDatabasesAuditingSetting
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersDatabasesAuditingSetting
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersDatabasesAuditingSetting_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesAuditingSetting to ServersDatabasesAuditingSetting via AssignProperties_To_ServersDatabasesAuditingSetting & AssignProperties_From_ServersDatabasesAuditingSetting returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesAuditingSetting, ServersDatabasesAuditingSettingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesAuditingSetting tests if a specific instance of ServersDatabasesAuditingSetting can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesAuditingSetting(subject ServersDatabasesAuditingSetting) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesAuditingSetting
+	err := copied.AssignProperties_To_ServersDatabasesAuditingSetting(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesAuditingSetting
+	err = actual.AssignProperties_From_ServersDatabasesAuditingSetting(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ServersDatabasesAuditingSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -84,6 +180,53 @@ func AddRelatedPropertyGeneratorsForServersDatabasesAuditingSetting(gens map[str
 	gens["Status"] = ServersDatabasesAuditingSetting_STATUSGenerator()
 }
 
+func Test_ServersDatabasesAuditingSettingOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesAuditingSettingOperatorSpec to ServersDatabasesAuditingSettingOperatorSpec via AssignProperties_To_ServersDatabasesAuditingSettingOperatorSpec & AssignProperties_From_ServersDatabasesAuditingSettingOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesAuditingSettingOperatorSpec, ServersDatabasesAuditingSettingOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesAuditingSettingOperatorSpec tests if a specific instance of ServersDatabasesAuditingSettingOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesAuditingSettingOperatorSpec(subject ServersDatabasesAuditingSettingOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesAuditingSettingOperatorSpec
+	err := copied.AssignProperties_To_ServersDatabasesAuditingSettingOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesAuditingSettingOperatorSpec
+	err = actual.AssignProperties_From_ServersDatabasesAuditingSettingOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersDatabasesAuditingSettingOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -142,6 +285,53 @@ func ServersDatabasesAuditingSettingOperatorSpecGenerator() gopter.Gen {
 	serversDatabasesAuditingSettingOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesAuditingSettingOperatorSpec{}), generators)
 
 	return serversDatabasesAuditingSettingOperatorSpecGenerator
+}
+
+func Test_ServersDatabasesAuditingSetting_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesAuditingSetting_STATUS to ServersDatabasesAuditingSetting_STATUS via AssignProperties_To_ServersDatabasesAuditingSetting_STATUS & AssignProperties_From_ServersDatabasesAuditingSetting_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesAuditingSetting_STATUS, ServersDatabasesAuditingSetting_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesAuditingSetting_STATUS tests if a specific instance of ServersDatabasesAuditingSetting_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesAuditingSetting_STATUS(subject ServersDatabasesAuditingSetting_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesAuditingSetting_STATUS
+	err := copied.AssignProperties_To_ServersDatabasesAuditingSetting_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesAuditingSetting_STATUS
+	err = actual.AssignProperties_From_ServersDatabasesAuditingSetting_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersDatabasesAuditingSetting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -220,6 +410,53 @@ func AddIndependentPropertyGeneratorsForServersDatabasesAuditingSetting_STATUS(g
 	gens["StorageAccountSubscriptionId"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageEndpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ServersDatabasesAuditingSetting_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesAuditingSetting_Spec to ServersDatabasesAuditingSetting_Spec via AssignProperties_To_ServersDatabasesAuditingSetting_Spec & AssignProperties_From_ServersDatabasesAuditingSetting_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesAuditingSetting_Spec, ServersDatabasesAuditingSetting_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesAuditingSetting_Spec tests if a specific instance of ServersDatabasesAuditingSetting_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesAuditingSetting_Spec(subject ServersDatabasesAuditingSetting_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesAuditingSetting_Spec
+	err := copied.AssignProperties_To_ServersDatabasesAuditingSetting_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesAuditingSetting_Spec
+	err = actual.AssignProperties_From_ServersDatabasesAuditingSetting_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersDatabasesAuditingSetting_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

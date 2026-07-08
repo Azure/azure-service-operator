@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersDatabasesAuditingSetting{}
 
 // ConvertFrom populates our ServersDatabasesAuditingSetting from the provided hub ServersDatabasesAuditingSetting
 func (setting *ServersDatabasesAuditingSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersDatabasesAuditingSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesAuditingSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersDatabasesAuditingSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_ServersDatabasesAuditingSetting(source)
+	err = setting.AssignProperties_From_ServersDatabasesAuditingSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersDatabasesAuditingSetting from our ServersDatabasesAuditingSetting
 func (setting *ServersDatabasesAuditingSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersDatabasesAuditingSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesAuditingSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersDatabasesAuditingSetting
+	err := setting.AssignProperties_To_ServersDatabasesAuditingSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_ServersDatabasesAuditingSetting(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersDatabasesAuditingSetting{}
@@ -87,17 +101,6 @@ func (setting *ServersDatabasesAuditingSetting) SecretDestinationExpressions() [
 		return nil
 	}
 	return setting.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersDatabasesAuditingSetting{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (setting *ServersDatabasesAuditingSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersDatabasesAuditingSetting_STATUS); ok {
-		return setting.Spec.Initialize_From_ServersDatabasesAuditingSetting_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersDatabasesAuditingSetting_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabasesAuditingSetting{}
@@ -768,60 +771,6 @@ func (setting *ServersDatabasesAuditingSetting_Spec) AssignProperties_To_Servers
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersDatabasesAuditingSetting_STATUS populates our ServersDatabasesAuditingSetting_Spec from the provided source ServersDatabasesAuditingSetting_STATUS
-func (setting *ServersDatabasesAuditingSetting_Spec) Initialize_From_ServersDatabasesAuditingSetting_STATUS(source *ServersDatabasesAuditingSetting_STATUS) error {
-
-	// AuditActionsAndGroups
-	setting.AuditActionsAndGroups = genruntime.CloneSliceOfString(source.AuditActionsAndGroups)
-
-	// IsAzureMonitorTargetEnabled
-	if source.IsAzureMonitorTargetEnabled != nil {
-		isAzureMonitorTargetEnabled := *source.IsAzureMonitorTargetEnabled
-		setting.IsAzureMonitorTargetEnabled = &isAzureMonitorTargetEnabled
-	} else {
-		setting.IsAzureMonitorTargetEnabled = nil
-	}
-
-	// IsManagedIdentityInUse
-	if source.IsManagedIdentityInUse != nil {
-		isManagedIdentityInUse := *source.IsManagedIdentityInUse
-		setting.IsManagedIdentityInUse = &isManagedIdentityInUse
-	} else {
-		setting.IsManagedIdentityInUse = nil
-	}
-
-	// IsStorageSecondaryKeyInUse
-	if source.IsStorageSecondaryKeyInUse != nil {
-		isStorageSecondaryKeyInUse := *source.IsStorageSecondaryKeyInUse
-		setting.IsStorageSecondaryKeyInUse = &isStorageSecondaryKeyInUse
-	} else {
-		setting.IsStorageSecondaryKeyInUse = nil
-	}
-
-	// QueueDelayMs
-	setting.QueueDelayMs = genruntime.ClonePointerToInt(source.QueueDelayMs)
-
-	// RetentionDays
-	setting.RetentionDays = genruntime.ClonePointerToInt(source.RetentionDays)
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), databaseBlobAuditingPolicyProperties_State_Values)
-		setting.State = &state
-	} else {
-		setting.State = nil
-	}
-
-	// StorageAccountSubscriptionId
-	setting.StorageAccountSubscriptionId = genruntime.ClonePointerToString(source.StorageAccountSubscriptionId)
-
-	// StorageEndpoint
-	setting.StorageEndpoint = genruntime.ClonePointerToString(source.StorageEndpoint)
 
 	// No error
 	return nil

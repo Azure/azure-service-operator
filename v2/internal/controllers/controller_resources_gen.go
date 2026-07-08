@@ -471,9 +471,12 @@ import (
 	signalrservice_v20240301s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301/storage"
 	signalrservice_v20240301w "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301/webhook"
 	sql_customizations "github.com/Azure/azure-service-operator/v2/api/sql/customizations"
-	sql_v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
-	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
-	sql_v20211101w "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/webhook"
+	sql_v1api20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101w "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/webhook"
+	sql_v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	sql_v20211101w "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/webhook"
 	storage_customizations "github.com/Azure/azure-service-operator/v2/api/storage/customizations"
 	storage_v1api20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	storage_v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/storage"
@@ -2854,6 +2857,18 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.administratorLoginPassword",
 				Func: indexSqlServerAdministratorLoginPassword,
 			},
+			{
+				Key:  ".spec.administrators.loginFromConfig",
+				Func: indexSqlServerLoginFromConfig,
+			},
+			{
+				Key:  ".spec.administrators.sidFromConfig",
+				Func: indexSqlServerSidFromConfig,
+			},
+			{
+				Key:  ".spec.administrators.tenantIdFromConfig",
+				Func: indexSqlServerTenantIdFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -2861,6 +2876,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 				MakeEventHandler: watchSecretsFactory(
 					[]string{
 						".spec.administratorLoginPassword",
+					},
+					&sql_v20211101s.ServerList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.administrators.loginFromConfig",
+						".spec.administrators.sidFromConfig",
+						".spec.administrators.tenantIdFromConfig",
 					},
 					&sql_v20211101s.ServerList{}),
 			},
@@ -6828,6 +6853,142 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.Server),
+			Defaulter: &sql_v1api20211101w.Server{},
+			Validator: &sql_v1api20211101w.Server{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersAdministrator),
+			Defaulter: &sql_v1api20211101w.ServersAdministrator{},
+			Validator: &sql_v1api20211101w.ServersAdministrator{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersAdvancedThreatProtectionSetting),
+			Defaulter: &sql_v1api20211101w.ServersAdvancedThreatProtectionSetting{},
+			Validator: &sql_v1api20211101w.ServersAdvancedThreatProtectionSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersAuditingSetting),
+			Defaulter: &sql_v1api20211101w.ServersAuditingSetting{},
+			Validator: &sql_v1api20211101w.ServersAuditingSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersAzureADOnlyAuthentication),
+			Defaulter: &sql_v1api20211101w.ServersAzureADOnlyAuthentication{},
+			Validator: &sql_v1api20211101w.ServersAzureADOnlyAuthentication{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersConnectionPolicy),
+			Defaulter: &sql_v1api20211101w.ServersConnectionPolicy{},
+			Validator: &sql_v1api20211101w.ServersConnectionPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabase),
+			Defaulter: &sql_v1api20211101w.ServersDatabase{},
+			Validator: &sql_v1api20211101w.ServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesAdvancedThreatProtectionSetting),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesAdvancedThreatProtectionSetting{},
+			Validator: &sql_v1api20211101w.ServersDatabasesAdvancedThreatProtectionSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesAuditingSetting),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesAuditingSetting{},
+			Validator: &sql_v1api20211101w.ServersDatabasesAuditingSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesBackupLongTermRetentionPolicy),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesBackupLongTermRetentionPolicy{},
+			Validator: &sql_v1api20211101w.ServersDatabasesBackupLongTermRetentionPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesBackupShortTermRetentionPolicy),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesBackupShortTermRetentionPolicy{},
+			Validator: &sql_v1api20211101w.ServersDatabasesBackupShortTermRetentionPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesSecurityAlertPolicy),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesSecurityAlertPolicy{},
+			Validator: &sql_v1api20211101w.ServersDatabasesSecurityAlertPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesTransparentDataEncryption),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesTransparentDataEncryption{},
+			Validator: &sql_v1api20211101w.ServersDatabasesTransparentDataEncryption{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesVulnerabilityAssessment),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesVulnerabilityAssessment{},
+			Validator: &sql_v1api20211101w.ServersDatabasesVulnerabilityAssessment{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersElasticPool),
+			Defaulter: &sql_v1api20211101w.ServersElasticPool{},
+			Validator: &sql_v1api20211101w.ServersElasticPool{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersFailoverGroup),
+			Defaulter: &sql_v1api20211101w.ServersFailoverGroup{},
+			Validator: &sql_v1api20211101w.ServersFailoverGroup{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersFirewallRule),
+			Defaulter: &sql_v1api20211101w.ServersFirewallRule{},
+			Validator: &sql_v1api20211101w.ServersFirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersIPV6FirewallRule),
+			Defaulter: &sql_v1api20211101w.ServersIPV6FirewallRule{},
+			Validator: &sql_v1api20211101w.ServersIPV6FirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersOutboundFirewallRule),
+			Defaulter: &sql_v1api20211101w.ServersOutboundFirewallRule{},
+			Validator: &sql_v1api20211101w.ServersOutboundFirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersSecurityAlertPolicy),
+			Defaulter: &sql_v1api20211101w.ServersSecurityAlertPolicy{},
+			Validator: &sql_v1api20211101w.ServersSecurityAlertPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersVirtualNetworkRule),
+			Defaulter: &sql_v1api20211101w.ServersVirtualNetworkRule{},
+			Validator: &sql_v1api20211101w.ServersVirtualNetworkRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersVulnerabilityAssessment),
+			Defaulter: &sql_v1api20211101w.ServersVulnerabilityAssessment{},
+			Validator: &sql_v1api20211101w.ServersVulnerabilityAssessment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(sql_v1api20211101s.Server)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersAdministrator)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersAdvancedThreatProtectionSetting)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersAuditingSetting)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersAzureADOnlyAuthentication)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersConnectionPolicy)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabase)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesAdvancedThreatProtectionSetting)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesAuditingSetting)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesBackupLongTermRetentionPolicy)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesBackupShortTermRetentionPolicy)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesSecurityAlertPolicy)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesTransparentDataEncryption)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesVulnerabilityAssessment)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersElasticPool)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersFailoverGroup)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersFirewallRule)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersIPV6FirewallRule)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersOutboundFirewallRule)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersSecurityAlertPolicy)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersVirtualNetworkRule)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersVulnerabilityAssessment)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(sql_v20211101.Server),
 			Defaulter: &sql_v20211101w.Server{},
 			Validator: &sql_v20211101w.Server{},
@@ -7728,6 +7889,8 @@ func createScheme() *runtime.Scheme {
 	_ = signalrservice_v20211001s.AddToScheme(scheme)
 	_ = signalrservice_v20240301.AddToScheme(scheme)
 	_ = signalrservice_v20240301s.AddToScheme(scheme)
+	_ = sql_v1api20211101.AddToScheme(scheme)
+	_ = sql_v1api20211101s.AddToScheme(scheme)
 	_ = sql_v20211101.AddToScheme(scheme)
 	_ = sql_v20211101s.AddToScheme(scheme)
 	_ = storage_v1api20210401.AddToScheme(scheme)
@@ -12478,6 +12641,51 @@ func indexSqlServerAdministratorLoginPassword(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.AdministratorLoginPassword.Index()
+}
+
+// indexSqlServerLoginFromConfig an index function for sql_v20211101s.Server .spec.administrators.loginFromConfig
+func indexSqlServerLoginFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20211101s.Server)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.LoginFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.LoginFromConfig.Index()
+}
+
+// indexSqlServerSidFromConfig an index function for sql_v20211101s.Server .spec.administrators.sidFromConfig
+func indexSqlServerSidFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20211101s.Server)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.SidFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.SidFromConfig.Index()
+}
+
+// indexSqlServerTenantIdFromConfig an index function for sql_v20211101s.Server .spec.administrators.tenantIdFromConfig
+func indexSqlServerTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20211101s.Server)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.TenantIdFromConfig.Index()
 }
 
 // indexSqlServersAdministratorSidFromConfig an index function for sql_v20211101s.ServersAdministrator .spec.sidFromConfig

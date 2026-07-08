@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serversvirtualnetworkrules,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serversvirtualnetworkrules/status,serversvirtualnetworkrules/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (rule *ServersVirtualNetworkRule) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (rule *ServersVirtualNetworkRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersVirtualNetworkRule{}
+
+// ConvertFrom populates our ServersVirtualNetworkRule from the provided hub ServersVirtualNetworkRule
+func (rule *ServersVirtualNetworkRule) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersVirtualNetworkRule)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersVirtualNetworkRule but received %T instead", hub)
+	}
+
+	return rule.AssignProperties_From_ServersVirtualNetworkRule(source)
+}
+
+// ConvertTo populates the provided hub ServersVirtualNetworkRule from our ServersVirtualNetworkRule
+func (rule *ServersVirtualNetworkRule) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersVirtualNetworkRule)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersVirtualNetworkRule but received %T instead", hub)
+	}
+
+	return rule.AssignProperties_To_ServersVirtualNetworkRule(destination)
 }
 
 var _ configmaps.Exporter = &ServersVirtualNetworkRule{}
@@ -143,8 +164,75 @@ func (rule *ServersVirtualNetworkRule) SetStatus(status genruntime.ConvertibleSt
 	return nil
 }
 
-// Hub marks that this ServersVirtualNetworkRule is the hub type for conversion
-func (rule *ServersVirtualNetworkRule) Hub() {}
+// AssignProperties_From_ServersVirtualNetworkRule populates our ServersVirtualNetworkRule from the provided source ServersVirtualNetworkRule
+func (rule *ServersVirtualNetworkRule) AssignProperties_From_ServersVirtualNetworkRule(source *storage.ServersVirtualNetworkRule) error {
+
+	// ObjectMeta
+	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersVirtualNetworkRule_Spec
+	err := spec.AssignProperties_From_ServersVirtualNetworkRule_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersVirtualNetworkRule_Spec() to populate field Spec")
+	}
+	rule.Spec = spec
+
+	// Status
+	var status ServersVirtualNetworkRule_STATUS
+	err = status.AssignProperties_From_ServersVirtualNetworkRule_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersVirtualNetworkRule_STATUS() to populate field Status")
+	}
+	rule.Status = status
+
+	// Invoke the augmentConversionForServersVirtualNetworkRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersVirtualNetworkRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersVirtualNetworkRule populates the provided destination ServersVirtualNetworkRule from our ServersVirtualNetworkRule
+func (rule *ServersVirtualNetworkRule) AssignProperties_To_ServersVirtualNetworkRule(destination *storage.ServersVirtualNetworkRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersVirtualNetworkRule_Spec
+	err := rule.Spec.AssignProperties_To_ServersVirtualNetworkRule_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersVirtualNetworkRule_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersVirtualNetworkRule_STATUS
+	err = rule.Status.AssignProperties_To_ServersVirtualNetworkRule_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersVirtualNetworkRule_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersVirtualNetworkRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersVirtualNetworkRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (rule *ServersVirtualNetworkRule) OriginalGVK() *schema.GroupVersionKind {
@@ -164,6 +252,11 @@ type ServersVirtualNetworkRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ServersVirtualNetworkRule `json:"items"`
+}
+
+type augmentConversionForServersVirtualNetworkRule interface {
+	AssignPropertiesFrom(src *storage.ServersVirtualNetworkRule) error
+	AssignPropertiesTo(dst *storage.ServersVirtualNetworkRule) error
 }
 
 // Storage version of v1api20211101.ServersVirtualNetworkRule_Spec
@@ -191,20 +284,184 @@ var _ genruntime.ConvertibleSpec = &ServersVirtualNetworkRule_Spec{}
 
 // ConvertSpecFrom populates our ServersVirtualNetworkRule_Spec from the provided source
 func (rule *ServersVirtualNetworkRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersVirtualNetworkRule_Spec)
+	if ok {
+		// Populate our instance from source
+		return rule.AssignProperties_From_ServersVirtualNetworkRule_Spec(src)
 	}
 
-	return source.ConvertSpecTo(rule)
+	// Convert to an intermediate form
+	src = &storage.ServersVirtualNetworkRule_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = rule.AssignProperties_From_ServersVirtualNetworkRule_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersVirtualNetworkRule_Spec
 func (rule *ServersVirtualNetworkRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersVirtualNetworkRule_Spec)
+	if ok {
+		// Populate destination from our instance
+		return rule.AssignProperties_To_ServersVirtualNetworkRule_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(rule)
+	// Convert to an intermediate form
+	dst = &storage.ServersVirtualNetworkRule_Spec{}
+	err := rule.AssignProperties_To_ServersVirtualNetworkRule_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersVirtualNetworkRule_Spec populates our ServersVirtualNetworkRule_Spec from the provided source ServersVirtualNetworkRule_Spec
+func (rule *ServersVirtualNetworkRule_Spec) AssignProperties_From_ServersVirtualNetworkRule_Spec(source *storage.ServersVirtualNetworkRule_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	rule.AzureName = source.AzureName
+
+	// IgnoreMissingVnetServiceEndpoint
+	if source.IgnoreMissingVnetServiceEndpoint != nil {
+		ignoreMissingVnetServiceEndpoint := *source.IgnoreMissingVnetServiceEndpoint
+		rule.IgnoreMissingVnetServiceEndpoint = &ignoreMissingVnetServiceEndpoint
+	} else {
+		rule.IgnoreMissingVnetServiceEndpoint = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersVirtualNetworkRuleOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersVirtualNetworkRuleOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersVirtualNetworkRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		rule.OperatorSpec = &operatorSpec
+	} else {
+		rule.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	rule.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		rule.Owner = &owner
+	} else {
+		rule.Owner = nil
+	}
+
+	// VirtualNetworkSubnetReference
+	if source.VirtualNetworkSubnetReference != nil {
+		virtualNetworkSubnetReference := source.VirtualNetworkSubnetReference.Copy()
+		rule.VirtualNetworkSubnetReference = &virtualNetworkSubnetReference
+	} else {
+		rule.VirtualNetworkSubnetReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersVirtualNetworkRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersVirtualNetworkRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersVirtualNetworkRule_Spec populates the provided destination ServersVirtualNetworkRule_Spec from our ServersVirtualNetworkRule_Spec
+func (rule *ServersVirtualNetworkRule_Spec) AssignProperties_To_ServersVirtualNetworkRule_Spec(destination *storage.ServersVirtualNetworkRule_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// AzureName
+	destination.AzureName = rule.AzureName
+
+	// IgnoreMissingVnetServiceEndpoint
+	if rule.IgnoreMissingVnetServiceEndpoint != nil {
+		ignoreMissingVnetServiceEndpoint := *rule.IgnoreMissingVnetServiceEndpoint
+		destination.IgnoreMissingVnetServiceEndpoint = &ignoreMissingVnetServiceEndpoint
+	} else {
+		destination.IgnoreMissingVnetServiceEndpoint = nil
+	}
+
+	// OperatorSpec
+	if rule.OperatorSpec != nil {
+		var operatorSpec storage.ServersVirtualNetworkRuleOperatorSpec
+		err := rule.OperatorSpec.AssignProperties_To_ServersVirtualNetworkRuleOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersVirtualNetworkRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = rule.OriginalVersion
+
+	// Owner
+	if rule.Owner != nil {
+		owner := rule.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// VirtualNetworkSubnetReference
+	if rule.VirtualNetworkSubnetReference != nil {
+		virtualNetworkSubnetReference := rule.VirtualNetworkSubnetReference.Copy()
+		destination.VirtualNetworkSubnetReference = &virtualNetworkSubnetReference
+	} else {
+		destination.VirtualNetworkSubnetReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersVirtualNetworkRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersVirtualNetworkRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20211101.ServersVirtualNetworkRule_STATUS
@@ -223,20 +480,162 @@ var _ genruntime.ConvertibleStatus = &ServersVirtualNetworkRule_STATUS{}
 
 // ConvertStatusFrom populates our ServersVirtualNetworkRule_STATUS from the provided source
 func (rule *ServersVirtualNetworkRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersVirtualNetworkRule_STATUS)
+	if ok {
+		// Populate our instance from source
+		return rule.AssignProperties_From_ServersVirtualNetworkRule_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(rule)
+	// Convert to an intermediate form
+	src = &storage.ServersVirtualNetworkRule_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = rule.AssignProperties_From_ServersVirtualNetworkRule_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersVirtualNetworkRule_STATUS
 func (rule *ServersVirtualNetworkRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersVirtualNetworkRule_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return rule.AssignProperties_To_ServersVirtualNetworkRule_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(rule)
+	// Convert to an intermediate form
+	dst = &storage.ServersVirtualNetworkRule_STATUS{}
+	err := rule.AssignProperties_To_ServersVirtualNetworkRule_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersVirtualNetworkRule_STATUS populates our ServersVirtualNetworkRule_STATUS from the provided source ServersVirtualNetworkRule_STATUS
+func (rule *ServersVirtualNetworkRule_STATUS) AssignProperties_From_ServersVirtualNetworkRule_STATUS(source *storage.ServersVirtualNetworkRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IgnoreMissingVnetServiceEndpoint
+	if source.IgnoreMissingVnetServiceEndpoint != nil {
+		ignoreMissingVnetServiceEndpoint := *source.IgnoreMissingVnetServiceEndpoint
+		rule.IgnoreMissingVnetServiceEndpoint = &ignoreMissingVnetServiceEndpoint
+	} else {
+		rule.IgnoreMissingVnetServiceEndpoint = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// State
+	rule.State = genruntime.ClonePointerToString(source.State)
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// VirtualNetworkSubnetId
+	rule.VirtualNetworkSubnetId = genruntime.ClonePointerToString(source.VirtualNetworkSubnetId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersVirtualNetworkRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersVirtualNetworkRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersVirtualNetworkRule_STATUS populates the provided destination ServersVirtualNetworkRule_STATUS from our ServersVirtualNetworkRule_STATUS
+func (rule *ServersVirtualNetworkRule_STATUS) AssignProperties_To_ServersVirtualNetworkRule_STATUS(destination *storage.ServersVirtualNetworkRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(rule.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
+
+	// IgnoreMissingVnetServiceEndpoint
+	if rule.IgnoreMissingVnetServiceEndpoint != nil {
+		ignoreMissingVnetServiceEndpoint := *rule.IgnoreMissingVnetServiceEndpoint
+		destination.IgnoreMissingVnetServiceEndpoint = &ignoreMissingVnetServiceEndpoint
+	} else {
+		destination.IgnoreMissingVnetServiceEndpoint = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// State
+	destination.State = genruntime.ClonePointerToString(rule.State)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// VirtualNetworkSubnetId
+	destination.VirtualNetworkSubnetId = genruntime.ClonePointerToString(rule.VirtualNetworkSubnetId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersVirtualNetworkRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersVirtualNetworkRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersVirtualNetworkRule_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersVirtualNetworkRule_Spec) error
+	AssignPropertiesTo(dst *storage.ServersVirtualNetworkRule_Spec) error
+}
+
+type augmentConversionForServersVirtualNetworkRule_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersVirtualNetworkRule_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersVirtualNetworkRule_STATUS) error
 }
 
 // Storage version of v1api20211101.ServersVirtualNetworkRuleOperatorSpec
@@ -245,6 +644,125 @@ type ServersVirtualNetworkRuleOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersVirtualNetworkRuleOperatorSpec populates our ServersVirtualNetworkRuleOperatorSpec from the provided source ServersVirtualNetworkRuleOperatorSpec
+func (operator *ServersVirtualNetworkRuleOperatorSpec) AssignProperties_From_ServersVirtualNetworkRuleOperatorSpec(source *storage.ServersVirtualNetworkRuleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersVirtualNetworkRuleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersVirtualNetworkRuleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersVirtualNetworkRuleOperatorSpec populates the provided destination ServersVirtualNetworkRuleOperatorSpec from our ServersVirtualNetworkRuleOperatorSpec
+func (operator *ServersVirtualNetworkRuleOperatorSpec) AssignProperties_To_ServersVirtualNetworkRuleOperatorSpec(destination *storage.ServersVirtualNetworkRuleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersVirtualNetworkRuleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersVirtualNetworkRuleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersVirtualNetworkRuleOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersVirtualNetworkRuleOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersVirtualNetworkRuleOperatorSpec) error
 }
 
 func init() {
