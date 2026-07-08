@@ -32,7 +32,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <meta itemprop="name" content="Supported Resources">
   <meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-  <meta itemprop="wordCount" content="8548">
+  <meta itemprop="wordCount" content="8693">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Supported Resources">
   <meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -1251,31 +1251,32 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     <li><a href="#sql">Sql</a>
       <ul>
         <li><a href="#released-15">Released</a></li>
+        <li><a href="#deprecated-10">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#storage">Storage</a>
       <ul>
         <li><a href="#latest-released-versions-26">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-26">Other Supported Versions</a></li>
-        <li><a href="#deprecated-10">Deprecated</a></li>
+        <li><a href="#deprecated-11">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#subscription">Subscription</a>
       <ul>
         <li><a href="#released-16">Released</a></li>
-        <li><a href="#deprecated-11">Deprecated</a></li>
+        <li><a href="#deprecated-12">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#synapse">Synapse</a>
       <ul>
         <li><a href="#released-17">Released</a></li>
-        <li><a href="#deprecated-12">Deprecated</a></li>
+        <li><a href="#deprecated-13">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#web">Web</a>
       <ul>
         <li><a href="#released-18">Released</a></li>
-        <li><a href="#deprecated-13">Deprecated</a></li>
+        <li><a href="#deprecated-14">Deprecated</a></li>
       </ul>
     </li>
   </ul>
@@ -6601,6 +6602,182 @@ grouped by the originating ARM service.
   </thead>
   <tbody>
       <tr>
+          <td>Server</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_server.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersAdministrator</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversadministrator.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersAdvancedThreatProtectionSetting</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversadvancedthreatprotectionsetting.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersAuditingSetting</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversauditingsetting.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersAzureADOnlyAuthentication</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversazureadonlyauthentication.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersConnectionPolicy</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversconnectionpolicy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersDatabase</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabase.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersDatabasesAdvancedThreatProtectionSetting</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasesadvancedthreatprotectionsetting.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersDatabasesAuditingSetting</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasesauditingsetting.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersDatabasesBackupLongTermRetentionPolicy</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasesbackuplongtermretentionpolicy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersDatabasesBackupShortTermRetentionPolicy</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasesbackupshorttermretentionpolicy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersDatabasesSecurityAlertPolicy</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasessecurityalertpolicy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersDatabasesTransparentDataEncryption</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasestransparentdataencryption.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersDatabasesVulnerabilityAssessment</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversdatabasesvulnerabilityassessment.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersElasticPool</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serverselasticpool.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersFailoverGroup</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversfailovergroup.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersFirewallRule</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversfirewallrule.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersIPV6FirewallRule</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversipv6firewallrule.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersOutboundFirewallRule</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversoutboundfirewallrule.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersSecurityAlertPolicy</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serverssecurityalertpolicy.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersVirtualNetworkRule</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversvirtualnetworkrule.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ServersVulnerabilityAssessment</td>
+          <td>2021-11-01</td>
+          <td>v20211101</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversvulnerabilityassessment.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/sql/v1/#User">User</a></td>
+          <td>v1</td>
+          <td>v1</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api/v1_user.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="deprecated-10">Deprecated</h3>
+<p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
           <td><a href="/azure-service-operator/reference/sql/v1api20211101/#Server">Server</a></td>
           <td>2021-11-01</td>
           <td>v1api20211101</td>
@@ -6753,13 +6930,6 @@ grouped by the originating ARM service.
           <td>v1api20211101</td>
           <td>v2.0.0</td>
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversvulnerabilityassessment.yaml">View</a></td>
-      </tr>
-      <tr>
-          <td><a href="/azure-service-operator/reference/sql/v1/#User">User</a></td>
-          <td>v1</td>
-          <td>v1</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api/v1_user.yaml">View</a></td>
       </tr>
   </tbody>
 </table>
@@ -7048,7 +7218,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-10">Deprecated</h3>
+<h3 id="deprecated-11">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -7270,7 +7440,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-11">Deprecated</h3>
+<h3 id="deprecated-12">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -7324,7 +7494,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-12">Deprecated</h3>
+<h3 id="deprecated-13">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -7392,7 +7562,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-13">Deprecated</h3>
+<h3 id="deprecated-14">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
