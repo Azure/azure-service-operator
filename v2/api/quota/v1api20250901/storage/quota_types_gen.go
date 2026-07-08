@@ -252,7 +252,7 @@ type QuotaOperatorSpec struct {
 type QuotaProperties struct {
 	Limit        *LimitJsonObject       `json:"limit,omitempty"`
 	Name         *ResourceName          `json:"name,omitempty"`
-	Properties   map[string]v1.JSON     `json:"properties,omitempty"`
+	Properties   *v1.JSON               `json:"properties,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceType *string                `json:"resourceType,omitempty"`
 }
@@ -263,7 +263,7 @@ type QuotaProperties_STATUS struct {
 	IsQuotaApplicable *bool                   `json:"isQuotaApplicable,omitempty"`
 	Limit             *LimitJsonObject_STATUS `json:"limit,omitempty"`
 	Name              *ResourceName_STATUS    `json:"name,omitempty"`
-	Properties        map[string]v1.JSON      `json:"properties,omitempty"`
+	Properties        *v1.JSON                `json:"properties,omitempty"`
 	PropertyBag       genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 	QuotaPeriod       *string                 `json:"quotaPeriod,omitempty"`
 	ResourceType      *string                 `json:"resourceType,omitempty"`

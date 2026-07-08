@@ -4760,7 +4760,7 @@ func (identity *UserAssignedManagedIdentity_STATUS) AssignProperties_To_UserAssi
 // Key encryption key properties
 type KekIdentityProperties struct {
 	// UseSystemAssignedIdentity: Boolean specifying whether to use system assigned identity or not
-	UseSystemAssignedIdentity map[string]v1.JSON `json:"useSystemAssignedIdentity,omitempty"`
+	UseSystemAssignedIdentity *bool `json:"useSystemAssignedIdentity,omitempty"`
 
 	// UserAssignedIdentityReference: User assigned identity resource Id
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
@@ -4777,10 +4777,8 @@ func (properties *KekIdentityProperties) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "UseSystemAssignedIdentity":
 	if properties.UseSystemAssignedIdentity != nil {
-		result.UseSystemAssignedIdentity = make(map[string]v1.JSON, len(properties.UseSystemAssignedIdentity))
-		for key, value := range properties.UseSystemAssignedIdentity {
-			result.UseSystemAssignedIdentity[key] = *value.DeepCopy()
-		}
+		useSystemAssignedIdentity := *properties.UseSystemAssignedIdentity
+		result.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	}
 
 	// Set property "UserAssignedIdentity":
@@ -4809,10 +4807,8 @@ func (properties *KekIdentityProperties) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property "UseSystemAssignedIdentity":
 	if typedInput.UseSystemAssignedIdentity != nil {
-		properties.UseSystemAssignedIdentity = make(map[string]v1.JSON, len(typedInput.UseSystemAssignedIdentity))
-		for key, value := range typedInput.UseSystemAssignedIdentity {
-			properties.UseSystemAssignedIdentity[key] = *value.DeepCopy()
-		}
+		useSystemAssignedIdentity := *typedInput.UseSystemAssignedIdentity
+		properties.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	}
 
 	// no assignment for property "UserAssignedIdentityReference"
@@ -4826,11 +4822,8 @@ func (properties *KekIdentityProperties) AssignProperties_From_KekIdentityProper
 
 	// UseSystemAssignedIdentity
 	if source.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentityMap := make(map[string]v1.JSON, len(source.UseSystemAssignedIdentity))
-		for useSystemAssignedIdentityKey, useSystemAssignedIdentityValue := range source.UseSystemAssignedIdentity {
-			useSystemAssignedIdentityMap[useSystemAssignedIdentityKey] = *useSystemAssignedIdentityValue.DeepCopy()
-		}
-		properties.UseSystemAssignedIdentity = useSystemAssignedIdentityMap
+		useSystemAssignedIdentity := *source.UseSystemAssignedIdentity
+		properties.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	} else {
 		properties.UseSystemAssignedIdentity = nil
 	}
@@ -4854,11 +4847,8 @@ func (properties *KekIdentityProperties) AssignProperties_To_KekIdentityProperti
 
 	// UseSystemAssignedIdentity
 	if properties.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentityMap := make(map[string]v1.JSON, len(properties.UseSystemAssignedIdentity))
-		for useSystemAssignedIdentityKey, useSystemAssignedIdentityValue := range properties.UseSystemAssignedIdentity {
-			useSystemAssignedIdentityMap[useSystemAssignedIdentityKey] = *useSystemAssignedIdentityValue.DeepCopy()
-		}
-		destination.UseSystemAssignedIdentity = useSystemAssignedIdentityMap
+		useSystemAssignedIdentity := *properties.UseSystemAssignedIdentity
+		destination.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	} else {
 		destination.UseSystemAssignedIdentity = nil
 	}
@@ -4887,11 +4877,8 @@ func (properties *KekIdentityProperties) Initialize_From_KekIdentityProperties_S
 
 	// UseSystemAssignedIdentity
 	if source.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentityMap := make(map[string]v1.JSON, len(source.UseSystemAssignedIdentity))
-		for useSystemAssignedIdentityKey, useSystemAssignedIdentityValue := range source.UseSystemAssignedIdentity {
-			useSystemAssignedIdentityMap[useSystemAssignedIdentityKey] = *useSystemAssignedIdentityValue.DeepCopy()
-		}
-		properties.UseSystemAssignedIdentity = useSystemAssignedIdentityMap
+		useSystemAssignedIdentity := *source.UseSystemAssignedIdentity
+		properties.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	} else {
 		properties.UseSystemAssignedIdentity = nil
 	}
@@ -4903,7 +4890,7 @@ func (properties *KekIdentityProperties) Initialize_From_KekIdentityProperties_S
 // Key encryption key properties
 type KekIdentityProperties_STATUS struct {
 	// UseSystemAssignedIdentity: Boolean specifying whether to use system assigned identity or not
-	UseSystemAssignedIdentity map[string]v1.JSON `json:"useSystemAssignedIdentity,omitempty"`
+	UseSystemAssignedIdentity *bool `json:"useSystemAssignedIdentity,omitempty"`
 
 	// UserAssignedIdentity: User assigned identity resource Id
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
@@ -4925,10 +4912,8 @@ func (properties *KekIdentityProperties_STATUS) PopulateFromARM(owner genruntime
 
 	// Set property "UseSystemAssignedIdentity":
 	if typedInput.UseSystemAssignedIdentity != nil {
-		properties.UseSystemAssignedIdentity = make(map[string]v1.JSON, len(typedInput.UseSystemAssignedIdentity))
-		for key, value := range typedInput.UseSystemAssignedIdentity {
-			properties.UseSystemAssignedIdentity[key] = *value.DeepCopy()
-		}
+		useSystemAssignedIdentity := *typedInput.UseSystemAssignedIdentity
+		properties.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	}
 
 	// Set property "UserAssignedIdentity":
@@ -4946,11 +4931,8 @@ func (properties *KekIdentityProperties_STATUS) AssignProperties_From_KekIdentit
 
 	// UseSystemAssignedIdentity
 	if source.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentityMap := make(map[string]v1.JSON, len(source.UseSystemAssignedIdentity))
-		for useSystemAssignedIdentityKey, useSystemAssignedIdentityValue := range source.UseSystemAssignedIdentity {
-			useSystemAssignedIdentityMap[useSystemAssignedIdentityKey] = *useSystemAssignedIdentityValue.DeepCopy()
-		}
-		properties.UseSystemAssignedIdentity = useSystemAssignedIdentityMap
+		useSystemAssignedIdentity := *source.UseSystemAssignedIdentity
+		properties.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	} else {
 		properties.UseSystemAssignedIdentity = nil
 	}
@@ -4969,11 +4951,8 @@ func (properties *KekIdentityProperties_STATUS) AssignProperties_To_KekIdentityP
 
 	// UseSystemAssignedIdentity
 	if properties.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentityMap := make(map[string]v1.JSON, len(properties.UseSystemAssignedIdentity))
-		for useSystemAssignedIdentityKey, useSystemAssignedIdentityValue := range properties.UseSystemAssignedIdentity {
-			useSystemAssignedIdentityMap[useSystemAssignedIdentityKey] = *useSystemAssignedIdentityValue.DeepCopy()
-		}
-		destination.UseSystemAssignedIdentity = useSystemAssignedIdentityMap
+		useSystemAssignedIdentity := *properties.UseSystemAssignedIdentity
+		destination.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	} else {
 		destination.UseSystemAssignedIdentity = nil
 	}

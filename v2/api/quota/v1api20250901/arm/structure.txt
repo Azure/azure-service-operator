@@ -17,7 +17,7 @@ Quota_STATUS: Object (5 properties)
 │   ├── Name: *Object (2 properties)
 │   │   ├── LocalizedValue: *string
 │   │   └── Value: *string
-│   ├── Properties: map[string]v1.JSON
+│   ├── Properties: *v1.JSON
 │   ├── QuotaPeriod: *string
 │   ├── ResourceType: *string
 │   └── Unit: *string
@@ -51,6 +51,6 @@ Quota_Spec: Object (2 properties)
     │       └── Value: *int
     ├── Name: *Object (1 property)
     │   └── Value: *string
-    ├── Properties: map[string]v1.JSON
+    ├── Properties: *v1.JSON
     └── ResourceType: *string
 

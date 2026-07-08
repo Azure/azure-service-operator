@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package arm
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Workspace_Spec struct {
 	// Identity: Identity of the workspace
@@ -222,7 +219,7 @@ type CustomerManagedKeyDetails struct {
 // Key encryption key properties
 type KekIdentityProperties struct {
 	// UseSystemAssignedIdentity: Boolean specifying whether to use system assigned identity or not
-	UseSystemAssignedIdentity map[string]v1.JSON `json:"useSystemAssignedIdentity,omitempty"`
+	UseSystemAssignedIdentity *bool `json:"useSystemAssignedIdentity,omitempty"`
 
 	// UserAssignedIdentity: User assigned identity resource Id
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`

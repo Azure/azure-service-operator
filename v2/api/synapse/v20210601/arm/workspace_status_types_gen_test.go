@@ -351,6 +351,7 @@ func KekIdentityProperties_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKekIdentityProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKekIdentityProperties_STATUS(gens map[string]gopter.Gen) {
+	gens["UseSystemAssignedIdentity"] = gen.PtrOf(gen.Bool())
 	gens["UserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
 }
 

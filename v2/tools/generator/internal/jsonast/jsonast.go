@@ -473,7 +473,9 @@ func generatePropertyDefinition(ctx context.Context, scanner *SchemaScanner, raw
 
 	schemaType, err := getSubSchemaType(prop)
 	if _, ok := errors.AsType[*UnknownSchemaError](err); ok {
-		// if we don't know the type, we still need to provide the property, we will just provide open interface
+		// if we don't know the type, we still need to provide the property, we will just provide open interface.
+		// Note we don't use Map[string, Any] here because unlike in Object contexts with things like additionalProperties,
+		// we don't know that this must be an object, it could be a bool, int, etc.
 		property := astmodel.NewPropertyDefinition(propertyName, rawPropName, astmodel.AnyType)
 		return property, nil
 	}
@@ -485,6 +487,8 @@ func generatePropertyDefinition(ctx context.Context, scanner *SchemaScanner, raw
 	propType, err := scanner.RunHandler(ctx, schemaType, prop)
 	if _, ok := errors.AsType[*UnknownSchemaError](err); ok {
 		// if we don't know the type, we still need to provide the property, we will just provide open interface
+		// Note we don't use Map[string, Any] here because unlike in Object contexts with things like additionalProperties,
+		// we don't know that this must be an object, it could be a bool, int, etc.
 		property := astmodel.NewPropertyDefinition(propertyName, rawPropName, astmodel.AnyType)
 		return property, nil
 	}
@@ -593,6 +597,10 @@ func getProperties(
 				additionalProperties := astmodel.NewPropertyDefinition(
 					astmodel.AdditionalPropertiesPropertyName,
 					astmodel.AdditionalPropertiesJSONName,
+					// We are using astmodel.NewStringMapType(astmodel.AnyType) rather than just plain
+					// astmodel.AnyType because as far as `AdditionalProperties` is concerned, the expectation is that they
+					// are properties (not a single bool/etc). In other contexts where we don't know the schema, we use astmodel.AnyType,
+					// as it could be a single bool/int/etc, OR an object. Only in this context do we know for sure it must be an object
 					astmodel.NewStringMapType(astmodel.AnyType),
 				)
 
@@ -603,14 +611,11 @@ func getProperties(
 			// TODO: for JSON serialization this needs to be unpacked into "parent"
 			additionalPropsType, err := scanner.RunHandlerForSchema(ctx, additionalPropSchema)
 			if err != nil {
-				// If the error is an UnknownSchemaError AND we have properties already, we skip generating
-				// the additional properties. As mentioned above, this isn't 100% following the spec, but
-				// it seems to do the right thing
-				if _, ok := errors.AsType[*UnknownSchemaError](err); ok && len(properties) > 0 {
-					return properties, nil
+				if _, ok := errors.AsType[*UnknownSchemaError](err); ok {
+					additionalPropsType = astmodel.AnyType
+				} else {
+					return nil, err
 				}
-
-				return nil, err
 			}
 
 			// This can happen if the property type was pruned away by a type filter.
@@ -625,6 +630,10 @@ func getProperties(
 			additionalProperties := astmodel.NewPropertyDefinition(
 				astmodel.AdditionalPropertiesPropertyName,
 				astmodel.AdditionalPropertiesJSONName,
+				// We are using astmodel.NewStringMapType(astmodel.AnyType) rather than just plain
+				// astmodel.AnyType because as far as `AdditionalProperties` is concerned, the expectation is that they
+				// are properties (not a single bool/etc). In other contexts where we don't know the schema, we use astmodel.AnyType,
+				// as it could be a single bool/int/etc, OR an object. Only in this context do we know for sure it must be an object
 				astmodel.NewStringMapType(additionalPropsType),
 			)
 
@@ -870,7 +879,6 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, lo
 
 	astType, err := scanner.RunHandlerForSchema(ctx, onlyChild)
 	if err != nil {
-
 		// If we can't determine the type of the items, assume any
 		// (This can happen if the item has a description but no type information)
 		if _, ok := errors.AsType[*UnknownSchemaError](err); ok {
@@ -941,7 +949,11 @@ func getSubSchemaType(schema Schema) (SchemaType, error) {
 
 	// TODO: this whole switch is a bit wrong because type: 'object' can
 	// be combined with OneOf/AnyOf/etc. still, it works okay for now...
-	if len(schema.properties()) > 0 || schema.additionalPropertiesAllowed() {
+	// Note: we use schema.additionalPropertiesSchema() != nil rather than schema.supportsAdditionalProperties()
+	// here because if we used schema.additionalPropertiesSchema() we'd never fall through to UnknownSchemaError
+	// since everything in JSON schema supports additional properties by default, and we have logic elsewhere predicated
+	// on UnknownSchemaError being returned here.
+	if len(schema.properties()) > 0 || schema.additionalPropertiesSchema() != nil {
 		// haven't figured out a type but it has properties, treat it as an object
 		return Object, nil
 	}

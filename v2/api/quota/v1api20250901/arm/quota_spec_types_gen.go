@@ -42,7 +42,7 @@ type QuotaProperties struct {
 	Name *ResourceName `json:"name,omitempty"`
 
 	// Properties: Additional properties for the specific resource provider.
-	Properties map[string]v1.JSON `json:"properties,omitempty"`
+	Properties *v1.JSON `json:"properties,omitempty"`
 
 	// ResourceType: The name of the resource type. Optional field.
 	ResourceType *string `json:"resourceType,omitempty"`

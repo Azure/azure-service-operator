@@ -7,31 +7,19 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/apimanagement/v20240501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/rotisserie/eris"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
-// Storage version of v20230501preview.BackendContractProperties_Pool
-type BackendContractProperties_Pool struct {
-	AdditionalProperties map[string]v1.JSON     `json:"additionalProperties,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Services             []BackendPoolItem      `json:"services,omitempty"`
+// Storage version of v20230501preview.BackendPool
+// Backend pool information
+type BackendPool struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Services    []BackendPoolItem      `json:"services,omitempty"`
 }
 
-// AssignProperties_From_BackendContractProperties_Pool populates our BackendContractProperties_Pool from the provided source BackendContractProperties_Pool
-func (pool *BackendContractProperties_Pool) AssignProperties_From_BackendContractProperties_Pool(source *storage.BackendContractProperties_Pool) error {
+// AssignProperties_From_BackendPool populates our BackendPool from the provided source BackendPool
+func (pool *BackendPool) AssignProperties_From_BackendPool(source *storage.BackendPool) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AdditionalProperties
-	if source.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		pool.AdditionalProperties = additionalPropertyMap
-	} else {
-		pool.AdditionalProperties = nil
-	}
 
 	// Services
 	if source.Services != nil {
@@ -56,9 +44,9 @@ func (pool *BackendContractProperties_Pool) AssignProperties_From_BackendContrac
 		pool.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForBackendContractProperties_Pool interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForBackendPool interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
-	if augmentedPool, ok := poolAsAny.(augmentConversionForBackendContractProperties_Pool); ok {
+	if augmentedPool, ok := poolAsAny.(augmentConversionForBackendPool); ok {
 		err := augmentedPool.AssignPropertiesFrom(source)
 		if err != nil {
 			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
@@ -69,21 +57,10 @@ func (pool *BackendContractProperties_Pool) AssignProperties_From_BackendContrac
 	return nil
 }
 
-// AssignProperties_To_BackendContractProperties_Pool populates the provided destination BackendContractProperties_Pool from our BackendContractProperties_Pool
-func (pool *BackendContractProperties_Pool) AssignProperties_To_BackendContractProperties_Pool(destination *storage.BackendContractProperties_Pool) error {
+// AssignProperties_To_BackendPool populates the provided destination BackendPool from our BackendPool
+func (pool *BackendPool) AssignProperties_To_BackendPool(destination *storage.BackendPool) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
-
-	// AdditionalProperties
-	if pool.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(pool.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range pool.AdditionalProperties {
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		destination.AdditionalProperties = additionalPropertyMap
-	} else {
-		destination.AdditionalProperties = nil
-	}
 
 	// Services
 	if pool.Services != nil {
@@ -108,9 +85,9 @@ func (pool *BackendContractProperties_Pool) AssignProperties_To_BackendContractP
 		destination.PropertyBag = nil
 	}
 
-	// Invoke the augmentConversionForBackendContractProperties_Pool interface (if implemented) to customize the conversion
+	// Invoke the augmentConversionForBackendPool interface (if implemented) to customize the conversion
 	var poolAsAny any = pool
-	if augmentedPool, ok := poolAsAny.(augmentConversionForBackendContractProperties_Pool); ok {
+	if augmentedPool, ok := poolAsAny.(augmentConversionForBackendPool); ok {
 		err := augmentedPool.AssignPropertiesTo(destination)
 		if err != nil {
 			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
@@ -121,9 +98,9 @@ func (pool *BackendContractProperties_Pool) AssignProperties_To_BackendContractP
 	return nil
 }
 
-type augmentConversionForBackendContractProperties_Pool interface {
-	AssignPropertiesFrom(src *storage.BackendContractProperties_Pool) error
-	AssignPropertiesTo(dst *storage.BackendContractProperties_Pool) error
+type augmentConversionForBackendPool interface {
+	AssignPropertiesFrom(src *storage.BackendPool) error
+	AssignPropertiesTo(dst *storage.BackendPool) error
 }
 
 // Storage version of v20230501preview.BackendPoolItem

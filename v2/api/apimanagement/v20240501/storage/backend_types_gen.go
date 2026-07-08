@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -184,7 +183,7 @@ type Backend_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a apimanagement.azure.com/Service resource
 	Owner       *genruntime.KnownResourceReference `group:"apimanagement.azure.com" json:"owner,omitempty" kind:"Service"`
-	Pool        *BackendContractProperties_Pool    `json:"pool,omitempty"`
+	Pool        *BackendPool                       `json:"pool,omitempty"`
 	Properties  *BackendProperties                 `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Protocol    *string                            `json:"protocol,omitempty"`
@@ -221,23 +220,23 @@ func (backend *Backend_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 
 // Storage version of v20240501.Backend_STATUS
 type Backend_STATUS struct {
-	CircuitBreaker *BackendCircuitBreaker_STATUS          `json:"circuitBreaker,omitempty"`
-	Conditions     []conditions.Condition                 `json:"conditions,omitempty"`
-	Credentials    *BackendCredentialsContract_STATUS     `json:"credentials,omitempty"`
-	Description    *string                                `json:"description,omitempty"`
-	Id             *string                                `json:"id,omitempty"`
-	Name           *string                                `json:"name,omitempty"`
-	Pool           *BackendContractProperties_Pool_STATUS `json:"pool,omitempty"`
-	Properties     *BackendProperties_STATUS              `json:"properties,omitempty"`
-	PropertiesType *string                                `json:"properties_type,omitempty"`
-	PropertyBag    genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-	Protocol       *string                                `json:"protocol,omitempty"`
-	Proxy          *BackendProxyContract_STATUS           `json:"proxy,omitempty"`
-	ResourceId     *string                                `json:"resourceId,omitempty"`
-	Title          *string                                `json:"title,omitempty"`
-	Tls            *BackendTlsProperties_STATUS           `json:"tls,omitempty"`
-	Type           *string                                `json:"type,omitempty"`
-	Url            *string                                `json:"url,omitempty"`
+	CircuitBreaker *BackendCircuitBreaker_STATUS      `json:"circuitBreaker,omitempty"`
+	Conditions     []conditions.Condition             `json:"conditions,omitempty"`
+	Credentials    *BackendCredentialsContract_STATUS `json:"credentials,omitempty"`
+	Description    *string                            `json:"description,omitempty"`
+	Id             *string                            `json:"id,omitempty"`
+	Name           *string                            `json:"name,omitempty"`
+	Pool           *BackendPool_STATUS                `json:"pool,omitempty"`
+	Properties     *BackendProperties_STATUS          `json:"properties,omitempty"`
+	PropertiesType *string                            `json:"properties_type,omitempty"`
+	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Protocol       *string                            `json:"protocol,omitempty"`
+	Proxy          *BackendProxyContract_STATUS       `json:"proxy,omitempty"`
+	ResourceId     *string                            `json:"resourceId,omitempty"`
+	Title          *string                            `json:"title,omitempty"`
+	Tls            *BackendTlsProperties_STATUS       `json:"tls,omitempty"`
+	Type           *string                            `json:"type,omitempty"`
+	Url            *string                            `json:"url,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Backend_STATUS{}
@@ -274,20 +273,6 @@ type BackendCircuitBreaker_STATUS struct {
 	Rules       []CircuitBreakerRule_STATUS `json:"rules,omitempty"`
 }
 
-// Storage version of v20240501.BackendContractProperties_Pool
-type BackendContractProperties_Pool struct {
-	AdditionalProperties map[string]v1.JSON     `json:"additionalProperties,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Services             []BackendPoolItem      `json:"services,omitempty"`
-}
-
-// Storage version of v20240501.BackendContractProperties_Pool_STATUS
-type BackendContractProperties_Pool_STATUS struct {
-	AdditionalProperties map[string]v1.JSON       `json:"additionalProperties,omitempty"`
-	PropertyBag          genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
-	Services             []BackendPoolItem_STATUS `json:"services,omitempty"`
-}
-
 // Storage version of v20240501.BackendCredentialsContract
 // Details of the Credentials used to connect to Backend.
 type BackendCredentialsContract struct {
@@ -316,6 +301,20 @@ type BackendOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// Storage version of v20240501.BackendPool
+// Backend pool information
+type BackendPool struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Services    []BackendPoolItem      `json:"services,omitempty"`
+}
+
+// Storage version of v20240501.BackendPool_STATUS
+// Backend pool information
+type BackendPool_STATUS struct {
+	PropertyBag genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
+	Services    []BackendPoolItem_STATUS `json:"services,omitempty"`
 }
 
 // Storage version of v20240501.BackendProperties

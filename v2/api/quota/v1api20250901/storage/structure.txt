@@ -24,7 +24,7 @@ Quota: Resource
 │   │   ├── Name: *Object (2 properties)
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── Value: *string
-│   │   ├── Properties: map[string]v1.JSON
+│   │   ├── Properties: *v1.JSON
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   └── ResourceType: *string
 │   └── PropertyBag: genruntime.PropertyBag
@@ -45,7 +45,7 @@ Quota: Resource
     │   │   ├── LocalizedValue: *string
     │   │   ├── PropertyBag: genruntime.PropertyBag
     │   │   └── Value: *string
-    │   ├── Properties: map[string]v1.JSON
+    │   ├── Properties: *v1.JSON
     │   ├── PropertyBag: genruntime.PropertyBag
     │   ├── QuotaPeriod: *string
     │   ├── ResourceType: *string

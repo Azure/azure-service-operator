@@ -284,8 +284,7 @@ Backend_STATUS: Object (4 properties)
 │   │   ├── Header: map[string]string[]
 │   │   └── Query: map[string]string[]
 │   ├── Description: *string
-│   ├── Pool: *Object (2 properties)
-│   │   ├── AdditionalProperties: map[string]v1.JSON
+│   ├── Pool: *Object (1 property)
 │   │   └── Services: Object (1 property)[]
 │   │       └── Id: *string
 │   ├── Properties: *Object (1 property)
@@ -339,8 +338,7 @@ Backend_Spec: Object (2 properties)
     │   ├── Header: map[string]string[]
     │   └── Query: map[string]string[]
     ├── Description: *string
-    ├── Pool: *Object (2 properties)
-    │   ├── AdditionalProperties: map[string]v1.JSON
+    ├── Pool: *Object (1 property)
     │   └── Services: Object (1 property)[]
     │       └── Id: *string
     ├── Properties: *Object (1 property)

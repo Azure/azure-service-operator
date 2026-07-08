@@ -38,7 +38,7 @@ type QuotaProperties_STATUS struct {
 	Name *ResourceName_STATUS `json:"name,omitempty"`
 
 	// Properties: Additional properties for the specific resource provider.
-	Properties map[string]v1.JSON `json:"properties,omitempty"`
+	Properties *v1.JSON `json:"properties,omitempty"`
 
 	// QuotaPeriod: The time period over which the quota usage values are summarized. For example:
 	// *P1D (per one day)
