@@ -312,6 +312,8 @@ groupModelConfiguration:
     TrafficManagerProfiles_NestedEndpoint:
       $exportAs: TrafficManagerProfilesNestedEndpoint
       $supportedFrom: v2.4.0
+    Endpoint_STATUS:
+      $resourceEmbeddedInParent: Trafficmanagerprofile # Have to use the original name, before $exportAs renames it
     EndpointProperties:
       TargetResourceId:
         $referenceType: arm
