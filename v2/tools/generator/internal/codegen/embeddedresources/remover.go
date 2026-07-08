@@ -12,6 +12,7 @@ import (
 	"github.com/rotisserie/eris"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/util/typo"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
@@ -372,7 +373,30 @@ func findResourcesEmbeddedInParent(
 
 		parentTypeName := name.WithName(parentResource)
 		if !defs.Contains(parentTypeName) {
-			err := eris.Errorf("in package %s cannot find %s parent %s", name.InternalPackageReference(), name.Name(), parentTypeName.Name())
+			// Create a typoAdvisor with all the available resources in this package to help the user find the correct parent type name
+			// Note that we only use the type names in this package, as the parent resource must be in the same package as the child resource
+			typoAdvisor := typo.NewAdvisor()
+			for typeName, typeDef := range defs {
+				if !typeName.InternalPackageReference().Equals(name.InternalPackageReference()) {
+					continue
+				}
+
+				if objectDef, ok := astmodel.AsObjectType(typeDef.Type()); ok && objectDef.IsResource() {
+					typoAdvisor.AddTerm(typeName.Name())
+					continue
+				}
+
+				if _, ok := astmodel.AsResourceType(typeDef.Type()); ok {
+					typoAdvisor.AddTerm(typeName.Name())
+				}
+			}
+
+			err := typoAdvisor.Errorf(
+				parentTypeName.Name(),
+				"in package %s cannot find %s parent %s",
+				name.InternalPackageReference(),
+				name.Name(),
+				parentTypeName.Name())
 			errs = append(errs, err)
 			continue
 		}
