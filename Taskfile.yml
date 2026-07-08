@@ -1324,7 +1324,10 @@ tasks:
 
   crossplane:quick-checks:
     cmds:
+      - task: crossplane:generate-crds
       - task: basic-checks
+    vars:
+      DIR: '{{.CROSSPLANE_ROOT}}'
 
 # TODO: We currently have no tests
 #  crossplane:test:
