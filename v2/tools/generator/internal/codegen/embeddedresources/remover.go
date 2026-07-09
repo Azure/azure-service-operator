@@ -396,7 +396,8 @@ func findResourcesEmbeddedInParent(
 				"in package %s cannot find %s parent %s",
 				name.InternalPackageReference(),
 				name.Name(),
-				parentTypeName.Name())
+				parentTypeName.Name(),
+			)
 			errs = append(errs, err)
 			continue
 		}
