@@ -108,26 +108,34 @@ func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error 
 func (vc *VersionConfiguration) findType(name string) *TypeConfiguration {
 	// Fast path: consult the resolution cache under a read lock. The cache is keyed on the
 	// raw name (not the lowercased form) so a hit avoids allocating a lowercase copy.
-	vc.typeCacheLock.RLock()
-	if cached, ok := vc.typeCache[name]; ok {
-		vc.typeCacheLock.RUnlock()
-		vc.advisor.AddTerm(name)
+	if cached, ok := vc.findTypeFromCache(name); ok {
 		return cached
 	}
-	vc.typeCacheLock.RUnlock()
 
 	vc.advisor.AddTerm(name)
 	n := strings.ToLower(name)
 	t := vc.types[n]
 
 	vc.typeCacheLock.Lock()
+	defer vc.typeCacheLock.Unlock()
+
 	if vc.typeCache == nil {
 		vc.typeCache = make(map[string]*TypeConfiguration)
 	}
+
 	vc.typeCache[name] = t
-	vc.typeCacheLock.Unlock()
 
 	return t
+}
+
+// findTypeFromCache uses the provided name to look up in our cache
+func (vc *VersionConfiguration) findTypeFromCache(name string) (*TypeConfiguration, bool) {
+	vc.typeCacheLock.RLock()
+	defer vc.typeCacheLock.RUnlock()
+
+	tc, ok := vc.typeCache[name]
+
+	return tc, ok
 }
 
 // addTypeAlias adds an alias for the specified type, so it may be found with an alternative name

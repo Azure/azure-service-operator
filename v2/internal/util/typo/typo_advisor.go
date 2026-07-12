@@ -29,11 +29,11 @@ func NewAdvisor() *Advisor {
 }
 
 // AddTerm records that we saw the specified item.
-// The advisor is consulted on every lookup made against the ObjectModelConfiguration, so the
-// same terms are added many times over. We take a read lock first and only escalate to the
-// exclusive write lock when the term is genuinely new; this keeps the hot lookup path free of
-// serialization once each unique term has been observed at least once.
 func (advisor *Advisor) AddTerm(item string) {
+	// The advisor is consulted on every lookup made against the ObjectModelConfiguration, so the
+	// same terms are added many times over. We take a read lock first and only escalate to the
+	// exclusive write lock when the term is genuinely new; this keeps the hot lookup path free of
+	// serialization once each unique term has been observed at least once.
 	advisor.lock.RLock()
 	if advisor.terms.Contains(item) {
 		advisor.lock.RUnlock()

@@ -17,6 +17,29 @@ import (
 // generator hits on every reconciliation of every type. Use `go test -run=^$ -bench=. -benchmem`
 // from this package to run them.
 
+// Sample Results
+//
+// Without caching
+//
+// cpu: 13th Gen Intel(R) Core(TM) i9-13900H
+// BenchmarkTypeAccess_Lookup_Hit-12                        6197558               191.5 ns/op            48 B/op          3 allocs/op
+// BenchmarkTypeAccess_Lookup_Miss-12                       5943925               199.0 ns/op            64 B/op          3 allocs/op
+// BenchmarkPropertyAccess_Lookup_Hit-12                    3886447               311.5 ns/op            80 B/op          5 allocs/op
+// BenchmarkPropertyAccess_Lookup_Miss-12                   4048657               300.0 ns/op            88 B/op          5 allocs/op
+// BenchmarkIsTypeConfigured-12                             6973417               172.6 ns/op            32 B/op          3 allocs/op
+// BenchmarkTypeAccess_Lookup_RepeatedSameName-12           6623281               181.2 ns/op            48 B/op          3 allocs/op
+//
+// With caching
+//
+// cpu: 13th Gen Intel(R) Core(TM) i9-13900H
+// BenchmarkTypeAccess_Lookup_Hit-12                        9089062               132.0 ns/op            40 B/op          2 allocs/op
+// BenchmarkTypeAccess_Lookup_Miss-12                       8999131               127.7 ns/op            40 B/op          2 allocs/op
+// BenchmarkPropertyAccess_Lookup_Hit-12                    4717492               249.2 ns/op            72 B/op          4 allocs/op
+// BenchmarkPropertyAccess_Lookup_Miss-12                   5039460               234.9 ns/op            80 B/op          4 allocs/op
+// BenchmarkIsTypeConfigured-12                             9827052               118.9 ns/op            17 B/op          2 allocs/op
+// BenchmarkTypeAccess_Lookup_RepeatedSameName-12          10079797               124.9 ns/op            40 B/op          2 allocs/op
+//
+
 // buildBenchmarkModel returns an ObjectModelConfiguration populated with a representative shape
 // of configuration - a handful of groups, each with a handful of versions, each with a moderate
 // number of types and per-type properties. The specific numbers are chosen to be at least as

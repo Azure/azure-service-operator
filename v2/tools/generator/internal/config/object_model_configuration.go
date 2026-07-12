@@ -326,34 +326,46 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
-func (omc *ObjectModelConfiguration) findGroup(ref astmodel.InternalPackageReference) *GroupConfiguration {
-	group := ref.Group()
-
+func (omc *ObjectModelConfiguration) findGroup(
+	ref astmodel.InternalPackageReference,
+) *GroupConfiguration {
 	if omc == nil || omc.groups == nil {
 		return nil
 	}
 
 	// Fast path: consult the resolution cache under a read lock. Cached entries may be nil to
 	// record a known-absent group so that repeated defensive lookups do not re-do the work.
-	omc.groupCacheLock.RLock()
-	if cached, ok := omc.groupCache[group]; ok {
-		omc.groupCacheLock.RUnlock()
-		omc.typoAdvisor.AddTerm(group)
+	if cached, ok := omc.findGroupFromCache(ref); ok {
 		return cached
 	}
-	omc.groupCacheLock.RUnlock()
 
+	group := ref.Group()
 	omc.typoAdvisor.AddTerm(group)
 	g := omc.groups[group]
 
 	omc.groupCacheLock.Lock()
+	defer omc.groupCacheLock.Unlock()
+
 	if omc.groupCache == nil {
 		omc.groupCache = make(map[string]*GroupConfiguration)
 	}
+
 	omc.groupCache[group] = g
-	omc.groupCacheLock.Unlock()
 
 	return g
+}
+
+// findGroupFromCache uses the provided TypeName to look up a cached GroupConfiguration, if present.
+func (omc *ObjectModelConfiguration) findGroupFromCache(
+	ref astmodel.InternalPackageReference,
+) (*GroupConfiguration, bool) {
+	group := ref.Group()
+
+	omc.groupCacheLock.RLock()
+	defer omc.groupCacheLock.RUnlock()
+
+	gc, ok := omc.groupCache[group]
+	return gc, ok
 }
 
 // UnmarshalYAML populates our instance from the YAML.
