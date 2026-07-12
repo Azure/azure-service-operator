@@ -668,6 +668,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/subscription/v20211001/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/sql/v20211101/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20220101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v20220301/</loc>
