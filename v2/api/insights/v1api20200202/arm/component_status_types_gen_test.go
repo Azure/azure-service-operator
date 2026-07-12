@@ -19,6 +19,11 @@ import (
 
 func Test_ApplicationInsightsComponentProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -117,6 +122,11 @@ func AddRelatedPropertyGeneratorsForApplicationInsightsComponentProperties_STATU
 
 func Test_Component_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -199,6 +209,11 @@ func AddRelatedPropertyGeneratorsForComponent_STATUS(gens map[string]gopter.Gen)
 
 func Test_PrivateLinkScopedResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

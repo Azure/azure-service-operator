@@ -1,0 +1,21 @@
+apiVersion: managedidentity.azure.com/v1api20230131
+kind: UserAssignedIdentity
+metadata:
+  name: aso-sample-sql-admin-mi
+  namespace: default
+spec:
+  location: australiaeast
+  owner:
+    name: aso-sample-rg
+  operatorSpec:
+    configMaps:
+      principalId:
+        name: sql-admin-mi-config
+        key: principalId
+      tenantId:
+        name: sql-admin-mi-config
+        key: tenantId
+    configMapExpressions:
+      - name: sql-admin-mi-config
+        key: name
+        value: self.spec.azureName

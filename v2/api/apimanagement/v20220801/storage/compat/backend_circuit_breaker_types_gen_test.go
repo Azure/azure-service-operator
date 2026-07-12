@@ -20,6 +20,11 @@ import (
 
 func Test_BackendCircuitBreaker_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForBackendCircuitBreaker(subject BackendCircuitBre
 
 func Test_BackendCircuitBreaker_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -123,6 +133,11 @@ func AddRelatedPropertyGeneratorsForBackendCircuitBreaker(gens map[string]gopter
 
 func Test_CircuitBreakerFailureCondition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -165,6 +180,11 @@ func RunPropertyAssignmentTestForCircuitBreakerFailureCondition(subject CircuitB
 
 func Test_CircuitBreakerFailureCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -243,6 +263,11 @@ func AddRelatedPropertyGeneratorsForCircuitBreakerFailureCondition(gens map[stri
 
 func Test_CircuitBreakerRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -285,6 +310,11 @@ func RunPropertyAssignmentTestForCircuitBreakerRule(subject CircuitBreakerRule) 
 
 func Test_CircuitBreakerRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -360,6 +390,11 @@ func AddRelatedPropertyGeneratorsForCircuitBreakerRule(gens map[string]gopter.Ge
 
 func Test_FailureStatusCodeRange_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -402,6 +437,11 @@ func RunPropertyAssignmentTestForFailureStatusCodeRange(subject FailureStatusCod
 
 func Test_FailureStatusCodeRange_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

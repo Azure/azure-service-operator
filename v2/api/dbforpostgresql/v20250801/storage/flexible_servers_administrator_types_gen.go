@@ -70,9 +70,17 @@ func (administrator *FlexibleServersAdministrator) SecretDestinationExpressions(
 
 var _ genruntime.KubernetesResource = &FlexibleServersAdministrator{}
 
-// AzureName returns the Azure name of the resource
+// AzureName returns the Azure name of the resource (from Spec, or from the azure-name-from-config annotation)
 func (administrator *FlexibleServersAdministrator) AzureName() string {
-	return administrator.Spec.AzureName
+	if administrator.Spec.AzureName != "" {
+		return administrator.Spec.AzureName
+	}
+	if ann := administrator.GetAnnotations(); ann != nil {
+		if name, ok := ann["serviceoperator.azure.com/azure-name-from-config"]; ok {
+			return name
+		}
+	}
+	return ""
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2025-08-01"
@@ -170,9 +178,10 @@ type FlexibleServersAdministratorList struct {
 type FlexibleServersAdministrator_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string                                    `json:"azureName,omitempty"`
-	OperatorSpec    *FlexibleServersAdministratorOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion string                                    `json:"originalVersion,omitempty"`
+	AzureName           string                                    `json:"azureName,omitempty"`
+	AzureNameFromConfig *genruntime.ConfigMapReference            `json:"azureNameFromConfig,omitempty"`
+	OperatorSpec        *FlexibleServersAdministratorOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion     string                                    `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -205,6 +214,11 @@ func (administrator *FlexibleServersAdministrator_Spec) ConvertSpecTo(destinatio
 	}
 
 	return destination.ConvertSpecFrom(administrator)
+}
+
+// GetAzureNameFromConfig returns the AzureNameFromConfig property of the spec, used to resolve the Azure name from a ConfigMap
+func (administrator *FlexibleServersAdministrator_Spec) GetAzureNameFromConfig() *genruntime.ConfigMapReference {
+	return administrator.AzureNameFromConfig
 }
 
 // Storage version of v20250801.FlexibleServersAdministrator_STATUS

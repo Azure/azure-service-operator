@@ -19,6 +19,11 @@ import (
 
 func Test_InstanceViewStatus_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -83,6 +88,11 @@ func AddIndependentPropertyGeneratorsForInstanceViewStatus(gens map[string]gopte
 
 func Test_VirtualMachineExtensionInstanceView_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -161,6 +171,11 @@ func AddRelatedPropertyGeneratorsForVirtualMachineExtensionInstanceView(gens map
 
 func Test_VirtualMachineExtensionInstanceView_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -239,6 +254,11 @@ func AddRelatedPropertyGeneratorsForVirtualMachineExtensionInstanceView_STATUS(g
 
 func Test_VirtualMachinesExtension_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -301,6 +321,11 @@ func AddRelatedPropertyGeneratorsForVirtualMachinesExtension(gens map[string]gop
 
 func Test_VirtualMachinesExtensionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -356,6 +381,11 @@ func VirtualMachinesExtensionOperatorSpecGenerator() gopter.Gen {
 
 func Test_VirtualMachinesExtension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -446,6 +476,11 @@ func AddRelatedPropertyGeneratorsForVirtualMachinesExtension_STATUS(gens map[str
 
 func Test_VirtualMachinesExtension_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

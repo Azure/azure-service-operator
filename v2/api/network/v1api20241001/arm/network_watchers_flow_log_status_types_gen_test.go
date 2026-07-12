@@ -19,6 +19,11 @@ import (
 
 func Test_FlowLogFormatParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -81,6 +86,11 @@ func AddIndependentPropertyGeneratorsForFlowLogFormatParameters_STATUS(gens map[
 
 func Test_FlowLogPropertiesFormat_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -167,6 +177,11 @@ func AddRelatedPropertyGeneratorsForFlowLogPropertiesFormat_STATUS(gens map[stri
 
 func Test_ManagedServiceIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -250,6 +265,11 @@ func AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUS(gens map[strin
 
 func Test_ManagedServiceIdentity_UserAssignedIdentities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -312,6 +332,11 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_UserAssignedIdent
 
 func Test_NetworkWatchersFlowLog_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -395,6 +420,11 @@ func AddRelatedPropertyGeneratorsForNetworkWatchersFlowLog_STATUS(gens map[strin
 
 func Test_RetentionPolicyParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -457,6 +487,11 @@ func AddIndependentPropertyGeneratorsForRetentionPolicyParameters_STATUS(gens ma
 
 func Test_TrafficAnalyticsConfigurationProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -522,6 +557,11 @@ func AddIndependentPropertyGeneratorsForTrafficAnalyticsConfigurationProperties_
 
 func Test_TrafficAnalyticsProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

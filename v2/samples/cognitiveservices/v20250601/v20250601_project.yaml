@@ -1,0 +1,13 @@
+apiVersion: cognitiveservices.azure.com/v20250601
+kind: Project
+metadata:
+  name: sample-project
+spec:
+  identity:
+    type: SystemAssigned
+  location: westus3
+  owner:
+    name: sample-account
+  properties:
+    description: A sample Foundry project
+    displayName: Sample Project

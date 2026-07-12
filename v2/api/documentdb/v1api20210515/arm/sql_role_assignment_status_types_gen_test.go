@@ -19,6 +19,11 @@ import (
 
 func Test_SqlRoleAssignmentResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -82,6 +87,11 @@ func AddIndependentPropertyGeneratorsForSqlRoleAssignmentResource_STATUS(gens ma
 
 func Test_SqlRoleAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

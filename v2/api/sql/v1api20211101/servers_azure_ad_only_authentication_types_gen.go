@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersAzureADOnlyAuthentication{}
 
 // ConvertFrom populates our ServersAzureADOnlyAuthentication from the provided hub ServersAzureADOnlyAuthentication
 func (authentication *ServersAzureADOnlyAuthentication) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersAzureADOnlyAuthentication)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersAzureADOnlyAuthentication but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersAzureADOnlyAuthentication
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return authentication.AssignProperties_From_ServersAzureADOnlyAuthentication(source)
+	err = authentication.AssignProperties_From_ServersAzureADOnlyAuthentication(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to authentication")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersAzureADOnlyAuthentication from our ServersAzureADOnlyAuthentication
 func (authentication *ServersAzureADOnlyAuthentication) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersAzureADOnlyAuthentication)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersAzureADOnlyAuthentication but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersAzureADOnlyAuthentication
+	err := authentication.AssignProperties_To_ServersAzureADOnlyAuthentication(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from authentication")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return authentication.AssignProperties_To_ServersAzureADOnlyAuthentication(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersAzureADOnlyAuthentication{}
@@ -87,17 +101,6 @@ func (authentication *ServersAzureADOnlyAuthentication) SecretDestinationExpress
 		return nil
 	}
 	return authentication.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersAzureADOnlyAuthentication{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (authentication *ServersAzureADOnlyAuthentication) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersAzureADOnlyAuthentication_STATUS); ok {
-		return authentication.Spec.Initialize_From_ServersAzureADOnlyAuthentication_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersAzureADOnlyAuthentication_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersAzureADOnlyAuthentication{}
@@ -444,21 +447,6 @@ func (authentication *ServersAzureADOnlyAuthentication_Spec) AssignProperties_To
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersAzureADOnlyAuthentication_STATUS populates our ServersAzureADOnlyAuthentication_Spec from the provided source ServersAzureADOnlyAuthentication_STATUS
-func (authentication *ServersAzureADOnlyAuthentication_Spec) Initialize_From_ServersAzureADOnlyAuthentication_STATUS(source *ServersAzureADOnlyAuthentication_STATUS) error {
-
-	// AzureADOnlyAuthentication
-	if source.AzureADOnlyAuthentication != nil {
-		azureADOnlyAuthentication := *source.AzureADOnlyAuthentication
-		authentication.AzureADOnlyAuthentication = &azureADOnlyAuthentication
-	} else {
-		authentication.AzureADOnlyAuthentication = nil
 	}
 
 	// No error

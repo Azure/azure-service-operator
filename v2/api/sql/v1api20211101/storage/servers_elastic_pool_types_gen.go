@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serverselasticpools,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serverselasticpools/status,serverselasticpools/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (pool *ServersElasticPool) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (pool *ServersElasticPool) SetConditions(conditions conditions.Conditions) {
 	pool.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersElasticPool{}
+
+// ConvertFrom populates our ServersElasticPool from the provided hub ServersElasticPool
+func (pool *ServersElasticPool) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersElasticPool)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersElasticPool but received %T instead", hub)
+	}
+
+	return pool.AssignProperties_From_ServersElasticPool(source)
+}
+
+// ConvertTo populates the provided hub ServersElasticPool from our ServersElasticPool
+func (pool *ServersElasticPool) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersElasticPool)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersElasticPool but received %T instead", hub)
+	}
+
+	return pool.AssignProperties_To_ServersElasticPool(destination)
 }
 
 var _ configmaps.Exporter = &ServersElasticPool{}
@@ -143,8 +164,75 @@ func (pool *ServersElasticPool) SetStatus(status genruntime.ConvertibleStatus) e
 	return nil
 }
 
-// Hub marks that this ServersElasticPool is the hub type for conversion
-func (pool *ServersElasticPool) Hub() {}
+// AssignProperties_From_ServersElasticPool populates our ServersElasticPool from the provided source ServersElasticPool
+func (pool *ServersElasticPool) AssignProperties_From_ServersElasticPool(source *storage.ServersElasticPool) error {
+
+	// ObjectMeta
+	pool.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersElasticPool_Spec
+	err := spec.AssignProperties_From_ServersElasticPool_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersElasticPool_Spec() to populate field Spec")
+	}
+	pool.Spec = spec
+
+	// Status
+	var status ServersElasticPool_STATUS
+	err = status.AssignProperties_From_ServersElasticPool_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersElasticPool_STATUS() to populate field Status")
+	}
+	pool.Status = status
+
+	// Invoke the augmentConversionForServersElasticPool interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForServersElasticPool); ok {
+		err := augmentedPool.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersElasticPool populates the provided destination ServersElasticPool from our ServersElasticPool
+func (pool *ServersElasticPool) AssignProperties_To_ServersElasticPool(destination *storage.ServersElasticPool) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *pool.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersElasticPool_Spec
+	err := pool.Spec.AssignProperties_To_ServersElasticPool_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersElasticPool_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersElasticPool_STATUS
+	err = pool.Status.AssignProperties_To_ServersElasticPool_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersElasticPool_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersElasticPool interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForServersElasticPool); ok {
+		err := augmentedPool.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (pool *ServersElasticPool) OriginalGVK() *schema.GroupVersionKind {
@@ -164,6 +252,11 @@ type ServersElasticPoolList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ServersElasticPool `json:"items"`
+}
+
+type augmentConversionForServersElasticPool interface {
+	AssignPropertiesFrom(src *storage.ServersElasticPool) error
+	AssignPropertiesTo(dst *storage.ServersElasticPool) error
 }
 
 // Storage version of v1api20211101.ServersElasticPool_Spec
@@ -196,20 +289,268 @@ var _ genruntime.ConvertibleSpec = &ServersElasticPool_Spec{}
 
 // ConvertSpecFrom populates our ServersElasticPool_Spec from the provided source
 func (pool *ServersElasticPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == pool {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersElasticPool_Spec)
+	if ok {
+		// Populate our instance from source
+		return pool.AssignProperties_From_ServersElasticPool_Spec(src)
 	}
 
-	return source.ConvertSpecTo(pool)
+	// Convert to an intermediate form
+	src = &storage.ServersElasticPool_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = pool.AssignProperties_From_ServersElasticPool_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersElasticPool_Spec
 func (pool *ServersElasticPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == pool {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersElasticPool_Spec)
+	if ok {
+		// Populate destination from our instance
+		return pool.AssignProperties_To_ServersElasticPool_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(pool)
+	// Convert to an intermediate form
+	dst = &storage.ServersElasticPool_Spec{}
+	err := pool.AssignProperties_To_ServersElasticPool_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersElasticPool_Spec populates our ServersElasticPool_Spec from the provided source ServersElasticPool_Spec
+func (pool *ServersElasticPool_Spec) AssignProperties_From_ServersElasticPool_Spec(source *storage.ServersElasticPool_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	pool.AzureName = source.AzureName
+
+	// HighAvailabilityReplicaCount
+	pool.HighAvailabilityReplicaCount = genruntime.ClonePointerToInt(source.HighAvailabilityReplicaCount)
+
+	// LicenseType
+	pool.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
+
+	// Location
+	pool.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MaintenanceConfigurationId
+	pool.MaintenanceConfigurationId = genruntime.ClonePointerToString(source.MaintenanceConfigurationId)
+
+	// MaxSizeBytes
+	pool.MaxSizeBytes = genruntime.ClonePointerToInt(source.MaxSizeBytes)
+
+	// MinCapacity
+	if source.MinCapacity != nil {
+		minCapacity := *source.MinCapacity
+		pool.MinCapacity = &minCapacity
+	} else {
+		pool.MinCapacity = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersElasticPoolOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersElasticPoolOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersElasticPoolOperatorSpec() to populate field OperatorSpec")
+		}
+		pool.OperatorSpec = &operatorSpec
+	} else {
+		pool.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	pool.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		pool.Owner = &owner
+	} else {
+		pool.Owner = nil
+	}
+
+	// PerDatabaseSettings
+	if source.PerDatabaseSettings != nil {
+		var perDatabaseSetting ElasticPoolPerDatabaseSettings
+		err := perDatabaseSetting.AssignProperties_From_ElasticPoolPerDatabaseSettings(source.PerDatabaseSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ElasticPoolPerDatabaseSettings() to populate field PerDatabaseSettings")
+		}
+		pool.PerDatabaseSettings = &perDatabaseSetting
+	} else {
+		pool.PerDatabaseSettings = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.AssignProperties_From_Sku(source.Sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+		}
+		pool.Sku = &sku
+	} else {
+		pool.Sku = nil
+	}
+
+	// Tags
+	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// ZoneRedundant
+	if source.ZoneRedundant != nil {
+		zoneRedundant := *source.ZoneRedundant
+		pool.ZoneRedundant = &zoneRedundant
+	} else {
+		pool.ZoneRedundant = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		pool.PropertyBag = propertyBag
+	} else {
+		pool.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersElasticPool_Spec interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForServersElasticPool_Spec); ok {
+		err := augmentedPool.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersElasticPool_Spec populates the provided destination ServersElasticPool_Spec from our ServersElasticPool_Spec
+func (pool *ServersElasticPool_Spec) AssignProperties_To_ServersElasticPool_Spec(destination *storage.ServersElasticPool_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
+
+	// AzureName
+	destination.AzureName = pool.AzureName
+
+	// HighAvailabilityReplicaCount
+	destination.HighAvailabilityReplicaCount = genruntime.ClonePointerToInt(pool.HighAvailabilityReplicaCount)
+
+	// LicenseType
+	destination.LicenseType = genruntime.ClonePointerToString(pool.LicenseType)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(pool.Location)
+
+	// MaintenanceConfigurationId
+	destination.MaintenanceConfigurationId = genruntime.ClonePointerToString(pool.MaintenanceConfigurationId)
+
+	// MaxSizeBytes
+	destination.MaxSizeBytes = genruntime.ClonePointerToInt(pool.MaxSizeBytes)
+
+	// MinCapacity
+	if pool.MinCapacity != nil {
+		minCapacity := *pool.MinCapacity
+		destination.MinCapacity = &minCapacity
+	} else {
+		destination.MinCapacity = nil
+	}
+
+	// OperatorSpec
+	if pool.OperatorSpec != nil {
+		var operatorSpec storage.ServersElasticPoolOperatorSpec
+		err := pool.OperatorSpec.AssignProperties_To_ServersElasticPoolOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersElasticPoolOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = pool.OriginalVersion
+
+	// Owner
+	if pool.Owner != nil {
+		owner := pool.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PerDatabaseSettings
+	if pool.PerDatabaseSettings != nil {
+		var perDatabaseSetting storage.ElasticPoolPerDatabaseSettings
+		err := pool.PerDatabaseSettings.AssignProperties_To_ElasticPoolPerDatabaseSettings(&perDatabaseSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ElasticPoolPerDatabaseSettings() to populate field PerDatabaseSettings")
+		}
+		destination.PerDatabaseSettings = &perDatabaseSetting
+	} else {
+		destination.PerDatabaseSettings = nil
+	}
+
+	// Sku
+	if pool.Sku != nil {
+		var sku storage.Sku
+		err := pool.Sku.AssignProperties_To_Sku(&sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(pool.Tags)
+
+	// ZoneRedundant
+	if pool.ZoneRedundant != nil {
+		zoneRedundant := *pool.ZoneRedundant
+		destination.ZoneRedundant = &zoneRedundant
+	} else {
+		destination.ZoneRedundant = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersElasticPool_Spec interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForServersElasticPool_Spec); ok {
+		err := augmentedPool.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20211101.ServersElasticPool_STATUS
@@ -238,20 +579,268 @@ var _ genruntime.ConvertibleStatus = &ServersElasticPool_STATUS{}
 
 // ConvertStatusFrom populates our ServersElasticPool_STATUS from the provided source
 func (pool *ServersElasticPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == pool {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersElasticPool_STATUS)
+	if ok {
+		// Populate our instance from source
+		return pool.AssignProperties_From_ServersElasticPool_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(pool)
+	// Convert to an intermediate form
+	src = &storage.ServersElasticPool_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = pool.AssignProperties_From_ServersElasticPool_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersElasticPool_STATUS
 func (pool *ServersElasticPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == pool {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersElasticPool_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return pool.AssignProperties_To_ServersElasticPool_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(pool)
+	// Convert to an intermediate form
+	dst = &storage.ServersElasticPool_STATUS{}
+	err := pool.AssignProperties_To_ServersElasticPool_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersElasticPool_STATUS populates our ServersElasticPool_STATUS from the provided source ServersElasticPool_STATUS
+func (pool *ServersElasticPool_STATUS) AssignProperties_From_ServersElasticPool_STATUS(source *storage.ServersElasticPool_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	pool.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CreationDate
+	pool.CreationDate = genruntime.ClonePointerToString(source.CreationDate)
+
+	// HighAvailabilityReplicaCount
+	pool.HighAvailabilityReplicaCount = genruntime.ClonePointerToInt(source.HighAvailabilityReplicaCount)
+
+	// Id
+	pool.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Kind
+	pool.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// LicenseType
+	pool.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
+
+	// Location
+	pool.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MaintenanceConfigurationId
+	pool.MaintenanceConfigurationId = genruntime.ClonePointerToString(source.MaintenanceConfigurationId)
+
+	// MaxSizeBytes
+	pool.MaxSizeBytes = genruntime.ClonePointerToInt(source.MaxSizeBytes)
+
+	// MinCapacity
+	if source.MinCapacity != nil {
+		minCapacity := *source.MinCapacity
+		pool.MinCapacity = &minCapacity
+	} else {
+		pool.MinCapacity = nil
+	}
+
+	// Name
+	pool.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PerDatabaseSettings
+	if source.PerDatabaseSettings != nil {
+		var perDatabaseSetting ElasticPoolPerDatabaseSettings_STATUS
+		err := perDatabaseSetting.AssignProperties_From_ElasticPoolPerDatabaseSettings_STATUS(source.PerDatabaseSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ElasticPoolPerDatabaseSettings_STATUS() to populate field PerDatabaseSettings")
+		}
+		pool.PerDatabaseSettings = &perDatabaseSetting
+	} else {
+		pool.PerDatabaseSettings = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku_STATUS
+		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+		}
+		pool.Sku = &sku
+	} else {
+		pool.Sku = nil
+	}
+
+	// State
+	pool.State = genruntime.ClonePointerToString(source.State)
+
+	// Tags
+	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	pool.Type = genruntime.ClonePointerToString(source.Type)
+
+	// ZoneRedundant
+	if source.ZoneRedundant != nil {
+		zoneRedundant := *source.ZoneRedundant
+		pool.ZoneRedundant = &zoneRedundant
+	} else {
+		pool.ZoneRedundant = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		pool.PropertyBag = propertyBag
+	} else {
+		pool.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersElasticPool_STATUS interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForServersElasticPool_STATUS); ok {
+		err := augmentedPool.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersElasticPool_STATUS populates the provided destination ServersElasticPool_STATUS from our ServersElasticPool_STATUS
+func (pool *ServersElasticPool_STATUS) AssignProperties_To_ServersElasticPool_STATUS(destination *storage.ServersElasticPool_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(pool.Conditions)
+
+	// CreationDate
+	destination.CreationDate = genruntime.ClonePointerToString(pool.CreationDate)
+
+	// HighAvailabilityReplicaCount
+	destination.HighAvailabilityReplicaCount = genruntime.ClonePointerToInt(pool.HighAvailabilityReplicaCount)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(pool.Id)
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(pool.Kind)
+
+	// LicenseType
+	destination.LicenseType = genruntime.ClonePointerToString(pool.LicenseType)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(pool.Location)
+
+	// MaintenanceConfigurationId
+	destination.MaintenanceConfigurationId = genruntime.ClonePointerToString(pool.MaintenanceConfigurationId)
+
+	// MaxSizeBytes
+	destination.MaxSizeBytes = genruntime.ClonePointerToInt(pool.MaxSizeBytes)
+
+	// MinCapacity
+	if pool.MinCapacity != nil {
+		minCapacity := *pool.MinCapacity
+		destination.MinCapacity = &minCapacity
+	} else {
+		destination.MinCapacity = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(pool.Name)
+
+	// PerDatabaseSettings
+	if pool.PerDatabaseSettings != nil {
+		var perDatabaseSetting storage.ElasticPoolPerDatabaseSettings_STATUS
+		err := pool.PerDatabaseSettings.AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS(&perDatabaseSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS() to populate field PerDatabaseSettings")
+		}
+		destination.PerDatabaseSettings = &perDatabaseSetting
+	} else {
+		destination.PerDatabaseSettings = nil
+	}
+
+	// Sku
+	if pool.Sku != nil {
+		var sku storage.Sku_STATUS
+		err := pool.Sku.AssignProperties_To_Sku_STATUS(&sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// State
+	destination.State = genruntime.ClonePointerToString(pool.State)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(pool.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(pool.Type)
+
+	// ZoneRedundant
+	if pool.ZoneRedundant != nil {
+		zoneRedundant := *pool.ZoneRedundant
+		destination.ZoneRedundant = &zoneRedundant
+	} else {
+		destination.ZoneRedundant = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersElasticPool_STATUS interface (if implemented) to customize the conversion
+	var poolAsAny any = pool
+	if augmentedPool, ok := poolAsAny.(augmentConversionForServersElasticPool_STATUS); ok {
+		err := augmentedPool.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersElasticPool_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersElasticPool_Spec) error
+	AssignPropertiesTo(dst *storage.ServersElasticPool_Spec) error
+}
+
+type augmentConversionForServersElasticPool_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersElasticPool_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersElasticPool_STATUS) error
 }
 
 // Storage version of v1api20211101.ElasticPoolPerDatabaseSettings
@@ -262,6 +851,88 @@ type ElasticPoolPerDatabaseSettings struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_ElasticPoolPerDatabaseSettings populates our ElasticPoolPerDatabaseSettings from the provided source ElasticPoolPerDatabaseSettings
+func (settings *ElasticPoolPerDatabaseSettings) AssignProperties_From_ElasticPoolPerDatabaseSettings(source *storage.ElasticPoolPerDatabaseSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// MaxCapacity
+	if source.MaxCapacity != nil {
+		maxCapacity := *source.MaxCapacity
+		settings.MaxCapacity = &maxCapacity
+	} else {
+		settings.MaxCapacity = nil
+	}
+
+	// MinCapacity
+	if source.MinCapacity != nil {
+		minCapacity := *source.MinCapacity
+		settings.MinCapacity = &minCapacity
+	} else {
+		settings.MinCapacity = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForElasticPoolPerDatabaseSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForElasticPoolPerDatabaseSettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ElasticPoolPerDatabaseSettings populates the provided destination ElasticPoolPerDatabaseSettings from our ElasticPoolPerDatabaseSettings
+func (settings *ElasticPoolPerDatabaseSettings) AssignProperties_To_ElasticPoolPerDatabaseSettings(destination *storage.ElasticPoolPerDatabaseSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// MaxCapacity
+	if settings.MaxCapacity != nil {
+		maxCapacity := *settings.MaxCapacity
+		destination.MaxCapacity = &maxCapacity
+	} else {
+		destination.MaxCapacity = nil
+	}
+
+	// MinCapacity
+	if settings.MinCapacity != nil {
+		minCapacity := *settings.MinCapacity
+		destination.MinCapacity = &minCapacity
+	} else {
+		destination.MinCapacity = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForElasticPoolPerDatabaseSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForElasticPoolPerDatabaseSettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20211101.ElasticPoolPerDatabaseSettings_STATUS
 // Per database settings of an elastic pool.
 type ElasticPoolPerDatabaseSettings_STATUS struct {
@@ -270,12 +941,223 @@ type ElasticPoolPerDatabaseSettings_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_ElasticPoolPerDatabaseSettings_STATUS populates our ElasticPoolPerDatabaseSettings_STATUS from the provided source ElasticPoolPerDatabaseSettings_STATUS
+func (settings *ElasticPoolPerDatabaseSettings_STATUS) AssignProperties_From_ElasticPoolPerDatabaseSettings_STATUS(source *storage.ElasticPoolPerDatabaseSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// MaxCapacity
+	if source.MaxCapacity != nil {
+		maxCapacity := *source.MaxCapacity
+		settings.MaxCapacity = &maxCapacity
+	} else {
+		settings.MaxCapacity = nil
+	}
+
+	// MinCapacity
+	if source.MinCapacity != nil {
+		minCapacity := *source.MinCapacity
+		settings.MinCapacity = &minCapacity
+	} else {
+		settings.MinCapacity = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForElasticPoolPerDatabaseSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForElasticPoolPerDatabaseSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS populates the provided destination ElasticPoolPerDatabaseSettings_STATUS from our ElasticPoolPerDatabaseSettings_STATUS
+func (settings *ElasticPoolPerDatabaseSettings_STATUS) AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS(destination *storage.ElasticPoolPerDatabaseSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// MaxCapacity
+	if settings.MaxCapacity != nil {
+		maxCapacity := *settings.MaxCapacity
+		destination.MaxCapacity = &maxCapacity
+	} else {
+		destination.MaxCapacity = nil
+	}
+
+	// MinCapacity
+	if settings.MinCapacity != nil {
+		minCapacity := *settings.MinCapacity
+		destination.MinCapacity = &minCapacity
+	} else {
+		destination.MinCapacity = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForElasticPoolPerDatabaseSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForElasticPoolPerDatabaseSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20211101.ServersElasticPoolOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ServersElasticPoolOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersElasticPoolOperatorSpec populates our ServersElasticPoolOperatorSpec from the provided source ServersElasticPoolOperatorSpec
+func (operator *ServersElasticPoolOperatorSpec) AssignProperties_From_ServersElasticPoolOperatorSpec(source *storage.ServersElasticPoolOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersElasticPoolOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersElasticPoolOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersElasticPoolOperatorSpec populates the provided destination ServersElasticPoolOperatorSpec from our ServersElasticPoolOperatorSpec
+func (operator *ServersElasticPoolOperatorSpec) AssignProperties_To_ServersElasticPoolOperatorSpec(destination *storage.ServersElasticPoolOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersElasticPoolOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersElasticPoolOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForElasticPoolPerDatabaseSettings interface {
+	AssignPropertiesFrom(src *storage.ElasticPoolPerDatabaseSettings) error
+	AssignPropertiesTo(dst *storage.ElasticPoolPerDatabaseSettings) error
+}
+
+type augmentConversionForElasticPoolPerDatabaseSettings_STATUS interface {
+	AssignPropertiesFrom(src *storage.ElasticPoolPerDatabaseSettings_STATUS) error
+	AssignPropertiesTo(dst *storage.ElasticPoolPerDatabaseSettings_STATUS) error
+}
+
+type augmentConversionForServersElasticPoolOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersElasticPoolOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersElasticPoolOperatorSpec) error
 }
 
 func init() {

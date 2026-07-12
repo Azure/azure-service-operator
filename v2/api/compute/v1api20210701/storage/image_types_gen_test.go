@@ -21,6 +21,11 @@ import (
 
 func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -63,6 +68,11 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 
 func Test_ExtendedLocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -124,6 +134,11 @@ func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.
 
 func Test_ExtendedLocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -166,6 +181,11 @@ func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocatio
 
 func Test_ExtendedLocation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -228,6 +248,11 @@ func AddIndependentPropertyGeneratorsForExtendedLocation_STATUS(gens map[string]
 
 func Test_Image_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -271,6 +296,11 @@ func RunResourceConversionTestForImage(subject Image) string {
 
 func Test_Image_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -313,6 +343,11 @@ func RunPropertyAssignmentTestForImage(subject Image) string {
 
 func Test_Image_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -374,6 +409,11 @@ func AddRelatedPropertyGeneratorsForImage(gens map[string]gopter.Gen) {
 
 func Test_ImageDataDisk_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -416,6 +456,11 @@ func RunPropertyAssignmentTestForImageDataDisk(subject ImageDataDisk) string {
 
 func Test_ImageDataDisk_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -496,6 +541,11 @@ func AddRelatedPropertyGeneratorsForImageDataDisk(gens map[string]gopter.Gen) {
 
 func Test_ImageDataDisk_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -538,6 +588,11 @@ func RunPropertyAssignmentTestForImageDataDisk_STATUS(subject ImageDataDisk_STAT
 
 func Test_ImageDataDisk_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -619,6 +674,11 @@ func AddRelatedPropertyGeneratorsForImageDataDisk_STATUS(gens map[string]gopter.
 
 func Test_ImageOSDisk_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -661,6 +721,11 @@ func RunPropertyAssignmentTestForImageOSDisk(subject ImageOSDisk) string {
 
 func Test_ImageOSDisk_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -742,6 +807,11 @@ func AddRelatedPropertyGeneratorsForImageOSDisk(gens map[string]gopter.Gen) {
 
 func Test_ImageOSDisk_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -784,6 +854,11 @@ func RunPropertyAssignmentTestForImageOSDisk_STATUS(subject ImageOSDisk_STATUS) 
 
 func Test_ImageOSDisk_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -865,6 +940,11 @@ func AddRelatedPropertyGeneratorsForImageOSDisk_STATUS(gens map[string]gopter.Ge
 
 func Test_ImageOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -907,6 +987,11 @@ func RunPropertyAssignmentTestForImageOperatorSpec(subject ImageOperatorSpec) st
 
 func Test_ImageOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -961,6 +1046,11 @@ func ImageOperatorSpecGenerator() gopter.Gen {
 
 func Test_ImageStorageProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1003,6 +1093,11 @@ func RunPropertyAssignmentTestForImageStorageProfile(subject ImageStorageProfile
 
 func Test_ImageStorageProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1079,6 +1174,11 @@ func AddRelatedPropertyGeneratorsForImageStorageProfile(gens map[string]gopter.G
 
 func Test_ImageStorageProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1121,6 +1221,11 @@ func RunPropertyAssignmentTestForImageStorageProfile_STATUS(subject ImageStorage
 
 func Test_ImageStorageProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1197,6 +1302,11 @@ func AddRelatedPropertyGeneratorsForImageStorageProfile_STATUS(gens map[string]g
 
 func Test_Image_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1239,6 +1349,11 @@ func RunPropertyAssignmentTestForImage_STATUS(subject Image_STATUS) string {
 
 func Test_Image_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1323,6 +1438,11 @@ func AddRelatedPropertyGeneratorsForImage_STATUS(gens map[string]gopter.Gen) {
 
 func Test_Image_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1365,6 +1485,11 @@ func RunPropertyAssignmentTestForImage_Spec(subject Image_Spec) string {
 
 func Test_Image_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1448,6 +1573,11 @@ func AddRelatedPropertyGeneratorsForImage_Spec(gens map[string]gopter.Gen) {
 
 func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1490,6 +1620,11 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 
 func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1544,6 +1679,11 @@ func SubResourceGenerator() gopter.Gen {
 
 func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1586,6 +1726,11 @@ func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) 
 
 func Test_SubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

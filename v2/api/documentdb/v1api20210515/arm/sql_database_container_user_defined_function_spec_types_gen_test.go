@@ -19,6 +19,11 @@ import (
 
 func Test_SqlDatabaseContainerUserDefinedFunction_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -98,6 +103,11 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction_Spec
 
 func Test_SqlUserDefinedFunctionCreateUpdateProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -160,6 +170,11 @@ func AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionCreateUpdateProperties
 
 func Test_SqlUserDefinedFunctionResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

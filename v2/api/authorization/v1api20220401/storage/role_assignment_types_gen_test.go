@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,8 +18,108 @@ import (
 	"testing"
 )
 
+func Test_RoleAssignment_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RoleAssignment to hub returns original",
+		prop.ForAll(RunResourceConversionTestForRoleAssignment, RoleAssignmentGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForRoleAssignment tests if a specific instance of RoleAssignment round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForRoleAssignment(subject RoleAssignment) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.RoleAssignment
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual RoleAssignment
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RoleAssignment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RoleAssignment to RoleAssignment via AssignProperties_To_RoleAssignment & AssignProperties_From_RoleAssignment returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoleAssignment, RoleAssignmentGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRoleAssignment tests if a specific instance of RoleAssignment can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRoleAssignment(subject RoleAssignment) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RoleAssignment
+	err := copied.AssignProperties_To_RoleAssignment(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RoleAssignment
+	err = actual.AssignProperties_From_RoleAssignment(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RoleAssignment_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -78,8 +179,60 @@ func AddRelatedPropertyGeneratorsForRoleAssignment(gens map[string]gopter.Gen) {
 	gens["Status"] = RoleAssignment_STATUSGenerator()
 }
 
+func Test_RoleAssignmentOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RoleAssignmentOperatorSpec to RoleAssignmentOperatorSpec via AssignProperties_To_RoleAssignmentOperatorSpec & AssignProperties_From_RoleAssignmentOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoleAssignmentOperatorSpec, RoleAssignmentOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRoleAssignmentOperatorSpec tests if a specific instance of RoleAssignmentOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRoleAssignmentOperatorSpec(subject RoleAssignmentOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RoleAssignmentOperatorSpec
+	err := copied.AssignProperties_To_RoleAssignmentOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RoleAssignmentOperatorSpec
+	err = actual.AssignProperties_From_RoleAssignmentOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RoleAssignmentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -139,8 +292,60 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentOperatorSpec(gens map[stri
 	gens["NamingConvention"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_RoleAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RoleAssignment_STATUS to RoleAssignment_STATUS via AssignProperties_To_RoleAssignment_STATUS & AssignProperties_From_RoleAssignment_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoleAssignment_STATUS, RoleAssignment_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRoleAssignment_STATUS tests if a specific instance of RoleAssignment_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRoleAssignment_STATUS(subject RoleAssignment_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RoleAssignment_STATUS
+	err := copied.AssignProperties_To_RoleAssignment_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RoleAssignment_STATUS
+	err = actual.AssignProperties_From_RoleAssignment_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RoleAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -228,8 +433,60 @@ func AddRelatedPropertyGeneratorsForRoleAssignment_STATUS(gens map[string]gopter
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
+func Test_RoleAssignment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RoleAssignment_Spec to RoleAssignment_Spec via AssignProperties_To_RoleAssignment_Spec & AssignProperties_From_RoleAssignment_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoleAssignment_Spec, RoleAssignment_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRoleAssignment_Spec tests if a specific instance of RoleAssignment_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRoleAssignment_Spec(subject RoleAssignment_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RoleAssignment_Spec
+	err := copied.AssignProperties_To_RoleAssignment_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RoleAssignment_Spec
+	err = actual.AssignProperties_From_RoleAssignment_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RoleAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -309,8 +566,60 @@ func AddRelatedPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopter.G
 	gens["OperatorSpec"] = gen.PtrOf(RoleAssignmentOperatorSpecGenerator())
 }
 
+func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SystemData_STATUS
+	err := copied.AssignProperties_To_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SystemData_STATUS
+	err = actual.AssignProperties_From_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

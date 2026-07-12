@@ -21,6 +21,11 @@ import (
 
 func Test_ApiVersionSet_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -64,6 +69,11 @@ func RunResourceConversionTestForApiVersionSet(subject ApiVersionSet) string {
 
 func Test_ApiVersionSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -106,6 +116,11 @@ func RunPropertyAssignmentTestForApiVersionSet(subject ApiVersionSet) string {
 
 func Test_ApiVersionSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -167,6 +182,11 @@ func AddRelatedPropertyGeneratorsForApiVersionSet(gens map[string]gopter.Gen) {
 
 func Test_ApiVersionSetOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -209,6 +229,11 @@ func RunPropertyAssignmentTestForApiVersionSetOperatorSpec(subject ApiVersionSet
 
 func Test_ApiVersionSetOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -264,6 +289,11 @@ func ApiVersionSetOperatorSpecGenerator() gopter.Gen {
 
 func Test_ApiVersionSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -306,6 +336,11 @@ func RunPropertyAssignmentTestForApiVersionSet_STATUS(subject ApiVersionSet_STAT
 
 func Test_ApiVersionSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -374,6 +409,11 @@ func AddIndependentPropertyGeneratorsForApiVersionSet_STATUS(gens map[string]gop
 
 func Test_ApiVersionSet_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -416,6 +456,11 @@ func RunPropertyAssignmentTestForApiVersionSet_Spec(subject ApiVersionSet_Spec) 
 
 func Test_ApiVersionSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

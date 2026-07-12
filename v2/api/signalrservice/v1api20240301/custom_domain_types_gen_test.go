@@ -20,6 +20,11 @@ import (
 
 func Test_CustomDomain_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -63,6 +68,11 @@ func RunResourceConversionTestForCustomDomain(subject CustomDomain) string {
 
 func Test_CustomDomain_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -105,6 +115,11 @@ func RunPropertyAssignmentTestForCustomDomain(subject CustomDomain) string {
 
 func Test_CustomDomain_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -166,6 +181,11 @@ func AddRelatedPropertyGeneratorsForCustomDomain(gens map[string]gopter.Gen) {
 
 func Test_CustomDomainOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -208,6 +228,11 @@ func RunPropertyAssignmentTestForCustomDomainOperatorSpec(subject CustomDomainOp
 
 func Test_CustomDomainOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -263,6 +288,11 @@ func CustomDomainOperatorSpecGenerator() gopter.Gen {
 
 func Test_CustomDomain_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -305,6 +335,11 @@ func RunPropertyAssignmentTestForCustomDomain_STATUS(subject CustomDomain_STATUS
 
 func Test_CustomDomain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -394,6 +429,11 @@ func AddRelatedPropertyGeneratorsForCustomDomain_STATUS(gens map[string]gopter.G
 
 func Test_CustomDomain_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -436,6 +476,11 @@ func RunPropertyAssignmentTestForCustomDomain_Spec(subject CustomDomain_Spec) st
 
 func Test_CustomDomain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -512,6 +557,11 @@ func AddRelatedPropertyGeneratorsForCustomDomain_Spec(gens map[string]gopter.Gen
 
 func Test_ResourceReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -554,6 +604,11 @@ func RunPropertyAssignmentTestForResourceReference(subject ResourceReference) st
 
 func Test_ResourceReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -608,6 +663,11 @@ func ResourceReferenceGenerator() gopter.Gen {
 
 func Test_ResourceReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -650,6 +710,11 @@ func RunPropertyAssignmentTestForResourceReference_STATUS(subject ResourceRefere
 
 func Test_ResourceReference_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

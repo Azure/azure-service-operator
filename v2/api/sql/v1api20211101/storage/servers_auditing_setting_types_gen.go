@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serversauditingsettings,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serversauditingsettings/status,serversauditingsettings/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (setting *ServersAuditingSetting) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (setting *ServersAuditingSetting) SetConditions(conditions conditions.Conditions) {
 	setting.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersAuditingSetting{}
+
+// ConvertFrom populates our ServersAuditingSetting from the provided hub ServersAuditingSetting
+func (setting *ServersAuditingSetting) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersAuditingSetting)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersAuditingSetting but received %T instead", hub)
+	}
+
+	return setting.AssignProperties_From_ServersAuditingSetting(source)
+}
+
+// ConvertTo populates the provided hub ServersAuditingSetting from our ServersAuditingSetting
+func (setting *ServersAuditingSetting) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersAuditingSetting)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersAuditingSetting but received %T instead", hub)
+	}
+
+	return setting.AssignProperties_To_ServersAuditingSetting(destination)
 }
 
 var _ configmaps.Exporter = &ServersAuditingSetting{}
@@ -142,8 +163,75 @@ func (setting *ServersAuditingSetting) SetStatus(status genruntime.ConvertibleSt
 	return nil
 }
 
-// Hub marks that this ServersAuditingSetting is the hub type for conversion
-func (setting *ServersAuditingSetting) Hub() {}
+// AssignProperties_From_ServersAuditingSetting populates our ServersAuditingSetting from the provided source ServersAuditingSetting
+func (setting *ServersAuditingSetting) AssignProperties_From_ServersAuditingSetting(source *storage.ServersAuditingSetting) error {
+
+	// ObjectMeta
+	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersAuditingSetting_Spec
+	err := spec.AssignProperties_From_ServersAuditingSetting_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersAuditingSetting_Spec() to populate field Spec")
+	}
+	setting.Spec = spec
+
+	// Status
+	var status ServersAuditingSetting_STATUS
+	err = status.AssignProperties_From_ServersAuditingSetting_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersAuditingSetting_STATUS() to populate field Status")
+	}
+	setting.Status = status
+
+	// Invoke the augmentConversionForServersAuditingSetting interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersAuditingSetting); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersAuditingSetting populates the provided destination ServersAuditingSetting from our ServersAuditingSetting
+func (setting *ServersAuditingSetting) AssignProperties_To_ServersAuditingSetting(destination *storage.ServersAuditingSetting) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersAuditingSetting_Spec
+	err := setting.Spec.AssignProperties_To_ServersAuditingSetting_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersAuditingSetting_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersAuditingSetting_STATUS
+	err = setting.Status.AssignProperties_To_ServersAuditingSetting_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersAuditingSetting_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersAuditingSetting interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersAuditingSetting); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (setting *ServersAuditingSetting) OriginalGVK() *schema.GroupVersionKind {
@@ -163,6 +251,11 @@ type ServersAuditingSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ServersAuditingSetting `json:"items"`
+}
+
+type augmentConversionForServersAuditingSetting interface {
+	AssignPropertiesFrom(src *storage.ServersAuditingSetting) error
+	AssignPropertiesTo(dst *storage.ServersAuditingSetting) error
 }
 
 // Storage version of v1api20211101.ServersAuditingSetting_Spec
@@ -193,20 +286,262 @@ var _ genruntime.ConvertibleSpec = &ServersAuditingSetting_Spec{}
 
 // ConvertSpecFrom populates our ServersAuditingSetting_Spec from the provided source
 func (setting *ServersAuditingSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == setting {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersAuditingSetting_Spec)
+	if ok {
+		// Populate our instance from source
+		return setting.AssignProperties_From_ServersAuditingSetting_Spec(src)
 	}
 
-	return source.ConvertSpecTo(setting)
+	// Convert to an intermediate form
+	src = &storage.ServersAuditingSetting_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = setting.AssignProperties_From_ServersAuditingSetting_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersAuditingSetting_Spec
 func (setting *ServersAuditingSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == setting {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersAuditingSetting_Spec)
+	if ok {
+		// Populate destination from our instance
+		return setting.AssignProperties_To_ServersAuditingSetting_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(setting)
+	// Convert to an intermediate form
+	dst = &storage.ServersAuditingSetting_Spec{}
+	err := setting.AssignProperties_To_ServersAuditingSetting_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersAuditingSetting_Spec populates our ServersAuditingSetting_Spec from the provided source ServersAuditingSetting_Spec
+func (setting *ServersAuditingSetting_Spec) AssignProperties_From_ServersAuditingSetting_Spec(source *storage.ServersAuditingSetting_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuditActionsAndGroups
+	setting.AuditActionsAndGroups = genruntime.CloneSliceOfString(source.AuditActionsAndGroups)
+
+	// IsAzureMonitorTargetEnabled
+	if source.IsAzureMonitorTargetEnabled != nil {
+		isAzureMonitorTargetEnabled := *source.IsAzureMonitorTargetEnabled
+		setting.IsAzureMonitorTargetEnabled = &isAzureMonitorTargetEnabled
+	} else {
+		setting.IsAzureMonitorTargetEnabled = nil
+	}
+
+	// IsDevopsAuditEnabled
+	if source.IsDevopsAuditEnabled != nil {
+		isDevopsAuditEnabled := *source.IsDevopsAuditEnabled
+		setting.IsDevopsAuditEnabled = &isDevopsAuditEnabled
+	} else {
+		setting.IsDevopsAuditEnabled = nil
+	}
+
+	// IsManagedIdentityInUse
+	if source.IsManagedIdentityInUse != nil {
+		isManagedIdentityInUse := *source.IsManagedIdentityInUse
+		setting.IsManagedIdentityInUse = &isManagedIdentityInUse
+	} else {
+		setting.IsManagedIdentityInUse = nil
+	}
+
+	// IsStorageSecondaryKeyInUse
+	if source.IsStorageSecondaryKeyInUse != nil {
+		isStorageSecondaryKeyInUse := *source.IsStorageSecondaryKeyInUse
+		setting.IsStorageSecondaryKeyInUse = &isStorageSecondaryKeyInUse
+	} else {
+		setting.IsStorageSecondaryKeyInUse = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersAuditingSettingOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersAuditingSettingOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersAuditingSettingOperatorSpec() to populate field OperatorSpec")
+		}
+		setting.OperatorSpec = &operatorSpec
+	} else {
+		setting.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	setting.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		setting.Owner = &owner
+	} else {
+		setting.Owner = nil
+	}
+
+	// QueueDelayMs
+	setting.QueueDelayMs = genruntime.ClonePointerToInt(source.QueueDelayMs)
+
+	// RetentionDays
+	setting.RetentionDays = genruntime.ClonePointerToInt(source.RetentionDays)
+
+	// State
+	setting.State = genruntime.ClonePointerToString(source.State)
+
+	// StorageAccountAccessKey
+	if source.StorageAccountAccessKey != nil {
+		storageAccountAccessKey := source.StorageAccountAccessKey.Copy()
+		setting.StorageAccountAccessKey = &storageAccountAccessKey
+	} else {
+		setting.StorageAccountAccessKey = nil
+	}
+
+	// StorageAccountSubscriptionId
+	setting.StorageAccountSubscriptionId = genruntime.ClonePointerToString(source.StorageAccountSubscriptionId)
+
+	// StorageEndpoint
+	setting.StorageEndpoint = genruntime.ClonePointerToString(source.StorageEndpoint)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		setting.PropertyBag = propertyBag
+	} else {
+		setting.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersAuditingSetting_Spec interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersAuditingSetting_Spec); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersAuditingSetting_Spec populates the provided destination ServersAuditingSetting_Spec from our ServersAuditingSetting_Spec
+func (setting *ServersAuditingSetting_Spec) AssignProperties_To_ServersAuditingSetting_Spec(destination *storage.ServersAuditingSetting_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
+
+	// AuditActionsAndGroups
+	destination.AuditActionsAndGroups = genruntime.CloneSliceOfString(setting.AuditActionsAndGroups)
+
+	// IsAzureMonitorTargetEnabled
+	if setting.IsAzureMonitorTargetEnabled != nil {
+		isAzureMonitorTargetEnabled := *setting.IsAzureMonitorTargetEnabled
+		destination.IsAzureMonitorTargetEnabled = &isAzureMonitorTargetEnabled
+	} else {
+		destination.IsAzureMonitorTargetEnabled = nil
+	}
+
+	// IsDevopsAuditEnabled
+	if setting.IsDevopsAuditEnabled != nil {
+		isDevopsAuditEnabled := *setting.IsDevopsAuditEnabled
+		destination.IsDevopsAuditEnabled = &isDevopsAuditEnabled
+	} else {
+		destination.IsDevopsAuditEnabled = nil
+	}
+
+	// IsManagedIdentityInUse
+	if setting.IsManagedIdentityInUse != nil {
+		isManagedIdentityInUse := *setting.IsManagedIdentityInUse
+		destination.IsManagedIdentityInUse = &isManagedIdentityInUse
+	} else {
+		destination.IsManagedIdentityInUse = nil
+	}
+
+	// IsStorageSecondaryKeyInUse
+	if setting.IsStorageSecondaryKeyInUse != nil {
+		isStorageSecondaryKeyInUse := *setting.IsStorageSecondaryKeyInUse
+		destination.IsStorageSecondaryKeyInUse = &isStorageSecondaryKeyInUse
+	} else {
+		destination.IsStorageSecondaryKeyInUse = nil
+	}
+
+	// OperatorSpec
+	if setting.OperatorSpec != nil {
+		var operatorSpec storage.ServersAuditingSettingOperatorSpec
+		err := setting.OperatorSpec.AssignProperties_To_ServersAuditingSettingOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersAuditingSettingOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = setting.OriginalVersion
+
+	// Owner
+	if setting.Owner != nil {
+		owner := setting.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// QueueDelayMs
+	destination.QueueDelayMs = genruntime.ClonePointerToInt(setting.QueueDelayMs)
+
+	// RetentionDays
+	destination.RetentionDays = genruntime.ClonePointerToInt(setting.RetentionDays)
+
+	// State
+	destination.State = genruntime.ClonePointerToString(setting.State)
+
+	// StorageAccountAccessKey
+	if setting.StorageAccountAccessKey != nil {
+		storageAccountAccessKey := setting.StorageAccountAccessKey.Copy()
+		destination.StorageAccountAccessKey = &storageAccountAccessKey
+	} else {
+		destination.StorageAccountAccessKey = nil
+	}
+
+	// StorageAccountSubscriptionId
+	destination.StorageAccountSubscriptionId = genruntime.ClonePointerToString(setting.StorageAccountSubscriptionId)
+
+	// StorageEndpoint
+	destination.StorageEndpoint = genruntime.ClonePointerToString(setting.StorageEndpoint)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersAuditingSetting_Spec interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersAuditingSetting_Spec); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20211101.ServersAuditingSetting_STATUS
@@ -232,20 +567,234 @@ var _ genruntime.ConvertibleStatus = &ServersAuditingSetting_STATUS{}
 
 // ConvertStatusFrom populates our ServersAuditingSetting_STATUS from the provided source
 func (setting *ServersAuditingSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == setting {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersAuditingSetting_STATUS)
+	if ok {
+		// Populate our instance from source
+		return setting.AssignProperties_From_ServersAuditingSetting_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(setting)
+	// Convert to an intermediate form
+	src = &storage.ServersAuditingSetting_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = setting.AssignProperties_From_ServersAuditingSetting_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersAuditingSetting_STATUS
 func (setting *ServersAuditingSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == setting {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersAuditingSetting_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return setting.AssignProperties_To_ServersAuditingSetting_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(setting)
+	// Convert to an intermediate form
+	dst = &storage.ServersAuditingSetting_STATUS{}
+	err := setting.AssignProperties_To_ServersAuditingSetting_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersAuditingSetting_STATUS populates our ServersAuditingSetting_STATUS from the provided source ServersAuditingSetting_STATUS
+func (setting *ServersAuditingSetting_STATUS) AssignProperties_From_ServersAuditingSetting_STATUS(source *storage.ServersAuditingSetting_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuditActionsAndGroups
+	setting.AuditActionsAndGroups = genruntime.CloneSliceOfString(source.AuditActionsAndGroups)
+
+	// Conditions
+	setting.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	setting.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IsAzureMonitorTargetEnabled
+	if source.IsAzureMonitorTargetEnabled != nil {
+		isAzureMonitorTargetEnabled := *source.IsAzureMonitorTargetEnabled
+		setting.IsAzureMonitorTargetEnabled = &isAzureMonitorTargetEnabled
+	} else {
+		setting.IsAzureMonitorTargetEnabled = nil
+	}
+
+	// IsDevopsAuditEnabled
+	if source.IsDevopsAuditEnabled != nil {
+		isDevopsAuditEnabled := *source.IsDevopsAuditEnabled
+		setting.IsDevopsAuditEnabled = &isDevopsAuditEnabled
+	} else {
+		setting.IsDevopsAuditEnabled = nil
+	}
+
+	// IsManagedIdentityInUse
+	if source.IsManagedIdentityInUse != nil {
+		isManagedIdentityInUse := *source.IsManagedIdentityInUse
+		setting.IsManagedIdentityInUse = &isManagedIdentityInUse
+	} else {
+		setting.IsManagedIdentityInUse = nil
+	}
+
+	// IsStorageSecondaryKeyInUse
+	if source.IsStorageSecondaryKeyInUse != nil {
+		isStorageSecondaryKeyInUse := *source.IsStorageSecondaryKeyInUse
+		setting.IsStorageSecondaryKeyInUse = &isStorageSecondaryKeyInUse
+	} else {
+		setting.IsStorageSecondaryKeyInUse = nil
+	}
+
+	// Name
+	setting.Name = genruntime.ClonePointerToString(source.Name)
+
+	// QueueDelayMs
+	setting.QueueDelayMs = genruntime.ClonePointerToInt(source.QueueDelayMs)
+
+	// RetentionDays
+	setting.RetentionDays = genruntime.ClonePointerToInt(source.RetentionDays)
+
+	// State
+	setting.State = genruntime.ClonePointerToString(source.State)
+
+	// StorageAccountSubscriptionId
+	setting.StorageAccountSubscriptionId = genruntime.ClonePointerToString(source.StorageAccountSubscriptionId)
+
+	// StorageEndpoint
+	setting.StorageEndpoint = genruntime.ClonePointerToString(source.StorageEndpoint)
+
+	// Type
+	setting.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		setting.PropertyBag = propertyBag
+	} else {
+		setting.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersAuditingSetting_STATUS interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersAuditingSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersAuditingSetting_STATUS populates the provided destination ServersAuditingSetting_STATUS from our ServersAuditingSetting_STATUS
+func (setting *ServersAuditingSetting_STATUS) AssignProperties_To_ServersAuditingSetting_STATUS(destination *storage.ServersAuditingSetting_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(setting.PropertyBag)
+
+	// AuditActionsAndGroups
+	destination.AuditActionsAndGroups = genruntime.CloneSliceOfString(setting.AuditActionsAndGroups)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(setting.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(setting.Id)
+
+	// IsAzureMonitorTargetEnabled
+	if setting.IsAzureMonitorTargetEnabled != nil {
+		isAzureMonitorTargetEnabled := *setting.IsAzureMonitorTargetEnabled
+		destination.IsAzureMonitorTargetEnabled = &isAzureMonitorTargetEnabled
+	} else {
+		destination.IsAzureMonitorTargetEnabled = nil
+	}
+
+	// IsDevopsAuditEnabled
+	if setting.IsDevopsAuditEnabled != nil {
+		isDevopsAuditEnabled := *setting.IsDevopsAuditEnabled
+		destination.IsDevopsAuditEnabled = &isDevopsAuditEnabled
+	} else {
+		destination.IsDevopsAuditEnabled = nil
+	}
+
+	// IsManagedIdentityInUse
+	if setting.IsManagedIdentityInUse != nil {
+		isManagedIdentityInUse := *setting.IsManagedIdentityInUse
+		destination.IsManagedIdentityInUse = &isManagedIdentityInUse
+	} else {
+		destination.IsManagedIdentityInUse = nil
+	}
+
+	// IsStorageSecondaryKeyInUse
+	if setting.IsStorageSecondaryKeyInUse != nil {
+		isStorageSecondaryKeyInUse := *setting.IsStorageSecondaryKeyInUse
+		destination.IsStorageSecondaryKeyInUse = &isStorageSecondaryKeyInUse
+	} else {
+		destination.IsStorageSecondaryKeyInUse = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(setting.Name)
+
+	// QueueDelayMs
+	destination.QueueDelayMs = genruntime.ClonePointerToInt(setting.QueueDelayMs)
+
+	// RetentionDays
+	destination.RetentionDays = genruntime.ClonePointerToInt(setting.RetentionDays)
+
+	// State
+	destination.State = genruntime.ClonePointerToString(setting.State)
+
+	// StorageAccountSubscriptionId
+	destination.StorageAccountSubscriptionId = genruntime.ClonePointerToString(setting.StorageAccountSubscriptionId)
+
+	// StorageEndpoint
+	destination.StorageEndpoint = genruntime.ClonePointerToString(setting.StorageEndpoint)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(setting.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersAuditingSetting_STATUS interface (if implemented) to customize the conversion
+	var settingAsAny any = setting
+	if augmentedSetting, ok := settingAsAny.(augmentConversionForServersAuditingSetting_STATUS); ok {
+		err := augmentedSetting.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersAuditingSetting_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersAuditingSetting_Spec) error
+	AssignPropertiesTo(dst *storage.ServersAuditingSetting_Spec) error
+}
+
+type augmentConversionForServersAuditingSetting_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersAuditingSetting_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersAuditingSetting_STATUS) error
 }
 
 // Storage version of v1api20211101.ServersAuditingSettingOperatorSpec
@@ -254,6 +803,125 @@ type ServersAuditingSettingOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersAuditingSettingOperatorSpec populates our ServersAuditingSettingOperatorSpec from the provided source ServersAuditingSettingOperatorSpec
+func (operator *ServersAuditingSettingOperatorSpec) AssignProperties_From_ServersAuditingSettingOperatorSpec(source *storage.ServersAuditingSettingOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersAuditingSettingOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersAuditingSettingOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersAuditingSettingOperatorSpec populates the provided destination ServersAuditingSettingOperatorSpec from our ServersAuditingSettingOperatorSpec
+func (operator *ServersAuditingSettingOperatorSpec) AssignProperties_To_ServersAuditingSettingOperatorSpec(destination *storage.ServersAuditingSettingOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersAuditingSettingOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersAuditingSettingOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersAuditingSettingOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersAuditingSettingOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersAuditingSettingOperatorSpec) error
 }
 
 func init() {

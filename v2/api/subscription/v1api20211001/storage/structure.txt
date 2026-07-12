@@ -55,3 +55,19 @@ Alias: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
+augmentConversionForAlias: Interface
+
+augmentConversionForAliasOperatorSpec: Interface
+
+augmentConversionForAlias_STATUS: Interface
+
+augmentConversionForAlias_Spec: Interface
+
+augmentConversionForPutAliasRequestAdditionalProperties: Interface
+
+augmentConversionForPutAliasRequestProperties: Interface
+
+augmentConversionForSubscriptionAliasResponseProperties_STATUS: Interface
+
+augmentConversionForSystemData_STATUS: Interface
+

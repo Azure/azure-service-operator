@@ -19,6 +19,11 @@ import (
 
 func Test_AccessPolicyAssignmentProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -94,6 +99,11 @@ func AddRelatedPropertyGeneratorsForAccessPolicyAssignmentProperties(gens map[st
 
 func Test_AccessPolicyAssignmentProperties_User_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -155,6 +165,11 @@ func AddIndependentPropertyGeneratorsForAccessPolicyAssignmentProperties_User(ge
 
 func Test_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

@@ -19,6 +19,11 @@ import (
 
 func Test_EncryptionInTransit_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -80,6 +85,11 @@ func AddIndependentPropertyGeneratorsForEncryptionInTransit(gens map[string]gopt
 
 func Test_EncryptionInTransit_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -141,6 +151,11 @@ func AddIndependentPropertyGeneratorsForEncryptionInTransit_STATUS(gens map[stri
 
 func Test_Multichannel_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -201,6 +216,11 @@ func AddIndependentPropertyGeneratorsForMultichannel(gens map[string]gopter.Gen)
 
 func Test_Multichannel_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -262,6 +282,11 @@ func AddIndependentPropertyGeneratorsForMultichannel_STATUS(gens map[string]gopt
 
 func Test_NfsSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -322,6 +347,11 @@ func AddRelatedPropertyGeneratorsForNfsSetting(gens map[string]gopter.Gen) {
 
 func Test_NfsSetting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -382,6 +412,11 @@ func AddRelatedPropertyGeneratorsForNfsSetting_STATUS(gens map[string]gopter.Gen
 
 func Test_ProtocolSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -443,6 +478,11 @@ func AddRelatedPropertyGeneratorsForProtocolSettings(gens map[string]gopter.Gen)
 
 func Test_ProtocolSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -505,6 +545,11 @@ func AddRelatedPropertyGeneratorsForProtocolSettings_STATUS(gens map[string]gopt
 
 func Test_SmbSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -583,6 +628,11 @@ func AddRelatedPropertyGeneratorsForSmbSetting(gens map[string]gopter.Gen) {
 
 func Test_SmbSetting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -661,6 +711,11 @@ func AddRelatedPropertyGeneratorsForSmbSetting_STATUS(gens map[string]gopter.Gen
 
 func Test_StorageAccountsFileService_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -723,6 +778,11 @@ func AddRelatedPropertyGeneratorsForStorageAccountsFileService(gens map[string]g
 
 func Test_StorageAccountsFileServiceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -778,6 +838,11 @@ func StorageAccountsFileServiceOperatorSpecGenerator() gopter.Gen {
 
 func Test_StorageAccountsFileService_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -859,6 +924,11 @@ func AddRelatedPropertyGeneratorsForStorageAccountsFileService_STATUS(gens map[s
 
 func Test_StorageAccountsFileService_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

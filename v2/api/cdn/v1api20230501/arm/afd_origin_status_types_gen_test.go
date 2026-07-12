@@ -19,6 +19,11 @@ import (
 
 func Test_AFDOriginProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -114,6 +119,11 @@ func AddRelatedPropertyGeneratorsForAFDOriginProperties_STATUS(gens map[string]g
 
 func Test_AfdOrigin_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -191,6 +201,11 @@ func AddRelatedPropertyGeneratorsForAfdOrigin_STATUS(gens map[string]gopter.Gen)
 
 func Test_SharedPrivateLinkResourceProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

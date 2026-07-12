@@ -5,7 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_ServersDatabasesTransparentDataEncryption_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForServersDatabasesTransparentDataEncryption(subje
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersDatabasesTransparentDataEncryption
+	var hub sql_v20211101s.ServersDatabasesTransparentDataEncryption
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForServersDatabasesTransparentDataEncryption(subje
 
 func Test_ServersDatabasesTransparentDataEncryption_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption(subje
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesTransparentDataEncryption
+	var other sql_v1api20211101s.ServersDatabasesTransparentDataEncryption
 	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryption(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption(subje
 
 func Test_ServersDatabasesTransparentDataEncryption_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -167,6 +183,11 @@ func AddRelatedPropertyGeneratorsForServersDatabasesTransparentDataEncryption(ge
 
 func Test_ServersDatabasesTransparentDataEncryptionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -182,7 +203,7 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryptionOperat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesTransparentDataEncryptionOperatorSpec
+	var other sql_v1api20211101s.ServersDatabasesTransparentDataEncryptionOperatorSpec
 	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -209,6 +230,11 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryptionOperat
 
 func Test_ServersDatabasesTransparentDataEncryptionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -264,6 +290,11 @@ func ServersDatabasesTransparentDataEncryptionOperatorSpecGenerator() gopter.Gen
 
 func Test_ServersDatabasesTransparentDataEncryption_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -279,7 +310,7 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_STATU
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesTransparentDataEncryption_STATUS
+	var other sql_v1api20211101s.ServersDatabasesTransparentDataEncryption_STATUS
 	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -306,6 +337,11 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_STATU
 
 func Test_ServersDatabasesTransparentDataEncryption_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -370,6 +406,11 @@ func AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryptio
 
 func Test_ServersDatabasesTransparentDataEncryption_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -385,7 +426,7 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_Spec(
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesTransparentDataEncryption_Spec
+	var other sql_v1api20211101s.ServersDatabasesTransparentDataEncryption_Spec
 	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -412,6 +453,11 @@ func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_Spec(
 
 func Test_ServersDatabasesTransparentDataEncryption_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

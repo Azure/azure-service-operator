@@ -7448,21 +7448,21 @@ type UserOwnedStorage struct {
 var _ genruntime.ARMTransformer = &UserOwnedStorage{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (storage *UserOwnedStorage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if storage == nil {
+func (ownedStorage *UserOwnedStorage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if ownedStorage == nil {
 		return nil, nil
 	}
 	result := &arm.UserOwnedStorage{}
 
 	// Set property "IdentityClientId":
-	if storage.IdentityClientId != nil {
-		identityClientId := *storage.IdentityClientId
+	if ownedStorage.IdentityClientId != nil {
+		identityClientId := *ownedStorage.IdentityClientId
 		result.IdentityClientId = &identityClientId
 	}
 
 	// Set property "ResourceId":
-	if storage.ResourceReference != nil {
-		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*storage.ResourceReference)
+	if ownedStorage.ResourceReference != nil {
+		resourceReferenceARMID, err := resolved.ResolvedReferences.Lookup(*ownedStorage.ResourceReference)
 		if err != nil {
 			return nil, err
 		}
@@ -7473,12 +7473,12 @@ func (storage *UserOwnedStorage) ConvertToARM(resolved genruntime.ConvertToARMRe
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (storage *UserOwnedStorage) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (ownedStorage *UserOwnedStorage) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &arm.UserOwnedStorage{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (storage *UserOwnedStorage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (ownedStorage *UserOwnedStorage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(arm.UserOwnedStorage)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserOwnedStorage, got %T", armInput)
@@ -7487,7 +7487,7 @@ func (storage *UserOwnedStorage) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// Set property "IdentityClientId":
 	if typedInput.IdentityClientId != nil {
 		identityClientId := *typedInput.IdentityClientId
-		storage.IdentityClientId = &identityClientId
+		ownedStorage.IdentityClientId = &identityClientId
 	}
 
 	// no assignment for property "ResourceReference"
@@ -7497,17 +7497,17 @@ func (storage *UserOwnedStorage) PopulateFromARM(owner genruntime.ArbitraryOwner
 }
 
 // AssignProperties_From_UserOwnedStorage populates our UserOwnedStorage from the provided source UserOwnedStorage
-func (storage *UserOwnedStorage) AssignProperties_From_UserOwnedStorage(source *storage.UserOwnedStorage) error {
+func (ownedStorage *UserOwnedStorage) AssignProperties_From_UserOwnedStorage(source *storage.UserOwnedStorage) error {
 
 	// IdentityClientId
-	storage.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
+	ownedStorage.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
 
 	// ResourceReference
 	if source.ResourceReference != nil {
 		resourceReference := source.ResourceReference.Copy()
-		storage.ResourceReference = &resourceReference
+		ownedStorage.ResourceReference = &resourceReference
 	} else {
-		storage.ResourceReference = nil
+		ownedStorage.ResourceReference = nil
 	}
 
 	// No error
@@ -7515,16 +7515,16 @@ func (storage *UserOwnedStorage) AssignProperties_From_UserOwnedStorage(source *
 }
 
 // AssignProperties_To_UserOwnedStorage populates the provided destination UserOwnedStorage from our UserOwnedStorage
-func (storage *UserOwnedStorage) AssignProperties_To_UserOwnedStorage(destination *storage.UserOwnedStorage) error {
+func (ownedStorage *UserOwnedStorage) AssignProperties_To_UserOwnedStorage(destination *storage.UserOwnedStorage) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IdentityClientId
-	destination.IdentityClientId = genruntime.ClonePointerToString(storage.IdentityClientId)
+	destination.IdentityClientId = genruntime.ClonePointerToString(ownedStorage.IdentityClientId)
 
 	// ResourceReference
-	if storage.ResourceReference != nil {
-		resourceReference := storage.ResourceReference.Copy()
+	if ownedStorage.ResourceReference != nil {
+		resourceReference := ownedStorage.ResourceReference.Copy()
 		destination.ResourceReference = &resourceReference
 	} else {
 		destination.ResourceReference = nil
@@ -7542,17 +7542,17 @@ func (storage *UserOwnedStorage) AssignProperties_To_UserOwnedStorage(destinatio
 }
 
 // Initialize_From_UserOwnedStorage_STATUS populates our UserOwnedStorage from the provided source UserOwnedStorage_STATUS
-func (storage *UserOwnedStorage) Initialize_From_UserOwnedStorage_STATUS(source *UserOwnedStorage_STATUS) error {
+func (ownedStorage *UserOwnedStorage) Initialize_From_UserOwnedStorage_STATUS(source *UserOwnedStorage_STATUS) error {
 
 	// IdentityClientId
-	storage.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
+	ownedStorage.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
 
 	// ResourceReference
 	if source.ResourceId != nil {
 		resourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ResourceId)
-		storage.ResourceReference = &resourceReference
+		ownedStorage.ResourceReference = &resourceReference
 	} else {
-		storage.ResourceReference = nil
+		ownedStorage.ResourceReference = nil
 	}
 
 	// No error
@@ -7570,12 +7570,12 @@ type UserOwnedStorage_STATUS struct {
 var _ genruntime.FromARMConverter = &UserOwnedStorage_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (storage *UserOwnedStorage_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (ownedStorage *UserOwnedStorage_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &arm.UserOwnedStorage_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (storage *UserOwnedStorage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (ownedStorage *UserOwnedStorage_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(arm.UserOwnedStorage_STATUS)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserOwnedStorage_STATUS, got %T", armInput)
@@ -7584,13 +7584,13 @@ func (storage *UserOwnedStorage_STATUS) PopulateFromARM(owner genruntime.Arbitra
 	// Set property "IdentityClientId":
 	if typedInput.IdentityClientId != nil {
 		identityClientId := *typedInput.IdentityClientId
-		storage.IdentityClientId = &identityClientId
+		ownedStorage.IdentityClientId = &identityClientId
 	}
 
 	// Set property "ResourceId":
 	if typedInput.ResourceId != nil {
 		resourceId := *typedInput.ResourceId
-		storage.ResourceId = &resourceId
+		ownedStorage.ResourceId = &resourceId
 	}
 
 	// No error
@@ -7598,28 +7598,28 @@ func (storage *UserOwnedStorage_STATUS) PopulateFromARM(owner genruntime.Arbitra
 }
 
 // AssignProperties_From_UserOwnedStorage_STATUS populates our UserOwnedStorage_STATUS from the provided source UserOwnedStorage_STATUS
-func (storage *UserOwnedStorage_STATUS) AssignProperties_From_UserOwnedStorage_STATUS(source *storage.UserOwnedStorage_STATUS) error {
+func (ownedStorage *UserOwnedStorage_STATUS) AssignProperties_From_UserOwnedStorage_STATUS(source *storage.UserOwnedStorage_STATUS) error {
 
 	// IdentityClientId
-	storage.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
+	ownedStorage.IdentityClientId = genruntime.ClonePointerToString(source.IdentityClientId)
 
 	// ResourceId
-	storage.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+	ownedStorage.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
 
 	// No error
 	return nil
 }
 
 // AssignProperties_To_UserOwnedStorage_STATUS populates the provided destination UserOwnedStorage_STATUS from our UserOwnedStorage_STATUS
-func (storage *UserOwnedStorage_STATUS) AssignProperties_To_UserOwnedStorage_STATUS(destination *storage.UserOwnedStorage_STATUS) error {
+func (ownedStorage *UserOwnedStorage_STATUS) AssignProperties_To_UserOwnedStorage_STATUS(destination *storage.UserOwnedStorage_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IdentityClientId
-	destination.IdentityClientId = genruntime.ClonePointerToString(storage.IdentityClientId)
+	destination.IdentityClientId = genruntime.ClonePointerToString(ownedStorage.IdentityClientId)
 
 	// ResourceId
-	destination.ResourceId = genruntime.ClonePointerToString(storage.ResourceId)
+	destination.ResourceId = genruntime.ClonePointerToString(ownedStorage.ResourceId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

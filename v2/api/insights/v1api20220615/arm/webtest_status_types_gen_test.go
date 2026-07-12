@@ -19,6 +19,11 @@ import (
 
 func Test_HeaderField_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -80,6 +85,11 @@ func AddIndependentPropertyGeneratorsForHeaderField_STATUS(gens map[string]gopte
 
 func Test_WebTestGeolocation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -141,6 +151,11 @@ func AddIndependentPropertyGeneratorsForWebTestGeolocation_STATUS(gens map[strin
 
 func Test_WebTestPropertiesConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -202,6 +217,11 @@ func AddIndependentPropertyGeneratorsForWebTestPropertiesConfiguration_STATUS(ge
 
 func Test_WebTestPropertiesRequest_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -281,6 +301,11 @@ func AddRelatedPropertyGeneratorsForWebTestPropertiesRequest_STATUS(gens map[str
 
 func Test_WebTestPropertiesValidationRulesContentValidation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -344,6 +369,11 @@ func AddIndependentPropertyGeneratorsForWebTestPropertiesValidationRulesContentV
 
 func Test_WebTestPropertiesValidationRules_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -422,6 +452,11 @@ func AddRelatedPropertyGeneratorsForWebTestPropertiesValidationRules_STATUS(gens
 
 func Test_WebTestProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -508,6 +543,11 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_STATUS(gens map[string]gop
 
 func Test_Webtest_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

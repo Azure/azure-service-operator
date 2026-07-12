@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersFailoverGroup{}
 
 // ConvertFrom populates our ServersFailoverGroup from the provided hub ServersFailoverGroup
 func (group *ServersFailoverGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersFailoverGroup)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersFailoverGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersFailoverGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_ServersFailoverGroup(source)
+	err = group.AssignProperties_From_ServersFailoverGroup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersFailoverGroup from our ServersFailoverGroup
 func (group *ServersFailoverGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersFailoverGroup)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersFailoverGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersFailoverGroup
+	err := group.AssignProperties_To_ServersFailoverGroup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_ServersFailoverGroup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersFailoverGroup{}
@@ -87,17 +101,6 @@ func (group *ServersFailoverGroup) SecretDestinationExpressions() []*core.Destin
 		return nil
 	}
 	return group.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersFailoverGroup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *ServersFailoverGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersFailoverGroup_STATUS); ok {
-		return group.Spec.Initialize_From_ServersFailoverGroup_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersFailoverGroup_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersFailoverGroup{}
@@ -647,56 +650,6 @@ func (group *ServersFailoverGroup_Spec) AssignProperties_To_ServersFailoverGroup
 	return nil
 }
 
-// Initialize_From_ServersFailoverGroup_STATUS populates our ServersFailoverGroup_Spec from the provided source ServersFailoverGroup_STATUS
-func (group *ServersFailoverGroup_Spec) Initialize_From_ServersFailoverGroup_STATUS(source *ServersFailoverGroup_STATUS) error {
-
-	// PartnerServers
-	if source.PartnerServers != nil {
-		partnerServerList := make([]PartnerInfo, len(source.PartnerServers))
-		for partnerServerIndex, partnerServerItem := range source.PartnerServers {
-			var partnerServer PartnerInfo
-			err := partnerServer.Initialize_From_PartnerInfo_STATUS(&partnerServerItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_PartnerInfo_STATUS() to populate field PartnerServers")
-			}
-			partnerServerList[partnerServerIndex] = partnerServer
-		}
-		group.PartnerServers = partnerServerList
-	} else {
-		group.PartnerServers = nil
-	}
-
-	// ReadOnlyEndpoint
-	if source.ReadOnlyEndpoint != nil {
-		var readOnlyEndpoint FailoverGroupReadOnlyEndpoint
-		err := readOnlyEndpoint.Initialize_From_FailoverGroupReadOnlyEndpoint_STATUS(source.ReadOnlyEndpoint)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FailoverGroupReadOnlyEndpoint_STATUS() to populate field ReadOnlyEndpoint")
-		}
-		group.ReadOnlyEndpoint = &readOnlyEndpoint
-	} else {
-		group.ReadOnlyEndpoint = nil
-	}
-
-	// ReadWriteEndpoint
-	if source.ReadWriteEndpoint != nil {
-		var readWriteEndpoint FailoverGroupReadWriteEndpoint
-		err := readWriteEndpoint.Initialize_From_FailoverGroupReadWriteEndpoint_STATUS(source.ReadWriteEndpoint)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_FailoverGroupReadWriteEndpoint_STATUS() to populate field ReadWriteEndpoint")
-		}
-		group.ReadWriteEndpoint = &readWriteEndpoint
-	} else {
-		group.ReadWriteEndpoint = nil
-	}
-
-	// Tags
-	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (group *ServersFailoverGroup_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1184,21 +1137,6 @@ func (endpoint *FailoverGroupReadOnlyEndpoint) AssignProperties_To_FailoverGroup
 	return nil
 }
 
-// Initialize_From_FailoverGroupReadOnlyEndpoint_STATUS populates our FailoverGroupReadOnlyEndpoint from the provided source FailoverGroupReadOnlyEndpoint_STATUS
-func (endpoint *FailoverGroupReadOnlyEndpoint) Initialize_From_FailoverGroupReadOnlyEndpoint_STATUS(source *FailoverGroupReadOnlyEndpoint_STATUS) error {
-
-	// FailoverPolicy
-	if source.FailoverPolicy != nil {
-		failoverPolicy := genruntime.ToEnum(string(*source.FailoverPolicy), failoverGroupReadOnlyEndpoint_FailoverPolicy_Values)
-		endpoint.FailoverPolicy = &failoverPolicy
-	} else {
-		endpoint.FailoverPolicy = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Read-only endpoint of the failover group instance.
 type FailoverGroupReadOnlyEndpoint_STATUS struct {
 	// FailoverPolicy: Failover policy of the read-only endpoint for the failover group.
@@ -1384,24 +1322,6 @@ func (endpoint *FailoverGroupReadWriteEndpoint) AssignProperties_To_FailoverGrou
 	return nil
 }
 
-// Initialize_From_FailoverGroupReadWriteEndpoint_STATUS populates our FailoverGroupReadWriteEndpoint from the provided source FailoverGroupReadWriteEndpoint_STATUS
-func (endpoint *FailoverGroupReadWriteEndpoint) Initialize_From_FailoverGroupReadWriteEndpoint_STATUS(source *FailoverGroupReadWriteEndpoint_STATUS) error {
-
-	// FailoverPolicy
-	if source.FailoverPolicy != nil {
-		failoverPolicy := genruntime.ToEnum(string(*source.FailoverPolicy), failoverGroupReadWriteEndpoint_FailoverPolicy_Values)
-		endpoint.FailoverPolicy = &failoverPolicy
-	} else {
-		endpoint.FailoverPolicy = nil
-	}
-
-	// FailoverWithDataLossGracePeriodMinutes
-	endpoint.FailoverWithDataLossGracePeriodMinutes = genruntime.ClonePointerToInt(source.FailoverWithDataLossGracePeriodMinutes)
-
-	// No error
-	return nil
-}
-
 // Read-write endpoint of the failover group instance.
 type FailoverGroupReadWriteEndpoint_STATUS struct {
 	// FailoverPolicy: Failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then
@@ -1570,21 +1490,6 @@ func (info *PartnerInfo) AssignProperties_To_PartnerInfo(destination *storage.Pa
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PartnerInfo_STATUS populates our PartnerInfo from the provided source PartnerInfo_STATUS
-func (info *PartnerInfo) Initialize_From_PartnerInfo_STATUS(source *PartnerInfo_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		info.Reference = &reference
-	} else {
-		info.Reference = nil
 	}
 
 	// No error

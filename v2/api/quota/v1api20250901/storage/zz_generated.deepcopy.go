@@ -263,10 +263,8 @@ func (in *QuotaProperties) DeepCopyInto(out *QuotaProperties) {
 	}
 	if in.Properties != nil {
 		in, out := &in.Properties, &out.Properties
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
@@ -312,10 +310,8 @@ func (in *QuotaProperties_STATUS) DeepCopyInto(out *QuotaProperties_STATUS) {
 	}
 	if in.Properties != nil {
 		in, out := &in.Properties, &out.Properties
-		*out = make(map[string]v1.JSON, len(*in))
-		for key, val := range *in {
-			(*out)[key] = *val.DeepCopy()
-		}
+		*out = new(v1.JSON)
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag

@@ -5,7 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForServersDatabasesBackupShortTermRetentionPolicy(
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersDatabasesBackupShortTermRetentionPolicy
+	var hub sql_v20211101s.ServersDatabasesBackupShortTermRetentionPolicy
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForServersDatabasesBackupShortTermRetentionPolicy(
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy(
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesBackupShortTermRetentionPolicy
+	var other sql_v1api20211101s.ServersDatabasesBackupShortTermRetentionPolicy
 	err := copied.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy(
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -167,6 +183,11 @@ func AddRelatedPropertyGeneratorsForServersDatabasesBackupShortTermRetentionPoli
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -182,7 +203,7 @@ func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicyO
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
+	var other sql_v1api20211101s.ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
 	err := copied.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -209,6 +230,11 @@ func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicyO
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -264,6 +290,11 @@ func ServersDatabasesBackupShortTermRetentionPolicyOperatorSpecGenerator() gopte
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -279,7 +310,7 @@ func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+	var other sql_v1api20211101s.ServersDatabasesBackupShortTermRetentionPolicy_STATUS
 	err := copied.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -306,6 +337,11 @@ func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy_
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -371,6 +407,11 @@ func AddIndependentPropertyGeneratorsForServersDatabasesBackupShortTermRetention
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -386,7 +427,7 @@ func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec
+	var other sql_v1api20211101s.ServersDatabasesBackupShortTermRetentionPolicy_Spec
 	err := copied.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -413,6 +454,11 @@ func RunPropertyAssignmentTestForServersDatabasesBackupShortTermRetentionPolicy_
 
 func Test_ServersDatabasesBackupShortTermRetentionPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

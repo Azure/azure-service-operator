@@ -19,6 +19,11 @@ import (
 
 func Test_Actions_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -85,6 +90,11 @@ func AddIndependentPropertyGeneratorsForActions_STATUS(gens map[string]gopter.Ge
 
 func Test_ConditionFailingPeriods_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -147,6 +157,11 @@ func AddIndependentPropertyGeneratorsForConditionFailingPeriods_STATUS(gens map[
 
 func Test_Condition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -243,6 +258,11 @@ func AddRelatedPropertyGeneratorsForCondition_STATUS(gens map[string]gopter.Gen)
 
 func Test_Dimension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -305,6 +325,11 @@ func AddIndependentPropertyGeneratorsForDimension_STATUS(gens map[string]gopter.
 
 func Test_MicrosoftCommonIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -384,6 +409,11 @@ func AddRelatedPropertyGeneratorsForMicrosoftCommonIdentity_STATUS(gens map[stri
 
 func Test_MicrosoftCommonUserIdentityProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -446,6 +476,11 @@ func AddIndependentPropertyGeneratorsForMicrosoftCommonUserIdentityProperties_ST
 
 func Test_RuleResolveConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -508,6 +543,11 @@ func AddIndependentPropertyGeneratorsForRuleResolveConfiguration_STATUS(gens map
 
 func Test_ScheduledQueryRuleCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -569,6 +609,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRuleCriteria_STATUS(gens map[s
 
 func Test_ScheduledQueryRuleProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -666,6 +711,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRuleProperties_STATUS(gens map
 
 func Test_ScheduledQueryRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -751,6 +801,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRule_STATUS(gens map[string]go
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

@@ -19,6 +19,11 @@ import (
 
 func Test_AfdOrigin_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -80,6 +85,11 @@ func AddRelatedPropertyGeneratorsForAfdOrigin(gens map[string]gopter.Gen) {
 
 func Test_AfdOriginOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -135,6 +145,11 @@ func AfdOriginOperatorSpecGenerator() gopter.Gen {
 
 func Test_AfdOrigin_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -224,6 +239,11 @@ func AddRelatedPropertyGeneratorsForAfdOrigin_STATUS(gens map[string]gopter.Gen)
 
 func Test_AfdOrigin_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -309,6 +329,11 @@ func AddRelatedPropertyGeneratorsForAfdOrigin_Spec(gens map[string]gopter.Gen) {
 
 func Test_SharedPrivateLinkResourceProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -387,6 +412,11 @@ func AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceProperties(gens map
 
 func Test_SharedPrivateLinkResourceProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

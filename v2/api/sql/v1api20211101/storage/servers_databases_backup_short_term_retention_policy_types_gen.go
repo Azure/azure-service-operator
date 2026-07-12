@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serversdatabasesbackupshorttermretentionpolicies,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serversdatabasesbackupshorttermretentionpolicies/status,serversdatabasesbackupshorttermretentionpolicies/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) GetConditions() co
 // SetConditions sets the conditions on the resource status
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersDatabasesBackupShortTermRetentionPolicy{}
+
+// ConvertFrom populates our ServersDatabasesBackupShortTermRetentionPolicy from the provided hub ServersDatabasesBackupShortTermRetentionPolicy
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersDatabasesBackupShortTermRetentionPolicy)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabasesBackupShortTermRetentionPolicy but received %T instead", hub)
+	}
+
+	return policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy(source)
+}
+
+// ConvertTo populates the provided hub ServersDatabasesBackupShortTermRetentionPolicy from our ServersDatabasesBackupShortTermRetentionPolicy
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersDatabasesBackupShortTermRetentionPolicy)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabasesBackupShortTermRetentionPolicy but received %T instead", hub)
+	}
+
+	return policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy(destination)
 }
 
 var _ configmaps.Exporter = &ServersDatabasesBackupShortTermRetentionPolicy{}
@@ -142,8 +163,75 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) SetStatus(status g
 	return nil
 }
 
-// Hub marks that this ServersDatabasesBackupShortTermRetentionPolicy is the hub type for conversion
-func (policy *ServersDatabasesBackupShortTermRetentionPolicy) Hub() {}
+// AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy populates our ServersDatabasesBackupShortTermRetentionPolicy from the provided source ServersDatabasesBackupShortTermRetentionPolicy
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy) AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy(source *storage.ServersDatabasesBackupShortTermRetentionPolicy) error {
+
+	// ObjectMeta
+	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersDatabasesBackupShortTermRetentionPolicy_Spec
+	err := spec.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec() to populate field Spec")
+	}
+	policy.Spec = spec
+
+	// Status
+	var status ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+	err = status.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS() to populate field Status")
+	}
+	policy.Status = status
+
+	// Invoke the augmentConversionForServersDatabasesBackupShortTermRetentionPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersDatabasesBackupShortTermRetentionPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy populates the provided destination ServersDatabasesBackupShortTermRetentionPolicy from our ServersDatabasesBackupShortTermRetentionPolicy
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy) AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy(destination *storage.ServersDatabasesBackupShortTermRetentionPolicy) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec
+	err := policy.Spec.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+	err = policy.Status.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersDatabasesBackupShortTermRetentionPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersDatabasesBackupShortTermRetentionPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) OriginalGVK() *schema.GroupVersionKind {
@@ -165,6 +253,11 @@ type ServersDatabasesBackupShortTermRetentionPolicyList struct {
 	Items           []ServersDatabasesBackupShortTermRetentionPolicy `json:"items"`
 }
 
+type augmentConversionForServersDatabasesBackupShortTermRetentionPolicy interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesBackupShortTermRetentionPolicy) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesBackupShortTermRetentionPolicy) error
+}
+
 // Storage version of v1api20211101.ServersDatabasesBackupShortTermRetentionPolicy_Spec
 type ServersDatabasesBackupShortTermRetentionPolicy_Spec struct {
 	DiffBackupIntervalInHours *int                                                        `json:"diffBackupIntervalInHours,omitempty"`
@@ -184,20 +277,158 @@ var _ genruntime.ConvertibleSpec = &ServersDatabasesBackupShortTermRetentionPoli
 
 // ConvertSpecFrom populates our ServersDatabasesBackupShortTermRetentionPolicy_Spec from the provided source
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec)
+	if ok {
+		// Populate our instance from source
+		return policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec(src)
 	}
 
-	return source.ConvertSpecTo(policy)
+	// Convert to an intermediate form
+	src = &storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersDatabasesBackupShortTermRetentionPolicy_Spec
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec)
+	if ok {
+		// Populate destination from our instance
+		return policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(policy)
+	// Convert to an intermediate form
+	dst = &storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec{}
+	err := policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec populates our ServersDatabasesBackupShortTermRetentionPolicy_Spec from the provided source ServersDatabasesBackupShortTermRetentionPolicy_Spec
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_Spec(source *storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DiffBackupIntervalInHours
+	policy.DiffBackupIntervalInHours = genruntime.ClonePointerToInt(source.DiffBackupIntervalInHours)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		policy.OperatorSpec = &operatorSpec
+	} else {
+		policy.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	policy.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		policy.Owner = &owner
+	} else {
+		policy.Owner = nil
+	}
+
+	// RetentionDays
+	policy.RetentionDays = genruntime.ClonePointerToInt(source.RetentionDays)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_Spec interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_Spec); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec populates the provided destination ServersDatabasesBackupShortTermRetentionPolicy_Spec from our ServersDatabasesBackupShortTermRetentionPolicy_Spec
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_Spec(destination *storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// DiffBackupIntervalInHours
+	destination.DiffBackupIntervalInHours = genruntime.ClonePointerToInt(policy.DiffBackupIntervalInHours)
+
+	// OperatorSpec
+	if policy.OperatorSpec != nil {
+		var operatorSpec storage.ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
+		err := policy.OperatorSpec.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = policy.OriginalVersion
+
+	// Owner
+	if policy.Owner != nil {
+		owner := policy.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RetentionDays
+	destination.RetentionDays = genruntime.ClonePointerToInt(policy.RetentionDays)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_Spec interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_Spec); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20211101.ServersDatabasesBackupShortTermRetentionPolicy_STATUS
@@ -215,20 +446,146 @@ var _ genruntime.ConvertibleStatus = &ServersDatabasesBackupShortTermRetentionPo
 
 // ConvertStatusFrom populates our ServersDatabasesBackupShortTermRetentionPolicy_STATUS from the provided source
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS)
+	if ok {
+		// Populate our instance from source
+		return policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(policy)
+	// Convert to an intermediate form
+	src = &storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersDatabasesBackupShortTermRetentionPolicy_STATUS
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(policy)
+	// Convert to an intermediate form
+	dst = &storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS{}
+	err := policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS populates our ServersDatabasesBackupShortTermRetentionPolicy_STATUS from the provided source ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(source *storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// DiffBackupIntervalInHours
+	policy.DiffBackupIntervalInHours = genruntime.ClonePointerToInt(source.DiffBackupIntervalInHours)
+
+	// Id
+	policy.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	policy.Name = genruntime.ClonePointerToString(source.Name)
+
+	// RetentionDays
+	policy.RetentionDays = genruntime.ClonePointerToInt(source.RetentionDays)
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS populates the provided destination ServersDatabasesBackupShortTermRetentionPolicy_STATUS from our ServersDatabasesBackupShortTermRetentionPolicy_STATUS
+func (policy *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(destination *storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(policy.Conditions)
+
+	// DiffBackupIntervalInHours
+	destination.DiffBackupIntervalInHours = genruntime.ClonePointerToInt(policy.DiffBackupIntervalInHours)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(policy.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(policy.Name)
+
+	// RetentionDays
+	destination.RetentionDays = genruntime.ClonePointerToInt(policy.RetentionDays)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesBackupShortTermRetentionPolicy_Spec) error
+}
+
+type augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesBackupShortTermRetentionPolicy_STATUS) error
 }
 
 // Storage version of v1api20211101.ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
@@ -237,6 +594,125 @@ type ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec populates our ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec from the provided source ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
+func (operator *ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec) AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec(source *storage.ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesBackupShortTermRetentionPolicyOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersDatabasesBackupShortTermRetentionPolicyOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec populates the provided destination ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec from our ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec
+func (operator *ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec) AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec(destination *storage.ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesBackupShortTermRetentionPolicyOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersDatabasesBackupShortTermRetentionPolicyOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersDatabasesBackupShortTermRetentionPolicyOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec) error
 }
 
 func init() {

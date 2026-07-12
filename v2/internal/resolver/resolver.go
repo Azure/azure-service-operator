@@ -375,6 +375,11 @@ func (r *Resolver) ResolveConfigMapReferences(
 	return r.kubeConfigMapResolver.ResolveConfigMapReferences(ctx, refs)
 }
 
+// ResolveConfigMapReference resolves a single configmap reference
+func (r *Resolver) ResolveConfigMapReference(ctx context.Context, ref genruntime.NamespacedConfigMapReference) (string, error) {
+	return r.kubeConfigMapResolver.ResolveConfigMapReference(ctx, ref)
+}
+
 // ResolveResourceConfigMapReferences resolves the specified genruntime.MetaObject's configmap references.
 func (r *Resolver) ResolveResourceConfigMapReferences(ctx context.Context, metaObject genruntime.MetaObject) (genruntime.Resolved[genruntime.ConfigMapReference, string], error) {
 	refs, err := reflecthelpers.FindConfigMapReferences(metaObject)

@@ -19,6 +19,11 @@ import (
 
 func Test_ARecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -79,6 +84,11 @@ func AddIndependentPropertyGeneratorsForARecord(gens map[string]gopter.Gen) {
 
 func Test_AaaaRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -139,6 +149,11 @@ func AddIndependentPropertyGeneratorsForAaaaRecord(gens map[string]gopter.Gen) {
 
 func Test_CaaRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -201,6 +216,11 @@ func AddIndependentPropertyGeneratorsForCaaRecord(gens map[string]gopter.Gen) {
 
 func Test_CnameRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -261,6 +281,11 @@ func AddIndependentPropertyGeneratorsForCnameRecord(gens map[string]gopter.Gen) 
 
 func Test_DnsZonesAAAARecord_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -336,6 +361,11 @@ func AddRelatedPropertyGeneratorsForDnsZonesAAAARecord_Spec(gens map[string]gopt
 
 func Test_MxRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -397,6 +427,11 @@ func AddIndependentPropertyGeneratorsForMxRecord(gens map[string]gopter.Gen) {
 
 func Test_NsRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -457,6 +492,11 @@ func AddIndependentPropertyGeneratorsForNsRecord(gens map[string]gopter.Gen) {
 
 func Test_PtrRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -517,6 +557,11 @@ func AddIndependentPropertyGeneratorsForPtrRecord(gens map[string]gopter.Gen) {
 
 func Test_RecordSetProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -605,6 +650,11 @@ func AddRelatedPropertyGeneratorsForRecordSetProperties(gens map[string]gopter.G
 
 func Test_SoaRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -671,6 +721,11 @@ func AddIndependentPropertyGeneratorsForSoaRecord(gens map[string]gopter.Gen) {
 
 func Test_SrvRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -734,6 +789,11 @@ func AddIndependentPropertyGeneratorsForSrvRecord(gens map[string]gopter.Gen) {
 
 func Test_TxtRecord_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

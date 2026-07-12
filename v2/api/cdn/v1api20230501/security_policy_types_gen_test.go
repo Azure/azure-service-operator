@@ -20,6 +20,11 @@ import (
 
 func Test_SecurityPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -63,6 +68,11 @@ func RunResourceConversionTestForSecurityPolicy(subject SecurityPolicy) string {
 
 func Test_SecurityPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -105,6 +115,11 @@ func RunPropertyAssignmentTestForSecurityPolicy(subject SecurityPolicy) string {
 
 func Test_SecurityPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -166,6 +181,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicy(gens map[string]gopter.Gen) {
 
 func Test_SecurityPolicyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -208,6 +228,11 @@ func RunPropertyAssignmentTestForSecurityPolicyOperatorSpec(subject SecurityPoli
 
 func Test_SecurityPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -263,6 +288,11 @@ func SecurityPolicyOperatorSpecGenerator() gopter.Gen {
 
 func Test_SecurityPolicyPropertiesParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -305,6 +335,11 @@ func RunPropertyAssignmentTestForSecurityPolicyPropertiesParameters(subject Secu
 
 func Test_SecurityPolicyPropertiesParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -375,6 +410,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyPropertiesParameters(gens map[
 
 func Test_SecurityPolicyPropertiesParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -417,6 +457,11 @@ func RunPropertyAssignmentTestForSecurityPolicyPropertiesParameters_STATUS(subje
 
 func Test_SecurityPolicyPropertiesParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -487,6 +532,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyPropertiesParameters_STATUS(ge
 
 func Test_SecurityPolicyWebApplicationFirewallAssociation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -529,6 +579,11 @@ func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallAssociation
 
 func Test_SecurityPolicyWebApplicationFirewallAssociation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -604,6 +659,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociat
 
 func Test_SecurityPolicyWebApplicationFirewallAssociation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -646,6 +706,11 @@ func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallAssociation
 
 func Test_SecurityPolicyWebApplicationFirewallAssociation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -721,6 +786,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociat
 
 func Test_SecurityPolicyWebApplicationFirewallParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -763,6 +833,11 @@ func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallParameters(
 
 func Test_SecurityPolicyWebApplicationFirewallParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -839,6 +914,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParamete
 
 func Test_SecurityPolicyWebApplicationFirewallParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -881,6 +961,11 @@ func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallParameters_
 
 func Test_SecurityPolicyWebApplicationFirewallParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -957,6 +1042,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParamete
 
 func Test_SecurityPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -999,6 +1089,11 @@ func RunPropertyAssignmentTestForSecurityPolicy_STATUS(subject SecurityPolicy_ST
 
 func Test_SecurityPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1089,6 +1184,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicy_STATUS(gens map[string]gopter
 
 func Test_SecurityPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1131,6 +1231,11 @@ func RunPropertyAssignmentTestForSecurityPolicy_Spec(subject SecurityPolicy_Spec
 
 func Test_SecurityPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

@@ -5,7 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_ServersDatabasesAuditingSetting_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForServersDatabasesAuditingSetting(subject Servers
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersDatabasesAuditingSetting
+	var hub sql_v20211101s.ServersDatabasesAuditingSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForServersDatabasesAuditingSetting(subject Servers
 
 func Test_ServersDatabasesAuditingSetting_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSetting(subject Servers
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAuditingSetting
+	var other sql_v1api20211101s.ServersDatabasesAuditingSetting
 	err := copied.AssignProperties_To_ServersDatabasesAuditingSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSetting(subject Servers
 
 func Test_ServersDatabasesAuditingSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -167,6 +183,11 @@ func AddRelatedPropertyGeneratorsForServersDatabasesAuditingSetting(gens map[str
 
 func Test_ServersDatabasesAuditingSettingOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -182,7 +203,7 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSettingOperatorSpec(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAuditingSettingOperatorSpec
+	var other sql_v1api20211101s.ServersDatabasesAuditingSettingOperatorSpec
 	err := copied.AssignProperties_To_ServersDatabasesAuditingSettingOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -209,6 +230,11 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSettingOperatorSpec(sub
 
 func Test_ServersDatabasesAuditingSettingOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -264,6 +290,11 @@ func ServersDatabasesAuditingSettingOperatorSpecGenerator() gopter.Gen {
 
 func Test_ServersDatabasesAuditingSetting_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -279,7 +310,7 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSetting_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAuditingSetting_STATUS
+	var other sql_v1api20211101s.ServersDatabasesAuditingSetting_STATUS
 	err := copied.AssignProperties_To_ServersDatabasesAuditingSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -306,6 +337,11 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSetting_STATUS(subject 
 
 func Test_ServersDatabasesAuditingSetting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -379,6 +415,11 @@ func AddIndependentPropertyGeneratorsForServersDatabasesAuditingSetting_STATUS(g
 
 func Test_ServersDatabasesAuditingSetting_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -394,7 +435,7 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSetting_Spec(subject Se
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAuditingSetting_Spec
+	var other sql_v1api20211101s.ServersDatabasesAuditingSetting_Spec
 	err := copied.AssignProperties_To_ServersDatabasesAuditingSetting_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -421,6 +462,11 @@ func RunPropertyAssignmentTestForServersDatabasesAuditingSetting_Spec(subject Se
 
 func Test_ServersDatabasesAuditingSetting_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

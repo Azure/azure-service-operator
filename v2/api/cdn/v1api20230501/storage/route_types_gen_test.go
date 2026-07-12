@@ -19,6 +19,11 @@ import (
 
 func Test_ActivatedResourceReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -74,6 +79,11 @@ func ActivatedResourceReferenceGenerator() gopter.Gen {
 
 func Test_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -136,6 +146,11 @@ func AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profil
 
 func Test_AfdRouteCacheConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -212,6 +227,11 @@ func AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration(gens map[string]g
 
 func Test_AfdRouteCacheConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -288,6 +308,11 @@ func AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration_STATUS(gens map[s
 
 func Test_CompressionSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -350,6 +375,11 @@ func AddIndependentPropertyGeneratorsForCompressionSettings(gens map[string]gopt
 
 func Test_CompressionSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -412,6 +442,11 @@ func AddIndependentPropertyGeneratorsForCompressionSettings_STATUS(gens map[stri
 
 func Test_Route_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -473,6 +508,11 @@ func AddRelatedPropertyGeneratorsForRoute(gens map[string]gopter.Gen) {
 
 func Test_RouteOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -527,6 +567,11 @@ func RouteOperatorSpecGenerator() gopter.Gen {
 
 func Test_Route_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -617,6 +662,11 @@ func AddRelatedPropertyGeneratorsForRoute_STATUS(gens map[string]gopter.Gen) {
 
 func Test_Route_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

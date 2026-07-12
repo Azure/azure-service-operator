@@ -19,6 +19,11 @@ import (
 
 func Test_CapacityReservationGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -81,6 +86,11 @@ func AddRelatedPropertyGeneratorsForCapacityReservationGroup(gens map[string]gop
 
 func Test_CapacityReservationGroupInstanceView_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -143,6 +153,11 @@ func AddRelatedPropertyGeneratorsForCapacityReservationGroupInstanceView_STATUS(
 
 func Test_CapacityReservationGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -198,6 +213,11 @@ func CapacityReservationGroupOperatorSpecGenerator() gopter.Gen {
 
 func Test_CapacityReservationGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -285,6 +305,11 @@ func AddRelatedPropertyGeneratorsForCapacityReservationGroup_STATUS(gens map[str
 
 func Test_CapacityReservationGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -368,6 +393,11 @@ func AddRelatedPropertyGeneratorsForCapacityReservationGroup_Spec(gens map[strin
 
 func Test_CapacityReservationInstanceViewWithName_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -444,6 +474,11 @@ func AddRelatedPropertyGeneratorsForCapacityReservationInstanceViewWithName_STAT
 
 func Test_ResourceSharingProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -505,6 +540,11 @@ func AddRelatedPropertyGeneratorsForResourceSharingProfile(gens map[string]gopte
 
 func Test_ResourceSharingProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -566,6 +606,11 @@ func AddRelatedPropertyGeneratorsForResourceSharingProfile_STATUS(gens map[strin
 
 func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -620,6 +665,11 @@ func SubResourceGenerator() gopter.Gen {
 
 func Test_SubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

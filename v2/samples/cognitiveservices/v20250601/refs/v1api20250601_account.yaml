@@ -1,0 +1,17 @@
+apiVersion: cognitiveservices.azure.com/v1api20250601
+kind: Account
+metadata:
+  name: sample-account
+spec:
+  identity:
+    type: SystemAssigned
+  kind: AIServices
+  location: westus3
+  owner:
+    name: sample-rg
+  properties:
+    allowProjectManagement: true
+    customSubDomainName: sample-account
+    publicNetworkAccess: Enabled
+  sku:
+    name: S0

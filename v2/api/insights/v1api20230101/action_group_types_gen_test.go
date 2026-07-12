@@ -20,6 +20,11 @@ import (
 
 func Test_ActionGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -63,6 +68,11 @@ func RunResourceConversionTestForActionGroup(subject ActionGroup) string {
 
 func Test_ActionGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -105,6 +115,11 @@ func RunPropertyAssignmentTestForActionGroup(subject ActionGroup) string {
 
 func Test_ActionGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -166,6 +181,11 @@ func AddRelatedPropertyGeneratorsForActionGroup(gens map[string]gopter.Gen) {
 
 func Test_ActionGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -208,6 +228,11 @@ func RunPropertyAssignmentTestForActionGroupOperatorSpec(subject ActionGroupOper
 
 func Test_ActionGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -263,6 +288,11 @@ func ActionGroupOperatorSpecGenerator() gopter.Gen {
 
 func Test_ActionGroupResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -305,6 +335,11 @@ func RunPropertyAssignmentTestForActionGroupResource_STATUS(subject ActionGroupR
 
 func Test_ActionGroupResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -398,6 +433,11 @@ func AddRelatedPropertyGeneratorsForActionGroupResource_STATUS(gens map[string]g
 
 func Test_ActionGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -440,6 +480,11 @@ func RunPropertyAssignmentTestForActionGroup_Spec(subject ActionGroup_Spec) stri
 
 func Test_ActionGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -531,6 +576,11 @@ func AddRelatedPropertyGeneratorsForActionGroup_Spec(gens map[string]gopter.Gen)
 
 func Test_ArmRoleReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -573,6 +623,11 @@ func RunPropertyAssignmentTestForArmRoleReceiver(subject ArmRoleReceiver) string
 
 func Test_ArmRoleReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -635,6 +690,11 @@ func AddIndependentPropertyGeneratorsForArmRoleReceiver(gens map[string]gopter.G
 
 func Test_ArmRoleReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -677,6 +737,11 @@ func RunPropertyAssignmentTestForArmRoleReceiver_STATUS(subject ArmRoleReceiver_
 
 func Test_ArmRoleReceiver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -740,6 +805,11 @@ func AddIndependentPropertyGeneratorsForArmRoleReceiver_STATUS(gens map[string]g
 
 func Test_AutomationRunbookReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -782,6 +852,11 @@ func RunPropertyAssignmentTestForAutomationRunbookReceiver(subject AutomationRun
 
 func Test_AutomationRunbookReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -848,6 +923,11 @@ func AddIndependentPropertyGeneratorsForAutomationRunbookReceiver(gens map[strin
 
 func Test_AutomationRunbookReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -890,6 +970,11 @@ func RunPropertyAssignmentTestForAutomationRunbookReceiver_STATUS(subject Automa
 
 func Test_AutomationRunbookReceiver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -956,6 +1041,11 @@ func AddIndependentPropertyGeneratorsForAutomationRunbookReceiver_STATUS(gens ma
 
 func Test_AzureAppPushReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -998,6 +1088,11 @@ func RunPropertyAssignmentTestForAzureAppPushReceiver(subject AzureAppPushReceiv
 
 func Test_AzureAppPushReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1060,6 +1155,11 @@ func AddIndependentPropertyGeneratorsForAzureAppPushReceiver(gens map[string]gop
 
 func Test_AzureAppPushReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1102,6 +1202,11 @@ func RunPropertyAssignmentTestForAzureAppPushReceiver_STATUS(subject AzureAppPus
 
 func Test_AzureAppPushReceiver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1164,6 +1269,11 @@ func AddIndependentPropertyGeneratorsForAzureAppPushReceiver_STATUS(gens map[str
 
 func Test_AzureFunctionReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1206,6 +1316,11 @@ func RunPropertyAssignmentTestForAzureFunctionReceiver(subject AzureFunctionRece
 
 func Test_AzureFunctionReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1270,6 +1385,11 @@ func AddIndependentPropertyGeneratorsForAzureFunctionReceiver(gens map[string]go
 
 func Test_AzureFunctionReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1312,6 +1432,11 @@ func RunPropertyAssignmentTestForAzureFunctionReceiver_STATUS(subject AzureFunct
 
 func Test_AzureFunctionReceiver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1377,6 +1502,11 @@ func AddIndependentPropertyGeneratorsForAzureFunctionReceiver_STATUS(gens map[st
 
 func Test_EmailReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1419,6 +1549,11 @@ func RunPropertyAssignmentTestForEmailReceiver(subject EmailReceiver) string {
 
 func Test_EmailReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1481,6 +1616,11 @@ func AddIndependentPropertyGeneratorsForEmailReceiver(gens map[string]gopter.Gen
 
 func Test_EmailReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1523,6 +1663,11 @@ func RunPropertyAssignmentTestForEmailReceiver_STATUS(subject EmailReceiver_STAT
 
 func Test_EmailReceiver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1587,6 +1732,11 @@ func AddIndependentPropertyGeneratorsForEmailReceiver_STATUS(gens map[string]gop
 
 func Test_EventHubReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1629,6 +1779,11 @@ func RunPropertyAssignmentTestForEventHubReceiver(subject EventHubReceiver) stri
 
 func Test_EventHubReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1694,6 +1849,11 @@ func AddIndependentPropertyGeneratorsForEventHubReceiver(gens map[string]gopter.
 
 func Test_EventHubReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1736,6 +1896,11 @@ func RunPropertyAssignmentTestForEventHubReceiver_STATUS(subject EventHubReceive
 
 func Test_EventHubReceiver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1802,6 +1967,11 @@ func AddIndependentPropertyGeneratorsForEventHubReceiver_STATUS(gens map[string]
 
 func Test_ItsmReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1844,6 +2014,11 @@ func RunPropertyAssignmentTestForItsmReceiver(subject ItsmReceiver) string {
 
 func Test_ItsmReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1908,6 +2083,11 @@ func AddIndependentPropertyGeneratorsForItsmReceiver(gens map[string]gopter.Gen)
 
 func Test_ItsmReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1950,6 +2130,11 @@ func RunPropertyAssignmentTestForItsmReceiver_STATUS(subject ItsmReceiver_STATUS
 
 func Test_ItsmReceiver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2015,6 +2200,11 @@ func AddIndependentPropertyGeneratorsForItsmReceiver_STATUS(gens map[string]gopt
 
 func Test_LogicAppReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2057,6 +2247,11 @@ func RunPropertyAssignmentTestForLogicAppReceiver(subject LogicAppReceiver) stri
 
 func Test_LogicAppReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2119,6 +2314,11 @@ func AddIndependentPropertyGeneratorsForLogicAppReceiver(gens map[string]gopter.
 
 func Test_LogicAppReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2161,6 +2361,11 @@ func RunPropertyAssignmentTestForLogicAppReceiver_STATUS(subject LogicAppReceive
 
 func Test_LogicAppReceiver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2225,6 +2430,11 @@ func AddIndependentPropertyGeneratorsForLogicAppReceiver_STATUS(gens map[string]
 
 func Test_SmsReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2267,6 +2477,11 @@ func RunPropertyAssignmentTestForSmsReceiver(subject SmsReceiver) string {
 
 func Test_SmsReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2329,6 +2544,11 @@ func AddIndependentPropertyGeneratorsForSmsReceiver(gens map[string]gopter.Gen) 
 
 func Test_SmsReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2371,6 +2591,11 @@ func RunPropertyAssignmentTestForSmsReceiver_STATUS(subject SmsReceiver_STATUS) 
 
 func Test_SmsReceiver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2434,6 +2659,11 @@ func AddIndependentPropertyGeneratorsForSmsReceiver_STATUS(gens map[string]gopte
 
 func Test_VoiceReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2476,6 +2706,11 @@ func RunPropertyAssignmentTestForVoiceReceiver(subject VoiceReceiver) string {
 
 func Test_VoiceReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2538,6 +2773,11 @@ func AddIndependentPropertyGeneratorsForVoiceReceiver(gens map[string]gopter.Gen
 
 func Test_VoiceReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2580,6 +2820,11 @@ func RunPropertyAssignmentTestForVoiceReceiver_STATUS(subject VoiceReceiver_STAT
 
 func Test_VoiceReceiver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2643,6 +2888,11 @@ func AddIndependentPropertyGeneratorsForVoiceReceiver_STATUS(gens map[string]gop
 
 func Test_WebhookReceiver_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2685,6 +2935,11 @@ func RunPropertyAssignmentTestForWebhookReceiver(subject WebhookReceiver) string
 
 func Test_WebhookReceiver_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2751,6 +3006,11 @@ func AddIndependentPropertyGeneratorsForWebhookReceiver(gens map[string]gopter.G
 
 func Test_WebhookReceiver_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2793,6 +3053,11 @@ func RunPropertyAssignmentTestForWebhookReceiver_STATUS(subject WebhookReceiver_
 
 func Test_WebhookReceiver_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

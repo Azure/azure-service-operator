@@ -480,6 +480,11 @@ func (in *ServerExternalAdministrator) DeepCopyInto(out *ServerExternalAdministr
 		*out = new(string)
 		**out = **in
 	}
+	if in.LoginFromConfig != nil {
+		in, out := &in.LoginFromConfig, &out.LoginFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
 		*out = new(ServerExternalAdministrator_PrincipalType)
@@ -490,9 +495,19 @@ func (in *ServerExternalAdministrator) DeepCopyInto(out *ServerExternalAdministr
 		*out = new(string)
 		**out = **in
 	}
+	if in.SidFromConfig != nil {
+		in, out := &in.SidFromConfig, &out.SidFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.TenantId != nil {
 		in, out := &in.TenantId, &out.TenantId
 		*out = new(string)
+		**out = **in
+	}
+	if in.TenantIdFromConfig != nil {
+		in, out := &in.TenantIdFromConfig, &out.TenantIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 }

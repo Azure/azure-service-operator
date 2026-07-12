@@ -19,6 +19,11 @@ import (
 
 func Test_DynamicMetricCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -108,6 +113,11 @@ func AddRelatedPropertyGeneratorsForDynamicMetricCriteria_STATUS(gens map[string
 
 func Test_DynamicThresholdFailingPeriods_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -170,6 +180,11 @@ func AddIndependentPropertyGeneratorsForDynamicThresholdFailingPeriods_STATUS(ge
 
 func Test_MetricAlertAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -234,6 +249,11 @@ func AddIndependentPropertyGeneratorsForMetricAlertAction_STATUS(gens map[string
 
 func Test_MetricAlertCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -310,6 +330,11 @@ func AddRelatedPropertyGeneratorsForMetricAlertCriteria_STATUS(gens map[string]g
 
 func Test_MetricAlertMultipleResourceMultipleMetricCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -385,6 +410,11 @@ func AddRelatedPropertyGeneratorsForMetricAlertMultipleResourceMultipleMetricCri
 
 func Test_MetricAlertProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -471,6 +501,11 @@ func AddRelatedPropertyGeneratorsForMetricAlertProperties_STATUS(gens map[string
 
 func Test_MetricAlertSingleResourceMultipleMetricCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -546,6 +581,11 @@ func AddRelatedPropertyGeneratorsForMetricAlertSingleResourceMultipleMetricCrite
 
 func Test_MetricAlert_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -626,6 +666,11 @@ func AddRelatedPropertyGeneratorsForMetricAlert_STATUS(gens map[string]gopter.Ge
 
 func Test_MetricCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -718,6 +763,11 @@ func AddRelatedPropertyGeneratorsForMetricCriteria_STATUS(gens map[string]gopter
 
 func Test_MetricDimension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -781,6 +831,11 @@ func AddIndependentPropertyGeneratorsForMetricDimension_STATUS(gens map[string]g
 
 func Test_MultiMetricCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -854,6 +909,11 @@ func AddRelatedPropertyGeneratorsForMultiMetricCriteria_STATUS(gens map[string]g
 
 func Test_WebtestLocationAvailabilityCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

@@ -20,6 +20,11 @@ import (
 
 func Test_Actions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForActions(subject Actions) string {
 
 func Test_Actions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -124,6 +134,11 @@ func AddIndependentPropertyGeneratorsForActions(gens map[string]gopter.Gen) {
 
 func Test_Actions_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -166,6 +181,11 @@ func RunPropertyAssignmentTestForActions_STATUS(subject Actions_STATUS) string {
 
 func Test_Actions_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -229,6 +249,11 @@ func AddIndependentPropertyGeneratorsForActions_STATUS(gens map[string]gopter.Ge
 
 func Test_Condition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -271,6 +296,11 @@ func RunPropertyAssignmentTestForCondition(subject Condition) string {
 
 func Test_Condition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -361,6 +391,11 @@ func AddRelatedPropertyGeneratorsForCondition(gens map[string]gopter.Gen) {
 
 func Test_ConditionFailingPeriods_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -403,6 +438,11 @@ func RunPropertyAssignmentTestForConditionFailingPeriods(subject ConditionFailin
 
 func Test_ConditionFailingPeriods_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -465,6 +505,11 @@ func AddIndependentPropertyGeneratorsForConditionFailingPeriods(gens map[string]
 
 func Test_ConditionFailingPeriods_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -507,6 +552,11 @@ func RunPropertyAssignmentTestForConditionFailingPeriods_STATUS(subject Conditio
 
 func Test_ConditionFailingPeriods_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -569,6 +619,11 @@ func AddIndependentPropertyGeneratorsForConditionFailingPeriods_STATUS(gens map[
 
 func Test_Condition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -611,6 +666,11 @@ func RunPropertyAssignmentTestForCondition_STATUS(subject Condition_STATUS) stri
 
 func Test_Condition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -702,6 +762,11 @@ func AddRelatedPropertyGeneratorsForCondition_STATUS(gens map[string]gopter.Gen)
 
 func Test_Dimension_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -744,6 +809,11 @@ func RunPropertyAssignmentTestForDimension(subject Dimension) string {
 
 func Test_Dimension_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -806,6 +876,11 @@ func AddIndependentPropertyGeneratorsForDimension(gens map[string]gopter.Gen) {
 
 func Test_Dimension_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -848,6 +923,11 @@ func RunPropertyAssignmentTestForDimension_STATUS(subject Dimension_STATUS) stri
 
 func Test_Dimension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -910,6 +990,11 @@ func AddIndependentPropertyGeneratorsForDimension_STATUS(gens map[string]gopter.
 
 func Test_ScheduledQueryRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -953,6 +1038,11 @@ func RunResourceConversionTestForScheduledQueryRule(subject ScheduledQueryRule) 
 
 func Test_ScheduledQueryRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -995,6 +1085,11 @@ func RunPropertyAssignmentTestForScheduledQueryRule(subject ScheduledQueryRule) 
 
 func Test_ScheduledQueryRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -1056,6 +1151,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRule(gens map[string]gopter.Ge
 
 func Test_ScheduledQueryRuleCriteria_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1098,6 +1198,11 @@ func RunPropertyAssignmentTestForScheduledQueryRuleCriteria(subject ScheduledQue
 
 func Test_ScheduledQueryRuleCriteria_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1159,6 +1264,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRuleCriteria(gens map[string]g
 
 func Test_ScheduledQueryRuleCriteria_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1201,6 +1311,11 @@ func RunPropertyAssignmentTestForScheduledQueryRuleCriteria_STATUS(subject Sched
 
 func Test_ScheduledQueryRuleCriteria_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1262,6 +1377,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRuleCriteria_STATUS(gens map[s
 
 func Test_ScheduledQueryRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1304,6 +1424,11 @@ func RunPropertyAssignmentTestForScheduledQueryRuleOperatorSpec(subject Schedule
 
 func Test_ScheduledQueryRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1359,6 +1484,11 @@ func ScheduledQueryRuleOperatorSpecGenerator() gopter.Gen {
 
 func Test_ScheduledQueryRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1401,6 +1531,11 @@ func RunPropertyAssignmentTestForScheduledQueryRule_STATUS(subject ScheduledQuer
 
 func Test_ScheduledQueryRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1507,6 +1642,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRule_STATUS(gens map[string]go
 
 func Test_ScheduledQueryRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1549,6 +1689,11 @@ func RunPropertyAssignmentTestForScheduledQueryRule_Spec(subject ScheduledQueryR
 
 func Test_ScheduledQueryRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1648,6 +1793,11 @@ func AddRelatedPropertyGeneratorsForScheduledQueryRule_Spec(gens map[string]gopt
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1690,6 +1840,11 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

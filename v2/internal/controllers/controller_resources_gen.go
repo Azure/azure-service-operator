@@ -60,12 +60,18 @@ import (
 	appconfiguration_v20240601s "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/storage"
 	appconfiguration_v20240601w "github.com/Azure/azure-service-operator/v2/api/appconfiguration/v20240601/webhook"
 	authorization_customizations "github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
-	authorization_v20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
-	authorization_v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/storage"
-	authorization_v20200801pw "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/webhook"
-	authorization_v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
-	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
-	authorization_v20220401w "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/webhook"
+	authorization_v1api20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
+	authorization_v1api20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/storage"
+	authorization_v1api20200801pw "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview/webhook"
+	authorization_v1api20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
+	authorization_v1api20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	authorization_v1api20220401w "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/webhook"
+	authorization_v20200801p "github.com/Azure/azure-service-operator/v2/api/authorization/v20200801preview"
+	authorization_v20200801ps "github.com/Azure/azure-service-operator/v2/api/authorization/v20200801preview/storage"
+	authorization_v20200801pw "github.com/Azure/azure-service-operator/v2/api/authorization/v20200801preview/webhook"
+	authorization_v20220401 "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401"
+	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
+	authorization_v20220401w "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/webhook"
 	batch_customizations "github.com/Azure/azure-service-operator/v2/api/batch/customizations"
 	batch_v1api20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101"
 	batch_v1api20210101s "github.com/Azure/azure-service-operator/v2/api/batch/v1api20210101/storage"
@@ -109,9 +115,12 @@ import (
 	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
 	cdn_v20230501w "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/webhook"
 	cognitiveservices_customizations "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/customizations"
-	cognitiveservices_v20250601 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601"
-	cognitiveservices_v20250601s "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/storage"
-	cognitiveservices_v20250601w "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/webhook"
+	cognitiveservices_v1api20250601 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601"
+	cognitiveservices_v1api20250601s "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/storage"
+	cognitiveservices_v1api20250601w "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/webhook"
+	cognitiveservices_v20250601 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v20250601"
+	cognitiveservices_v20250601s "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v20250601/storage"
+	cognitiveservices_v20250601w "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v20250601/webhook"
 	communication_customizations "github.com/Azure/azure-service-operator/v2/api/communication/customizations"
 	communication_v20230401 "github.com/Azure/azure-service-operator/v2/api/communication/v20230401"
 	communication_v20230401s "github.com/Azure/azure-service-operator/v2/api/communication/v20230401/storage"
@@ -462,9 +471,12 @@ import (
 	signalrservice_v20240301s "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301/storage"
 	signalrservice_v20240301w "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1api20240301/webhook"
 	sql_customizations "github.com/Azure/azure-service-operator/v2/api/sql/customizations"
-	sql_v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
-	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
-	sql_v20211101w "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/webhook"
+	sql_v1api20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101w "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/webhook"
+	sql_v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	sql_v20211101w "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/webhook"
 	storage_customizations "github.com/Azure/azure-service-operator/v2/api/storage/customizations"
 	storage_v1api20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	storage_v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/storage"
@@ -488,9 +500,12 @@ import (
 	storage_v20250601s "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/storage"
 	storage_v20250601w "github.com/Azure/azure-service-operator/v2/api/storage/v20250601/webhook"
 	subscription_customizations "github.com/Azure/azure-service-operator/v2/api/subscription/customizations"
-	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
-	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
-	subscription_v20211001w "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/webhook"
+	subscription_v1api20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
+	subscription_v1api20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
+	subscription_v1api20211001w "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/webhook"
+	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v20211001"
+	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v20211001/storage"
+	subscription_v20211001w "github.com/Azure/azure-service-operator/v2/api/subscription/v20211001/webhook"
 	synapse_customizations "github.com/Azure/azure-service-operator/v2/api/synapse/customizations"
 	synapse_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601"
 	synapse_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/synapse/v1api20210601/storage"
@@ -985,7 +1000,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Secret)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.SecurityPolicy)})
 	result = append(result, &registration.StorageType{
-		Obj: new(cognitiveservices_v20250601s.Account),
+		Obj: new(cognitiveservices_v1api20250601s.Account),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.apiProperties.aadClientIdFromConfig",
@@ -1038,7 +1053,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.apiProperties.storageAccountConnectionString",
 						".spec.properties.migrationToken",
 					},
-					&cognitiveservices_v20250601s.AccountList{}),
+					&cognitiveservices_v1api20250601s.AccountList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -1051,12 +1066,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.apiProperties.superUserFromConfig",
 						".spec.properties.apiProperties.websiteNameFromConfig",
 					},
-					&cognitiveservices_v20250601s.AccountList{}),
+					&cognitiveservices_v1api20250601s.AccountList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(cognitiveservices_v20250601s.Deployment),
+		Obj: new(cognitiveservices_v1api20250601s.Deployment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.model.formatFromConfig",
@@ -1085,10 +1100,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.model.publisherFromConfig",
 						".spec.properties.model.versionFromConfig",
 					},
-					&cognitiveservices_v20250601s.DeploymentList{}),
+					&cognitiveservices_v1api20250601s.DeploymentList{}),
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(cognitiveservices_v20250601s.Project)})
 	result = append(result, &registration.StorageType{Obj: new(communication_v20230401s.CommunicationService)})
 	result = append(result, &registration.StorageType{Obj: new(communication_v20230401s.Domain)})
 	result = append(result, &registration.StorageType{Obj: new(communication_v20230401s.EmailService)})
@@ -1444,6 +1460,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(dbforpostgresql_v20250801s.FlexibleServersAdministrator),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.azureNameFromConfig",
+				Func: indexDbforpostgresqlFlexibleServersAdministratorAzureNameFromConfig,
+			},
+			{
 				Key:  ".spec.principalNameFromConfig",
 				Func: indexDbforpostgresqlFlexibleServersAdministratorPrincipalNameFromConfig,
 			},
@@ -1457,6 +1477,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Type: &v1.ConfigMap{},
 				MakeEventHandler: watchConfigMapsFactory(
 					[]string{
+						".spec.azureNameFromConfig",
 						".spec.principalNameFromConfig",
 						".spec.tenantIdFromConfig",
 					},
@@ -2841,6 +2862,18 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.administratorLoginPassword",
 				Func: indexSqlServerAdministratorLoginPassword,
 			},
+			{
+				Key:  ".spec.administrators.loginFromConfig",
+				Func: indexSqlServerLoginFromConfig,
+			},
+			{
+				Key:  ".spec.administrators.sidFromConfig",
+				Func: indexSqlServerSidFromConfig,
+			},
+			{
+				Key:  ".spec.administrators.tenantIdFromConfig",
+				Func: indexSqlServerTenantIdFromConfig,
+			},
 		},
 		Watches: []registration.Watch{
 			{
@@ -2848,6 +2881,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 				MakeEventHandler: watchSecretsFactory(
 					[]string{
 						".spec.administratorLoginPassword",
+					},
+					&sql_v20211101s.ServerList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.administrators.loginFromConfig",
+						".spec.administrators.sidFromConfig",
+						".spec.administrators.tenantIdFromConfig",
 					},
 					&sql_v20211101s.ServerList{}),
 			},
@@ -3941,6 +3984,22 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(appconfiguration_v20240601s.Replica)},
 		&registration.KnownType{Obj: new(appconfiguration_v20240601s.Snapshot)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(authorization_v1api20200801p.RoleAssignment),
+		Defaulter: &authorization_v1api20200801pw.RoleAssignment{},
+		Validator: &authorization_v1api20200801pw.RoleAssignment{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(authorization_v1api20200801ps.RoleAssignment)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(authorization_v1api20220401.RoleAssignment),
+		Defaulter: &authorization_v1api20220401w.RoleAssignment{},
+		Validator: &authorization_v1api20220401w.RoleAssignment{},
+	}, &registration.KnownType{
+		Obj:       new(authorization_v1api20220401.RoleDefinition),
+		Defaulter: &authorization_v1api20220401w.RoleDefinition{},
+		Validator: &authorization_v1api20220401w.RoleDefinition{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(authorization_v1api20220401s.RoleAssignment)}, &registration.KnownType{Obj: new(authorization_v1api20220401s.RoleDefinition)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(authorization_v20200801p.RoleAssignment),
 		Defaulter: &authorization_v20200801pw.RoleAssignment{},
 		Validator: &authorization_v20200801pw.RoleAssignment{},
@@ -4209,15 +4268,21 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(cdn_v20230501s.Secret)},
 		&registration.KnownType{Obj: new(cdn_v20230501s.SecurityPolicy)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(cognitiveservices_v20250601.Account),
-		Defaulter: &cognitiveservices_v20250601w.Account{},
-		Validator: &cognitiveservices_v20250601w.Account{},
+		Obj:       new(cognitiveservices_v1api20250601.Account),
+		Defaulter: &cognitiveservices_v1api20250601w.Account{},
+		Validator: &cognitiveservices_v1api20250601w.Account{},
 	}, &registration.KnownType{
-		Obj:       new(cognitiveservices_v20250601.Deployment),
-		Defaulter: &cognitiveservices_v20250601w.Deployment{},
-		Validator: &cognitiveservices_v20250601w.Deployment{},
+		Obj:       new(cognitiveservices_v1api20250601.Deployment),
+		Defaulter: &cognitiveservices_v1api20250601w.Deployment{},
+		Validator: &cognitiveservices_v1api20250601w.Deployment{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v20250601s.Account)}, &registration.KnownType{Obj: new(cognitiveservices_v20250601s.Deployment)})
+	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v1api20250601s.Account)}, &registration.KnownType{Obj: new(cognitiveservices_v1api20250601s.Deployment)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(cognitiveservices_v20250601.Project),
+		Defaulter: &cognitiveservices_v20250601w.Project{},
+		Validator: &cognitiveservices_v20250601w.Project{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v20250601s.Project)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6793,6 +6858,142 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.Server),
+			Defaulter: &sql_v1api20211101w.Server{},
+			Validator: &sql_v1api20211101w.Server{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersAdministrator),
+			Defaulter: &sql_v1api20211101w.ServersAdministrator{},
+			Validator: &sql_v1api20211101w.ServersAdministrator{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersAdvancedThreatProtectionSetting),
+			Defaulter: &sql_v1api20211101w.ServersAdvancedThreatProtectionSetting{},
+			Validator: &sql_v1api20211101w.ServersAdvancedThreatProtectionSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersAuditingSetting),
+			Defaulter: &sql_v1api20211101w.ServersAuditingSetting{},
+			Validator: &sql_v1api20211101w.ServersAuditingSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersAzureADOnlyAuthentication),
+			Defaulter: &sql_v1api20211101w.ServersAzureADOnlyAuthentication{},
+			Validator: &sql_v1api20211101w.ServersAzureADOnlyAuthentication{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersConnectionPolicy),
+			Defaulter: &sql_v1api20211101w.ServersConnectionPolicy{},
+			Validator: &sql_v1api20211101w.ServersConnectionPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabase),
+			Defaulter: &sql_v1api20211101w.ServersDatabase{},
+			Validator: &sql_v1api20211101w.ServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesAdvancedThreatProtectionSetting),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesAdvancedThreatProtectionSetting{},
+			Validator: &sql_v1api20211101w.ServersDatabasesAdvancedThreatProtectionSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesAuditingSetting),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesAuditingSetting{},
+			Validator: &sql_v1api20211101w.ServersDatabasesAuditingSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesBackupLongTermRetentionPolicy),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesBackupLongTermRetentionPolicy{},
+			Validator: &sql_v1api20211101w.ServersDatabasesBackupLongTermRetentionPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesBackupShortTermRetentionPolicy),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesBackupShortTermRetentionPolicy{},
+			Validator: &sql_v1api20211101w.ServersDatabasesBackupShortTermRetentionPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesSecurityAlertPolicy),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesSecurityAlertPolicy{},
+			Validator: &sql_v1api20211101w.ServersDatabasesSecurityAlertPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesTransparentDataEncryption),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesTransparentDataEncryption{},
+			Validator: &sql_v1api20211101w.ServersDatabasesTransparentDataEncryption{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersDatabasesVulnerabilityAssessment),
+			Defaulter: &sql_v1api20211101w.ServersDatabasesVulnerabilityAssessment{},
+			Validator: &sql_v1api20211101w.ServersDatabasesVulnerabilityAssessment{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersElasticPool),
+			Defaulter: &sql_v1api20211101w.ServersElasticPool{},
+			Validator: &sql_v1api20211101w.ServersElasticPool{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersFailoverGroup),
+			Defaulter: &sql_v1api20211101w.ServersFailoverGroup{},
+			Validator: &sql_v1api20211101w.ServersFailoverGroup{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersFirewallRule),
+			Defaulter: &sql_v1api20211101w.ServersFirewallRule{},
+			Validator: &sql_v1api20211101w.ServersFirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersIPV6FirewallRule),
+			Defaulter: &sql_v1api20211101w.ServersIPV6FirewallRule{},
+			Validator: &sql_v1api20211101w.ServersIPV6FirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersOutboundFirewallRule),
+			Defaulter: &sql_v1api20211101w.ServersOutboundFirewallRule{},
+			Validator: &sql_v1api20211101w.ServersOutboundFirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersSecurityAlertPolicy),
+			Defaulter: &sql_v1api20211101w.ServersSecurityAlertPolicy{},
+			Validator: &sql_v1api20211101w.ServersSecurityAlertPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersVirtualNetworkRule),
+			Defaulter: &sql_v1api20211101w.ServersVirtualNetworkRule{},
+			Validator: &sql_v1api20211101w.ServersVirtualNetworkRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v1api20211101.ServersVulnerabilityAssessment),
+			Defaulter: &sql_v1api20211101w.ServersVulnerabilityAssessment{},
+			Validator: &sql_v1api20211101w.ServersVulnerabilityAssessment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(sql_v1api20211101s.Server)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersAdministrator)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersAdvancedThreatProtectionSetting)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersAuditingSetting)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersAzureADOnlyAuthentication)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersConnectionPolicy)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabase)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesAdvancedThreatProtectionSetting)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesAuditingSetting)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesBackupLongTermRetentionPolicy)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesBackupShortTermRetentionPolicy)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesSecurityAlertPolicy)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesTransparentDataEncryption)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersDatabasesVulnerabilityAssessment)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersElasticPool)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersFailoverGroup)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersFirewallRule)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersIPV6FirewallRule)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersOutboundFirewallRule)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersSecurityAlertPolicy)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersVirtualNetworkRule)},
+		&registration.KnownType{Obj: new(sql_v1api20211101s.ServersVulnerabilityAssessment)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(sql_v20211101.Server),
 			Defaulter: &sql_v20211101w.Server{},
 			Validator: &sql_v20211101w.Server{},
@@ -7327,6 +7528,12 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsTableService)},
 		&registration.KnownType{Obj: new(storage_v20250601s.StorageAccountsTableServicesTable)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(subscription_v1api20211001.Alias),
+		Defaulter: &subscription_v1api20211001w.Alias{},
+		Validator: &subscription_v1api20211001w.Alias{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(subscription_v1api20211001s.Alias)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(subscription_v20211001.Alias),
 		Defaulter: &subscription_v20211001w.Alias{},
 		Validator: &subscription_v20211001w.Alias{},
@@ -7437,6 +7644,10 @@ func createScheme() *runtime.Scheme {
 	_ = appconfiguration_v20220501s.AddToScheme(scheme)
 	_ = appconfiguration_v20240601.AddToScheme(scheme)
 	_ = appconfiguration_v20240601s.AddToScheme(scheme)
+	_ = authorization_v1api20200801p.AddToScheme(scheme)
+	_ = authorization_v1api20200801ps.AddToScheme(scheme)
+	_ = authorization_v1api20220401.AddToScheme(scheme)
+	_ = authorization_v1api20220401s.AddToScheme(scheme)
 	_ = authorization_v20200801p.AddToScheme(scheme)
 	_ = authorization_v20200801ps.AddToScheme(scheme)
 	_ = authorization_v20220401.AddToScheme(scheme)
@@ -7467,6 +7678,8 @@ func createScheme() *runtime.Scheme {
 	_ = cdn_v20210601s.AddToScheme(scheme)
 	_ = cdn_v20230501.AddToScheme(scheme)
 	_ = cdn_v20230501s.AddToScheme(scheme)
+	_ = cognitiveservices_v1api20250601.AddToScheme(scheme)
+	_ = cognitiveservices_v1api20250601s.AddToScheme(scheme)
 	_ = cognitiveservices_v20250601.AddToScheme(scheme)
 	_ = cognitiveservices_v20250601s.AddToScheme(scheme)
 	_ = communication_v20230401.AddToScheme(scheme)
@@ -7681,6 +7894,8 @@ func createScheme() *runtime.Scheme {
 	_ = signalrservice_v20211001s.AddToScheme(scheme)
 	_ = signalrservice_v20240301.AddToScheme(scheme)
 	_ = signalrservice_v20240301s.AddToScheme(scheme)
+	_ = sql_v1api20211101.AddToScheme(scheme)
+	_ = sql_v1api20211101s.AddToScheme(scheme)
 	_ = sql_v20211101.AddToScheme(scheme)
 	_ = sql_v20211101s.AddToScheme(scheme)
 	_ = storage_v1api20210401.AddToScheme(scheme)
@@ -7697,6 +7912,8 @@ func createScheme() *runtime.Scheme {
 	_ = storage_v20230101s.AddToScheme(scheme)
 	_ = storage_v20250601.AddToScheme(scheme)
 	_ = storage_v20250601s.AddToScheme(scheme)
+	_ = subscription_v1api20211001.AddToScheme(scheme)
+	_ = subscription_v1api20211001s.AddToScheme(scheme)
 	_ = subscription_v20211001.AddToScheme(scheme)
 	_ = subscription_v20211001s.AddToScheme(scheme)
 	_ = synapse_v1api20210601.AddToScheme(scheme)
@@ -7773,6 +7990,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cdn_customizations.SecurityPolicyExtension{})
 	result = append(result, &cognitiveservices_customizations.AccountExtension{})
 	result = append(result, &cognitiveservices_customizations.DeploymentExtension{})
+	result = append(result, &cognitiveservices_customizations.ProjectExtension{})
 	result = append(result, &communication_customizations.CommunicationServiceExtension{})
 	result = append(result, &communication_customizations.DomainExtension{})
 	result = append(result, &communication_customizations.EmailServiceExtension{})
@@ -8518,9 +8736,9 @@ func indexCdnAfdOriginHostNameFromConfig(rawObj client.Object) []string {
 	return obj.Spec.HostNameFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountAadClientIdFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.aadClientIdFromConfig
+// indexCognitiveservicesAccountAadClientIdFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.aadClientIdFromConfig
 func indexCognitiveservicesAccountAadClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8536,9 +8754,9 @@ func indexCognitiveservicesAccountAadClientIdFromConfig(rawObj client.Object) []
 	return obj.Spec.Properties.ApiProperties.AadClientIdFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountAadTenantIdFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.aadTenantIdFromConfig
+// indexCognitiveservicesAccountAadTenantIdFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.aadTenantIdFromConfig
 func indexCognitiveservicesAccountAadTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8554,9 +8772,9 @@ func indexCognitiveservicesAccountAadTenantIdFromConfig(rawObj client.Object) []
 	return obj.Spec.Properties.ApiProperties.AadTenantIdFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountEventHubConnectionString an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.eventHubConnectionString
+// indexCognitiveservicesAccountEventHubConnectionString an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.eventHubConnectionString
 func indexCognitiveservicesAccountEventHubConnectionString(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8572,9 +8790,9 @@ func indexCognitiveservicesAccountEventHubConnectionString(rawObj client.Object)
 	return obj.Spec.Properties.ApiProperties.EventHubConnectionString.Index()
 }
 
-// indexCognitiveservicesAccountMigrationToken an index function for cognitiveservices_v20250601s.Account .spec.properties.migrationToken
+// indexCognitiveservicesAccountMigrationToken an index function for cognitiveservices_v1api20250601s.Account .spec.properties.migrationToken
 func indexCognitiveservicesAccountMigrationToken(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8587,9 +8805,9 @@ func indexCognitiveservicesAccountMigrationToken(rawObj client.Object) []string 
 	return obj.Spec.Properties.MigrationToken.Index()
 }
 
-// indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointIdFromConfig
+// indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointIdFromConfig
 func indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8605,9 +8823,9 @@ func indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig(rawObj clie
 	return obj.Spec.Properties.ApiProperties.QnaAzureSearchEndpointIdFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountQnaAzureSearchEndpointKey an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointKey
+// indexCognitiveservicesAccountQnaAzureSearchEndpointKey an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointKey
 func indexCognitiveservicesAccountQnaAzureSearchEndpointKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8623,9 +8841,9 @@ func indexCognitiveservicesAccountQnaAzureSearchEndpointKey(rawObj client.Object
 	return obj.Spec.Properties.ApiProperties.QnaAzureSearchEndpointKey.Index()
 }
 
-// indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.qnaRuntimeEndpointFromConfig
+// indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.qnaRuntimeEndpointFromConfig
 func indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8641,9 +8859,9 @@ func indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig(rawObj client.Obj
 	return obj.Spec.Properties.ApiProperties.QnaRuntimeEndpointFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountStorageAccountConnectionString an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.storageAccountConnectionString
+// indexCognitiveservicesAccountStorageAccountConnectionString an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.storageAccountConnectionString
 func indexCognitiveservicesAccountStorageAccountConnectionString(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8659,9 +8877,9 @@ func indexCognitiveservicesAccountStorageAccountConnectionString(rawObj client.O
 	return obj.Spec.Properties.ApiProperties.StorageAccountConnectionString.Index()
 }
 
-// indexCognitiveservicesAccountSuperUserFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.superUserFromConfig
+// indexCognitiveservicesAccountSuperUserFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.superUserFromConfig
 func indexCognitiveservicesAccountSuperUserFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8677,9 +8895,9 @@ func indexCognitiveservicesAccountSuperUserFromConfig(rawObj client.Object) []st
 	return obj.Spec.Properties.ApiProperties.SuperUserFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountWebsiteNameFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.websiteNameFromConfig
+// indexCognitiveservicesAccountWebsiteNameFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.websiteNameFromConfig
 func indexCognitiveservicesAccountWebsiteNameFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8695,9 +8913,9 @@ func indexCognitiveservicesAccountWebsiteNameFromConfig(rawObj client.Object) []
 	return obj.Spec.Properties.ApiProperties.WebsiteNameFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentFormatFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.formatFromConfig
+// indexCognitiveservicesDeploymentFormatFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.formatFromConfig
 func indexCognitiveservicesDeploymentFormatFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
 	if !ok {
 		return nil
 	}
@@ -8713,9 +8931,9 @@ func indexCognitiveservicesDeploymentFormatFromConfig(rawObj client.Object) []st
 	return obj.Spec.Properties.Model.FormatFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentNameFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.nameFromConfig
+// indexCognitiveservicesDeploymentNameFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.nameFromConfig
 func indexCognitiveservicesDeploymentNameFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
 	if !ok {
 		return nil
 	}
@@ -8731,9 +8949,9 @@ func indexCognitiveservicesDeploymentNameFromConfig(rawObj client.Object) []stri
 	return obj.Spec.Properties.Model.NameFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentPublisherFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.publisherFromConfig
+// indexCognitiveservicesDeploymentPublisherFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.publisherFromConfig
 func indexCognitiveservicesDeploymentPublisherFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
 	if !ok {
 		return nil
 	}
@@ -8749,9 +8967,9 @@ func indexCognitiveservicesDeploymentPublisherFromConfig(rawObj client.Object) [
 	return obj.Spec.Properties.Model.PublisherFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentVersionFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.versionFromConfig
+// indexCognitiveservicesDeploymentVersionFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.versionFromConfig
 func indexCognitiveservicesDeploymentVersionFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
 	if !ok {
 		return nil
 	}
@@ -9206,6 +9424,18 @@ func indexDbforpostgresqlFlexibleServerTenantIdFromConfig(rawObj client.Object) 
 		return nil
 	}
 	return obj.Spec.AuthConfig.TenantIdFromConfig.Index()
+}
+
+// indexDbforpostgresqlFlexibleServersAdministratorAzureNameFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServersAdministrator .spec.azureNameFromConfig
+func indexDbforpostgresqlFlexibleServersAdministratorAzureNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbforpostgresql_v20250801s.FlexibleServersAdministrator)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AzureNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.AzureNameFromConfig.Index()
 }
 
 // indexDbforpostgresqlFlexibleServersAdministratorPrincipalNameFromConfig an index function for dbforpostgresql_v20250801s.FlexibleServersAdministrator .spec.principalNameFromConfig
@@ -12431,6 +12661,51 @@ func indexSqlServerAdministratorLoginPassword(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.AdministratorLoginPassword.Index()
+}
+
+// indexSqlServerLoginFromConfig an index function for sql_v20211101s.Server .spec.administrators.loginFromConfig
+func indexSqlServerLoginFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20211101s.Server)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.LoginFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.LoginFromConfig.Index()
+}
+
+// indexSqlServerSidFromConfig an index function for sql_v20211101s.Server .spec.administrators.sidFromConfig
+func indexSqlServerSidFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20211101s.Server)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.SidFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.SidFromConfig.Index()
+}
+
+// indexSqlServerTenantIdFromConfig an index function for sql_v20211101s.Server .spec.administrators.tenantIdFromConfig
+func indexSqlServerTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*sql_v20211101s.Server)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Administrators == nil {
+		return nil
+	}
+	if obj.Spec.Administrators.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Administrators.TenantIdFromConfig.Index()
 }
 
 // indexSqlServersAdministratorSidFromConfig an index function for sql_v20211101s.ServersAdministrator .spec.sidFromConfig

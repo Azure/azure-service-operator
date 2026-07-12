@@ -19,6 +19,11 @@ import (
 
 func Test_StorageAccountsTableServicesTable_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -94,6 +99,11 @@ func AddRelatedPropertyGeneratorsForStorageAccountsTableServicesTable_Spec(gens 
 
 func Test_TableAccessPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -156,6 +166,11 @@ func AddIndependentPropertyGeneratorsForTableAccessPolicy(gens map[string]gopter
 
 func Test_TableProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -216,6 +231,11 @@ func AddRelatedPropertyGeneratorsForTableProperties(gens map[string]gopter.Gen) 
 
 func Test_TableSignedIdentifier_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
