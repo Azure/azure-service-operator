@@ -11,9 +11,9 @@ import (
 type FakeResource_Spec struct {
 	APIVersion    FakeResource_APIVersion_Spec `json:"apiVersion,omitempty"`
 	JsonObject    map[string]v1.JSON           `json:"jsonObject,omitempty"`
-	MandatoryJson map[string]v1.JSON           `json:"mandatoryJson,omitempty"`
+	MandatoryJson *v1.JSON                     `json:"mandatoryJson,omitempty"`
 	Name          string                       `json:"name,omitempty"`
-	OptionalJson  map[string]v1.JSON           `json:"optionalJson,omitempty"`
+	OptionalJson  *v1.JSON                     `json:"optionalJson,omitempty"`
 	Type          FakeResource_Type_Spec       `json:"type,omitempty"`
 }
 

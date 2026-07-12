@@ -6,28 +6,15 @@ package v20200101
 import (
 	storage "github.com/Azure/azure-service-operator/testing/test/v20200101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
-	X                    *float64           `json:"x,omitempty"`
+	X *float64 `json:"x,omitempty"`
 }
 
 // AssignProperties_From_Test populates our Test from the provided source Test
 func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
-
-	// AdditionalProperties
-	if source.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		test.AdditionalProperties = additionalPropertyMap
-	} else {
-		test.AdditionalProperties = nil
-	}
 
 	// X
 	if source.X != nil {
@@ -45,17 +32,6 @@ func (test *Test) AssignProperties_From_Test(source *storage.Test) error {
 func (test *Test) AssignProperties_To_Test(destination *storage.Test) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// AdditionalProperties
-	if test.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(test.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range test.AdditionalProperties {
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		destination.AdditionalProperties = additionalPropertyMap
-	} else {
-		destination.AdditionalProperties = nil
-	}
 
 	// X
 	if test.X != nil {
