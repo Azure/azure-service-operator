@@ -66,10 +66,10 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"containerregistry": VersionMigrationModeLegacy,
 	"containerservice":  VersionMigrationModeLegacy,
 
-	"datafactory": VersionMigrationModeHybrid,
+	"datafactory":    VersionMigrationModeHybrid,
+	"dataprotection": VersionMigrationModeHybrid,
 
-	"dataprotection": VersionMigrationModeLegacy,
-	"dbformariadb":   VersionMigrationModeLegacy,
+	"dbformariadb": VersionMigrationModeLegacy,
 
 	"dbformysql": VersionMigrationModeHybrid,
 
