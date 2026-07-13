@@ -10,6 +10,8 @@ import (
 	v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
 	v20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
 	v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
+	v20250701 "github.com/Azure/azure-service-operator/v2/api/cache/v20250701"
+	v20250701s "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -24,5 +26,7 @@ func (extension *RedisEnterpriseExtension) GetExtendedResources() []genruntime.K
 		&v20230701.RedisEnterprise{},
 		&v20230701s.RedisEnterprise{},
 		&v20250401.RedisEnterprise{},
-		&v20250401s.RedisEnterprise{}}
+		&v20250401s.RedisEnterprise{},
+		&v20250701.RedisEnterprise{},
+		&v20250701s.RedisEnterprise{}}
 }

@@ -32,3 +32,15 @@ RedisEnterpriseDatabaseAccessPolicyAssignment: Resource
         ├── ObjectId: *string
         └── PropertyBag: genruntime.PropertyBag
 
+augmentConversionForAccessPolicyAssignmentProperties_User: Interface
+
+augmentConversionForAccessPolicyAssignmentProperties_User_STATUS: Interface
+
+augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment: Interface
+
+augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec: Interface
+
+augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_STATUS: Interface
+
+augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec: Interface
+

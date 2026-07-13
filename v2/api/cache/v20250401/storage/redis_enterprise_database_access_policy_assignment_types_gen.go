@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=cache.azure.com,resources=redisenterprisedatabaseaccesspolicyassignments,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=cache.azure.com,resources={redisenterprisedatabaseaccesspolicyassignments/status,redisenterprisedatabaseaccesspolicyassignments/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,cache}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) GetConditions()
 // SetConditions sets the conditions on the resource status
 func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) SetConditions(conditions conditions.Conditions) {
 	assignment.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &RedisEnterpriseDatabaseAccessPolicyAssignment{}
+
+// ConvertFrom populates our RedisEnterpriseDatabaseAccessPolicyAssignment from the provided hub RedisEnterpriseDatabaseAccessPolicyAssignment
+func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.RedisEnterpriseDatabaseAccessPolicyAssignment)
+	if !ok {
+		return fmt.Errorf("expected cache/v20250701/storage/RedisEnterpriseDatabaseAccessPolicyAssignment but received %T instead", hub)
+	}
+
+	return assignment.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment(source)
+}
+
+// ConvertTo populates the provided hub RedisEnterpriseDatabaseAccessPolicyAssignment from our RedisEnterpriseDatabaseAccessPolicyAssignment
+func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.RedisEnterpriseDatabaseAccessPolicyAssignment)
+	if !ok {
+		return fmt.Errorf("expected cache/v20250701/storage/RedisEnterpriseDatabaseAccessPolicyAssignment but received %T instead", hub)
+	}
+
+	return assignment.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment(destination)
 }
 
 var _ configmaps.Exporter = &RedisEnterpriseDatabaseAccessPolicyAssignment{}
@@ -143,8 +164,75 @@ func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) SetStatus(statu
 	return nil
 }
 
-// Hub marks that this RedisEnterpriseDatabaseAccessPolicyAssignment is the hub type for conversion
-func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) Hub() {}
+// AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment populates our RedisEnterpriseDatabaseAccessPolicyAssignment from the provided source RedisEnterpriseDatabaseAccessPolicyAssignment
+func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment(source *storage.RedisEnterpriseDatabaseAccessPolicyAssignment) error {
+
+	// ObjectMeta
+	assignment.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec RedisEnterpriseDatabaseAccessPolicyAssignment_Spec
+	err := spec.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec() to populate field Spec")
+	}
+	assignment.Spec = spec
+
+	// Status
+	var status RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS
+	err = status.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS() to populate field Status")
+	}
+	assignment.Status = status
+
+	// Invoke the augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment interface (if implemented) to customize the conversion
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment); ok {
+		err := augmentedAssignment.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment populates the provided destination RedisEnterpriseDatabaseAccessPolicyAssignment from our RedisEnterpriseDatabaseAccessPolicyAssignment
+func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment(destination *storage.RedisEnterpriseDatabaseAccessPolicyAssignment) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *assignment.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec
+	err := assignment.Spec.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS
+	err = assignment.Status.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment interface (if implemented) to customize the conversion
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment); ok {
+		err := augmentedAssignment.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) OriginalGVK() *schema.GroupVersionKind {
@@ -172,6 +260,11 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2025-04-01")
 
+type augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment interface {
+	AssignPropertiesFrom(src *storage.RedisEnterpriseDatabaseAccessPolicyAssignment) error
+	AssignPropertiesTo(dst *storage.RedisEnterpriseDatabaseAccessPolicyAssignment) error
+}
+
 // Storage version of v20250401.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec
 type RedisEnterpriseDatabaseAccessPolicyAssignment_Spec struct {
 	AccessPolicyName *string `json:"accessPolicyName,omitempty"`
@@ -195,20 +288,182 @@ var _ genruntime.ConvertibleSpec = &RedisEnterpriseDatabaseAccessPolicyAssignmen
 
 // ConvertSpecFrom populates our RedisEnterpriseDatabaseAccessPolicyAssignment_Spec from the provided source
 func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == assignment {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec)
+	if ok {
+		// Populate our instance from source
+		return assignment.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec(src)
 	}
 
-	return source.ConvertSpecTo(assignment)
+	// Convert to an intermediate form
+	src = &storage.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = assignment.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our RedisEnterpriseDatabaseAccessPolicyAssignment_Spec
 func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == assignment {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec)
+	if ok {
+		// Populate destination from our instance
+		return assignment.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(assignment)
+	// Convert to an intermediate form
+	dst = &storage.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec{}
+	err := assignment.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec populates our RedisEnterpriseDatabaseAccessPolicyAssignment_Spec from the provided source RedisEnterpriseDatabaseAccessPolicyAssignment_Spec
+func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec(source *storage.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AccessPolicyName
+	assignment.AccessPolicyName = genruntime.ClonePointerToString(source.AccessPolicyName)
+
+	// AzureName
+	assignment.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec
+		err := operatorSpec.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec() to populate field OperatorSpec")
+		}
+		assignment.OperatorSpec = &operatorSpec
+	} else {
+		assignment.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	assignment.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		assignment.Owner = &owner
+	} else {
+		assignment.Owner = nil
+	}
+
+	// User
+	if source.User != nil {
+		var user AccessPolicyAssignmentProperties_User
+		err := user.AssignProperties_From_AccessPolicyAssignmentProperties_User(source.User)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_AccessPolicyAssignmentProperties_User() to populate field User")
+		}
+		assignment.User = &user
+	} else {
+		assignment.User = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		assignment.PropertyBag = propertyBag
+	} else {
+		assignment.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec interface (if implemented) to customize the conversion
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec); ok {
+		err := augmentedAssignment.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec populates the provided destination RedisEnterpriseDatabaseAccessPolicyAssignment_Spec from our RedisEnterpriseDatabaseAccessPolicyAssignment_Spec
+func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_Spec(destination *storage.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(assignment.PropertyBag)
+
+	// AccessPolicyName
+	destination.AccessPolicyName = genruntime.ClonePointerToString(assignment.AccessPolicyName)
+
+	// AzureName
+	destination.AzureName = assignment.AzureName
+
+	// OperatorSpec
+	if assignment.OperatorSpec != nil {
+		var operatorSpec storage.RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec
+		err := assignment.OperatorSpec.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = assignment.OriginalVersion
+
+	// Owner
+	if assignment.Owner != nil {
+		owner := assignment.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// User
+	if assignment.User != nil {
+		var user storage.AccessPolicyAssignmentProperties_User
+		err := assignment.User.AssignProperties_To_AccessPolicyAssignmentProperties_User(&user)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AccessPolicyAssignmentProperties_User() to populate field User")
+		}
+		destination.User = &user
+	} else {
+		destination.User = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec interface (if implemented) to customize the conversion
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec); ok {
+		err := augmentedAssignment.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20250401.RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS
@@ -227,20 +482,160 @@ var _ genruntime.ConvertibleStatus = &RedisEnterpriseDatabaseAccessPolicyAssignm
 
 // ConvertStatusFrom populates our RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS from the provided source
 func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == assignment {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS)
+	if ok {
+		// Populate our instance from source
+		return assignment.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(assignment)
+	// Convert to an intermediate form
+	src = &storage.RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = assignment.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS
 func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == assignment {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return assignment.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(assignment)
+	// Convert to an intermediate form
+	dst = &storage.RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS{}
+	err := assignment.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS populates our RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS from the provided source RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS
+func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(source *storage.RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AccessPolicyName
+	assignment.AccessPolicyName = genruntime.ClonePointerToString(source.AccessPolicyName)
+
+	// Conditions
+	assignment.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	assignment.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	assignment.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	assignment.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// Type
+	assignment.Type = genruntime.ClonePointerToString(source.Type)
+
+	// User
+	if source.User != nil {
+		var user AccessPolicyAssignmentProperties_User_STATUS
+		err := user.AssignProperties_From_AccessPolicyAssignmentProperties_User_STATUS(source.User)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_AccessPolicyAssignmentProperties_User_STATUS() to populate field User")
+		}
+		assignment.User = &user
+	} else {
+		assignment.User = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		assignment.PropertyBag = propertyBag
+	} else {
+		assignment.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_STATUS interface (if implemented) to customize the conversion
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_STATUS); ok {
+		err := augmentedAssignment.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS populates the provided destination RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS from our RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS
+func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(destination *storage.RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(assignment.PropertyBag)
+
+	// AccessPolicyName
+	destination.AccessPolicyName = genruntime.ClonePointerToString(assignment.AccessPolicyName)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(assignment.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(assignment.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(assignment.Name)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(assignment.ProvisioningState)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(assignment.Type)
+
+	// User
+	if assignment.User != nil {
+		var user storage.AccessPolicyAssignmentProperties_User_STATUS
+		err := assignment.User.AssignProperties_To_AccessPolicyAssignmentProperties_User_STATUS(&user)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AccessPolicyAssignmentProperties_User_STATUS() to populate field User")
+		}
+		destination.User = &user
+	} else {
+		destination.User = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_STATUS interface (if implemented) to customize the conversion
+	var assignmentAsAny any = assignment
+	if augmentedAssignment, ok := assignmentAsAny.(augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_STATUS); ok {
+		err := augmentedAssignment.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20250401.AccessPolicyAssignmentProperties_User
@@ -250,10 +645,148 @@ type AccessPolicyAssignmentProperties_User struct {
 	PropertyBag        genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_AccessPolicyAssignmentProperties_User populates our AccessPolicyAssignmentProperties_User from the provided source AccessPolicyAssignmentProperties_User
+func (user *AccessPolicyAssignmentProperties_User) AssignProperties_From_AccessPolicyAssignmentProperties_User(source *storage.AccessPolicyAssignmentProperties_User) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ObjectId
+	user.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// ObjectIdFromConfig
+	if source.ObjectIdFromConfig != nil {
+		objectIdFromConfig := source.ObjectIdFromConfig.Copy()
+		user.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		user.ObjectIdFromConfig = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		user.PropertyBag = propertyBag
+	} else {
+		user.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAccessPolicyAssignmentProperties_User interface (if implemented) to customize the conversion
+	var userAsAny any = user
+	if augmentedUser, ok := userAsAny.(augmentConversionForAccessPolicyAssignmentProperties_User); ok {
+		err := augmentedUser.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AccessPolicyAssignmentProperties_User populates the provided destination AccessPolicyAssignmentProperties_User from our AccessPolicyAssignmentProperties_User
+func (user *AccessPolicyAssignmentProperties_User) AssignProperties_To_AccessPolicyAssignmentProperties_User(destination *storage.AccessPolicyAssignmentProperties_User) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(user.PropertyBag)
+
+	// ObjectId
+	destination.ObjectId = genruntime.ClonePointerToString(user.ObjectId)
+
+	// ObjectIdFromConfig
+	if user.ObjectIdFromConfig != nil {
+		objectIdFromConfig := user.ObjectIdFromConfig.Copy()
+		destination.ObjectIdFromConfig = &objectIdFromConfig
+	} else {
+		destination.ObjectIdFromConfig = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAccessPolicyAssignmentProperties_User interface (if implemented) to customize the conversion
+	var userAsAny any = user
+	if augmentedUser, ok := userAsAny.(augmentConversionForAccessPolicyAssignmentProperties_User); ok {
+		err := augmentedUser.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20250401.AccessPolicyAssignmentProperties_User_STATUS
 type AccessPolicyAssignmentProperties_User_STATUS struct {
 	ObjectId    *string                `json:"objectId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_AccessPolicyAssignmentProperties_User_STATUS populates our AccessPolicyAssignmentProperties_User_STATUS from the provided source AccessPolicyAssignmentProperties_User_STATUS
+func (user *AccessPolicyAssignmentProperties_User_STATUS) AssignProperties_From_AccessPolicyAssignmentProperties_User_STATUS(source *storage.AccessPolicyAssignmentProperties_User_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ObjectId
+	user.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		user.PropertyBag = propertyBag
+	} else {
+		user.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAccessPolicyAssignmentProperties_User_STATUS interface (if implemented) to customize the conversion
+	var userAsAny any = user
+	if augmentedUser, ok := userAsAny.(augmentConversionForAccessPolicyAssignmentProperties_User_STATUS); ok {
+		err := augmentedUser.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AccessPolicyAssignmentProperties_User_STATUS populates the provided destination AccessPolicyAssignmentProperties_User_STATUS from our AccessPolicyAssignmentProperties_User_STATUS
+func (user *AccessPolicyAssignmentProperties_User_STATUS) AssignProperties_To_AccessPolicyAssignmentProperties_User_STATUS(destination *storage.AccessPolicyAssignmentProperties_User_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(user.PropertyBag)
+
+	// ObjectId
+	destination.ObjectId = genruntime.ClonePointerToString(user.ObjectId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAccessPolicyAssignmentProperties_User_STATUS interface (if implemented) to customize the conversion
+	var userAsAny any = user
+	if augmentedUser, ok := userAsAny.(augmentConversionForAccessPolicyAssignmentProperties_User_STATUS); ok {
+		err := augmentedUser.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_Spec interface {
+	AssignPropertiesFrom(src *storage.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) error
+	AssignPropertiesTo(dst *storage.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) error
+}
+
+type augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignment_STATUS interface {
+	AssignPropertiesFrom(src *storage.RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) error
+	AssignPropertiesTo(dst *storage.RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) error
 }
 
 // Storage version of v20250401.RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec
@@ -262,6 +795,135 @@ type RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec populates our RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec from the provided source RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec
+func (operator *RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec) AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec(source *storage.RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec populates the provided destination RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec from our RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec
+func (operator *RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec) AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec(destination *storage.RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForAccessPolicyAssignmentProperties_User interface {
+	AssignPropertiesFrom(src *storage.AccessPolicyAssignmentProperties_User) error
+	AssignPropertiesTo(dst *storage.AccessPolicyAssignmentProperties_User) error
+}
+
+type augmentConversionForAccessPolicyAssignmentProperties_User_STATUS interface {
+	AssignPropertiesFrom(src *storage.AccessPolicyAssignmentProperties_User_STATUS) error
+	AssignPropertiesTo(dst *storage.AccessPolicyAssignmentProperties_User_STATUS) error
+}
+
+type augmentConversionForRedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec) error
+	AssignPropertiesTo(dst *storage.RedisEnterpriseDatabaseAccessPolicyAssignmentOperatorSpec) error
 }
 
 func init() {

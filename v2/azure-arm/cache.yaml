@@ -148,17 +148,51 @@ groupModelConfiguration:
       $exportAs: RedisEnterprise
       $supportedFrom: v2.15.0
     ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity:
+      $nameInNextVersion: ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
       UserAssignedIdentityResourceId:
         $referenceType: arm
+    ClusterProperties_Encryption:
+      $nameInNextVersion: ClusterCreateProperties_Encryption
+    ClusterProperties_Encryption_STATUS:
+      $nameInNextVersion: ClusterCreateProperties_Encryption_STATUS
+    ClusterProperties_Encryption_CustomerManagedKeyEncryption:
+      $nameInNextVersion: ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption
+    ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS:
+      $nameInNextVersion: ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS
+    ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS:
+      $nameInNextVersion: ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
     RedisEnterprise_Database:
       $exportAs: RedisEnterpriseDatabase
       $supportedFrom: v2.15.0
       $azureGeneratedSecrets:
         - PrimaryKey
         - SecondaryKey
+    DatabaseProperties_GeoReplication:
+      $nameInNextVersion: DatabaseCreateProperties_GeoReplication
+    DatabaseProperties_GeoReplication_STATUS:
+      $nameInNextVersion: DatabaseCreateProperties_GeoReplication_STATUS
     RedisEnterprise_Databases_AccessPolicyAssignment:
       $exportAs: RedisEnterpriseDatabaseAccessPolicyAssignment
       $supportedFrom: v2.19.0
+    AccessPolicyAssignmentProperties_User:
+      ObjectId:
+        $importConfigMapMode: optional
+  2025-07-01:
+    RedisEnterprise:
+      $exportAs: RedisEnterprise
+      $supportedFrom: v2.21.0
+    ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity:
+      UserAssignedIdentityResourceId:
+        $referenceType: arm
+    RedisEnterprise_Database:
+      $exportAs: RedisEnterpriseDatabase
+      $supportedFrom: v2.21.0
+      $azureGeneratedSecrets:
+        - PrimaryKey
+        - SecondaryKey
+    RedisEnterprise_Databases_AccessPolicyAssignment:
+      $exportAs: RedisEnterpriseDatabaseAccessPolicyAssignment
+      $supportedFrom: v2.21.0
     AccessPolicyAssignmentProperties_User:
       ObjectId:
         $importConfigMapMode: optional
