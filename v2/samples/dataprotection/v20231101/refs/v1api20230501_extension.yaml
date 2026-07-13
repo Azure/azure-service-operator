@@ -1,0 +1,26 @@
+apiVersion: kubernetesconfiguration.azure.com/v1api20230501
+kind: Extension
+metadata:
+  name: aso-sample-extension
+  namespace: default
+spec:
+  operatorSpec:
+    configMaps:
+      principalId:
+        name: ext-configmap
+        key: principalId
+  releaseTrain: stable
+  extensionType: microsoft.dataprotection.kubernetes
+  owner:
+    group: containerservice.azure.com
+    kind: ManagedCluster
+    name: aso-sample-aks
+  scope:
+    cluster:
+      releaseNamespace: dataprotection-microsoft
+  configurationSettings:
+    configuration.backupStorageLocation.bucket: "asodpsamplecontainer"
+    configuration.backupStorageLocation.config.resourceGroup: "aso-sample-rg"
+    configuration.backupStorageLocation.config.storageAccount: "asodpsamplekubestorage"
+    configuration.backupStorageLocation.config.subscriptionId: "00000000-0000-0000-0000-000000000000"
+    credentials.tenantId: "00000000-0000-0000-0000-000000000000"
