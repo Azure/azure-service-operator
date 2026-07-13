@@ -459,14 +459,14 @@ type ExtendedLocation_STATUS struct {
 // AADProfile specifies attributes for Azure Active Directory integration. For more details see [managed AAD on
 // AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfile struct {
-	AdminGroupObjectIDs []string               `json:"adminGroupObjectIDs,omitempty"`
-	ClientAppID         *string                `json:"clientAppID,omitempty"`
-	EnableAzureRBAC     *bool                  `json:"enableAzureRBAC,omitempty"`
-	Managed             *bool                  `json:"managed,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ServerAppID         *string                `json:"serverAppID,omitempty"`
-	ServerAppSecret     *string                `json:"serverAppSecret,omitempty"`
-	TenantID            *string                `json:"tenantID,omitempty"`
+	AdminGroupObjectIDs []string                    `json:"adminGroupObjectIDs,omitempty"`
+	ClientAppID         *string                     `json:"clientAppID,omitempty"`
+	EnableAzureRBAC     *bool                       `json:"enableAzureRBAC,omitempty"`
+	Managed             *bool                       `json:"managed,omitempty"`
+	PropertyBag         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	ServerAppID         *string                     `json:"serverAppID,omitempty"`
+	ServerAppSecret     *genruntime.SecretReference `json:"serverAppSecret,omitempty"`
+	TenantID            *string                     `json:"tenantID,omitempty"`
 }
 
 // Storage version of v1api20250801.ManagedClusterAADProfile_STATUS
@@ -479,7 +479,6 @@ type ManagedClusterAADProfile_STATUS struct {
 	Managed             *bool                  `json:"managed,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerAppID         *string                `json:"serverAppID,omitempty"`
-	ServerAppSecret     *string                `json:"serverAppSecret,omitempty"`
 	TenantID            *string                `json:"tenantID,omitempty"`
 }
 

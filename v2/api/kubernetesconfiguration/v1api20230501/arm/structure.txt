@@ -127,7 +127,7 @@ Extension_Spec: Object (5 properties)
         ├── "ManagedIdentity"
         └── "User"
 
-FluxConfiguration_STATUS: Object (4 properties)
+FluxConfiguration_STATUS: Object (5 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (19 properties)
@@ -235,6 +235,21 @@ FluxConfiguration_STATUS: Object (4 properties)
 │   │       └── Type: *string
 │   ├── Suspend: *bool
 │   └── WaitForReconciliation: *bool
+├── SystemData: *Object (6 properties)
+│   ├── CreatedAt: *string
+│   ├── CreatedBy: *string
+│   ├── CreatedByType: *Enum (4 values)
+│   │   ├── "Application"
+│   │   ├── "Key"
+│   │   ├── "ManagedIdentity"
+│   │   └── "User"
+│   ├── LastModifiedAt: *string
+│   ├── LastModifiedBy: *string
+│   └── LastModifiedByType: *Enum (4 values)
+│       ├── "Application"
+│       ├── "Key"
+│       ├── "ManagedIdentity"
+│       └── "User"
 └── Type: *string
 
 FluxConfiguration_Spec: Object (2 properties)

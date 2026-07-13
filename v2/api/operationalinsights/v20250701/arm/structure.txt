@@ -28,7 +28,8 @@ Workspace_STATUS: Object (9 properties)
 │   │       ├── "Deactivating"
 │   │       ├── "Failed"
 │   │       └── "Inactive"
-│   ├── Features: *Object (7 properties)
+│   ├── Features: *Object (8 properties)
+│   │   ├── AdditionalProperties: map[string]v1.JSON
 │   │   ├── Associations: string[]
 │   │   ├── ClusterResourceId: *string
 │   │   ├── DisableLocalAuth: *bool
@@ -125,7 +126,8 @@ Workspace_Spec: Object (6 properties)
 ├── Name: string
 ├── Properties: *Object (9 properties)
 │   ├── DefaultDataCollectionRuleResourceId: *string
-│   ├── Features: *Object (5 properties)
+│   ├── Features: *Object (6 properties)
+│   │   ├── AdditionalProperties: map[string]v1.JSON
 │   │   ├── ClusterResourceId: *string
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── EnableDataExport: *bool

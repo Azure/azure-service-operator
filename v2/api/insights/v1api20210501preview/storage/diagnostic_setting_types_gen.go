@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20210501preview.DiagnosticSetting
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json
 // - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 type DiagnosticSetting struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (setting *DiagnosticSetting) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20210501preview.DiagnosticSetting
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2021-05-01-preview/diagnosticsSettings_API.json
 // - ARM URI: /{resourceUri}/providers/Microsoft.Insights/diagnosticSettings/{name}
 type DiagnosticSettingList struct {
 	metav1.TypeMeta `json:",inline"`

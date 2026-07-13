@@ -1046,7 +1046,7 @@ func FactoryIdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFactoryIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFactoryIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(FactoryIdentity_Type_SystemAssigned, FactoryIdentity_Type_SystemAssignedUserAssigned, FactoryIdentity_Type_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(FactoryIdentityType_SystemAssigned, FactoryIdentityType_SystemAssignedUserAssigned, FactoryIdentityType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForFactoryIdentity is a factory method for creating gopter generators
@@ -1166,7 +1166,7 @@ func FactoryIdentity_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForFactoryIdentity_STATUS(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(FactoryIdentity_Type_STATUS_SystemAssigned, FactoryIdentity_Type_STATUS_SystemAssignedUserAssigned, FactoryIdentity_Type_STATUS_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(FactoryIdentityType_STATUS_SystemAssigned, FactoryIdentityType_STATUS_SystemAssignedUserAssigned, FactoryIdentityType_STATUS_UserAssigned))
 }
 
 func Test_FactoryOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1892,7 +1892,7 @@ func AddIndependentPropertyGeneratorsForFactory_STATUS(gens map[string]gopter.Ge
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(FactoryProperties_PublicNetworkAccess_STATUS_Disabled, FactoryProperties_PublicNetworkAccess_STATUS_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUS_Disabled, PublicNetworkAccess_STATUS_Enabled))
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
@@ -1909,6 +1909,7 @@ func AddRelatedPropertyGeneratorsForFactory_STATUS(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(FactoryIdentity_STATUSGenerator())
 	gens["PurviewConfiguration"] = gen.PtrOf(PurviewConfiguration_STATUSGenerator())
 	gens["RepoConfiguration"] = gen.PtrOf(FactoryRepoConfiguration_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_Factory_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2031,7 +2032,7 @@ func Factory_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForFactory_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(FactoryProperties_PublicNetworkAccess_Disabled, FactoryProperties_PublicNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
 	gens["Tags"] = gen.MapOf(
 		gen.AlphaString(),
 		gen.AlphaString())
@@ -2387,12 +2388,12 @@ func GlobalParameterSpecificationGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForGlobalParameterSpecification is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForGlobalParameterSpecification(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		GlobalParameterSpecification_Type_Array,
-		GlobalParameterSpecification_Type_Bool,
-		GlobalParameterSpecification_Type_Float,
-		GlobalParameterSpecification_Type_Int,
-		GlobalParameterSpecification_Type_Object,
-		GlobalParameterSpecification_Type_String))
+		GlobalParameterType_Array,
+		GlobalParameterType_Bool,
+		GlobalParameterType_Float,
+		GlobalParameterType_Int,
+		GlobalParameterType_Object,
+		GlobalParameterType_String))
 }
 
 func Test_GlobalParameterSpecification_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2506,12 +2507,12 @@ func GlobalParameterSpecification_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForGlobalParameterSpecification_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForGlobalParameterSpecification_STATUS(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		GlobalParameterSpecification_Type_STATUS_Array,
-		GlobalParameterSpecification_Type_STATUS_Bool,
-		GlobalParameterSpecification_Type_STATUS_Float,
-		GlobalParameterSpecification_Type_STATUS_Int,
-		GlobalParameterSpecification_Type_STATUS_Object,
-		GlobalParameterSpecification_Type_STATUS_String))
+		GlobalParameterType_STATUS_Array,
+		GlobalParameterType_STATUS_Bool,
+		GlobalParameterType_STATUS_Float,
+		GlobalParameterType_STATUS_Int,
+		GlobalParameterType_STATUS_Object,
+		GlobalParameterType_STATUS_String))
 }
 
 func Test_PurviewConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2732,6 +2733,131 @@ func PurviewConfiguration_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPurviewConfiguration_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPurviewConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["PurviewResourceId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other datafactory_v1api20180601s.SystemData_STATUS
+	err := copied.AssignProperties_To_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SystemData_STATUS
+	err = actual.AssignProperties_From_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SystemData_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SystemData_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
+var systemData_STATUSGenerator gopter.Gen
+
+// SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
+func SystemData_STATUSGenerator() gopter.Gen {
+	if systemData_STATUSGenerator != nil {
+		return systemData_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
+	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+
+	return systemData_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
+	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemData_CreatedByType_STATUS_Application,
+		SystemData_CreatedByType_STATUS_Key,
+		SystemData_CreatedByType_STATUS_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_User))
+	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemData_LastModifiedByType_STATUS_Application,
+		SystemData_LastModifiedByType_STATUS_Key,
+		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_User))
 }
 
 func Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

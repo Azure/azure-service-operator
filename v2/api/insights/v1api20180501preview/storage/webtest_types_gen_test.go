@@ -480,7 +480,7 @@ func Test_WebTestProperties_Configuration_WhenPropertiesConverted_RoundTripsWith
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_Configuration to WebTestProperties_Configuration via AssignProperties_To_WebTestProperties_Configuration & AssignProperties_From_WebTestProperties_Configuration returns original",
+		"Round trip from WebTestProperties_Configuration to WebTestPropertiesConfiguration via AssignProperties_To_WebTestPropertiesConfiguration & AssignProperties_From_WebTestPropertiesConfiguration returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Configuration, WebTestProperties_ConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -491,15 +491,15 @@ func RunPropertyAssignmentTestForWebTestProperties_Configuration(subject WebTest
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_Configuration
-	err := copied.AssignProperties_To_WebTestProperties_Configuration(&other)
+	var other storage.WebTestPropertiesConfiguration
+	err := copied.AssignProperties_To_WebTestPropertiesConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_Configuration
-	err = actual.AssignProperties_From_WebTestProperties_Configuration(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -593,7 +593,7 @@ func Test_WebTestProperties_Configuration_STATUS_WhenPropertiesConverted_RoundTr
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_Configuration_STATUS to WebTestProperties_Configuration_STATUS via AssignProperties_To_WebTestProperties_Configuration_STATUS & AssignProperties_From_WebTestProperties_Configuration_STATUS returns original",
+		"Round trip from WebTestProperties_Configuration_STATUS to WebTestPropertiesConfiguration_STATUS via AssignProperties_To_WebTestPropertiesConfiguration_STATUS & AssignProperties_From_WebTestPropertiesConfiguration_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS, WebTestProperties_Configuration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -604,15 +604,15 @@ func RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_Configuration_STATUS
-	err := copied.AssignProperties_To_WebTestProperties_Configuration_STATUS(&other)
+	var other storage.WebTestPropertiesConfiguration_STATUS
+	err := copied.AssignProperties_To_WebTestPropertiesConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_Configuration_STATUS
-	err = actual.AssignProperties_From_WebTestProperties_Configuration_STATUS(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -706,7 +706,7 @@ func Test_WebTestProperties_Request_WhenPropertiesConverted_RoundTripsWithoutLos
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_Request to WebTestProperties_Request via AssignProperties_To_WebTestProperties_Request & AssignProperties_From_WebTestProperties_Request returns original",
+		"Round trip from WebTestProperties_Request to WebTestPropertiesRequest via AssignProperties_To_WebTestPropertiesRequest & AssignProperties_From_WebTestPropertiesRequest returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Request, WebTestProperties_RequestGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -717,15 +717,15 @@ func RunPropertyAssignmentTestForWebTestProperties_Request(subject WebTestProper
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_Request
-	err := copied.AssignProperties_To_WebTestProperties_Request(&other)
+	var other storage.WebTestPropertiesRequest
+	err := copied.AssignProperties_To_WebTestPropertiesRequest(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_Request
-	err = actual.AssignProperties_From_WebTestProperties_Request(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesRequest(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -837,7 +837,7 @@ func Test_WebTestProperties_Request_STATUS_WhenPropertiesConverted_RoundTripsWit
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_Request_STATUS to WebTestProperties_Request_STATUS via AssignProperties_To_WebTestProperties_Request_STATUS & AssignProperties_From_WebTestProperties_Request_STATUS returns original",
+		"Round trip from WebTestProperties_Request_STATUS to WebTestPropertiesRequest_STATUS via AssignProperties_To_WebTestPropertiesRequest_STATUS & AssignProperties_From_WebTestPropertiesRequest_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Request_STATUS, WebTestProperties_Request_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -848,15 +848,15 @@ func RunPropertyAssignmentTestForWebTestProperties_Request_STATUS(subject WebTes
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_Request_STATUS
-	err := copied.AssignProperties_To_WebTestProperties_Request_STATUS(&other)
+	var other storage.WebTestPropertiesRequest_STATUS
+	err := copied.AssignProperties_To_WebTestPropertiesRequest_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_Request_STATUS
-	err = actual.AssignProperties_From_WebTestProperties_Request_STATUS(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesRequest_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -968,7 +968,7 @@ func Test_WebTestProperties_ValidationRules_WhenPropertiesConverted_RoundTripsWi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_ValidationRules to WebTestProperties_ValidationRules via AssignProperties_To_WebTestProperties_ValidationRules & AssignProperties_From_WebTestProperties_ValidationRules returns original",
+		"Round trip from WebTestProperties_ValidationRules to WebTestPropertiesValidationRules via AssignProperties_To_WebTestPropertiesValidationRules & AssignProperties_From_WebTestPropertiesValidationRules returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules, WebTestProperties_ValidationRulesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -979,15 +979,15 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules(subject WebTe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_ValidationRules
-	err := copied.AssignProperties_To_WebTestProperties_ValidationRules(&other)
+	var other storage.WebTestPropertiesValidationRules
+	err := copied.AssignProperties_To_WebTestPropertiesValidationRules(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_ValidationRules
-	err = actual.AssignProperties_From_WebTestProperties_ValidationRules(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesValidationRules(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1098,7 +1098,7 @@ func Test_WebTestProperties_ValidationRules_ContentValidation_WhenPropertiesConv
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_ValidationRules_ContentValidation to WebTestProperties_ValidationRules_ContentValidation via AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation & AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation returns original",
+		"Round trip from WebTestProperties_ValidationRules_ContentValidation to WebTestPropertiesValidationRulesContentValidation via AssignProperties_To_WebTestPropertiesValidationRulesContentValidation & AssignProperties_From_WebTestPropertiesValidationRulesContentValidation returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation, WebTestProperties_ValidationRules_ContentValidationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1109,15 +1109,15 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValida
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_ValidationRules_ContentValidation
-	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation(&other)
+	var other storage.WebTestPropertiesValidationRulesContentValidation
+	err := copied.AssignProperties_To_WebTestPropertiesValidationRulesContentValidation(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_ValidationRules_ContentValidation
-	err = actual.AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesValidationRulesContentValidation(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1213,7 +1213,7 @@ func Test_WebTestProperties_ValidationRules_ContentValidation_STATUS_WhenPropert
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_ValidationRules_ContentValidation_STATUS to WebTestProperties_ValidationRules_ContentValidation_STATUS via AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS & AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS returns original",
+		"Round trip from WebTestProperties_ValidationRules_ContentValidation_STATUS to WebTestPropertiesValidationRulesContentValidation_STATUS via AssignProperties_To_WebTestPropertiesValidationRulesContentValidation_STATUS & AssignProperties_From_WebTestPropertiesValidationRulesContentValidation_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation_STATUS, WebTestProperties_ValidationRules_ContentValidation_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1224,15 +1224,15 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValida
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_ValidationRules_ContentValidation_STATUS
-	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS(&other)
+	var other storage.WebTestPropertiesValidationRulesContentValidation_STATUS
+	err := copied.AssignProperties_To_WebTestPropertiesValidationRulesContentValidation_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_ValidationRules_ContentValidation_STATUS
-	err = actual.AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesValidationRulesContentValidation_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1328,7 +1328,7 @@ func Test_WebTestProperties_ValidationRules_STATUS_WhenPropertiesConverted_Round
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_ValidationRules_STATUS to WebTestProperties_ValidationRules_STATUS via AssignProperties_To_WebTestProperties_ValidationRules_STATUS & AssignProperties_From_WebTestProperties_ValidationRules_STATUS returns original",
+		"Round trip from WebTestProperties_ValidationRules_STATUS to WebTestPropertiesValidationRules_STATUS via AssignProperties_To_WebTestPropertiesValidationRules_STATUS & AssignProperties_From_WebTestPropertiesValidationRules_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS, WebTestProperties_ValidationRules_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1339,15 +1339,15 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_ValidationRules_STATUS
-	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_STATUS(&other)
+	var other storage.WebTestPropertiesValidationRules_STATUS
+	err := copied.AssignProperties_To_WebTestPropertiesValidationRules_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_ValidationRules_STATUS
-	err = actual.AssignProperties_From_WebTestProperties_ValidationRules_STATUS(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesValidationRules_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}

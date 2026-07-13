@@ -11,6 +11,7 @@ typeTransformers:
     property: ArmResourceId
     remove: true
     because: it is supposed to be marked ReadOnly in Swagger
+
 groupModelConfiguration:
   2021-07-01:
     AksNetworkingConfiguration:

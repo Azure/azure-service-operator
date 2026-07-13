@@ -2,6 +2,7 @@ typeFilters:
   - action: include
     version: v*20210401preview
     because: We want to support keyvault which is only available in preview version
+
 typeTransformers:
   #
   # In the group 'keyvault',
@@ -18,6 +19,7 @@ typeTransformers:
           - createOrRecover
           - purgeThenCreate
     because: "We're adding two new options to allow KeyVaults to goal-seek"
+
 groupModelConfiguration:
   2021-04-01-preview:
     Vault:

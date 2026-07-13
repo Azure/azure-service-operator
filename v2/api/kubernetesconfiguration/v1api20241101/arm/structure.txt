@@ -15,7 +15,7 @@ Extension_STATUS: Object (7 properties)
 │   ├── PromotionCode: *string
 │   ├── Publisher: *string
 │   └── Version: *string
-├── Properties: *Object (14 properties)
+├── Properties: *Object (15 properties)
 │   ├── AksAssignedIdentity: *Object (3 properties)
 │   │   ├── PrincipalId: *string
 │   │   ├── TenantId: *string
@@ -44,6 +44,13 @@ Extension_STATUS: Object (7 properties)
 │   ├── ExtensionType: *string
 │   ├── IsSystemExtension: *bool
 │   ├── PackageUri: *string
+│   ├── ProvisioningState: *Enum (6 values)
+│   │   ├── "Canceled"
+│   │   ├── "Creating"
+│   │   ├── "Deleting"
+│   │   ├── "Failed"
+│   │   ├── "Succeeded"
+│   │   └── "Updating"
 │   ├── ReleaseTrain: *string
 │   ├── Scope: *Object (2 properties)
 │   │   ├── Cluster: *Object (1 property)
@@ -77,7 +84,7 @@ Extension_STATUS: Object (7 properties)
 │       └── "User"
 └── Type: *string
 
-Extension_Spec: Object (5 properties)
+Extension_Spec: Object (4 properties)
 ├── Identity: *Object (1 property)
 │   └── Type: *Enum (1 value)
 │       └── "SystemAssigned"
@@ -88,39 +95,33 @@ Extension_Spec: Object (5 properties)
 │   ├── PromotionCode: *string
 │   ├── Publisher: *string
 │   └── Version: *string
-├── Properties: *Object (8 properties)
-│   ├── AksAssignedIdentity: *Object (1 property)
-│   │   └── Type: *Enum (2 values)
-│   │       ├── "SystemAssigned"
-│   │       └── "UserAssigned"
-│   ├── AutoUpgradeMinorVersion: *bool
-│   ├── ConfigurationProtectedSettings: map[string]string
-│   ├── ConfigurationSettings: map[string]string
-│   ├── ExtensionType: *string
-│   ├── ReleaseTrain: *string
-│   ├── Scope: *Object (2 properties)
-│   │   ├── Cluster: *Object (1 property)
-│   │   │   └── ReleaseNamespace: *string
-│   │   └── Namespace: *Object (1 property)
-│   │       └── TargetNamespace: *string
-│   └── Version: *string
-└── SystemData: *Object (6 properties)
-    ├── CreatedAt: *string
-    ├── CreatedBy: *string
-    ├── CreatedByType: *Enum (4 values)
-    │   ├── "Application"
-    │   ├── "Key"
-    │   ├── "ManagedIdentity"
-    │   └── "User"
-    ├── LastModifiedAt: *string
-    ├── LastModifiedBy: *string
-    └── LastModifiedByType: *Enum (4 values)
-        ├── "Application"
-        ├── "Key"
-        ├── "ManagedIdentity"
-        └── "User"
+└── Properties: *Object (9 properties)
+    ├── AksAssignedIdentity: *Object (1 property)
+    │   └── Type: *Enum (2 values)
+    │       ├── "SystemAssigned"
+    │       └── "UserAssigned"
+    ├── AutoUpgradeMinorVersion: *bool
+    ├── ConfigurationProtectedSettings: map[string]string
+    ├── ConfigurationSettings: map[string]string
+    ├── ExtensionType: *string
+    ├── ReleaseTrain: *string
+    ├── Scope: *Object (2 properties)
+    │   ├── Cluster: *Object (1 property)
+    │   │   └── ReleaseNamespace: *string
+    │   └── Namespace: *Object (1 property)
+    │       └── TargetNamespace: *string
+    ├── Statuses: Object (5 properties)[]
+    │   ├── Code: *string
+    │   ├── DisplayStatus: *string
+    │   ├── Level: *Enum (3 values)
+    │   │   ├── "Error"
+    │   │   ├── "Information"
+    │   │   └── "Warning"
+    │   ├── Message: *string
+    │   └── Time: *string
+    └── Version: *string
 
-FluxConfiguration_STATUS: Object (4 properties)
+FluxConfiguration_STATUS: Object (5 properties)
 ├── Id: *string
 ├── Name: *string
 ├── Properties: *Object (19 properties)
@@ -249,6 +250,21 @@ FluxConfiguration_STATUS: Object (4 properties)
 │   │       └── Type: *string
 │   ├── Suspend: *bool
 │   └── WaitForReconciliation: *bool
+├── SystemData: *Object (6 properties)
+│   ├── CreatedAt: *string
+│   ├── CreatedBy: *string
+│   ├── CreatedByType: *Enum (4 values)
+│   │   ├── "Application"
+│   │   ├── "Key"
+│   │   ├── "ManagedIdentity"
+│   │   └── "User"
+│   ├── LastModifiedAt: *string
+│   ├── LastModifiedBy: *string
+│   └── LastModifiedByType: *Enum (4 values)
+│       ├── "Application"
+│       ├── "Key"
+│       ├── "ManagedIdentity"
+│       └── "User"
 └── Type: *string
 
 FluxConfiguration_Spec: Object (2 properties)

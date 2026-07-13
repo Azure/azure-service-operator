@@ -37,7 +37,7 @@ func (webtest *Webtest_Spec) GetType() string {
 // Metadata describing a web test for an Azure resource.
 type WebTestProperties struct {
 	// Configuration: An XML configuration specification for a WebTest.
-	Configuration *WebTestProperties_Configuration `json:"Configuration,omitempty"`
+	Configuration *WebTestPropertiesConfiguration `json:"Configuration,omitempty"`
 
 	// Description: User defined description for this WebTest.
 	Description *string `json:"Description,omitempty"`
@@ -59,7 +59,7 @@ type WebTestProperties struct {
 	Name *string `json:"Name,omitempty"`
 
 	// Request: The collection of request properties
-	Request *WebTestProperties_Request `json:"Request,omitempty"`
+	Request *WebTestPropertiesRequest `json:"Request,omitempty"`
 
 	// RetryEnabled: Allow for retries should this WebTest fail.
 	RetryEnabled *bool `json:"RetryEnabled,omitempty"`
@@ -71,18 +71,13 @@ type WebTestProperties struct {
 	Timeout *int `json:"Timeout,omitempty"`
 
 	// ValidationRules: The collection of validation rule properties
-	ValidationRules *WebTestProperties_ValidationRules `json:"ValidationRules,omitempty"`
+	ValidationRules *WebTestPropertiesValidationRules `json:"ValidationRules,omitempty"`
 }
 
 // Geo-physical location to run a WebTest from. You must specify one or more locations for the test to run from.
 type WebTestGeolocation struct {
 	// Id: Location ID for the WebTest to run from.
 	Id *string `json:"Id,omitempty"`
-}
-
-type WebTestProperties_Configuration struct {
-	// WebTest: The XML specification of a WebTest to run against an application.
-	WebTest *string `json:"WebTest,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"multistep","ping","standard"}
@@ -101,7 +96,14 @@ var webTestProperties_Kind_Values = map[string]WebTestProperties_Kind{
 	"standard":  WebTestProperties_Kind_Standard,
 }
 
-type WebTestProperties_Request struct {
+// An XML configuration specification for a WebTest.
+type WebTestPropertiesConfiguration struct {
+	// WebTest: The XML specification of a WebTest to run against an application.
+	WebTest *string `json:"WebTest,omitempty"`
+}
+
+// The collection of request properties
+type WebTestPropertiesRequest struct {
 	// FollowRedirects: Follow redirects for this web test.
 	FollowRedirects *bool `json:"FollowRedirects,omitempty"`
 
@@ -121,9 +123,10 @@ type WebTestProperties_Request struct {
 	RequestUrl *string `json:"RequestUrl,omitempty"`
 }
 
-type WebTestProperties_ValidationRules struct {
+// The collection of validation rule properties
+type WebTestPropertiesValidationRules struct {
 	// ContentValidation: The collection of content validation properties
-	ContentValidation *WebTestProperties_ValidationRules_ContentValidation `json:"ContentValidation,omitempty"`
+	ContentValidation *WebTestPropertiesValidationRulesContentValidation `json:"ContentValidation,omitempty"`
 
 	// ExpectedHttpStatusCode: Validate that the WebTest returns the http status code provided.
 	ExpectedHttpStatusCode *int `json:"ExpectedHttpStatusCode,omitempty"`
@@ -148,7 +151,8 @@ type HeaderField struct {
 	Value *string `json:"value,omitempty"`
 }
 
-type WebTestProperties_ValidationRules_ContentValidation struct {
+// The collection of content validation properties
+type WebTestPropertiesValidationRulesContentValidation struct {
 	// ContentMatch: Content to look for in the return of the WebTest.  Must not be null or empty.
 	ContentMatch *string `json:"ContentMatch,omitempty"`
 

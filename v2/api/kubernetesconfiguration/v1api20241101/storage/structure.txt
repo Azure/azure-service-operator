@@ -43,16 +43,15 @@ Extension: Resource
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── TargetNamespace: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
-│   ├── SystemData: *Object (7 properties)
-│   │   ├── CreatedAt: *string
-│   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: *string
-│   │   ├── LastModifiedAt: *string
-│   │   ├── LastModifiedBy: *string
-│   │   ├── LastModifiedByType: *string
-│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── Statuses: Object (6 properties)[]
+│   │   ├── Code: *string
+│   │   ├── DisplayStatus: *string
+│   │   ├── Level: *string
+│   │   ├── Message: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── Time: *string
 │   └── Version: *string
-└── Status: Object (22 properties)
+└── Status: Object (23 properties)
     ├── AksAssignedIdentity: *Object (4 properties)
     │   ├── PrincipalId: *string
     │   ├── PropertyBag: genruntime.PropertyBag
@@ -100,6 +99,7 @@ Extension: Resource
     │   ├── Publisher: *string
     │   └── Version: *string
     ├── PropertyBag: genruntime.PropertyBag
+    ├── ProvisioningState: *string
     ├── ReleaseTrain: *string
     ├── Scope: *Object (3 properties)
     │   ├── Cluster: *Object (2 properties)
@@ -240,7 +240,7 @@ FluxConfiguration: Resource
 │   ├── SourceKind: *string
 │   ├── Suspend: *bool
 │   └── WaitForReconciliation: *bool
-└── Status: Object (24 properties)
+└── Status: Object (25 properties)
     ├── AzureBlob: *Object (8 properties)
     │   ├── ContainerName: *string
     │   ├── LocalAuthRef: *string
@@ -369,6 +369,14 @@ FluxConfiguration: Resource
     │       ├── Status: *string
     │       └── Type: *string
     ├── Suspend: *bool
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     ├── Type: *string
     └── WaitForReconciliation: *bool
 

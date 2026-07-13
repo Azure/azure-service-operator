@@ -13,7 +13,8 @@ Workspace: Resource
 │   │   └── Rule 2: Pattern: "^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
 │   ├── DefaultDataCollectionRuleResourceReference: *genruntime.ResourceReference
 │   ├── Etag: *string
-│   ├── Features: *Object (5 properties)
+│   ├── Features: *Object (6 properties)
+│   │   ├── AdditionalProperties: map[string]v1.JSON
 │   │   ├── ClusterResourceReference: *genruntime.ResourceReference
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── EnableDataExport: *bool
@@ -75,7 +76,8 @@ Workspace: Resource
     │       ├── "Deactivating"
     │       ├── "Failed"
     │       └── "Inactive"
-    ├── Features: *Object (7 properties)
+    ├── Features: *Object (8 properties)
+    │   ├── AdditionalProperties: map[string]v1.JSON
     │   ├── Associations: string[]
     │   ├── ClusterResourceId: *string
     │   ├── DisableLocalAuth: *bool

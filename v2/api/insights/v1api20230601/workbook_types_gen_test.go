@@ -1021,7 +1021,7 @@ func AddIndependentPropertyGeneratorsForWorkbook_STATUS(gens map[string]gopter.G
 	gens["DisplayName"] = gen.PtrOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Workbook_Kind_STATUS_Shared))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS_Shared))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PropertiesTags"] = gen.SliceOf(gen.AlphaString())

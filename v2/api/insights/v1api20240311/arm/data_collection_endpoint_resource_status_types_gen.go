@@ -8,19 +8,20 @@ type DataCollectionEndpointResource_STATUS struct {
 	// Etag: Resource entity tag (ETag).
 	Etag *string `json:"etag,omitempty"`
 
-	// Id: Fully qualified ID of the resource.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: Managed service identity of the resource.
 	Identity *ManagedServiceIdentity_STATUS `json:"identity,omitempty"`
 
 	// Kind: The kind of the resource.
-	Kind *DataCollectionEndpointResource_Kind_STATUS `json:"kind,omitempty"`
+	Kind *KnownDataCollectionEndpointResourceKind_STATUS `json:"kind,omitempty"`
 
-	// Location: The geo-location where the resource lives.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Name: The name of the resource.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Definition of data collection endpoint.
@@ -29,13 +30,13 @@ type DataCollectionEndpointResource_STATUS struct {
 	// Sku: The SKU of the resource.
 	Sku *Sku_STATUS `json:"sku,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: The type of the resource.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -72,20 +73,21 @@ type DataCollectionEndpoint_STATUS struct {
 	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUS `json:"privateLinkScopedResources,omitempty"`
 
 	// ProvisioningState: The resource provisioning state. This property is READ-ONLY.
-	ProvisioningState *DataCollectionEndpoint_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *KnownDataCollectionEndpointProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type DataCollectionEndpointResource_Kind_STATUS string
+// The kind of the resource.
+type KnownDataCollectionEndpointResourceKind_STATUS string
 
 const (
-	DataCollectionEndpointResource_Kind_STATUS_Linux   = DataCollectionEndpointResource_Kind_STATUS("Linux")
-	DataCollectionEndpointResource_Kind_STATUS_Windows = DataCollectionEndpointResource_Kind_STATUS("Windows")
+	KnownDataCollectionEndpointResourceKind_STATUS_Linux   = KnownDataCollectionEndpointResourceKind_STATUS("Linux")
+	KnownDataCollectionEndpointResourceKind_STATUS_Windows = KnownDataCollectionEndpointResourceKind_STATUS("Windows")
 )
 
-// Mapping from string to DataCollectionEndpointResource_Kind_STATUS
-var dataCollectionEndpointResource_Kind_STATUS_Values = map[string]DataCollectionEndpointResource_Kind_STATUS{
-	"linux":   DataCollectionEndpointResource_Kind_STATUS_Linux,
-	"windows": DataCollectionEndpointResource_Kind_STATUS_Windows,
+// Mapping from string to KnownDataCollectionEndpointResourceKind_STATUS
+var knownDataCollectionEndpointResourceKind_STATUS_Values = map[string]KnownDataCollectionEndpointResourceKind_STATUS{
+	"linux":   KnownDataCollectionEndpointResourceKind_STATUS_Linux,
+	"windows": KnownDataCollectionEndpointResourceKind_STATUS_Windows,
 }
 
 // Managed service identity (system assigned and/or user assigned identities)
@@ -112,7 +114,7 @@ type Sku_STATUS struct {
 	// Family: If the service has different generations of hardware, for the same SKU, then that can be captured here.
 	Family *string `json:"family,omitempty"`
 
-	// Name: The name of the SKU. E.g. P3. It is typically a letter+number code
+	// Name: The name of the SKU. Ex - P3. It is typically a letter+number code
 	Name *string `json:"name,omitempty"`
 
 	// Size: The SKU size. When the name field is the combination of tier and some other value, this would be the standalone
@@ -151,33 +153,34 @@ type ConfigurationAccessEndpointSpec_STATUS struct {
 	Endpoint *string `json:"endpoint,omitempty"`
 }
 
-type DataCollectionEndpoint_ProvisioningState_STATUS string
-
-const (
-	DataCollectionEndpoint_ProvisioningState_STATUS_Canceled  = DataCollectionEndpoint_ProvisioningState_STATUS("Canceled")
-	DataCollectionEndpoint_ProvisioningState_STATUS_Creating  = DataCollectionEndpoint_ProvisioningState_STATUS("Creating")
-	DataCollectionEndpoint_ProvisioningState_STATUS_Deleting  = DataCollectionEndpoint_ProvisioningState_STATUS("Deleting")
-	DataCollectionEndpoint_ProvisioningState_STATUS_Failed    = DataCollectionEndpoint_ProvisioningState_STATUS("Failed")
-	DataCollectionEndpoint_ProvisioningState_STATUS_Succeeded = DataCollectionEndpoint_ProvisioningState_STATUS("Succeeded")
-	DataCollectionEndpoint_ProvisioningState_STATUS_Updating  = DataCollectionEndpoint_ProvisioningState_STATUS("Updating")
-)
-
-// Mapping from string to DataCollectionEndpoint_ProvisioningState_STATUS
-var dataCollectionEndpoint_ProvisioningState_STATUS_Values = map[string]DataCollectionEndpoint_ProvisioningState_STATUS{
-	"canceled":  DataCollectionEndpoint_ProvisioningState_STATUS_Canceled,
-	"creating":  DataCollectionEndpoint_ProvisioningState_STATUS_Creating,
-	"deleting":  DataCollectionEndpoint_ProvisioningState_STATUS_Deleting,
-	"failed":    DataCollectionEndpoint_ProvisioningState_STATUS_Failed,
-	"succeeded": DataCollectionEndpoint_ProvisioningState_STATUS_Succeeded,
-	"updating":  DataCollectionEndpoint_ProvisioningState_STATUS_Updating,
-}
-
 type FailoverConfigurationSpec_STATUS struct {
 	// ActiveLocation: Active location where data flow will occur.
 	ActiveLocation *string `json:"activeLocation,omitempty"`
 
 	// Locations: Locations that are configured for failover.
 	Locations []LocationSpec_STATUS `json:"locations,omitempty"`
+}
+
+// The resource provisioning state. This property is READ-ONLY.
+type KnownDataCollectionEndpointProvisioningState_STATUS string
+
+const (
+	KnownDataCollectionEndpointProvisioningState_STATUS_Canceled  = KnownDataCollectionEndpointProvisioningState_STATUS("Canceled")
+	KnownDataCollectionEndpointProvisioningState_STATUS_Creating  = KnownDataCollectionEndpointProvisioningState_STATUS("Creating")
+	KnownDataCollectionEndpointProvisioningState_STATUS_Deleting  = KnownDataCollectionEndpointProvisioningState_STATUS("Deleting")
+	KnownDataCollectionEndpointProvisioningState_STATUS_Failed    = KnownDataCollectionEndpointProvisioningState_STATUS("Failed")
+	KnownDataCollectionEndpointProvisioningState_STATUS_Succeeded = KnownDataCollectionEndpointProvisioningState_STATUS("Succeeded")
+	KnownDataCollectionEndpointProvisioningState_STATUS_Updating  = KnownDataCollectionEndpointProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to KnownDataCollectionEndpointProvisioningState_STATUS
+var knownDataCollectionEndpointProvisioningState_STATUS_Values = map[string]KnownDataCollectionEndpointProvisioningState_STATUS{
+	"canceled":  KnownDataCollectionEndpointProvisioningState_STATUS_Canceled,
+	"creating":  KnownDataCollectionEndpointProvisioningState_STATUS_Creating,
+	"deleting":  KnownDataCollectionEndpointProvisioningState_STATUS_Deleting,
+	"failed":    KnownDataCollectionEndpointProvisioningState_STATUS_Failed,
+	"succeeded": KnownDataCollectionEndpointProvisioningState_STATUS_Succeeded,
+	"updating":  KnownDataCollectionEndpointProvisioningState_STATUS_Updating,
 }
 
 // Definition of the endpoint used for ingesting logs.
@@ -225,7 +228,7 @@ type MetricsIngestionEndpointSpec_STATUS struct {
 // Definition of the network rules.
 type NetworkRuleSet_STATUS struct {
 	// PublicNetworkAccess: The configuration to set whether network access from public internet to the endpoints are allowed.
-	PublicNetworkAccess *NetworkRuleSet_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *KnownPublicNetworkAccessOptions_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
 type PrivateLinkScopedResource_STATUS struct {
@@ -299,46 +302,48 @@ type UserAssignedIdentity_STATUS struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
+// The configuration to set whether network access from public internet to the endpoints are allowed.
+type KnownPublicNetworkAccessOptions_STATUS string
+
+const (
+	KnownPublicNetworkAccessOptions_STATUS_Disabled           = KnownPublicNetworkAccessOptions_STATUS("Disabled")
+	KnownPublicNetworkAccessOptions_STATUS_Enabled            = KnownPublicNetworkAccessOptions_STATUS("Enabled")
+	KnownPublicNetworkAccessOptions_STATUS_SecuredByPerimeter = KnownPublicNetworkAccessOptions_STATUS("SecuredByPerimeter")
+)
+
+// Mapping from string to KnownPublicNetworkAccessOptions_STATUS
+var knownPublicNetworkAccessOptions_STATUS_Values = map[string]KnownPublicNetworkAccessOptions_STATUS{
+	"disabled":           KnownPublicNetworkAccessOptions_STATUS_Disabled,
+	"enabled":            KnownPublicNetworkAccessOptions_STATUS_Enabled,
+	"securedbyperimeter": KnownPublicNetworkAccessOptions_STATUS_SecuredByPerimeter,
+}
+
 type LocationSpec_STATUS struct {
 	// Location: Name of location.
 	Location *string `json:"location,omitempty"`
 
 	// ProvisioningStatus: The resource provisioning state in this location.
-	ProvisioningStatus *LocationSpec_ProvisioningStatus_STATUS `json:"provisioningStatus,omitempty"`
+	ProvisioningStatus *KnownLocationSpecProvisioningStatus_STATUS `json:"provisioningStatus,omitempty"`
 }
 
-type NetworkRuleSet_PublicNetworkAccess_STATUS string
+// The resource provisioning state in this location.
+type KnownLocationSpecProvisioningStatus_STATUS string
 
 const (
-	NetworkRuleSet_PublicNetworkAccess_STATUS_Disabled           = NetworkRuleSet_PublicNetworkAccess_STATUS("Disabled")
-	NetworkRuleSet_PublicNetworkAccess_STATUS_Enabled            = NetworkRuleSet_PublicNetworkAccess_STATUS("Enabled")
-	NetworkRuleSet_PublicNetworkAccess_STATUS_SecuredByPerimeter = NetworkRuleSet_PublicNetworkAccess_STATUS("SecuredByPerimeter")
+	KnownLocationSpecProvisioningStatus_STATUS_Canceled  = KnownLocationSpecProvisioningStatus_STATUS("Canceled")
+	KnownLocationSpecProvisioningStatus_STATUS_Creating  = KnownLocationSpecProvisioningStatus_STATUS("Creating")
+	KnownLocationSpecProvisioningStatus_STATUS_Deleting  = KnownLocationSpecProvisioningStatus_STATUS("Deleting")
+	KnownLocationSpecProvisioningStatus_STATUS_Failed    = KnownLocationSpecProvisioningStatus_STATUS("Failed")
+	KnownLocationSpecProvisioningStatus_STATUS_Succeeded = KnownLocationSpecProvisioningStatus_STATUS("Succeeded")
+	KnownLocationSpecProvisioningStatus_STATUS_Updating  = KnownLocationSpecProvisioningStatus_STATUS("Updating")
 )
 
-// Mapping from string to NetworkRuleSet_PublicNetworkAccess_STATUS
-var networkRuleSet_PublicNetworkAccess_STATUS_Values = map[string]NetworkRuleSet_PublicNetworkAccess_STATUS{
-	"disabled":           NetworkRuleSet_PublicNetworkAccess_STATUS_Disabled,
-	"enabled":            NetworkRuleSet_PublicNetworkAccess_STATUS_Enabled,
-	"securedbyperimeter": NetworkRuleSet_PublicNetworkAccess_STATUS_SecuredByPerimeter,
-}
-
-type LocationSpec_ProvisioningStatus_STATUS string
-
-const (
-	LocationSpec_ProvisioningStatus_STATUS_Canceled  = LocationSpec_ProvisioningStatus_STATUS("Canceled")
-	LocationSpec_ProvisioningStatus_STATUS_Creating  = LocationSpec_ProvisioningStatus_STATUS("Creating")
-	LocationSpec_ProvisioningStatus_STATUS_Deleting  = LocationSpec_ProvisioningStatus_STATUS("Deleting")
-	LocationSpec_ProvisioningStatus_STATUS_Failed    = LocationSpec_ProvisioningStatus_STATUS("Failed")
-	LocationSpec_ProvisioningStatus_STATUS_Succeeded = LocationSpec_ProvisioningStatus_STATUS("Succeeded")
-	LocationSpec_ProvisioningStatus_STATUS_Updating  = LocationSpec_ProvisioningStatus_STATUS("Updating")
-)
-
-// Mapping from string to LocationSpec_ProvisioningStatus_STATUS
-var locationSpec_ProvisioningStatus_STATUS_Values = map[string]LocationSpec_ProvisioningStatus_STATUS{
-	"canceled":  LocationSpec_ProvisioningStatus_STATUS_Canceled,
-	"creating":  LocationSpec_ProvisioningStatus_STATUS_Creating,
-	"deleting":  LocationSpec_ProvisioningStatus_STATUS_Deleting,
-	"failed":    LocationSpec_ProvisioningStatus_STATUS_Failed,
-	"succeeded": LocationSpec_ProvisioningStatus_STATUS_Succeeded,
-	"updating":  LocationSpec_ProvisioningStatus_STATUS_Updating,
+// Mapping from string to KnownLocationSpecProvisioningStatus_STATUS
+var knownLocationSpecProvisioningStatus_STATUS_Values = map[string]KnownLocationSpecProvisioningStatus_STATUS{
+	"canceled":  KnownLocationSpecProvisioningStatus_STATUS_Canceled,
+	"creating":  KnownLocationSpecProvisioningStatus_STATUS_Creating,
+	"deleting":  KnownLocationSpecProvisioningStatus_STATUS_Deleting,
+	"failed":    KnownLocationSpecProvisioningStatus_STATUS_Failed,
+	"succeeded": KnownLocationSpecProvisioningStatus_STATUS_Succeeded,
+	"updating":  KnownLocationSpecProvisioningStatus_STATUS_Updating,
 }
