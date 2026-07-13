@@ -286,6 +286,7 @@ func makeReferenceProperty(
 ) *astmodel.PropertyDefinition {
 	_, isSlice := astmodel.AsArrayType(property.PropertyType())
 	_, isMap := astmodel.AsMapType(property.PropertyType())
+	_, isOptional := astmodel.AsOptionalType(property.PropertyType())
 
 	var newPropType astmodel.Type
 
@@ -293,8 +294,10 @@ func makeReferenceProperty(
 		newPropType = astmodel.NewArrayType(newType)
 	} else if isMap {
 		newPropType = astmodel.NewMapType(astmodel.StringType, newType)
-	} else {
+	} else if isOptional {
 		newPropType = astmodel.NewOptionalType(newType)
+	} else {
+		newPropType = newType
 	}
 
 	// Apply flags

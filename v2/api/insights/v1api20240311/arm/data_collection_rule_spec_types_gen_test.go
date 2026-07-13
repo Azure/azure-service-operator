@@ -146,7 +146,7 @@ func AgentSettingGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAgentSetting is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAgentSetting(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(AgentSetting_Name_MaxDiskQuotaInMB, AgentSetting_Name_Tags, AgentSetting_Name_UseTimeReceivedForForwardedEvents))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(KnownAgentSettingName_MaxDiskQuotaInMB, KnownAgentSettingName_Tags, KnownAgentSettingName_UseTimeReceivedForForwardedEvents))
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -412,13 +412,13 @@ func ColumnDefinitionGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForColumnDefinition(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ColumnDefinition_Type_Boolean,
-		ColumnDefinition_Type_Datetime,
-		ColumnDefinition_Type_Dynamic,
-		ColumnDefinition_Type_Int,
-		ColumnDefinition_Type_Long,
-		ColumnDefinition_Type_Real,
-		ColumnDefinition_Type_String))
+		KnownColumnDefinitionType_Boolean,
+		KnownColumnDefinitionType_Datetime,
+		KnownColumnDefinitionType_Dynamic,
+		KnownColumnDefinitionType_Int,
+		KnownColumnDefinitionType_Long,
+		KnownColumnDefinitionType_Real,
+		KnownColumnDefinitionType_String))
 }
 
 func Test_DataCollectionRuleSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -582,7 +582,7 @@ func DataCollectionRule_SpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDataCollectionRule_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataCollectionRule_Spec(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DataCollectionRule_Kind_Spec_Linux, DataCollectionRule_Kind_Spec_Windows))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(KnownDataCollectionRuleResourceKind_Linux, KnownDataCollectionRuleResourceKind_Windows))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(
@@ -1084,14 +1084,14 @@ func AddIndependentPropertyGeneratorsForEtwProviderDataSource(gens map[string]go
 	gens["EventIds"] = gen.SliceOf(gen.AlphaString())
 	gens["Keyword"] = gen.PtrOf(gen.AlphaString())
 	gens["LogLevel"] = gen.PtrOf(gen.OneConstOf(
-		EtwProviderDataSource_LogLevel_Critical,
-		EtwProviderDataSource_LogLevel_Error,
-		EtwProviderDataSource_LogLevel_Informational,
-		EtwProviderDataSource_LogLevel_Verbose,
-		EtwProviderDataSource_LogLevel_Warning))
+		KnownEtwProviderDataSourceLogLevel_Critical,
+		KnownEtwProviderDataSourceLogLevel_Error,
+		KnownEtwProviderDataSourceLogLevel_Informational,
+		KnownEtwProviderDataSourceLogLevel_Verbose,
+		KnownEtwProviderDataSourceLogLevel_Warning))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Provider"] = gen.PtrOf(gen.AlphaString())
-	gens["ProviderType"] = gen.PtrOf(gen.OneConstOf(EtwProviderDataSource_ProviderType_EventSource, EtwProviderDataSource_ProviderType_Manifest))
+	gens["ProviderType"] = gen.PtrOf(gen.OneConstOf(KnownEtwProviderType_EventSource, KnownEtwProviderType_Manifest))
 	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -1629,15 +1629,15 @@ func LogFileTextSettingsGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLogFileTextSettings is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogFileTextSettings(gens map[string]gopter.Gen) {
 	gens["RecordStartTimestampFormat"] = gen.PtrOf(gen.OneConstOf(
-		LogFileTextSettings_RecordStartTimestampFormat_DdMMMYyyyHHMmSsZzz,
-		LogFileTextSettings_RecordStartTimestampFormat_DdMMyyHHMmSs,
-		LogFileTextSettings_RecordStartTimestampFormat_ISO8601,
-		LogFileTextSettings_RecordStartTimestampFormat_MDYYYYHHMMSSAMPM,
-		LogFileTextSettings_RecordStartTimestampFormat_MMMDHhMmSs,
-		LogFileTextSettings_RecordStartTimestampFormat_MonDDYYYYHHMMSS,
-		LogFileTextSettings_RecordStartTimestampFormat_YYYYMMDDHHMMSS,
-		LogFileTextSettings_RecordStartTimestampFormat_YyMMddHHMmSs,
-		LogFileTextSettings_RecordStartTimestampFormat_YyyyMMDdTHHMmSsK))
+		KnownLogFileTextSettingsRecordStartTimestampFormat_DdMMMYyyyHHMmSsZzz,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_DdMMyyHHMmSs,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_ISO8601,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_MDYYYYHHMMSSAMPM,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_MMMDHhMmSs,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_MonDDYYYYHHMMSS,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_YYYYMMDDHHMMSS,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_YyMMddHHMmSs,
+		KnownLogFileTextSettingsRecordStartTimestampFormat_YyyyMMDdTHHMmSsK))
 }
 
 func Test_LogFilesDataSource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1712,7 +1712,7 @@ func LogFilesDataSourceGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLogFilesDataSource is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLogFilesDataSource(gens map[string]gopter.Gen) {
 	gens["FilePatterns"] = gen.SliceOf(gen.AlphaString())
-	gens["Format"] = gen.PtrOf(gen.OneConstOf(LogFilesDataSource_Format_Json, LogFilesDataSource_Format_Text))
+	gens["Format"] = gen.PtrOf(gen.OneConstOf(KnownLogFilesDataSourceFormat_Json, KnownLogFilesDataSourceFormat_Text))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
@@ -2002,7 +2002,7 @@ func AddIndependentPropertyGeneratorsForOtelLogsDataSource(gens map[string]gopte
 	gens["EnrichWithResourceAttributes"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplaceResourceIdWithReference"] = gen.PtrOf(gen.Bool())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(OtelLogsDataSource_Streams_MicrosoftOTelLogs))
+	gens["Streams"] = gen.SliceOf(gen.OneConstOf(KnownOtelLogsDataSourceStreams_MicrosoftOTelLogs))
 }
 
 // AddRelatedPropertyGeneratorsForOtelLogsDataSource is a factory method for creating gopter generators
@@ -2077,7 +2077,7 @@ func AddIndependentPropertyGeneratorsForOtelLogsDirectDataSource(gens map[string
 	gens["EnrichWithResourceAttributes"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplaceResourceIdWithReference"] = gen.PtrOf(gen.Bool())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(OtelLogsDirectDataSource_Streams_MicrosoftOTelLogs))
+	gens["Streams"] = gen.SliceOf(gen.OneConstOf(KnownOtelLogsDirectDataSourceStreams_MicrosoftOTelLogs))
 }
 
 func Test_OtelMetricsDataSource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2308,7 +2308,7 @@ func AddIndependentPropertyGeneratorsForOtelTracesDataSource(gens map[string]gop
 	gens["EnrichWithResourceAttributes"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplaceResourceIdWithReference"] = gen.PtrOf(gen.Bool())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(OtelTracesDataSource_Streams_MicrosoftOTelTracesEvents, OtelTracesDataSource_Streams_MicrosoftOTelTracesResources, OtelTracesDataSource_Streams_MicrosoftOTelTracesSpans))
+	gens["Streams"] = gen.SliceOf(gen.OneConstOf(KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesEvents, KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesResources, KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesSpans))
 }
 
 // AddRelatedPropertyGeneratorsForOtelTracesDataSource is a factory method for creating gopter generators
@@ -2383,7 +2383,7 @@ func AddIndependentPropertyGeneratorsForOtelTracesDirectDataSource(gens map[stri
 	gens["EnrichWithResourceAttributes"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplaceResourceIdWithReference"] = gen.PtrOf(gen.Bool())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesEvents, OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesResources, OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesSpans))
+	gens["Streams"] = gen.SliceOf(gen.OneConstOf(KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesEvents, KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesResources, KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesSpans))
 }
 
 func Test_PerfCounterDataSource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2522,7 +2522,7 @@ func AddIndependentPropertyGeneratorsForPerformanceCountersOTelDataSource(gens m
 	gens["CounterSpecifiers"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["SamplingFrequencyInSeconds"] = gen.PtrOf(gen.Int())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(PerformanceCountersOTelDataSource_Streams_MicrosoftOtelPerfMetrics))
+	gens["Streams"] = gen.SliceOf(gen.OneConstOf(KnownPerformanceCountersOTelDataSourceStreams_MicrosoftOtelPerfMetrics))
 }
 
 func Test_PlatformTelemetryDataSource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2791,7 +2791,7 @@ func StorageBlobGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageBlob is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageBlob(gens map[string]gopter.Gen) {
 	gens["BlobUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["LookupType"] = gen.PtrOf(gen.OneConstOf(StorageBlob_LookupType_Cidr, StorageBlob_LookupType_String))
+	gens["LookupType"] = gen.PtrOf(gen.OneConstOf(KnownStorageBlobLookupType_Cidr, KnownStorageBlobLookupType_String))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -3060,43 +3060,43 @@ func SyslogDataSourceGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSyslogDataSource is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSyslogDataSource(gens map[string]gopter.Gen) {
 	gens["FacilityNames"] = gen.SliceOf(gen.OneConstOf(
-		SyslogDataSource_FacilityNames_Alert,
-		SyslogDataSource_FacilityNames_Audit,
-		SyslogDataSource_FacilityNames_Auth,
-		SyslogDataSource_FacilityNames_Authpriv,
-		SyslogDataSource_FacilityNames_Clock,
-		SyslogDataSource_FacilityNames_Cron,
-		SyslogDataSource_FacilityNames_Daemon,
-		SyslogDataSource_FacilityNames_Ftp,
-		SyslogDataSource_FacilityNames_Kern,
-		SyslogDataSource_FacilityNames_Local0,
-		SyslogDataSource_FacilityNames_Local1,
-		SyslogDataSource_FacilityNames_Local2,
-		SyslogDataSource_FacilityNames_Local3,
-		SyslogDataSource_FacilityNames_Local4,
-		SyslogDataSource_FacilityNames_Local5,
-		SyslogDataSource_FacilityNames_Local6,
-		SyslogDataSource_FacilityNames_Local7,
-		SyslogDataSource_FacilityNames_Lpr,
-		SyslogDataSource_FacilityNames_Mail,
-		SyslogDataSource_FacilityNames_Mark,
-		SyslogDataSource_FacilityNames_News,
-		SyslogDataSource_FacilityNames_Nopri,
-		SyslogDataSource_FacilityNames_Ntp,
-		SyslogDataSource_FacilityNames_Star,
-		SyslogDataSource_FacilityNames_Syslog,
-		SyslogDataSource_FacilityNames_User,
-		SyslogDataSource_FacilityNames_Uucp))
+		KnownSyslogDataSourceFacilityNames_Alert,
+		KnownSyslogDataSourceFacilityNames_Audit,
+		KnownSyslogDataSourceFacilityNames_Auth,
+		KnownSyslogDataSourceFacilityNames_Authpriv,
+		KnownSyslogDataSourceFacilityNames_Clock,
+		KnownSyslogDataSourceFacilityNames_Cron,
+		KnownSyslogDataSourceFacilityNames_Daemon,
+		KnownSyslogDataSourceFacilityNames_Ftp,
+		KnownSyslogDataSourceFacilityNames_Kern,
+		KnownSyslogDataSourceFacilityNames_Local0,
+		KnownSyslogDataSourceFacilityNames_Local1,
+		KnownSyslogDataSourceFacilityNames_Local2,
+		KnownSyslogDataSourceFacilityNames_Local3,
+		KnownSyslogDataSourceFacilityNames_Local4,
+		KnownSyslogDataSourceFacilityNames_Local5,
+		KnownSyslogDataSourceFacilityNames_Local6,
+		KnownSyslogDataSourceFacilityNames_Local7,
+		KnownSyslogDataSourceFacilityNames_Lpr,
+		KnownSyslogDataSourceFacilityNames_Mail,
+		KnownSyslogDataSourceFacilityNames_Mark,
+		KnownSyslogDataSourceFacilityNames_News,
+		KnownSyslogDataSourceFacilityNames_Nopri,
+		KnownSyslogDataSourceFacilityNames_Ntp,
+		KnownSyslogDataSourceFacilityNames_Star,
+		KnownSyslogDataSourceFacilityNames_Syslog,
+		KnownSyslogDataSourceFacilityNames_User,
+		KnownSyslogDataSourceFacilityNames_Uucp))
 	gens["LogLevels"] = gen.SliceOf(gen.OneConstOf(
-		SyslogDataSource_LogLevels_Alert,
-		SyslogDataSource_LogLevels_Critical,
-		SyslogDataSource_LogLevels_Debug,
-		SyslogDataSource_LogLevels_Emergency,
-		SyslogDataSource_LogLevels_Error,
-		SyslogDataSource_LogLevels_Info,
-		SyslogDataSource_LogLevels_Notice,
-		SyslogDataSource_LogLevels_Star,
-		SyslogDataSource_LogLevels_Warning))
+		KnownSyslogDataSourceLogLevels_Alert,
+		KnownSyslogDataSourceLogLevels_Critical,
+		KnownSyslogDataSourceLogLevels_Debug,
+		KnownSyslogDataSourceLogLevels_Emergency,
+		KnownSyslogDataSourceLogLevels_Error,
+		KnownSyslogDataSourceLogLevels_Info,
+		KnownSyslogDataSourceLogLevels_Notice,
+		KnownSyslogDataSourceLogLevels_Star,
+		KnownSyslogDataSourceLogLevels_Warning))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
@@ -3235,6 +3235,6 @@ func WindowsFirewallLogsDataSourceGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWindowsFirewallLogsDataSource is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWindowsFirewallLogsDataSource(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProfileFilter"] = gen.SliceOf(gen.OneConstOf(WindowsFirewallLogsDataSource_ProfileFilter_Domain, WindowsFirewallLogsDataSource_ProfileFilter_Private, WindowsFirewallLogsDataSource_ProfileFilter_Public))
+	gens["ProfileFilter"] = gen.SliceOf(gen.OneConstOf(KnownWindowsFirewallLogsDataSourceProfileFilter_Domain, KnownWindowsFirewallLogsDataSourceProfileFilter_Private, KnownWindowsFirewallLogsDataSourceProfileFilter_Public))
 	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 }

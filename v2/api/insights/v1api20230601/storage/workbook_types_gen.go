@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230601.Workbook
 // Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/ApplicationInsights/stable/2023-06-01/workbooks_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooks/{resourceName}
 type Workbook struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -159,7 +159,7 @@ func (workbook *Workbook) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230601.Workbook
 // Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/workbooks_API.json
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/ApplicationInsights/stable/2023-06-01/workbooks_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/workbooks/{resourceName}
 type WorkbookList struct {
 	metav1.TypeMeta `json:",inline"`

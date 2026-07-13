@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -1189,14 +1190,12 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AdditionalProperties
-	if propertyBag.Contains("AdditionalProperties") {
-		var additionalProperty map[string]string
-		err := propertyBag.Pull("AdditionalProperties", &additionalProperty)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AdditionalProperties' from propertyBag")
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]string, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = genruntime.ConvertJSONToString(additionalPropertyValue)
 		}
-
-		configuration.AdditionalProperties = additionalProperty
+		configuration.AdditionalProperties = additionalPropertyMap
 	} else {
 		configuration.AdditionalProperties = nil
 	}
@@ -1277,10 +1276,14 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
 	// AdditionalProperties
-	if len(configuration.AdditionalProperties) > 0 {
-		propertyBag.Add("AdditionalProperties", configuration.AdditionalProperties)
+	if configuration.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range configuration.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = genruntime.ConvertStringToJSON(additionalPropertyValue)
+		}
+		destination.AdditionalProperties = additionalPropertyMap
 	} else {
-		propertyBag.Remove("AdditionalProperties")
+		destination.AdditionalProperties = nil
 	}
 
 	// AofBackupEnabled
@@ -1719,14 +1722,12 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AdditionalProperties
-	if propertyBag.Contains("AdditionalProperties") {
-		var additionalProperty map[string]string
-		err := propertyBag.Pull("AdditionalProperties", &additionalProperty)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AdditionalProperties' from propertyBag")
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]string, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = genruntime.ConvertJSONToString(additionalPropertyValue)
 		}
-
-		configuration.AdditionalProperties = additionalProperty
+		configuration.AdditionalProperties = additionalPropertyMap
 	} else {
 		configuration.AdditionalProperties = nil
 	}
@@ -1820,10 +1821,14 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
 	// AdditionalProperties
-	if len(configuration.AdditionalProperties) > 0 {
-		propertyBag.Add("AdditionalProperties", configuration.AdditionalProperties)
+	if configuration.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range configuration.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = genruntime.ConvertStringToJSON(additionalPropertyValue)
+		}
+		destination.AdditionalProperties = additionalPropertyMap
 	} else {
-		propertyBag.Remove("AdditionalProperties")
+		destination.AdditionalProperties = nil
 	}
 
 	// AofBackupEnabled

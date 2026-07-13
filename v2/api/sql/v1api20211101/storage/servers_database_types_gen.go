@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20211101.ServersDatabase
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Databases.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/Databases.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}
 type ServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -246,7 +246,7 @@ func (database *ServersDatabase) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20211101.ServersDatabase
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Databases.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/Databases.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}
 type ServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`

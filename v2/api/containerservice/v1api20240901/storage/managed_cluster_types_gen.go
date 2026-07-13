@@ -3527,14 +3527,14 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 // Storage version of v1api20240901.ManagedClusterAADProfile
 // For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfile struct {
-	AdminGroupObjectIDs []string               `json:"adminGroupObjectIDs,omitempty"`
-	ClientAppID         *string                `json:"clientAppID,omitempty"`
-	EnableAzureRBAC     *bool                  `json:"enableAzureRBAC,omitempty"`
-	Managed             *bool                  `json:"managed,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ServerAppID         *string                `json:"serverAppID,omitempty"`
-	ServerAppSecret     *string                `json:"serverAppSecret,omitempty"`
-	TenantID            *string                `json:"tenantID,omitempty"`
+	AdminGroupObjectIDs []string                    `json:"adminGroupObjectIDs,omitempty"`
+	ClientAppID         *string                     `json:"clientAppID,omitempty"`
+	EnableAzureRBAC     *bool                       `json:"enableAzureRBAC,omitempty"`
+	Managed             *bool                       `json:"managed,omitempty"`
+	PropertyBag         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	ServerAppID         *string                     `json:"serverAppID,omitempty"`
+	ServerAppSecret     *genruntime.SecretReference `json:"serverAppSecret,omitempty"`
+	TenantID            *string                     `json:"tenantID,omitempty"`
 }
 
 // AssignProperties_From_ManagedClusterAADProfile populates our ManagedClusterAADProfile from the provided source ManagedClusterAADProfile
@@ -3568,7 +3568,12 @@ func (profile *ManagedClusterAADProfile) AssignProperties_From_ManagedClusterAAD
 	profile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
 
 	// ServerAppSecret
-	profile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
+	if source.ServerAppSecret != nil {
+		serverAppSecret := source.ServerAppSecret.Copy()
+		profile.ServerAppSecret = &serverAppSecret
+	} else {
+		profile.ServerAppSecret = nil
+	}
 
 	// TenantID
 	profile.TenantID = genruntime.ClonePointerToString(source.TenantID)
@@ -3624,7 +3629,12 @@ func (profile *ManagedClusterAADProfile) AssignProperties_To_ManagedClusterAADPr
 	destination.ServerAppID = genruntime.ClonePointerToString(profile.ServerAppID)
 
 	// ServerAppSecret
-	destination.ServerAppSecret = genruntime.ClonePointerToString(profile.ServerAppSecret)
+	if profile.ServerAppSecret != nil {
+		serverAppSecret := profile.ServerAppSecret.Copy()
+		destination.ServerAppSecret = &serverAppSecret
+	} else {
+		destination.ServerAppSecret = nil
+	}
 
 	// TenantID
 	destination.TenantID = genruntime.ClonePointerToString(profile.TenantID)
@@ -3658,7 +3668,6 @@ type ManagedClusterAADProfile_STATUS struct {
 	Managed             *bool                  `json:"managed,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerAppID         *string                `json:"serverAppID,omitempty"`
-	ServerAppSecret     *string                `json:"serverAppSecret,omitempty"`
 	TenantID            *string                `json:"tenantID,omitempty"`
 }
 
@@ -3691,9 +3700,6 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_From_ManagedClu
 
 	// ServerAppID
 	profile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
-
-	// ServerAppSecret
-	profile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
 
 	// TenantID
 	profile.TenantID = genruntime.ClonePointerToString(source.TenantID)
@@ -3747,9 +3753,6 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_To_ManagedClust
 
 	// ServerAppID
 	destination.ServerAppID = genruntime.ClonePointerToString(profile.ServerAppID)
-
-	// ServerAppSecret
-	destination.ServerAppSecret = genruntime.ClonePointerToString(profile.ServerAppSecret)
 
 	// TenantID
 	destination.TenantID = genruntime.ClonePointerToString(profile.TenantID)

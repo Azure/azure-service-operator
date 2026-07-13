@@ -365,6 +365,7 @@ func AddIndependentPropertyGeneratorsForFluxConfiguration_STATUS(gens map[string
 // AddRelatedPropertyGeneratorsForFluxConfiguration_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFluxConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(FluxConfiguration_Properties_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_GitRepositoryDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

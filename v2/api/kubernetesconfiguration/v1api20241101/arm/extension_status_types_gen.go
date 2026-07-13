@@ -17,23 +17,23 @@ type Extension_STATUS struct {
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
-	// Plan: The plan information.
+	// Plan: Details of the resource plan.
 	Plan *Plan_STATUS `json:"plan,omitempty"`
 
 	// Properties: Properties of an Extension resource
-	Properties *Extension_Properties_STATUS `json:"properties,omitempty"`
+	Properties *ExtensionProperties_STATUS `json:"properties,omitempty"`
 
-	// SystemData: Top level metadata
-	// https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
-type Extension_Properties_STATUS struct {
+// Properties of an Extension resource
+type ExtensionProperties_STATUS struct {
 	// AksAssignedIdentity: Identity of the Extension resource in an AKS cluster
-	AksAssignedIdentity *Extension_Properties_AksAssignedIdentity_STATUS `json:"aksAssignedIdentity,omitempty"`
+	AksAssignedIdentity *ExtensionPropertiesAksAssignedIdentity_STATUS `json:"aksAssignedIdentity,omitempty"`
 
 	// AutoUpgradeMinorVersion: Flag to note if this extension participates in auto upgrade of minor version, or not.
 	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
@@ -63,6 +63,9 @@ type Extension_Properties_STATUS struct {
 
 	// PackageUri: Uri of the Helm package
 	PackageUri *string `json:"packageUri,omitempty"`
+
+	// ProvisioningState: Status of installation of this extension.
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// ReleaseTrain: ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if
 	// autoUpgradeMinorVersion is 'true'.
@@ -149,7 +152,8 @@ type ErrorDetail_STATUS struct {
 	Target *string `json:"target,omitempty"`
 }
 
-type Extension_Properties_AksAssignedIdentity_STATUS struct {
+// Identity of the Extension resource in an AKS cluster
+type ExtensionPropertiesAksAssignedIdentity_STATUS struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -157,7 +161,7 @@ type Extension_Properties_AksAssignedIdentity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: The identity type.
-	Type *Extension_Properties_AksAssignedIdentity_Type_STATUS `json:"type,omitempty"`
+	Type *AKSIdentityType_STATUS `json:"type,omitempty"`
 }
 
 // Status from the extension.
@@ -185,6 +189,28 @@ const Identity_Type_STATUS_SystemAssigned = Identity_Type_STATUS("SystemAssigned
 // Mapping from string to Identity_Type_STATUS
 var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
 	"systemassigned": Identity_Type_STATUS_SystemAssigned,
+}
+
+// The provisioning state of the resource.
+type ProvisioningState_STATUS string
+
+const (
+	ProvisioningState_STATUS_Canceled  = ProvisioningState_STATUS("Canceled")
+	ProvisioningState_STATUS_Creating  = ProvisioningState_STATUS("Creating")
+	ProvisioningState_STATUS_Deleting  = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_STATUS_Failed    = ProvisioningState_STATUS("Failed")
+	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
+	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to ProvisioningState_STATUS
+var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
+	"canceled":  ProvisioningState_STATUS_Canceled,
+	"creating":  ProvisioningState_STATUS_Creating,
+	"deleting":  ProvisioningState_STATUS_Deleting,
+	"failed":    ProvisioningState_STATUS_Failed,
+	"succeeded": ProvisioningState_STATUS_Succeeded,
+	"updating":  ProvisioningState_STATUS_Updating,
 }
 
 // Scope of the extension. It can be either Cluster or Namespace; but not both.
@@ -230,6 +256,20 @@ var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModi
 	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
+// The identity type.
+type AKSIdentityType_STATUS string
+
+const (
+	AKSIdentityType_STATUS_SystemAssigned = AKSIdentityType_STATUS("SystemAssigned")
+	AKSIdentityType_STATUS_UserAssigned   = AKSIdentityType_STATUS("UserAssigned")
+)
+
+// Mapping from string to AKSIdentityType_STATUS
+var aKSIdentityType_STATUS_Values = map[string]AKSIdentityType_STATUS{
+	"systemassigned": AKSIdentityType_STATUS_SystemAssigned,
+	"userassigned":   AKSIdentityType_STATUS_UserAssigned,
+}
+
 // The resource management error additional info.
 type ErrorAdditionalInfo_STATUS struct {
 	// Info: The additional info.
@@ -251,19 +291,6 @@ type ErrorDetail_STATUS_Unrolled struct {
 
 	// Target: The error target.
 	Target *string `json:"target,omitempty"`
-}
-
-type Extension_Properties_AksAssignedIdentity_Type_STATUS string
-
-const (
-	Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned = Extension_Properties_AksAssignedIdentity_Type_STATUS("SystemAssigned")
-	Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned   = Extension_Properties_AksAssignedIdentity_Type_STATUS("UserAssigned")
-)
-
-// Mapping from string to Extension_Properties_AksAssignedIdentity_Type_STATUS
-var extension_Properties_AksAssignedIdentity_Type_STATUS_Values = map[string]Extension_Properties_AksAssignedIdentity_Type_STATUS{
-	"systemassigned": Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned,
-	"userassigned":   Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned,
 }
 
 type ExtensionStatus_Level_STATUS string

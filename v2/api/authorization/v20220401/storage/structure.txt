@@ -23,7 +23,7 @@ RoleAssignment: Resource
 │   ├── PrincipalType: *string
 │   ├── PropertyBag: genruntime.PropertyBag
 │   └── RoleDefinitionReference: *genruntime.WellKnownResourceReference
-└── Status: Object (17 properties)
+└── Status: Object (18 properties)
     ├── Condition: *string
     ├── ConditionVersion: *string
     ├── Conditions: conditions.Condition[]
@@ -38,6 +38,14 @@ RoleAssignment: Resource
     ├── PropertyBag: genruntime.PropertyBag
     ├── RoleDefinitionId: *string
     ├── Scope: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     ├── Type: *string
     ├── UpdatedBy: *string
     └── UpdatedOn: *string

@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/IPv6FirewallRules.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/IPv6FirewallRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}
 type ServersIPV6FirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (rule *ServersIPV6FirewallRule) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/IPv6FirewallRules.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/IPv6FirewallRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}
 type ServersIPV6FirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`

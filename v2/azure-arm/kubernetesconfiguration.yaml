@@ -3,10 +3,11 @@ typeTransformers:
     property: Statuses
     remove: true
     because: This property should be marked readonly in Swagger
-  - name: FluxConfiguration_Spec;FluxConfiguration_STATUS
+  - name: FluxConfiguration_Spec
     property: SystemData
     remove: true
     because: These properties should be marked readonly
+
 groupModelConfiguration:
   2023-05-01:
     Extension:
@@ -25,6 +26,10 @@ groupModelConfiguration:
     BucketDefinition:
       AccessKey:
         $importSecretMode: required
+    Extension_Properties_AksAssignedIdentity_Spec:
+      $nameInNextVersion: ExtensionPropertiesAksAssignedIdentity
+    Extension_Properties_AksAssignedIdentity_STATUS:
+      $nameInNextVersion: ExtensionPropertiesAksAssignedIdentity_STATUS
     GitRepositoryDefinition:
       HttpsCACert:
         $importSecretMode: required
@@ -34,6 +39,9 @@ groupModelConfiguration:
       $supportedFrom: v2.13.0
       $generatedConfigs:
         PrincipalId: $.Status.AksAssignedIdentity.PrincipalId
+    ExtensionProperties:
+      ConfigurationProtectedSettings: 
+        $importSecretMode: required
     FluxConfiguration:
       $exportAs: FluxConfiguration
       $supportedFrom: v2.13.0

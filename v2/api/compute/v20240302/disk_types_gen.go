@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}
 type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (disk *Disk) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}
 type DiskList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -5345,7 +5345,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
-// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+// The hypervisor generation of the Virtual Machine.
 // +kubebuilder:validation:Enum={"V1","V2"}
 type HyperVGeneration string
 
@@ -5360,7 +5360,7 @@ var hyperVGeneration_Values = map[string]HyperVGeneration{
 	"v2": HyperVGeneration_V2,
 }
 
-// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+// The hypervisor generation of the Virtual Machine.
 type HyperVGeneration_STATUS string
 
 const (
@@ -5407,7 +5407,8 @@ var networkAccessPolicy_STATUS_Values = map[string]NetworkAccessPolicy_STATUS{
 	"denyall":      NetworkAccessPolicy_STATUS_DenyAll,
 }
 
-// The Operating System type.
+// This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or
+// a specialized VHD. Possible values are: Windows, Linux.
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type OperatingSystemTypes string
 
@@ -5422,7 +5423,8 @@ var operatingSystemTypes_Values = map[string]OperatingSystemTypes{
 	"windows": OperatingSystemTypes_Windows,
 }
 
-// The Operating System type.
+// This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or
+// a specialized VHD. Possible values are: Windows, Linux.
 type OperatingSystemTypes_STATUS string
 
 const (

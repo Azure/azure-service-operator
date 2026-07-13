@@ -10,6 +10,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -27,8 +28,8 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20250701.Workspace
 // Generator information:
-// - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-07-01/Workspaces.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
+// - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-07-01/openapi.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -158,8 +159,8 @@ func (workspace *Workspace) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v20250701.Workspace
 // Generator information:
-// - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-07-01/Workspaces.json
-// - ARM URI: /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
+// - Generated from: /operationalinsights/resource-manager/Microsoft.OperationalInsights/OperationalInsights/stable/2025-07-01/openapi.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}
 type WorkspaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -340,6 +341,8 @@ type WorkspaceFailoverProperties_STATUS struct {
 // Storage version of v20250701.WorkspaceFeatures
 // Workspace features.
 type WorkspaceFeatures struct {
+	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
+
 	// ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the workspaces.
 	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
 	DisableLocalAuth                            *bool                         `json:"disableLocalAuth,omitempty"`
@@ -352,6 +355,7 @@ type WorkspaceFeatures struct {
 // Storage version of v20250701.WorkspaceFeatures_STATUS
 // Workspace features.
 type WorkspaceFeatures_STATUS struct {
+	AdditionalProperties                        map[string]v1.JSON     `json:"additionalProperties,omitempty"`
 	Associations                                []string               `json:"associations,omitempty"`
 	ClusterResourceId                           *string                `json:"clusterResourceId,omitempty"`
 	DisableLocalAuth                            *bool                  `json:"disableLocalAuth,omitempty"`

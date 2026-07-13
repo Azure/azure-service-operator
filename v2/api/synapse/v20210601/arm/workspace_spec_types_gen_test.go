@@ -347,6 +347,7 @@ func KekIdentityPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKekIdentityProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKekIdentityProperties(gens map[string]gopter.Gen) {
+	gens["UseSystemAssignedIdentity"] = gen.PtrOf(gen.Bool())
 	gens["UserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
 }
 

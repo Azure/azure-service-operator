@@ -157,7 +157,7 @@ func DataCollectionEndpointResource_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDataCollectionEndpointResource_STATUS(gens map[string]gopter.Gen) {
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DataCollectionEndpointResource_Kind_STATUS_Linux, DataCollectionEndpointResource_Kind_STATUS_Windows))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(KnownDataCollectionEndpointResourceKind_STATUS_Linux, KnownDataCollectionEndpointResourceKind_STATUS_Windows))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(
@@ -249,12 +249,12 @@ func AddIndependentPropertyGeneratorsForDataCollectionEndpoint_STATUS(gens map[s
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["ImmutableId"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DataCollectionEndpoint_ProvisioningState_STATUS_Canceled,
-		DataCollectionEndpoint_ProvisioningState_STATUS_Creating,
-		DataCollectionEndpoint_ProvisioningState_STATUS_Deleting,
-		DataCollectionEndpoint_ProvisioningState_STATUS_Failed,
-		DataCollectionEndpoint_ProvisioningState_STATUS_Succeeded,
-		DataCollectionEndpoint_ProvisioningState_STATUS_Updating))
+		KnownDataCollectionEndpointProvisioningState_STATUS_Canceled,
+		KnownDataCollectionEndpointProvisioningState_STATUS_Creating,
+		KnownDataCollectionEndpointProvisioningState_STATUS_Deleting,
+		KnownDataCollectionEndpointProvisioningState_STATUS_Failed,
+		KnownDataCollectionEndpointProvisioningState_STATUS_Succeeded,
+		KnownDataCollectionEndpointProvisioningState_STATUS_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForDataCollectionEndpoint_STATUS is a factory method for creating gopter generators
@@ -413,12 +413,12 @@ func LocationSpec_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForLocationSpec_STATUS(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningStatus"] = gen.PtrOf(gen.OneConstOf(
-		LocationSpec_ProvisioningStatus_STATUS_Canceled,
-		LocationSpec_ProvisioningStatus_STATUS_Creating,
-		LocationSpec_ProvisioningStatus_STATUS_Deleting,
-		LocationSpec_ProvisioningStatus_STATUS_Failed,
-		LocationSpec_ProvisioningStatus_STATUS_Succeeded,
-		LocationSpec_ProvisioningStatus_STATUS_Updating))
+		KnownLocationSpecProvisioningStatus_STATUS_Canceled,
+		KnownLocationSpecProvisioningStatus_STATUS_Creating,
+		KnownLocationSpecProvisioningStatus_STATUS_Deleting,
+		KnownLocationSpecProvisioningStatus_STATUS_Failed,
+		KnownLocationSpecProvisioningStatus_STATUS_Succeeded,
+		KnownLocationSpecProvisioningStatus_STATUS_Updating))
 }
 
 func Test_LogsIngestionEndpointSpec_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -771,7 +771,7 @@ func NetworkRuleSet_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUS(gens map[string]gopter.Gen) {
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_PublicNetworkAccess_STATUS_Disabled, NetworkRuleSet_PublicNetworkAccess_STATUS_Enabled, NetworkRuleSet_PublicNetworkAccess_STATUS_SecuredByPerimeter))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(KnownPublicNetworkAccessOptions_STATUS_Disabled, KnownPublicNetworkAccessOptions_STATUS_Enabled, KnownPublicNetworkAccessOptions_STATUS_SecuredByPerimeter))
 }
 
 func Test_PrivateLinkScopedResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

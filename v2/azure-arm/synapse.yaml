@@ -1,3 +1,11 @@
+typeTransformers:
+  - name: KekIdentityProperties;KekIdentityProperties_STATUS
+    property: UseSystemAssignedIdentity
+    target:
+      name: bool
+      optional: true
+    because: UseSystemAssignedIdentity is a boolean but the Swagger is missing the type annotation
+
 groupModelConfiguration:
   2021-06-01:
     KekIdentityProperties:
