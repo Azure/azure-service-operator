@@ -34,8 +34,12 @@ func TestSecurityGroupSpec_AssignODataBindOnCreate_UsesInlineObjectID(t *testing
 	additional := group.GetAdditionalData()
 	g.Expect(additional).To(HaveKey("owners@odata.bind"))
 	g.Expect(additional).To(HaveKey("members@odata.bind"))
-	g.Expect(additional["owners@odata.bind"]).To(Equal([]string{"https://graph.microsoft.com/v1.0/directoryObjects/11111111-1111-1111-1111-111111111111"}))
-	g.Expect(additional["members@odata.bind"]).To(Equal([]string{"https://graph.microsoft.com/v1.0/directoryObjects/22222222-2222-2222-2222-222222222222"}))
+	g.Expect(additional["owners@odata.bind"]).To(Equal([]string{
+		"https://graph.microsoft.com/v1.0/directoryObjects/11111111-1111-1111-1111-111111111111",
+	}))
+	g.Expect(additional["members@odata.bind"]).To(Equal([]string{
+		"https://graph.microsoft.com/v1.0/directoryObjects/22222222-2222-2222-2222-222222222222",
+	}))
 }
 
 func TestSecurityGroupSpec_AssignODataBindOnCreate_UsesObjectIDFromConfig(t *testing.T) {
@@ -63,8 +67,12 @@ func TestSecurityGroupSpec_AssignODataBindOnCreate_UsesObjectIDFromConfig(t *tes
 	g.Expect(err).ToNot(HaveOccurred())
 
 	additional := group.GetAdditionalData()
-	g.Expect(additional["owners@odata.bind"]).To(Equal([]string{"https://graph.microsoft.com/v1.0/directoryObjects/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"}))
-	g.Expect(additional["members@odata.bind"]).To(Equal([]string{"https://graph.microsoft.com/v1.0/directoryObjects/bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"}))
+	g.Expect(additional["owners@odata.bind"]).To(Equal([]string{
+		"https://graph.microsoft.com/v1.0/directoryObjects/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+	}))
+	g.Expect(additional["members@odata.bind"]).To(Equal([]string{
+		"https://graph.microsoft.com/v1.0/directoryObjects/bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+	}))
 }
 
 func TestSecurityGroupSpec_AssignODataBindOnCreate_ErrorsWhenNeitherSet(t *testing.T) {

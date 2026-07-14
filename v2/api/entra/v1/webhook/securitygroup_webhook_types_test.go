@@ -37,10 +37,9 @@ func TestSecurityGroupWebhook_ValidateOptionalConfigMapReferences_BothSetFails(t
 	}
 
 	_, err := (&SecurityGroup_Webhook{}).validateOptionalConfigMapReferences(context.Background(), obj)
-	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("cannot specify both"))
-	g.Expect(err.Error()).To(ContainSubstring("ObjectID"))
-	g.Expect(err.Error()).To(ContainSubstring("ObjectIDFromConfig"))
+	g.Expect(err).To(MatchError(ContainSubstring("cannot specify both")))
+	g.Expect(err).To(MatchError(ContainSubstring("ObjectID")))
+	g.Expect(err).To(MatchError(ContainSubstring("ObjectIDFromConfig")))
 }
 
 func TestSecurityGroupWebhook_ValidateOptionalConfigMapReferences_OneOrZeroSetPasses(t *testing.T) {
@@ -65,10 +64,10 @@ func TestSecurityGroupWebhook_ValidateOptionalConfigMapReferences_OneOrZeroSetPa
 	g.Expect(warnings).To(BeNil())
 }
 
-func TestSecurityGroup_Validation_AdmissionSchemaUniqueness(t *testing.T) {
+func TestSecurityGroup_Validation_OwnerUniqueness(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	kubeClient, namespace, stop := startSecurityGroupValidationEnvtest(t)
 	t.Cleanup(stop)
@@ -87,9 +86,16 @@ func TestSecurityGroup_Validation_AdmissionSchemaUniqueness(t *testing.T) {
 			},
 		},
 	}
+
 	err := kubeClient.Create(ctx, duplicateOwners)
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(err.Error()).To(ContainSubstring("owners must be unique"))
+}
+
+func TestSecurityGroup_Validation_MemberUniqueness(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := t.Context()
 
 	duplicateMembers := &v1.SecurityGroup{
 		ObjectMeta: metav1.ObjectMeta{
@@ -105,9 +111,16 @@ func TestSecurityGroup_Validation_AdmissionSchemaUniqueness(t *testing.T) {
 			},
 		},
 	}
-	err = kubeClient.Create(ctx, duplicateMembers)
+
+	err := kubeClient.Create(ctx, duplicateMembers)
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(err.Error()).To(ContainSubstring("members must be unique"))
+}
+
+func TestSecurityGroup_Validation_OverlapUniqueness(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	ctx := t.Context()
 
 	overlap := &v1.SecurityGroup{
 		ObjectMeta: metav1.ObjectMeta{
@@ -125,7 +138,8 @@ func TestSecurityGroup_Validation_AdmissionSchemaUniqueness(t *testing.T) {
 			},
 		},
 	}
-	err = kubeClient.Create(ctx, overlap)
+
+	err := kubeClient.Create(ctx, overlap)
 	g.Expect(err).ToNot(HaveOccurred())
 }
 

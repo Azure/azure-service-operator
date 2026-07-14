@@ -7,10 +7,10 @@ package entra
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/go-logr/logr"
+	"github.com/rotisserie/eris"
 )
 
 type relationshipDelta struct {
@@ -80,13 +80,13 @@ func (r *EntraSecurityGroupReconciler) reconcileRelationshipSide(
 	for _, id := range delta.ToAdd {
 		if err := add(ctx, id); err != nil {
 			// Add failures intentionally skip remove for this side in this pass.
-			return fmt.Errorf("%s add %s: %w", side, id, err)
+			return eris.Wrapf(err, "%s add %s", side, id)
 		}
 	}
 
 	for _, id := range delta.ToRemove {
 		if err := remove(ctx, id); err != nil {
-			return fmt.Errorf("%s remove %s: %w", side, id, err)
+			return eris.Wrapf(err, "%s remove %s", side, id)
 		}
 	}
 
