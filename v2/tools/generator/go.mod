@@ -15,7 +15,7 @@ require (
 	github.com/devigned/tab v0.1.1
 	github.com/go-logr/logr v1.4.3
 	github.com/go-logr/zerologr v1.2.3
-	github.com/go-openapi/jsonpointer v0.24.0
+	github.com/go-openapi/jsonpointer v1.0.0
 	github.com/go-openapi/spec v0.22.6
 	github.com/gobuffalo/flect v1.0.3
 	github.com/google/go-cmp v0.7.0
@@ -31,9 +31,9 @@ require (
 	github.com/spf13/pflag v1.0.10
 	github.com/xeipuuv/gojsonschema v1.2.0
 	golang.org/x/exp v0.0.0-20251219203646-944ab1f22d93
-	golang.org/x/mod v0.37.0
-	golang.org/x/sync v0.21.0
-	golang.org/x/text v0.39.0
+	golang.org/x/mod v0.38.0
+	golang.org/x/sync v0.22.0
+	golang.org/x/text v0.40.0
 	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/apimachinery v0.36.2
 )
