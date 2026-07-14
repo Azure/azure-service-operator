@@ -4,14 +4,22 @@
 package customizations
 
 import (
-	v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
-	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
-	v20230401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401"
-	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
-	v20230801 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801"
-	v20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
-	v20241101 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101"
-	v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v1api20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201"
+	cache_v1api20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20201201/storage"
+	cache_v1api20230401 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401"
+	cache_v1api20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
+	cache_v1api20230801 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801"
+	cache_v1api20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
+	cache_v1api20241101 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101"
+	cache_v1api20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v20201201"
+	cache_v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v20201201/storage"
+	cache_v20230401 "github.com/Azure/azure-service-operator/v2/api/cache/v20230401"
+	cache_v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v20230401/storage"
+	cache_v20230801 "github.com/Azure/azure-service-operator/v2/api/cache/v20230801"
+	cache_v20230801s "github.com/Azure/azure-service-operator/v2/api/cache/v20230801/storage"
+	cache_v20241101 "github.com/Azure/azure-service-operator/v2/api/cache/v20241101"
+	cache_v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v20241101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -21,12 +29,20 @@ type RedisPatchScheduleExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RedisPatchScheduleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20201201.RedisPatchSchedule{},
-		&v20201201s.RedisPatchSchedule{},
-		&v20230401.RedisPatchSchedule{},
-		&v20230401s.RedisPatchSchedule{},
-		&v20230801.RedisPatchSchedule{},
-		&v20230801s.RedisPatchSchedule{},
-		&v20241101.RedisPatchSchedule{},
-		&v20241101s.RedisPatchSchedule{}}
+		&cache_v1api20201201.RedisPatchSchedule{},
+		&cache_v1api20201201s.RedisPatchSchedule{},
+		&cache_v1api20230401.RedisPatchSchedule{},
+		&cache_v1api20230401s.RedisPatchSchedule{},
+		&cache_v1api20230801.RedisPatchSchedule{},
+		&cache_v1api20230801s.RedisPatchSchedule{},
+		&cache_v1api20241101.RedisPatchSchedule{},
+		&cache_v1api20241101s.RedisPatchSchedule{},
+		&cache_v20201201.RedisPatchSchedule{},
+		&cache_v20201201s.RedisPatchSchedule{},
+		&cache_v20230401.RedisPatchSchedule{},
+		&cache_v20230401s.RedisPatchSchedule{},
+		&cache_v20230801.RedisPatchSchedule{},
+		&cache_v20230801s.RedisPatchSchedule{},
+		&cache_v20241101.RedisPatchSchedule{},
+		&cache_v20241101s.RedisPatchSchedule{}}
 }

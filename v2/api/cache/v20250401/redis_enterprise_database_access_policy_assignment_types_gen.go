@@ -246,11 +246,6 @@ type RedisEnterpriseDatabaseAccessPolicyAssignmentList struct {
 	Items           []RedisEnterpriseDatabaseAccessPolicyAssignment `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2025-04-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2025-04-01")
-
 type RedisEnterpriseDatabaseAccessPolicyAssignment_Spec struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]|[a-zA-Z0-9])$"
@@ -952,28 +947,6 @@ func (user *AccessPolicyAssignmentProperties_User_STATUS) AssignProperties_To_Ac
 
 	// No error
 	return nil
-}
-
-// Current provisioning status
-type ProvisioningState_STATUS string
-
-const (
-	ProvisioningState_STATUS_Canceled  = ProvisioningState_STATUS("Canceled")
-	ProvisioningState_STATUS_Creating  = ProvisioningState_STATUS("Creating")
-	ProvisioningState_STATUS_Deleting  = ProvisioningState_STATUS("Deleting")
-	ProvisioningState_STATUS_Failed    = ProvisioningState_STATUS("Failed")
-	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
-	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
-)
-
-// Mapping from string to ProvisioningState_STATUS
-var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
-	"canceled":  ProvisioningState_STATUS_Canceled,
-	"creating":  ProvisioningState_STATUS_Creating,
-	"deleting":  ProvisioningState_STATUS_Deleting,
-	"failed":    ProvisioningState_STATUS_Failed,
-	"succeeded": ProvisioningState_STATUS_Succeeded,
-	"updating":  ProvisioningState_STATUS_Updating,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure

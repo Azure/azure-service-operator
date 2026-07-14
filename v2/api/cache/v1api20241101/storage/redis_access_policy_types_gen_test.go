@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_RedisAccessPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisAccessPolicy to hub returns original",
+		prop.ForAll(RunResourceConversionTestForRedisAccessPolicy, RedisAccessPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForRedisAccessPolicy tests if a specific instance of RedisAccessPolicy round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForRedisAccessPolicy(subject RedisAccessPolicy) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.RedisAccessPolicy
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual RedisAccessPolicy
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_RedisAccessPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisAccessPolicy to RedisAccessPolicy via AssignProperties_To_RedisAccessPolicy & AssignProperties_From_RedisAccessPolicy returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisAccessPolicy, RedisAccessPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisAccessPolicy tests if a specific instance of RedisAccessPolicy can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisAccessPolicy(subject RedisAccessPolicy) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisAccessPolicy
+	err := copied.AssignProperties_To_RedisAccessPolicy(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisAccessPolicy
+	err = actual.AssignProperties_From_RedisAccessPolicy(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_RedisAccessPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -83,6 +179,53 @@ func AddRelatedPropertyGeneratorsForRedisAccessPolicy(gens map[string]gopter.Gen
 	gens["Status"] = RedisAccessPolicy_STATUSGenerator()
 }
 
+func Test_RedisAccessPolicyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisAccessPolicyOperatorSpec to RedisAccessPolicyOperatorSpec via AssignProperties_To_RedisAccessPolicyOperatorSpec & AssignProperties_From_RedisAccessPolicyOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisAccessPolicyOperatorSpec, RedisAccessPolicyOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisAccessPolicyOperatorSpec tests if a specific instance of RedisAccessPolicyOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisAccessPolicyOperatorSpec(subject RedisAccessPolicyOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisAccessPolicyOperatorSpec
+	err := copied.AssignProperties_To_RedisAccessPolicyOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisAccessPolicyOperatorSpec
+	err = actual.AssignProperties_From_RedisAccessPolicyOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RedisAccessPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -141,6 +284,53 @@ func RedisAccessPolicyOperatorSpecGenerator() gopter.Gen {
 	redisAccessPolicyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RedisAccessPolicyOperatorSpec{}), generators)
 
 	return redisAccessPolicyOperatorSpecGenerator
+}
+
+func Test_RedisAccessPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisAccessPolicy_STATUS to RedisAccessPolicy_STATUS via AssignProperties_To_RedisAccessPolicy_STATUS & AssignProperties_From_RedisAccessPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisAccessPolicy_STATUS, RedisAccessPolicy_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisAccessPolicy_STATUS tests if a specific instance of RedisAccessPolicy_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisAccessPolicy_STATUS(subject RedisAccessPolicy_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisAccessPolicy_STATUS
+	err := copied.AssignProperties_To_RedisAccessPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisAccessPolicy_STATUS
+	err = actual.AssignProperties_From_RedisAccessPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RedisAccessPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -226,6 +416,53 @@ func AddIndependentPropertyGeneratorsForRedisAccessPolicy_STATUS(gens map[string
 // AddRelatedPropertyGeneratorsForRedisAccessPolicy_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisAccessPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_RedisAccessPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisAccessPolicy_Spec to RedisAccessPolicy_Spec via AssignProperties_To_RedisAccessPolicy_Spec & AssignProperties_From_RedisAccessPolicy_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisAccessPolicy_Spec, RedisAccessPolicy_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisAccessPolicy_Spec tests if a specific instance of RedisAccessPolicy_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisAccessPolicy_Spec(subject RedisAccessPolicy_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisAccessPolicy_Spec
+	err := copied.AssignProperties_To_RedisAccessPolicy_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisAccessPolicy_Spec
+	err = actual.AssignProperties_From_RedisAccessPolicy_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RedisAccessPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

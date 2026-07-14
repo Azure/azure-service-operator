@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -389,6 +389,101 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS(gens ma
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_Redis_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Redis to hub returns original",
+		prop.ForAll(RunResourceConversionTestForRedis, RedisGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForRedis tests if a specific instance of Redis round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForRedis(subject Redis) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.Redis
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Redis
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Redis_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Redis to Redis via AssignProperties_To_Redis & AssignProperties_From_Redis returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedis, RedisGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedis tests if a specific instance of Redis can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedis(subject Redis) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Redis
+	err := copied.AssignProperties_To_Redis(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Redis
+	err = actual.AssignProperties_From_Redis(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Redis_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -453,6 +548,53 @@ func RedisGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForRedis(gens map[string]gopter.Gen) {
 	gens["Spec"] = Redis_SpecGenerator()
 	gens["Status"] = Redis_STATUSGenerator()
+}
+
+func Test_RedisCommonPropertiesRedisConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisCommonPropertiesRedisConfiguration to RedisCommonPropertiesRedisConfiguration via AssignProperties_To_RedisCommonPropertiesRedisConfiguration & AssignProperties_From_RedisCommonPropertiesRedisConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisCommonPropertiesRedisConfiguration, RedisCommonPropertiesRedisConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisCommonPropertiesRedisConfiguration tests if a specific instance of RedisCommonPropertiesRedisConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisCommonPropertiesRedisConfiguration(subject RedisCommonPropertiesRedisConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisCommonPropertiesRedisConfiguration
+	err := copied.AssignProperties_To_RedisCommonPropertiesRedisConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisCommonPropertiesRedisConfiguration
+	err = actual.AssignProperties_From_RedisCommonPropertiesRedisConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RedisCommonPropertiesRedisConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -534,6 +676,53 @@ func AddIndependentPropertyGeneratorsForRedisCommonPropertiesRedisConfiguration(
 	gens["RdbBackupMaxSnapshotCount"] = gen.PtrOf(gen.AlphaString())
 	gens["RdbStorageConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageSubscriptionId"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_RedisCommonPropertiesRedisConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisCommonPropertiesRedisConfiguration_STATUS to RedisCommonPropertiesRedisConfiguration_STATUS via AssignProperties_To_RedisCommonPropertiesRedisConfiguration_STATUS & AssignProperties_From_RedisCommonPropertiesRedisConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisCommonPropertiesRedisConfiguration_STATUS, RedisCommonPropertiesRedisConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisCommonPropertiesRedisConfiguration_STATUS tests if a specific instance of RedisCommonPropertiesRedisConfiguration_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisCommonPropertiesRedisConfiguration_STATUS(subject RedisCommonPropertiesRedisConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisCommonPropertiesRedisConfiguration_STATUS
+	err := copied.AssignProperties_To_RedisCommonPropertiesRedisConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisCommonPropertiesRedisConfiguration_STATUS
+	err = actual.AssignProperties_From_RedisCommonPropertiesRedisConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RedisCommonPropertiesRedisConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -620,6 +809,53 @@ func AddIndependentPropertyGeneratorsForRedisCommonPropertiesRedisConfiguration_
 	gens["ZonalConfiguration"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_RedisInstanceDetails_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisInstanceDetails_STATUS to RedisInstanceDetails_STATUS via AssignProperties_To_RedisInstanceDetails_STATUS & AssignProperties_From_RedisInstanceDetails_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisInstanceDetails_STATUS, RedisInstanceDetails_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisInstanceDetails_STATUS tests if a specific instance of RedisInstanceDetails_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisInstanceDetails_STATUS(subject RedisInstanceDetails_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisInstanceDetails_STATUS
+	err := copied.AssignProperties_To_RedisInstanceDetails_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisInstanceDetails_STATUS
+	err = actual.AssignProperties_From_RedisInstanceDetails_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RedisInstanceDetails_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -691,6 +927,53 @@ func AddIndependentPropertyGeneratorsForRedisInstanceDetails_STATUS(gens map[str
 	gens["Zone"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_RedisLinkedServer_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisLinkedServer_STATUS to RedisLinkedServer_STATUS via AssignProperties_To_RedisLinkedServer_STATUS & AssignProperties_From_RedisLinkedServer_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisLinkedServer_STATUS, RedisLinkedServer_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisLinkedServer_STATUS tests if a specific instance of RedisLinkedServer_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisLinkedServer_STATUS(subject RedisLinkedServer_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisLinkedServer_STATUS
+	err := copied.AssignProperties_To_RedisLinkedServer_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisLinkedServer_STATUS
+	err = actual.AssignProperties_From_RedisLinkedServer_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RedisLinkedServer_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -757,6 +1040,53 @@ func AddIndependentPropertyGeneratorsForRedisLinkedServer_STATUS(gens map[string
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_RedisOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisOperatorSecrets to RedisOperatorSecrets via AssignProperties_To_RedisOperatorSecrets & AssignProperties_From_RedisOperatorSecrets returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisOperatorSecrets, RedisOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisOperatorSecrets tests if a specific instance of RedisOperatorSecrets can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisOperatorSecrets(subject RedisOperatorSecrets) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisOperatorSecrets
+	err := copied.AssignProperties_To_RedisOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisOperatorSecrets
+	err = actual.AssignProperties_From_RedisOperatorSecrets(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RedisOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -815,6 +1145,53 @@ func RedisOperatorSecretsGenerator() gopter.Gen {
 	redisOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(RedisOperatorSecrets{}), generators)
 
 	return redisOperatorSecretsGenerator
+}
+
+func Test_RedisOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RedisOperatorSpec to RedisOperatorSpec via AssignProperties_To_RedisOperatorSpec & AssignProperties_From_RedisOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisOperatorSpec, RedisOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisOperatorSpec tests if a specific instance of RedisOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedisOperatorSpec(subject RedisOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RedisOperatorSpec
+	err := copied.AssignProperties_To_RedisOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RedisOperatorSpec
+	err = actual.AssignProperties_From_RedisOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_RedisOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -880,6 +1257,53 @@ func RedisOperatorSpecGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForRedisOperatorSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisOperatorSpec(gens map[string]gopter.Gen) {
 	gens["Secrets"] = gen.PtrOf(RedisOperatorSecretsGenerator())
+}
+
+func Test_Redis_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Redis_STATUS to Redis_STATUS via AssignProperties_To_Redis_STATUS & AssignProperties_From_Redis_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedis_STATUS, Redis_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedis_STATUS tests if a specific instance of Redis_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedis_STATUS(subject Redis_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Redis_STATUS
+	err := copied.AssignProperties_To_Redis_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Redis_STATUS
+	err = actual.AssignProperties_From_Redis_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Redis_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -991,6 +1415,53 @@ func AddRelatedPropertyGeneratorsForRedis_STATUS(gens map[string]gopter.Gen) {
 	gens["RedisConfiguration"] = gen.PtrOf(RedisCommonPropertiesRedisConfiguration_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Redis_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Redis_Spec to Redis_Spec via AssignProperties_To_Redis_Spec & AssignProperties_From_Redis_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedis_Spec, Redis_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedis_Spec tests if a specific instance of Redis_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRedis_Spec(subject Redis_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Redis_Spec
+	err := copied.AssignProperties_To_Redis_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Redis_Spec
+	err = actual.AssignProperties_From_Redis_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Redis_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
