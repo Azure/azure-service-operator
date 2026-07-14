@@ -301,6 +301,7 @@ type ManagedClustersAgentPool_Spec struct {
 	Mode                     *string                       `json:"mode,omitempty"`
 	NetworkProfile           *AgentPoolNetworkProfile      `json:"networkProfile,omitempty"`
 	NodeCustomizationProfile *NodeCustomizationProfile     `json:"nodeCustomizationProfile,omitempty"`
+	NodeImageVersion         *string                       `json:"nodeImageVersion,omitempty"`
 	NodeInitializationTaints []string                      `json:"nodeInitializationTaints,omitempty"`
 	NodeLabels               map[string]string             `json:"nodeLabels,omitempty" serializationType:"explicitEmptyCollection"`
 
@@ -605,6 +606,19 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 		pool.NodeCustomizationProfile = &nodeCustomizationProfile
 	} else {
 		pool.NodeCustomizationProfile = nil
+	}
+
+	// NodeImageVersion
+	if propertyBag.Contains("NodeImageVersion") {
+		var nodeImageVersion string
+		err := propertyBag.Pull("NodeImageVersion", &nodeImageVersion)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'NodeImageVersion' from propertyBag")
+		}
+
+		pool.NodeImageVersion = &nodeImageVersion
+	} else {
+		pool.NodeImageVersion = nil
 	}
 
 	// NodeInitializationTaints
@@ -1032,6 +1046,13 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 		propertyBag.Add("NodeCustomizationProfile", *pool.NodeCustomizationProfile)
 	} else {
 		propertyBag.Remove("NodeCustomizationProfile")
+	}
+
+	// NodeImageVersion
+	if pool.NodeImageVersion != nil {
+		propertyBag.Add("NodeImageVersion", *pool.NodeImageVersion)
+	} else {
+		propertyBag.Remove("NodeImageVersion")
 	}
 
 	// NodeInitializationTaints
@@ -2213,12 +2234,14 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 }
 
 // Storage version of v20251002preview.AgentPoolArtifactStreamingProfile
+// Artifact streaming profile for the agent pool.
 type AgentPoolArtifactStreamingProfile struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20251002preview.AgentPoolArtifactStreamingProfile_STATUS
+// Artifact streaming profile for the agent pool.
 type AgentPoolArtifactStreamingProfile_STATUS struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

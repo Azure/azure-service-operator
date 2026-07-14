@@ -25,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20200801preview.RoleAssignment
 // Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
 // - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -258,7 +258,7 @@ func (assignment *RoleAssignment) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20200801preview.RoleAssignment
 // Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
 // - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 type RoleAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`

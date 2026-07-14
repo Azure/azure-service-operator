@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package arm
 
-import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+import (
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+)
 
 type Redis_Spec struct {
 	// Identity: The identity of the resource.
@@ -146,6 +149,8 @@ var redisCreateProperties_PublicNetworkAccess_Values = map[string]RedisCreatePro
 }
 
 type RedisCreateProperties_RedisConfiguration struct {
+	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
+
 	// AofBackupEnabled: Specifies whether the aof backup is enabled
 	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`
 

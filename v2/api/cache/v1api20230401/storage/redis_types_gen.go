@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -1352,6 +1353,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 
 // Storage version of v1api20230401.RedisCreateProperties_RedisConfiguration
 type RedisCreateProperties_RedisConfiguration struct {
+	AdditionalProperties               map[string]v1.JSON     `json:"additionalProperties,omitempty"`
 	AofBackupEnabled                   *string                `json:"aof-backup-enabled,omitempty"`
 	AofStorageConnectionString0        *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1        *string                `json:"aof-storage-connection-string-1,omitempty"`
@@ -1373,6 +1375,17 @@ type RedisCreateProperties_RedisConfiguration struct {
 func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_From_RedisCreateProperties_RedisConfiguration(source *storage.RedisCreateProperties_RedisConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdditionalProperties
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		configuration.AdditionalProperties = additionalPropertyMap
+	} else {
+		configuration.AdditionalProperties = nil
+	}
 
 	// AofBackupEnabled
 	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
@@ -1440,6 +1453,17 @@ func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_
 func (configuration *RedisCreateProperties_RedisConfiguration) AssignProperties_To_RedisCreateProperties_RedisConfiguration(destination *storage.RedisCreateProperties_RedisConfiguration) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// AdditionalProperties
+	if configuration.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range configuration.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		destination.AdditionalProperties = additionalPropertyMap
+	} else {
+		destination.AdditionalProperties = nil
+	}
 
 	// AofBackupEnabled
 	destination.AofBackupEnabled = genruntime.ClonePointerToString(configuration.AofBackupEnabled)
@@ -1833,6 +1857,7 @@ func (operator *RedisOperatorSpec) AssignProperties_To_RedisOperatorSpec(destina
 
 // Storage version of v1api20230401.RedisProperties_RedisConfiguration_STATUS
 type RedisProperties_RedisConfiguration_STATUS struct {
+	AdditionalProperties               map[string]v1.JSON     `json:"additionalProperties,omitempty"`
 	AofBackupEnabled                   *string                `json:"aof-backup-enabled,omitempty"`
 	AofStorageConnectionString0        *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1        *string                `json:"aof-storage-connection-string-1,omitempty"`
@@ -1857,6 +1882,17 @@ type RedisProperties_RedisConfiguration_STATUS struct {
 func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties_From_RedisProperties_RedisConfiguration_STATUS(source *storage.RedisProperties_RedisConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdditionalProperties
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		configuration.AdditionalProperties = additionalPropertyMap
+	} else {
+		configuration.AdditionalProperties = nil
+	}
 
 	// AofBackupEnabled
 	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
@@ -1933,6 +1969,17 @@ func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties
 func (configuration *RedisProperties_RedisConfiguration_STATUS) AssignProperties_To_RedisProperties_RedisConfiguration_STATUS(destination *storage.RedisProperties_RedisConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// AdditionalProperties
+	if configuration.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range configuration.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		destination.AdditionalProperties = additionalPropertyMap
+	} else {
+		destination.AdditionalProperties = nil
+	}
 
 	// AofBackupEnabled
 	destination.AofBackupEnabled = genruntime.ClonePointerToString(configuration.AofBackupEnabled)

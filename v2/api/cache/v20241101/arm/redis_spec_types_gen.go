@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package arm
 
-import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+import (
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+)
 
 type Redis_Spec struct {
 	// Identity: The identity of the resource.
@@ -152,7 +155,8 @@ var publicNetworkAccess_Values = map[string]PublicNetworkAccess{
 // aof-storage-connection-string-1 etc.
 type RedisCommonPropertiesRedisConfiguration struct {
 	// AadEnabled: Specifies whether AAD based authentication has been enabled or disabled for the cache
-	AadEnabled *string `json:"aad-enabled,omitempty"`
+	AadEnabled           *string            `json:"aad-enabled,omitempty"`
+	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 
 	// AofBackupEnabled: Specifies whether the aof backup is enabled
 	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`

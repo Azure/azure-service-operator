@@ -47,6 +47,7 @@ type ManagedServiceIdentity struct {
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
+// The kind of workbook. Only valid value is shared.
 // +kubebuilder:validation:Enum={"shared"}
 type Workbook_Kind_Spec string
 

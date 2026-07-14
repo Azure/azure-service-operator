@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -563,6 +564,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 // aof-storage-connection-string-1 etc.
 type RedisCommonPropertiesRedisConfiguration struct {
 	AadEnabled                         *string                `json:"aad-enabled,omitempty"`
+	AdditionalProperties               map[string]v1.JSON     `json:"additionalProperties,omitempty"`
 	AofBackupEnabled                   *string                `json:"aof-backup-enabled,omitempty"`
 	AofStorageConnectionString0        *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1        *string                `json:"aof-storage-connection-string-1,omitempty"`
@@ -588,6 +590,7 @@ type RedisCommonPropertiesRedisConfiguration struct {
 // aof-storage-connection-string-1 etc.
 type RedisCommonPropertiesRedisConfiguration_STATUS struct {
 	AadEnabled                         *string                `json:"aad-enabled,omitempty"`
+	AdditionalProperties               map[string]v1.JSON     `json:"additionalProperties,omitempty"`
 	AofBackupEnabled                   *string                `json:"aof-backup-enabled,omitempty"`
 	AofStorageConnectionString0        *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1        *string                `json:"aof-storage-connection-string-1,omitempty"`

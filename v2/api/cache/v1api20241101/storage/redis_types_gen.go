@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -1431,6 +1432,7 @@ func (connection *PrivateEndpointConnection_STATUS) AssignProperties_To_PrivateE
 // aof-storage-connection-string-1 etc.
 type RedisCommonPropertiesRedisConfiguration struct {
 	AadEnabled                         *string                `json:"aad-enabled,omitempty"`
+	AdditionalProperties               map[string]v1.JSON     `json:"additionalProperties,omitempty"`
 	AofBackupEnabled                   *string                `json:"aof-backup-enabled,omitempty"`
 	AofStorageConnectionString0        *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1        *string                `json:"aof-storage-connection-string-1,omitempty"`
@@ -1456,6 +1458,17 @@ func (configuration *RedisCommonPropertiesRedisConfiguration) AssignProperties_F
 
 	// AadEnabled
 	configuration.AadEnabled = genruntime.ClonePointerToString(source.AadEnabled)
+
+	// AdditionalProperties
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		configuration.AdditionalProperties = additionalPropertyMap
+	} else {
+		configuration.AdditionalProperties = nil
+	}
 
 	// AofBackupEnabled
 	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
@@ -1530,6 +1543,17 @@ func (configuration *RedisCommonPropertiesRedisConfiguration) AssignProperties_T
 	// AadEnabled
 	destination.AadEnabled = genruntime.ClonePointerToString(configuration.AadEnabled)
 
+	// AdditionalProperties
+	if configuration.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range configuration.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		destination.AdditionalProperties = additionalPropertyMap
+	} else {
+		destination.AdditionalProperties = nil
+	}
+
 	// AofBackupEnabled
 	destination.AofBackupEnabled = genruntime.ClonePointerToString(configuration.AofBackupEnabled)
 
@@ -1602,6 +1626,7 @@ func (configuration *RedisCommonPropertiesRedisConfiguration) AssignProperties_T
 // aof-storage-connection-string-1 etc.
 type RedisCommonPropertiesRedisConfiguration_STATUS struct {
 	AadEnabled                         *string                `json:"aad-enabled,omitempty"`
+	AdditionalProperties               map[string]v1.JSON     `json:"additionalProperties,omitempty"`
 	AofBackupEnabled                   *string                `json:"aof-backup-enabled,omitempty"`
 	AofStorageConnectionString0        *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1        *string                `json:"aof-storage-connection-string-1,omitempty"`
@@ -1630,6 +1655,17 @@ func (configuration *RedisCommonPropertiesRedisConfiguration_STATUS) AssignPrope
 
 	// AadEnabled
 	configuration.AadEnabled = genruntime.ClonePointerToString(source.AadEnabled)
+
+	// AdditionalProperties
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		configuration.AdditionalProperties = additionalPropertyMap
+	} else {
+		configuration.AdditionalProperties = nil
+	}
 
 	// AofBackupEnabled
 	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
@@ -1712,6 +1748,17 @@ func (configuration *RedisCommonPropertiesRedisConfiguration_STATUS) AssignPrope
 
 	// AadEnabled
 	destination.AadEnabled = genruntime.ClonePointerToString(configuration.AadEnabled)
+
+	// AdditionalProperties
+	if configuration.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range configuration.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		destination.AdditionalProperties = additionalPropertyMap
+	} else {
+		destination.AdditionalProperties = nil
+	}
 
 	// AofBackupEnabled
 	destination.AofBackupEnabled = genruntime.ClonePointerToString(configuration.AofBackupEnabled)

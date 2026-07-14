@@ -273,7 +273,7 @@ type EncryptionSettingsCollection struct {
 	EncryptionSettingsVersion *string `json:"encryptionSettingsVersion,omitempty"`
 }
 
-// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+// The hypervisor generation of the Virtual Machine.
 // +kubebuilder:validation:Enum={"V1","V2"}
 type HyperVGeneration string
 
@@ -305,7 +305,8 @@ var networkAccessPolicy_Values = map[string]NetworkAccessPolicy{
 	"denyall":      NetworkAccessPolicy_DenyAll,
 }
 
-// The Operating System type.
+// This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or
+// a specialized VHD. Possible values are: Windows, Linux.
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type OperatingSystemTypes string
 

@@ -178,10 +178,10 @@ func AddIndependentPropertyGeneratorsForCondition(gens map[string]gopter.Gen) {
 // AddRelatedPropertyGeneratorsForCondition is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForCondition(gens map[string]gopter.Gen) {
 	gens["Dimensions"] = gen.SliceOf(DimensionGenerator())
-	gens["FailingPeriods"] = gen.PtrOf(Condition_FailingPeriodsGenerator())
+	gens["FailingPeriods"] = gen.PtrOf(ConditionFailingPeriodsGenerator())
 }
 
-func Test_Condition_FailingPeriods_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ConditionFailingPeriods_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -193,13 +193,13 @@ func Test_Condition_FailingPeriods_WhenSerializedToJson_DeserializesAsEqual(t *t
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Condition_FailingPeriods via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCondition_FailingPeriods, Condition_FailingPeriodsGenerator()))
+		"Round trip of ConditionFailingPeriods via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConditionFailingPeriods, ConditionFailingPeriodsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCondition_FailingPeriods runs a test to see if a specific instance of Condition_FailingPeriods round trips to JSON and back losslessly
-func RunJSONSerializationTestForCondition_FailingPeriods(subject Condition_FailingPeriods) string {
+// RunJSONSerializationTestForConditionFailingPeriods runs a test to see if a specific instance of ConditionFailingPeriods round trips to JSON and back losslessly
+func RunJSONSerializationTestForConditionFailingPeriods(subject ConditionFailingPeriods) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -207,7 +207,7 @@ func RunJSONSerializationTestForCondition_FailingPeriods(subject Condition_Faili
 	}
 
 	// Deserialize back into memory
-	var actual Condition_FailingPeriods
+	var actual ConditionFailingPeriods
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -225,25 +225,25 @@ func RunJSONSerializationTestForCondition_FailingPeriods(subject Condition_Faili
 	return ""
 }
 
-// Generator of Condition_FailingPeriods instances for property testing - lazily instantiated by
-// Condition_FailingPeriodsGenerator()
-var condition_FailingPeriodsGenerator gopter.Gen
+// Generator of ConditionFailingPeriods instances for property testing - lazily instantiated by
+// ConditionFailingPeriodsGenerator()
+var conditionFailingPeriodsGenerator gopter.Gen
 
-// Condition_FailingPeriodsGenerator returns a generator of Condition_FailingPeriods instances for property testing.
-func Condition_FailingPeriodsGenerator() gopter.Gen {
-	if condition_FailingPeriodsGenerator != nil {
-		return condition_FailingPeriodsGenerator
+// ConditionFailingPeriodsGenerator returns a generator of ConditionFailingPeriods instances for property testing.
+func ConditionFailingPeriodsGenerator() gopter.Gen {
+	if conditionFailingPeriodsGenerator != nil {
+		return conditionFailingPeriodsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCondition_FailingPeriods(generators)
-	condition_FailingPeriodsGenerator = gen.Struct(reflect.TypeOf(Condition_FailingPeriods{}), generators)
+	AddIndependentPropertyGeneratorsForConditionFailingPeriods(generators)
+	conditionFailingPeriodsGenerator = gen.Struct(reflect.TypeOf(ConditionFailingPeriods{}), generators)
 
-	return condition_FailingPeriodsGenerator
+	return conditionFailingPeriodsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCondition_FailingPeriods is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCondition_FailingPeriods(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConditionFailingPeriods is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConditionFailingPeriods(gens map[string]gopter.Gen) {
 	gens["MinFailingPeriodsToAlert"] = gen.PtrOf(gen.Int())
 	gens["NumberOfEvaluationPeriods"] = gen.PtrOf(gen.Int())
 }

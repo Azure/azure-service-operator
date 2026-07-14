@@ -1058,9 +1058,15 @@ func KekIdentityPropertiesGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForKekIdentityProperties(generators)
 	kekIdentityPropertiesGenerator = gen.Struct(reflect.TypeOf(KekIdentityProperties{}), generators)
 
 	return kekIdentityPropertiesGenerator
+}
+
+// AddIndependentPropertyGeneratorsForKekIdentityProperties is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKekIdentityProperties(gens map[string]gopter.Gen) {
+	gens["UseSystemAssignedIdentity"] = gen.PtrOf(gen.Bool())
 }
 
 func Test_KekIdentityProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1173,6 +1179,7 @@ func KekIdentityProperties_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKekIdentityProperties_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKekIdentityProperties_STATUS(gens map[string]gopter.Gen) {
+	gens["UseSystemAssignedIdentity"] = gen.PtrOf(gen.Bool())
 	gens["UserAssignedIdentity"] = gen.PtrOf(gen.AlphaString())
 }
 

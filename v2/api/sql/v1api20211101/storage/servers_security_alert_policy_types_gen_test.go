@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ServersSecurityAlertPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersSecurityAlertPolicy to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersSecurityAlertPolicy, ServersSecurityAlertPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersSecurityAlertPolicy tests if a specific instance of ServersSecurityAlertPolicy round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersSecurityAlertPolicy(subject ServersSecurityAlertPolicy) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersSecurityAlertPolicy
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersSecurityAlertPolicy
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersSecurityAlertPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersSecurityAlertPolicy to ServersSecurityAlertPolicy via AssignProperties_To_ServersSecurityAlertPolicy & AssignProperties_From_ServersSecurityAlertPolicy returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersSecurityAlertPolicy, ServersSecurityAlertPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersSecurityAlertPolicy tests if a specific instance of ServersSecurityAlertPolicy can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersSecurityAlertPolicy(subject ServersSecurityAlertPolicy) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersSecurityAlertPolicy
+	err := copied.AssignProperties_To_ServersSecurityAlertPolicy(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersSecurityAlertPolicy
+	err = actual.AssignProperties_From_ServersSecurityAlertPolicy(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ServersSecurityAlertPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -84,6 +180,53 @@ func AddRelatedPropertyGeneratorsForServersSecurityAlertPolicy(gens map[string]g
 	gens["Status"] = ServersSecurityAlertPolicy_STATUSGenerator()
 }
 
+func Test_ServersSecurityAlertPolicyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersSecurityAlertPolicyOperatorSpec to ServersSecurityAlertPolicyOperatorSpec via AssignProperties_To_ServersSecurityAlertPolicyOperatorSpec & AssignProperties_From_ServersSecurityAlertPolicyOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersSecurityAlertPolicyOperatorSpec, ServersSecurityAlertPolicyOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersSecurityAlertPolicyOperatorSpec tests if a specific instance of ServersSecurityAlertPolicyOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersSecurityAlertPolicyOperatorSpec(subject ServersSecurityAlertPolicyOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersSecurityAlertPolicyOperatorSpec
+	err := copied.AssignProperties_To_ServersSecurityAlertPolicyOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersSecurityAlertPolicyOperatorSpec
+	err = actual.AssignProperties_From_ServersSecurityAlertPolicyOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersSecurityAlertPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -142,6 +285,53 @@ func ServersSecurityAlertPolicyOperatorSpecGenerator() gopter.Gen {
 	serversSecurityAlertPolicyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersSecurityAlertPolicyOperatorSpec{}), generators)
 
 	return serversSecurityAlertPolicyOperatorSpecGenerator
+}
+
+func Test_ServersSecurityAlertPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersSecurityAlertPolicy_STATUS to ServersSecurityAlertPolicy_STATUS via AssignProperties_To_ServersSecurityAlertPolicy_STATUS & AssignProperties_From_ServersSecurityAlertPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersSecurityAlertPolicy_STATUS, ServersSecurityAlertPolicy_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersSecurityAlertPolicy_STATUS tests if a specific instance of ServersSecurityAlertPolicy_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersSecurityAlertPolicy_STATUS(subject ServersSecurityAlertPolicy_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersSecurityAlertPolicy_STATUS
+	err := copied.AssignProperties_To_ServersSecurityAlertPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersSecurityAlertPolicy_STATUS
+	err = actual.AssignProperties_From_ServersSecurityAlertPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersSecurityAlertPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -231,6 +421,53 @@ func AddIndependentPropertyGeneratorsForServersSecurityAlertPolicy_STATUS(gens m
 // AddRelatedPropertyGeneratorsForServersSecurityAlertPolicy_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServersSecurityAlertPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_ServersSecurityAlertPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersSecurityAlertPolicy_Spec to ServersSecurityAlertPolicy_Spec via AssignProperties_To_ServersSecurityAlertPolicy_Spec & AssignProperties_From_ServersSecurityAlertPolicy_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersSecurityAlertPolicy_Spec, ServersSecurityAlertPolicy_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersSecurityAlertPolicy_Spec tests if a specific instance of ServersSecurityAlertPolicy_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersSecurityAlertPolicy_Spec(subject ServersSecurityAlertPolicy_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersSecurityAlertPolicy_Spec
+	err := copied.AssignProperties_To_ServersSecurityAlertPolicy_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersSecurityAlertPolicy_Spec
+	err = actual.AssignProperties_From_ServersSecurityAlertPolicy_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersSecurityAlertPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

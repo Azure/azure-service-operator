@@ -439,6 +439,209 @@ func AddRelatedPropertyGeneratorsForExtensionOperatorSpec(gens map[string]gopter
 	gens["ConfigMaps"] = gen.PtrOf(ExtensionOperatorConfigMapsGenerator())
 }
 
+func Test_ExtensionPropertiesAksAssignedIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ExtensionPropertiesAksAssignedIdentity via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtensionPropertiesAksAssignedIdentity, ExtensionPropertiesAksAssignedIdentityGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForExtensionPropertiesAksAssignedIdentity runs a test to see if a specific instance of ExtensionPropertiesAksAssignedIdentity round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtensionPropertiesAksAssignedIdentity(subject ExtensionPropertiesAksAssignedIdentity) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ExtensionPropertiesAksAssignedIdentity
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ExtensionPropertiesAksAssignedIdentity instances for property testing - lazily instantiated by
+// ExtensionPropertiesAksAssignedIdentityGenerator()
+var extensionPropertiesAksAssignedIdentityGenerator gopter.Gen
+
+// ExtensionPropertiesAksAssignedIdentityGenerator returns a generator of ExtensionPropertiesAksAssignedIdentity instances for property testing.
+func ExtensionPropertiesAksAssignedIdentityGenerator() gopter.Gen {
+	if extensionPropertiesAksAssignedIdentityGenerator != nil {
+		return extensionPropertiesAksAssignedIdentityGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForExtensionPropertiesAksAssignedIdentity(generators)
+	extensionPropertiesAksAssignedIdentityGenerator = gen.Struct(reflect.TypeOf(ExtensionPropertiesAksAssignedIdentity{}), generators)
+
+	return extensionPropertiesAksAssignedIdentityGenerator
+}
+
+// AddIndependentPropertyGeneratorsForExtensionPropertiesAksAssignedIdentity is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtensionPropertiesAksAssignedIdentity(gens map[string]gopter.Gen) {
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ExtensionPropertiesAksAssignedIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ExtensionPropertiesAksAssignedIdentity_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtensionPropertiesAksAssignedIdentity_STATUS, ExtensionPropertiesAksAssignedIdentity_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForExtensionPropertiesAksAssignedIdentity_STATUS runs a test to see if a specific instance of ExtensionPropertiesAksAssignedIdentity_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtensionPropertiesAksAssignedIdentity_STATUS(subject ExtensionPropertiesAksAssignedIdentity_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ExtensionPropertiesAksAssignedIdentity_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ExtensionPropertiesAksAssignedIdentity_STATUS instances for property testing - lazily instantiated by
+// ExtensionPropertiesAksAssignedIdentity_STATUSGenerator()
+var extensionPropertiesAksAssignedIdentity_STATUSGenerator gopter.Gen
+
+// ExtensionPropertiesAksAssignedIdentity_STATUSGenerator returns a generator of ExtensionPropertiesAksAssignedIdentity_STATUS instances for property testing.
+func ExtensionPropertiesAksAssignedIdentity_STATUSGenerator() gopter.Gen {
+	if extensionPropertiesAksAssignedIdentity_STATUSGenerator != nil {
+		return extensionPropertiesAksAssignedIdentity_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForExtensionPropertiesAksAssignedIdentity_STATUS(generators)
+	extensionPropertiesAksAssignedIdentity_STATUSGenerator = gen.Struct(reflect.TypeOf(ExtensionPropertiesAksAssignedIdentity_STATUS{}), generators)
+
+	return extensionPropertiesAksAssignedIdentity_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForExtensionPropertiesAksAssignedIdentity_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtensionPropertiesAksAssignedIdentity_STATUS(gens map[string]gopter.Gen) {
+	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ExtensionStatus_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ExtensionStatus via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtensionStatus, ExtensionStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForExtensionStatus runs a test to see if a specific instance of ExtensionStatus round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtensionStatus(subject ExtensionStatus) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ExtensionStatus
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ExtensionStatus instances for property testing - lazily instantiated by ExtensionStatusGenerator()
+var extensionStatusGenerator gopter.Gen
+
+// ExtensionStatusGenerator returns a generator of ExtensionStatus instances for property testing.
+func ExtensionStatusGenerator() gopter.Gen {
+	if extensionStatusGenerator != nil {
+		return extensionStatusGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForExtensionStatus(generators)
+	extensionStatusGenerator = gen.Struct(reflect.TypeOf(ExtensionStatus{}), generators)
+
+	return extensionStatusGenerator
+}
+
+// AddIndependentPropertyGeneratorsForExtensionStatus is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtensionStatus(gens map[string]gopter.Gen) {
+	gens["Code"] = gen.PtrOf(gen.AlphaString())
+	gens["DisplayStatus"] = gen.PtrOf(gen.AlphaString())
+	gens["Level"] = gen.PtrOf(gen.AlphaString())
+	gens["Message"] = gen.PtrOf(gen.AlphaString())
+	gens["Time"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_ExtensionStatus_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -507,140 +710,6 @@ func AddIndependentPropertyGeneratorsForExtensionStatus_STATUS(gens map[string]g
 	gens["Level"] = gen.PtrOf(gen.AlphaString())
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
 	gens["Time"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_Extension_Properties_AksAssignedIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Extension_Properties_AksAssignedIdentity_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtension_Properties_AksAssignedIdentity_STATUS, Extension_Properties_AksAssignedIdentity_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForExtension_Properties_AksAssignedIdentity_STATUS runs a test to see if a specific instance of Extension_Properties_AksAssignedIdentity_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtension_Properties_AksAssignedIdentity_STATUS(subject Extension_Properties_AksAssignedIdentity_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Extension_Properties_AksAssignedIdentity_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Extension_Properties_AksAssignedIdentity_STATUS instances for property testing - lazily instantiated by
-// Extension_Properties_AksAssignedIdentity_STATUSGenerator()
-var extension_Properties_AksAssignedIdentity_STATUSGenerator gopter.Gen
-
-// Extension_Properties_AksAssignedIdentity_STATUSGenerator returns a generator of Extension_Properties_AksAssignedIdentity_STATUS instances for property testing.
-func Extension_Properties_AksAssignedIdentity_STATUSGenerator() gopter.Gen {
-	if extension_Properties_AksAssignedIdentity_STATUSGenerator != nil {
-		return extension_Properties_AksAssignedIdentity_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtension_Properties_AksAssignedIdentity_STATUS(generators)
-	extension_Properties_AksAssignedIdentity_STATUSGenerator = gen.Struct(reflect.TypeOf(Extension_Properties_AksAssignedIdentity_STATUS{}), generators)
-
-	return extension_Properties_AksAssignedIdentity_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForExtension_Properties_AksAssignedIdentity_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtension_Properties_AksAssignedIdentity_STATUS(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_Extension_Properties_AksAssignedIdentity_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Extension_Properties_AksAssignedIdentity_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtension_Properties_AksAssignedIdentity_Spec, Extension_Properties_AksAssignedIdentity_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForExtension_Properties_AksAssignedIdentity_Spec runs a test to see if a specific instance of Extension_Properties_AksAssignedIdentity_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtension_Properties_AksAssignedIdentity_Spec(subject Extension_Properties_AksAssignedIdentity_Spec) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Extension_Properties_AksAssignedIdentity_Spec
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Extension_Properties_AksAssignedIdentity_Spec instances for property testing - lazily instantiated by
-// Extension_Properties_AksAssignedIdentity_SpecGenerator()
-var extension_Properties_AksAssignedIdentity_SpecGenerator gopter.Gen
-
-// Extension_Properties_AksAssignedIdentity_SpecGenerator returns a generator of Extension_Properties_AksAssignedIdentity_Spec instances for property testing.
-func Extension_Properties_AksAssignedIdentity_SpecGenerator() gopter.Gen {
-	if extension_Properties_AksAssignedIdentity_SpecGenerator != nil {
-		return extension_Properties_AksAssignedIdentity_SpecGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtension_Properties_AksAssignedIdentity_Spec(generators)
-	extension_Properties_AksAssignedIdentity_SpecGenerator = gen.Struct(reflect.TypeOf(Extension_Properties_AksAssignedIdentity_Spec{}), generators)
-
-	return extension_Properties_AksAssignedIdentity_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForExtension_Properties_AksAssignedIdentity_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtension_Properties_AksAssignedIdentity_Spec(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Extension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -730,6 +799,7 @@ func AddIndependentPropertyGeneratorsForExtension_STATUS(gens map[string]gopter.
 	gens["IsSystemExtension"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PackageUri"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ReleaseTrain"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
@@ -737,7 +807,7 @@ func AddIndependentPropertyGeneratorsForExtension_STATUS(gens map[string]gopter.
 
 // AddRelatedPropertyGeneratorsForExtension_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForExtension_STATUS(gens map[string]gopter.Gen) {
-	gens["AksAssignedIdentity"] = gen.PtrOf(Extension_Properties_AksAssignedIdentity_STATUSGenerator())
+	gens["AksAssignedIdentity"] = gen.PtrOf(ExtensionPropertiesAksAssignedIdentity_STATUSGenerator())
 	gens["ErrorInfo"] = gen.PtrOf(ErrorDetail_STATUSGenerator())
 	gens["Identity"] = gen.PtrOf(Identity_STATUSGenerator())
 	gens["Plan"] = gen.PtrOf(Plan_STATUSGenerator())
@@ -830,12 +900,12 @@ func AddIndependentPropertyGeneratorsForExtension_Spec(gens map[string]gopter.Ge
 
 // AddRelatedPropertyGeneratorsForExtension_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForExtension_Spec(gens map[string]gopter.Gen) {
-	gens["AksAssignedIdentity"] = gen.PtrOf(Extension_Properties_AksAssignedIdentity_SpecGenerator())
+	gens["AksAssignedIdentity"] = gen.PtrOf(ExtensionPropertiesAksAssignedIdentityGenerator())
 	gens["Identity"] = gen.PtrOf(IdentityGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(ExtensionOperatorSpecGenerator())
 	gens["Plan"] = gen.PtrOf(PlanGenerator())
 	gens["Scope"] = gen.PtrOf(ScopeGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
+	gens["Statuses"] = gen.SliceOf(ExtensionStatusGenerator())
 }
 
 func Test_Identity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1500,76 +1570,6 @@ func Scope_STATUSGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForScope_STATUS(gens map[string]gopter.Gen) {
 	gens["Cluster"] = gen.PtrOf(ScopeCluster_STATUSGenerator())
 	gens["Namespace"] = gen.PtrOf(ScopeNamespace_STATUSGenerator())
-}
-
-func Test_SystemData_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData, SystemDataGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSystemData runs a test to see if a specific instance of SystemData round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData(subject SystemData) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SystemData
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SystemData instances for property testing - lazily instantiated by SystemDataGenerator()
-var systemDataGenerator gopter.Gen
-
-// SystemDataGenerator returns a generator of SystemData instances for property testing.
-func SystemDataGenerator() gopter.Gen {
-	if systemDataGenerator != nil {
-		return systemDataGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData(generators)
-	systemDataGenerator = gen.Struct(reflect.TypeOf(SystemData{}), generators)
-
-	return systemDataGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

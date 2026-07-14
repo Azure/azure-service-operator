@@ -6754,7 +6754,7 @@ type ManagedClusterAADProfile struct {
 	ServerAppID *string `json:"serverAppID,omitempty"`
 
 	// ServerAppSecret: (DEPRECATED) The server AAD application secret. Learn more at https://aka.ms/aks/aad-legacy.
-	ServerAppSecret *string `json:"serverAppSecret,omitempty"`
+	ServerAppSecret *genruntime.SecretReference `json:"serverAppSecret,omitempty"`
 
 	// TenantID: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment
 	// subscription.
@@ -6801,7 +6801,11 @@ func (profile *ManagedClusterAADProfile) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "ServerAppSecret":
 	if profile.ServerAppSecret != nil {
-		serverAppSecret := *profile.ServerAppSecret
+		serverAppSecretSecret, err := resolved.ResolvedSecrets.Lookup(*profile.ServerAppSecret)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up secret for property ServerAppSecret")
+		}
+		serverAppSecret := serverAppSecretSecret
 		result.ServerAppSecret = &serverAppSecret
 	}
 
@@ -6854,11 +6858,7 @@ func (profile *ManagedClusterAADProfile) PopulateFromARM(owner genruntime.Arbitr
 		profile.ServerAppID = &serverAppID
 	}
 
-	// Set property "ServerAppSecret":
-	if typedInput.ServerAppSecret != nil {
-		serverAppSecret := *typedInput.ServerAppSecret
-		profile.ServerAppSecret = &serverAppSecret
-	}
+	// no assignment for property "ServerAppSecret"
 
 	// Set property "TenantID":
 	if typedInput.TenantID != nil {
@@ -6899,7 +6899,12 @@ func (profile *ManagedClusterAADProfile) AssignProperties_From_ManagedClusterAAD
 	profile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
 
 	// ServerAppSecret
-	profile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
+	if source.ServerAppSecret != nil {
+		serverAppSecret := source.ServerAppSecret.Copy()
+		profile.ServerAppSecret = &serverAppSecret
+	} else {
+		profile.ServerAppSecret = nil
+	}
 
 	// TenantID
 	profile.TenantID = genruntime.ClonePointerToString(source.TenantID)
@@ -6939,7 +6944,12 @@ func (profile *ManagedClusterAADProfile) AssignProperties_To_ManagedClusterAADPr
 	destination.ServerAppID = genruntime.ClonePointerToString(profile.ServerAppID)
 
 	// ServerAppSecret
-	destination.ServerAppSecret = genruntime.ClonePointerToString(profile.ServerAppSecret)
+	if profile.ServerAppSecret != nil {
+		serverAppSecret := profile.ServerAppSecret.Copy()
+		destination.ServerAppSecret = &serverAppSecret
+	} else {
+		destination.ServerAppSecret = nil
+	}
 
 	// TenantID
 	destination.TenantID = genruntime.ClonePointerToString(profile.TenantID)
@@ -6972,9 +6982,6 @@ type ManagedClusterAADProfile_STATUS struct {
 
 	// ServerAppID: (DEPRECATED) The server AAD application ID. Learn more at https://aka.ms/aks/aad-legacy.
 	ServerAppID *string `json:"serverAppID,omitempty"`
-
-	// ServerAppSecret: (DEPRECATED) The server AAD application secret. Learn more at https://aka.ms/aks/aad-legacy.
-	ServerAppSecret *string `json:"serverAppSecret,omitempty"`
 
 	// TenantID: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment
 	// subscription.
@@ -7024,12 +7031,6 @@ func (profile *ManagedClusterAADProfile_STATUS) PopulateFromARM(owner genruntime
 		profile.ServerAppID = &serverAppID
 	}
 
-	// Set property "ServerAppSecret":
-	if typedInput.ServerAppSecret != nil {
-		serverAppSecret := *typedInput.ServerAppSecret
-		profile.ServerAppSecret = &serverAppSecret
-	}
-
 	// Set property "TenantID":
 	if typedInput.TenantID != nil {
 		tenantID := *typedInput.TenantID
@@ -7068,9 +7069,6 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_From_ManagedClu
 	// ServerAppID
 	profile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
 
-	// ServerAppSecret
-	profile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
-
 	// TenantID
 	profile.TenantID = genruntime.ClonePointerToString(source.TenantID)
 
@@ -7107,9 +7105,6 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_To_ManagedClust
 
 	// ServerAppID
 	destination.ServerAppID = genruntime.ClonePointerToString(profile.ServerAppID)
-
-	// ServerAppSecret
-	destination.ServerAppSecret = genruntime.ClonePointerToString(profile.ServerAppSecret)
 
 	// TenantID
 	destination.TenantID = genruntime.ClonePointerToString(profile.TenantID)
@@ -7466,6 +7461,9 @@ type ManagedClusterAgentPoolProfile struct {
 	// NodeCustomizationProfile: Settings to determine the node customization used to provision nodes in a pool.
 	NodeCustomizationProfile *NodeCustomizationProfile `json:"nodeCustomizationProfile,omitempty"`
 
+	// NodeImageVersion: The version of node image
+	NodeImageVersion *string `json:"nodeImageVersion,omitempty"`
+
 	// NodeInitializationTaints: Taints added on the nodes during creation that will not be reconciled by AKS. These taints
 	// will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is
 	// created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node
@@ -7803,6 +7801,12 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 		}
 		nodeCustomizationProfile := *nodeCustomizationProfile_ARM.(*arm.NodeCustomizationProfile)
 		result.NodeCustomizationProfile = &nodeCustomizationProfile
+	}
+
+	// Set property "NodeImageVersion":
+	if profile.NodeImageVersion != nil {
+		nodeImageVersion := *profile.NodeImageVersion
+		result.NodeImageVersion = &nodeImageVersion
 	}
 
 	// Set property "NodeInitializationTaints":
@@ -8266,6 +8270,12 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 		profile.NodeCustomizationProfile = &nodeCustomizationProfile
 	}
 
+	// Set property "NodeImageVersion":
+	if typedInput.NodeImageVersion != nil {
+		nodeImageVersion := *typedInput.NodeImageVersion
+		profile.NodeImageVersion = &nodeImageVersion
+	}
+
 	// Set property "NodeInitializationTaints":
 	for _, item := range typedInput.NodeInitializationTaints {
 		profile.NodeInitializationTaints = append(profile.NodeInitializationTaints, item)
@@ -8708,6 +8718,9 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 	} else {
 		profile.NodeCustomizationProfile = nil
 	}
+
+	// NodeImageVersion
+	profile.NodeImageVersion = genruntime.ClonePointerToString(source.NodeImageVersion)
 
 	// NodeInitializationTaints
 	profile.NodeInitializationTaints = genruntime.CloneSliceOfString(source.NodeInitializationTaints)
@@ -9165,6 +9178,9 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 	} else {
 		destination.NodeCustomizationProfile = nil
 	}
+
+	// NodeImageVersion
+	destination.NodeImageVersion = genruntime.ClonePointerToString(profile.NodeImageVersion)
 
 	// NodeInitializationTaints
 	destination.NodeInitializationTaints = genruntime.CloneSliceOfString(profile.NodeInitializationTaints)
@@ -13859,6 +13875,7 @@ func (profile *ManagedClusterMetricsProfile_STATUS) AssignProperties_To_ManagedC
 	return nil
 }
 
+// Node provisioning profile for the managed cluster.
 type ManagedClusterNodeProvisioningProfile struct {
 	// DefaultNodePools: The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no
 	// effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default
@@ -13987,6 +14004,7 @@ func (profile *ManagedClusterNodeProvisioningProfile) AssignProperties_To_Manage
 	return nil
 }
 
+// Node provisioning profile for the managed cluster.
 type ManagedClusterNodeProvisioningProfile_STATUS struct {
 	// DefaultNodePools: The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no
 	// effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default
@@ -18357,7 +18375,7 @@ type PrivateLinkResource struct {
 	// GroupId: The group ID of the resource.
 	GroupId *string `json:"groupId,omitempty"`
 
-	// Name: The name of the private link resource.
+	// Name: The name of the private link resource. See [naming rules](https://aka.ms/search-naming-rules) for more details.
 	Name *string `json:"name,omitempty"`
 
 	// Reference: The ID of the private link resource.
@@ -18526,7 +18544,7 @@ type PrivateLinkResource_STATUS struct {
 	// Id: The ID of the private link resource.
 	Id *string `json:"id,omitempty"`
 
-	// Name: The name of the private link resource.
+	// Name: The name of the private link resource. See [naming rules](https://aka.ms/search-naming-rules) for more details.
 	Name *string `json:"name,omitempty"`
 
 	// PrivateLinkServiceID: The private link service ID of the resource, this field is exposed only to NRP internally.
@@ -23172,6 +23190,7 @@ func (balancer *ManagedClusterIngressProfileApplicationLoadBalancer_STATUS) Assi
 	return nil
 }
 
+// Configuration for the ingress managed gateway. See https://aka.ms/k8s-gateway-api for more details.
 type ManagedClusterIngressProfileGatewayConfiguration struct {
 	// Installation: Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See
 	// https://aka.ms/k8s-gateway-api for more details.
@@ -23261,6 +23280,7 @@ func (configuration *ManagedClusterIngressProfileGatewayConfiguration) AssignPro
 	return nil
 }
 
+// Configuration for the ingress managed gateway. See https://aka.ms/k8s-gateway-api for more details.
 type ManagedClusterIngressProfileGatewayConfiguration_STATUS struct {
 	// Installation: Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See
 	// https://aka.ms/k8s-gateway-api for more details.
@@ -25006,7 +25026,9 @@ type ManagedClusterPodIdentity_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Namespace: The namespace of the pod identity.
-	Namespace        *string                                           `json:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty"`
+
+	// ProvisioningInfo: The provisioning information for the pod identity.
 	ProvisioningInfo *ManagedClusterPodIdentityProvisioningInfo_STATUS `json:"provisioningInfo,omitempty"`
 
 	// ProvisioningState: The current provisioning state of the pod identity.
@@ -27615,6 +27637,7 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_S
 	return nil
 }
 
+// User assigned identity properties.
 type ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -31298,6 +31321,7 @@ func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) AssignP
 	return nil
 }
 
+// Default domain profile for the managed cluster ingress profile.
 type ManagedClusterIngressDefaultDomainProfile struct {
 	// Enabled: Whether to enable Default Domain.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -31381,6 +31405,7 @@ func (profile *ManagedClusterIngressDefaultDomainProfile) AssignProperties_To_Ma
 	return nil
 }
 
+// Default domain profile for the managed cluster ingress profile.
 type ManagedClusterIngressDefaultDomainProfile_STATUS struct {
 	// DomainName: The unique fully qualified domain name assigned to the cluster. This will not change even if disabled then
 	// reenabled.
@@ -31465,6 +31490,7 @@ func (profile *ManagedClusterIngressDefaultDomainProfile_STATUS) AssignPropertie
 	return nil
 }
 
+// Nginx ingress controller configuration for the managed cluster ingress profile.
 type ManagedClusterIngressProfileNginx struct {
 	// DefaultIngressControllerType: Ingress type for the default NginxIngressController custom resource
 	DefaultIngressControllerType *NginxIngressControllerType `json:"defaultIngressControllerType,omitempty"`
@@ -31553,6 +31579,7 @@ func (nginx *ManagedClusterIngressProfileNginx) AssignProperties_To_ManagedClust
 	return nil
 }
 
+// Nginx ingress controller configuration for the managed cluster ingress profile.
 type ManagedClusterIngressProfileNginx_STATUS struct {
 	// DefaultIngressControllerType: Ingress type for the default NginxIngressController custom resource
 	DefaultIngressControllerType *NginxIngressControllerType_STATUS `json:"defaultIngressControllerType,omitempty"`
@@ -32384,6 +32411,7 @@ func (profile *ManagedClusterManagedOutboundIPProfile_STATUS) AssignProperties_T
 	return nil
 }
 
+// Pod identity provisioning information.
 type ManagedClusterPodIdentityProvisioningInfo_STATUS struct {
 	// Error: Pod identity assignment error (if any).
 	Error *ManagedClusterPodIdentityProvisioningError_STATUS `json:"error,omitempty"`
@@ -34393,6 +34421,7 @@ func (error *ManagedClusterPodIdentityProvisioningError_STATUS) AssignProperties
 	return nil
 }
 
+// Identity information used by Defender security gating to access container registries.
 type ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem struct {
 	// AzureContainerRegistry: The container registry for which the identity will be used; the identity specified here should
 	// have a federated identity credential attached to it.
@@ -34515,6 +34544,7 @@ func (item *ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem) A
 	return nil
 }
 
+// Identity information used by Defender security gating to access container registries.
 type ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS struct {
 	// AzureContainerRegistry: The container registry for which the identity will be used; the identity specified here should
 	// have a federated identity credential attached to it.

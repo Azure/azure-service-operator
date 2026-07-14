@@ -12,6 +12,10 @@ typeFilters:
   - action: include
     version: v*20250101preview
     because: We need the latest ScheduledQueryRules from this.
+  - action: include
+    version: v*20240301preview
+    because: Cross references from other preview versions
+
 typeTransformers:
   #
   # In the group 'insights'
@@ -34,18 +38,22 @@ typeTransformers:
     property: Kind
     remove: true
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+
   - name: WebTest_Status
     property: Kind
     remove: true
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+
   - name: Workbook_Spec
     property: Etag
     remove: true
     because: This property should be marked readonly in Swagger
+
   - name: DataCollectionEndpointSpec
     property: ImmutableId
     remove: true
     because: This property should be marked readonly in Swagger
+
   - name: DataFlow;DataFlow_STATUS
     property: Streams
     target:
@@ -53,6 +61,7 @@ typeTransformers:
         element:
           name: string
     because: The enum restrictions on this type are incomplete. The service supports additional stream values like Microsoft-PrometheusMetrics that aren't listed in the enum. See https://github.com/Azure/azure-service-operator/issues/5350
+
   - name: PerfCounterDataSource;PerfCounterDataSource_STATUS;ExtensionDataSource;ExtensionDataSource_STATUS;PrometheusForwarderDataSource;PrometheusForwarderDataSource_STATUS;SyslogDataSource;SyslogDataSource_STATUS;WindowsEventLogDataSource;WindowsEventLogDataSource_STATUS
     property: Streams
     target:
@@ -60,6 +69,40 @@ typeTransformers:
         element:
           name: string
     because: The enum restrictions on this type are incomplete. The service supports additional stream values like Microsoft-PrometheusMetrics that aren't listed in the enum. See https://github.com/Azure/azure-service-operator/issues/5350
+
+  - name: ExtensionDataSource;ExtensionDataSource_STATUS
+    property: ExtensionSettings
+    target:
+      map:
+        key:
+          name: string
+        value:
+          name: any
+    because: some ExtensionSettings are defined as map[string]any and some are defined as any  
+
+  - name: PrometheusForwarderDataSource;PrometheusForwarderDataSource_STATUS
+    property: CustomVMScrapeConfig
+    ifType:
+      slice:
+        element:
+          name: any
+    target:
+      slice:
+        element:
+          map:
+            key:
+              name: string
+            value:
+              name: any
+    because: The TypeSpec conversion incorrectly changed items from {"type":"object"} to {} losing the object type. This should be an array of objects (map[string]v1.JSON[]). See https://github.com/Azure/azure-rest-api-specs/issues/44513.
+
+  - name: AlertSeverity;AlertSeverity_STATUS
+    target:
+      enum: 
+        base: int
+        values: [0,1,2,3,4]
+    because: Using float64 as the underlying type for an int enum is weird and causes conversion problems with earlier versions of the resource.
+
 groupModelConfiguration:
   2017-10-01:
     Components_PricingPlan:
@@ -85,6 +128,22 @@ groupModelConfiguration:
     WebTestGeolocation:
       Id:
         $referenceType: simple
+    WebTestProperties_Configuration:
+      $nameInNextVersion: WebTestPropertiesConfiguration
+    WebTestProperties_Configuration_STATUS:
+      $nameInNextVersion: WebTestPropertiesConfiguration_STATUS
+    WebTestProperties_Request:
+      $nameInNextVersion: WebTestPropertiesRequest
+    WebTestProperties_Request_STATUS:
+      $nameInNextVersion: WebTestPropertiesRequest_STATUS
+    WebTestProperties_ValidationRules:
+      $nameInNextVersion: WebTestPropertiesValidationRules
+    WebTestProperties_ValidationRules_STATUS:
+      $nameInNextVersion: WebTestPropertiesValidationRules_STATUS
+    WebTestProperties_ValidationRules_ContentValidation:
+      $nameInNextVersion: WebTestPropertiesValidationRulesContentValidation
+    WebTestProperties_ValidationRules_ContentValidation_STATUS:
+      $nameInNextVersion: WebTestPropertiesValidationRulesContentValidation_STATUS
   2020-02-02:
     ApplicationInsightsComponentProperties:
       HockeyAppToken:
@@ -97,6 +156,8 @@ groupModelConfiguration:
       $generatedConfigs:
         ConnectionString: $.Status.ConnectionString
         InstrumentationKey: $.Status.InstrumentationKey
+    WebTestProperties_Configuration:
+      $nameInNextVersion: WebTestPropertiesConfiguration
   2020-10-01:
     ActionGroup:
       $renameTo: ActionGroupReference
@@ -127,15 +188,6 @@ groupModelConfiguration:
         $referenceType: arm
       StorageAccountId:
         $referenceType: arm
-  2023-06-01:
-    Workbook:
-      $exportAs: Workbook
-      $supportedFrom: v2.15.0
-    WorkbookProperties:
-      SourceId:
-        $referenceType: arm
-      StorageUri:
-        $referenceType: arm
   2022-10-01:
     Autoscalesetting:
       $exportAs: AutoscaleSetting
@@ -150,18 +202,22 @@ groupModelConfiguration:
       ServiceUri:
         $importSecretMode: optional
   2022-06-15:
-    ScheduledQueryRule:
-      $exportAs: ScheduledQueryRule
-      $supportedFrom: v2.4.0
     Actions:
       ActionGroups:
         $referenceType: arm
     Condition:
       ResourceIdColumn:
         $referenceType: arm
+    Condition_FailingPeriods:
+      $renameTo: ConditionFailingPeriods
+    Condition_FailingPeriods_STATUS:
+      $renameTo: ConditionFailingPeriods_STATUS
     ScheduledQueryRuleProperties:
       Scopes:
         $referenceType: arm
+    ScheduledQueryRule:
+      $exportAs: ScheduledQueryRule
+      $supportedFrom: v2.4.0
     Webtest:
       $exportAs: Webtest
       $supportedFrom: v2.7.0
@@ -228,6 +284,17 @@ groupModelConfiguration:
         $referenceType: arm
       DataCollectionRuleId:
         $referenceType: arm
+  2023-06-01:
+    ApplicationInsightsCommonTypesWorkbookSharedTypeKind:
+      $renameTo: Workbook_Kind_Spec
+    Workbook:
+      $exportAs: Workbook
+      $supportedFrom: v2.15.0
+    WorkbookProperties:
+      SourceId:
+        $referenceType: arm
+      StorageUri:
+        $referenceType: arm
   2024-03-11:
     DataCollectionRule:
       $exportAs: DataCollectionRule
@@ -270,6 +337,9 @@ groupModelConfiguration:
         $referenceType: arm
       DataCollectionRuleId:
         $referenceType: arm
+    ExtensionDataSource_STATUS:
+      ExtensionSettings:
+        $conversionStrategy: manual
   2025-01-01-preview:
     ScheduledQueryRule:
       $exportAs: ScheduledQueryRule

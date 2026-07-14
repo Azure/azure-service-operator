@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ServersDatabasesTransparentDataEncryption_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesTransparentDataEncryption to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersDatabasesTransparentDataEncryption, ServersDatabasesTransparentDataEncryptionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersDatabasesTransparentDataEncryption tests if a specific instance of ServersDatabasesTransparentDataEncryption round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersDatabasesTransparentDataEncryption(subject ServersDatabasesTransparentDataEncryption) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersDatabasesTransparentDataEncryption
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersDatabasesTransparentDataEncryption
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersDatabasesTransparentDataEncryption_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesTransparentDataEncryption to ServersDatabasesTransparentDataEncryption via AssignProperties_To_ServersDatabasesTransparentDataEncryption & AssignProperties_From_ServersDatabasesTransparentDataEncryption returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption, ServersDatabasesTransparentDataEncryptionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption tests if a specific instance of ServersDatabasesTransparentDataEncryption can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption(subject ServersDatabasesTransparentDataEncryption) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesTransparentDataEncryption
+	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryption(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesTransparentDataEncryption
+	err = actual.AssignProperties_From_ServersDatabasesTransparentDataEncryption(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ServersDatabasesTransparentDataEncryption_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -84,6 +180,53 @@ func AddRelatedPropertyGeneratorsForServersDatabasesTransparentDataEncryption(ge
 	gens["Status"] = ServersDatabasesTransparentDataEncryption_STATUSGenerator()
 }
 
+func Test_ServersDatabasesTransparentDataEncryptionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesTransparentDataEncryptionOperatorSpec to ServersDatabasesTransparentDataEncryptionOperatorSpec via AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec & AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryptionOperatorSpec, ServersDatabasesTransparentDataEncryptionOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryptionOperatorSpec tests if a specific instance of ServersDatabasesTransparentDataEncryptionOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryptionOperatorSpec(subject ServersDatabasesTransparentDataEncryptionOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesTransparentDataEncryptionOperatorSpec
+	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesTransparentDataEncryptionOperatorSpec
+	err = actual.AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersDatabasesTransparentDataEncryptionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -142,6 +285,53 @@ func ServersDatabasesTransparentDataEncryptionOperatorSpecGenerator() gopter.Gen
 	serversDatabasesTransparentDataEncryptionOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersDatabasesTransparentDataEncryptionOperatorSpec{}), generators)
 
 	return serversDatabasesTransparentDataEncryptionOperatorSpecGenerator
+}
+
+func Test_ServersDatabasesTransparentDataEncryption_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesTransparentDataEncryption_STATUS to ServersDatabasesTransparentDataEncryption_STATUS via AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS & AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_STATUS, ServersDatabasesTransparentDataEncryption_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_STATUS tests if a specific instance of ServersDatabasesTransparentDataEncryption_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_STATUS(subject ServersDatabasesTransparentDataEncryption_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesTransparentDataEncryption_STATUS
+	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesTransparentDataEncryption_STATUS
+	err = actual.AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersDatabasesTransparentDataEncryption_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -211,6 +401,53 @@ func AddIndependentPropertyGeneratorsForServersDatabasesTransparentDataEncryptio
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ServersDatabasesTransparentDataEncryption_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersDatabasesTransparentDataEncryption_Spec to ServersDatabasesTransparentDataEncryption_Spec via AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec & AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_Spec, ServersDatabasesTransparentDataEncryption_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_Spec tests if a specific instance of ServersDatabasesTransparentDataEncryption_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersDatabasesTransparentDataEncryption_Spec(subject ServersDatabasesTransparentDataEncryption_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersDatabasesTransparentDataEncryption_Spec
+	err := copied.AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersDatabasesTransparentDataEncryption_Spec
+	err = actual.AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersDatabasesTransparentDataEncryption_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

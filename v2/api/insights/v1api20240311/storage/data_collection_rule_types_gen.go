@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240311.DataCollectionRule
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionRules_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}
 type DataCollectionRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -159,7 +159,7 @@ func (rule *DataCollectionRule) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240311.DataCollectionRule
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionRules_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}
 type DataCollectionRuleList struct {
 	metav1.TypeMeta `json:",inline"`

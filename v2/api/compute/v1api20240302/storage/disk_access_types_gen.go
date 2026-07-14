@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20240302.DiskAccess
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}
 type DiskAccess struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -246,7 +246,7 @@ func (access *DiskAccess) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20240302.DiskAccess
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}
 type DiskAccessList struct {
 	metav1.TypeMeta `json:",inline"`

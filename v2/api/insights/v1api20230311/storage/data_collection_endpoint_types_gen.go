@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20230311.DataCollectionEndpoint
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2023-03-11/dataCollectionEndpoints_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2023-03-11/dataCollectionEndpoints_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}
 type DataCollectionEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -247,7 +247,7 @@ func (endpoint *DataCollectionEndpoint) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20230311.DataCollectionEndpoint
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2023-03-11/dataCollectionEndpoints_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2023-03-11/dataCollectionEndpoints_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}
 type DataCollectionEndpointList struct {
 	metav1.TypeMeta `json:",inline"`

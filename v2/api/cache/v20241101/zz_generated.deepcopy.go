@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
@@ -524,6 +525,13 @@ func (in *RedisCommonPropertiesRedisConfiguration) DeepCopyInto(out *RedisCommon
 		*out = new(string)
 		**out = **in
 	}
+	if in.AdditionalProperties != nil {
+		in, out := &in.AdditionalProperties, &out.AdditionalProperties
+		*out = make(map[string]v1.JSON, len(*in))
+		for key, val := range *in {
+			(*out)[key] = *val.DeepCopy()
+		}
+	}
 	if in.AofBackupEnabled != nil {
 		in, out := &in.AofBackupEnabled, &out.AofBackupEnabled
 		*out = new(string)
@@ -618,6 +626,13 @@ func (in *RedisCommonPropertiesRedisConfiguration_STATUS) DeepCopyInto(out *Redi
 		in, out := &in.AadEnabled, &out.AadEnabled
 		*out = new(string)
 		**out = **in
+	}
+	if in.AdditionalProperties != nil {
+		in, out := &in.AdditionalProperties, &out.AdditionalProperties
+		*out = make(map[string]v1.JSON, len(*in))
+		for key, val := range *in {
+			(*out)[key] = *val.DeepCopy()
+		}
 	}
 	if in.AofBackupEnabled != nil {
 		in, out := &in.AofBackupEnabled, &out.AofBackupEnabled

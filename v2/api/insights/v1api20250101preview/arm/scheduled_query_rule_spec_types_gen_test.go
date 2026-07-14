@@ -160,36 +160,36 @@ func ConditionGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCondition is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCondition(gens map[string]gopter.Gen) {
 	gens["AlertSensitivity"] = gen.PtrOf(gen.AlphaString())
-	gens["CriterionType"] = gen.PtrOf(gen.OneConstOf(Condition_CriterionType_DynamicThresholdCriterion, Condition_CriterionType_StaticThresholdCriterion))
+	gens["CriterionType"] = gen.PtrOf(gen.OneConstOf(MicrosoftCommonCriterionType_DynamicThresholdCriterion, MicrosoftCommonCriterionType_StaticThresholdCriterion))
 	gens["IgnoreDataBefore"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricMeasureColumn"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricName"] = gen.PtrOf(gen.AlphaString())
 	gens["MinRecurrenceCount"] = gen.PtrOf(gen.Int())
 	gens["Operator"] = gen.PtrOf(gen.OneConstOf(
-		Condition_Operator_Equals,
-		Condition_Operator_GreaterOrLessThan,
-		Condition_Operator_GreaterThan,
-		Condition_Operator_GreaterThanOrEqual,
-		Condition_Operator_LessThan,
-		Condition_Operator_LessThanOrEqual))
+		ConditionOperator_Equals,
+		ConditionOperator_GreaterOrLessThan,
+		ConditionOperator_GreaterThan,
+		ConditionOperator_GreaterThanOrEqual,
+		ConditionOperator_LessThan,
+		ConditionOperator_LessThanOrEqual))
 	gens["Query"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceIdColumn"] = gen.PtrOf(gen.AlphaString())
 	gens["Threshold"] = gen.PtrOf(gen.Float64())
 	gens["TimeAggregation"] = gen.PtrOf(gen.OneConstOf(
-		Condition_TimeAggregation_Average,
-		Condition_TimeAggregation_Count,
-		Condition_TimeAggregation_Maximum,
-		Condition_TimeAggregation_Minimum,
-		Condition_TimeAggregation_Total))
+		TimeAggregation_Average,
+		TimeAggregation_Count,
+		TimeAggregation_Maximum,
+		TimeAggregation_Minimum,
+		TimeAggregation_Total))
 }
 
 // AddRelatedPropertyGeneratorsForCondition is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForCondition(gens map[string]gopter.Gen) {
 	gens["Dimensions"] = gen.SliceOf(DimensionGenerator())
-	gens["FailingPeriods"] = gen.PtrOf(Condition_FailingPeriodsGenerator())
+	gens["FailingPeriods"] = gen.PtrOf(ConditionFailingPeriodsGenerator())
 }
 
-func Test_Condition_FailingPeriods_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ConditionFailingPeriods_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -201,13 +201,13 @@ func Test_Condition_FailingPeriods_WhenSerializedToJson_DeserializesAsEqual(t *t
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Condition_FailingPeriods via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCondition_FailingPeriods, Condition_FailingPeriodsGenerator()))
+		"Round trip of ConditionFailingPeriods via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConditionFailingPeriods, ConditionFailingPeriodsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCondition_FailingPeriods runs a test to see if a specific instance of Condition_FailingPeriods round trips to JSON and back losslessly
-func RunJSONSerializationTestForCondition_FailingPeriods(subject Condition_FailingPeriods) string {
+// RunJSONSerializationTestForConditionFailingPeriods runs a test to see if a specific instance of ConditionFailingPeriods round trips to JSON and back losslessly
+func RunJSONSerializationTestForConditionFailingPeriods(subject ConditionFailingPeriods) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -215,7 +215,7 @@ func RunJSONSerializationTestForCondition_FailingPeriods(subject Condition_Faili
 	}
 
 	// Deserialize back into memory
-	var actual Condition_FailingPeriods
+	var actual ConditionFailingPeriods
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -233,25 +233,25 @@ func RunJSONSerializationTestForCondition_FailingPeriods(subject Condition_Faili
 	return ""
 }
 
-// Generator of Condition_FailingPeriods instances for property testing - lazily instantiated by
-// Condition_FailingPeriodsGenerator()
-var condition_FailingPeriodsGenerator gopter.Gen
+// Generator of ConditionFailingPeriods instances for property testing - lazily instantiated by
+// ConditionFailingPeriodsGenerator()
+var conditionFailingPeriodsGenerator gopter.Gen
 
-// Condition_FailingPeriodsGenerator returns a generator of Condition_FailingPeriods instances for property testing.
-func Condition_FailingPeriodsGenerator() gopter.Gen {
-	if condition_FailingPeriodsGenerator != nil {
-		return condition_FailingPeriodsGenerator
+// ConditionFailingPeriodsGenerator returns a generator of ConditionFailingPeriods instances for property testing.
+func ConditionFailingPeriodsGenerator() gopter.Gen {
+	if conditionFailingPeriodsGenerator != nil {
+		return conditionFailingPeriodsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCondition_FailingPeriods(generators)
-	condition_FailingPeriodsGenerator = gen.Struct(reflect.TypeOf(Condition_FailingPeriods{}), generators)
+	AddIndependentPropertyGeneratorsForConditionFailingPeriods(generators)
+	conditionFailingPeriodsGenerator = gen.Struct(reflect.TypeOf(ConditionFailingPeriods{}), generators)
 
-	return condition_FailingPeriodsGenerator
+	return conditionFailingPeriodsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCondition_FailingPeriods is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCondition_FailingPeriods(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConditionFailingPeriods is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConditionFailingPeriods(gens map[string]gopter.Gen) {
 	gens["MinFailingPeriodsToAlert"] = gen.PtrOf(gen.Int())
 	gens["NumberOfEvaluationPeriods"] = gen.PtrOf(gen.Int())
 }
@@ -319,11 +319,11 @@ func DimensionGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDimension is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDimension(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Operator"] = gen.PtrOf(gen.OneConstOf(Dimension_Operator_Exclude, Dimension_Operator_Include))
+	gens["Operator"] = gen.PtrOf(gen.OneConstOf(DimensionOperator_Exclude, DimensionOperator_Include))
 	gens["Values"] = gen.SliceOf(gen.AlphaString())
 }
 
-func Test_Identity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MicrosoftCommonIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -335,13 +335,13 @@ func Test_Identity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Identity via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIdentity, IdentityGenerator()))
+		"Round trip of MicrosoftCommonIdentity via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMicrosoftCommonIdentity, MicrosoftCommonIdentityGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForIdentity runs a test to see if a specific instance of Identity round trips to JSON and back losslessly
-func RunJSONSerializationTestForIdentity(subject Identity) string {
+// RunJSONSerializationTestForMicrosoftCommonIdentity runs a test to see if a specific instance of MicrosoftCommonIdentity round trips to JSON and back losslessly
+func RunJSONSerializationTestForMicrosoftCommonIdentity(subject MicrosoftCommonIdentity) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -349,7 +349,7 @@ func RunJSONSerializationTestForIdentity(subject Identity) string {
 	}
 
 	// Deserialize back into memory
-	var actual Identity
+	var actual MicrosoftCommonIdentity
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -367,38 +367,39 @@ func RunJSONSerializationTestForIdentity(subject Identity) string {
 	return ""
 }
 
-// Generator of Identity instances for property testing - lazily instantiated by IdentityGenerator()
-var identityGenerator gopter.Gen
+// Generator of MicrosoftCommonIdentity instances for property testing - lazily instantiated by
+// MicrosoftCommonIdentityGenerator()
+var microsoftCommonIdentityGenerator gopter.Gen
 
-// IdentityGenerator returns a generator of Identity instances for property testing.
-// We first initialize identityGenerator with a simplified generator based on the
+// MicrosoftCommonIdentityGenerator returns a generator of MicrosoftCommonIdentity instances for property testing.
+// We first initialize microsoftCommonIdentityGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func IdentityGenerator() gopter.Gen {
-	if identityGenerator != nil {
-		return identityGenerator
+func MicrosoftCommonIdentityGenerator() gopter.Gen {
+	if microsoftCommonIdentityGenerator != nil {
+		return microsoftCommonIdentityGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentity(generators)
-	identityGenerator = gen.Struct(reflect.TypeOf(Identity{}), generators)
+	AddIndependentPropertyGeneratorsForMicrosoftCommonIdentity(generators)
+	microsoftCommonIdentityGenerator = gen.Struct(reflect.TypeOf(MicrosoftCommonIdentity{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentity(generators)
-	AddRelatedPropertyGeneratorsForIdentity(generators)
-	identityGenerator = gen.Struct(reflect.TypeOf(Identity{}), generators)
+	AddIndependentPropertyGeneratorsForMicrosoftCommonIdentity(generators)
+	AddRelatedPropertyGeneratorsForMicrosoftCommonIdentity(generators)
+	microsoftCommonIdentityGenerator = gen.Struct(reflect.TypeOf(MicrosoftCommonIdentity{}), generators)
 
-	return identityGenerator
+	return microsoftCommonIdentityGenerator
 }
 
-// AddIndependentPropertyGeneratorsForIdentity is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_None, Identity_Type_SystemAssigned, Identity_Type_UserAssigned))
+// AddIndependentPropertyGeneratorsForMicrosoftCommonIdentity is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMicrosoftCommonIdentity(gens map[string]gopter.Gen) {
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(MicrosoftCommonIdentityType_None, MicrosoftCommonIdentityType_SystemAssigned, MicrosoftCommonIdentityType_UserAssigned))
 }
 
-// AddRelatedPropertyGeneratorsForIdentity is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForIdentity(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForMicrosoftCommonIdentity is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMicrosoftCommonIdentity(gens map[string]gopter.Gen) {
 	gens["UserAssignedIdentities"] = gen.MapOf(
 		gen.AlphaString(),
 		UserAssignedIdentityDetailsGenerator())
@@ -619,11 +620,11 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRuleProperties(gens map[st
 	gens["OverrideQueryTimeRange"] = gen.PtrOf(gen.AlphaString())
 	gens["Scopes"] = gen.SliceOf(gen.AlphaString())
 	gens["Severity"] = gen.PtrOf(gen.OneConstOf(
-		ScheduledQueryRuleProperties_Severity_0,
-		ScheduledQueryRuleProperties_Severity_1,
-		ScheduledQueryRuleProperties_Severity_2,
-		ScheduledQueryRuleProperties_Severity_3,
-		ScheduledQueryRuleProperties_Severity_4))
+		AlertSeverity_0,
+		AlertSeverity_1,
+		AlertSeverity_2,
+		AlertSeverity_3,
+		AlertSeverity_4))
 	gens["SkipQueryValidation"] = gen.PtrOf(gen.Bool())
 	gens["TargetResourceTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["WindowSize"] = gen.PtrOf(gen.AlphaString())
@@ -708,7 +709,7 @@ func ScheduledQueryRule_SpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForScheduledQueryRule_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScheduledQueryRule_Spec(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ScheduledQueryRule_Kind_Spec_LogAlert, ScheduledQueryRule_Kind_Spec_LogToMetric, ScheduledQueryRule_Kind_Spec_SimpleLogAlert))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Kind_LogAlert, Kind_LogToMetric, Kind_SimpleLogAlert))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(
@@ -718,7 +719,7 @@ func AddIndependentPropertyGeneratorsForScheduledQueryRule_Spec(gens map[string]
 
 // AddRelatedPropertyGeneratorsForScheduledQueryRule_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForScheduledQueryRule_Spec(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(IdentityGenerator())
+	gens["Identity"] = gen.PtrOf(MicrosoftCommonIdentityGenerator())
 	gens["Properties"] = gen.PtrOf(ScheduledQueryRulePropertiesGenerator())
 }
 

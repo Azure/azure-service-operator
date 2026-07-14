@@ -125,7 +125,8 @@ Redis_STATUS: Object (8 properties)
 │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   ├── "Disabled"
 │   │   └── "Enabled"
-│   ├── RedisConfiguration: *Object (17 properties)
+│   ├── RedisConfiguration: *Object (18 properties)
+│   │   ├── AdditionalProperties: map[string]v1.JSON
 │   │   ├── AofBackupEnabled: *string
 │   │   ├── AofStorageConnectionString0: *string
 │   │   ├── AofStorageConnectionString1: *string
@@ -183,7 +184,8 @@ Redis_Spec: Object (6 properties)
 │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   ├── "Disabled"
 │   │   └── "Enabled"
-│   ├── RedisConfiguration: *Object (14 properties)
+│   ├── RedisConfiguration: *Object (15 properties)
+│   │   ├── AdditionalProperties: map[string]v1.JSON
 │   │   ├── AofBackupEnabled: *string
 │   │   ├── AofStorageConnectionString0: *string
 │   │   ├── AofStorageConnectionString1: *string

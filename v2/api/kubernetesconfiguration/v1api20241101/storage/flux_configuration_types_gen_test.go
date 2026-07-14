@@ -556,6 +556,7 @@ func AddRelatedPropertyGeneratorsForFluxConfiguration_STATUS(gens map[string]gop
 		KustomizationDefinition_STATUSGenerator())
 	gens["OciRepository"] = gen.PtrOf(OCIRepositoryDefinition_STATUSGenerator())
 	gens["Statuses"] = gen.SliceOf(ObjectStatusDefinition_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
 func Test_FluxConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

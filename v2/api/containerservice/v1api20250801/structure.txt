@@ -164,7 +164,7 @@ ManagedCluster: Resource
 │   │   ├── EnableAzureRBAC: *bool
 │   │   ├── Managed: *bool
 │   │   ├── ServerAppID: *string
-│   │   ├── ServerAppSecret: *string
+│   │   ├── ServerAppSecret: *genruntime.SecretReference
 │   │   └── TenantID: *string
 │   ├── AddonProfiles: map[string]Object (2 properties)
 │   │   ├── Config: map[string]string
@@ -689,13 +689,12 @@ ManagedCluster: Resource
 │       └── VerticalPodAutoscaler: *Object (1 property)
 │           └── Enabled: *bool
 └── Status: Object (57 properties)
-    ├── AadProfile: *Object (7 properties)
+    ├── AadProfile: *Object (6 properties)
     │   ├── AdminGroupObjectIDs: string[]
     │   ├── ClientAppID: *string
     │   ├── EnableAzureRBAC: *bool
     │   ├── Managed: *bool
     │   ├── ServerAppID: *string
-    │   ├── ServerAppSecret: *string
     │   └── TenantID: *string
     ├── AddonProfiles: map[string]Object (3 properties)
     │   ├── Config: map[string]string

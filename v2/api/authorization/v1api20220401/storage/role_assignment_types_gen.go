@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20220401.RoleAssignment
 // Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json
 // - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -245,7 +245,7 @@ func (assignment *RoleAssignment) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20220401.RoleAssignment
 // Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleAssignmentsCalls.json
 // - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 type RoleAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -540,6 +540,7 @@ type RoleAssignment_STATUS struct {
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RoleDefinitionId                   *string                `json:"roleDefinitionId,omitempty"`
 	Scope                              *string                `json:"scope,omitempty"`
+	SystemData                         *SystemData_STATUS     `json:"systemData,omitempty"`
 	Type                               *string                `json:"type,omitempty"`
 	UpdatedBy                          *string                `json:"updatedBy,omitempty"`
 	UpdatedOn                          *string                `json:"updatedOn,omitempty"`
@@ -639,6 +640,18 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_From_RoleAssignment_ST
 	// Scope
 	assignment.Scope = genruntime.ClonePointerToString(source.Scope)
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		assignment.SystemData = &systemDatum
+	} else {
+		assignment.SystemData = nil
+	}
+
 	// Type
 	assignment.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -711,6 +724,18 @@ func (assignment *RoleAssignment_STATUS) AssignProperties_To_RoleAssignment_STAT
 
 	// Scope
 	destination.Scope = genruntime.ClonePointerToString(assignment.Scope)
+
+	// SystemData
+	if assignment.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := assignment.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(assignment.Type)
@@ -880,9 +905,112 @@ func (operator *RoleAssignmentOperatorSpec) AssignProperties_To_RoleAssignmentOp
 	return nil
 }
 
+// Storage version of v1api20220401.SystemData_STATUS
+// Metadata pertaining to creation and last modification of the resource.
+type SystemData_STATUS struct {
+	CreatedAt          *string                `json:"createdAt,omitempty"`
+	CreatedBy          *string                `json:"createdBy,omitempty"`
+	CreatedByType      *string                `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CreatedAt
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedByType
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
+
+	// LastModifiedAt
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
+
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
+
+	// LastModifiedByType
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		data.PropertyBag = propertyBag
+	} else {
+		data.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
+
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
+
+	// CreatedByType
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
+
+	// LastModifiedAt
+	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
+
+	// LastModifiedBy
+	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
+
+	// LastModifiedByType
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 type augmentConversionForRoleAssignmentOperatorSpec interface {
 	AssignPropertiesFrom(src *storage.RoleAssignmentOperatorSpec) error
 	AssignPropertiesTo(dst *storage.RoleAssignmentOperatorSpec) error
+}
+
+type augmentConversionForSystemData_STATUS interface {
+	AssignPropertiesFrom(src *storage.SystemData_STATUS) error
+	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
 }
 
 func init() {
