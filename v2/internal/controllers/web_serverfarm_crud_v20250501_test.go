@@ -23,18 +23,17 @@ func Test_Web_ServerFarm_v20250501_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Our default region (West US 2) is capacity constrained for web at the moment.
-	// location := tc.AzureRegion
-	tc.AzureRegion = to.Ptr("westus3")
+	// Flex Consumption is only available in a subset of regions.
+	tc.AzureRegion = to.Ptr("northeurope")
 	serverFarm := newServerFarmV20250501(tc, rg, *tc.AzureRegion)
 
 	tc.CreateResourceAndWait(serverFarm)
 
 	armId := *serverFarm.Status.Id
 	old := serverFarm.DeepCopy()
-	serverFarm.Spec.PerSiteScaling = to.Ptr(true)
+	serverFarm.Spec.Tags = map[string]string{"cost-center": "12345"}
 	tc.PatchResourceAndWait(old, serverFarm)
-	tc.Expect(serverFarm.Status.PerSiteScaling).To(gomega.Equal(to.Ptr(true)))
+	tc.Expect(serverFarm.Status.Tags).To(gomega.HaveKeyWithValue("cost-center", "12345"))
 
 	tc.DeleteResourcesAndWait(serverFarm)
 
@@ -47,14 +46,18 @@ func Test_Web_ServerFarm_v20250501_CRUD(t *testing.T) {
 	tc.Expect(exists).To(gomega.BeFalse())
 }
 
+// newServerFarmV20250501 builds a Flex Consumption (FC1) plan used by the Function App CRUD test.
 func newServerFarmV20250501(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, location string) *v20250501.ServerFarm {
 	serverFarm := &v20250501.ServerFarm{
 		ObjectMeta: tc.MakeObjectMeta("appservice"),
 		Spec: v20250501.ServerFarm_Spec{
 			Location: &location,
 			Owner:    testcommon.AsOwner(rg),
+			Kind:     to.Ptr("functionapp"),
+			Reserved: to.Ptr(true),
 			Sku: &v20250501.SkuDescription{
-				Name: to.Ptr("P1v2"),
+				Name: to.Ptr("FC1"),
+				Tier: to.Ptr("FlexConsumption"),
 			},
 		},
 	}

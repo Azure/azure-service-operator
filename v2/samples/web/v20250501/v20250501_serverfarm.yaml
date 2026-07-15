@@ -4,9 +4,11 @@ metadata:
   name: aso-sample-appservice
   namespace: default
 spec:
-  location: westus3
+  location: northeurope
   owner:
     name: aso-sample-rg
+  kind: functionapp
+  reserved: true
   sku:
-    name: P1v2
-    tier: PremiumV2
+    name: FC1
+    tier: FlexConsumption
