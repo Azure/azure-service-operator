@@ -57,7 +57,7 @@ func newVersionMigrationFactory(
 	return &versionMigrationFactory{
 		configuration:     configuration,
 		definitions:       definitions,
-		lastLegacyVersion: "v2.16.0",
+		lastLegacyVersion: astmodel.LastLegacyASOVersion,
 	}
 }
 

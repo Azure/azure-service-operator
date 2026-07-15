@@ -41,6 +41,32 @@ const (
 	VersionMigrationModeHybrid VersionMigrationMode = "hybrid"
 )
 
+// LastLegacyASOVersion is the last ASO release that used the legacy `v1api` prefixed versioning scheme
+// for all resources. Resources introduced in this release or earlier that live in Hybrid mode groups
+// have both a `v1api`-prefixed variant (retained for backward compatibility) and a new `v`-prefixed
+// variant. The `v`-prefixed variant only becomes available in the ASO release in which the group is
+// migrated to Hybrid mode - see versionMigrationHybridReleases.
+const LastLegacyASOVersion = "v2.16.0"
+
+// versionMigrationHybridReleases records the ASO release in which each Hybrid mode group was
+// migrated from Legacy versioning. Only groups whose migration is either not yet released, or
+// whose reporting we want to make more precise, need an entry here.
+//
+// When present, this release is used as the reported "Supported From" version for the new
+// `v`-prefixed variants of resources that were introduced in ASO version 2.16.0 or earlier
+// (the pre-migration resources). This ensures our documentation correctly reflects that those
+// `v`-prefixed variants only became available when the group was migrated - and shows them in
+// the "Next Release" section of our documentation until they've actually shipped.
+//
+// It also delays the "deprecated" flag being applied to the `v1api`-prefixed variants until
+// after the migration has actually released; before then, the `v1api` variants are still the
+// only ones users can use.
+//
+// Keys are group names in lower case; values are ASO version strings (e.g. "v2.21.0").
+var versionMigrationHybridReleases = map[string]string{
+	"authorization": "v2.21.0",
+}
+
 // versionMigrationModes contains a mapping of group names to their version migration modes.
 // Keys are group names in lower case.
 // We'll start by configuring all existing groups to use the Legacy mode, with no migration required for new groups.
@@ -136,4 +162,12 @@ func FindGroupsByMode(mode VersionMigrationMode) []string {
 	}
 
 	return result
+}
+
+// HybridMigrationReleaseForGroup returns the ASO release in which the specified group was migrated
+// to Hybrid mode versioning, and true if such a release is registered.
+// Returns ("", false) for groups without a known migration release (including all non-Hybrid groups).
+func HybridMigrationReleaseForGroup(group string) (string, bool) {
+	release, ok := versionMigrationHybridReleases[strings.ToLower(group)]
+	return release, ok
 }
