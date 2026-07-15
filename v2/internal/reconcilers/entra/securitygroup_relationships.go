@@ -100,10 +100,6 @@ func (r *EntraSecurityGroupReconciler) reconcileRelationshipSide(
 	return nil
 }
 
-func directoryObjectRefURI(objectID string) string {
-	return "https://graph.microsoft.com/v1.0/directoryObjects/" + objectID
-}
-
 func directoryObjectIDFromRef(value string) string {
 	trimmed := strings.TrimSpace(value)
 	if trimmed == "" {

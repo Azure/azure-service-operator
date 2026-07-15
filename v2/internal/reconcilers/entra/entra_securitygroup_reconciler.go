@@ -10,6 +10,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -24,7 +25,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
+	asoentra "github.com/Azure/azure-service-operator/v2/api/entra"
+	asoentrav1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
@@ -168,7 +170,7 @@ func (r *EntraSecurityGroupReconciler) Claim(
 func (r *EntraSecurityGroupReconciler) update(
 	ctx context.Context,
 	id string,
-	group *asoentra.SecurityGroup,
+	group *asoentrav1.SecurityGroup,
 	log logr.Logger,
 ) (ctrl.Result, error) {
 	log = log.WithValues("id", id)
@@ -217,7 +219,7 @@ func (r *EntraSecurityGroupReconciler) update(
 
 func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	ctx context.Context,
-	group *asoentra.SecurityGroup,
+	group *asoentrav1.SecurityGroup,
 	graphClient *msgraphsdkgo.GraphServiceClient,
 	log logr.Logger,
 ) (ctrl.Result, error) {
@@ -278,11 +280,11 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 				desiredOwners,
 				func(ctx context.Context, objectID string) error {
 					ref := msgraphmodels.NewReferenceCreate()
-					ref.SetOdataId(to.Ptr(directoryObjectRefURI(objectID)))
+					ref.SetOdataId(to.Ptr(asoentra.DirectoryObjectRefURI(objectID)))
 					return ownersRefBuilder.Post(ctx, ref, nil)
 				},
 				func(ctx context.Context, objectID string) error {
-					deleteID := directoryObjectRefURI(objectID)
+					deleteID := asoentra.DirectoryObjectRefURI(objectID)
 					deleteConfig := &groups.ItemOwnersRefRequestBuilderDeleteRequestConfiguration{
 						QueryParameters: &groups.ItemOwnersRefRequestBuilderDeleteQueryParameters{
 							Id: &deleteID,
@@ -318,11 +320,11 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 				desiredMembers,
 				func(ctx context.Context, objectID string) error {
 					ref := msgraphmodels.NewReferenceCreate()
-					ref.SetOdataId(to.Ptr(directoryObjectRefURI(objectID)))
+					ref.SetOdataId(to.Ptr(asoentra.DirectoryObjectRefURI(objectID)))
 					return membersRefBuilder.Post(ctx, ref, nil)
 				},
 				func(ctx context.Context, objectID string) error {
-					deleteID := directoryObjectRefURI(objectID)
+					deleteID := asoentra.DirectoryObjectRefURI(objectID)
 					deleteConfig := &groups.ItemMembersRefRequestBuilderDeleteRequestConfiguration{
 						QueryParameters: &groups.ItemMembersRefRequestBuilderDeleteQueryParameters{
 							Id: &deleteID,
@@ -345,7 +347,7 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	return ctrl.Result{}, nil
 }
 
-func relationshipSidesToManage(spec asoentra.SecurityGroupSpec) (bool, bool) {
+func relationshipSidesToManage(spec asoentrav1.SecurityGroupSpec) (bool, bool) {
 	// Nil means omitted (unmanaged); explicit empty means managed-to-empty.
 	return spec.Owners != nil, spec.Members != nil
 }
@@ -360,6 +362,7 @@ func collectDirectoryObjectIDs(
 		return nil, err
 	}
 
+	iterations := 0
 	result := make([]string, 0)
 	for response != nil {
 		result = append(result, extractDirectoryObjectIDs(response.GetValue())...)
@@ -372,6 +375,17 @@ func collectDirectoryObjectIDs(
 		response, err = nextPage(nextLink)
 		if err != nil {
 			return nil, err
+		}
+
+		// Protect against infinite loops in case we're talking to a malicious server
+		iterations++
+		if iterations > 100 {
+			return nil, eris.New("too many iterations while collecting directory object IDs")
+		}
+
+		// Stop if our context is cancelled or times out
+		if ctx.Err() != nil {
+			return nil, ctx.Err()
 		}
 	}
 
@@ -403,7 +417,7 @@ func extractDirectoryObjectIDs(values []string) []string {
 // or nil, error if there was a problem finding the group.
 func (r *EntraSecurityGroupReconciler) tryAdopt(
 	ctx context.Context,
-	group *asoentra.SecurityGroup,
+	group *asoentrav1.SecurityGroup,
 	log logr.Logger,
 ) (string, error) {
 	log.V(Status).Info("Searching for existing Entra security group to adopt", "group", group.Name)
@@ -461,7 +475,7 @@ func (r *EntraSecurityGroupReconciler) tryAdopt(
 // log is the logger to use for logging.
 func (r *EntraSecurityGroupReconciler) create(
 	ctx context.Context,
-	group *asoentra.SecurityGroup,
+	group *asoentrav1.SecurityGroup,
 	log logr.Logger,
 ) (ctrl.Result, error) {
 	log.V(Status).Info("Creating Entra security group")
@@ -577,8 +591,11 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 	displayName string,
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Groupable, error) {
-	// Try to get the group by display name
-	filterStr := fmt.Sprintf("displayName eq '%s'", displayName)
+	// Try to get the group by display name.
+	// Escape single quotes in the display name per the OData v4 spec: a single quote
+	// within a string literal is represented as two consecutive single quotes.
+	escapedDisplayName := strings.ReplaceAll(displayName, "'", "''")
+	filterStr := fmt.Sprintf("displayName eq '%s'", escapedDisplayName)
 
 	query := &groups.GroupsRequestBuilderGetQueryParameters{
 		Filter: &filterStr,
@@ -611,8 +628,8 @@ func (r *EntraSecurityGroupReconciler) isNotFound(err error) bool {
 
 func (r *EntraSecurityGroupReconciler) asSecurityGroup(
 	obj genruntime.MetaObject,
-) (*asoentra.SecurityGroup, error) {
-	typedObj, ok := obj.(*asoentra.SecurityGroup)
+) (*asoentrav1.SecurityGroup, error) {
+	typedObj, ok := obj.(*asoentrav1.SecurityGroup)
 	if !ok {
 		return nil, eris.Errorf("cannot modify resource that is not of type *entra.SecurityGroup. Type is %T", obj)
 	}
@@ -620,7 +637,7 @@ func (r *EntraSecurityGroupReconciler) asSecurityGroup(
 	return typedObj, nil
 }
 
-func (r *EntraSecurityGroupReconciler) canAdopt(group *asoentra.SecurityGroup) bool {
+func (r *EntraSecurityGroupReconciler) canAdopt(group *asoentrav1.SecurityGroup) bool {
 	if group.Spec.OperatorSpec == nil {
 		// Default is AdoptOrCreate
 		return true
@@ -629,7 +646,7 @@ func (r *EntraSecurityGroupReconciler) canAdopt(group *asoentra.SecurityGroup) b
 	return group.Spec.OperatorSpec.AdoptionAllowed()
 }
 
-func (r *EntraSecurityGroupReconciler) canCreate(group *asoentra.SecurityGroup) bool {
+func (r *EntraSecurityGroupReconciler) canCreate(group *asoentrav1.SecurityGroup) bool {
 	if group.Spec.OperatorSpec == nil {
 		// Default is AdoptOrCreate
 		return true
@@ -643,7 +660,7 @@ func (r *EntraSecurityGroupReconciler) canCreate(group *asoentra.SecurityGroup) 
 // TODO: Currently hard coded, but we should extract common features for reuse across other Entra resources
 func (r *EntraSecurityGroupReconciler) saveAssociatedKubernetesResources(
 	ctx context.Context,
-	group *asoentra.SecurityGroup,
+	group *asoentrav1.SecurityGroup,
 	log logr.Logger,
 ) error {
 	if group == nil ||

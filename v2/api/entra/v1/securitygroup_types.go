@@ -6,13 +6,17 @@ import (
 	"fmt"
 
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
+
+	asoentra "github.com/Azure/azure-service-operator/v2/api/entra"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/google/uuid"
 )
 
 // +kubebuilder:rbac:groups=entra.azure.com,resources=securitygroups,verbs=get;list;watch;create;update;patch;delete
@@ -58,6 +62,7 @@ type SecurityGroupList struct {
 	Items           []SecurityGroup `json:"items"`
 }
 
+// +kubebuilder:validation:XValidation:rule="size(self.owners) + size(self.members) <= 20",message="the combined number of owners and members must not exceed 20"
 type SecurityGroupSpec struct {
 	// DisplayName: The display name of the group.
 	// +kubebuilder:validation:Required
@@ -101,6 +106,7 @@ type SecurityGroupSpec struct {
 
 // SecurityGroupMemberReference is a reference to a directory object (user, service principal, or group) by its
 // Entra Object ID.
+// +kubebuilder:validation:XValidation:rule="has(self.objectID) != has(self.objectIDFromConfig)",message="exactly one of objectID or objectIDFromConfig must be specified"
 type SecurityGroupMemberReference struct {
 	// ObjectID: The Entra Object ID (GUID) of the directory object.
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
@@ -123,13 +129,18 @@ func (ref *SecurityGroupMemberReference) ResolveObjectID(
 	case ref.ObjectIDFromConfig != nil:
 		val, err := resolved.Lookup(*ref.ObjectIDFromConfig)
 		if err != nil {
-			return "", fmt.Errorf("failed resolving objectIDFromConfig: %w", err)
+			return "", eris.Wrapf(err, "failed resolving objectIDFromConfig")
+		}
+
+		// Check that the resolved value is a valid GUID by trying to parse it
+		if _, err = uuid.Parse(val); err != nil {
+			return "", eris.Wrapf(err, "invalid GUID resolved from objectIDFromConfig")
 		}
 
 		return val, nil
 
 	default:
-		return "", fmt.Errorf("missing objectID or objectIDFromConfig")
+		return "", eris.New("missing objectID or objectIDFromConfig")
 	}
 }
 
@@ -194,7 +205,7 @@ func resolveMemberObjectIDs(
 	for i, ref := range references {
 		id, err := ref.ResolveObjectID(resolved)
 		if err != nil {
-			return nil, fmt.Errorf("%s[%d]: %w", field, i, err)
+			return nil, eris.Wrapf(err, "%s[%d]", field, i)
 		}
 
 		if seen.Contains(id) {
@@ -337,11 +348,6 @@ type SecurityGroupOperatorConfigMaps struct {
 	EntraID *genruntime.ConfigMapDestination `json:"entraID,omitempty"`
 }
 
-// graphDirectoryObjectURI returns the Microsoft Graph URI for a directory object with the given ID.
-func graphDirectoryObjectURI(objectID string) string {
-	return "https://graph.microsoft.com/v1.0/directoryObjects/" + objectID
-}
-
 // graphDirectoryURIs resolves a slice of member references to Microsoft Graph directory object URIs.
 // fieldName (e.g. "owners" or "members") is used to provide context in error messages.
 func graphDirectoryURIs(
@@ -356,7 +362,7 @@ func graphDirectoryURIs(
 			return nil, fmt.Errorf("%s[%d]: %w", fieldName, i, err)
 		}
 
-		uris = append(uris, graphDirectoryObjectURI(id))
+		uris = append(uris, asoentra.DirectoryObjectRefURI(id))
 	}
 
 	return uris, nil
