@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/VirtualNetworkRules.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/VirtualNetworkRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}
 type ServersVirtualNetworkRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersVirtualNetworkRule{}
 
 // ConvertFrom populates our ServersVirtualNetworkRule from the provided hub ServersVirtualNetworkRule
 func (rule *ServersVirtualNetworkRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersVirtualNetworkRule)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersVirtualNetworkRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersVirtualNetworkRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_ServersVirtualNetworkRule(source)
+	err = rule.AssignProperties_From_ServersVirtualNetworkRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersVirtualNetworkRule from our ServersVirtualNetworkRule
 func (rule *ServersVirtualNetworkRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersVirtualNetworkRule)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersVirtualNetworkRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersVirtualNetworkRule
+	err := rule.AssignProperties_To_ServersVirtualNetworkRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_ServersVirtualNetworkRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersVirtualNetworkRule{}
@@ -87,17 +101,6 @@ func (rule *ServersVirtualNetworkRule) SecretDestinationExpressions() []*core.De
 		return nil
 	}
 	return rule.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersVirtualNetworkRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *ServersVirtualNetworkRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersVirtualNetworkRule_STATUS); ok {
-		return rule.Spec.Initialize_From_ServersVirtualNetworkRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersVirtualNetworkRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersVirtualNetworkRule{}
@@ -238,7 +241,7 @@ func (rule *ServersVirtualNetworkRule) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/VirtualNetworkRules.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/VirtualNetworkRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/virtualNetworkRules/{virtualNetworkRuleName}
 type ServersVirtualNetworkRuleList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -486,29 +489,6 @@ func (rule *ServersVirtualNetworkRule_Spec) AssignProperties_To_ServersVirtualNe
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersVirtualNetworkRule_STATUS populates our ServersVirtualNetworkRule_Spec from the provided source ServersVirtualNetworkRule_STATUS
-func (rule *ServersVirtualNetworkRule_Spec) Initialize_From_ServersVirtualNetworkRule_STATUS(source *ServersVirtualNetworkRule_STATUS) error {
-
-	// IgnoreMissingVnetServiceEndpoint
-	if source.IgnoreMissingVnetServiceEndpoint != nil {
-		ignoreMissingVnetServiceEndpoint := *source.IgnoreMissingVnetServiceEndpoint
-		rule.IgnoreMissingVnetServiceEndpoint = &ignoreMissingVnetServiceEndpoint
-	} else {
-		rule.IgnoreMissingVnetServiceEndpoint = nil
-	}
-
-	// VirtualNetworkSubnetReference
-	if source.VirtualNetworkSubnetId != nil {
-		virtualNetworkSubnetReference := genruntime.CreateResourceReferenceFromARMID(*source.VirtualNetworkSubnetId)
-		rule.VirtualNetworkSubnetReference = &virtualNetworkSubnetReference
-	} else {
-		rule.VirtualNetworkSubnetReference = nil
 	}
 
 	// No error

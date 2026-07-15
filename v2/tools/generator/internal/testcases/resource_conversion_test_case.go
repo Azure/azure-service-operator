@@ -177,6 +177,16 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 	// t.Parallel()
 	declareParallel := astbuilder.CallExprAsStmt(t, "Parallel")
 
+	// if testing.Short() {
+	//     return
+	// }
+	checkShort := astbuilder.SimpleIf(
+		astbuilder.CallQualifiedFunc(testingPackage, "Short"),
+		astbuilder.Returns(),
+	)
+	checkShort.Decs.Before = dst.EmptyLine
+	checkShort.Decs.After = dst.EmptyLine
+
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.ShortDeclaration(
 		parametersLocal,
@@ -241,6 +251,7 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 		testingPackage,
 		tc.testName,
 		declareParallel,
+		checkShort,
 		defineParameters,
 		configureMaxSize,
 		configureMinSuccessfulTests,

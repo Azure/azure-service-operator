@@ -105,6 +105,11 @@ func RunPropertyAssignmentTestForAfdEndpoint(subject AfdEndpoint) string {
 
 func Test_AfdEndpoint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -208,6 +213,11 @@ func RunPropertyAssignmentTestForAfdEndpointOperatorSpec(subject AfdEndpointOper
 
 func Test_AfdEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -305,6 +315,11 @@ func RunPropertyAssignmentTestForAfdEndpoint_STATUS(subject AfdEndpoint_STATUS) 
 
 func Test_AfdEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -433,6 +448,11 @@ func RunPropertyAssignmentTestForAfdEndpoint_Spec(subject AfdEndpoint_Spec) stri
 
 func Test_AfdEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

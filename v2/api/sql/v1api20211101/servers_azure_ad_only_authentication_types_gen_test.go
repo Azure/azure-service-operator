@@ -5,7 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_ServersAzureADOnlyAuthentication_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForServersAzureADOnlyAuthentication(subject Server
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersAzureADOnlyAuthentication
+	var hub sql_v20211101s.ServersAzureADOnlyAuthentication
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForServersAzureADOnlyAuthentication(subject Server
 
 func Test_ServersAzureADOnlyAuthentication_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication(subject Server
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersAzureADOnlyAuthentication
+	var other sql_v1api20211101s.ServersAzureADOnlyAuthentication
 	err := copied.AssignProperties_To_ServersAzureADOnlyAuthentication(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication(subject Server
 
 func Test_ServersAzureADOnlyAuthentication_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -167,6 +183,11 @@ func AddRelatedPropertyGeneratorsForServersAzureADOnlyAuthentication(gens map[st
 
 func Test_ServersAzureADOnlyAuthenticationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -182,7 +203,7 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthenticationOperatorSpec(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersAzureADOnlyAuthenticationOperatorSpec
+	var other sql_v1api20211101s.ServersAzureADOnlyAuthenticationOperatorSpec
 	err := copied.AssignProperties_To_ServersAzureADOnlyAuthenticationOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -209,6 +230,11 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthenticationOperatorSpec(su
 
 func Test_ServersAzureADOnlyAuthenticationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -264,6 +290,11 @@ func ServersAzureADOnlyAuthenticationOperatorSpecGenerator() gopter.Gen {
 
 func Test_ServersAzureADOnlyAuthentication_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -279,7 +310,7 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersAzureADOnlyAuthentication_STATUS
+	var other sql_v1api20211101s.ServersAzureADOnlyAuthentication_STATUS
 	err := copied.AssignProperties_To_ServersAzureADOnlyAuthentication_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -306,6 +337,11 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_STATUS(subject
 
 func Test_ServersAzureADOnlyAuthentication_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -370,6 +406,11 @@ func AddIndependentPropertyGeneratorsForServersAzureADOnlyAuthentication_STATUS(
 
 func Test_ServersAzureADOnlyAuthentication_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -385,7 +426,7 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_Spec(subject S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersAzureADOnlyAuthentication_Spec
+	var other sql_v1api20211101s.ServersAzureADOnlyAuthentication_Spec
 	err := copied.AssignProperties_To_ServersAzureADOnlyAuthentication_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -412,6 +453,11 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_Spec(subject S
 
 func Test_ServersAzureADOnlyAuthentication_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

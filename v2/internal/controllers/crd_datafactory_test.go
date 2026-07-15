@@ -23,7 +23,7 @@ func Test_Data_Factory_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	globalParameterSpecification := datafactory.GlobalParameterSpecification{
-		Type: to.Ptr(datafactory.GlobalParameterSpecification_Type_String),
+		Type: to.Ptr(datafactory.GlobalParameterType_String),
 		Value: map[string]v1.JSON{
 			"foo": {
 				Raw: []byte(`"value"`),
@@ -36,7 +36,7 @@ func Test_Data_Factory_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("datafactory")),
 		Spec: datafactory.Factory_Spec{
 			Identity: &datafactory.FactoryIdentity{
-				Type: to.Ptr(datafactory.FactoryIdentity_Type_SystemAssigned),
+				Type: to.Ptr(datafactory.FactoryIdentityType_SystemAssigned),
 			},
 			Location:         tc.AzureRegion,
 			Owner:            testcommon.AsOwner(rg),

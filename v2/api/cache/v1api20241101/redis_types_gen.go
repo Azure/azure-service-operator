@@ -13,6 +13,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -51,22 +52,36 @@ var _ conversion.Convertible = &Redis{}
 
 // ConvertFrom populates our Redis from the provided hub Redis
 func (redis *Redis) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Redis)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20241101/storage/Redis but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Redis
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return redis.AssignProperties_From_Redis(source)
+	err = redis.AssignProperties_From_Redis(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to redis")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Redis from our Redis
 func (redis *Redis) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Redis)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20241101/storage/Redis but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Redis
+	err := redis.AssignProperties_To_Redis(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from redis")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return redis.AssignProperties_To_Redis(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Redis{}
@@ -87,17 +102,6 @@ func (redis *Redis) SecretDestinationExpressions() []*core.DestinationExpression
 		return nil
 	}
 	return redis.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Redis{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (redis *Redis) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Redis_STATUS); ok {
-		return redis.Spec.Initialize_From_Redis_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Redis_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Redis{}
@@ -1051,132 +1055,6 @@ func (redis *Redis_Spec) AssignProperties_To_Redis_Spec(destination *storage.Red
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Redis_STATUS populates our Redis_Spec from the provided source Redis_STATUS
-func (redis *Redis_Spec) Initialize_From_Redis_STATUS(source *Redis_STATUS) error {
-
-	// DisableAccessKeyAuthentication
-	if source.DisableAccessKeyAuthentication != nil {
-		disableAccessKeyAuthentication := *source.DisableAccessKeyAuthentication
-		redis.DisableAccessKeyAuthentication = &disableAccessKeyAuthentication
-	} else {
-		redis.DisableAccessKeyAuthentication = nil
-	}
-
-	// EnableNonSslPort
-	if source.EnableNonSslPort != nil {
-		enableNonSslPort := *source.EnableNonSslPort
-		redis.EnableNonSslPort = &enableNonSslPort
-	} else {
-		redis.EnableNonSslPort = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		redis.Identity = &identity
-	} else {
-		redis.Identity = nil
-	}
-
-	// Location
-	redis.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := genruntime.ToEnum(string(*source.MinimumTlsVersion), tlsVersion_Values)
-		redis.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		redis.MinimumTlsVersion = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), publicNetworkAccess_Values)
-		redis.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		redis.PublicNetworkAccess = nil
-	}
-
-	// RedisConfiguration
-	if source.RedisConfiguration != nil {
-		var redisConfiguration RedisCommonPropertiesRedisConfiguration
-		err := redisConfiguration.Initialize_From_RedisCommonPropertiesRedisConfiguration_STATUS(source.RedisConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RedisCommonPropertiesRedisConfiguration_STATUS() to populate field RedisConfiguration")
-		}
-		redis.RedisConfiguration = &redisConfiguration
-	} else {
-		redis.RedisConfiguration = nil
-	}
-
-	// RedisVersion
-	redis.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
-
-	// ReplicasPerMaster
-	redis.ReplicasPerMaster = genruntime.ClonePointerToInt(source.ReplicasPerMaster)
-
-	// ReplicasPerPrimary
-	redis.ReplicasPerPrimary = genruntime.ClonePointerToInt(source.ReplicasPerPrimary)
-
-	// ShardCount
-	redis.ShardCount = genruntime.ClonePointerToInt(source.ShardCount)
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		redis.Sku = &sku
-	} else {
-		redis.Sku = nil
-	}
-
-	// StaticIP
-	redis.StaticIP = genruntime.ClonePointerToString(source.StaticIP)
-
-	// SubnetReference
-	if source.SubnetId != nil {
-		subnetReference := genruntime.CreateResourceReferenceFromARMID(*source.SubnetId)
-		redis.SubnetReference = &subnetReference
-	} else {
-		redis.SubnetReference = nil
-	}
-
-	// Tags
-	redis.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// TenantSettings
-	redis.TenantSettings = genruntime.CloneMapOfStringToString(source.TenantSettings)
-
-	// UpdateChannel
-	if source.UpdateChannel != nil {
-		updateChannel := genruntime.ToEnum(string(*source.UpdateChannel), updateChannel_Values)
-		redis.UpdateChannel = &updateChannel
-	} else {
-		redis.UpdateChannel = nil
-	}
-
-	// ZonalAllocationPolicy
-	if source.ZonalAllocationPolicy != nil {
-		zonalAllocationPolicy := genruntime.ToEnum(string(*source.ZonalAllocationPolicy), zonalAllocationPolicy_Values)
-		redis.ZonalAllocationPolicy = &zonalAllocationPolicy
-	} else {
-		redis.ZonalAllocationPolicy = nil
-	}
-
-	// Zones
-	redis.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -2233,33 +2111,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	return nil
 }
 
-// Initialize_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_STATUS(source *ManagedServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentityType_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Managed service identity (system assigned and/or user assigned identities)
 type ManagedServiceIdentity_STATUS struct {
 	// PrincipalId: The service principal ID of the system assigned identity. This property will only be provided for a system
@@ -2543,7 +2394,8 @@ var publicNetworkAccess_STATUS_Values = map[string]PublicNetworkAccess_STATUS{
 // aof-storage-connection-string-1 etc.
 type RedisCommonPropertiesRedisConfiguration struct {
 	// AadEnabled: Specifies whether AAD based authentication has been enabled or disabled for the cache
-	AadEnabled *string `json:"aad-enabled,omitempty"`
+	AadEnabled           *string            `json:"aad-enabled,omitempty"`
+	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 
 	// AofBackupEnabled: Specifies whether the aof backup is enabled
 	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`
@@ -2607,6 +2459,14 @@ func (configuration *RedisCommonPropertiesRedisConfiguration) ConvertToARM(resol
 	if configuration.AadEnabled != nil {
 		aadEnabled := *configuration.AadEnabled
 		result.AadEnabled = &aadEnabled
+	}
+
+	// Set property "AdditionalProperties":
+	if configuration.AdditionalProperties != nil {
+		result.AdditionalProperties = make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for key, value := range configuration.AdditionalProperties {
+			result.AdditionalProperties[key] = *value.DeepCopy()
+		}
 	}
 
 	// Set property "AofBackupEnabled":
@@ -2719,6 +2579,14 @@ func (configuration *RedisCommonPropertiesRedisConfiguration) PopulateFromARM(ow
 		configuration.AadEnabled = &aadEnabled
 	}
 
+	// Set property "AdditionalProperties":
+	if typedInput.AdditionalProperties != nil {
+		configuration.AdditionalProperties = make(map[string]v1.JSON, len(typedInput.AdditionalProperties))
+		for key, value := range typedInput.AdditionalProperties {
+			configuration.AdditionalProperties[key] = *value.DeepCopy()
+		}
+	}
+
 	// Set property "AofBackupEnabled":
 	if typedInput.AofBackupEnabled != nil {
 		aofBackupEnabled := *typedInput.AofBackupEnabled
@@ -2819,6 +2687,17 @@ func (configuration *RedisCommonPropertiesRedisConfiguration) AssignProperties_F
 	// AadEnabled
 	configuration.AadEnabled = genruntime.ClonePointerToString(source.AadEnabled)
 
+	// AdditionalProperties
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		configuration.AdditionalProperties = additionalPropertyMap
+	} else {
+		configuration.AdditionalProperties = nil
+	}
+
 	// AofBackupEnabled
 	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
 
@@ -2876,6 +2755,17 @@ func (configuration *RedisCommonPropertiesRedisConfiguration) AssignProperties_T
 	// AadEnabled
 	destination.AadEnabled = genruntime.ClonePointerToString(configuration.AadEnabled)
 
+	// AdditionalProperties
+	if configuration.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range configuration.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		destination.AdditionalProperties = additionalPropertyMap
+	} else {
+		destination.AdditionalProperties = nil
+	}
+
 	// AofBackupEnabled
 	destination.AofBackupEnabled = genruntime.ClonePointerToString(configuration.AofBackupEnabled)
 
@@ -2932,68 +2822,14 @@ func (configuration *RedisCommonPropertiesRedisConfiguration) AssignProperties_T
 	return nil
 }
 
-// Initialize_From_RedisCommonPropertiesRedisConfiguration_STATUS populates our RedisCommonPropertiesRedisConfiguration from the provided source RedisCommonPropertiesRedisConfiguration_STATUS
-func (configuration *RedisCommonPropertiesRedisConfiguration) Initialize_From_RedisCommonPropertiesRedisConfiguration_STATUS(source *RedisCommonPropertiesRedisConfiguration_STATUS) error {
-
-	// AadEnabled
-	configuration.AadEnabled = genruntime.ClonePointerToString(source.AadEnabled)
-
-	// AofBackupEnabled
-	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
-
-	// AofStorageConnectionString0
-	configuration.AofStorageConnectionString0 = genruntime.ClonePointerToString(source.AofStorageConnectionString0)
-
-	// AofStorageConnectionString1
-	configuration.AofStorageConnectionString1 = genruntime.ClonePointerToString(source.AofStorageConnectionString1)
-
-	// Authnotrequired
-	configuration.Authnotrequired = genruntime.ClonePointerToString(source.Authnotrequired)
-
-	// MaxfragmentationmemoryReserved
-	configuration.MaxfragmentationmemoryReserved = genruntime.ClonePointerToString(source.MaxfragmentationmemoryReserved)
-
-	// MaxmemoryDelta
-	configuration.MaxmemoryDelta = genruntime.ClonePointerToString(source.MaxmemoryDelta)
-
-	// MaxmemoryPolicy
-	configuration.MaxmemoryPolicy = genruntime.ClonePointerToString(source.MaxmemoryPolicy)
-
-	// MaxmemoryReserved
-	configuration.MaxmemoryReserved = genruntime.ClonePointerToString(source.MaxmemoryReserved)
-
-	// NotifyKeyspaceEvents
-	configuration.NotifyKeyspaceEvents = genruntime.ClonePointerToString(source.NotifyKeyspaceEvents)
-
-	// PreferredDataPersistenceAuthMethod
-	configuration.PreferredDataPersistenceAuthMethod = genruntime.ClonePointerToString(source.PreferredDataPersistenceAuthMethod)
-
-	// RdbBackupEnabled
-	configuration.RdbBackupEnabled = genruntime.ClonePointerToString(source.RdbBackupEnabled)
-
-	// RdbBackupFrequency
-	configuration.RdbBackupFrequency = genruntime.ClonePointerToString(source.RdbBackupFrequency)
-
-	// RdbBackupMaxSnapshotCount
-	configuration.RdbBackupMaxSnapshotCount = genruntime.ClonePointerToString(source.RdbBackupMaxSnapshotCount)
-
-	// RdbStorageConnectionString
-	configuration.RdbStorageConnectionString = genruntime.ClonePointerToString(source.RdbStorageConnectionString)
-
-	// StorageSubscriptionId
-	configuration.StorageSubscriptionId = genruntime.ClonePointerToString(source.StorageSubscriptionId)
-
-	// No error
-	return nil
-}
-
 // All Redis Settings. Few possible keys:
 // rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,
 // maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0,
 // aof-storage-connection-string-1 etc.
 type RedisCommonPropertiesRedisConfiguration_STATUS struct {
 	// AadEnabled: Specifies whether AAD based authentication has been enabled or disabled for the cache
-	AadEnabled *string `json:"aad-enabled,omitempty"`
+	AadEnabled           *string            `json:"aad-enabled,omitempty"`
+	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
 
 	// AofBackupEnabled: Specifies whether the aof backup is enabled
 	AofBackupEnabled *string `json:"aof-backup-enabled,omitempty"`
@@ -3072,6 +2908,14 @@ func (configuration *RedisCommonPropertiesRedisConfiguration_STATUS) PopulateFro
 	if typedInput.AadEnabled != nil {
 		aadEnabled := *typedInput.AadEnabled
 		configuration.AadEnabled = &aadEnabled
+	}
+
+	// Set property "AdditionalProperties":
+	if typedInput.AdditionalProperties != nil {
+		configuration.AdditionalProperties = make(map[string]v1.JSON, len(typedInput.AdditionalProperties))
+		for key, value := range typedInput.AdditionalProperties {
+			configuration.AdditionalProperties[key] = *value.DeepCopy()
+		}
 	}
 
 	// Set property "AofBackupEnabled":
@@ -3192,6 +3036,17 @@ func (configuration *RedisCommonPropertiesRedisConfiguration_STATUS) AssignPrope
 	// AadEnabled
 	configuration.AadEnabled = genruntime.ClonePointerToString(source.AadEnabled)
 
+	// AdditionalProperties
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		configuration.AdditionalProperties = additionalPropertyMap
+	} else {
+		configuration.AdditionalProperties = nil
+	}
+
 	// AofBackupEnabled
 	configuration.AofBackupEnabled = genruntime.ClonePointerToString(source.AofBackupEnabled)
 
@@ -3257,6 +3112,17 @@ func (configuration *RedisCommonPropertiesRedisConfiguration_STATUS) AssignPrope
 
 	// AadEnabled
 	destination.AadEnabled = genruntime.ClonePointerToString(configuration.AadEnabled)
+
+	// AdditionalProperties
+	if configuration.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]v1.JSON, len(configuration.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range configuration.AdditionalProperties {
+			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
+		}
+		destination.AdditionalProperties = additionalPropertyMap
+	} else {
+		destination.AdditionalProperties = nil
+	}
 
 	// AofBackupEnabled
 	destination.AofBackupEnabled = genruntime.ClonePointerToString(configuration.AofBackupEnabled)
@@ -3803,32 +3669,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Family
-	if source.Family != nil {
-		family := genruntime.ToEnum(string(*source.Family), skuFamily_Values)
-		sku.Family = &family
-	} else {
-		sku.Family = nil
-	}
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), skuName_Values)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
 	}
 
 	// No error

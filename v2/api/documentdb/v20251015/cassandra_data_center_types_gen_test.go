@@ -20,6 +20,11 @@ import (
 
 func Test_AuthenticationMethodLdapProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForAuthenticationMethodLdapProperties(subject Auth
 
 func Test_AuthenticationMethodLdapProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -142,6 +152,11 @@ func AddRelatedPropertyGeneratorsForAuthenticationMethodLdapProperties(gens map[
 
 func Test_AuthenticationMethodLdapProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -184,6 +199,11 @@ func RunPropertyAssignmentTestForAuthenticationMethodLdapProperties_STATUS(subje
 
 func Test_AuthenticationMethodLdapProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -264,6 +284,11 @@ func AddRelatedPropertyGeneratorsForAuthenticationMethodLdapProperties_STATUS(ge
 
 func Test_CassandraClusters_DataCenter_Properties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -306,6 +331,11 @@ func RunPropertyAssignmentTestForCassandraClusters_DataCenter_Properties_STATUS(
 
 func Test_CassandraClusters_DataCenter_Properties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -401,6 +431,11 @@ func AddRelatedPropertyGeneratorsForCassandraClusters_DataCenter_Properties_STAT
 
 func Test_CassandraClusters_DataCenter_Properties_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -443,6 +478,11 @@ func RunPropertyAssignmentTestForCassandraClusters_DataCenter_Properties_Spec(su
 
 func Test_CassandraClusters_DataCenter_Properties_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -526,6 +566,11 @@ func AddRelatedPropertyGeneratorsForCassandraClusters_DataCenter_Properties_Spec
 
 func Test_CassandraDataCenter_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -569,6 +614,11 @@ func RunResourceConversionTestForCassandraDataCenter(subject CassandraDataCenter
 
 func Test_CassandraDataCenter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -611,6 +661,11 @@ func RunPropertyAssignmentTestForCassandraDataCenter(subject CassandraDataCenter
 
 func Test_CassandraDataCenter_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -673,6 +728,11 @@ func AddRelatedPropertyGeneratorsForCassandraDataCenter(gens map[string]gopter.G
 
 func Test_CassandraDataCenterOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -715,6 +775,11 @@ func RunPropertyAssignmentTestForCassandraDataCenterOperatorSpec(subject Cassand
 
 func Test_CassandraDataCenterOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -770,6 +835,11 @@ func CassandraDataCenterOperatorSpecGenerator() gopter.Gen {
 
 func Test_CassandraDataCenter_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -812,6 +882,11 @@ func RunPropertyAssignmentTestForCassandraDataCenter_STATUS(subject CassandraDat
 
 func Test_CassandraDataCenter_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -889,6 +964,11 @@ func AddRelatedPropertyGeneratorsForCassandraDataCenter_STATUS(gens map[string]g
 
 func Test_CassandraDataCenter_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -931,6 +1011,11 @@ func RunPropertyAssignmentTestForCassandraDataCenter_Spec(subject CassandraDataC
 
 func Test_CassandraDataCenter_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

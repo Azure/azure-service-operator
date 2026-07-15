@@ -32,7 +32,8 @@ Redis: Resource
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── PropertyBag: genruntime.PropertyBag
 │   ├── PublicNetworkAccess: *string
-│   ├── RedisConfiguration: *Object (15 properties)
+│   ├── RedisConfiguration: *Object (16 properties)
+│   │   ├── AdditionalProperties: map[string]v1.JSON
 │   │   ├── AofBackupEnabled: *string
 │   │   ├── AofStorageConnectionString0: *string
 │   │   ├── AofStorageConnectionString1: *string
@@ -97,7 +98,8 @@ Redis: Resource
     ├── PropertyBag: genruntime.PropertyBag
     ├── ProvisioningState: *string
     ├── PublicNetworkAccess: *string
-    ├── RedisConfiguration: *Object (18 properties)
+    ├── RedisConfiguration: *Object (19 properties)
+    │   ├── AdditionalProperties: map[string]v1.JSON
     │   ├── AofBackupEnabled: *string
     │   ├── AofStorageConnectionString0: *string
     │   ├── AofStorageConnectionString1: *string

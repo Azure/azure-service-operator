@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,8 +18,108 @@ import (
 	"testing"
 )
 
+func Test_ServersAdvancedThreatProtectionSetting_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAdvancedThreatProtectionSetting to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersAdvancedThreatProtectionSetting, ServersAdvancedThreatProtectionSettingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersAdvancedThreatProtectionSetting tests if a specific instance of ServersAdvancedThreatProtectionSetting round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersAdvancedThreatProtectionSetting(subject ServersAdvancedThreatProtectionSetting) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersAdvancedThreatProtectionSetting
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersAdvancedThreatProtectionSetting
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersAdvancedThreatProtectionSetting_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAdvancedThreatProtectionSetting to ServersAdvancedThreatProtectionSetting via AssignProperties_To_ServersAdvancedThreatProtectionSetting & AssignProperties_From_ServersAdvancedThreatProtectionSetting returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting, ServersAdvancedThreatProtectionSettingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting tests if a specific instance of ServersAdvancedThreatProtectionSetting can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting(subject ServersAdvancedThreatProtectionSetting) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAdvancedThreatProtectionSetting
+	err := copied.AssignProperties_To_ServersAdvancedThreatProtectionSetting(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAdvancedThreatProtectionSetting
+	err = actual.AssignProperties_From_ServersAdvancedThreatProtectionSetting(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAdvancedThreatProtectionSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -79,8 +180,60 @@ func AddRelatedPropertyGeneratorsForServersAdvancedThreatProtectionSetting(gens 
 	gens["Status"] = ServersAdvancedThreatProtectionSetting_STATUSGenerator()
 }
 
+func Test_ServersAdvancedThreatProtectionSettingOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAdvancedThreatProtectionSettingOperatorSpec to ServersAdvancedThreatProtectionSettingOperatorSpec via AssignProperties_To_ServersAdvancedThreatProtectionSettingOperatorSpec & AssignProperties_From_ServersAdvancedThreatProtectionSettingOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAdvancedThreatProtectionSettingOperatorSpec, ServersAdvancedThreatProtectionSettingOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAdvancedThreatProtectionSettingOperatorSpec tests if a specific instance of ServersAdvancedThreatProtectionSettingOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAdvancedThreatProtectionSettingOperatorSpec(subject ServersAdvancedThreatProtectionSettingOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAdvancedThreatProtectionSettingOperatorSpec
+	err := copied.AssignProperties_To_ServersAdvancedThreatProtectionSettingOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAdvancedThreatProtectionSettingOperatorSpec
+	err = actual.AssignProperties_From_ServersAdvancedThreatProtectionSettingOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAdvancedThreatProtectionSettingOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -134,8 +287,60 @@ func ServersAdvancedThreatProtectionSettingOperatorSpecGenerator() gopter.Gen {
 	return serversAdvancedThreatProtectionSettingOperatorSpecGenerator
 }
 
+func Test_ServersAdvancedThreatProtectionSetting_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAdvancedThreatProtectionSetting_STATUS to ServersAdvancedThreatProtectionSetting_STATUS via AssignProperties_To_ServersAdvancedThreatProtectionSetting_STATUS & AssignProperties_From_ServersAdvancedThreatProtectionSetting_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting_STATUS, ServersAdvancedThreatProtectionSetting_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting_STATUS tests if a specific instance of ServersAdvancedThreatProtectionSetting_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting_STATUS(subject ServersAdvancedThreatProtectionSetting_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAdvancedThreatProtectionSetting_STATUS
+	err := copied.AssignProperties_To_ServersAdvancedThreatProtectionSetting_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAdvancedThreatProtectionSetting_STATUS
+	err = actual.AssignProperties_From_ServersAdvancedThreatProtectionSetting_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAdvancedThreatProtectionSetting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -213,8 +418,60 @@ func AddRelatedPropertyGeneratorsForServersAdvancedThreatProtectionSetting_STATU
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
+func Test_ServersAdvancedThreatProtectionSetting_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAdvancedThreatProtectionSetting_Spec to ServersAdvancedThreatProtectionSetting_Spec via AssignProperties_To_ServersAdvancedThreatProtectionSetting_Spec & AssignProperties_From_ServersAdvancedThreatProtectionSetting_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting_Spec, ServersAdvancedThreatProtectionSetting_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting_Spec tests if a specific instance of ServersAdvancedThreatProtectionSetting_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting_Spec(subject ServersAdvancedThreatProtectionSetting_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAdvancedThreatProtectionSetting_Spec
+	err := copied.AssignProperties_To_ServersAdvancedThreatProtectionSetting_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAdvancedThreatProtectionSetting_Spec
+	err = actual.AssignProperties_From_ServersAdvancedThreatProtectionSetting_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAdvancedThreatProtectionSetting_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -289,8 +546,60 @@ func AddRelatedPropertyGeneratorsForServersAdvancedThreatProtectionSetting_Spec(
 	gens["OperatorSpec"] = gen.PtrOf(ServersAdvancedThreatProtectionSettingOperatorSpecGenerator())
 }
 
+func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SystemData_STATUS
+	err := copied.AssignProperties_To_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SystemData_STATUS
+	err = actual.AssignProperties_From_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,8 +18,108 @@ import (
 	"testing"
 )
 
+func Test_ServersAzureADOnlyAuthentication_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAzureADOnlyAuthentication to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersAzureADOnlyAuthentication, ServersAzureADOnlyAuthenticationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersAzureADOnlyAuthentication tests if a specific instance of ServersAzureADOnlyAuthentication round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersAzureADOnlyAuthentication(subject ServersAzureADOnlyAuthentication) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersAzureADOnlyAuthentication
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersAzureADOnlyAuthentication
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersAzureADOnlyAuthentication_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAzureADOnlyAuthentication to ServersAzureADOnlyAuthentication via AssignProperties_To_ServersAzureADOnlyAuthentication & AssignProperties_From_ServersAzureADOnlyAuthentication returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAzureADOnlyAuthentication, ServersAzureADOnlyAuthenticationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAzureADOnlyAuthentication tests if a specific instance of ServersAzureADOnlyAuthentication can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication(subject ServersAzureADOnlyAuthentication) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAzureADOnlyAuthentication
+	err := copied.AssignProperties_To_ServersAzureADOnlyAuthentication(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAzureADOnlyAuthentication
+	err = actual.AssignProperties_From_ServersAzureADOnlyAuthentication(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAzureADOnlyAuthentication_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -79,8 +180,60 @@ func AddRelatedPropertyGeneratorsForServersAzureADOnlyAuthentication(gens map[st
 	gens["Status"] = ServersAzureADOnlyAuthentication_STATUSGenerator()
 }
 
+func Test_ServersAzureADOnlyAuthenticationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAzureADOnlyAuthenticationOperatorSpec to ServersAzureADOnlyAuthenticationOperatorSpec via AssignProperties_To_ServersAzureADOnlyAuthenticationOperatorSpec & AssignProperties_From_ServersAzureADOnlyAuthenticationOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAzureADOnlyAuthenticationOperatorSpec, ServersAzureADOnlyAuthenticationOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAzureADOnlyAuthenticationOperatorSpec tests if a specific instance of ServersAzureADOnlyAuthenticationOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAzureADOnlyAuthenticationOperatorSpec(subject ServersAzureADOnlyAuthenticationOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAzureADOnlyAuthenticationOperatorSpec
+	err := copied.AssignProperties_To_ServersAzureADOnlyAuthenticationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAzureADOnlyAuthenticationOperatorSpec
+	err = actual.AssignProperties_From_ServersAzureADOnlyAuthenticationOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAzureADOnlyAuthenticationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -134,8 +287,60 @@ func ServersAzureADOnlyAuthenticationOperatorSpecGenerator() gopter.Gen {
 	return serversAzureADOnlyAuthenticationOperatorSpecGenerator
 }
 
+func Test_ServersAzureADOnlyAuthentication_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAzureADOnlyAuthentication_STATUS to ServersAzureADOnlyAuthentication_STATUS via AssignProperties_To_ServersAzureADOnlyAuthentication_STATUS & AssignProperties_From_ServersAzureADOnlyAuthentication_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_STATUS, ServersAzureADOnlyAuthentication_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_STATUS tests if a specific instance of ServersAzureADOnlyAuthentication_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_STATUS(subject ServersAzureADOnlyAuthentication_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAzureADOnlyAuthentication_STATUS
+	err := copied.AssignProperties_To_ServersAzureADOnlyAuthentication_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAzureADOnlyAuthentication_STATUS
+	err = actual.AssignProperties_From_ServersAzureADOnlyAuthentication_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAzureADOnlyAuthentication_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -198,8 +403,60 @@ func AddIndependentPropertyGeneratorsForServersAzureADOnlyAuthentication_STATUS(
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServersAzureADOnlyAuthentication_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAzureADOnlyAuthentication_Spec to ServersAzureADOnlyAuthentication_Spec via AssignProperties_To_ServersAzureADOnlyAuthentication_Spec & AssignProperties_From_ServersAzureADOnlyAuthentication_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_Spec, ServersAzureADOnlyAuthentication_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_Spec tests if a specific instance of ServersAzureADOnlyAuthentication_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_Spec(subject ServersAzureADOnlyAuthentication_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAzureADOnlyAuthentication_Spec
+	err := copied.AssignProperties_To_ServersAzureADOnlyAuthentication_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAzureADOnlyAuthentication_Spec
+	err = actual.AssignProperties_From_ServersAzureADOnlyAuthentication_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAzureADOnlyAuthentication_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

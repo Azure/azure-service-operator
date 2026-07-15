@@ -153,9 +153,9 @@ augmentConversionForActions_STATUS: Interface
 
 augmentConversionForCondition: Interface
 
-augmentConversionForCondition_FailingPeriods: Interface
+augmentConversionForConditionFailingPeriods: Interface
 
-augmentConversionForCondition_FailingPeriods_STATUS: Interface
+augmentConversionForConditionFailingPeriods_STATUS: Interface
 
 augmentConversionForCondition_STATUS: Interface
 

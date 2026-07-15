@@ -52,12 +52,13 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"app":              VersionMigrationModeHybrid,
 	"appconfiguration": VersionMigrationModeHybrid,
 
-	"authorization": VersionMigrationModeLegacy,
+	"authorization": VersionMigrationModeHybrid,
 
 	"batch": VersionMigrationModeHybrid,
 
-	"cache":             VersionMigrationModeLegacy,
-	"cdn":               VersionMigrationModeHybrid,
+	"cache": VersionMigrationModeHybrid,
+	"cdn":   VersionMigrationModeHybrid,
+
 	"cognitiveservices": VersionMigrationModeLegacy,
 
 	"compute": VersionMigrationModeHybrid,
@@ -95,7 +96,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"search":                  VersionMigrationModeLegacy,
 	"servicebus":              VersionMigrationModeLegacy,
 	"signalrservice":          VersionMigrationModeLegacy,
-	"sql":                     VersionMigrationModeLegacy,
+	"sql":                     VersionMigrationModeHybrid,
 
 	"storage": VersionMigrationModeHybrid,
 

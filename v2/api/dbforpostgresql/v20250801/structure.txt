@@ -195,11 +195,13 @@ FlexibleServer: Resource
     │   │   ├── "SameZone"
     │   │   └── "ZoneRedundant"
     │   ├── StandbyAvailabilityZone: *string
-    │   └── State: *Enum (6 values)
+    │   └── State: *Enum (8 values)
+    │       ├── "ComputeUpdatingByFailover"
     │       ├── "CreatingStandby"
     │       ├── "FailingOver"
     │       ├── "Healthy"
     │       ├── "NotEnabled"
+    │       ├── "RecreatingStandby"
     │       ├── "RemovingStandby"
     │       └── "ReplicatingData"
     ├── Id: *string

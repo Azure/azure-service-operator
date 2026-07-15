@@ -20,6 +20,11 @@ import (
 
 func Test_HeaderField_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForHeaderField(subject HeaderField) string {
 
 func Test_HeaderField_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -123,6 +133,11 @@ func AddIndependentPropertyGeneratorsForHeaderField(gens map[string]gopter.Gen) 
 
 func Test_HeaderField_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -165,6 +180,11 @@ func RunPropertyAssignmentTestForHeaderField_STATUS(subject HeaderField_STATUS) 
 
 func Test_HeaderField_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -226,6 +246,11 @@ func AddIndependentPropertyGeneratorsForHeaderField_STATUS(gens map[string]gopte
 
 func Test_WebTestGeolocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -268,6 +293,11 @@ func RunPropertyAssignmentTestForWebTestGeolocation(subject WebTestGeolocation) 
 
 func Test_WebTestGeolocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -328,6 +358,11 @@ func AddIndependentPropertyGeneratorsForWebTestGeolocation(gens map[string]gopte
 
 func Test_WebTestGeolocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -370,6 +405,11 @@ func RunPropertyAssignmentTestForWebTestGeolocation_STATUS(subject WebTestGeoloc
 
 func Test_WebTestGeolocation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -431,11 +471,16 @@ func AddIndependentPropertyGeneratorsForWebTestGeolocation_STATUS(gens map[strin
 
 func Test_WebTestProperties_Configuration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_Configuration to WebTestProperties_Configuration via AssignProperties_To_WebTestProperties_Configuration & AssignProperties_From_WebTestProperties_Configuration returns original",
+		"Round trip from WebTestProperties_Configuration to WebTestPropertiesConfiguration via AssignProperties_To_WebTestPropertiesConfiguration & AssignProperties_From_WebTestPropertiesConfiguration returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Configuration, WebTestProperties_ConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -446,15 +491,15 @@ func RunPropertyAssignmentTestForWebTestProperties_Configuration(subject WebTest
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_Configuration
-	err := copied.AssignProperties_To_WebTestProperties_Configuration(&other)
+	var other storage.WebTestPropertiesConfiguration
+	err := copied.AssignProperties_To_WebTestPropertiesConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_Configuration
-	err = actual.AssignProperties_From_WebTestProperties_Configuration(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -473,6 +518,11 @@ func RunPropertyAssignmentTestForWebTestProperties_Configuration(subject WebTest
 
 func Test_WebTestProperties_Configuration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -534,11 +584,16 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_Configuration(gens map
 
 func Test_WebTestProperties_Configuration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_Configuration_STATUS to WebTestProperties_Configuration_STATUS via AssignProperties_To_WebTestProperties_Configuration_STATUS & AssignProperties_From_WebTestProperties_Configuration_STATUS returns original",
+		"Round trip from WebTestProperties_Configuration_STATUS to WebTestPropertiesConfiguration_STATUS via AssignProperties_To_WebTestPropertiesConfiguration_STATUS & AssignProperties_From_WebTestPropertiesConfiguration_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS, WebTestProperties_Configuration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -549,15 +604,15 @@ func RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_Configuration_STATUS
-	err := copied.AssignProperties_To_WebTestProperties_Configuration_STATUS(&other)
+	var other storage.WebTestPropertiesConfiguration_STATUS
+	err := copied.AssignProperties_To_WebTestPropertiesConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_Configuration_STATUS
-	err = actual.AssignProperties_From_WebTestProperties_Configuration_STATUS(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -576,6 +631,11 @@ func RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS(subject 
 
 func Test_WebTestProperties_Configuration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -637,11 +697,16 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_Configuration_STATUS(g
 
 func Test_WebTestProperties_Request_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_Request to WebTestProperties_Request via AssignProperties_To_WebTestProperties_Request & AssignProperties_From_WebTestProperties_Request returns original",
+		"Round trip from WebTestProperties_Request to WebTestPropertiesRequest via AssignProperties_To_WebTestPropertiesRequest & AssignProperties_From_WebTestPropertiesRequest returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Request, WebTestProperties_RequestGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -652,15 +717,15 @@ func RunPropertyAssignmentTestForWebTestProperties_Request(subject WebTestProper
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_Request
-	err := copied.AssignProperties_To_WebTestProperties_Request(&other)
+	var other storage.WebTestPropertiesRequest
+	err := copied.AssignProperties_To_WebTestPropertiesRequest(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_Request
-	err = actual.AssignProperties_From_WebTestProperties_Request(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesRequest(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -679,6 +744,11 @@ func RunPropertyAssignmentTestForWebTestProperties_Request(subject WebTestProper
 
 func Test_WebTestProperties_Request_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -758,11 +828,16 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_Request(gens map[string]go
 
 func Test_WebTestProperties_Request_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_Request_STATUS to WebTestProperties_Request_STATUS via AssignProperties_To_WebTestProperties_Request_STATUS & AssignProperties_From_WebTestProperties_Request_STATUS returns original",
+		"Round trip from WebTestProperties_Request_STATUS to WebTestPropertiesRequest_STATUS via AssignProperties_To_WebTestPropertiesRequest_STATUS & AssignProperties_From_WebTestPropertiesRequest_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Request_STATUS, WebTestProperties_Request_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -773,15 +848,15 @@ func RunPropertyAssignmentTestForWebTestProperties_Request_STATUS(subject WebTes
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_Request_STATUS
-	err := copied.AssignProperties_To_WebTestProperties_Request_STATUS(&other)
+	var other storage.WebTestPropertiesRequest_STATUS
+	err := copied.AssignProperties_To_WebTestPropertiesRequest_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_Request_STATUS
-	err = actual.AssignProperties_From_WebTestProperties_Request_STATUS(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesRequest_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -800,6 +875,11 @@ func RunPropertyAssignmentTestForWebTestProperties_Request_STATUS(subject WebTes
 
 func Test_WebTestProperties_Request_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -879,11 +959,16 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_Request_STATUS(gens map[st
 
 func Test_WebTestProperties_ValidationRules_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_ValidationRules to WebTestProperties_ValidationRules via AssignProperties_To_WebTestProperties_ValidationRules & AssignProperties_From_WebTestProperties_ValidationRules returns original",
+		"Round trip from WebTestProperties_ValidationRules to WebTestPropertiesValidationRules via AssignProperties_To_WebTestPropertiesValidationRules & AssignProperties_From_WebTestPropertiesValidationRules returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules, WebTestProperties_ValidationRulesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -894,15 +979,15 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules(subject WebTe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_ValidationRules
-	err := copied.AssignProperties_To_WebTestProperties_ValidationRules(&other)
+	var other storage.WebTestPropertiesValidationRules
+	err := copied.AssignProperties_To_WebTestPropertiesValidationRules(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_ValidationRules
-	err = actual.AssignProperties_From_WebTestProperties_ValidationRules(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesValidationRules(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -921,6 +1006,11 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules(subject WebTe
 
 func Test_WebTestProperties_ValidationRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -999,11 +1089,16 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules(gens map[s
 
 func Test_WebTestProperties_ValidationRules_ContentValidation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_ValidationRules_ContentValidation to WebTestProperties_ValidationRules_ContentValidation via AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation & AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation returns original",
+		"Round trip from WebTestProperties_ValidationRules_ContentValidation to WebTestPropertiesValidationRulesContentValidation via AssignProperties_To_WebTestPropertiesValidationRulesContentValidation & AssignProperties_From_WebTestPropertiesValidationRulesContentValidation returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation, WebTestProperties_ValidationRules_ContentValidationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1014,15 +1109,15 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValida
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_ValidationRules_ContentValidation
-	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation(&other)
+	var other storage.WebTestPropertiesValidationRulesContentValidation
+	err := copied.AssignProperties_To_WebTestPropertiesValidationRulesContentValidation(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_ValidationRules_ContentValidation
-	err = actual.AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesValidationRulesContentValidation(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1041,6 +1136,11 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValida
 
 func Test_WebTestProperties_ValidationRules_ContentValidation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1104,11 +1204,16 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_Conten
 
 func Test_WebTestProperties_ValidationRules_ContentValidation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_ValidationRules_ContentValidation_STATUS to WebTestProperties_ValidationRules_ContentValidation_STATUS via AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS & AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS returns original",
+		"Round trip from WebTestProperties_ValidationRules_ContentValidation_STATUS to WebTestPropertiesValidationRulesContentValidation_STATUS via AssignProperties_To_WebTestPropertiesValidationRulesContentValidation_STATUS & AssignProperties_From_WebTestPropertiesValidationRulesContentValidation_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation_STATUS, WebTestProperties_ValidationRules_ContentValidation_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1119,15 +1224,15 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValida
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_ValidationRules_ContentValidation_STATUS
-	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_ContentValidation_STATUS(&other)
+	var other storage.WebTestPropertiesValidationRulesContentValidation_STATUS
+	err := copied.AssignProperties_To_WebTestPropertiesValidationRulesContentValidation_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_ValidationRules_ContentValidation_STATUS
-	err = actual.AssignProperties_From_WebTestProperties_ValidationRules_ContentValidation_STATUS(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesValidationRulesContentValidation_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1146,6 +1251,11 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValida
 
 func Test_WebTestProperties_ValidationRules_ContentValidation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1209,11 +1319,16 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_Conten
 
 func Test_WebTestProperties_ValidationRules_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_ValidationRules_STATUS to WebTestProperties_ValidationRules_STATUS via AssignProperties_To_WebTestProperties_ValidationRules_STATUS & AssignProperties_From_WebTestProperties_ValidationRules_STATUS returns original",
+		"Round trip from WebTestProperties_ValidationRules_STATUS to WebTestPropertiesValidationRules_STATUS via AssignProperties_To_WebTestPropertiesValidationRules_STATUS & AssignProperties_From_WebTestPropertiesValidationRules_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS, WebTestProperties_ValidationRules_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -1224,15 +1339,15 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.WebTestProperties_ValidationRules_STATUS
-	err := copied.AssignProperties_To_WebTestProperties_ValidationRules_STATUS(&other)
+	var other storage.WebTestPropertiesValidationRules_STATUS
+	err := copied.AssignProperties_To_WebTestPropertiesValidationRules_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual WebTestProperties_ValidationRules_STATUS
-	err = actual.AssignProperties_From_WebTestProperties_ValidationRules_STATUS(&other)
+	err = actual.AssignProperties_From_WebTestPropertiesValidationRules_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1251,6 +1366,11 @@ func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS(subjec
 
 func Test_WebTestProperties_ValidationRules_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1329,6 +1449,11 @@ func AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules_STATUS(gen
 
 func Test_Webtest_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -1372,6 +1497,11 @@ func RunResourceConversionTestForWebtest(subject Webtest) string {
 
 func Test_Webtest_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1414,6 +1544,11 @@ func RunPropertyAssignmentTestForWebtest(subject Webtest) string {
 
 func Test_Webtest_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -1475,6 +1610,11 @@ func AddRelatedPropertyGeneratorsForWebtest(gens map[string]gopter.Gen) {
 
 func Test_WebtestOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1517,6 +1657,11 @@ func RunPropertyAssignmentTestForWebtestOperatorSpec(subject WebtestOperatorSpec
 
 func Test_WebtestOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1572,6 +1717,11 @@ func WebtestOperatorSpecGenerator() gopter.Gen {
 
 func Test_Webtest_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1614,6 +1764,11 @@ func RunPropertyAssignmentTestForWebtest_STATUS(subject Webtest_STATUS) string {
 
 func Test_Webtest_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1706,6 +1861,11 @@ func AddRelatedPropertyGeneratorsForWebtest_STATUS(gens map[string]gopter.Gen) {
 
 func Test_Webtest_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1748,6 +1908,11 @@ func RunPropertyAssignmentTestForWebtest_Spec(subject Webtest_Spec) string {
 
 func Test_Webtest_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

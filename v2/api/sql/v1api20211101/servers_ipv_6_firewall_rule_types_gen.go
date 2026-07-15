@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/IPv6FirewallRules.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/IPv6FirewallRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}
 type ServersIPV6FirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersIPV6FirewallRule{}
 
 // ConvertFrom populates our ServersIPV6FirewallRule from the provided hub ServersIPV6FirewallRule
 func (rule *ServersIPV6FirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersIPV6FirewallRule)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersIPV6FirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersIPV6FirewallRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_ServersIPV6FirewallRule(source)
+	err = rule.AssignProperties_From_ServersIPV6FirewallRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersIPV6FirewallRule from our ServersIPV6FirewallRule
 func (rule *ServersIPV6FirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersIPV6FirewallRule)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersIPV6FirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersIPV6FirewallRule
+	err := rule.AssignProperties_To_ServersIPV6FirewallRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_ServersIPV6FirewallRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersIPV6FirewallRule{}
@@ -87,17 +101,6 @@ func (rule *ServersIPV6FirewallRule) SecretDestinationExpressions() []*core.Dest
 		return nil
 	}
 	return rule.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersIPV6FirewallRule{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (rule *ServersIPV6FirewallRule) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersIPV6FirewallRule_STATUS); ok {
-		return rule.Spec.Initialize_From_ServersIPV6FirewallRule_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersIPV6FirewallRule_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersIPV6FirewallRule{}
@@ -238,7 +241,7 @@ func (rule *ServersIPV6FirewallRule) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/IPv6FirewallRules.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/IPv6FirewallRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}
 type ServersIPV6FirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -470,19 +473,6 @@ func (rule *ServersIPV6FirewallRule_Spec) AssignProperties_To_ServersIPV6Firewal
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersIPV6FirewallRule_STATUS populates our ServersIPV6FirewallRule_Spec from the provided source ServersIPV6FirewallRule_STATUS
-func (rule *ServersIPV6FirewallRule_Spec) Initialize_From_ServersIPV6FirewallRule_STATUS(source *ServersIPV6FirewallRule_STATUS) error {
-
-	// EndIPv6Address
-	rule.EndIPv6Address = genruntime.ClonePointerToString(source.EndIPv6Address)
-
-	// StartIPv6Address
-	rule.StartIPv6Address = genruntime.ClonePointerToString(source.StartIPv6Address)
 
 	// No error
 	return nil

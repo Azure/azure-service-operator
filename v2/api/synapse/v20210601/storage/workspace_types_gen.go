@@ -479,7 +479,7 @@ type UserAssignedManagedIdentity_STATUS struct {
 // Key encryption key properties
 type KekIdentityProperties struct {
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	UseSystemAssignedIdentity *v1.JSON               `json:"useSystemAssignedIdentity,omitempty"`
+	UseSystemAssignedIdentity *bool                  `json:"useSystemAssignedIdentity,omitempty"`
 
 	// UserAssignedIdentityReference: User assigned identity resource Id
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
@@ -489,7 +489,7 @@ type KekIdentityProperties struct {
 // Key encryption key properties
 type KekIdentityProperties_STATUS struct {
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	UseSystemAssignedIdentity *v1.JSON               `json:"useSystemAssignedIdentity,omitempty"`
+	UseSystemAssignedIdentity *bool                  `json:"useSystemAssignedIdentity,omitempty"`
 	UserAssignedIdentity      *string                `json:"userAssignedIdentity,omitempty"`
 }
 

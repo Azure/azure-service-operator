@@ -19,6 +19,11 @@ import (
 
 func Test_ApplicationRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -104,6 +109,11 @@ func AddRelatedPropertyGeneratorsForApplicationRule(gens map[string]gopter.Gen) 
 
 func Test_FirewallPoliciesRuleCollectionGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -179,6 +189,11 @@ func AddRelatedPropertyGeneratorsForFirewallPoliciesRuleCollectionGroup_Spec(gen
 
 func Test_FirewallPolicyFilterRuleCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -257,6 +272,11 @@ func AddRelatedPropertyGeneratorsForFirewallPolicyFilterRuleCollection(gens map[
 
 func Test_FirewallPolicyFilterRuleCollectionAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -318,6 +338,11 @@ func AddIndependentPropertyGeneratorsForFirewallPolicyFilterRuleCollectionAction
 
 func Test_FirewallPolicyHttpHeaderToInsert_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -380,6 +405,11 @@ func AddIndependentPropertyGeneratorsForFirewallPolicyHttpHeaderToInsert(gens ma
 
 func Test_FirewallPolicyNatRuleCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -458,6 +488,11 @@ func AddRelatedPropertyGeneratorsForFirewallPolicyNatRuleCollection(gens map[str
 
 func Test_FirewallPolicyNatRuleCollectionAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -519,6 +554,11 @@ func AddIndependentPropertyGeneratorsForFirewallPolicyNatRuleCollectionAction(ge
 
 func Test_FirewallPolicyRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -594,6 +634,11 @@ func AddRelatedPropertyGeneratorsForFirewallPolicyRule(gens map[string]gopter.Ge
 
 func Test_FirewallPolicyRuleApplicationProtocol_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -656,6 +701,11 @@ func AddIndependentPropertyGeneratorsForFirewallPolicyRuleApplicationProtocol(ge
 
 func Test_FirewallPolicyRuleCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -729,6 +779,11 @@ func AddRelatedPropertyGeneratorsForFirewallPolicyRuleCollection(gens map[string
 
 func Test_FirewallPolicyRuleCollectionGroupProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -804,6 +859,11 @@ func AddRelatedPropertyGeneratorsForFirewallPolicyRuleCollectionGroupProperties(
 
 func Test_NatRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -878,6 +938,11 @@ func AddIndependentPropertyGeneratorsForNatRule(gens map[string]gopter.Gen) {
 
 func Test_NetworkRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

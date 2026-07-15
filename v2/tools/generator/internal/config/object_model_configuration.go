@@ -8,6 +8,7 @@ package config
 import (
 	"regexp"
 	"strings"
+	"sync"
 
 	"github.com/rotisserie/eris"
 	"gopkg.in/yaml.v3"
@@ -28,6 +29,13 @@ import (
 type ObjectModelConfiguration struct {
 	groups      map[string]*GroupConfiguration // nested configuration for individual groups
 	typoAdvisor *typo.Advisor
+
+	// groupCache memoises findGroup results so that repeated lookups against the same group
+	// name (which is the norm during code generation) skip the small amount of work involved.
+	// The key is the raw name from ref.Group(); a nil value means "known absent". Cache
+	// entries are cleared by addGroup so that late additions from tests remain observable.
+	groupCacheLock sync.RWMutex
+	groupCache     map[string]*GroupConfiguration
 
 	// Group access fields here (alphabetical, please)
 	PayloadType propertyAccess[PayloadType]
@@ -274,7 +282,20 @@ func (omc *ObjectModelConfiguration) addGroup(name string, group *GroupConfigura
 	}
 
 	omc.groups[key] = group
+
+	// Any previously cached "known absent" answer for this key must be discarded so that
+	// subsequent lookups see the newly added group.
+	omc.invalidateGroupCache()
+
 	return nil
+}
+
+// invalidateGroupCache clears the group-resolution cache. Called whenever the set of configured
+// groups changes.
+func (omc *ObjectModelConfiguration) invalidateGroupCache() {
+	omc.groupCacheLock.Lock()
+	omc.groupCache = nil
+	omc.groupCacheLock.Unlock()
 }
 
 // visitGroup invokes the provided visitor on the specified group if present.
@@ -305,19 +326,46 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
-func (omc *ObjectModelConfiguration) findGroup(ref astmodel.InternalPackageReference) *GroupConfiguration {
-	group := ref.Group()
-
+func (omc *ObjectModelConfiguration) findGroup(
+	ref astmodel.InternalPackageReference,
+) *GroupConfiguration {
 	if omc == nil || omc.groups == nil {
 		return nil
 	}
 
-	omc.typoAdvisor.AddTerm(group)
-	if g, ok := omc.groups[group]; ok {
-		return g
+	// Fast path: consult the resolution cache under a read lock. Cached entries may be nil to
+	// record a known-absent group so that repeated defensive lookups do not re-do the work.
+	if cached, ok := omc.findGroupFromCache(ref); ok {
+		return cached
 	}
 
-	return nil
+	group := ref.Group()
+	omc.typoAdvisor.AddTerm(group)
+	g := omc.groups[group]
+
+	omc.groupCacheLock.Lock()
+	defer omc.groupCacheLock.Unlock()
+
+	if omc.groupCache == nil {
+		omc.groupCache = make(map[string]*GroupConfiguration)
+	}
+
+	omc.groupCache[group] = g
+
+	return g
+}
+
+// findGroupFromCache uses the provided TypeName to look up a cached GroupConfiguration, if present.
+func (omc *ObjectModelConfiguration) findGroupFromCache(
+	ref astmodel.InternalPackageReference,
+) (*GroupConfiguration, bool) {
+	group := ref.Group()
+
+	omc.groupCacheLock.RLock()
+	defer omc.groupCacheLock.RUnlock()
+
+	gc, ok := omc.groupCache[group]
+	return gc, ok
 }
 
 // UnmarshalYAML populates our instance from the YAML.

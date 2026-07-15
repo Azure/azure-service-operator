@@ -121,6 +121,7 @@ func (server *Server) createValidations() []func(ctx context.Context, obj *v2021
 		server.validateOwnerReference,
 		server.validateSecretDestinations,
 		server.validateConfigMapDestinations,
+		server.validateOptionalConfigMapReferences,
 	}
 }
 
@@ -145,6 +146,9 @@ func (server *Server) updateValidations() []func(ctx context.Context, oldObj *v2
 		func(ctx context.Context, oldObj *v20211101.Server, newObj *v20211101.Server) (admission.Warnings, error) {
 			return server.validateConfigMapDestinations(ctx, newObj)
 		},
+		func(ctx context.Context, oldObj *v20211101.Server, newObj *v20211101.Server) (admission.Warnings, error) {
+			return server.validateOptionalConfigMapReferences(ctx, newObj)
+		},
 	}
 }
 
@@ -160,6 +164,15 @@ func (server *Server) validateConfigMapDestinations(ctx context.Context, obj *v2
 		}
 	}
 	return configmaps.ValidateDestinations(obj, toValidate, obj.Spec.OperatorSpec.ConfigMapExpressions)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (server *Server) validateOptionalConfigMapReferences(ctx context.Context, obj *v20211101.Server) (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&obj.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field

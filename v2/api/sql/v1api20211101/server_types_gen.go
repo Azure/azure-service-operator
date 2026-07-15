@@ -30,7 +30,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/Servers.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -55,22 +55,36 @@ var _ conversion.Convertible = &Server{}
 
 // ConvertFrom populates our Server from the provided hub Server
 func (server *Server) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Server)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/Server but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Server
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_Server(source)
+	err = server.AssignProperties_From_Server(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Server from our Server
 func (server *Server) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Server)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/Server but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Server
+	err := server.AssignProperties_To_Server(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_Server(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Server{}
@@ -91,17 +105,6 @@ func (server *Server) SecretDestinationExpressions() []*core.DestinationExpressi
 		return nil
 	}
 	return server.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Server{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (server *Server) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Server_STATUS); ok {
-		return server.Spec.Initialize_From_Server_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Server_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesConfigExporter = &Server{}
@@ -259,7 +262,7 @@ func (server *Server) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/Servers.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}
 type ServerList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -849,82 +852,6 @@ func (server *Server_Spec) AssignProperties_To_Server_Spec(destination *storage.
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Server_STATUS populates our Server_Spec from the provided source Server_STATUS
-func (server *Server_Spec) Initialize_From_Server_STATUS(source *Server_STATUS) error {
-
-	// AdministratorLogin
-	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
-
-	// Administrators
-	if source.Administrators != nil {
-		var administrator ServerExternalAdministrator
-		err := administrator.Initialize_From_ServerExternalAdministrator_STATUS(source.Administrators)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ServerExternalAdministrator_STATUS() to populate field Administrators")
-		}
-		server.Administrators = &administrator
-	} else {
-		server.Administrators = nil
-	}
-
-	// FederatedClientId
-	server.FederatedClientId = genruntime.ClonePointerToString(source.FederatedClientId)
-
-	// Identity
-	if source.Identity != nil {
-		var identity ResourceIdentity
-		err := identity.Initialize_From_ResourceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceIdentity_STATUS() to populate field Identity")
-		}
-		server.Identity = &identity
-	} else {
-		server.Identity = nil
-	}
-
-	// KeyId
-	server.KeyId = genruntime.ClonePointerToString(source.KeyId)
-
-	// Location
-	server.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MinimalTlsVersion
-	server.MinimalTlsVersion = genruntime.ClonePointerToString(source.MinimalTlsVersion)
-
-	// PrimaryUserAssignedIdentityReference
-	if source.PrimaryUserAssignedIdentityId != nil {
-		primaryUserAssignedIdentityReference := genruntime.CreateResourceReferenceFromARMID(*source.PrimaryUserAssignedIdentityId)
-		server.PrimaryUserAssignedIdentityReference = &primaryUserAssignedIdentityReference
-	} else {
-		server.PrimaryUserAssignedIdentityReference = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), serverProperties_PublicNetworkAccess_Values)
-		server.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		server.PublicNetworkAccess = nil
-	}
-
-	// RestrictOutboundNetworkAccess
-	if source.RestrictOutboundNetworkAccess != nil {
-		restrictOutboundNetworkAccess := genruntime.ToEnum(string(*source.RestrictOutboundNetworkAccess), serverProperties_RestrictOutboundNetworkAccess_Values)
-		server.RestrictOutboundNetworkAccess = &restrictOutboundNetworkAccess
-	} else {
-		server.RestrictOutboundNetworkAccess = nil
-	}
-
-	// Tags
-	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Version
-	server.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
@@ -1639,33 +1566,6 @@ func (identity *ResourceIdentity) AssignProperties_To_ResourceIdentity(destinati
 	return nil
 }
 
-// Initialize_From_ResourceIdentity_STATUS populates our ResourceIdentity from the provided source ResourceIdentity_STATUS
-func (identity *ResourceIdentity) Initialize_From_ResourceIdentity_STATUS(source *ResourceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), resourceIdentity_Type_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Azure Active Directory identity configuration for a resource.
 type ResourceIdentity_STATUS struct {
 	// PrincipalId: The Azure Active Directory principal id.
@@ -1826,18 +1726,27 @@ type ServerExternalAdministrator struct {
 	AzureADOnlyAuthentication *bool `json:"azureADOnlyAuthentication,omitempty"`
 
 	// Login: Login name of the server administrator.
-	Login *string `json:"login,omitempty"`
+	Login *string `json:"login,omitempty" optionalConfigMapPair:"Login"`
+
+	// LoginFromConfig: Login name of the server administrator.
+	LoginFromConfig *genruntime.ConfigMapReference `json:"loginFromConfig,omitempty" optionalConfigMapPair:"Login"`
 
 	// PrincipalType: Principal Type of the sever administrator.
 	PrincipalType *ServerExternalAdministrator_PrincipalType `json:"principalType,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 	// Sid: SID (object ID) of the server administrator.
-	Sid *string `json:"sid,omitempty"`
+	Sid *string `json:"sid,omitempty" optionalConfigMapPair:"Sid"`
+
+	// SidFromConfig: SID (object ID) of the server administrator.
+	SidFromConfig *genruntime.ConfigMapReference `json:"sidFromConfig,omitempty" optionalConfigMapPair:"Sid"`
 
 	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
 	// TenantId: Tenant ID of the administrator.
-	TenantId *string `json:"tenantId,omitempty"`
+	TenantId *string `json:"tenantId,omitempty" optionalConfigMapPair:"TenantId"`
+
+	// TenantIdFromConfig: Tenant ID of the administrator.
+	TenantIdFromConfig *genruntime.ConfigMapReference `json:"tenantIdFromConfig,omitempty" optionalConfigMapPair:"TenantId"`
 }
 
 var _ genruntime.ARMTransformer = &ServerExternalAdministrator{}
@@ -1868,6 +1777,14 @@ func (administrator *ServerExternalAdministrator) ConvertToARM(resolved genrunti
 		login := *administrator.Login
 		result.Login = &login
 	}
+	if administrator.LoginFromConfig != nil {
+		loginValue, err := resolved.ResolvedConfigMaps.Lookup(*administrator.LoginFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property Login")
+		}
+		login := loginValue
+		result.Login = &login
+	}
 
 	// Set property "PrincipalType":
 	if administrator.PrincipalType != nil {
@@ -1882,10 +1799,26 @@ func (administrator *ServerExternalAdministrator) ConvertToARM(resolved genrunti
 		sid := *administrator.Sid
 		result.Sid = &sid
 	}
+	if administrator.SidFromConfig != nil {
+		sidValue, err := resolved.ResolvedConfigMaps.Lookup(*administrator.SidFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property Sid")
+		}
+		sid := sidValue
+		result.Sid = &sid
+	}
 
 	// Set property "TenantId":
 	if administrator.TenantId != nil {
 		tenantId := *administrator.TenantId
+		result.TenantId = &tenantId
+	}
+	if administrator.TenantIdFromConfig != nil {
+		tenantIdValue, err := resolved.ResolvedConfigMaps.Lookup(*administrator.TenantIdFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property TenantId")
+		}
+		tenantId := tenantIdValue
 		result.TenantId = &tenantId
 	}
 	return result, nil
@@ -1923,6 +1856,8 @@ func (administrator *ServerExternalAdministrator) PopulateFromARM(owner genrunti
 		administrator.Login = &login
 	}
 
+	// no assignment for property "LoginFromConfig"
+
 	// Set property "PrincipalType":
 	if typedInput.PrincipalType != nil {
 		var temp string
@@ -1937,11 +1872,15 @@ func (administrator *ServerExternalAdministrator) PopulateFromARM(owner genrunti
 		administrator.Sid = &sid
 	}
 
+	// no assignment for property "SidFromConfig"
+
 	// Set property "TenantId":
 	if typedInput.TenantId != nil {
 		tenantId := *typedInput.TenantId
 		administrator.TenantId = &tenantId
 	}
+
+	// no assignment for property "TenantIdFromConfig"
 
 	// No error
 	return nil
@@ -1970,6 +1909,14 @@ func (administrator *ServerExternalAdministrator) AssignProperties_From_ServerEx
 	// Login
 	administrator.Login = genruntime.ClonePointerToString(source.Login)
 
+	// LoginFromConfig
+	if source.LoginFromConfig != nil {
+		loginFromConfig := source.LoginFromConfig.Copy()
+		administrator.LoginFromConfig = &loginFromConfig
+	} else {
+		administrator.LoginFromConfig = nil
+	}
+
 	// PrincipalType
 	if source.PrincipalType != nil {
 		principalType := *source.PrincipalType
@@ -1982,8 +1929,24 @@ func (administrator *ServerExternalAdministrator) AssignProperties_From_ServerEx
 	// Sid
 	administrator.Sid = genruntime.ClonePointerToString(source.Sid)
 
+	// SidFromConfig
+	if source.SidFromConfig != nil {
+		sidFromConfig := source.SidFromConfig.Copy()
+		administrator.SidFromConfig = &sidFromConfig
+	} else {
+		administrator.SidFromConfig = nil
+	}
+
 	// TenantId
 	administrator.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// TenantIdFromConfig
+	if source.TenantIdFromConfig != nil {
+		tenantIdFromConfig := source.TenantIdFromConfig.Copy()
+		administrator.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		administrator.TenantIdFromConfig = nil
+	}
 
 	// No error
 	return nil
@@ -2013,6 +1976,14 @@ func (administrator *ServerExternalAdministrator) AssignProperties_To_ServerExte
 	// Login
 	destination.Login = genruntime.ClonePointerToString(administrator.Login)
 
+	// LoginFromConfig
+	if administrator.LoginFromConfig != nil {
+		loginFromConfig := administrator.LoginFromConfig.Copy()
+		destination.LoginFromConfig = &loginFromConfig
+	} else {
+		destination.LoginFromConfig = nil
+	}
+
 	// PrincipalType
 	if administrator.PrincipalType != nil {
 		principalType := string(*administrator.PrincipalType)
@@ -2024,8 +1995,24 @@ func (administrator *ServerExternalAdministrator) AssignProperties_To_ServerExte
 	// Sid
 	destination.Sid = genruntime.ClonePointerToString(administrator.Sid)
 
+	// SidFromConfig
+	if administrator.SidFromConfig != nil {
+		sidFromConfig := administrator.SidFromConfig.Copy()
+		destination.SidFromConfig = &sidFromConfig
+	} else {
+		destination.SidFromConfig = nil
+	}
+
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(administrator.TenantId)
+
+	// TenantIdFromConfig
+	if administrator.TenantIdFromConfig != nil {
+		tenantIdFromConfig := administrator.TenantIdFromConfig.Copy()
+		destination.TenantIdFromConfig = &tenantIdFromConfig
+	} else {
+		destination.TenantIdFromConfig = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2033,46 +2020,6 @@ func (administrator *ServerExternalAdministrator) AssignProperties_To_ServerExte
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServerExternalAdministrator_STATUS populates our ServerExternalAdministrator from the provided source ServerExternalAdministrator_STATUS
-func (administrator *ServerExternalAdministrator) Initialize_From_ServerExternalAdministrator_STATUS(source *ServerExternalAdministrator_STATUS) error {
-
-	// AdministratorType
-	if source.AdministratorType != nil {
-		administratorType := genruntime.ToEnum(string(*source.AdministratorType), serverExternalAdministrator_AdministratorType_Values)
-		administrator.AdministratorType = &administratorType
-	} else {
-		administrator.AdministratorType = nil
-	}
-
-	// AzureADOnlyAuthentication
-	if source.AzureADOnlyAuthentication != nil {
-		azureADOnlyAuthentication := *source.AzureADOnlyAuthentication
-		administrator.AzureADOnlyAuthentication = &azureADOnlyAuthentication
-	} else {
-		administrator.AzureADOnlyAuthentication = nil
-	}
-
-	// Login
-	administrator.Login = genruntime.ClonePointerToString(source.Login)
-
-	// PrincipalType
-	if source.PrincipalType != nil {
-		principalType := genruntime.ToEnum(string(*source.PrincipalType), serverExternalAdministrator_PrincipalType_Values)
-		administrator.PrincipalType = &principalType
-	} else {
-		administrator.PrincipalType = nil
-	}
-
-	// Sid
-	administrator.Sid = genruntime.ClonePointerToString(source.Sid)
-
-	// TenantId
-	administrator.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil

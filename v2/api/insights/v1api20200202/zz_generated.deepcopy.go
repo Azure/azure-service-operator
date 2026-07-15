@@ -271,12 +271,12 @@ func (in *Component_STATUS) DeepCopyInto(out *Component_STATUS) {
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
 		in, out := &in.PublicNetworkAccessForIngestion, &out.PublicNetworkAccessForIngestion
-		*out = new(PublicNetworkAccessType_STATUS)
+		*out = new(ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForQuery != nil {
 		in, out := &in.PublicNetworkAccessForQuery, &out.PublicNetworkAccessForQuery
-		*out = new(PublicNetworkAccessType_STATUS)
+		*out = new(ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS)
 		**out = **in
 	}
 	if in.Request_Source != nil {
@@ -398,12 +398,12 @@ func (in *Component_Spec) DeepCopyInto(out *Component_Spec) {
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
 		in, out := &in.PublicNetworkAccessForIngestion, &out.PublicNetworkAccessForIngestion
-		*out = new(PublicNetworkAccessType)
+		*out = new(ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForQuery != nil {
 		in, out := &in.PublicNetworkAccessForQuery, &out.PublicNetworkAccessForQuery
-		*out = new(PublicNetworkAccessType)
+		*out = new(ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery)
 		**out = **in
 	}
 	if in.Request_Source != nil {

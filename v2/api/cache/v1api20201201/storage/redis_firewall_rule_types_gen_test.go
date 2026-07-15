@@ -5,8 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	v20230401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
-	v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v20201201/storage"
+	v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -21,6 +21,11 @@ import (
 
 func Test_RedisFirewallRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -64,6 +69,11 @@ func RunResourceConversionTestForRedisFirewallRule(subject RedisFirewallRule) st
 
 func Test_RedisFirewallRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -79,7 +89,7 @@ func RunPropertyAssignmentTestForRedisFirewallRule(subject RedisFirewallRule) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230401s.RedisFirewallRule
+	var other v20201201s.RedisFirewallRule
 	err := copied.AssignProperties_To_RedisFirewallRule(&other)
 	if err != nil {
 		return err.Error()
@@ -106,6 +116,11 @@ func RunPropertyAssignmentTestForRedisFirewallRule(subject RedisFirewallRule) st
 
 func Test_RedisFirewallRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -167,6 +182,11 @@ func AddRelatedPropertyGeneratorsForRedisFirewallRule(gens map[string]gopter.Gen
 
 func Test_RedisFirewallRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -182,7 +202,7 @@ func RunPropertyAssignmentTestForRedisFirewallRuleOperatorSpec(subject RedisFire
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230401s.RedisFirewallRuleOperatorSpec
+	var other v20201201s.RedisFirewallRuleOperatorSpec
 	err := copied.AssignProperties_To_RedisFirewallRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -209,6 +229,11 @@ func RunPropertyAssignmentTestForRedisFirewallRuleOperatorSpec(subject RedisFire
 
 func Test_RedisFirewallRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -264,6 +289,11 @@ func RedisFirewallRuleOperatorSpecGenerator() gopter.Gen {
 
 func Test_RedisFirewallRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -279,7 +309,7 @@ func RunPropertyAssignmentTestForRedisFirewallRule_STATUS(subject RedisFirewallR
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230401s.RedisFirewallRule_STATUS
+	var other v20201201s.RedisFirewallRule_STATUS
 	err := copied.AssignProperties_To_RedisFirewallRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -306,6 +336,11 @@ func RunPropertyAssignmentTestForRedisFirewallRule_STATUS(subject RedisFirewallR
 
 func Test_RedisFirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -371,6 +406,11 @@ func AddIndependentPropertyGeneratorsForRedisFirewallRule_STATUS(gens map[string
 
 func Test_RedisFirewallRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -386,7 +426,7 @@ func RunPropertyAssignmentTestForRedisFirewallRule_Spec(subject RedisFirewallRul
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230401s.RedisFirewallRule_Spec
+	var other v20201201s.RedisFirewallRule_Spec
 	err := copied.AssignProperties_To_RedisFirewallRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -413,6 +453,11 @@ func RunPropertyAssignmentTestForRedisFirewallRule_Spec(subject RedisFirewallRul
 
 func Test_RedisFirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

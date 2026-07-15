@@ -158,13 +158,12 @@ ManagedCluster_STATUS: Object (12 properties)
 ├── Location: *string
 ├── Name: *string
 ├── Properties: *Object (45 properties)
-│   ├── AadProfile: *Object (7 properties)
+│   ├── AadProfile: *Object (6 properties)
 │   │   ├── AdminGroupObjectIDs: string[]
 │   │   ├── ClientAppID: *string
 │   │   ├── EnableAzureRBAC: *bool
 │   │   ├── Managed: *bool
 │   │   ├── ServerAppID: *string
-│   │   ├── ServerAppSecret: *string
 │   │   └── TenantID: *string
 │   ├── AddonProfiles: map[string]Object (3 properties)
 │   │   ├── Config: map[string]string

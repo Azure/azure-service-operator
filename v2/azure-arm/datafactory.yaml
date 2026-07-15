@@ -1,3 +1,18 @@
+typeTransformers:
+  - name: ExpressionV2;ExpressionV2_STATUS
+    property: Operands
+    remove: true
+    because: We don't currently support directly recursive types.
+  - name: GlobalParameterSpecification;GlobalParameterSpecification_STATUS
+    property: Value
+    target:
+      map:
+        key:
+          name: string
+        value:
+          name: any
+    because: We want to retain the map instead of just v1.JSON
+
 groupModelConfiguration:
   2018-06-01:
     PurviewConfiguration:

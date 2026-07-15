@@ -316,6 +316,16 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 	t := dst.NewIdent("t")
 	declareParallel := astbuilder.CallExprAsStmt(t, "Parallel")
 
+	// if testing.Short() {
+	//     return
+	// }
+	checkShort := astbuilder.SimpleIf(
+		astbuilder.CallQualifiedFunc(testingPackage, "Short"),
+		astbuilder.Returns(),
+	)
+	checkShort.Decs.Before = dst.EmptyLine
+	checkShort.Decs.After = dst.EmptyLine
+
 	// rapid.Check(t, func(t *rapid.T) { ... })
 	rapidCheck := astbuilder.CallQualifiedFuncAsStmt(
 		rapidPackage,
@@ -342,6 +352,7 @@ func (r *RapidResourceConversionTestCase) createTestFunc(
 		testingPackage,
 		r.testName,
 		declareParallel,
+		checkShort,
 		rapidCheck,
 	)
 

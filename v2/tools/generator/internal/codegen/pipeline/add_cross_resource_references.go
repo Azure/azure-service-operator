@@ -76,6 +76,9 @@ func makeReferencePropertyName(existing *astmodel.PropertyDefinition, isSlice bo
 
 	if strings.ToLower(s) == "id" {
 		referencePropertyName = propertyNameSuffix
+	} else if strings.EqualFold(s, propertyNameSuffix) {
+		// If the property is already called "Reference" (or "reference"), we don't want to end up with "ReferenceReference"
+		referencePropertyName = s
 	} else if idRegex.MatchString(s) {
 		referencePropertyName = idRegex.ReplaceAllString(s, "${1}"+propertyNameSuffix)
 	} else {

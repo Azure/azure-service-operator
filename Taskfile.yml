@@ -606,7 +606,7 @@ tasks:
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers | tee '{{.TEST_OUT}}/test-controllers.log'
+      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/controllers | tee '{{.TEST_OUT}}/test-controllers.log'
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ]; then echo "-v"; fi
@@ -619,7 +619,7 @@ tasks:
       - setup
       - controller:run-kustomize-for-envtest
     cmds:
-      - go test -count=1 -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples | tee '{{.TEST_OUT}}/test-samples.log'
+      - go test -timeout {{.TIMEOUT}} -run '{{default ".*" .TEST_FILTER}}' {{.VERBOSE}} ./internal/testsamples | tee '{{.TEST_OUT}}/test-samples.log'
     vars:
       VERBOSE:
         sh: if [ $TEST_FILTER ]; then echo "-v"; fi
@@ -1324,7 +1324,10 @@ tasks:
 
   crossplane:quick-checks:
     cmds:
+      - task: crossplane:generate-crds
       - task: basic-checks
+    vars:
+      DIR: '{{.CROSSPLANE_ROOT}}'
 
 # TODO: We currently have no tests
 #  crossplane:test:
