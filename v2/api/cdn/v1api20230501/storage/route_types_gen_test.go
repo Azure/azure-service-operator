@@ -20,6 +20,11 @@ import (
 
 func Test_ActivatedResourceReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -122,6 +127,11 @@ func ActivatedResourceReferenceGenerator() gopter.Gen {
 
 func Test_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -231,6 +241,11 @@ func AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profil
 
 func Test_AfdRouteCacheConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -354,6 +369,11 @@ func AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration(gens map[string]g
 
 func Test_AfdRouteCacheConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -477,6 +497,11 @@ func AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration_STATUS(gens map[s
 
 func Test_CompressionSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -586,6 +611,11 @@ func AddIndependentPropertyGeneratorsForCompressionSettings(gens map[string]gopt
 
 func Test_CompressionSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -695,6 +725,11 @@ func AddIndependentPropertyGeneratorsForCompressionSettings_STATUS(gens map[stri
 
 func Test_Route_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -738,6 +773,11 @@ func RunResourceConversionTestForRoute(subject Route) string {
 
 func Test_Route_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -846,6 +886,11 @@ func AddRelatedPropertyGeneratorsForRoute(gens map[string]gopter.Gen) {
 
 func Test_RouteOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -947,6 +992,11 @@ func RouteOperatorSpecGenerator() gopter.Gen {
 
 func Test_Route_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1084,6 +1134,11 @@ func AddRelatedPropertyGeneratorsForRoute_STATUS(gens map[string]gopter.Gen) {
 
 func Test_Route_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

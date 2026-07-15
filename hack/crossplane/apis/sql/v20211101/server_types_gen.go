@@ -16,7 +16,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/Servers.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -27,7 +27,7 @@ type Server struct {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/Servers.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/Servers.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}
 type ServerList struct {
 	metav1.TypeMeta `json:",inline"`

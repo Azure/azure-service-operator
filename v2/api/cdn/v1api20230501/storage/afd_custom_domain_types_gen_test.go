@@ -20,6 +20,11 @@ import (
 
 func Test_AFDDomainHttpsParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -143,6 +148,11 @@ func AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters(gens map[string]gop
 
 func Test_AFDDomainHttpsParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -266,6 +276,11 @@ func AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_STATUS(gens map[str
 
 func Test_AfdCustomDomain_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -309,6 +324,11 @@ func RunResourceConversionTestForAfdCustomDomain(subject AfdCustomDomain) string
 
 func Test_AfdCustomDomain_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -417,6 +437,11 @@ func AddRelatedPropertyGeneratorsForAfdCustomDomain(gens map[string]gopter.Gen) 
 
 func Test_AfdCustomDomainOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -519,6 +544,11 @@ func AfdCustomDomainOperatorSpecGenerator() gopter.Gen {
 
 func Test_AfdCustomDomain_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -655,6 +685,11 @@ func AddRelatedPropertyGeneratorsForAfdCustomDomain_STATUS(gens map[string]gopte
 
 func Test_AfdCustomDomain_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -785,6 +820,11 @@ func AddRelatedPropertyGeneratorsForAfdCustomDomain_Spec(gens map[string]gopter.
 
 func Test_DomainValidationProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -894,6 +934,11 @@ func AddIndependentPropertyGeneratorsForDomainValidationProperties_STATUS(gens m
 
 func Test_ResourceReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -995,6 +1040,11 @@ func ResourceReferenceGenerator() gopter.Gen {
 
 func Test_ResourceReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1103,6 +1153,11 @@ func AddIndependentPropertyGeneratorsForResourceReference_STATUS(gens map[string
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

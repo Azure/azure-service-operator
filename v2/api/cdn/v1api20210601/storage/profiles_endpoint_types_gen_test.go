@@ -1185,6 +1185,11 @@ func AddIndependentPropertyGeneratorsForCookiesMatchConditionParameters_STATUS(g
 
 func Test_DeepCreatedCustomDomain_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1295,6 +1300,11 @@ func AddIndependentPropertyGeneratorsForDeepCreatedCustomDomain_STATUS(gens map[
 
 func Test_DeepCreatedOrigin_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1411,6 +1421,11 @@ func AddIndependentPropertyGeneratorsForDeepCreatedOrigin(gens map[string]gopter
 
 func Test_DeepCreatedOriginGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1536,6 +1551,11 @@ func AddRelatedPropertyGeneratorsForDeepCreatedOriginGroup(gens map[string]gopte
 
 func Test_DeepCreatedOriginGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1661,6 +1681,11 @@ func AddRelatedPropertyGeneratorsForDeepCreatedOriginGroup_STATUS(gens map[strin
 
 func Test_DeepCreatedOrigin_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1781,6 +1806,11 @@ func AddIndependentPropertyGeneratorsForDeepCreatedOrigin_STATUS(gens map[string
 
 func Test_DeliveryRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -8643,6 +8673,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathCondition_STATUS(gens map
 
 func Test_DeliveryRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -8767,6 +8802,11 @@ func AddRelatedPropertyGeneratorsForDeliveryRule_STATUS(gens map[string]gopter.G
 
 func Test_EndpointProperties_DeliveryPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -8889,6 +8929,11 @@ func AddRelatedPropertyGeneratorsForEndpointProperties_DeliveryPolicy(gens map[s
 
 func Test_EndpointProperties_DeliveryPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -9011,6 +9056,11 @@ func AddRelatedPropertyGeneratorsForEndpointProperties_DeliveryPolicy_STATUS(gen
 
 func Test_EndpointProperties_WebApplicationFirewallPolicyLink_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -9113,6 +9163,11 @@ func EndpointProperties_WebApplicationFirewallPolicyLinkGenerator() gopter.Gen {
 
 func Test_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -9221,6 +9276,11 @@ func AddIndependentPropertyGeneratorsForEndpointProperties_WebApplicationFirewal
 
 func Test_GeoFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -9330,6 +9390,11 @@ func AddIndependentPropertyGeneratorsForGeoFilter(gens map[string]gopter.Gen) {
 
 func Test_GeoFilter_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -10137,6 +10202,11 @@ func AddIndependentPropertyGeneratorsForHostNameMatchConditionParameters_STATUS(
 
 func Test_HttpErrorRangeParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -10246,6 +10316,11 @@ func AddIndependentPropertyGeneratorsForHttpErrorRangeParameters(gens map[string
 
 func Test_HttpErrorRangeParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -10823,6 +10898,11 @@ func AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParameters_STATUS(
 
 func Test_KeyVaultSigningKeyParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -10936,6 +11016,11 @@ func AddIndependentPropertyGeneratorsForKeyVaultSigningKeyParameters(gens map[st
 
 func Test_KeyVaultSigningKeyParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -12047,6 +12132,11 @@ func AddIndependentPropertyGeneratorsForPostArgsMatchConditionParameters_STATUS(
 
 func Test_ProfilesEndpoint_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -12090,6 +12180,11 @@ func RunResourceConversionTestForProfilesEndpoint(subject ProfilesEndpoint) stri
 
 func Test_ProfilesEndpoint_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -12198,6 +12293,11 @@ func AddRelatedPropertyGeneratorsForProfilesEndpoint(gens map[string]gopter.Gen)
 
 func Test_ProfilesEndpointOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -12300,6 +12400,11 @@ func ProfilesEndpointOperatorSpecGenerator() gopter.Gen {
 
 func Test_ProfilesEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -12448,6 +12553,11 @@ func AddRelatedPropertyGeneratorsForProfilesEndpoint_STATUS(gens map[string]gopt
 
 func Test_ProfilesEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -14450,6 +14560,11 @@ func AddIndependentPropertyGeneratorsForResourceReference_STATUS(gens map[string
 
 func Test_ResponseBasedOriginErrorDetectionParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -14573,6 +14688,11 @@ func AddRelatedPropertyGeneratorsForResponseBasedOriginErrorDetectionParameters(
 
 func Test_ResponseBasedOriginErrorDetectionParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -17841,6 +17961,11 @@ func AddRelatedPropertyGeneratorsForUrlSigningAction_STATUS(gens map[string]gopt
 
 func Test_UrlSigningKey_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -17962,6 +18087,11 @@ func AddRelatedPropertyGeneratorsForUrlSigningKey(gens map[string]gopter.Gen) {
 
 func Test_UrlSigningKey_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

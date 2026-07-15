@@ -20,6 +20,11 @@ import (
 
 func Test_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -128,6 +133,11 @@ func AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profil
 
 func Test_SecurityPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -171,6 +181,11 @@ func RunResourceConversionTestForSecurityPolicy(subject SecurityPolicy) string {
 
 func Test_SecurityPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -279,6 +294,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicy(gens map[string]gopter.Gen) {
 
 func Test_SecurityPolicyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -381,6 +401,11 @@ func SecurityPolicyOperatorSpecGenerator() gopter.Gen {
 
 func Test_SecurityPolicyPropertiesParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -498,6 +523,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyPropertiesParameters(gens map[
 
 func Test_SecurityPolicyPropertiesParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -615,6 +645,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyPropertiesParameters_STATUS(ge
 
 func Test_SecurityPolicyWebApplicationFirewallAssociation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -737,6 +772,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociat
 
 func Test_SecurityPolicyWebApplicationFirewallAssociation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -859,6 +899,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociat
 
 func Test_SecurityPolicyWebApplicationFirewallParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -982,6 +1027,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParamete
 
 func Test_SecurityPolicyWebApplicationFirewallParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1105,6 +1155,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParamete
 
 func Test_SecurityPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1233,6 +1288,11 @@ func AddRelatedPropertyGeneratorsForSecurityPolicy_STATUS(gens map[string]gopter
 
 func Test_SecurityPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
