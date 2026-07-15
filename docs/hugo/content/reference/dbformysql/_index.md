@@ -21,7 +21,7 @@ These resource(s) are the latest versions available for use in the current relea
 | [FlexibleServersConfiguration]({{< relref "/reference/dbformysql/v20241230#FlexibleServersConfiguration" >}}) | 2024-12-30  | v20241230   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversconfiguration.yaml) |
 | [FlexibleServersDatabase]({{< relref "/reference/dbformysql/v20241230#FlexibleServersDatabase" >}})           | 2024-12-30  | v20241230   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversdatabase.yaml)      |
 | [FlexibleServersFirewallRule]({{< relref "/reference/dbformysql/v20241230#FlexibleServersFirewallRule" >}})   | 2024-12-30  | v20241230   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversfirewallrule.yaml)  |
-| [User]({{< relref "/reference/dbformysql/v1#User" >}})                                                        | v1          | v1          | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1_user.yaml)                                    |
+| [User]({{< relref "/reference/dbformysql/v1#User" >}})                                                        | v1          | v1          | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1_user.yaml)                                    |
 
 ### Other Supported Versions
 

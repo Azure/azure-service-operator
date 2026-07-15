@@ -638,7 +638,7 @@ These resource(s) are the latest versions available for use in the current relea
 | [FlexibleServersConfiguration]({{< relref "/reference/dbformysql/v20241230#FlexibleServersConfiguration" >}}) | 2024-12-30  | v20241230   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversconfiguration.yaml) |
 | [FlexibleServersDatabase]({{< relref "/reference/dbformysql/v20241230#FlexibleServersDatabase" >}})           | 2024-12-30  | v20241230   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversdatabase.yaml)      |
 | [FlexibleServersFirewallRule]({{< relref "/reference/dbformysql/v20241230#FlexibleServersFirewallRule" >}})   | 2024-12-30  | v20241230   | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v20241230/v20241230_flexibleserversfirewallrule.yaml)  |
-| [User]({{< relref "/reference/dbformysql/v1#User" >}})                                                        | v1          | v1          | v2.19.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1_user.yaml)                                    |
+| [User]({{< relref "/reference/dbformysql/v1#User" >}})                                                        | v1          | v1          | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/dbformysql/v1api/v1_user.yaml)                                    |
 
 ### Other Supported Versions
 
@@ -1374,7 +1374,6 @@ Development of these new resources is complete and they will be available in the
 | [ServersSecurityAlertPolicy]({{< relref "/reference/sql/v20211101#ServersSecurityAlertPolicy" >}})                                           | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serverssecurityalertpolicy.yaml)                      |
 | [ServersVirtualNetworkRule]({{< relref "/reference/sql/v20211101#ServersVirtualNetworkRule" >}})                                             | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversvirtualnetworkrule.yaml)                       |
 | [ServersVulnerabilityAssessment]({{< relref "/reference/sql/v20211101#ServersVulnerabilityAssessment" >}})                                   | 2021-11-01  | v20211101   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v20211101/v20211101_serversvulnerabilityassessment.yaml)                  |
-| [User]({{< relref "/reference/sql/v1#User" >}})                                                                                              | v1          | v1          | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api/v1_user.yaml)                                                 |
 
 ### Released
 
@@ -1403,6 +1402,7 @@ These resource(s) are available for use in the current release of ASO. Different
 | [ServersSecurityAlertPolicy]({{< relref "/reference/sql/v1api20211101#ServersSecurityAlertPolicy" >}})                                           | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serverssecurityalertpolicy.yaml)                      |
 | [ServersVirtualNetworkRule]({{< relref "/reference/sql/v1api20211101#ServersVirtualNetworkRule" >}})                                             | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversvirtualnetworkrule.yaml)                       |
 | [ServersVulnerabilityAssessment]({{< relref "/reference/sql/v1api20211101#ServersVulnerabilityAssessment" >}})                                   | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversvulnerabilityassessment.yaml)                  |
+| [User]({{< relref "/reference/sql/v1#User" >}})                                                                                                  | v1          | v1            | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api/v1_user.yaml)                                                         |
 
 ## Storage
 
