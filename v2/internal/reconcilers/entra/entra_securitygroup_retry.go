@@ -63,17 +63,14 @@ func classifyRelationshipError(err error) (ctrl.Result, error) {
 // Retry-After value was found. A zero result is returned when no throttle signal is
 // present — callers can pass this straight to the calculator.
 func tryThrottleRequeue(err error) (ctrl.Result, bool) {
-	odataError, ok := asODataError(err)
-	if !ok || odataError.ResponseStatusCode != http.StatusTooManyRequests {
-		return ctrl.Result{}, false
-	}
-
-	retryAfter, ok := retryAfterFromODataError(odataError)
+	retryAfter, ok := maxRetryAfterFromError(err)
 	if !ok {
 		return ctrl.Result{}, false
 	}
 
-	return ctrl.Result{RequeueAfter: retryAfter}, true
+	return ctrl.Result{
+		RequeueAfter: retryAfter,
+	}, true
 }
 
 func maxRetryAfterFromError(err error) (time.Duration, bool) {

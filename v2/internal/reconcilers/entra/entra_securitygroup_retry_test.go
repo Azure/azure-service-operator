@@ -11,9 +11,10 @@ import (
 	"testing"
 	"time"
 
+	. "github.com/onsi/gomega"
+
 	abstractions "github.com/microsoft/kiota-abstractions-go"
 	"github.com/microsoftgraph/msgraph-sdk-go/models/odataerrors"
-	. "github.com/onsi/gomega"
 	"github.com/rotisserie/eris"
 	ctrl "sigs.k8s.io/controller-runtime"
 

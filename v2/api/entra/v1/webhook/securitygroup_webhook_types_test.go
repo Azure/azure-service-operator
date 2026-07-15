@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
 	v1core "k8s.io/api/core/v1"
 	apiextensions "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -64,8 +65,9 @@ func TestSecurityGroupWebhook_ValidateOptionalConfigMapReferences_OneOrZeroSetPa
 	g.Expect(warnings).To(BeNil())
 }
 
+//nolint:paralleltest // This test cannot be run in parallel because it creates a namespace with a fixed name.
 func TestSecurityGroup_Validation_OwnerUniqueness(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := t.Context()
 
@@ -92,10 +94,14 @@ func TestSecurityGroup_Validation_OwnerUniqueness(t *testing.T) {
 	g.Expect(err.Error()).To(ContainSubstring("owners must be unique"))
 }
 
+//nolint:paralleltest // This test cannot be run in parallel because it creates a namespace with a fixed name.
 func TestSecurityGroup_Validation_MemberUniqueness(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := t.Context()
+
+	kubeClient, namespace, stop := startSecurityGroupValidationEnvtest(t)
+	t.Cleanup(stop)
 
 	duplicateMembers := &v1.SecurityGroup{
 		ObjectMeta: metav1.ObjectMeta{
@@ -117,10 +123,14 @@ func TestSecurityGroup_Validation_MemberUniqueness(t *testing.T) {
 	g.Expect(err.Error()).To(ContainSubstring("members must be unique"))
 }
 
+//nolint:paralleltest // This test cannot be run in parallel because it creates a namespace with a fixed name.
 func TestSecurityGroup_Validation_OverlapUniqueness(t *testing.T) {
-	t.Parallel()
+	// t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := t.Context()
+
+	kubeClient, namespace, stop := startSecurityGroupValidationEnvtest(t)
+	t.Cleanup(stop)
 
 	overlap := &v1.SecurityGroup{
 		ObjectMeta: metav1.ObjectMeta{

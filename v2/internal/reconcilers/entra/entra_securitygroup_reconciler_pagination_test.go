@@ -10,8 +10,9 @@ import (
 	"errors"
 	"testing"
 
-	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
 	. "github.com/onsi/gomega"
+
+	msgraphmodels "github.com/microsoftgraph/msgraph-sdk-go/models"
 
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 )
