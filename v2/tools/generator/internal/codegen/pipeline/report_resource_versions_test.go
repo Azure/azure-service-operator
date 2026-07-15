@@ -197,11 +197,11 @@ func TestResourceVersionsReport_SupportedFrom_OverridesForHybridMigrationGroup(t
 
 	newStylePkg := test.MakeLocalPackageReference("authorization", "v20220401")
 	legacyStylePkg := newStylePkg.WithVersionPrefix(astmodel.GeneratorVersion) // v1api prefix
-	batchNewStylePkg := test.MakeLocalPackageReference("batch", "v20210101")
+	cdnPkg := test.MakeLocalPackageReference("cdn", "v20230501").WithVersionPrefix(astmodel.GeneratorVersion)
 
 	roleAssignmentNewStyle := astmodel.MakeInternalTypeName(newStylePkg, "RoleAssignment")
 	roleAssignmentLegacyStyle := astmodel.MakeInternalTypeName(legacyStylePkg, "RoleAssignment")
-	batchAccount := astmodel.MakeInternalTypeName(batchNewStylePkg, "BatchAccount")
+	cdnProfile := astmodel.MakeInternalTypeName(cdnPkg, "Profile")
 
 	cases := map[string]struct {
 		name           astmodel.InternalTypeName
@@ -222,10 +222,9 @@ func TestResourceVersionsReport_SupportedFrom_OverridesForHybridMigrationGroup(t
 			configuredFrom: "v2.4.0",
 			expected:       "v2.4.0",
 		},
-		"HybridGroupWithoutRegisteredMigration_KeepsOriginal": {
-			// batch is Hybrid but has no explicit migration release registered, so we preserve the
-			// original supportedFrom (legacy behavior).
-			name:           batchAccount,
+		"NonHybridGroup_KeepsOriginal": {
+			// cdn is Legacy (not Hybrid) so the original supportedFrom is preserved regardless.
+			name:           cdnProfile,
 			configuredFrom: "v2.0.0",
 			expected:       "v2.0.0",
 		},

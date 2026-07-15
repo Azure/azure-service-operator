@@ -25,8 +25,8 @@ func TestHybridMigrationReleaseForGroup_WhenNotRegistered_ReturnsFalse(t *testin
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	// batch is a Hybrid group but has no explicit migration release registered
-	_, ok := HybridMigrationReleaseForGroup("batch")
+	// cdn is a Legacy group with no hybrid migration release registered
+	_, ok := HybridMigrationReleaseForGroup("cdn")
 	g.Expect(ok).To(BeFalse())
 
 	// A group that doesn't exist at all

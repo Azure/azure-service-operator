@@ -49,22 +49,38 @@ const (
 const LastLegacyASOVersion = "v2.16.0"
 
 // versionMigrationHybridReleases records the ASO release in which each Hybrid mode group was
-// migrated from Legacy versioning. Only groups whose migration is either not yet released, or
-// whose reporting we want to make more precise, need an entry here.
+// migrated from Legacy versioning. This mirrors the "Hybrid" column of the migration tracking
+// table in issue #4831.
 //
-// When present, this release is used as the reported "Supported From" version for the new
-// `v`-prefixed variants of resources that were introduced in ASO version 2.16.0 or earlier
-// (the pre-migration resources). This ensures our documentation correctly reflects that those
-// `v`-prefixed variants only became available when the group was migrated - and shows them in
-// the "Next Release" section of our documentation until they've actually shipped.
+// This release is used as the reported "Supported From" version for the new `v`-prefixed variants
+// of resources that were introduced in ASO version 2.16.0 or earlier (the pre-migration resources).
+// This ensures our documentation correctly reflects that those `v`-prefixed variants only became
+// available when the group was migrated - and shows them in the "Next Release" section of our
+// documentation until they've actually shipped.
 //
 // It also delays the "deprecated" flag being applied to the `v1api`-prefixed variants until
 // after the migration has actually released; before then, the `v1api` variants are still the
 // only ones users can use.
 //
 // Keys are group names in lower case; values are ASO version strings (e.g. "v2.21.0").
+// When migrating a new group to Hybrid mode, add an entry here recording the upcoming ASO release.
 var versionMigrationHybridReleases = map[string]string{
-	"authorization": "v2.21.0",
+	"alertsmanagement": "v2.19.0",
+	"apimanagement":    "v2.19.0",
+	"app":              "v2.20.0",
+	"appconfiguration": "v2.19.0",
+	"authorization":    "v2.21.0",
+	"batch":            "v2.18.0",
+	"cache":            "v2.21.0",
+	"compute":          "v2.20.0",
+	"datafactory":      "v2.20.0",
+	"dbformysql":       "v2.19.0",
+	"eventgrid":        "v2.20.0",
+	"sql":              "v2.21.0",
+	"storage":          "v2.18.0",
+	"subscription":     "v2.21.0",
+	"synapse":          "v2.19.0",
+	"web":              "v2.19.0",
 }
 
 // versionMigrationModes contains a mapping of group names to their version migration modes.
