@@ -652,9 +652,13 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v20200930/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v20201201/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v20201201/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20210101/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v20210301/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v20210401/</loc>
   </url><url>
@@ -690,11 +694,17 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/alertsmanagement/v20230301/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v20230401/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/communication/v20230401/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/apimanagement/v20230501preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20230630/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v20230701/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v20230801/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20231230/</loc>
   </url><url>
@@ -707,6 +717,8 @@
     <loc>https://azure.github.io/azure-service-operator/reference/appconfiguration/v20240601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/batch/v20240701/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v20241101/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v20241101/</loc>
   </url><url>
