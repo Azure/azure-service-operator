@@ -79,6 +79,7 @@ func maxRetryAfterFromError(err error) (time.Duration, bool) {
 		return time.Duration(0), false
 	}
 
+	//nolint:errorlint // We walk the error tree ourselves; using errors.As() would NOT work correctly
 	switch x := err.(type) {
 	case *odataerrors.ODataError:
 		// For OData Errors, look at the Retry-After header and return it if present

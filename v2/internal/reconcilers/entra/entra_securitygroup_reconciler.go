@@ -217,6 +217,7 @@ func (r *EntraSecurityGroupReconciler) update(
 	return result, nil
 }
 
+//nolint:unparam // This has the correct form even though it always returns the same zero value
 func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	ctx context.Context,
 	group *asoentrav1.SecurityGroup,
