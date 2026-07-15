@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package entra
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 	"time"
@@ -67,12 +68,61 @@ func tryThrottleRequeue(err error) (ctrl.Result, bool) {
 		return ctrl.Result{}, false
 	}
 
-	retryAfter := retryAfterFromODataError(odataError)
-	if retryAfter <= 0 {
+	retryAfter, ok := retryAfterFromODataError(odataError)
+	if !ok {
 		return ctrl.Result{}, false
 	}
 
 	return ctrl.Result{RequeueAfter: retryAfter}, true
+}
+
+func maxRetryAfterFromError(err error) (time.Duration, bool) {
+	if err == nil {
+		// No error, no Retry-After
+		return time.Duration(0), false
+	}
+
+	switch x := err.(type) {
+	case *odataerrors.ODataError:
+		// For OData Errors, look at the Retry-After header and return it if present
+		retryAfter, ok := retryAfterFromODataError(x)
+		if ok {
+			return retryAfter, true
+		}
+
+		return time.Duration(0), false
+
+	case interface{ Unwrap() []error }:
+		// If we wrap a sequence of errors, return the largest Retry-After from any of the children.
+		var max time.Duration
+		for _, child := range x.Unwrap() {
+			if child == nil {
+				continue
+			}
+
+			if childMax, ok := maxRetryAfterFromError(child); ok && childMax > max {
+				max = childMax
+			}
+		}
+
+		if max > 0 {
+			return max, true
+		}
+
+		return 0, false
+
+	case interface{ Unwrap() error }:
+		// If we wrap a single error, return the Retry-After from that child.
+		child := x.Unwrap()
+		if child == nil {
+			return 0, false
+		}
+
+		return maxRetryAfterFromError(child)
+
+	default:
+		return time.Duration(0), false
+	}
 }
 
 func isPermissionError(err error) bool {
@@ -85,37 +135,39 @@ func isPermissionError(err error) bool {
 }
 
 func asODataError(err error) (*odataerrors.ODataError, bool) {
-	var odataError *odataerrors.ODataError
-	if eris.As(err, &odataError) {
+	// AsType() walks both `Unwrap() error`` and `Unwrap() []error` we we'll find anything nested
+	if odataError, ok := errors.AsType[*odataerrors.ODataError](err); ok {
 		return odataError, true
 	}
 
 	return nil, false
 }
 
-func retryAfterFromODataError(odataError *odataerrors.ODataError) time.Duration {
+func retryAfterFromODataError(
+	odataError *odataerrors.ODataError,
+) (time.Duration, bool) {
 	if odataError == nil || odataError.ResponseHeaders == nil {
-		return 0
+		return 0, false
 	}
 
 	values := odataError.ResponseHeaders.Get("Retry-After")
 	if len(values) == 0 {
-		return 0
+		return 0, false
 	}
 
 	retryAfterStr := values[0]
 	if retryAfterVal, parseErr := strconv.ParseInt(retryAfterStr, 10, 64); parseErr == nil {
-		return time.Duration(retryAfterVal) * time.Second
+		return time.Duration(retryAfterVal) * time.Second, true
 	}
 
 	if retryAfterTime, parseErr := parseHTTPDate(retryAfterStr); parseErr == nil {
 		result := time.Until(retryAfterTime)
 		if result > 0 {
-			return result
+			return result, true
 		}
 	}
 
-	return 0
+	return 0, false
 }
 
 func parseHTTPDate(s string) (time.Time, error) {
