@@ -791,12 +791,17 @@ func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.InternalTy
 	// documentation correctly places them in the "Next Release" section until the migration ships.
 	pkg := typeName.InternalPackageReference()
 	grp := pkg.Group()
-	if migratedIn, ok := astmodel.HybridMigrationReleaseForGroup(grp); ok {
-		if !pkg.HasVersionPrefix(astmodel.GeneratorVersion) &&
-			astmodel.ComparePathAndVersion(supportedFrom, astmodel.LastLegacyASOVersion) <= 0 {
-			return migratedIn
-		}
+if migratedIn, ok := astmodel.HybridMigrationReleaseForGroup(grp); ok {
+	_, ver := pkg.GroupVersion()
+	if config.VersionRegex.MatchString(ver) {
+		return supportedFrom
 	}
+
+	if !pkg.HasVersionPrefix(astmodel.GeneratorVersion) &&
+		astmodel.ComparePathAndVersion(supportedFrom, astmodel.LastLegacyASOVersion) <= 0 {
+		return migratedIn
+	}
+}
 
 	return supportedFrom
 }
