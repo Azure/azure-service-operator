@@ -61,7 +61,7 @@ type SecurityGroupList struct {
 	Items           []SecurityGroup `json:"items"`
 }
 
-// +kubebuilder:validation:XValidation:rule="size(self.owners) + size(self.members) <= 20",message="the combined number of owners and members must not exceed 20"
+// +kubebuilder:validation:XValidation:rule="(has(self.owners) ? size(self.owners) : 0) + (has(self.members) ? size(self.members) : 0) <= 20",message="the combined number of owners and members must not exceed 20"
 type SecurityGroupSpec struct {
 	// DisplayName: The display name of the group.
 	// +kubebuilder:validation:Required
