@@ -5,7 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_FailoverGroupReadOnlyEndpoint_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -35,7 +41,7 @@ func RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint(subject FailoverG
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FailoverGroupReadOnlyEndpoint
+	var other sql_v1api20211101s.FailoverGroupReadOnlyEndpoint
 	err := copied.AssignProperties_To_FailoverGroupReadOnlyEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -62,6 +68,11 @@ func RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint(subject FailoverG
 
 func Test_FailoverGroupReadOnlyEndpoint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -123,6 +134,11 @@ func AddIndependentPropertyGeneratorsForFailoverGroupReadOnlyEndpoint(gens map[s
 
 func Test_FailoverGroupReadOnlyEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -138,7 +154,7 @@ func RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint_STATUS(subject Fa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FailoverGroupReadOnlyEndpoint_STATUS
+	var other sql_v1api20211101s.FailoverGroupReadOnlyEndpoint_STATUS
 	err := copied.AssignProperties_To_FailoverGroupReadOnlyEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -165,6 +181,11 @@ func RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint_STATUS(subject Fa
 
 func Test_FailoverGroupReadOnlyEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -226,6 +247,11 @@ func AddIndependentPropertyGeneratorsForFailoverGroupReadOnlyEndpoint_STATUS(gen
 
 func Test_FailoverGroupReadWriteEndpoint_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -241,7 +267,7 @@ func RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint(subject Failover
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FailoverGroupReadWriteEndpoint
+	var other sql_v1api20211101s.FailoverGroupReadWriteEndpoint
 	err := copied.AssignProperties_To_FailoverGroupReadWriteEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -268,6 +294,11 @@ func RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint(subject Failover
 
 func Test_FailoverGroupReadWriteEndpoint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -330,6 +361,11 @@ func AddIndependentPropertyGeneratorsForFailoverGroupReadWriteEndpoint(gens map[
 
 func Test_FailoverGroupReadWriteEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -345,7 +381,7 @@ func RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint_STATUS(subject F
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.FailoverGroupReadWriteEndpoint_STATUS
+	var other sql_v1api20211101s.FailoverGroupReadWriteEndpoint_STATUS
 	err := copied.AssignProperties_To_FailoverGroupReadWriteEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -372,6 +408,11 @@ func RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint_STATUS(subject F
 
 func Test_FailoverGroupReadWriteEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -434,6 +475,11 @@ func AddIndependentPropertyGeneratorsForFailoverGroupReadWriteEndpoint_STATUS(ge
 
 func Test_PartnerInfo_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -449,7 +495,7 @@ func RunPropertyAssignmentTestForPartnerInfo(subject PartnerInfo) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PartnerInfo
+	var other sql_v1api20211101s.PartnerInfo
 	err := copied.AssignProperties_To_PartnerInfo(&other)
 	if err != nil {
 		return err.Error()
@@ -476,6 +522,11 @@ func RunPropertyAssignmentTestForPartnerInfo(subject PartnerInfo) string {
 
 func Test_PartnerInfo_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -530,6 +581,11 @@ func PartnerInfoGenerator() gopter.Gen {
 
 func Test_PartnerInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -545,7 +601,7 @@ func RunPropertyAssignmentTestForPartnerInfo_STATUS(subject PartnerInfo_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PartnerInfo_STATUS
+	var other sql_v1api20211101s.PartnerInfo_STATUS
 	err := copied.AssignProperties_To_PartnerInfo_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -572,6 +628,11 @@ func RunPropertyAssignmentTestForPartnerInfo_STATUS(subject PartnerInfo_STATUS) 
 
 func Test_PartnerInfo_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -634,6 +695,11 @@ func AddIndependentPropertyGeneratorsForPartnerInfo_STATUS(gens map[string]gopte
 
 func Test_ServersFailoverGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -650,7 +716,7 @@ func RunResourceConversionTestForServersFailoverGroup(subject ServersFailoverGro
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersFailoverGroup
+	var hub sql_v20211101s.ServersFailoverGroup
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -677,6 +743,11 @@ func RunResourceConversionTestForServersFailoverGroup(subject ServersFailoverGro
 
 func Test_ServersFailoverGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -692,7 +763,7 @@ func RunPropertyAssignmentTestForServersFailoverGroup(subject ServersFailoverGro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFailoverGroup
+	var other sql_v1api20211101s.ServersFailoverGroup
 	err := copied.AssignProperties_To_ServersFailoverGroup(&other)
 	if err != nil {
 		return err.Error()
@@ -719,6 +790,11 @@ func RunPropertyAssignmentTestForServersFailoverGroup(subject ServersFailoverGro
 
 func Test_ServersFailoverGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -781,6 +857,11 @@ func AddRelatedPropertyGeneratorsForServersFailoverGroup(gens map[string]gopter.
 
 func Test_ServersFailoverGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -796,7 +877,7 @@ func RunPropertyAssignmentTestForServersFailoverGroupOperatorSpec(subject Server
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFailoverGroupOperatorSpec
+	var other sql_v1api20211101s.ServersFailoverGroupOperatorSpec
 	err := copied.AssignProperties_To_ServersFailoverGroupOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -823,6 +904,11 @@ func RunPropertyAssignmentTestForServersFailoverGroupOperatorSpec(subject Server
 
 func Test_ServersFailoverGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -878,6 +964,11 @@ func ServersFailoverGroupOperatorSpecGenerator() gopter.Gen {
 
 func Test_ServersFailoverGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -893,7 +984,7 @@ func RunPropertyAssignmentTestForServersFailoverGroup_STATUS(subject ServersFail
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFailoverGroup_STATUS
+	var other sql_v1api20211101s.ServersFailoverGroup_STATUS
 	err := copied.AssignProperties_To_ServersFailoverGroup_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -920,6 +1011,11 @@ func RunPropertyAssignmentTestForServersFailoverGroup_STATUS(subject ServersFail
 
 func Test_ServersFailoverGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1006,6 +1102,11 @@ func AddRelatedPropertyGeneratorsForServersFailoverGroup_STATUS(gens map[string]
 
 func Test_ServersFailoverGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1021,7 +1122,7 @@ func RunPropertyAssignmentTestForServersFailoverGroup_Spec(subject ServersFailov
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFailoverGroup_Spec
+	var other sql_v1api20211101s.ServersFailoverGroup_Spec
 	err := copied.AssignProperties_To_ServersFailoverGroup_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1048,6 +1149,11 @@ func RunPropertyAssignmentTestForServersFailoverGroup_Spec(subject ServersFailov
 
 func Test_ServersFailoverGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

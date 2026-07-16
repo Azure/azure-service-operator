@@ -17,6 +17,11 @@ import (
 // Test_Person_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of Person round trips to the hub storage version and back losslessly
 func Test_Person_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := PersonGenerator().Draw(t, "subject")
 		// Copy subject to make sure conversion doesn't modify it
@@ -50,6 +55,11 @@ func Test_Person_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 // Test_Person_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Person can be assigned to storage and back losslessly
 func Test_Person_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := PersonGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -82,6 +92,11 @@ func Test_Person_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 
 func Test_Person_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForPerson)
 }
 
@@ -136,6 +151,11 @@ func PersonGenerator() *rapid.Generator[Person] {
 // Test_Person_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Person_STATUS can be assigned to storage and back losslessly
 func Test_Person_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := Person_STATUSGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -168,6 +188,11 @@ func Test_Person_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 
 func Test_Person_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForPerson_STATUS)
 }
 
@@ -220,6 +245,11 @@ func Person_STATUSGenerator() *rapid.Generator[Person_STATUS] {
 // Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of Person_Spec can be assigned to storage and back losslessly
 func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := Person_SpecGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -252,6 +282,11 @@ func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 
 func Test_Person_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForPerson_Spec)
 }
 

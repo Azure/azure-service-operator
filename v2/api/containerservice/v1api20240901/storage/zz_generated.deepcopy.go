@@ -2482,7 +2482,7 @@ func (in *ManagedClusterAADProfile) DeepCopyInto(out *ManagedClusterAADProfile) 
 	}
 	if in.ServerAppSecret != nil {
 		in, out := &in.ServerAppSecret, &out.ServerAppSecret
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.TenantID != nil {
@@ -2534,11 +2534,6 @@ func (in *ManagedClusterAADProfile_STATUS) DeepCopyInto(out *ManagedClusterAADPr
 	}
 	if in.ServerAppID != nil {
 		in, out := &in.ServerAppID, &out.ServerAppID
-		*out = new(string)
-		**out = **in
-	}
-	if in.ServerAppSecret != nil {
-		in, out := &in.ServerAppSecret, &out.ServerAppSecret
 		*out = new(string)
 		**out = **in
 	}

@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20201201.VirtualMachinesExtension
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2020-12-01/compute.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}
 type VirtualMachinesExtension struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -260,7 +260,7 @@ func (extension *VirtualMachinesExtension) OriginalGVK() *schema.GroupVersionKin
 // +kubebuilder:object:root=true
 // Storage version of v1api20201201.VirtualMachinesExtension
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2020-12-01/compute.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}
 type VirtualMachinesExtensionList struct {
 	metav1.TypeMeta `json:",inline"`

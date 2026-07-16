@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,8 +18,108 @@ import (
 	"testing"
 )
 
+func Test_ServersAdministrator_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAdministrator to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersAdministrator, ServersAdministratorGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersAdministrator tests if a specific instance of ServersAdministrator round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersAdministrator(subject ServersAdministrator) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersAdministrator
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersAdministrator
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersAdministrator_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAdministrator to ServersAdministrator via AssignProperties_To_ServersAdministrator & AssignProperties_From_ServersAdministrator returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAdministrator, ServersAdministratorGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAdministrator tests if a specific instance of ServersAdministrator can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAdministrator(subject ServersAdministrator) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAdministrator
+	err := copied.AssignProperties_To_ServersAdministrator(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAdministrator
+	err = actual.AssignProperties_From_ServersAdministrator(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAdministrator_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -79,8 +180,60 @@ func AddRelatedPropertyGeneratorsForServersAdministrator(gens map[string]gopter.
 	gens["Status"] = ServersAdministrator_STATUSGenerator()
 }
 
+func Test_ServersAdministratorOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAdministratorOperatorSpec to ServersAdministratorOperatorSpec via AssignProperties_To_ServersAdministratorOperatorSpec & AssignProperties_From_ServersAdministratorOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAdministratorOperatorSpec, ServersAdministratorOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAdministratorOperatorSpec tests if a specific instance of ServersAdministratorOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAdministratorOperatorSpec(subject ServersAdministratorOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAdministratorOperatorSpec
+	err := copied.AssignProperties_To_ServersAdministratorOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAdministratorOperatorSpec
+	err = actual.AssignProperties_From_ServersAdministratorOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAdministratorOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -134,8 +287,60 @@ func ServersAdministratorOperatorSpecGenerator() gopter.Gen {
 	return serversAdministratorOperatorSpecGenerator
 }
 
+func Test_ServersAdministrator_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAdministrator_STATUS to ServersAdministrator_STATUS via AssignProperties_To_ServersAdministrator_STATUS & AssignProperties_From_ServersAdministrator_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAdministrator_STATUS, ServersAdministrator_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAdministrator_STATUS tests if a specific instance of ServersAdministrator_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAdministrator_STATUS(subject ServersAdministrator_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAdministrator_STATUS
+	err := copied.AssignProperties_To_ServersAdministrator_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAdministrator_STATUS
+	err = actual.AssignProperties_From_ServersAdministrator_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAdministrator_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -202,8 +407,60 @@ func AddIndependentPropertyGeneratorsForServersAdministrator_STATUS(gens map[str
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServersAdministrator_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersAdministrator_Spec to ServersAdministrator_Spec via AssignProperties_To_ServersAdministrator_Spec & AssignProperties_From_ServersAdministrator_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersAdministrator_Spec, ServersAdministrator_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersAdministrator_Spec tests if a specific instance of ServersAdministrator_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersAdministrator_Spec(subject ServersAdministrator_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersAdministrator_Spec
+	err := copied.AssignProperties_To_ServersAdministrator_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersAdministrator_Spec
+	err = actual.AssignProperties_From_ServersAdministrator_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersAdministrator_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

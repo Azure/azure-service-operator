@@ -7,6 +7,7 @@ package jsonast
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"math"
 	"math/big"
@@ -102,7 +103,11 @@ func (scanner *SchemaScanner) AddTypeHandler(schemaType SchemaType, handler Type
 }
 
 // RunHandler triggers the appropriate handler for the specified schemaType
-func (scanner *SchemaScanner) RunHandler(ctx context.Context, schemaType SchemaType, schema Schema) (astmodel.Type, error) {
+func (scanner *SchemaScanner) RunHandler(
+	ctx context.Context,
+	schemaType SchemaType,
+	schema Schema,
+) (astmodel.Type, error) {
 	if ctx.Err() != nil { // check for cancellation
 		return nil, ctx.Err()
 	}
@@ -128,8 +133,7 @@ func (scanner *SchemaScanner) RunHandlersForSchemas(ctx context.Context, schemas
 	for _, schema := range schemas {
 		t, err := scanner.RunHandlerForSchema(ctx, schema)
 		if err != nil {
-			var unknownSchema *UnknownSchemaError
-			if eris.As(err, &unknownSchema) {
+			if unknownSchema, ok := errors.AsType[*UnknownSchemaError](err); ok {
 				if unknownSchema.Schema.description() != nil {
 					// some Swagger types (e.g. ServiceFabric Cluster) use allOf with a description-only schema
 					scanner.log.V(2).Info(
@@ -468,9 +472,10 @@ func generatePropertyDefinition(ctx context.Context, scanner *SchemaScanner, raw
 	propertyName := scanner.idFactory.CreatePropertyName(rawPropName, astmodel.Exported)
 
 	schemaType, err := getSubSchemaType(prop)
-	var use *UnknownSchemaError
-	if eris.As(err, &use) {
-		// if we don't know the type, we still need to provide the property, we will just provide open interface
+	if _, ok := errors.AsType[*UnknownSchemaError](err); ok {
+		// if we don't know the type, we still need to provide the property, we will just provide open interface.
+		// Note we don't use Map[string, Any] here because unlike in Object contexts with things like additionalProperties,
+		// we don't know that this must be an object, it could be a bool, int, etc.
 		property := astmodel.NewPropertyDefinition(propertyName, rawPropName, astmodel.AnyType)
 		return property, nil
 	}
@@ -480,8 +485,10 @@ func generatePropertyDefinition(ctx context.Context, scanner *SchemaScanner, raw
 	}
 
 	propType, err := scanner.RunHandler(ctx, schemaType, prop)
-	if eris.As(err, &use) {
+	if _, ok := errors.AsType[*UnknownSchemaError](err); ok {
 		// if we don't know the type, we still need to provide the property, we will just provide open interface
+		// Note we don't use Map[string, Any] here because unlike in Object contexts with things like additionalProperties,
+		// we don't know that this must be an object, it could be a bool, int, etc.
 		property := astmodel.NewPropertyDefinition(propertyName, rawPropName, astmodel.AnyType)
 		return property, nil
 	}
@@ -590,6 +597,10 @@ func getProperties(
 				additionalProperties := astmodel.NewPropertyDefinition(
 					astmodel.AdditionalPropertiesPropertyName,
 					astmodel.AdditionalPropertiesJSONName,
+					// We are using astmodel.NewStringMapType(astmodel.AnyType) rather than just plain
+					// astmodel.AnyType because as far as `AdditionalProperties` is concerned, the expectation is that they
+					// are properties (not a single bool/etc). In other contexts where we don't know the schema, we use astmodel.AnyType,
+					// as it could be a single bool/int/etc, OR an object. Only in this context do we know for sure it must be an object
 					astmodel.NewStringMapType(astmodel.AnyType),
 				)
 
@@ -600,15 +611,11 @@ func getProperties(
 			// TODO: for JSON serialization this needs to be unpacked into "parent"
 			additionalPropsType, err := scanner.RunHandlerForSchema(ctx, additionalPropSchema)
 			if err != nil {
-				// If the error is an UnknownSchemaError AND we have properties already, we skip generating
-				// the additional properties. As mentioned above, this isn't 100% following the spec, but
-				// it seems to do the right thing
-				var use *UnknownSchemaError
-				if eris.As(err, &use) && len(properties) > 0 {
-					return properties, nil
+				if _, ok := errors.AsType[*UnknownSchemaError](err); ok {
+					additionalPropsType = astmodel.AnyType
+				} else {
+					return nil, err
 				}
-
-				return nil, err
 			}
 
 			// This can happen if the property type was pruned away by a type filter.
@@ -623,6 +630,10 @@ func getProperties(
 			additionalProperties := astmodel.NewPropertyDefinition(
 				astmodel.AdditionalPropertiesPropertyName,
 				astmodel.AdditionalPropertiesJSONName,
+				// We are using astmodel.NewStringMapType(astmodel.AnyType) rather than just plain
+				// astmodel.AnyType because as far as `AdditionalProperties` is concerned, the expectation is that they
+				// are properties (not a single bool/etc). In other contexts where we don't know the schema, we use astmodel.AnyType,
+				// as it could be a single bool/int/etc, OR an object. Only in this context do we know for sure it must be an object
 				astmodel.NewStringMapType(additionalPropsType),
 			)
 
@@ -794,6 +805,7 @@ func oneOfHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, _ 
 
 	// If there are any properties, we need to create an object type to wrap them
 	if len(schema.properties()) > 0 {
+
 		t, err := scanner.RunHandler(ctx, Object, schema)
 		if err != nil {
 			return nil, eris.Wrapf(err, "unable to generate object for properties of %s", schema.ID())
@@ -852,9 +864,9 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, lo
 	}
 
 	if len(items) == 0 {
-		// there is no type to the elements, so we must assume interface{}
+		// there is no type to the elements, so we must assume any
 		log.V(1).Info(
-			"Interface assumption unproven",
+			"Assuming 'any' as no item detail available",
 			"url", schema.url(),
 		)
 
@@ -863,11 +875,23 @@ func arrayHandler(ctx context.Context, scanner *SchemaScanner, schema Schema, lo
 	}
 
 	// get the only child type and wrap it up as an array type:
-
 	onlyChild := items[0]
 
 	astType, err := scanner.RunHandlerForSchema(ctx, onlyChild)
 	if err != nil {
+		// If we can't determine the type of the items, assume any
+		// (This can happen if the item has a description but no type information)
+		if _, ok := errors.AsType[*UnknownSchemaError](err); ok {
+			// there is no type to the elements, so we must assume any
+			log.V(1).Info(
+				"Assuming 'any' as item has no type specified",
+				"url", schema.url(),
+			)
+
+			result := astmodel.NewArrayType(astmodel.AnyType)
+			return withArrayValidations(schema, result), nil
+		}
+
 		return nil, err
 	}
 
@@ -910,7 +934,14 @@ func getSubSchemaType(schema Schema) (SchemaType, error) {
 		return Ref, nil
 	}
 
-	for _, t := range []SchemaType{Object, String, Number, Int, Bool, Array} {
+	for _, t := range []SchemaType{
+		Object,
+		String,
+		Number,
+		Int,
+		Bool,
+		Array,
+	} {
 		if schema.hasType(t) {
 			return t, nil
 		}
@@ -918,6 +949,10 @@ func getSubSchemaType(schema Schema) (SchemaType, error) {
 
 	// TODO: this whole switch is a bit wrong because type: 'object' can
 	// be combined with OneOf/AnyOf/etc. still, it works okay for now...
+	// Note: we use schema.additionalPropertiesSchema() != nil rather than schema.supportsAdditionalProperties()
+	// here because if we used schema.additionalPropertiesSchema() we'd never fall through to UnknownSchemaError
+	// since everything in JSON schema supports additional properties by default, and we have logic elsewhere predicated
+	// on UnknownSchemaError being returned here.
 	if len(schema.properties()) > 0 || schema.additionalPropertiesSchema() != nil {
 		// haven't figured out a type but it has properties, treat it as an object
 		return Object, nil

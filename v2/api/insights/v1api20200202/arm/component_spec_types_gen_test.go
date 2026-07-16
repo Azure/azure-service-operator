@@ -19,6 +19,11 @@ import (
 
 func Test_ApplicationInsightsComponentProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -83,8 +88,8 @@ func AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties(g
 	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
 	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsights, ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsightsWithDiagnosticSettings, ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics))
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Disabled, ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_Enabled))
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_Disabled, ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_Enabled))
 	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Request_Source_Rest))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
@@ -93,6 +98,11 @@ func AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties(g
 
 func Test_Component_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

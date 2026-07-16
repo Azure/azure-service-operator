@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v20250401.CapacityReservation
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/ComputeRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}
 type CapacityReservation struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -158,7 +158,7 @@ func (reservation *CapacityReservation) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v20250401.CapacityReservation
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2025-04-01/ComputeRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2025-04-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations/{capacityReservationName}
 type CapacityReservationList struct {
 	metav1.TypeMeta `json:",inline"`

@@ -19,6 +19,11 @@ import (
 
 func Test_AFDOriginGroupProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -96,6 +101,11 @@ func AddRelatedPropertyGeneratorsForAFDOriginGroupProperties(gens map[string]gop
 
 func Test_AfdOriginGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -171,6 +181,11 @@ func AddRelatedPropertyGeneratorsForAfdOriginGroup_Spec(gens map[string]gopter.G
 
 func Test_HealthProbeParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -235,6 +250,11 @@ func AddIndependentPropertyGeneratorsForHealthProbeParameters(gens map[string]go
 
 func Test_LoadBalancingSettingsParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/activityLogAlerts_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2020-10-01/activityLogAlerts_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/activityLogAlerts/{activityLogAlertName}
 type ActivityLogAlert struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (alert *ActivityLogAlert) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/activityLogAlerts_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2020-10-01/activityLogAlerts_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/activityLogAlerts/{activityLogAlertName}
 type ActivityLogAlertList struct {
 	metav1.TypeMeta `json:",inline"`

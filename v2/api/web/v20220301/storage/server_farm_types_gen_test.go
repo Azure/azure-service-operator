@@ -62,6 +62,11 @@ func RunPropertyAssignmentTestForCapability(subject Capability) string {
 
 func Test_Capability_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -166,6 +171,11 @@ func RunPropertyAssignmentTestForCapability_STATUS(subject Capability_STATUS) st
 
 func Test_Capability_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -270,6 +280,11 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 
 func Test_ExtendedLocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -372,6 +387,11 @@ func RunPropertyAssignmentTestForExtendedLocation_STATUS(subject ExtendedLocatio
 
 func Test_ExtendedLocation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -476,6 +496,11 @@ func RunPropertyAssignmentTestForHostingEnvironmentProfile(subject HostingEnviro
 
 func Test_HostingEnvironmentProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -573,6 +598,11 @@ func RunPropertyAssignmentTestForHostingEnvironmentProfile_STATUS(subject Hostin
 
 func Test_HostingEnvironmentProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -678,6 +708,11 @@ func RunPropertyAssignmentTestForKubeEnvironmentProfile(subject KubeEnvironmentP
 
 func Test_KubeEnvironmentProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -775,6 +810,11 @@ func RunPropertyAssignmentTestForKubeEnvironmentProfile_STATUS(subject KubeEnvir
 
 func Test_KubeEnvironmentProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -923,6 +963,11 @@ func RunPropertyAssignmentTestForServerFarm(subject ServerFarm) string {
 
 func Test_ServerFarm_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -1026,6 +1071,11 @@ func RunPropertyAssignmentTestForServerFarmOperatorSpec(subject ServerFarmOperat
 
 func Test_ServerFarmOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1123,6 +1173,11 @@ func RunPropertyAssignmentTestForServerFarm_STATUS(subject ServerFarm_STATUS) st
 
 func Test_ServerFarm_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1270,6 +1325,11 @@ func RunPropertyAssignmentTestForServerFarm_Spec(subject ServerFarm_Spec) string
 
 func Test_ServerFarm_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1409,6 +1469,11 @@ func RunPropertyAssignmentTestForSkuCapacity(subject SkuCapacity) string {
 
 func Test_SkuCapacity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1515,6 +1580,11 @@ func RunPropertyAssignmentTestForSkuCapacity_STATUS(subject SkuCapacity_STATUS) 
 
 func Test_SkuCapacity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1621,6 +1691,11 @@ func RunPropertyAssignmentTestForSkuDescription(subject SkuDescription) string {
 
 func Test_SkuDescription_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1743,6 +1818,11 @@ func RunPropertyAssignmentTestForSkuDescription_STATUS(subject SkuDescription_ST
 
 func Test_SkuDescription_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

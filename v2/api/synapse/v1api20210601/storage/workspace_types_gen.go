@@ -3330,7 +3330,7 @@ type augmentConversionForUserAssignedManagedIdentity_STATUS interface {
 // Key encryption key properties
 type KekIdentityProperties struct {
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	UseSystemAssignedIdentity *v1.JSON               `json:"useSystemAssignedIdentity,omitempty"`
+	UseSystemAssignedIdentity *bool                  `json:"useSystemAssignedIdentity,omitempty"`
 
 	// UserAssignedIdentityReference: User assigned identity resource Id
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
@@ -3343,7 +3343,7 @@ func (properties *KekIdentityProperties) AssignProperties_From_KekIdentityProper
 
 	// UseSystemAssignedIdentity
 	if source.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentity := *source.UseSystemAssignedIdentity.DeepCopy()
+		useSystemAssignedIdentity := *source.UseSystemAssignedIdentity
 		properties.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	} else {
 		properties.UseSystemAssignedIdentity = nil
@@ -3384,7 +3384,7 @@ func (properties *KekIdentityProperties) AssignProperties_To_KekIdentityProperti
 
 	// UseSystemAssignedIdentity
 	if properties.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentity := *properties.UseSystemAssignedIdentity.DeepCopy()
+		useSystemAssignedIdentity := *properties.UseSystemAssignedIdentity
 		destination.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	} else {
 		destination.UseSystemAssignedIdentity = nil
@@ -3422,7 +3422,7 @@ func (properties *KekIdentityProperties) AssignProperties_To_KekIdentityProperti
 // Key encryption key properties
 type KekIdentityProperties_STATUS struct {
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	UseSystemAssignedIdentity *v1.JSON               `json:"useSystemAssignedIdentity,omitempty"`
+	UseSystemAssignedIdentity *bool                  `json:"useSystemAssignedIdentity,omitempty"`
 	UserAssignedIdentity      *string                `json:"userAssignedIdentity,omitempty"`
 }
 
@@ -3433,7 +3433,7 @@ func (properties *KekIdentityProperties_STATUS) AssignProperties_From_KekIdentit
 
 	// UseSystemAssignedIdentity
 	if source.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentity := *source.UseSystemAssignedIdentity.DeepCopy()
+		useSystemAssignedIdentity := *source.UseSystemAssignedIdentity
 		properties.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	} else {
 		properties.UseSystemAssignedIdentity = nil
@@ -3469,7 +3469,7 @@ func (properties *KekIdentityProperties_STATUS) AssignProperties_To_KekIdentityP
 
 	// UseSystemAssignedIdentity
 	if properties.UseSystemAssignedIdentity != nil {
-		useSystemAssignedIdentity := *properties.UseSystemAssignedIdentity.DeepCopy()
+		useSystemAssignedIdentity := *properties.UseSystemAssignedIdentity
 		destination.UseSystemAssignedIdentity = &useSystemAssignedIdentity
 	} else {
 		destination.UseSystemAssignedIdentity = nil

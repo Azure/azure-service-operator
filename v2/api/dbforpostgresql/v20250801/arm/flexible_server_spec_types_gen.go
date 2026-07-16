@@ -478,9 +478,7 @@ var microsoftEntraAuth_Values = map[string]MicrosoftEntraAuth{
 	"enabled":  MicrosoftEntraAuth_Enabled,
 }
 
-// Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will
-// be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover
-// means that the read replica will roles with the primary server.
+// Type of operation to apply on the read replica. This property is write only.
 // +kubebuilder:validation:Enum={"Standalone","Switchover"}
 type ReadReplicaPromoteMode string
 
@@ -526,8 +524,8 @@ var serverPublicNetworkAccessState_Values = map[string]ServerPublicNetworkAccess
 	"enabled":  ServerPublicNetworkAccessState_Enabled,
 }
 
-// Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and
-// conditions allow for automatically growing storage size.
+// Indicates if the server is configured to automatically grow storage size when available space is nearing zero and
+// conditions allow for automatic growing storage size.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageAutoGrow string
 
@@ -542,8 +540,7 @@ var storageAutoGrow_Values = map[string]StorageAutoGrow{
 	"enabled":  StorageAutoGrow_Enabled,
 }
 
-// Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified,
-// it defaults to Premium_LRS.
+// Type of storage assigned to a server. If not specified, it defaults to Premium_LRS.
 // +kubebuilder:validation:Enum={"PremiumV2_LRS","Premium_LRS","UltraSSD_LRS"}
 type StorageType string
 

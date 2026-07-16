@@ -2,6 +2,7 @@ typeFilters:
   - action: include
     version: v*20210101preview;v*20221001preview
     because: We want to export these particular preview versions
+
 typeTransformers:
   ## Deal with properties that should have been marked readOnly but weren't
 

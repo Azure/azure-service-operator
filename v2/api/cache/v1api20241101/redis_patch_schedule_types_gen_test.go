@@ -5,7 +5,8 @@ package v1api20241101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v1api20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_RedisPatchSchedule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForRedisPatchSchedule(subject RedisPatchSchedule) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RedisPatchSchedule
+	var hub cache_v20241101s.RedisPatchSchedule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForRedisPatchSchedule(subject RedisPatchSchedule) 
 
 func Test_RedisPatchSchedule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForRedisPatchSchedule(subject RedisPatchSchedule) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisPatchSchedule
+	var other cache_v1api20241101s.RedisPatchSchedule
 	err := copied.AssignProperties_To_RedisPatchSchedule(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForRedisPatchSchedule(subject RedisPatchSchedule) 
 
 func Test_RedisPatchSchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -166,6 +182,11 @@ func AddRelatedPropertyGeneratorsForRedisPatchSchedule(gens map[string]gopter.Ge
 
 func Test_RedisPatchScheduleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -181,7 +202,7 @@ func RunPropertyAssignmentTestForRedisPatchScheduleOperatorSpec(subject RedisPat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisPatchScheduleOperatorSpec
+	var other cache_v1api20241101s.RedisPatchScheduleOperatorSpec
 	err := copied.AssignProperties_To_RedisPatchScheduleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -208,6 +229,11 @@ func RunPropertyAssignmentTestForRedisPatchScheduleOperatorSpec(subject RedisPat
 
 func Test_RedisPatchScheduleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -263,6 +289,11 @@ func RedisPatchScheduleOperatorSpecGenerator() gopter.Gen {
 
 func Test_RedisPatchSchedule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -278,7 +309,7 @@ func RunPropertyAssignmentTestForRedisPatchSchedule_STATUS(subject RedisPatchSch
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisPatchSchedule_STATUS
+	var other cache_v1api20241101s.RedisPatchSchedule_STATUS
 	err := copied.AssignProperties_To_RedisPatchSchedule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -305,6 +336,11 @@ func RunPropertyAssignmentTestForRedisPatchSchedule_STATUS(subject RedisPatchSch
 
 func Test_RedisPatchSchedule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -384,6 +420,11 @@ func AddRelatedPropertyGeneratorsForRedisPatchSchedule_STATUS(gens map[string]go
 
 func Test_RedisPatchSchedule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -399,7 +440,7 @@ func RunPropertyAssignmentTestForRedisPatchSchedule_Spec(subject RedisPatchSched
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisPatchSchedule_Spec
+	var other cache_v1api20241101s.RedisPatchSchedule_Spec
 	err := copied.AssignProperties_To_RedisPatchSchedule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -426,6 +467,11 @@ func RunPropertyAssignmentTestForRedisPatchSchedule_Spec(subject RedisPatchSched
 
 func Test_RedisPatchSchedule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -488,6 +534,11 @@ func AddRelatedPropertyGeneratorsForRedisPatchSchedule_Spec(gens map[string]gopt
 
 func Test_ScheduleEntry_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -503,7 +554,7 @@ func RunPropertyAssignmentTestForScheduleEntry(subject ScheduleEntry) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduleEntry
+	var other cache_v1api20241101s.ScheduleEntry
 	err := copied.AssignProperties_To_ScheduleEntry(&other)
 	if err != nil {
 		return err.Error()
@@ -530,6 +581,11 @@ func RunPropertyAssignmentTestForScheduleEntry(subject ScheduleEntry) string {
 
 func Test_ScheduleEntry_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -601,6 +657,11 @@ func AddIndependentPropertyGeneratorsForScheduleEntry(gens map[string]gopter.Gen
 
 func Test_ScheduleEntry_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -616,7 +677,7 @@ func RunPropertyAssignmentTestForScheduleEntry_STATUS(subject ScheduleEntry_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ScheduleEntry_STATUS
+	var other cache_v1api20241101s.ScheduleEntry_STATUS
 	err := copied.AssignProperties_To_ScheduleEntry_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -643,6 +704,11 @@ func RunPropertyAssignmentTestForScheduleEntry_STATUS(subject ScheduleEntry_STAT
 
 func Test_ScheduleEntry_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

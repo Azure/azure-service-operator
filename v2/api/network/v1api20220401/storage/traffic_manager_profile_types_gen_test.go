@@ -19,6 +19,11 @@ import (
 
 func Test_DnsConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -80,6 +85,11 @@ func AddIndependentPropertyGeneratorsForDnsConfig(gens map[string]gopter.Gen) {
 
 func Test_DnsConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -142,6 +152,11 @@ func AddIndependentPropertyGeneratorsForDnsConfig_STATUS(gens map[string]gopter.
 
 func Test_Endpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -231,6 +246,11 @@ func AddRelatedPropertyGeneratorsForEndpoint_STATUS(gens map[string]gopter.Gen) 
 
 func Test_MonitorConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -312,6 +332,11 @@ func AddRelatedPropertyGeneratorsForMonitorConfig(gens map[string]gopter.Gen) {
 
 func Test_MonitorConfigCustomHeadersItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -374,6 +399,11 @@ func AddIndependentPropertyGeneratorsForMonitorConfigCustomHeadersItem(gens map[
 
 func Test_MonitorConfigCustomHeadersItem_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -436,6 +466,11 @@ func AddIndependentPropertyGeneratorsForMonitorConfigCustomHeadersItem_STATUS(ge
 
 func Test_MonitorConfigExpectedStatusCodeRangesItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -498,6 +533,11 @@ func AddIndependentPropertyGeneratorsForMonitorConfigExpectedStatusCodeRangesIte
 
 func Test_MonitorConfigExpectedStatusCodeRangesItem_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -560,6 +600,11 @@ func AddIndependentPropertyGeneratorsForMonitorConfigExpectedStatusCodeRangesIte
 
 func Test_MonitorConfig_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -642,6 +687,11 @@ func AddRelatedPropertyGeneratorsForMonitorConfig_STATUS(gens map[string]gopter.
 
 func Test_TrafficManagerProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -704,6 +754,11 @@ func AddRelatedPropertyGeneratorsForTrafficManagerProfile(gens map[string]gopter
 
 func Test_TrafficManagerProfileOperatorConfigMaps_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -759,6 +814,11 @@ func TrafficManagerProfileOperatorConfigMapsGenerator() gopter.Gen {
 
 func Test_TrafficManagerProfileOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -820,6 +880,11 @@ func AddRelatedPropertyGeneratorsForTrafficManagerProfileOperatorSpec(gens map[s
 
 func Test_TrafficManagerProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -908,6 +973,11 @@ func AddRelatedPropertyGeneratorsForTrafficManagerProfile_STATUS(gens map[string
 
 func Test_TrafficManagerProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

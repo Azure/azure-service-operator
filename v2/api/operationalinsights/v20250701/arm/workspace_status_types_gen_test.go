@@ -19,6 +19,11 @@ import (
 
 func Test_Identity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -85,7 +90,7 @@ func Identity_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_STATUS_None, Identity_Type_STATUS_SystemAssigned, Identity_Type_STATUS_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(IdentityType_STATUS_None, IdentityType_STATUS_SystemAssigned, IdentityType_STATUS_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentity_STATUS is a factory method for creating gopter generators
@@ -97,6 +102,11 @@ func AddRelatedPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.Gen) 
 
 func Test_PrivateLinkScopedResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -159,6 +169,11 @@ func AddIndependentPropertyGeneratorsForPrivateLinkScopedResource_STATUS(gens ma
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -232,6 +247,11 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 
 func Test_UserIdentityProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -294,6 +314,11 @@ func AddIndependentPropertyGeneratorsForUserIdentityProperties_STATUS(gens map[s
 
 func Test_WorkspaceCapping_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -352,17 +377,22 @@ func WorkspaceCapping_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaceCapping_STATUS(gens map[string]gopter.Gen) {
 	gens["DailyQuotaGb"] = gen.PtrOf(gen.Float64())
 	gens["DataIngestionStatus"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceCapping_DataIngestionStatus_STATUS_ApproachingQuota,
-		WorkspaceCapping_DataIngestionStatus_STATUS_ForceOff,
-		WorkspaceCapping_DataIngestionStatus_STATUS_ForceOn,
-		WorkspaceCapping_DataIngestionStatus_STATUS_OverQuota,
-		WorkspaceCapping_DataIngestionStatus_STATUS_RespectQuota,
-		WorkspaceCapping_DataIngestionStatus_STATUS_SubscriptionSuspended))
+		DataIngestionStatus_STATUS_ApproachingQuota,
+		DataIngestionStatus_STATUS_ForceOff,
+		DataIngestionStatus_STATUS_ForceOn,
+		DataIngestionStatus_STATUS_OverQuota,
+		DataIngestionStatus_STATUS_RespectQuota,
+		DataIngestionStatus_STATUS_SubscriptionSuspended))
 	gens["QuotaNextResetTime"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceFailoverProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -421,15 +451,20 @@ func WorkspaceFailoverProperties_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaceFailoverProperties_STATUS(gens map[string]gopter.Gen) {
 	gens["LastModifiedDate"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceFailoverProperties_State_STATUS_Activating,
-		WorkspaceFailoverProperties_State_STATUS_Active,
-		WorkspaceFailoverProperties_State_STATUS_Deactivating,
-		WorkspaceFailoverProperties_State_STATUS_Failed,
-		WorkspaceFailoverProperties_State_STATUS_Inactive))
+		WorkspaceFailoverState_STATUS_Activating,
+		WorkspaceFailoverState_STATUS_Active,
+		WorkspaceFailoverState_STATUS_Deactivating,
+		WorkspaceFailoverState_STATUS_Failed,
+		WorkspaceFailoverState_STATUS_Inactive))
 }
 
 func Test_WorkspaceFeatures_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -497,6 +532,11 @@ func AddIndependentPropertyGeneratorsForWorkspaceFeatures_STATUS(gens map[string
 
 func Test_WorkspaceProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -568,15 +608,15 @@ func AddIndependentPropertyGeneratorsForWorkspaceProperties_STATUS(gens map[stri
 	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedDate"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceProperties_ProvisioningState_STATUS_Canceled,
-		WorkspaceProperties_ProvisioningState_STATUS_Creating,
-		WorkspaceProperties_ProvisioningState_STATUS_Deleting,
-		WorkspaceProperties_ProvisioningState_STATUS_Failed,
-		WorkspaceProperties_ProvisioningState_STATUS_ProvisioningAccount,
-		WorkspaceProperties_ProvisioningState_STATUS_Succeeded,
-		WorkspaceProperties_ProvisioningState_STATUS_Updating))
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled, PublicNetworkAccessType_STATUS_SecuredByPerimeter))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled, PublicNetworkAccessType_STATUS_SecuredByPerimeter))
+		WorkspaceEntityStatus_STATUS_Canceled,
+		WorkspaceEntityStatus_STATUS_Creating,
+		WorkspaceEntityStatus_STATUS_Deleting,
+		WorkspaceEntityStatus_STATUS_Failed,
+		WorkspaceEntityStatus_STATUS_ProvisioningAccount,
+		WorkspaceEntityStatus_STATUS_Succeeded,
+		WorkspaceEntityStatus_STATUS_Updating))
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS_Disabled, WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS_Enabled, WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS_SecuredByPerimeter))
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(WorkspaceProperties_PublicNetworkAccessForQuery_STATUS_Disabled, WorkspaceProperties_PublicNetworkAccessForQuery_STATUS_Enabled, WorkspaceProperties_PublicNetworkAccessForQuery_STATUS_SecuredByPerimeter))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -592,6 +632,11 @@ func AddRelatedPropertyGeneratorsForWorkspaceProperties_STATUS(gens map[string]g
 
 func Test_WorkspaceReplicationProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -653,19 +698,24 @@ func AddIndependentPropertyGeneratorsForWorkspaceReplicationProperties_STATUS(ge
 	gens["LastModifiedDate"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceReplicationProperties_ProvisioningState_STATUS_Canceled,
-		WorkspaceReplicationProperties_ProvisioningState_STATUS_DisableRequested,
-		WorkspaceReplicationProperties_ProvisioningState_STATUS_Disabling,
-		WorkspaceReplicationProperties_ProvisioningState_STATUS_EnableRequested,
-		WorkspaceReplicationProperties_ProvisioningState_STATUS_Enabling,
-		WorkspaceReplicationProperties_ProvisioningState_STATUS_Failed,
-		WorkspaceReplicationProperties_ProvisioningState_STATUS_RollbackRequested,
-		WorkspaceReplicationProperties_ProvisioningState_STATUS_RollingBack,
-		WorkspaceReplicationProperties_ProvisioningState_STATUS_Succeeded))
+		WorkspaceReplicationState_STATUS_Canceled,
+		WorkspaceReplicationState_STATUS_DisableRequested,
+		WorkspaceReplicationState_STATUS_Disabling,
+		WorkspaceReplicationState_STATUS_EnableRequested,
+		WorkspaceReplicationState_STATUS_Enabling,
+		WorkspaceReplicationState_STATUS_Failed,
+		WorkspaceReplicationState_STATUS_RollbackRequested,
+		WorkspaceReplicationState_STATUS_RollingBack,
+		WorkspaceReplicationState_STATUS_Succeeded))
 }
 
 func Test_WorkspaceSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -725,18 +775,23 @@ func AddIndependentPropertyGeneratorsForWorkspaceSku_STATUS(gens map[string]gopt
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.Int())
 	gens["LastSkuUpdate"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceSku_Name_STATUS_CapacityReservation,
-		WorkspaceSku_Name_STATUS_Free,
-		WorkspaceSku_Name_STATUS_LACluster,
-		WorkspaceSku_Name_STATUS_PerGB2018,
-		WorkspaceSku_Name_STATUS_PerNode,
-		WorkspaceSku_Name_STATUS_Premium,
-		WorkspaceSku_Name_STATUS_Standalone,
-		WorkspaceSku_Name_STATUS_Standard))
+		WorkspaceSkuNameEnum_STATUS_CapacityReservation,
+		WorkspaceSkuNameEnum_STATUS_Free,
+		WorkspaceSkuNameEnum_STATUS_LACluster,
+		WorkspaceSkuNameEnum_STATUS_PerGB2018,
+		WorkspaceSkuNameEnum_STATUS_PerNode,
+		WorkspaceSkuNameEnum_STATUS_Premium,
+		WorkspaceSkuNameEnum_STATUS_Standalone,
+		WorkspaceSkuNameEnum_STATUS_Standard))
 }
 
 func Test_Workspace_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

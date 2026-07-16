@@ -5,7 +5,8 @@ package v1api20211001
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
+	subscription_v1api20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
+	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v20211001/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_Alias_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForAlias(subject Alias) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Alias
+	var hub subscription_v20211001s.Alias
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForAlias(subject Alias) string {
 
 func Test_Alias_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForAlias(subject Alias) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Alias
+	var other subscription_v1api20211001s.Alias
 	err := copied.AssignProperties_To_Alias(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForAlias(subject Alias) string {
 
 func Test_Alias_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -166,6 +182,11 @@ func AddRelatedPropertyGeneratorsForAlias(gens map[string]gopter.Gen) {
 
 func Test_AliasOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -181,7 +202,7 @@ func RunPropertyAssignmentTestForAliasOperatorSpec(subject AliasOperatorSpec) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AliasOperatorSpec
+	var other subscription_v1api20211001s.AliasOperatorSpec
 	err := copied.AssignProperties_To_AliasOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -208,6 +229,11 @@ func RunPropertyAssignmentTestForAliasOperatorSpec(subject AliasOperatorSpec) st
 
 func Test_AliasOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -262,6 +288,11 @@ func AliasOperatorSpecGenerator() gopter.Gen {
 
 func Test_Alias_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -277,7 +308,7 @@ func RunPropertyAssignmentTestForAlias_STATUS(subject Alias_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Alias_STATUS
+	var other subscription_v1api20211001s.Alias_STATUS
 	err := copied.AssignProperties_To_Alias_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -304,6 +335,11 @@ func RunPropertyAssignmentTestForAlias_STATUS(subject Alias_STATUS) string {
 
 func Test_Alias_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -381,6 +417,11 @@ func AddRelatedPropertyGeneratorsForAlias_STATUS(gens map[string]gopter.Gen) {
 
 func Test_Alias_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -396,7 +437,7 @@ func RunPropertyAssignmentTestForAlias_Spec(subject Alias_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Alias_Spec
+	var other subscription_v1api20211001s.Alias_Spec
 	err := copied.AssignProperties_To_Alias_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -423,6 +464,11 @@ func RunPropertyAssignmentTestForAlias_Spec(subject Alias_Spec) string {
 
 func Test_Alias_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -498,6 +544,11 @@ func AddRelatedPropertyGeneratorsForAlias_Spec(gens map[string]gopter.Gen) {
 
 func Test_PutAliasRequestAdditionalProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -513,7 +564,7 @@ func RunPropertyAssignmentTestForPutAliasRequestAdditionalProperties(subject Put
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PutAliasRequestAdditionalProperties
+	var other subscription_v1api20211001s.PutAliasRequestAdditionalProperties
 	err := copied.AssignProperties_To_PutAliasRequestAdditionalProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -540,6 +591,11 @@ func RunPropertyAssignmentTestForPutAliasRequestAdditionalProperties(subject Put
 
 func Test_PutAliasRequestAdditionalProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -606,6 +662,11 @@ func AddIndependentPropertyGeneratorsForPutAliasRequestAdditionalProperties(gens
 
 func Test_PutAliasRequestProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -621,7 +682,7 @@ func RunPropertyAssignmentTestForPutAliasRequestProperties(subject PutAliasReque
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.PutAliasRequestProperties
+	var other subscription_v1api20211001s.PutAliasRequestProperties
 	err := copied.AssignProperties_To_PutAliasRequestProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -648,6 +709,11 @@ func RunPropertyAssignmentTestForPutAliasRequestProperties(subject PutAliasReque
 
 func Test_PutAliasRequestProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -727,6 +793,11 @@ func AddRelatedPropertyGeneratorsForPutAliasRequestProperties(gens map[string]go
 
 func Test_SubscriptionAliasResponseProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -742,7 +813,7 @@ func RunPropertyAssignmentTestForSubscriptionAliasResponseProperties_STATUS(subj
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SubscriptionAliasResponseProperties_STATUS
+	var other subscription_v1api20211001s.SubscriptionAliasResponseProperties_STATUS
 	err := copied.AssignProperties_To_SubscriptionAliasResponseProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -769,6 +840,11 @@ func RunPropertyAssignmentTestForSubscriptionAliasResponseProperties_STATUS(subj
 
 func Test_SubscriptionAliasResponseProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -843,6 +919,11 @@ func AddIndependentPropertyGeneratorsForSubscriptionAliasResponseProperties_STAT
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -858,7 +939,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other subscription_v1api20211001s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -885,6 +966,11 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

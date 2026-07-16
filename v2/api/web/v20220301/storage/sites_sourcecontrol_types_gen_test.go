@@ -62,6 +62,11 @@ func RunPropertyAssignmentTestForGitHubActionCodeConfiguration(subject GitHubAct
 
 func Test_GitHubActionCodeConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -166,6 +171,11 @@ func RunPropertyAssignmentTestForGitHubActionCodeConfiguration_STATUS(subject Gi
 
 func Test_GitHubActionCodeConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -270,6 +280,11 @@ func RunPropertyAssignmentTestForGitHubActionConfiguration(subject GitHubActionC
 
 func Test_GitHubActionConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -389,6 +404,11 @@ func RunPropertyAssignmentTestForGitHubActionConfiguration_STATUS(subject GitHub
 
 func Test_GitHubActionConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -508,6 +528,11 @@ func RunPropertyAssignmentTestForGitHubActionContainerConfiguration(subject GitH
 
 func Test_GitHubActionContainerConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -613,6 +638,11 @@ func RunPropertyAssignmentTestForGitHubActionContainerConfiguration_STATUS(subje
 
 func Test_GitHubActionContainerConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -761,6 +791,11 @@ func RunPropertyAssignmentTestForSitesSourcecontrol(subject SitesSourcecontrol) 
 
 func Test_SitesSourcecontrol_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -864,6 +899,11 @@ func RunPropertyAssignmentTestForSitesSourcecontrolOperatorSpec(subject SitesSou
 
 func Test_SitesSourcecontrolOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -961,6 +1001,11 @@ func RunPropertyAssignmentTestForSitesSourcecontrol_STATUS(subject SitesSourceco
 
 func Test_SitesSourcecontrol_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1087,6 +1132,11 @@ func RunPropertyAssignmentTestForSitesSourcecontrol_Spec(subject SitesSourcecont
 
 func Test_SitesSourcecontrol_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

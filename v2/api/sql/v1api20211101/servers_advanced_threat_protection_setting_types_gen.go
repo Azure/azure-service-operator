@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAdvancedThreatProtectionSettings.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/ServerAdvancedThreatProtectionSettings.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings/Default
 type ServersAdvancedThreatProtectionSetting struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersAdvancedThreatProtectionSetting{}
 
 // ConvertFrom populates our ServersAdvancedThreatProtectionSetting from the provided hub ServersAdvancedThreatProtectionSetting
 func (setting *ServersAdvancedThreatProtectionSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersAdvancedThreatProtectionSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersAdvancedThreatProtectionSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersAdvancedThreatProtectionSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_ServersAdvancedThreatProtectionSetting(source)
+	err = setting.AssignProperties_From_ServersAdvancedThreatProtectionSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersAdvancedThreatProtectionSetting from our ServersAdvancedThreatProtectionSetting
 func (setting *ServersAdvancedThreatProtectionSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersAdvancedThreatProtectionSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersAdvancedThreatProtectionSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersAdvancedThreatProtectionSetting
+	err := setting.AssignProperties_To_ServersAdvancedThreatProtectionSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_ServersAdvancedThreatProtectionSetting(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersAdvancedThreatProtectionSetting{}
@@ -87,17 +101,6 @@ func (setting *ServersAdvancedThreatProtectionSetting) SecretDestinationExpressi
 		return nil
 	}
 	return setting.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersAdvancedThreatProtectionSetting{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (setting *ServersAdvancedThreatProtectionSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersAdvancedThreatProtectionSetting_STATUS); ok {
-		return setting.Spec.Initialize_From_ServersAdvancedThreatProtectionSetting_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersAdvancedThreatProtectionSetting_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersAdvancedThreatProtectionSetting{}
@@ -237,7 +240,7 @@ func (setting *ServersAdvancedThreatProtectionSetting) OriginalGVK() *schema.Gro
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerAdvancedThreatProtectionSettings.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/ServerAdvancedThreatProtectionSettings.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/advancedThreatProtectionSettings/Default
 type ServersAdvancedThreatProtectionSettingList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -449,21 +452,6 @@ func (setting *ServersAdvancedThreatProtectionSetting_Spec) AssignProperties_To_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersAdvancedThreatProtectionSetting_STATUS populates our ServersAdvancedThreatProtectionSetting_Spec from the provided source ServersAdvancedThreatProtectionSetting_STATUS
-func (setting *ServersAdvancedThreatProtectionSetting_Spec) Initialize_From_ServersAdvancedThreatProtectionSetting_STATUS(source *ServersAdvancedThreatProtectionSetting_STATUS) error {
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), advancedThreatProtectionProperties_State_Values)
-		setting.State = &state
-	} else {
-		setting.State = nil
 	}
 
 	// No error

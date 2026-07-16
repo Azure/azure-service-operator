@@ -11,7 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
+	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

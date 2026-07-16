@@ -91,6 +91,7 @@ typeTransformers:
     property: SecurityRules
     remove: true
     because: This is an embedded resource
+
 groupModelConfiguration:
   2018-05-01:
     DnsZone:
@@ -170,10 +171,8 @@ groupModelConfiguration:
       $resourceEmbeddedInParent: LoadBalancer
     Delegation:
       $isResource: false
-      #$resourceEmbeddedInParent: VirtualNetworks_Subnet
     Delegation_STATUS:
       $isResource: false
-      #$resourceEmbeddedInParent: VirtualNetworks_Subnet
     FrontendIPConfiguration:
       $resourceEmbeddedInParent: LoadBalancer # Can GET (has ID) but can't create
     FrontendIPConfiguration_STATUS:
@@ -234,15 +233,6 @@ groupModelConfiguration:
     RouteTables_Route: # TODO: There must always be a parent and child in the same API version. See https://github.com/Azure/azure-service-operator/issues/3002
       $exportAs: RouteTablesRoute
       $supportedFrom: v2.0.0-beta.1
-      #      SecurityRule_NetworkInterface_SubResourceEmbedded:
-      #        Id:
-      #          $referenceType: arm
-      #      SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded:
-      #        Id:
-      #          $referenceType: arm
-      #      Subnet_VirtualNetwork_SubResourceEmbedded:
-      #        Id:
-      #          $referenceType: arm
     VirtualNetwork:
       $exportAs: VirtualNetwork
       $supportedFrom: v2.0.0-alpha.1
@@ -303,6 +293,8 @@ groupModelConfiguration:
     TrafficManagerProfiles_NestedEndpoint:
       $exportAs: TrafficManagerProfilesNestedEndpoint
       $supportedFrom: v2.4.0
+    Endpoint_STATUS:
+      $resourceEmbeddedInParent: Trafficmanagerprofile # Have to use the original name, before $exportAs renames it
     EndpointProperties:
       TargetResourceId:
         $referenceType: arm
@@ -331,6 +323,12 @@ groupModelConfiguration:
     ApplicationGatewayPathRule:
       $resourceEmbeddedInParent: ApplicationGateway
     ApplicationGatewayPrivateLinkConfiguration:
+      $resourceEmbeddedInParent: ApplicationGateway
+    ApplicationGatewayPrivateLinkConfiguration_STATUS:
+      $resourceEmbeddedInParent: ApplicationGateway
+    ApplicationGatewayPrivateLinkIpConfiguration:
+      $resourceEmbeddedInParent: ApplicationGateway
+    ApplicationGatewayPrivateLinkIpConfiguration_STATUS:
       $resourceEmbeddedInParent: ApplicationGateway
     ApplicationGatewayProbe:
       $resourceEmbeddedInParent: ApplicationGateway
@@ -441,6 +439,9 @@ groupModelConfiguration:
     AzureFirewall:
       $exportAs: AzureFirewall
       $supportedFrom: v2.15.0
+    BastionHost:
+      $exportAs: BastionHost
+      $supportedFrom: v2.11.0
     FirewallPolicy:
       $exportAs: FirewallPolicy
       $supportedFrom: v2.15.0
@@ -462,9 +463,6 @@ groupModelConfiguration:
     FirewallPolicyIntrusionDetectionSignatureSpecification:
       Id:
         $referenceType: simple
-    BastionHost:
-      $exportAs: BastionHost
-      $supportedFrom: v2.11.0
     BastionHostIPConfiguration:
       $resourceEmbeddedInParent: BastionHost
     NatGateway:
@@ -508,10 +506,8 @@ groupModelConfiguration:
       $resourceEmbeddedInParent: LoadBalancer
     Delegation:
       $isResource: false
-      #$resourceEmbeddedInParent: VirtualNetworks_Subnet
     Delegation_STATUS:
       $isResource: false
-      #$resourceEmbeddedInParent: VirtualNetworks_Subnet
     FrontendIPConfiguration:
       $resourceEmbeddedInParent: LoadBalancer # Can GET (has ID) but can't create
     FrontendIPConfiguration_STATUS:
@@ -683,17 +679,20 @@ groupModelConfiguration:
     AzureFirewall:
       $exportAs: AzureFirewall
       $supportedFrom: v2.19.0
-    FirewallPolicy:
-      $exportAs: FirewallPolicy
-      $supportedFrom: v2.19.0
-    AzureFirewallIPConfiguration:
-      $resourceEmbeddedInParent: AzureFirewall
     AzureFirewallApplicationRuleCollection:
+      $resourceEmbeddedInParent: AzureFirewall
+    AzureFirewallIPConfiguration:
       $resourceEmbeddedInParent: AzureFirewall
     AzureFirewallNatRuleCollection:
       $resourceEmbeddedInParent: AzureFirewall
     AzureFirewallNetworkRuleCollection:
       $resourceEmbeddedInParent: AzureFirewall
+    BastionHost:
+      $exportAs: BastionHost
+      $supportedFrom: v2.19.0
+    FirewallPolicy:
+      $exportAs: FirewallPolicy
+      $supportedFrom: v2.19.0
     FirewallPolicies_RuleCollectionGroup:
       $exportAs: FirewallPoliciesRuleCollectionGroup
       $supportedFrom: v2.19.0
@@ -704,9 +703,6 @@ groupModelConfiguration:
     FirewallPolicyIntrusionDetectionSignatureSpecification:
       Id:
         $referenceType: simple
-    BastionHost:
-      $exportAs: BastionHost
-      $supportedFrom: v2.19.0
     BastionHostIPConfiguration:
       $resourceEmbeddedInParent: BastionHost
     NatGateway:

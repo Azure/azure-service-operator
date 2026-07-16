@@ -164,12 +164,12 @@ ManagedCluster: Resource
 │   │   ├── EnableAzureRBAC: *bool
 │   │   ├── Managed: *bool
 │   │   ├── ServerAppID: *string
-│   │   ├── ServerAppSecret: *string
+│   │   ├── ServerAppSecret: *genruntime.SecretReference
 │   │   └── TenantID: *string
 │   ├── AddonProfiles: map[string]Object (2 properties)
 │   │   ├── Config: map[string]string
 │   │   └── Enabled: *bool
-│   ├── AgentPoolProfiles: Object (55 properties)[]
+│   ├── AgentPoolProfiles: Object (56 properties)[]
 │   │   ├── ArtifactStreamingProfile: *Object (1 property)
 │   │   │   └── Enabled: *bool
 │   │   ├── AvailabilityZones: string[]
@@ -334,6 +334,7 @@ ManagedCluster: Resource
 │   │   │       └── Tag: *string
 │   │   ├── NodeCustomizationProfile: *Object (1 property)
 │   │   │   └── NodeCustomizationReference: *genruntime.ResourceReference
+│   │   ├── NodeImageVersion: *string
 │   │   ├── NodeInitializationTaints: string[]
 │   │   ├── NodeLabels: map[string]string
 │   │   ├── NodePublicIPPrefixReference: *genruntime.ResourceReference
@@ -868,13 +869,12 @@ ManagedCluster: Resource
 │           │   └── "Enabled"
 │           └── Enabled: *bool
 └── Status: Object (61 properties)
-    ├── AadProfile: *Object (7 properties)
+    ├── AadProfile: *Object (6 properties)
     │   ├── AdminGroupObjectIDs: string[]
     │   ├── ClientAppID: *string
     │   ├── EnableAzureRBAC: *bool
     │   ├── Managed: *bool
     │   ├── ServerAppID: *string
-    │   ├── ServerAppSecret: *string
     │   └── TenantID: *string
     ├── AddonProfiles: map[string]Object (3 properties)
     │   ├── Config: map[string]string
@@ -1620,7 +1620,7 @@ ManagedCluster: Resource
 
 ManagedClustersAgentPool: Resource
 ├── Owner: ManagedCluster
-├── Spec: Object (57 properties)
+├── Spec: Object (58 properties)
 │   ├── ArtifactStreamingProfile: *Object (1 property)
 │   │   └── Enabled: *bool
 │   ├── AvailabilityZones: string[]
@@ -1787,6 +1787,7 @@ ManagedClustersAgentPool: Resource
 │   │       └── Tag: *string
 │   ├── NodeCustomizationProfile: *Object (1 property)
 │   │   └── NodeCustomizationReference: *genruntime.ResourceReference
+│   ├── NodeImageVersion: *string
 │   ├── NodeInitializationTaints: string[]
 │   ├── NodeLabels: map[string]string
 │   ├── NodePublicIPPrefixReference: *genruntime.ResourceReference

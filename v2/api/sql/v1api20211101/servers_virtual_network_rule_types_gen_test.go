@@ -5,7 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_ServersVirtualNetworkRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForServersVirtualNetworkRule(subject ServersVirtua
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersVirtualNetworkRule
+	var hub sql_v20211101s.ServersVirtualNetworkRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForServersVirtualNetworkRule(subject ServersVirtua
 
 func Test_ServersVirtualNetworkRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForServersVirtualNetworkRule(subject ServersVirtua
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersVirtualNetworkRule
+	var other sql_v1api20211101s.ServersVirtualNetworkRule
 	err := copied.AssignProperties_To_ServersVirtualNetworkRule(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForServersVirtualNetworkRule(subject ServersVirtua
 
 func Test_ServersVirtualNetworkRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -167,6 +183,11 @@ func AddRelatedPropertyGeneratorsForServersVirtualNetworkRule(gens map[string]go
 
 func Test_ServersVirtualNetworkRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -182,7 +203,7 @@ func RunPropertyAssignmentTestForServersVirtualNetworkRuleOperatorSpec(subject S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersVirtualNetworkRuleOperatorSpec
+	var other sql_v1api20211101s.ServersVirtualNetworkRuleOperatorSpec
 	err := copied.AssignProperties_To_ServersVirtualNetworkRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -209,6 +230,11 @@ func RunPropertyAssignmentTestForServersVirtualNetworkRuleOperatorSpec(subject S
 
 func Test_ServersVirtualNetworkRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -264,6 +290,11 @@ func ServersVirtualNetworkRuleOperatorSpecGenerator() gopter.Gen {
 
 func Test_ServersVirtualNetworkRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -279,7 +310,7 @@ func RunPropertyAssignmentTestForServersVirtualNetworkRule_STATUS(subject Server
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersVirtualNetworkRule_STATUS
+	var other sql_v1api20211101s.ServersVirtualNetworkRule_STATUS
 	err := copied.AssignProperties_To_ServersVirtualNetworkRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -306,6 +337,11 @@ func RunPropertyAssignmentTestForServersVirtualNetworkRule_STATUS(subject Server
 
 func Test_ServersVirtualNetworkRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -378,6 +414,11 @@ func AddIndependentPropertyGeneratorsForServersVirtualNetworkRule_STATUS(gens ma
 
 func Test_ServersVirtualNetworkRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -393,7 +434,7 @@ func RunPropertyAssignmentTestForServersVirtualNetworkRule_Spec(subject ServersV
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersVirtualNetworkRule_Spec
+	var other sql_v1api20211101s.ServersVirtualNetworkRule_Spec
 	err := copied.AssignProperties_To_ServersVirtualNetworkRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -420,6 +461,11 @@ func RunPropertyAssignmentTestForServersVirtualNetworkRule_Spec(subject ServersV
 
 func Test_ServersVirtualNetworkRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

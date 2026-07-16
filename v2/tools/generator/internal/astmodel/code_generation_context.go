@@ -88,9 +88,11 @@ func (ctx *CodeGenerationContext) MustGetImportedPackageName(reference PackageRe
 // GetGeneratedPackage gets a reference to the PackageDefinition referred to by the provided reference
 func (ctx *CodeGenerationContext) GetGeneratedPackage(reference InternalPackageReference) (*PackageDefinition, error) {
 	// Make sure that we're actually importing that package -- don't want to allow references to things we aren't importing
-	_, err := ctx.GetImportedPackageName(reference)
-	if !reference.Equals(ctx.currentPackage) && err != nil {
-		return nil, err
+	if !reference.Equals(ctx.currentPackage) {
+		_, err := ctx.GetImportedPackageName(reference)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	packageDef, ok := ctx.generatedPackages[reference]

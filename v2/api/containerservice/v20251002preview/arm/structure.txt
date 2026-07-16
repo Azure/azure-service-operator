@@ -158,13 +158,12 @@ ManagedCluster_STATUS: Object (12 properties)
 ├── Location: *string
 ├── Name: *string
 ├── Properties: *Object (49 properties)
-│   ├── AadProfile: *Object (7 properties)
+│   ├── AadProfile: *Object (6 properties)
 │   │   ├── AdminGroupObjectIDs: string[]
 │   │   ├── ClientAppID: *string
 │   │   ├── EnableAzureRBAC: *bool
 │   │   ├── Managed: *bool
 │   │   ├── ServerAppID: *string
-│   │   ├── ServerAppSecret: *string
 │   │   └── TenantID: *string
 │   ├── AddonProfiles: map[string]Object (3 properties)
 │   │   ├── Config: map[string]string
@@ -914,7 +913,7 @@ ManagedCluster_Spec: Object (8 properties)
 │   ├── AddonProfiles: map[string]Object (2 properties)
 │   │   ├── Config: map[string]string
 │   │   └── Enabled: *bool
-│   ├── AgentPoolProfiles: Object (55 properties)[]
+│   ├── AgentPoolProfiles: Object (56 properties)[]
 │   │   ├── ArtifactStreamingProfile: *Object (1 property)
 │   │   │   └── Enabled: *bool
 │   │   ├── AvailabilityZones: string[]
@@ -1065,6 +1064,7 @@ ManagedCluster_Spec: Object (8 properties)
 │   │   │       └── Tag: *string
 │   │   ├── NodeCustomizationProfile: *Object (1 property)
 │   │   │   └── NodeCustomizationId: *string
+│   │   ├── NodeImageVersion: *string
 │   │   ├── NodeInitializationTaints: string[]
 │   │   ├── NodeLabels: map[string]string
 │   │   ├── NodePublicIPPrefixID: *string
@@ -1817,7 +1817,7 @@ ManagedClustersAgentPool_STATUS: Object (5 properties)
 
 ManagedClustersAgentPool_Spec: Object (2 properties)
 ├── Name: string
-└── Properties: *Object (54 properties)
+└── Properties: *Object (55 properties)
     ├── ArtifactStreamingProfile: *Object (1 property)
     │   └── Enabled: *bool
     ├── AvailabilityZones: string[]
@@ -1967,6 +1967,7 @@ ManagedClustersAgentPool_Spec: Object (2 properties)
     │       └── Tag: *string
     ├── NodeCustomizationProfile: *Object (1 property)
     │   └── NodeCustomizationId: *string
+    ├── NodeImageVersion: *string
     ├── NodeInitializationTaints: string[]
     ├── NodeLabels: map[string]string
     ├── NodePublicIPPrefixID: *string

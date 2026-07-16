@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,8 +18,60 @@ import (
 	"testing"
 )
 
+func Test_FailoverGroupReadOnlyEndpoint_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FailoverGroupReadOnlyEndpoint to FailoverGroupReadOnlyEndpoint via AssignProperties_To_FailoverGroupReadOnlyEndpoint & AssignProperties_From_FailoverGroupReadOnlyEndpoint returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint, FailoverGroupReadOnlyEndpointGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint tests if a specific instance of FailoverGroupReadOnlyEndpoint can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint(subject FailoverGroupReadOnlyEndpoint) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FailoverGroupReadOnlyEndpoint
+	err := copied.AssignProperties_To_FailoverGroupReadOnlyEndpoint(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FailoverGroupReadOnlyEndpoint
+	err = actual.AssignProperties_From_FailoverGroupReadOnlyEndpoint(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FailoverGroupReadOnlyEndpoint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -78,8 +131,60 @@ func AddIndependentPropertyGeneratorsForFailoverGroupReadOnlyEndpoint(gens map[s
 	gens["FailoverPolicy"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_FailoverGroupReadOnlyEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FailoverGroupReadOnlyEndpoint_STATUS to FailoverGroupReadOnlyEndpoint_STATUS via AssignProperties_To_FailoverGroupReadOnlyEndpoint_STATUS & AssignProperties_From_FailoverGroupReadOnlyEndpoint_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint_STATUS, FailoverGroupReadOnlyEndpoint_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint_STATUS tests if a specific instance of FailoverGroupReadOnlyEndpoint_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFailoverGroupReadOnlyEndpoint_STATUS(subject FailoverGroupReadOnlyEndpoint_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FailoverGroupReadOnlyEndpoint_STATUS
+	err := copied.AssignProperties_To_FailoverGroupReadOnlyEndpoint_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FailoverGroupReadOnlyEndpoint_STATUS
+	err = actual.AssignProperties_From_FailoverGroupReadOnlyEndpoint_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FailoverGroupReadOnlyEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -139,8 +244,60 @@ func AddIndependentPropertyGeneratorsForFailoverGroupReadOnlyEndpoint_STATUS(gen
 	gens["FailoverPolicy"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_FailoverGroupReadWriteEndpoint_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FailoverGroupReadWriteEndpoint to FailoverGroupReadWriteEndpoint via AssignProperties_To_FailoverGroupReadWriteEndpoint & AssignProperties_From_FailoverGroupReadWriteEndpoint returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint, FailoverGroupReadWriteEndpointGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint tests if a specific instance of FailoverGroupReadWriteEndpoint can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint(subject FailoverGroupReadWriteEndpoint) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FailoverGroupReadWriteEndpoint
+	err := copied.AssignProperties_To_FailoverGroupReadWriteEndpoint(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FailoverGroupReadWriteEndpoint
+	err = actual.AssignProperties_From_FailoverGroupReadWriteEndpoint(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FailoverGroupReadWriteEndpoint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -201,8 +358,60 @@ func AddIndependentPropertyGeneratorsForFailoverGroupReadWriteEndpoint(gens map[
 	gens["FailoverWithDataLossGracePeriodMinutes"] = gen.PtrOf(gen.Int())
 }
 
+func Test_FailoverGroupReadWriteEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from FailoverGroupReadWriteEndpoint_STATUS to FailoverGroupReadWriteEndpoint_STATUS via AssignProperties_To_FailoverGroupReadWriteEndpoint_STATUS & AssignProperties_From_FailoverGroupReadWriteEndpoint_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint_STATUS, FailoverGroupReadWriteEndpoint_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint_STATUS tests if a specific instance of FailoverGroupReadWriteEndpoint_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForFailoverGroupReadWriteEndpoint_STATUS(subject FailoverGroupReadWriteEndpoint_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.FailoverGroupReadWriteEndpoint_STATUS
+	err := copied.AssignProperties_To_FailoverGroupReadWriteEndpoint_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual FailoverGroupReadWriteEndpoint_STATUS
+	err = actual.AssignProperties_From_FailoverGroupReadWriteEndpoint_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_FailoverGroupReadWriteEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -263,8 +472,60 @@ func AddIndependentPropertyGeneratorsForFailoverGroupReadWriteEndpoint_STATUS(ge
 	gens["FailoverWithDataLossGracePeriodMinutes"] = gen.PtrOf(gen.Int())
 }
 
+func Test_PartnerInfo_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PartnerInfo to PartnerInfo via AssignProperties_To_PartnerInfo & AssignProperties_From_PartnerInfo returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPartnerInfo, PartnerInfoGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPartnerInfo tests if a specific instance of PartnerInfo can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPartnerInfo(subject PartnerInfo) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PartnerInfo
+	err := copied.AssignProperties_To_PartnerInfo(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PartnerInfo
+	err = actual.AssignProperties_From_PartnerInfo(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PartnerInfo_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -317,8 +578,60 @@ func PartnerInfoGenerator() gopter.Gen {
 	return partnerInfoGenerator
 }
 
+func Test_PartnerInfo_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from PartnerInfo_STATUS to PartnerInfo_STATUS via AssignProperties_To_PartnerInfo_STATUS & AssignProperties_From_PartnerInfo_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPartnerInfo_STATUS, PartnerInfo_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForPartnerInfo_STATUS tests if a specific instance of PartnerInfo_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForPartnerInfo_STATUS(subject PartnerInfo_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.PartnerInfo_STATUS
+	err := copied.AssignProperties_To_PartnerInfo_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual PartnerInfo_STATUS
+	err = actual.AssignProperties_From_PartnerInfo_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_PartnerInfo_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -379,8 +692,108 @@ func AddIndependentPropertyGeneratorsForPartnerInfo_STATUS(gens map[string]gopte
 	gens["ReplicationRole"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServersFailoverGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersFailoverGroup to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersFailoverGroup, ServersFailoverGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersFailoverGroup tests if a specific instance of ServersFailoverGroup round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersFailoverGroup(subject ServersFailoverGroup) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersFailoverGroup
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersFailoverGroup
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersFailoverGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersFailoverGroup to ServersFailoverGroup via AssignProperties_To_ServersFailoverGroup & AssignProperties_From_ServersFailoverGroup returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersFailoverGroup, ServersFailoverGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersFailoverGroup tests if a specific instance of ServersFailoverGroup can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersFailoverGroup(subject ServersFailoverGroup) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersFailoverGroup
+	err := copied.AssignProperties_To_ServersFailoverGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersFailoverGroup
+	err = actual.AssignProperties_From_ServersFailoverGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersFailoverGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -441,8 +854,60 @@ func AddRelatedPropertyGeneratorsForServersFailoverGroup(gens map[string]gopter.
 	gens["Status"] = ServersFailoverGroup_STATUSGenerator()
 }
 
+func Test_ServersFailoverGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersFailoverGroupOperatorSpec to ServersFailoverGroupOperatorSpec via AssignProperties_To_ServersFailoverGroupOperatorSpec & AssignProperties_From_ServersFailoverGroupOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersFailoverGroupOperatorSpec, ServersFailoverGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersFailoverGroupOperatorSpec tests if a specific instance of ServersFailoverGroupOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersFailoverGroupOperatorSpec(subject ServersFailoverGroupOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersFailoverGroupOperatorSpec
+	err := copied.AssignProperties_To_ServersFailoverGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersFailoverGroupOperatorSpec
+	err = actual.AssignProperties_From_ServersFailoverGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersFailoverGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -496,8 +961,60 @@ func ServersFailoverGroupOperatorSpecGenerator() gopter.Gen {
 	return serversFailoverGroupOperatorSpecGenerator
 }
 
+func Test_ServersFailoverGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersFailoverGroup_STATUS to ServersFailoverGroup_STATUS via AssignProperties_To_ServersFailoverGroup_STATUS & AssignProperties_From_ServersFailoverGroup_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersFailoverGroup_STATUS, ServersFailoverGroup_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersFailoverGroup_STATUS tests if a specific instance of ServersFailoverGroup_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersFailoverGroup_STATUS(subject ServersFailoverGroup_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersFailoverGroup_STATUS
+	err := copied.AssignProperties_To_ServersFailoverGroup_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersFailoverGroup_STATUS
+	err = actual.AssignProperties_From_ServersFailoverGroup_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersFailoverGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -582,8 +1099,60 @@ func AddRelatedPropertyGeneratorsForServersFailoverGroup_STATUS(gens map[string]
 	gens["ReadWriteEndpoint"] = gen.PtrOf(FailoverGroupReadWriteEndpoint_STATUSGenerator())
 }
 
+func Test_ServersFailoverGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersFailoverGroup_Spec to ServersFailoverGroup_Spec via AssignProperties_To_ServersFailoverGroup_Spec & AssignProperties_From_ServersFailoverGroup_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersFailoverGroup_Spec, ServersFailoverGroup_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersFailoverGroup_Spec tests if a specific instance of ServersFailoverGroup_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersFailoverGroup_Spec(subject ServersFailoverGroup_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersFailoverGroup_Spec
+	err := copied.AssignProperties_To_ServersFailoverGroup_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersFailoverGroup_Spec
+	err = actual.AssignProperties_From_ServersFailoverGroup_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersFailoverGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

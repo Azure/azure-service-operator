@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BlobAuditing.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/BlobAuditing.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/auditingSettings/default
 type ServersAuditingSetting struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersAuditingSetting{}
 
 // ConvertFrom populates our ServersAuditingSetting from the provided hub ServersAuditingSetting
 func (setting *ServersAuditingSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersAuditingSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersAuditingSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersAuditingSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_ServersAuditingSetting(source)
+	err = setting.AssignProperties_From_ServersAuditingSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersAuditingSetting from our ServersAuditingSetting
 func (setting *ServersAuditingSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersAuditingSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersAuditingSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersAuditingSetting
+	err := setting.AssignProperties_To_ServersAuditingSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_ServersAuditingSetting(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersAuditingSetting{}
@@ -87,17 +101,6 @@ func (setting *ServersAuditingSetting) SecretDestinationExpressions() []*core.De
 		return nil
 	}
 	return setting.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersAuditingSetting{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (setting *ServersAuditingSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersAuditingSetting_STATUS); ok {
-		return setting.Spec.Initialize_From_ServersAuditingSetting_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersAuditingSetting_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersAuditingSetting{}
@@ -237,7 +240,7 @@ func (setting *ServersAuditingSetting) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BlobAuditing.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/BlobAuditing.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/auditingSettings/default
 type ServersAuditingSettingList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -811,68 +814,6 @@ func (setting *ServersAuditingSetting_Spec) AssignProperties_To_ServersAuditingS
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersAuditingSetting_STATUS populates our ServersAuditingSetting_Spec from the provided source ServersAuditingSetting_STATUS
-func (setting *ServersAuditingSetting_Spec) Initialize_From_ServersAuditingSetting_STATUS(source *ServersAuditingSetting_STATUS) error {
-
-	// AuditActionsAndGroups
-	setting.AuditActionsAndGroups = genruntime.CloneSliceOfString(source.AuditActionsAndGroups)
-
-	// IsAzureMonitorTargetEnabled
-	if source.IsAzureMonitorTargetEnabled != nil {
-		isAzureMonitorTargetEnabled := *source.IsAzureMonitorTargetEnabled
-		setting.IsAzureMonitorTargetEnabled = &isAzureMonitorTargetEnabled
-	} else {
-		setting.IsAzureMonitorTargetEnabled = nil
-	}
-
-	// IsDevopsAuditEnabled
-	if source.IsDevopsAuditEnabled != nil {
-		isDevopsAuditEnabled := *source.IsDevopsAuditEnabled
-		setting.IsDevopsAuditEnabled = &isDevopsAuditEnabled
-	} else {
-		setting.IsDevopsAuditEnabled = nil
-	}
-
-	// IsManagedIdentityInUse
-	if source.IsManagedIdentityInUse != nil {
-		isManagedIdentityInUse := *source.IsManagedIdentityInUse
-		setting.IsManagedIdentityInUse = &isManagedIdentityInUse
-	} else {
-		setting.IsManagedIdentityInUse = nil
-	}
-
-	// IsStorageSecondaryKeyInUse
-	if source.IsStorageSecondaryKeyInUse != nil {
-		isStorageSecondaryKeyInUse := *source.IsStorageSecondaryKeyInUse
-		setting.IsStorageSecondaryKeyInUse = &isStorageSecondaryKeyInUse
-	} else {
-		setting.IsStorageSecondaryKeyInUse = nil
-	}
-
-	// QueueDelayMs
-	setting.QueueDelayMs = genruntime.ClonePointerToInt(source.QueueDelayMs)
-
-	// RetentionDays
-	setting.RetentionDays = genruntime.ClonePointerToInt(source.RetentionDays)
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), serverBlobAuditingPolicyProperties_State_Values)
-		setting.State = &state
-	} else {
-		setting.State = nil
-	}
-
-	// StorageAccountSubscriptionId
-	setting.StorageAccountSubscriptionId = genruntime.ClonePointerToString(source.StorageAccountSubscriptionId)
-
-	// StorageEndpoint
-	setting.StorageEndpoint = genruntime.ClonePointerToString(source.StorageEndpoint)
 
 	// No error
 	return nil

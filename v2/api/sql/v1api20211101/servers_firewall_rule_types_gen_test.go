@@ -5,7 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_ServersFirewallRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForServersFirewallRule(subject ServersFirewallRule
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersFirewallRule
+	var hub sql_v20211101s.ServersFirewallRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForServersFirewallRule(subject ServersFirewallRule
 
 func Test_ServersFirewallRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForServersFirewallRule(subject ServersFirewallRule
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFirewallRule
+	var other sql_v1api20211101s.ServersFirewallRule
 	err := copied.AssignProperties_To_ServersFirewallRule(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForServersFirewallRule(subject ServersFirewallRule
 
 func Test_ServersFirewallRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -167,6 +183,11 @@ func AddRelatedPropertyGeneratorsForServersFirewallRule(gens map[string]gopter.G
 
 func Test_ServersFirewallRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -182,7 +203,7 @@ func RunPropertyAssignmentTestForServersFirewallRuleOperatorSpec(subject Servers
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFirewallRuleOperatorSpec
+	var other sql_v1api20211101s.ServersFirewallRuleOperatorSpec
 	err := copied.AssignProperties_To_ServersFirewallRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -209,6 +230,11 @@ func RunPropertyAssignmentTestForServersFirewallRuleOperatorSpec(subject Servers
 
 func Test_ServersFirewallRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -264,6 +290,11 @@ func ServersFirewallRuleOperatorSpecGenerator() gopter.Gen {
 
 func Test_ServersFirewallRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -279,7 +310,7 @@ func RunPropertyAssignmentTestForServersFirewallRule_STATUS(subject ServersFirew
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFirewallRule_STATUS
+	var other sql_v1api20211101s.ServersFirewallRule_STATUS
 	err := copied.AssignProperties_To_ServersFirewallRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -306,6 +337,11 @@ func RunPropertyAssignmentTestForServersFirewallRule_STATUS(subject ServersFirew
 
 func Test_ServersFirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -371,6 +407,11 @@ func AddIndependentPropertyGeneratorsForServersFirewallRule_STATUS(gens map[stri
 
 func Test_ServersFirewallRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -386,7 +427,7 @@ func RunPropertyAssignmentTestForServersFirewallRule_Spec(subject ServersFirewal
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFirewallRule_Spec
+	var other sql_v1api20211101s.ServersFirewallRule_Spec
 	err := copied.AssignProperties_To_ServersFirewallRule_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -413,6 +454,11 @@ func RunPropertyAssignmentTestForServersFirewallRule_Spec(subject ServersFirewal
 
 func Test_ServersFirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

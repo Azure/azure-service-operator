@@ -20,6 +20,11 @@ import (
 
 func Test_CosmosDbDataConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForCosmosDbDataConnection(subject CosmosDbDataConn
 
 func Test_CosmosDbDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -129,6 +139,11 @@ func AddIndependentPropertyGeneratorsForCosmosDbDataConnection(gens map[string]g
 
 func Test_CosmosDbDataConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -171,6 +186,11 @@ func RunPropertyAssignmentTestForCosmosDbDataConnection_STATUS(subject CosmosDbD
 
 func Test_CosmosDbDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -244,6 +264,11 @@ func AddIndependentPropertyGeneratorsForCosmosDbDataConnection_STATUS(gens map[s
 
 func Test_DataConnection_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -287,6 +312,11 @@ func RunResourceConversionTestForDataConnection(subject DataConnection) string {
 
 func Test_DataConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -329,6 +359,11 @@ func RunPropertyAssignmentTestForDataConnection(subject DataConnection) string {
 
 func Test_DataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -390,6 +425,11 @@ func AddRelatedPropertyGeneratorsForDataConnection(gens map[string]gopter.Gen) {
 
 func Test_DataConnectionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -432,6 +472,11 @@ func RunPropertyAssignmentTestForDataConnectionOperatorSpec(subject DataConnecti
 
 func Test_DataConnectionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -487,6 +532,11 @@ func DataConnectionOperatorSpecGenerator() gopter.Gen {
 
 func Test_DataConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -529,6 +579,11 @@ func RunPropertyAssignmentTestForDataConnection_STATUS(subject DataConnection_ST
 
 func Test_DataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -613,6 +668,11 @@ func AddRelatedPropertyGeneratorsForDataConnection_STATUS(gens map[string]gopter
 
 func Test_DataConnection_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -655,6 +715,11 @@ func RunPropertyAssignmentTestForDataConnection_Spec(subject DataConnection_Spec
 
 func Test_DataConnection_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -743,6 +808,11 @@ func AddRelatedPropertyGeneratorsForDataConnection_Spec(gens map[string]gopter.G
 
 func Test_EventGridDataConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -785,6 +855,11 @@ func RunPropertyAssignmentTestForEventGridDataConnection(subject EventGridDataCo
 
 func Test_EventGridDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -854,6 +929,11 @@ func AddIndependentPropertyGeneratorsForEventGridDataConnection(gens map[string]
 
 func Test_EventGridDataConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -896,6 +976,11 @@ func RunPropertyAssignmentTestForEventGridDataConnection_STATUS(subject EventGri
 
 func Test_EventGridDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -973,6 +1058,11 @@ func AddIndependentPropertyGeneratorsForEventGridDataConnection_STATUS(gens map[
 
 func Test_EventHubDataConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1015,6 +1105,11 @@ func RunPropertyAssignmentTestForEventHubDataConnection(subject EventHubDataConn
 
 func Test_EventHubDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1085,6 +1180,11 @@ func AddIndependentPropertyGeneratorsForEventHubDataConnection(gens map[string]g
 
 func Test_EventHubDataConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1127,6 +1227,11 @@ func RunPropertyAssignmentTestForEventHubDataConnection_STATUS(subject EventHubD
 
 func Test_EventHubDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1203,6 +1308,11 @@ func AddIndependentPropertyGeneratorsForEventHubDataConnection_STATUS(gens map[s
 
 func Test_IotHubDataConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1245,6 +1355,11 @@ func RunPropertyAssignmentTestForIotHubDataConnection(subject IotHubDataConnecti
 
 func Test_IotHubDataConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1315,6 +1430,11 @@ func AddIndependentPropertyGeneratorsForIotHubDataConnection(gens map[string]gop
 
 func Test_IotHubDataConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1357,6 +1477,11 @@ func RunPropertyAssignmentTestForIotHubDataConnection_STATUS(subject IotHubDataC
 
 func Test_IotHubDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

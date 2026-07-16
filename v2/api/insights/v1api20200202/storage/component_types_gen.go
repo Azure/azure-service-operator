@@ -32,7 +32,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20200202.Component
 // Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/components_API.json
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/ApplicationInsights/stable/2020-02-02/components_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}
 type Component struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -185,7 +185,7 @@ func (component *Component) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20200202.Component
 // Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/components_API.json
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/ApplicationInsights/stable/2020-02-02/components_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}
 type ComponentList struct {
 	metav1.TypeMeta `json:",inline"`

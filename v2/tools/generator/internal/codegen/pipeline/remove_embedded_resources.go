@@ -24,7 +24,7 @@ func RemoveEmbeddedResources(
 	return NewStage(
 		RemoveEmbeddedResourcesStageID,
 		// Only removes structural aspects of embedded resources, Id/ARMId references are retained.
-		"Remove properties that point to embedded resources.",
+		"Remove properties that point to embedded resources",
 		func(ctx context.Context, state *State) (*State, error) {
 			definitions := state.Definitions()
 			remover, err := embeddedresources.MakeEmbeddedResourceRemover(configuration, definitions)

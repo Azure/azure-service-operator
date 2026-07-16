@@ -162,3 +162,65 @@ RedisEnterpriseDatabase: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     └── Type: *string
 
+augmentConversionForClusterProperties_Encryption: Interface
+
+augmentConversionForClusterProperties_Encryption_CustomerManagedKeyEncryption: Interface
+
+augmentConversionForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity: Interface
+
+augmentConversionForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS: Interface
+
+augmentConversionForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS: Interface
+
+augmentConversionForClusterProperties_Encryption_STATUS: Interface
+
+augmentConversionForDatabaseProperties_GeoReplication: Interface
+
+augmentConversionForDatabaseProperties_GeoReplication_STATUS: Interface
+
+augmentConversionForLinkedDatabase: Interface
+
+augmentConversionForLinkedDatabase_STATUS: Interface
+
+augmentConversionForManagedServiceIdentity: Interface
+
+augmentConversionForManagedServiceIdentity_STATUS: Interface
+
+augmentConversionForModule: Interface
+
+augmentConversionForModule_STATUS: Interface
+
+augmentConversionForPersistence: Interface
+
+augmentConversionForPersistence_STATUS: Interface
+
+augmentConversionForPrivateEndpointConnection_STATUS: Interface
+
+augmentConversionForRedisEnterprise: Interface
+
+augmentConversionForRedisEnterpriseDatabase: Interface
+
+augmentConversionForRedisEnterpriseDatabaseOperatorSecrets: Interface
+
+augmentConversionForRedisEnterpriseDatabaseOperatorSpec: Interface
+
+augmentConversionForRedisEnterpriseDatabase_STATUS: Interface
+
+augmentConversionForRedisEnterpriseDatabase_Spec: Interface
+
+augmentConversionForRedisEnterpriseOperatorSpec: Interface
+
+augmentConversionForRedisEnterprise_STATUS: Interface
+
+augmentConversionForRedisEnterprise_Spec: Interface
+
+augmentConversionForSku: Interface
+
+augmentConversionForSku_STATUS: Interface
+
+augmentConversionForSystemData_STATUS: Interface
+
+augmentConversionForUserAssignedIdentityDetails: Interface
+
+augmentConversionForUserAssignedIdentity_STATUS: Interface
+

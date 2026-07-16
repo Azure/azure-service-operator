@@ -21,6 +21,11 @@ import (
 
 func Test_AzureFirewall_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -64,6 +69,11 @@ func RunResourceConversionTestForAzureFirewall(subject AzureFirewall) string {
 
 func Test_AzureFirewall_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -106,6 +116,11 @@ func RunPropertyAssignmentTestForAzureFirewall(subject AzureFirewall) string {
 
 func Test_AzureFirewall_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -167,6 +182,11 @@ func AddRelatedPropertyGeneratorsForAzureFirewall(gens map[string]gopter.Gen) {
 
 func Test_AzureFirewallApplicationRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -209,6 +229,11 @@ func RunPropertyAssignmentTestForAzureFirewallApplicationRule(subject AzureFirew
 
 func Test_AzureFirewallApplicationRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -289,6 +314,11 @@ func AddRelatedPropertyGeneratorsForAzureFirewallApplicationRule(gens map[string
 
 func Test_AzureFirewallApplicationRuleCollection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -331,6 +361,11 @@ func RunPropertyAssignmentTestForAzureFirewallApplicationRuleCollection(subject 
 
 func Test_AzureFirewallApplicationRuleCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -408,6 +443,11 @@ func AddRelatedPropertyGeneratorsForAzureFirewallApplicationRuleCollection(gens 
 
 func Test_AzureFirewallApplicationRuleCollection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -450,6 +490,11 @@ func RunPropertyAssignmentTestForAzureFirewallApplicationRuleCollection_STATUS(s
 
 func Test_AzureFirewallApplicationRuleCollection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -511,6 +556,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallApplicationRuleCollection_S
 
 func Test_AzureFirewallApplicationRuleProtocol_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -553,6 +603,11 @@ func RunPropertyAssignmentTestForAzureFirewallApplicationRuleProtocol(subject Az
 
 func Test_AzureFirewallApplicationRuleProtocol_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -615,6 +670,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallApplicationRuleProtocol(gen
 
 func Test_AzureFirewallAutoscaleConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -657,6 +717,11 @@ func RunPropertyAssignmentTestForAzureFirewallAutoscaleConfiguration(subject Azu
 
 func Test_AzureFirewallAutoscaleConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -719,6 +784,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallAutoscaleConfiguration(gens
 
 func Test_AzureFirewallAutoscaleConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -761,6 +831,11 @@ func RunPropertyAssignmentTestForAzureFirewallAutoscaleConfiguration_STATUS(subj
 
 func Test_AzureFirewallAutoscaleConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -823,6 +898,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallAutoscaleConfiguration_STAT
 
 func Test_AzureFirewallIPConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -865,6 +945,11 @@ func RunPropertyAssignmentTestForAzureFirewallIPConfiguration(subject AzureFirew
 
 func Test_AzureFirewallIPConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -941,6 +1026,11 @@ func AddRelatedPropertyGeneratorsForAzureFirewallIPConfiguration(gens map[string
 
 func Test_AzureFirewallIPConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -983,6 +1073,11 @@ func RunPropertyAssignmentTestForAzureFirewallIPConfiguration_STATUS(subject Azu
 
 func Test_AzureFirewallIPConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1044,6 +1139,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallIPConfiguration_STATUS(gens
 
 func Test_AzureFirewallIpGroups_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1086,6 +1186,11 @@ func RunPropertyAssignmentTestForAzureFirewallIpGroups_STATUS(subject AzureFirew
 
 func Test_AzureFirewallIpGroups_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1148,6 +1253,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallIpGroups_STATUS(gens map[st
 
 func Test_AzureFirewallNatRCAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1190,6 +1300,11 @@ func RunPropertyAssignmentTestForAzureFirewallNatRCAction(subject AzureFirewallN
 
 func Test_AzureFirewallNatRCAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1251,6 +1366,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallNatRCAction(gens map[string
 
 func Test_AzureFirewallNatRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1293,6 +1413,11 @@ func RunPropertyAssignmentTestForAzureFirewallNatRule(subject AzureFirewallNatRu
 
 func Test_AzureFirewallNatRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1367,6 +1492,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallNatRule(gens map[string]gop
 
 func Test_AzureFirewallNatRuleCollection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1409,6 +1539,11 @@ func RunPropertyAssignmentTestForAzureFirewallNatRuleCollection(subject AzureFir
 
 func Test_AzureFirewallNatRuleCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1486,6 +1621,11 @@ func AddRelatedPropertyGeneratorsForAzureFirewallNatRuleCollection(gens map[stri
 
 func Test_AzureFirewallNatRuleCollection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1528,6 +1668,11 @@ func RunPropertyAssignmentTestForAzureFirewallNatRuleCollection_STATUS(subject A
 
 func Test_AzureFirewallNatRuleCollection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1589,6 +1734,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallNatRuleCollection_STATUS(ge
 
 func Test_AzureFirewallNetworkRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1631,6 +1781,11 @@ func RunPropertyAssignmentTestForAzureFirewallNetworkRule(subject AzureFirewallN
 
 func Test_AzureFirewallNetworkRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1704,6 +1859,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallNetworkRule(gens map[string
 
 func Test_AzureFirewallNetworkRuleCollection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1746,6 +1906,11 @@ func RunPropertyAssignmentTestForAzureFirewallNetworkRuleCollection(subject Azur
 
 func Test_AzureFirewallNetworkRuleCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1823,6 +1988,11 @@ func AddRelatedPropertyGeneratorsForAzureFirewallNetworkRuleCollection(gens map[
 
 func Test_AzureFirewallNetworkRuleCollection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1865,6 +2035,11 @@ func RunPropertyAssignmentTestForAzureFirewallNetworkRuleCollection_STATUS(subje
 
 func Test_AzureFirewallNetworkRuleCollection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1926,6 +2101,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallNetworkRuleCollection_STATU
 
 func Test_AzureFirewallOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1968,6 +2148,11 @@ func RunPropertyAssignmentTestForAzureFirewallOperatorSpec(subject AzureFirewall
 
 func Test_AzureFirewallOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2023,6 +2208,11 @@ func AzureFirewallOperatorSpecGenerator() gopter.Gen {
 
 func Test_AzureFirewallPublicIPAddress_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2065,6 +2255,11 @@ func RunPropertyAssignmentTestForAzureFirewallPublicIPAddress(subject AzureFirew
 
 func Test_AzureFirewallPublicIPAddress_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2126,6 +2321,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallPublicIPAddress(gens map[st
 
 func Test_AzureFirewallPublicIPAddress_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2168,6 +2368,11 @@ func RunPropertyAssignmentTestForAzureFirewallPublicIPAddress_STATUS(subject Azu
 
 func Test_AzureFirewallPublicIPAddress_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2229,6 +2434,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallPublicIPAddress_STATUS(gens
 
 func Test_AzureFirewallRCAction_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2271,6 +2481,11 @@ func RunPropertyAssignmentTestForAzureFirewallRCAction(subject AzureFirewallRCAc
 
 func Test_AzureFirewallRCAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2332,6 +2547,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallRCAction(gens map[string]go
 
 func Test_AzureFirewallSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2374,6 +2594,11 @@ func RunPropertyAssignmentTestForAzureFirewallSku(subject AzureFirewallSku) stri
 
 func Test_AzureFirewallSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2435,6 +2660,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallSku(gens map[string]gopter.
 
 func Test_AzureFirewallSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2477,6 +2707,11 @@ func RunPropertyAssignmentTestForAzureFirewallSku_STATUS(subject AzureFirewallSk
 
 func Test_AzureFirewallSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2539,6 +2774,11 @@ func AddIndependentPropertyGeneratorsForAzureFirewallSku_STATUS(gens map[string]
 
 func Test_AzureFirewall_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2581,6 +2821,11 @@ func RunPropertyAssignmentTestForAzureFirewall_STATUS(subject AzureFirewall_STAT
 
 func Test_AzureFirewall_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2683,6 +2928,11 @@ func AddRelatedPropertyGeneratorsForAzureFirewall_STATUS(gens map[string]gopter.
 
 func Test_AzureFirewall_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2725,6 +2975,11 @@ func RunPropertyAssignmentTestForAzureFirewall_Spec(subject AzureFirewall_Spec) 
 
 func Test_AzureFirewall_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2818,6 +3073,11 @@ func AddRelatedPropertyGeneratorsForAzureFirewall_Spec(gens map[string]gopter.Ge
 
 func Test_HubIPAddresses_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2860,6 +3120,11 @@ func RunPropertyAssignmentTestForHubIPAddresses(subject HubIPAddresses) string {
 
 func Test_HubIPAddresses_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2934,6 +3199,11 @@ func AddRelatedPropertyGeneratorsForHubIPAddresses(gens map[string]gopter.Gen) {
 
 func Test_HubIPAddresses_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2976,6 +3246,11 @@ func RunPropertyAssignmentTestForHubIPAddresses_STATUS(subject HubIPAddresses_ST
 
 func Test_HubIPAddresses_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -3051,6 +3326,11 @@ func AddRelatedPropertyGeneratorsForHubIPAddresses_STATUS(gens map[string]gopter
 
 func Test_HubPublicIPAddresses_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -3093,6 +3373,11 @@ func RunPropertyAssignmentTestForHubPublicIPAddresses(subject HubPublicIPAddress
 
 func Test_HubPublicIPAddresses_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -3168,6 +3453,11 @@ func AddRelatedPropertyGeneratorsForHubPublicIPAddresses(gens map[string]gopter.
 
 func Test_HubPublicIPAddresses_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -3210,6 +3500,11 @@ func RunPropertyAssignmentTestForHubPublicIPAddresses_STATUS(subject HubPublicIP
 
 func Test_HubPublicIPAddresses_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -3285,6 +3580,11 @@ func AddRelatedPropertyGeneratorsForHubPublicIPAddresses_STATUS(gens map[string]
 
 func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -3327,6 +3627,11 @@ func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
 
 func Test_SubResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -3381,6 +3686,11 @@ func SubResourceGenerator() gopter.Gen {
 
 func Test_SubResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -3423,6 +3733,11 @@ func RunPropertyAssignmentTestForSubResource_STATUS(subject SubResource_STATUS) 
 
 func Test_SubResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

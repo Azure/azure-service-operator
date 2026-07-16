@@ -19,6 +19,11 @@ import (
 
 func Test_AddressSpace_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -94,6 +99,11 @@ func AddRelatedPropertyGeneratorsForAddressSpace_STATUS(gens map[string]gopter.G
 
 func Test_BgpSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -170,6 +180,11 @@ func AddRelatedPropertyGeneratorsForBgpSettings_STATUS(gens map[string]gopter.Ge
 
 func Test_IPConfigurationBgpPeeringAddress_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -234,6 +249,11 @@ func AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress_STATUS(
 
 func Test_IpsecPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -346,6 +366,11 @@ func AddIndependentPropertyGeneratorsForIpsecPolicy_STATUS(gens map[string]gopte
 
 func Test_RadiusServer_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -408,6 +433,11 @@ func AddIndependentPropertyGeneratorsForRadiusServer_STATUS(gens map[string]gopt
 
 func Test_VirtualNetworkGatewayAutoScaleBounds_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -470,6 +500,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayAutoScaleBounds_STA
 
 func Test_VirtualNetworkGatewayAutoScaleConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -531,6 +566,11 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayAutoScaleConfiguration_
 
 func Test_VirtualNetworkGatewayIPConfigurationPropertiesFormat_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -613,6 +653,11 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationProperti
 
 func Test_VirtualNetworkGatewayIPConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -690,6 +735,11 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfiguration_STATUS(
 
 func Test_VirtualNetworkGatewayMigrationStatus_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -766,6 +816,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayMigrationStatus_STA
 
 func Test_VirtualNetworkGatewayNatRuleProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -849,6 +904,11 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayNatRuleProperties_STATU
 
 func Test_VirtualNetworkGatewayNatRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -927,6 +987,11 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayNatRule_STATUS(gens map
 
 func Test_VirtualNetworkGatewayPolicyGroupMember_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -990,6 +1055,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayPolicyGroupMember_S
 
 func Test_VirtualNetworkGatewayPolicyGroupProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1072,6 +1142,11 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayPolicyGroupProperties_S
 
 func Test_VirtualNetworkGatewayPolicyGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1149,6 +1224,11 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayPolicyGroup_STATUS(gens
 
 func Test_VirtualNetworkGatewayPropertiesFormat_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1254,6 +1334,11 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayPropertiesFormat_STATUS
 
 func Test_VirtualNetworkGatewaySku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1353,6 +1438,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku_STATUS(gens map
 
 func Test_VirtualNetworkGateway_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1437,6 +1527,11 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGateway_STATUS(gens map[string
 
 func Test_VngClientConnectionConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1498,6 +1593,11 @@ func AddIndependentPropertyGeneratorsForVngClientConnectionConfiguration_STATUS(
 
 func Test_VpnClientConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1583,6 +1683,11 @@ func AddRelatedPropertyGeneratorsForVpnClientConfiguration_STATUS(gens map[strin
 
 func Test_VpnClientRevokedCertificatePropertiesFormat_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1649,6 +1754,11 @@ func AddIndependentPropertyGeneratorsForVpnClientRevokedCertificatePropertiesFor
 
 func Test_VpnClientRevokedCertificate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1726,6 +1836,11 @@ func AddRelatedPropertyGeneratorsForVpnClientRevokedCertificate_STATUS(gens map[
 
 func Test_VpnClientRootCertificatePropertiesFormat_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1792,6 +1907,11 @@ func AddIndependentPropertyGeneratorsForVpnClientRootCertificatePropertiesFormat
 
 func Test_VpnClientRootCertificate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1869,6 +1989,11 @@ func AddRelatedPropertyGeneratorsForVpnClientRootCertificate_STATUS(gens map[str
 
 func Test_VpnNatRuleMapping_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BackupShortTermRetentionPolicies.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/BackupShortTermRetentionPolicies.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/default
 type ServersDatabasesBackupShortTermRetentionPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersDatabasesBackupShortTermRetentionPolicy{}
 
 // ConvertFrom populates our ServersDatabasesBackupShortTermRetentionPolicy from the provided hub ServersDatabasesBackupShortTermRetentionPolicy
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersDatabasesBackupShortTermRetentionPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesBackupShortTermRetentionPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersDatabasesBackupShortTermRetentionPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy(source)
+	err = policy.AssignProperties_From_ServersDatabasesBackupShortTermRetentionPolicy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersDatabasesBackupShortTermRetentionPolicy from our ServersDatabasesBackupShortTermRetentionPolicy
 func (policy *ServersDatabasesBackupShortTermRetentionPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersDatabasesBackupShortTermRetentionPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v1api20211101/storage/ServersDatabasesBackupShortTermRetentionPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersDatabasesBackupShortTermRetentionPolicy
+	err := policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_ServersDatabasesBackupShortTermRetentionPolicy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersDatabasesBackupShortTermRetentionPolicy{}
@@ -87,17 +101,6 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) SecretDestinationE
 		return nil
 	}
 	return policy.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersDatabasesBackupShortTermRetentionPolicy{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (policy *ServersDatabasesBackupShortTermRetentionPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersDatabasesBackupShortTermRetentionPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersDatabasesBackupShortTermRetentionPolicy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabasesBackupShortTermRetentionPolicy{}
@@ -237,7 +240,7 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy) OriginalGVK() *sch
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/BackupShortTermRetentionPolicies.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/BackupShortTermRetentionPolicies.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/backupShortTermRetentionPolicies/default
 type ServersDatabasesBackupShortTermRetentionPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -470,24 +473,6 @@ func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) AssignPropert
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS populates our ServersDatabasesBackupShortTermRetentionPolicy_Spec from the provided source ServersDatabasesBackupShortTermRetentionPolicy_STATUS
-func (policy *ServersDatabasesBackupShortTermRetentionPolicy_Spec) Initialize_From_ServersDatabasesBackupShortTermRetentionPolicy_STATUS(source *ServersDatabasesBackupShortTermRetentionPolicy_STATUS) error {
-
-	// DiffBackupIntervalInHours
-	if source.DiffBackupIntervalInHours != nil {
-		diffBackupIntervalInHour := BackupShortTermRetentionPolicyProperties_DiffBackupIntervalInHours(*source.DiffBackupIntervalInHours)
-		policy.DiffBackupIntervalInHours = &diffBackupIntervalInHour
-	} else {
-		policy.DiffBackupIntervalInHours = nil
-	}
-
-	// RetentionDays
-	policy.RetentionDays = genruntime.ClonePointerToInt(source.RetentionDays)
 
 	// No error
 	return nil

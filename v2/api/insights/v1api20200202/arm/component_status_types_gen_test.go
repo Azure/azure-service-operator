@@ -19,6 +19,11 @@ import (
 
 func Test_ApplicationInsightsComponentProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -101,8 +106,8 @@ func AddIndependentPropertyGeneratorsForApplicationInsightsComponentProperties_S
 	gens["LaMigrationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUS_Disabled, PublicNetworkAccessType_STATUS_Enabled))
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Disabled, ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS_Enabled))
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Disabled, ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS_Enabled))
 	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Request_Source_STATUS_Rest))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
@@ -117,6 +122,11 @@ func AddRelatedPropertyGeneratorsForApplicationInsightsComponentProperties_STATU
 
 func Test_Component_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -199,6 +209,11 @@ func AddRelatedPropertyGeneratorsForComponent_STATUS(gens map[string]gopter.Gen)
 
 func Test_PrivateLinkScopedResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

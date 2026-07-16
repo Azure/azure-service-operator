@@ -185,6 +185,16 @@ func (r *RapidJSONSerializationTestCase) createTestRunner(codegenContext *astmod
 	// t.Parallel()
 	declareParallel := astbuilder.CallExprAsStmt(t, "Parallel")
 
+	// if testing.Short() {
+	//     return
+	// }
+	checkShort := astbuilder.SimpleIf(
+		astbuilder.CallQualifiedFunc(testingPackage, "Short"),
+		astbuilder.Returns(),
+	)
+	checkShort.Decs.Before = dst.EmptyLine
+	checkShort.Decs.After = dst.EmptyLine
+
 	// rapid.Check(t, RunJSONSerializationTestForX)
 	rapidCheck := astbuilder.CallQualifiedFuncAsStmt(
 		rapidPackage,
@@ -197,6 +207,7 @@ func (r *RapidJSONSerializationTestCase) createTestRunner(codegenContext *astmod
 		testingPackage,
 		r.testName,
 		declareParallel,
+		checkShort,
 		rapidCheck,
 	)
 

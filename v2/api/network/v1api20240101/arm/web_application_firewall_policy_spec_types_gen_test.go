@@ -19,6 +19,11 @@ import (
 
 func Test_ExclusionManagedRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -80,6 +85,11 @@ func AddIndependentPropertyGeneratorsForExclusionManagedRule(gens map[string]gop
 
 func Test_ExclusionManagedRuleGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -155,6 +165,11 @@ func AddRelatedPropertyGeneratorsForExclusionManagedRuleGroup(gens map[string]go
 
 func Test_ExclusionManagedRuleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -231,6 +246,11 @@ func AddRelatedPropertyGeneratorsForExclusionManagedRuleSet(gens map[string]gopt
 
 func Test_GroupByUserSession_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -291,6 +311,11 @@ func AddRelatedPropertyGeneratorsForGroupByUserSession(gens map[string]gopter.Ge
 
 func Test_GroupByVariable_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -351,6 +376,11 @@ func AddIndependentPropertyGeneratorsForGroupByVariable(gens map[string]gopter.G
 
 func Test_ManagedRuleGroupOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -426,6 +456,11 @@ func AddRelatedPropertyGeneratorsForManagedRuleGroupOverride(gens map[string]gop
 
 func Test_ManagedRuleOverride_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -494,6 +529,11 @@ func AddIndependentPropertyGeneratorsForManagedRuleOverride(gens map[string]gopt
 
 func Test_ManagedRuleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -569,6 +609,11 @@ func AddRelatedPropertyGeneratorsForManagedRuleSet(gens map[string]gopter.Gen) {
 
 func Test_ManagedRulesDefinition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -631,6 +676,11 @@ func AddRelatedPropertyGeneratorsForManagedRulesDefinition(gens map[string]gopte
 
 func Test_MatchCondition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -727,6 +777,11 @@ func AddRelatedPropertyGeneratorsForMatchCondition(gens map[string]gopter.Gen) {
 
 func Test_MatchVariable_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -796,6 +851,11 @@ func AddIndependentPropertyGeneratorsForMatchVariable(gens map[string]gopter.Gen
 
 func Test_OwaspCrsExclusionEntry_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -887,6 +947,11 @@ func AddRelatedPropertyGeneratorsForOwaspCrsExclusionEntry(gens map[string]gopte
 
 func Test_PolicySettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -971,6 +1036,11 @@ func AddRelatedPropertyGeneratorsForPolicySettings(gens map[string]gopter.Gen) {
 
 func Test_PolicySettings_LogScrubbing_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1046,6 +1116,11 @@ func AddRelatedPropertyGeneratorsForPolicySettings_LogScrubbing(gens map[string]
 
 func Test_WebApplicationFirewallCustomRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1132,6 +1207,11 @@ func AddRelatedPropertyGeneratorsForWebApplicationFirewallCustomRule(gens map[st
 
 func Test_WebApplicationFirewallPolicyPropertiesFormat_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1195,6 +1275,11 @@ func AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicyPropertiesFormat
 
 func Test_WebApplicationFirewallPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1274,6 +1359,11 @@ func AddRelatedPropertyGeneratorsForWebApplicationFirewallPolicy_Spec(gens map[s
 
 func Test_WebApplicationFirewallScrubbingRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

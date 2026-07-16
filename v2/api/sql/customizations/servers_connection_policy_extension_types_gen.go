@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type ServersConnectionPolicyExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ServersConnectionPolicyExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20211101.ServersConnectionPolicy{},
-		&storage.ServersConnectionPolicy{}}
+		&sql_v1api20211101.ServersConnectionPolicy{},
+		&sql_v1api20211101s.ServersConnectionPolicy{},
+		&sql_v20211101.ServersConnectionPolicy{},
+		&sql_v20211101s.ServersConnectionPolicy{}}
 }
