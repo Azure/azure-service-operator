@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>insights.azure.com/v1api20250101preview | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2025-01-01-preview” ScheduledQueryRule Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}
+<meta name="description" content="APIVersion Value Description “2025-01-01-preview” ScheduledQueryRule Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}
 Used by: ScheduledQueryRuleList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryRule_SpecOptional status ScheduledQueryRule_STATUSOptional ScheduledQueryRule_Spec Property Description Type actions Actions to invoke when the alert fires. ActionsOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteriaOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional identity The identity of the resource. IdentityOptional kind Indicates the type of scheduled query rule. The default is LogAlert. ScheduledQueryRule_Kind_SpecOptional location The geo-location where the resource lives stringRequired muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ScheduledQueryRuleOperatorSpecOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfigurationOptional scopesReferences The list of resource id’s that this scheduled query rule is scoped to. genruntime.ResourceReference[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. ScheduledQueryRuleProperties_SeverityOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRule_STATUS Property Description Type actions Actions to invoke when the alert fires. Actions_STATUSOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional conditions The observed state of the resource conditions.Condition[]Optional createdWithApiVersion The api-version used when creating this alert rule stringOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteria_STATUSOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional etag The etag field is not required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. stringOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. Identity_STATUSOptional isLegacyLogAnalyticsRule True if alert rule is legacy Log Analytic rule boolOptional isWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule has been configured to be stored in the customer’s storage. The default is false. boolOptional kind Indicates the type of scheduled query rule. The default is LogAlert. ScheduledQueryRule_Kind_STATUSOptional location The geo-location where the resource lives stringOptional muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional name The name of the resource stringOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfiguration_STATUSOptional scopes The list of resource id’s that this scheduled query rule is scoped to. string[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. ScheduledQueryRuleProperties_Severity_STATUSOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional systemData SystemData of ScheduledQueryRule. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRuleList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryRule_SpecOptional status ScheduledQueryRule_STATUSOptional ScheduledQueryRule_Spec Property Description Type actions Actions to invoke when the alert fires. ActionsOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteriaOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional identity The identity of the resource. MicrosoftCommonIdentityOptional kind Indicates the type of scheduled query rule. The default is LogAlert. KindOptional location The geo-location where the resource lives stringRequired muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ScheduledQueryRuleOperatorSpecOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfigurationOptional scopesReferences The list of resource id’s that this scheduled query rule is scoped to. genruntime.ResourceReference[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. AlertSeverityOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRule_STATUS Property Description Type actions Actions to invoke when the alert fires. Actions_STATUSOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional conditions The observed state of the resource conditions.Condition[]Optional createdWithApiVersion The api-version used when creating this alert rule stringOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteria_STATUSOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional etag “If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.”) stringOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. MicrosoftCommonIdentity_STATUSOptional isLegacyLogAnalyticsRule True if alert rule is legacy Log Analytic rule boolOptional isWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule has been configured to be stored in the customer’s storage. The default is false. boolOptional kind Indicates the type of scheduled query rule. The default is LogAlert. Kind_STATUSOptional location The geo-location where the resource lives stringOptional muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional name The name of the resource stringOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfiguration_STATUSOptional scopes The list of resource id’s that this scheduled query rule is scoped to. string[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. AlertSeverity_STATUSOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRuleList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1api20250101preview/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="insights.azure.com/v1api20250101preview">
-  <meta property="og:description" content="APIVersion Value Description “2025-01-01-preview” ScheduledQueryRule Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}
+  <meta property="og:description" content="APIVersion Value Description “2025-01-01-preview” ScheduledQueryRule Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}
 Used by: ScheduledQueryRuleList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryRule_SpecOptional status ScheduledQueryRule_STATUSOptional ScheduledQueryRule_Spec Property Description Type actions Actions to invoke when the alert fires. ActionsOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteriaOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional identity The identity of the resource. IdentityOptional kind Indicates the type of scheduled query rule. The default is LogAlert. ScheduledQueryRule_Kind_SpecOptional location The geo-location where the resource lives stringRequired muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ScheduledQueryRuleOperatorSpecOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfigurationOptional scopesReferences The list of resource id’s that this scheduled query rule is scoped to. genruntime.ResourceReference[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. ScheduledQueryRuleProperties_SeverityOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRule_STATUS Property Description Type actions Actions to invoke when the alert fires. Actions_STATUSOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional conditions The observed state of the resource conditions.Condition[]Optional createdWithApiVersion The api-version used when creating this alert rule stringOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteria_STATUSOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional etag The etag field is not required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. stringOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. Identity_STATUSOptional isLegacyLogAnalyticsRule True if alert rule is legacy Log Analytic rule boolOptional isWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule has been configured to be stored in the customer’s storage. The default is false. boolOptional kind Indicates the type of scheduled query rule. The default is LogAlert. ScheduledQueryRule_Kind_STATUSOptional location The geo-location where the resource lives stringOptional muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional name The name of the resource stringOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfiguration_STATUSOptional scopes The list of resource id’s that this scheduled query rule is scoped to. string[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. ScheduledQueryRuleProperties_Severity_STATUSOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional systemData SystemData of ScheduledQueryRule. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRuleList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryRule_SpecOptional status ScheduledQueryRule_STATUSOptional ScheduledQueryRule_Spec Property Description Type actions Actions to invoke when the alert fires. ActionsOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteriaOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional identity The identity of the resource. MicrosoftCommonIdentityOptional kind Indicates the type of scheduled query rule. The default is LogAlert. KindOptional location The geo-location where the resource lives stringRequired muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ScheduledQueryRuleOperatorSpecOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfigurationOptional scopesReferences The list of resource id’s that this scheduled query rule is scoped to. genruntime.ResourceReference[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. AlertSeverityOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRule_STATUS Property Description Type actions Actions to invoke when the alert fires. Actions_STATUSOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional conditions The observed state of the resource conditions.Condition[]Optional createdWithApiVersion The api-version used when creating this alert rule stringOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteria_STATUSOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional etag “If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.”) stringOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. MicrosoftCommonIdentity_STATUSOptional isLegacyLogAnalyticsRule True if alert rule is legacy Log Analytic rule boolOptional isWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule has been configured to be stored in the customer’s storage. The default is false. boolOptional kind Indicates the type of scheduled query rule. The default is LogAlert. Kind_STATUSOptional location The geo-location where the resource lives stringOptional muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional name The name of the resource stringOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfiguration_STATUSOptional scopes The list of resource id’s that this scheduled query rule is scoped to. string[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. AlertSeverity_STATUSOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRuleList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="insights.azure.com/v1api20250101preview">
-  <meta itemprop="description" content="APIVersion Value Description “2025-01-01-preview” ScheduledQueryRule Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}
+  <meta itemprop="description" content="APIVersion Value Description “2025-01-01-preview” ScheduledQueryRule Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}
 Used by: ScheduledQueryRuleList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryRule_SpecOptional status ScheduledQueryRule_STATUSOptional ScheduledQueryRule_Spec Property Description Type actions Actions to invoke when the alert fires. ActionsOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteriaOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional identity The identity of the resource. IdentityOptional kind Indicates the type of scheduled query rule. The default is LogAlert. ScheduledQueryRule_Kind_SpecOptional location The geo-location where the resource lives stringRequired muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ScheduledQueryRuleOperatorSpecOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfigurationOptional scopesReferences The list of resource id’s that this scheduled query rule is scoped to. genruntime.ResourceReference[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. ScheduledQueryRuleProperties_SeverityOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRule_STATUS Property Description Type actions Actions to invoke when the alert fires. Actions_STATUSOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional conditions The observed state of the resource conditions.Condition[]Optional createdWithApiVersion The api-version used when creating this alert rule stringOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteria_STATUSOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional etag The etag field is not required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. stringOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. Identity_STATUSOptional isLegacyLogAnalyticsRule True if alert rule is legacy Log Analytic rule boolOptional isWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule has been configured to be stored in the customer’s storage. The default is false. boolOptional kind Indicates the type of scheduled query rule. The default is LogAlert. ScheduledQueryRule_Kind_STATUSOptional location The geo-location where the resource lives stringOptional muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional name The name of the resource stringOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfiguration_STATUSOptional scopes The list of resource id’s that this scheduled query rule is scoped to. string[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. ScheduledQueryRuleProperties_Severity_STATUSOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional systemData SystemData of ScheduledQueryRule. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRuleList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}">
-  <meta itemprop="wordCount" content="3585">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryRule_SpecOptional status ScheduledQueryRule_STATUSOptional ScheduledQueryRule_Spec Property Description Type actions Actions to invoke when the alert fires. ActionsOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteriaOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional identity The identity of the resource. MicrosoftCommonIdentityOptional kind Indicates the type of scheduled query rule. The default is LogAlert. KindOptional location The geo-location where the resource lives stringRequired muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ScheduledQueryRuleOperatorSpecOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfigurationOptional scopesReferences The list of resource id’s that this scheduled query rule is scoped to. genruntime.ResourceReference[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. AlertSeverityOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRule_STATUS Property Description Type actions Actions to invoke when the alert fires. Actions_STATUSOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional conditions The observed state of the resource conditions.Condition[]Optional createdWithApiVersion The api-version used when creating this alert rule stringOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteria_STATUSOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional etag “If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.”) stringOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. MicrosoftCommonIdentity_STATUSOptional isLegacyLogAnalyticsRule True if alert rule is legacy Log Analytic rule boolOptional isWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule has been configured to be stored in the customer’s storage. The default is false. boolOptional kind Indicates the type of scheduled query rule. The default is LogAlert. Kind_STATUSOptional location The geo-location where the resource lives stringOptional muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional name The name of the resource stringOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfiguration_STATUSOptional scopes The list of resource id’s that this scheduled query rule is scoped to. string[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. AlertSeverity_STATUSOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRuleList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}">
+  <meta itemprop="wordCount" content="3799">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="insights.azure.com/v1api20250101preview">
-  <meta name="twitter:description" content="APIVersion Value Description “2025-01-01-preview” ScheduledQueryRule Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}
+  <meta name="twitter:description" content="APIVersion Value Description “2025-01-01-preview” ScheduledQueryRule Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}
 Used by: ScheduledQueryRuleList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryRule_SpecOptional status ScheduledQueryRule_STATUSOptional ScheduledQueryRule_Spec Property Description Type actions Actions to invoke when the alert fires. ActionsOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteriaOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional identity The identity of the resource. IdentityOptional kind Indicates the type of scheduled query rule. The default is LogAlert. ScheduledQueryRule_Kind_SpecOptional location The geo-location where the resource lives stringRequired muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ScheduledQueryRuleOperatorSpecOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfigurationOptional scopesReferences The list of resource id’s that this scheduled query rule is scoped to. genruntime.ResourceReference[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. ScheduledQueryRuleProperties_SeverityOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRule_STATUS Property Description Type actions Actions to invoke when the alert fires. Actions_STATUSOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional conditions The observed state of the resource conditions.Condition[]Optional createdWithApiVersion The api-version used when creating this alert rule stringOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteria_STATUSOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional etag The etag field is not required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. stringOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. Identity_STATUSOptional isLegacyLogAnalyticsRule True if alert rule is legacy Log Analytic rule boolOptional isWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule has been configured to be stored in the customer’s storage. The default is false. boolOptional kind Indicates the type of scheduled query rule. The default is LogAlert. ScheduledQueryRule_Kind_STATUSOptional location The geo-location where the resource lives stringOptional muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional name The name of the resource stringOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfiguration_STATUSOptional scopes The list of resource id’s that this scheduled query rule is scoped to. string[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. ScheduledQueryRuleProperties_Severity_STATUSOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional systemData SystemData of ScheduledQueryRule. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRuleList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryRule_SpecOptional status ScheduledQueryRule_STATUSOptional ScheduledQueryRule_Spec Property Description Type actions Actions to invoke when the alert fires. ActionsOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteriaOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional identity The identity of the resource. MicrosoftCommonIdentityOptional kind Indicates the type of scheduled query rule. The default is LogAlert. KindOptional location The geo-location where the resource lives stringRequired muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ScheduledQueryRuleOperatorSpecOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfigurationOptional scopesReferences The list of resource id’s that this scheduled query rule is scoped to. genruntime.ResourceReference[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. AlertSeverityOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRule_STATUS Property Description Type actions Actions to invoke when the alert fires. Actions_STATUSOptional autoMitigate The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. boolOptional checkWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule should be stored in the customer’s storage. The default is false. Relevant only for rules of the kind LogAlert. boolOptional conditions The observed state of the resource conditions.Condition[]Optional createdWithApiVersion The api-version used when creating this alert rule stringOptional criteria The rule criteria that defines the conditions of the scheduled query rule. ScheduledQueryRuleCriteria_STATUSOptional description The description of the scheduled query rule. stringOptional displayName The display name of the alert rule stringOptional enabled The flag which indicates whether this scheduled query rule is enabled. Value should be true or false boolOptional etag “If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.”) stringOptional evaluationFrequency How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant and required only for rules of the kind LogAlert. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity The identity of the resource. MicrosoftCommonIdentity_STATUSOptional isLegacyLogAnalyticsRule True if alert rule is legacy Log Analytic rule boolOptional isWorkspaceAlertsStorageConfigured The flag which indicates whether this scheduled query rule has been configured to be stored in the customer’s storage. The default is false. boolOptional kind Indicates the type of scheduled query rule. The default is LogAlert. Kind_STATUSOptional location The geo-location where the resource lives stringOptional muteActionsDuration Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. stringOptional name The name of the resource stringOptional overrideQueryTimeRange If specified then overrides the query time range (default is WindowSize*NumberOfEvaluationPeriods). Relevant only for rules of the kind LogAlert. stringOptional resolveConfiguration Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. RuleResolveConfiguration_STATUSOptional scopes The list of resource id’s that this scheduled query rule is scoped to. string[]Optional severity Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. AlertSeverity_STATUSOptional skipQueryValidation The flag which indicates whether the provided query should be validated or not. The default is false. Relevant only for rules of the kind LogAlert. boolOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceTypes List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert string[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional windowSize The period of time (in ISO 8601 duration format) on which the Alert query will be executed (bin size). Relevant and required only for rules of the kind LogAlert. stringOptional ScheduledQueryRuleList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1037,38 +1037,38 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
     <li><a href="#ScheduledQueryRule_STATUS">ScheduledQueryRule_STATUS</a></li>
     <li><a href="#Actions">Actions</a></li>
     <li><a href="#Actions_STATUS">Actions_STATUS</a></li>
-    <li><a href="#Identity">Identity</a></li>
-    <li><a href="#Identity_STATUS">Identity_STATUS</a></li>
+    <li><a href="#AlertSeverity">AlertSeverity</a></li>
+    <li><a href="#AlertSeverity_STATUS">AlertSeverity_STATUS</a></li>
+    <li><a href="#Kind">Kind</a></li>
+    <li><a href="#Kind_STATUS">Kind_STATUS</a></li>
+    <li><a href="#MicrosoftCommonIdentity">MicrosoftCommonIdentity</a></li>
+    <li><a href="#MicrosoftCommonIdentity_STATUS">MicrosoftCommonIdentity_STATUS</a></li>
     <li><a href="#RuleResolveConfiguration">RuleResolveConfiguration</a></li>
     <li><a href="#RuleResolveConfiguration_STATUS">RuleResolveConfiguration_STATUS</a></li>
-    <li><a href="#ScheduledQueryRule_Kind_Spec">ScheduledQueryRule_Kind_Spec</a></li>
-    <li><a href="#ScheduledQueryRule_Kind_STATUS">ScheduledQueryRule_Kind_STATUS</a></li>
     <li><a href="#ScheduledQueryRuleCriteria">ScheduledQueryRuleCriteria</a></li>
     <li><a href="#ScheduledQueryRuleCriteria_STATUS">ScheduledQueryRuleCriteria_STATUS</a></li>
     <li><a href="#ScheduledQueryRuleOperatorSpec">ScheduledQueryRuleOperatorSpec</a></li>
-    <li><a href="#ScheduledQueryRuleProperties_Severity">ScheduledQueryRuleProperties_Severity</a></li>
-    <li><a href="#ScheduledQueryRuleProperties_Severity_STATUS">ScheduledQueryRuleProperties_Severity_STATUS</a></li>
     <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
     <li><a href="#Condition">Condition</a></li>
     <li><a href="#Condition_STATUS">Condition_STATUS</a></li>
-    <li><a href="#Identity_Type">Identity_Type</a></li>
-    <li><a href="#Identity_Type_STATUS">Identity_Type_STATUS</a></li>
+    <li><a href="#MicrosoftCommonIdentityType">MicrosoftCommonIdentityType</a></li>
+    <li><a href="#MicrosoftCommonIdentityType_STATUS">MicrosoftCommonIdentityType_STATUS</a></li>
+    <li><a href="#MicrosoftCommonUserIdentityProperties_STATUS">MicrosoftCommonUserIdentityProperties_STATUS</a></li>
     <li><a href="#SystemData_CreatedByType_STATUS">SystemData_CreatedByType_STATUS</a></li>
     <li><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a></li>
     <li><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails</a></li>
-    <li><a href="#UserIdentityProperties_STATUS">UserIdentityProperties_STATUS</a></li>
-    <li><a href="#Condition_CriterionType">Condition_CriterionType</a></li>
-    <li><a href="#Condition_CriterionType_STATUS">Condition_CriterionType_STATUS</a></li>
-    <li><a href="#Condition_FailingPeriods">Condition_FailingPeriods</a></li>
-    <li><a href="#Condition_FailingPeriods_STATUS">Condition_FailingPeriods_STATUS</a></li>
-    <li><a href="#Condition_Operator">Condition_Operator</a></li>
-    <li><a href="#Condition_Operator_STATUS">Condition_Operator_STATUS</a></li>
-    <li><a href="#Condition_TimeAggregation">Condition_TimeAggregation</a></li>
-    <li><a href="#Condition_TimeAggregation_STATUS">Condition_TimeAggregation_STATUS</a></li>
+    <li><a href="#ConditionFailingPeriods">ConditionFailingPeriods</a></li>
+    <li><a href="#ConditionFailingPeriods_STATUS">ConditionFailingPeriods_STATUS</a></li>
+    <li><a href="#ConditionOperator">ConditionOperator</a></li>
+    <li><a href="#ConditionOperator_STATUS">ConditionOperator_STATUS</a></li>
     <li><a href="#Dimension">Dimension</a></li>
     <li><a href="#Dimension_STATUS">Dimension_STATUS</a></li>
-    <li><a href="#Dimension_Operator">Dimension_Operator</a></li>
-    <li><a href="#Dimension_Operator_STATUS">Dimension_Operator_STATUS</a></li>
+    <li><a href="#MicrosoftCommonCriterionType">MicrosoftCommonCriterionType</a></li>
+    <li><a href="#MicrosoftCommonCriterionType_STATUS">MicrosoftCommonCriterionType_STATUS</a></li>
+    <li><a href="#TimeAggregation">TimeAggregation</a></li>
+    <li><a href="#TimeAggregation_STATUS">TimeAggregation_STATUS</a></li>
+    <li><a href="#DimensionOperator">DimensionOperator</a></li>
+    <li><a href="#DimensionOperator_STATUS">DimensionOperator_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -1114,7 +1114,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
   </tbody>
 </table>
 <h2 id="ScheduledQueryRule">ScheduledQueryRule</h2>
-<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}</p>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}</p>
 <p>Used by: <a href="#ScheduledQueryRuleList">ScheduledQueryRuleList</a>.</p>
 <table>
   <thead>
@@ -1205,12 +1205,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>identity</td>
           <td>The identity of the resource.</td>
-          <td><a href="#Identity">Identity</a><br/><small>Optional</small></td>
+          <td><a href="#MicrosoftCommonIdentity">MicrosoftCommonIdentity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>kind</td>
           <td>Indicates the type of scheduled query rule. The default is LogAlert.</td>
-          <td><a href="#ScheduledQueryRule_Kind_Spec">ScheduledQueryRule_Kind_Spec</a><br/><small>Optional</small></td>
+          <td><a href="#Kind">Kind</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
@@ -1250,7 +1250,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>severity</td>
           <td>Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert.</td>
-          <td><a href="#ScheduledQueryRuleProperties_Severity">ScheduledQueryRuleProperties_Severity</a><br/><small>Optional</small></td>
+          <td><a href="#AlertSeverity">AlertSeverity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>skipQueryValidation</td>
@@ -1331,7 +1331,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
       <tr>
           <td>etag</td>
-          <td>The etag field is <em>not</em> required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.</td>
+          <td>&ldquo;If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.&rdquo;)</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1347,7 +1347,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>identity</td>
           <td>The identity of the resource.</td>
-          <td><a href="#Identity_STATUS">Identity_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#MicrosoftCommonIdentity_STATUS">MicrosoftCommonIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>isLegacyLogAnalyticsRule</td>
@@ -1362,7 +1362,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>kind</td>
           <td>Indicates the type of scheduled query rule. The default is LogAlert.</td>
-          <td><a href="#ScheduledQueryRule_Kind_STATUS">ScheduledQueryRule_Kind_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#Kind_STATUS">Kind_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
@@ -1397,7 +1397,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>severity</td>
           <td>Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert.</td>
-          <td><a href="#ScheduledQueryRuleProperties_Severity_STATUS">ScheduledQueryRuleProperties_Severity_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#AlertSeverity_STATUS">AlertSeverity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>skipQueryValidation</td>
@@ -1406,7 +1406,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
       <tr>
           <td>systemData</td>
-          <td>SystemData of ScheduledQueryRule.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1432,7 +1432,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
   </tbody>
 </table>
 <h2 id="ScheduledQueryRuleList">ScheduledQueryRuleList</h2>
-<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}</p>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​scheduledQueryRules/​{ruleName}</p>
 <table>
   <thead>
       <tr>
@@ -1518,12 +1518,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>identity</td>
           <td>The identity of the resource.</td>
-          <td><a href="#Identity">Identity</a><br/><small>Optional</small></td>
+          <td><a href="#MicrosoftCommonIdentity">MicrosoftCommonIdentity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>kind</td>
           <td>Indicates the type of scheduled query rule. The default is LogAlert.</td>
-          <td><a href="#ScheduledQueryRule_Kind_Spec">ScheduledQueryRule_Kind_Spec</a><br/><small>Optional</small></td>
+          <td><a href="#Kind">Kind</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
@@ -1563,7 +1563,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>severity</td>
           <td>Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert.</td>
-          <td><a href="#ScheduledQueryRuleProperties_Severity">ScheduledQueryRuleProperties_Severity</a><br/><small>Optional</small></td>
+          <td><a href="#AlertSeverity">AlertSeverity</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>skipQueryValidation</td>
@@ -1645,7 +1645,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
       <tr>
           <td>etag</td>
-          <td>The etag field is <em>not</em> required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.</td>
+          <td>&ldquo;If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.&rdquo;)</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1661,7 +1661,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>identity</td>
           <td>The identity of the resource.</td>
-          <td><a href="#Identity_STATUS">Identity_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#MicrosoftCommonIdentity_STATUS">MicrosoftCommonIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>isLegacyLogAnalyticsRule</td>
@@ -1676,7 +1676,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>kind</td>
           <td>Indicates the type of scheduled query rule. The default is LogAlert.</td>
-          <td><a href="#ScheduledQueryRule_Kind_STATUS">ScheduledQueryRule_Kind_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#Kind_STATUS">Kind_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
@@ -1711,7 +1711,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>severity</td>
           <td>Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert.</td>
-          <td><a href="#ScheduledQueryRuleProperties_Severity_STATUS">ScheduledQueryRuleProperties_Severity_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#AlertSeverity_STATUS">AlertSeverity_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>skipQueryValidation</td>
@@ -1720,7 +1720,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
       <tr>
           <td>systemData</td>
-          <td>SystemData of ScheduledQueryRule.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1803,7 +1803,123 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
   </tbody>
 </table>
-<h2 id="Identity">Identity</h2>
+<h2 id="AlertSeverity">AlertSeverity</h2>
+<p>Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert.</p>
+<p>Used by: <a href="#ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="AlertSeverity_STATUS">AlertSeverity_STATUS</h2>
+<p>Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert.</p>
+<p>Used by: <a href="#ScheduledQueryRule_STATUS">ScheduledQueryRule_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>1</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>3</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>4</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Kind">Kind</h2>
+<p>Indicates the type of scheduled query rule. The default is LogAlert.</p>
+<p>Used by: <a href="#ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;LogAlert&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;LogToMetric&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SimpleLogAlert&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Kind_STATUS">Kind_STATUS</h2>
+<p>Indicates the type of scheduled query rule. The default is LogAlert.</p>
+<p>Used by: <a href="#ScheduledQueryRule_STATUS">ScheduledQueryRule_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;LogAlert&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;LogToMetric&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SimpleLogAlert&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="MicrosoftCommonIdentity">MicrosoftCommonIdentity</h2>
 <p>Identity for the resource.</p>
 <p>Used by: <a href="#ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>.</p>
 <table>
@@ -1818,7 +1934,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>type</td>
           <td>Type of managed service identity.</td>
-          <td><a href="#Identity_Type">Identity_Type</a><br/><small>Required</small></td>
+          <td><a href="#MicrosoftCommonIdentityType">MicrosoftCommonIdentityType</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>userAssignedIdentities</td>
@@ -1827,7 +1943,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
   </tbody>
 </table>
-<h2 id="Identity_STATUS">Identity_STATUS</h2>
+<h2 id="MicrosoftCommonIdentity_STATUS">MicrosoftCommonIdentity_STATUS</h2>
 <p>Identity for the resource.</p>
 <p>Used by: <a href="#ScheduledQueryRule_STATUS">ScheduledQueryRule_STATUS</a>.</p>
 <table>
@@ -1852,12 +1968,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>type</td>
           <td>Type of managed service identity.</td>
-          <td><a href="#Identity_Type_STATUS">Identity_Type_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#MicrosoftCommonIdentityType_STATUS">MicrosoftCommonIdentityType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>userAssignedIdentities</td>
           <td>The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/​userAssignedIdentities/​{identityName}&rsquo;.</td>
-          <td><a href="#UserIdentityProperties_STATUS">map[string]UserIdentityProperties_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#MicrosoftCommonUserIdentityProperties_STATUS">map[string]MicrosoftCommonUserIdentityProperties_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1906,54 +2022,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
           <td>timeToResolve</td>
           <td>The duration a rule must evaluate as healthy before the fired alert is automatically resolved represented in ISO 8601 duration format.</td>
           <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ScheduledQueryRule_Kind_Spec">ScheduledQueryRule_Kind_Spec</h2>
-<p>Used by: <a href="#ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;LogAlert&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;LogToMetric&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SimpleLogAlert&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ScheduledQueryRule_Kind_STATUS">ScheduledQueryRule_Kind_STATUS</h2>
-<p>Used by: <a href="#ScheduledQueryRule_STATUS">ScheduledQueryRule_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;LogAlert&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;LogToMetric&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SimpleLogAlert&rdquo;</td>
-          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2016,70 +2084,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
           <td>secretExpressions</td>
           <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ScheduledQueryRuleProperties_Severity">ScheduledQueryRuleProperties_Severity</h2>
-<p>Used by: <a href="#ScheduledQueryRule_Spec">ScheduledQueryRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>0</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>1</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>2</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>3</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>4</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ScheduledQueryRuleProperties_Severity_STATUS">ScheduledQueryRuleProperties_Severity_STATUS</h2>
-<p>Used by: <a href="#ScheduledQueryRule_STATUS">ScheduledQueryRule_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>0</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>1</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>2</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>3</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>4</td>
-          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2147,7 +2151,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>criterionType</td>
           <td>Specifies the type of threshold criteria</td>
-          <td><a href="#Condition_CriterionType">Condition_CriterionType</a><br/><small>Optional</small></td>
+          <td><a href="#MicrosoftCommonCriterionType">MicrosoftCommonCriterionType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>dimensions</td>
@@ -2157,7 +2161,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>failingPeriods</td>
           <td>The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant only for rules of the kind LogAlert.</td>
-          <td><a href="#Condition_FailingPeriods">Condition_FailingPeriods</a><br/><small>Optional</small></td>
+          <td><a href="#ConditionFailingPeriods">ConditionFailingPeriods</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>ignoreDataBefore</td>
@@ -2182,7 +2186,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>operator</td>
           <td>The criteria operator. Relevant and required only for rules of the kind LogAlert.</td>
-          <td><a href="#Condition_Operator">Condition_Operator</a><br/><small>Optional</small></td>
+          <td><a href="#ConditionOperator">ConditionOperator</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>query</td>
@@ -2202,7 +2206,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>timeAggregation</td>
           <td>Aggregation type. Relevant and required only for rules of the kind LogAlert.</td>
-          <td><a href="#Condition_TimeAggregation">Condition_TimeAggregation</a><br/><small>Optional</small></td>
+          <td><a href="#TimeAggregation">TimeAggregation</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2226,7 +2230,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>criterionType</td>
           <td>Specifies the type of threshold criteria</td>
-          <td><a href="#Condition_CriterionType_STATUS">Condition_CriterionType_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#MicrosoftCommonCriterionType_STATUS">MicrosoftCommonCriterionType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>dimensions</td>
@@ -2236,7 +2240,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>failingPeriods</td>
           <td>The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant only for rules of the kind LogAlert.</td>
-          <td><a href="#Condition_FailingPeriods_STATUS">Condition_FailingPeriods_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ConditionFailingPeriods_STATUS">ConditionFailingPeriods_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>ignoreDataBefore</td>
@@ -2261,7 +2265,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>operator</td>
           <td>The criteria operator. Relevant and required only for rules of the kind LogAlert.</td>
-          <td><a href="#Condition_Operator_STATUS">Condition_Operator_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#ConditionOperator_STATUS">ConditionOperator_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>query</td>
@@ -2281,12 +2285,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>timeAggregation</td>
           <td>Aggregation type. Relevant and required only for rules of the kind LogAlert.</td>
-          <td><a href="#Condition_TimeAggregation_STATUS">Condition_TimeAggregation_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#TimeAggregation_STATUS">TimeAggregation_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
-<h2 id="Identity_Type">Identity_Type</h2>
-<p>Used by: <a href="#Identity">Identity</a>.</p>
+<h2 id="MicrosoftCommonIdentityType">MicrosoftCommonIdentityType</h2>
+<p>Type of managed service identity.</p>
+<p>Used by: <a href="#MicrosoftCommonIdentity">MicrosoftCommonIdentity</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2309,8 +2314,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
   </tbody>
 </table>
-<h2 id="Identity_Type_STATUS">Identity_Type_STATUS</h2>
-<p>Used by: <a href="#Identity_STATUS">Identity_STATUS</a>.</p>
+<h2 id="MicrosoftCommonIdentityType_STATUS">MicrosoftCommonIdentityType_STATUS</h2>
+<p>Type of managed service identity.</p>
+<p>Used by: <a href="#MicrosoftCommonIdentity_STATUS">MicrosoftCommonIdentity_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2330,6 +2336,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>&ldquo;UserAssigned&rdquo;</td>
           <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="MicrosoftCommonUserIdentityProperties_STATUS">MicrosoftCommonUserIdentityProperties_STATUS</h2>
+<p>Properties of the user assigned identity.</p>
+<p>Used by: <a href="#MicrosoftCommonIdentity_STATUS">MicrosoftCommonIdentity_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>clientId</td>
+          <td>The client ID of resource identity.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>principalId</td>
+          <td>The principal ID of resource identity.</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -2391,7 +2421,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
 </table>
 <h2 id="UserAssignedIdentityDetails">UserAssignedIdentityDetails</h2>
 <p>Information about the user assigned identity for the resource</p>
-<p>Used by: <a href="#Identity">Identity</a>.</p>
+<p>Used by: <a href="#MicrosoftCommonIdentity">MicrosoftCommonIdentity</a>.</p>
 <table>
   <thead>
       <tr>
@@ -2408,71 +2438,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
   </tbody>
 </table>
-<h2 id="UserIdentityProperties_STATUS">UserIdentityProperties_STATUS</h2>
-<p>User assigned identity properties.</p>
-<p>Used by: <a href="#Identity_STATUS">Identity_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>clientId</td>
-          <td>The client id of user assigned identity.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>principalId</td>
-          <td>The principal id of user assigned identity.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Condition_CriterionType">Condition_CriterionType</h2>
-<p>Used by: <a href="#Condition">Condition</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;DynamicThresholdCriterion&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;StaticThresholdCriterion&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Condition_CriterionType_STATUS">Condition_CriterionType_STATUS</h2>
-<p>Used by: <a href="#Condition_STATUS">Condition_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;DynamicThresholdCriterion&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;StaticThresholdCriterion&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Condition_FailingPeriods">Condition_FailingPeriods</h2>
+<h2 id="ConditionFailingPeriods">ConditionFailingPeriods</h2>
+<p>The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant only for rules of the kind LogAlert.</p>
 <p>Used by: <a href="#Condition">Condition</a>.</p>
 <table>
   <thead>
@@ -2495,7 +2462,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
   </tbody>
 </table>
-<h2 id="Condition_FailingPeriods_STATUS">Condition_FailingPeriods_STATUS</h2>
+<h2 id="ConditionFailingPeriods_STATUS">ConditionFailingPeriods_STATUS</h2>
+<p>The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant only for rules of the kind LogAlert.</p>
 <p>Used by: <a href="#Condition_STATUS">Condition_STATUS</a>.</p>
 <table>
   <thead>
@@ -2518,7 +2486,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
   </tbody>
 </table>
-<h2 id="Condition_Operator">Condition_Operator</h2>
+<h2 id="ConditionOperator">ConditionOperator</h2>
+<p>The criteria operator. Relevant and required only for rules of the kind LogAlert.</p>
 <p>Used by: <a href="#Condition">Condition</a>.</p>
 <table>
   <thead>
@@ -2554,7 +2523,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
   </tbody>
 </table>
-<h2 id="Condition_Operator_STATUS">Condition_Operator_STATUS</h2>
+<h2 id="ConditionOperator_STATUS">ConditionOperator_STATUS</h2>
+<p>The criteria operator. Relevant and required only for rules of the kind LogAlert.</p>
 <p>Used by: <a href="#Condition_STATUS">Condition_STATUS</a>.</p>
 <table>
   <thead>
@@ -2586,70 +2556,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
       <tr>
           <td>&ldquo;LessThanOrEqual&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Condition_TimeAggregation">Condition_TimeAggregation</h2>
-<p>Used by: <a href="#Condition">Condition</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Average&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Count&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Maximum&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Minimum&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Total&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="Condition_TimeAggregation_STATUS">Condition_TimeAggregation_STATUS</h2>
-<p>Used by: <a href="#Condition_STATUS">Condition_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Average&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Count&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Maximum&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Minimum&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Total&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
@@ -2674,7 +2580,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>operator</td>
           <td>Operator for dimension values</td>
-          <td><a href="#Dimension_Operator">Dimension_Operator</a><br/><small>Required</small></td>
+          <td><a href="#DimensionOperator">DimensionOperator</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>values</td>
@@ -2703,7 +2609,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       <tr>
           <td>operator</td>
           <td>Operator for dimension values</td>
-          <td><a href="#Dimension_Operator_STATUS">Dimension_Operator_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#DimensionOperator_STATUS">DimensionOperator_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>values</td>
@@ -2712,7 +2618,116 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
   </tbody>
 </table>
-<h2 id="Dimension_Operator">Dimension_Operator</h2>
+<h2 id="MicrosoftCommonCriterionType">MicrosoftCommonCriterionType</h2>
+<p>Specifies the type of threshold criteria. Previously undocumented values might be returned</p>
+<p>Used by: <a href="#Condition">Condition</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;DynamicThresholdCriterion&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;StaticThresholdCriterion&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="MicrosoftCommonCriterionType_STATUS">MicrosoftCommonCriterionType_STATUS</h2>
+<p>Specifies the type of threshold criteria. Previously undocumented values might be returned</p>
+<p>Used by: <a href="#Condition_STATUS">Condition_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;DynamicThresholdCriterion&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;StaticThresholdCriterion&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TimeAggregation">TimeAggregation</h2>
+<p>Aggregation type. Relevant and required only for rules of the kind LogAlert.</p>
+<p>Used by: <a href="#Condition">Condition</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Maximum&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Minimum&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Total&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TimeAggregation_STATUS">TimeAggregation_STATUS</h2>
+<p>Aggregation type. Relevant and required only for rules of the kind LogAlert.</p>
+<p>Used by: <a href="#Condition_STATUS">Condition_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Maximum&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Minimum&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Total&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DimensionOperator">DimensionOperator</h2>
+<p>Operator for dimension values</p>
 <p>Used by: <a href="#Dimension">Dimension</a>.</p>
 <table>
   <thead>
@@ -2732,7 +2747,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec ScheduledQueryR
       </tr>
   </tbody>
 </table>
-<h2 id="Dimension_Operator_STATUS">Dimension_Operator_STATUS</h2>
+<h2 id="DimensionOperator_STATUS">DimensionOperator_STATUS</h2>
+<p>Operator for dimension values</p>
 <p>Used by: <a href="#Dimension_STATUS">Dimension_STATUS</a>.</p>
 <table>
   <thead>

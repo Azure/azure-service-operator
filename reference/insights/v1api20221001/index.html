@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>insights.azure.com/v1api20221001 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}
+<meta name="description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-10-01/autoScale.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}
 Used by: AutoscaleSettingList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional location Resource location stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional id Azure resource Id stringOptional location Resource location stringOptional name Azure resource name stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData The system metadata related to the response. SystemData_STATUSOptional tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type Azure resource type stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional location The geo-location where the resource lives stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Resource tags. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-10-01/autoScale.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1api20221001/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="insights.azure.com/v1api20221001">
-  <meta property="og:description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}
+  <meta property="og:description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-10-01/autoScale.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}
 Used by: AutoscaleSettingList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional location Resource location stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional id Azure resource Id stringOptional location Resource location stringOptional name Azure resource name stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData The system metadata related to the response. SystemData_STATUSOptional tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type Azure resource type stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional location The geo-location where the resource lives stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Resource tags. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-10-01/autoScale.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="insights.azure.com/v1api20221001">
-  <meta itemprop="description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}
+  <meta itemprop="description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-10-01/autoScale.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}
 Used by: AutoscaleSettingList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional location Resource location stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional id Azure resource Id stringOptional location Resource location stringOptional name Azure resource name stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData The system metadata related to the response. SystemData_STATUSOptional tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type Azure resource type stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}">
-  <meta itemprop="wordCount" content="4725">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional location The geo-location where the resource lives stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Resource tags. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-10-01/autoScale.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}">
+  <meta itemprop="wordCount" content="4841">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="insights.azure.com/v1api20221001">
-  <meta name="twitter:description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}
+  <meta name="twitter:description" content="APIVersion Value Description “2022-10-01” AutoscaleSetting Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-10-01/autoScale.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}
 Used by: AutoscaleSettingList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional location Resource location stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional id Azure resource Id stringOptional location Resource location stringOptional name Azure resource name stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData The system metadata related to the response. SystemData_STATUSOptional tags Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type Azure resource type stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSetting_SpecOptional status Autoscalesetting_STATUSOptional AutoscaleSetting_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional location The geo-location where the resource lives stringRequired name the name of the autoscale setting. stringOptional notifications the collection of notifications. AutoscaleNotification[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AutoscaleSettingOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicyOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile[]Required tags Resource tags. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUriReference the resource identifier of the resource that the autoscale setting should be added to. genruntime.ResourceReferenceOptional Autoscalesetting_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional enabled the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is false. boolOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional location The geo-location where the resource lives stringOptional name The name of the resource stringOptional notifications the collection of notifications. AutoscaleNotification_STATUS[]Optional predictiveAutoscalePolicy the predictive autoscale policy mode. PredictiveAutoscalePolicy_STATUSOptional profiles the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. AutoscaleProfile_STATUS[]Optional properties_name the name of the autoscale setting. stringOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional targetResourceLocation the location of the resource that the autoscale setting should be added to. stringOptional targetResourceUri the resource identifier of the resource that the autoscale setting should be added to. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional AutoscaleSettingList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-10-01/autoScale.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1043,12 +1043,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
     <li><a href="#PredictiveAutoscalePolicy">PredictiveAutoscalePolicy</a></li>
     <li><a href="#PredictiveAutoscalePolicy_STATUS">PredictiveAutoscalePolicy_STATUS</a></li>
     <li><a href="#SystemData_STATUS">SystemData_STATUS</a></li>
-    <li><a href="#AutoscaleNotification_Operation">AutoscaleNotification_Operation</a></li>
-    <li><a href="#AutoscaleNotification_Operation_STATUS">AutoscaleNotification_Operation_STATUS</a></li>
     <li><a href="#EmailNotification">EmailNotification</a></li>
     <li><a href="#EmailNotification_STATUS">EmailNotification_STATUS</a></li>
-    <li><a href="#PredictiveAutoscalePolicy_ScaleMode">PredictiveAutoscalePolicy_ScaleMode</a></li>
-    <li><a href="#PredictiveAutoscalePolicy_ScaleMode_STATUS">PredictiveAutoscalePolicy_ScaleMode_STATUS</a></li>
+    <li><a href="#OperationType">OperationType</a></li>
+    <li><a href="#OperationType_STATUS">OperationType_STATUS</a></li>
+    <li><a href="#PredictiveAutoscalePolicyScaleMode">PredictiveAutoscalePolicyScaleMode</a></li>
+    <li><a href="#PredictiveAutoscalePolicyScaleMode_STATUS">PredictiveAutoscalePolicyScaleMode_STATUS</a></li>
     <li><a href="#Recurrence">Recurrence</a></li>
     <li><a href="#Recurrence_STATUS">Recurrence_STATUS</a></li>
     <li><a href="#ScaleCapacity">ScaleCapacity</a></li>
@@ -1063,26 +1063,26 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
     <li><a href="#WebhookNotification_STATUS">WebhookNotification_STATUS</a></li>
     <li><a href="#MetricTrigger">MetricTrigger</a></li>
     <li><a href="#MetricTrigger_STATUS">MetricTrigger_STATUS</a></li>
-    <li><a href="#Recurrence_Frequency">Recurrence_Frequency</a></li>
-    <li><a href="#Recurrence_Frequency_STATUS">Recurrence_Frequency_STATUS</a></li>
+    <li><a href="#RecurrenceFrequency">RecurrenceFrequency</a></li>
+    <li><a href="#RecurrenceFrequency_STATUS">RecurrenceFrequency_STATUS</a></li>
     <li><a href="#RecurrentSchedule">RecurrentSchedule</a></li>
     <li><a href="#RecurrentSchedule_STATUS">RecurrentSchedule_STATUS</a></li>
     <li><a href="#ScaleAction">ScaleAction</a></li>
     <li><a href="#ScaleAction_STATUS">ScaleAction_STATUS</a></li>
-    <li><a href="#MetricTrigger_Operator">MetricTrigger_Operator</a></li>
-    <li><a href="#MetricTrigger_Operator_STATUS">MetricTrigger_Operator_STATUS</a></li>
-    <li><a href="#MetricTrigger_Statistic">MetricTrigger_Statistic</a></li>
-    <li><a href="#MetricTrigger_Statistic_STATUS">MetricTrigger_Statistic_STATUS</a></li>
-    <li><a href="#MetricTrigger_TimeAggregation">MetricTrigger_TimeAggregation</a></li>
-    <li><a href="#MetricTrigger_TimeAggregation_STATUS">MetricTrigger_TimeAggregation_STATUS</a></li>
-    <li><a href="#ScaleAction_Direction">ScaleAction_Direction</a></li>
-    <li><a href="#ScaleAction_Direction_STATUS">ScaleAction_Direction_STATUS</a></li>
-    <li><a href="#ScaleAction_Type">ScaleAction_Type</a></li>
-    <li><a href="#ScaleAction_Type_STATUS">ScaleAction_Type_STATUS</a></li>
+    <li><a href="#ComparisonOperationType">ComparisonOperationType</a></li>
+    <li><a href="#ComparisonOperationType_STATUS">ComparisonOperationType_STATUS</a></li>
+    <li><a href="#MetricStatisticType">MetricStatisticType</a></li>
+    <li><a href="#MetricStatisticType_STATUS">MetricStatisticType_STATUS</a></li>
+    <li><a href="#ScaleDirection">ScaleDirection</a></li>
+    <li><a href="#ScaleDirection_STATUS">ScaleDirection_STATUS</a></li>
     <li><a href="#ScaleRuleMetricDimension">ScaleRuleMetricDimension</a></li>
     <li><a href="#ScaleRuleMetricDimension_STATUS">ScaleRuleMetricDimension_STATUS</a></li>
-    <li><a href="#ScaleRuleMetricDimension_Operator">ScaleRuleMetricDimension_Operator</a></li>
-    <li><a href="#ScaleRuleMetricDimension_Operator_STATUS">ScaleRuleMetricDimension_Operator_STATUS</a></li>
+    <li><a href="#ScaleType">ScaleType</a></li>
+    <li><a href="#ScaleType_STATUS">ScaleType_STATUS</a></li>
+    <li><a href="#TimeAggregationType">TimeAggregationType</a></li>
+    <li><a href="#TimeAggregationType_STATUS">TimeAggregationType_STATUS</a></li>
+    <li><a href="#ScaleRuleMetricDimensionOperationType">ScaleRuleMetricDimensionOperationType</a></li>
+    <li><a href="#ScaleRuleMetricDimensionOperationType_STATUS">ScaleRuleMetricDimensionOperationType_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -1128,7 +1128,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
   </tbody>
 </table>
 <h2 id="AutoscaleSetting">AutoscaleSetting</h2>
-<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}</p>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-10-01/autoScale.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}</p>
 <p>Used by: <a href="#AutoscaleSettingList">AutoscaleSettingList</a>.</p>
 <table>
   <thead>
@@ -1183,7 +1183,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
       <tr>
           <td>location</td>
-          <td>Resource location</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
@@ -1218,7 +1218,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
       <tr>
           <td>tags</td>
-          <td>Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
+          <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1255,17 +1255,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
       <tr>
           <td>id</td>
-          <td>Azure resource Id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>Resource location</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
-          <td>Azure resource name</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1290,12 +1290,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
       <tr>
           <td>systemData</td>
-          <td>The system metadata related to the response.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
-          <td>Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
+          <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1310,13 +1310,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
       <tr>
           <td>type</td>
-          <td>Azure resource type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="AutoscaleSettingList">AutoscaleSettingList</h2>
-<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/autoscale_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourcegroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}</p>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-10-01/autoScale.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​autoscalesettings/​{autoscaleSettingName}</p>
 <table>
   <thead>
       <tr>
@@ -1366,7 +1366,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
       <tr>
           <td>location</td>
-          <td>Resource location</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
@@ -1401,7 +1401,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
       <tr>
           <td>tags</td>
-          <td>Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
+          <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1439,17 +1439,17 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
       <tr>
           <td>id</td>
-          <td>Azure resource Id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>Resource location</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
-          <td>Azure resource name</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1474,12 +1474,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
       <tr>
           <td>systemData</td>
-          <td>The system metadata related to the response.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tags</td>
-          <td>Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.</td>
+          <td>Resource tags.</td>
           <td>map[string]string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1494,7 +1494,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
       <tr>
           <td>type</td>
-          <td>Azure resource type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -1519,7 +1519,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>operation</td>
           <td>the operation associated with the notification and its value must be &ldquo;scale&rdquo;</td>
-          <td><a href="#AutoscaleNotification_Operation">AutoscaleNotification_Operation</a><br/><small>Required</small></td>
+          <td><a href="#OperationType">OperationType</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>webhooks</td>
@@ -1548,7 +1548,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>operation</td>
           <td>the operation associated with the notification and its value must be &ldquo;scale&rdquo;</td>
-          <td><a href="#AutoscaleNotification_Operation_STATUS">AutoscaleNotification_Operation_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#OperationType_STATUS">OperationType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>webhooks</td>
@@ -1679,7 +1679,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>scaleMode</td>
           <td>the predictive autoscale mode</td>
-          <td><a href="#PredictiveAutoscalePolicy_ScaleMode">PredictiveAutoscalePolicy_ScaleMode</a><br/><small>Required</small></td>
+          <td><a href="#PredictiveAutoscalePolicyScaleMode">PredictiveAutoscalePolicyScaleMode</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -1703,7 +1703,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>scaleMode</td>
           <td>the predictive autoscale mode</td>
-          <td><a href="#PredictiveAutoscalePolicy_ScaleMode_STATUS">PredictiveAutoscalePolicy_ScaleMode_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#PredictiveAutoscalePolicyScaleMode_STATUS">PredictiveAutoscalePolicyScaleMode_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -1748,38 +1748,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
           <td>lastModifiedByType</td>
           <td>The type of identity that last modified the resource.</td>
           <td><a href="#SystemData_LastModifiedByType_STATUS">SystemData_LastModifiedByType_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AutoscaleNotification_Operation">AutoscaleNotification_Operation</h2>
-<p>Used by: <a href="#AutoscaleNotification">AutoscaleNotification</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Scale&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AutoscaleNotification_Operation_STATUS">AutoscaleNotification_Operation_STATUS</h2>
-<p>Used by: <a href="#AutoscaleNotification_STATUS">AutoscaleNotification_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Scale&rdquo;</td>
-          <td></td>
       </tr>
   </tbody>
 </table>
@@ -1841,7 +1809,40 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="PredictiveAutoscalePolicy_ScaleMode">PredictiveAutoscalePolicy_ScaleMode</h2>
+<h2 id="OperationType">OperationType</h2>
+<p>Used by: <a href="#AutoscaleNotification">AutoscaleNotification</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Scale&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="OperationType_STATUS">OperationType_STATUS</h2>
+<p>Used by: <a href="#AutoscaleNotification_STATUS">AutoscaleNotification_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Scale&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="PredictiveAutoscalePolicyScaleMode">PredictiveAutoscalePolicyScaleMode</h2>
+<p>the predictive autoscale mode</p>
 <p>Used by: <a href="#PredictiveAutoscalePolicy">PredictiveAutoscalePolicy</a>.</p>
 <table>
   <thead>
@@ -1865,7 +1866,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="PredictiveAutoscalePolicy_ScaleMode_STATUS">PredictiveAutoscalePolicy_ScaleMode_STATUS</h2>
+<h2 id="PredictiveAutoscalePolicyScaleMode_STATUS">PredictiveAutoscalePolicyScaleMode_STATUS</h2>
+<p>the predictive autoscale mode</p>
 <p>Used by: <a href="#PredictiveAutoscalePolicy_STATUS">PredictiveAutoscalePolicy_STATUS</a>.</p>
 <table>
   <thead>
@@ -1904,7 +1906,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>frequency</td>
           <td>the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the week. The frequency property specifies that the schedule is repeated weekly.</td>
-          <td><a href="#Recurrence_Frequency">Recurrence_Frequency</a><br/><small>Required</small></td>
+          <td><a href="#RecurrenceFrequency">RecurrenceFrequency</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>schedule</td>
@@ -1928,7 +1930,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>frequency</td>
           <td>the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the week. The frequency property specifies that the schedule is repeated weekly.</td>
-          <td><a href="#Recurrence_Frequency_STATUS">Recurrence_Frequency_STATUS</a><br/><small>Required</small></td>
+          <td><a href="#RecurrenceFrequency_STATUS">RecurrenceFrequency_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>schedule</td>
@@ -2250,12 +2252,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>operator</td>
           <td>the operator that is used to compare the metric data and the threshold.</td>
-          <td><a href="#MetricTrigger_Operator">MetricTrigger_Operator</a><br/><small>Required</small></td>
+          <td><a href="#ComparisonOperationType">ComparisonOperationType</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>statistic</td>
           <td>the metric statistic type. How the metrics from multiple instances are combined.</td>
-          <td><a href="#MetricTrigger_Statistic">MetricTrigger_Statistic</a><br/><small>Required</small></td>
+          <td><a href="#MetricStatisticType">MetricStatisticType</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>threshold</td>
@@ -2265,7 +2267,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>timeAggregation</td>
           <td>time aggregation type. How the data that is collected should be combined over time. The default value is Average.</td>
-          <td><a href="#MetricTrigger_TimeAggregation">MetricTrigger_TimeAggregation</a><br/><small>Required</small></td>
+          <td><a href="#TimeAggregationType">TimeAggregationType</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>timeGrain</td>
@@ -2324,12 +2326,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>operator</td>
           <td>the operator that is used to compare the metric data and the threshold.</td>
-          <td><a href="#MetricTrigger_Operator_STATUS">MetricTrigger_Operator_STATUS</a><br/><small>Required</small></td>
+          <td><a href="#ComparisonOperationType_STATUS">ComparisonOperationType_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>statistic</td>
           <td>the metric statistic type. How the metrics from multiple instances are combined.</td>
-          <td><a href="#MetricTrigger_Statistic_STATUS">MetricTrigger_Statistic_STATUS</a><br/><small>Required</small></td>
+          <td><a href="#MetricStatisticType_STATUS">MetricStatisticType_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>threshold</td>
@@ -2339,7 +2341,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>timeAggregation</td>
           <td>time aggregation type. How the data that is collected should be combined over time. The default value is Average.</td>
-          <td><a href="#MetricTrigger_TimeAggregation_STATUS">MetricTrigger_TimeAggregation_STATUS</a><br/><small>Required</small></td>
+          <td><a href="#TimeAggregationType_STATUS">TimeAggregationType_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>timeGrain</td>
@@ -2353,7 +2355,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="Recurrence_Frequency">Recurrence_Frequency</h2>
+<h2 id="RecurrenceFrequency">RecurrenceFrequency</h2>
+<p>the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the week. The frequency property specifies that the schedule is repeated weekly.</p>
 <p>Used by: <a href="#Recurrence">Recurrence</a>.</p>
 <table>
   <thead>
@@ -2397,7 +2400,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="Recurrence_Frequency_STATUS">Recurrence_Frequency_STATUS</h2>
+<h2 id="RecurrenceFrequency_STATUS">RecurrenceFrequency_STATUS</h2>
+<p>the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the week. The frequency property specifies that the schedule is repeated weekly.</p>
 <p>Used by: <a href="#Recurrence_STATUS">Recurrence_STATUS</a>.</p>
 <table>
   <thead>
@@ -2529,12 +2533,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>direction</td>
           <td>the scale direction. Whether the scaling action increases or decreases the number of instances.</td>
-          <td><a href="#ScaleAction_Direction">ScaleAction_Direction</a><br/><small>Required</small></td>
+          <td><a href="#ScaleDirection">ScaleDirection</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>type</td>
           <td>the type of action that should occur when the scale rule fires.</td>
-          <td><a href="#ScaleAction_Type">ScaleAction_Type</a><br/><small>Required</small></td>
+          <td><a href="#ScaleType">ScaleType</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>value</td>
@@ -2563,12 +2567,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>direction</td>
           <td>the scale direction. Whether the scaling action increases or decreases the number of instances.</td>
-          <td><a href="#ScaleAction_Direction_STATUS">ScaleAction_Direction_STATUS</a><br/><small>Required</small></td>
+          <td><a href="#ScaleDirection_STATUS">ScaleDirection_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>type</td>
           <td>the type of action that should occur when the scale rule fires.</td>
-          <td><a href="#ScaleAction_Type_STATUS">ScaleAction_Type_STATUS</a><br/><small>Required</small></td>
+          <td><a href="#ScaleType_STATUS">ScaleType_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>value</td>
@@ -2577,7 +2581,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="MetricTrigger_Operator">MetricTrigger_Operator</h2>
+<h2 id="ComparisonOperationType">ComparisonOperationType</h2>
+<p>the operator that is used to compare the metric data and the threshold.</p>
 <p>Used by: <a href="#MetricTrigger">MetricTrigger</a>.</p>
 <table>
   <thead>
@@ -2613,7 +2618,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="MetricTrigger_Operator_STATUS">MetricTrigger_Operator_STATUS</h2>
+<h2 id="ComparisonOperationType_STATUS">ComparisonOperationType_STATUS</h2>
+<p>the operator that is used to compare the metric data and the threshold.</p>
 <p>Used by: <a href="#MetricTrigger_STATUS">MetricTrigger_STATUS</a>.</p>
 <table>
   <thead>
@@ -2649,7 +2655,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="MetricTrigger_Statistic">MetricTrigger_Statistic</h2>
+<h2 id="MetricStatisticType">MetricStatisticType</h2>
+<p>the metric statistic type. How the metrics from multiple instances are combined.</p>
 <p>Used by: <a href="#MetricTrigger">MetricTrigger</a>.</p>
 <table>
   <thead>
@@ -2681,7 +2688,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="MetricTrigger_Statistic_STATUS">MetricTrigger_Statistic_STATUS</h2>
+<h2 id="MetricStatisticType_STATUS">MetricStatisticType_STATUS</h2>
+<p>the metric statistic type. How the metrics from multiple instances are combined.</p>
 <p>Used by: <a href="#MetricTrigger_STATUS">MetricTrigger_STATUS</a>.</p>
 <table>
   <thead>
@@ -2713,79 +2721,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="MetricTrigger_TimeAggregation">MetricTrigger_TimeAggregation</h2>
-<p>Used by: <a href="#MetricTrigger">MetricTrigger</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Average&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Count&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Last&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Maximum&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Minimum&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Total&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="MetricTrigger_TimeAggregation_STATUS">MetricTrigger_TimeAggregation_STATUS</h2>
-<p>Used by: <a href="#MetricTrigger_STATUS">MetricTrigger_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Average&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Count&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Last&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Maximum&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Minimum&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Total&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ScaleAction_Direction">ScaleAction_Direction</h2>
+<h2 id="ScaleDirection">ScaleDirection</h2>
+<p>the scale direction. Whether the scaling action increases or decreases the number of instances.</p>
 <p>Used by: <a href="#ScaleAction">ScaleAction</a>.</p>
 <table>
   <thead>
@@ -2809,7 +2746,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="ScaleAction_Direction_STATUS">ScaleAction_Direction_STATUS</h2>
+<h2 id="ScaleDirection_STATUS">ScaleDirection_STATUS</h2>
+<p>the scale direction. Whether the scaling action increases or decreases the number of instances.</p>
 <p>Used by: <a href="#ScaleAction_STATUS">ScaleAction_STATUS</a>.</p>
 <table>
   <thead>
@@ -2829,62 +2767,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
       <tr>
           <td>&ldquo;None&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ScaleAction_Type">ScaleAction_Type</h2>
-<p>Used by: <a href="#ScaleAction">ScaleAction</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;ChangeCount&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ExactCount&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;PercentChangeCount&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ServiceAllowedNextValue&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ScaleAction_Type_STATUS">ScaleAction_Type_STATUS</h2>
-<p>Used by: <a href="#ScaleAction_STATUS">ScaleAction_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;ChangeCount&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ExactCount&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;PercentChangeCount&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ServiceAllowedNextValue&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
@@ -2909,7 +2791,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>Operator</td>
           <td>the dimension operator. Only <code>Equals</code> and <code>NotEquals</code> are supported. <code>Equals</code> being equal to any of the values. <code>NotEquals</code> being not equal to all of the values</td>
-          <td><a href="#ScaleRuleMetricDimension_Operator">ScaleRuleMetricDimension_Operator</a><br/><small>Required</small></td>
+          <td><a href="#ScaleRuleMetricDimensionOperationType">ScaleRuleMetricDimensionOperationType</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>Values</td>
@@ -2938,7 +2820,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       <tr>
           <td>Operator</td>
           <td>the dimension operator. Only <code>Equals</code> and <code>NotEquals</code> are supported. <code>Equals</code> being equal to any of the values. <code>NotEquals</code> being not equal to all of the values</td>
-          <td><a href="#ScaleRuleMetricDimension_Operator_STATUS">ScaleRuleMetricDimension_Operator_STATUS</a><br/><small>Required</small></td>
+          <td><a href="#ScaleRuleMetricDimensionOperationType_STATUS">ScaleRuleMetricDimensionOperationType_STATUS</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>Values</td>
@@ -2947,7 +2829,140 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="ScaleRuleMetricDimension_Operator">ScaleRuleMetricDimension_Operator</h2>
+<h2 id="ScaleType">ScaleType</h2>
+<p>the type of action that should occur when the scale rule fires.</p>
+<p>Used by: <a href="#ScaleAction">ScaleAction</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;ChangeCount&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ExactCount&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;PercentChangeCount&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ServiceAllowedNextValue&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ScaleType_STATUS">ScaleType_STATUS</h2>
+<p>the type of action that should occur when the scale rule fires.</p>
+<p>Used by: <a href="#ScaleAction_STATUS">ScaleAction_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;ChangeCount&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ExactCount&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;PercentChangeCount&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ServiceAllowedNextValue&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TimeAggregationType">TimeAggregationType</h2>
+<p>time aggregation type. How the data that is collected should be combined over time. The default value is Average.</p>
+<p>Used by: <a href="#MetricTrigger">MetricTrigger</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Last&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Maximum&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Minimum&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Total&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="TimeAggregationType_STATUS">TimeAggregationType_STATUS</h2>
+<p>time aggregation type. How the data that is collected should be combined over time. The default value is Average.</p>
+<p>Used by: <a href="#MetricTrigger_STATUS">MetricTrigger_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Average&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Count&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Last&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Maximum&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Minimum&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Total&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ScaleRuleMetricDimensionOperationType">ScaleRuleMetricDimensionOperationType</h2>
+<p>the dimension operator. Only <code>Equals</code> and <code>NotEquals</code> are supported. <code>Equals</code> being equal to any of the values. <code>NotEquals</code> being not equal to all of the values</p>
 <p>Used by: <a href="#ScaleRuleMetricDimension">ScaleRuleMetricDimension</a>.</p>
 <table>
   <thead>
@@ -2967,7 +2982,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AutoscaleSettin
       </tr>
   </tbody>
 </table>
-<h2 id="ScaleRuleMetricDimension_Operator_STATUS">ScaleRuleMetricDimension_Operator_STATUS</h2>
+<h2 id="ScaleRuleMetricDimensionOperationType_STATUS">ScaleRuleMetricDimensionOperationType_STATUS</h2>
+<p>the dimension operator. Only <code>Equals</code> and <code>NotEquals</code> are supported. <code>Equals</code> being equal to any of the values. <code>NotEquals</code> being not equal to all of the values</p>
 <p>Used by: <a href="#ScaleRuleMetricDimension_STATUS">ScaleRuleMetricDimension_STATUS</a>.</p>
 <table>
   <thead>

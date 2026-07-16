@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   <meta itemprop="description" content="APIVersion Value Description “2025-10-02-preview” MaintenanceConfiguration Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​maintenanceConfigurations/​{configName}
 Used by: MaintenanceConfigurationList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConfiguration_SpecOptional status MaintenanceConfiguration_STATUSOptional MaintenanceConfiguration_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindowOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure MaintenanceConfigurationOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a containerservice.azure.com/ManagedCluster resource genruntime.KnownResourceReferenceRequired timeInWeek Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek[]Optional MaintenanceConfiguration_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional maintenanceWindow Maintenance window for the maintenance configuration. MaintenanceWindow_STATUSOptional name The name of the resource stringOptional notAllowedTime Time slots on which upgrade is not allowed. TimeSpan_STATUS[]Optional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional timeInWeek Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. TimeInWeek_STATUS[]Optional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional MaintenanceConfigurationList Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​maintenanceConfigurations/​{configName}">
-  <meta itemprop="wordCount" content="37073">
+  <meta itemprop="wordCount" content="37219">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="containerservice.azure.com/v20251002preview">
   <meta name="twitter:description" content="APIVersion Value Description “2025-10-02-preview” MaintenanceConfiguration Generator information: - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-10-02-preview/managedClusters.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ContainerService/​managedClusters/​{resourceName}/​maintenanceConfigurations/​{configName}
@@ -2483,6 +2483,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
           <td><a href="#NodeCustomizationProfile">NodeCustomizationProfile</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>nodeImageVersion</td>
+          <td>The version of node image</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>nodeInitializationTaints</td>
           <td>Taints added on the nodes during creation that will not be reconciled by AKS. These taints will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the node is ready to accept workloads, for example &lsquo;key1=value1:NoSchedule&rsquo; that then can be removed with <code>kubectl taint nodes node1 key1=value1:NoSchedule-</code></td>
           <td>string[]<br/><small>Optional</small></td>
@@ -3965,6 +3970,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
           <td><a href="#NodeCustomizationProfile">NodeCustomizationProfile</a><br/><small>Optional</small></td>
       </tr>
       <tr>
+          <td>nodeImageVersion</td>
+          <td>The version of node image</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
           <td>nodeInitializationTaints</td>
           <td>Taints added on the nodes during creation that will not be reconciled by AKS. These taints will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node image upgrade) happens. These taints allow for required configuration to run before the node is ready to accept workloads, for example &lsquo;key1=value1:NoSchedule&rsquo; that then can be removed with <code>kubectl taint nodes node1 key1=value1:NoSchedule-</code></td>
           <td>string[]<br/><small>Optional</small></td>
@@ -4546,6 +4556,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="AgentPoolArtifactStreamingProfile">AgentPoolArtifactStreamingProfile</h2>
+<p>Artifact streaming profile for the agent pool.</p>
 <p>Used by: <a href="#ManagedClusterAgentPoolProfile">ManagedClusterAgentPoolProfile</a>, and <a href="#ManagedClustersAgentPool_Spec">ManagedClustersAgentPool_Spec</a>.</p>
 <table>
   <thead>
@@ -4564,6 +4575,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="AgentPoolArtifactStreamingProfile_STATUS">AgentPoolArtifactStreamingProfile_STATUS</h2>
+<p>Artifact streaming profile for the agent pool.</p>
 <p>Used by: <a href="#ManagedClusterAgentPoolProfile_STATUS">ManagedClusterAgentPoolProfile_STATUS</a>, and <a href="#ManagedClustersAgentPool_STATUS">ManagedClustersAgentPool_STATUS</a>.</p>
 <table>
   <thead>
@@ -6083,7 +6095,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
       <tr>
           <td>serverAppSecret</td>
           <td>(DEPRECATED) The server AAD application secret. Learn more at <a href="https://aka.ms/aks/aad-legacy">https://aka.ms/aks/aad-legacy</a>.</td>
-          <td>string<br/><small>Optional</small></td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#SecretReference">genruntime.SecretReference</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>tenantID</td>
@@ -6127,11 +6139,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
       <tr>
           <td>serverAppID</td>
           <td>(DEPRECATED) The server AAD application ID. Learn more at <a href="https://aka.ms/aks/aad-legacy">https://aka.ms/aks/aad-legacy</a>.</td>
-          <td>string<br/><small>Optional</small></td>
-      </tr>
-      <tr>
-          <td>serverAppSecret</td>
-          <td>(DEPRECATED) The server AAD application secret. Learn more at <a href="https://aka.ms/aks/aad-legacy">https://aka.ms/aks/aad-legacy</a>.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -6335,6 +6342,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
           <td>nodeCustomizationProfile</td>
           <td>Settings to determine the node customization used to provision nodes in a pool.</td>
           <td><a href="#NodeCustomizationProfile">NodeCustomizationProfile</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>nodeImageVersion</td>
+          <td>The version of node image</td>
+          <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>nodeInitializationTaints</td>
@@ -7493,6 +7505,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedClusterNodeProvisioningProfile">ManagedClusterNodeProvisioningProfile</h2>
+<p>Node provisioning profile for the managed cluster.</p>
 <p>Used by: <a href="#ManagedCluster_Spec">ManagedCluster_Spec</a>.</p>
 <table>
   <thead>
@@ -7516,6 +7529,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedClusterNodeProvisioningProfile_STATUS">ManagedClusterNodeProvisioningProfile_STATUS</h2>
+<p>Node provisioning profile for the managed cluster.</p>
 <p>Used by: <a href="#ManagedCluster_STATUS">ManagedCluster_STATUS</a>.</p>
 <table>
   <thead>
@@ -8681,7 +8695,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the private link resource.</td>
+          <td>The name of the private link resource. See <a href="https://aka.ms/search-naming-rules">naming rules</a> for more details.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -8725,7 +8739,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the private link resource.</td>
+          <td>The name of the private link resource. See <a href="https://aka.ms/search-naming-rules">naming rules</a> for more details.</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -10968,6 +10982,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedClusterIngressProfileGatewayConfiguration">ManagedClusterIngressProfileGatewayConfiguration</h2>
+<p>Configuration for the ingress managed gateway. See <a href="https://aka.ms/k8s-gateway-api">https://aka.ms/k8s-gateway-api</a> for more details.</p>
 <p>Used by: <a href="#ManagedClusterIngressProfile">ManagedClusterIngressProfile</a>.</p>
 <table>
   <thead>
@@ -10986,6 +11001,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedClusterIngressProfileGatewayConfiguration_STATUS">ManagedClusterIngressProfileGatewayConfiguration_STATUS</h2>
+<p>Configuration for the ingress managed gateway. See <a href="https://aka.ms/k8s-gateway-api">https://aka.ms/k8s-gateway-api</a> for more details.</p>
 <p>Used by: <a href="#ManagedClusterIngressProfile_STATUS">ManagedClusterIngressProfile_STATUS</a>.</p>
 <table>
   <thead>
@@ -11391,7 +11407,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
       </tr>
       <tr>
           <td>provisioningInfo</td>
-          <td></td>
+          <td>The provisioning information for the pod identity.</td>
           <td><a href="#ManagedClusterPodIdentityProvisioningInfo_STATUS">ManagedClusterPodIdentityProvisioningInfo_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -12058,6 +12074,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS">ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS</h2>
+<p>User assigned identity properties.</p>
 <p>Used by: <a href="#ManagedClusterIdentity_STATUS">ManagedClusterIdentity_STATUS</a>.</p>
 <table>
   <thead>
@@ -14531,6 +14548,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedClusterIngressDefaultDomainProfile">ManagedClusterIngressDefaultDomainProfile</h2>
+<p>Default domain profile for the managed cluster ingress profile.</p>
 <p>Used by: <a href="#ManagedClusterIngressProfileWebAppRouting">ManagedClusterIngressProfileWebAppRouting</a>.</p>
 <table>
   <thead>
@@ -14549,6 +14567,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedClusterIngressDefaultDomainProfile_STATUS">ManagedClusterIngressDefaultDomainProfile_STATUS</h2>
+<p>Default domain profile for the managed cluster ingress profile.</p>
 <p>Used by: <a href="#ManagedClusterIngressProfileWebAppRouting_STATUS">ManagedClusterIngressProfileWebAppRouting_STATUS</a>.</p>
 <table>
   <thead>
@@ -14572,6 +14591,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedClusterIngressProfileNginx">ManagedClusterIngressProfileNginx</h2>
+<p>Nginx ingress controller configuration for the managed cluster ingress profile.</p>
 <p>Used by: <a href="#ManagedClusterIngressProfileWebAppRouting">ManagedClusterIngressProfileWebAppRouting</a>.</p>
 <table>
   <thead>
@@ -14590,6 +14610,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedClusterIngressProfileNginx_STATUS">ManagedClusterIngressProfileNginx_STATUS</h2>
+<p>Nginx ingress controller configuration for the managed cluster ingress profile.</p>
 <p>Used by: <a href="#ManagedClusterIngressProfileWebAppRouting_STATUS">ManagedClusterIngressProfileWebAppRouting_STATUS</a>.</p>
 <table>
   <thead>
@@ -14850,6 +14871,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedClusterPodIdentityProvisioningInfo_STATUS">ManagedClusterPodIdentityProvisioningInfo_STATUS</h2>
+<p>Pod identity provisioning information.</p>
 <p>Used by: <a href="#ManagedClusterPodIdentity_STATUS">ManagedClusterPodIdentity_STATUS</a>.</p>
 <table>
   <thead>
@@ -15769,6 +15791,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem">ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem</h2>
+<p>Identity information used by Defender security gating to access container registries.</p>
 <p>Used by: <a href="#ManagedClusterSecurityProfileDefenderSecurityGating">ManagedClusterSecurityProfileDefenderSecurityGating</a>.</p>
 <table>
   <thead>
@@ -15792,6 +15815,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec MaintenanceConf
   </tbody>
 </table>
 <h2 id="ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS">ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS</h2>
+<p>Identity information used by Defender security gating to access container registries.</p>
 <p>Used by: <a href="#ManagedClusterSecurityProfileDefenderSecurityGating_STATUS">ManagedClusterSecurityProfileDefenderSecurityGating_STATUS</a>.</p>
 <table>
   <thead>

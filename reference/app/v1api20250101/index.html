@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AuthConfig_Spec
   <meta itemprop="description" content="APIVersion Value Description “2025-01-01” AuthConfig Generator information: - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2025-01-01/AuthConfigs.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.App/​containerApps/​{containerAppName}/​authConfigs/​{authConfigName}
 Used by: AuthConfigList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AuthConfig_SpecOptional status AuthConfig_STATUSOptional AuthConfig_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional encryptionSettings The configuration settings of the secrets references of encryption key and signing key for ContainerApp Service Authentication/Authorization. EncryptionSettingsOptional globalValidation The configuration settings that determines the validation flow of users using Service Authentication/Authorization. GlobalValidationOptional httpSettings The configuration settings of the HTTP requests for authentication and authorization requests made against ContainerApp Service Authentication/Authorization. HttpSettingsOptional identityProviders The configuration settings of each of the identity providers used to configure ContainerApp Service Authentication/Authorization. IdentityProvidersOptional login The configuration settings of the login flow of users using ContainerApp Service Authentication/Authorization. LoginOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AuthConfigOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a app.azure.com/ContainerApp resource genruntime.KnownResourceReferenceRequired platform The configuration settings of the platform of ContainerApp Service Authentication/Authorization. AuthPlatformOptional AuthConfig_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional encryptionSettings The configuration settings of the secrets references of encryption key and signing key for ContainerApp Service Authentication/Authorization. EncryptionSettings_STATUSOptional globalValidation The configuration settings that determines the validation flow of users using Service Authentication/Authorization. GlobalValidation_STATUSOptional httpSettings The configuration settings of the HTTP requests for authentication and authorization requests made against ContainerApp Service Authentication/Authorization. HttpSettings_STATUSOptional id Fully qualified resource ID for the resource. E.g. “/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}” stringOptional identityProviders The configuration settings of each of the identity providers used to configure ContainerApp Service Authentication/Authorization. IdentityProviders_STATUSOptional login The configuration settings of the login flow of users using ContainerApp Service Authentication/Authorization. Login_STATUSOptional name The name of the resource stringOptional platform The configuration settings of the platform of ContainerApp Service Authentication/Authorization. AuthPlatform_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional AuthConfigList Generator information: - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2025-01-01/AuthConfigs.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.App/​containerApps/​{containerAppName}/​authConfigs/​{authConfigName}">
-  <meta itemprop="wordCount" content="15690">
+  <meta itemprop="wordCount" content="15756">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="app.azure.com/v1api20250101">
   <meta name="twitter:description" content="APIVersion Value Description “2025-01-01” AuthConfig Generator information: - Generated from: /app/resource-manager/Microsoft.App/ContainerApps/stable/2025-01-01/AuthConfigs.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.App/​containerApps/​{containerAppName}/​authConfigs/​{authConfigName}
@@ -4269,7 +4269,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AuthConfig_Spec
       </tr>
       <tr>
           <td>userAssignedIdentities</td>
-          <td></td>
+          <td>The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/​userAssignedIdentities/​{identityName}. The dictionary values can be empty objects ({}) in requests.</td>
           <td><a href="#UserAssignedIdentityDetails">UserAssignedIdentityDetails[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -4303,7 +4303,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AuthConfig_Spec
       </tr>
       <tr>
           <td>userAssignedIdentities</td>
-          <td></td>
+          <td>The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: &lsquo;/​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ManagedIdentity/​userAssignedIdentities/​{identityName}. The dictionary values can be empty objects ({}) in requests.</td>
           <td><a href="#UserAssignedIdentity_STATUS">map[string]UserAssignedIdentity_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -6099,7 +6099,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AuthConfig_Spec
   </tbody>
 </table>
 <h2 id="LogAnalyticsConfiguration">LogAnalyticsConfiguration</h2>
-<p>Log Analytics configuration, must only be provided when destination is configured as &rsquo;log-analytics'</p>
+<p>Log Analytics configuration, must only be provided when destination is configured as &rsquo;log-analytics&rsquo;</p>
 <p>Used by: <a href="#AppLogsConfiguration">AppLogsConfiguration</a>.</p>
 <table>
   <thead>
@@ -6123,7 +6123,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AuthConfig_Spec
   </tbody>
 </table>
 <h2 id="LogAnalyticsConfiguration_STATUS">LogAnalyticsConfiguration_STATUS</h2>
-<p>Log Analytics configuration, must only be provided when destination is configured as &rsquo;log-analytics'</p>
+<p>Log Analytics configuration, must only be provided when destination is configured as &rsquo;log-analytics&rsquo;</p>
 <p>Used by: <a href="#AppLogsConfiguration_STATUS">AppLogsConfiguration_STATUS</a>.</p>
 <table>
   <thead>

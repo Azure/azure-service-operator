@@ -18,29 +18,29 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
 <title>insights.azure.com/v1api20240311 | Azure Service Operator</title>
-<meta name="description" content="APIVersion Value Description “2024-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
+<meta name="description" content="APIVersion Value Description “2024-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
 Used by: DataCollectionEndpointList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionEndpoint_SpecOptional status DataCollectionEndpointResource_STATUSOptional DataCollectionEndpoint_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description Description of the data collection endpoint. stringOptional identity Managed service identity of the resource. ManagedServiceIdentityOptional kind The kind of the resource. DataCollectionEndpoint_Kind_SpecOptional location The geo-location where the resource lives. stringRequired networkAcls Network access control rules for the endpoints. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DataCollectionEndpointOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The SKU of the resource. SkuOptional tags Resource tags. map[string]stringOptional DataCollectionEndpointResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional configurationAccess The endpoint used by clients to access their configuration. ConfigurationAccessEndpointSpec_STATUSOptional description Description of the data collection endpoint. stringOptional etag Resource entity tag (ETag). stringOptional failoverConfiguration Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. FailoverConfigurationSpec_STATUSOptional id Fully qualified ID of the resource. stringOptional identity Managed service identity of the resource. ManagedServiceIdentity_STATUSOptional immutableId The immutable ID of this data collection endpoint resource. This property is READ-ONLY. stringOptional kind The kind of the resource. DataCollectionEndpointResource_Kind_STATUSOptional location The geo-location where the resource lives. stringOptional logsIngestion The endpoint used by clients to ingest logs. LogsIngestionEndpointSpec_STATUSOptional metadata Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. Metadata_STATUSOptional metricsIngestion The endpoint used by clients to ingest metrics. MetricsIngestionEndpointSpec_STATUSOptional name The name of the resource. stringOptional networkAcls Network access control rules for the endpoints. NetworkRuleSet_STATUSOptional privateLinkScopedResources List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. PrivateLinkScopedResource_STATUS[]Optional provisioningState The resource provisioning state. This property is READ-ONLY. DataCollectionEndpoint_ProvisioningState_STATUSOptional sku The SKU of the resource. Sku_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. stringOptional DataCollectionEndpointList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionEndpoint_SpecOptional status DataCollectionEndpointResource_STATUSOptional DataCollectionEndpoint_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description Description of the data collection endpoint. stringOptional identity Managed service identity of the resource. ManagedServiceIdentityOptional kind The kind of the resource. KnownDataCollectionEndpointResourceKindOptional location The geo-location where the resource lives stringRequired networkAcls Network access control rules for the endpoints. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DataCollectionEndpointOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The SKU of the resource. SkuOptional tags Resource tags. map[string]stringOptional DataCollectionEndpointResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional configurationAccess The endpoint used by clients to access their configuration. ConfigurationAccessEndpointSpec_STATUSOptional description Description of the data collection endpoint. stringOptional etag Resource entity tag (ETag). stringOptional failoverConfiguration Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. FailoverConfigurationSpec_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Managed service identity of the resource. ManagedServiceIdentity_STATUSOptional immutableId The immutable ID of this data collection endpoint resource. This property is READ-ONLY. stringOptional kind The kind of the resource. KnownDataCollectionEndpointResourceKind_STATUSOptional location The geo-location where the resource lives stringOptional logsIngestion The endpoint used by clients to ingest logs. LogsIngestionEndpointSpec_STATUSOptional metadata Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. Metadata_STATUSOptional metricsIngestion The endpoint used by clients to ingest metrics. MetricsIngestionEndpointSpec_STATUSOptional name The name of the resource stringOptional networkAcls Network access control rules for the endpoints. NetworkRuleSet_STATUSOptional privateLinkScopedResources List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. PrivateLinkScopedResource_STATUS[]Optional provisioningState The resource provisioning state. This property is READ-ONLY. KnownDataCollectionEndpointProvisioningState_STATUSOptional sku The SKU of the resource. Sku_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional DataCollectionEndpointList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}">
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/reference/insights/v1api20240311/">
   <meta property="og:site_name" content="Azure Service Operator">
   <meta property="og:title" content="insights.azure.com/v1api20240311">
-  <meta property="og:description" content="APIVersion Value Description “2024-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
+  <meta property="og:description" content="APIVersion Value Description “2024-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
 Used by: DataCollectionEndpointList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionEndpoint_SpecOptional status DataCollectionEndpointResource_STATUSOptional DataCollectionEndpoint_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description Description of the data collection endpoint. stringOptional identity Managed service identity of the resource. ManagedServiceIdentityOptional kind The kind of the resource. DataCollectionEndpoint_Kind_SpecOptional location The geo-location where the resource lives. stringRequired networkAcls Network access control rules for the endpoints. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DataCollectionEndpointOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The SKU of the resource. SkuOptional tags Resource tags. map[string]stringOptional DataCollectionEndpointResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional configurationAccess The endpoint used by clients to access their configuration. ConfigurationAccessEndpointSpec_STATUSOptional description Description of the data collection endpoint. stringOptional etag Resource entity tag (ETag). stringOptional failoverConfiguration Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. FailoverConfigurationSpec_STATUSOptional id Fully qualified ID of the resource. stringOptional identity Managed service identity of the resource. ManagedServiceIdentity_STATUSOptional immutableId The immutable ID of this data collection endpoint resource. This property is READ-ONLY. stringOptional kind The kind of the resource. DataCollectionEndpointResource_Kind_STATUSOptional location The geo-location where the resource lives. stringOptional logsIngestion The endpoint used by clients to ingest logs. LogsIngestionEndpointSpec_STATUSOptional metadata Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. Metadata_STATUSOptional metricsIngestion The endpoint used by clients to ingest metrics. MetricsIngestionEndpointSpec_STATUSOptional name The name of the resource. stringOptional networkAcls Network access control rules for the endpoints. NetworkRuleSet_STATUSOptional privateLinkScopedResources List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. PrivateLinkScopedResource_STATUS[]Optional provisioningState The resource provisioning state. This property is READ-ONLY. DataCollectionEndpoint_ProvisioningState_STATUSOptional sku The SKU of the resource. Sku_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. stringOptional DataCollectionEndpointList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionEndpoint_SpecOptional status DataCollectionEndpointResource_STATUSOptional DataCollectionEndpoint_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description Description of the data collection endpoint. stringOptional identity Managed service identity of the resource. ManagedServiceIdentityOptional kind The kind of the resource. KnownDataCollectionEndpointResourceKindOptional location The geo-location where the resource lives stringRequired networkAcls Network access control rules for the endpoints. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DataCollectionEndpointOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The SKU of the resource. SkuOptional tags Resource tags. map[string]stringOptional DataCollectionEndpointResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional configurationAccess The endpoint used by clients to access their configuration. ConfigurationAccessEndpointSpec_STATUSOptional description Description of the data collection endpoint. stringOptional etag Resource entity tag (ETag). stringOptional failoverConfiguration Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. FailoverConfigurationSpec_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Managed service identity of the resource. ManagedServiceIdentity_STATUSOptional immutableId The immutable ID of this data collection endpoint resource. This property is READ-ONLY. stringOptional kind The kind of the resource. KnownDataCollectionEndpointResourceKind_STATUSOptional location The geo-location where the resource lives stringOptional logsIngestion The endpoint used by clients to ingest logs. LogsIngestionEndpointSpec_STATUSOptional metadata Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. Metadata_STATUSOptional metricsIngestion The endpoint used by clients to ingest metrics. MetricsIngestionEndpointSpec_STATUSOptional name The name of the resource stringOptional networkAcls Network access control rules for the endpoints. NetworkRuleSet_STATUSOptional privateLinkScopedResources List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. PrivateLinkScopedResource_STATUS[]Optional provisioningState The resource provisioning state. This property is READ-ONLY. KnownDataCollectionEndpointProvisioningState_STATUSOptional sku The SKU of the resource. Sku_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional DataCollectionEndpointList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="reference">
 
   <meta itemprop="name" content="insights.azure.com/v1api20240311">
-  <meta itemprop="description" content="APIVersion Value Description “2024-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
+  <meta itemprop="description" content="APIVersion Value Description “2024-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
 Used by: DataCollectionEndpointList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionEndpoint_SpecOptional status DataCollectionEndpointResource_STATUSOptional DataCollectionEndpoint_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description Description of the data collection endpoint. stringOptional identity Managed service identity of the resource. ManagedServiceIdentityOptional kind The kind of the resource. DataCollectionEndpoint_Kind_SpecOptional location The geo-location where the resource lives. stringRequired networkAcls Network access control rules for the endpoints. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DataCollectionEndpointOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The SKU of the resource. SkuOptional tags Resource tags. map[string]stringOptional DataCollectionEndpointResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional configurationAccess The endpoint used by clients to access their configuration. ConfigurationAccessEndpointSpec_STATUSOptional description Description of the data collection endpoint. stringOptional etag Resource entity tag (ETag). stringOptional failoverConfiguration Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. FailoverConfigurationSpec_STATUSOptional id Fully qualified ID of the resource. stringOptional identity Managed service identity of the resource. ManagedServiceIdentity_STATUSOptional immutableId The immutable ID of this data collection endpoint resource. This property is READ-ONLY. stringOptional kind The kind of the resource. DataCollectionEndpointResource_Kind_STATUSOptional location The geo-location where the resource lives. stringOptional logsIngestion The endpoint used by clients to ingest logs. LogsIngestionEndpointSpec_STATUSOptional metadata Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. Metadata_STATUSOptional metricsIngestion The endpoint used by clients to ingest metrics. MetricsIngestionEndpointSpec_STATUSOptional name The name of the resource. stringOptional networkAcls Network access control rules for the endpoints. NetworkRuleSet_STATUSOptional privateLinkScopedResources List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. PrivateLinkScopedResource_STATUS[]Optional provisioningState The resource provisioning state. This property is READ-ONLY. DataCollectionEndpoint_ProvisioningState_STATUSOptional sku The SKU of the resource. Sku_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. stringOptional DataCollectionEndpointList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}">
-  <meta itemprop="wordCount" content="10132">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionEndpoint_SpecOptional status DataCollectionEndpointResource_STATUSOptional DataCollectionEndpoint_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description Description of the data collection endpoint. stringOptional identity Managed service identity of the resource. ManagedServiceIdentityOptional kind The kind of the resource. KnownDataCollectionEndpointResourceKindOptional location The geo-location where the resource lives stringRequired networkAcls Network access control rules for the endpoints. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DataCollectionEndpointOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The SKU of the resource. SkuOptional tags Resource tags. map[string]stringOptional DataCollectionEndpointResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional configurationAccess The endpoint used by clients to access their configuration. ConfigurationAccessEndpointSpec_STATUSOptional description Description of the data collection endpoint. stringOptional etag Resource entity tag (ETag). stringOptional failoverConfiguration Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. FailoverConfigurationSpec_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Managed service identity of the resource. ManagedServiceIdentity_STATUSOptional immutableId The immutable ID of this data collection endpoint resource. This property is READ-ONLY. stringOptional kind The kind of the resource. KnownDataCollectionEndpointResourceKind_STATUSOptional location The geo-location where the resource lives stringOptional logsIngestion The endpoint used by clients to ingest logs. LogsIngestionEndpointSpec_STATUSOptional metadata Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. Metadata_STATUSOptional metricsIngestion The endpoint used by clients to ingest metrics. MetricsIngestionEndpointSpec_STATUSOptional name The name of the resource stringOptional networkAcls Network access control rules for the endpoints. NetworkRuleSet_STATUSOptional privateLinkScopedResources List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. PrivateLinkScopedResource_STATUS[]Optional provisioningState The resource provisioning state. This property is READ-ONLY. KnownDataCollectionEndpointProvisioningState_STATUSOptional sku The SKU of the resource. Sku_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional DataCollectionEndpointList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}">
+  <meta itemprop="wordCount" content="10609">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="insights.azure.com/v1api20240311">
-  <meta name="twitter:description" content="APIVersion Value Description “2024-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
+  <meta name="twitter:description" content="APIVersion Value Description “2024-03-11” DataCollectionEndpoint Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}
 Used by: DataCollectionEndpointList.
-Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionEndpoint_SpecOptional status DataCollectionEndpointResource_STATUSOptional DataCollectionEndpoint_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description Description of the data collection endpoint. stringOptional identity Managed service identity of the resource. ManagedServiceIdentityOptional kind The kind of the resource. DataCollectionEndpoint_Kind_SpecOptional location The geo-location where the resource lives. stringRequired networkAcls Network access control rules for the endpoints. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DataCollectionEndpointOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The SKU of the resource. SkuOptional tags Resource tags. map[string]stringOptional DataCollectionEndpointResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional configurationAccess The endpoint used by clients to access their configuration. ConfigurationAccessEndpointSpec_STATUSOptional description Description of the data collection endpoint. stringOptional etag Resource entity tag (ETag). stringOptional failoverConfiguration Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. FailoverConfigurationSpec_STATUSOptional id Fully qualified ID of the resource. stringOptional identity Managed service identity of the resource. ManagedServiceIdentity_STATUSOptional immutableId The immutable ID of this data collection endpoint resource. This property is READ-ONLY. stringOptional kind The kind of the resource. DataCollectionEndpointResource_Kind_STATUSOptional location The geo-location where the resource lives. stringOptional logsIngestion The endpoint used by clients to ingest logs. LogsIngestionEndpointSpec_STATUSOptional metadata Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. Metadata_STATUSOptional metricsIngestion The endpoint used by clients to ingest metrics. MetricsIngestionEndpointSpec_STATUSOptional name The name of the resource. stringOptional networkAcls Network access control rules for the endpoints. NetworkRuleSet_STATUSOptional privateLinkScopedResources List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. PrivateLinkScopedResource_STATUS[]Optional provisioningState The resource provisioning state. This property is READ-ONLY. DataCollectionEndpoint_ProvisioningState_STATUSOptional sku The SKU of the resource. Sku_STATUSOptional systemData Metadata pertaining to creation and last modification of the resource. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. stringOptional DataCollectionEndpointList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}">
+Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionEndpoint_SpecOptional status DataCollectionEndpointResource_STATUSOptional DataCollectionEndpoint_Spec Property Description Type azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional description Description of the data collection endpoint. stringOptional identity Managed service identity of the resource. ManagedServiceIdentityOptional kind The kind of the resource. KnownDataCollectionEndpointResourceKindOptional location The geo-location where the resource lives stringRequired networkAcls Network access control rules for the endpoints. NetworkRuleSetOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure DataCollectionEndpointOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The SKU of the resource. SkuOptional tags Resource tags. map[string]stringOptional DataCollectionEndpointResource_STATUS Property Description Type conditions The observed state of the resource conditions.Condition[]Optional configurationAccess The endpoint used by clients to access their configuration. ConfigurationAccessEndpointSpec_STATUSOptional description Description of the data collection endpoint. stringOptional etag Resource entity tag (ETag). stringOptional failoverConfiguration Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. FailoverConfigurationSpec_STATUSOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional identity Managed service identity of the resource. ManagedServiceIdentity_STATUSOptional immutableId The immutable ID of this data collection endpoint resource. This property is READ-ONLY. stringOptional kind The kind of the resource. KnownDataCollectionEndpointResourceKind_STATUSOptional location The geo-location where the resource lives stringOptional logsIngestion The endpoint used by clients to ingest logs. LogsIngestionEndpointSpec_STATUSOptional metadata Metadata for the resource. This property can only be updated by Log Analytics Control Plane for Data Collection Endpoint with Log Analytics Destination. Metadata_STATUSOptional metricsIngestion The endpoint used by clients to ingest metrics. MetricsIngestionEndpointSpec_STATUSOptional name The name of the resource stringOptional networkAcls Network access control rules for the endpoints. NetworkRuleSet_STATUSOptional privateLinkScopedResources List of Azure Monitor Private Link Scope Resources to which this data collection endpoint resource is associated. This property is READ-ONLY. PrivateLinkScopedResource_STATUS[]Optional provisioningState The resource provisioning state. This property is READ-ONLY. KnownDataCollectionEndpointProvisioningState_STATUSOptional sku The SKU of the resource. Sku_STATUSOptional systemData Azure Resource Manager metadata containing createdBy and modifiedBy information. SystemData_STATUSOptional tags Resource tags. map[string]stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional DataCollectionEndpointList Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}">
 <link rel="preload" href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" as="style" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <link href="/azure-service-operator/scss/main.min.cb0980182ca39899262bf1af0275dfa06084c40216ac2e96d356af1c231d7542.css" rel="stylesheet" integrity="sha256-ywmAGCyjmJkmK/GvAnXfoGCExAIWrC6W01avHCMddUI=" crossorigin="anonymous">
 <script
@@ -1056,16 +1056,9 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
     <li><a href="#AgentSettingsSpec">AgentSettingsSpec</a></li>
     <li><a href="#AgentSettingsSpec_STATUS">AgentSettingsSpec_STATUS</a></li>
     <li><a href="#ConfigurationAccessEndpointSpec_STATUS">ConfigurationAccessEndpointSpec_STATUS</a></li>
-    <li><a href="#DataCollectionEndpoint_Kind_Spec">DataCollectionEndpoint_Kind_Spec</a></li>
-    <li><a href="#DataCollectionEndpoint_ProvisioningState_STATUS">DataCollectionEndpoint_ProvisioningState_STATUS</a></li>
     <li><a href="#DataCollectionEndpointOperatorSpec">DataCollectionEndpointOperatorSpec</a></li>
-    <li><a href="#DataCollectionEndpointResource_Kind_STATUS">DataCollectionEndpointResource_Kind_STATUS</a></li>
-    <li><a href="#DataCollectionRule_Kind_Spec">DataCollectionRule_Kind_Spec</a></li>
-    <li><a href="#DataCollectionRule_ProvisioningState_STATUS">DataCollectionRule_ProvisioningState_STATUS</a></li>
-    <li><a href="#DataCollectionRuleAssociation_ProvisioningState_STATUS">DataCollectionRuleAssociation_ProvisioningState_STATUS</a></li>
     <li><a href="#DataCollectionRuleAssociationOperatorSpec">DataCollectionRuleAssociationOperatorSpec</a></li>
     <li><a href="#DataCollectionRuleOperatorSpec">DataCollectionRuleOperatorSpec</a></li>
-    <li><a href="#DataCollectionRuleResource_Kind_STATUS">DataCollectionRuleResource_Kind_STATUS</a></li>
     <li><a href="#DataFlow">DataFlow</a></li>
     <li><a href="#DataFlow_STATUS">DataFlow_STATUS</a></li>
     <li><a href="#DataSourcesSpec">DataSourcesSpec</a></li>
@@ -1077,6 +1070,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
     <li><a href="#EndpointsSpec_STATUS">EndpointsSpec_STATUS</a></li>
     <li><a href="#FailoverConfigurationSpec_STATUS">FailoverConfigurationSpec_STATUS</a></li>
     <li><a href="#IngestionQuotas_STATUS">IngestionQuotas_STATUS</a></li>
+    <li><a href="#KnownDataCollectionEndpointProvisioningState_STATUS">KnownDataCollectionEndpointProvisioningState_STATUS</a></li>
+    <li><a href="#KnownDataCollectionEndpointResourceKind">KnownDataCollectionEndpointResourceKind</a></li>
+    <li><a href="#KnownDataCollectionEndpointResourceKind_STATUS">KnownDataCollectionEndpointResourceKind_STATUS</a></li>
+    <li><a href="#KnownDataCollectionRuleAssociationProvisioningState_STATUS">KnownDataCollectionRuleAssociationProvisioningState_STATUS</a></li>
+    <li><a href="#KnownDataCollectionRuleProvisioningState_STATUS">KnownDataCollectionRuleProvisioningState_STATUS</a></li>
+    <li><a href="#KnownDataCollectionRuleResourceKind">KnownDataCollectionRuleResourceKind</a></li>
+    <li><a href="#KnownDataCollectionRuleResourceKind_STATUS">KnownDataCollectionRuleResourceKind_STATUS</a></li>
     <li><a href="#LogsIngestionEndpointSpec_STATUS">LogsIngestionEndpointSpec_STATUS</a></li>
     <li><a href="#ManagedServiceIdentity">ManagedServiceIdentity</a></li>
     <li><a href="#ManagedServiceIdentity_STATUS">ManagedServiceIdentity_STATUS</a></li>
@@ -1116,6 +1116,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
     <li><a href="#ExtensionDataSource_STATUS">ExtensionDataSource_STATUS</a></li>
     <li><a href="#IisLogsDataSource">IisLogsDataSource</a></li>
     <li><a href="#IisLogsDataSource_STATUS">IisLogsDataSource_STATUS</a></li>
+    <li><a href="#KnownPublicNetworkAccessOptions">KnownPublicNetworkAccessOptions</a></li>
+    <li><a href="#KnownPublicNetworkAccessOptions_STATUS">KnownPublicNetworkAccessOptions_STATUS</a></li>
     <li><a href="#LocationSpec_STATUS">LocationSpec_STATUS</a></li>
     <li><a href="#LogAnalyticsDestination">LogAnalyticsDestination</a></li>
     <li><a href="#LogAnalyticsDestination_STATUS">LogAnalyticsDestination_STATUS</a></li>
@@ -1128,8 +1130,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
     <li><a href="#MicrosoftFabricDestination_STATUS">MicrosoftFabricDestination_STATUS</a></li>
     <li><a href="#MonitoringAccountDestination">MonitoringAccountDestination</a></li>
     <li><a href="#MonitoringAccountDestination_STATUS">MonitoringAccountDestination_STATUS</a></li>
-    <li><a href="#NetworkRuleSet_PublicNetworkAccess">NetworkRuleSet_PublicNetworkAccess</a></li>
-    <li><a href="#NetworkRuleSet_PublicNetworkAccess_STATUS">NetworkRuleSet_PublicNetworkAccess_STATUS</a></li>
     <li><a href="#OtelLogsDataSource">OtelLogsDataSource</a></li>
     <li><a href="#OtelLogsDataSource_STATUS">OtelLogsDataSource_STATUS</a></li>
     <li><a href="#OtelLogsDirectDataSource">OtelLogsDirectDataSource</a></li>
@@ -1166,47 +1166,47 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
     <li><a href="#WindowsEventLogDataSource_STATUS">WindowsEventLogDataSource_STATUS</a></li>
     <li><a href="#WindowsFirewallLogsDataSource">WindowsFirewallLogsDataSource</a></li>
     <li><a href="#WindowsFirewallLogsDataSource_STATUS">WindowsFirewallLogsDataSource_STATUS</a></li>
-    <li><a href="#AgentSetting_Name">AgentSetting_Name</a></li>
-    <li><a href="#AgentSetting_Name_STATUS">AgentSetting_Name_STATUS</a></li>
-    <li><a href="#ColumnDefinition_Type">ColumnDefinition_Type</a></li>
-    <li><a href="#ColumnDefinition_Type_STATUS">ColumnDefinition_Type_STATUS</a></li>
-    <li><a href="#EtwProviderDataSource_LogLevel">EtwProviderDataSource_LogLevel</a></li>
-    <li><a href="#EtwProviderDataSource_LogLevel_STATUS">EtwProviderDataSource_LogLevel_STATUS</a></li>
-    <li><a href="#EtwProviderDataSource_ProviderType">EtwProviderDataSource_ProviderType</a></li>
-    <li><a href="#EtwProviderDataSource_ProviderType_STATUS">EtwProviderDataSource_ProviderType_STATUS</a></li>
     <li><a href="#EventHubDataSource">EventHubDataSource</a></li>
     <li><a href="#EventHubDataSource_STATUS">EventHubDataSource_STATUS</a></li>
-    <li><a href="#LocationSpec_ProvisioningStatus_STATUS">LocationSpec_ProvisioningStatus_STATUS</a></li>
-    <li><a href="#LogFilesDataSource_Format">LogFilesDataSource_Format</a></li>
-    <li><a href="#LogFilesDataSource_Format_STATUS">LogFilesDataSource_Format_STATUS</a></li>
+    <li><a href="#KnownAgentSettingName">KnownAgentSettingName</a></li>
+    <li><a href="#KnownAgentSettingName_STATUS">KnownAgentSettingName_STATUS</a></li>
+    <li><a href="#KnownColumnDefinitionType">KnownColumnDefinitionType</a></li>
+    <li><a href="#KnownColumnDefinitionType_STATUS">KnownColumnDefinitionType_STATUS</a></li>
+    <li><a href="#KnownEtwProviderDataSourceLogLevel">KnownEtwProviderDataSourceLogLevel</a></li>
+    <li><a href="#KnownEtwProviderDataSourceLogLevel_STATUS">KnownEtwProviderDataSourceLogLevel_STATUS</a></li>
+    <li><a href="#KnownEtwProviderType">KnownEtwProviderType</a></li>
+    <li><a href="#KnownEtwProviderType_STATUS">KnownEtwProviderType_STATUS</a></li>
+    <li><a href="#KnownLocationSpecProvisioningStatus_STATUS">KnownLocationSpecProvisioningStatus_STATUS</a></li>
+    <li><a href="#KnownLogFilesDataSourceFormat">KnownLogFilesDataSourceFormat</a></li>
+    <li><a href="#KnownLogFilesDataSourceFormat_STATUS">KnownLogFilesDataSourceFormat_STATUS</a></li>
+    <li><a href="#KnownOtelLogsDataSourceStreams">KnownOtelLogsDataSourceStreams</a></li>
+    <li><a href="#KnownOtelLogsDataSourceStreams_STATUS">KnownOtelLogsDataSourceStreams_STATUS</a></li>
+    <li><a href="#KnownOtelLogsDirectDataSourceStreams">KnownOtelLogsDirectDataSourceStreams</a></li>
+    <li><a href="#KnownOtelLogsDirectDataSourceStreams_STATUS">KnownOtelLogsDirectDataSourceStreams_STATUS</a></li>
+    <li><a href="#KnownOtelTracesDataSourceStreams">KnownOtelTracesDataSourceStreams</a></li>
+    <li><a href="#KnownOtelTracesDataSourceStreams_STATUS">KnownOtelTracesDataSourceStreams_STATUS</a></li>
+    <li><a href="#KnownOtelTracesDirectDataSourceStreams">KnownOtelTracesDirectDataSourceStreams</a></li>
+    <li><a href="#KnownOtelTracesDirectDataSourceStreams_STATUS">KnownOtelTracesDirectDataSourceStreams_STATUS</a></li>
+    <li><a href="#KnownPerformanceCountersOTelDataSourceStreams">KnownPerformanceCountersOTelDataSourceStreams</a></li>
+    <li><a href="#KnownPerformanceCountersOTelDataSourceStreams_STATUS">KnownPerformanceCountersOTelDataSourceStreams_STATUS</a></li>
+    <li><a href="#KnownSyslogDataSourceFacilityNames">KnownSyslogDataSourceFacilityNames</a></li>
+    <li><a href="#KnownSyslogDataSourceFacilityNames_STATUS">KnownSyslogDataSourceFacilityNames_STATUS</a></li>
+    <li><a href="#KnownSyslogDataSourceLogLevels">KnownSyslogDataSourceLogLevels</a></li>
+    <li><a href="#KnownSyslogDataSourceLogLevels_STATUS">KnownSyslogDataSourceLogLevels_STATUS</a></li>
+    <li><a href="#KnownWindowsFirewallLogsDataSourceProfileFilter">KnownWindowsFirewallLogsDataSourceProfileFilter</a></li>
+    <li><a href="#KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS">KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS</a></li>
     <li><a href="#LogFileSettings">LogFileSettings</a></li>
     <li><a href="#LogFileSettings_STATUS">LogFileSettings_STATUS</a></li>
     <li><a href="#OtelDataSourceResourceAttributeRouting">OtelDataSourceResourceAttributeRouting</a></li>
     <li><a href="#OtelDataSourceResourceAttributeRouting_STATUS">OtelDataSourceResourceAttributeRouting_STATUS</a></li>
-    <li><a href="#OtelLogsDataSource_Streams">OtelLogsDataSource_Streams</a></li>
-    <li><a href="#OtelLogsDataSource_Streams_STATUS">OtelLogsDataSource_Streams_STATUS</a></li>
-    <li><a href="#OtelLogsDirectDataSource_Streams">OtelLogsDirectDataSource_Streams</a></li>
-    <li><a href="#OtelLogsDirectDataSource_Streams_STATUS">OtelLogsDirectDataSource_Streams_STATUS</a></li>
-    <li><a href="#OtelTracesDataSource_Streams">OtelTracesDataSource_Streams</a></li>
-    <li><a href="#OtelTracesDataSource_Streams_STATUS">OtelTracesDataSource_Streams_STATUS</a></li>
-    <li><a href="#OtelTracesDirectDataSource_Streams">OtelTracesDirectDataSource_Streams</a></li>
-    <li><a href="#OtelTracesDirectDataSource_Streams_STATUS">OtelTracesDirectDataSource_Streams_STATUS</a></li>
-    <li><a href="#PerformanceCountersOTelDataSource_Streams">PerformanceCountersOTelDataSource_Streams</a></li>
-    <li><a href="#PerformanceCountersOTelDataSource_Streams_STATUS">PerformanceCountersOTelDataSource_Streams_STATUS</a></li>
     <li><a href="#StorageBlob">StorageBlob</a></li>
     <li><a href="#StorageBlob_STATUS">StorageBlob_STATUS</a></li>
-    <li><a href="#SyslogDataSource_FacilityNames">SyslogDataSource_FacilityNames</a></li>
-    <li><a href="#SyslogDataSource_FacilityNames_STATUS">SyslogDataSource_FacilityNames_STATUS</a></li>
-    <li><a href="#SyslogDataSource_LogLevels">SyslogDataSource_LogLevels</a></li>
-    <li><a href="#SyslogDataSource_LogLevels_STATUS">SyslogDataSource_LogLevels_STATUS</a></li>
-    <li><a href="#WindowsFirewallLogsDataSource_ProfileFilter">WindowsFirewallLogsDataSource_ProfileFilter</a></li>
-    <li><a href="#WindowsFirewallLogsDataSource_ProfileFilter_STATUS">WindowsFirewallLogsDataSource_ProfileFilter_STATUS</a></li>
+    <li><a href="#KnownStorageBlobLookupType">KnownStorageBlobLookupType</a></li>
+    <li><a href="#KnownStorageBlobLookupType_STATUS">KnownStorageBlobLookupType_STATUS</a></li>
     <li><a href="#LogFileTextSettings">LogFileTextSettings</a></li>
     <li><a href="#LogFileTextSettings_STATUS">LogFileTextSettings_STATUS</a></li>
-    <li><a href="#StorageBlob_LookupType">StorageBlob_LookupType</a></li>
-    <li><a href="#StorageBlob_LookupType_STATUS">StorageBlob_LookupType_STATUS</a></li>
-    <li><a href="#LogFileTextSettings_RecordStartTimestampFormat">LogFileTextSettings_RecordStartTimestampFormat</a></li>
-    <li><a href="#LogFileTextSettings_RecordStartTimestampFormat_STATUS">LogFileTextSettings_RecordStartTimestampFormat_STATUS</a></li>
+    <li><a href="#KnownLogFileTextSettingsRecordStartTimestampFormat">KnownLogFileTextSettingsRecordStartTimestampFormat</a></li>
+    <li><a href="#KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS">KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS</a></li>
   </ul>
 </nav>
       </div>
@@ -1252,7 +1252,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
   </tbody>
 </table>
 <h2 id="DataCollectionEndpoint">DataCollectionEndpoint</h2>
-<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}</p>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}</p>
 <p>Used by: <a href="#DataCollectionEndpointList">DataCollectionEndpointList</a>.</p>
 <table>
   <thead>
@@ -1313,11 +1313,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>kind</td>
           <td>The kind of the resource.</td>
-          <td><a href="#DataCollectionEndpoint_Kind_Spec">DataCollectionEndpoint_Kind_Spec</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionEndpointResourceKind">KnownDataCollectionEndpointResourceKind</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>The geo-location where the resource lives.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
@@ -1384,7 +1384,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified ID of the resource.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1400,11 +1400,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>kind</td>
           <td>The kind of the resource.</td>
-          <td><a href="#DataCollectionEndpointResource_Kind_STATUS">DataCollectionEndpointResource_Kind_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionEndpointResourceKind_STATUS">KnownDataCollectionEndpointResourceKind_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>The geo-location where the resource lives.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1424,7 +1424,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the resource.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1440,7 +1440,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>provisioningState</td>
           <td>The resource provisioning state. This property is READ-ONLY.</td>
-          <td><a href="#DataCollectionEndpoint_ProvisioningState_STATUS">DataCollectionEndpoint_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionEndpointProvisioningState_STATUS">KnownDataCollectionEndpointProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>sku</td>
@@ -1449,7 +1449,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>systemData</td>
-          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1459,13 +1459,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="DataCollectionEndpointList">DataCollectionEndpointList</h2>
-<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}</p>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionEndpoints/​{dataCollectionEndpointName}</p>
 <table>
   <thead>
       <tr>
@@ -1493,7 +1493,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
   </tbody>
 </table>
 <h2 id="DataCollectionRule">DataCollectionRule</h2>
-<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionRules_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionRules/​{dataCollectionRuleName}</p>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionRules/​{dataCollectionRuleName}</p>
 <p>Used by: <a href="#DataCollectionRuleList">DataCollectionRuleList</a>.</p>
 <table>
   <thead>
@@ -1584,11 +1584,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>kind</td>
           <td>The kind of the resource.</td>
-          <td><a href="#DataCollectionRule_Kind_Spec">DataCollectionRule_Kind_Spec</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionRuleResourceKind">KnownDataCollectionRuleResourceKind</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>The geo-location where the resource lives.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
@@ -1685,7 +1685,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified ID of the resource.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1706,11 +1706,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>kind</td>
           <td>The kind of the resource.</td>
-          <td><a href="#DataCollectionRuleResource_Kind_STATUS">DataCollectionRuleResource_Kind_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionRuleResourceKind_STATUS">KnownDataCollectionRuleResourceKind_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>The geo-location where the resource lives.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1720,13 +1720,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the resource.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>provisioningState</td>
           <td>The resource provisioning state.</td>
-          <td><a href="#DataCollectionRule_ProvisioningState_STATUS">DataCollectionRule_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionRuleProvisioningState_STATUS">KnownDataCollectionRuleProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>references</td>
@@ -1745,7 +1745,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>systemData</td>
-          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1755,13 +1755,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="DataCollectionRuleAssociation">DataCollectionRuleAssociation</h2>
-<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionRuleAssociations_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}</p>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}</p>
 <p>Used by: <a href="#DataCollectionRuleAssociationList">DataCollectionRuleAssociationList</a>.</p>
 <table>
   <thead>
@@ -1873,7 +1873,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified ID of the resource.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -1883,28 +1883,28 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the resource.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>provisioningState</td>
           <td>The resource provisioning state.</td>
-          <td><a href="#DataCollectionRuleAssociation_ProvisioningState_STATUS">DataCollectionRuleAssociation_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionRuleAssociationProvisioningState_STATUS">KnownDataCollectionRuleAssociationProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>systemData</td>
-          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
 <h2 id="DataCollectionRuleAssociationList">DataCollectionRuleAssociationList</h2>
-<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionRuleAssociations_API.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}</p>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}</p>
 <table>
   <thead>
       <tr>
@@ -1932,7 +1932,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
   </tbody>
 </table>
 <h2 id="DataCollectionRuleList">DataCollectionRuleList</h2>
-<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionRules_API.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionRules/​{dataCollectionRuleName}</p>
+<p>Generator information: - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Insights/​dataCollectionRules/​{dataCollectionRuleName}</p>
 <table>
   <thead>
       <tr>
@@ -1988,11 +1988,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>kind</td>
           <td>The kind of the resource.</td>
-          <td><a href="#DataCollectionEndpoint_Kind_Spec">DataCollectionEndpoint_Kind_Spec</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionEndpointResourceKind">KnownDataCollectionEndpointResourceKind</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>The geo-location where the resource lives.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
@@ -2061,7 +2061,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified ID of the resource.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2077,11 +2077,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>kind</td>
           <td>The kind of the resource.</td>
-          <td><a href="#DataCollectionEndpointResource_Kind_STATUS">DataCollectionEndpointResource_Kind_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionEndpointResourceKind_STATUS">KnownDataCollectionEndpointResourceKind_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>The geo-location where the resource lives.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2101,7 +2101,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the resource.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2117,7 +2117,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>provisioningState</td>
           <td>The resource provisioning state. This property is READ-ONLY.</td>
-          <td><a href="#DataCollectionEndpoint_ProvisioningState_STATUS">DataCollectionEndpoint_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionEndpointProvisioningState_STATUS">KnownDataCollectionEndpointProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>sku</td>
@@ -2126,7 +2126,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>systemData</td>
-          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2136,7 +2136,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -2200,11 +2200,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>kind</td>
           <td>The kind of the resource.</td>
-          <td><a href="#DataCollectionRule_Kind_Spec">DataCollectionRule_Kind_Spec</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionRuleResourceKind">KnownDataCollectionRuleResourceKind</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>The geo-location where the resource lives.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
@@ -2321,7 +2321,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified ID of the resource.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2331,22 +2331,22 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the resource.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>provisioningState</td>
           <td>The resource provisioning state.</td>
-          <td><a href="#DataCollectionRuleAssociation_ProvisioningState_STATUS">DataCollectionRuleAssociation_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionRuleAssociationProvisioningState_STATUS">KnownDataCollectionRuleAssociationProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>systemData</td>
-          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -2415,7 +2415,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>id</td>
-          <td>Fully qualified ID of the resource.</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2436,11 +2436,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>kind</td>
           <td>The kind of the resource.</td>
-          <td><a href="#DataCollectionRuleResource_Kind_STATUS">DataCollectionRuleResource_Kind_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionRuleResourceKind_STATUS">KnownDataCollectionRuleResourceKind_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>location</td>
-          <td>The geo-location where the resource lives.</td>
+          <td>The geo-location where the resource lives</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2450,13 +2450,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the resource.</td>
+          <td>The name of the resource</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>provisioningState</td>
           <td>The resource provisioning state.</td>
-          <td><a href="#DataCollectionRule_ProvisioningState_STATUS">DataCollectionRule_ProvisioningState_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownDataCollectionRuleProvisioningState_STATUS">KnownDataCollectionRuleProvisioningState_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>references</td>
@@ -2475,7 +2475,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>systemData</td>
-          <td>Metadata pertaining to creation and last modification of the resource.</td>
+          <td>Azure Resource Manager metadata containing createdBy and modifiedBy information.</td>
           <td><a href="#SystemData_STATUS">SystemData_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -2485,7 +2485,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>type</td>
-          <td>The type of the resource.</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -2547,62 +2547,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="DataCollectionEndpoint_Kind_Spec">DataCollectionEndpoint_Kind_Spec</h2>
-<p>Used by: <a href="#DataCollectionEndpoint_Spec">DataCollectionEndpoint_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Linux&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Windows&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataCollectionEndpoint_ProvisioningState_STATUS">DataCollectionEndpoint_ProvisioningState_STATUS</h2>
-<p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Canceled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Creating&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Deleting&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Failed&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Succeeded&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Updating&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
 <h2 id="DataCollectionEndpointOperatorSpec">DataCollectionEndpointOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 <p>Used by: <a href="#DataCollectionEndpoint_Spec">DataCollectionEndpoint_Spec</a>.</p>
@@ -2624,118 +2568,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
           <td>secretExpressions</td>
           <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataCollectionEndpointResource_Kind_STATUS">DataCollectionEndpointResource_Kind_STATUS</h2>
-<p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Linux&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Windows&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataCollectionRule_Kind_Spec">DataCollectionRule_Kind_Spec</h2>
-<p>Used by: <a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Linux&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Windows&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataCollectionRule_ProvisioningState_STATUS">DataCollectionRule_ProvisioningState_STATUS</h2>
-<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Canceled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Creating&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Deleting&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Failed&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Succeeded&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Updating&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataCollectionRuleAssociation_ProvisioningState_STATUS">DataCollectionRuleAssociation_ProvisioningState_STATUS</h2>
-<p>Used by: <a href="#DataCollectionRuleAssociationProxyOnlyResource_STATUS">DataCollectionRuleAssociationProxyOnlyResource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Canceled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Creating&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Deleting&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Failed&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Succeeded&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Updating&rdquo;</td>
-          <td></td>
       </tr>
   </tbody>
 </table>
@@ -2784,26 +2616,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
           <td>secretExpressions</td>
           <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
           <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="DataCollectionRuleResource_Kind_STATUS">DataCollectionRuleResource_Kind_STATUS</h2>
-<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Linux&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Windows&rdquo;</td>
-          <td></td>
       </tr>
   </tbody>
 </table>
@@ -3324,6 +3136,201 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
+<h2 id="KnownDataCollectionEndpointProvisioningState_STATUS">KnownDataCollectionEndpointProvisioningState_STATUS</h2>
+<p>The resource provisioning state. This property is READ-ONLY.</p>
+<p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownDataCollectionEndpointResourceKind">KnownDataCollectionEndpointResourceKind</h2>
+<p>The kind of the resource.</p>
+<p>Used by: <a href="#DataCollectionEndpoint_Spec">DataCollectionEndpoint_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Linux&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Windows&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownDataCollectionEndpointResourceKind_STATUS">KnownDataCollectionEndpointResourceKind_STATUS</h2>
+<p>The kind of the resource.</p>
+<p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Linux&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Windows&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownDataCollectionRuleAssociationProvisioningState_STATUS">KnownDataCollectionRuleAssociationProvisioningState_STATUS</h2>
+<p>The resource provisioning state.</p>
+<p>Used by: <a href="#DataCollectionRuleAssociationProxyOnlyResource_STATUS">DataCollectionRuleAssociationProxyOnlyResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownDataCollectionRuleProvisioningState_STATUS">KnownDataCollectionRuleProvisioningState_STATUS</h2>
+<p>The resource provisioning state.</p>
+<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Canceled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Creating&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownDataCollectionRuleResourceKind">KnownDataCollectionRuleResourceKind</h2>
+<p>The kind of the resource.</p>
+<p>Used by: <a href="#DataCollectionRule_Spec">DataCollectionRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Linux&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Windows&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownDataCollectionRuleResourceKind_STATUS">KnownDataCollectionRuleResourceKind_STATUS</h2>
+<p>The kind of the resource.</p>
+<p>Used by: <a href="#DataCollectionRuleResource_STATUS">DataCollectionRuleResource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Linux&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Windows&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="LogsIngestionEndpointSpec_STATUS">LogsIngestionEndpointSpec_STATUS</h2>
 <p>Definition of the endpoint used for ingesting logs.</p>
 <p>Used by: <a href="#DataCollectionEndpointResource_STATUS">DataCollectionEndpointResource_STATUS</a>.</p>
@@ -3464,7 +3471,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>publicNetworkAccess</td>
           <td>The configuration to set whether network access from public internet to the endpoints are allowed.</td>
-          <td><a href="#NetworkRuleSet_PublicNetworkAccess">NetworkRuleSet_PublicNetworkAccess</a><br/><small>Optional</small></td>
+          <td><a href="#KnownPublicNetworkAccessOptions">KnownPublicNetworkAccessOptions</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -3483,7 +3490,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>publicNetworkAccess</td>
           <td>The configuration to set whether network access from public internet to the endpoints are allowed.</td>
-          <td><a href="#NetworkRuleSet_PublicNetworkAccess_STATUS">NetworkRuleSet_PublicNetworkAccess_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownPublicNetworkAccessOptions_STATUS">KnownPublicNetworkAccessOptions_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -3582,7 +3589,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the SKU. E.g. P3. It is typically a letter+number code</td>
+          <td>The name of the SKU. Ex - P3. It is typically a letter+number code</td>
           <td>string<br/><small>Required</small></td>
       </tr>
       <tr>
@@ -3621,7 +3628,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>name</td>
-          <td>The name of the SKU. E.g. P3. It is typically a letter+number code</td>
+          <td>The name of the SKU. Ex - P3. It is typically a letter+number code</td>
           <td>string<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -3796,7 +3803,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>name</td>
           <td>The name of the setting. Must be part of the list of supported settings</td>
-          <td><a href="#AgentSetting_Name">AgentSetting_Name</a><br/><small>Optional</small></td>
+          <td><a href="#KnownAgentSettingName">KnownAgentSettingName</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>value</td>
@@ -3820,7 +3827,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>name</td>
           <td>The name of the setting. Must be part of the list of supported settings</td>
-          <td><a href="#AgentSetting_Name_STATUS">AgentSetting_Name_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownAgentSettingName_STATUS">KnownAgentSettingName_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>value</td>
@@ -3933,7 +3940,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>type</td>
           <td>The type of the column data.</td>
-          <td><a href="#ColumnDefinition_Type">ColumnDefinition_Type</a><br/><small>Optional</small></td>
+          <td><a href="#KnownColumnDefinitionType">KnownColumnDefinitionType</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -3957,7 +3964,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>type</td>
           <td>The type of the column data.</td>
-          <td><a href="#ColumnDefinition_Type_STATUS">ColumnDefinition_Type_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownColumnDefinitionType_STATUS">KnownColumnDefinitionType_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4060,7 +4067,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>logLevel</td>
           <td>Minimal level of detail to be logged</td>
-          <td><a href="#EtwProviderDataSource_LogLevel">EtwProviderDataSource_LogLevel</a><br/><small>Optional</small></td>
+          <td><a href="#KnownEtwProviderDataSourceLogLevel">KnownEtwProviderDataSourceLogLevel</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -4075,7 +4082,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>providerType</td>
           <td>Provider type specification: By Manifest GUID or by Event Source name</td>
-          <td><a href="#EtwProviderDataSource_ProviderType">EtwProviderDataSource_ProviderType</a><br/><small>Required</small></td>
+          <td><a href="#KnownEtwProviderType">KnownEtwProviderType</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>streams</td>
@@ -4109,7 +4116,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>logLevel</td>
           <td>Minimal level of detail to be logged</td>
-          <td><a href="#EtwProviderDataSource_LogLevel_STATUS">EtwProviderDataSource_LogLevel_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownEtwProviderDataSourceLogLevel_STATUS">KnownEtwProviderDataSourceLogLevel_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -4124,7 +4131,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>providerType</td>
           <td>Provider type specification: By Manifest GUID or by Event Source name</td>
-          <td><a href="#EtwProviderDataSource_ProviderType_STATUS">EtwProviderDataSource_ProviderType_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownEtwProviderType_STATUS">KnownEtwProviderType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>streams</td>
@@ -4371,6 +4378,56 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
+<h2 id="KnownPublicNetworkAccessOptions">KnownPublicNetworkAccessOptions</h2>
+<p>The configuration to set whether network access from public internet to the endpoints are allowed.</p>
+<p>Used by: <a href="#NetworkRuleSet">NetworkRuleSet</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SecuredByPerimeter&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownPublicNetworkAccessOptions_STATUS">KnownPublicNetworkAccessOptions_STATUS</h2>
+<p>The configuration to set whether network access from public internet to the endpoints are allowed.</p>
+<p>Used by: <a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Disabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Enabled&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;SecuredByPerimeter&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="LocationSpec_STATUS">LocationSpec_STATUS</h2>
 <p>Used by: <a href="#FailoverConfigurationSpec_STATUS">FailoverConfigurationSpec_STATUS</a>.</p>
 <table>
@@ -4390,7 +4447,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>provisioningStatus</td>
           <td>The resource provisioning state in this location.</td>
-          <td><a href="#LocationSpec_ProvisioningStatus_STATUS">LocationSpec_ProvisioningStatus_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownLocationSpecProvisioningStatus_STATUS">KnownLocationSpecProvisioningStatus_STATUS</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4467,7 +4524,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>format</td>
           <td>The data format of the log files</td>
-          <td><a href="#LogFilesDataSource_Format">LogFilesDataSource_Format</a><br/><small>Required</small></td>
+          <td><a href="#KnownLogFilesDataSourceFormat">KnownLogFilesDataSourceFormat</a><br/><small>Required</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -4511,7 +4568,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>format</td>
           <td>The data format of the log files</td>
-          <td><a href="#LogFilesDataSource_Format_STATUS">LogFilesDataSource_Format_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownLogFilesDataSourceFormat_STATUS">KnownLogFilesDataSourceFormat_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -4747,54 +4804,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="NetworkRuleSet_PublicNetworkAccess">NetworkRuleSet_PublicNetworkAccess</h2>
-<p>Used by: <a href="#NetworkRuleSet">NetworkRuleSet</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SecuredByPerimeter&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="NetworkRuleSet_PublicNetworkAccess_STATUS">NetworkRuleSet_PublicNetworkAccess_STATUS</h2>
-<p>Used by: <a href="#NetworkRuleSet_STATUS">NetworkRuleSet_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Disabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Enabled&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;SecuredByPerimeter&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
 <h2 id="OtelLogsDataSource">OtelLogsDataSource</h2>
 <p>Enables Otel logs to be collected by this data collection rule.</p>
 <p>Used by: <a href="#DataSourcesSpec">DataSourcesSpec</a>.</p>
@@ -4814,7 +4823,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4835,7 +4844,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to.</td>
-          <td><a href="#OtelLogsDataSource_Streams">OtelLogsDataSource_Streams[]</a><br/><small>Required</small></td>
+          <td><a href="#KnownOtelLogsDataSourceStreams">KnownOtelLogsDataSourceStreams[]</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -4858,7 +4867,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4879,7 +4888,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to.</td>
-          <td><a href="#OtelLogsDataSource_Streams_STATUS">OtelLogsDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownOtelLogsDataSourceStreams_STATUS">KnownOtelLogsDataSourceStreams_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4901,7 +4910,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4917,7 +4926,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to.</td>
-          <td><a href="#OtelLogsDirectDataSource_Streams">OtelLogsDirectDataSource_Streams[]</a><br/><small>Required</small></td>
+          <td><a href="#KnownOtelLogsDirectDataSourceStreams">KnownOtelLogsDirectDataSourceStreams[]</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -4939,7 +4948,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -4955,7 +4964,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to.</td>
-          <td><a href="#OtelLogsDirectDataSource_Streams_STATUS">OtelLogsDirectDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownOtelLogsDirectDataSourceStreams_STATUS">KnownOtelLogsDirectDataSourceStreams_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -4978,7 +4987,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5017,7 +5026,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5056,7 +5065,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5090,7 +5099,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5124,7 +5133,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5145,7 +5154,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#OtelTracesDataSource_Streams">OtelTracesDataSource_Streams[]</a><br/><small>Required</small></td>
+          <td><a href="#KnownOtelTracesDataSourceStreams">KnownOtelTracesDataSourceStreams[]</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -5168,7 +5177,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5189,7 +5198,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#OtelTracesDataSource_Streams_STATUS">OtelTracesDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownOtelTracesDataSourceStreams_STATUS">KnownOtelTracesDataSourceStreams_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -5212,7 +5221,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5228,7 +5237,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#OtelTracesDirectDataSource_Streams">OtelTracesDirectDataSource_Streams[]</a><br/><small>Required</small></td>
+          <td><a href="#KnownOtelTracesDirectDataSourceStreams">KnownOtelTracesDirectDataSourceStreams[]</a><br/><small>Required</small></td>
       </tr>
   </tbody>
 </table>
@@ -5251,7 +5260,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>enrichWithResourceAttributes</td>
-          <td></td>
+          <td>Specifies the list of resource attributes that need to be added as labels/dimensions to the telemetry data for further enrichment.</td>
           <td>string[]<br/><small>Optional</small></td>
       </tr>
       <tr>
@@ -5267,7 +5276,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#OtelTracesDirectDataSource_Streams_STATUS">OtelTracesDirectDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownOtelTracesDirectDataSourceStreams_STATUS">KnownOtelTracesDirectDataSourceStreams_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -5379,7 +5388,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#PerformanceCountersOTelDataSource_Streams">PerformanceCountersOTelDataSource_Streams[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownPerformanceCountersOTelDataSourceStreams">KnownPerformanceCountersOTelDataSourceStreams[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -5413,7 +5422,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>streams</td>
           <td>List of streams that this data source will be sent to. A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent to.</td>
-          <td><a href="#PerformanceCountersOTelDataSource_Streams_STATUS">PerformanceCountersOTelDataSource_Streams_STATUS[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownPerformanceCountersOTelDataSourceStreams_STATUS">KnownPerformanceCountersOTelDataSourceStreams_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -5718,12 +5727,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>facilityNames</td>
           <td>The list of facility names.</td>
-          <td><a href="#SyslogDataSource_FacilityNames">SyslogDataSource_FacilityNames[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownSyslogDataSourceFacilityNames">KnownSyslogDataSourceFacilityNames[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>logLevels</td>
           <td>The log levels to collect.</td>
-          <td><a href="#SyslogDataSource_LogLevels">SyslogDataSource_LogLevels[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownSyslogDataSourceLogLevels">KnownSyslogDataSourceLogLevels[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -5757,12 +5766,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>facilityNames</td>
           <td>The list of facility names.</td>
-          <td><a href="#SyslogDataSource_FacilityNames_STATUS">SyslogDataSource_FacilityNames_STATUS[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownSyslogDataSourceFacilityNames_STATUS">KnownSyslogDataSourceFacilityNames_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>logLevels</td>
           <td>The log levels to collect.</td>
-          <td><a href="#SyslogDataSource_LogLevels_STATUS">SyslogDataSource_LogLevels_STATUS[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownSyslogDataSourceLogLevels_STATUS">KnownSyslogDataSourceLogLevels_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -5968,7 +5977,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>profileFilter</td>
           <td>Firewall logs profile filter</td>
-          <td><a href="#WindowsFirewallLogsDataSource_ProfileFilter">WindowsFirewallLogsDataSource_ProfileFilter[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownWindowsFirewallLogsDataSourceProfileFilter">KnownWindowsFirewallLogsDataSourceProfileFilter[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>streams</td>
@@ -5997,244 +6006,12 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>profileFilter</td>
           <td>Firewall logs profile filter</td>
-          <td><a href="#WindowsFirewallLogsDataSource_ProfileFilter_STATUS">WindowsFirewallLogsDataSource_ProfileFilter_STATUS[]</a><br/><small>Optional</small></td>
+          <td><a href="#KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS">KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS[]</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>streams</td>
           <td>Firewall logs streams</td>
           <td>string[]<br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AgentSetting_Name">AgentSetting_Name</h2>
-<p>Used by: <a href="#AgentSetting">AgentSetting</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;MaxDiskQuotaInMB&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Tags&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;UseTimeReceivedForForwardedEvents&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="AgentSetting_Name_STATUS">AgentSetting_Name_STATUS</h2>
-<p>Used by: <a href="#AgentSetting_STATUS">AgentSetting_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;MaxDiskQuotaInMB&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Tags&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;UseTimeReceivedForForwardedEvents&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ColumnDefinition_Type">ColumnDefinition_Type</h2>
-<p>Used by: <a href="#ColumnDefinition">ColumnDefinition</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;boolean&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;datetime&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;dynamic&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;int&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;long&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;real&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;string&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="ColumnDefinition_Type_STATUS">ColumnDefinition_Type_STATUS</h2>
-<p>Used by: <a href="#ColumnDefinition_STATUS">ColumnDefinition_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;boolean&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;datetime&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;dynamic&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;int&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;long&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;real&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;string&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EtwProviderDataSource_LogLevel">EtwProviderDataSource_LogLevel</h2>
-<p>Used by: <a href="#EtwProviderDataSource">EtwProviderDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Critical&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Error&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Informational&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Verbose&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Warning&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EtwProviderDataSource_LogLevel_STATUS">EtwProviderDataSource_LogLevel_STATUS</h2>
-<p>Used by: <a href="#EtwProviderDataSource_STATUS">EtwProviderDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Critical&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Error&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Informational&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Verbose&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Warning&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EtwProviderDataSource_ProviderType">EtwProviderDataSource_ProviderType</h2>
-<p>Used by: <a href="#EtwProviderDataSource">EtwProviderDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;EventSource&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Manifest&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="EtwProviderDataSource_ProviderType_STATUS">EtwProviderDataSource_ProviderType_STATUS</h2>
-<p>Used by: <a href="#EtwProviderDataSource_STATUS">EtwProviderDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;EventSource&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Manifest&rdquo;</td>
-          <td></td>
       </tr>
   </tbody>
 </table>
@@ -6294,7 +6071,248 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="LocationSpec_ProvisioningStatus_STATUS">LocationSpec_ProvisioningStatus_STATUS</h2>
+<h2 id="KnownAgentSettingName">KnownAgentSettingName</h2>
+<p>The name of the setting. Must be part of the list of supported settings</p>
+<p>Used by: <a href="#AgentSetting">AgentSetting</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;MaxDiskQuotaInMB&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Tags&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UseTimeReceivedForForwardedEvents&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownAgentSettingName_STATUS">KnownAgentSettingName_STATUS</h2>
+<p>The name of the setting. Must be part of the list of supported settings</p>
+<p>Used by: <a href="#AgentSetting_STATUS">AgentSetting_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;MaxDiskQuotaInMB&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Tags&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;UseTimeReceivedForForwardedEvents&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownColumnDefinitionType">KnownColumnDefinitionType</h2>
+<p>The type of the column data.</p>
+<p>Used by: <a href="#ColumnDefinition">ColumnDefinition</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;boolean&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;datetime&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;dynamic&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;int&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;long&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;real&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;string&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownColumnDefinitionType_STATUS">KnownColumnDefinitionType_STATUS</h2>
+<p>The type of the column data.</p>
+<p>Used by: <a href="#ColumnDefinition_STATUS">ColumnDefinition_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;boolean&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;datetime&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;dynamic&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;int&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;long&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;real&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;string&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownEtwProviderDataSourceLogLevel">KnownEtwProviderDataSourceLogLevel</h2>
+<p>Minimal level of detail to be logged</p>
+<p>Used by: <a href="#EtwProviderDataSource">EtwProviderDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Critical&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Error&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Informational&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Verbose&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Warning&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownEtwProviderDataSourceLogLevel_STATUS">KnownEtwProviderDataSourceLogLevel_STATUS</h2>
+<p>Minimal level of detail to be logged</p>
+<p>Used by: <a href="#EtwProviderDataSource_STATUS">EtwProviderDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Critical&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Error&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Informational&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Verbose&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Warning&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownEtwProviderType">KnownEtwProviderType</h2>
+<p>Provider type specification: By Manifest GUID or by Event Source name</p>
+<p>Used by: <a href="#EtwProviderDataSource">EtwProviderDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;EventSource&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Manifest&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownEtwProviderType_STATUS">KnownEtwProviderType_STATUS</h2>
+<p>Provider type specification: By Manifest GUID or by Event Source name</p>
+<p>Used by: <a href="#EtwProviderDataSource_STATUS">EtwProviderDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;EventSource&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Manifest&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownLocationSpecProvisioningStatus_STATUS">KnownLocationSpecProvisioningStatus_STATUS</h2>
+<p>The resource provisioning state in this location.</p>
 <p>Used by: <a href="#LocationSpec_STATUS">LocationSpec_STATUS</a>.</p>
 <table>
   <thead>
@@ -6330,7 +6348,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="LogFilesDataSource_Format">LogFilesDataSource_Format</h2>
+<h2 id="KnownLogFilesDataSourceFormat">KnownLogFilesDataSourceFormat</h2>
+<p>The data format of the log files</p>
 <p>Used by: <a href="#LogFilesDataSource">LogFilesDataSource</a>.</p>
 <table>
   <thead>
@@ -6350,7 +6369,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="LogFilesDataSource_Format_STATUS">LogFilesDataSource_Format_STATUS</h2>
+<h2 id="KnownLogFilesDataSourceFormat_STATUS">KnownLogFilesDataSourceFormat_STATUS</h2>
+<p>The data format of the log files</p>
 <p>Used by: <a href="#LogFilesDataSource_STATUS">LogFilesDataSource_STATUS</a>.</p>
 <table>
   <thead>
@@ -6366,6 +6386,582 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
       <tr>
           <td>&ldquo;text&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownOtelLogsDataSourceStreams">KnownOtelLogsDataSourceStreams</h2>
+<p>Used by: <a href="#OtelLogsDataSource">OtelLogsDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Logs&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownOtelLogsDataSourceStreams_STATUS">KnownOtelLogsDataSourceStreams_STATUS</h2>
+<p>Used by: <a href="#OtelLogsDataSource_STATUS">OtelLogsDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Logs&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownOtelLogsDirectDataSourceStreams">KnownOtelLogsDirectDataSourceStreams</h2>
+<p>Used by: <a href="#OtelLogsDirectDataSource">OtelLogsDirectDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Logs&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownOtelLogsDirectDataSourceStreams_STATUS">KnownOtelLogsDirectDataSourceStreams_STATUS</h2>
+<p>Used by: <a href="#OtelLogsDirectDataSource_STATUS">OtelLogsDirectDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Logs&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownOtelTracesDataSourceStreams">KnownOtelTracesDataSourceStreams</h2>
+<p>Used by: <a href="#OtelTracesDataSource">OtelTracesDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Events&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Resources&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Spans&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownOtelTracesDataSourceStreams_STATUS">KnownOtelTracesDataSourceStreams_STATUS</h2>
+<p>Used by: <a href="#OtelTracesDataSource_STATUS">OtelTracesDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Events&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Resources&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Spans&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownOtelTracesDirectDataSourceStreams">KnownOtelTracesDirectDataSourceStreams</h2>
+<p>Used by: <a href="#OtelTracesDirectDataSource">OtelTracesDirectDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Events&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Resources&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Spans&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownOtelTracesDirectDataSourceStreams_STATUS">KnownOtelTracesDirectDataSourceStreams_STATUS</h2>
+<p>Used by: <a href="#OtelTracesDirectDataSource_STATUS">OtelTracesDirectDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Events&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Resources&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Microsoft-OTel-Traces-Spans&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownPerformanceCountersOTelDataSourceStreams">KnownPerformanceCountersOTelDataSourceStreams</h2>
+<p>Used by: <a href="#PerformanceCountersOTelDataSource">PerformanceCountersOTelDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-OtelPerfMetrics&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownPerformanceCountersOTelDataSourceStreams_STATUS">KnownPerformanceCountersOTelDataSourceStreams_STATUS</h2>
+<p>Used by: <a href="#PerformanceCountersOTelDataSource_STATUS">PerformanceCountersOTelDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Microsoft-OtelPerfMetrics&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownSyslogDataSourceFacilityNames">KnownSyslogDataSourceFacilityNames</h2>
+<p>Used by: <a href="#SyslogDataSource">SyslogDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;alert&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;audit&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;auth&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;authpriv&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;clock&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;cron&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;daemon&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ftp&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;kern&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local0&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local1&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local2&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local3&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local4&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local5&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local6&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local7&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;lpr&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;mail&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;mark&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;news&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;nopri&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ntp&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;*&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;syslog&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;user&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;uucp&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownSyslogDataSourceFacilityNames_STATUS">KnownSyslogDataSourceFacilityNames_STATUS</h2>
+<p>Used by: <a href="#SyslogDataSource_STATUS">SyslogDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;alert&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;audit&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;auth&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;authpriv&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;clock&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;cron&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;daemon&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ftp&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;kern&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local0&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local1&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local2&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local3&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local4&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local5&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local6&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;local7&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;lpr&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;mail&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;mark&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;news&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;nopri&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ntp&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;*&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;syslog&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;user&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;uucp&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownSyslogDataSourceLogLevels">KnownSyslogDataSourceLogLevels</h2>
+<p>Used by: <a href="#SyslogDataSource">SyslogDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Alert&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Critical&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Debug&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Emergency&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Error&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Info&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Notice&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;*&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Warning&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownSyslogDataSourceLogLevels_STATUS">KnownSyslogDataSourceLogLevels_STATUS</h2>
+<p>Used by: <a href="#SyslogDataSource_STATUS">SyslogDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Alert&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Critical&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Debug&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Emergency&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Error&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Info&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Notice&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;*&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Warning&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownWindowsFirewallLogsDataSourceProfileFilter">KnownWindowsFirewallLogsDataSourceProfileFilter</h2>
+<p>Used by: <a href="#WindowsFirewallLogsDataSource">WindowsFirewallLogsDataSource</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Domain&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Private&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Public&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS">KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS</h2>
+<p>Used by: <a href="#WindowsFirewallLogsDataSource_STATUS">WindowsFirewallLogsDataSource_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Domain&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Private&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Public&rdquo;</td>
           <td></td>
       </tr>
   </tbody>
@@ -6456,198 +7052,6 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="OtelLogsDataSource_Streams">OtelLogsDataSource_Streams</h2>
-<p>Used by: <a href="#OtelLogsDataSource">OtelLogsDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Logs&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="OtelLogsDataSource_Streams_STATUS">OtelLogsDataSource_Streams_STATUS</h2>
-<p>Used by: <a href="#OtelLogsDataSource_STATUS">OtelLogsDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Logs&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="OtelLogsDirectDataSource_Streams">OtelLogsDirectDataSource_Streams</h2>
-<p>Used by: <a href="#OtelLogsDirectDataSource">OtelLogsDirectDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Logs&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="OtelLogsDirectDataSource_Streams_STATUS">OtelLogsDirectDataSource_Streams_STATUS</h2>
-<p>Used by: <a href="#OtelLogsDirectDataSource_STATUS">OtelLogsDirectDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Logs&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="OtelTracesDataSource_Streams">OtelTracesDataSource_Streams</h2>
-<p>Used by: <a href="#OtelTracesDataSource">OtelTracesDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Events&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Resources&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Spans&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="OtelTracesDataSource_Streams_STATUS">OtelTracesDataSource_Streams_STATUS</h2>
-<p>Used by: <a href="#OtelTracesDataSource_STATUS">OtelTracesDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Events&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Resources&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Spans&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="OtelTracesDirectDataSource_Streams">OtelTracesDirectDataSource_Streams</h2>
-<p>Used by: <a href="#OtelTracesDirectDataSource">OtelTracesDirectDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Events&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Resources&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Spans&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="OtelTracesDirectDataSource_Streams_STATUS">OtelTracesDirectDataSource_Streams_STATUS</h2>
-<p>Used by: <a href="#OtelTracesDirectDataSource_STATUS">OtelTracesDirectDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Events&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Resources&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Microsoft-OTel-Traces-Spans&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PerformanceCountersOTelDataSource_Streams">PerformanceCountersOTelDataSource_Streams</h2>
-<p>Used by: <a href="#PerformanceCountersOTelDataSource">PerformanceCountersOTelDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-OtelPerfMetrics&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="PerformanceCountersOTelDataSource_Streams_STATUS">PerformanceCountersOTelDataSource_Streams_STATUS</h2>
-<p>Used by: <a href="#PerformanceCountersOTelDataSource_STATUS">PerformanceCountersOTelDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Microsoft-OtelPerfMetrics&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
 <h2 id="StorageBlob">StorageBlob</h2>
 <p>Used by: <a href="#EnrichmentData">EnrichmentData</a>.</p>
 <table>
@@ -6667,7 +7071,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>lookupType</td>
           <td>The type of lookup to perform on the blob</td>
-          <td><a href="#StorageBlob_LookupType">StorageBlob_LookupType</a><br/><small>Optional</small></td>
+          <td><a href="#KnownStorageBlobLookupType">KnownStorageBlobLookupType</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -6700,7 +7104,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       <tr>
           <td>lookupType</td>
           <td>The type of lookup to perform on the blob</td>
-          <td><a href="#StorageBlob_LookupType_STATUS">StorageBlob_LookupType_STATUS</a><br/><small>Optional</small></td>
+          <td><a href="#KnownStorageBlobLookupType_STATUS">KnownStorageBlobLookupType_STATUS</a><br/><small>Optional</small></td>
       </tr>
       <tr>
           <td>name</td>
@@ -6714,429 +7118,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="SyslogDataSource_FacilityNames">SyslogDataSource_FacilityNames</h2>
-<p>Used by: <a href="#SyslogDataSource">SyslogDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;alert&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;audit&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;auth&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;authpriv&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;clock&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;cron&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;daemon&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ftp&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;kern&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local0&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local2&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local3&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local4&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local5&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local6&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local7&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;lpr&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;mail&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;mark&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;news&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;nopri&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ntp&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;*&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;syslog&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;user&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;uucp&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SyslogDataSource_FacilityNames_STATUS">SyslogDataSource_FacilityNames_STATUS</h2>
-<p>Used by: <a href="#SyslogDataSource_STATUS">SyslogDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;alert&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;audit&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;auth&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;authpriv&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;clock&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;cron&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;daemon&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ftp&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;kern&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local0&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local1&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local2&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local3&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local4&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local5&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local6&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;local7&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;lpr&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;mail&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;mark&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;news&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;nopri&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;ntp&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;*&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;syslog&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;user&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;uucp&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SyslogDataSource_LogLevels">SyslogDataSource_LogLevels</h2>
-<p>Used by: <a href="#SyslogDataSource">SyslogDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Alert&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Critical&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Debug&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Emergency&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Error&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Info&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Notice&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;*&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Warning&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="SyslogDataSource_LogLevels_STATUS">SyslogDataSource_LogLevels_STATUS</h2>
-<p>Used by: <a href="#SyslogDataSource_STATUS">SyslogDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Alert&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Critical&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Debug&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Emergency&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Error&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Info&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Notice&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;*&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Warning&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="WindowsFirewallLogsDataSource_ProfileFilter">WindowsFirewallLogsDataSource_ProfileFilter</h2>
-<p>Used by: <a href="#WindowsFirewallLogsDataSource">WindowsFirewallLogsDataSource</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Domain&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Private&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Public&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="WindowsFirewallLogsDataSource_ProfileFilter_STATUS">WindowsFirewallLogsDataSource_ProfileFilter_STATUS</h2>
-<p>Used by: <a href="#WindowsFirewallLogsDataSource_STATUS">WindowsFirewallLogsDataSource_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Value</th>
-          <th>Description</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>&ldquo;Domain&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Private&rdquo;</td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>&ldquo;Public&rdquo;</td>
-          <td></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="LogFileTextSettings">LogFileTextSettings</h2>
-<p>Settings for text log files</p>
-<p>Used by: <a href="#LogFileSettings">LogFileSettings</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>recordStartTimestampFormat</td>
-          <td>One of the supported timestamp formats</td>
-          <td><a href="#LogFileTextSettings_RecordStartTimestampFormat">LogFileTextSettings_RecordStartTimestampFormat</a><br/><small>Required</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="LogFileTextSettings_STATUS">LogFileTextSettings_STATUS</h2>
-<p>Settings for text log files</p>
-<p>Used by: <a href="#LogFileSettings_STATUS">LogFileSettings_STATUS</a>.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Property</th>
-          <th>Description</th>
-          <th>Type</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>recordStartTimestampFormat</td>
-          <td>One of the supported timestamp formats</td>
-          <td><a href="#LogFileTextSettings_RecordStartTimestampFormat_STATUS">LogFileTextSettings_RecordStartTimestampFormat_STATUS</a><br/><small>Optional</small></td>
-      </tr>
-  </tbody>
-</table>
-<h2 id="StorageBlob_LookupType">StorageBlob_LookupType</h2>
+<h2 id="KnownStorageBlobLookupType">KnownStorageBlobLookupType</h2>
+<p>The type of lookup to perform on the blob</p>
 <p>Used by: <a href="#StorageBlob">StorageBlob</a>.</p>
 <table>
   <thead>
@@ -7156,7 +7139,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="StorageBlob_LookupType_STATUS">StorageBlob_LookupType_STATUS</h2>
+<h2 id="KnownStorageBlobLookupType_STATUS">KnownStorageBlobLookupType_STATUS</h2>
+<p>The type of lookup to perform on the blob</p>
 <p>Used by: <a href="#StorageBlob_STATUS">StorageBlob_STATUS</a>.</p>
 <table>
   <thead>
@@ -7176,7 +7160,46 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="LogFileTextSettings_RecordStartTimestampFormat">LogFileTextSettings_RecordStartTimestampFormat</h2>
+<h2 id="LogFileTextSettings">LogFileTextSettings</h2>
+<p>Settings for text log files</p>
+<p>Used by: <a href="#LogFileSettings">LogFileSettings</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>recordStartTimestampFormat</td>
+          <td>One of the supported timestamp formats</td>
+          <td><a href="#KnownLogFileTextSettingsRecordStartTimestampFormat">KnownLogFileTextSettingsRecordStartTimestampFormat</a><br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="LogFileTextSettings_STATUS">LogFileTextSettings_STATUS</h2>
+<p>Settings for text log files</p>
+<p>Used by: <a href="#LogFileSettings_STATUS">LogFileSettings_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>recordStartTimestampFormat</td>
+          <td>One of the supported timestamp formats</td>
+          <td><a href="#KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS">KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="KnownLogFileTextSettingsRecordStartTimestampFormat">KnownLogFileTextSettingsRecordStartTimestampFormat</h2>
+<p>One of the supported timestamp formats</p>
 <p>Used by: <a href="#LogFileTextSettings">LogFileTextSettings</a>.</p>
 <table>
   <thead>
@@ -7224,7 +7247,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec DataCollectionE
       </tr>
   </tbody>
 </table>
-<h2 id="LogFileTextSettings_RecordStartTimestampFormat_STATUS">LogFileTextSettings_RecordStartTimestampFormat_STATUS</h2>
+<h2 id="KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS">KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS</h2>
+<p>One of the supported timestamp formats</p>
 <p>Used by: <a href="#LogFileTextSettings_STATUS">LogFileTextSettings_STATUS</a>.</p>
 <table>
   <thead>
