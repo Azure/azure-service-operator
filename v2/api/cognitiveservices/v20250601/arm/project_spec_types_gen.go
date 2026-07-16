@@ -37,13 +37,6 @@ func (project *Project_Spec) GetType() string {
 	return "Microsoft.CognitiveServices/accounts/projects"
 }
 
-// Identity for the resource.
-type Identity struct {
-	// Type: The identity type.
-	Type                   *Identity_Type                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
-}
-
 // Properties of Cognitive Services Project'.
 type ProjectProperties struct {
 	// Description: The description of the Cognitive Services Project.
@@ -51,26 +44,4 @@ type ProjectProperties struct {
 
 	// DisplayName: The display name of the Cognitive Services Project.
 	DisplayName *string `json:"displayName,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type Identity_Type string
-
-const (
-	Identity_Type_None                       = Identity_Type("None")
-	Identity_Type_SystemAssigned             = Identity_Type("SystemAssigned")
-	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned, UserAssigned")
-	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
-)
-
-// Mapping from string to Identity_Type
-var identity_Type_Values = map[string]Identity_Type{
-	"none":                         Identity_Type_None,
-	"systemassigned":               Identity_Type_SystemAssigned,
-	"systemassigned, userassigned": Identity_Type_SystemAssignedUserAssigned,
-	"userassigned":                 Identity_Type_UserAssigned,
-}
-
-// Information about the user assigned identity for the resource
-type UserAssignedIdentityDetails struct {
 }

@@ -1018,7 +1018,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Secret)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.SecurityPolicy)})
 	result = append(result, &registration.StorageType{
-		Obj: new(cognitiveservices_v1api20250601s.Account),
+		Obj: new(cognitiveservices_v20250601s.Account),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.apiProperties.aadClientIdFromConfig",
@@ -1071,7 +1071,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.apiProperties.storageAccountConnectionString",
 						".spec.properties.migrationToken",
 					},
-					&cognitiveservices_v1api20250601s.AccountList{}),
+					&cognitiveservices_v20250601s.AccountList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -1084,12 +1084,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.apiProperties.superUserFromConfig",
 						".spec.properties.apiProperties.websiteNameFromConfig",
 					},
-					&cognitiveservices_v1api20250601s.AccountList{}),
+					&cognitiveservices_v20250601s.AccountList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(cognitiveservices_v1api20250601s.Deployment),
+		Obj: new(cognitiveservices_v20250601s.Deployment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.model.formatFromConfig",
@@ -1118,7 +1118,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.model.publisherFromConfig",
 						".spec.properties.model.versionFromConfig",
 					},
-					&cognitiveservices_v1api20250601s.DeploymentList{}),
+					&cognitiveservices_v20250601s.DeploymentList{}),
 			},
 		},
 	})
@@ -4455,12 +4455,28 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &cognitiveservices_v1api20250601w.Deployment{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v1api20250601s.Account)}, &registration.KnownType{Obj: new(cognitiveservices_v1api20250601s.Deployment)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(cognitiveservices_v20250601.Project),
-		Defaulter: &cognitiveservices_v20250601w.Project{},
-		Validator: &cognitiveservices_v20250601w.Project{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v20250601s.Project)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(cognitiveservices_v20250601.Account),
+			Defaulter: &cognitiveservices_v20250601w.Account{},
+			Validator: &cognitiveservices_v20250601w.Account{},
+		},
+		&registration.KnownType{
+			Obj:       new(cognitiveservices_v20250601.Deployment),
+			Defaulter: &cognitiveservices_v20250601w.Deployment{},
+			Validator: &cognitiveservices_v20250601w.Deployment{},
+		},
+		&registration.KnownType{
+			Obj:       new(cognitiveservices_v20250601.Project),
+			Defaulter: &cognitiveservices_v20250601w.Project{},
+			Validator: &cognitiveservices_v20250601w.Project{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(cognitiveservices_v20250601s.Account)},
+		&registration.KnownType{Obj: new(cognitiveservices_v20250601s.Deployment)},
+		&registration.KnownType{Obj: new(cognitiveservices_v20250601s.Project)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -8926,9 +8942,9 @@ func indexCdnAfdOriginHostNameFromConfig(rawObj client.Object) []string {
 	return obj.Spec.HostNameFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountAadClientIdFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.aadClientIdFromConfig
+// indexCognitiveservicesAccountAadClientIdFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.aadClientIdFromConfig
 func indexCognitiveservicesAccountAadClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8944,9 +8960,9 @@ func indexCognitiveservicesAccountAadClientIdFromConfig(rawObj client.Object) []
 	return obj.Spec.Properties.ApiProperties.AadClientIdFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountAadTenantIdFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.aadTenantIdFromConfig
+// indexCognitiveservicesAccountAadTenantIdFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.aadTenantIdFromConfig
 func indexCognitiveservicesAccountAadTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8962,9 +8978,9 @@ func indexCognitiveservicesAccountAadTenantIdFromConfig(rawObj client.Object) []
 	return obj.Spec.Properties.ApiProperties.AadTenantIdFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountEventHubConnectionString an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.eventHubConnectionString
+// indexCognitiveservicesAccountEventHubConnectionString an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.eventHubConnectionString
 func indexCognitiveservicesAccountEventHubConnectionString(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8980,9 +8996,9 @@ func indexCognitiveservicesAccountEventHubConnectionString(rawObj client.Object)
 	return obj.Spec.Properties.ApiProperties.EventHubConnectionString.Index()
 }
 
-// indexCognitiveservicesAccountMigrationToken an index function for cognitiveservices_v1api20250601s.Account .spec.properties.migrationToken
+// indexCognitiveservicesAccountMigrationToken an index function for cognitiveservices_v20250601s.Account .spec.properties.migrationToken
 func indexCognitiveservicesAccountMigrationToken(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -8995,9 +9011,9 @@ func indexCognitiveservicesAccountMigrationToken(rawObj client.Object) []string 
 	return obj.Spec.Properties.MigrationToken.Index()
 }
 
-// indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointIdFromConfig
+// indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointIdFromConfig
 func indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9013,9 +9029,9 @@ func indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig(rawObj clie
 	return obj.Spec.Properties.ApiProperties.QnaAzureSearchEndpointIdFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountQnaAzureSearchEndpointKey an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointKey
+// indexCognitiveservicesAccountQnaAzureSearchEndpointKey an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointKey
 func indexCognitiveservicesAccountQnaAzureSearchEndpointKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9031,9 +9047,9 @@ func indexCognitiveservicesAccountQnaAzureSearchEndpointKey(rawObj client.Object
 	return obj.Spec.Properties.ApiProperties.QnaAzureSearchEndpointKey.Index()
 }
 
-// indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.qnaRuntimeEndpointFromConfig
+// indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.qnaRuntimeEndpointFromConfig
 func indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9049,9 +9065,9 @@ func indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig(rawObj client.Obj
 	return obj.Spec.Properties.ApiProperties.QnaRuntimeEndpointFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountStorageAccountConnectionString an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.storageAccountConnectionString
+// indexCognitiveservicesAccountStorageAccountConnectionString an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.storageAccountConnectionString
 func indexCognitiveservicesAccountStorageAccountConnectionString(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9067,9 +9083,9 @@ func indexCognitiveservicesAccountStorageAccountConnectionString(rawObj client.O
 	return obj.Spec.Properties.ApiProperties.StorageAccountConnectionString.Index()
 }
 
-// indexCognitiveservicesAccountSuperUserFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.superUserFromConfig
+// indexCognitiveservicesAccountSuperUserFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.superUserFromConfig
 func indexCognitiveservicesAccountSuperUserFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9085,9 +9101,9 @@ func indexCognitiveservicesAccountSuperUserFromConfig(rawObj client.Object) []st
 	return obj.Spec.Properties.ApiProperties.SuperUserFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountWebsiteNameFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.websiteNameFromConfig
+// indexCognitiveservicesAccountWebsiteNameFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.websiteNameFromConfig
 func indexCognitiveservicesAccountWebsiteNameFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9103,9 +9119,9 @@ func indexCognitiveservicesAccountWebsiteNameFromConfig(rawObj client.Object) []
 	return obj.Spec.Properties.ApiProperties.WebsiteNameFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentFormatFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.formatFromConfig
+// indexCognitiveservicesDeploymentFormatFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.formatFromConfig
 func indexCognitiveservicesDeploymentFormatFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
 	if !ok {
 		return nil
 	}
@@ -9121,9 +9137,9 @@ func indexCognitiveservicesDeploymentFormatFromConfig(rawObj client.Object) []st
 	return obj.Spec.Properties.Model.FormatFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentNameFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.nameFromConfig
+// indexCognitiveservicesDeploymentNameFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.nameFromConfig
 func indexCognitiveservicesDeploymentNameFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
 	if !ok {
 		return nil
 	}
@@ -9139,9 +9155,9 @@ func indexCognitiveservicesDeploymentNameFromConfig(rawObj client.Object) []stri
 	return obj.Spec.Properties.Model.NameFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentPublisherFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.publisherFromConfig
+// indexCognitiveservicesDeploymentPublisherFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.publisherFromConfig
 func indexCognitiveservicesDeploymentPublisherFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
 	if !ok {
 		return nil
 	}
@@ -9157,9 +9173,9 @@ func indexCognitiveservicesDeploymentPublisherFromConfig(rawObj client.Object) [
 	return obj.Spec.Properties.Model.PublisherFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentVersionFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.versionFromConfig
+// indexCognitiveservicesDeploymentVersionFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.versionFromConfig
 func indexCognitiveservicesDeploymentVersionFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
 	if !ok {
 		return nil
 	}

@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	v20250601 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601"
-	storage "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/storage"
+	cognitiveservices_v1api20250601 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601"
+	cognitiveservices_v1api20250601s "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/storage"
+	cognitiveservices_v20250601 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v20250601"
+	cognitiveservices_v20250601s "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v20250601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type AccountExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *AccountExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20250601.Account{},
-		&storage.Account{}}
+		&cognitiveservices_v1api20250601.Account{},
+		&cognitiveservices_v1api20250601s.Account{},
+		&cognitiveservices_v20250601.Account{},
+		&cognitiveservices_v20250601s.Account{}}
 }

@@ -1,0 +1,32 @@
+apiVersion: cognitiveservices.azure.com/v20250601
+kind: Account
+metadata:
+  name: sample-name
+spec:
+  identity:
+    type: SystemAssigned
+  kind: AIServices
+  location: westus3
+  operatorSpec:
+    secrets:
+      key1:
+        name: sample-secrets
+        key: key1
+      key2:
+        name: sample-secrets
+        key: key2
+    secretExpressions:
+      - name: sample-secrets
+        key: endpoint
+        value: self.status.properties.endpoint
+      - name: sample-secrets
+        key: openai-endpoint
+        value: 'self.status.properties.endpoints["OpenAI Language Model Instance API"]'
+  owner:
+    name: sample-rg
+  properties:
+    allowProjectManagement: true
+    customSubDomainName: sample-name
+    publicNetworkAccess: Enabled
+  sku:
+    name: S0

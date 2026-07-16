@@ -403,11 +403,20 @@ To install the CRDs for these resources, your ASO configuration must include `co
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+| Resource                                                                         | ARM Version | CRD Version | Supported From | Sample                                                                                                                             |
+|----------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
+| [Account]({{< relref "/reference/cognitiveservices/v20250601#Account" >}})       | 2025-06-01  | v20250601   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v20250601/v20250601_account.yaml)    |
+| [Deployment]({{< relref "/reference/cognitiveservices/v20250601#Deployment" >}}) | 2025-06-01  | v20250601   | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v20250601/v20250601_deployment.yaml) |
+| [Project]({{< relref "/reference/cognitiveservices/v20250601#Project" >}})       | 2025-06-01  | v20250601   | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v20250601/v20250601_project.yaml)    |
+
+### Deprecated
+
+These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See [Breaking Changes](https://azure.github.io/azure-service-operator/guide/breaking-changes/) for more information.
+
 | Resource                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                     |
 |--------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | [Account]({{< relref "/reference/cognitiveservices/v1api20250601#Account" >}})       | 2025-06-01  | v1api20250601 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v1api20250601/v1api20250601_account.yaml)    |
 | [Deployment]({{< relref "/reference/cognitiveservices/v1api20250601#Deployment" >}}) | 2025-06-01  | v1api20250601 | v2.15.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v1api20250601/v1api20250601_deployment.yaml) |
-| [Project]({{< relref "/reference/cognitiveservices/v20250601#Project" >}})           | 2025-06-01  | v20250601     | v2.20.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cognitiveservices/v20250601/v20250601_project.yaml)            |
 
 ## Communication
 
