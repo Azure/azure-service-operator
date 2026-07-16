@@ -55,7 +55,7 @@ var exclusions = []*regexp.Regexp{
 	// Classic CDN endpoint (Microsoft.Cdn/profiles/endpoints) can only be created under a classic Microsoft
 	// CDN profile, and Azure no longer allows creating new classic Microsoft CDN profiles. Keep the sample
 	// file present so scripts/v2/check_samples.py is satisfied, but skip it in the samples test.
-	regexp.MustCompile(`cdn/v20210601/.*_profilesendpoint.yaml`),
+	regexp.MustCompile(`cdn/v.*20210601/.*_profilesendpoint.yaml`),
 
 	// db users aren't ARM resources
 	regexp.MustCompile(`sql/.*_user.yaml`),
