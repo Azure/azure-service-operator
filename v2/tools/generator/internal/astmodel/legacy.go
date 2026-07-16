@@ -51,16 +51,14 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"apimanagement":    VersionMigrationModeHybrid,
 	"app":              VersionMigrationModeHybrid,
 	"appconfiguration": VersionMigrationModeHybrid,
+	"authorization":    VersionMigrationModeHybrid,
+	"batch":            VersionMigrationModeHybrid,
+	"cache":            VersionMigrationModeHybrid,
 
-	"authorization": VersionMigrationModeHybrid,
+	"cdn": VersionMigrationModeLegacy,
 
-	"batch": VersionMigrationModeHybrid,
-
-	"cache":             VersionMigrationModeHybrid,
-	"cdn":               VersionMigrationModeLegacy,
-	"cognitiveservices": VersionMigrationModeLegacy,
-
-	"compute": VersionMigrationModeHybrid,
+	"cognitiveservices": VersionMigrationModeHybrid,
+	"compute":           VersionMigrationModeHybrid,
 
 	"containerinstance": VersionMigrationModeLegacy,
 	"containerregistry": VersionMigrationModeLegacy,
@@ -73,10 +71,12 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 
 	"dbformysql": VersionMigrationModeHybrid,
 
-	"dbforpostgresql":         VersionMigrationModeLegacy,
-	"devices":                 VersionMigrationModeLegacy,
-	"documentdb":              VersionMigrationModeLegacy,
-	"eventgrid":               VersionMigrationModeHybrid,
+	"dbforpostgresql": VersionMigrationModeLegacy,
+	"devices":         VersionMigrationModeLegacy,
+	"documentdb":      VersionMigrationModeLegacy,
+
+	"eventgrid": VersionMigrationModeHybrid,
+
 	"eventhub":                VersionMigrationModeLegacy,
 	"insights":                VersionMigrationModeLegacy,
 	"keyvault":                VersionMigrationModeLegacy,
@@ -95,14 +95,12 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"search":                  VersionMigrationModeLegacy,
 	"servicebus":              VersionMigrationModeLegacy,
 	"signalrservice":          VersionMigrationModeLegacy,
-	"sql":                     VersionMigrationModeHybrid,
 
-	"storage": VersionMigrationModeHybrid,
-
+	"sql":          VersionMigrationModeHybrid,
+	"storage":      VersionMigrationModeHybrid,
 	"subscription": VersionMigrationModeHybrid,
-
-	"synapse": VersionMigrationModeHybrid,
-	"web":     VersionMigrationModeHybrid,
+	"synapse":      VersionMigrationModeHybrid,
+	"web":          VersionMigrationModeHybrid,
 }
 
 // VersionPrefixForGroup returns the version prefix to use for the specified group.
