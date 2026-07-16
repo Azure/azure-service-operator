@@ -5,7 +5,6 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v20250601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,101 +16,6 @@ import (
 	"reflect"
 	"testing"
 )
-
-func Test_Deployment_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	parameters.MinSuccessfulTests = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Deployment to hub returns original",
-		prop.ForAll(RunResourceConversionTestForDeployment, DeploymentGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunResourceConversionTestForDeployment tests if a specific instance of Deployment round trips to the hub storage version and back losslessly
-func RunResourceConversionTestForDeployment(subject Deployment) string {
-	// Copy subject to make sure conversion doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Convert to our hub version
-	var hub storage.Deployment
-	err := copied.ConvertTo(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Convert from our hub version
-	var actual Deployment
-	err = actual.ConvertFrom(&hub)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Compare actual with what we started with
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Deployment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Deployment to Deployment via AssignProperties_To_Deployment & AssignProperties_From_Deployment returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeployment, DeploymentGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeployment tests if a specific instance of Deployment can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeployment(subject Deployment) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Deployment
-	err := copied.AssignProperties_To_Deployment(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Deployment
-	err = actual.AssignProperties_From_Deployment(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
 
 func Test_Deployment_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -177,53 +81,6 @@ func DeploymentGenerator() gopter.Gen {
 func AddRelatedPropertyGeneratorsForDeployment(gens map[string]gopter.Gen) {
 	gens["Spec"] = Deployment_SpecGenerator()
 	gens["Status"] = Deployment_STATUSGenerator()
-}
-
-func Test_DeploymentCapacitySettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeploymentCapacitySettings to DeploymentCapacitySettings via AssignProperties_To_DeploymentCapacitySettings & AssignProperties_From_DeploymentCapacitySettings returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeploymentCapacitySettings, DeploymentCapacitySettingsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeploymentCapacitySettings tests if a specific instance of DeploymentCapacitySettings can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeploymentCapacitySettings(subject DeploymentCapacitySettings) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentCapacitySettings
-	err := copied.AssignProperties_To_DeploymentCapacitySettings(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeploymentCapacitySettings
-	err = actual.AssignProperties_From_DeploymentCapacitySettings(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_DeploymentCapacitySettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -293,53 +150,6 @@ func AddIndependentPropertyGeneratorsForDeploymentCapacitySettings(gens map[stri
 	gens["Priority"] = gen.PtrOf(gen.Int())
 }
 
-func Test_DeploymentCapacitySettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeploymentCapacitySettings_STATUS to DeploymentCapacitySettings_STATUS via AssignProperties_To_DeploymentCapacitySettings_STATUS & AssignProperties_From_DeploymentCapacitySettings_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeploymentCapacitySettings_STATUS, DeploymentCapacitySettings_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeploymentCapacitySettings_STATUS tests if a specific instance of DeploymentCapacitySettings_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeploymentCapacitySettings_STATUS(subject DeploymentCapacitySettings_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentCapacitySettings_STATUS
-	err := copied.AssignProperties_To_DeploymentCapacitySettings_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeploymentCapacitySettings_STATUS
-	err = actual.AssignProperties_From_DeploymentCapacitySettings_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_DeploymentCapacitySettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -405,53 +215,6 @@ func DeploymentCapacitySettings_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDeploymentCapacitySettings_STATUS(gens map[string]gopter.Gen) {
 	gens["DesignatedCapacity"] = gen.PtrOf(gen.Int())
 	gens["Priority"] = gen.PtrOf(gen.Int())
-}
-
-func Test_DeploymentModel_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeploymentModel to DeploymentModel via AssignProperties_To_DeploymentModel & AssignProperties_From_DeploymentModel returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeploymentModel, DeploymentModelGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeploymentModel tests if a specific instance of DeploymentModel can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeploymentModel(subject DeploymentModel) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentModel
-	err := copied.AssignProperties_To_DeploymentModel(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeploymentModel
-	err = actual.AssignProperties_From_DeploymentModel(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_DeploymentModel_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -520,53 +283,6 @@ func AddIndependentPropertyGeneratorsForDeploymentModel(gens map[string]gopter.G
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_DeploymentModel_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeploymentModel_STATUS to DeploymentModel_STATUS via AssignProperties_To_DeploymentModel_STATUS & AssignProperties_From_DeploymentModel_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeploymentModel_STATUS, DeploymentModel_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeploymentModel_STATUS tests if a specific instance of DeploymentModel_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeploymentModel_STATUS(subject DeploymentModel_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentModel_STATUS
-	err := copied.AssignProperties_To_DeploymentModel_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeploymentModel_STATUS
-	err = actual.AssignProperties_From_DeploymentModel_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_DeploymentModel_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -654,53 +370,6 @@ func AddRelatedPropertyGeneratorsForDeploymentModel_STATUS(gens map[string]gopte
 	gens["CallRateLimit"] = gen.PtrOf(CallRateLimit_STATUSGenerator())
 }
 
-func Test_DeploymentOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeploymentOperatorSpec to DeploymentOperatorSpec via AssignProperties_To_DeploymentOperatorSpec & AssignProperties_From_DeploymentOperatorSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeploymentOperatorSpec, DeploymentOperatorSpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeploymentOperatorSpec tests if a specific instance of DeploymentOperatorSpec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeploymentOperatorSpec(subject DeploymentOperatorSpec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentOperatorSpec
-	err := copied.AssignProperties_To_DeploymentOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeploymentOperatorSpec
-	err = actual.AssignProperties_From_DeploymentOperatorSpec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_DeploymentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -759,53 +428,6 @@ func DeploymentOperatorSpecGenerator() gopter.Gen {
 	deploymentOperatorSpecGenerator = gen.Struct(reflect.TypeOf(DeploymentOperatorSpec{}), generators)
 
 	return deploymentOperatorSpecGenerator
-}
-
-func Test_DeploymentProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeploymentProperties to DeploymentProperties via AssignProperties_To_DeploymentProperties & AssignProperties_From_DeploymentProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeploymentProperties, DeploymentPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeploymentProperties tests if a specific instance of DeploymentProperties can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeploymentProperties(subject DeploymentProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentProperties
-	err := copied.AssignProperties_To_DeploymentProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeploymentProperties
-	err = actual.AssignProperties_From_DeploymentProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_DeploymentProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -891,53 +513,6 @@ func AddRelatedPropertyGeneratorsForDeploymentProperties(gens map[string]gopter.
 	gens["CapacitySettings"] = gen.PtrOf(DeploymentCapacitySettingsGenerator())
 	gens["Model"] = gen.PtrOf(DeploymentModelGenerator())
 	gens["ScaleSettings"] = gen.PtrOf(DeploymentScaleSettingsGenerator())
-}
-
-func Test_DeploymentProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeploymentProperties_STATUS to DeploymentProperties_STATUS via AssignProperties_To_DeploymentProperties_STATUS & AssignProperties_From_DeploymentProperties_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeploymentProperties_STATUS, DeploymentProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeploymentProperties_STATUS tests if a specific instance of DeploymentProperties_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeploymentProperties_STATUS(subject DeploymentProperties_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentProperties_STATUS
-	err := copied.AssignProperties_To_DeploymentProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeploymentProperties_STATUS
-	err = actual.AssignProperties_From_DeploymentProperties_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_DeploymentProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1033,53 +608,6 @@ func AddRelatedPropertyGeneratorsForDeploymentProperties_STATUS(gens map[string]
 	gens["ScaleSettings"] = gen.PtrOf(DeploymentScaleSettings_STATUSGenerator())
 }
 
-func Test_DeploymentScaleSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeploymentScaleSettings to DeploymentScaleSettings via AssignProperties_To_DeploymentScaleSettings & AssignProperties_From_DeploymentScaleSettings returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeploymentScaleSettings, DeploymentScaleSettingsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeploymentScaleSettings tests if a specific instance of DeploymentScaleSettings can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeploymentScaleSettings(subject DeploymentScaleSettings) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentScaleSettings
-	err := copied.AssignProperties_To_DeploymentScaleSettings(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeploymentScaleSettings
-	err = actual.AssignProperties_From_DeploymentScaleSettings(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_DeploymentScaleSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1145,53 +673,6 @@ func DeploymentScaleSettingsGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDeploymentScaleSettings(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["ScaleType"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_DeploymentScaleSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from DeploymentScaleSettings_STATUS to DeploymentScaleSettings_STATUS via AssignProperties_To_DeploymentScaleSettings_STATUS & AssignProperties_From_DeploymentScaleSettings_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeploymentScaleSettings_STATUS, DeploymentScaleSettings_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeploymentScaleSettings_STATUS tests if a specific instance of DeploymentScaleSettings_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeploymentScaleSettings_STATUS(subject DeploymentScaleSettings_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentScaleSettings_STATUS
-	err := copied.AssignProperties_To_DeploymentScaleSettings_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DeploymentScaleSettings_STATUS
-	err = actual.AssignProperties_From_DeploymentScaleSettings_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_DeploymentScaleSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1260,53 +741,6 @@ func AddIndependentPropertyGeneratorsForDeploymentScaleSettings_STATUS(gens map[
 	gens["ActiveCapacity"] = gen.PtrOf(gen.Int())
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["ScaleType"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_Deployment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Deployment_STATUS to Deployment_STATUS via AssignProperties_To_Deployment_STATUS & AssignProperties_From_Deployment_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeployment_STATUS, Deployment_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeployment_STATUS tests if a specific instance of Deployment_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeployment_STATUS(subject Deployment_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Deployment_STATUS
-	err := copied.AssignProperties_To_Deployment_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Deployment_STATUS
-	err = actual.AssignProperties_From_Deployment_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_Deployment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1396,53 +830,6 @@ func AddRelatedPropertyGeneratorsForDeployment_STATUS(gens map[string]gopter.Gen
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_Deployment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Deployment_Spec to Deployment_Spec via AssignProperties_To_Deployment_Spec & AssignProperties_From_Deployment_Spec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDeployment_Spec, Deployment_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForDeployment_Spec tests if a specific instance of Deployment_Spec can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForDeployment_Spec(subject Deployment_Spec) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Deployment_Spec
-	err := copied.AssignProperties_To_Deployment_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Deployment_Spec
-	err = actual.AssignProperties_From_Deployment_Spec(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_Deployment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1528,53 +915,6 @@ func AddRelatedPropertyGeneratorsForDeployment_Spec(gens map[string]gopter.Gen) 
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 }
 
-func Test_RequestMatchPattern_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RequestMatchPattern_STATUS to RequestMatchPattern_STATUS via AssignProperties_To_RequestMatchPattern_STATUS & AssignProperties_From_RequestMatchPattern_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRequestMatchPattern_STATUS, RequestMatchPattern_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForRequestMatchPattern_STATUS tests if a specific instance of RequestMatchPattern_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForRequestMatchPattern_STATUS(subject RequestMatchPattern_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestMatchPattern_STATUS
-	err := copied.AssignProperties_To_RequestMatchPattern_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RequestMatchPattern_STATUS
-	err = actual.AssignProperties_From_RequestMatchPattern_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
 func Test_RequestMatchPattern_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -1640,53 +980,6 @@ func RequestMatchPattern_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRequestMatchPattern_STATUS(gens map[string]gopter.Gen) {
 	gens["Method"] = gen.PtrOf(gen.AlphaString())
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ThrottlingRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-
-	if testing.Short() {
-		return
-	}
-
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ThrottlingRule_STATUS to ThrottlingRule_STATUS via AssignProperties_To_ThrottlingRule_STATUS & AssignProperties_From_ThrottlingRule_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForThrottlingRule_STATUS, ThrottlingRule_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForThrottlingRule_STATUS tests if a specific instance of ThrottlingRule_STATUS can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForThrottlingRule_STATUS(subject ThrottlingRule_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ThrottlingRule_STATUS
-	err := copied.AssignProperties_To_ThrottlingRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ThrottlingRule_STATUS
-	err = actual.AssignProperties_From_ThrottlingRule_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
 }
 
 func Test_ThrottlingRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
