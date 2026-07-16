@@ -17,7 +17,7 @@ APIVersion{#APIVersion}
 Vault{#Vault}
 -------------
 
-Generator information: - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.KeyVault/&ZeroWidthSpace;vaults/&ZeroWidthSpace;{vaultName}
+Generator information: - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/KeyVault/preview/2021-04-01-preview/keyvault.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.KeyVault/&ZeroWidthSpace;vaults/&ZeroWidthSpace;{vaultName}
 
 Used by: [VaultList](#VaultList).
 
@@ -55,7 +55,7 @@ Used by: [VaultList](#VaultList).
 VaultList{#VaultList}
 ---------------------
 
-Generator information: - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/preview/2021-04-01-preview/keyvault.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.KeyVault/&ZeroWidthSpace;vaults/&ZeroWidthSpace;{vaultName}
+Generator information: - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/KeyVault/preview/2021-04-01-preview/keyvault.json - ARM URI: /&ZeroWidthSpace;subscriptions/&ZeroWidthSpace;{subscriptionId}/&ZeroWidthSpace;resourceGroups/&ZeroWidthSpace;{resourceGroupName}/&ZeroWidthSpace;providers/&ZeroWidthSpace;Microsoft.KeyVault/&ZeroWidthSpace;vaults/&ZeroWidthSpace;{vaultName}
 
 | Property                                                                            | Description | Type                                          |
 |-------------------------------------------------------------------------------------|-------------|-----------------------------------------------|
