@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Profile{}
 
 // ConvertFrom populates our Profile from the provided hub Profile
 func (profile *Profile) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Profile)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/Profile but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Profile
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return profile.AssignProperties_From_Profile(source)
+	err = profile.AssignProperties_From_Profile(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to profile")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Profile from our Profile
 func (profile *Profile) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Profile)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/Profile but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Profile
+	err := profile.AssignProperties_To_Profile(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from profile")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return profile.AssignProperties_To_Profile(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Profile{}
@@ -87,17 +101,6 @@ func (profile *Profile) SecretDestinationExpressions() []*core.DestinationExpres
 		return nil
 	}
 	return profile.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Profile{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (profile *Profile) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Profile_STATUS); ok {
-		return profile.Spec.Initialize_From_Profile_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Profile_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Profile{}
@@ -594,46 +597,6 @@ func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *stora
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Profile_STATUS populates our Profile_Spec from the provided source Profile_STATUS
-func (profile *Profile_Spec) Initialize_From_Profile_STATUS(source *Profile_STATUS) error {
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		profile.Identity = &identity
-	} else {
-		profile.Identity = nil
-	}
-
-	// Location
-	profile.Location = genruntime.ClonePointerToString(source.Location)
-
-	// OriginResponseTimeoutSeconds
-	profile.OriginResponseTimeoutSeconds = genruntime.ClonePointerToInt(source.OriginResponseTimeoutSeconds)
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		profile.Sku = &sku
-	} else {
-		profile.Sku = nil
-	}
-
-	// Tags
-	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1214,33 +1177,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 	return nil
 }
 
-// Initialize_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_STATUS(source *ManagedServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentityType_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Managed service identity (system assigned and/or user assigned identities)
 type ManagedServiceIdentity_STATUS struct {
 	// PrincipalId: The service principal ID of the system assigned identity. This property will only be provided for a system
@@ -1639,21 +1575,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
 	}
 
 	// No error

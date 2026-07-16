@@ -126,12 +126,18 @@ import (
 	cache_v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
 	cache_v20250401w "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/webhook"
 	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
-	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
-	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
-	cdn_v20210601w "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/webhook"
-	cdn_v20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
-	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
-	cdn_v20230501w "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/webhook"
+	cdn_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
+	cdn_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
+	cdn_v1api20210601w "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/webhook"
+	cdn_v1api20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20230501w "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/webhook"
+	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v20210601"
+	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v20210601/storage"
+	cdn_v20210601w "github.com/Azure/azure-service-operator/v2/api/cdn/v20210601/webhook"
+	cdn_v20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
+	cdn_v20230501w "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/webhook"
 	cognitiveservices_customizations "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/customizations"
 	cognitiveservices_v1api20250601 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601"
 	cognitiveservices_v1api20250601s "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/storage"
@@ -4372,6 +4378,80 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(cache_v20250401s.RedisEnterpriseDatabase)},
 		&registration.KnownType{Obj: new(cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(cdn_v1api20210601.Profile),
+		Defaulter: &cdn_v1api20210601w.Profile{},
+		Validator: &cdn_v1api20210601w.Profile{},
+	}, &registration.KnownType{
+		Obj:       new(cdn_v1api20210601.ProfilesEndpoint),
+		Defaulter: &cdn_v1api20210601w.ProfilesEndpoint{},
+		Validator: &cdn_v1api20210601w.ProfilesEndpoint{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(cdn_v1api20210601s.Profile)}, &registration.KnownType{Obj: new(cdn_v1api20210601s.ProfilesEndpoint)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(cdn_v1api20230501.AfdCustomDomain),
+			Defaulter: &cdn_v1api20230501w.AfdCustomDomain{},
+			Validator: &cdn_v1api20230501w.AfdCustomDomain{},
+		},
+		&registration.KnownType{
+			Obj:       new(cdn_v1api20230501.AfdEndpoint),
+			Defaulter: &cdn_v1api20230501w.AfdEndpoint{},
+			Validator: &cdn_v1api20230501w.AfdEndpoint{},
+		},
+		&registration.KnownType{
+			Obj:       new(cdn_v1api20230501.AfdOrigin),
+			Defaulter: &cdn_v1api20230501w.AfdOrigin{},
+			Validator: &cdn_v1api20230501w.AfdOrigin{},
+		},
+		&registration.KnownType{
+			Obj:       new(cdn_v1api20230501.AfdOriginGroup),
+			Defaulter: &cdn_v1api20230501w.AfdOriginGroup{},
+			Validator: &cdn_v1api20230501w.AfdOriginGroup{},
+		},
+		&registration.KnownType{
+			Obj:       new(cdn_v1api20230501.Profile),
+			Defaulter: &cdn_v1api20230501w.Profile{},
+			Validator: &cdn_v1api20230501w.Profile{},
+		},
+		&registration.KnownType{
+			Obj:       new(cdn_v1api20230501.Route),
+			Defaulter: &cdn_v1api20230501w.Route{},
+			Validator: &cdn_v1api20230501w.Route{},
+		},
+		&registration.KnownType{
+			Obj:       new(cdn_v1api20230501.Rule),
+			Defaulter: &cdn_v1api20230501w.Rule{},
+			Validator: &cdn_v1api20230501w.Rule{},
+		},
+		&registration.KnownType{
+			Obj:       new(cdn_v1api20230501.RuleSet),
+			Defaulter: &cdn_v1api20230501w.RuleSet{},
+			Validator: &cdn_v1api20230501w.RuleSet{},
+		},
+		&registration.KnownType{
+			Obj:       new(cdn_v1api20230501.Secret),
+			Defaulter: &cdn_v1api20230501w.Secret{},
+			Validator: &cdn_v1api20230501w.Secret{},
+		},
+		&registration.KnownType{
+			Obj:       new(cdn_v1api20230501.SecurityPolicy),
+			Defaulter: &cdn_v1api20230501w.SecurityPolicy{},
+			Validator: &cdn_v1api20230501w.SecurityPolicy{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(cdn_v1api20230501s.AfdCustomDomain)},
+		&registration.KnownType{Obj: new(cdn_v1api20230501s.AfdEndpoint)},
+		&registration.KnownType{Obj: new(cdn_v1api20230501s.AfdOrigin)},
+		&registration.KnownType{Obj: new(cdn_v1api20230501s.AfdOriginGroup)},
+		&registration.KnownType{Obj: new(cdn_v1api20230501s.Profile)},
+		&registration.KnownType{Obj: new(cdn_v1api20230501s.Route)},
+		&registration.KnownType{Obj: new(cdn_v1api20230501s.Rule)},
+		&registration.KnownType{Obj: new(cdn_v1api20230501s.RuleSet)},
+		&registration.KnownType{Obj: new(cdn_v1api20230501s.Secret)},
+		&registration.KnownType{Obj: new(cdn_v1api20230501s.SecurityPolicy)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(cdn_v20210601.Profile),
 		Defaulter: &cdn_v20210601w.Profile{},
 		Validator: &cdn_v20210601w.Profile{},
@@ -7864,6 +7944,10 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20241101s.AddToScheme(scheme)
 	_ = cache_v20250401.AddToScheme(scheme)
 	_ = cache_v20250401s.AddToScheme(scheme)
+	_ = cdn_v1api20210601.AddToScheme(scheme)
+	_ = cdn_v1api20210601s.AddToScheme(scheme)
+	_ = cdn_v1api20230501.AddToScheme(scheme)
+	_ = cdn_v1api20230501s.AddToScheme(scheme)
 	_ = cdn_v20210601.AddToScheme(scheme)
 	_ = cdn_v20210601s.AddToScheme(scheme)
 	_ = cdn_v20230501.AddToScheme(scheme)

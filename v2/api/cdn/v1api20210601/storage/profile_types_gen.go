@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &Profile{}
 
 // ConvertFrom populates our Profile from the provided hub Profile
 func (profile *Profile) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Profile)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/Profile but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Profile
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return profile.AssignProperties_From_Profile(source)
+	err = profile.AssignProperties_From_Profile(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to profile")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Profile from our Profile
 func (profile *Profile) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Profile)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/Profile but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Profile
+	err := profile.AssignProperties_To_Profile(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from profile")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return profile.AssignProperties_To_Profile(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Profile{}
@@ -343,13 +356,6 @@ func (profile *Profile_Spec) AssignProperties_From_Profile_Spec(source *storage.
 	// AzureName
 	profile.AzureName = source.AzureName
 
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
-	}
-
 	// Location
 	profile.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -421,19 +427,6 @@ func (profile *Profile_Spec) AssignProperties_To_Profile_Spec(destination *stora
 
 	// AzureName
 	destination.AzureName = profile.AzureName
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity storage.ManagedServiceIdentity
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(profile.Location)
@@ -576,25 +569,11 @@ func (profile *Profile_STATUS) AssignProperties_From_Profile_STATUS(source *stor
 	// Conditions
 	profile.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
-	// ExtendedProperties
-	if len(source.ExtendedProperties) > 0 {
-		propertyBag.Add("ExtendedProperties", source.ExtendedProperties)
-	} else {
-		propertyBag.Remove("ExtendedProperties")
-	}
-
 	// FrontDoorId
 	profile.FrontDoorId = genruntime.ClonePointerToString(source.FrontDoorId)
 
 	// Id
 	profile.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Identity
-	if source.Identity != nil {
-		propertyBag.Add("Identity", *source.Identity)
-	} else {
-		propertyBag.Remove("Identity")
-	}
 
 	// Kind
 	profile.Kind = genruntime.ClonePointerToString(source.Kind)
@@ -672,37 +651,11 @@ func (profile *Profile_STATUS) AssignProperties_To_Profile_STATUS(destination *s
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(profile.Conditions)
 
-	// ExtendedProperties
-	if propertyBag.Contains("ExtendedProperties") {
-		var extendedProperty map[string]string
-		err := propertyBag.Pull("ExtendedProperties", &extendedProperty)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ExtendedProperties' from propertyBag")
-		}
-
-		destination.ExtendedProperties = extendedProperty
-	} else {
-		destination.ExtendedProperties = nil
-	}
-
 	// FrontDoorId
 	destination.FrontDoorId = genruntime.ClonePointerToString(profile.FrontDoorId)
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(profile.Id)
-
-	// Identity
-	if propertyBag.Contains("Identity") {
-		var identity storage.ManagedServiceIdentity_STATUS
-		err := propertyBag.Pull("Identity", &identity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'Identity' from propertyBag")
-		}
-
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
 
 	// Kind
 	destination.Kind = genruntime.ClonePointerToString(profile.Kind)

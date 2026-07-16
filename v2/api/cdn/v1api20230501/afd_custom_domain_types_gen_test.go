@@ -5,7 +5,8 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -40,7 +41,7 @@ func RunPropertyAssignmentTestForAFDDomainHttpsParameters(subject AFDDomainHttps
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AFDDomainHttpsParameters
+	var other cdn_v1api20230501s.AFDDomainHttpsParameters
 	err := copied.AssignProperties_To_AFDDomainHttpsParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -168,7 +169,7 @@ func RunPropertyAssignmentTestForAFDDomainHttpsParameters_STATUS(subject AFDDoma
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AFDDomainHttpsParameters_STATUS
+	var other cdn_v1api20230501s.AFDDomainHttpsParameters_STATUS
 	err := copied.AssignProperties_To_AFDDomainHttpsParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -297,7 +298,7 @@ func RunResourceConversionTestForAfdCustomDomain(subject AfdCustomDomain) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.AfdCustomDomain
+	var hub cdn_v20230501s.AfdCustomDomain
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -344,7 +345,7 @@ func RunPropertyAssignmentTestForAfdCustomDomain(subject AfdCustomDomain) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdCustomDomain
+	var other cdn_v1api20230501s.AfdCustomDomain
 	err := copied.AssignProperties_To_AfdCustomDomain(&other)
 	if err != nil {
 		return err.Error()
@@ -457,7 +458,7 @@ func RunPropertyAssignmentTestForAfdCustomDomainOperatorSpec(subject AfdCustomDo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdCustomDomainOperatorSpec
+	var other cdn_v1api20230501s.AfdCustomDomainOperatorSpec
 	err := copied.AssignProperties_To_AfdCustomDomainOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -564,7 +565,7 @@ func RunPropertyAssignmentTestForAfdCustomDomain_STATUS(subject AfdCustomDomain_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdCustomDomain_STATUS
+	var other cdn_v1api20230501s.AfdCustomDomain_STATUS
 	err := copied.AssignProperties_To_AfdCustomDomain_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -723,7 +724,7 @@ func RunPropertyAssignmentTestForAfdCustomDomain_Spec(subject AfdCustomDomain_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdCustomDomain_Spec
+	var other cdn_v1api20230501s.AfdCustomDomain_Spec
 	err := copied.AssignProperties_To_AfdCustomDomain_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -857,7 +858,7 @@ func RunPropertyAssignmentTestForDomainValidationProperties_STATUS(subject Domai
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DomainValidationProperties_STATUS
+	var other cdn_v1api20230501s.DomainValidationProperties_STATUS
 	err := copied.AssignProperties_To_DomainValidationProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -971,7 +972,7 @@ func RunPropertyAssignmentTestForResourceReference(subject ResourceReference) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceReference
+	var other cdn_v1api20230501s.ResourceReference
 	err := copied.AssignProperties_To_ResourceReference(&other)
 	if err != nil {
 		return err.Error()
@@ -1077,7 +1078,7 @@ func RunPropertyAssignmentTestForResourceReference_STATUS(subject ResourceRefere
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceReference_STATUS
+	var other cdn_v1api20230501s.ResourceReference_STATUS
 	err := copied.AssignProperties_To_ResourceReference_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1190,7 +1191,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other cdn_v1api20230501s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
