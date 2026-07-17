@@ -76,7 +76,7 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 ) (ctrl.Result, error) {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", group.Name)
+		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", obj.GetName())
 	}
 
 	// If we already know the Entra ID of the group (captured in an annotation), we can update it directly
@@ -117,7 +117,7 @@ func (r *EntraSecurityGroupReconciler) Delete(
 
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", group.Name)
+		return ctrl.Result{}, eris.Wrapf(err, "deleting security group %s", obj.GetName())
 	}
 
 	// If don't know the Entra ID of the group (captured in an annotation), there's nothing to do.
@@ -529,7 +529,7 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 ) error {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return eris.Wrapf(err, "updating status of security group %s", group.Name)
+		return eris.Wrapf(err, "updating status of security group %s", obj.GetName())
 	}
 
 	client, err := r.EntraClientFactory(ctx, obj)
