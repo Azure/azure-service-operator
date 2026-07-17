@@ -281,18 +281,19 @@ func ownersSide(
 	groupBuilder *groups.GroupItemRequestBuilder,
 	desired []string,
 ) relationshipSide {
-	refBuilder := groupBuilder.Owners().Ref()
+	ownersBuilder := groupBuilder.Owners()
+	refBuilder := ownersBuilder.Ref()
 	return relationshipSide{
 		name:    "owners",
 		desired: desired,
 		list: func(ctx context.Context) ([]string, error) {
 			return collectDirectoryObjectIDs(
 				ctx,
-				func(ctx context.Context) (msgraphmodels.StringCollectionResponseable, error) {
-					return refBuilder.Get(ctx, nil)
+				func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+					return ownersBuilder.Get(ctx, nil)
 				},
-				func(nextLink string) (msgraphmodels.StringCollectionResponseable, error) {
-					return refBuilder.WithUrl(nextLink).Get(ctx, nil)
+				func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+					return ownersBuilder.WithUrl(nextLink).Get(ctx, nil)
 				},
 			)
 		},
@@ -317,18 +318,19 @@ func membersSide(
 	groupBuilder *groups.GroupItemRequestBuilder,
 	desired []string,
 ) relationshipSide {
-	refBuilder := groupBuilder.Members().Ref()
+	membersBuilder := groupBuilder.Members()
+	refBuilder := membersBuilder.Ref()
 	return relationshipSide{
 		name:    "members",
 		desired: desired,
 		list: func(ctx context.Context) ([]string, error) {
 			return collectDirectoryObjectIDs(
 				ctx,
-				func(ctx context.Context) (msgraphmodels.StringCollectionResponseable, error) {
-					return refBuilder.Get(ctx, nil)
+				func(ctx context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+					return membersBuilder.Get(ctx, nil)
 				},
-				func(nextLink string) (msgraphmodels.StringCollectionResponseable, error) {
-					return refBuilder.WithUrl(nextLink).Get(ctx, nil)
+				func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+					return membersBuilder.WithUrl(nextLink).Get(ctx, nil)
 				},
 			)
 		},
@@ -355,8 +357,8 @@ func relationshipSidesToManage(spec asoentrav1.SecurityGroupSpec) (bool, bool) {
 
 func collectDirectoryObjectIDs(
 	ctx context.Context,
-	firstPage func(context.Context) (msgraphmodels.StringCollectionResponseable, error),
-	nextPage func(string) (msgraphmodels.StringCollectionResponseable, error),
+	firstPage func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error),
+	nextPage func(string) (msgraphmodels.DirectoryObjectCollectionResponseable, error),
 ) ([]string, error) {
 	response, err := firstPage(ctx)
 	if err != nil {
@@ -366,7 +368,13 @@ func collectDirectoryObjectIDs(
 	iterations := 0
 	result := make([]string, 0)
 	for response != nil {
-		result = append(result, extractDirectoryObjectIDs(response.GetValue())...)
+		for _, entry := range response.GetValue() {
+			id := to.Value(entry.GetId())
+			if id == "" {
+				continue
+			}
+			result = append(result, id)
+		}
 
 		nextLink := to.Value(response.GetOdataNextLink())
 		if nextLink == "" {
@@ -391,20 +399,6 @@ func collectDirectoryObjectIDs(
 	}
 
 	return orderedUnique(result), nil
-}
-
-func extractDirectoryObjectIDs(values []string) []string {
-	result := make([]string, 0, len(values))
-	for _, value := range values {
-		objectID := directoryObjectIDFromRef(value)
-		if objectID == "" {
-			continue
-		}
-
-		result = append(result, objectID)
-	}
-
-	return result
 }
 
 // tryAdopt tries to find an existing Entra security group to adopt.

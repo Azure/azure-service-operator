@@ -70,30 +70,23 @@ func TestCollectDirectoryObjectIDs_PaginatesAndDedupes(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	pages := map[string]msgraphmodels.StringCollectionResponseable{
-		"first": makeStringCollectionPage(
-			[]string{
-				"https://graph.microsoft.com/v1.0/directoryObjects/owner-a",
-				"https://graph.microsoft.com/v1.0/directoryObjects/owner-b",
-			},
+	pages := map[string]msgraphmodels.DirectoryObjectCollectionResponseable{
+		"first": makeDirectoryObjectPage(
+			[]string{"owner-a", "owner-b"},
 			stringPtr("second"),
 		),
-		"second": makeStringCollectionPage(
-			[]string{
-				"owner-b",
-				"https://graph.microsoft.com/v1.0/directoryObjects/owner-c",
-				"   ",
-			},
+		"second": makeDirectoryObjectPage(
+			[]string{"owner-b", "owner-c", ""},
 			nil,
 		),
 	}
 
 	ids, err := collectDirectoryObjectIDs(
 		context.Background(),
-		func(context.Context) (msgraphmodels.StringCollectionResponseable, error) {
+		func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return pages["first"], nil
 		},
-		func(nextLink string) (msgraphmodels.StringCollectionResponseable, error) {
+		func(nextLink string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return pages[nextLink], nil
 		},
 	)
@@ -108,10 +101,10 @@ func TestCollectDirectoryObjectIDs_FirstPageError(t *testing.T) {
 
 	_, err := collectDirectoryObjectIDs(
 		context.Background(),
-		func(context.Context) (msgraphmodels.StringCollectionResponseable, error) {
+		func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return nil, errors.New("first page failed")
 		},
-		func(string) (msgraphmodels.StringCollectionResponseable, error) {
+		func(string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return nil, nil
 		},
 	)
@@ -126,13 +119,13 @@ func TestCollectDirectoryObjectIDs_NextPageError(t *testing.T) {
 
 	_, err := collectDirectoryObjectIDs(
 		context.Background(),
-		func(context.Context) (msgraphmodels.StringCollectionResponseable, error) {
-			return makeStringCollectionPage(
-				[]string{"https://graph.microsoft.com/v1.0/directoryObjects/owner-a"},
+		func(context.Context) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
+			return makeDirectoryObjectPage(
+				[]string{"owner-a"},
 				stringPtr("next"),
 			), nil
 		},
-		func(string) (msgraphmodels.StringCollectionResponseable, error) {
+		func(string) (msgraphmodels.DirectoryObjectCollectionResponseable, error) {
 			return nil, errors.New("next page failed")
 		},
 	)
@@ -141,8 +134,17 @@ func TestCollectDirectoryObjectIDs_NextPageError(t *testing.T) {
 	g.Expect(err.Error()).To(ContainSubstring("next page failed"))
 }
 
-func makeStringCollectionPage(values []string, nextLink *string) msgraphmodels.StringCollectionResponseable {
-	response := msgraphmodels.NewStringCollectionResponse()
+func makeDirectoryObjectPage(ids []string, nextLink *string) msgraphmodels.DirectoryObjectCollectionResponseable {
+	response := msgraphmodels.NewDirectoryObjectCollectionResponse()
+	values := make([]msgraphmodels.DirectoryObjectable, 0, len(ids))
+	for _, id := range ids {
+		obj := msgraphmodels.NewDirectoryObject()
+		if id != "" {
+			idCopy := id
+			obj.SetId(&idCopy)
+		}
+		values = append(values, obj)
+	}
 	response.SetValue(values)
 	response.SetOdataNextLink(nextLink)
 	return response

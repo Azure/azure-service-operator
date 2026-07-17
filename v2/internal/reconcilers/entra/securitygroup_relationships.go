@@ -7,7 +7,6 @@ package entra
 
 import (
 	"context"
-	"strings"
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
@@ -115,28 +114,4 @@ func (r *EntraSecurityGroupReconciler) reconcileRelationshipSide(
 	)
 
 	return nil
-}
-
-func directoryObjectIDFromRef(value string) string {
-	trimmed := strings.TrimSpace(value)
-	if trimmed == "" {
-		return ""
-	}
-
-	lastSlash := strings.LastIndex(trimmed, "/")
-	if lastSlash < 0 || lastSlash == len(trimmed)-1 {
-		return trimmed
-	}
-
-	trimmed = trimmed[lastSlash+1:]
-
-	if questionMark := strings.Index(trimmed, "?"); questionMark >= 0 {
-		trimmed = trimmed[:questionMark]
-	}
-
-	if hash := strings.Index(trimmed, "#"); hash >= 0 {
-		trimmed = trimmed[:hash]
-	}
-
-	return trimmed
 }
