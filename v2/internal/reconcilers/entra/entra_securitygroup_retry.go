@@ -124,21 +124,14 @@ func maxRetryAfterFromError(err error) (time.Duration, bool) {
 }
 
 func isPermissionError(err error) bool {
-	odataError, ok := asODataError(err)
+	// errors.AsType walks both `Unwrap() error` and `Unwrap() []error`, so it
+	// finds an ODataError nested inside any wrapping (including errors.Join).
+	odataError, ok := errors.AsType[*odataerrors.ODataError](err)
 	if !ok {
 		return false
 	}
 
 	return odataError.ResponseStatusCode == http.StatusForbidden
-}
-
-func asODataError(err error) (*odataerrors.ODataError, bool) {
-	// AsType() walks both `Unwrap() error`` and `Unwrap() []error` we we'll find anything nested
-	if odataError, ok := errors.AsType[*odataerrors.ODataError](err); ok {
-		return odataError, true
-	}
-
-	return nil, false
 }
 
 func retryAfterFromODataError(
