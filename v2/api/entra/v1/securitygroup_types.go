@@ -12,7 +12,6 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra"
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -184,22 +183,30 @@ func (spec *SecurityGroupSpec) AssignODataBindOnCreate(
 	return nil
 }
 
-// ResolveOwnerObjectIDs resolves and de-duplicates owner object IDs.
+// ResolveOwnerObjectIDs resolves owner object IDs, returning an error if two entries
+// resolve to the same identifier.
 func (spec *SecurityGroupSpec) ResolveOwnerObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]string, error) {
 	return resolveMemberObjectIDs(spec.Owners, "owners", resolved)
 }
 
-// ResolveMemberObjectIDs resolves and de-duplicates member object IDs.
+// ResolveMemberObjectIDs resolves member object IDs, returning an error if two entries
+// resolve to the same identifier.
 func (spec *SecurityGroupSpec) ResolveMemberObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]string, error) {
 	return resolveMemberObjectIDs(spec.Members, "members", resolved)
 }
 
+// resolveMemberObjectIDs resolves each entry via ResolveObjectID and returns an error
+// if two entries share the same resolved id. CEL admission rules already catch
+// inline-vs-inline and configmap-vs-configmap collisions, but they cannot detect a
+// mixed case where an inline ObjectID equals a value looked up from a ConfigMap; that
+// case needs to be checked at reconcile time so users see the problem instead of
+// having ASO silently drop one of the entries.
 func resolveMemberObjectIDs(
 	references []SecurityGroupMemberReference,
 	field string,
 	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
 ) ([]string, error) {
-	seen := set.Make[string]()
+	firstSeenAt := make(map[string]int, len(references))
 	result := make([]string, 0, len(references))
 	for i, ref := range references {
 		id, err := ref.ResolveObjectID(resolved)
@@ -207,11 +214,14 @@ func resolveMemberObjectIDs(
 			return nil, eris.Wrapf(err, "%s[%d]", field, i)
 		}
 
-		if seen.Contains(id) {
-			continue
+		if firstIndex, ok := firstSeenAt[id]; ok {
+			return nil, eris.Errorf(
+				"%s[%d] resolves to the same object id as %s[%d] (%s)",
+				field, i, field, firstIndex, id,
+			)
 		}
 
-		seen.Add(id)
+		firstSeenAt[id] = i
 		result = append(result, id)
 	}
 

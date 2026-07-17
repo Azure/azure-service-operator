@@ -107,7 +107,7 @@ func TestSecurityGroupSpec_AssignODataBindOnCreate_ErrorsWhenConfigLookupFails(t
 	g.Expect(err).To(MatchError(ContainSubstring("objectIDFromConfig")))
 }
 
-func TestSecurityGroupSpec_ResolveOwnerObjectIDs_DeduplicatesResolvedValues(t *testing.T) {
+func TestSecurityGroupSpec_ResolveOwnerObjectIDs_ErrorsOnDuplicateResolvedValues(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -121,12 +121,12 @@ func TestSecurityGroupSpec_ResolveOwnerObjectIDs_DeduplicatesResolvedValues(t *t
 		},
 	}
 
-	ids, err := spec.ResolveOwnerObjectIDs(resolved)
-	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(ids).To(Equal([]string{"11111111-1111-1111-1111-111111111111"}))
+	_, err := spec.ResolveOwnerObjectIDs(resolved)
+	g.Expect(err).To(MatchError(ContainSubstring("owners[1] resolves to the same object id as owners[0]")))
+	g.Expect(err).To(MatchError(ContainSubstring("11111111-1111-1111-1111-111111111111")))
 }
 
-func TestSecurityGroupSpec_ResolveMemberObjectIDs_DeduplicatesResolvedValues(t *testing.T) {
+func TestSecurityGroupSpec_ResolveMemberObjectIDs_ErrorsOnDuplicateResolvedValues(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -140,7 +140,26 @@ func TestSecurityGroupSpec_ResolveMemberObjectIDs_DeduplicatesResolvedValues(t *
 		},
 	}
 
-	ids, err := spec.ResolveMemberObjectIDs(resolved)
+	_, err := spec.ResolveMemberObjectIDs(resolved)
+	g.Expect(err).To(MatchError(ContainSubstring("members[1] resolves to the same object id as members[0]")))
+	g.Expect(err).To(MatchError(ContainSubstring("22222222-2222-2222-2222-222222222222")))
+}
+
+func TestSecurityGroupSpec_ResolveOwnerObjectIDs_PreservesInputOrder(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	spec := &SecurityGroupSpec{
+		Owners: []SecurityGroupMemberReference{
+			{ObjectID: to.Ptr("11111111-1111-1111-1111-111111111111")},
+			{ObjectID: to.Ptr("22222222-2222-2222-2222-222222222222")},
+		},
+	}
+
+	ids, err := spec.ResolveOwnerObjectIDs(genruntime.MakeResolved[genruntime.ConfigMapReference, string](nil))
 	g.Expect(err).ToNot(HaveOccurred())
-	g.Expect(ids).To(Equal([]string{"22222222-2222-2222-2222-222222222222"}))
+	g.Expect(ids).To(Equal([]string{
+		"11111111-1111-1111-1111-111111111111",
+		"22222222-2222-2222-2222-222222222222",
+	}))
 }
