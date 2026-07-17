@@ -207,43 +207,41 @@ func (r *EntraSecurityGroupReconciler) update(
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update group %s", id)
 	}
 
-	result, err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log)
-	if err != nil {
+	if err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log); err != nil {
 		return classifyRelationshipError(err)
 	}
 
 	group.Status.AssignFromGroup(g)
 
-	return result, nil
+	return ctrl.Result{}, nil
 }
 
-//nolint:unparam // This has the correct form even though it always returns the same zero value
 func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	ctx context.Context,
 	group *asoentrav1.SecurityGroup,
 	graphClient *msgraphsdkgo.GraphServiceClient,
 	log logr.Logger,
-) (ctrl.Result, error) {
+) error {
 	id, ok := getEntraID(group)
 	if !ok || id == "" {
-		return ctrl.Result{}, eris.Errorf("missing Entra ID annotation for security group %s", group.Name)
+		return eris.Errorf("missing Entra ID annotation for security group %s", group.Name)
 	}
 
 	manageOwners, manageMembers := relationshipSidesToManage(group.Spec)
 	if !manageOwners && !manageMembers {
-		return ctrl.Result{}, nil
+		return nil
 	}
 
 	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
+		return eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
 	}
 
 	var desiredOwners []string
 	if manageOwners {
 		desiredOwners, err = group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
 		if err != nil {
-			return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
+			return eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
 		}
 	}
 
@@ -251,7 +249,7 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	if manageMembers {
 		desiredMembers, err = group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
 		if err != nil {
-			return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
+			return eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
 		}
 	}
 
@@ -342,10 +340,10 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	}
 
 	if len(sideErrors) > 0 {
-		return ctrl.Result{}, errors.Join(sideErrors...)
+		return errors.Join(sideErrors...)
 	}
 
-	return ctrl.Result{}, nil
+	return nil
 }
 
 func relationshipSidesToManage(spec asoentrav1.SecurityGroupSpec) (bool, bool) {
