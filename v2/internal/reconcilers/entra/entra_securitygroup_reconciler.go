@@ -237,105 +237,35 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 		return eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
 	}
 
-	var desiredOwners []string
+	groupRequestBuilder := graphClient.Groups().ByGroupId(id)
+
+	var sides []relationshipSide
 	if manageOwners {
-		desiredOwners, err = group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
+		desired, err := group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
 		if err != nil {
 			return eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
 		}
+		sides = append(sides, ownersSide(groupRequestBuilder, desired))
 	}
-
-	var desiredMembers []string
 	if manageMembers {
-		desiredMembers, err = group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
+		desired, err := group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
 		if err != nil {
 			return eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
 		}
+		sides = append(sides, membersSide(groupRequestBuilder, desired))
 	}
 
-	groupRequestBuilder := graphClient.Groups().ByGroupId(id)
-	ownersRefBuilder := groupRequestBuilder.Owners().Ref()
-	membersRefBuilder := groupRequestBuilder.Members().Ref()
-
+	// Each side reconciles independently so an outage on one side (typically a
+	// permissions issue) does not block the other from converging.
 	var sideErrors []error
-
-	if manageOwners {
-		currentOwners, err := collectDirectoryObjectIDs(
-			ctx,
-			func(ctx context.Context) (msgraphmodels.StringCollectionResponseable, error) {
-				return ownersRefBuilder.Get(ctx, nil)
-			},
-			func(nextLink string) (msgraphmodels.StringCollectionResponseable, error) {
-				return ownersRefBuilder.WithUrl(nextLink).Get(ctx, nil)
-			},
-		)
+	for _, side := range sides {
+		current, err := side.list(ctx)
 		if err != nil {
-			sideErrors = append(sideErrors, eris.Wrapf(err, "owners list for group %s", id))
-		} else {
-			err = r.reconcileRelationshipSide(
-				ctx,
-				"owners",
-				currentOwners,
-				desiredOwners,
-				func(ctx context.Context, objectID string) error {
-					ref := msgraphmodels.NewReferenceCreate()
-					ref.SetOdataId(to.Ptr(asoentra.DirectoryObjectRefURI(objectID)))
-					return ownersRefBuilder.Post(ctx, ref, nil)
-				},
-				func(ctx context.Context, objectID string) error {
-					deleteID := asoentra.DirectoryObjectRefURI(objectID)
-					deleteConfig := &groups.ItemOwnersRefRequestBuilderDeleteRequestConfiguration{
-						QueryParameters: &groups.ItemOwnersRefRequestBuilderDeleteQueryParameters{
-							Id: &deleteID,
-						},
-					}
-					return ownersRefBuilder.Delete(ctx, deleteConfig)
-				},
-				log,
-			)
-			if err != nil {
-				sideErrors = append(sideErrors, eris.Wrapf(err, "reconciling owners for group %s", id))
-			}
+			sideErrors = append(sideErrors, eris.Wrapf(err, "%s list for group %s", side.name, id))
+			continue
 		}
-	}
-
-	if manageMembers {
-		currentMembers, err := collectDirectoryObjectIDs(
-			ctx,
-			func(ctx context.Context) (msgraphmodels.StringCollectionResponseable, error) {
-				return membersRefBuilder.Get(ctx, nil)
-			},
-			func(nextLink string) (msgraphmodels.StringCollectionResponseable, error) {
-				return membersRefBuilder.WithUrl(nextLink).Get(ctx, nil)
-			},
-		)
-		if err != nil {
-			sideErrors = append(sideErrors, eris.Wrapf(err, "members list for group %s", id))
-		} else {
-			err = r.reconcileRelationshipSide(
-				ctx,
-				"members",
-				currentMembers,
-				desiredMembers,
-				func(ctx context.Context, objectID string) error {
-					ref := msgraphmodels.NewReferenceCreate()
-					ref.SetOdataId(to.Ptr(asoentra.DirectoryObjectRefURI(objectID)))
-					return membersRefBuilder.Post(ctx, ref, nil)
-				},
-				func(ctx context.Context, objectID string) error {
-					deleteID := asoentra.DirectoryObjectRefURI(objectID)
-					deleteConfig := &groups.ItemMembersRefRequestBuilderDeleteRequestConfiguration{
-						QueryParameters: &groups.ItemMembersRefRequestBuilderDeleteQueryParameters{
-							Id: &deleteID,
-						},
-					}
-					return membersRefBuilder.Delete(ctx, deleteConfig)
-				},
-				log,
-			)
-			if err != nil {
-				sideErrors = append(sideErrors, eris.Wrapf(err, "reconciling members for group %s", id))
-			}
+		if err := r.reconcileRelationshipSide(ctx, side, current, log); err != nil {
+			sideErrors = append(sideErrors, eris.Wrapf(err, "reconciling %s for group %s", side.name, id))
 		}
 	}
 
@@ -344,6 +274,78 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	}
 
 	return nil
+}
+
+// ownersSide adapts the msgraph SDK's owners endpoint into a relationshipSide.
+func ownersSide(
+	groupBuilder *groups.GroupItemRequestBuilder,
+	desired []string,
+) relationshipSide {
+	refBuilder := groupBuilder.Owners().Ref()
+	return relationshipSide{
+		name:    "owners",
+		desired: desired,
+		list: func(ctx context.Context) ([]string, error) {
+			return collectDirectoryObjectIDs(
+				ctx,
+				func(ctx context.Context) (msgraphmodels.StringCollectionResponseable, error) {
+					return refBuilder.Get(ctx, nil)
+				},
+				func(nextLink string) (msgraphmodels.StringCollectionResponseable, error) {
+					return refBuilder.WithUrl(nextLink).Get(ctx, nil)
+				},
+			)
+		},
+		add: func(ctx context.Context, objectID string) error {
+			ref := msgraphmodels.NewReferenceCreate()
+			ref.SetOdataId(to.Ptr(asoentra.DirectoryObjectRefURI(objectID)))
+			return refBuilder.Post(ctx, ref, nil)
+		},
+		remove: func(ctx context.Context, objectID string) error {
+			deleteID := asoentra.DirectoryObjectRefURI(objectID)
+			return refBuilder.Delete(ctx, &groups.ItemOwnersRefRequestBuilderDeleteRequestConfiguration{
+				QueryParameters: &groups.ItemOwnersRefRequestBuilderDeleteQueryParameters{
+					Id: &deleteID,
+				},
+			})
+		},
+	}
+}
+
+// membersSide adapts the msgraph SDK's members endpoint into a relationshipSide.
+func membersSide(
+	groupBuilder *groups.GroupItemRequestBuilder,
+	desired []string,
+) relationshipSide {
+	refBuilder := groupBuilder.Members().Ref()
+	return relationshipSide{
+		name:    "members",
+		desired: desired,
+		list: func(ctx context.Context) ([]string, error) {
+			return collectDirectoryObjectIDs(
+				ctx,
+				func(ctx context.Context) (msgraphmodels.StringCollectionResponseable, error) {
+					return refBuilder.Get(ctx, nil)
+				},
+				func(nextLink string) (msgraphmodels.StringCollectionResponseable, error) {
+					return refBuilder.WithUrl(nextLink).Get(ctx, nil)
+				},
+			)
+		},
+		add: func(ctx context.Context, objectID string) error {
+			ref := msgraphmodels.NewReferenceCreate()
+			ref.SetOdataId(to.Ptr(asoentra.DirectoryObjectRefURI(objectID)))
+			return refBuilder.Post(ctx, ref, nil)
+		},
+		remove: func(ctx context.Context, objectID string) error {
+			deleteID := asoentra.DirectoryObjectRefURI(objectID)
+			return refBuilder.Delete(ctx, &groups.ItemMembersRefRequestBuilderDeleteRequestConfiguration{
+				QueryParameters: &groups.ItemMembersRefRequestBuilderDeleteQueryParameters{
+					Id: &deleteID,
+				},
+			})
+		},
+	}
 }
 
 func relationshipSidesToManage(spec asoentrav1.SecurityGroupSpec) (bool, bool) {

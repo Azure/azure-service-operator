@@ -71,33 +71,45 @@ func orderedUnique(values []string) []string {
 	return result
 }
 
+// relationshipSide bundles everything reconcileRelationshipSide needs to bring one
+// side (owners or members) of a group's directory-object relationships to the
+// desired state. The msgraph SDK generates distinct types per side, so we hide the
+// divergence behind these closures and let the reconciler treat both sides the same.
+type relationshipSide struct {
+	name    string
+	desired []string
+	list    func(context.Context) ([]string, error)
+	add     func(context.Context, string) error
+	remove  func(context.Context, string) error
+}
+
+// reconcileRelationshipSide brings a single side (owners or members) to its desired
+// state. We bias toward availability: adds run before removes and, if an add fails,
+// we return without touching removes so the group cannot end up transiently empty
+// while we still cannot restore the intended members.
 func (r *EntraSecurityGroupReconciler) reconcileRelationshipSide(
 	ctx context.Context,
-	side string,
+	side relationshipSide,
 	current []string,
-	desired []string,
-	add func(context.Context, string) error,
-	remove func(context.Context, string) error,
 	log logr.Logger,
 ) error {
-	delta := planRelationshipDelta(current, desired)
+	delta := planRelationshipDelta(current, side.desired)
 
 	for _, id := range delta.ToAdd {
-		if err := add(ctx, id); err != nil {
-			// Add failures intentionally skip remove for this side in this pass.
-			return eris.Wrapf(err, "%s add %s", side, id)
+		if err := side.add(ctx, id); err != nil {
+			return eris.Wrapf(err, "%s add %s", side.name, id)
 		}
 	}
 
 	for _, id := range delta.ToRemove {
-		if err := remove(ctx, id); err != nil {
-			return eris.Wrapf(err, "%s remove %s", side, id)
+		if err := side.remove(ctx, id); err != nil {
+			return eris.Wrapf(err, "%s remove %s", side.name, id)
 		}
 	}
 
 	log.V(1).Info(
 		"Reconciled relationship side",
-		"side", side,
+		"side", side.name,
 		"added", len(delta.ToAdd),
 		"removed", len(delta.ToRemove),
 	)
