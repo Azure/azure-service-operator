@@ -295,8 +295,7 @@ func (status *SecurityGroupStatus) AssignFromGroup(model models.Groupable) {
 	}
 }
 
-// +kubebuilder:validation:Enum={"assigned","enabled","assignedm365","enabledm365"}
-// +kubebuilder:default=AdoptOrCreate
+// +kubebuilder:validation:Enum={"assigned","dynamic","assignedm365","dynamicm365"}
 type SecurityGroupMembershipType string
 
 const (
