@@ -158,7 +158,7 @@ func retryAfterFromODataError(
 		return time.Duration(retryAfterVal) * time.Second, true
 	}
 
-	if retryAfterTime, parseErr := parseHTTPDate(retryAfterStr); parseErr == nil {
+	if retryAfterTime, parseErr := http.ParseTime(retryAfterStr); parseErr == nil {
 		result := time.Until(retryAfterTime)
 		if result > 0 {
 			return result, true
@@ -166,16 +166,4 @@ func retryAfterFromODataError(
 	}
 
 	return 0, false
-}
-
-func parseHTTPDate(s string) (time.Time, error) {
-	if t, err := time.Parse("Mon, 02 Jan 2006 15:04:05 MST", s); err == nil {
-		return t, nil
-	} else if t, err = time.Parse("Monday, 02-Jan-06 15:04:05 MST", s); err == nil {
-		return t, nil
-	} else if t, err = time.Parse("Mon Jan  2 15:04:05 2006", s); err == nil {
-		return t, nil
-	}
-
-	return time.Time{}, eris.New("unable to parse date")
 }
