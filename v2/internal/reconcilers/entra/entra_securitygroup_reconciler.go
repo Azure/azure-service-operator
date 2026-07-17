@@ -207,8 +207,8 @@ func (r *EntraSecurityGroupReconciler) update(
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update group %s", id)
 	}
 
-	if err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log); err != nil {
-		return classifyRelationshipError(err)
+	if result, err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log); err != nil {
+		return classifyRelationshipError(result, err)
 	}
 
 	group.Status.AssignFromGroup(g)
@@ -221,20 +221,20 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	group *asoentrav1.SecurityGroup,
 	graphClient *msgraphsdkgo.GraphServiceClient,
 	log logr.Logger,
-) error {
+) (ctrl.Result, error) {
 	id, ok := getEntraID(group)
 	if !ok || id == "" {
-		return eris.Errorf("missing Entra ID annotation for security group %s", group.Name)
+		return ctrl.Result{}, eris.Errorf("missing Entra ID annotation for security group %s", group.Name)
 	}
 
 	manageOwners, manageMembers := relationshipSidesToManage(group.Spec)
 	if !manageOwners && !manageMembers {
-		return nil
+		return ctrl.Result{}, nil
 	}
 
 	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
 	if err != nil {
-		return eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
 	}
 
 	groupRequestBuilder := graphClient.Groups().ByGroupId(id)
@@ -243,37 +243,46 @@ func (r *EntraSecurityGroupReconciler) reconcileOwnersAndMembers(
 	if manageOwners {
 		desired, err := group.Spec.ResolveOwnerObjectIDs(resolvedConfigMaps)
 		if err != nil {
-			return eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
+			return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired owners for group %s", group.Name)
 		}
 		sides = append(sides, ownersSide(groupRequestBuilder, desired))
 	}
 	if manageMembers {
 		desired, err := group.Spec.ResolveMemberObjectIDs(resolvedConfigMaps)
 		if err != nil {
-			return eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
+			return ctrl.Result{}, eris.Wrapf(err, "failed resolving desired members for group %s", group.Name)
 		}
 		sides = append(sides, membersSide(groupRequestBuilder, desired))
 	}
 
 	// Each side reconciles independently so an outage on one side (typically a
-	// permissions issue) does not block the other from converging.
-	var sideErrors []error
+	// permissions issue) does not block the other from converging. We extract any
+	// HTTP 429 Retry-After per side at the point of failure so classifyRelationshipError
+	// does not have to walk the joined-error tree, and take the largest across sides.
+	var (
+		sideErrors []error
+		throttle   ctrl.Result
+	)
+	recordFailure := func(err error) {
+		sideErrors = append(sideErrors, err)
+		throttle = maxThrottleResult(throttle, retryAfterResult(err))
+	}
 	for _, side := range sides {
 		current, err := side.list(ctx)
 		if err != nil {
-			sideErrors = append(sideErrors, eris.Wrapf(err, "%s list for group %s", side.name, id))
+			recordFailure(eris.Wrapf(err, "%s list for group %s", side.name, id))
 			continue
 		}
 		if err := r.reconcileRelationshipSide(ctx, side, current, log); err != nil {
-			sideErrors = append(sideErrors, eris.Wrapf(err, "reconciling %s for group %s", side.name, id))
+			recordFailure(eris.Wrapf(err, "reconciling %s for group %s", side.name, id))
 		}
 	}
 
 	if len(sideErrors) > 0 {
-		return errors.Join(sideErrors...)
+		return throttle, errors.Join(sideErrors...)
 	}
 
-	return nil
+	return ctrl.Result{}, nil
 }
 
 // ownersSide adapts the msgraph SDK's owners endpoint into a relationshipSide.

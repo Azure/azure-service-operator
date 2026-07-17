@@ -37,12 +37,12 @@ var (
 
 // classifyRelationshipError wraps an error from owner/member reconciliation as a
 // ReadyConditionImpactingError carrying the appropriate retry classification, and
-// surfaces any HTTP 429 Retry-After delay via ctrl.Result.RequeueAfter. The
+// forwards the caller-supplied throttle result unchanged. Callers are expected to
+// have already extracted any HTTP 429 Retry-After per-side (see
+// reconcileOwnersAndMembers) so this function does not walk the error tree. The
 // interval.Calculator combines these signals: throttling can only slow us down,
 // never speed us up beyond the classification-based exponential backoff.
-func classifyRelationshipError(err error) (ctrl.Result, error) {
-	result, _ := tryThrottleRequeue(err)
-
+func classifyRelationshipError(result ctrl.Result, err error) (ctrl.Result, error) {
 	if isPermissionError(err) {
 		return result, conditions.NewReadyConditionImpactingError(
 			eris.Wrap(err, "permission denied reconciling SecurityGroup owners/members"),
@@ -58,69 +58,38 @@ func classifyRelationshipError(err error) (ctrl.Result, error) {
 	)
 }
 
-// tryThrottleRequeue extracts an HTTP 429 Retry-After header from an OData error and
-// returns it as a ctrl.Result.RequeueAfter. The bool indicates whether a usable
-// Retry-After value was found. A zero result is returned when no throttle signal is
-// present — callers can pass this straight to the calculator.
-func tryThrottleRequeue(err error) (ctrl.Result, bool) {
-	retryAfter, ok := maxRetryAfterFromError(err)
-	if !ok {
-		return ctrl.Result{}, false
+// retryAfterResult extracts an HTTP 429 Retry-After header from an OData error in
+// err (unwrapping through single-error wrappers via errors.AsType) and returns it
+// as a ctrl.Result.RequeueAfter. A zero result is returned when no throttle signal
+// is present. This helper is intended to be called per single-wrapped error at the
+// point the error is produced; call sites that need to combine throttles from
+// multiple independent sources should take the max of the resulting durations.
+func retryAfterResult(err error) ctrl.Result {
+	if err == nil {
+		return ctrl.Result{}
 	}
 
-	return ctrl.Result{
-		RequeueAfter: retryAfter,
-	}, true
+	odataError, ok := errors.AsType[*odataerrors.ODataError](err)
+	if !ok {
+		return ctrl.Result{}
+	}
+
+	retryAfter, ok := retryAfterFromODataError(odataError)
+	if !ok {
+		return ctrl.Result{}
+	}
+
+	return ctrl.Result{RequeueAfter: retryAfter}
 }
 
-func maxRetryAfterFromError(err error) (time.Duration, bool) {
-	if err == nil {
-		// No error, no Retry-After
-		return time.Duration(0), false
+// maxThrottleResult returns whichever of a and b has the larger RequeueAfter. Used
+// to collapse per-side throttle signals into a single result while reconciling
+// owners and members in parallel.
+func maxThrottleResult(a, b ctrl.Result) ctrl.Result {
+	if b.RequeueAfter > a.RequeueAfter {
+		return b
 	}
-
-	//nolint:errorlint // We walk the error tree ourselves; using errors.As() would NOT work correctly
-	switch x := err.(type) {
-	case *odataerrors.ODataError:
-		// For OData Errors, look at the Retry-After header and return it if present
-		retryAfter, ok := retryAfterFromODataError(x)
-		if ok {
-			return retryAfter, true
-		}
-
-		return time.Duration(0), false
-
-	case interface{ Unwrap() []error }:
-		// If we wrap a sequence of errors, return the largest Retry-After from any of the children.
-		var max time.Duration
-		for _, child := range x.Unwrap() {
-			if child == nil {
-				continue
-			}
-
-			if childMax, ok := maxRetryAfterFromError(child); ok && childMax > max {
-				max = childMax
-			}
-		}
-
-		if max > 0 {
-			return max, true
-		}
-
-		return 0, false
-
-	case interface{ Unwrap() error }:
-		// If we wrap a single error, return the Retry-After from that child.
-		child := x.Unwrap()
-		if child == nil {
-			return 0, false
-		}
-
-		return maxRetryAfterFromError(child)
-
-	default:
-		return time.Duration(0), false
-	}
+	return a
 }
 
 func isPermissionError(err error) bool {
