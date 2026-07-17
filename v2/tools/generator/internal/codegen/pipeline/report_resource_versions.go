@@ -490,7 +490,21 @@ func (report *ResourceVersionsReport) isDeprecatedResource(item ResourceVersions
 		return false
 	}
 
-	return strings.HasPrefix(ver, astmodel.GeneratorVersion)
+	if !strings.HasPrefix(ver, astmodel.GeneratorVersion) {
+		return false
+	}
+
+	// If the group has a registered hybrid migration release that is still in the future,
+	// the v1api variants are still the only versions users can use - so they aren't deprecated
+	// yet. They will become deprecated once the migration release ships.
+	if migratedIn, ok := astmodel.HybridMigrationReleaseForGroup(grp); ok {
+		currentRelease := report.reportConfiguration.CurrentRelease
+		if astmodel.ComparePathAndVersion(migratedIn, currentRelease) > 0 {
+			return false
+		}
+	}
+
+	return true
 }
 
 // findRecommendedReleases selects a single version of each resource to recommend.
@@ -768,7 +782,25 @@ func (report *ResourceVersionsReport) supportedFrom(typeName astmodel.InternalTy
 
 	// Special case for resources that existed prior to GA
 	if strings.HasPrefix(supportedFrom, "v2.0.0-") {
-		return "v2.0.0"
+		supportedFrom = "v2.0.0"
+	}
+
+	// For groups that have been migrated to Hybrid versioning, the new `v`-prefixed variants of
+	// resources originally introduced in the legacy versioning era only became available in the
+	// ASO release in which the group was migrated. Override the reported supportedFrom so our
+	// documentation correctly places them in the "Next Release" section until the migration ships.
+	pkg := typeName.InternalPackageReference()
+	grp := pkg.Group()
+	if migratedIn, ok := astmodel.HybridMigrationReleaseForGroup(grp); ok {
+		_, ver := pkg.GroupVersion()
+		if config.VersionRegex.MatchString(ver) {
+			return supportedFrom
+		}
+
+		if !pkg.HasVersionPrefix(astmodel.GeneratorVersion) &&
+			astmodel.ComparePathAndVersion(supportedFrom, astmodel.LastLegacyASOVersion) <= 0 {
+			return migratedIn
+		}
 	}
 
 	return supportedFrom
