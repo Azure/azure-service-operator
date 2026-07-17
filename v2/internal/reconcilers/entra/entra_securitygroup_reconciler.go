@@ -113,7 +113,7 @@ func (r *EntraSecurityGroupReconciler) Delete(
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
 ) (ctrl.Result, error) {
-	log.V(Status).Info("Updating Entra security group")
+	log.V(Status).Info("Deleting Entra security group")
 
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
