@@ -18,6 +18,11 @@ type relationshipDelta struct {
 	ToRemove []string
 }
 
+// planRelationshipDelta returns which ids need to be added or removed to move
+// current to desired. Both inputs are expected to be pre-deduplicated by their
+// caller (collectDirectoryObjectIDs for current, ResolveOwnerObjectIDs /
+// ResolveMemberObjectIDs for desired); duplicates in the inputs will appear
+// duplicated in the output.
 func planRelationshipDelta(current []string, desired []string) relationshipDelta {
 	currentSet := make(map[string]struct{}, len(current))
 	desiredSet := make(map[string]struct{}, len(desired))
@@ -45,8 +50,8 @@ func planRelationshipDelta(current []string, desired []string) relationshipDelta
 	}
 
 	return relationshipDelta{
-		ToAdd:    orderedUnique(toAdd),
-		ToRemove: orderedUnique(toRemove),
+		ToAdd:    toAdd,
+		ToRemove: toRemove,
 	}
 }
 

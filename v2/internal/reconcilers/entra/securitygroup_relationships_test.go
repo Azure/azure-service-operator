@@ -24,19 +24,6 @@ func TestPlanRelationshipDelta_ComputesAddAndRemoveSets(t *testing.T) {
 	g.Expect(delta.ToRemove).To(Equal([]string{"A"}))
 }
 
-func TestPlanRelationshipDelta_UsesInputOrderingAndDeduplicates(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	delta := planRelationshipDelta(
-		[]string{"A", "C", "A", "E", "F", "E"},
-		[]string{"C", "B", "B", "F", "D", "D"},
-	)
-
-	g.Expect(delta.ToAdd).To(Equal([]string{"B", "D"}))
-	g.Expect(delta.ToRemove).To(Equal([]string{"A", "E"}))
-}
-
 func TestPlanRelationshipDelta_NoChangesProducesEmptyDelta(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

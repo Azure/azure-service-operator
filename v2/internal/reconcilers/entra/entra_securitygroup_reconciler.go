@@ -402,7 +402,7 @@ func extractDirectoryObjectIDs(values []string) []string {
 		result = append(result, objectID)
 	}
 
-	return orderedUnique(result)
+	return result
 }
 
 // tryAdopt tries to find an existing Entra security group to adopt.
