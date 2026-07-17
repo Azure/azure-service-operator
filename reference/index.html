@@ -32,7 +32,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
   <meta itemprop="name" content="Supported Resources">
   <meta itemprop="description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
 AlertsManagement To install the CRDs for these resources, your ASO configuration must include alertsmanagement.azure.com/* as one of the configured CRD patterns. See CRD Management in ASO for details on doing this for both Helm and YAML based installations.">
-  <meta itemprop="wordCount" content="8848">
+  <meta itemprop="wordCount" content="8943">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Supported Resources">
   <meta name="twitter:description" content="These are the resources with Azure Service Operator support committed to our main branch, grouped by the originating ARM service. (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
@@ -1073,6 +1073,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
       <ul>
         <li><a href="#latest-released-versions-6">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-6">Other Supported Versions</a></li>
+        <li><a href="#deprecated-7">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#cognitiveservices">CognitiveServices</a>
@@ -1089,7 +1090,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
       <ul>
         <li><a href="#latest-released-versions-7">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-7">Other Supported Versions</a></li>
-        <li><a href="#deprecated-7">Deprecated</a></li>
+        <li><a href="#deprecated-8">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#containerinstance">ContainerInstance</a>
@@ -1112,7 +1113,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     <li><a href="#datafactory">DataFactory</a>
       <ul>
         <li><a href="#released-4">Released</a></li>
-        <li><a href="#deprecated-8">Deprecated</a></li>
+        <li><a href="#deprecated-9">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#dataprotection">DataProtection</a>
@@ -1130,7 +1131,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
       <ul>
         <li><a href="#latest-released-versions-11">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-11">Other Supported Versions</a></li>
-        <li><a href="#deprecated-9">Deprecated</a></li>
+        <li><a href="#deprecated-10">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#dbforpostgresql">DBforPostgreSQL</a>
@@ -1158,7 +1159,7 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     <li><a href="#eventgrid">EventGrid</a>
       <ul>
         <li><a href="#released-8">Released</a></li>
-        <li><a href="#deprecated-10">Deprecated</a></li>
+        <li><a href="#deprecated-11">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#eventhub">EventHub</a>
@@ -1266,32 +1267,32 @@ AlertsManagement To install the CRDs for these resources, your ASO configuration
     <li><a href="#sql">Sql</a>
       <ul>
         <li><a href="#released-15">Released</a></li>
-        <li><a href="#deprecated-11">Deprecated</a></li>
+        <li><a href="#deprecated-12">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#storage">Storage</a>
       <ul>
         <li><a href="#latest-released-versions-26">Latest Released Versions</a></li>
         <li><a href="#other-supported-versions-26">Other Supported Versions</a></li>
-        <li><a href="#deprecated-12">Deprecated</a></li>
+        <li><a href="#deprecated-13">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#subscription">Subscription</a>
       <ul>
         <li><a href="#released-16">Released</a></li>
-        <li><a href="#deprecated-13">Deprecated</a></li>
+        <li><a href="#deprecated-14">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#synapse">Synapse</a>
       <ul>
         <li><a href="#released-17">Released</a></li>
-        <li><a href="#deprecated-14">Deprecated</a></li>
+        <li><a href="#deprecated-15">Deprecated</a></li>
       </ul>
     </li>
     <li><a href="#web">Web</a>
       <ul>
         <li><a href="#released-18">Released</a></li>
-        <li><a href="#deprecated-15">Deprecated</a></li>
+        <li><a href="#deprecated-16">Deprecated</a></li>
       </ul>
     </li>
   </ul>
@@ -2914,6 +2915,120 @@ grouped by the originating ARM service.
   </thead>
   <tbody>
       <tr>
+          <td>AfdCustomDomain</td>
+          <td>2023-05-01</td>
+          <td>v20230501</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_afdcustomdomain.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>AfdEndpoint</td>
+          <td>2023-05-01</td>
+          <td>v20230501</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_afdendpoint.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>AfdOrigin</td>
+          <td>2023-05-01</td>
+          <td>v20230501</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_afdorigin.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>AfdOriginGroup</td>
+          <td>2023-05-01</td>
+          <td>v20230501</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_afdorigingroup.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>Profile</td>
+          <td>2023-05-01</td>
+          <td>v20230501</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_profile.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>ProfilesEndpoint</td>
+          <td>2021-06-01</td>
+          <td>v20210601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20210601/v20210601_profilesendpoint.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>Route</td>
+          <td>2023-05-01</td>
+          <td>v20230501</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_route.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>Rule</td>
+          <td>2023-05-01</td>
+          <td>v20230501</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_rule.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>RuleSet</td>
+          <td>2023-05-01</td>
+          <td>v20230501</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_ruleset.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>Secret</td>
+          <td>2023-05-01</td>
+          <td>v20230501</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_secret.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td>SecurityPolicy</td>
+          <td>2023-05-01</td>
+          <td>v20230501</td>
+          <td>v2.6.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20230501/v20230501_securitypolicy.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="other-supported-versions-6">Other Supported Versions</h3>
+<p>These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Profile</td>
+          <td>2021-06-01</td>
+          <td>v20210601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v20210601/v20210601_profile.yaml">View</a></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="deprecated-7">Deprecated</h3>
+<p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Resource</th>
+          <th>ARM Version</th>
+          <th>CRD Version</th>
+          <th>Supported From</th>
+          <th>Sample</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
           <td><a href="/azure-service-operator/reference/cdn/v1api20230501/#AfdCustomDomain">AfdCustomDomain</a></td>
           <td>2023-05-01</td>
           <td>v1api20230501</td>
@@ -2947,6 +3062,13 @@ grouped by the originating ARM service.
           <td>v1api20230501</td>
           <td>v2.6.0</td>
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_profile.yaml">View</a></td>
+      </tr>
+      <tr>
+          <td><a href="/azure-service-operator/reference/cdn/v1api20210601/#Profile">Profile</a></td>
+          <td>2021-06-01</td>
+          <td>v1api20210601</td>
+          <td>v2.0.0</td>
+          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20210601/v1api20210601_profile.yaml">View</a></td>
       </tr>
       <tr>
           <td><a href="/azure-service-operator/reference/cdn/v1api20210601/#ProfilesEndpoint">ProfilesEndpoint</a></td>
@@ -2989,28 +3111,6 @@ grouped by the originating ARM service.
           <td>v1api20230501</td>
           <td>v2.6.0</td>
           <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20230501/v1api20230501_securitypolicy.yaml">View</a></td>
-      </tr>
-  </tbody>
-</table>
-<h3 id="other-supported-versions-6">Other Supported Versions</h3>
-<p>These are older versions of resources still available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.</p>
-<table>
-  <thead>
-      <tr>
-          <th>Resource</th>
-          <th>ARM Version</th>
-          <th>CRD Version</th>
-          <th>Supported From</th>
-          <th>Sample</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td><a href="/azure-service-operator/reference/cdn/v1api20210601/#Profile">Profile</a></td>
-          <td>2021-06-01</td>
-          <td>v1api20210601</td>
-          <td>v2.0.0</td>
-          <td><a href="https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cdn/v1api20210601/v1api20210601_profile.yaml">View</a></td>
       </tr>
   </tbody>
 </table>
@@ -3272,7 +3372,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-7">Deprecated</h3>
+<h3 id="deprecated-8">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -3683,7 +3783,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-8">Deprecated</h3>
+<h3 id="deprecated-9">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -4029,7 +4129,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-9">Deprecated</h3>
+<h3 id="deprecated-10">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -4850,7 +4950,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-10">Deprecated</h3>
+<h3 id="deprecated-11">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -6962,7 +7062,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-11">Deprecated</h3>
+<h3 id="deprecated-12">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -7416,7 +7516,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-12">Deprecated</h3>
+<h3 id="deprecated-13">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -7638,7 +7738,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-13">Deprecated</h3>
+<h3 id="deprecated-14">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -7692,7 +7792,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-14">Deprecated</h3>
+<h3 id="deprecated-15">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
@@ -7760,7 +7860,7 @@ grouped by the originating ARM service.
       </tr>
   </tbody>
 </table>
-<h3 id="deprecated-15">Deprecated</h3>
+<h3 id="deprecated-16">Deprecated</h3>
 <p>These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See <a href="https://azure.github.io/azure-service-operator/guide/breaking-changes/">Breaking Changes</a> for more information.</p>
 <table>
   <thead>
