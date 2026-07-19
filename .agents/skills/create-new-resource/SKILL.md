@@ -18,11 +18,7 @@ Verify all of these **before** starting. Missing any one of them will stall the 
 1. **Resource identified.** From the issue (or user), extract the Azure type and API version, e.g. `Microsoft.Synapse/workspaces` at `2021-06-01`. If not given, look up the resource in an ARM/Bicep template or in [`azure-rest-api-specs`](https://github.com/Azure/azure-rest-api-specs/tree/main/specification). Prefer the latest **stable** (non-preview) `api-version` unless the issue requires a preview feature.
 2. **GVK derived.** Convert Azure type + version to Kubernetes GVK:
    - **group** — resource provider, `Microsoft.` prefix stripped, lowercased. `Microsoft.Synapse` → `synapse`.
-   - **version** — a `v`-family prefix + `api-version` with non-alphanumeric characters removed. The prefix depends on the group's migration mode in [`v2/tools/generator/internal/astmodel/legacy.go`](../../../v2/tools/generator/internal/astmodel/legacy.go):
-     - **Legacy** groups (e.g. `containerregistry`, `keyvault`, `network`, `documentdb`, `eventhub`) use `v1api`: `2023-07-01` → `v1api20230701`.
-     - **Hybrid** groups (e.g. `synapse`, `storage`, `compute`, `sql`, `appconfiguration`) emit both `v1api20…` and `v20…` variants; the new-style path is `v20230701`.
-     - **New groups** (not listed in `legacy.go`) use plain `v`: `v20230701`.
-     - When in doubt, run Step 2 and inspect which directory actually appears under `v2/api/<group>/`.
+   - **version** — `v` prefix + `api-version` with non-alphanumeric characters removed. `2023-07-01` → `v20230701`; `2021-04-01-preview` → `v20210401preview`. (The older `v1api` prefix only applies to resources introduced before ASO v2.16 — the migration modes tracked in [`v2/tools/generator/internal/astmodel/legacy.go`](../../../v2/tools/generator/internal/astmodel/legacy.go) exist purely to keep those grandfathered. Any resource or version added today uses plain `v`, regardless of that file.)
    - **kind** — Azure type minus resource provider, singularised. `Microsoft.Synapse/workspaces` → `Workspace`.
 3. **Repository ready for generation.** From the repo root:
    - `git tag --list 'v2*'` returns tags. If empty, run `git fetch --all --tags`. Builds fail without tags.
