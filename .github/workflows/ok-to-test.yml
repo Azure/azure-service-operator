@@ -16,8 +16,7 @@ jobs:
   ok-to-test:
     runs-on: ubuntu-latest
     permissions:
-      issues: write          # Required to add reaction to the /ok-to-test comment
-      pull-requests: read
+      pull-requests: write   # Required to add reaction to the /ok-to-test comment
     # Only run for PRs, not issue comments
     if: ${{ github.event.issue.pull_request }}
     steps:
