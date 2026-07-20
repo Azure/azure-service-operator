@@ -66,6 +66,7 @@ func classifyCloudError(err *genericarmclient.CloudError) core.ErrorClassificati
 		return core.ErrorRetryable
 	case "BadRequestFormat",
 		"Conflict",
+		"ScopeLocked", // Returned when a CanNotDelete/ReadOnly management lock blocks the operation. Needs a human to remove the lock; won't resolve by itself, so this belongs with Conflict rather than the retryable bucket. See issue #3756.
 		"BadRequest",
 		"PublicIpForGatewayIsRequired", // TODO: There's not a great way to look at an arbitrary error returned by this API and determine if it's a 4xx or 5xx level... ugh
 		"InvalidParameter",

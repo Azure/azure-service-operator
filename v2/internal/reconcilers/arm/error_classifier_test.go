@@ -26,6 +26,10 @@ var http400Error = genericarmclient.NewCloudError(&azcore.ResponseError{StatusCo
 
 var unknownError = genericarmclient.NewTestCloudError("ThisCodeIsNotACodeUnderstoodByTheClassifier", "No idea what went wrong")
 
+// scopeLockedError mirrors the error ARM actually returns when a CanNotDelete management lock blocks an
+// operation, confirmed against a live subscription: HTTP 409, code ScopeLocked.
+var scopeLockedError = genericarmclient.NewTestCloudError("ScopeLocked", "The scope '/subscriptions/.../resourceGroups/example' cannot perform delete operation because following scope(s) are locked: '/subscriptions/.../resourceGroups/example'. Please remove the lock and try again.")
+
 func Test_NilError_IsRetryable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -84,6 +88,18 @@ func Test_UnknownError_IsRetryable(t *testing.T) {
 		Message:        unknownError.Message(),
 	}
 	g.Expect(arm.ClassifyCloudError(unknownError)).To(Equal(expected))
+}
+
+func Test_ScopeLocked_IsFatal(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	expected := core.CloudErrorDetails{
+		Classification: core.ErrorFatal,
+		Code:           scopeLockedError.Code(),
+		Message:        scopeLockedError.Message(),
+	}
+	g.Expect(arm.ClassifyCloudError(scopeLockedError)).To(Equal(expected))
 }
 
 func Test_HTTP400_IsFatal(t *testing.T) {
