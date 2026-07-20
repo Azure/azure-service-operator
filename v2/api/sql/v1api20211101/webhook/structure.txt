@@ -31,15 +31,11 @@ ServersDatabasesVulnerabilityAssessment: Object (0 properties)
 
 ServersElasticPool: Object (0 properties)
 
-ServersEncryptionProtector: Object (0 properties)
-
 ServersFailoverGroup: Object (0 properties)
 
 ServersFirewallRule: Object (0 properties)
 
 ServersIPV6FirewallRule: Object (0 properties)
-
-ServersKey: Object (0 properties)
 
 ServersOutboundFirewallRule: Object (0 properties)
 

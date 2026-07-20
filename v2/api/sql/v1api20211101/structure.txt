@@ -725,34 +725,6 @@ ServersElasticPool: Resource
     ├── Type: *string
     └── ZoneRedundant: *bool
 
-ServersEncryptionProtector: Resource
-├── Owner: Server
-├── Spec: Object (5 properties)
-│   ├── AutoRotationEnabled: *bool
-│   ├── OperatorSpec: *Object (2 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── Owner: *genruntime.KnownResourceReference
-│   ├── ServerKeyName: *string
-│   └── ServerKeyType: *Enum (2 values)
-│       ├── "AzureKeyVault"
-│       └── "ServiceManaged"
-└── Status: Object (12 properties)
-    ├── AutoRotationEnabled: *bool
-    ├── Conditions: conditions.Condition[]
-    ├── Id: *string
-    ├── Kind: *string
-    ├── Location: *string
-    ├── Name: *string
-    ├── ServerKeyName: *string
-    ├── ServerKeyType: *Enum (2 values)
-    │   ├── "AzureKeyVault"
-    │   └── "ServiceManaged"
-    ├── Subregion: *string
-    ├── Thumbprint: *string
-    ├── Type: *string
-    └── Uri: *string
-
 ServersFailoverGroup: Resource
 ├── Owner: Server
 ├── Spec: Object (8 properties)
@@ -837,34 +809,6 @@ ServersIPV6FirewallRule: Resource
     ├── Name: *string
     ├── StartIPv6Address: *string
     └── Type: *string
-
-ServersKey: Resource
-├── Owner: Server
-├── Spec: Object (5 properties)
-│   ├── AzureName: string
-│   ├── OperatorSpec: *Object (2 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── Owner: *genruntime.KnownResourceReference
-│   ├── ServerKeyType: *Enum (2 values)
-│   │   ├── "AzureKeyVault"
-│   │   └── "ServiceManaged"
-│   └── Uri: *string
-└── Status: Object (12 properties)
-    ├── AutoRotationEnabled: *bool
-    ├── Conditions: conditions.Condition[]
-    ├── CreationDate: *string
-    ├── Id: *string
-    ├── Kind: *string
-    ├── Location: *string
-    ├── Name: *string
-    ├── ServerKeyType: *Enum (2 values)
-    │   ├── "AzureKeyVault"
-    │   └── "ServiceManaged"
-    ├── Subregion: *string
-    ├── Thumbprint: *string
-    ├── Type: *string
-    └── Uri: *string
 
 ServersOutboundFirewallRule: Resource
 ├── Owner: Server

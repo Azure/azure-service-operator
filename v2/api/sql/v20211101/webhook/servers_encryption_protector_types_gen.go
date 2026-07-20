@@ -6,7 +6,7 @@ package webhook
 import (
 	"context"
 	"fmt"
-	v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
+	v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -19,7 +19,7 @@ import (
 type ServersEncryptionProtector struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-sql-azure-com-v1api20211101-serversencryptionprotector,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serversencryptionprotectors,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.serversencryptionprotectors.sql.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-sql-azure-com-v20211101-serversencryptionprotector,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serversencryptionprotectors,verbs=create;update,versions=v20211101,name=default.v20211101.serversencryptionprotectors.sql.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &ServersEncryptionProtector{}
 
@@ -27,7 +27,7 @@ var _ webhook.CustomDefaulter = &ServersEncryptionProtector{}
 func (protector *ServersEncryptionProtector) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20211101.ServersEncryptionProtector)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/ServersEncryptionProtector, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v20211101/ServersEncryptionProtector, but got %T", obj)
 	}
 	err := protector.defaultImpl(ctx, resource)
 	if err != nil {
@@ -48,7 +48,7 @@ func (protector *ServersEncryptionProtector) defaultImpl(ctx context.Context, ob
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-sql-azure-com-v1api20211101-serversencryptionprotector,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serversencryptionprotectors,verbs=create;update,versions=v1api20211101,name=validate.v1api20211101.serversencryptionprotectors.sql.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-sql-azure-com-v20211101-serversencryptionprotector,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serversencryptionprotectors,verbs=create;update,versions=v20211101,name=validate.v20211101.serversencryptionprotectors.sql.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &ServersEncryptionProtector{}
 
@@ -56,7 +56,7 @@ var _ webhook.CustomValidator = &ServersEncryptionProtector{}
 func (protector *ServersEncryptionProtector) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20211101.ServersEncryptionProtector)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/ServersEncryptionProtector, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v20211101/ServersEncryptionProtector, but got %T", resource)
 	}
 	validations := protector.createValidations()
 	var temp any = protector
@@ -70,7 +70,7 @@ func (protector *ServersEncryptionProtector) ValidateCreate(ctx context.Context,
 func (protector *ServersEncryptionProtector) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20211101.ServersEncryptionProtector)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/ServersEncryptionProtector, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v20211101/ServersEncryptionProtector, but got %T", resource)
 	}
 	validations := protector.deleteValidations()
 	var temp any = protector
@@ -84,11 +84,11 @@ func (protector *ServersEncryptionProtector) ValidateDelete(ctx context.Context,
 func (protector *ServersEncryptionProtector) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20211101.ServersEncryptionProtector)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/ServersEncryptionProtector, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v20211101/ServersEncryptionProtector, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20211101.ServersEncryptionProtector)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/ServersEncryptionProtector, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v20211101/ServersEncryptionProtector, but got %T", oldResource)
 	}
 	validations := protector.updateValidations()
 	var temp any = protector

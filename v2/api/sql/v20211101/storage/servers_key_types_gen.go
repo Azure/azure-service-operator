@@ -25,9 +25,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20211101.ServersKey
+// Storage version of v20211101.ServersKey
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerKeys.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/ServerKeys.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}
 type ServersKey struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -156,9 +156,9 @@ func (serversKey *ServersKey) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20211101.ServersKey
+// Storage version of v20211101.ServersKey
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/ServerKeys.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/ServerKeys.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/keys/{keyName}
 type ServersKeyList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -166,7 +166,7 @@ type ServersKeyList struct {
 	Items           []ServersKey `json:"items"`
 }
 
-// Storage version of v1api20211101.ServersKey_Spec
+// Storage version of v20211101.ServersKey_Spec
 type ServersKey_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -204,7 +204,7 @@ func (serversKey *ServersKey_Spec) ConvertSpecTo(destination genruntime.Converti
 	return destination.ConvertSpecFrom(serversKey)
 }
 
-// Storage version of v1api20211101.ServersKey_STATUS
+// Storage version of v20211101.ServersKey_STATUS
 type ServersKey_STATUS struct {
 	AutoRotationEnabled *bool                  `json:"autoRotationEnabled,omitempty"`
 	Conditions          []conditions.Condition `json:"conditions,omitempty"`
@@ -241,7 +241,7 @@ func (serversKey *ServersKey_STATUS) ConvertStatusTo(destination genruntime.Conv
 	return destination.ConvertStatusFrom(serversKey)
 }
 
-// Storage version of v1api20211101.ServersKeyOperatorSpec
+// Storage version of v20211101.ServersKeyOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ServersKeyOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`

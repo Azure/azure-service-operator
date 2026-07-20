@@ -25,9 +25,9 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v1api20211101.ServersEncryptionProtector
+// Storage version of v20211101.ServersEncryptionProtector
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/EncryptionProtectors.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/EncryptionProtectors.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}
 type ServersEncryptionProtector struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -155,9 +155,9 @@ func (protector *ServersEncryptionProtector) OriginalGVK() *schema.GroupVersionK
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v1api20211101.ServersEncryptionProtector
+// Storage version of v20211101.ServersEncryptionProtector
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/EncryptionProtectors.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/EncryptionProtectors.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/encryptionProtector/{encryptionProtectorName}
 type ServersEncryptionProtectorList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -165,7 +165,7 @@ type ServersEncryptionProtectorList struct {
 	Items           []ServersEncryptionProtector `json:"items"`
 }
 
-// Storage version of v1api20211101.ServersEncryptionProtector_Spec
+// Storage version of v20211101.ServersEncryptionProtector_Spec
 type ServersEncryptionProtector_Spec struct {
 	AutoRotationEnabled *bool                                   `json:"autoRotationEnabled,omitempty"`
 	OperatorSpec        *ServersEncryptionProtectorOperatorSpec `json:"operatorSpec,omitempty"`
@@ -201,7 +201,7 @@ func (protector *ServersEncryptionProtector_Spec) ConvertSpecTo(destination genr
 	return destination.ConvertSpecFrom(protector)
 }
 
-// Storage version of v1api20211101.ServersEncryptionProtector_STATUS
+// Storage version of v20211101.ServersEncryptionProtector_STATUS
 type ServersEncryptionProtector_STATUS struct {
 	AutoRotationEnabled *bool                  `json:"autoRotationEnabled,omitempty"`
 	Conditions          []conditions.Condition `json:"conditions,omitempty"`
@@ -238,7 +238,7 @@ func (protector *ServersEncryptionProtector_STATUS) ConvertStatusTo(destination 
 	return destination.ConvertStatusFrom(protector)
 }
 
-// Storage version of v1api20211101.ServersEncryptionProtectorOperatorSpec
+// Storage version of v20211101.ServersEncryptionProtectorOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ServersEncryptionProtectorOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`

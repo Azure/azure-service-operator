@@ -656,31 +656,6 @@ ServersElasticPool_Spec: Object (5 properties)
 │   └── Tier: *string
 └── Tags: map[string]string
 
-ServersEncryptionProtector_STATUS: Object (6 properties)
-├── Id: *string
-├── Kind: *string
-├── Location: *string
-├── Name: *string
-├── Properties: *Object (6 properties)
-│   ├── AutoRotationEnabled: *bool
-│   ├── ServerKeyName: *string
-│   ├── ServerKeyType: *Enum (2 values)
-│   │   ├── "AzureKeyVault"
-│   │   └── "ServiceManaged"
-│   ├── Subregion: *string
-│   ├── Thumbprint: *string
-│   └── Uri: *string
-└── Type: *string
-
-ServersEncryptionProtector_Spec: Object (2 properties)
-├── Name: string
-└── Properties: *Object (3 properties)
-    ├── AutoRotationEnabled: *bool
-    ├── ServerKeyName: *string
-    └── ServerKeyType: *Enum (2 values)
-        ├── "AzureKeyVault"
-        └── "ServiceManaged"
-
 ServersFailoverGroup_STATUS: Object (6 properties)
 ├── Id: *string
 ├── Location: *string
@@ -753,30 +728,6 @@ ServersIPV6FirewallRule_Spec: Object (2 properties)
 └── Properties: *Object (2 properties)
     ├── EndIPv6Address: *string
     └── StartIPv6Address: *string
-
-ServersKey_STATUS: Object (6 properties)
-├── Id: *string
-├── Kind: *string
-├── Location: *string
-├── Name: *string
-├── Properties: *Object (6 properties)
-│   ├── AutoRotationEnabled: *bool
-│   ├── CreationDate: *string
-│   ├── ServerKeyType: *Enum (2 values)
-│   │   ├── "AzureKeyVault"
-│   │   └── "ServiceManaged"
-│   ├── Subregion: *string
-│   ├── Thumbprint: *string
-│   └── Uri: *string
-└── Type: *string
-
-ServersKey_Spec: Object (2 properties)
-├── Name: string
-└── Properties: *Object (2 properties)
-    ├── ServerKeyType: *Enum (2 values)
-    │   ├── "AzureKeyVault"
-    │   └── "ServiceManaged"
-    └── Uri: *string
 
 ServersOutboundFirewallRule_STATUS: Object (4 properties)
 ├── Id: *string

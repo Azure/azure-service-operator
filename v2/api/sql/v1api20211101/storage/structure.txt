@@ -615,34 +615,6 @@ ServersElasticPool: Resource
     ├── Type: *string
     └── ZoneRedundant: *bool
 
-ServersEncryptionProtector: Resource
-├── Owner: sql/v1api20211101.Server
-├── Spec: Object (7 properties)
-│   ├── AutoRotationEnabled: *bool
-│   ├── OperatorSpec: *Object (3 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── OriginalVersion: string
-│   ├── Owner: *genruntime.KnownResourceReference
-│   ├── PropertyBag: genruntime.PropertyBag
-│   ├── ServerKeyName: *string
-│   └── ServerKeyType: *string
-└── Status: Object (13 properties)
-    ├── AutoRotationEnabled: *bool
-    ├── Conditions: conditions.Condition[]
-    ├── Id: *string
-    ├── Kind: *string
-    ├── Location: *string
-    ├── Name: *string
-    ├── PropertyBag: genruntime.PropertyBag
-    ├── ServerKeyName: *string
-    ├── ServerKeyType: *string
-    ├── Subregion: *string
-    ├── Thumbprint: *string
-    ├── Type: *string
-    └── Uri: *string
-
 ServersFailoverGroup: Resource
 ├── Owner: sql/v1api20211101.Server
 ├── Spec: Object (10 properties)
@@ -733,34 +705,6 @@ ServersIPV6FirewallRule: Resource
     ├── PropertyBag: genruntime.PropertyBag
     ├── StartIPv6Address: *string
     └── Type: *string
-
-ServersKey: Resource
-├── Owner: sql/v1api20211101.Server
-├── Spec: Object (7 properties)
-│   ├── AzureName: string
-│   ├── OperatorSpec: *Object (3 properties)
-│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
-│   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   └── SecretExpressions: *core.DestinationExpression[]
-│   ├── OriginalVersion: string
-│   ├── Owner: *genruntime.KnownResourceReference
-│   ├── PropertyBag: genruntime.PropertyBag
-│   ├── ServerKeyType: *string
-│   └── Uri: *string
-└── Status: Object (13 properties)
-    ├── AutoRotationEnabled: *bool
-    ├── Conditions: conditions.Condition[]
-    ├── CreationDate: *string
-    ├── Id: *string
-    ├── Kind: *string
-    ├── Location: *string
-    ├── Name: *string
-    ├── PropertyBag: genruntime.PropertyBag
-    ├── ServerKeyType: *string
-    ├── Subregion: *string
-    ├── Thumbprint: *string
-    ├── Type: *string
-    └── Uri: *string
 
 ServersOutboundFirewallRule: Resource
 ├── Owner: sql/v1api20211101.Server

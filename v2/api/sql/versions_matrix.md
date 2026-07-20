@@ -57,6 +57,10 @@
 | ElasticPoolProperties_LicenseType_STATUS                                         | v1api20211101 | v20211101 |
 | ElasticPoolProperties_STATUS                                                     | v1api20211101 | v20211101 |
 | ElasticPoolProperties_State_STATUS                                               | v1api20211101 | v20211101 |
+| EncryptionProtectorProperties                                                    |               | v20211101 |
+| EncryptionProtectorProperties_STATUS                                             |               | v20211101 |
+| EncryptionProtectorProperties_ServerKeyType                                      |               | v20211101 |
+| EncryptionProtectorProperties_ServerKeyType_STATUS                               |               | v20211101 |
 | FailoverGroupProperties                                                          | v1api20211101 | v20211101 |
 | FailoverGroupProperties_ReplicationRole_STATUS                                   | v1api20211101 | v20211101 |
 | FailoverGroupProperties_STATUS                                                   | v1api20211101 | v20211101 |
@@ -101,6 +105,10 @@
 | ServerExternalAdministrator_STATUS                                               | v1api20211101 | v20211101 |
 | ServerFirewallRuleProperties                                                     | v1api20211101 | v20211101 |
 | ServerFirewallRuleProperties_STATUS                                              | v1api20211101 | v20211101 |
+| ServerKeyProperties                                                              |               | v20211101 |
+| ServerKeyProperties_STATUS                                                       |               | v20211101 |
+| ServerKeyProperties_ServerKeyType                                                |               | v20211101 |
+| ServerKeyProperties_ServerKeyType_STATUS                                         |               | v20211101 |
 | ServerPrivateEndpointConnection_STATUS                                           | v1api20211101 | v20211101 |
 | ServerProperties                                                                 | v1api20211101 | v20211101 |
 | ServerProperties_PublicNetworkAccess                                             | v1api20211101 | v20211101 |
@@ -159,6 +167,9 @@
 | ServersElasticPool                                                               | v1api20211101 | v20211101 |
 | ServersElasticPool_STATUS                                                        | v1api20211101 | v20211101 |
 | ServersElasticPool_Spec                                                          | v1api20211101 | v20211101 |
+| ServersEncryptionProtector                                                       |               | v20211101 |
+| ServersEncryptionProtector_STATUS                                                |               | v20211101 |
+| ServersEncryptionProtector_Spec                                                  |               | v20211101 |
 | ServersFailoverGroup                                                             | v1api20211101 | v20211101 |
 | ServersFailoverGroup_STATUS                                                      | v1api20211101 | v20211101 |
 | ServersFailoverGroup_Spec                                                        | v1api20211101 | v20211101 |
@@ -168,6 +179,9 @@
 | ServersIPV6FirewallRule                                                          | v1api20211101 | v20211101 |
 | ServersIPV6FirewallRule_STATUS                                                   | v1api20211101 | v20211101 |
 | ServersIPV6FirewallRule_Spec                                                     | v1api20211101 | v20211101 |
+| ServersKey                                                                       |               | v20211101 |
+| ServersKey_STATUS                                                                |               | v20211101 |
+| ServersKey_Spec                                                                  |               | v20211101 |
 | ServersOutboundFirewallRule                                                      | v1api20211101 | v20211101 |
 | ServersOutboundFirewallRule_STATUS                                               | v1api20211101 | v20211101 |
 | ServersOutboundFirewallRule_Spec                                                 | v1api20211101 | v20211101 |
@@ -192,6 +206,7 @@
 | Servers_Databases_SecurityAlertPolicy_Name_Spec                                  | v1api20211101 | v20211101 |
 | Servers_Databases_TransparentDataEncryption_Name_Spec                            | v1api20211101 | v20211101 |
 | Servers_Databases_VulnerabilityAssessment_Name_Spec                              | v1api20211101 | v20211101 |
+| Servers_EncryptionProtector_Name_Spec                                            |               | v20211101 |
 | Servers_SecurityAlertPolicy_Name_Spec                                            | v1api20211101 | v20211101 |
 | Servers_VulnerabilityAssessment_Name_Spec                                        | v1api20211101 | v20211101 |
 | Sku                                                                              | v1api20211101 | v20211101 |

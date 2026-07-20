@@ -6,7 +6,7 @@ package webhook
 import (
 	"context"
 	"fmt"
-	v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
+	v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -19,7 +19,7 @@ import (
 type ServersKey struct {
 }
 
-// +kubebuilder:webhook:path=/mutate-sql-azure-com-v1api20211101-serverskey,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serverskeys,verbs=create;update,versions=v1api20211101,name=default.v1api20211101.serverskeys.sql.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/mutate-sql-azure-com-v20211101-serverskey,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serverskeys,verbs=create;update,versions=v20211101,name=default.v20211101.serverskeys.sql.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomDefaulter = &ServersKey{}
 
@@ -27,7 +27,7 @@ var _ webhook.CustomDefaulter = &ServersKey{}
 func (serversKey *ServersKey) Default(ctx context.Context, obj runtime.Object) error {
 	resource, ok := obj.(*v20211101.ServersKey)
 	if !ok {
-		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/ServersKey, but got %T", obj)
+		return fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v20211101/ServersKey, but got %T", obj)
 	}
 	err := serversKey.defaultImpl(ctx, resource)
 	if err != nil {
@@ -60,7 +60,7 @@ func (serversKey *ServersKey) defaultImpl(ctx context.Context, obj *v20211101.Se
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-sql-azure-com-v1api20211101-serverskey,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serverskeys,verbs=create;update,versions=v1api20211101,name=validate.v1api20211101.serverskeys.sql.azure.com,admissionReviewVersions=v1
+// +kubebuilder:webhook:path=/validate-sql-azure-com-v20211101-serverskey,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=sql.azure.com,resources=serverskeys,verbs=create;update,versions=v20211101,name=validate.v20211101.serverskeys.sql.azure.com,admissionReviewVersions=v1
 
 var _ webhook.CustomValidator = &ServersKey{}
 
@@ -68,7 +68,7 @@ var _ webhook.CustomValidator = &ServersKey{}
 func (serversKey *ServersKey) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20211101.ServersKey)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/ServersKey, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v20211101/ServersKey, but got %T", resource)
 	}
 	validations := serversKey.createValidations()
 	var temp any = serversKey
@@ -82,7 +82,7 @@ func (serversKey *ServersKey) ValidateCreate(ctx context.Context, resource runti
 func (serversKey *ServersKey) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
 	obj, ok := resource.(*v20211101.ServersKey)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/ServersKey, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v20211101/ServersKey, but got %T", resource)
 	}
 	validations := serversKey.deleteValidations()
 	var temp any = serversKey
@@ -96,11 +96,11 @@ func (serversKey *ServersKey) ValidateDelete(ctx context.Context, resource runti
 func (serversKey *ServersKey) ValidateUpdate(ctx context.Context, oldResource runtime.Object, newResource runtime.Object) (admission.Warnings, error) {
 	newObj, ok := newResource.(*v20211101.ServersKey)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/ServersKey, but got %T", newResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v20211101/ServersKey, but got %T", newResource)
 	}
 	oldObj, ok := oldResource.(*v20211101.ServersKey)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/ServersKey, but got %T", oldResource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/v2/api/sql/v20211101/ServersKey, but got %T", oldResource)
 	}
 	validations := serversKey.updateValidations()
 	var temp any = serversKey
