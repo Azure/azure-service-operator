@@ -9,7 +9,7 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+These resource(s) are the latest versions available for use in the current release of ASO.
 | Resource                                                                                        | ARM Version | CRD Version | Supported From | Sample                                                                                                                                    |
 |-------------------------------------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | [ConfigurationStore]({{< relref "/reference/appconfiguration/v20240601#ConfigurationStore" >}}) | 2024-06-01  | v20240601   | v2.18.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/appconfiguration/v20240601/v20240601_configurationstore.yaml) |

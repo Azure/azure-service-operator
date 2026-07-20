@@ -9,7 +9,7 @@ To install the CRDs for these resources, your ASO configuration must include `ma
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+These resource(s) are the latest versions available for use in the current release of ASO.
 | Resource                                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                    |
 |----------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [FederatedIdentityCredential]({{< relref "/reference/managedidentity/v1api20230131#FederatedIdentityCredential" >}}) | 2023-01-31  | v1api20230131 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/managedidentity/v1api20230131/v1api20230131_federatedidentitycredential.yaml) |
