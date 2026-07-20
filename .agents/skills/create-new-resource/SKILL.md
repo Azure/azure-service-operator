@@ -60,15 +60,13 @@ Notes:
 
 Run:
 
-```bash
-task generator:quick-checks
-```
+    task controller:generate-types
 
 The first run is **expected to fail** with configuration errors. This is the working loop of the whole skill — the generator produces one error class at a time, you fix the config, you re-run. Do not treat the first failure as a real problem; treat it as the next instruction.
 
-Continue looping until `task generator:quick-checks` exits cleanly. See **Troubleshooting → Generator errors** below for the common error classes and their fixes.
+Continue looping until `task controller:generate-types` exits cleanly. See **Troubleshooting → Generator errors** below for the common error classes and their fixes.
 
-**Done when:** `task generator:quick-checks` succeeds with no errors, AND new files exist under `v2/api/<group>/<version>/` for your resource.
+**Done when:** `task controller:generate-types` succeeds with no errors, AND new files exist under `v2/api/<group>/<version>/` for your resource.
 
 ### Step 3: Review the generated code
 
