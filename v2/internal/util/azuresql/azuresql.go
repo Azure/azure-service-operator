@@ -97,13 +97,13 @@ func CreateOrUpdateUser(ctx context.Context, db *sql.DB, username string, passwo
 	tsql := fmt.Sprintf(`
 IF NOT EXISTS (SELECT name FROM sysusers WHERE name='%[1]s')
 	BEGIN
-		CREATE USER "%[1]s" WITH PASSWORD='%[2]s';
+		CREATE USER "%[2]s" WITH PASSWORD='%[3]s';
 	END
 ELSE
 	BEGIN
-		ALTER USER "%[1]s" WITH PASSWORD='%[2]s';
+		ALTER USER "%[2]s" WITH PASSWORD='%[3]s';
 	END;
-`, escapeIdentifierContent(username), escapeStringContent(password))
+`, escapeStringContent(username), escapeIdentifierContent(username), escapeStringContent(password))
 	_, err := db.ExecContext(ctx, tsql)
 	if err != nil {
 		return err
