@@ -20,6 +20,11 @@ import (
 
 func Test_GitHubActionCodeConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -129,6 +134,11 @@ func AddIndependentPropertyGeneratorsForGitHubActionCodeConfiguration(gens map[s
 
 func Test_GitHubActionCodeConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -238,6 +248,11 @@ func AddIndependentPropertyGeneratorsForGitHubActionCodeConfiguration_STATUS(gen
 
 func Test_GitHubActionConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -362,6 +377,11 @@ func AddRelatedPropertyGeneratorsForGitHubActionConfiguration(gens map[string]go
 
 func Test_GitHubActionConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -486,6 +506,11 @@ func AddRelatedPropertyGeneratorsForGitHubActionConfiguration_STATUS(gens map[st
 
 func Test_GitHubActionContainerConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -596,6 +621,11 @@ func AddIndependentPropertyGeneratorsForGitHubActionContainerConfiguration(gens 
 
 func Test_GitHubActionContainerConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -706,6 +736,11 @@ func AddIndependentPropertyGeneratorsForGitHubActionContainerConfiguration_STATU
 
 func Test_SitesSourcecontrol_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -749,6 +784,11 @@ func RunResourceConversionTestForSitesSourcecontrol(subject SitesSourcecontrol) 
 
 func Test_SitesSourcecontrol_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -857,6 +897,11 @@ func AddRelatedPropertyGeneratorsForSitesSourcecontrol(gens map[string]gopter.Ge
 
 func Test_SitesSourcecontrolOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -959,6 +1004,11 @@ func SitesSourcecontrolOperatorSpecGenerator() gopter.Gen {
 
 func Test_SitesSourcecontrol_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1090,6 +1140,11 @@ func AddRelatedPropertyGeneratorsForSitesSourcecontrol_STATUS(gens map[string]go
 
 func Test_SitesSourcecontrol_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
