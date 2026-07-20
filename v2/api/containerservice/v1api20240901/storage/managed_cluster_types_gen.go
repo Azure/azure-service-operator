@@ -3527,14 +3527,14 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 // Storage version of v1api20240901.ManagedClusterAADProfile
 // For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfile struct {
-	AdminGroupObjectIDs []string               `json:"adminGroupObjectIDs,omitempty"`
-	ClientAppID         *string                `json:"clientAppID,omitempty"`
-	EnableAzureRBAC     *bool                  `json:"enableAzureRBAC,omitempty"`
-	Managed             *bool                  `json:"managed,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ServerAppID         *string                `json:"serverAppID,omitempty"`
-	ServerAppSecret     *string                `json:"serverAppSecret,omitempty"`
-	TenantID            *string                `json:"tenantID,omitempty"`
+	AdminGroupObjectIDs []string                    `json:"adminGroupObjectIDs,omitempty"`
+	ClientAppID         *string                     `json:"clientAppID,omitempty"`
+	EnableAzureRBAC     *bool                       `json:"enableAzureRBAC,omitempty"`
+	Managed             *bool                       `json:"managed,omitempty"`
+	PropertyBag         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	ServerAppID         *string                     `json:"serverAppID,omitempty"`
+	ServerAppSecret     *genruntime.SecretReference `json:"serverAppSecret,omitempty"`
+	TenantID            *string                     `json:"tenantID,omitempty"`
 }
 
 // AssignProperties_From_ManagedClusterAADProfile populates our ManagedClusterAADProfile from the provided source ManagedClusterAADProfile
@@ -3568,7 +3568,12 @@ func (profile *ManagedClusterAADProfile) AssignProperties_From_ManagedClusterAAD
 	profile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
 
 	// ServerAppSecret
-	profile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
+	if source.ServerAppSecret != nil {
+		serverAppSecret := source.ServerAppSecret.Copy()
+		profile.ServerAppSecret = &serverAppSecret
+	} else {
+		profile.ServerAppSecret = nil
+	}
 
 	// TenantID
 	profile.TenantID = genruntime.ClonePointerToString(source.TenantID)
@@ -3624,7 +3629,12 @@ func (profile *ManagedClusterAADProfile) AssignProperties_To_ManagedClusterAADPr
 	destination.ServerAppID = genruntime.ClonePointerToString(profile.ServerAppID)
 
 	// ServerAppSecret
-	destination.ServerAppSecret = genruntime.ClonePointerToString(profile.ServerAppSecret)
+	if profile.ServerAppSecret != nil {
+		serverAppSecret := profile.ServerAppSecret.Copy()
+		destination.ServerAppSecret = &serverAppSecret
+	} else {
+		destination.ServerAppSecret = nil
+	}
 
 	// TenantID
 	destination.TenantID = genruntime.ClonePointerToString(profile.TenantID)
@@ -3658,7 +3668,6 @@ type ManagedClusterAADProfile_STATUS struct {
 	Managed             *bool                  `json:"managed,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerAppID         *string                `json:"serverAppID,omitempty"`
-	ServerAppSecret     *string                `json:"serverAppSecret,omitempty"`
 	TenantID            *string                `json:"tenantID,omitempty"`
 }
 
@@ -3691,9 +3700,6 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_From_ManagedClu
 
 	// ServerAppID
 	profile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
-
-	// ServerAppSecret
-	profile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
 
 	// TenantID
 	profile.TenantID = genruntime.ClonePointerToString(source.TenantID)
@@ -3747,9 +3753,6 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_To_ManagedClust
 
 	// ServerAppID
 	destination.ServerAppID = genruntime.ClonePointerToString(profile.ServerAppID)
-
-	// ServerAppSecret
-	destination.ServerAppSecret = genruntime.ClonePointerToString(profile.ServerAppSecret)
 
 	// TenantID
 	destination.TenantID = genruntime.ClonePointerToString(profile.TenantID)
@@ -12706,7 +12709,7 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_From_ManagedClust
 
 	// OIDCIssuerProfile
 	if source.OIDCIssuerProfile != nil {
-		oidcIssuerProfile := source.OIDCIssuerProfile.Copy()
+		oidcIssuerProfile := *source.OIDCIssuerProfile.DeepCopy()
 		maps.OIDCIssuerProfile = &oidcIssuerProfile
 	} else {
 		maps.OIDCIssuerProfile = nil
@@ -12714,7 +12717,7 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_From_ManagedClust
 
 	// PrincipalId
 	if source.PrincipalId != nil {
-		principalId := source.PrincipalId.Copy()
+		principalId := *source.PrincipalId.DeepCopy()
 		maps.PrincipalId = &principalId
 	} else {
 		maps.PrincipalId = nil
@@ -12747,7 +12750,7 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_To_ManagedCluster
 
 	// OIDCIssuerProfile
 	if maps.OIDCIssuerProfile != nil {
-		oidcIssuerProfile := maps.OIDCIssuerProfile.Copy()
+		oidcIssuerProfile := *maps.OIDCIssuerProfile.DeepCopy()
 		destination.OIDCIssuerProfile = &oidcIssuerProfile
 	} else {
 		destination.OIDCIssuerProfile = nil
@@ -12755,7 +12758,7 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_To_ManagedCluster
 
 	// PrincipalId
 	if maps.PrincipalId != nil {
-		principalId := maps.PrincipalId.Copy()
+		principalId := *maps.PrincipalId.DeepCopy()
 		destination.PrincipalId = &principalId
 	} else {
 		destination.PrincipalId = nil
@@ -12795,7 +12798,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_From_ManagedClust
 
 	// AdminCredentials
 	if source.AdminCredentials != nil {
-		adminCredential := source.AdminCredentials.Copy()
+		adminCredential := *source.AdminCredentials.DeepCopy()
 		secrets.AdminCredentials = &adminCredential
 	} else {
 		secrets.AdminCredentials = nil
@@ -12803,7 +12806,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_From_ManagedClust
 
 	// UserCredentials
 	if source.UserCredentials != nil {
-		userCredential := source.UserCredentials.Copy()
+		userCredential := *source.UserCredentials.DeepCopy()
 		secrets.UserCredentials = &userCredential
 	} else {
 		secrets.UserCredentials = nil
@@ -12836,7 +12839,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_To_ManagedCluster
 
 	// AdminCredentials
 	if secrets.AdminCredentials != nil {
-		adminCredential := secrets.AdminCredentials.Copy()
+		adminCredential := *secrets.AdminCredentials.DeepCopy()
 		destination.AdminCredentials = &adminCredential
 	} else {
 		destination.AdminCredentials = nil
@@ -12844,7 +12847,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_To_ManagedCluster
 
 	// UserCredentials
 	if secrets.UserCredentials != nil {
-		userCredential := secrets.UserCredentials.Copy()
+		userCredential := *secrets.UserCredentials.DeepCopy()
 		destination.UserCredentials = &userCredential
 	} else {
 		destination.UserCredentials = nil

@@ -3879,14 +3879,14 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 // AADProfile specifies attributes for Azure Active Directory integration. For more details see [managed AAD on
 // AKS](https://docs.microsoft.com/azure/aks/managed-aad).
 type ManagedClusterAADProfile struct {
-	AdminGroupObjectIDs []string               `json:"adminGroupObjectIDs,omitempty"`
-	ClientAppID         *string                `json:"clientAppID,omitempty"`
-	EnableAzureRBAC     *bool                  `json:"enableAzureRBAC,omitempty"`
-	Managed             *bool                  `json:"managed,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ServerAppID         *string                `json:"serverAppID,omitempty"`
-	ServerAppSecret     *string                `json:"serverAppSecret,omitempty"`
-	TenantID            *string                `json:"tenantID,omitempty"`
+	AdminGroupObjectIDs []string                    `json:"adminGroupObjectIDs,omitempty"`
+	ClientAppID         *string                     `json:"clientAppID,omitempty"`
+	EnableAzureRBAC     *bool                       `json:"enableAzureRBAC,omitempty"`
+	Managed             *bool                       `json:"managed,omitempty"`
+	PropertyBag         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	ServerAppID         *string                     `json:"serverAppID,omitempty"`
+	ServerAppSecret     *genruntime.SecretReference `json:"serverAppSecret,omitempty"`
+	TenantID            *string                     `json:"tenantID,omitempty"`
 }
 
 // AssignProperties_From_ManagedClusterAADProfile populates our ManagedClusterAADProfile from the provided source ManagedClusterAADProfile
@@ -3920,7 +3920,12 @@ func (profile *ManagedClusterAADProfile) AssignProperties_From_ManagedClusterAAD
 	profile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
 
 	// ServerAppSecret
-	profile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
+	if source.ServerAppSecret != nil {
+		serverAppSecret := source.ServerAppSecret.Copy()
+		profile.ServerAppSecret = &serverAppSecret
+	} else {
+		profile.ServerAppSecret = nil
+	}
 
 	// TenantID
 	profile.TenantID = genruntime.ClonePointerToString(source.TenantID)
@@ -3976,7 +3981,12 @@ func (profile *ManagedClusterAADProfile) AssignProperties_To_ManagedClusterAADPr
 	destination.ServerAppID = genruntime.ClonePointerToString(profile.ServerAppID)
 
 	// ServerAppSecret
-	destination.ServerAppSecret = genruntime.ClonePointerToString(profile.ServerAppSecret)
+	if profile.ServerAppSecret != nil {
+		serverAppSecret := profile.ServerAppSecret.Copy()
+		destination.ServerAppSecret = &serverAppSecret
+	} else {
+		destination.ServerAppSecret = nil
+	}
 
 	// TenantID
 	destination.TenantID = genruntime.ClonePointerToString(profile.TenantID)
@@ -4011,7 +4021,6 @@ type ManagedClusterAADProfile_STATUS struct {
 	Managed             *bool                  `json:"managed,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerAppID         *string                `json:"serverAppID,omitempty"`
-	ServerAppSecret     *string                `json:"serverAppSecret,omitempty"`
 	TenantID            *string                `json:"tenantID,omitempty"`
 }
 
@@ -4044,9 +4053,6 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_From_ManagedClu
 
 	// ServerAppID
 	profile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
-
-	// ServerAppSecret
-	profile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
 
 	// TenantID
 	profile.TenantID = genruntime.ClonePointerToString(source.TenantID)
@@ -4100,9 +4106,6 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_To_ManagedClust
 
 	// ServerAppID
 	destination.ServerAppID = genruntime.ClonePointerToString(profile.ServerAppID)
-
-	// ServerAppSecret
-	destination.ServerAppSecret = genruntime.ClonePointerToString(profile.ServerAppSecret)
 
 	// TenantID
 	destination.TenantID = genruntime.ClonePointerToString(profile.TenantID)
@@ -4352,6 +4355,7 @@ type ManagedClusterAgentPoolProfile struct {
 	Name                     *string                       `json:"name,omitempty"`
 	NetworkProfile           *AgentPoolNetworkProfile      `json:"networkProfile,omitempty"`
 	NodeCustomizationProfile *NodeCustomizationProfile     `json:"nodeCustomizationProfile,omitempty"`
+	NodeImageVersion         *string                       `json:"nodeImageVersion,omitempty"`
 	NodeInitializationTaints []string                      `json:"nodeInitializationTaints,omitempty"`
 	NodeLabels               map[string]string             `json:"nodeLabels,omitempty" serializationType:"explicitEmptyCollection"`
 
@@ -4598,6 +4602,19 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_From_ManagedClus
 		profile.NodeCustomizationProfile = &nodeCustomizationProfile
 	} else {
 		profile.NodeCustomizationProfile = nil
+	}
+
+	// NodeImageVersion
+	if propertyBag.Contains("NodeImageVersion") {
+		var nodeImageVersion string
+		err := propertyBag.Pull("NodeImageVersion", &nodeImageVersion)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'NodeImageVersion' from propertyBag")
+		}
+
+		profile.NodeImageVersion = &nodeImageVersion
+	} else {
+		profile.NodeImageVersion = nil
 	}
 
 	// NodeInitializationTaints
@@ -5002,6 +5019,13 @@ func (profile *ManagedClusterAgentPoolProfile) AssignProperties_To_ManagedCluste
 		propertyBag.Add("NodeCustomizationProfile", *profile.NodeCustomizationProfile)
 	} else {
 		propertyBag.Remove("NodeCustomizationProfile")
+	}
+
+	// NodeImageVersion
+	if profile.NodeImageVersion != nil {
+		propertyBag.Add("NodeImageVersion", *profile.NodeImageVersion)
+	} else {
+		propertyBag.Remove("NodeImageVersion")
 	}
 
 	// NodeInitializationTaints
@@ -7986,6 +8010,7 @@ func (profile *ManagedClusterMetricsProfile_STATUS) AssignProperties_To_ManagedC
 }
 
 // Storage version of v20251002preview.ManagedClusterNodeProvisioningProfile
+// Node provisioning profile for the managed cluster.
 type ManagedClusterNodeProvisioningProfile struct {
 	DefaultNodePools *string                `json:"defaultNodePools,omitempty"`
 	Mode             *string                `json:"mode,omitempty"`
@@ -8055,6 +8080,7 @@ func (profile *ManagedClusterNodeProvisioningProfile) AssignProperties_To_Manage
 }
 
 // Storage version of v20251002preview.ManagedClusterNodeProvisioningProfile_STATUS
+// Node provisioning profile for the managed cluster.
 type ManagedClusterNodeProvisioningProfile_STATUS struct {
 	DefaultNodePools *string                `json:"defaultNodePools,omitempty"`
 	Mode             *string                `json:"mode,omitempty"`
@@ -13567,12 +13593,14 @@ type ManagedClusterIngressProfileApplicationLoadBalancer_STATUS struct {
 }
 
 // Storage version of v20251002preview.ManagedClusterIngressProfileGatewayConfiguration
+// Configuration for the ingress managed gateway. See https://aka.ms/k8s-gateway-api for more details.
 type ManagedClusterIngressProfileGatewayConfiguration struct {
 	Installation *string                `json:"installation,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20251002preview.ManagedClusterIngressProfileGatewayConfiguration_STATUS
+// Configuration for the ingress managed gateway. See https://aka.ms/k8s-gateway-api for more details.
 type ManagedClusterIngressProfileGatewayConfiguration_STATUS struct {
 	Installation *string                `json:"installation,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -14506,7 +14534,7 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_From_ManagedClust
 
 	// OIDCIssuerProfile
 	if source.OIDCIssuerProfile != nil {
-		oidcIssuerProfile := source.OIDCIssuerProfile.Copy()
+		oidcIssuerProfile := *source.OIDCIssuerProfile.DeepCopy()
 		maps.OIDCIssuerProfile = &oidcIssuerProfile
 	} else {
 		maps.OIDCIssuerProfile = nil
@@ -14546,7 +14574,7 @@ func (maps *ManagedClusterOperatorConfigMaps) AssignProperties_To_ManagedCluster
 
 	// OIDCIssuerProfile
 	if maps.OIDCIssuerProfile != nil {
-		oidcIssuerProfile := maps.OIDCIssuerProfile.Copy()
+		oidcIssuerProfile := *maps.OIDCIssuerProfile.DeepCopy()
 		destination.OIDCIssuerProfile = &oidcIssuerProfile
 	} else {
 		destination.OIDCIssuerProfile = nil
@@ -14599,7 +14627,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_From_ManagedClust
 
 	// AdminCredentials
 	if source.AdminCredentials != nil {
-		adminCredential := source.AdminCredentials.Copy()
+		adminCredential := *source.AdminCredentials.DeepCopy()
 		secrets.AdminCredentials = &adminCredential
 	} else {
 		secrets.AdminCredentials = nil
@@ -14607,7 +14635,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_From_ManagedClust
 
 	// UserCredentials
 	if source.UserCredentials != nil {
-		userCredential := source.UserCredentials.Copy()
+		userCredential := *source.UserCredentials.DeepCopy()
 		secrets.UserCredentials = &userCredential
 	} else {
 		secrets.UserCredentials = nil
@@ -14640,7 +14668,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_To_ManagedCluster
 
 	// AdminCredentials
 	if secrets.AdminCredentials != nil {
-		adminCredential := secrets.AdminCredentials.Copy()
+		adminCredential := *secrets.AdminCredentials.DeepCopy()
 		destination.AdminCredentials = &adminCredential
 	} else {
 		destination.AdminCredentials = nil
@@ -14648,7 +14676,7 @@ func (secrets *ManagedClusterOperatorSecrets) AssignProperties_To_ManagedCluster
 
 	// UserCredentials
 	if secrets.UserCredentials != nil {
-		userCredential := secrets.UserCredentials.Copy()
+		userCredential := *secrets.UserCredentials.DeepCopy()
 		destination.UserCredentials = &userCredential
 	} else {
 		destination.UserCredentials = nil
@@ -16744,6 +16772,7 @@ func (autoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_S
 }
 
 // Storage version of v20251002preview.ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS
+// User assigned identity properties.
 type ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -18844,12 +18873,14 @@ func (metrics *ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS) AssignP
 }
 
 // Storage version of v20251002preview.ManagedClusterIngressDefaultDomainProfile
+// Default domain profile for the managed cluster ingress profile.
 type ManagedClusterIngressDefaultDomainProfile struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20251002preview.ManagedClusterIngressDefaultDomainProfile_STATUS
+// Default domain profile for the managed cluster ingress profile.
 type ManagedClusterIngressDefaultDomainProfile_STATUS struct {
 	DomainName  *string                `json:"domainName,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
@@ -18857,6 +18888,7 @@ type ManagedClusterIngressDefaultDomainProfile_STATUS struct {
 }
 
 // Storage version of v20251002preview.ManagedClusterIngressProfileNginx
+// Nginx ingress controller configuration for the managed cluster ingress profile.
 type ManagedClusterIngressProfileNginx struct {
 	DefaultIngressControllerType *string                `json:"defaultIngressControllerType,omitempty"`
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -18919,6 +18951,7 @@ func (nginx *ManagedClusterIngressProfileNginx) AssignProperties_To_ManagedClust
 }
 
 // Storage version of v20251002preview.ManagedClusterIngressProfileNginx_STATUS
+// Nginx ingress controller configuration for the managed cluster ingress profile.
 type ManagedClusterIngressProfileNginx_STATUS struct {
 	DefaultIngressControllerType *string                `json:"defaultIngressControllerType,omitempty"`
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -19603,6 +19636,7 @@ func (profile *ManagedClusterManagedOutboundIPProfile_STATUS) AssignProperties_T
 }
 
 // Storage version of v20251002preview.ManagedClusterPodIdentityProvisioningInfo_STATUS
+// Pod identity provisioning information.
 type ManagedClusterPodIdentityProvisioningInfo_STATUS struct {
 	Error       *ManagedClusterPodIdentityProvisioningError_STATUS `json:"error,omitempty"`
 	PropertyBag genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
@@ -20793,6 +20827,7 @@ func (error *ManagedClusterPodIdentityProvisioningError_STATUS) AssignProperties
 }
 
 // Storage version of v20251002preview.ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem
+// Identity information used by Defender security gating to access container registries.
 type ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem struct {
 	AzureContainerRegistry *string                `json:"azureContainerRegistry,omitempty"`
 	Identity               *UserAssignedIdentity  `json:"identity,omitempty"`
@@ -20800,6 +20835,7 @@ type ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem struct {
 }
 
 // Storage version of v20251002preview.ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS
+// Identity information used by Defender security gating to access container registries.
 type ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS struct {
 	AzureContainerRegistry *string                      `json:"azureContainerRegistry,omitempty"`
 	Identity               *UserAssignedIdentity_STATUS `json:"identity,omitempty"`

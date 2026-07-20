@@ -2654,7 +2654,12 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 type ManagedServiceIdentity struct {
 	// +kubebuilder:validation:Required
 	// Type: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-	Type                   *ManagedServiceIdentityType   `json:"type,omitempty"`
+	Type *ManagedServiceIdentityType `json:"type,omitempty"`
+
+	// UserAssignedIdentities: The set of user assigned identities associated with the resource. The userAssignedIdentities
+	// dictionary keys will be ARM resource ids in the form:
+	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+	// The dictionary values can be empty objects ({}) in requests.
 	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -2797,7 +2802,12 @@ type ManagedServiceIdentity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
-	Type                   *ManagedServiceIdentityType_STATUS     `json:"type,omitempty"`
+	Type *ManagedServiceIdentityType_STATUS `json:"type,omitempty"`
+
+	// UserAssignedIdentities: The set of user assigned identities associated with the resource. The userAssignedIdentities
+	// dictionary keys will be ARM resource ids in the form:
+	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+	// The dictionary values can be empty objects ({}) in requests.
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -4777,7 +4787,7 @@ func (maps *ContainerAppOperatorConfigMaps) AssignProperties_From_ContainerAppOp
 
 	// EventStreamEndpoint
 	if source.EventStreamEndpoint != nil {
-		eventStreamEndpoint := source.EventStreamEndpoint.Copy()
+		eventStreamEndpoint := *source.EventStreamEndpoint.DeepCopy()
 		maps.EventStreamEndpoint = &eventStreamEndpoint
 	} else {
 		maps.EventStreamEndpoint = nil
@@ -4785,7 +4795,7 @@ func (maps *ContainerAppOperatorConfigMaps) AssignProperties_From_ContainerAppOp
 
 	// Fqdn
 	if source.Fqdn != nil {
-		fqdn := source.Fqdn.Copy()
+		fqdn := *source.Fqdn.DeepCopy()
 		maps.Fqdn = &fqdn
 	} else {
 		maps.Fqdn = nil
@@ -4802,7 +4812,7 @@ func (maps *ContainerAppOperatorConfigMaps) AssignProperties_To_ContainerAppOper
 
 	// EventStreamEndpoint
 	if maps.EventStreamEndpoint != nil {
-		eventStreamEndpoint := maps.EventStreamEndpoint.Copy()
+		eventStreamEndpoint := *maps.EventStreamEndpoint.DeepCopy()
 		destination.EventStreamEndpoint = &eventStreamEndpoint
 	} else {
 		destination.EventStreamEndpoint = nil
@@ -4810,7 +4820,7 @@ func (maps *ContainerAppOperatorConfigMaps) AssignProperties_To_ContainerAppOper
 
 	// Fqdn
 	if maps.Fqdn != nil {
-		fqdn := maps.Fqdn.Copy()
+		fqdn := *maps.Fqdn.DeepCopy()
 		destination.Fqdn = &fqdn
 	} else {
 		destination.Fqdn = nil

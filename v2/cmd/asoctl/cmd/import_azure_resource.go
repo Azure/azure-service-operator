@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"sync"
 	"time"
@@ -144,7 +145,7 @@ func importAzureResource(
 	}
 
 	// Create an ARM client for requesting resources
-	client, err := createARMClient(options)
+	client, err := createARMClient(ctx, options)
 	if err != nil {
 		return eris.Wrapf(err, "failed to create ARM client")
 	}
@@ -235,10 +236,13 @@ func importAzureResource(
 }
 
 // createARMClient creates our client for talking to ARM
-func createARMClient(options *importAzureResourceOptions) (*genericarmclient.GenericClient, error) {
+func createARMClient(
+	ctx context.Context,
+	options *importAzureResourceOptions,
+) (*genericarmclient.GenericClient, error) {
 	activeCloud := options.cloud()
 
-	creds, err := newChainedCredential(activeCloud)
+	creds, err := newChainedCredential(ctx, activeCloud)
 	if err != nil {
 		return nil, eris.Wrap(err, "unable to create Azure credential")
 	}
@@ -251,7 +255,10 @@ func createARMClient(options *importAzureResourceOptions) (*genericarmclient.Gen
 }
 
 // newChainedCredential creates a ChainedTokenCredential with multiple credential types for asoctl.
-func newChainedCredential(cloud cloud.Configuration) (azcore.TokenCredential, error) {
+func newChainedCredential(
+	ctx context.Context,
+	cloud cloud.Configuration,
+) (azcore.TokenCredential, error) {
 	var creds []azcore.TokenCredential
 	var credErrors []string
 
@@ -281,17 +288,19 @@ func newChainedCredential(cloud cloud.Configuration) (azcore.TokenCredential, er
 		creds = append(creds, wiCred)
 	}
 
-	miCred, err := azidentity.NewManagedIdentityCredential(
-		&azidentity.ManagedIdentityCredentialOptions{
-			ClientOptions: azcore.ClientOptions{
-				Cloud: cloud,
+	if isIMDSAvailable(ctx) {
+		miCred, err := azidentity.NewManagedIdentityCredential(
+			&azidentity.ManagedIdentityCredentialOptions{
+				ClientOptions: azcore.ClientOptions{
+					Cloud: cloud,
+				},
 			},
-		},
-	)
-	if err != nil {
-		credErrors = append(credErrors, fmt.Sprintf("ManagedIdentityCredential: %s", err.Error()))
-	} else {
-		creds = append(creds, miCred)
+		)
+		if err != nil {
+			credErrors = append(credErrors, fmt.Sprintf("ManagedIdentityCredential: %s", err.Error()))
+		} else {
+			creds = append(creds, miCred)
+		}
 	}
 
 	cliCred, err := azidentity.NewAzureCLICredential(nil)
@@ -309,6 +318,31 @@ func newChainedCredential(cloud cloud.Configuration) (azcore.TokenCredential, er
 	}
 
 	return azidentity.NewChainedTokenCredential(creds, nil)
+}
+
+func isIMDSAvailable(ctx context.Context) bool {
+	probeCtx, cancel := context.WithTimeout(ctx, 1*time.Second)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(
+		probeCtx,
+		http.MethodGet,
+		"http://169.254.169.254/metadata/identity/oauth2/token",
+		nil,
+	)
+	if err != nil {
+		return false
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		if resp != nil && resp.Body != nil {
+			_ = resp.Body.Close()
+		}
+		return false
+	}
+	defer resp.Body.Close()
+	return true
 }
 
 // configureImportedResources applies additional configuration to imported resources

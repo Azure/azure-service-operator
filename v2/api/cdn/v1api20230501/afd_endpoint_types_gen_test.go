@@ -5,7 +5,8 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_AfdEndpoint_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForAfdEndpoint(subject AfdEndpoint) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.AfdEndpoint
+	var hub cdn_v20230501s.AfdEndpoint
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForAfdEndpoint(subject AfdEndpoint) string {
 
 func Test_AfdEndpoint_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForAfdEndpoint(subject AfdEndpoint) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdEndpoint
+	var other cdn_v1api20230501s.AfdEndpoint
 	err := copied.AssignProperties_To_AfdEndpoint(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForAfdEndpoint(subject AfdEndpoint) string {
 
 func Test_AfdEndpoint_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -166,6 +182,11 @@ func AddRelatedPropertyGeneratorsForAfdEndpoint(gens map[string]gopter.Gen) {
 
 func Test_AfdEndpointOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -181,7 +202,7 @@ func RunPropertyAssignmentTestForAfdEndpointOperatorSpec(subject AfdEndpointOper
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdEndpointOperatorSpec
+	var other cdn_v1api20230501s.AfdEndpointOperatorSpec
 	err := copied.AssignProperties_To_AfdEndpointOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -208,6 +229,11 @@ func RunPropertyAssignmentTestForAfdEndpointOperatorSpec(subject AfdEndpointOper
 
 func Test_AfdEndpointOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -263,6 +289,11 @@ func AfdEndpointOperatorSpecGenerator() gopter.Gen {
 
 func Test_AfdEndpoint_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -278,7 +309,7 @@ func RunPropertyAssignmentTestForAfdEndpoint_STATUS(subject AfdEndpoint_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdEndpoint_STATUS
+	var other cdn_v1api20230501s.AfdEndpoint_STATUS
 	err := copied.AssignProperties_To_AfdEndpoint_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -305,6 +336,11 @@ func RunPropertyAssignmentTestForAfdEndpoint_STATUS(subject AfdEndpoint_STATUS) 
 
 func Test_AfdEndpoint_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -404,6 +440,11 @@ func AddRelatedPropertyGeneratorsForAfdEndpoint_STATUS(gens map[string]gopter.Ge
 
 func Test_AfdEndpoint_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -419,7 +460,7 @@ func RunPropertyAssignmentTestForAfdEndpoint_Spec(subject AfdEndpoint_Spec) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdEndpoint_Spec
+	var other cdn_v1api20230501s.AfdEndpoint_Spec
 	err := copied.AssignProperties_To_AfdEndpoint_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -446,6 +487,11 @@ func RunPropertyAssignmentTestForAfdEndpoint_Spec(subject AfdEndpoint_Spec) stri
 
 func Test_AfdEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

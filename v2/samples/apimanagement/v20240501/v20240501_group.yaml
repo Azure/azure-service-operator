@@ -4,6 +4,7 @@ metadata:
   name: samplegroup
   namespace: default
 spec:
+  azureName: samplegroup
   displayName: "Sample Group"
   description: "A sample APIM group"
   owner:

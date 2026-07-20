@@ -19,19 +19,30 @@ This skill guides the migration of an Azure resource group from `VersionMigratio
 
 **File:** `v2/tools/generator/internal/astmodel/legacy.go`
 
-Find the target group's entry in the `versionMigrationModes` map and change it from `VersionMigrationModeLegacy` to `VersionMigrationModeHybrid`.
+1. Find the target group's entry in the `versionMigrationModes` map and change it from `VersionMigrationModeLegacy` to `VersionMigrationModeHybrid`.
 
-**Example:**
+   **Example:**
 
-```go
-// Before
-"appconfiguration": VersionMigrationModeLegacy,
+   ```go
+   // Before
+   "appconfiguration": VersionMigrationModeLegacy,
 
-// After
-"appconfiguration": VersionMigrationModeHybrid,
-```
+   // After
+   "appconfiguration": VersionMigrationModeHybrid,
+   ```
 
-> **Important:** The map is sorted alphabetically. Do not reorder entries.
+2. Add an entry to the `versionMigrationHybridReleases` map recording the upcoming ASO release in which this migration will ship. This ensures our documentation correctly reports the new `v`-prefixed variants as "Next Release" until they've actually shipped, and keeps the `v1api`-prefixed variants marked as active (not deprecated) until then.
+
+   **Example:**
+
+   ```go
+   var versionMigrationHybridReleases = map[string]string{
+       "appconfiguration": "v2.21.0", // next unreleased ASO version
+       "authorization":    "v2.21.0",
+   }
+   ```
+
+> **Important:** Both maps are sorted alphabetically. Do not reorder entries.
 
 ### Step 2: Run the Code Generator
 
@@ -210,7 +221,7 @@ Fix any issues and re-run from the beginning if anything fails.
 
 | Area | What Changes |
 |------|-------------|
-| `legacy.go` | Group entry: `VersionMigrationModeLegacy` → `VersionMigrationModeHybrid` |
+| `legacy.go` | Group entry: `VersionMigrationModeLegacy` → `VersionMigrationModeHybrid`; new entry in `versionMigrationHybridReleases` for the upcoming release |
 | `v2/api/<group>/` | New `v<version>/` directories generated alongside existing `v1api<version>/` |
 | `v2/samples/<group>/` | New `v<version>/` directories with copied+updated sample YAML files |
 | CRUD test files | File names, import paths, function names updated to drop `v1api` prefix |

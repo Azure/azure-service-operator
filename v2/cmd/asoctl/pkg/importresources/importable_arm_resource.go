@@ -346,6 +346,14 @@ func (i *importableARMResource) importChildResources(
 		imp.GetAPIVersion(),
 	)
 	if err != nil {
+		// If this is an extension resource, errors will mean it's not supported in this location,
+		// we can safely skip it without alarming the user
+		if kr, ok := obj.(genruntime.KubernetesResource); ok {
+			if kr.GetResourceScope() == genruntime.ResourceScopeExtension {
+				return nil, nil
+			}
+		}
+
 		if _, nonfatal := i.classifyError(err); nonfatal {
 			// Non-fatal error, we'll just skip this child resource type
 			return nil, nil
@@ -371,11 +379,13 @@ func (i *importableARMResource) importChildResources(
 // These error codes represent cases where the request we've made doesn't make sense,
 // so there's no point in alerting the user to the details.
 var skipCodes = set.Make(
-	"RequestUrlInvalid",
-	"ValidationFailed",
+	"BadRequest",
 	"NoRegisteredProviderFound",
+	"RequestUrlInvalid",
 	"ResourceTypeNotSupported",
 	"UnsupportedResourceType",
+	"UnsupportedFeature",
+	"ValidationFailed",
 )
 
 func (*importableARMResource) classifyError(err error) (string, bool) {

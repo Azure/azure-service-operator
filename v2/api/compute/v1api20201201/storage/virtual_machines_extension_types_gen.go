@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/compute/v1api20220301/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/compute/v20201201/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -27,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20201201.VirtualMachinesExtension
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2020-12-01/compute.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}
 type VirtualMachinesExtension struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -52,22 +51,36 @@ var _ conversion.Convertible = &VirtualMachinesExtension{}
 
 // ConvertFrom populates our VirtualMachinesExtension from the provided hub VirtualMachinesExtension
 func (extension *VirtualMachinesExtension) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.VirtualMachinesExtension)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachinesExtension but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.VirtualMachinesExtension
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return extension.AssignProperties_From_VirtualMachinesExtension(source)
+	err = extension.AssignProperties_From_VirtualMachinesExtension(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to extension")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub VirtualMachinesExtension from our VirtualMachinesExtension
 func (extension *VirtualMachinesExtension) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.VirtualMachinesExtension)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20220301/storage/VirtualMachinesExtension but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.VirtualMachinesExtension
+	err := extension.AssignProperties_To_VirtualMachinesExtension(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from extension")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return extension.AssignProperties_To_VirtualMachinesExtension(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &VirtualMachinesExtension{}
@@ -247,7 +260,7 @@ func (extension *VirtualMachinesExtension) OriginalGVK() *schema.GroupVersionKin
 // +kubebuilder:object:root=true
 // Storage version of v1api20201201.VirtualMachinesExtension
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2020-12-01/compute.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2020-12-01/compute.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/extensions/{vmExtensionName}
 type VirtualMachinesExtensionList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -411,13 +424,6 @@ func (extension *VirtualMachinesExtension_Spec) AssignProperties_From_VirtualMac
 		extension.ProtectedSettings = nil
 	}
 
-	// ProtectedSettingsFromKeyVault
-	if source.ProtectedSettingsFromKeyVault != nil {
-		propertyBag.Add("ProtectedSettingsFromKeyVault", *source.ProtectedSettingsFromKeyVault)
-	} else {
-		propertyBag.Remove("ProtectedSettingsFromKeyVault")
-	}
-
 	// Publisher
 	extension.Publisher = genruntime.ClonePointerToString(source.Publisher)
 
@@ -430,13 +436,6 @@ func (extension *VirtualMachinesExtension_Spec) AssignProperties_From_VirtualMac
 		extension.Settings = settingMap
 	} else {
 		extension.Settings = nil
-	}
-
-	// SuppressFailures
-	if source.SuppressFailures != nil {
-		propertyBag.Add("SuppressFailures", *source.SuppressFailures)
-	} else {
-		propertyBag.Remove("SuppressFailures")
 	}
 
 	// Tags
@@ -541,19 +540,6 @@ func (extension *VirtualMachinesExtension_Spec) AssignProperties_To_VirtualMachi
 		destination.ProtectedSettings = nil
 	}
 
-	// ProtectedSettingsFromKeyVault
-	if propertyBag.Contains("ProtectedSettingsFromKeyVault") {
-		var protectedSettingsFromKeyVault storage.KeyVaultSecretReference
-		err := propertyBag.Pull("ProtectedSettingsFromKeyVault", &protectedSettingsFromKeyVault)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProtectedSettingsFromKeyVault' from propertyBag")
-		}
-
-		destination.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
-	} else {
-		destination.ProtectedSettingsFromKeyVault = nil
-	}
-
 	// Publisher
 	destination.Publisher = genruntime.ClonePointerToString(extension.Publisher)
 
@@ -566,19 +552,6 @@ func (extension *VirtualMachinesExtension_Spec) AssignProperties_To_VirtualMachi
 		destination.Settings = settingMap
 	} else {
 		destination.Settings = nil
-	}
-
-	// SuppressFailures
-	if propertyBag.Contains("SuppressFailures") {
-		var suppressFailure bool
-		err := propertyBag.Pull("SuppressFailures", &suppressFailure)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SuppressFailures' from propertyBag")
-		}
-
-		destination.SuppressFailures = &suppressFailure
-	} else {
-		destination.SuppressFailures = nil
 	}
 
 	// Tags
@@ -731,13 +704,6 @@ func (extension *VirtualMachinesExtension_STATUS) AssignProperties_From_VirtualM
 	// PropertiesType
 	extension.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
 
-	// ProtectedSettingsFromKeyVault
-	if source.ProtectedSettingsFromKeyVault != nil {
-		propertyBag.Add("ProtectedSettingsFromKeyVault", *source.ProtectedSettingsFromKeyVault)
-	} else {
-		propertyBag.Remove("ProtectedSettingsFromKeyVault")
-	}
-
 	// ProvisioningState
 	extension.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
@@ -753,13 +719,6 @@ func (extension *VirtualMachinesExtension_STATUS) AssignProperties_From_VirtualM
 		extension.Settings = settingMap
 	} else {
 		extension.Settings = nil
-	}
-
-	// SuppressFailures
-	if source.SuppressFailures != nil {
-		propertyBag.Add("SuppressFailures", *source.SuppressFailures)
-	} else {
-		propertyBag.Remove("SuppressFailures")
 	}
 
 	// Tags
@@ -842,19 +801,6 @@ func (extension *VirtualMachinesExtension_STATUS) AssignProperties_To_VirtualMac
 	// PropertiesType
 	destination.PropertiesType = genruntime.ClonePointerToString(extension.PropertiesType)
 
-	// ProtectedSettingsFromKeyVault
-	if propertyBag.Contains("ProtectedSettingsFromKeyVault") {
-		var protectedSettingsFromKeyVault storage.KeyVaultSecretReference_STATUS
-		err := propertyBag.Pull("ProtectedSettingsFromKeyVault", &protectedSettingsFromKeyVault)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProtectedSettingsFromKeyVault' from propertyBag")
-		}
-
-		destination.ProtectedSettingsFromKeyVault = &protectedSettingsFromKeyVault
-	} else {
-		destination.ProtectedSettingsFromKeyVault = nil
-	}
-
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(extension.ProvisioningState)
 
@@ -870,19 +816,6 @@ func (extension *VirtualMachinesExtension_STATUS) AssignProperties_To_VirtualMac
 		destination.Settings = settingMap
 	} else {
 		destination.Settings = nil
-	}
-
-	// SuppressFailures
-	if propertyBag.Contains("SuppressFailures") {
-		var suppressFailure bool
-		err := propertyBag.Pull("SuppressFailures", &suppressFailure)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SuppressFailures' from propertyBag")
-		}
-
-		destination.SuppressFailures = &suppressFailure
-	} else {
-		destination.SuppressFailures = nil
 	}
 
 	// Tags

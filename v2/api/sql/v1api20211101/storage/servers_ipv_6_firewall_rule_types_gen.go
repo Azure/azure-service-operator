@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,22 +14,19 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serversipv6firewallrules,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serversipv6firewallrules/status,serversipv6firewallrules/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20211101.ServersIPV6FirewallRule
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/IPv6FirewallRules.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/IPv6FirewallRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}
 type ServersIPV6FirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -46,6 +45,28 @@ func (rule *ServersIPV6FirewallRule) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (rule *ServersIPV6FirewallRule) SetConditions(conditions conditions.Conditions) {
 	rule.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersIPV6FirewallRule{}
+
+// ConvertFrom populates our ServersIPV6FirewallRule from the provided hub ServersIPV6FirewallRule
+func (rule *ServersIPV6FirewallRule) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersIPV6FirewallRule)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersIPV6FirewallRule but received %T instead", hub)
+	}
+
+	return rule.AssignProperties_From_ServersIPV6FirewallRule(source)
+}
+
+// ConvertTo populates the provided hub ServersIPV6FirewallRule from our ServersIPV6FirewallRule
+func (rule *ServersIPV6FirewallRule) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersIPV6FirewallRule)
+	if !ok {
+		return fmt.Errorf("expected sql/v20211101/storage/ServersIPV6FirewallRule but received %T instead", hub)
+	}
+
+	return rule.AssignProperties_To_ServersIPV6FirewallRule(destination)
 }
 
 var _ configmaps.Exporter = &ServersIPV6FirewallRule{}
@@ -143,8 +164,75 @@ func (rule *ServersIPV6FirewallRule) SetStatus(status genruntime.ConvertibleStat
 	return nil
 }
 
-// Hub marks that this ServersIPV6FirewallRule is the hub type for conversion
-func (rule *ServersIPV6FirewallRule) Hub() {}
+// AssignProperties_From_ServersIPV6FirewallRule populates our ServersIPV6FirewallRule from the provided source ServersIPV6FirewallRule
+func (rule *ServersIPV6FirewallRule) AssignProperties_From_ServersIPV6FirewallRule(source *storage.ServersIPV6FirewallRule) error {
+
+	// ObjectMeta
+	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersIPV6FirewallRule_Spec
+	err := spec.AssignProperties_From_ServersIPV6FirewallRule_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersIPV6FirewallRule_Spec() to populate field Spec")
+	}
+	rule.Spec = spec
+
+	// Status
+	var status ServersIPV6FirewallRule_STATUS
+	err = status.AssignProperties_From_ServersIPV6FirewallRule_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersIPV6FirewallRule_STATUS() to populate field Status")
+	}
+	rule.Status = status
+
+	// Invoke the augmentConversionForServersIPV6FirewallRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersIPV6FirewallRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersIPV6FirewallRule populates the provided destination ServersIPV6FirewallRule from our ServersIPV6FirewallRule
+func (rule *ServersIPV6FirewallRule) AssignProperties_To_ServersIPV6FirewallRule(destination *storage.ServersIPV6FirewallRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersIPV6FirewallRule_Spec
+	err := rule.Spec.AssignProperties_To_ServersIPV6FirewallRule_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersIPV6FirewallRule_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersIPV6FirewallRule_STATUS
+	err = rule.Status.AssignProperties_To_ServersIPV6FirewallRule_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersIPV6FirewallRule_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersIPV6FirewallRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersIPV6FirewallRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (rule *ServersIPV6FirewallRule) OriginalGVK() *schema.GroupVersionKind {
@@ -158,12 +246,17 @@ func (rule *ServersIPV6FirewallRule) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20211101.ServersIPV6FirewallRule
 // Generator information:
-// - Generated from: /sql/resource-manager/Microsoft.Sql/stable/2021-11-01/IPv6FirewallRules.json
+// - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/IPv6FirewallRules.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/ipv6FirewallRules/{firewallRuleName}
 type ServersIPV6FirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ServersIPV6FirewallRule `json:"items"`
+}
+
+type augmentConversionForServersIPV6FirewallRule interface {
+	AssignPropertiesFrom(src *storage.ServersIPV6FirewallRule) error
+	AssignPropertiesTo(dst *storage.ServersIPV6FirewallRule) error
 }
 
 // Storage version of v1api20211101.ServersIPV6FirewallRule_Spec
@@ -188,20 +281,164 @@ var _ genruntime.ConvertibleSpec = &ServersIPV6FirewallRule_Spec{}
 
 // ConvertSpecFrom populates our ServersIPV6FirewallRule_Spec from the provided source
 func (rule *ServersIPV6FirewallRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersIPV6FirewallRule_Spec)
+	if ok {
+		// Populate our instance from source
+		return rule.AssignProperties_From_ServersIPV6FirewallRule_Spec(src)
 	}
 
-	return source.ConvertSpecTo(rule)
+	// Convert to an intermediate form
+	src = &storage.ServersIPV6FirewallRule_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = rule.AssignProperties_From_ServersIPV6FirewallRule_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersIPV6FirewallRule_Spec
 func (rule *ServersIPV6FirewallRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersIPV6FirewallRule_Spec)
+	if ok {
+		// Populate destination from our instance
+		return rule.AssignProperties_To_ServersIPV6FirewallRule_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(rule)
+	// Convert to an intermediate form
+	dst = &storage.ServersIPV6FirewallRule_Spec{}
+	err := rule.AssignProperties_To_ServersIPV6FirewallRule_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersIPV6FirewallRule_Spec populates our ServersIPV6FirewallRule_Spec from the provided source ServersIPV6FirewallRule_Spec
+func (rule *ServersIPV6FirewallRule_Spec) AssignProperties_From_ServersIPV6FirewallRule_Spec(source *storage.ServersIPV6FirewallRule_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	rule.AzureName = source.AzureName
+
+	// EndIPv6Address
+	rule.EndIPv6Address = genruntime.ClonePointerToString(source.EndIPv6Address)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersIPV6FirewallRuleOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersIPV6FirewallRuleOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersIPV6FirewallRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		rule.OperatorSpec = &operatorSpec
+	} else {
+		rule.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	rule.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		rule.Owner = &owner
+	} else {
+		rule.Owner = nil
+	}
+
+	// StartIPv6Address
+	rule.StartIPv6Address = genruntime.ClonePointerToString(source.StartIPv6Address)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersIPV6FirewallRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersIPV6FirewallRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersIPV6FirewallRule_Spec populates the provided destination ServersIPV6FirewallRule_Spec from our ServersIPV6FirewallRule_Spec
+func (rule *ServersIPV6FirewallRule_Spec) AssignProperties_To_ServersIPV6FirewallRule_Spec(destination *storage.ServersIPV6FirewallRule_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// AzureName
+	destination.AzureName = rule.AzureName
+
+	// EndIPv6Address
+	destination.EndIPv6Address = genruntime.ClonePointerToString(rule.EndIPv6Address)
+
+	// OperatorSpec
+	if rule.OperatorSpec != nil {
+		var operatorSpec storage.ServersIPV6FirewallRuleOperatorSpec
+		err := rule.OperatorSpec.AssignProperties_To_ServersIPV6FirewallRuleOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersIPV6FirewallRuleOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = rule.OriginalVersion
+
+	// Owner
+	if rule.Owner != nil {
+		owner := rule.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// StartIPv6Address
+	destination.StartIPv6Address = genruntime.ClonePointerToString(rule.StartIPv6Address)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersIPV6FirewallRule_Spec interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersIPV6FirewallRule_Spec); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20211101.ServersIPV6FirewallRule_STATUS
@@ -219,20 +456,146 @@ var _ genruntime.ConvertibleStatus = &ServersIPV6FirewallRule_STATUS{}
 
 // ConvertStatusFrom populates our ServersIPV6FirewallRule_STATUS from the provided source
 func (rule *ServersIPV6FirewallRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersIPV6FirewallRule_STATUS)
+	if ok {
+		// Populate our instance from source
+		return rule.AssignProperties_From_ServersIPV6FirewallRule_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(rule)
+	// Convert to an intermediate form
+	src = &storage.ServersIPV6FirewallRule_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = rule.AssignProperties_From_ServersIPV6FirewallRule_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersIPV6FirewallRule_STATUS
 func (rule *ServersIPV6FirewallRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == rule {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersIPV6FirewallRule_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return rule.AssignProperties_To_ServersIPV6FirewallRule_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(rule)
+	// Convert to an intermediate form
+	dst = &storage.ServersIPV6FirewallRule_STATUS{}
+	err := rule.AssignProperties_To_ServersIPV6FirewallRule_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersIPV6FirewallRule_STATUS populates our ServersIPV6FirewallRule_STATUS from the provided source ServersIPV6FirewallRule_STATUS
+func (rule *ServersIPV6FirewallRule_STATUS) AssignProperties_From_ServersIPV6FirewallRule_STATUS(source *storage.ServersIPV6FirewallRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// EndIPv6Address
+	rule.EndIPv6Address = genruntime.ClonePointerToString(source.EndIPv6Address)
+
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// StartIPv6Address
+	rule.StartIPv6Address = genruntime.ClonePointerToString(source.StartIPv6Address)
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersIPV6FirewallRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersIPV6FirewallRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersIPV6FirewallRule_STATUS populates the provided destination ServersIPV6FirewallRule_STATUS from our ServersIPV6FirewallRule_STATUS
+func (rule *ServersIPV6FirewallRule_STATUS) AssignProperties_To_ServersIPV6FirewallRule_STATUS(destination *storage.ServersIPV6FirewallRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(rule.Conditions)
+
+	// EndIPv6Address
+	destination.EndIPv6Address = genruntime.ClonePointerToString(rule.EndIPv6Address)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// StartIPv6Address
+	destination.StartIPv6Address = genruntime.ClonePointerToString(rule.StartIPv6Address)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersIPV6FirewallRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForServersIPV6FirewallRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersIPV6FirewallRule_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersIPV6FirewallRule_Spec) error
+	AssignPropertiesTo(dst *storage.ServersIPV6FirewallRule_Spec) error
+}
+
+type augmentConversionForServersIPV6FirewallRule_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersIPV6FirewallRule_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersIPV6FirewallRule_STATUS) error
 }
 
 // Storage version of v1api20211101.ServersIPV6FirewallRuleOperatorSpec
@@ -241,6 +604,125 @@ type ServersIPV6FirewallRuleOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersIPV6FirewallRuleOperatorSpec populates our ServersIPV6FirewallRuleOperatorSpec from the provided source ServersIPV6FirewallRuleOperatorSpec
+func (operator *ServersIPV6FirewallRuleOperatorSpec) AssignProperties_From_ServersIPV6FirewallRuleOperatorSpec(source *storage.ServersIPV6FirewallRuleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersIPV6FirewallRuleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersIPV6FirewallRuleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersIPV6FirewallRuleOperatorSpec populates the provided destination ServersIPV6FirewallRuleOperatorSpec from our ServersIPV6FirewallRuleOperatorSpec
+func (operator *ServersIPV6FirewallRuleOperatorSpec) AssignProperties_To_ServersIPV6FirewallRuleOperatorSpec(destination *storage.ServersIPV6FirewallRuleOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersIPV6FirewallRuleOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersIPV6FirewallRuleOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersIPV6FirewallRuleOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersIPV6FirewallRuleOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersIPV6FirewallRuleOperatorSpec) error
 }
 
 func init() {

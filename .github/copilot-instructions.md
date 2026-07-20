@@ -131,6 +131,7 @@ Python regex syntax warnings in header check script are non-blocking and can be 
 ## Documentation
 - Content for our website is found in `docs/hugo/content` and should be kept up to date. Use Hugo's markdown format for documentation pages.
 - See `docs/hugo/content/contributing/style-guide.md` for documentation style guidelines.
+- Documentation under `docs/hugo/content/reference` is generated - DO NOT edit manually
 
 ## Key Development Patterns
 - Code generation drives API definitions from Azure OpenAPI specs

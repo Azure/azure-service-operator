@@ -17,6 +17,11 @@ import (
 // Test_AutoStorageBaseProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AutoStorageBaseProperties can be assigned to storage and back losslessly
 func Test_AutoStorageBaseProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := AutoStorageBasePropertiesGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -49,6 +54,11 @@ func Test_AutoStorageBaseProperties_WhenPropertiesConverted_RoundTripsWithoutLos
 
 func Test_AutoStorageBaseProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForAutoStorageBaseProperties)
 }
 
@@ -96,6 +106,11 @@ func AutoStorageBasePropertiesGenerator() *rapid.Generator[AutoStorageBaseProper
 // Test_AutoStorageProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of AutoStorageProperties_STATUS can be assigned to storage and back losslessly
 func Test_AutoStorageProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := AutoStorageProperties_STATUSGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -128,6 +143,11 @@ func Test_AutoStorageProperties_STATUS_WhenPropertiesConverted_RoundTripsWithout
 
 func Test_AutoStorageProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForAutoStorageProperties_STATUS)
 }
 
@@ -182,6 +202,11 @@ func AutoStorageProperties_STATUSGenerator() *rapid.Generator[AutoStoragePropert
 // Test_BatchAccount_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of BatchAccount round trips to the hub storage version and back losslessly
 func Test_BatchAccount_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := BatchAccountGenerator().Draw(t, "subject")
 		// Copy subject to make sure conversion doesn't modify it
@@ -215,6 +240,11 @@ func Test_BatchAccount_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 // Test_BatchAccount_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BatchAccount can be assigned to storage and back losslessly
 func Test_BatchAccount_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := BatchAccountGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -247,6 +277,11 @@ func Test_BatchAccount_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 
 func Test_BatchAccount_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccount)
 }
 
@@ -301,6 +336,11 @@ func BatchAccountGenerator() *rapid.Generator[BatchAccount] {
 // Test_BatchAccountIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BatchAccountIdentity can be assigned to storage and back losslessly
 func Test_BatchAccountIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := BatchAccountIdentityGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -333,6 +373,11 @@ func Test_BatchAccountIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 func Test_BatchAccountIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccountIdentity)
 }
 
@@ -388,6 +433,11 @@ func BatchAccountIdentityGenerator() *rapid.Generator[BatchAccountIdentity] {
 // Test_BatchAccountIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BatchAccountIdentity_STATUS can be assigned to storage and back losslessly
 func Test_BatchAccountIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := BatchAccountIdentity_STATUSGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -420,6 +470,11 @@ func Test_BatchAccountIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 
 func Test_BatchAccountIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccountIdentity_STATUS)
 }
 
@@ -479,6 +534,11 @@ func BatchAccountIdentity_STATUSGenerator() *rapid.Generator[BatchAccountIdentit
 // Test_BatchAccountIdentity_UserAssignedIdentities_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BatchAccountIdentity_UserAssignedIdentities_STATUS can be assigned to storage and back losslessly
 func Test_BatchAccountIdentity_UserAssignedIdentities_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := BatchAccountIdentity_UserAssignedIdentities_STATUSGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -511,6 +571,11 @@ func Test_BatchAccountIdentity_UserAssignedIdentities_STATUS_WhenPropertiesConve
 
 func Test_BatchAccountIdentity_UserAssignedIdentities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccountIdentity_UserAssignedIdentities_STATUS)
 }
 
@@ -565,6 +630,11 @@ func BatchAccountIdentity_UserAssignedIdentities_STATUSGenerator() *rapid.Genera
 // Test_BatchAccountOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BatchAccountOperatorSpec can be assigned to storage and back losslessly
 func Test_BatchAccountOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := BatchAccountOperatorSpecGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -597,6 +667,11 @@ func Test_BatchAccountOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 func Test_BatchAccountOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccountOperatorSpec)
 }
 
@@ -644,6 +719,11 @@ func BatchAccountOperatorSpecGenerator() *rapid.Generator[BatchAccountOperatorSp
 // Test_BatchAccount_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BatchAccount_STATUS can be assigned to storage and back losslessly
 func Test_BatchAccount_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := BatchAccount_STATUSGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -676,6 +756,11 @@ func Test_BatchAccount_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 
 func Test_BatchAccount_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccount_STATUS)
 }
 
@@ -759,6 +844,11 @@ func BatchAccount_STATUSGenerator() *rapid.Generator[BatchAccount_STATUS] {
 // Test_BatchAccount_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of BatchAccount_Spec can be assigned to storage and back losslessly
 func Test_BatchAccount_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := BatchAccount_SpecGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -791,6 +881,11 @@ func Test_BatchAccount_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 
 func Test_BatchAccount_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForBatchAccount_Spec)
 }
 
@@ -862,6 +957,11 @@ func BatchAccount_SpecGenerator() *rapid.Generator[BatchAccount_Spec] {
 // Test_EncryptionProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of EncryptionProperties can be assigned to storage and back losslessly
 func Test_EncryptionProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := EncryptionPropertiesGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -894,6 +994,11 @@ func Test_EncryptionProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 func Test_EncryptionProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForEncryptionProperties)
 }
 
@@ -949,6 +1054,11 @@ func EncryptionPropertiesGenerator() *rapid.Generator[EncryptionProperties] {
 // Test_EncryptionProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of EncryptionProperties_STATUS can be assigned to storage and back losslessly
 func Test_EncryptionProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := EncryptionProperties_STATUSGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -981,6 +1091,11 @@ func Test_EncryptionProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutL
 
 func Test_EncryptionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForEncryptionProperties_STATUS)
 }
 
@@ -1036,6 +1151,11 @@ func EncryptionProperties_STATUSGenerator() *rapid.Generator[EncryptionPropertie
 // Test_KeyVaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KeyVaultProperties can be assigned to storage and back losslessly
 func Test_KeyVaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := KeyVaultPropertiesGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -1068,6 +1188,11 @@ func Test_KeyVaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 func Test_KeyVaultProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForKeyVaultProperties)
 }
 
@@ -1120,6 +1245,11 @@ func KeyVaultPropertiesGenerator() *rapid.Generator[KeyVaultProperties] {
 // Test_KeyVaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KeyVaultProperties_STATUS can be assigned to storage and back losslessly
 func Test_KeyVaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := KeyVaultProperties_STATUSGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -1152,6 +1282,11 @@ func Test_KeyVaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLos
 
 func Test_KeyVaultProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForKeyVaultProperties_STATUS)
 }
 
@@ -1205,6 +1340,11 @@ func KeyVaultProperties_STATUSGenerator() *rapid.Generator[KeyVaultProperties_ST
 // Test_KeyVaultReference_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KeyVaultReference can be assigned to storage and back losslessly
 func Test_KeyVaultReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := KeyVaultReferenceGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -1237,6 +1377,11 @@ func Test_KeyVaultReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 
 func Test_KeyVaultReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForKeyVaultReference)
 }
 
@@ -1289,6 +1434,11 @@ func KeyVaultReferenceGenerator() *rapid.Generator[KeyVaultReference] {
 // Test_KeyVaultReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of KeyVaultReference_STATUS can be assigned to storage and back losslessly
 func Test_KeyVaultReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := KeyVaultReference_STATUSGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -1321,6 +1471,11 @@ func Test_KeyVaultReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 func Test_KeyVaultReference_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForKeyVaultReference_STATUS)
 }
 
@@ -1375,6 +1530,11 @@ func KeyVaultReference_STATUSGenerator() *rapid.Generator[KeyVaultReference_STAT
 // Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of PrivateEndpointConnection_STATUS can be assigned to storage and back losslessly
 func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := PrivateEndpointConnection_STATUSGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -1407,6 +1567,11 @@ func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWit
 
 func Test_PrivateEndpointConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForPrivateEndpointConnection_STATUS)
 }
 
@@ -1460,6 +1625,11 @@ func PrivateEndpointConnection_STATUSGenerator() *rapid.Generator[PrivateEndpoin
 // Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of UserAssignedIdentityDetails can be assigned to storage and back losslessly
 func Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := UserAssignedIdentityDetailsGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -1492,6 +1662,11 @@ func Test_UserAssignedIdentityDetails_WhenPropertiesConverted_RoundTripsWithoutL
 
 func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForUserAssignedIdentityDetails)
 }
 
@@ -1539,6 +1714,11 @@ func UserAssignedIdentityDetailsGenerator() *rapid.Generator[UserAssignedIdentit
 // Test_VirtualMachineFamilyCoreQuota_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of VirtualMachineFamilyCoreQuota_STATUS can be assigned to storage and back losslessly
 func Test_VirtualMachineFamilyCoreQuota_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, func(t *rapid.T) {
 		subject := VirtualMachineFamilyCoreQuota_STATUSGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
@@ -1571,6 +1751,11 @@ func Test_VirtualMachineFamilyCoreQuota_STATUS_WhenPropertiesConverted_RoundTrip
 
 func Test_VirtualMachineFamilyCoreQuota_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	rapid.Check(t, RunJSONSerializationTestForVirtualMachineFamilyCoreQuota_STATUS)
 }
 

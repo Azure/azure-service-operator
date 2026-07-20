@@ -2,6 +2,7 @@ typeFilters:
   - action: include
     version: v*20230501preview
     because: This version of APIM is created in a matter of minutes
+
 typeTransformers:
   # 
   # In the group 'apimanagement', 
@@ -19,6 +20,7 @@ typeTransformers:
     property: Status
     remove: true
     because: This property should be marked readonly in Swagger
+
 groupModelConfiguration:
   2022-08-01:
     AdditionalLocation:
@@ -374,6 +376,9 @@ groupModelConfiguration:
     Service_Products_Api:
       $exportAs: ProductApi
       $supportedFrom: v2.16.0
+    Service_Products_Group:
+      $exportAs: ProductGroup
+      $supportedFrom: v2.20.0
     Service_Products_Policy:
       $exportAs: ProductPolicy
       $supportedFrom: v2.16.0

@@ -10,7 +10,9 @@ import (
 
 	. "github.com/onsi/gomega"
 
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 
 	containerserviceold "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
@@ -77,6 +79,123 @@ func Test_CELExportConflictingSecrets_Rejected(t *testing.T) {
 
 	err := tc.CreateResourceExpectRequestFailure(acct)
 	tc.Expect(err).To(MatchError(ContainSubstring(`cannot write more than one secret to destination Name: "my-secret", Key: "key1", Value: "secret.key1"`)))
+}
+
+func Test_CELExportSecret_WithAnnotationsAndLabels(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	// #nosec
+	secretName := "my-annotated-secret"
+
+	// Create a storage account and export the secret with both literal and dynamic annotations/labels
+	acct := newStorageAccount20230101(tc, rg)
+	acct.Spec.OperatorSpec = &storage.StorageAccountOperatorSpec{
+		SecretExpressions: []*core.DestinationExpression{
+			{
+				Name:  secretName,
+				Key:   "key1",
+				Value: `secret.key1`,
+				Annotations: map[string]string{
+					"reflector.v1/reflect": `"true"`,
+					"source-resource":      "self.status.id",
+				},
+				Labels: map[string]string{
+					"app":      `"myapp"`,
+					"location": "self.spec.location",
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(acct)
+
+	// The secret should exist with the expected keys
+	tc.ExpectSecretHasKeys(secretName, "key1")
+
+	secretKey := types.NamespacedName{Namespace: tc.Namespace, Name: secretName}
+	var secret v1.Secret
+	tc.GetResource(secretKey, &secret)
+
+	// Verify literal annotation/label values
+	tc.Expect(secret.Annotations).To(HaveKeyWithValue("reflector.v1/reflect", "true"))
+	tc.Expect(secret.Labels).To(HaveKeyWithValue("app", "myapp"))
+
+	// Verify dynamic annotation/label values from CEL expressions
+	tc.Expect(acct.Status.Id).ToNot(BeNil())
+	tc.Expect(secret.Annotations).To(HaveKeyWithValue("source-resource", *acct.Status.Id))
+	tc.Expect(acct.Spec.Location).ToNot(BeNil())
+	tc.Expect(secret.Labels).To(HaveKeyWithValue("location", *acct.Spec.Location))
+}
+
+func Test_CELExportConflictingSecretAnnotations_Rejected(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	secretName := "my-secret"
+
+	acct := newStorageAccount20230101(tc, rg)
+	acct.Spec.OperatorSpec = &storage.StorageAccountOperatorSpec{
+		SecretExpressions: []*core.DestinationExpression{
+			{
+				Name:  secretName,
+				Key:   "key1",
+				Value: `secret.key1`,
+				Annotations: map[string]string{
+					"reflector.v1/reflect": `"true"`,
+				},
+			},
+			{
+				Name:  secretName,
+				Key:   "key2",
+				Value: `secret.key2`,
+				Annotations: map[string]string{
+					"reflector.v1/reflect": `"true"`,
+				},
+			},
+		},
+	}
+
+	err := tc.CreateResourceExpectRequestFailure(acct)
+	tc.Expect(err).To(MatchError(ContainSubstring(`collision for annotation on secret "my-secret": key "reflector.v1/reflect" is set by multiple destinations`)))
+}
+
+func Test_CELExportConflictingSecretLabels_Rejected(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	secretName := "my-secret"
+
+	acct := newStorageAccount20230101(tc, rg)
+	acct.Spec.OperatorSpec = &storage.StorageAccountOperatorSpec{
+		SecretExpressions: []*core.DestinationExpression{
+			{
+				Name:  secretName,
+				Key:   "key1",
+				Value: `secret.key1`,
+				Labels: map[string]string{
+					"app": `"myapp"`,
+				},
+			},
+			{
+				Name:  secretName,
+				Key:   "key2",
+				Value: `secret.key2`,
+				Labels: map[string]string{
+					"app": `"myapp"`,
+				},
+			},
+		},
+	}
+
+	err := tc.CreateResourceExpectRequestFailure(acct)
+	tc.Expect(err).To(MatchError(ContainSubstring(`collision for label on secret "my-secret": key "app" is set by multiple destinations`)))
 }
 
 func Test_CELExportInvalidExpressionSecret_Rejected(t *testing.T) {
@@ -203,4 +322,64 @@ func Test_CELExportSecretPropertyOnDifferentVersion(t *testing.T) {
 	tc.CreateResourceAndWait(cluster)
 
 	tc.ExpectSecretHasKeys(secretName, "policy")
+}
+
+func Test_CELExportASOCredentialSecret(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	secretName := "mysecret"
+
+	mi := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMeta("mi"),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			OperatorSpec: &managedidentity.UserAssignedIdentityOperatorSpec{
+				SecretExpressions: []*core.DestinationExpression{
+					{
+						Name:  secretName,
+						Key:   "AZURE_SUBSCRIPTION_ID",
+						Value: `aso.parseResourceId(self.status.id).subscriptionId`,
+					},
+					{
+						Name:  secretName,
+						Key:   "AZURE_TENANT_ID",
+						Value: `self.status.tenantId`,
+					},
+					{
+						Name:  secretName,
+						Key:   "AZURE_CLIENT_ID",
+						Value: `self.status.clientId`,
+					},
+					{
+						Name:  secretName,
+						Key:   "USE_WORKLOAD_IDENTITY_AUTH",
+						Value: `string(true)`,
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(mi)
+
+	// Verify that status fields were populated
+	tc.Expect(mi.Status.Id).ToNot(BeNil())
+	tc.Expect(mi.Status.TenantId).ToNot(BeNil())
+	tc.Expect(mi.Status.ClientId).ToNot(BeNil())
+
+	// The secret should exist with the expected keys
+	tc.ExpectSecretHasKeys(secretName, "AZURE_SUBSCRIPTION_ID", "AZURE_TENANT_ID", "AZURE_CLIENT_ID", "USE_WORKLOAD_IDENTITY_AUTH")
+
+	secretKey := types.NamespacedName{Namespace: tc.Namespace, Name: secretName}
+	var secret v1.Secret
+	tc.GetResource(secretKey, &secret)
+
+	tc.Expect(secret.Data["AZURE_SUBSCRIPTION_ID"]).ToNot(BeEmpty())
+	tc.Expect(string(secret.Data["AZURE_TENANT_ID"])).To(Equal(*mi.Status.TenantId))
+	tc.Expect(string(secret.Data["AZURE_CLIENT_ID"])).To(Equal(*mi.Status.ClientId))
+	tc.Expect(string(secret.Data["USE_WORKLOAD_IDENTITY_AUTH"])).To(Equal("true"))
 }

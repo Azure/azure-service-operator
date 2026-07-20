@@ -11,16 +11,19 @@ on:
     paths:
       - .github/workflows/copilot-setup-steps.yml
 
+permissions: {}
+
 jobs:
   # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot.
   copilot-setup-steps:
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       packages: read
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # pinned to 7.0.0
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'

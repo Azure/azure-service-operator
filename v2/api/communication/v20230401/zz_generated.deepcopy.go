@@ -81,7 +81,7 @@ func (in *CommunicationServiceOperatorConfigMaps) DeepCopyInto(out *Communicatio
 	if in.HostName != nil {
 		in, out := &in.HostName, &out.HostName
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -101,22 +101,22 @@ func (in *CommunicationServiceOperatorSecrets) DeepCopyInto(out *CommunicationSe
 	if in.PrimaryConnectionString != nil {
 		in, out := &in.PrimaryConnectionString, &out.PrimaryConnectionString
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PrimaryKey != nil {
 		in, out := &in.PrimaryKey, &out.PrimaryKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondaryConnectionString != nil {
 		in, out := &in.SecondaryConnectionString, &out.SecondaryConnectionString
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondaryKey != nil {
 		in, out := &in.SecondaryKey, &out.SecondaryKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -140,7 +140,7 @@ func (in *CommunicationServiceOperatorSpec) DeepCopyInto(out *CommunicationServi
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -156,7 +156,7 @@ func (in *CommunicationServiceOperatorSpec) DeepCopyInto(out *CommunicationServi
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -427,7 +427,7 @@ func (in *DomainOperatorSpec) DeepCopyInto(out *DomainOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -438,7 +438,7 @@ func (in *DomainOperatorSpec) DeepCopyInto(out *DomainOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -744,7 +744,7 @@ func (in *EmailServiceOperatorSpec) DeepCopyInto(out *EmailServiceOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -755,7 +755,7 @@ func (in *EmailServiceOperatorSpec) DeepCopyInto(out *EmailServiceOperatorSpec) 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1008,7 +1008,7 @@ func (in *SenderUsernameOperatorSpec) DeepCopyInto(out *SenderUsernameOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1019,7 +1019,7 @@ func (in *SenderUsernameOperatorSpec) DeepCopyInto(out *SenderUsernameOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

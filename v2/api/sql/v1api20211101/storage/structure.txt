@@ -9,14 +9,17 @@ Server: Resource
 ├── Spec: Object (18 properties)
 │   ├── AdministratorLogin: *string
 │   ├── AdministratorLoginPassword: *genruntime.SecretReference
-│   ├── Administrators: *Object (7 properties)
+│   ├── Administrators: *Object (10 properties)
 │   │   ├── AdministratorType: *string
 │   │   ├── AzureADOnlyAuthentication: *bool
 │   │   ├── Login: *string
+│   │   ├── LoginFromConfig: *genruntime.ConfigMapReference
 │   │   ├── PrincipalType: *string
 │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   ├── Sid: *string
-│   │   └── TenantId: *string
+│   │   ├── SidFromConfig: *genruntime.ConfigMapReference
+│   │   ├── TenantId: *string
+│   │   └── TenantIdFromConfig: *genruntime.ConfigMapReference
 │   ├── AzureName: string
 │   ├── FederatedClientId: *string
 │   ├── Identity: *Object (3 properties)
@@ -871,4 +874,234 @@ ServersVulnerabilityAssessment: Resource
     │   └── PropertyBag: genruntime.PropertyBag
     ├── StorageContainerPath: *string
     └── Type: *string
+
+augmentConversionForDatabaseIdentity: Interface
+
+augmentConversionForDatabaseIdentity_STATUS: Interface
+
+augmentConversionForDatabaseUserIdentity_STATUS: Interface
+
+augmentConversionForElasticPoolPerDatabaseSettings: Interface
+
+augmentConversionForElasticPoolPerDatabaseSettings_STATUS: Interface
+
+augmentConversionForFailoverGroupReadOnlyEndpoint: Interface
+
+augmentConversionForFailoverGroupReadOnlyEndpoint_STATUS: Interface
+
+augmentConversionForFailoverGroupReadWriteEndpoint: Interface
+
+augmentConversionForFailoverGroupReadWriteEndpoint_STATUS: Interface
+
+augmentConversionForPartnerInfo: Interface
+
+augmentConversionForPartnerInfo_STATUS: Interface
+
+augmentConversionForPrivateEndpointConnectionProperties_STATUS: Interface
+
+augmentConversionForPrivateEndpointProperty_STATUS: Interface
+
+augmentConversionForPrivateLinkServiceConnectionStateProperty_STATUS: Interface
+
+augmentConversionForResourceIdentity: Interface
+
+augmentConversionForResourceIdentity_STATUS: Interface
+
+augmentConversionForServer: Interface
+
+augmentConversionForServerExternalAdministrator: Interface
+
+augmentConversionForServerExternalAdministrator_STATUS: Interface
+
+augmentConversionForServerOperatorConfigMaps: Interface
+
+augmentConversionForServerOperatorSpec: Interface
+
+augmentConversionForServerPrivateEndpointConnection_STATUS: Interface
+
+augmentConversionForServer_STATUS: Interface
+
+augmentConversionForServer_Spec: Interface
+
+augmentConversionForServersAdministrator: Interface
+
+augmentConversionForServersAdministratorOperatorSpec: Interface
+
+augmentConversionForServersAdministrator_STATUS: Interface
+
+augmentConversionForServersAdministrator_Spec: Interface
+
+augmentConversionForServersAdvancedThreatProtectionSetting: Interface
+
+augmentConversionForServersAdvancedThreatProtectionSettingOperatorSpec: Interface
+
+augmentConversionForServersAdvancedThreatProtectionSetting_STATUS: Interface
+
+augmentConversionForServersAdvancedThreatProtectionSetting_Spec: Interface
+
+augmentConversionForServersAuditingSetting: Interface
+
+augmentConversionForServersAuditingSettingOperatorSpec: Interface
+
+augmentConversionForServersAuditingSetting_STATUS: Interface
+
+augmentConversionForServersAuditingSetting_Spec: Interface
+
+augmentConversionForServersAzureADOnlyAuthentication: Interface
+
+augmentConversionForServersAzureADOnlyAuthenticationOperatorSpec: Interface
+
+augmentConversionForServersAzureADOnlyAuthentication_STATUS: Interface
+
+augmentConversionForServersAzureADOnlyAuthentication_Spec: Interface
+
+augmentConversionForServersConnectionPolicy: Interface
+
+augmentConversionForServersConnectionPolicyOperatorSpec: Interface
+
+augmentConversionForServersConnectionPolicy_STATUS: Interface
+
+augmentConversionForServersConnectionPolicy_Spec: Interface
+
+augmentConversionForServersDatabase: Interface
+
+augmentConversionForServersDatabaseOperatorSpec: Interface
+
+augmentConversionForServersDatabase_STATUS: Interface
+
+augmentConversionForServersDatabase_Spec: Interface
+
+augmentConversionForServersDatabasesAdvancedThreatProtectionSetting: Interface
+
+augmentConversionForServersDatabasesAdvancedThreatProtectionSettingOperatorSpec: Interface
+
+augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_STATUS: Interface
+
+augmentConversionForServersDatabasesAdvancedThreatProtectionSetting_Spec: Interface
+
+augmentConversionForServersDatabasesAuditingSetting: Interface
+
+augmentConversionForServersDatabasesAuditingSettingOperatorSpec: Interface
+
+augmentConversionForServersDatabasesAuditingSetting_STATUS: Interface
+
+augmentConversionForServersDatabasesAuditingSetting_Spec: Interface
+
+augmentConversionForServersDatabasesBackupLongTermRetentionPolicy: Interface
+
+augmentConversionForServersDatabasesBackupLongTermRetentionPolicyOperatorSpec: Interface
+
+augmentConversionForServersDatabasesBackupLongTermRetentionPolicy_STATUS: Interface
+
+augmentConversionForServersDatabasesBackupLongTermRetentionPolicy_Spec: Interface
+
+augmentConversionForServersDatabasesBackupShortTermRetentionPolicy: Interface
+
+augmentConversionForServersDatabasesBackupShortTermRetentionPolicyOperatorSpec: Interface
+
+augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_STATUS: Interface
+
+augmentConversionForServersDatabasesBackupShortTermRetentionPolicy_Spec: Interface
+
+augmentConversionForServersDatabasesSecurityAlertPolicy: Interface
+
+augmentConversionForServersDatabasesSecurityAlertPolicyOperatorSpec: Interface
+
+augmentConversionForServersDatabasesSecurityAlertPolicy_STATUS: Interface
+
+augmentConversionForServersDatabasesSecurityAlertPolicy_Spec: Interface
+
+augmentConversionForServersDatabasesTransparentDataEncryption: Interface
+
+augmentConversionForServersDatabasesTransparentDataEncryptionOperatorSpec: Interface
+
+augmentConversionForServersDatabasesTransparentDataEncryption_STATUS: Interface
+
+augmentConversionForServersDatabasesTransparentDataEncryption_Spec: Interface
+
+augmentConversionForServersDatabasesVulnerabilityAssessment: Interface
+
+augmentConversionForServersDatabasesVulnerabilityAssessmentOperatorSpec: Interface
+
+augmentConversionForServersDatabasesVulnerabilityAssessment_STATUS: Interface
+
+augmentConversionForServersDatabasesVulnerabilityAssessment_Spec: Interface
+
+augmentConversionForServersElasticPool: Interface
+
+augmentConversionForServersElasticPoolOperatorSpec: Interface
+
+augmentConversionForServersElasticPool_STATUS: Interface
+
+augmentConversionForServersElasticPool_Spec: Interface
+
+augmentConversionForServersFailoverGroup: Interface
+
+augmentConversionForServersFailoverGroupOperatorSpec: Interface
+
+augmentConversionForServersFailoverGroup_STATUS: Interface
+
+augmentConversionForServersFailoverGroup_Spec: Interface
+
+augmentConversionForServersFirewallRule: Interface
+
+augmentConversionForServersFirewallRuleOperatorSpec: Interface
+
+augmentConversionForServersFirewallRule_STATUS: Interface
+
+augmentConversionForServersFirewallRule_Spec: Interface
+
+augmentConversionForServersIPV6FirewallRule: Interface
+
+augmentConversionForServersIPV6FirewallRuleOperatorSpec: Interface
+
+augmentConversionForServersIPV6FirewallRule_STATUS: Interface
+
+augmentConversionForServersIPV6FirewallRule_Spec: Interface
+
+augmentConversionForServersOutboundFirewallRule: Interface
+
+augmentConversionForServersOutboundFirewallRuleOperatorSpec: Interface
+
+augmentConversionForServersOutboundFirewallRule_STATUS: Interface
+
+augmentConversionForServersOutboundFirewallRule_Spec: Interface
+
+augmentConversionForServersSecurityAlertPolicy: Interface
+
+augmentConversionForServersSecurityAlertPolicyOperatorSpec: Interface
+
+augmentConversionForServersSecurityAlertPolicy_STATUS: Interface
+
+augmentConversionForServersSecurityAlertPolicy_Spec: Interface
+
+augmentConversionForServersVirtualNetworkRule: Interface
+
+augmentConversionForServersVirtualNetworkRuleOperatorSpec: Interface
+
+augmentConversionForServersVirtualNetworkRule_STATUS: Interface
+
+augmentConversionForServersVirtualNetworkRule_Spec: Interface
+
+augmentConversionForServersVulnerabilityAssessment: Interface
+
+augmentConversionForServersVulnerabilityAssessmentOperatorSpec: Interface
+
+augmentConversionForServersVulnerabilityAssessment_STATUS: Interface
+
+augmentConversionForServersVulnerabilityAssessment_Spec: Interface
+
+augmentConversionForSku: Interface
+
+augmentConversionForSku_STATUS: Interface
+
+augmentConversionForSystemData_STATUS: Interface
+
+augmentConversionForUserAssignedIdentityDetails: Interface
+
+augmentConversionForUserIdentity_STATUS: Interface
+
+augmentConversionForVulnerabilityAssessmentRecurringScansProperties: Interface
+
+augmentConversionForVulnerabilityAssessmentRecurringScansProperties_STATUS: Interface
 

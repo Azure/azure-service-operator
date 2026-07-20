@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,8 +18,60 @@ import (
 	"testing"
 )
 
+func Test_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded to ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded via AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded & AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded tests if a specific instance of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(subject ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
+	err := copied.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
+	err = actual.AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -78,8 +131,108 @@ func AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profil
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SecurityPolicy_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityPolicy to hub returns original",
+		prop.ForAll(RunResourceConversionTestForSecurityPolicy, SecurityPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForSecurityPolicy tests if a specific instance of SecurityPolicy round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForSecurityPolicy(subject SecurityPolicy) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.SecurityPolicy
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual SecurityPolicy
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SecurityPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityPolicy to SecurityPolicy via AssignProperties_To_SecurityPolicy & AssignProperties_From_SecurityPolicy returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityPolicy, SecurityPolicyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityPolicy tests if a specific instance of SecurityPolicy can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSecurityPolicy(subject SecurityPolicy) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SecurityPolicy
+	err := copied.AssignProperties_To_SecurityPolicy(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityPolicy
+	err = actual.AssignProperties_From_SecurityPolicy(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -139,8 +292,60 @@ func AddRelatedPropertyGeneratorsForSecurityPolicy(gens map[string]gopter.Gen) {
 	gens["Status"] = SecurityPolicy_STATUSGenerator()
 }
 
+func Test_SecurityPolicyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityPolicyOperatorSpec to SecurityPolicyOperatorSpec via AssignProperties_To_SecurityPolicyOperatorSpec & AssignProperties_From_SecurityPolicyOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityPolicyOperatorSpec, SecurityPolicyOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityPolicyOperatorSpec tests if a specific instance of SecurityPolicyOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSecurityPolicyOperatorSpec(subject SecurityPolicyOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SecurityPolicyOperatorSpec
+	err := copied.AssignProperties_To_SecurityPolicyOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityPolicyOperatorSpec
+	err = actual.AssignProperties_From_SecurityPolicyOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityPolicyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -194,8 +399,60 @@ func SecurityPolicyOperatorSpecGenerator() gopter.Gen {
 	return securityPolicyOperatorSpecGenerator
 }
 
+func Test_SecurityPolicyPropertiesParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityPolicyPropertiesParameters to SecurityPolicyPropertiesParameters via AssignProperties_To_SecurityPolicyPropertiesParameters & AssignProperties_From_SecurityPolicyPropertiesParameters returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityPolicyPropertiesParameters, SecurityPolicyPropertiesParametersGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityPolicyPropertiesParameters tests if a specific instance of SecurityPolicyPropertiesParameters can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSecurityPolicyPropertiesParameters(subject SecurityPolicyPropertiesParameters) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SecurityPolicyPropertiesParameters
+	err := copied.AssignProperties_To_SecurityPolicyPropertiesParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityPolicyPropertiesParameters
+	err = actual.AssignProperties_From_SecurityPolicyPropertiesParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityPolicyPropertiesParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -264,8 +521,60 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyPropertiesParameters(gens map[
 	}) // generate one case for OneOf type
 }
 
+func Test_SecurityPolicyPropertiesParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityPolicyPropertiesParameters_STATUS to SecurityPolicyPropertiesParameters_STATUS via AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS & AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityPolicyPropertiesParameters_STATUS, SecurityPolicyPropertiesParameters_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityPolicyPropertiesParameters_STATUS tests if a specific instance of SecurityPolicyPropertiesParameters_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSecurityPolicyPropertiesParameters_STATUS(subject SecurityPolicyPropertiesParameters_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SecurityPolicyPropertiesParameters_STATUS
+	err := copied.AssignProperties_To_SecurityPolicyPropertiesParameters_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityPolicyPropertiesParameters_STATUS
+	err = actual.AssignProperties_From_SecurityPolicyPropertiesParameters_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityPolicyPropertiesParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -334,8 +643,60 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyPropertiesParameters_STATUS(ge
 	}) // generate one case for OneOf type
 }
 
+func Test_SecurityPolicyWebApplicationFirewallAssociation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityPolicyWebApplicationFirewallAssociation to SecurityPolicyWebApplicationFirewallAssociation via AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation & AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallAssociation, SecurityPolicyWebApplicationFirewallAssociationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallAssociation tests if a specific instance of SecurityPolicyWebApplicationFirewallAssociation can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallAssociation(subject SecurityPolicyWebApplicationFirewallAssociation) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SecurityPolicyWebApplicationFirewallAssociation
+	err := copied.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityPolicyWebApplicationFirewallAssociation
+	err = actual.AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityPolicyWebApplicationFirewallAssociation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -409,8 +770,60 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociat
 	gens["Domains"] = gen.SliceOf(ActivatedResourceReferenceGenerator())
 }
 
+func Test_SecurityPolicyWebApplicationFirewallAssociation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityPolicyWebApplicationFirewallAssociation_STATUS to SecurityPolicyWebApplicationFirewallAssociation_STATUS via AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS & AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallAssociation_STATUS, SecurityPolicyWebApplicationFirewallAssociation_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallAssociation_STATUS tests if a specific instance of SecurityPolicyWebApplicationFirewallAssociation_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallAssociation_STATUS(subject SecurityPolicyWebApplicationFirewallAssociation_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SecurityPolicyWebApplicationFirewallAssociation_STATUS
+	err := copied.AssignProperties_To_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityPolicyWebApplicationFirewallAssociation_STATUS
+	err = actual.AssignProperties_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityPolicyWebApplicationFirewallAssociation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -484,8 +897,60 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallAssociat
 	gens["Domains"] = gen.SliceOf(ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator())
 }
 
+func Test_SecurityPolicyWebApplicationFirewallParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityPolicyWebApplicationFirewallParameters to SecurityPolicyWebApplicationFirewallParameters via AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters & AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallParameters, SecurityPolicyWebApplicationFirewallParametersGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallParameters tests if a specific instance of SecurityPolicyWebApplicationFirewallParameters can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallParameters(subject SecurityPolicyWebApplicationFirewallParameters) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SecurityPolicyWebApplicationFirewallParameters
+	err := copied.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityPolicyWebApplicationFirewallParameters
+	err = actual.AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityPolicyWebApplicationFirewallParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -560,8 +1025,60 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParamete
 	gens["WafPolicy"] = gen.PtrOf(ResourceReferenceGenerator())
 }
 
+func Test_SecurityPolicyWebApplicationFirewallParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityPolicyWebApplicationFirewallParameters_STATUS to SecurityPolicyWebApplicationFirewallParameters_STATUS via AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS & AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallParameters_STATUS, SecurityPolicyWebApplicationFirewallParameters_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallParameters_STATUS tests if a specific instance of SecurityPolicyWebApplicationFirewallParameters_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSecurityPolicyWebApplicationFirewallParameters_STATUS(subject SecurityPolicyWebApplicationFirewallParameters_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SecurityPolicyWebApplicationFirewallParameters_STATUS
+	err := copied.AssignProperties_To_SecurityPolicyWebApplicationFirewallParameters_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityPolicyWebApplicationFirewallParameters_STATUS
+	err = actual.AssignProperties_From_SecurityPolicyWebApplicationFirewallParameters_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityPolicyWebApplicationFirewallParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -636,8 +1153,60 @@ func AddRelatedPropertyGeneratorsForSecurityPolicyWebApplicationFirewallParamete
 	gens["WafPolicy"] = gen.PtrOf(ResourceReference_STATUSGenerator())
 }
 
+func Test_SecurityPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityPolicy_STATUS to SecurityPolicy_STATUS via AssignProperties_To_SecurityPolicy_STATUS & AssignProperties_From_SecurityPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityPolicy_STATUS, SecurityPolicy_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityPolicy_STATUS tests if a specific instance of SecurityPolicy_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSecurityPolicy_STATUS(subject SecurityPolicy_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SecurityPolicy_STATUS
+	err := copied.AssignProperties_To_SecurityPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityPolicy_STATUS
+	err = actual.AssignProperties_From_SecurityPolicy_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -717,8 +1286,60 @@ func AddRelatedPropertyGeneratorsForSecurityPolicy_STATUS(gens map[string]gopter
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
+func Test_SecurityPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SecurityPolicy_Spec to SecurityPolicy_Spec via AssignProperties_To_SecurityPolicy_Spec & AssignProperties_From_SecurityPolicy_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSecurityPolicy_Spec, SecurityPolicy_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSecurityPolicy_Spec tests if a specific instance of SecurityPolicy_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSecurityPolicy_Spec(subject SecurityPolicy_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SecurityPolicy_Spec
+	err := copied.AssignProperties_To_SecurityPolicy_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SecurityPolicy_Spec
+	err = actual.AssignProperties_From_SecurityPolicy_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SecurityPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

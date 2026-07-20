@@ -87,7 +87,7 @@ func (in *AgentSetting) DeepCopyInto(out *AgentSetting) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(AgentSetting_Name)
+		*out = new(KnownAgentSettingName)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -112,7 +112,7 @@ func (in *AgentSetting_STATUS) DeepCopyInto(out *AgentSetting_STATUS) {
 	*out = *in
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
-		*out = new(AgentSetting_Name_STATUS)
+		*out = new(KnownAgentSettingName_STATUS)
 		**out = **in
 	}
 	if in.Value != nil {
@@ -276,7 +276,7 @@ func (in *ColumnDefinition) DeepCopyInto(out *ColumnDefinition) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ColumnDefinition_Type)
+		*out = new(KnownColumnDefinitionType)
 		**out = **in
 	}
 }
@@ -301,7 +301,7 @@ func (in *ColumnDefinition_STATUS) DeepCopyInto(out *ColumnDefinition_STATUS) {
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
-		*out = new(ColumnDefinition_Type_STATUS)
+		*out = new(KnownColumnDefinitionType_STATUS)
 		**out = **in
 	}
 }
@@ -405,7 +405,7 @@ func (in *DataCollectionEndpointOperatorSpec) DeepCopyInto(out *DataCollectionEn
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -416,7 +416,7 @@ func (in *DataCollectionEndpointOperatorSpec) DeepCopyInto(out *DataCollectionEn
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -479,7 +479,7 @@ func (in *DataCollectionEndpointResource_STATUS) DeepCopyInto(out *DataCollectio
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DataCollectionEndpointResource_Kind_STATUS)
+		*out = new(KnownDataCollectionEndpointResourceKind_STATUS)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -521,7 +521,7 @@ func (in *DataCollectionEndpointResource_STATUS) DeepCopyInto(out *DataCollectio
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DataCollectionEndpoint_ProvisioningState_STATUS)
+		*out = new(KnownDataCollectionEndpointProvisioningState_STATUS)
 		**out = **in
 	}
 	if in.Sku != nil {
@@ -573,7 +573,7 @@ func (in *DataCollectionEndpoint_Spec) DeepCopyInto(out *DataCollectionEndpoint_
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DataCollectionEndpoint_Kind_Spec)
+		*out = new(KnownDataCollectionEndpointResourceKind)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -716,7 +716,7 @@ func (in *DataCollectionRuleAssociationOperatorSpec) DeepCopyInto(out *DataColle
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -727,7 +727,7 @@ func (in *DataCollectionRuleAssociationOperatorSpec) DeepCopyInto(out *DataColle
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -790,7 +790,7 @@ func (in *DataCollectionRuleAssociationProxyOnlyResource_STATUS) DeepCopyInto(ou
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DataCollectionRuleAssociation_ProvisioningState_STATUS)
+		*out = new(KnownDataCollectionRuleAssociationProvisioningState_STATUS)
 		**out = **in
 	}
 	if in.SystemData != nil {
@@ -897,7 +897,7 @@ func (in *DataCollectionRuleOperatorSpec) DeepCopyInto(out *DataCollectionRuleOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -908,7 +908,7 @@ func (in *DataCollectionRuleOperatorSpec) DeepCopyInto(out *DataCollectionRuleOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1003,7 +1003,7 @@ func (in *DataCollectionRuleResource_STATUS) DeepCopyInto(out *DataCollectionRul
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DataCollectionRuleResource_Kind_STATUS)
+		*out = new(KnownDataCollectionRuleResourceKind_STATUS)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1023,7 +1023,7 @@ func (in *DataCollectionRuleResource_STATUS) DeepCopyInto(out *DataCollectionRul
 	}
 	if in.ProvisioningState != nil {
 		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(DataCollectionRule_ProvisioningState_STATUS)
+		*out = new(KnownDataCollectionRuleProvisioningState_STATUS)
 		**out = **in
 	}
 	if in.References != nil {
@@ -1119,7 +1119,7 @@ func (in *DataCollectionRule_Spec) DeepCopyInto(out *DataCollectionRule_Spec) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(DataCollectionRule_Kind_Spec)
+		*out = new(KnownDataCollectionRuleResourceKind)
 		**out = **in
 	}
 	if in.Location != nil {
@@ -1198,7 +1198,7 @@ func (in *DataFlow) DeepCopyInto(out *DataFlow) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]DataFlow_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -1243,7 +1243,7 @@ func (in *DataFlow_STATUS) DeepCopyInto(out *DataFlow_STATUS) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]DataFlow_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -1861,7 +1861,7 @@ func (in *EtwProviderDataSource) DeepCopyInto(out *EtwProviderDataSource) {
 	}
 	if in.LogLevel != nil {
 		in, out := &in.LogLevel, &out.LogLevel
-		*out = new(EtwProviderDataSource_LogLevel)
+		*out = new(KnownEtwProviderDataSourceLogLevel)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -1876,7 +1876,7 @@ func (in *EtwProviderDataSource) DeepCopyInto(out *EtwProviderDataSource) {
 	}
 	if in.ProviderType != nil {
 		in, out := &in.ProviderType, &out.ProviderType
-		*out = new(EtwProviderDataSource_ProviderType)
+		*out = new(KnownEtwProviderType)
 		**out = **in
 	}
 	if in.Streams != nil {
@@ -1911,7 +1911,7 @@ func (in *EtwProviderDataSource_STATUS) DeepCopyInto(out *EtwProviderDataSource_
 	}
 	if in.LogLevel != nil {
 		in, out := &in.LogLevel, &out.LogLevel
-		*out = new(EtwProviderDataSource_LogLevel_STATUS)
+		*out = new(KnownEtwProviderDataSourceLogLevel_STATUS)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -1926,7 +1926,7 @@ func (in *EtwProviderDataSource_STATUS) DeepCopyInto(out *EtwProviderDataSource_
 	}
 	if in.ProviderType != nil {
 		in, out := &in.ProviderType, &out.ProviderType
-		*out = new(EtwProviderDataSource_ProviderType_STATUS)
+		*out = new(KnownEtwProviderType_STATUS)
 		**out = **in
 	}
 	if in.Streams != nil {
@@ -2133,7 +2133,7 @@ func (in *ExtensionDataSource) DeepCopyInto(out *ExtensionDataSource) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]ExtensionDataSource_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -2175,7 +2175,7 @@ func (in *ExtensionDataSource_STATUS) DeepCopyInto(out *ExtensionDataSource_STAT
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]ExtensionDataSource_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -2317,7 +2317,7 @@ func (in *LocationSpec_STATUS) DeepCopyInto(out *LocationSpec_STATUS) {
 	}
 	if in.ProvisioningStatus != nil {
 		in, out := &in.ProvisioningStatus, &out.ProvisioningStatus
-		*out = new(LocationSpec_ProvisioningStatus_STATUS)
+		*out = new(KnownLocationSpecProvisioningStatus_STATUS)
 		**out = **in
 	}
 }
@@ -2432,7 +2432,7 @@ func (in *LogFileTextSettings) DeepCopyInto(out *LogFileTextSettings) {
 	*out = *in
 	if in.RecordStartTimestampFormat != nil {
 		in, out := &in.RecordStartTimestampFormat, &out.RecordStartTimestampFormat
-		*out = new(LogFileTextSettings_RecordStartTimestampFormat)
+		*out = new(KnownLogFileTextSettingsRecordStartTimestampFormat)
 		**out = **in
 	}
 }
@@ -2452,7 +2452,7 @@ func (in *LogFileTextSettings_STATUS) DeepCopyInto(out *LogFileTextSettings_STAT
 	*out = *in
 	if in.RecordStartTimestampFormat != nil {
 		in, out := &in.RecordStartTimestampFormat, &out.RecordStartTimestampFormat
-		*out = new(LogFileTextSettings_RecordStartTimestampFormat_STATUS)
+		*out = new(KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS)
 		**out = **in
 	}
 }
@@ -2477,7 +2477,7 @@ func (in *LogFilesDataSource) DeepCopyInto(out *LogFilesDataSource) {
 	}
 	if in.Format != nil {
 		in, out := &in.Format, &out.Format
-		*out = new(LogFilesDataSource_Format)
+		*out = new(KnownLogFilesDataSourceFormat)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -2522,7 +2522,7 @@ func (in *LogFilesDataSource_STATUS) DeepCopyInto(out *LogFilesDataSource_STATUS
 	}
 	if in.Format != nil {
 		in, out := &in.Format, &out.Format
-		*out = new(LogFilesDataSource_Format_STATUS)
+		*out = new(KnownLogFilesDataSourceFormat_STATUS)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -2854,7 +2854,7 @@ func (in *NetworkRuleSet) DeepCopyInto(out *NetworkRuleSet) {
 	*out = *in
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(NetworkRuleSet_PublicNetworkAccess)
+		*out = new(KnownPublicNetworkAccessOptions)
 		**out = **in
 	}
 }
@@ -2874,7 +2874,7 @@ func (in *NetworkRuleSet_STATUS) DeepCopyInto(out *NetworkRuleSet_STATUS) {
 	*out = *in
 	if in.PublicNetworkAccess != nil {
 		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(NetworkRuleSet_PublicNetworkAccess_STATUS)
+		*out = new(KnownPublicNetworkAccessOptions_STATUS)
 		**out = **in
 	}
 }
@@ -2969,7 +2969,7 @@ func (in *OtelLogsDataSource) DeepCopyInto(out *OtelLogsDataSource) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]OtelLogsDataSource_Streams, len(*in))
+		*out = make([]KnownOtelLogsDataSourceStreams, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3014,7 +3014,7 @@ func (in *OtelLogsDataSource_STATUS) DeepCopyInto(out *OtelLogsDataSource_STATUS
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]OtelLogsDataSource_Streams_STATUS, len(*in))
+		*out = make([]KnownOtelLogsDataSourceStreams_STATUS, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3054,7 +3054,7 @@ func (in *OtelLogsDirectDataSource) DeepCopyInto(out *OtelLogsDirectDataSource) 
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]OtelLogsDirectDataSource_Streams, len(*in))
+		*out = make([]KnownOtelLogsDirectDataSourceStreams, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3094,7 +3094,7 @@ func (in *OtelLogsDirectDataSource_STATUS) DeepCopyInto(out *OtelLogsDirectDataS
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]OtelLogsDirectDataSource_Streams_STATUS, len(*in))
+		*out = make([]KnownOtelLogsDirectDataSourceStreams_STATUS, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3289,7 +3289,7 @@ func (in *OtelTracesDataSource) DeepCopyInto(out *OtelTracesDataSource) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]OtelTracesDataSource_Streams, len(*in))
+		*out = make([]KnownOtelTracesDataSourceStreams, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3334,7 +3334,7 @@ func (in *OtelTracesDataSource_STATUS) DeepCopyInto(out *OtelTracesDataSource_ST
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]OtelTracesDataSource_Streams_STATUS, len(*in))
+		*out = make([]KnownOtelTracesDataSourceStreams_STATUS, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3374,7 +3374,7 @@ func (in *OtelTracesDirectDataSource) DeepCopyInto(out *OtelTracesDirectDataSour
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]OtelTracesDirectDataSource_Streams, len(*in))
+		*out = make([]KnownOtelTracesDirectDataSourceStreams, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3414,7 +3414,7 @@ func (in *OtelTracesDirectDataSource_STATUS) DeepCopyInto(out *OtelTracesDirectD
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]OtelTracesDirectDataSource_Streams_STATUS, len(*in))
+		*out = make([]KnownOtelTracesDirectDataSourceStreams_STATUS, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3449,7 +3449,7 @@ func (in *PerfCounterDataSource) DeepCopyInto(out *PerfCounterDataSource) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]PerfCounterDataSource_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -3489,7 +3489,7 @@ func (in *PerfCounterDataSource_STATUS) DeepCopyInto(out *PerfCounterDataSource_
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]PerfCounterDataSource_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -3529,7 +3529,7 @@ func (in *PerformanceCountersOTelDataSource) DeepCopyInto(out *PerformanceCounte
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]PerformanceCountersOTelDataSource_Streams, len(*in))
+		*out = make([]KnownPerformanceCountersOTelDataSourceStreams, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3564,7 +3564,7 @@ func (in *PerformanceCountersOTelDataSource_STATUS) DeepCopyInto(out *Performanc
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]PerformanceCountersOTelDataSource_Streams_STATUS, len(*in))
+		*out = make([]KnownPerformanceCountersOTelDataSourceStreams_STATUS, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3684,7 +3684,7 @@ func (in *PrometheusForwarderDataSource) DeepCopyInto(out *PrometheusForwarderDa
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]PrometheusForwarderDataSource_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3729,7 +3729,7 @@ func (in *PrometheusForwarderDataSource_STATUS) DeepCopyInto(out *PrometheusForw
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]PrometheusForwarderDataSource_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 }
@@ -3888,7 +3888,7 @@ func (in *StorageBlob) DeepCopyInto(out *StorageBlob) {
 	}
 	if in.LookupType != nil {
 		in, out := &in.LookupType, &out.LookupType
-		*out = new(StorageBlob_LookupType)
+		*out = new(KnownStorageBlobLookupType)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -3983,7 +3983,7 @@ func (in *StorageBlob_STATUS) DeepCopyInto(out *StorageBlob_STATUS) {
 	}
 	if in.LookupType != nil {
 		in, out := &in.LookupType, &out.LookupType
-		*out = new(StorageBlob_LookupType_STATUS)
+		*out = new(KnownStorageBlobLookupType_STATUS)
 		**out = **in
 	}
 	if in.Name != nil {
@@ -4117,12 +4117,12 @@ func (in *SyslogDataSource) DeepCopyInto(out *SyslogDataSource) {
 	*out = *in
 	if in.FacilityNames != nil {
 		in, out := &in.FacilityNames, &out.FacilityNames
-		*out = make([]SyslogDataSource_FacilityNames, len(*in))
+		*out = make([]KnownSyslogDataSourceFacilityNames, len(*in))
 		copy(*out, *in)
 	}
 	if in.LogLevels != nil {
 		in, out := &in.LogLevels, &out.LogLevels
-		*out = make([]SyslogDataSource_LogLevels, len(*in))
+		*out = make([]KnownSyslogDataSourceLogLevels, len(*in))
 		copy(*out, *in)
 	}
 	if in.Name != nil {
@@ -4132,7 +4132,7 @@ func (in *SyslogDataSource) DeepCopyInto(out *SyslogDataSource) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]SyslogDataSource_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -4157,12 +4157,12 @@ func (in *SyslogDataSource_STATUS) DeepCopyInto(out *SyslogDataSource_STATUS) {
 	*out = *in
 	if in.FacilityNames != nil {
 		in, out := &in.FacilityNames, &out.FacilityNames
-		*out = make([]SyslogDataSource_FacilityNames_STATUS, len(*in))
+		*out = make([]KnownSyslogDataSourceFacilityNames_STATUS, len(*in))
 		copy(*out, *in)
 	}
 	if in.LogLevels != nil {
 		in, out := &in.LogLevels, &out.LogLevels
-		*out = make([]SyslogDataSource_LogLevels_STATUS, len(*in))
+		*out = make([]KnownSyslogDataSourceLogLevels_STATUS, len(*in))
 		copy(*out, *in)
 	}
 	if in.Name != nil {
@@ -4172,7 +4172,7 @@ func (in *SyslogDataSource_STATUS) DeepCopyInto(out *SyslogDataSource_STATUS) {
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]SyslogDataSource_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -4288,7 +4288,7 @@ func (in *WindowsEventLogDataSource) DeepCopyInto(out *WindowsEventLogDataSource
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]WindowsEventLogDataSource_Streams, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -4323,7 +4323,7 @@ func (in *WindowsEventLogDataSource_STATUS) DeepCopyInto(out *WindowsEventLogDat
 	}
 	if in.Streams != nil {
 		in, out := &in.Streams, &out.Streams
-		*out = make([]WindowsEventLogDataSource_Streams_STATUS, len(*in))
+		*out = make([]string, len(*in))
 		copy(*out, *in)
 	}
 	if in.TransformKql != nil {
@@ -4358,7 +4358,7 @@ func (in *WindowsFirewallLogsDataSource) DeepCopyInto(out *WindowsFirewallLogsDa
 	}
 	if in.ProfileFilter != nil {
 		in, out := &in.ProfileFilter, &out.ProfileFilter
-		*out = make([]WindowsFirewallLogsDataSource_ProfileFilter, len(*in))
+		*out = make([]KnownWindowsFirewallLogsDataSourceProfileFilter, len(*in))
 		copy(*out, *in)
 	}
 	if in.Streams != nil {
@@ -4388,7 +4388,7 @@ func (in *WindowsFirewallLogsDataSource_STATUS) DeepCopyInto(out *WindowsFirewal
 	}
 	if in.ProfileFilter != nil {
 		in, out := &in.ProfileFilter, &out.ProfileFilter
-		*out = make([]WindowsFirewallLogsDataSource_ProfileFilter_STATUS, len(*in))
+		*out = make([]KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS, len(*in))
 		copy(*out, *in)
 	}
 	if in.Streams != nil {

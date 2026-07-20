@@ -3325,7 +3325,7 @@ func (in *MaintenanceConfigurationOperatorSpec) DeepCopyInto(out *MaintenanceCon
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3343,7 +3343,7 @@ func (in *MaintenanceConfigurationOperatorSpec) DeepCopyInto(out *MaintenanceCon
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3650,7 +3650,7 @@ func (in *ManagedClusterAADProfile) DeepCopyInto(out *ManagedClusterAADProfile) 
 	}
 	if in.ServerAppSecret != nil {
 		in, out := &in.ServerAppSecret, &out.ServerAppSecret
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.TenantID != nil {
@@ -3702,11 +3702,6 @@ func (in *ManagedClusterAADProfile_STATUS) DeepCopyInto(out *ManagedClusterAADPr
 	}
 	if in.ServerAppID != nil {
 		in, out := &in.ServerAppID, &out.ServerAppID
-		*out = new(string)
-		**out = **in
-	}
-	if in.ServerAppSecret != nil {
-		in, out := &in.ServerAppSecret, &out.ServerAppSecret
 		*out = new(string)
 		**out = **in
 	}
@@ -4100,6 +4095,11 @@ func (in *ManagedClusterAgentPoolProfile) DeepCopyInto(out *ManagedClusterAgentP
 		in, out := &in.NodeCustomizationProfile, &out.NodeCustomizationProfile
 		*out = new(NodeCustomizationProfile)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.NodeImageVersion != nil {
+		in, out := &in.NodeImageVersion, &out.NodeImageVersion
+		*out = new(string)
+		**out = **in
 	}
 	if in.NodeInitializationTaints != nil {
 		in, out := &in.NodeInitializationTaints, &out.NodeInitializationTaints
@@ -6672,7 +6672,7 @@ func (in *ManagedClusterOperatorConfigMaps) DeepCopyInto(out *ManagedClusterOper
 	if in.OIDCIssuerProfile != nil {
 		in, out := &in.OIDCIssuerProfile, &out.OIDCIssuerProfile
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
@@ -6699,7 +6699,7 @@ func (in *ManagedClusterOperatorSecrets) DeepCopyInto(out *ManagedClusterOperato
 	if in.AdminCredentials != nil {
 		in, out := &in.AdminCredentials, &out.AdminCredentials
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
@@ -6711,7 +6711,7 @@ func (in *ManagedClusterOperatorSecrets) DeepCopyInto(out *ManagedClusterOperato
 	if in.UserCredentials != nil {
 		in, out := &in.UserCredentials, &out.UserCredentials
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -6735,7 +6735,7 @@ func (in *ManagedClusterOperatorSpec) DeepCopyInto(out *ManagedClusterOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6758,7 +6758,7 @@ func (in *ManagedClusterOperatorSpec) DeepCopyInto(out *ManagedClusterOperatorSp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -9507,7 +9507,7 @@ func (in *ManagedClustersAgentPoolOperatorSpec) DeepCopyInto(out *ManagedCluster
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -9525,7 +9525,7 @@ func (in *ManagedClustersAgentPoolOperatorSpec) DeepCopyInto(out *ManagedCluster
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -10018,6 +10018,11 @@ func (in *ManagedClustersAgentPool_Spec) DeepCopyInto(out *ManagedClustersAgentP
 		in, out := &in.NodeCustomizationProfile, &out.NodeCustomizationProfile
 		*out = new(NodeCustomizationProfile)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.NodeImageVersion != nil {
+		in, out := &in.NodeImageVersion, &out.NodeImageVersion
+		*out = new(string)
+		**out = **in
 	}
 	if in.NodeInitializationTaints != nil {
 		in, out := &in.NodeInitializationTaints, &out.NodeInitializationTaints
@@ -11655,7 +11660,7 @@ func (in *TrustedAccessRoleBindingOperatorSpec) DeepCopyInto(out *TrustedAccessR
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -11673,7 +11678,7 @@ func (in *TrustedAccessRoleBindingOperatorSpec) DeepCopyInto(out *TrustedAccessR
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

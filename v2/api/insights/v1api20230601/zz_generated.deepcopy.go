@@ -233,7 +233,7 @@ func (in *WorkbookOperatorSpec) DeepCopyInto(out *WorkbookOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -244,7 +244,7 @@ func (in *WorkbookOperatorSpec) DeepCopyInto(out *WorkbookOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -302,7 +302,7 @@ func (in *Workbook_STATUS) DeepCopyInto(out *Workbook_STATUS) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(Workbook_Kind_STATUS)
+		*out = new(ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS)
 		**out = **in
 	}
 	if in.Location != nil {

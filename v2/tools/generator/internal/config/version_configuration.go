@@ -7,6 +7,7 @@ package config
 
 import (
 	"strings"
+	"sync"
 
 	"github.com/rotisserie/eris"
 	"gopkg.in/yaml.v3"
@@ -27,6 +28,14 @@ type VersionConfiguration struct {
 	name    string
 	types   map[string]*TypeConfiguration
 	advisor *typo.Advisor
+
+	// typeCache memoises findType results so that repeated lookups for the same type name -
+	// including negative "not configured" results - skip the strings.ToLower allocation and
+	// map lookup. The cache is keyed on the raw name passed to findType (so a hit on the
+	// common case bypasses the ToLower entirely). Populated lazily on first find; cleared by
+	// addType and addTypeAlias so that late additions remain observable.
+	typeCacheLock sync.RWMutex
+	typeCache     map[string]*TypeConfiguration
 }
 
 // NewVersionConfiguration returns a new (empty) VersionConfiguration
@@ -46,7 +55,17 @@ func (vc *VersionConfiguration) addType(name string, tc *TypeConfiguration) erro
 		return eris.Errorf("duplicate type configuration: %q already exists", name)
 	}
 	vc.types[key] = tc
+	vc.invalidateTypeCache()
 	return nil
+}
+
+// invalidateTypeCache clears the type-resolution cache. Called whenever the set of configured
+// types for this version changes so that lookups previously recorded as "known absent" are
+// re-resolved against the updated map.
+func (vc *VersionConfiguration) invalidateTypeCache() {
+	vc.typeCacheLock.Lock()
+	vc.typeCache = nil
+	vc.typeCacheLock.Unlock()
 }
 
 // visitType invokes the provided visitor on the specified type if present.
@@ -87,13 +106,36 @@ func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error 
 
 // findType uses the provided name to work out which nested TypeConfiguration should be used
 func (vc *VersionConfiguration) findType(name string) *TypeConfiguration {
-	vc.advisor.AddTerm(name)
-	n := strings.ToLower(name)
-	if t, ok := vc.types[n]; ok {
-		return t
+	// Fast path: consult the resolution cache under a read lock. The cache is keyed on the
+	// raw name (not the lowercased form) so a hit avoids allocating a lowercase copy.
+	if cached, ok := vc.findTypeFromCache(name); ok {
+		return cached
 	}
 
-	return nil
+	vc.advisor.AddTerm(name)
+	n := strings.ToLower(name)
+	t := vc.types[n]
+
+	vc.typeCacheLock.Lock()
+	defer vc.typeCacheLock.Unlock()
+
+	if vc.typeCache == nil {
+		vc.typeCache = make(map[string]*TypeConfiguration)
+	}
+
+	vc.typeCache[name] = t
+
+	return t
+}
+
+// findTypeFromCache uses the provided name to look up in our cache
+func (vc *VersionConfiguration) findTypeFromCache(name string) (*TypeConfiguration, bool) {
+	vc.typeCacheLock.RLock()
+	defer vc.typeCacheLock.RUnlock()
+
+	tc, ok := vc.typeCache[name]
+
+	return tc, ok
 }
 
 // addTypeAlias adds an alias for the specified type, so it may be found with an alternative name
@@ -120,6 +162,9 @@ func (vc *VersionConfiguration) addTypeAlias(name string, alias string) error {
 	// Add the alias as another route to the existing configuration
 	// We skip the duplicate check here since we've already verified above that it's safe
 	vc.types[strings.ToLower(alias)] = tc
+	// Any cached "known absent" entry for `alias` (populated by the findType(alias) call above)
+	// must be discarded so subsequent lookups resolve to `tc`.
+	vc.invalidateTypeCache()
 	return nil
 }
 

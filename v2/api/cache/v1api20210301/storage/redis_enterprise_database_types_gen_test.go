@@ -5,8 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
-	v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
+	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v20210301/storage"
+	v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -21,6 +21,11 @@ import (
 
 func Test_Module_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -36,7 +41,7 @@ func RunPropertyAssignmentTestForModule(subject Module) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Module
+	var other v20210301s.Module
 	err := copied.AssignProperties_To_Module(&other)
 	if err != nil {
 		return err.Error()
@@ -63,6 +68,11 @@ func RunPropertyAssignmentTestForModule(subject Module) string {
 
 func Test_Module_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -124,6 +134,11 @@ func AddIndependentPropertyGeneratorsForModule(gens map[string]gopter.Gen) {
 
 func Test_Module_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -139,7 +154,7 @@ func RunPropertyAssignmentTestForModule_STATUS(subject Module_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Module_STATUS
+	var other v20210301s.Module_STATUS
 	err := copied.AssignProperties_To_Module_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -166,6 +181,11 @@ func RunPropertyAssignmentTestForModule_STATUS(subject Module_STATUS) string {
 
 func Test_Module_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -228,6 +248,11 @@ func AddIndependentPropertyGeneratorsForModule_STATUS(gens map[string]gopter.Gen
 
 func Test_Persistence_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -243,7 +268,7 @@ func RunPropertyAssignmentTestForPersistence(subject Persistence) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Persistence
+	var other v20210301s.Persistence
 	err := copied.AssignProperties_To_Persistence(&other)
 	if err != nil {
 		return err.Error()
@@ -270,6 +295,11 @@ func RunPropertyAssignmentTestForPersistence(subject Persistence) string {
 
 func Test_Persistence_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -333,6 +363,11 @@ func AddIndependentPropertyGeneratorsForPersistence(gens map[string]gopter.Gen) 
 
 func Test_Persistence_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -348,7 +383,7 @@ func RunPropertyAssignmentTestForPersistence_STATUS(subject Persistence_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Persistence_STATUS
+	var other v20210301s.Persistence_STATUS
 	err := copied.AssignProperties_To_Persistence_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -375,6 +410,11 @@ func RunPropertyAssignmentTestForPersistence_STATUS(subject Persistence_STATUS) 
 
 func Test_Persistence_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -438,6 +478,11 @@ func AddIndependentPropertyGeneratorsForPersistence_STATUS(gens map[string]gopte
 
 func Test_RedisEnterpriseDatabase_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -481,6 +526,11 @@ func RunResourceConversionTestForRedisEnterpriseDatabase(subject RedisEnterprise
 
 func Test_RedisEnterpriseDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -496,7 +546,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase(subject RedisEnterprise
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterpriseDatabase
+	var other v20210301s.RedisEnterpriseDatabase
 	err := copied.AssignProperties_To_RedisEnterpriseDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -523,6 +573,11 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase(subject RedisEnterprise
 
 func Test_RedisEnterpriseDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -585,6 +640,11 @@ func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase(gens map[string]gopt
 
 func Test_RedisEnterpriseDatabaseOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -600,7 +660,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabaseOperatorSecrets(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterpriseDatabaseOperatorSecrets
+	var other v20210301s.RedisEnterpriseDatabaseOperatorSecrets
 	err := copied.AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
@@ -627,6 +687,11 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabaseOperatorSecrets(subject 
 
 func Test_RedisEnterpriseDatabaseOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -682,6 +747,11 @@ func RedisEnterpriseDatabaseOperatorSecretsGenerator() gopter.Gen {
 
 func Test_RedisEnterpriseDatabaseOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -697,7 +767,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabaseOperatorSpec(subject Red
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterpriseDatabaseOperatorSpec
+	var other v20210301s.RedisEnterpriseDatabaseOperatorSpec
 	err := copied.AssignProperties_To_RedisEnterpriseDatabaseOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -724,6 +794,11 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabaseOperatorSpec(subject Red
 
 func Test_RedisEnterpriseDatabaseOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -785,6 +860,11 @@ func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabaseOperatorSpec(gens map
 
 func Test_RedisEnterpriseDatabase_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -800,7 +880,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase_STATUS(subject RedisEnt
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterpriseDatabase_STATUS
+	var other v20210301s.RedisEnterpriseDatabase_STATUS
 	err := copied.AssignProperties_To_RedisEnterpriseDatabase_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -827,6 +907,11 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase_STATUS(subject RedisEnt
 
 func Test_RedisEnterpriseDatabase_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -911,6 +996,11 @@ func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_STATUS(gens map[stri
 
 func Test_RedisEnterpriseDatabase_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -926,7 +1016,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase_Spec(subject RedisEnter
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterpriseDatabase_Spec
+	var other v20210301s.RedisEnterpriseDatabase_Spec
 	err := copied.AssignProperties_To_RedisEnterpriseDatabase_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -953,6 +1043,11 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase_Spec(subject RedisEnter
 
 func Test_RedisEnterpriseDatabase_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

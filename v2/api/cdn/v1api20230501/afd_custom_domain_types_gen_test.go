@@ -5,7 +5,8 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_AFDDomainHttpsParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -35,7 +41,7 @@ func RunPropertyAssignmentTestForAFDDomainHttpsParameters(subject AFDDomainHttps
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AFDDomainHttpsParameters
+	var other cdn_v1api20230501s.AFDDomainHttpsParameters
 	err := copied.AssignProperties_To_AFDDomainHttpsParameters(&other)
 	if err != nil {
 		return err.Error()
@@ -62,6 +68,11 @@ func RunPropertyAssignmentTestForAFDDomainHttpsParameters(subject AFDDomainHttps
 
 func Test_AFDDomainHttpsParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -138,6 +149,11 @@ func AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters(gens map[string]gop
 
 func Test_AFDDomainHttpsParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -153,7 +169,7 @@ func RunPropertyAssignmentTestForAFDDomainHttpsParameters_STATUS(subject AFDDoma
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AFDDomainHttpsParameters_STATUS
+	var other cdn_v1api20230501s.AFDDomainHttpsParameters_STATUS
 	err := copied.AssignProperties_To_AFDDomainHttpsParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -180,6 +196,11 @@ func RunPropertyAssignmentTestForAFDDomainHttpsParameters_STATUS(subject AFDDoma
 
 func Test_AFDDomainHttpsParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -256,6 +277,11 @@ func AddRelatedPropertyGeneratorsForAFDDomainHttpsParameters_STATUS(gens map[str
 
 func Test_AfdCustomDomain_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -272,7 +298,7 @@ func RunResourceConversionTestForAfdCustomDomain(subject AfdCustomDomain) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.AfdCustomDomain
+	var hub cdn_v20230501s.AfdCustomDomain
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -299,6 +325,11 @@ func RunResourceConversionTestForAfdCustomDomain(subject AfdCustomDomain) string
 
 func Test_AfdCustomDomain_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -314,7 +345,7 @@ func RunPropertyAssignmentTestForAfdCustomDomain(subject AfdCustomDomain) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdCustomDomain
+	var other cdn_v1api20230501s.AfdCustomDomain
 	err := copied.AssignProperties_To_AfdCustomDomain(&other)
 	if err != nil {
 		return err.Error()
@@ -341,6 +372,11 @@ func RunPropertyAssignmentTestForAfdCustomDomain(subject AfdCustomDomain) string
 
 func Test_AfdCustomDomain_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -402,6 +438,11 @@ func AddRelatedPropertyGeneratorsForAfdCustomDomain(gens map[string]gopter.Gen) 
 
 func Test_AfdCustomDomainOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -417,7 +458,7 @@ func RunPropertyAssignmentTestForAfdCustomDomainOperatorSpec(subject AfdCustomDo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdCustomDomainOperatorSpec
+	var other cdn_v1api20230501s.AfdCustomDomainOperatorSpec
 	err := copied.AssignProperties_To_AfdCustomDomainOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -444,6 +485,11 @@ func RunPropertyAssignmentTestForAfdCustomDomainOperatorSpec(subject AfdCustomDo
 
 func Test_AfdCustomDomainOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -499,6 +545,11 @@ func AfdCustomDomainOperatorSpecGenerator() gopter.Gen {
 
 func Test_AfdCustomDomain_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -514,7 +565,7 @@ func RunPropertyAssignmentTestForAfdCustomDomain_STATUS(subject AfdCustomDomain_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdCustomDomain_STATUS
+	var other cdn_v1api20230501s.AfdCustomDomain_STATUS
 	err := copied.AssignProperties_To_AfdCustomDomain_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -541,6 +592,11 @@ func RunPropertyAssignmentTestForAfdCustomDomain_STATUS(subject AfdCustomDomain_
 
 func Test_AfdCustomDomain_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -648,6 +704,11 @@ func AddRelatedPropertyGeneratorsForAfdCustomDomain_STATUS(gens map[string]gopte
 
 func Test_AfdCustomDomain_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -663,7 +724,7 @@ func RunPropertyAssignmentTestForAfdCustomDomain_Spec(subject AfdCustomDomain_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdCustomDomain_Spec
+	var other cdn_v1api20230501s.AfdCustomDomain_Spec
 	err := copied.AssignProperties_To_AfdCustomDomain_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -690,6 +751,11 @@ func RunPropertyAssignmentTestForAfdCustomDomain_Spec(subject AfdCustomDomain_Sp
 
 func Test_AfdCustomDomain_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -772,6 +838,11 @@ func AddRelatedPropertyGeneratorsForAfdCustomDomain_Spec(gens map[string]gopter.
 
 func Test_DomainValidationProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -787,7 +858,7 @@ func RunPropertyAssignmentTestForDomainValidationProperties_STATUS(subject Domai
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DomainValidationProperties_STATUS
+	var other cdn_v1api20230501s.DomainValidationProperties_STATUS
 	err := copied.AssignProperties_To_DomainValidationProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -814,6 +885,11 @@ func RunPropertyAssignmentTestForDomainValidationProperties_STATUS(subject Domai
 
 func Test_DomainValidationProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -876,6 +952,11 @@ func AddIndependentPropertyGeneratorsForDomainValidationProperties_STATUS(gens m
 
 func Test_ResourceReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -891,7 +972,7 @@ func RunPropertyAssignmentTestForResourceReference(subject ResourceReference) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceReference
+	var other cdn_v1api20230501s.ResourceReference
 	err := copied.AssignProperties_To_ResourceReference(&other)
 	if err != nil {
 		return err.Error()
@@ -918,6 +999,11 @@ func RunPropertyAssignmentTestForResourceReference(subject ResourceReference) st
 
 func Test_ResourceReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -972,6 +1058,11 @@ func ResourceReferenceGenerator() gopter.Gen {
 
 func Test_ResourceReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -987,7 +1078,7 @@ func RunPropertyAssignmentTestForResourceReference_STATUS(subject ResourceRefere
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ResourceReference_STATUS
+	var other cdn_v1api20230501s.ResourceReference_STATUS
 	err := copied.AssignProperties_To_ResourceReference_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1014,6 +1105,11 @@ func RunPropertyAssignmentTestForResourceReference_STATUS(subject ResourceRefere
 
 func Test_ResourceReference_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1075,6 +1171,11 @@ func AddIndependentPropertyGeneratorsForResourceReference_STATUS(gens map[string
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1090,7 +1191,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SystemData_STATUS
+	var other cdn_v1api20230501s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1117,6 +1218,11 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

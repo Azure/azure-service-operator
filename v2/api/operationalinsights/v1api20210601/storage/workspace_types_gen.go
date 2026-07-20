@@ -12,6 +12,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/secrets"
 	"github.com/rotisserie/eris"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -1334,6 +1335,13 @@ func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(sourc
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// AdditionalProperties
+	if len(source.AdditionalProperties) > 0 {
+		propertyBag.Add("AdditionalProperties", source.AdditionalProperties)
+	} else {
+		propertyBag.Remove("AdditionalProperties")
+	}
+
 	// ClusterResourceReference
 	if source.ClusterResourceReference != nil {
 		clusterResourceReference := source.ClusterResourceReference.Copy()
@@ -1398,6 +1406,19 @@ func (features *WorkspaceFeatures) AssignProperties_From_WorkspaceFeatures(sourc
 func (features *WorkspaceFeatures) AssignProperties_To_WorkspaceFeatures(destination *storage.WorkspaceFeatures) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(features.PropertyBag)
+
+	// AdditionalProperties
+	if propertyBag.Contains("AdditionalProperties") {
+		var additionalProperty map[string]v1.JSON
+		err := propertyBag.Pull("AdditionalProperties", &additionalProperty)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'AdditionalProperties' from propertyBag")
+		}
+
+		destination.AdditionalProperties = additionalProperty
+	} else {
+		destination.AdditionalProperties = nil
+	}
 
 	// ClusterResourceReference
 	if features.ClusterResourceReference != nil {
@@ -1475,6 +1496,13 @@ func (features *WorkspaceFeatures_STATUS) AssignProperties_From_WorkspaceFeature
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// AdditionalProperties
+	if len(source.AdditionalProperties) > 0 {
+		propertyBag.Add("AdditionalProperties", source.AdditionalProperties)
+	} else {
+		propertyBag.Remove("AdditionalProperties")
+	}
+
 	// Associations
 	if len(source.Associations) > 0 {
 		propertyBag.Add("Associations", source.Associations)
@@ -1548,6 +1576,19 @@ func (features *WorkspaceFeatures_STATUS) AssignProperties_From_WorkspaceFeature
 func (features *WorkspaceFeatures_STATUS) AssignProperties_To_WorkspaceFeatures_STATUS(destination *storage.WorkspaceFeatures_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(features.PropertyBag)
+
+	// AdditionalProperties
+	if propertyBag.Contains("AdditionalProperties") {
+		var additionalProperty map[string]v1.JSON
+		err := propertyBag.Pull("AdditionalProperties", &additionalProperty)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'AdditionalProperties' from propertyBag")
+		}
+
+		destination.AdditionalProperties = additionalProperty
+	} else {
+		destination.AdditionalProperties = nil
+	}
 
 	// Associations
 	if propertyBag.Contains("Associations") {
@@ -1978,7 +2019,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 
 	// PrimarySharedKey
 	if source.PrimarySharedKey != nil {
-		primarySharedKey := source.PrimarySharedKey.Copy()
+		primarySharedKey := *source.PrimarySharedKey.DeepCopy()
 		secrets.PrimarySharedKey = &primarySharedKey
 	} else {
 		secrets.PrimarySharedKey = nil
@@ -1986,7 +2027,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 
 	// SecondarySharedKey
 	if source.SecondarySharedKey != nil {
-		secondarySharedKey := source.SecondarySharedKey.Copy()
+		secondarySharedKey := *source.SecondarySharedKey.DeepCopy()
 		secrets.SecondarySharedKey = &secondarySharedKey
 	} else {
 		secrets.SecondarySharedKey = nil
@@ -2019,7 +2060,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSe
 
 	// PrimarySharedKey
 	if secrets.PrimarySharedKey != nil {
-		primarySharedKey := secrets.PrimarySharedKey.Copy()
+		primarySharedKey := *secrets.PrimarySharedKey.DeepCopy()
 		destination.PrimarySharedKey = &primarySharedKey
 	} else {
 		destination.PrimarySharedKey = nil
@@ -2027,7 +2068,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSe
 
 	// SecondarySharedKey
 	if secrets.SecondarySharedKey != nil {
-		secondarySharedKey := secrets.SecondarySharedKey.Copy()
+		secondarySharedKey := *secrets.SecondarySharedKey.DeepCopy()
 		destination.SecondarySharedKey = &secondarySharedKey
 	} else {
 		destination.SecondarySharedKey = nil

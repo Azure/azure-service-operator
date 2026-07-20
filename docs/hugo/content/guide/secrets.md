@@ -170,3 +170,47 @@ operatorSpec:
           key: key
     ```
 6. Refresh workload (via `reloader`).
+
+## Custom annotations and labels on secrets
+
+You can add custom annotations and labels to the Kubernetes secrets created by ASO using the `annotations` and `labels`
+fields on `SecretDestination` or `DestinationExpression`. This is useful for integrating with tools like
+[kubernetes-reflector](https://github.com/emberstack/kubernetes-reflector), which can mirror secrets to other namespaces
+based on annotations.
+
+For `SecretDestination`, annotation and label values are plain strings.
+For `DestinationExpression`, annotation and label values are [CEL expressions]( {{< relref "expressions" >}} ) 
+that must return a string. Use `'"value"'` for static strings.
+
+{{% alert title="Note" %}}
+Multiple entries cannot write the same annotation or label key.
+{{% /alert %}}
+
+**Example with `operatorSpec.secrets`:**
+```yaml
+operatorSpec:
+  secrets:
+    primaryMasterKey:
+      name: mysecret
+      key: primarymasterkey
+      annotations:
+        my-annotation: foo
+      labels:
+        app: myapp
+```
+
+**Example with `operatorSpec.secretExpressions`:**
+```yaml
+operatorSpec:
+  secretExpressions:
+    - name: mysecret
+      key: primarymasterkey
+      value: secret.primaryMasterKey
+      annotations:
+        my-annotation: '"foo"' # Static string value (CEL expression)
+      labels:
+        account-name: self.status.name  # Dynamic value from resource status
+```
+
+When multiple secret destinations target the same Kubernetes secret, annotations and labels are merged.
+If two destinations specify the same annotation or label key with different values, an error is returned.

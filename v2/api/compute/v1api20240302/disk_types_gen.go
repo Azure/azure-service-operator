@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}
 type Disk struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Disk{}
 
 // ConvertFrom populates our Disk from the provided hub Disk
 func (disk *Disk) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Disk)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20240302/storage/Disk but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Disk
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return disk.AssignProperties_From_Disk(source)
+	err = disk.AssignProperties_From_Disk(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to disk")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Disk from our Disk
 func (disk *Disk) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Disk)
-	if !ok {
-		return fmt.Errorf("expected compute/v1api20240302/storage/Disk but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Disk
+	err := disk.AssignProperties_To_Disk(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from disk")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return disk.AssignProperties_To_Disk(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Disk{}
@@ -87,17 +101,6 @@ func (disk *Disk) SecretDestinationExpressions() []*core.DestinationExpression {
 		return nil
 	}
 	return disk.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Disk{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (disk *Disk) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Disk_STATUS); ok {
-		return disk.Spec.Initialize_From_Disk_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Disk_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Disk{}
@@ -238,7 +241,7 @@ func (disk *Disk) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/DiskRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-03-02/DiskRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}
 type DiskList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -1420,219 +1423,6 @@ func (disk *Disk_Spec) AssignProperties_To_Disk_Spec(destination *storage.Disk_S
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Disk_STATUS populates our Disk_Spec from the provided source Disk_STATUS
-func (disk *Disk_Spec) Initialize_From_Disk_STATUS(source *Disk_STATUS) error {
-
-	// BurstingEnabled
-	if source.BurstingEnabled != nil {
-		burstingEnabled := *source.BurstingEnabled
-		disk.BurstingEnabled = &burstingEnabled
-	} else {
-		disk.BurstingEnabled = nil
-	}
-
-	// CompletionPercent
-	if source.CompletionPercent != nil {
-		completionPercent := *source.CompletionPercent
-		disk.CompletionPercent = &completionPercent
-	} else {
-		disk.CompletionPercent = nil
-	}
-
-	// CreationData
-	if source.CreationData != nil {
-		var creationDatum CreationData
-		err := creationDatum.Initialize_From_CreationData_STATUS(source.CreationData)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CreationData_STATUS() to populate field CreationData")
-		}
-		disk.CreationData = &creationDatum
-	} else {
-		disk.CreationData = nil
-	}
-
-	// DataAccessAuthMode
-	if source.DataAccessAuthMode != nil {
-		dataAccessAuthMode := genruntime.ToEnum(string(*source.DataAccessAuthMode), dataAccessAuthMode_Values)
-		disk.DataAccessAuthMode = &dataAccessAuthMode
-	} else {
-		disk.DataAccessAuthMode = nil
-	}
-
-	// DiskAccessReference
-	if source.DiskAccessId != nil {
-		diskAccessReference := genruntime.CreateResourceReferenceFromARMID(*source.DiskAccessId)
-		disk.DiskAccessReference = &diskAccessReference
-	} else {
-		disk.DiskAccessReference = nil
-	}
-
-	// DiskIOPSReadOnly
-	disk.DiskIOPSReadOnly = genruntime.ClonePointerToInt(source.DiskIOPSReadOnly)
-
-	// DiskIOPSReadWrite
-	disk.DiskIOPSReadWrite = genruntime.ClonePointerToInt(source.DiskIOPSReadWrite)
-
-	// DiskMBpsReadOnly
-	disk.DiskMBpsReadOnly = genruntime.ClonePointerToInt(source.DiskMBpsReadOnly)
-
-	// DiskMBpsReadWrite
-	disk.DiskMBpsReadWrite = genruntime.ClonePointerToInt(source.DiskMBpsReadWrite)
-
-	// DiskSizeGB
-	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption Encryption
-		err := encryption.Initialize_From_Encryption_STATUS(source.Encryption)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Encryption_STATUS() to populate field Encryption")
-		}
-		disk.Encryption = &encryption
-	} else {
-		disk.Encryption = nil
-	}
-
-	// EncryptionSettingsCollection
-	if source.EncryptionSettingsCollection != nil {
-		var encryptionSettingsCollection EncryptionSettingsCollection
-		err := encryptionSettingsCollection.Initialize_From_EncryptionSettingsCollection_STATUS(source.EncryptionSettingsCollection)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EncryptionSettingsCollection_STATUS() to populate field EncryptionSettingsCollection")
-		}
-		disk.EncryptionSettingsCollection = &encryptionSettingsCollection
-	} else {
-		disk.EncryptionSettingsCollection = nil
-	}
-
-	// ExtendedLocation
-	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation
-		err := extendedLocation.Initialize_From_ExtendedLocation_STATUS(source.ExtendedLocation)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ExtendedLocation_STATUS() to populate field ExtendedLocation")
-		}
-		disk.ExtendedLocation = &extendedLocation
-	} else {
-		disk.ExtendedLocation = nil
-	}
-
-	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := genruntime.ToEnum(string(*source.HyperVGeneration), hyperVGeneration_Values)
-		disk.HyperVGeneration = &hyperVGeneration
-	} else {
-		disk.HyperVGeneration = nil
-	}
-
-	// Location
-	disk.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MaxShares
-	disk.MaxShares = genruntime.ClonePointerToInt(source.MaxShares)
-
-	// NetworkAccessPolicy
-	if source.NetworkAccessPolicy != nil {
-		networkAccessPolicy := genruntime.ToEnum(string(*source.NetworkAccessPolicy), networkAccessPolicy_Values)
-		disk.NetworkAccessPolicy = &networkAccessPolicy
-	} else {
-		disk.NetworkAccessPolicy = nil
-	}
-
-	// OptimizedForFrequentAttach
-	if source.OptimizedForFrequentAttach != nil {
-		optimizedForFrequentAttach := *source.OptimizedForFrequentAttach
-		disk.OptimizedForFrequentAttach = &optimizedForFrequentAttach
-	} else {
-		disk.OptimizedForFrequentAttach = nil
-	}
-
-	// OsType
-	if source.OsType != nil {
-		osType := genruntime.ToEnum(string(*source.OsType), operatingSystemTypes_Values)
-		disk.OsType = &osType
-	} else {
-		disk.OsType = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), publicNetworkAccess_Values)
-		disk.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		disk.PublicNetworkAccess = nil
-	}
-
-	// PurchasePlan
-	if source.PurchasePlan != nil {
-		var purchasePlan DiskPurchasePlan
-		err := purchasePlan.Initialize_From_DiskPurchasePlan_STATUS(source.PurchasePlan)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DiskPurchasePlan_STATUS() to populate field PurchasePlan")
-		}
-		disk.PurchasePlan = &purchasePlan
-	} else {
-		disk.PurchasePlan = nil
-	}
-
-	// SecurityProfile
-	if source.SecurityProfile != nil {
-		var securityProfile DiskSecurityProfile
-		err := securityProfile.Initialize_From_DiskSecurityProfile_STATUS(source.SecurityProfile)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DiskSecurityProfile_STATUS() to populate field SecurityProfile")
-		}
-		disk.SecurityProfile = &securityProfile
-	} else {
-		disk.SecurityProfile = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku DiskSku
-		err := sku.Initialize_From_DiskSku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DiskSku_STATUS() to populate field Sku")
-		}
-		disk.Sku = &sku
-	} else {
-		disk.Sku = nil
-	}
-
-	// SupportedCapabilities
-	if source.SupportedCapabilities != nil {
-		var supportedCapability SupportedCapabilities
-		err := supportedCapability.Initialize_From_SupportedCapabilities_STATUS(source.SupportedCapabilities)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SupportedCapabilities_STATUS() to populate field SupportedCapabilities")
-		}
-		disk.SupportedCapabilities = &supportedCapability
-	} else {
-		disk.SupportedCapabilities = nil
-	}
-
-	// SupportsHibernation
-	if source.SupportsHibernation != nil {
-		supportsHibernation := *source.SupportsHibernation
-		disk.SupportsHibernation = &supportsHibernation
-	} else {
-		disk.SupportsHibernation = nil
-	}
-
-	// Tags
-	disk.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Tier
-	disk.Tier = genruntime.ClonePointerToString(source.Tier)
-
-	// Zones
-	disk.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -3316,92 +3106,6 @@ func (data *CreationData) AssignProperties_To_CreationData(destination *storage.
 	return nil
 }
 
-// Initialize_From_CreationData_STATUS populates our CreationData from the provided source CreationData_STATUS
-func (data *CreationData) Initialize_From_CreationData_STATUS(source *CreationData_STATUS) error {
-
-	// CreateOption
-	if source.CreateOption != nil {
-		createOption := genruntime.ToEnum(string(*source.CreateOption), diskCreateOption_Values)
-		data.CreateOption = &createOption
-	} else {
-		data.CreateOption = nil
-	}
-
-	// ElasticSanResourceReference
-	if source.ElasticSanResourceId != nil {
-		elasticSanResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.ElasticSanResourceId)
-		data.ElasticSanResourceReference = &elasticSanResourceReference
-	} else {
-		data.ElasticSanResourceReference = nil
-	}
-
-	// GalleryImageReference
-	if source.GalleryImageReference != nil {
-		var galleryImageReference ImageDiskReference
-		err := galleryImageReference.Initialize_From_ImageDiskReference_STATUS(source.GalleryImageReference)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ImageDiskReference_STATUS() to populate field GalleryImageReference")
-		}
-		data.GalleryImageReference = &galleryImageReference
-	} else {
-		data.GalleryImageReference = nil
-	}
-
-	// ImageReference
-	if source.ImageReference != nil {
-		var imageReference ImageDiskReference
-		err := imageReference.Initialize_From_ImageDiskReference_STATUS(source.ImageReference)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ImageDiskReference_STATUS() to populate field ImageReference")
-		}
-		data.ImageReference = &imageReference
-	} else {
-		data.ImageReference = nil
-	}
-
-	// LogicalSectorSize
-	data.LogicalSectorSize = genruntime.ClonePointerToInt(source.LogicalSectorSize)
-
-	// PerformancePlus
-	if source.PerformancePlus != nil {
-		performancePlus := *source.PerformancePlus
-		data.PerformancePlus = &performancePlus
-	} else {
-		data.PerformancePlus = nil
-	}
-
-	// ProvisionedBandwidthCopySpeed
-	if source.ProvisionedBandwidthCopySpeed != nil {
-		provisionedBandwidthCopySpeed := genruntime.ToEnum(string(*source.ProvisionedBandwidthCopySpeed), provisionedBandwidthCopyOption_Values)
-		data.ProvisionedBandwidthCopySpeed = &provisionedBandwidthCopySpeed
-	} else {
-		data.ProvisionedBandwidthCopySpeed = nil
-	}
-
-	// SecurityDataUri
-	data.SecurityDataUri = genruntime.ClonePointerToString(source.SecurityDataUri)
-
-	// SourceResourceReference
-	if source.SourceResourceId != nil {
-		sourceResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.SourceResourceId)
-		data.SourceResourceReference = &sourceResourceReference
-	} else {
-		data.SourceResourceReference = nil
-	}
-
-	// SourceUri
-	data.SourceUri = genruntime.ClonePointerToString(source.SourceUri)
-
-	// StorageAccountId
-	data.StorageAccountId = genruntime.ClonePointerToString(source.StorageAccountId)
-
-	// UploadSizeBytes
-	data.UploadSizeBytes = genruntime.ClonePointerToInt(source.UploadSizeBytes)
-
-	// No error
-	return nil
-}
-
 // Data used when creating a disk.
 type CreationData_STATUS struct {
 	// CreateOption: This enumerates the possible sources of a disk's creation.
@@ -3996,25 +3700,6 @@ func (plan *DiskPurchasePlan) AssignProperties_To_DiskPurchasePlan(destination *
 	return nil
 }
 
-// Initialize_From_DiskPurchasePlan_STATUS populates our DiskPurchasePlan from the provided source DiskPurchasePlan_STATUS
-func (plan *DiskPurchasePlan) Initialize_From_DiskPurchasePlan_STATUS(source *DiskPurchasePlan_STATUS) error {
-
-	// Name
-	plan.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Product
-	plan.Product = genruntime.ClonePointerToString(source.Product)
-
-	// PromotionCode
-	plan.PromotionCode = genruntime.ClonePointerToString(source.PromotionCode)
-
-	// Publisher
-	plan.Publisher = genruntime.ClonePointerToString(source.Publisher)
-
-	// No error
-	return nil
-}
-
 // Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
 type DiskPurchasePlan_STATUS struct {
 	// Name: The plan ID.
@@ -4241,29 +3926,6 @@ func (profile *DiskSecurityProfile) AssignProperties_To_DiskSecurityProfile(dest
 	return nil
 }
 
-// Initialize_From_DiskSecurityProfile_STATUS populates our DiskSecurityProfile from the provided source DiskSecurityProfile_STATUS
-func (profile *DiskSecurityProfile) Initialize_From_DiskSecurityProfile_STATUS(source *DiskSecurityProfile_STATUS) error {
-
-	// SecureVMDiskEncryptionSetReference
-	if source.SecureVMDiskEncryptionSetId != nil {
-		secureVMDiskEncryptionSetReference := genruntime.CreateResourceReferenceFromARMID(*source.SecureVMDiskEncryptionSetId)
-		profile.SecureVMDiskEncryptionSetReference = &secureVMDiskEncryptionSetReference
-	} else {
-		profile.SecureVMDiskEncryptionSetReference = nil
-	}
-
-	// SecurityType
-	if source.SecurityType != nil {
-		securityType := genruntime.ToEnum(string(*source.SecurityType), diskSecurityTypes_Values)
-		profile.SecurityType = &securityType
-	} else {
-		profile.SecurityType = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Contains the security related information for the resource.
 type DiskSecurityProfile_STATUS struct {
 	// SecureVMDiskEncryptionSetId: ResourceId of the disk encryption set associated to Confidential VM supported disk
@@ -4436,21 +4098,6 @@ func (diskSku *DiskSku) AssignProperties_To_DiskSku(destination *storage.DiskSku
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DiskSku_STATUS populates our DiskSku from the provided source DiskSku_STATUS
-func (diskSku *DiskSku) Initialize_From_DiskSku_STATUS(source *DiskSku_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), diskStorageAccountTypes_Values)
-		diskSku.Name = &name
-	} else {
-		diskSku.Name = nil
 	}
 
 	// No error
@@ -4685,29 +4332,6 @@ func (encryption *Encryption) AssignProperties_To_Encryption(destination *storag
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Encryption_STATUS populates our Encryption from the provided source Encryption_STATUS
-func (encryption *Encryption) Initialize_From_Encryption_STATUS(source *Encryption_STATUS) error {
-
-	// DiskEncryptionSetReference
-	if source.DiskEncryptionSetId != nil {
-		diskEncryptionSetReference := genruntime.CreateResourceReferenceFromARMID(*source.DiskEncryptionSetId)
-		encryption.DiskEncryptionSetReference = &diskEncryptionSetReference
-	} else {
-		encryption.DiskEncryptionSetReference = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), encryptionType_Values)
-		encryption.Type = &typeVar
-	} else {
-		encryption.Type = nil
 	}
 
 	// No error
@@ -4964,40 +4588,6 @@ func (collection *EncryptionSettingsCollection) AssignProperties_To_EncryptionSe
 	return nil
 }
 
-// Initialize_From_EncryptionSettingsCollection_STATUS populates our EncryptionSettingsCollection from the provided source EncryptionSettingsCollection_STATUS
-func (collection *EncryptionSettingsCollection) Initialize_From_EncryptionSettingsCollection_STATUS(source *EncryptionSettingsCollection_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		collection.Enabled = &enabled
-	} else {
-		collection.Enabled = nil
-	}
-
-	// EncryptionSettings
-	if source.EncryptionSettings != nil {
-		encryptionSettingList := make([]EncryptionSettingsElement, len(source.EncryptionSettings))
-		for encryptionSettingIndex, encryptionSettingItem := range source.EncryptionSettings {
-			var encryptionSetting EncryptionSettingsElement
-			err := encryptionSetting.Initialize_From_EncryptionSettingsElement_STATUS(&encryptionSettingItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_EncryptionSettingsElement_STATUS() to populate field EncryptionSettings")
-			}
-			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
-		}
-		collection.EncryptionSettings = encryptionSettingList
-	} else {
-		collection.EncryptionSettings = nil
-	}
-
-	// EncryptionSettingsVersion
-	collection.EncryptionSettingsVersion = genruntime.ClonePointerToString(source.EncryptionSettingsVersion)
-
-	// No error
-	return nil
-}
-
 // Encryption settings for disk or snapshot
 type EncryptionSettingsCollection_STATUS struct {
 	// Enabled: Set this flag to true and provide DiskEncryptionKey and optional KeyEncryptionKey to enable encryption. Set
@@ -5240,24 +4830,6 @@ func (location *ExtendedLocation) AssignProperties_To_ExtendedLocation(destinati
 	return nil
 }
 
-// Initialize_From_ExtendedLocation_STATUS populates our ExtendedLocation from the provided source ExtendedLocation_STATUS
-func (location *ExtendedLocation) Initialize_From_ExtendedLocation_STATUS(source *ExtendedLocation_STATUS) error {
-
-	// Name
-	location.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), extendedLocationType_Values)
-		location.Type = &typeVar
-	} else {
-		location.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The complex type of the extended location.
 type ExtendedLocation_STATUS struct {
 	// Name: The name of the extended location.
@@ -5345,7 +4917,7 @@ func (location *ExtendedLocation_STATUS) AssignProperties_To_ExtendedLocation_ST
 	return nil
 }
 
-// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+// The hypervisor generation of the Virtual Machine.
 // +kubebuilder:validation:Enum={"V1","V2"}
 type HyperVGeneration string
 
@@ -5360,7 +4932,7 @@ var hyperVGeneration_Values = map[string]HyperVGeneration{
 	"v2": HyperVGeneration_V2,
 }
 
-// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+// The hypervisor generation of the Virtual Machine.
 type HyperVGeneration_STATUS string
 
 const (
@@ -5407,7 +4979,8 @@ var networkAccessPolicy_STATUS_Values = map[string]NetworkAccessPolicy_STATUS{
 	"denyall":      NetworkAccessPolicy_STATUS_DenyAll,
 }
 
-// The Operating System type.
+// This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or
+// a specialized VHD. Possible values are: Windows, Linux.
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type OperatingSystemTypes string
 
@@ -5422,7 +4995,8 @@ var operatingSystemTypes_Values = map[string]OperatingSystemTypes{
 	"windows": OperatingSystemTypes_Windows,
 }
 
-// The Operating System type.
+// This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or
+// a specialized VHD. Possible values are: Windows, Linux.
 type OperatingSystemTypes_STATUS string
 
 const (
@@ -5718,32 +5292,6 @@ func (capabilities *SupportedCapabilities) AssignProperties_To_SupportedCapabili
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SupportedCapabilities_STATUS populates our SupportedCapabilities from the provided source SupportedCapabilities_STATUS
-func (capabilities *SupportedCapabilities) Initialize_From_SupportedCapabilities_STATUS(source *SupportedCapabilities_STATUS) error {
-
-	// AcceleratedNetwork
-	if source.AcceleratedNetwork != nil {
-		acceleratedNetwork := *source.AcceleratedNetwork
-		capabilities.AcceleratedNetwork = &acceleratedNetwork
-	} else {
-		capabilities.AcceleratedNetwork = nil
-	}
-
-	// Architecture
-	if source.Architecture != nil {
-		architecture := genruntime.ToEnum(string(*source.Architecture), architecture_Values)
-		capabilities.Architecture = &architecture
-	} else {
-		capabilities.Architecture = nil
-	}
-
-	// DiskControllerTypes
-	capabilities.DiskControllerTypes = genruntime.ClonePointerToString(source.DiskControllerTypes)
 
 	// No error
 	return nil
@@ -6355,37 +5903,6 @@ func (element *EncryptionSettingsElement) AssignProperties_To_EncryptionSettings
 	return nil
 }
 
-// Initialize_From_EncryptionSettingsElement_STATUS populates our EncryptionSettingsElement from the provided source EncryptionSettingsElement_STATUS
-func (element *EncryptionSettingsElement) Initialize_From_EncryptionSettingsElement_STATUS(source *EncryptionSettingsElement_STATUS) error {
-
-	// DiskEncryptionKey
-	if source.DiskEncryptionKey != nil {
-		var diskEncryptionKey KeyVaultAndSecretReference
-		err := diskEncryptionKey.Initialize_From_KeyVaultAndSecretReference_STATUS(source.DiskEncryptionKey)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KeyVaultAndSecretReference_STATUS() to populate field DiskEncryptionKey")
-		}
-		element.DiskEncryptionKey = &diskEncryptionKey
-	} else {
-		element.DiskEncryptionKey = nil
-	}
-
-	// KeyEncryptionKey
-	if source.KeyEncryptionKey != nil {
-		var keyEncryptionKey KeyVaultAndKeyReference
-		err := keyEncryptionKey.Initialize_From_KeyVaultAndKeyReference_STATUS(source.KeyEncryptionKey)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KeyVaultAndKeyReference_STATUS() to populate field KeyEncryptionKey")
-		}
-		element.KeyEncryptionKey = &keyEncryptionKey
-	} else {
-		element.KeyEncryptionKey = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Encryption settings for one disk volume.
 type EncryptionSettingsElement_STATUS struct {
 	// DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
@@ -6710,30 +6227,6 @@ func (reference *ImageDiskReference) AssignProperties_To_ImageDiskReference(dest
 	return nil
 }
 
-// Initialize_From_ImageDiskReference_STATUS populates our ImageDiskReference from the provided source ImageDiskReference_STATUS
-func (reference *ImageDiskReference) Initialize_From_ImageDiskReference_STATUS(source *ImageDiskReference_STATUS) error {
-
-	// CommunityGalleryImageId
-	reference.CommunityGalleryImageId = genruntime.ClonePointerToString(source.CommunityGalleryImageId)
-
-	// Lun
-	reference.Lun = genruntime.ClonePointerToInt(source.Lun)
-
-	// Reference
-	if source.Id != nil {
-		referenceTemp := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
-	}
-
-	// SharedGalleryImageId
-	reference.SharedGalleryImageId = genruntime.ClonePointerToString(source.SharedGalleryImageId)
-
-	// No error
-	return nil
-}
-
 // The source image used for creating the disk.
 type ImageDiskReference_STATUS struct {
 	// CommunityGalleryImageId: A relative uri containing a community Azure Compute Gallery image reference.
@@ -7026,28 +6519,6 @@ func (reference *KeyVaultAndKeyReference) AssignProperties_To_KeyVaultAndKeyRefe
 	return nil
 }
 
-// Initialize_From_KeyVaultAndKeyReference_STATUS populates our KeyVaultAndKeyReference from the provided source KeyVaultAndKeyReference_STATUS
-func (reference *KeyVaultAndKeyReference) Initialize_From_KeyVaultAndKeyReference_STATUS(source *KeyVaultAndKeyReference_STATUS) error {
-
-	// KeyUrl
-	reference.KeyUrl = genruntime.ClonePointerToString(source.KeyUrl)
-
-	// SourceVault
-	if source.SourceVault != nil {
-		var sourceVault SourceVault
-		err := sourceVault.Initialize_From_SourceVault_STATUS(source.SourceVault)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SourceVault_STATUS() to populate field SourceVault")
-		}
-		reference.SourceVault = &sourceVault
-	} else {
-		reference.SourceVault = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Key Vault Key Url and vault id of KeK, KeK is optional and when provided is used to unwrap the encryptionKey
 type KeyVaultAndKeyReference_STATUS struct {
 	// KeyUrl: Url pointing to a key or secret in KeyVault
@@ -7263,28 +6734,6 @@ func (reference *KeyVaultAndSecretReference) AssignProperties_To_KeyVaultAndSecr
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KeyVaultAndSecretReference_STATUS populates our KeyVaultAndSecretReference from the provided source KeyVaultAndSecretReference_STATUS
-func (reference *KeyVaultAndSecretReference) Initialize_From_KeyVaultAndSecretReference_STATUS(source *KeyVaultAndSecretReference_STATUS) error {
-
-	// SecretUrl
-	reference.SecretUrl = genruntime.ClonePointerToString(source.SecretUrl)
-
-	// SourceVault
-	if source.SourceVault != nil {
-		var sourceVault SourceVault
-		err := sourceVault.Initialize_From_SourceVault_STATUS(source.SourceVault)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SourceVault_STATUS() to populate field SourceVault")
-		}
-		reference.SourceVault = &sourceVault
-	} else {
-		reference.SourceVault = nil
 	}
 
 	// No error

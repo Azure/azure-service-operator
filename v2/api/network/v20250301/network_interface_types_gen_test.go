@@ -20,6 +20,11 @@ import (
 
 func Test_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -62,6 +67,11 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_NetworkInt
 
 func Test_ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -117,6 +127,11 @@ func ApplicationGatewayBackendAddressPool_NetworkInterface_SubResourceEmbeddedGe
 
 func Test_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -159,6 +174,11 @@ func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPool_STATUS_Net
 
 func Test_ApplicationGatewayBackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -221,6 +241,11 @@ func AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPool_STA
 
 func Test_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -263,6 +288,11 @@ func RunPropertyAssignmentTestForApplicationSecurityGroupSpec_NetworkInterface_S
 
 func Test_ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -318,6 +348,11 @@ func ApplicationSecurityGroupSpec_NetworkInterface_SubResourceEmbeddedGenerator(
 
 func Test_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -360,6 +395,11 @@ func RunPropertyAssignmentTestForApplicationSecurityGroup_STATUS_NetworkInterfac
 
 func Test_ApplicationSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -421,6 +461,11 @@ func AddIndependentPropertyGeneratorsForApplicationSecurityGroup_STATUS_NetworkI
 
 func Test_BackendAddressPool_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -463,6 +508,11 @@ func RunPropertyAssignmentTestForBackendAddressPool_NetworkInterface_SubResource
 
 func Test_BackendAddressPool_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -518,6 +568,11 @@ func BackendAddressPool_NetworkInterface_SubResourceEmbeddedGenerator() gopter.G
 
 func Test_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -560,6 +615,11 @@ func RunPropertyAssignmentTestForBackendAddressPool_STATUS_NetworkInterface_SubR
 
 func Test_BackendAddressPool_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -621,6 +681,11 @@ func AddIndependentPropertyGeneratorsForBackendAddressPool_STATUS_NetworkInterfa
 
 func Test_InboundNatRule_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -663,6 +728,11 @@ func RunPropertyAssignmentTestForInboundNatRule_NetworkInterface_SubResourceEmbe
 
 func Test_InboundNatRule_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -718,6 +788,11 @@ func InboundNatRule_NetworkInterface_SubResourceEmbeddedGenerator() gopter.Gen {
 
 func Test_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -760,6 +835,11 @@ func RunPropertyAssignmentTestForInboundNatRule_STATUS_NetworkInterface_SubResou
 
 func Test_InboundNatRule_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -821,6 +901,11 @@ func AddIndependentPropertyGeneratorsForInboundNatRule_STATUS_NetworkInterface_S
 
 func Test_NetworkInterface_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -864,6 +949,11 @@ func RunResourceConversionTestForNetworkInterface(subject NetworkInterface) stri
 
 func Test_NetworkInterface_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -906,6 +996,11 @@ func RunPropertyAssignmentTestForNetworkInterface(subject NetworkInterface) stri
 
 func Test_NetworkInterface_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -967,6 +1062,11 @@ func AddRelatedPropertyGeneratorsForNetworkInterface(gens map[string]gopter.Gen)
 
 func Test_NetworkInterfaceDnsSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1009,6 +1109,11 @@ func RunPropertyAssignmentTestForNetworkInterfaceDnsSettings(subject NetworkInte
 
 func Test_NetworkInterfaceDnsSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1071,6 +1176,11 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceDnsSettings(gens map[str
 
 func Test_NetworkInterfaceDnsSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1113,6 +1223,11 @@ func RunPropertyAssignmentTestForNetworkInterfaceDnsSettings_STATUS(subject Netw
 
 func Test_NetworkInterfaceDnsSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1178,6 +1293,11 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceDnsSettings_STATUS(gens 
 
 func Test_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1220,6 +1340,11 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConne
 
 func Test_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1283,6 +1408,11 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPrivateLi
 
 func Test_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1325,6 +1455,11 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_NetworkInterfac
 
 func Test_NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1412,6 +1547,11 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfiguration_NetworkInter
 
 func Test_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1454,6 +1594,11 @@ func RunPropertyAssignmentTestForNetworkInterfaceIPConfiguration_STATUS_NetworkI
 
 func Test_NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1550,6 +1695,11 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfiguration_STATUS_Netwo
 
 func Test_NetworkInterfaceOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1592,6 +1742,11 @@ func RunPropertyAssignmentTestForNetworkInterfaceOperatorSpec(subject NetworkInt
 
 func Test_NetworkInterfaceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1647,6 +1802,11 @@ func NetworkInterfaceOperatorSpecGenerator() gopter.Gen {
 
 func Test_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1689,6 +1849,11 @@ func RunPropertyAssignmentTestForNetworkInterfaceTapConfiguration_STATUS_Network
 
 func Test_NetworkInterfaceTapConfiguration_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1750,6 +1915,11 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceTapConfiguration_STATUS_
 
 func Test_NetworkInterface_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1792,6 +1962,11 @@ func RunPropertyAssignmentTestForNetworkInterface_STATUS(subject NetworkInterfac
 
 func Test_NetworkInterface_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1915,6 +2090,11 @@ func AddRelatedPropertyGeneratorsForNetworkInterface_STATUS(gens map[string]gopt
 
 func Test_NetworkInterface_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1957,6 +2137,11 @@ func RunPropertyAssignmentTestForNetworkInterface_Spec(subject NetworkInterface_
 
 func Test_NetworkInterface_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2057,6 +2242,11 @@ func AddRelatedPropertyGeneratorsForNetworkInterface_Spec(gens map[string]gopter
 
 func Test_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2099,6 +2289,11 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupSpec_NetworkInterface_SubRe
 
 func Test_NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2154,6 +2349,11 @@ func NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbeddedGenerator() go
 
 func Test_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2196,6 +2396,11 @@ func RunPropertyAssignmentTestForNetworkSecurityGroup_STATUS_NetworkInterface_Su
 
 func Test_NetworkSecurityGroup_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2257,6 +2462,11 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroup_STATUS_NetworkInter
 
 func Test_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2299,6 +2509,11 @@ func RunPropertyAssignmentTestForPrivateEndpoint_STATUS_NetworkInterface_SubReso
 
 func Test_PrivateEndpoint_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2360,6 +2575,11 @@ func AddIndependentPropertyGeneratorsForPrivateEndpoint_STATUS_NetworkInterface_
 
 func Test_PrivateLinkServiceSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2402,6 +2622,11 @@ func RunPropertyAssignmentTestForPrivateLinkServiceSpec(subject PrivateLinkServi
 
 func Test_PrivateLinkServiceSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2457,6 +2682,11 @@ func PrivateLinkServiceSpecGenerator() gopter.Gen {
 
 func Test_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2499,6 +2729,11 @@ func RunPropertyAssignmentTestForPrivateLinkService_STATUS_NetworkInterface_SubR
 
 func Test_PrivateLinkService_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2560,6 +2795,11 @@ func AddIndependentPropertyGeneratorsForPrivateLinkService_STATUS_NetworkInterfa
 
 func Test_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2602,6 +2842,11 @@ func RunPropertyAssignmentTestForPublicIPAddressSpec_NetworkInterface_SubResourc
 
 func Test_PublicIPAddressSpec_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2657,6 +2902,11 @@ func PublicIPAddressSpec_NetworkInterface_SubResourceEmbeddedGenerator() gopter.
 
 func Test_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2699,6 +2949,11 @@ func RunPropertyAssignmentTestForPublicIPAddress_STATUS_NetworkInterface_SubReso
 
 func Test_PublicIPAddress_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2760,6 +3015,11 @@ func AddIndependentPropertyGeneratorsForPublicIPAddress_STATUS_NetworkInterface_
 
 func Test_Subnet_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2802,6 +3062,11 @@ func RunPropertyAssignmentTestForSubnet_NetworkInterface_SubResourceEmbedded(sub
 
 func Test_Subnet_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2857,6 +3122,11 @@ func Subnet_NetworkInterface_SubResourceEmbeddedGenerator() gopter.Gen {
 
 func Test_Subnet_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -2899,6 +3169,11 @@ func RunPropertyAssignmentTestForSubnet_STATUS_NetworkInterface_SubResourceEmbed
 
 func Test_Subnet_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2960,6 +3235,11 @@ func AddIndependentPropertyGeneratorsForSubnet_STATUS_NetworkInterface_SubResour
 
 func Test_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -3002,6 +3282,11 @@ func RunPropertyAssignmentTestForVirtualNetworkTapSpec_NetworkInterface_SubResou
 
 func Test_VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -3057,6 +3342,11 @@ func VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbeddedGenerator() gopte
 
 func Test_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -3099,6 +3389,11 @@ func RunPropertyAssignmentTestForVirtualNetworkTap_STATUS_NetworkInterface_SubRe
 
 func Test_VirtualNetworkTap_STATUS_NetworkInterface_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

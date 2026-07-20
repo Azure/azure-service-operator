@@ -43,6 +43,7 @@ var wholeSampleExclusions = []*regexp.Regexp{
 	regexp.MustCompile(`/subscription/`),                        // Can't easily be run/recorded in our standard subscription
 	regexp.MustCompile(`/redhatopenshift/`),                     // This requires SP creation
 	regexp.MustCompile(`/documentdb/sqldatabase/v1api20210515`), // This is blocked by corp policy (can't set DisableLocalAuth)
+	regexp.MustCompile(`/compute/v20250401`),                    // Quota restrictions mean we can't rerecord capacity reservation
 }
 
 var exclusions = []*regexp.Regexp{
@@ -50,6 +51,11 @@ var exclusions = []*regexp.Regexp{
 	// Individual resource exclusions
 	// ------------------------------
 	regexp.MustCompile(`insights/.*_webtest.yaml`), // Excluding webtest as it contains hidden link reference
+
+	// Classic CDN endpoint (Microsoft.Cdn/profiles/endpoints) can only be created under a classic Microsoft
+	// CDN profile, and Azure no longer allows creating new classic Microsoft CDN profiles. Keep the sample
+	// file present so scripts/v2/check_samples.py is satisfied, but skip it in the samples test.
+	regexp.MustCompile(`cdn/v.*20210601/.*_profilesendpoint.yaml`),
 
 	// db users aren't ARM resources
 	regexp.MustCompile(`sql/.*_user.yaml`),
@@ -116,9 +122,6 @@ var exclusions = []*regexp.Regexp{
 
 	// Excluding quota as Azure Quota API does not support deletion - quotas are read-only system resources
 	regexp.MustCompile(`quota/.*_quota.yaml`),
-
-	// Excluding flexible servers administrator as we don't currently support AzureNameFromConfig and it is required for the sample
-	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversadministrator.yaml`),
 }
 
 // referenceKey identifies a resource by its Kind and Name for rename tracking.

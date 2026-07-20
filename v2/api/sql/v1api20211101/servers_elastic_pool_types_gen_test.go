@@ -5,7 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_ElasticPoolPerDatabaseSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -35,7 +41,7 @@ func RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings(subject ElasticP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ElasticPoolPerDatabaseSettings
+	var other sql_v1api20211101s.ElasticPoolPerDatabaseSettings
 	err := copied.AssignProperties_To_ElasticPoolPerDatabaseSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -62,6 +68,11 @@ func RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings(subject ElasticP
 
 func Test_ElasticPoolPerDatabaseSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -124,6 +135,11 @@ func AddIndependentPropertyGeneratorsForElasticPoolPerDatabaseSettings(gens map[
 
 func Test_ElasticPoolPerDatabaseSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -139,7 +155,7 @@ func RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings_STATUS(subject E
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ElasticPoolPerDatabaseSettings_STATUS
+	var other sql_v1api20211101s.ElasticPoolPerDatabaseSettings_STATUS
 	err := copied.AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -166,6 +182,11 @@ func RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings_STATUS(subject E
 
 func Test_ElasticPoolPerDatabaseSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -228,6 +249,11 @@ func AddIndependentPropertyGeneratorsForElasticPoolPerDatabaseSettings_STATUS(ge
 
 func Test_ServersElasticPool_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -244,7 +270,7 @@ func RunResourceConversionTestForServersElasticPool(subject ServersElasticPool) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersElasticPool
+	var hub sql_v20211101s.ServersElasticPool
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -271,6 +297,11 @@ func RunResourceConversionTestForServersElasticPool(subject ServersElasticPool) 
 
 func Test_ServersElasticPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -286,7 +317,7 @@ func RunPropertyAssignmentTestForServersElasticPool(subject ServersElasticPool) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersElasticPool
+	var other sql_v1api20211101s.ServersElasticPool
 	err := copied.AssignProperties_To_ServersElasticPool(&other)
 	if err != nil {
 		return err.Error()
@@ -313,6 +344,11 @@ func RunPropertyAssignmentTestForServersElasticPool(subject ServersElasticPool) 
 
 func Test_ServersElasticPool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -374,6 +410,11 @@ func AddRelatedPropertyGeneratorsForServersElasticPool(gens map[string]gopter.Ge
 
 func Test_ServersElasticPoolOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -389,7 +430,7 @@ func RunPropertyAssignmentTestForServersElasticPoolOperatorSpec(subject ServersE
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersElasticPoolOperatorSpec
+	var other sql_v1api20211101s.ServersElasticPoolOperatorSpec
 	err := copied.AssignProperties_To_ServersElasticPoolOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -416,6 +457,11 @@ func RunPropertyAssignmentTestForServersElasticPoolOperatorSpec(subject ServersE
 
 func Test_ServersElasticPoolOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -471,6 +517,11 @@ func ServersElasticPoolOperatorSpecGenerator() gopter.Gen {
 
 func Test_ServersElasticPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -486,7 +537,7 @@ func RunPropertyAssignmentTestForServersElasticPool_STATUS(subject ServersElasti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersElasticPool_STATUS
+	var other sql_v1api20211101s.ServersElasticPool_STATUS
 	err := copied.AssignProperties_To_ServersElasticPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -513,6 +564,11 @@ func RunPropertyAssignmentTestForServersElasticPool_STATUS(subject ServersElasti
 
 func Test_ServersElasticPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -604,6 +660,11 @@ func AddRelatedPropertyGeneratorsForServersElasticPool_STATUS(gens map[string]go
 
 func Test_ServersElasticPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -619,7 +680,7 @@ func RunPropertyAssignmentTestForServersElasticPool_Spec(subject ServersElasticP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersElasticPool_Spec
+	var other sql_v1api20211101s.ServersElasticPool_Spec
 	err := copied.AssignProperties_To_ServersElasticPool_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -646,6 +707,11 @@ func RunPropertyAssignmentTestForServersElasticPool_Spec(subject ServersElasticP
 
 func Test_ServersElasticPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

@@ -143,7 +143,7 @@ type Condition struct {
 
 	// FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
 	// alert. Relevant only for rules of the kind LogAlert.
-	FailingPeriods *Condition_FailingPeriods `json:"failingPeriods,omitempty"`
+	FailingPeriods *ConditionFailingPeriods `json:"failingPeriods,omitempty"`
 
 	// MetricMeasureColumn: The column containing the metric measure number. Relevant only for rules of the kind LogAlert.
 	MetricMeasureColumn *string `json:"metricMeasureColumn,omitempty"`
@@ -167,16 +167,6 @@ type Condition struct {
 
 	// TimeAggregation: Aggregation type. Relevant and required only for rules of the kind LogAlert.
 	TimeAggregation *Condition_TimeAggregation `json:"timeAggregation,omitempty"`
-}
-
-type Condition_FailingPeriods struct {
-	// MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
-	// numberOfEvaluationPeriods. Default value is 1
-	MinFailingPeriodsToAlert *int `json:"minFailingPeriodsToAlert,omitempty"`
-
-	// NumberOfEvaluationPeriods: The number of aggregated lookback points. The lookback time window is calculated based on the
-	// aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1
-	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Equals","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual"}
@@ -217,6 +207,16 @@ var condition_TimeAggregation_Values = map[string]Condition_TimeAggregation{
 	"maximum": Condition_TimeAggregation_Maximum,
 	"minimum": Condition_TimeAggregation_Minimum,
 	"total":   Condition_TimeAggregation_Total,
+}
+
+type ConditionFailingPeriods struct {
+	// MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
+	// numberOfEvaluationPeriods. Default value is 1
+	MinFailingPeriodsToAlert *int `json:"minFailingPeriodsToAlert,omitempty"`
+
+	// NumberOfEvaluationPeriods: The number of aggregated lookback points. The lookback time window is calculated based on the
+	// aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1
+	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
 }
 
 // Dimension splitting and filtering definition

@@ -253,12 +253,12 @@ func (in *RedisEnterpriseDatabaseOperatorSecrets) DeepCopyInto(out *RedisEnterpr
 	if in.PrimaryKey != nil {
 		in, out := &in.PrimaryKey, &out.PrimaryKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.SecondaryKey != nil {
 		in, out := &in.SecondaryKey, &out.SecondaryKey
 		*out = new(genruntime.SecretDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -282,7 +282,7 @@ func (in *RedisEnterpriseDatabaseOperatorSpec) DeepCopyInto(out *RedisEnterprise
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -293,7 +293,7 @@ func (in *RedisEnterpriseDatabaseOperatorSpec) DeepCopyInto(out *RedisEnterprise
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -492,7 +492,7 @@ func (in *RedisEnterpriseOperatorSpec) DeepCopyInto(out *RedisEnterpriseOperator
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -503,7 +503,7 @@ func (in *RedisEnterpriseOperatorSpec) DeepCopyInto(out *RedisEnterpriseOperator
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

@@ -7,6 +7,9 @@ on:
     # 5:35 pm every Sunday (UTC)
     # to ensure the images are never too stale
     - cron: "35 17 * * 0"
+
+permissions: {}
+
 jobs:
   render:
     
@@ -28,7 +31,7 @@ jobs:
           private-key: ${{ secrets.AUTOMATION_KEY }}
           
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # pinned to 7.0.0
         with:
           ref: main
 
@@ -40,7 +43,7 @@ jobs:
           branch: "bot/update-diagrams"
 
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # pinned to 7.0.0
         with:
           ref: bot/update-diagrams
 
@@ -80,7 +83,7 @@ jobs:
           branch: bot/update-diagrams
           base: main
           delete-branch: true
-          title: "[Automated] Update Code Structure Diagrams"
+          title: "chore: Update Code Structure Diagrams [Automated]"
           body: |
             Update visualisation diagrams showing the structure of ASO code
 

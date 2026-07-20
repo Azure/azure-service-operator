@@ -2513,7 +2513,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 
 	// PrimarySharedKey
 	if source.PrimarySharedKey != nil {
-		primarySharedKey := source.PrimarySharedKey.Copy()
+		primarySharedKey := *source.PrimarySharedKey.DeepCopy()
 		secrets.PrimarySharedKey = &primarySharedKey
 	} else {
 		secrets.PrimarySharedKey = nil
@@ -2521,7 +2521,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_From_WorkspaceOperator
 
 	// SecondarySharedKey
 	if source.SecondarySharedKey != nil {
-		secondarySharedKey := source.SecondarySharedKey.Copy()
+		secondarySharedKey := *source.SecondarySharedKey.DeepCopy()
 		secrets.SecondarySharedKey = &secondarySharedKey
 	} else {
 		secrets.SecondarySharedKey = nil
@@ -2538,7 +2538,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSe
 
 	// PrimarySharedKey
 	if secrets.PrimarySharedKey != nil {
-		primarySharedKey := secrets.PrimarySharedKey.Copy()
+		primarySharedKey := *secrets.PrimarySharedKey.DeepCopy()
 		destination.PrimarySharedKey = &primarySharedKey
 	} else {
 		destination.PrimarySharedKey = nil
@@ -2546,7 +2546,7 @@ func (secrets *WorkspaceOperatorSecrets) AssignProperties_To_WorkspaceOperatorSe
 
 	// SecondarySharedKey
 	if secrets.SecondarySharedKey != nil {
-		secondarySharedKey := secrets.SecondarySharedKey.Copy()
+		secondarySharedKey := *secrets.SecondarySharedKey.DeepCopy()
 		destination.SecondarySharedKey = &secondarySharedKey
 	} else {
 		destination.SecondarySharedKey = nil

@@ -12,8 +12,7 @@ import (
 
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401"
-	cache20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v20250401"
+	cache "github.com/Azure/azure-service-operator/v2/api/cache/v20250401"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -181,12 +180,12 @@ func RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc *testcommo
 		},
 	}
 
-	assignment := cache20250401.RedisEnterpriseDatabaseAccessPolicyAssignment{
+	assignment := cache.RedisEnterpriseDatabaseAccessPolicyAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(assignmentName),
-		Spec: cache20250401.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec{
+		Spec: cache.RedisEnterpriseDatabaseAccessPolicyAssignment_Spec{
 			Owner:            testcommon.AsOwner(&db),
 			AccessPolicyName: to.Ptr("default"),
-			User: &cache20250401.AccessPolicyAssignmentProperties_User{
+			User: &cache.AccessPolicyAssignmentProperties_User{
 				ObjectIdFromConfig: &genruntime.ConfigMapReference{
 					Name: configMapName,
 					Key:  principalIdKey,
@@ -213,7 +212,7 @@ func RedisEnterprise_Database_AccessPolicyAssignment_20250401_CRUD(tc *testcommo
 	assignmentARMID := *assignment.Status.Id
 
 	tc.DeleteResourceAndWait(&assignment)
-	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, assignmentARMID, string(cache20250401.APIVersion_Value))
+	exists, retryAfter, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, assignmentARMID, string(cache.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

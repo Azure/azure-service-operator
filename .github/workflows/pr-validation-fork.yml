@@ -4,17 +4,21 @@ on:
   repository_dispatch:
     types: [ok-to-test-command]
 
+permissions: {}
+
 jobs:
   integration-tests-fork:
     runs-on: [self-hosted, 1ES.Pool=aso-1es-pool, "JobId=integrationfork-${{ github.run_id }}-${{ github.run_number }}-${{ github.run_attempt }}"]
     if:
       github.event_name == 'repository_dispatch' &&
       github.event.client_payload.slash_command.args.named.sha != '' &&
-      contains(github.event.client_payload.pull_request.head.sha, github.event.client_payload.slash_command.args.named.sha)
+      github.event.client_payload.pull_request.head.sha == github.event.client_payload.slash_command.args.named.sha
 
     permissions:
       checks: write
+      contents: read
       packages: read
+      pull-requests: read
 
     steps:
       # Create check called "integration-tests-fork", and set to in_progress
@@ -45,12 +49,41 @@ jobs:
             });
             return result;
 
+      # Verify the PR head SHA hasn't changed since /ok-to-test approval.
+      - name: Verify PR head has not changed since approval
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # pinned to v9.0.0
+        env:
+          number: ${{ github.event.client_payload.pull_request.number }}
+          approved_sha: ${{ github.event.client_payload.pull_request.head.sha }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: pull } = await github.rest.pulls.get({
+              ...context.repo,
+              pull_number: process.env.number
+            });
+            if (pull.head.sha !== process.env.approved_sha) {
+              core.setFailed(
+                `PR head SHA has changed since /ok-to-test approval. ` +
+                `Approved: ${process.env.approved_sha}, Current: ${pull.head.sha}. ` +
+                `A new /ok-to-test approval is required.`
+              );
+            }
+
       - name: Fork based /ok-to-test checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # pinned to 7.0.0
         with:
           fetch-depth: 0 # required to access tags
           submodules: 'true'
-          ref: 'refs/pull/${{ github.event.client_payload.pull_request.number }}/merge'
+          # Pin to the exact SHA that was approved via /ok-to-test
+          ref: ${{ github.event.client_payload.pull_request.head.sha }}
+
+      - name: Merge base branch for integration testing
+        run: |
+          git config user.email "ci@azure-service-operator.io"
+          git config user.name "CI"
+          git fetch origin ${{ github.event.client_payload.pull_request.base.ref }}
+          git merge --no-edit origin/${{ github.event.client_payload.pull_request.base.ref }}
 
       - name: Force docker to SSD
         run: sudo scripts/v2/linux-docker-use-ssd.sh --containerd true
@@ -60,7 +93,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # pinned to v4.2.0
+        uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # pinned to v4.4.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}

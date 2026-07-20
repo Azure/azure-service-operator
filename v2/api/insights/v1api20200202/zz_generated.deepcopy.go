@@ -81,12 +81,12 @@ func (in *ComponentOperatorConfigMaps) DeepCopyInto(out *ComponentOperatorConfig
 	if in.ConnectionString != nil {
 		in, out := &in.ConnectionString, &out.ConnectionString
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.InstrumentationKey != nil {
 		in, out := &in.InstrumentationKey, &out.InstrumentationKey
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 }
 
@@ -110,7 +110,7 @@ func (in *ComponentOperatorSpec) DeepCopyInto(out *ComponentOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -126,7 +126,7 @@ func (in *ComponentOperatorSpec) DeepCopyInto(out *ComponentOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -271,12 +271,12 @@ func (in *Component_STATUS) DeepCopyInto(out *Component_STATUS) {
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
 		in, out := &in.PublicNetworkAccessForIngestion, &out.PublicNetworkAccessForIngestion
-		*out = new(PublicNetworkAccessType_STATUS)
+		*out = new(ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion_STATUS)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForQuery != nil {
 		in, out := &in.PublicNetworkAccessForQuery, &out.PublicNetworkAccessForQuery
-		*out = new(PublicNetworkAccessType_STATUS)
+		*out = new(ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery_STATUS)
 		**out = **in
 	}
 	if in.Request_Source != nil {
@@ -398,12 +398,12 @@ func (in *Component_Spec) DeepCopyInto(out *Component_Spec) {
 	}
 	if in.PublicNetworkAccessForIngestion != nil {
 		in, out := &in.PublicNetworkAccessForIngestion, &out.PublicNetworkAccessForIngestion
-		*out = new(PublicNetworkAccessType)
+		*out = new(ApplicationInsightsComponentProperties_PublicNetworkAccessForIngestion)
 		**out = **in
 	}
 	if in.PublicNetworkAccessForQuery != nil {
 		in, out := &in.PublicNetworkAccessForQuery, &out.PublicNetworkAccessForQuery
-		*out = new(PublicNetworkAccessType)
+		*out = new(ApplicationInsightsComponentProperties_PublicNetworkAccessForQuery)
 		**out = **in
 	}
 	if in.Request_Source != nil {

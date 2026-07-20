@@ -4417,7 +4417,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 
 	// DevicePrimaryKey
 	if source.DevicePrimaryKey != nil {
-		devicePrimaryKey := source.DevicePrimaryKey.Copy()
+		devicePrimaryKey := *source.DevicePrimaryKey.DeepCopy()
 		secrets.DevicePrimaryKey = &devicePrimaryKey
 	} else {
 		secrets.DevicePrimaryKey = nil
@@ -4425,7 +4425,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 
 	// DeviceSecondaryKey
 	if source.DeviceSecondaryKey != nil {
-		deviceSecondaryKey := source.DeviceSecondaryKey.Copy()
+		deviceSecondaryKey := *source.DeviceSecondaryKey.DeepCopy()
 		secrets.DeviceSecondaryKey = &deviceSecondaryKey
 	} else {
 		secrets.DeviceSecondaryKey = nil
@@ -4433,7 +4433,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 
 	// IotHubOwnerPrimaryKey
 	if source.IotHubOwnerPrimaryKey != nil {
-		iotHubOwnerPrimaryKey := source.IotHubOwnerPrimaryKey.Copy()
+		iotHubOwnerPrimaryKey := *source.IotHubOwnerPrimaryKey.DeepCopy()
 		secrets.IotHubOwnerPrimaryKey = &iotHubOwnerPrimaryKey
 	} else {
 		secrets.IotHubOwnerPrimaryKey = nil
@@ -4441,7 +4441,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 
 	// IotHubOwnerSecondaryKey
 	if source.IotHubOwnerSecondaryKey != nil {
-		iotHubOwnerSecondaryKey := source.IotHubOwnerSecondaryKey.Copy()
+		iotHubOwnerSecondaryKey := *source.IotHubOwnerSecondaryKey.DeepCopy()
 		secrets.IotHubOwnerSecondaryKey = &iotHubOwnerSecondaryKey
 	} else {
 		secrets.IotHubOwnerSecondaryKey = nil
@@ -4449,7 +4449,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 
 	// RegistryReadPrimaryKey
 	if source.RegistryReadPrimaryKey != nil {
-		registryReadPrimaryKey := source.RegistryReadPrimaryKey.Copy()
+		registryReadPrimaryKey := *source.RegistryReadPrimaryKey.DeepCopy()
 		secrets.RegistryReadPrimaryKey = &registryReadPrimaryKey
 	} else {
 		secrets.RegistryReadPrimaryKey = nil
@@ -4457,7 +4457,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 
 	// RegistryReadSecondaryKey
 	if source.RegistryReadSecondaryKey != nil {
-		registryReadSecondaryKey := source.RegistryReadSecondaryKey.Copy()
+		registryReadSecondaryKey := *source.RegistryReadSecondaryKey.DeepCopy()
 		secrets.RegistryReadSecondaryKey = &registryReadSecondaryKey
 	} else {
 		secrets.RegistryReadSecondaryKey = nil
@@ -4465,7 +4465,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 
 	// RegistryReadWritePrimaryKey
 	if source.RegistryReadWritePrimaryKey != nil {
-		registryReadWritePrimaryKey := source.RegistryReadWritePrimaryKey.Copy()
+		registryReadWritePrimaryKey := *source.RegistryReadWritePrimaryKey.DeepCopy()
 		secrets.RegistryReadWritePrimaryKey = &registryReadWritePrimaryKey
 	} else {
 		secrets.RegistryReadWritePrimaryKey = nil
@@ -4473,7 +4473,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 
 	// RegistryReadWriteSecondaryKey
 	if source.RegistryReadWriteSecondaryKey != nil {
-		registryReadWriteSecondaryKey := source.RegistryReadWriteSecondaryKey.Copy()
+		registryReadWriteSecondaryKey := *source.RegistryReadWriteSecondaryKey.DeepCopy()
 		secrets.RegistryReadWriteSecondaryKey = &registryReadWriteSecondaryKey
 	} else {
 		secrets.RegistryReadWriteSecondaryKey = nil
@@ -4481,7 +4481,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 
 	// ServicePrimaryKey
 	if source.ServicePrimaryKey != nil {
-		servicePrimaryKey := source.ServicePrimaryKey.Copy()
+		servicePrimaryKey := *source.ServicePrimaryKey.DeepCopy()
 		secrets.ServicePrimaryKey = &servicePrimaryKey
 	} else {
 		secrets.ServicePrimaryKey = nil
@@ -4489,7 +4489,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_From_IotHubOperatorSecret
 
 	// ServiceSecondaryKey
 	if source.ServiceSecondaryKey != nil {
-		serviceSecondaryKey := source.ServiceSecondaryKey.Copy()
+		serviceSecondaryKey := *source.ServiceSecondaryKey.DeepCopy()
 		secrets.ServiceSecondaryKey = &serviceSecondaryKey
 	} else {
 		secrets.ServiceSecondaryKey = nil
@@ -4506,7 +4506,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(
 
 	// DevicePrimaryKey
 	if secrets.DevicePrimaryKey != nil {
-		devicePrimaryKey := secrets.DevicePrimaryKey.Copy()
+		devicePrimaryKey := *secrets.DevicePrimaryKey.DeepCopy()
 		destination.DevicePrimaryKey = &devicePrimaryKey
 	} else {
 		destination.DevicePrimaryKey = nil
@@ -4514,7 +4514,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(
 
 	// DeviceSecondaryKey
 	if secrets.DeviceSecondaryKey != nil {
-		deviceSecondaryKey := secrets.DeviceSecondaryKey.Copy()
+		deviceSecondaryKey := *secrets.DeviceSecondaryKey.DeepCopy()
 		destination.DeviceSecondaryKey = &deviceSecondaryKey
 	} else {
 		destination.DeviceSecondaryKey = nil
@@ -4522,7 +4522,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(
 
 	// IotHubOwnerPrimaryKey
 	if secrets.IotHubOwnerPrimaryKey != nil {
-		iotHubOwnerPrimaryKey := secrets.IotHubOwnerPrimaryKey.Copy()
+		iotHubOwnerPrimaryKey := *secrets.IotHubOwnerPrimaryKey.DeepCopy()
 		destination.IotHubOwnerPrimaryKey = &iotHubOwnerPrimaryKey
 	} else {
 		destination.IotHubOwnerPrimaryKey = nil
@@ -4530,7 +4530,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(
 
 	// IotHubOwnerSecondaryKey
 	if secrets.IotHubOwnerSecondaryKey != nil {
-		iotHubOwnerSecondaryKey := secrets.IotHubOwnerSecondaryKey.Copy()
+		iotHubOwnerSecondaryKey := *secrets.IotHubOwnerSecondaryKey.DeepCopy()
 		destination.IotHubOwnerSecondaryKey = &iotHubOwnerSecondaryKey
 	} else {
 		destination.IotHubOwnerSecondaryKey = nil
@@ -4538,7 +4538,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(
 
 	// RegistryReadPrimaryKey
 	if secrets.RegistryReadPrimaryKey != nil {
-		registryReadPrimaryKey := secrets.RegistryReadPrimaryKey.Copy()
+		registryReadPrimaryKey := *secrets.RegistryReadPrimaryKey.DeepCopy()
 		destination.RegistryReadPrimaryKey = &registryReadPrimaryKey
 	} else {
 		destination.RegistryReadPrimaryKey = nil
@@ -4546,7 +4546,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(
 
 	// RegistryReadSecondaryKey
 	if secrets.RegistryReadSecondaryKey != nil {
-		registryReadSecondaryKey := secrets.RegistryReadSecondaryKey.Copy()
+		registryReadSecondaryKey := *secrets.RegistryReadSecondaryKey.DeepCopy()
 		destination.RegistryReadSecondaryKey = &registryReadSecondaryKey
 	} else {
 		destination.RegistryReadSecondaryKey = nil
@@ -4554,7 +4554,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(
 
 	// RegistryReadWritePrimaryKey
 	if secrets.RegistryReadWritePrimaryKey != nil {
-		registryReadWritePrimaryKey := secrets.RegistryReadWritePrimaryKey.Copy()
+		registryReadWritePrimaryKey := *secrets.RegistryReadWritePrimaryKey.DeepCopy()
 		destination.RegistryReadWritePrimaryKey = &registryReadWritePrimaryKey
 	} else {
 		destination.RegistryReadWritePrimaryKey = nil
@@ -4562,7 +4562,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(
 
 	// RegistryReadWriteSecondaryKey
 	if secrets.RegistryReadWriteSecondaryKey != nil {
-		registryReadWriteSecondaryKey := secrets.RegistryReadWriteSecondaryKey.Copy()
+		registryReadWriteSecondaryKey := *secrets.RegistryReadWriteSecondaryKey.DeepCopy()
 		destination.RegistryReadWriteSecondaryKey = &registryReadWriteSecondaryKey
 	} else {
 		destination.RegistryReadWriteSecondaryKey = nil
@@ -4570,7 +4570,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(
 
 	// ServicePrimaryKey
 	if secrets.ServicePrimaryKey != nil {
-		servicePrimaryKey := secrets.ServicePrimaryKey.Copy()
+		servicePrimaryKey := *secrets.ServicePrimaryKey.DeepCopy()
 		destination.ServicePrimaryKey = &servicePrimaryKey
 	} else {
 		destination.ServicePrimaryKey = nil
@@ -4578,7 +4578,7 @@ func (secrets *IotHubOperatorSecrets) AssignProperties_To_IotHubOperatorSecrets(
 
 	// ServiceSecondaryKey
 	if secrets.ServiceSecondaryKey != nil {
-		serviceSecondaryKey := secrets.ServiceSecondaryKey.Copy()
+		serviceSecondaryKey := *secrets.ServiceSecondaryKey.DeepCopy()
 		destination.ServiceSecondaryKey = &serviceSecondaryKey
 	} else {
 		destination.ServiceSecondaryKey = nil

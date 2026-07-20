@@ -8,6 +8,8 @@ on:
     # to ensure the docs are never too stale
     - cron: "35 17 * * 0"
 
+permissions: {}
+
 jobs:
   gen-crd-docs:
 
@@ -30,7 +32,7 @@ jobs:
           private-key: ${{ secrets.AUTOMATION_KEY }}
           
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # pinned to 7.0.0
         with:
           ref: main
 
@@ -42,14 +44,14 @@ jobs:
           branch: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
 
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # pinned to 7.0.0
         with:
           ref: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
           fetch-depth: 0 # required to access tags
           submodules: "true"
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # pinned to v4.2.0
+        uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # pinned to v4.4.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -89,12 +91,12 @@ jobs:
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # pinned to v8.1.1
         with:
           token: ${{ steps.app-token.outputs.token }}
-          commit-message: Update API Docs
+          commit-message: "Update API Reference Docs"
           branch: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
           base: main
           delete-branch: true
           add-paths: ./docs/hugo/content/
-          title: "[Automated] Add API Docs"
+          title: "chore: Update API Reference Docs [Automated]"
           body: |
             Update API documentation for ASO Custom Resource Definitions
 

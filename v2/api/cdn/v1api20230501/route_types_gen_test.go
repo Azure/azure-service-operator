@@ -5,7 +5,8 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_ActivatedResourceReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -35,7 +41,7 @@ func RunPropertyAssignmentTestForActivatedResourceReference(subject ActivatedRes
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ActivatedResourceReference
+	var other cdn_v1api20230501s.ActivatedResourceReference
 	err := copied.AssignProperties_To_ActivatedResourceReference(&other)
 	if err != nil {
 		return err.Error()
@@ -62,6 +68,11 @@ func RunPropertyAssignmentTestForActivatedResourceReference(subject ActivatedRes
 
 func Test_ActivatedResourceReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -117,6 +128,11 @@ func ActivatedResourceReferenceGenerator() gopter.Gen {
 
 func Test_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -132,7 +148,7 @@ func RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_AfdE
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
+	var other cdn_v1api20230501s.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
 	err := copied.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -159,6 +175,11 @@ func RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_AfdE
 
 func Test_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -219,111 +240,13 @@ func AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profil
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded to ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded via AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded & AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded tests if a specific instance of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded can be assigned to storage and back losslessly
-func RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(subject ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
-	err := copied.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
-	err = actual.AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded runs a test to see if a specific instance of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(subject ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded instances for property
-// testing - lazily instantiated by ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator()
-var activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator gopter.Gen
-
-// ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator returns a generator of ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded instances for property testing.
-func ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator() gopter.Gen {
-	if activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator != nil {
-		return activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(generators)
-	activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded{}), generators)
-
-	return activatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_AfdRouteCacheConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -339,7 +262,7 @@ func RunPropertyAssignmentTestForAfdRouteCacheConfiguration(subject AfdRouteCach
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdRouteCacheConfiguration
+	var other cdn_v1api20230501s.AfdRouteCacheConfiguration
 	err := copied.AssignProperties_To_AfdRouteCacheConfiguration(&other)
 	if err != nil {
 		return err.Error()
@@ -366,6 +289,11 @@ func RunPropertyAssignmentTestForAfdRouteCacheConfiguration(subject AfdRouteCach
 
 func Test_AfdRouteCacheConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -446,6 +374,11 @@ func AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration(gens map[string]g
 
 func Test_AfdRouteCacheConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -461,7 +394,7 @@ func RunPropertyAssignmentTestForAfdRouteCacheConfiguration_STATUS(subject AfdRo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.AfdRouteCacheConfiguration_STATUS
+	var other cdn_v1api20230501s.AfdRouteCacheConfiguration_STATUS
 	err := copied.AssignProperties_To_AfdRouteCacheConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -488,6 +421,11 @@ func RunPropertyAssignmentTestForAfdRouteCacheConfiguration_STATUS(subject AfdRo
 
 func Test_AfdRouteCacheConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -568,6 +506,11 @@ func AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration_STATUS(gens map[s
 
 func Test_CompressionSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -583,7 +526,7 @@ func RunPropertyAssignmentTestForCompressionSettings(subject CompressionSettings
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CompressionSettings
+	var other cdn_v1api20230501s.CompressionSettings
 	err := copied.AssignProperties_To_CompressionSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -610,6 +553,11 @@ func RunPropertyAssignmentTestForCompressionSettings(subject CompressionSettings
 
 func Test_CompressionSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -672,6 +620,11 @@ func AddIndependentPropertyGeneratorsForCompressionSettings(gens map[string]gopt
 
 func Test_CompressionSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -687,7 +640,7 @@ func RunPropertyAssignmentTestForCompressionSettings_STATUS(subject CompressionS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CompressionSettings_STATUS
+	var other cdn_v1api20230501s.CompressionSettings_STATUS
 	err := copied.AssignProperties_To_CompressionSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -714,6 +667,11 @@ func RunPropertyAssignmentTestForCompressionSettings_STATUS(subject CompressionS
 
 func Test_CompressionSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -776,6 +734,11 @@ func AddIndependentPropertyGeneratorsForCompressionSettings_STATUS(gens map[stri
 
 func Test_Route_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -792,7 +755,7 @@ func RunResourceConversionTestForRoute(subject Route) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Route
+	var hub cdn_v20230501s.Route
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -819,6 +782,11 @@ func RunResourceConversionTestForRoute(subject Route) string {
 
 func Test_Route_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -834,7 +802,7 @@ func RunPropertyAssignmentTestForRoute(subject Route) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Route
+	var other cdn_v1api20230501s.Route
 	err := copied.AssignProperties_To_Route(&other)
 	if err != nil {
 		return err.Error()
@@ -861,6 +829,11 @@ func RunPropertyAssignmentTestForRoute(subject Route) string {
 
 func Test_Route_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -922,6 +895,11 @@ func AddRelatedPropertyGeneratorsForRoute(gens map[string]gopter.Gen) {
 
 func Test_RouteOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -937,7 +915,7 @@ func RunPropertyAssignmentTestForRouteOperatorSpec(subject RouteOperatorSpec) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RouteOperatorSpec
+	var other cdn_v1api20230501s.RouteOperatorSpec
 	err := copied.AssignProperties_To_RouteOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -964,6 +942,11 @@ func RunPropertyAssignmentTestForRouteOperatorSpec(subject RouteOperatorSpec) st
 
 func Test_RouteOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1018,6 +1001,11 @@ func RouteOperatorSpecGenerator() gopter.Gen {
 
 func Test_Route_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1033,7 +1021,7 @@ func RunPropertyAssignmentTestForRoute_STATUS(subject Route_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Route_STATUS
+	var other cdn_v1api20230501s.Route_STATUS
 	err := copied.AssignProperties_To_Route_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1060,6 +1048,11 @@ func RunPropertyAssignmentTestForRoute_STATUS(subject Route_STATUS) string {
 
 func Test_Route_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1159,6 +1152,11 @@ func AddRelatedPropertyGeneratorsForRoute_STATUS(gens map[string]gopter.Gen) {
 
 func Test_Route_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1174,7 +1172,7 @@ func RunPropertyAssignmentTestForRoute_Spec(subject Route_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Route_Spec
+	var other cdn_v1api20230501s.Route_Spec
 	err := copied.AssignProperties_To_Route_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1201,6 +1199,11 @@ func RunPropertyAssignmentTestForRoute_Spec(subject Route_Spec) string {
 
 func Test_Route_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

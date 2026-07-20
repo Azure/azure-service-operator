@@ -8,19 +8,20 @@ type DataCollectionRuleAssociationProxyOnlyResource_STATUS struct {
 	// Etag: Resource entity tag (ETag).
 	Etag *string `json:"etag,omitempty"`
 
-	// Id: Fully qualified ID of the resource.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	// Name: The name of the resource.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// Properties: Definition of association of a data collection rule with a monitored Azure resource.
 	Properties *DataCollectionRuleAssociation_STATUS `json:"properties,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
-	// Type: The type of the resource.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -39,26 +40,27 @@ type DataCollectionRuleAssociation_STATUS struct {
 	Metadata *Metadata_STATUS `json:"metadata,omitempty"`
 
 	// ProvisioningState: The resource provisioning state.
-	ProvisioningState *DataCollectionRuleAssociation_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *KnownDataCollectionRuleAssociationProvisioningState_STATUS `json:"provisioningState,omitempty"`
 }
 
-type DataCollectionRuleAssociation_ProvisioningState_STATUS string
+// The resource provisioning state.
+type KnownDataCollectionRuleAssociationProvisioningState_STATUS string
 
 const (
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Canceled  = DataCollectionRuleAssociation_ProvisioningState_STATUS("Canceled")
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Creating  = DataCollectionRuleAssociation_ProvisioningState_STATUS("Creating")
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Deleting  = DataCollectionRuleAssociation_ProvisioningState_STATUS("Deleting")
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Failed    = DataCollectionRuleAssociation_ProvisioningState_STATUS("Failed")
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Succeeded = DataCollectionRuleAssociation_ProvisioningState_STATUS("Succeeded")
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Updating  = DataCollectionRuleAssociation_ProvisioningState_STATUS("Updating")
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Canceled  = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Canceled")
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Creating  = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Creating")
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Deleting  = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Deleting")
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Failed    = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Failed")
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Succeeded = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Succeeded")
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Updating  = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Updating")
 )
 
-// Mapping from string to DataCollectionRuleAssociation_ProvisioningState_STATUS
-var dataCollectionRuleAssociation_ProvisioningState_STATUS_Values = map[string]DataCollectionRuleAssociation_ProvisioningState_STATUS{
-	"canceled":  DataCollectionRuleAssociation_ProvisioningState_STATUS_Canceled,
-	"creating":  DataCollectionRuleAssociation_ProvisioningState_STATUS_Creating,
-	"deleting":  DataCollectionRuleAssociation_ProvisioningState_STATUS_Deleting,
-	"failed":    DataCollectionRuleAssociation_ProvisioningState_STATUS_Failed,
-	"succeeded": DataCollectionRuleAssociation_ProvisioningState_STATUS_Succeeded,
-	"updating":  DataCollectionRuleAssociation_ProvisioningState_STATUS_Updating,
+// Mapping from string to KnownDataCollectionRuleAssociationProvisioningState_STATUS
+var knownDataCollectionRuleAssociationProvisioningState_STATUS_Values = map[string]KnownDataCollectionRuleAssociationProvisioningState_STATUS{
+	"canceled":  KnownDataCollectionRuleAssociationProvisioningState_STATUS_Canceled,
+	"creating":  KnownDataCollectionRuleAssociationProvisioningState_STATUS_Creating,
+	"deleting":  KnownDataCollectionRuleAssociationProvisioningState_STATUS_Deleting,
+	"failed":    KnownDataCollectionRuleAssociationProvisioningState_STATUS_Failed,
+	"succeeded": KnownDataCollectionRuleAssociationProvisioningState_STATUS_Succeeded,
+	"updating":  KnownDataCollectionRuleAssociationProvisioningState_STATUS_Updating,
 }

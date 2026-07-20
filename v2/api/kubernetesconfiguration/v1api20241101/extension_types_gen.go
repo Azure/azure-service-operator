@@ -276,7 +276,7 @@ const APIVersion_Value = APIVersion("2024-11-01")
 
 type Extension_Spec struct {
 	// AksAssignedIdentity: Identity of the Extension resource in an AKS cluster
-	AksAssignedIdentity *Extension_Properties_AksAssignedIdentity_Spec `json:"aksAssignedIdentity,omitempty"`
+	AksAssignedIdentity *ExtensionPropertiesAksAssignedIdentity `json:"aksAssignedIdentity,omitempty"`
 
 	// AutoUpgradeMinorVersion: Flag to note if this extension participates in auto upgrade of minor version, or not.
 	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
@@ -309,7 +309,7 @@ type Extension_Spec struct {
 	// extension resource, which means that any other Azure resource can be its owner.
 	Owner *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 
-	// Plan: The plan information.
+	// Plan: Details of the resource plan.
 	Plan *Plan `json:"plan,omitempty"`
 
 	// ReleaseTrain: ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if
@@ -319,9 +319,8 @@ type Extension_Spec struct {
 	// Scope: Scope at which the extension is installed.
 	Scope *Scope `json:"scope,omitempty"`
 
-	// SystemData: Top level metadata
-	// https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
-	SystemData *SystemData `json:"systemData,omitempty"`
+	// Statuses: Status from this extension.
+	Statuses []ExtensionStatus `json:"statuses,omitempty"`
 
 	// Version: User-specified version of the extension for this extension to 'pin'. To use 'version', autoUpgradeMinorVersion
 	// must be 'false'.
@@ -368,15 +367,16 @@ func (extension *Extension_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		extension.ExtensionType != nil ||
 		extension.ReleaseTrain != nil ||
 		extension.Scope != nil ||
+		extension.Statuses != nil ||
 		extension.Version != nil {
-		result.Properties = &arm.Extension_Properties_Spec{}
+		result.Properties = &arm.ExtensionProperties{}
 	}
 	if extension.AksAssignedIdentity != nil {
 		aksAssignedIdentity_ARM, err := extension.AksAssignedIdentity.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		aksAssignedIdentity := *aksAssignedIdentity_ARM.(*arm.Extension_Properties_AksAssignedIdentity_Spec)
+		aksAssignedIdentity := *aksAssignedIdentity_ARM.(*arm.ExtensionPropertiesAksAssignedIdentity)
 		result.Properties.AksAssignedIdentity = &aksAssignedIdentity
 	}
 	if extension.AutoUpgradeMinorVersion != nil {
@@ -414,19 +414,16 @@ func (extension *Extension_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		scope := *scope_ARM.(*arm.Scope)
 		result.Properties.Scope = &scope
 	}
-	if extension.Version != nil {
-		version := *extension.Version
-		result.Properties.Version = &version
-	}
-
-	// Set property "SystemData":
-	if extension.SystemData != nil {
-		systemData_ARM, err := extension.SystemData.ConvertToARM(resolved)
+	for _, item := range extension.Statuses {
+		item_ARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		systemData := *systemData_ARM.(*arm.SystemData)
-		result.SystemData = &systemData
+		result.Properties.Statuses = append(result.Properties.Statuses, *item_ARM.(*arm.ExtensionStatus))
+	}
+	if extension.Version != nil {
+		version := *extension.Version
+		result.Properties.Version = &version
 	}
 	return result, nil
 }
@@ -447,7 +444,7 @@ func (extension *Extension_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AksAssignedIdentity != nil {
-			var aksAssignedIdentity1 Extension_Properties_AksAssignedIdentity_Spec
+			var aksAssignedIdentity1 ExtensionPropertiesAksAssignedIdentity
 			err := aksAssignedIdentity1.PopulateFromARM(owner, *typedInput.Properties.AksAssignedIdentity)
 			if err != nil {
 				return err
@@ -541,15 +538,17 @@ func (extension *Extension_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property "SystemData":
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
+	// Set property "Statuses":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Statuses {
+			var item1 ExtensionStatus
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			extension.Statuses = append(extension.Statuses, item1)
 		}
-		systemData := systemData1
-		extension.SystemData = &systemData
 	}
 
 	// Set property "Version":
@@ -620,10 +619,10 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *st
 
 	// AksAssignedIdentity
 	if source.AksAssignedIdentity != nil {
-		var aksAssignedIdentity Extension_Properties_AksAssignedIdentity_Spec
-		err := aksAssignedIdentity.AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec(source.AksAssignedIdentity)
+		var aksAssignedIdentity ExtensionPropertiesAksAssignedIdentity
+		err := aksAssignedIdentity.AssignProperties_From_ExtensionPropertiesAksAssignedIdentity(source.AksAssignedIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtensionPropertiesAksAssignedIdentity() to populate field AksAssignedIdentity")
 		}
 		extension.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -714,16 +713,20 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *st
 		extension.Scope = nil
 	}
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignProperties_From_SystemData(source.SystemData)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
+	// Statuses
+	if source.Statuses != nil {
+		statusList := make([]ExtensionStatus, len(source.Statuses))
+		for statusIndex, statusItem := range source.Statuses {
+			var status ExtensionStatus
+			err := status.AssignProperties_From_ExtensionStatus(&statusItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ExtensionStatus() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
 		}
-		extension.SystemData = &systemDatum
+		extension.Statuses = statusList
 	} else {
-		extension.SystemData = nil
+		extension.Statuses = nil
 	}
 
 	// Version
@@ -740,10 +743,10 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 
 	// AksAssignedIdentity
 	if extension.AksAssignedIdentity != nil {
-		var aksAssignedIdentity storage.Extension_Properties_AksAssignedIdentity_Spec
-		err := extension.AksAssignedIdentity.AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec(&aksAssignedIdentity)
+		var aksAssignedIdentity storage.ExtensionPropertiesAksAssignedIdentity
+		err := extension.AksAssignedIdentity.AssignProperties_To_ExtensionPropertiesAksAssignedIdentity(&aksAssignedIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtensionPropertiesAksAssignedIdentity() to populate field AksAssignedIdentity")
 		}
 		destination.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -837,16 +840,20 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 		destination.Scope = nil
 	}
 
-	// SystemData
-	if extension.SystemData != nil {
-		var systemDatum storage.SystemData
-		err := extension.SystemData.AssignProperties_To_SystemData(&systemDatum)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
+	// Statuses
+	if extension.Statuses != nil {
+		statusList := make([]storage.ExtensionStatus, len(extension.Statuses))
+		for statusIndex, statusItem := range extension.Statuses {
+			var status storage.ExtensionStatus
+			err := statusItem.AssignProperties_To_ExtensionStatus(&status)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ExtensionStatus() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
 		}
-		destination.SystemData = &systemDatum
+		destination.Statuses = statusList
 	} else {
-		destination.SystemData = nil
+		destination.Statuses = nil
 	}
 
 	// Version
@@ -868,10 +875,10 @@ func (extension *Extension_Spec) Initialize_From_Extension_STATUS(source *Extens
 
 	// AksAssignedIdentity
 	if source.AksAssignedIdentity != nil {
-		var aksAssignedIdentity Extension_Properties_AksAssignedIdentity_Spec
-		err := aksAssignedIdentity.Initialize_From_Extension_Properties_AksAssignedIdentity_STATUS(source.AksAssignedIdentity)
+		var aksAssignedIdentity ExtensionPropertiesAksAssignedIdentity
+		err := aksAssignedIdentity.Initialize_From_ExtensionPropertiesAksAssignedIdentity_STATUS(source.AksAssignedIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling Initialize_From_ExtensionPropertiesAksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
 		}
 		extension.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -931,16 +938,20 @@ func (extension *Extension_Spec) Initialize_From_Extension_STATUS(source *Extens
 		extension.Scope = nil
 	}
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.Initialize_From_SystemData_STATUS(source.SystemData)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SystemData_STATUS() to populate field SystemData")
+	// Statuses
+	if source.Statuses != nil {
+		statusList := make([]ExtensionStatus, len(source.Statuses))
+		for statusIndex, statusItem := range source.Statuses {
+			var status ExtensionStatus
+			err := status.Initialize_From_ExtensionStatus_STATUS(&statusItem)
+			if err != nil {
+				return eris.Wrap(err, "calling Initialize_From_ExtensionStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
 		}
-		extension.SystemData = &systemDatum
+		extension.Statuses = statusList
 	} else {
-		extension.SystemData = nil
+		extension.Statuses = nil
 	}
 
 	// Version
@@ -961,7 +972,7 @@ func (extension *Extension_Spec) SetAzureName(azureName string) { extension.Azur
 // The Extension object.
 type Extension_STATUS struct {
 	// AksAssignedIdentity: Identity of the Extension resource in an AKS cluster
-	AksAssignedIdentity *Extension_Properties_AksAssignedIdentity_STATUS `json:"aksAssignedIdentity,omitempty"`
+	AksAssignedIdentity *ExtensionPropertiesAksAssignedIdentity_STATUS `json:"aksAssignedIdentity,omitempty"`
 
 	// AutoUpgradeMinorVersion: Flag to note if this extension participates in auto upgrade of minor version, or not.
 	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
@@ -1005,8 +1016,11 @@ type Extension_STATUS struct {
 	// PackageUri: Uri of the Helm package
 	PackageUri *string `json:"packageUri,omitempty"`
 
-	// Plan: The plan information.
+	// Plan: Details of the resource plan.
 	Plan *Plan_STATUS `json:"plan,omitempty"`
+
+	// ProvisioningState: Status of installation of this extension.
+	ProvisioningState *ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// ReleaseTrain: ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if
 	// autoUpgradeMinorVersion is 'true'.
@@ -1018,8 +1032,7 @@ type Extension_STATUS struct {
 	// Statuses: Status from this extension.
 	Statuses []ExtensionStatus_STATUS `json:"statuses,omitempty"`
 
-	// SystemData: Top level metadata
-	// https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
@@ -1098,7 +1111,7 @@ func (extension *Extension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AksAssignedIdentity != nil {
-			var aksAssignedIdentity1 Extension_Properties_AksAssignedIdentity_STATUS
+			var aksAssignedIdentity1 ExtensionPropertiesAksAssignedIdentity_STATUS
 			err := aksAssignedIdentity1.PopulateFromARM(owner, *typedInput.Properties.AksAssignedIdentity)
 			if err != nil {
 				return err
@@ -1236,6 +1249,17 @@ func (extension *Extension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		extension.Plan = &plan
 	}
 
+	// Set property "ProvisioningState":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			var temp string
+			temp = string(*typedInput.Properties.ProvisioningState)
+			provisioningState := ProvisioningState_STATUS(temp)
+			extension.ProvisioningState = &provisioningState
+		}
+	}
+
 	// Set property "ReleaseTrain":
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1307,10 +1331,10 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 
 	// AksAssignedIdentity
 	if source.AksAssignedIdentity != nil {
-		var aksAssignedIdentity Extension_Properties_AksAssignedIdentity_STATUS
-		err := aksAssignedIdentity.AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS(source.AksAssignedIdentity)
+		var aksAssignedIdentity ExtensionPropertiesAksAssignedIdentity_STATUS
+		err := aksAssignedIdentity.AssignProperties_From_ExtensionPropertiesAksAssignedIdentity_STATUS(source.AksAssignedIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtensionPropertiesAksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
 		}
 		extension.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -1396,6 +1420,15 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 		extension.Plan = nil
 	}
 
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := *source.ProvisioningState
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, provisioningState_STATUS_Values)
+		extension.ProvisioningState = &provisioningStateTemp
+	} else {
+		extension.ProvisioningState = nil
+	}
+
 	// ReleaseTrain
 	extension.ReleaseTrain = genruntime.ClonePointerToString(source.ReleaseTrain)
 
@@ -1456,10 +1489,10 @@ func (extension *Extension_STATUS) AssignProperties_To_Extension_STATUS(destinat
 
 	// AksAssignedIdentity
 	if extension.AksAssignedIdentity != nil {
-		var aksAssignedIdentity storage.Extension_Properties_AksAssignedIdentity_STATUS
-		err := extension.AksAssignedIdentity.AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS(&aksAssignedIdentity)
+		var aksAssignedIdentity storage.ExtensionPropertiesAksAssignedIdentity_STATUS
+		err := extension.AksAssignedIdentity.AssignProperties_To_ExtensionPropertiesAksAssignedIdentity_STATUS(&aksAssignedIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtensionPropertiesAksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
 		}
 		destination.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -1543,6 +1576,14 @@ func (extension *Extension_STATUS) AssignProperties_To_Extension_STATUS(destinat
 		destination.Plan = &plan
 	} else {
 		destination.Plan = nil
+	}
+
+	// ProvisioningState
+	if extension.ProvisioningState != nil {
+		provisioningState := string(*extension.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
 	}
 
 	// ReleaseTrain
@@ -1784,210 +1825,6 @@ func (detail *ErrorDetail_STATUS) AssignProperties_To_ErrorDetail_STATUS(destina
 	return nil
 }
 
-type Extension_Properties_AksAssignedIdentity_Spec struct {
-	// Type: The identity type.
-	Type *Extension_Properties_AksAssignedIdentity_Type_Spec `json:"type,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Extension_Properties_AksAssignedIdentity_Spec{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identity *Extension_Properties_AksAssignedIdentity_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if identity == nil {
-		return nil, nil
-	}
-	result := &arm.Extension_Properties_AksAssignedIdentity_Spec{}
-
-	// Set property "Type":
-	if identity.Type != nil {
-		var temp string
-		temp = string(*identity.Type)
-		typeVar := arm.Extension_Properties_AksAssignedIdentity_Type_Spec(temp)
-		result.Type = &typeVar
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *Extension_Properties_AksAssignedIdentity_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Extension_Properties_AksAssignedIdentity_Spec{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *Extension_Properties_AksAssignedIdentity_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Extension_Properties_AksAssignedIdentity_Spec)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Extension_Properties_AksAssignedIdentity_Spec, got %T", armInput)
-	}
-
-	// Set property "Type":
-	if typedInput.Type != nil {
-		var temp string
-		temp = string(*typedInput.Type)
-		typeVar := Extension_Properties_AksAssignedIdentity_Type_Spec(temp)
-		identity.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec populates our Extension_Properties_AksAssignedIdentity_Spec from the provided source Extension_Properties_AksAssignedIdentity_Spec
-func (identity *Extension_Properties_AksAssignedIdentity_Spec) AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec(source *storage.Extension_Properties_AksAssignedIdentity_Spec) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, extension_Properties_AksAssignedIdentity_Type_Spec_Values)
-		identity.Type = &typeTemp
-	} else {
-		identity.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec populates the provided destination Extension_Properties_AksAssignedIdentity_Spec from our Extension_Properties_AksAssignedIdentity_Spec
-func (identity *Extension_Properties_AksAssignedIdentity_Spec) AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec(destination *storage.Extension_Properties_AksAssignedIdentity_Spec) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Extension_Properties_AksAssignedIdentity_STATUS populates our Extension_Properties_AksAssignedIdentity_Spec from the provided source Extension_Properties_AksAssignedIdentity_STATUS
-func (identity *Extension_Properties_AksAssignedIdentity_Spec) Initialize_From_Extension_Properties_AksAssignedIdentity_STATUS(source *Extension_Properties_AksAssignedIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), extension_Properties_AksAssignedIdentity_Type_Spec_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-type Extension_Properties_AksAssignedIdentity_STATUS struct {
-	// PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	// Type: The identity type.
-	Type *Extension_Properties_AksAssignedIdentity_Type_STATUS `json:"type,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &Extension_Properties_AksAssignedIdentity_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *Extension_Properties_AksAssignedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Extension_Properties_AksAssignedIdentity_STATUS{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *Extension_Properties_AksAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Extension_Properties_AksAssignedIdentity_STATUS)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Extension_Properties_AksAssignedIdentity_STATUS, got %T", armInput)
-	}
-
-	// Set property "PrincipalId":
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identity.PrincipalId = &principalId
-	}
-
-	// Set property "TenantId":
-	if typedInput.TenantId != nil {
-		tenantId := *typedInput.TenantId
-		identity.TenantId = &tenantId
-	}
-
-	// Set property "Type":
-	if typedInput.Type != nil {
-		var temp string
-		temp = string(*typedInput.Type)
-		typeVar := Extension_Properties_AksAssignedIdentity_Type_STATUS(temp)
-		identity.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS populates our Extension_Properties_AksAssignedIdentity_STATUS from the provided source Extension_Properties_AksAssignedIdentity_STATUS
-func (identity *Extension_Properties_AksAssignedIdentity_STATUS) AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS(source *storage.Extension_Properties_AksAssignedIdentity_STATUS) error {
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, extension_Properties_AksAssignedIdentity_Type_STATUS_Values)
-		identity.Type = &typeTemp
-	} else {
-		identity.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS populates the provided destination Extension_Properties_AksAssignedIdentity_STATUS from our Extension_Properties_AksAssignedIdentity_STATUS
-func (identity *Extension_Properties_AksAssignedIdentity_STATUS) AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS(destination *storage.Extension_Properties_AksAssignedIdentity_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
-
-	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ExtensionOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
@@ -2106,6 +1943,412 @@ func (operator *ExtensionOperatorSpec) AssignProperties_To_ExtensionOperatorSpec
 	} else {
 		destination.PropertyBag = nil
 	}
+
+	// No error
+	return nil
+}
+
+// Identity of the Extension resource in an AKS cluster
+type ExtensionPropertiesAksAssignedIdentity struct {
+	// Type: The identity type.
+	Type *AKSIdentityType `json:"type,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ExtensionPropertiesAksAssignedIdentity{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (identity *ExtensionPropertiesAksAssignedIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if identity == nil {
+		return nil, nil
+	}
+	result := &arm.ExtensionPropertiesAksAssignedIdentity{}
+
+	// Set property "Type":
+	if identity.Type != nil {
+		var temp string
+		temp = string(*identity.Type)
+		typeVar := arm.AKSIdentityType(temp)
+		result.Type = &typeVar
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (identity *ExtensionPropertiesAksAssignedIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ExtensionPropertiesAksAssignedIdentity{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (identity *ExtensionPropertiesAksAssignedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ExtensionPropertiesAksAssignedIdentity)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ExtensionPropertiesAksAssignedIdentity, got %T", armInput)
+	}
+
+	// Set property "Type":
+	if typedInput.Type != nil {
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := AKSIdentityType(temp)
+		identity.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ExtensionPropertiesAksAssignedIdentity populates our ExtensionPropertiesAksAssignedIdentity from the provided source ExtensionPropertiesAksAssignedIdentity
+func (identity *ExtensionPropertiesAksAssignedIdentity) AssignProperties_From_ExtensionPropertiesAksAssignedIdentity(source *storage.ExtensionPropertiesAksAssignedIdentity) error {
+
+	// Type
+	if source.Type != nil {
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, aKSIdentityType_Values)
+		identity.Type = &typeTemp
+	} else {
+		identity.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExtensionPropertiesAksAssignedIdentity populates the provided destination ExtensionPropertiesAksAssignedIdentity from our ExtensionPropertiesAksAssignedIdentity
+func (identity *ExtensionPropertiesAksAssignedIdentity) AssignProperties_To_ExtensionPropertiesAksAssignedIdentity(destination *storage.ExtensionPropertiesAksAssignedIdentity) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Type
+	if identity.Type != nil {
+		typeVar := string(*identity.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ExtensionPropertiesAksAssignedIdentity_STATUS populates our ExtensionPropertiesAksAssignedIdentity from the provided source ExtensionPropertiesAksAssignedIdentity_STATUS
+func (identity *ExtensionPropertiesAksAssignedIdentity) Initialize_From_ExtensionPropertiesAksAssignedIdentity_STATUS(source *ExtensionPropertiesAksAssignedIdentity_STATUS) error {
+
+	// Type
+	if source.Type != nil {
+		typeVar := genruntime.ToEnum(string(*source.Type), aKSIdentityType_Values)
+		identity.Type = &typeVar
+	} else {
+		identity.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Identity of the Extension resource in an AKS cluster
+type ExtensionPropertiesAksAssignedIdentity_STATUS struct {
+	// PrincipalId: The principal ID of resource identity.
+	PrincipalId *string `json:"principalId,omitempty"`
+
+	// TenantId: The tenant ID of resource.
+	TenantId *string `json:"tenantId,omitempty"`
+
+	// Type: The identity type.
+	Type *AKSIdentityType_STATUS `json:"type,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &ExtensionPropertiesAksAssignedIdentity_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (identity *ExtensionPropertiesAksAssignedIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ExtensionPropertiesAksAssignedIdentity_STATUS{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (identity *ExtensionPropertiesAksAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ExtensionPropertiesAksAssignedIdentity_STATUS)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ExtensionPropertiesAksAssignedIdentity_STATUS, got %T", armInput)
+	}
+
+	// Set property "PrincipalId":
+	if typedInput.PrincipalId != nil {
+		principalId := *typedInput.PrincipalId
+		identity.PrincipalId = &principalId
+	}
+
+	// Set property "TenantId":
+	if typedInput.TenantId != nil {
+		tenantId := *typedInput.TenantId
+		identity.TenantId = &tenantId
+	}
+
+	// Set property "Type":
+	if typedInput.Type != nil {
+		var temp string
+		temp = string(*typedInput.Type)
+		typeVar := AKSIdentityType_STATUS(temp)
+		identity.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ExtensionPropertiesAksAssignedIdentity_STATUS populates our ExtensionPropertiesAksAssignedIdentity_STATUS from the provided source ExtensionPropertiesAksAssignedIdentity_STATUS
+func (identity *ExtensionPropertiesAksAssignedIdentity_STATUS) AssignProperties_From_ExtensionPropertiesAksAssignedIdentity_STATUS(source *storage.ExtensionPropertiesAksAssignedIdentity_STATUS) error {
+
+	// PrincipalId
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// TenantId
+	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Type
+	if source.Type != nil {
+		typeVar := *source.Type
+		typeTemp := genruntime.ToEnum(typeVar, aKSIdentityType_STATUS_Values)
+		identity.Type = &typeTemp
+	} else {
+		identity.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExtensionPropertiesAksAssignedIdentity_STATUS populates the provided destination ExtensionPropertiesAksAssignedIdentity_STATUS from our ExtensionPropertiesAksAssignedIdentity_STATUS
+func (identity *ExtensionPropertiesAksAssignedIdentity_STATUS) AssignProperties_To_ExtensionPropertiesAksAssignedIdentity_STATUS(destination *storage.ExtensionPropertiesAksAssignedIdentity_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
+
+	// Type
+	if identity.Type != nil {
+		typeVar := string(*identity.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Status from the extension.
+type ExtensionStatus struct {
+	// Code: Status code provided by the Extension
+	Code *string `json:"code,omitempty"`
+
+	// DisplayStatus: Short description of status of the extension.
+	DisplayStatus *string `json:"displayStatus,omitempty"`
+
+	// Level: Level of the status.
+	Level *ExtensionStatus_Level `json:"level,omitempty"`
+
+	// Message: Detailed message of the status from the Extension.
+	Message *string `json:"message,omitempty"`
+
+	// Time: DateLiteral (per ISO8601) noting the time of installation status.
+	Time *string `json:"time,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ExtensionStatus{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (status *ExtensionStatus) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if status == nil {
+		return nil, nil
+	}
+	result := &arm.ExtensionStatus{}
+
+	// Set property "Code":
+	if status.Code != nil {
+		code := *status.Code
+		result.Code = &code
+	}
+
+	// Set property "DisplayStatus":
+	if status.DisplayStatus != nil {
+		displayStatus := *status.DisplayStatus
+		result.DisplayStatus = &displayStatus
+	}
+
+	// Set property "Level":
+	if status.Level != nil {
+		var temp string
+		temp = string(*status.Level)
+		level := arm.ExtensionStatus_Level(temp)
+		result.Level = &level
+	}
+
+	// Set property "Message":
+	if status.Message != nil {
+		message := *status.Message
+		result.Message = &message
+	}
+
+	// Set property "Time":
+	if status.Time != nil {
+		time := *status.Time
+		result.Time = &time
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (status *ExtensionStatus) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ExtensionStatus{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (status *ExtensionStatus) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ExtensionStatus)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ExtensionStatus, got %T", armInput)
+	}
+
+	// Set property "Code":
+	if typedInput.Code != nil {
+		code := *typedInput.Code
+		status.Code = &code
+	}
+
+	// Set property "DisplayStatus":
+	if typedInput.DisplayStatus != nil {
+		displayStatus := *typedInput.DisplayStatus
+		status.DisplayStatus = &displayStatus
+	}
+
+	// Set property "Level":
+	if typedInput.Level != nil {
+		var temp string
+		temp = string(*typedInput.Level)
+		level := ExtensionStatus_Level(temp)
+		status.Level = &level
+	}
+
+	// Set property "Message":
+	if typedInput.Message != nil {
+		message := *typedInput.Message
+		status.Message = &message
+	}
+
+	// Set property "Time":
+	if typedInput.Time != nil {
+		time := *typedInput.Time
+		status.Time = &time
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ExtensionStatus populates our ExtensionStatus from the provided source ExtensionStatus
+func (status *ExtensionStatus) AssignProperties_From_ExtensionStatus(source *storage.ExtensionStatus) error {
+
+	// Code
+	status.Code = genruntime.ClonePointerToString(source.Code)
+
+	// DisplayStatus
+	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
+
+	// Level
+	if source.Level != nil {
+		level := *source.Level
+		levelTemp := genruntime.ToEnum(level, extensionStatus_Level_Values)
+		status.Level = &levelTemp
+	} else {
+		status.Level = nil
+	}
+
+	// Message
+	status.Message = genruntime.ClonePointerToString(source.Message)
+
+	// Time
+	status.Time = genruntime.ClonePointerToString(source.Time)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ExtensionStatus populates the provided destination ExtensionStatus from our ExtensionStatus
+func (status *ExtensionStatus) AssignProperties_To_ExtensionStatus(destination *storage.ExtensionStatus) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Code
+	destination.Code = genruntime.ClonePointerToString(status.Code)
+
+	// DisplayStatus
+	destination.DisplayStatus = genruntime.ClonePointerToString(status.DisplayStatus)
+
+	// Level
+	if status.Level != nil {
+		level := string(*status.Level)
+		destination.Level = &level
+	} else {
+		destination.Level = nil
+	}
+
+	// Message
+	destination.Message = genruntime.ClonePointerToString(status.Message)
+
+	// Time
+	destination.Time = genruntime.ClonePointerToString(status.Time)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ExtensionStatus_STATUS populates our ExtensionStatus from the provided source ExtensionStatus_STATUS
+func (status *ExtensionStatus) Initialize_From_ExtensionStatus_STATUS(source *ExtensionStatus_STATUS) error {
+
+	// Code
+	status.Code = genruntime.ClonePointerToString(source.Code)
+
+	// DisplayStatus
+	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
+
+	// Level
+	if source.Level != nil {
+		level := genruntime.ToEnum(string(*source.Level), extensionStatus_Level_Values)
+		status.Level = &level
+	} else {
+		status.Level = nil
+	}
+
+	// Message
+	status.Message = genruntime.ClonePointerToString(source.Message)
+
+	// Time
+	status.Time = genruntime.ClonePointerToString(source.Time)
 
 	// No error
 	return nil
@@ -2753,6 +2996,28 @@ func (plan *Plan_STATUS) AssignProperties_To_Plan_STATUS(destination *storage.Pl
 	return nil
 }
 
+// The provisioning state of the resource.
+type ProvisioningState_STATUS string
+
+const (
+	ProvisioningState_STATUS_Canceled  = ProvisioningState_STATUS("Canceled")
+	ProvisioningState_STATUS_Creating  = ProvisioningState_STATUS("Creating")
+	ProvisioningState_STATUS_Deleting  = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_STATUS_Failed    = ProvisioningState_STATUS("Failed")
+	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
+	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to ProvisioningState_STATUS
+var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
+	"canceled":  ProvisioningState_STATUS_Canceled,
+	"creating":  ProvisioningState_STATUS_Creating,
+	"deleting":  ProvisioningState_STATUS_Deleting,
+	"failed":    ProvisioningState_STATUS_Failed,
+	"succeeded": ProvisioningState_STATUS_Succeeded,
+	"updating":  ProvisioningState_STATUS_Updating,
+}
+
 // Scope of the extension. It can be either Cluster or Namespace; but not both.
 type Scope struct {
 	// Cluster: Specifies that the scope of the extension is Cluster
@@ -3054,250 +3319,6 @@ func (scope *Scope_STATUS) AssignProperties_To_Scope_STATUS(destination *storage
 }
 
 // Metadata pertaining to creation and last modification of the resource.
-type SystemData struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SystemData{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (data *SystemData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if data == nil {
-		return nil, nil
-	}
-	result := &arm.SystemData{}
-
-	// Set property "CreatedAt":
-	if data.CreatedAt != nil {
-		createdAt := *data.CreatedAt
-		result.CreatedAt = &createdAt
-	}
-
-	// Set property "CreatedBy":
-	if data.CreatedBy != nil {
-		createdBy := *data.CreatedBy
-		result.CreatedBy = &createdBy
-	}
-
-	// Set property "CreatedByType":
-	if data.CreatedByType != nil {
-		var temp string
-		temp = string(*data.CreatedByType)
-		createdByType := arm.SystemData_CreatedByType(temp)
-		result.CreatedByType = &createdByType
-	}
-
-	// Set property "LastModifiedAt":
-	if data.LastModifiedAt != nil {
-		lastModifiedAt := *data.LastModifiedAt
-		result.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property "LastModifiedBy":
-	if data.LastModifiedBy != nil {
-		lastModifiedBy := *data.LastModifiedBy
-		result.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property "LastModifiedByType":
-	if data.LastModifiedByType != nil {
-		var temp string
-		temp = string(*data.LastModifiedByType)
-		lastModifiedByType := arm.SystemData_LastModifiedByType(temp)
-		result.LastModifiedByType = &lastModifiedByType
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (data *SystemData) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.SystemData{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.SystemData)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SystemData, got %T", armInput)
-	}
-
-	// Set property "CreatedAt":
-	if typedInput.CreatedAt != nil {
-		createdAt := *typedInput.CreatedAt
-		data.CreatedAt = &createdAt
-	}
-
-	// Set property "CreatedBy":
-	if typedInput.CreatedBy != nil {
-		createdBy := *typedInput.CreatedBy
-		data.CreatedBy = &createdBy
-	}
-
-	// Set property "CreatedByType":
-	if typedInput.CreatedByType != nil {
-		var temp string
-		temp = string(*typedInput.CreatedByType)
-		createdByType := SystemData_CreatedByType(temp)
-		data.CreatedByType = &createdByType
-	}
-
-	// Set property "LastModifiedAt":
-	if typedInput.LastModifiedAt != nil {
-		lastModifiedAt := *typedInput.LastModifiedAt
-		data.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property "LastModifiedBy":
-	if typedInput.LastModifiedBy != nil {
-		lastModifiedBy := *typedInput.LastModifiedBy
-		data.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property "LastModifiedByType":
-	if typedInput.LastModifiedByType != nil {
-		var temp string
-		temp = string(*typedInput.LastModifiedByType)
-		lastModifiedByType := SystemData_LastModifiedByType(temp)
-		data.LastModifiedByType = &lastModifiedByType
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_SystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignProperties_From_SystemData(source *storage.SystemData) error {
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := *source.CreatedByType
-		createdByTypeTemp := genruntime.ToEnum(createdByType, systemData_CreatedByType_Values)
-		data.CreatedByType = &createdByTypeTemp
-	} else {
-		data.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := *source.LastModifiedByType
-		lastModifiedByTypeTemp := genruntime.ToEnum(lastModifiedByType, systemData_LastModifiedByType_Values)
-		data.LastModifiedByType = &lastModifiedByTypeTemp
-	} else {
-		data.LastModifiedByType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_SystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignProperties_To_SystemData(destination *storage.SystemData) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SystemData_STATUS populates our SystemData from the provided source SystemData_STATUS
-func (data *SystemData) Initialize_From_SystemData_STATUS(source *SystemData_STATUS) error {
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := genruntime.ToEnum(string(*source.CreatedByType), systemData_CreatedByType_Values)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := genruntime.ToEnum(string(*source.LastModifiedByType), systemData_LastModifiedByType_Values)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -3455,6 +3476,35 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 
 	// No error
 	return nil
+}
+
+// The identity type.
+// +kubebuilder:validation:Enum={"SystemAssigned","UserAssigned"}
+type AKSIdentityType string
+
+const (
+	AKSIdentityType_SystemAssigned = AKSIdentityType("SystemAssigned")
+	AKSIdentityType_UserAssigned   = AKSIdentityType("UserAssigned")
+)
+
+// Mapping from string to AKSIdentityType
+var aKSIdentityType_Values = map[string]AKSIdentityType{
+	"systemassigned": AKSIdentityType_SystemAssigned,
+	"userassigned":   AKSIdentityType_UserAssigned,
+}
+
+// The identity type.
+type AKSIdentityType_STATUS string
+
+const (
+	AKSIdentityType_STATUS_SystemAssigned = AKSIdentityType_STATUS("SystemAssigned")
+	AKSIdentityType_STATUS_UserAssigned   = AKSIdentityType_STATUS("UserAssigned")
+)
+
+// Mapping from string to AKSIdentityType_STATUS
+var aKSIdentityType_STATUS_Values = map[string]AKSIdentityType_STATUS{
+	"systemassigned": AKSIdentityType_STATUS_SystemAssigned,
+	"userassigned":   AKSIdentityType_STATUS_UserAssigned,
 }
 
 // The resource management error additional info.
@@ -3682,33 +3732,6 @@ func (unrolled *ErrorDetail_STATUS_Unrolled) AssignProperties_To_ErrorDetail_STA
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"SystemAssigned","UserAssigned"}
-type Extension_Properties_AksAssignedIdentity_Type_Spec string
-
-const (
-	Extension_Properties_AksAssignedIdentity_Type_Spec_SystemAssigned = Extension_Properties_AksAssignedIdentity_Type_Spec("SystemAssigned")
-	Extension_Properties_AksAssignedIdentity_Type_Spec_UserAssigned   = Extension_Properties_AksAssignedIdentity_Type_Spec("UserAssigned")
-)
-
-// Mapping from string to Extension_Properties_AksAssignedIdentity_Type_Spec
-var extension_Properties_AksAssignedIdentity_Type_Spec_Values = map[string]Extension_Properties_AksAssignedIdentity_Type_Spec{
-	"systemassigned": Extension_Properties_AksAssignedIdentity_Type_Spec_SystemAssigned,
-	"userassigned":   Extension_Properties_AksAssignedIdentity_Type_Spec_UserAssigned,
-}
-
-type Extension_Properties_AksAssignedIdentity_Type_STATUS string
-
-const (
-	Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned = Extension_Properties_AksAssignedIdentity_Type_STATUS("SystemAssigned")
-	Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned   = Extension_Properties_AksAssignedIdentity_Type_STATUS("UserAssigned")
-)
-
-// Mapping from string to Extension_Properties_AksAssignedIdentity_Type_STATUS
-var extension_Properties_AksAssignedIdentity_Type_STATUS_Values = map[string]Extension_Properties_AksAssignedIdentity_Type_STATUS{
-	"systemassigned": Extension_Properties_AksAssignedIdentity_Type_STATUS_SystemAssigned,
-	"userassigned":   Extension_Properties_AksAssignedIdentity_Type_STATUS_UserAssigned,
-}
-
 type ExtensionOperatorConfigMaps struct {
 	// PrincipalId: indicates where the PrincipalId config map should be placed. If omitted, no config map will be created.
 	PrincipalId *genruntime.ConfigMapDestination `json:"principalId,omitempty"`
@@ -3719,7 +3742,7 @@ func (maps *ExtensionOperatorConfigMaps) AssignProperties_From_ExtensionOperator
 
 	// PrincipalId
 	if source.PrincipalId != nil {
-		principalId := source.PrincipalId.Copy()
+		principalId := *source.PrincipalId.DeepCopy()
 		maps.PrincipalId = &principalId
 	} else {
 		maps.PrincipalId = nil
@@ -3736,7 +3759,7 @@ func (maps *ExtensionOperatorConfigMaps) AssignProperties_To_ExtensionOperatorCo
 
 	// PrincipalId
 	if maps.PrincipalId != nil {
-		principalId := maps.PrincipalId.Copy()
+		principalId := *maps.PrincipalId.DeepCopy()
 		destination.PrincipalId = &principalId
 	} else {
 		destination.PrincipalId = nil
@@ -3751,6 +3774,22 @@ func (maps *ExtensionOperatorConfigMaps) AssignProperties_To_ExtensionOperatorCo
 
 	// No error
 	return nil
+}
+
+// +kubebuilder:validation:Enum={"Error","Information","Warning"}
+type ExtensionStatus_Level string
+
+const (
+	ExtensionStatus_Level_Error       = ExtensionStatus_Level("Error")
+	ExtensionStatus_Level_Information = ExtensionStatus_Level("Information")
+	ExtensionStatus_Level_Warning     = ExtensionStatus_Level("Warning")
+)
+
+// Mapping from string to ExtensionStatus_Level
+var extensionStatus_Level_Values = map[string]ExtensionStatus_Level{
+	"error":       ExtensionStatus_Level_Error,
+	"information": ExtensionStatus_Level_Information,
+	"warning":     ExtensionStatus_Level_Warning,
 }
 
 type ExtensionStatus_Level_STATUS string
@@ -4077,24 +4116,6 @@ func (namespace *ScopeNamespace_STATUS) AssignProperties_To_ScopeNamespace_STATU
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// Mapping from string to SystemData_CreatedByType
-var systemData_CreatedByType_Values = map[string]SystemData_CreatedByType{
-	"application":     SystemData_CreatedByType_Application,
-	"key":             SystemData_CreatedByType_Key,
-	"managedidentity": SystemData_CreatedByType_ManagedIdentity,
-	"user":            SystemData_CreatedByType_User,
-}
-
 type SystemData_CreatedByType_STATUS string
 
 const (
@@ -4110,24 +4131,6 @@ var systemData_CreatedByType_STATUS_Values = map[string]SystemData_CreatedByType
 	"key":             SystemData_CreatedByType_STATUS_Key,
 	"managedidentity": SystemData_CreatedByType_STATUS_ManagedIdentity,
 	"user":            SystemData_CreatedByType_STATUS_User,
-}
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
-)
-
-// Mapping from string to SystemData_LastModifiedByType
-var systemData_LastModifiedByType_Values = map[string]SystemData_LastModifiedByType{
-	"application":     SystemData_LastModifiedByType_Application,
-	"key":             SystemData_LastModifiedByType_Key,
-	"managedidentity": SystemData_LastModifiedByType_ManagedIdentity,
-	"user":            SystemData_LastModifiedByType_User,
 }
 
 type SystemData_LastModifiedByType_STATUS string

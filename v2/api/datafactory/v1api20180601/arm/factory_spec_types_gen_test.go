@@ -19,6 +19,11 @@ import (
 
 func Test_CMKIdentityDefinition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -80,6 +85,11 @@ func AddIndependentPropertyGeneratorsForCMKIdentityDefinition(gens map[string]go
 
 func Test_EncryptionConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -157,6 +167,11 @@ func AddRelatedPropertyGeneratorsForEncryptionConfiguration(gens map[string]gopt
 
 func Test_FactoryGitHubConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -240,6 +255,11 @@ func AddRelatedPropertyGeneratorsForFactoryGitHubConfiguration(gens map[string]g
 
 func Test_FactoryIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -304,7 +324,7 @@ func FactoryIdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFactoryIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFactoryIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(FactoryIdentity_Type_SystemAssigned, FactoryIdentity_Type_SystemAssignedUserAssigned, FactoryIdentity_Type_UserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(FactoryIdentityType_SystemAssigned, FactoryIdentityType_SystemAssignedUserAssigned, FactoryIdentityType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForFactoryIdentity is a factory method for creating gopter generators
@@ -316,6 +336,11 @@ func AddRelatedPropertyGeneratorsForFactoryIdentity(gens map[string]gopter.Gen) 
 
 func Test_FactoryProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -380,7 +405,7 @@ func FactoryPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFactoryProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFactoryProperties(gens map[string]gopter.Gen) {
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(FactoryProperties_PublicNetworkAccess_Disabled, FactoryProperties_PublicNetworkAccess_Enabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForFactoryProperties is a factory method for creating gopter generators
@@ -395,6 +420,11 @@ func AddRelatedPropertyGeneratorsForFactoryProperties(gens map[string]gopter.Gen
 
 func Test_FactoryRepoConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -468,6 +498,11 @@ func AddRelatedPropertyGeneratorsForFactoryRepoConfiguration(gens map[string]gop
 
 func Test_FactoryVSTSConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -537,6 +572,11 @@ func AddIndependentPropertyGeneratorsForFactoryVSTSConfiguration(gens map[string
 
 func Test_Factory_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -616,6 +656,11 @@ func AddRelatedPropertyGeneratorsForFactory_Spec(gens map[string]gopter.Gen) {
 
 func Test_GitHubClientSecret_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -677,6 +722,11 @@ func AddIndependentPropertyGeneratorsForGitHubClientSecret(gens map[string]gopte
 
 func Test_GlobalParameterSpecification_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -734,16 +784,21 @@ func GlobalParameterSpecificationGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForGlobalParameterSpecification is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForGlobalParameterSpecification(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		GlobalParameterSpecification_Type_Array,
-		GlobalParameterSpecification_Type_Bool,
-		GlobalParameterSpecification_Type_Float,
-		GlobalParameterSpecification_Type_Int,
-		GlobalParameterSpecification_Type_Object,
-		GlobalParameterSpecification_Type_String))
+		GlobalParameterType_Array,
+		GlobalParameterType_Bool,
+		GlobalParameterType_Float,
+		GlobalParameterType_Int,
+		GlobalParameterType_Object,
+		GlobalParameterType_String))
 }
 
 func Test_PurviewConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -805,6 +860,11 @@ func AddIndependentPropertyGeneratorsForPurviewConfiguration(gens map[string]gop
 
 func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

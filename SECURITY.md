@@ -39,3 +39,13 @@ We prefer all communications to be in English.
 Microsoft follows the principle of [Coordinated Vulnerability Disclosure](https://www.microsoft.com/en-us/msrc/cvd).
 
 <!-- END MICROSOFT SECURITY.MD BLOCK -->
+
+## Understanding the Security Model
+
+Azure Service Operator (ASO) relies on Kubernetes RBAC for access control. Any user who can create or modify ASO resources in a namespace that ASO is configured to watch can use ASO to perform any action in Azure that the Azure credential configured for that namespace permits.
+
+This makes securing access to namespaces where ASO credentials are configured critical: users who can create or modify ASO resources in a namespace effectively have the same Azure permissions as the credential stored in that namespace.
+
+For more information, see:
+- [Security best practices](https://azure.github.io/azure-service-operator/guide/best-practices/security/)
+- [Reducing access](https://azure.github.io/azure-service-operator/guide/authentication/reducing-access/)

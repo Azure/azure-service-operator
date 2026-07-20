@@ -1129,8 +1129,11 @@ type ApplicationGatewayPathRule struct {
 
 // The application gateway private link ip configuration.
 type ApplicationGatewayPrivateLinkIpConfiguration struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	// Name: The name of application gateway private link ip configuration.
+	Name *string `json:"name,omitempty"`
+
+	// Properties: Properties of an application gateway private link ip configuration.
+	Properties *ApplicationGatewayPrivateLinkIpConfigurationProperties `json:"properties,omitempty"`
 }
 
 // Application gateway probe health response match.
@@ -1275,6 +1278,21 @@ type ApplicationGatewayPathRulePropertiesFormat struct {
 
 	// RewriteRuleSet: Rewrite rule set resource of URL path map path rule.
 	RewriteRuleSet *SubResource `json:"rewriteRuleSet,omitempty"`
+}
+
+// Properties of an application gateway private link IP configuration.
+type ApplicationGatewayPrivateLinkIpConfigurationProperties struct {
+	// Primary: Whether the ip configuration is primary or not.
+	Primary *bool `json:"primary,omitempty"`
+
+	// PrivateIPAddress: The private IP address of the IP configuration.
+	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
+
+	// PrivateIPAllocationMethod: The private IP address allocation method.
+	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+
+	// Subnet: Reference to the subnet resource.
+	Subnet *SubResource `json:"subnet,omitempty"`
 }
 
 // Set of actions in the Rewrite Rule in Application Gateway.

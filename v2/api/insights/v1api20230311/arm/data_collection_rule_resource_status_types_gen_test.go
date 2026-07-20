@@ -19,6 +19,11 @@ import (
 
 func Test_AdxDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -83,6 +88,11 @@ func AddIndependentPropertyGeneratorsForAdxDestination_STATUS(gens map[string]go
 
 func Test_AgentSetting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -145,6 +155,11 @@ func AddIndependentPropertyGeneratorsForAgentSetting_STATUS(gens map[string]gopt
 
 func Test_AgentSettingsSpec_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -206,6 +221,11 @@ func AddRelatedPropertyGeneratorsForAgentSettingsSpec_STATUS(gens map[string]gop
 
 func Test_AzureMonitorMetricsDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -267,6 +287,11 @@ func AddIndependentPropertyGeneratorsForAzureMonitorMetricsDestination_STATUS(ge
 
 func Test_ColumnDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -336,6 +361,11 @@ func AddIndependentPropertyGeneratorsForColumnDefinition_STATUS(gens map[string]
 
 func Test_DataCollectionRuleResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -421,6 +451,11 @@ func AddRelatedPropertyGeneratorsForDataCollectionRuleResource_STATUS(gens map[s
 
 func Test_DataCollectionRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -514,6 +549,11 @@ func AddRelatedPropertyGeneratorsForDataCollectionRule_STATUS(gens map[string]go
 
 func Test_DataFlow_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -573,17 +613,17 @@ func AddIndependentPropertyGeneratorsForDataFlow_STATUS(gens map[string]gopter.G
 	gens["CaptureOverflow"] = gen.PtrOf(gen.Bool())
 	gens["Destinations"] = gen.SliceOf(gen.AlphaString())
 	gens["OutputStream"] = gen.PtrOf(gen.AlphaString())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(
-		DataFlow_Streams_STATUS_MicrosoftEvent,
-		DataFlow_Streams_STATUS_MicrosoftInsightsMetrics,
-		DataFlow_Streams_STATUS_MicrosoftPerf,
-		DataFlow_Streams_STATUS_MicrosoftSyslog,
-		DataFlow_Streams_STATUS_MicrosoftWindowsEvent))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DataImportSources_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -645,6 +685,11 @@ func AddRelatedPropertyGeneratorsForDataImportSources_STATUS(gens map[string]gop
 
 func Test_DataSourcesSpec_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -715,6 +760,11 @@ func AddRelatedPropertyGeneratorsForDataSourcesSpec_STATUS(gens map[string]gopte
 
 func Test_DestinationsSpec_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -785,6 +835,11 @@ func AddRelatedPropertyGeneratorsForDestinationsSpec_STATUS(gens map[string]gopt
 
 func Test_EndpointsSpec_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -847,6 +902,11 @@ func AddIndependentPropertyGeneratorsForEndpointsSpec_STATUS(gens map[string]gop
 
 func Test_EnrichmentData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -908,6 +968,11 @@ func AddRelatedPropertyGeneratorsForEnrichmentData_STATUS(gens map[string]gopter
 
 func Test_EventHubDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -971,6 +1036,11 @@ func AddIndependentPropertyGeneratorsForEventHubDataSource_STATUS(gens map[strin
 
 func Test_EventHubDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1033,6 +1103,11 @@ func AddIndependentPropertyGeneratorsForEventHubDestination_STATUS(gens map[stri
 
 func Test_EventHubDirectDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1095,6 +1170,11 @@ func AddIndependentPropertyGeneratorsForEventHubDirectDestination_STATUS(gens ma
 
 func Test_ExtensionDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1154,16 +1234,16 @@ func AddIndependentPropertyGeneratorsForExtensionDataSource_STATUS(gens map[stri
 	gens["ExtensionName"] = gen.PtrOf(gen.AlphaString())
 	gens["InputDataSources"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(
-		ExtensionDataSource_Streams_STATUS_MicrosoftEvent,
-		ExtensionDataSource_Streams_STATUS_MicrosoftInsightsMetrics,
-		ExtensionDataSource_Streams_STATUS_MicrosoftPerf,
-		ExtensionDataSource_Streams_STATUS_MicrosoftSyslog,
-		ExtensionDataSource_Streams_STATUS_MicrosoftWindowsEvent))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_IisLogsDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1228,6 +1308,11 @@ func AddIndependentPropertyGeneratorsForIisLogsDataSource_STATUS(gens map[string
 
 func Test_LogAnalyticsDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1291,6 +1376,11 @@ func AddIndependentPropertyGeneratorsForLogAnalyticsDestination_STATUS(gens map[
 
 func Test_LogFileSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1352,6 +1442,11 @@ func AddRelatedPropertyGeneratorsForLogFileSettings_STATUS(gens map[string]gopte
 
 func Test_LogFileTextSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1422,6 +1517,11 @@ func AddIndependentPropertyGeneratorsForLogFileTextSettings_STATUS(gens map[stri
 
 func Test_LogFilesDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1501,6 +1601,11 @@ func AddRelatedPropertyGeneratorsForLogFilesDataSource_STATUS(gens map[string]go
 
 func Test_MicrosoftFabricDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1566,6 +1671,11 @@ func AddIndependentPropertyGeneratorsForMicrosoftFabricDestination_STATUS(gens m
 
 func Test_MonitoringAccountDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1629,6 +1739,11 @@ func AddIndependentPropertyGeneratorsForMonitoringAccountDestination_STATUS(gens
 
 func Test_PerfCounterDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1688,12 +1803,17 @@ func AddIndependentPropertyGeneratorsForPerfCounterDataSource_STATUS(gens map[st
 	gens["CounterSpecifiers"] = gen.SliceOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["SamplingFrequencyInSeconds"] = gen.PtrOf(gen.Int())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(PerfCounterDataSource_Streams_STATUS_MicrosoftInsightsMetrics, PerfCounterDataSource_Streams_STATUS_MicrosoftPerf))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PlatformTelemetryDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1756,6 +1876,11 @@ func AddIndependentPropertyGeneratorsForPlatformTelemetryDataSource_STATUS(gens 
 
 func Test_PrometheusForwarderDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1816,11 +1941,16 @@ func AddIndependentPropertyGeneratorsForPrometheusForwarderDataSource_STATUS(gen
 		gen.AlphaString(),
 		gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(PrometheusForwarderDataSource_Streams_STATUS_MicrosoftPrometheusMetrics))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_ReferencesSpec_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1882,6 +2012,11 @@ func AddRelatedPropertyGeneratorsForReferencesSpec_STATUS(gens map[string]gopter
 
 func Test_StorageBlobDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1945,6 +2080,11 @@ func AddIndependentPropertyGeneratorsForStorageBlobDestination_STATUS(gens map[s
 
 func Test_StorageBlob_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2008,6 +2148,11 @@ func AddIndependentPropertyGeneratorsForStorageBlob_STATUS(gens map[string]gopte
 
 func Test_StorageTableDestination_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2071,6 +2216,11 @@ func AddIndependentPropertyGeneratorsForStorageTableDestination_STATUS(gens map[
 
 func Test_StreamDeclaration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2132,6 +2282,11 @@ func AddRelatedPropertyGeneratorsForStreamDeclaration_STATUS(gens map[string]gop
 
 func Test_SyslogDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2227,12 +2382,17 @@ func AddIndependentPropertyGeneratorsForSyslogDataSource_STATUS(gens map[string]
 		SyslogDataSource_LogLevels_STATUS_Star,
 		SyslogDataSource_LogLevels_STATUS_Warning))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(SyslogDataSource_Streams_STATUS_MicrosoftSyslog))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WindowsEventLogDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2290,13 +2450,18 @@ func WindowsEventLogDataSource_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWindowsEventLogDataSource_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWindowsEventLogDataSource_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Streams"] = gen.SliceOf(gen.OneConstOf(WindowsEventLogDataSource_Streams_STATUS_MicrosoftEvent, WindowsEventLogDataSource_Streams_STATUS_MicrosoftWindowsEvent))
+	gens["Streams"] = gen.SliceOf(gen.AlphaString())
 	gens["TransformKql"] = gen.PtrOf(gen.AlphaString())
 	gens["XPathQueries"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_WindowsFirewallLogsDataSource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

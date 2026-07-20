@@ -1,0 +1,30 @@
+# TODO: This is the wrong location, needs to be in another provider
+apiVersion: network.frontdoor.azure.com/v1api20220501
+kind: WebApplicationFirewallPolicy
+metadata:
+  name: asosamplefirewall
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-rg
+  customRules:
+    rules:
+    - action: Block
+      enabledState: Enabled
+      matchConditions:
+      - matchValue:
+        - 192.0.2.0/24
+        matchVariable: RemoteAddr
+        negateCondition: true
+        operator: IPMatch
+      name: RateLimit
+      priority: 100
+      rateLimitDurationInMinutes: 5
+      rateLimitThreshold: 10
+      ruleType: RateLimitRule
+  location: global
+  policySettings:
+    enabledState: Enabled
+    mode: Detection
+  sku:
+    name: Standard_AzureFrontDoor

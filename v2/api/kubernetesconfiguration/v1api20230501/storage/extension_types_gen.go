@@ -374,9 +374,9 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *st
 	// AksAssignedIdentity
 	if source.AksAssignedIdentity != nil {
 		var aksAssignedIdentity Extension_Properties_AksAssignedIdentity_Spec
-		err := aksAssignedIdentity.AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec(source.AksAssignedIdentity)
+		err := aksAssignedIdentity.AssignProperties_From_ExtensionPropertiesAksAssignedIdentity(source.AksAssignedIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtensionPropertiesAksAssignedIdentity() to populate field AksAssignedIdentity")
 		}
 		extension.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -470,13 +470,21 @@ func (extension *Extension_Spec) AssignProperties_From_Extension_Spec(source *st
 		extension.Scope = nil
 	}
 
+	// Statuses
+	if len(source.Statuses) > 0 {
+		propertyBag.Add("Statuses", source.Statuses)
+	} else {
+		propertyBag.Remove("Statuses")
+	}
+
 	// SystemData
-	if source.SystemData != nil {
+	if propertyBag.Contains("SystemData") {
 		var systemDatum SystemData
-		err := systemDatum.AssignProperties_From_SystemData(source.SystemData)
+		err := propertyBag.Pull("SystemData", &systemDatum)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData() to populate field SystemData")
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
 		}
+
 		extension.SystemData = &systemDatum
 	} else {
 		extension.SystemData = nil
@@ -512,10 +520,10 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 
 	// AksAssignedIdentity
 	if extension.AksAssignedIdentity != nil {
-		var aksAssignedIdentity storage.Extension_Properties_AksAssignedIdentity_Spec
-		err := extension.AksAssignedIdentity.AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec(&aksAssignedIdentity)
+		var aksAssignedIdentity storage.ExtensionPropertiesAksAssignedIdentity
+		err := extension.AksAssignedIdentity.AssignProperties_To_ExtensionPropertiesAksAssignedIdentity(&aksAssignedIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtensionPropertiesAksAssignedIdentity() to populate field AksAssignedIdentity")
 		}
 		destination.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -609,16 +617,24 @@ func (extension *Extension_Spec) AssignProperties_To_Extension_Spec(destination 
 		destination.Scope = nil
 	}
 
+	// Statuses
+	if propertyBag.Contains("Statuses") {
+		var status []storage.ExtensionStatus
+		err := propertyBag.Pull("Statuses", &status)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Statuses' from propertyBag")
+		}
+
+		destination.Statuses = status
+	} else {
+		destination.Statuses = nil
+	}
+
 	// SystemData
 	if extension.SystemData != nil {
-		var systemDatum storage.SystemData
-		err := extension.SystemData.AssignProperties_To_SystemData(&systemDatum)
-		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
+		propertyBag.Add("SystemData", *extension.SystemData)
 	} else {
-		destination.SystemData = nil
+		propertyBag.Remove("SystemData")
 	}
 
 	// Version
@@ -730,9 +746,9 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 	// AksAssignedIdentity
 	if source.AksAssignedIdentity != nil {
 		var aksAssignedIdentity Extension_Properties_AksAssignedIdentity_STATUS
-		err := aksAssignedIdentity.AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS(source.AksAssignedIdentity)
+		err := aksAssignedIdentity.AssignProperties_From_ExtensionPropertiesAksAssignedIdentity_STATUS(source.AksAssignedIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ExtensionPropertiesAksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
 		}
 		extension.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -819,17 +835,7 @@ func (extension *Extension_STATUS) AssignProperties_From_Extension_STATUS(source
 	}
 
 	// ProvisioningState
-	if propertyBag.Contains("ProvisioningState") {
-		var provisioningState string
-		err := propertyBag.Pull("ProvisioningState", &provisioningState)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ProvisioningState' from propertyBag")
-		}
-
-		extension.ProvisioningState = &provisioningState
-	} else {
-		extension.ProvisioningState = nil
-	}
+	extension.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ReleaseTrain
 	extension.ReleaseTrain = genruntime.ClonePointerToString(source.ReleaseTrain)
@@ -907,10 +913,10 @@ func (extension *Extension_STATUS) AssignProperties_To_Extension_STATUS(destinat
 
 	// AksAssignedIdentity
 	if extension.AksAssignedIdentity != nil {
-		var aksAssignedIdentity storage.Extension_Properties_AksAssignedIdentity_STATUS
-		err := extension.AksAssignedIdentity.AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS(&aksAssignedIdentity)
+		var aksAssignedIdentity storage.ExtensionPropertiesAksAssignedIdentity_STATUS
+		err := extension.AksAssignedIdentity.AssignProperties_To_ExtensionPropertiesAksAssignedIdentity_STATUS(&aksAssignedIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ExtensionPropertiesAksAssignedIdentity_STATUS() to populate field AksAssignedIdentity")
 		}
 		destination.AksAssignedIdentity = &aksAssignedIdentity
 	} else {
@@ -997,11 +1003,7 @@ func (extension *Extension_STATUS) AssignProperties_To_Extension_STATUS(destinat
 	}
 
 	// ProvisioningState
-	if extension.ProvisioningState != nil {
-		propertyBag.Add("ProvisioningState", *extension.ProvisioningState)
-	} else {
-		propertyBag.Remove("ProvisioningState")
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(extension.ProvisioningState)
 
 	// ReleaseTrain
 	destination.ReleaseTrain = genruntime.ClonePointerToString(extension.ReleaseTrain)
@@ -1231,8 +1233,8 @@ type Extension_Properties_AksAssignedIdentity_Spec struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec populates our Extension_Properties_AksAssignedIdentity_Spec from the provided source Extension_Properties_AksAssignedIdentity_Spec
-func (identity *Extension_Properties_AksAssignedIdentity_Spec) AssignProperties_From_Extension_Properties_AksAssignedIdentity_Spec(source *storage.Extension_Properties_AksAssignedIdentity_Spec) error {
+// AssignProperties_From_ExtensionPropertiesAksAssignedIdentity populates our Extension_Properties_AksAssignedIdentity_Spec from the provided source ExtensionPropertiesAksAssignedIdentity
+func (identity *Extension_Properties_AksAssignedIdentity_Spec) AssignProperties_From_ExtensionPropertiesAksAssignedIdentity(source *storage.ExtensionPropertiesAksAssignedIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1259,8 +1261,8 @@ func (identity *Extension_Properties_AksAssignedIdentity_Spec) AssignProperties_
 	return nil
 }
 
-// AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec populates the provided destination Extension_Properties_AksAssignedIdentity_Spec from our Extension_Properties_AksAssignedIdentity_Spec
-func (identity *Extension_Properties_AksAssignedIdentity_Spec) AssignProperties_To_Extension_Properties_AksAssignedIdentity_Spec(destination *storage.Extension_Properties_AksAssignedIdentity_Spec) error {
+// AssignProperties_To_ExtensionPropertiesAksAssignedIdentity populates the provided destination ExtensionPropertiesAksAssignedIdentity from our Extension_Properties_AksAssignedIdentity_Spec
+func (identity *Extension_Properties_AksAssignedIdentity_Spec) AssignProperties_To_ExtensionPropertiesAksAssignedIdentity(destination *storage.ExtensionPropertiesAksAssignedIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -1295,8 +1297,8 @@ type Extension_Properties_AksAssignedIdentity_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-// AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS populates our Extension_Properties_AksAssignedIdentity_STATUS from the provided source Extension_Properties_AksAssignedIdentity_STATUS
-func (identity *Extension_Properties_AksAssignedIdentity_STATUS) AssignProperties_From_Extension_Properties_AksAssignedIdentity_STATUS(source *storage.Extension_Properties_AksAssignedIdentity_STATUS) error {
+// AssignProperties_From_ExtensionPropertiesAksAssignedIdentity_STATUS populates our Extension_Properties_AksAssignedIdentity_STATUS from the provided source ExtensionPropertiesAksAssignedIdentity_STATUS
+func (identity *Extension_Properties_AksAssignedIdentity_STATUS) AssignProperties_From_ExtensionPropertiesAksAssignedIdentity_STATUS(source *storage.ExtensionPropertiesAksAssignedIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1329,8 +1331,8 @@ func (identity *Extension_Properties_AksAssignedIdentity_STATUS) AssignPropertie
 	return nil
 }
 
-// AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS populates the provided destination Extension_Properties_AksAssignedIdentity_STATUS from our Extension_Properties_AksAssignedIdentity_STATUS
-func (identity *Extension_Properties_AksAssignedIdentity_STATUS) AssignProperties_To_Extension_Properties_AksAssignedIdentity_STATUS(destination *storage.Extension_Properties_AksAssignedIdentity_STATUS) error {
+// AssignProperties_To_ExtensionPropertiesAksAssignedIdentity_STATUS populates the provided destination ExtensionPropertiesAksAssignedIdentity_STATUS from our Extension_Properties_AksAssignedIdentity_STATUS
+func (identity *Extension_Properties_AksAssignedIdentity_STATUS) AssignProperties_To_ExtensionPropertiesAksAssignedIdentity_STATUS(destination *storage.ExtensionPropertiesAksAssignedIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -2147,92 +2149,6 @@ type SystemData struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_SystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignProperties_From_SystemData(source *storage.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		data.PropertyBag = propertyBag
-	} else {
-		data.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForSystemData interface (if implemented) to customize the conversion
-	var dataAsAny any = data
-	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData); ok {
-		err := augmentedData.AssignPropertiesFrom(source)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_SystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignProperties_To_SystemData(destination *storage.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// Invoke the augmentConversionForSystemData interface (if implemented) to customize the conversion
-	var dataAsAny any = data
-	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData); ok {
-		err := augmentedData.AssignPropertiesTo(destination)
-		if err != nil {
-			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
-		}
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1api20230501.SystemData_STATUS
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
@@ -2337,13 +2253,13 @@ type augmentConversionForErrorDetail_STATUS interface {
 }
 
 type augmentConversionForExtension_Properties_AksAssignedIdentity_Spec interface {
-	AssignPropertiesFrom(src *storage.Extension_Properties_AksAssignedIdentity_Spec) error
-	AssignPropertiesTo(dst *storage.Extension_Properties_AksAssignedIdentity_Spec) error
+	AssignPropertiesFrom(src *storage.ExtensionPropertiesAksAssignedIdentity) error
+	AssignPropertiesTo(dst *storage.ExtensionPropertiesAksAssignedIdentity) error
 }
 
 type augmentConversionForExtension_Properties_AksAssignedIdentity_STATUS interface {
-	AssignPropertiesFrom(src *storage.Extension_Properties_AksAssignedIdentity_STATUS) error
-	AssignPropertiesTo(dst *storage.Extension_Properties_AksAssignedIdentity_STATUS) error
+	AssignPropertiesFrom(src *storage.ExtensionPropertiesAksAssignedIdentity_STATUS) error
+	AssignPropertiesTo(dst *storage.ExtensionPropertiesAksAssignedIdentity_STATUS) error
 }
 
 type augmentConversionForExtensionOperatorSpec interface {
@@ -2384,11 +2300,6 @@ type augmentConversionForScope interface {
 type augmentConversionForScope_STATUS interface {
 	AssignPropertiesFrom(src *storage.Scope_STATUS) error
 	AssignPropertiesTo(dst *storage.Scope_STATUS) error
-}
-
-type augmentConversionForSystemData interface {
-	AssignPropertiesFrom(src *storage.SystemData) error
-	AssignPropertiesTo(dst *storage.SystemData) error
 }
 
 type augmentConversionForSystemData_STATUS interface {
@@ -2604,7 +2515,7 @@ func (maps *ExtensionOperatorConfigMaps) AssignProperties_From_ExtensionOperator
 
 	// PrincipalId
 	if source.PrincipalId != nil {
-		principalId := source.PrincipalId.Copy()
+		principalId := *source.PrincipalId.DeepCopy()
 		maps.PrincipalId = &principalId
 	} else {
 		maps.PrincipalId = nil
@@ -2637,7 +2548,7 @@ func (maps *ExtensionOperatorConfigMaps) AssignProperties_To_ExtensionOperatorCo
 
 	// PrincipalId
 	if maps.PrincipalId != nil {
-		principalId := maps.PrincipalId.Copy()
+		principalId := *maps.PrincipalId.DeepCopy()
 		destination.PrincipalId = &principalId
 	} else {
 		destination.PrincipalId = nil

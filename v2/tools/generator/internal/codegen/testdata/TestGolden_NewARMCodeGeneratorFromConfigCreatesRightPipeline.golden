@@ -18,7 +18,7 @@ removeAliases                                                Remove type aliases
 collapseCrossGroupReferences                                 Find and remove cross group references
 stripUnreferenced                                            Strip unreferenced types
 assertTypesStructureValid                                    Verify that all local TypeNames refer to a type
-removeEmbeddedResources                           azure      Remove properties that point to embedded resources.
+removeEmbeddedResources                           azure      Remove properties that point to embedded resources
 catalogKnownResources                                        Catalog known resources
 filterTypes                                                  Apply export filters to reduce the number of generated types
 promoteRootOneOfProperties                                   Promote selected properties on OneOf objects directly referenced by resources
@@ -45,6 +45,7 @@ addSerializationTypeTag                                      Adds a property tag
 pruneResourcesWithLifecycleOwnedByParentStage     azure      Prune embedded resources whose lifecycle is owned by the parent.
 makeOneOfDiscriminantRequired                     azure      Fix one of types to a discriminator which is not omitempty/optional
 applyArmConversionInterface                       azure      Add ARM conversion interfaces to Kubernetes types
+addAzureNameFromConfig                            azure      Injects the AzureNameFromConfig property into Spec types for resources that support it
 applyKubernetesResourceInterface                  azure      Add the KubernetesResource interface to every resource
 flattenProperties                                            Apply flattening to properties marked for flattening
 stripUnreferenced                                            Strip unreferenced types
@@ -60,6 +61,7 @@ createConversionGraph                             azure      Create the graph of
 repairSkippingProperties                          azure      Repair property bag serialization for properties that skip resource or object versions
 createConversionGraph                             azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionProperty                     azure      Inject the property OriginalVersion into each Storage Spec type
+injectAzureNameFromConfigMethod                   azure      Inject GetAzureNameFromConfig method on storage specs that have the AzureNameFromConfig property
 injectPropertyAssignmentFunctions                 azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
 implementConvertibleSpecInterface                 azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
 implementConvertibleStatusInterface               azure      Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type

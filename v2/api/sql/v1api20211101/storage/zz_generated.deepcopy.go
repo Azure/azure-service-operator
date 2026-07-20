@@ -596,6 +596,11 @@ func (in *ServerExternalAdministrator) DeepCopyInto(out *ServerExternalAdministr
 		*out = new(string)
 		**out = **in
 	}
+	if in.LoginFromConfig != nil {
+		in, out := &in.LoginFromConfig, &out.LoginFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.PrincipalType != nil {
 		in, out := &in.PrincipalType, &out.PrincipalType
 		*out = new(string)
@@ -613,9 +618,19 @@ func (in *ServerExternalAdministrator) DeepCopyInto(out *ServerExternalAdministr
 		*out = new(string)
 		**out = **in
 	}
+	if in.SidFromConfig != nil {
+		in, out := &in.SidFromConfig, &out.SidFromConfig
+		*out = new(genruntime.ConfigMapReference)
+		**out = **in
+	}
 	if in.TenantId != nil {
 		in, out := &in.TenantId, &out.TenantId
 		*out = new(string)
+		**out = **in
+	}
+	if in.TenantIdFromConfig != nil {
+		in, out := &in.TenantIdFromConfig, &out.TenantIdFromConfig
+		*out = new(genruntime.ConfigMapReference)
 		**out = **in
 	}
 }
@@ -720,7 +735,7 @@ func (in *ServerOperatorConfigMaps) DeepCopyInto(out *ServerOperatorConfigMaps) 
 	if in.FullyQualifiedDomainName != nil {
 		in, out := &in.FullyQualifiedDomainName, &out.FullyQualifiedDomainName
 		*out = new(genruntime.ConfigMapDestination)
-		**out = **in
+		(*in).DeepCopyInto(*out)
 	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
@@ -751,7 +766,7 @@ func (in *ServerOperatorSpec) DeepCopyInto(out *ServerOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -774,7 +789,7 @@ func (in *ServerOperatorSpec) DeepCopyInto(out *ServerOperatorSpec) {
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1123,7 +1138,7 @@ func (in *ServersAdministratorOperatorSpec) DeepCopyInto(out *ServersAdministrat
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1141,7 +1156,7 @@ func (in *ServersAdministratorOperatorSpec) DeepCopyInto(out *ServersAdministrat
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1357,7 +1372,7 @@ func (in *ServersAdvancedThreatProtectionSettingOperatorSpec) DeepCopyInto(out *
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1375,7 +1390,7 @@ func (in *ServersAdvancedThreatProtectionSettingOperatorSpec) DeepCopyInto(out *
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1556,7 +1571,7 @@ func (in *ServersAuditingSettingOperatorSpec) DeepCopyInto(out *ServersAuditingS
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1574,7 +1589,7 @@ func (in *ServersAuditingSettingOperatorSpec) DeepCopyInto(out *ServersAuditingS
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1840,7 +1855,7 @@ func (in *ServersAzureADOnlyAuthenticationOperatorSpec) DeepCopyInto(out *Server
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -1858,7 +1873,7 @@ func (in *ServersAzureADOnlyAuthenticationOperatorSpec) DeepCopyInto(out *Server
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2029,7 +2044,7 @@ func (in *ServersConnectionPolicyOperatorSpec) DeepCopyInto(out *ServersConnecti
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2047,7 +2062,7 @@ func (in *ServersConnectionPolicyOperatorSpec) DeepCopyInto(out *ServersConnecti
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2228,7 +2243,7 @@ func (in *ServersDatabaseOperatorSpec) DeepCopyInto(out *ServersDatabaseOperator
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2246,7 +2261,7 @@ func (in *ServersDatabaseOperatorSpec) DeepCopyInto(out *ServersDatabaseOperator
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2781,7 +2796,7 @@ func (in *ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) DeepCopyI
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2799,7 +2814,7 @@ func (in *ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec) DeepCopyI
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2980,7 +2995,7 @@ func (in *ServersDatabasesAuditingSettingOperatorSpec) DeepCopyInto(out *Servers
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -2998,7 +3013,7 @@ func (in *ServersDatabasesAuditingSettingOperatorSpec) DeepCopyInto(out *Servers
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3259,7 +3274,7 @@ func (in *ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec) DeepCopyInt
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3277,7 +3292,7 @@ func (in *ServersDatabasesBackupLongTermRetentionPolicyOperatorSpec) DeepCopyInt
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3478,7 +3493,7 @@ func (in *ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec) DeepCopyIn
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3496,7 +3511,7 @@ func (in *ServersDatabasesBackupShortTermRetentionPolicyOperatorSpec) DeepCopyIn
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3677,7 +3692,7 @@ func (in *ServersDatabasesSecurityAlertPolicyOperatorSpec) DeepCopyInto(out *Ser
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3695,7 +3710,7 @@ func (in *ServersDatabasesSecurityAlertPolicyOperatorSpec) DeepCopyInto(out *Ser
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3931,7 +3946,7 @@ func (in *ServersDatabasesTransparentDataEncryptionOperatorSpec) DeepCopyInto(ou
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -3949,7 +3964,7 @@ func (in *ServersDatabasesTransparentDataEncryptionOperatorSpec) DeepCopyInto(ou
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4120,7 +4135,7 @@ func (in *ServersDatabasesVulnerabilityAssessmentOperatorSpec) DeepCopyInto(out 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4138,7 +4153,7 @@ func (in *ServersDatabasesVulnerabilityAssessmentOperatorSpec) DeepCopyInto(out 
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4334,7 +4349,7 @@ func (in *ServersElasticPoolOperatorSpec) DeepCopyInto(out *ServersElasticPoolOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4352,7 +4367,7 @@ func (in *ServersElasticPoolOperatorSpec) DeepCopyInto(out *ServersElasticPoolOp
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4866,7 +4881,7 @@ func (in *ServersFailoverGroupOperatorSpec) DeepCopyInto(out *ServersFailoverGro
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -4884,7 +4899,7 @@ func (in *ServersFailoverGroupOperatorSpec) DeepCopyInto(out *ServersFailoverGro
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5118,7 +5133,7 @@ func (in *ServersFirewallRuleOperatorSpec) DeepCopyInto(out *ServersFirewallRule
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5136,7 +5151,7 @@ func (in *ServersFirewallRuleOperatorSpec) DeepCopyInto(out *ServersFirewallRule
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5317,7 +5332,7 @@ func (in *ServersIPV6FirewallRuleOperatorSpec) DeepCopyInto(out *ServersIPV6Fire
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5335,7 +5350,7 @@ func (in *ServersIPV6FirewallRuleOperatorSpec) DeepCopyInto(out *ServersIPV6Fire
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5745,7 +5760,7 @@ func (in *ServersOutboundFirewallRuleOperatorSpec) DeepCopyInto(out *ServersOutb
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5763,7 +5778,7 @@ func (in *ServersOutboundFirewallRuleOperatorSpec) DeepCopyInto(out *ServersOutb
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5929,7 +5944,7 @@ func (in *ServersSecurityAlertPolicyOperatorSpec) DeepCopyInto(out *ServersSecur
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -5947,7 +5962,7 @@ func (in *ServersSecurityAlertPolicyOperatorSpec) DeepCopyInto(out *ServersSecur
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6183,7 +6198,7 @@ func (in *ServersVirtualNetworkRuleOperatorSpec) DeepCopyInto(out *ServersVirtua
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6201,7 +6216,7 @@ func (in *ServersVirtualNetworkRuleOperatorSpec) DeepCopyInto(out *ServersVirtua
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6387,7 +6402,7 @@ func (in *ServersVulnerabilityAssessmentOperatorSpec) DeepCopyInto(out *ServersV
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}
@@ -6405,7 +6420,7 @@ func (in *ServersVulnerabilityAssessmentOperatorSpec) DeepCopyInto(out *ServersV
 			if (*in)[i] != nil {
 				in, out := &(*in)[i], &(*out)[i]
 				*out = new(core.DestinationExpression)
-				**out = **in
+				(*in).DeepCopyInto(*out)
 			}
 		}
 	}

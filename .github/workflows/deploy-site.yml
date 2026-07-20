@@ -13,7 +13,9 @@ on:
     # 5:35 pm every Sunday (UTC)
     # to ensure the site is rebuilt weekly to publish scheduled blog posts
     - cron: "35 17 * * 0"
-  
+
+permissions: {}
+
 jobs:
   deploy-site:
 
@@ -36,13 +38,13 @@ jobs:
           private-key: ${{ secrets.AUTOMATION_KEY }}
           
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # pinned to 6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # pinned to 7.0.0
         with:
           fetch-depth: 0 # required to access tags
           submodules: "true"
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # pinned to v4.2.0
+        uses: docker/login-action@af1e73f918a031802d376d3c8bbc3fe56130a9b0 # pinned to v4.4.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}

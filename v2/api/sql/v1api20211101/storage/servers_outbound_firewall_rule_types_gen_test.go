@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,8 +18,108 @@ import (
 	"testing"
 )
 
+func Test_ServersOutboundFirewallRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersOutboundFirewallRule to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersOutboundFirewallRule, ServersOutboundFirewallRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersOutboundFirewallRule tests if a specific instance of ServersOutboundFirewallRule round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersOutboundFirewallRule(subject ServersOutboundFirewallRule) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersOutboundFirewallRule
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersOutboundFirewallRule
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersOutboundFirewallRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersOutboundFirewallRule to ServersOutboundFirewallRule via AssignProperties_To_ServersOutboundFirewallRule & AssignProperties_From_ServersOutboundFirewallRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersOutboundFirewallRule, ServersOutboundFirewallRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersOutboundFirewallRule tests if a specific instance of ServersOutboundFirewallRule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersOutboundFirewallRule(subject ServersOutboundFirewallRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersOutboundFirewallRule
+	err := copied.AssignProperties_To_ServersOutboundFirewallRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersOutboundFirewallRule
+	err = actual.AssignProperties_From_ServersOutboundFirewallRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersOutboundFirewallRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -79,8 +180,60 @@ func AddRelatedPropertyGeneratorsForServersOutboundFirewallRule(gens map[string]
 	gens["Status"] = ServersOutboundFirewallRule_STATUSGenerator()
 }
 
+func Test_ServersOutboundFirewallRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersOutboundFirewallRuleOperatorSpec to ServersOutboundFirewallRuleOperatorSpec via AssignProperties_To_ServersOutboundFirewallRuleOperatorSpec & AssignProperties_From_ServersOutboundFirewallRuleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersOutboundFirewallRuleOperatorSpec, ServersOutboundFirewallRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersOutboundFirewallRuleOperatorSpec tests if a specific instance of ServersOutboundFirewallRuleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersOutboundFirewallRuleOperatorSpec(subject ServersOutboundFirewallRuleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersOutboundFirewallRuleOperatorSpec
+	err := copied.AssignProperties_To_ServersOutboundFirewallRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersOutboundFirewallRuleOperatorSpec
+	err = actual.AssignProperties_From_ServersOutboundFirewallRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersOutboundFirewallRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -134,8 +287,60 @@ func ServersOutboundFirewallRuleOperatorSpecGenerator() gopter.Gen {
 	return serversOutboundFirewallRuleOperatorSpecGenerator
 }
 
+func Test_ServersOutboundFirewallRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersOutboundFirewallRule_STATUS to ServersOutboundFirewallRule_STATUS via AssignProperties_To_ServersOutboundFirewallRule_STATUS & AssignProperties_From_ServersOutboundFirewallRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersOutboundFirewallRule_STATUS, ServersOutboundFirewallRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersOutboundFirewallRule_STATUS tests if a specific instance of ServersOutboundFirewallRule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersOutboundFirewallRule_STATUS(subject ServersOutboundFirewallRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersOutboundFirewallRule_STATUS
+	err := copied.AssignProperties_To_ServersOutboundFirewallRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersOutboundFirewallRule_STATUS
+	err = actual.AssignProperties_From_ServersOutboundFirewallRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersOutboundFirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -198,8 +403,60 @@ func AddIndependentPropertyGeneratorsForServersOutboundFirewallRule_STATUS(gens 
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_ServersOutboundFirewallRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersOutboundFirewallRule_Spec to ServersOutboundFirewallRule_Spec via AssignProperties_To_ServersOutboundFirewallRule_Spec & AssignProperties_From_ServersOutboundFirewallRule_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersOutboundFirewallRule_Spec, ServersOutboundFirewallRule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersOutboundFirewallRule_Spec tests if a specific instance of ServersOutboundFirewallRule_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersOutboundFirewallRule_Spec(subject ServersOutboundFirewallRule_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersOutboundFirewallRule_Spec
+	err := copied.AssignProperties_To_ServersOutboundFirewallRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersOutboundFirewallRule_Spec
+	err = actual.AssignProperties_From_ServersOutboundFirewallRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersOutboundFirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
