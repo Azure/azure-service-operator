@@ -146,9 +146,9 @@ Verify playback the same way as Step 6.
 
 The full CI is too slow to run in one shot. Run each check separately, in order. **If any step fails, fix the issue and restart Step 8 from the top** — a downstream fix can invalidate an upstream check.
 
-1. `task format-code` — format Go and YAML.
-2. `task generator:quick-checks` — regenerate code, run generator unit tests.
-3. `task controller:quick-checks` — build the controller, run its unit tests.
+1. `task format-code` — format Go code.
+2. `task generator:quick-checks` — run generator unit tests + lint (does not regenerate API types).
+3. `task controller:quick-checks` — regenerate API types/CRDs (runs the generator), build the controller, run its unit tests.
 4. `task asoctl:quick-checks` — build asoctl, run its unit tests.
 5. `task doc:crd-api` — regenerate reference docs (if changed, commit the diff).
 
