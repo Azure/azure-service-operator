@@ -5,7 +5,8 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v1api20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v1api20240101/storage"
+	servicebus_v20240101s "github.com/Azure/azure-service-operator/v2/api/servicebus/v20240101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,7 +52,7 @@ var _ conversion.Convertible = &NamespacesAuthorizationRule{}
 
 // ConvertFrom populates our NamespacesAuthorizationRule from the provided hub NamespacesAuthorizationRule
 func (rule *NamespacesAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.NamespacesAuthorizationRule)
+	source, ok := hub.(*servicebus_v1api20240101s.NamespacesAuthorizationRule)
 	if !ok {
 		return fmt.Errorf("expected servicebus/v1api20240101/storage/NamespacesAuthorizationRule but received %T instead", hub)
 	}
@@ -61,7 +62,7 @@ func (rule *NamespacesAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
 
 // ConvertTo populates the provided hub NamespacesAuthorizationRule from our NamespacesAuthorizationRule
 func (rule *NamespacesAuthorizationRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.NamespacesAuthorizationRule)
+	destination, ok := hub.(*servicebus_v1api20240101s.NamespacesAuthorizationRule)
 	if !ok {
 		return fmt.Errorf("expected servicebus/v1api20240101/storage/NamespacesAuthorizationRule but received %T instead", hub)
 	}
@@ -165,7 +166,7 @@ func (rule *NamespacesAuthorizationRule) SetStatus(status genruntime.Convertible
 }
 
 // AssignProperties_From_NamespacesAuthorizationRule populates our NamespacesAuthorizationRule from the provided source NamespacesAuthorizationRule
-func (rule *NamespacesAuthorizationRule) AssignProperties_From_NamespacesAuthorizationRule(source *storage.NamespacesAuthorizationRule) error {
+func (rule *NamespacesAuthorizationRule) AssignProperties_From_NamespacesAuthorizationRule(source *servicebus_v1api20240101s.NamespacesAuthorizationRule) error {
 
 	// ObjectMeta
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
@@ -200,13 +201,13 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_From_NamespacesAuthori
 }
 
 // AssignProperties_To_NamespacesAuthorizationRule populates the provided destination NamespacesAuthorizationRule from our NamespacesAuthorizationRule
-func (rule *NamespacesAuthorizationRule) AssignProperties_To_NamespacesAuthorizationRule(destination *storage.NamespacesAuthorizationRule) error {
+func (rule *NamespacesAuthorizationRule) AssignProperties_To_NamespacesAuthorizationRule(destination *servicebus_v1api20240101s.NamespacesAuthorizationRule) error {
 
 	// ObjectMeta
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.NamespacesAuthorizationRule_Spec
+	var spec servicebus_v1api20240101s.NamespacesAuthorizationRule_Spec
 	err := rule.Spec.AssignProperties_To_NamespacesAuthorizationRule_Spec(&spec)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRule_Spec() to populate field Spec")
@@ -214,7 +215,7 @@ func (rule *NamespacesAuthorizationRule) AssignProperties_To_NamespacesAuthoriza
 	destination.Spec = spec
 
 	// Status
-	var status storage.NamespacesAuthorizationRule_STATUS
+	var status servicebus_v1api20240101s.NamespacesAuthorizationRule_STATUS
 	err = rule.Status.AssignProperties_To_NamespacesAuthorizationRule_STATUS(&status)
 	if err != nil {
 		return eris.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRule_STATUS() to populate field Status")
@@ -255,8 +256,8 @@ type NamespacesAuthorizationRuleList struct {
 }
 
 type augmentConversionForNamespacesAuthorizationRule interface {
-	AssignPropertiesFrom(src *storage.NamespacesAuthorizationRule) error
-	AssignPropertiesTo(dst *storage.NamespacesAuthorizationRule) error
+	AssignPropertiesFrom(src *servicebus_v1api20240101s.NamespacesAuthorizationRule) error
+	AssignPropertiesTo(dst *servicebus_v1api20240101s.NamespacesAuthorizationRule) error
 }
 
 // Storage version of v1api20211101.NamespacesAuthorizationRule_Spec
@@ -280,14 +281,14 @@ var _ genruntime.ConvertibleSpec = &NamespacesAuthorizationRule_Spec{}
 
 // ConvertSpecFrom populates our NamespacesAuthorizationRule_Spec from the provided source
 func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.NamespacesAuthorizationRule_Spec)
+	src, ok := source.(*servicebus_v1api20240101s.NamespacesAuthorizationRule_Spec)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_NamespacesAuthorizationRule_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.NamespacesAuthorizationRule_Spec{}
+	src = &servicebus_v1api20240101s.NamespacesAuthorizationRule_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
@@ -304,14 +305,14 @@ func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecFrom(source genruntime.
 
 // ConvertSpecTo populates the provided destination from our NamespacesAuthorizationRule_Spec
 func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.NamespacesAuthorizationRule_Spec)
+	dst, ok := destination.(*servicebus_v1api20240101s.NamespacesAuthorizationRule_Spec)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_NamespacesAuthorizationRule_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.NamespacesAuthorizationRule_Spec{}
+	dst = &servicebus_v1api20240101s.NamespacesAuthorizationRule_Spec{}
 	err := rule.AssignProperties_To_NamespacesAuthorizationRule_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
@@ -327,7 +328,7 @@ func (rule *NamespacesAuthorizationRule_Spec) ConvertSpecTo(destination genrunti
 }
 
 // AssignProperties_From_NamespacesAuthorizationRule_Spec populates our NamespacesAuthorizationRule_Spec from the provided source NamespacesAuthorizationRule_Spec
-func (rule *NamespacesAuthorizationRule_Spec) AssignProperties_From_NamespacesAuthorizationRule_Spec(source *storage.NamespacesAuthorizationRule_Spec) error {
+func (rule *NamespacesAuthorizationRule_Spec) AssignProperties_From_NamespacesAuthorizationRule_Spec(source *servicebus_v1api20240101s.NamespacesAuthorizationRule_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -381,7 +382,7 @@ func (rule *NamespacesAuthorizationRule_Spec) AssignProperties_From_NamespacesAu
 }
 
 // AssignProperties_To_NamespacesAuthorizationRule_Spec populates the provided destination NamespacesAuthorizationRule_Spec from our NamespacesAuthorizationRule_Spec
-func (rule *NamespacesAuthorizationRule_Spec) AssignProperties_To_NamespacesAuthorizationRule_Spec(destination *storage.NamespacesAuthorizationRule_Spec) error {
+func (rule *NamespacesAuthorizationRule_Spec) AssignProperties_To_NamespacesAuthorizationRule_Spec(destination *servicebus_v1api20240101s.NamespacesAuthorizationRule_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
@@ -390,7 +391,7 @@ func (rule *NamespacesAuthorizationRule_Spec) AssignProperties_To_NamespacesAuth
 
 	// OperatorSpec
 	if rule.OperatorSpec != nil {
-		var operatorSpec storage.NamespacesAuthorizationRuleOperatorSpec
+		var operatorSpec servicebus_v1api20240101s.NamespacesAuthorizationRuleOperatorSpec
 		err := rule.OperatorSpec.AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec(&operatorSpec)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec() to populate field OperatorSpec")
@@ -450,14 +451,14 @@ var _ genruntime.ConvertibleStatus = &NamespacesAuthorizationRule_STATUS{}
 
 // ConvertStatusFrom populates our NamespacesAuthorizationRule_STATUS from the provided source
 func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.NamespacesAuthorizationRule_STATUS)
+	src, ok := source.(*servicebus_v1api20240101s.NamespacesAuthorizationRule_STATUS)
 	if ok {
 		// Populate our instance from source
 		return rule.AssignProperties_From_NamespacesAuthorizationRule_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.NamespacesAuthorizationRule_STATUS{}
+	src = &servicebus_v1api20240101s.NamespacesAuthorizationRule_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
@@ -474,14 +475,14 @@ func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusFrom(source genrunt
 
 // ConvertStatusTo populates the provided destination from our NamespacesAuthorizationRule_STATUS
 func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.NamespacesAuthorizationRule_STATUS)
+	dst, ok := destination.(*servicebus_v1api20240101s.NamespacesAuthorizationRule_STATUS)
 	if ok {
 		// Populate destination from our instance
 		return rule.AssignProperties_To_NamespacesAuthorizationRule_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.NamespacesAuthorizationRule_STATUS{}
+	dst = &servicebus_v1api20240101s.NamespacesAuthorizationRule_STATUS{}
 	err := rule.AssignProperties_To_NamespacesAuthorizationRule_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
@@ -497,7 +498,7 @@ func (rule *NamespacesAuthorizationRule_STATUS) ConvertStatusTo(destination genr
 }
 
 // AssignProperties_From_NamespacesAuthorizationRule_STATUS populates our NamespacesAuthorizationRule_STATUS from the provided source NamespacesAuthorizationRule_STATUS
-func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_From_NamespacesAuthorizationRule_STATUS(source *storage.NamespacesAuthorizationRule_STATUS) error {
+func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_From_NamespacesAuthorizationRule_STATUS(source *servicebus_v1api20240101s.NamespacesAuthorizationRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -518,10 +519,15 @@ func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_From_Namespaces
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		var systemDataSTATUSPivot servicebus_v20240101s.SystemData_STATUS
+		err := source.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData")
+		}
+		var systemDatum SystemData_STATUS
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSPivot")
 		}
 		rule.SystemData = &systemDatum
 	} else {
@@ -552,7 +558,7 @@ func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_From_Namespaces
 }
 
 // AssignProperties_To_NamespacesAuthorizationRule_STATUS populates the provided destination NamespacesAuthorizationRule_STATUS from our NamespacesAuthorizationRule_STATUS
-func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_To_NamespacesAuthorizationRule_STATUS(destination *storage.NamespacesAuthorizationRule_STATUS) error {
+func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_To_NamespacesAuthorizationRule_STATUS(destination *servicebus_v1api20240101s.NamespacesAuthorizationRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
@@ -573,10 +579,15 @@ func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_To_NamespacesAu
 
 	// SystemData
 	if rule.SystemData != nil {
-		var systemDatum storage.SystemData_STATUS
-		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		var systemDataSTATUSPivot servicebus_v20240101s.SystemData_STATUS
+		err := rule.SystemData.AssignProperties_To_SystemData_STATUS(&systemDataSTATUSPivot)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData_STATUSPivot from SystemData")
+		}
+		var systemDatum servicebus_v1api20240101s.SystemData_STATUS
+		err = systemDatum.AssignProperties_From_SystemData_STATUS(&systemDataSTATUSPivot)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData from SystemData_STATUSPivot")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -607,13 +618,13 @@ func (rule *NamespacesAuthorizationRule_STATUS) AssignProperties_To_NamespacesAu
 }
 
 type augmentConversionForNamespacesAuthorizationRule_Spec interface {
-	AssignPropertiesFrom(src *storage.NamespacesAuthorizationRule_Spec) error
-	AssignPropertiesTo(dst *storage.NamespacesAuthorizationRule_Spec) error
+	AssignPropertiesFrom(src *servicebus_v1api20240101s.NamespacesAuthorizationRule_Spec) error
+	AssignPropertiesTo(dst *servicebus_v1api20240101s.NamespacesAuthorizationRule_Spec) error
 }
 
 type augmentConversionForNamespacesAuthorizationRule_STATUS interface {
-	AssignPropertiesFrom(src *storage.NamespacesAuthorizationRule_STATUS) error
-	AssignPropertiesTo(dst *storage.NamespacesAuthorizationRule_STATUS) error
+	AssignPropertiesFrom(src *servicebus_v1api20240101s.NamespacesAuthorizationRule_STATUS) error
+	AssignPropertiesTo(dst *servicebus_v1api20240101s.NamespacesAuthorizationRule_STATUS) error
 }
 
 // Storage version of v1api20211101.NamespacesAuthorizationRuleOperatorSpec
@@ -626,7 +637,7 @@ type NamespacesAuthorizationRuleOperatorSpec struct {
 }
 
 // AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec populates our NamespacesAuthorizationRuleOperatorSpec from the provided source NamespacesAuthorizationRuleOperatorSpec
-func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec(source *storage.NamespacesAuthorizationRuleOperatorSpec) error {
+func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_From_NamespacesAuthorizationRuleOperatorSpec(source *servicebus_v1api20240101s.NamespacesAuthorizationRuleOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -695,7 +706,7 @@ func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_From_N
 }
 
 // AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec populates the provided destination NamespacesAuthorizationRuleOperatorSpec from our NamespacesAuthorizationRuleOperatorSpec
-func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec(destination *storage.NamespacesAuthorizationRuleOperatorSpec) error {
+func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_To_NamespacesAuthorizationRuleOperatorSpec(destination *servicebus_v1api20240101s.NamespacesAuthorizationRuleOperatorSpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
 
@@ -733,7 +744,7 @@ func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_To_Nam
 
 	// Secrets
 	if operator.Secrets != nil {
-		var secret storage.NamespacesAuthorizationRuleOperatorSecrets
+		var secret servicebus_v1api20240101s.NamespacesAuthorizationRuleOperatorSecrets
 		err := operator.Secrets.AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets(&secret)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets() to populate field Secrets")
@@ -764,8 +775,8 @@ func (operator *NamespacesAuthorizationRuleOperatorSpec) AssignProperties_To_Nam
 }
 
 type augmentConversionForNamespacesAuthorizationRuleOperatorSpec interface {
-	AssignPropertiesFrom(src *storage.NamespacesAuthorizationRuleOperatorSpec) error
-	AssignPropertiesTo(dst *storage.NamespacesAuthorizationRuleOperatorSpec) error
+	AssignPropertiesFrom(src *servicebus_v1api20240101s.NamespacesAuthorizationRuleOperatorSpec) error
+	AssignPropertiesTo(dst *servicebus_v1api20240101s.NamespacesAuthorizationRuleOperatorSpec) error
 }
 
 // Storage version of v1api20211101.NamespacesAuthorizationRuleOperatorSecrets
@@ -778,7 +789,7 @@ type NamespacesAuthorizationRuleOperatorSecrets struct {
 }
 
 // AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets populates our NamespacesAuthorizationRuleOperatorSecrets from the provided source NamespacesAuthorizationRuleOperatorSecrets
-func (secrets *NamespacesAuthorizationRuleOperatorSecrets) AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets(source *storage.NamespacesAuthorizationRuleOperatorSecrets) error {
+func (secrets *NamespacesAuthorizationRuleOperatorSecrets) AssignProperties_From_NamespacesAuthorizationRuleOperatorSecrets(source *servicebus_v1api20240101s.NamespacesAuthorizationRuleOperatorSecrets) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -835,7 +846,7 @@ func (secrets *NamespacesAuthorizationRuleOperatorSecrets) AssignProperties_From
 }
 
 // AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets populates the provided destination NamespacesAuthorizationRuleOperatorSecrets from our NamespacesAuthorizationRuleOperatorSecrets
-func (secrets *NamespacesAuthorizationRuleOperatorSecrets) AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets(destination *storage.NamespacesAuthorizationRuleOperatorSecrets) error {
+func (secrets *NamespacesAuthorizationRuleOperatorSecrets) AssignProperties_To_NamespacesAuthorizationRuleOperatorSecrets(destination *servicebus_v1api20240101s.NamespacesAuthorizationRuleOperatorSecrets) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(secrets.PropertyBag)
 
@@ -892,8 +903,8 @@ func (secrets *NamespacesAuthorizationRuleOperatorSecrets) AssignProperties_To_N
 }
 
 type augmentConversionForNamespacesAuthorizationRuleOperatorSecrets interface {
-	AssignPropertiesFrom(src *storage.NamespacesAuthorizationRuleOperatorSecrets) error
-	AssignPropertiesTo(dst *storage.NamespacesAuthorizationRuleOperatorSecrets) error
+	AssignPropertiesFrom(src *servicebus_v1api20240101s.NamespacesAuthorizationRuleOperatorSecrets) error
+	AssignPropertiesTo(dst *servicebus_v1api20240101s.NamespacesAuthorizationRuleOperatorSecrets) error
 }
 
 func init() {
