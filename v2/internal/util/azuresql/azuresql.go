@@ -93,12 +93,8 @@ func CreateOrUpdateUser(ctx context.Context, db *sql.DB, username string, passwo
 	if err := findBadChars(username); err != nil {
 		return eris.Wrap(err, "problem found with username")
 	}
-	if err := findBadChars(password); err != nil {
-		// Don't wrap the original error as it contains the raw password string
-		return fmt.Errorf("problem found with password: potentially dangerous character sequence found")
-	}
 
-	tsql := `
+	tsql := fmt.Sprintf(`
 IF NOT EXISTS (SELECT name FROM sysusers WHERE name='%[1]s')
 	BEGIN
 		CREATE USER "%[1]s" WITH PASSWORD='%[2]s';
@@ -107,8 +103,7 @@ ELSE
 	BEGIN
 		ALTER USER "%[1]s" WITH PASSWORD='%[2]s';
 	END;
-`
-	tsql = fmt.Sprintf(tsql, username, password)
+`, escapeIdentifierContent(username), escapeStringContent(password))
 	_, err := db.ExecContext(ctx, tsql)
 	if err != nil {
 		return err
@@ -172,6 +167,18 @@ func DropUser(ctx context.Context, db *sql.DB, username string) error {
 	tsql := fmt.Sprintf("DROP USER [%s]", username)
 	_, err := db.ExecContext(ctx, tsql)
 	return err
+}
+
+// escapeStringContent escapes a string for use within a SQL string literal (single-quoted).
+// It escapes single quotes by doubling them. The caller is responsible for wrapping in quotes.
+func escapeStringContent(value string) string {
+	return strings.ReplaceAll(value, "'", "''")
+}
+
+// escapeIdentifierContent escapes a string for use within a SQL identifier (double-quoted).
+// It escapes double quotes by doubling them. The caller is responsible for wrapping in quotes.
+func escapeIdentifierContent(value string) string {
+	return strings.ReplaceAll(value, "\"", "\"\"")
 }
 
 func findBadChars(str string) error {
