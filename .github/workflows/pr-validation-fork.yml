@@ -80,6 +80,8 @@ jobs:
 
       - name: Merge base branch for integration testing
         run: |
+          git config user.email "ci@azure-service-operator.io"
+          git config user.name "CI"
           git fetch origin ${{ github.event.client_payload.pull_request.base.ref }}
           git merge --no-edit origin/${{ github.event.client_payload.pull_request.base.ref }}
 
