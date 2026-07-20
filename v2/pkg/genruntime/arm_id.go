@@ -13,6 +13,7 @@ import (
 )
 
 // GetAndParseResourceID gets the ARM ID from the given MetaObject and parses it into its constituent parts
+// This comment is a test
 func GetAndParseResourceID(obj ARMMetaObject) (*arm.ResourceID, error) {
 	resourceID, hasResourceID := GetResourceID(obj)
 	if !hasResourceID {
