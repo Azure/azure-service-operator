@@ -121,12 +121,8 @@ func (resourceVersionsReportPartition) isUnreleasedResource(
 	currentRelease string,
 ) func(item resourceVersionsReportItem) bool {
 	return func(item resourceVersionsReportItem) bool {
-		// if item.supportedFrom == currentRelease {
-		// 	return false
-		// }
-
 		result := astmodel.ComparePathAndVersion(item.supportedFrom, currentRelease)
-		return result >= 0
+		return result > 0
 	}
 }
 
