@@ -13,5 +13,7 @@ NamespacesTopicsSubscriptionExtension: Object (0 properties)
 
 NamespacesTopicsSubscriptionsRuleExtension: Object (0 properties)
 
+QueueAuthorizationRuleExtension: Object (0 properties)
+
 TopicAuthorizationRuleExtension: Object (0 properties)
 
