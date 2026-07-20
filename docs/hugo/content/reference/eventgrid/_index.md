@@ -11,12 +11,12 @@ To install the CRDs for these resources, your ASO configuration must include `ev
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource          | ARM Version | CRD Version | Supported From | Sample |
-|-------------------|-------------|-------------|----------------|--------|
-| Domain            | 2025-02-15  | v20250215   | v2.21.0        | -      |
-| DomainsTopic      | 2025-02-15  | v20250215   | v2.21.0        | -      |
-| EventSubscription | 2025-02-15  | v20250215   | v2.21.0        | -      |
-| Topic             | 2025-02-15  | v20250215   | v2.21.0        | -      |
+| Resource          | ARM Version | CRD Version | Supported From | Sample                                                                                                                            |
+|-------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| Domain            | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_domain.yaml)            |
+| DomainsTopic      | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_domainstopic.yaml)      |
+| EventSubscription | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_eventsubscription.yaml) |
+| Topic             | 2025-02-15  | v20250215   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/eventgrid/v20250215/v20250215_topic.yaml)             |
 
 ### Released
 
