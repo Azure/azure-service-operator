@@ -268,7 +268,7 @@ func TestResourceVersionsReport_IsDeprecatedResource_HybridMigration(t *testing.
 
 	authorizationLegacyPkg := test.MakeLocalPackageReference("authorization", "v20220401").
 		WithVersionPrefix(astmodel.GeneratorVersion) // v1api prefix
-	authorizationLegacyItem := ResourceVersionsReportResourceItem{
+	authorizationLegacyItem := resourceVersionsReportItem{
 		name: astmodel.MakeInternalTypeName(authorizationLegacyPkg, "RoleAssignment"),
 	}
 
@@ -276,12 +276,12 @@ func TestResourceVersionsReport_IsDeprecatedResource_HybridMigration(t *testing.
 	// happened long ago), so its v1api variants ARE deprecated.
 	alertsLegacyPkg := test.MakeLocalPackageReference("alertsmanagement", "v20210401").
 		WithVersionPrefix(astmodel.GeneratorVersion)
-	alertsLegacyItem := ResourceVersionsReportResourceItem{
+	alertsLegacyItem := resourceVersionsReportItem{
 		name: astmodel.MakeInternalTypeName(alertsLegacyPkg, "SmartDetector"),
 	}
 
 	cases := map[string]struct {
-		item     ResourceVersionsReportResourceItem
+		item     resourceVersionsReportItem
 		expected bool
 	}{
 		"UpcomingHybridMigration_LegacyNotDeprecated": {
