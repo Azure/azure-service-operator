@@ -33,7 +33,8 @@ func Test_Web_Site_v20250501_CRUD(t *testing.T) {
 	// Flex Consumption function apps deploy their package from a blob container, authenticated
 	// with a user-assigned identity that has data access to the storage account.
 	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
+		// "flexstor" prefix avoids a known global storage-account name squat on the shorter "stor" seed.
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("flexstor")),
 		Spec: storage.StorageAccount_Spec{
 			Location:              tc.AzureRegion,
 			Owner:                 testcommon.AsOwner(rg),
