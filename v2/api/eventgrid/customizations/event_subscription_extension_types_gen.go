@@ -8,6 +8,8 @@ import (
 	eventgrid_v1api20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
 	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601"
 	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
+	eventgrid_v20250215 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215"
+	eventgrid_v20250215s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *EventSubscriptionExtension) GetExtendedResources() []genruntime
 		&eventgrid_v1api20200601.EventSubscription{},
 		&eventgrid_v1api20200601s.EventSubscription{},
 		&eventgrid_v20200601.EventSubscription{},
-		&eventgrid_v20200601s.EventSubscription{}}
+		&eventgrid_v20200601s.EventSubscription{},
+		&eventgrid_v20250215.EventSubscription{},
+		&eventgrid_v20250215s.EventSubscription{}}
 }

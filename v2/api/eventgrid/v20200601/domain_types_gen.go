@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Domain{}
 
 // ConvertFrom populates our Domain from the provided hub Domain
 func (domain *Domain) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Domain)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/Domain but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Domain
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return domain.AssignProperties_From_Domain(source)
+	err = domain.AssignProperties_From_Domain(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to domain")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Domain from our Domain
 func (domain *Domain) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Domain)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/Domain but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Domain
+	err := domain.AssignProperties_To_Domain(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from domain")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return domain.AssignProperties_To_Domain(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Domain{}
@@ -87,17 +101,6 @@ func (domain *Domain) SecretDestinationExpressions() []*core.DestinationExpressi
 		return nil
 	}
 	return domain.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Domain{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (domain *Domain) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Domain_STATUS); ok {
-		return domain.Spec.Initialize_From_Domain_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Domain_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Domain{}
@@ -661,63 +664,6 @@ func (domain *Domain_Spec) AssignProperties_To_Domain_Spec(destination *storage.
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Domain_STATUS populates our Domain_Spec from the provided source Domain_STATUS
-func (domain *Domain_Spec) Initialize_From_Domain_STATUS(source *Domain_STATUS) error {
-
-	// InboundIpRules
-	if source.InboundIpRules != nil {
-		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
-		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
-			var inboundIpRule InboundIpRule
-			err := inboundIpRule.Initialize_From_InboundIpRule_STATUS(&inboundIpRuleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_InboundIpRule_STATUS() to populate field InboundIpRules")
-			}
-			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
-		}
-		domain.InboundIpRules = inboundIpRuleList
-	} else {
-		domain.InboundIpRules = nil
-	}
-
-	// InputSchema
-	if source.InputSchema != nil {
-		inputSchema := genruntime.ToEnum(string(*source.InputSchema), domainProperties_InputSchema_Values)
-		domain.InputSchema = &inputSchema
-	} else {
-		domain.InputSchema = nil
-	}
-
-	// InputSchemaMapping
-	if source.InputSchemaMapping != nil {
-		var inputSchemaMapping InputSchemaMapping
-		err := inputSchemaMapping.Initialize_From_InputSchemaMapping_STATUS(source.InputSchemaMapping)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_InputSchemaMapping_STATUS() to populate field InputSchemaMapping")
-		}
-		domain.InputSchemaMapping = &inputSchemaMapping
-	} else {
-		domain.InputSchemaMapping = nil
-	}
-
-	// Location
-	domain.Location = genruntime.ClonePointerToString(source.Location)
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), domainProperties_PublicNetworkAccess_Values)
-		domain.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		domain.PublicNetworkAccess = nil
-	}
-
-	// Tags
-	domain.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1504,24 +1450,6 @@ func (rule *InboundIpRule) AssignProperties_To_InboundIpRule(destination *storag
 	return nil
 }
 
-// Initialize_From_InboundIpRule_STATUS populates our InboundIpRule from the provided source InboundIpRule_STATUS
-func (rule *InboundIpRule) Initialize_From_InboundIpRule_STATUS(source *InboundIpRule_STATUS) error {
-
-	// Action
-	if source.Action != nil {
-		action := genruntime.ToEnum(string(*source.Action), inboundIpRule_Action_Values)
-		rule.Action = &action
-	} else {
-		rule.Action = nil
-	}
-
-	// IpMask
-	rule.IpMask = genruntime.ClonePointerToString(source.IpMask)
-
-	// No error
-	return nil
-}
-
 type InboundIpRule_STATUS struct {
 	// Action: Action to perform based on the match or no match of the IpMask.
 	Action *InboundIpRule_Action_STATUS `json:"action,omitempty"`
@@ -1702,25 +1630,6 @@ func (mapping *InputSchemaMapping) AssignProperties_To_InputSchemaMapping(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_InputSchemaMapping_STATUS populates our InputSchemaMapping from the provided source InputSchemaMapping_STATUS
-func (mapping *InputSchemaMapping) Initialize_From_InputSchemaMapping_STATUS(source *InputSchemaMapping_STATUS) error {
-
-	// Json
-	if source.Json != nil {
-		var json JsonInputSchemaMapping
-		err := json.Initialize_From_JsonInputSchemaMapping_STATUS(source.Json)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JsonInputSchemaMapping_STATUS() to populate field Json")
-		}
-		mapping.Json = &json
-	} else {
-		mapping.Json = nil
 	}
 
 	// No error
@@ -2438,93 +2347,6 @@ func (mapping *JsonInputSchemaMapping) AssignProperties_To_JsonInputSchemaMappin
 	return nil
 }
 
-// Initialize_From_JsonInputSchemaMapping_STATUS populates our JsonInputSchemaMapping from the provided source JsonInputSchemaMapping_STATUS
-func (mapping *JsonInputSchemaMapping) Initialize_From_JsonInputSchemaMapping_STATUS(source *JsonInputSchemaMapping_STATUS) error {
-
-	// DataVersion
-	if source.DataVersion != nil {
-		var dataVersion JsonFieldWithDefault
-		err := dataVersion.Initialize_From_JsonFieldWithDefault_STATUS(source.DataVersion)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JsonFieldWithDefault_STATUS() to populate field DataVersion")
-		}
-		mapping.DataVersion = &dataVersion
-	} else {
-		mapping.DataVersion = nil
-	}
-
-	// EventTime
-	if source.EventTime != nil {
-		var eventTime JsonField
-		err := eventTime.Initialize_From_JsonField_STATUS(source.EventTime)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JsonField_STATUS() to populate field EventTime")
-		}
-		mapping.EventTime = &eventTime
-	} else {
-		mapping.EventTime = nil
-	}
-
-	// EventType
-	if source.EventType != nil {
-		var eventType JsonFieldWithDefault
-		err := eventType.Initialize_From_JsonFieldWithDefault_STATUS(source.EventType)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JsonFieldWithDefault_STATUS() to populate field EventType")
-		}
-		mapping.EventType = &eventType
-	} else {
-		mapping.EventType = nil
-	}
-
-	// Id
-	if source.Id != nil {
-		var id JsonField
-		err := id.Initialize_From_JsonField_STATUS(source.Id)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JsonField_STATUS() to populate field Id")
-		}
-		mapping.Id = &id
-	} else {
-		mapping.Id = nil
-	}
-
-	// InputSchemaMappingType
-	if source.InputSchemaMappingType != nil {
-		inputSchemaMappingType := genruntime.ToEnum(string(*source.InputSchemaMappingType), jsonInputSchemaMapping_InputSchemaMappingType_Values)
-		mapping.InputSchemaMappingType = &inputSchemaMappingType
-	} else {
-		mapping.InputSchemaMappingType = nil
-	}
-
-	// Subject
-	if source.Subject != nil {
-		var subject JsonFieldWithDefault
-		err := subject.Initialize_From_JsonFieldWithDefault_STATUS(source.Subject)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JsonFieldWithDefault_STATUS() to populate field Subject")
-		}
-		mapping.Subject = &subject
-	} else {
-		mapping.Subject = nil
-	}
-
-	// Topic
-	if source.Topic != nil {
-		var topic JsonField
-		err := topic.Initialize_From_JsonField_STATUS(source.Topic)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_JsonField_STATUS() to populate field Topic")
-		}
-		mapping.Topic = &topic
-	} else {
-		mapping.Topic = nil
-	}
-
-	// No error
-	return nil
-}
-
 type JsonInputSchemaMapping_STATUS struct {
 	// DataVersion: The mapping information for the DataVersion property of the Event Grid Event.
 	DataVersion *JsonFieldWithDefault_STATUS `json:"dataVersion,omitempty"`
@@ -2951,16 +2773,6 @@ func (field *JsonField) AssignProperties_To_JsonField(destination *storage.JsonF
 	return nil
 }
 
-// Initialize_From_JsonField_STATUS populates our JsonField from the provided source JsonField_STATUS
-func (field *JsonField) Initialize_From_JsonField_STATUS(source *JsonField_STATUS) error {
-
-	// SourceField
-	field.SourceField = genruntime.ClonePointerToString(source.SourceField)
-
-	// No error
-	return nil
-}
-
 // This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema.
 // This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the
 // input event schema.
@@ -3119,19 +2931,6 @@ func (withDefault *JsonFieldWithDefault) AssignProperties_To_JsonFieldWithDefaul
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_JsonFieldWithDefault_STATUS populates our JsonFieldWithDefault from the provided source JsonFieldWithDefault_STATUS
-func (withDefault *JsonFieldWithDefault) Initialize_From_JsonFieldWithDefault_STATUS(source *JsonFieldWithDefault_STATUS) error {
-
-	// DefaultValue
-	withDefault.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
-
-	// SourceField
-	withDefault.SourceField = genruntime.ClonePointerToString(source.SourceField)
 
 	// No error
 	return nil

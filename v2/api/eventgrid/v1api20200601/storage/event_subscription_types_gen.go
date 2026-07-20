@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &EventSubscription{}
 
 // ConvertFrom populates our EventSubscription from the provided hub EventSubscription
 func (subscription *EventSubscription) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.EventSubscription)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/EventSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.EventSubscription
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return subscription.AssignProperties_From_EventSubscription(source)
+	err = subscription.AssignProperties_From_EventSubscription(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to subscription")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub EventSubscription from our EventSubscription
 func (subscription *EventSubscription) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.EventSubscription)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/EventSubscription but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.EventSubscription
+	err := subscription.AssignProperties_To_EventSubscription(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from subscription")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return subscription.AssignProperties_To_EventSubscription(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &EventSubscription{}

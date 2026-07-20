@@ -5,7 +5,6 @@ package storage
 
 import (
 	"context"
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -55,22 +54,36 @@ var _ conversion.Convertible = &Topic{}
 
 // ConvertFrom populates our Topic from the provided hub Topic
 func (topic *Topic) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Topic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/Topic but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Topic
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return topic.AssignProperties_From_Topic(source)
+	err = topic.AssignProperties_From_Topic(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to topic")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Topic from our Topic
 func (topic *Topic) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Topic)
-	if !ok {
-		return fmt.Errorf("expected eventgrid/v20200601/storage/Topic but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Topic
+	err := topic.AssignProperties_To_Topic(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from topic")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return topic.AssignProperties_To_Topic(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Topic{}
