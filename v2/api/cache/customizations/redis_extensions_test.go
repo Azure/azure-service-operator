@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	redis "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	redis "github.com/Azure/azure-service-operator/v2/api/cache/v20241101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon/reflect"
 )

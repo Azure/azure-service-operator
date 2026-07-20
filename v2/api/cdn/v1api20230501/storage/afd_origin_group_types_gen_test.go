@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_AfdOriginGroup_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOriginGroup to hub returns original",
+		prop.ForAll(RunResourceConversionTestForAfdOriginGroup, AfdOriginGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForAfdOriginGroup tests if a specific instance of AfdOriginGroup round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForAfdOriginGroup(subject AfdOriginGroup) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.AfdOriginGroup
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual AfdOriginGroup
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_AfdOriginGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOriginGroup to AfdOriginGroup via AssignProperties_To_AfdOriginGroup & AssignProperties_From_AfdOriginGroup returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOriginGroup, AfdOriginGroupGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdOriginGroup tests if a specific instance of AfdOriginGroup can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOriginGroup(subject AfdOriginGroup) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdOriginGroup
+	err := copied.AssignProperties_To_AfdOriginGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdOriginGroup
+	err = actual.AssignProperties_From_AfdOriginGroup(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_AfdOriginGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -83,6 +179,53 @@ func AddRelatedPropertyGeneratorsForAfdOriginGroup(gens map[string]gopter.Gen) {
 	gens["Status"] = AfdOriginGroup_STATUSGenerator()
 }
 
+func Test_AfdOriginGroupOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOriginGroupOperatorSpec to AfdOriginGroupOperatorSpec via AssignProperties_To_AfdOriginGroupOperatorSpec & AssignProperties_From_AfdOriginGroupOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOriginGroupOperatorSpec, AfdOriginGroupOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdOriginGroupOperatorSpec tests if a specific instance of AfdOriginGroupOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOriginGroupOperatorSpec(subject AfdOriginGroupOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdOriginGroupOperatorSpec
+	err := copied.AssignProperties_To_AfdOriginGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdOriginGroupOperatorSpec
+	err = actual.AssignProperties_From_AfdOriginGroupOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AfdOriginGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -141,6 +284,53 @@ func AfdOriginGroupOperatorSpecGenerator() gopter.Gen {
 	afdOriginGroupOperatorSpecGenerator = gen.Struct(reflect.TypeOf(AfdOriginGroupOperatorSpec{}), generators)
 
 	return afdOriginGroupOperatorSpecGenerator
+}
+
+func Test_AfdOriginGroup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOriginGroup_STATUS to AfdOriginGroup_STATUS via AssignProperties_To_AfdOriginGroup_STATUS & AssignProperties_From_AfdOriginGroup_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOriginGroup_STATUS, AfdOriginGroup_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdOriginGroup_STATUS tests if a specific instance of AfdOriginGroup_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOriginGroup_STATUS(subject AfdOriginGroup_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdOriginGroup_STATUS
+	err := copied.AssignProperties_To_AfdOriginGroup_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdOriginGroup_STATUS
+	err = actual.AssignProperties_From_AfdOriginGroup_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AfdOriginGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -232,6 +422,53 @@ func AddRelatedPropertyGeneratorsForAfdOriginGroup_STATUS(gens map[string]gopter
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
+func Test_AfdOriginGroup_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOriginGroup_Spec to AfdOriginGroup_Spec via AssignProperties_To_AfdOriginGroup_Spec & AssignProperties_From_AfdOriginGroup_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOriginGroup_Spec, AfdOriginGroup_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdOriginGroup_Spec tests if a specific instance of AfdOriginGroup_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOriginGroup_Spec(subject AfdOriginGroup_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdOriginGroup_Spec
+	err := copied.AssignProperties_To_AfdOriginGroup_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdOriginGroup_Spec
+	err = actual.AssignProperties_From_AfdOriginGroup_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AfdOriginGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -317,6 +554,53 @@ func AddRelatedPropertyGeneratorsForAfdOriginGroup_Spec(gens map[string]gopter.G
 	gens["OperatorSpec"] = gen.PtrOf(AfdOriginGroupOperatorSpecGenerator())
 }
 
+func Test_HealthProbeParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HealthProbeParameters to HealthProbeParameters via AssignProperties_To_HealthProbeParameters & AssignProperties_From_HealthProbeParameters returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHealthProbeParameters, HealthProbeParametersGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHealthProbeParameters tests if a specific instance of HealthProbeParameters can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForHealthProbeParameters(subject HealthProbeParameters) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.HealthProbeParameters
+	err := copied.AssignProperties_To_HealthProbeParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HealthProbeParameters
+	err = actual.AssignProperties_From_HealthProbeParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_HealthProbeParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -384,6 +668,53 @@ func AddIndependentPropertyGeneratorsForHealthProbeParameters(gens map[string]go
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
 	gens["ProbeProtocol"] = gen.PtrOf(gen.AlphaString())
 	gens["ProbeRequestType"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_HealthProbeParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from HealthProbeParameters_STATUS to HealthProbeParameters_STATUS via AssignProperties_To_HealthProbeParameters_STATUS & AssignProperties_From_HealthProbeParameters_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHealthProbeParameters_STATUS, HealthProbeParameters_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForHealthProbeParameters_STATUS tests if a specific instance of HealthProbeParameters_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForHealthProbeParameters_STATUS(subject HealthProbeParameters_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.HealthProbeParameters_STATUS
+	err := copied.AssignProperties_To_HealthProbeParameters_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual HealthProbeParameters_STATUS
+	err = actual.AssignProperties_From_HealthProbeParameters_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_HealthProbeParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -455,6 +786,53 @@ func AddIndependentPropertyGeneratorsForHealthProbeParameters_STATUS(gens map[st
 	gens["ProbeRequestType"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_LoadBalancingSettingsParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancingSettingsParameters to LoadBalancingSettingsParameters via AssignProperties_To_LoadBalancingSettingsParameters & AssignProperties_From_LoadBalancingSettingsParameters returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancingSettingsParameters, LoadBalancingSettingsParametersGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancingSettingsParameters tests if a specific instance of LoadBalancingSettingsParameters can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancingSettingsParameters(subject LoadBalancingSettingsParameters) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.LoadBalancingSettingsParameters
+	err := copied.AssignProperties_To_LoadBalancingSettingsParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancingSettingsParameters
+	err = actual.AssignProperties_From_LoadBalancingSettingsParameters(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_LoadBalancingSettingsParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -521,6 +899,53 @@ func AddIndependentPropertyGeneratorsForLoadBalancingSettingsParameters(gens map
 	gens["AdditionalLatencyInMilliseconds"] = gen.PtrOf(gen.Int())
 	gens["SampleSize"] = gen.PtrOf(gen.Int())
 	gens["SuccessfulSamplesRequired"] = gen.PtrOf(gen.Int())
+}
+
+func Test_LoadBalancingSettingsParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from LoadBalancingSettingsParameters_STATUS to LoadBalancingSettingsParameters_STATUS via AssignProperties_To_LoadBalancingSettingsParameters_STATUS & AssignProperties_From_LoadBalancingSettingsParameters_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForLoadBalancingSettingsParameters_STATUS, LoadBalancingSettingsParameters_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForLoadBalancingSettingsParameters_STATUS tests if a specific instance of LoadBalancingSettingsParameters_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForLoadBalancingSettingsParameters_STATUS(subject LoadBalancingSettingsParameters_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.LoadBalancingSettingsParameters_STATUS
+	err := copied.AssignProperties_To_LoadBalancingSettingsParameters_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual LoadBalancingSettingsParameters_STATUS
+	err = actual.AssignProperties_From_LoadBalancingSettingsParameters_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_LoadBalancingSettingsParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

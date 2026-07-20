@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -53,7 +53,7 @@ var _ conversion.Convertible = &RedisEnterpriseDatabase{}
 func (database *RedisEnterpriseDatabase) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*storage.RedisEnterpriseDatabase)
 	if !ok {
-		return fmt.Errorf("expected cache/v20250701/storage/RedisEnterpriseDatabase but received %T instead", hub)
+		return fmt.Errorf("expected cache/v20250401/storage/RedisEnterpriseDatabase but received %T instead", hub)
 	}
 
 	return database.AssignProperties_From_RedisEnterpriseDatabase(source)
@@ -63,7 +63,7 @@ func (database *RedisEnterpriseDatabase) ConvertFrom(hub conversion.Hub) error {
 func (database *RedisEnterpriseDatabase) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*storage.RedisEnterpriseDatabase)
 	if !ok {
-		return fmt.Errorf("expected cache/v20250701/storage/RedisEnterpriseDatabase but received %T instead", hub)
+		return fmt.Errorf("expected cache/v20250401/storage/RedisEnterpriseDatabase but received %T instead", hub)
 	}
 
 	return database.AssignProperties_To_RedisEnterpriseDatabase(destination)
@@ -361,9 +361,9 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_From_RedisEnterpr
 	// GeoReplication
 	if source.GeoReplication != nil {
 		var geoReplication DatabaseProperties_GeoReplication
-		err := geoReplication.AssignProperties_From_DatabaseCreateProperties_GeoReplication(source.GeoReplication)
+		err := geoReplication.AssignProperties_From_DatabaseProperties_GeoReplication(source.GeoReplication)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_DatabaseCreateProperties_GeoReplication() to populate field GeoReplication")
+			return eris.Wrap(err, "calling AssignProperties_From_DatabaseProperties_GeoReplication() to populate field GeoReplication")
 		}
 		database.GeoReplication = &geoReplication
 	} else {
@@ -469,10 +469,10 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_To_RedisEnterpris
 
 	// GeoReplication
 	if database.GeoReplication != nil {
-		var geoReplication storage.DatabaseCreateProperties_GeoReplication
-		err := database.GeoReplication.AssignProperties_To_DatabaseCreateProperties_GeoReplication(&geoReplication)
+		var geoReplication storage.DatabaseProperties_GeoReplication
+		err := database.GeoReplication.AssignProperties_To_DatabaseProperties_GeoReplication(&geoReplication)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_DatabaseCreateProperties_GeoReplication() to populate field GeoReplication")
+			return eris.Wrap(err, "calling AssignProperties_To_DatabaseProperties_GeoReplication() to populate field GeoReplication")
 		}
 		destination.GeoReplication = &geoReplication
 	} else {
@@ -651,9 +651,9 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_From_RedisEnter
 	// GeoReplication
 	if source.GeoReplication != nil {
 		var geoReplication DatabaseProperties_GeoReplication_STATUS
-		err := geoReplication.AssignProperties_From_DatabaseCreateProperties_GeoReplication_STATUS(source.GeoReplication)
+		err := geoReplication.AssignProperties_From_DatabaseProperties_GeoReplication_STATUS(source.GeoReplication)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_DatabaseCreateProperties_GeoReplication_STATUS() to populate field GeoReplication")
+			return eris.Wrap(err, "calling AssignProperties_From_DatabaseProperties_GeoReplication_STATUS() to populate field GeoReplication")
 		}
 		database.GeoReplication = &geoReplication
 	} else {
@@ -766,10 +766,10 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_To_RedisEnterpr
 
 	// GeoReplication
 	if database.GeoReplication != nil {
-		var geoReplication storage.DatabaseCreateProperties_GeoReplication_STATUS
-		err := database.GeoReplication.AssignProperties_To_DatabaseCreateProperties_GeoReplication_STATUS(&geoReplication)
+		var geoReplication storage.DatabaseProperties_GeoReplication_STATUS
+		err := database.GeoReplication.AssignProperties_To_DatabaseProperties_GeoReplication_STATUS(&geoReplication)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_DatabaseCreateProperties_GeoReplication_STATUS() to populate field GeoReplication")
+			return eris.Wrap(err, "calling AssignProperties_To_DatabaseProperties_GeoReplication_STATUS() to populate field GeoReplication")
 		}
 		destination.GeoReplication = &geoReplication
 	} else {
@@ -874,8 +874,8 @@ type DatabaseProperties_GeoReplication struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_DatabaseCreateProperties_GeoReplication populates our DatabaseProperties_GeoReplication from the provided source DatabaseCreateProperties_GeoReplication
-func (replication *DatabaseProperties_GeoReplication) AssignProperties_From_DatabaseCreateProperties_GeoReplication(source *storage.DatabaseCreateProperties_GeoReplication) error {
+// AssignProperties_From_DatabaseProperties_GeoReplication populates our DatabaseProperties_GeoReplication from the provided source DatabaseProperties_GeoReplication
+func (replication *DatabaseProperties_GeoReplication) AssignProperties_From_DatabaseProperties_GeoReplication(source *storage.DatabaseProperties_GeoReplication) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -918,8 +918,8 @@ func (replication *DatabaseProperties_GeoReplication) AssignProperties_From_Data
 	return nil
 }
 
-// AssignProperties_To_DatabaseCreateProperties_GeoReplication populates the provided destination DatabaseCreateProperties_GeoReplication from our DatabaseProperties_GeoReplication
-func (replication *DatabaseProperties_GeoReplication) AssignProperties_To_DatabaseCreateProperties_GeoReplication(destination *storage.DatabaseCreateProperties_GeoReplication) error {
+// AssignProperties_To_DatabaseProperties_GeoReplication populates the provided destination DatabaseProperties_GeoReplication from our DatabaseProperties_GeoReplication
+func (replication *DatabaseProperties_GeoReplication) AssignProperties_To_DatabaseProperties_GeoReplication(destination *storage.DatabaseProperties_GeoReplication) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(replication.PropertyBag)
 
@@ -969,8 +969,8 @@ type DatabaseProperties_GeoReplication_STATUS struct {
 	PropertyBag     genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_DatabaseCreateProperties_GeoReplication_STATUS populates our DatabaseProperties_GeoReplication_STATUS from the provided source DatabaseCreateProperties_GeoReplication_STATUS
-func (replication *DatabaseProperties_GeoReplication_STATUS) AssignProperties_From_DatabaseCreateProperties_GeoReplication_STATUS(source *storage.DatabaseCreateProperties_GeoReplication_STATUS) error {
+// AssignProperties_From_DatabaseProperties_GeoReplication_STATUS populates our DatabaseProperties_GeoReplication_STATUS from the provided source DatabaseProperties_GeoReplication_STATUS
+func (replication *DatabaseProperties_GeoReplication_STATUS) AssignProperties_From_DatabaseProperties_GeoReplication_STATUS(source *storage.DatabaseProperties_GeoReplication_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1013,8 +1013,8 @@ func (replication *DatabaseProperties_GeoReplication_STATUS) AssignProperties_Fr
 	return nil
 }
 
-// AssignProperties_To_DatabaseCreateProperties_GeoReplication_STATUS populates the provided destination DatabaseCreateProperties_GeoReplication_STATUS from our DatabaseProperties_GeoReplication_STATUS
-func (replication *DatabaseProperties_GeoReplication_STATUS) AssignProperties_To_DatabaseCreateProperties_GeoReplication_STATUS(destination *storage.DatabaseCreateProperties_GeoReplication_STATUS) error {
+// AssignProperties_To_DatabaseProperties_GeoReplication_STATUS populates the provided destination DatabaseProperties_GeoReplication_STATUS from our DatabaseProperties_GeoReplication_STATUS
+func (replication *DatabaseProperties_GeoReplication_STATUS) AssignProperties_To_DatabaseProperties_GeoReplication_STATUS(destination *storage.DatabaseProperties_GeoReplication_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(replication.PropertyBag)
 
@@ -1658,13 +1658,13 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 }
 
 type augmentConversionForDatabaseProperties_GeoReplication interface {
-	AssignPropertiesFrom(src *storage.DatabaseCreateProperties_GeoReplication) error
-	AssignPropertiesTo(dst *storage.DatabaseCreateProperties_GeoReplication) error
+	AssignPropertiesFrom(src *storage.DatabaseProperties_GeoReplication) error
+	AssignPropertiesTo(dst *storage.DatabaseProperties_GeoReplication) error
 }
 
 type augmentConversionForDatabaseProperties_GeoReplication_STATUS interface {
-	AssignPropertiesFrom(src *storage.DatabaseCreateProperties_GeoReplication_STATUS) error
-	AssignPropertiesTo(dst *storage.DatabaseCreateProperties_GeoReplication_STATUS) error
+	AssignPropertiesFrom(src *storage.DatabaseProperties_GeoReplication_STATUS) error
+	AssignPropertiesTo(dst *storage.DatabaseProperties_GeoReplication_STATUS) error
 }
 
 type augmentConversionForModule interface {

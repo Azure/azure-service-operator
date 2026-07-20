@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20230701/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -350,13 +350,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_From_RedisEnterpr
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AccessKeysAuthentication
-	if source.AccessKeysAuthentication != nil {
-		propertyBag.Add("AccessKeysAuthentication", *source.AccessKeysAuthentication)
-	} else {
-		propertyBag.Remove("AccessKeysAuthentication")
-	}
-
 	// AzureName
 	database.AzureName = source.AzureName
 
@@ -365,13 +358,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_From_RedisEnterpr
 
 	// ClusteringPolicy
 	database.ClusteringPolicy = genruntime.ClonePointerToString(source.ClusteringPolicy)
-
-	// DeferUpgrade
-	if source.DeferUpgrade != nil {
-		propertyBag.Add("DeferUpgrade", *source.DeferUpgrade)
-	} else {
-		propertyBag.Remove("DeferUpgrade")
-	}
 
 	// EvictionPolicy
 	database.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
@@ -467,19 +453,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_To_RedisEnterpris
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(database.PropertyBag)
 
-	// AccessKeysAuthentication
-	if propertyBag.Contains("AccessKeysAuthentication") {
-		var accessKeysAuthentication string
-		err := propertyBag.Pull("AccessKeysAuthentication", &accessKeysAuthentication)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AccessKeysAuthentication' from propertyBag")
-		}
-
-		destination.AccessKeysAuthentication = &accessKeysAuthentication
-	} else {
-		destination.AccessKeysAuthentication = nil
-	}
-
 	// AzureName
 	destination.AzureName = database.AzureName
 
@@ -488,19 +461,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignProperties_To_RedisEnterpris
 
 	// ClusteringPolicy
 	destination.ClusteringPolicy = genruntime.ClonePointerToString(database.ClusteringPolicy)
-
-	// DeferUpgrade
-	if propertyBag.Contains("DeferUpgrade") {
-		var deferUpgrade string
-		err := propertyBag.Pull("DeferUpgrade", &deferUpgrade)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DeferUpgrade' from propertyBag")
-		}
-
-		destination.DeferUpgrade = &deferUpgrade
-	} else {
-		destination.DeferUpgrade = nil
-	}
 
 	// EvictionPolicy
 	destination.EvictionPolicy = genruntime.ClonePointerToString(database.EvictionPolicy)
@@ -664,13 +624,6 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_From_RedisEnter
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AccessKeysAuthentication
-	if source.AccessKeysAuthentication != nil {
-		propertyBag.Add("AccessKeysAuthentication", *source.AccessKeysAuthentication)
-	} else {
-		propertyBag.Remove("AccessKeysAuthentication")
-	}
-
 	// ClientProtocol
 	database.ClientProtocol = genruntime.ClonePointerToString(source.ClientProtocol)
 
@@ -679,13 +632,6 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_From_RedisEnter
 
 	// Conditions
 	database.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// DeferUpgrade
-	if source.DeferUpgrade != nil {
-		propertyBag.Add("DeferUpgrade", *source.DeferUpgrade)
-	} else {
-		propertyBag.Remove("DeferUpgrade")
-	}
 
 	// EvictionPolicy
 	database.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
@@ -742,22 +688,8 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_From_RedisEnter
 	// ProvisioningState
 	database.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
-	// RedisVersion
-	if source.RedisVersion != nil {
-		propertyBag.Add("RedisVersion", *source.RedisVersion)
-	} else {
-		propertyBag.Remove("RedisVersion")
-	}
-
 	// ResourceState
 	database.ResourceState = genruntime.ClonePointerToString(source.ResourceState)
-
-	// SystemData
-	if source.SystemData != nil {
-		propertyBag.Add("SystemData", *source.SystemData)
-	} else {
-		propertyBag.Remove("SystemData")
-	}
 
 	// Type
 	database.Type = genruntime.ClonePointerToString(source.Type)
@@ -787,19 +719,6 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_To_RedisEnterpr
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(database.PropertyBag)
 
-	// AccessKeysAuthentication
-	if propertyBag.Contains("AccessKeysAuthentication") {
-		var accessKeysAuthentication string
-		err := propertyBag.Pull("AccessKeysAuthentication", &accessKeysAuthentication)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'AccessKeysAuthentication' from propertyBag")
-		}
-
-		destination.AccessKeysAuthentication = &accessKeysAuthentication
-	} else {
-		destination.AccessKeysAuthentication = nil
-	}
-
 	// ClientProtocol
 	destination.ClientProtocol = genruntime.ClonePointerToString(database.ClientProtocol)
 
@@ -808,19 +727,6 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_To_RedisEnterpr
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(database.Conditions)
-
-	// DeferUpgrade
-	if propertyBag.Contains("DeferUpgrade") {
-		var deferUpgrade string
-		err := propertyBag.Pull("DeferUpgrade", &deferUpgrade)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'DeferUpgrade' from propertyBag")
-		}
-
-		destination.DeferUpgrade = &deferUpgrade
-	} else {
-		destination.DeferUpgrade = nil
-	}
 
 	// EvictionPolicy
 	destination.EvictionPolicy = genruntime.ClonePointerToString(database.EvictionPolicy)
@@ -877,34 +783,8 @@ func (database *RedisEnterpriseDatabase_STATUS) AssignProperties_To_RedisEnterpr
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(database.ProvisioningState)
 
-	// RedisVersion
-	if propertyBag.Contains("RedisVersion") {
-		var redisVersion string
-		err := propertyBag.Pull("RedisVersion", &redisVersion)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'RedisVersion' from propertyBag")
-		}
-
-		destination.RedisVersion = &redisVersion
-	} else {
-		destination.RedisVersion = nil
-	}
-
 	// ResourceState
 	destination.ResourceState = genruntime.ClonePointerToString(database.ResourceState)
-
-	// SystemData
-	if propertyBag.Contains("SystemData") {
-		var systemDatum storage.SystemData_STATUS
-		err := propertyBag.Pull("SystemData", &systemDatum)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
-		}
-
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(database.Type)

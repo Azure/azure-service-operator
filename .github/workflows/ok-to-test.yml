@@ -8,11 +8,15 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: ok-to-test-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
 jobs:
   ok-to-test:
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: write  # Required to comment on PR comments
+      pull-requests: write   # Required to add reaction to the /ok-to-test comment
     # Only run for PRs, not issue comments
     if: ${{ github.event.issue.pull_request }}
     steps:

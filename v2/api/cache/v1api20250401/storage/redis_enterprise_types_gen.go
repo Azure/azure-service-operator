@@ -5,7 +5,7 @@ package storage
 
 import (
 	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -53,7 +53,7 @@ var _ conversion.Convertible = &RedisEnterprise{}
 func (enterprise *RedisEnterprise) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*storage.RedisEnterprise)
 	if !ok {
-		return fmt.Errorf("expected cache/v20250701/storage/RedisEnterprise but received %T instead", hub)
+		return fmt.Errorf("expected cache/v20250401/storage/RedisEnterprise but received %T instead", hub)
 	}
 
 	return enterprise.AssignProperties_From_RedisEnterprise(source)
@@ -63,7 +63,7 @@ func (enterprise *RedisEnterprise) ConvertFrom(hub conversion.Hub) error {
 func (enterprise *RedisEnterprise) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*storage.RedisEnterprise)
 	if !ok {
-		return fmt.Errorf("expected cache/v20250701/storage/RedisEnterprise but received %T instead", hub)
+		return fmt.Errorf("expected cache/v20250401/storage/RedisEnterprise but received %T instead", hub)
 	}
 
 	return enterprise.AssignProperties_To_RedisEnterprise(destination)
@@ -351,9 +351,9 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_From_RedisEnterprise_Sp
 	// Encryption
 	if source.Encryption != nil {
 		var encryption ClusterProperties_Encryption
-		err := encryption.AssignProperties_From_ClusterCreateProperties_Encryption(source.Encryption)
+		err := encryption.AssignProperties_From_ClusterProperties_Encryption(source.Encryption)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ClusterCreateProperties_Encryption() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterProperties_Encryption() to populate field Encryption")
 		}
 		enterprise.Encryption = &encryption
 	} else {
@@ -407,13 +407,6 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_From_RedisEnterprise_Sp
 		enterprise.Owner = nil
 	}
 
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		propertyBag.Add("PublicNetworkAccess", *source.PublicNetworkAccess)
-	} else {
-		propertyBag.Remove("PublicNetworkAccess")
-	}
-
 	// Sku
 	if source.Sku != nil {
 		var sku Sku
@@ -462,10 +455,10 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 
 	// Encryption
 	if enterprise.Encryption != nil {
-		var encryption storage.ClusterCreateProperties_Encryption
-		err := enterprise.Encryption.AssignProperties_To_ClusterCreateProperties_Encryption(&encryption)
+		var encryption storage.ClusterProperties_Encryption
+		err := enterprise.Encryption.AssignProperties_To_ClusterProperties_Encryption(&encryption)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ClusterCreateProperties_Encryption() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterProperties_Encryption() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -517,19 +510,6 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// PublicNetworkAccess
-	if propertyBag.Contains("PublicNetworkAccess") {
-		var publicNetworkAccess string
-		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
-		}
-
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
 	}
 
 	// Sku
@@ -655,9 +635,9 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 	// Encryption
 	if source.Encryption != nil {
 		var encryption ClusterProperties_Encryption_STATUS
-		err := encryption.AssignProperties_From_ClusterCreateProperties_Encryption_STATUS(source.Encryption)
+		err := encryption.AssignProperties_From_ClusterProperties_Encryption_STATUS(source.Encryption)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ClusterCreateProperties_Encryption_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterProperties_Encryption_STATUS() to populate field Encryption")
 		}
 		enterprise.Encryption = &encryption
 	} else {
@@ -715,13 +695,6 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_From_RedisEnterprise_
 
 	// ProvisioningState
 	enterprise.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		propertyBag.Add("PublicNetworkAccess", *source.PublicNetworkAccess)
-	} else {
-		propertyBag.Remove("PublicNetworkAccess")
-	}
 
 	// RedisVersion
 	enterprise.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
@@ -783,10 +756,10 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 
 	// Encryption
 	if enterprise.Encryption != nil {
-		var encryption storage.ClusterCreateProperties_Encryption_STATUS
-		err := enterprise.Encryption.AssignProperties_To_ClusterCreateProperties_Encryption_STATUS(&encryption)
+		var encryption storage.ClusterProperties_Encryption_STATUS
+		err := enterprise.Encryption.AssignProperties_To_ClusterProperties_Encryption_STATUS(&encryption)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ClusterCreateProperties_Encryption_STATUS() to populate field Encryption")
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterProperties_Encryption_STATUS() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -844,19 +817,6 @@ func (enterprise *RedisEnterprise_STATUS) AssignProperties_To_RedisEnterprise_ST
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(enterprise.ProvisioningState)
-
-	// PublicNetworkAccess
-	if propertyBag.Contains("PublicNetworkAccess") {
-		var publicNetworkAccess string
-		err := propertyBag.Pull("PublicNetworkAccess", &publicNetworkAccess)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PublicNetworkAccess' from propertyBag")
-		}
-
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
-	}
 
 	// RedisVersion
 	destination.RedisVersion = genruntime.ClonePointerToString(enterprise.RedisVersion)
@@ -924,17 +884,17 @@ type ClusterProperties_Encryption struct {
 	PropertyBag                  genruntime.PropertyBag                                     `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_ClusterCreateProperties_Encryption populates our ClusterProperties_Encryption from the provided source ClusterCreateProperties_Encryption
-func (encryption *ClusterProperties_Encryption) AssignProperties_From_ClusterCreateProperties_Encryption(source *storage.ClusterCreateProperties_Encryption) error {
+// AssignProperties_From_ClusterProperties_Encryption populates our ClusterProperties_Encryption from the provided source ClusterProperties_Encryption
+func (encryption *ClusterProperties_Encryption) AssignProperties_From_ClusterProperties_Encryption(source *storage.ClusterProperties_Encryption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// CustomerManagedKeyEncryption
 	if source.CustomerManagedKeyEncryption != nil {
 		var customerManagedKeyEncryption ClusterProperties_Encryption_CustomerManagedKeyEncryption
-		err := customerManagedKeyEncryption.AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(source.CustomerManagedKeyEncryption)
+		err := customerManagedKeyEncryption.AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption(source.CustomerManagedKeyEncryption)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption() to populate field CustomerManagedKeyEncryption")
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption() to populate field CustomerManagedKeyEncryption")
 		}
 		encryption.CustomerManagedKeyEncryption = &customerManagedKeyEncryption
 	} else {
@@ -961,17 +921,17 @@ func (encryption *ClusterProperties_Encryption) AssignProperties_From_ClusterCre
 	return nil
 }
 
-// AssignProperties_To_ClusterCreateProperties_Encryption populates the provided destination ClusterCreateProperties_Encryption from our ClusterProperties_Encryption
-func (encryption *ClusterProperties_Encryption) AssignProperties_To_ClusterCreateProperties_Encryption(destination *storage.ClusterCreateProperties_Encryption) error {
+// AssignProperties_To_ClusterProperties_Encryption populates the provided destination ClusterProperties_Encryption from our ClusterProperties_Encryption
+func (encryption *ClusterProperties_Encryption) AssignProperties_To_ClusterProperties_Encryption(destination *storage.ClusterProperties_Encryption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
 
 	// CustomerManagedKeyEncryption
 	if encryption.CustomerManagedKeyEncryption != nil {
-		var customerManagedKeyEncryption storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption
-		err := encryption.CustomerManagedKeyEncryption.AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(&customerManagedKeyEncryption)
+		var customerManagedKeyEncryption storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption
+		err := encryption.CustomerManagedKeyEncryption.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption(&customerManagedKeyEncryption)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption() to populate field CustomerManagedKeyEncryption")
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption() to populate field CustomerManagedKeyEncryption")
 		}
 		destination.CustomerManagedKeyEncryption = &customerManagedKeyEncryption
 	} else {
@@ -1004,17 +964,17 @@ type ClusterProperties_Encryption_STATUS struct {
 	PropertyBag                  genruntime.PropertyBag                                            `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_ClusterCreateProperties_Encryption_STATUS populates our ClusterProperties_Encryption_STATUS from the provided source ClusterCreateProperties_Encryption_STATUS
-func (encryption *ClusterProperties_Encryption_STATUS) AssignProperties_From_ClusterCreateProperties_Encryption_STATUS(source *storage.ClusterCreateProperties_Encryption_STATUS) error {
+// AssignProperties_From_ClusterProperties_Encryption_STATUS populates our ClusterProperties_Encryption_STATUS from the provided source ClusterProperties_Encryption_STATUS
+func (encryption *ClusterProperties_Encryption_STATUS) AssignProperties_From_ClusterProperties_Encryption_STATUS(source *storage.ClusterProperties_Encryption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// CustomerManagedKeyEncryption
 	if source.CustomerManagedKeyEncryption != nil {
 		var customerManagedKeyEncryption ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
-		err := customerManagedKeyEncryption.AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS(source.CustomerManagedKeyEncryption)
+		err := customerManagedKeyEncryption.AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(source.CustomerManagedKeyEncryption)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS() to populate field CustomerManagedKeyEncryption")
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS() to populate field CustomerManagedKeyEncryption")
 		}
 		encryption.CustomerManagedKeyEncryption = &customerManagedKeyEncryption
 	} else {
@@ -1041,17 +1001,17 @@ func (encryption *ClusterProperties_Encryption_STATUS) AssignProperties_From_Clu
 	return nil
 }
 
-// AssignProperties_To_ClusterCreateProperties_Encryption_STATUS populates the provided destination ClusterCreateProperties_Encryption_STATUS from our ClusterProperties_Encryption_STATUS
-func (encryption *ClusterProperties_Encryption_STATUS) AssignProperties_To_ClusterCreateProperties_Encryption_STATUS(destination *storage.ClusterCreateProperties_Encryption_STATUS) error {
+// AssignProperties_To_ClusterProperties_Encryption_STATUS populates the provided destination ClusterProperties_Encryption_STATUS from our ClusterProperties_Encryption_STATUS
+func (encryption *ClusterProperties_Encryption_STATUS) AssignProperties_To_ClusterProperties_Encryption_STATUS(destination *storage.ClusterProperties_Encryption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
 
 	// CustomerManagedKeyEncryption
 	if encryption.CustomerManagedKeyEncryption != nil {
-		var customerManagedKeyEncryption storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS
-		err := encryption.CustomerManagedKeyEncryption.AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS(&customerManagedKeyEncryption)
+		var customerManagedKeyEncryption storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
+		err := encryption.CustomerManagedKeyEncryption.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(&customerManagedKeyEncryption)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS() to populate field CustomerManagedKeyEncryption")
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS() to populate field CustomerManagedKeyEncryption")
 		}
 		destination.CustomerManagedKeyEncryption = &customerManagedKeyEncryption
 	} else {
@@ -1610,13 +1570,13 @@ func (sku *Sku_STATUS) AssignProperties_To_Sku_STATUS(destination *storage.Sku_S
 }
 
 type augmentConversionForClusterProperties_Encryption interface {
-	AssignPropertiesFrom(src *storage.ClusterCreateProperties_Encryption) error
-	AssignPropertiesTo(dst *storage.ClusterCreateProperties_Encryption) error
+	AssignPropertiesFrom(src *storage.ClusterProperties_Encryption) error
+	AssignPropertiesTo(dst *storage.ClusterProperties_Encryption) error
 }
 
 type augmentConversionForClusterProperties_Encryption_STATUS interface {
-	AssignPropertiesFrom(src *storage.ClusterCreateProperties_Encryption_STATUS) error
-	AssignPropertiesTo(dst *storage.ClusterCreateProperties_Encryption_STATUS) error
+	AssignPropertiesFrom(src *storage.ClusterProperties_Encryption_STATUS) error
+	AssignPropertiesTo(dst *storage.ClusterProperties_Encryption_STATUS) error
 }
 
 type augmentConversionForManagedServiceIdentity interface {
@@ -1656,17 +1616,17 @@ type ClusterProperties_Encryption_CustomerManagedKeyEncryption struct {
 	PropertyBag              genruntime.PropertyBag                                                              `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption populates our ClusterProperties_Encryption_CustomerManagedKeyEncryption from the provided source ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption
-func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption) AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(source *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption) error {
+// AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption populates our ClusterProperties_Encryption_CustomerManagedKeyEncryption from the provided source ClusterProperties_Encryption_CustomerManagedKeyEncryption
+func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption) AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption(source *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// KeyEncryptionKeyIdentity
 	if source.KeyEncryptionKeyIdentity != nil {
 		var keyEncryptionKeyIdentity ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
-		err := keyEncryptionKeyIdentity.AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(source.KeyEncryptionKeyIdentity)
+		err := keyEncryptionKeyIdentity.AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(source.KeyEncryptionKeyIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity() to populate field KeyEncryptionKeyIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity() to populate field KeyEncryptionKeyIdentity")
 		}
 		encryption.KeyEncryptionKeyIdentity = &keyEncryptionKeyIdentity
 	} else {
@@ -1696,17 +1656,17 @@ func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption) Ass
 	return nil
 }
 
-// AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption populates the provided destination ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption from our ClusterProperties_Encryption_CustomerManagedKeyEncryption
-func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption) AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(destination *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption) error {
+// AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption populates the provided destination ClusterProperties_Encryption_CustomerManagedKeyEncryption from our ClusterProperties_Encryption_CustomerManagedKeyEncryption
+func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption) AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption(destination *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
 
 	// KeyEncryptionKeyIdentity
 	if encryption.KeyEncryptionKeyIdentity != nil {
-		var keyEncryptionKeyIdentity storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
-		err := encryption.KeyEncryptionKeyIdentity.AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(&keyEncryptionKeyIdentity)
+		var keyEncryptionKeyIdentity storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
+		err := encryption.KeyEncryptionKeyIdentity.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(&keyEncryptionKeyIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity() to populate field KeyEncryptionKeyIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity() to populate field KeyEncryptionKeyIdentity")
 		}
 		destination.KeyEncryptionKeyIdentity = &keyEncryptionKeyIdentity
 	} else {
@@ -1743,17 +1703,17 @@ type ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS struct {
 	PropertyBag              genruntime.PropertyBag                                                                     `json:"$propertyBag,omitempty"`
 }
 
-// AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS populates our ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS from the provided source ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS
-func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS) AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS(source *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS) error {
+// AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS populates our ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS from the provided source ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
+func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS) AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(source *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// KeyEncryptionKeyIdentity
 	if source.KeyEncryptionKeyIdentity != nil {
 		var keyEncryptionKeyIdentity ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
-		err := keyEncryptionKeyIdentity.AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(source.KeyEncryptionKeyIdentity)
+		err := keyEncryptionKeyIdentity.AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(source.KeyEncryptionKeyIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS() to populate field KeyEncryptionKeyIdentity")
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS() to populate field KeyEncryptionKeyIdentity")
 		}
 		encryption.KeyEncryptionKeyIdentity = &keyEncryptionKeyIdentity
 	} else {
@@ -1783,17 +1743,17 @@ func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption_STAT
 	return nil
 }
 
-// AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS populates the provided destination ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS from our ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
-func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS) AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS(destination *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS) error {
+// AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS populates the provided destination ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS from our ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
+func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS) AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(destination *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
 
 	// KeyEncryptionKeyIdentity
 	if encryption.KeyEncryptionKeyIdentity != nil {
-		var keyEncryptionKeyIdentity storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
-		err := encryption.KeyEncryptionKeyIdentity.AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(&keyEncryptionKeyIdentity)
+		var keyEncryptionKeyIdentity storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
+		err := encryption.KeyEncryptionKeyIdentity.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(&keyEncryptionKeyIdentity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS() to populate field KeyEncryptionKeyIdentity")
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS() to populate field KeyEncryptionKeyIdentity")
 		}
 		destination.KeyEncryptionKeyIdentity = &keyEncryptionKeyIdentity
 	} else {
@@ -1957,13 +1917,13 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 }
 
 type augmentConversionForClusterProperties_Encryption_CustomerManagedKeyEncryption interface {
-	AssignPropertiesFrom(src *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption) error
-	AssignPropertiesTo(dst *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption) error
+	AssignPropertiesFrom(src *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption) error
+	AssignPropertiesTo(dst *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption) error
 }
 
 type augmentConversionForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS interface {
-	AssignPropertiesFrom(src *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS) error
-	AssignPropertiesTo(dst *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS) error
+	AssignPropertiesFrom(src *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS) error
+	AssignPropertiesTo(dst *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS) error
 }
 
 type augmentConversionForUserAssignedIdentity_STATUS interface {
@@ -1987,8 +1947,8 @@ type ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyI
 	UserAssignedIdentityResourceReference *genruntime.ResourceReference `armReference:"UserAssignedIdentityResourceId" json:"userAssignedIdentityResourceReference,omitempty"`
 }
 
-// AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity populates our ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity from the provided source ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
-func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(source *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) error {
+// AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity populates our ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity from the provided source ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
+func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(source *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2023,8 +1983,8 @@ func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEnc
 	return nil
 }
 
-// AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity populates the provided destination ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity from our ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
-func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(destination *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) error {
+// AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity populates the provided destination ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity from our ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
+func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(destination *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -2066,8 +2026,8 @@ type ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyI
 	UserAssignedIdentityResourceId *string                `json:"userAssignedIdentityResourceId,omitempty"`
 }
 
-// AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS populates our ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS from the provided source ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
-func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(source *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) error {
+// AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS populates our ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS from the provided source ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
+func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(source *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2097,8 +2057,8 @@ func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEnc
 	return nil
 }
 
-// AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS populates the provided destination ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS from our ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
-func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(destination *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) error {
+// AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS populates the provided destination ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS from our ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
+func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(destination *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -2129,13 +2089,13 @@ func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEnc
 }
 
 type augmentConversionForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity interface {
-	AssignPropertiesFrom(src *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) error
-	AssignPropertiesTo(dst *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) error
+	AssignPropertiesFrom(src *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) error
+	AssignPropertiesTo(dst *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) error
 }
 
 type augmentConversionForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS interface {
-	AssignPropertiesFrom(src *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) error
-	AssignPropertiesTo(dst *storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) error
+	AssignPropertiesFrom(src *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) error
+	AssignPropertiesTo(dst *storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) error
 }
 
 func init() {

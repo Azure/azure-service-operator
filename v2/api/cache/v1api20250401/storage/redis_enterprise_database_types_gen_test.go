@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -29,7 +29,7 @@ func Test_DatabaseProperties_GeoReplication_WhenPropertiesConverted_RoundTripsWi
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DatabaseProperties_GeoReplication to DatabaseCreateProperties_GeoReplication via AssignProperties_To_DatabaseCreateProperties_GeoReplication & AssignProperties_From_DatabaseCreateProperties_GeoReplication returns original",
+		"Round trip from DatabaseProperties_GeoReplication to DatabaseProperties_GeoReplication via AssignProperties_To_DatabaseProperties_GeoReplication & AssignProperties_From_DatabaseProperties_GeoReplication returns original",
 		prop.ForAll(RunPropertyAssignmentTestForDatabaseProperties_GeoReplication, DatabaseProperties_GeoReplicationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -40,15 +40,15 @@ func RunPropertyAssignmentTestForDatabaseProperties_GeoReplication(subject Datab
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DatabaseCreateProperties_GeoReplication
-	err := copied.AssignProperties_To_DatabaseCreateProperties_GeoReplication(&other)
+	var other storage.DatabaseProperties_GeoReplication
+	err := copied.AssignProperties_To_DatabaseProperties_GeoReplication(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DatabaseProperties_GeoReplication
-	err = actual.AssignProperties_From_DatabaseCreateProperties_GeoReplication(&other)
+	err = actual.AssignProperties_From_DatabaseProperties_GeoReplication(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -156,7 +156,7 @@ func Test_DatabaseProperties_GeoReplication_STATUS_WhenPropertiesConverted_Round
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DatabaseProperties_GeoReplication_STATUS to DatabaseCreateProperties_GeoReplication_STATUS via AssignProperties_To_DatabaseCreateProperties_GeoReplication_STATUS & AssignProperties_From_DatabaseCreateProperties_GeoReplication_STATUS returns original",
+		"Round trip from DatabaseProperties_GeoReplication_STATUS to DatabaseProperties_GeoReplication_STATUS via AssignProperties_To_DatabaseProperties_GeoReplication_STATUS & AssignProperties_From_DatabaseProperties_GeoReplication_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForDatabaseProperties_GeoReplication_STATUS, DatabaseProperties_GeoReplication_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -167,15 +167,15 @@ func RunPropertyAssignmentTestForDatabaseProperties_GeoReplication_STATUS(subjec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DatabaseCreateProperties_GeoReplication_STATUS
-	err := copied.AssignProperties_To_DatabaseCreateProperties_GeoReplication_STATUS(&other)
+	var other storage.DatabaseProperties_GeoReplication_STATUS
+	err := copied.AssignProperties_To_DatabaseProperties_GeoReplication_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual DatabaseProperties_GeoReplication_STATUS
-	err = actual.AssignProperties_From_DatabaseCreateProperties_GeoReplication_STATUS(&other)
+	err = actual.AssignProperties_From_DatabaseProperties_GeoReplication_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}

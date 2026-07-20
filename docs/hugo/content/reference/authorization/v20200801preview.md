@@ -17,7 +17,7 @@ APIVersion{#APIVersion}
 RoleAssignment{#RoleAssignment}
 -------------------------------
 
-Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
+Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 
 Used by: [RoleAssignmentList](#RoleAssignmentList).
 
@@ -68,7 +68,7 @@ Used by: [RoleAssignmentList](#RoleAssignmentList).
 RoleAssignmentList{#RoleAssignmentList}
 ---------------------------------------
 
-Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
+Generator information: - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 
 | Property                                                                            | Description | Type                                                            |
 |-------------------------------------------------------------------------------------|-------------|-----------------------------------------------------------------|

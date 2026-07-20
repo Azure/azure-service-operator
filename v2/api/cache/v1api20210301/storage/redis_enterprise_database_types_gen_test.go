@@ -5,8 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	v20230701s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230701/storage"
-	v20250701s "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/storage"
+	v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v20210301/storage"
+	v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +41,7 @@ func RunPropertyAssignmentTestForModule(subject Module) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Module
+	var other v20210301s.Module
 	err := copied.AssignProperties_To_Module(&other)
 	if err != nil {
 		return err.Error()
@@ -154,7 +154,7 @@ func RunPropertyAssignmentTestForModule_STATUS(subject Module_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Module_STATUS
+	var other v20210301s.Module_STATUS
 	err := copied.AssignProperties_To_Module_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -268,7 +268,7 @@ func RunPropertyAssignmentTestForPersistence(subject Persistence) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Persistence
+	var other v20210301s.Persistence
 	err := copied.AssignProperties_To_Persistence(&other)
 	if err != nil {
 		return err.Error()
@@ -383,7 +383,7 @@ func RunPropertyAssignmentTestForPersistence_STATUS(subject Persistence_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.Persistence_STATUS
+	var other v20210301s.Persistence_STATUS
 	err := copied.AssignProperties_To_Persistence_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -499,7 +499,7 @@ func RunResourceConversionTestForRedisEnterpriseDatabase(subject RedisEnterprise
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20250701s.RedisEnterpriseDatabase
+	var hub v20250401s.RedisEnterpriseDatabase
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -546,7 +546,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase(subject RedisEnterprise
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterpriseDatabase
+	var other v20210301s.RedisEnterpriseDatabase
 	err := copied.AssignProperties_To_RedisEnterpriseDatabase(&other)
 	if err != nil {
 		return err.Error()
@@ -660,7 +660,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabaseOperatorSecrets(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterpriseDatabaseOperatorSecrets
+	var other v20210301s.RedisEnterpriseDatabaseOperatorSecrets
 	err := copied.AssignProperties_To_RedisEnterpriseDatabaseOperatorSecrets(&other)
 	if err != nil {
 		return err.Error()
@@ -767,7 +767,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabaseOperatorSpec(subject Red
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterpriseDatabaseOperatorSpec
+	var other v20210301s.RedisEnterpriseDatabaseOperatorSpec
 	err := copied.AssignProperties_To_RedisEnterpriseDatabaseOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -880,7 +880,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase_STATUS(subject RedisEnt
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterpriseDatabase_STATUS
+	var other v20210301s.RedisEnterpriseDatabase_STATUS
 	err := copied.AssignProperties_To_RedisEnterpriseDatabase_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1016,7 +1016,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabase_Spec(subject RedisEnter
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20230701s.RedisEnterpriseDatabase_Spec
+	var other v20210301s.RedisEnterpriseDatabase_Spec
 	err := copied.AssignProperties_To_RedisEnterpriseDatabase_Spec(&other)
 	if err != nil {
 		return err.Error()

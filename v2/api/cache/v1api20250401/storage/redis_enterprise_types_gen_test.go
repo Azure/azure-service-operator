@@ -5,7 +5,7 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -29,7 +29,7 @@ func Test_ClusterProperties_Encryption_WhenPropertiesConverted_RoundTripsWithout
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ClusterProperties_Encryption to ClusterCreateProperties_Encryption via AssignProperties_To_ClusterCreateProperties_Encryption & AssignProperties_From_ClusterCreateProperties_Encryption returns original",
+		"Round trip from ClusterProperties_Encryption to ClusterProperties_Encryption via AssignProperties_To_ClusterProperties_Encryption & AssignProperties_From_ClusterProperties_Encryption returns original",
 		prop.ForAll(RunPropertyAssignmentTestForClusterProperties_Encryption, ClusterProperties_EncryptionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -40,15 +40,15 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption(subject ClusterPro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClusterCreateProperties_Encryption
-	err := copied.AssignProperties_To_ClusterCreateProperties_Encryption(&other)
+	var other storage.ClusterProperties_Encryption
+	err := copied.AssignProperties_To_ClusterProperties_Encryption(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ClusterProperties_Encryption
-	err = actual.AssignProperties_From_ClusterCreateProperties_Encryption(&other)
+	err = actual.AssignProperties_From_ClusterProperties_Encryption(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -142,7 +142,7 @@ func Test_ClusterProperties_Encryption_CustomerManagedKeyEncryption_WhenProperti
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ClusterProperties_Encryption_CustomerManagedKeyEncryption to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption via AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption & AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption returns original",
+		"Round trip from ClusterProperties_Encryption_CustomerManagedKeyEncryption to ClusterProperties_Encryption_CustomerManagedKeyEncryption via AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption & AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption returns original",
 		prop.ForAll(RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKeyEncryption, ClusterProperties_Encryption_CustomerManagedKeyEncryptionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -153,15 +153,15 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKey
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption
-	err := copied.AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(&other)
+	var other storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption
+	err := copied.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ClusterProperties_Encryption_CustomerManagedKeyEncryption
-	err = actual.AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption(&other)
+	err = actual.AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -269,7 +269,7 @@ func Test_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptio
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity via AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity & AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity returns original",
+		"Round trip from ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity to ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity via AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity & AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity returns original",
 		prop.ForAll(RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity, ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentityGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -280,15 +280,15 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKey
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
-	err := copied.AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(&other)
+	var other storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
+	err := copied.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
-	err = actual.AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(&other)
+	err = actual.AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -383,7 +383,7 @@ func Test_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptio
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS via AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS & AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS returns original",
+		"Round trip from ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS to ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS via AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS & AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS, ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -394,15 +394,15 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKey
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
-	err := copied.AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(&other)
+	var other storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
+	err := copied.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
-	err = actual.AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(&other)
+	err = actual.AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -498,7 +498,7 @@ func Test_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS_WhenP
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS to ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS via AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS & AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS returns original",
+		"Round trip from ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS to ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS via AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS & AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS, ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -509,15 +509,15 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKey
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS
-	err := copied.AssignProperties_To_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS(&other)
+	var other storage.ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
+	err := copied.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
-	err = actual.AssignProperties_From_ClusterCreateProperties_Encryption_CustomerManagedKeyEncryption_STATUS(&other)
+	err = actual.AssignProperties_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -625,7 +625,7 @@ func Test_ClusterProperties_Encryption_STATUS_WhenPropertiesConverted_RoundTrips
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ClusterProperties_Encryption_STATUS to ClusterCreateProperties_Encryption_STATUS via AssignProperties_To_ClusterCreateProperties_Encryption_STATUS & AssignProperties_From_ClusterCreateProperties_Encryption_STATUS returns original",
+		"Round trip from ClusterProperties_Encryption_STATUS to ClusterProperties_Encryption_STATUS via AssignProperties_To_ClusterProperties_Encryption_STATUS & AssignProperties_From_ClusterProperties_Encryption_STATUS returns original",
 		prop.ForAll(RunPropertyAssignmentTestForClusterProperties_Encryption_STATUS, ClusterProperties_Encryption_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
@@ -636,15 +636,15 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption_STATUS(subject Clu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ClusterCreateProperties_Encryption_STATUS
-	err := copied.AssignProperties_To_ClusterCreateProperties_Encryption_STATUS(&other)
+	var other storage.ClusterProperties_Encryption_STATUS
+	err := copied.AssignProperties_To_ClusterProperties_Encryption_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
 	var actual ClusterProperties_Encryption_STATUS
-	err = actual.AssignProperties_From_ClusterCreateProperties_Encryption_STATUS(&other)
+	err = actual.AssignProperties_From_ClusterProperties_Encryption_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}

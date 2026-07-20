@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101"
+	cache "github.com/Azure/azure-service-operator/v2/api/cache/v20241101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"

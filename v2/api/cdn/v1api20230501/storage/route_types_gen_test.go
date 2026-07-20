@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,53 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ActivatedResourceReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ActivatedResourceReference to ActivatedResourceReference via AssignProperties_To_ActivatedResourceReference & AssignProperties_From_ActivatedResourceReference returns original",
+		prop.ForAll(RunPropertyAssignmentTestForActivatedResourceReference, ActivatedResourceReferenceGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForActivatedResourceReference tests if a specific instance of ActivatedResourceReference can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForActivatedResourceReference(subject ActivatedResourceReference) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ActivatedResourceReference
+	err := copied.AssignProperties_To_ActivatedResourceReference(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ActivatedResourceReference
+	err = actual.AssignProperties_From_ActivatedResourceReference(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ActivatedResourceReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -75,6 +123,53 @@ func ActivatedResourceReferenceGenerator() gopter.Gen {
 	activatedResourceReferenceGenerator = gen.Struct(reflect.TypeOf(ActivatedResourceReference{}), generators)
 
 	return activatedResourceReferenceGenerator
+}
+
+func Test_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded to ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded via AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded & AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded, ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded tests if a specific instance of ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(subject ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
+	err := copied.AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
+	err = actual.AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -142,6 +237,53 @@ func ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEm
 // AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_AfdRouteCacheConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdRouteCacheConfiguration to AfdRouteCacheConfiguration via AssignProperties_To_AfdRouteCacheConfiguration & AssignProperties_From_AfdRouteCacheConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdRouteCacheConfiguration, AfdRouteCacheConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdRouteCacheConfiguration tests if a specific instance of AfdRouteCacheConfiguration can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdRouteCacheConfiguration(subject AfdRouteCacheConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdRouteCacheConfiguration
+	err := copied.AssignProperties_To_AfdRouteCacheConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdRouteCacheConfiguration
+	err = actual.AssignProperties_From_AfdRouteCacheConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_AfdRouteCacheConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -225,6 +367,53 @@ func AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration(gens map[string]g
 	gens["CompressionSettings"] = gen.PtrOf(CompressionSettingsGenerator())
 }
 
+func Test_AfdRouteCacheConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdRouteCacheConfiguration_STATUS to AfdRouteCacheConfiguration_STATUS via AssignProperties_To_AfdRouteCacheConfiguration_STATUS & AssignProperties_From_AfdRouteCacheConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdRouteCacheConfiguration_STATUS, AfdRouteCacheConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdRouteCacheConfiguration_STATUS tests if a specific instance of AfdRouteCacheConfiguration_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdRouteCacheConfiguration_STATUS(subject AfdRouteCacheConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdRouteCacheConfiguration_STATUS
+	err := copied.AssignProperties_To_AfdRouteCacheConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdRouteCacheConfiguration_STATUS
+	err = actual.AssignProperties_From_AfdRouteCacheConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AfdRouteCacheConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -306,6 +495,53 @@ func AddRelatedPropertyGeneratorsForAfdRouteCacheConfiguration_STATUS(gens map[s
 	gens["CompressionSettings"] = gen.PtrOf(CompressionSettings_STATUSGenerator())
 }
 
+func Test_CompressionSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CompressionSettings to CompressionSettings via AssignProperties_To_CompressionSettings & AssignProperties_From_CompressionSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCompressionSettings, CompressionSettingsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCompressionSettings tests if a specific instance of CompressionSettings can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCompressionSettings(subject CompressionSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CompressionSettings
+	err := copied.AssignProperties_To_CompressionSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CompressionSettings
+	err = actual.AssignProperties_From_CompressionSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CompressionSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -371,6 +607,53 @@ func CompressionSettingsGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCompressionSettings(gens map[string]gopter.Gen) {
 	gens["ContentTypesToCompress"] = gen.SliceOf(gen.AlphaString())
 	gens["IsCompressionEnabled"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_CompressionSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CompressionSettings_STATUS to CompressionSettings_STATUS via AssignProperties_To_CompressionSettings_STATUS & AssignProperties_From_CompressionSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCompressionSettings_STATUS, CompressionSettings_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCompressionSettings_STATUS tests if a specific instance of CompressionSettings_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCompressionSettings_STATUS(subject CompressionSettings_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CompressionSettings_STATUS
+	err := copied.AssignProperties_To_CompressionSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CompressionSettings_STATUS
+	err = actual.AssignProperties_From_CompressionSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CompressionSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -440,6 +723,101 @@ func AddIndependentPropertyGeneratorsForCompressionSettings_STATUS(gens map[stri
 	gens["IsCompressionEnabled"] = gen.PtrOf(gen.Bool())
 }
 
+func Test_Route_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Route to hub returns original",
+		prop.ForAll(RunResourceConversionTestForRoute, RouteGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForRoute tests if a specific instance of Route round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForRoute(subject Route) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.Route
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual Route
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Route_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Route to Route via AssignProperties_To_Route & AssignProperties_From_Route returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoute, RouteGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRoute tests if a specific instance of Route can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRoute(subject Route) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Route
+	err := copied.AssignProperties_To_Route(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Route
+	err = actual.AssignProperties_From_Route(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Route_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -506,6 +884,53 @@ func AddRelatedPropertyGeneratorsForRoute(gens map[string]gopter.Gen) {
 	gens["Status"] = Route_STATUSGenerator()
 }
 
+func Test_RouteOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from RouteOperatorSpec to RouteOperatorSpec via AssignProperties_To_RouteOperatorSpec & AssignProperties_From_RouteOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRouteOperatorSpec, RouteOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRouteOperatorSpec tests if a specific instance of RouteOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRouteOperatorSpec(subject RouteOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.RouteOperatorSpec
+	err := copied.AssignProperties_To_RouteOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual RouteOperatorSpec
+	err = actual.AssignProperties_From_RouteOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_RouteOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -563,6 +988,53 @@ func RouteOperatorSpecGenerator() gopter.Gen {
 	routeOperatorSpecGenerator = gen.Struct(reflect.TypeOf(RouteOperatorSpec{}), generators)
 
 	return routeOperatorSpecGenerator
+}
+
+func Test_Route_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Route_STATUS to Route_STATUS via AssignProperties_To_Route_STATUS & AssignProperties_From_Route_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoute_STATUS, Route_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRoute_STATUS tests if a specific instance of Route_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRoute_STATUS(subject Route_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Route_STATUS
+	err := copied.AssignProperties_To_Route_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Route_STATUS
+	err = actual.AssignProperties_From_Route_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Route_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -658,6 +1130,53 @@ func AddRelatedPropertyGeneratorsForRoute_STATUS(gens map[string]gopter.Gen) {
 	gens["OriginGroup"] = gen.PtrOf(ResourceReference_STATUSGenerator())
 	gens["RuleSets"] = gen.SliceOf(ResourceReference_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
+func Test_Route_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Route_Spec to Route_Spec via AssignProperties_To_Route_Spec & AssignProperties_From_Route_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoute_Spec, Route_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRoute_Spec tests if a specific instance of Route_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForRoute_Spec(subject Route_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Route_Spec
+	err := copied.AssignProperties_To_Route_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Route_Spec
+	err = actual.AssignProperties_From_Route_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_Route_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

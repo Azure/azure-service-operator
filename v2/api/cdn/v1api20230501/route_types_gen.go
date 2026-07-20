@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Route{}
 
 // ConvertFrom populates our Route from the provided hub Route
 func (route *Route) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Route)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/Route but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Route
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return route.AssignProperties_From_Route(source)
+	err = route.AssignProperties_From_Route(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to route")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Route from our Route
 func (route *Route) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Route)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/Route but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Route
+	err := route.AssignProperties_To_Route(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from route")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return route.AssignProperties_To_Route(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Route{}
@@ -87,17 +101,6 @@ func (route *Route) SecretDestinationExpressions() []*core.DestinationExpression
 		return nil
 	}
 	return route.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Route{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (route *Route) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Route_STATUS); ok {
-		return route.Spec.Initialize_From_Route_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Route_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Route{}
@@ -881,119 +884,6 @@ func (route *Route_Spec) AssignProperties_To_Route_Spec(destination *storage.Rou
 	return nil
 }
 
-// Initialize_From_Route_STATUS populates our Route_Spec from the provided source Route_STATUS
-func (route *Route_Spec) Initialize_From_Route_STATUS(source *Route_STATUS) error {
-
-	// CacheConfiguration
-	if source.CacheConfiguration != nil {
-		var cacheConfiguration AfdRouteCacheConfiguration
-		err := cacheConfiguration.Initialize_From_AfdRouteCacheConfiguration_STATUS(source.CacheConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AfdRouteCacheConfiguration_STATUS() to populate field CacheConfiguration")
-		}
-		route.CacheConfiguration = &cacheConfiguration
-	} else {
-		route.CacheConfiguration = nil
-	}
-
-	// CustomDomains
-	if source.CustomDomains != nil {
-		customDomainList := make([]ActivatedResourceReference, len(source.CustomDomains))
-		for customDomainIndex, customDomainItem := range source.CustomDomains {
-			var customDomain ActivatedResourceReference
-			err := customDomain.Initialize_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(&customDomainItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded() to populate field CustomDomains")
-			}
-			customDomainList[customDomainIndex] = customDomain
-		}
-		route.CustomDomains = customDomainList
-	} else {
-		route.CustomDomains = nil
-	}
-
-	// EnabledState
-	if source.EnabledState != nil {
-		enabledState := genruntime.ToEnum(string(*source.EnabledState), routeProperties_EnabledState_Values)
-		route.EnabledState = &enabledState
-	} else {
-		route.EnabledState = nil
-	}
-
-	// ForwardingProtocol
-	if source.ForwardingProtocol != nil {
-		forwardingProtocol := genruntime.ToEnum(string(*source.ForwardingProtocol), routeProperties_ForwardingProtocol_Values)
-		route.ForwardingProtocol = &forwardingProtocol
-	} else {
-		route.ForwardingProtocol = nil
-	}
-
-	// HttpsRedirect
-	if source.HttpsRedirect != nil {
-		httpsRedirect := genruntime.ToEnum(string(*source.HttpsRedirect), routeProperties_HttpsRedirect_Values)
-		route.HttpsRedirect = &httpsRedirect
-	} else {
-		route.HttpsRedirect = nil
-	}
-
-	// LinkToDefaultDomain
-	if source.LinkToDefaultDomain != nil {
-		linkToDefaultDomain := genruntime.ToEnum(string(*source.LinkToDefaultDomain), routeProperties_LinkToDefaultDomain_Values)
-		route.LinkToDefaultDomain = &linkToDefaultDomain
-	} else {
-		route.LinkToDefaultDomain = nil
-	}
-
-	// OriginGroup
-	if source.OriginGroup != nil {
-		var originGroup ResourceReference
-		err := originGroup.Initialize_From_ResourceReference_STATUS(source.OriginGroup)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field OriginGroup")
-		}
-		route.OriginGroup = &originGroup
-	} else {
-		route.OriginGroup = nil
-	}
-
-	// OriginPath
-	route.OriginPath = genruntime.ClonePointerToString(source.OriginPath)
-
-	// PatternsToMatch
-	route.PatternsToMatch = genruntime.CloneSliceOfString(source.PatternsToMatch)
-
-	// RuleSets
-	if source.RuleSets != nil {
-		ruleSetList := make([]ResourceReference, len(source.RuleSets))
-		for ruleSetIndex, ruleSetItem := range source.RuleSets {
-			var ruleSet ResourceReference
-			err := ruleSet.Initialize_From_ResourceReference_STATUS(&ruleSetItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field RuleSets")
-			}
-			ruleSetList[ruleSetIndex] = ruleSet
-		}
-		route.RuleSets = ruleSetList
-	} else {
-		route.RuleSets = nil
-	}
-
-	// SupportedProtocols
-	if source.SupportedProtocols != nil {
-		supportedProtocolList := make([]AFDEndpointProtocols, len(source.SupportedProtocols))
-		for supportedProtocolIndex, supportedProtocolItem := range source.SupportedProtocols {
-			supportedProtocol := genruntime.ToEnum(string(supportedProtocolItem), aFDEndpointProtocols_Values)
-			supportedProtocolList[supportedProtocolIndex] = supportedProtocol
-		}
-		route.SupportedProtocols = supportedProtocolList
-	} else {
-		route.SupportedProtocols = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (route *Route_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -1726,36 +1616,6 @@ func (reference *ActivatedResourceReference) AssignProperties_To_ActivatedResour
 	return nil
 }
 
-// Initialize_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded populates our ActivatedResourceReference from the provided source ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded
-func (reference *ActivatedResourceReference) Initialize_From_ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded(source *ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		referenceTemp := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded populates our ActivatedResourceReference from the provided source ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
-func (reference *ActivatedResourceReference) Initialize_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(source *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) error {
-
-	// Reference
-	if source.Id != nil {
-		referenceTemp := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Reference to another resource along with its state.
 type ActivatedResourceReference_STATUS_Profiles_AfdEndpoints_Route_SubResourceEmbedded struct {
 	// Id: Resource ID.
@@ -1998,36 +1858,6 @@ func (configuration *AfdRouteCacheConfiguration) AssignProperties_To_AfdRouteCac
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AfdRouteCacheConfiguration_STATUS populates our AfdRouteCacheConfiguration from the provided source AfdRouteCacheConfiguration_STATUS
-func (configuration *AfdRouteCacheConfiguration) Initialize_From_AfdRouteCacheConfiguration_STATUS(source *AfdRouteCacheConfiguration_STATUS) error {
-
-	// CompressionSettings
-	if source.CompressionSettings != nil {
-		var compressionSetting CompressionSettings
-		err := compressionSetting.Initialize_From_CompressionSettings_STATUS(source.CompressionSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CompressionSettings_STATUS() to populate field CompressionSettings")
-		}
-		configuration.CompressionSettings = &compressionSetting
-	} else {
-		configuration.CompressionSettings = nil
-	}
-
-	// QueryParameters
-	configuration.QueryParameters = genruntime.ClonePointerToString(source.QueryParameters)
-
-	// QueryStringCachingBehavior
-	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := genruntime.ToEnum(string(*source.QueryStringCachingBehavior), afdRouteCacheConfiguration_QueryStringCachingBehavior_Values)
-		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
-	} else {
-		configuration.QueryStringCachingBehavior = nil
 	}
 
 	// No error
@@ -2405,65 +2235,6 @@ var routeProperties_ProvisioningState_STATUS_Values = map[string]RouteProperties
 	"updating":  RouteProperties_ProvisioningState_STATUS_Updating,
 }
 
-// Reference to another resource along with its state.
-type ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, got %T", armInput)
-	}
-
-	// Set property "Id":
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		embedded.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded populates our ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded from the provided source ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
-func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(source *storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) error {
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded populates the provided destination ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded from our ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
-func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(destination *storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // +kubebuilder:validation:Enum={"IgnoreQueryString","IgnoreSpecifiedQueryStrings","IncludeSpecifiedQueryStrings","UseQueryString"}
 type AfdRouteCacheConfiguration_QueryStringCachingBehavior string
 
@@ -2598,24 +2369,6 @@ func (settings *CompressionSettings) AssignProperties_To_CompressionSettings(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CompressionSettings_STATUS populates our CompressionSettings from the provided source CompressionSettings_STATUS
-func (settings *CompressionSettings) Initialize_From_CompressionSettings_STATUS(source *CompressionSettings_STATUS) error {
-
-	// ContentTypesToCompress
-	settings.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
-
-	// IsCompressionEnabled
-	if source.IsCompressionEnabled != nil {
-		isCompressionEnabled := *source.IsCompressionEnabled
-		settings.IsCompressionEnabled = &isCompressionEnabled
-	} else {
-		settings.IsCompressionEnabled = nil
 	}
 
 	// No error

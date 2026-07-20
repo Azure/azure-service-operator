@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	v20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type SecurityPolicyExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *SecurityPolicyExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20230501.SecurityPolicy{},
-		&storage.SecurityPolicy{}}
+		&cdn_v1api20230501.SecurityPolicy{},
+		&cdn_v1api20230501s.SecurityPolicy{},
+		&cdn_v20230501.SecurityPolicy{},
+		&cdn_v20230501s.SecurityPolicy{}}
 }

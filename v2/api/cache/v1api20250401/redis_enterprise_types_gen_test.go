@@ -5,8 +5,8 @@ package v1api20250401
 
 import (
 	"encoding/json"
-	v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
-	v20250701s "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/storage"
+	cache_v1api20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20250401/storage"
+	cache_v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +41,7 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption(subject ClusterPro
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.ClusterProperties_Encryption
+	var other cache_v1api20250401s.ClusterProperties_Encryption
 	err := copied.AssignProperties_To_ClusterProperties_Encryption(&other)
 	if err != nil {
 		return err.Error()
@@ -154,7 +154,7 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKey
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.ClusterProperties_Encryption_CustomerManagedKeyEncryption
+	var other cache_v1api20250401s.ClusterProperties_Encryption_CustomerManagedKeyEncryption
 	err := copied.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption(&other)
 	if err != nil {
 		return err.Error()
@@ -281,7 +281,7 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKey
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
+	var other cache_v1api20250401s.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
 	err := copied.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -395,7 +395,7 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKey
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
+	var other cache_v1api20250401s.ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
 	err := copied.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -510,7 +510,7 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption_CustomerManagedKey
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
+	var other cache_v1api20250401s.ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
 	err := copied.AssignProperties_To_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -637,7 +637,7 @@ func RunPropertyAssignmentTestForClusterProperties_Encryption_STATUS(subject Clu
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.ClusterProperties_Encryption_STATUS
+	var other cache_v1api20250401s.ClusterProperties_Encryption_STATUS
 	err := copied.AssignProperties_To_ClusterProperties_Encryption_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -750,7 +750,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity(subject ManagedServiceId
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.ManagedServiceIdentity
+	var other cache_v1api20250401s.ManagedServiceIdentity
 	err := copied.AssignProperties_To_ManagedServiceIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -881,7 +881,7 @@ func RunPropertyAssignmentTestForManagedServiceIdentity_STATUS(subject ManagedSe
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.ManagedServiceIdentity_STATUS
+	var other cache_v1api20250401s.ManagedServiceIdentity_STATUS
 	err := copied.AssignProperties_To_ManagedServiceIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1016,7 +1016,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS(subject Privat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.PrivateEndpointConnection_STATUS
+	var other cache_v1api20250401s.PrivateEndpointConnection_STATUS
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1130,7 +1130,7 @@ func RunResourceConversionTestForRedisEnterprise(subject RedisEnterprise) string
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub v20250701s.RedisEnterprise
+	var hub cache_v20250401s.RedisEnterprise
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -1177,7 +1177,7 @@ func RunPropertyAssignmentTestForRedisEnterprise(subject RedisEnterprise) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.RedisEnterprise
+	var other cache_v1api20250401s.RedisEnterprise
 	err := copied.AssignProperties_To_RedisEnterprise(&other)
 	if err != nil {
 		return err.Error()
@@ -1290,7 +1290,7 @@ func RunPropertyAssignmentTestForRedisEnterpriseOperatorSpec(subject RedisEnterp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.RedisEnterpriseOperatorSpec
+	var other cache_v1api20250401s.RedisEnterpriseOperatorSpec
 	err := copied.AssignProperties_To_RedisEnterpriseOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -1397,7 +1397,7 @@ func RunPropertyAssignmentTestForRedisEnterprise_STATUS(subject RedisEnterprise_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.RedisEnterprise_STATUS
+	var other cache_v1api20250401s.RedisEnterprise_STATUS
 	err := copied.AssignProperties_To_RedisEnterprise_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1563,7 +1563,7 @@ func RunPropertyAssignmentTestForRedisEnterprise_Spec(subject RedisEnterprise_Sp
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.RedisEnterprise_Spec
+	var other cache_v1api20250401s.RedisEnterprise_Spec
 	err := copied.AssignProperties_To_RedisEnterprise_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1701,7 +1701,7 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.Sku
+	var other cache_v1api20250401s.Sku
 	err := copied.AssignProperties_To_Sku(&other)
 	if err != nil {
 		return err.Error()
@@ -1869,7 +1869,7 @@ func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.Sku_STATUS
+	var other cache_v1api20250401s.Sku_STATUS
 	err := copied.AssignProperties_To_Sku_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -2037,7 +2037,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentityDetails(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.UserAssignedIdentityDetails
+	var other cache_v1api20250401s.UserAssignedIdentityDetails
 	err := copied.AssignProperties_To_UserAssignedIdentityDetails(&other)
 	if err != nil {
 		return err.Error()
@@ -2144,7 +2144,7 @@ func RunPropertyAssignmentTestForUserAssignedIdentity_STATUS(subject UserAssigne
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20250401s.UserAssignedIdentity_STATUS
+	var other cache_v1api20250401s.UserAssignedIdentity_STATUS
 	err := copied.AssignProperties_To_UserAssignedIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()

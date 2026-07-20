@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=cdn.azure.com,resources=afdcustomdomains,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=cdn.azure.com,resources={afdcustomdomains/status,afdcustomdomains/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,cdn}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (domain *AfdCustomDomain) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (domain *AfdCustomDomain) SetConditions(conditions conditions.Conditions) {
 	domain.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &AfdCustomDomain{}
+
+// ConvertFrom populates our AfdCustomDomain from the provided hub AfdCustomDomain
+func (domain *AfdCustomDomain) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.AfdCustomDomain)
+	if !ok {
+		return fmt.Errorf("expected cdn/v20230501/storage/AfdCustomDomain but received %T instead", hub)
+	}
+
+	return domain.AssignProperties_From_AfdCustomDomain(source)
+}
+
+// ConvertTo populates the provided hub AfdCustomDomain from our AfdCustomDomain
+func (domain *AfdCustomDomain) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.AfdCustomDomain)
+	if !ok {
+		return fmt.Errorf("expected cdn/v20230501/storage/AfdCustomDomain but received %T instead", hub)
+	}
+
+	return domain.AssignProperties_To_AfdCustomDomain(destination)
 }
 
 var _ configmaps.Exporter = &AfdCustomDomain{}
@@ -143,8 +164,75 @@ func (domain *AfdCustomDomain) SetStatus(status genruntime.ConvertibleStatus) er
 	return nil
 }
 
-// Hub marks that this AfdCustomDomain is the hub type for conversion
-func (domain *AfdCustomDomain) Hub() {}
+// AssignProperties_From_AfdCustomDomain populates our AfdCustomDomain from the provided source AfdCustomDomain
+func (domain *AfdCustomDomain) AssignProperties_From_AfdCustomDomain(source *storage.AfdCustomDomain) error {
+
+	// ObjectMeta
+	domain.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec AfdCustomDomain_Spec
+	err := spec.AssignProperties_From_AfdCustomDomain_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_AfdCustomDomain_Spec() to populate field Spec")
+	}
+	domain.Spec = spec
+
+	// Status
+	var status AfdCustomDomain_STATUS
+	err = status.AssignProperties_From_AfdCustomDomain_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_AfdCustomDomain_STATUS() to populate field Status")
+	}
+	domain.Status = status
+
+	// Invoke the augmentConversionForAfdCustomDomain interface (if implemented) to customize the conversion
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForAfdCustomDomain); ok {
+		err := augmentedDomain.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdCustomDomain populates the provided destination AfdCustomDomain from our AfdCustomDomain
+func (domain *AfdCustomDomain) AssignProperties_To_AfdCustomDomain(destination *storage.AfdCustomDomain) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *domain.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.AfdCustomDomain_Spec
+	err := domain.Spec.AssignProperties_To_AfdCustomDomain_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_AfdCustomDomain_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.AfdCustomDomain_STATUS
+	err = domain.Status.AssignProperties_To_AfdCustomDomain_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_AfdCustomDomain_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForAfdCustomDomain interface (if implemented) to customize the conversion
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForAfdCustomDomain); ok {
+		err := augmentedDomain.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (domain *AfdCustomDomain) OriginalGVK() *schema.GroupVersionKind {
@@ -192,20 +280,236 @@ var _ genruntime.ConvertibleSpec = &AfdCustomDomain_Spec{}
 
 // ConvertSpecFrom populates our AfdCustomDomain_Spec from the provided source
 func (domain *AfdCustomDomain_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == domain {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.AfdCustomDomain_Spec)
+	if ok {
+		// Populate our instance from source
+		return domain.AssignProperties_From_AfdCustomDomain_Spec(src)
 	}
 
-	return source.ConvertSpecTo(domain)
+	// Convert to an intermediate form
+	src = &storage.AfdCustomDomain_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = domain.AssignProperties_From_AfdCustomDomain_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our AfdCustomDomain_Spec
 func (domain *AfdCustomDomain_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == domain {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.AfdCustomDomain_Spec)
+	if ok {
+		// Populate destination from our instance
+		return domain.AssignProperties_To_AfdCustomDomain_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(domain)
+	// Convert to an intermediate form
+	dst = &storage.AfdCustomDomain_Spec{}
+	err := domain.AssignProperties_To_AfdCustomDomain_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_AfdCustomDomain_Spec populates our AfdCustomDomain_Spec from the provided source AfdCustomDomain_Spec
+func (domain *AfdCustomDomain_Spec) AssignProperties_From_AfdCustomDomain_Spec(source *storage.AfdCustomDomain_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureDnsZone
+	if source.AzureDnsZone != nil {
+		var azureDnsZone ResourceReference
+		err := azureDnsZone.AssignProperties_From_ResourceReference(source.AzureDnsZone)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field AzureDnsZone")
+		}
+		domain.AzureDnsZone = &azureDnsZone
+	} else {
+		domain.AzureDnsZone = nil
+	}
+
+	// AzureName
+	domain.AzureName = source.AzureName
+
+	// ExtendedProperties
+	domain.ExtendedProperties = genruntime.CloneMapOfStringToString(source.ExtendedProperties)
+
+	// HostName
+	domain.HostName = genruntime.ClonePointerToString(source.HostName)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec AfdCustomDomainOperatorSpec
+		err := operatorSpec.AssignProperties_From_AfdCustomDomainOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_AfdCustomDomainOperatorSpec() to populate field OperatorSpec")
+		}
+		domain.OperatorSpec = &operatorSpec
+	} else {
+		domain.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	domain.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		domain.Owner = &owner
+	} else {
+		domain.Owner = nil
+	}
+
+	// PreValidatedCustomDomainResourceId
+	if source.PreValidatedCustomDomainResourceId != nil {
+		var preValidatedCustomDomainResourceId ResourceReference
+		err := preValidatedCustomDomainResourceId.AssignProperties_From_ResourceReference(source.PreValidatedCustomDomainResourceId)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field PreValidatedCustomDomainResourceId")
+		}
+		domain.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
+	} else {
+		domain.PreValidatedCustomDomainResourceId = nil
+	}
+
+	// TlsSettings
+	if source.TlsSettings != nil {
+		var tlsSetting AFDDomainHttpsParameters
+		err := tlsSetting.AssignProperties_From_AFDDomainHttpsParameters(source.TlsSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_AFDDomainHttpsParameters() to populate field TlsSettings")
+		}
+		domain.TlsSettings = &tlsSetting
+	} else {
+		domain.TlsSettings = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		domain.PropertyBag = propertyBag
+	} else {
+		domain.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdCustomDomain_Spec interface (if implemented) to customize the conversion
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForAfdCustomDomain_Spec); ok {
+		err := augmentedDomain.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdCustomDomain_Spec populates the provided destination AfdCustomDomain_Spec from our AfdCustomDomain_Spec
+func (domain *AfdCustomDomain_Spec) AssignProperties_To_AfdCustomDomain_Spec(destination *storage.AfdCustomDomain_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(domain.PropertyBag)
+
+	// AzureDnsZone
+	if domain.AzureDnsZone != nil {
+		var azureDnsZone storage.ResourceReference
+		err := domain.AzureDnsZone.AssignProperties_To_ResourceReference(&azureDnsZone)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field AzureDnsZone")
+		}
+		destination.AzureDnsZone = &azureDnsZone
+	} else {
+		destination.AzureDnsZone = nil
+	}
+
+	// AzureName
+	destination.AzureName = domain.AzureName
+
+	// ExtendedProperties
+	destination.ExtendedProperties = genruntime.CloneMapOfStringToString(domain.ExtendedProperties)
+
+	// HostName
+	destination.HostName = genruntime.ClonePointerToString(domain.HostName)
+
+	// OperatorSpec
+	if domain.OperatorSpec != nil {
+		var operatorSpec storage.AfdCustomDomainOperatorSpec
+		err := domain.OperatorSpec.AssignProperties_To_AfdCustomDomainOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AfdCustomDomainOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = domain.OriginalVersion
+
+	// Owner
+	if domain.Owner != nil {
+		owner := domain.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PreValidatedCustomDomainResourceId
+	if domain.PreValidatedCustomDomainResourceId != nil {
+		var preValidatedCustomDomainResourceId storage.ResourceReference
+		err := domain.PreValidatedCustomDomainResourceId.AssignProperties_To_ResourceReference(&preValidatedCustomDomainResourceId)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field PreValidatedCustomDomainResourceId")
+		}
+		destination.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
+	} else {
+		destination.PreValidatedCustomDomainResourceId = nil
+	}
+
+	// TlsSettings
+	if domain.TlsSettings != nil {
+		var tlsSetting storage.AFDDomainHttpsParameters
+		err := domain.TlsSettings.AssignProperties_To_AFDDomainHttpsParameters(&tlsSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AFDDomainHttpsParameters() to populate field TlsSettings")
+		}
+		destination.TlsSettings = &tlsSetting
+	} else {
+		destination.TlsSettings = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdCustomDomain_Spec interface (if implemented) to customize the conversion
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForAfdCustomDomain_Spec); ok {
+		err := augmentedDomain.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501.AfdCustomDomain_STATUS
@@ -232,20 +536,280 @@ var _ genruntime.ConvertibleStatus = &AfdCustomDomain_STATUS{}
 
 // ConvertStatusFrom populates our AfdCustomDomain_STATUS from the provided source
 func (domain *AfdCustomDomain_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == domain {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.AfdCustomDomain_STATUS)
+	if ok {
+		// Populate our instance from source
+		return domain.AssignProperties_From_AfdCustomDomain_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(domain)
+	// Convert to an intermediate form
+	src = &storage.AfdCustomDomain_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = domain.AssignProperties_From_AfdCustomDomain_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our AfdCustomDomain_STATUS
 func (domain *AfdCustomDomain_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == domain {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.AfdCustomDomain_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return domain.AssignProperties_To_AfdCustomDomain_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(domain)
+	// Convert to an intermediate form
+	dst = &storage.AfdCustomDomain_STATUS{}
+	err := domain.AssignProperties_To_AfdCustomDomain_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_AfdCustomDomain_STATUS populates our AfdCustomDomain_STATUS from the provided source AfdCustomDomain_STATUS
+func (domain *AfdCustomDomain_STATUS) AssignProperties_From_AfdCustomDomain_STATUS(source *storage.AfdCustomDomain_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureDnsZone
+	if source.AzureDnsZone != nil {
+		var azureDnsZone ResourceReference_STATUS
+		err := azureDnsZone.AssignProperties_From_ResourceReference_STATUS(source.AzureDnsZone)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field AzureDnsZone")
+		}
+		domain.AzureDnsZone = &azureDnsZone
+	} else {
+		domain.AzureDnsZone = nil
+	}
+
+	// Conditions
+	domain.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// DeploymentStatus
+	domain.DeploymentStatus = genruntime.ClonePointerToString(source.DeploymentStatus)
+
+	// DomainValidationState
+	domain.DomainValidationState = genruntime.ClonePointerToString(source.DomainValidationState)
+
+	// ExtendedProperties
+	domain.ExtendedProperties = genruntime.CloneMapOfStringToString(source.ExtendedProperties)
+
+	// HostName
+	domain.HostName = genruntime.ClonePointerToString(source.HostName)
+
+	// Id
+	domain.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	domain.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PreValidatedCustomDomainResourceId
+	if source.PreValidatedCustomDomainResourceId != nil {
+		var preValidatedCustomDomainResourceId ResourceReference_STATUS
+		err := preValidatedCustomDomainResourceId.AssignProperties_From_ResourceReference_STATUS(source.PreValidatedCustomDomainResourceId)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field PreValidatedCustomDomainResourceId")
+		}
+		domain.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
+	} else {
+		domain.PreValidatedCustomDomainResourceId = nil
+	}
+
+	// ProfileName
+	domain.ProfileName = genruntime.ClonePointerToString(source.ProfileName)
+
+	// ProvisioningState
+	domain.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		domain.SystemData = &systemDatum
+	} else {
+		domain.SystemData = nil
+	}
+
+	// TlsSettings
+	if source.TlsSettings != nil {
+		var tlsSetting AFDDomainHttpsParameters_STATUS
+		err := tlsSetting.AssignProperties_From_AFDDomainHttpsParameters_STATUS(source.TlsSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_AFDDomainHttpsParameters_STATUS() to populate field TlsSettings")
+		}
+		domain.TlsSettings = &tlsSetting
+	} else {
+		domain.TlsSettings = nil
+	}
+
+	// Type
+	domain.Type = genruntime.ClonePointerToString(source.Type)
+
+	// ValidationProperties
+	if source.ValidationProperties != nil {
+		var validationProperty DomainValidationProperties_STATUS
+		err := validationProperty.AssignProperties_From_DomainValidationProperties_STATUS(source.ValidationProperties)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DomainValidationProperties_STATUS() to populate field ValidationProperties")
+		}
+		domain.ValidationProperties = &validationProperty
+	} else {
+		domain.ValidationProperties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		domain.PropertyBag = propertyBag
+	} else {
+		domain.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdCustomDomain_STATUS interface (if implemented) to customize the conversion
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForAfdCustomDomain_STATUS); ok {
+		err := augmentedDomain.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdCustomDomain_STATUS populates the provided destination AfdCustomDomain_STATUS from our AfdCustomDomain_STATUS
+func (domain *AfdCustomDomain_STATUS) AssignProperties_To_AfdCustomDomain_STATUS(destination *storage.AfdCustomDomain_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(domain.PropertyBag)
+
+	// AzureDnsZone
+	if domain.AzureDnsZone != nil {
+		var azureDnsZone storage.ResourceReference_STATUS
+		err := domain.AzureDnsZone.AssignProperties_To_ResourceReference_STATUS(&azureDnsZone)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field AzureDnsZone")
+		}
+		destination.AzureDnsZone = &azureDnsZone
+	} else {
+		destination.AzureDnsZone = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(domain.Conditions)
+
+	// DeploymentStatus
+	destination.DeploymentStatus = genruntime.ClonePointerToString(domain.DeploymentStatus)
+
+	// DomainValidationState
+	destination.DomainValidationState = genruntime.ClonePointerToString(domain.DomainValidationState)
+
+	// ExtendedProperties
+	destination.ExtendedProperties = genruntime.CloneMapOfStringToString(domain.ExtendedProperties)
+
+	// HostName
+	destination.HostName = genruntime.ClonePointerToString(domain.HostName)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(domain.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(domain.Name)
+
+	// PreValidatedCustomDomainResourceId
+	if domain.PreValidatedCustomDomainResourceId != nil {
+		var preValidatedCustomDomainResourceId storage.ResourceReference_STATUS
+		err := domain.PreValidatedCustomDomainResourceId.AssignProperties_To_ResourceReference_STATUS(&preValidatedCustomDomainResourceId)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field PreValidatedCustomDomainResourceId")
+		}
+		destination.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
+	} else {
+		destination.PreValidatedCustomDomainResourceId = nil
+	}
+
+	// ProfileName
+	destination.ProfileName = genruntime.ClonePointerToString(domain.ProfileName)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(domain.ProvisioningState)
+
+	// SystemData
+	if domain.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := domain.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// TlsSettings
+	if domain.TlsSettings != nil {
+		var tlsSetting storage.AFDDomainHttpsParameters_STATUS
+		err := domain.TlsSettings.AssignProperties_To_AFDDomainHttpsParameters_STATUS(&tlsSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_AFDDomainHttpsParameters_STATUS() to populate field TlsSettings")
+		}
+		destination.TlsSettings = &tlsSetting
+	} else {
+		destination.TlsSettings = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(domain.Type)
+
+	// ValidationProperties
+	if domain.ValidationProperties != nil {
+		var validationProperty storage.DomainValidationProperties_STATUS
+		err := domain.ValidationProperties.AssignProperties_To_DomainValidationProperties_STATUS(&validationProperty)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DomainValidationProperties_STATUS() to populate field ValidationProperties")
+		}
+		destination.ValidationProperties = &validationProperty
+	} else {
+		destination.ValidationProperties = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdCustomDomain_STATUS interface (if implemented) to customize the conversion
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForAfdCustomDomain_STATUS); ok {
+		err := augmentedDomain.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501.APIVersion
@@ -254,12 +818,131 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2023-05-01")
 
+type augmentConversionForAfdCustomDomain interface {
+	AssignPropertiesFrom(src *storage.AfdCustomDomain) error
+	AssignPropertiesTo(dst *storage.AfdCustomDomain) error
+}
+
 // Storage version of v1api20230501.AfdCustomDomainOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type AfdCustomDomainOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_AfdCustomDomainOperatorSpec populates our AfdCustomDomainOperatorSpec from the provided source AfdCustomDomainOperatorSpec
+func (operator *AfdCustomDomainOperatorSpec) AssignProperties_From_AfdCustomDomainOperatorSpec(source *storage.AfdCustomDomainOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdCustomDomainOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForAfdCustomDomainOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AfdCustomDomainOperatorSpec populates the provided destination AfdCustomDomainOperatorSpec from our AfdCustomDomainOperatorSpec
+func (operator *AfdCustomDomainOperatorSpec) AssignProperties_To_AfdCustomDomainOperatorSpec(destination *storage.AfdCustomDomainOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAfdCustomDomainOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForAfdCustomDomainOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501.AFDDomainHttpsParameters
@@ -271,6 +954,92 @@ type AFDDomainHttpsParameters struct {
 	Secret            *ResourceReference     `json:"secret,omitempty"`
 }
 
+// AssignProperties_From_AFDDomainHttpsParameters populates our AFDDomainHttpsParameters from the provided source AFDDomainHttpsParameters
+func (parameters *AFDDomainHttpsParameters) AssignProperties_From_AFDDomainHttpsParameters(source *storage.AFDDomainHttpsParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CertificateType
+	parameters.CertificateType = genruntime.ClonePointerToString(source.CertificateType)
+
+	// MinimumTlsVersion
+	parameters.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
+
+	// Secret
+	if source.Secret != nil {
+		var secret ResourceReference
+		err := secret.AssignProperties_From_ResourceReference(source.Secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field Secret")
+		}
+		parameters.Secret = &secret
+	} else {
+		parameters.Secret = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAFDDomainHttpsParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForAFDDomainHttpsParameters); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AFDDomainHttpsParameters populates the provided destination AFDDomainHttpsParameters from our AFDDomainHttpsParameters
+func (parameters *AFDDomainHttpsParameters) AssignProperties_To_AFDDomainHttpsParameters(destination *storage.AFDDomainHttpsParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// CertificateType
+	destination.CertificateType = genruntime.ClonePointerToString(parameters.CertificateType)
+
+	// MinimumTlsVersion
+	destination.MinimumTlsVersion = genruntime.ClonePointerToString(parameters.MinimumTlsVersion)
+
+	// Secret
+	if parameters.Secret != nil {
+		var secret storage.ResourceReference
+		err := parameters.Secret.AssignProperties_To_ResourceReference(&secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field Secret")
+		}
+		destination.Secret = &secret
+	} else {
+		destination.Secret = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAFDDomainHttpsParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForAFDDomainHttpsParameters); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.AFDDomainHttpsParameters_STATUS
 // The JSON object that contains the properties to secure a domain.
 type AFDDomainHttpsParameters_STATUS struct {
@@ -280,12 +1049,170 @@ type AFDDomainHttpsParameters_STATUS struct {
 	Secret            *ResourceReference_STATUS `json:"secret,omitempty"`
 }
 
+// AssignProperties_From_AFDDomainHttpsParameters_STATUS populates our AFDDomainHttpsParameters_STATUS from the provided source AFDDomainHttpsParameters_STATUS
+func (parameters *AFDDomainHttpsParameters_STATUS) AssignProperties_From_AFDDomainHttpsParameters_STATUS(source *storage.AFDDomainHttpsParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CertificateType
+	parameters.CertificateType = genruntime.ClonePointerToString(source.CertificateType)
+
+	// MinimumTlsVersion
+	parameters.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
+
+	// Secret
+	if source.Secret != nil {
+		var secret ResourceReference_STATUS
+		err := secret.AssignProperties_From_ResourceReference_STATUS(source.Secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field Secret")
+		}
+		parameters.Secret = &secret
+	} else {
+		parameters.Secret = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAFDDomainHttpsParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForAFDDomainHttpsParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_AFDDomainHttpsParameters_STATUS populates the provided destination AFDDomainHttpsParameters_STATUS from our AFDDomainHttpsParameters_STATUS
+func (parameters *AFDDomainHttpsParameters_STATUS) AssignProperties_To_AFDDomainHttpsParameters_STATUS(destination *storage.AFDDomainHttpsParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// CertificateType
+	destination.CertificateType = genruntime.ClonePointerToString(parameters.CertificateType)
+
+	// MinimumTlsVersion
+	destination.MinimumTlsVersion = genruntime.ClonePointerToString(parameters.MinimumTlsVersion)
+
+	// Secret
+	if parameters.Secret != nil {
+		var secret storage.ResourceReference_STATUS
+		err := parameters.Secret.AssignProperties_To_ResourceReference_STATUS(&secret)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field Secret")
+		}
+		destination.Secret = &secret
+	} else {
+		destination.Secret = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForAFDDomainHttpsParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForAFDDomainHttpsParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForAfdCustomDomain_Spec interface {
+	AssignPropertiesFrom(src *storage.AfdCustomDomain_Spec) error
+	AssignPropertiesTo(dst *storage.AfdCustomDomain_Spec) error
+}
+
+type augmentConversionForAfdCustomDomain_STATUS interface {
+	AssignPropertiesFrom(src *storage.AfdCustomDomain_STATUS) error
+	AssignPropertiesTo(dst *storage.AfdCustomDomain_STATUS) error
+}
+
 // Storage version of v1api20230501.DomainValidationProperties_STATUS
 // The JSON object that contains the properties to validate a domain.
 type DomainValidationProperties_STATUS struct {
 	ExpirationDate  *string                `json:"expirationDate,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ValidationToken *string                `json:"validationToken,omitempty"`
+}
+
+// AssignProperties_From_DomainValidationProperties_STATUS populates our DomainValidationProperties_STATUS from the provided source DomainValidationProperties_STATUS
+func (properties *DomainValidationProperties_STATUS) AssignProperties_From_DomainValidationProperties_STATUS(source *storage.DomainValidationProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ExpirationDate
+	properties.ExpirationDate = genruntime.ClonePointerToString(source.ExpirationDate)
+
+	// ValidationToken
+	properties.ValidationToken = genruntime.ClonePointerToString(source.ValidationToken)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDomainValidationProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForDomainValidationProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DomainValidationProperties_STATUS populates the provided destination DomainValidationProperties_STATUS from our DomainValidationProperties_STATUS
+func (properties *DomainValidationProperties_STATUS) AssignProperties_To_DomainValidationProperties_STATUS(destination *storage.DomainValidationProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// ExpirationDate
+	destination.ExpirationDate = genruntime.ClonePointerToString(properties.ExpirationDate)
+
+	// ValidationToken
+	destination.ValidationToken = genruntime.ClonePointerToString(properties.ValidationToken)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDomainValidationProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForDomainValidationProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501.ResourceReference
@@ -297,11 +1224,133 @@ type ResourceReference struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+// AssignProperties_From_ResourceReference populates our ResourceReference from the provided source ResourceReference
+func (reference *ResourceReference) AssignProperties_From_ResourceReference(source *storage.ResourceReference) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		referenceTemp := source.Reference.Copy()
+		reference.Reference = &referenceTemp
+	} else {
+		reference.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		reference.PropertyBag = propertyBag
+	} else {
+		reference.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceReference interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForResourceReference); ok {
+		err := augmentedReference.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResourceReference populates the provided destination ResourceReference from our ResourceReference
+func (reference *ResourceReference) AssignProperties_To_ResourceReference(destination *storage.ResourceReference) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
+
+	// Reference
+	if reference.Reference != nil {
+		referenceTemp := reference.Reference.Copy()
+		destination.Reference = &referenceTemp
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceReference interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForResourceReference); ok {
+		err := augmentedReference.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20230501.ResourceReference_STATUS
 // Reference to another resource.
 type ResourceReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_ResourceReference_STATUS populates our ResourceReference_STATUS from the provided source ResourceReference_STATUS
+func (reference *ResourceReference_STATUS) AssignProperties_From_ResourceReference_STATUS(source *storage.ResourceReference_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	reference.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		reference.PropertyBag = propertyBag
+	} else {
+		reference.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceReference_STATUS interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForResourceReference_STATUS); ok {
+		err := augmentedReference.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResourceReference_STATUS populates the provided destination ResourceReference_STATUS from our ResourceReference_STATUS
+func (reference *ResourceReference_STATUS) AssignProperties_To_ResourceReference_STATUS(destination *storage.ResourceReference_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(reference.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResourceReference_STATUS interface (if implemented) to customize the conversion
+	var referenceAsAny any = reference
+	if augmentedReference, ok := referenceAsAny.(augmentConversionForResourceReference_STATUS); ok {
+		err := augmentedReference.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20230501.SystemData_STATUS
@@ -314,6 +1363,127 @@ type SystemData_STATUS struct {
 	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_SystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_From_SystemData_STATUS(source *storage.SystemData_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CreatedAt
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedByType
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
+
+	// LastModifiedAt
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
+
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
+
+	// LastModifiedByType
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		data.PropertyBag = propertyBag
+	} else {
+		data.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination *storage.SystemData_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
+
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
+
+	// CreatedByType
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
+
+	// LastModifiedAt
+	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
+
+	// LastModifiedBy
+	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
+
+	// LastModifiedByType
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSystemData_STATUS interface (if implemented) to customize the conversion
+	var dataAsAny any = data
+	if augmentedData, ok := dataAsAny.(augmentConversionForSystemData_STATUS); ok {
+		err := augmentedData.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForAfdCustomDomainOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.AfdCustomDomainOperatorSpec) error
+	AssignPropertiesTo(dst *storage.AfdCustomDomainOperatorSpec) error
+}
+
+type augmentConversionForAFDDomainHttpsParameters interface {
+	AssignPropertiesFrom(src *storage.AFDDomainHttpsParameters) error
+	AssignPropertiesTo(dst *storage.AFDDomainHttpsParameters) error
+}
+
+type augmentConversionForAFDDomainHttpsParameters_STATUS interface {
+	AssignPropertiesFrom(src *storage.AFDDomainHttpsParameters_STATUS) error
+	AssignPropertiesTo(dst *storage.AFDDomainHttpsParameters_STATUS) error
+}
+
+type augmentConversionForDomainValidationProperties_STATUS interface {
+	AssignPropertiesFrom(src *storage.DomainValidationProperties_STATUS) error
+	AssignPropertiesTo(dst *storage.DomainValidationProperties_STATUS) error
+}
+
+type augmentConversionForResourceReference interface {
+	AssignPropertiesFrom(src *storage.ResourceReference) error
+	AssignPropertiesTo(dst *storage.ResourceReference) error
+}
+
+type augmentConversionForResourceReference_STATUS interface {
+	AssignPropertiesFrom(src *storage.ResourceReference_STATUS) error
+	AssignPropertiesTo(dst *storage.ResourceReference_STATUS) error
+}
+
+type augmentConversionForSystemData_STATUS interface {
+	AssignPropertiesFrom(src *storage.SystemData_STATUS) error
+	AssignPropertiesTo(dst *storage.SystemData_STATUS) error
 }
 
 func init() {

@@ -4,8 +4,166 @@ github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage
 APIVersion: Enum (1 value)
 └── "2025-04-01"
 
+RedisEnterprise: Resource
+├── Owner: resources/v1apiv20191001.ResourceGroup
+├── Spec: Object (14 properties)
+│   ├── AzureName: string
+│   ├── Encryption: *Object (2 properties)
+│   │   ├── CustomerManagedKeyEncryption: *Object (3 properties)
+│   │   │   ├── KeyEncryptionKeyIdentity: *Object (3 properties)
+│   │   │   │   ├── IdentityType: *string
+│   │   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   │   └── UserAssignedIdentityResourceReference: *genruntime.ResourceReference
+│   │   │   ├── KeyEncryptionKeyUrl: *string
+│   │   │   └── PropertyBag: genruntime.PropertyBag
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── HighAvailability: *string
+│   ├── Identity: *Object (3 properties)
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── Type: *string
+│   │   └── UserAssignedIdentities: Object (2 properties)[]
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── Reference: genruntime.ResourceReference
+│   ├── Kind: *string
+│   ├── Location: *string
+│   ├── MinimumTlsVersion: *string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── PropertyBag: genruntime.PropertyBag
+│   ├── Sku: *Object (3 properties)
+│   │   ├── Capacity: *int
+│   │   ├── Name: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── Tags: map[string]string
+│   └── Zones: string[]
+└── Status: Object (20 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── Encryption: *Object (2 properties)
+    │   ├── CustomerManagedKeyEncryption: *Object (3 properties)
+    │   │   ├── KeyEncryptionKeyIdentity: *Object (3 properties)
+    │   │   │   ├── IdentityType: *string
+    │   │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   │   └── UserAssignedIdentityResourceId: *string
+    │   │   ├── KeyEncryptionKeyUrl: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── HighAvailability: *string
+    ├── HostName: *string
+    ├── Id: *string
+    ├── Identity: *Object (5 properties)
+    │   ├── PrincipalId: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── TenantId: *string
+    │   ├── Type: *string
+    │   └── UserAssignedIdentities: map[string]Object (3 properties)
+    │       ├── ClientId: *string
+    │       ├── PrincipalId: *string
+    │       └── PropertyBag: genruntime.PropertyBag
+    ├── Kind: *string
+    ├── Location: *string
+    ├── MinimumTlsVersion: *string
+    ├── Name: *string
+    ├── PrivateEndpointConnections: Object (2 properties)[]
+    │   ├── Id: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ProvisioningState: *string
+    ├── RedisVersion: *string
+    ├── RedundancyMode: *string
+    ├── ResourceState: *string
+    ├── Sku: *Object (3 properties)
+    │   ├── Capacity: *int
+    │   ├── Name: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── Tags: map[string]string
+    ├── Type: *string
+    └── Zones: string[]
+
+RedisEnterpriseDatabase: Resource
+├── Owner: cache/v20250401.RedisEnterprise
+├── Spec: Object (14 properties)
+│   ├── AccessKeysAuthentication: *string
+│   ├── AzureName: string
+│   ├── ClientProtocol: *string
+│   ├── ClusteringPolicy: *string
+│   ├── DeferUpgrade: *string
+│   ├── EvictionPolicy: *string
+│   ├── GeoReplication: *Object (3 properties)
+│   │   ├── GroupNickname: *string
+│   │   ├── LinkedDatabases: Object (2 properties)[]
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── Reference: *genruntime.ResourceReference
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── Modules: Object (3 properties)[]
+│   │   ├── Args: *string
+│   │   ├── Name: *string
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   ├── OperatorSpec: *Object (4 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── SecretExpressions: *core.DestinationExpression[]
+│   │   └── Secrets: *Object (3 properties)
+│   │       ├── PrimaryKey: *genruntime.SecretDestination
+│   │       ├── PropertyBag: genruntime.PropertyBag
+│   │       └── SecondaryKey: *genruntime.SecretDestination
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── Persistence: *Object (5 properties)
+│   │   ├── AofEnabled: *bool
+│   │   ├── AofFrequency: *string
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   ├── RdbEnabled: *bool
+│   │   └── RdbFrequency: *string
+│   ├── Port: *int
+│   └── PropertyBag: genruntime.PropertyBag
+└── Status: Object (18 properties)
+    ├── AccessKeysAuthentication: *string
+    ├── ClientProtocol: *string
+    ├── ClusteringPolicy: *string
+    ├── Conditions: conditions.Condition[]
+    ├── DeferUpgrade: *string
+    ├── EvictionPolicy: *string
+    ├── GeoReplication: *Object (3 properties)
+    │   ├── GroupNickname: *string
+    │   ├── LinkedDatabases: Object (3 properties)[]
+    │   │   ├── Id: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   └── State: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    ├── Id: *string
+    ├── Modules: Object (4 properties)[]
+    │   ├── Args: *string
+    │   ├── Name: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   └── Version: *string
+    ├── Name: *string
+    ├── Persistence: *Object (5 properties)
+    │   ├── AofEnabled: *bool
+    │   ├── AofFrequency: *string
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   ├── RdbEnabled: *bool
+    │   └── RdbFrequency: *string
+    ├── Port: *int
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── ProvisioningState: *string
+    ├── RedisVersion: *string
+    ├── ResourceState: *string
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
 RedisEnterpriseDatabaseAccessPolicyAssignment: Resource
-├── Owner: cache/v1api20250401.RedisEnterpriseDatabase
+├── Owner: cache/v20250401.RedisEnterpriseDatabase
 ├── Spec: Object (7 properties)
 │   ├── AccessPolicyName: *string
 │   ├── AzureName: string
