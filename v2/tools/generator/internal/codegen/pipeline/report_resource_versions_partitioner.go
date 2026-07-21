@@ -64,7 +64,7 @@ func partitionResources(
 
 	createPartition(
 		partitionIDDeprecated,
-		available.Where(result.isDeprecatedResource),
+		available.Where(result.isDeprecatedResource(currentRelease)),
 	)
 
 	createPartition(
@@ -98,22 +98,40 @@ func partitionResources(
 }
 
 // isDeprecatedResource returns true if the type definition is for a deprecated resource.
-func (resourceVersionsReportPartition) isDeprecatedResource(item resourceVersionsReportItem) bool {
-	pkg := item.name.InternalPackageReference()
-	grp, ver := pkg.GroupVersion()
+func (resourceVersionsReportPartition) isDeprecatedResource(
+	currentRelease string,
+) func(item resourceVersionsReportItem) bool {
+	return func(item resourceVersionsReportItem) bool {
+		pkg := item.name.InternalPackageReference()
+		grp, ver := pkg.GroupVersion()
 
-	// Handcrafted versions are never deprecated
-	// (reusing the regex from config to ensure consistency)
-	if config.VersionRegex.MatchString(ver) {
-		return false
+		// Handcrafted versions are never deprecated
+		// (reusing the regex from config to ensure consistency)
+		if config.VersionRegex.MatchString(ver) {
+			return false
+		}
+
+		// v1api style versions are deprecated unless the group is using VersionMigrationMode Legacy
+		if astmodel.VersionMigrationModeForGroup(grp) == astmodel.VersionMigrationModeLegacy {
+			return false
+		}
+
+		if !strings.HasPrefix(ver, astmodel.GeneratorVersion) {
+			return false
+		}
+
+		// If the group has a registered hybrid migration release that is still in the future,
+		// the v1api variants are still the only versions users can use - so they aren't deprecated
+		// yet. They will become deprecated once the migration release ships.
+		if migratedIn, ok := astmodel.HybridMigrationReleaseForGroup(grp); ok {
+			currentRelease := currentRelease
+			if astmodel.ComparePathAndVersion(migratedIn, currentRelease) > 0 {
+				return false
+			}
+		}
+
+		return true
 	}
-
-	// v1api style versions are deprecated unless the group is using VersionMigrationMode Legacy
-	if astmodel.VersionMigrationModeForGroup(grp) == astmodel.VersionMigrationModeLegacy {
-		return false
-	}
-
-	return strings.HasPrefix(ver, astmodel.GeneratorVersion)
 }
 
 // isUnreleasedResource returns true if the type definition is for an unreleased resource

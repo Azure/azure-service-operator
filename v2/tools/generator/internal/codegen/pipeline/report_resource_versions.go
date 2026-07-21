@@ -365,12 +365,6 @@ func (report *ResourceVersionsReport) WriteGroupResourcesReportToBuffer(
 	return report.writeGroupSections(info, items, buffer, groupIndexPartitions)
 }
 
-type resourceVersionsReportSection struct {
-	id    string
-	title string
-	kinds set.Set[resourceVersionsReportItem]
-}
-
 var partitionTitles = map[partitionID]string{
 	partitionIDPrerelease: "Next Release",
 	partitionIDLatest:     "Latest Released Versions",
@@ -401,102 +395,15 @@ func (report *ResourceVersionsReport) writeGroupSections(
 		}
 	}
 
-	// Always flag the prerelease and deprecated fragments as used
+	// We don't always have 'prerelease' resources, so we flag that fragment as always used
 	report.typoAdvisor.AddTerm("prerelease")
+
+	// When generating the main index page, we don't show the 'deprecated' or 'other' groups,
+	// but we still want to flag those fragments as used so they don't trigger an error
 	report.typoAdvisor.AddTerm("deprecated")
 	report.typoAdvisor.AddTerm("other")
 
 	return nil
-}
-
-// isUnreleasedResource returns true if the type definition is for an unreleased resource
-func (report *ResourceVersionsReport) isUnreleasedResource(item resourceVersionsReportItem) bool {
-	currentRelease := report.reportConfiguration.CurrentRelease
-	if item.supportedFrom == currentRelease {
-		return false
-	}
-
-	result := astmodel.ComparePathAndVersion(item.supportedFrom, currentRelease)
-	return result >= 0
-}
-
-// isDeprecatedResource returns true if the type definition is for a deprecated resource
-func (report *ResourceVersionsReport) isDeprecatedResource(item resourceVersionsReportItem) bool {
-	pkg := item.name.InternalPackageReference()
-	grp, ver := pkg.GroupVersion()
-
-	// Handcrafted versions are never deprecated
-	// (reusing the regex from config to ensure consistency)
-	if config.VersionRegex.MatchString(ver) {
-		return false
-	}
-
-	// v1api style versions are deprecated unless the group is using VersionMigrationMode Legacy
-	if astmodel.VersionMigrationModeForGroup(grp) == astmodel.VersionMigrationModeLegacy {
-		return false
-	}
-
-	if !strings.HasPrefix(ver, astmodel.GeneratorVersion) {
-		return false
-	}
-
-	// If the group has a registered hybrid migration release that is still in the future,
-	// the v1api variants are still the only versions users can use - so they aren't deprecated
-	// yet. They will become deprecated once the migration release ships.
-	if migratedIn, ok := astmodel.HybridMigrationReleaseForGroup(grp); ok {
-		currentRelease := report.reportConfiguration.CurrentRelease
-		if astmodel.ComparePathAndVersion(migratedIn, currentRelease) > 0 {
-			return false
-		}
-	}
-
-	return true
-}
-
-// findRecommendedReleases selects a single version of each resource to recommend.
-// Stable versions are preferred over preview.
-// Later versions are preferred over earlier.
-func findRecommendedReleases(
-	kinds set.Set[resourceVersionsReportItem],
-) set.Set[resourceVersionsReportItem] {
-	index := make(map[string]resourceVersionsReportItem)
-
-	for _, item := range kinds.Values() {
-		known, ok := index[item.name.Name()]
-		if !ok {
-			// First time we've seen this resource, use this version
-			index[item.name.Name()] = item
-			continue
-		}
-
-		knownVersion := known.name.InternalPackageReference()
-		itemVersion := item.name.InternalPackageReference()
-
-		if knownVersion.IsPreview() && !itemVersion.IsPreview() {
-			// Prefer stable versions over preview, so replace the preview version
-			index[item.name.Name()] = item
-			continue
-		}
-
-		if !knownVersion.IsPreview() && itemVersion.IsPreview() {
-			// Prefer stable versions over preview, so keep what we have
-			continue
-		}
-
-		// Both are either preview or stable, so compare versions
-		if astmodel.ComparePathAndVersion(itemVersion.Version(), knownVersion.Version()) > 0 {
-			// Prefer later versions
-			index[item.name.Name()] = item
-		}
-	}
-
-	result := set.Make[resourceVersionsReportItem]()
-
-	for _, item := range index {
-		result.Add(item)
-	}
-
-	return result
 }
 
 // writeSection writes a section to the buffer, consisting of a header, description, and a table listing resources.
