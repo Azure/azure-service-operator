@@ -39,14 +39,6 @@ Development of these new resources is complete and they will be available in the
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
-| Resource                                        | ARM Version | CRD Version | Supported From | Sample                                                                                                    |
-|-------------------------------------------------|-------------|-------------|----------------|-----------------------------------------------------------------------------------------------------------|
-| [User]({{< relref "/reference/sql/v1#User" >}}) | v1          | v1          | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api/v1_user.yaml) |
-
-### Deprecated
-
-These resource versions are deprecated and will be removed in an upcoming ASO release. Migration to newer versions is advised. See [Breaking Changes](https://azure.github.io/azure-service-operator/guide/breaking-changes/) for more information.
-
 | Resource                                                                                                                                         | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                            |
 |--------------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Server]({{< relref "/reference/sql/v1api20211101#Server" >}})                                                                                   | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_server.yaml)                                          |
@@ -71,4 +63,5 @@ These resource versions are deprecated and will be removed in an upcoming ASO re
 | [ServersSecurityAlertPolicy]({{< relref "/reference/sql/v1api20211101#ServersSecurityAlertPolicy" >}})                                           | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serverssecurityalertpolicy.yaml)                      |
 | [ServersVirtualNetworkRule]({{< relref "/reference/sql/v1api20211101#ServersVirtualNetworkRule" >}})                                             | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversvirtualnetworkrule.yaml)                       |
 | [ServersVulnerabilityAssessment]({{< relref "/reference/sql/v1api20211101#ServersVulnerabilityAssessment" >}})                                   | 2021-11-01  | v1api20211101 | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api20211101/v1api20211101_serversvulnerabilityassessment.yaml)                  |
+| [User]({{< relref "/reference/sql/v1#User" >}})                                                                                                  | v1          | v1            | v2.0.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/sql/v1api/v1api/v1_user.yaml)                                                         |
 
