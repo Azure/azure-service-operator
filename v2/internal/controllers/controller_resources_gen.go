@@ -683,6 +683,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Diagnostic)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Group)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20240501s.Logger),
@@ -3749,6 +3750,11 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &apimanagement_v20240501w.Certificate{},
 		},
 		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Diagnostic),
+			Defaulter: &apimanagement_v20240501w.Diagnostic{},
+			Validator: &apimanagement_v20240501w.Diagnostic{},
+		},
+		&registration.KnownType{
 			Obj:       new(apimanagement_v20240501.Group),
 			Defaulter: &apimanagement_v20240501w.Group{},
 			Validator: &apimanagement_v20240501w.Group{},
@@ -3839,6 +3845,7 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.AuthorizationProvidersAuthorizationsAccessPolicy)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Backend)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Certificate)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Diagnostic)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Group)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Logger)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.NamedValue)},
@@ -8215,6 +8222,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.AuthorizationProvidersAuthorizationsAccessPolicyExtension{})
 	result = append(result, &apimanagement_customizations.BackendExtension{})
 	result = append(result, &apimanagement_customizations.CertificateExtension{})
+	result = append(result, &apimanagement_customizations.DiagnosticExtension{})
 	result = append(result, &apimanagement_customizations.GroupExtension{})
 	result = append(result, &apimanagement_customizations.LoggerExtension{})
 	result = append(result, &apimanagement_customizations.NamedValueExtension{})
