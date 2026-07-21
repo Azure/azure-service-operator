@@ -73,4 +73,3 @@ updates:
       codeql-action:
         patterns:
           - "github/codeql-action/*"
-      
