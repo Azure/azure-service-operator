@@ -1,6 +1,6 @@
 ---
 name: create-new-resource
-description: Use when adding a new Azure resource (or a new API version of an existing resource) to Azure Service Operator, or when a GitHub issue requests that ASO support a new ARM resource type.
+description: Use when adding a new Azure resource, or a new API version of an existing resource, to Azure Service Operator.
 ---
 
 # Add a New Code-Generated Resource to ASO
@@ -10,6 +10,8 @@ Adding a new resource is a **generator-driven** workflow: 95% of the Go code is 
 The workflow is not linear — writing the test frequently sends you back to update generator configuration. Expect to loop.
 
 For the canonical narrative reference (with screenshots and background), see [`docs/hugo/content/contributing/add-a-new-code-generated-resource/`](../../../docs/hugo/content/contributing/add-a-new-code-generated-resource/_index.md).
+
+> **Commit at each checkpoint.** Every step below ends with a **Commit now** callout — `git add` + `git commit` that step's files before starting the next step, using the categories under **Guidance and gotchas → Commit categories**. Before staging, read `git status --short` in full (never truncated through `head`/`tail`). Never `git add .` blindly — it will sweep in secrets like `test.env`.
 
 ## Prerequisites
 
@@ -53,8 +55,11 @@ Notes:
 
 - `$exportAs` renames the Kubernetes type. Use it to shorten the Azure name when the group already disambiguates (e.g. `SynapseWorkspace` → `Workspace`).
 - **Never** run a YAML formatter over `azure-arm.yaml` or its imports. A prettification diff makes new-resource PRs unreviewable.
+- The full list of `azure-arm.yaml` configuration directives (`$exportAs`, `$supportedFrom`, `$referenceType`, `$importSecretMode`, `$importConfigMapMode`, `$azureGeneratedSecrets`, `typeTransformers`, `typeFilters`, etc.) lives in the large comment at the end of `v2/azure-arm.yaml`.
 
 **Done when:** the resource, its `$exportAs`, and its `$supportedFrom` are present under the correct group + version, and (if the group file is new) it is imported from `v2/azure-arm.yaml`.
+
+**Commit now** (once Step 2/3 confirm this config is correct) — config-only commit: `v2/azure-arm.yaml` and/or `v2/azure-arm/<group>.yaml`.
 
 ### Step 2: Iterate the generator until it succeeds
 
@@ -62,7 +67,7 @@ Run:
 
     task controller:generate-types
 
-The first run is **expected to fail** with configuration errors. This is the working loop of the whole skill — the generator produces one error class at a time, you fix the config, you re-run. Do not treat the first failure as a real problem; treat it as the next instruction.
+The first run is **expected to fail** with configuration errors. This is the working loop of the whole skill — the generator produces one error class at a time, you fix the config, you re-run.
 
 Continue looping until `task controller:generate-types` exits cleanly. See **Troubleshooting → Generator errors** below for the common error classes and their fixes.
 
@@ -81,6 +86,8 @@ For any change, edit `azure-arm.yaml` (or the group import), re-run Step 2, and 
 
 **Done when:** every property on Spec is genuinely user-settable; every user-supplied secret is a `SecretReference`; every Azure-generated secret is declared; and no runtime-only value is a hard-coded string.
 
+**Commit now** — generated-code commit: `v2/api/<group>/<version>/` (including `_gen.go`, `zz_generated.deepcopy.go`, `structure.txt`) and `v2/internal/controllers/controller_resources_gen.go`. If Step 1's config needed follow-up fixes from this review, fold them into the Step 1 commit with `git commit --amend` (if not yet pushed) rather than leaving config changes uncommitted.
+
 ### Step 4 (optional): Implement extensions
 
 Most resources need no extension. Skip this step unless testing later reveals odd behaviour (`BadRequest` treated as permanent when it should retry, missing post-creation checks, secret export, etc.).
@@ -88,6 +95,8 @@ Most resources need no extension. Skip this step unless testing later reveals od
 Extensions live in `v2/api/<group>/customizations/`. Available extension points (`ARMResourceModifier`, `Claimer`, `Deleter`, `ErrorClassifier`, `Importer`, `KubernetesSecretExporter`, `PostReconciliationChecker`, `PreReconciliationChecker`, `SuccessfulCreationHandler`) are documented in [`docs/hugo/content/contributing/add-a-new-code-generated-resource/implement-extensions.md`](../../../docs/hugo/content/contributing/add-a-new-code-generated-resource/implement-extensions.md).
 
 **Done when:** either no extension is required, or the extension is written and compiles cleanly under `task controller:quick-checks`.
+
+**Commit now** (only if an extension was written) — hand-written commit: `v2/api/<group>/customizations/`.
 
 ### Step 5: Write a CRUD test
 
@@ -103,11 +112,11 @@ The test must:
 
 **Done when:** the test file compiles (`task controller:quick-checks` passes) and reads like the CRUD tests already in the folder.
 
+**Commit now** — hand-written commit: the new/edited `v2/internal/controllers/<...>_test.go` file. Do this **before** starting Step 6's live recording — a recording run can take 20–90 minutes and may need to be interrupted or retried; you don't want uncommitted test code sitting alongside a partial recording.
+
 ### Step 6: Record the CRUD test
 
 **REQUIRED SUB-SKILL:** Use `testing-aso-recordings` to run the test and produce a recording; use `diagnosing-vcr-failures` if the recording fails.
-
-Recording requires the Azure credentials from Prerequisites #6. If missing, stop and ask the user — you cannot record without them.
 
 Run (substituting your test's actual `Test_...` function name):
 
@@ -120,6 +129,8 @@ The `TEST_FILTER` value is the Go test function name you wrote in Step 5, not a 
 Then re-run the same command **without** `source test.env` to verify playback works from the recording.
 
 **Done when:** a new recording file exists under `v2/internal/controllers/recordings/`, and the test passes in playback mode.
+
+**Commit now** — recordings commit: the new/updated `v2/internal/controllers/recordings/<TestName>.yaml`. Keep this separate from the hand-written test commit (Step 5) — recordings are machine-generated and reviewers check them differently. If Step 5's test code needed further tweaks after seeing recording behaviour, commit those test-code changes separately too before moving on.
 
 ### Step 7: Create and record a sample
 
@@ -140,6 +151,8 @@ Verify playback the same way as Step 6.
 
 **Done when:** the sample YAML(s) exist under `v2/samples/<group>/<version>/`, a recording exists under `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/`, and playback passes.
 
+**Commit now** — two commits: (1) hand-written sample YAML(s) under `v2/samples/<group>/<version>/`, (2) the samples recording under `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/`.
+
 ### Step 8: Final verification
 
 The full CI is too slow to run in one shot. Run each check separately, in order. **If any step fails, fix the issue and restart Step 8 from the top** — a downstream fix can invalidate an upstream check.
@@ -151,6 +164,8 @@ The full CI is too slow to run in one shot. Run each check separately, in order.
 5. `task doc:crd-api` — regenerate reference docs (if changed, commit the diff).
 
 **Done when:** all five commands exit cleanly, `git status` shows only the changes you intended, and the PR includes all the file categories listed in **Postrequisites** below.
+
+**Commit now** — if any of these five commands produced a diff (e.g. `task doc:crd-api` regenerated docs from a late config fix), commit it in the appropriate category. Otherwise `git status --short` should be clean (excepting pre-existing changes) — if it isn't, you skipped a checkpoint; go back and commit those files in their proper category.
 
 ## Troubleshooting
 
@@ -194,11 +209,11 @@ If a test passes recording but fails in playback (or vice versa), the recording 
 - **Never edit files under `docs/hugo/content/reference/`.** They are generated by `task doc:crd-api`.
 - **Never prettify or reformat `azure-arm.yaml` or its imports.** A separate reformat PR is welcome; don't bundle it with a resource.
 - **Progression is not linear.** Writing the test frequently sends you back to Step 1 to fix a config problem you couldn't see from the generator output alone. Expect at least one round-trip through Steps 1–5.
-- **Split commits sensibly.** Reviewers appreciate: (a) config changes to `azure-arm.yaml` + group import, (b) generated Go + registration changes, (c) generated docs, (d) hand-written test/sample/extension changes. Making each of these a separate commit makes review dramatically easier.
+- **Commit categories.** Keep these separate: (a) config (`azure-arm.yaml` + group import), (b) generated Go + registration, (c) generated docs, (d) hand-written extensions, (e) hand-written test + sample YAML, (f) recordings.
 
 ## Postrequisites
 
-Before declaring the resource done, confirm the PR includes **all** of the following. Missing any of them is a rework signal, not a nice-to-have.
+Verify the PR includes **all** of the following. Missing any is a rework signal.
 
 - Configuration changes to `v2/azure-arm.yaml` and/or `v2/azure-arm/<group>.yaml`.
 - Generated code under `v2/api/<group>/<version>/` (including `_gen.go` files, `zz_generated.deepcopy.go`, and `structure.txt`).
@@ -209,10 +224,3 @@ Before declaring the resource done, confirm the PR includes **all** of the follo
 - Sample YAML(s) under `v2/samples/<group>/<version>/` plus a recording under `v2/internal/testsamples/recordings/Test_Samples_CreationAndDeletion/`.
 
 Report back to the user with a table listing what was added, which tests were recorded, and any generator config decisions that required judgement (secret detection, read-only properties, extensions).
-
-## References
-
-- Canonical narrative documentation (with screenshots): [`docs/hugo/content/contributing/add-a-new-code-generated-resource/`](../../../docs/hugo/content/contributing/add-a-new-code-generated-resource/_index.md)
-- **REQUIRED SUB-SKILL** for running and recording tests: `testing-aso-recordings`
-- **REQUIRED SUB-SKILL** for diagnosing recording failures: `diagnosing-vcr-failures`
-- Full list of `azure-arm.yaml` configuration directives: see the large comment at the end of `v2/azure-arm.yaml`
