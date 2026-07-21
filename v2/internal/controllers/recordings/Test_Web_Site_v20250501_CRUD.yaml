@@ -1,0 +1,1839 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 93
+        host: management.azure.com
+        body: '{"location":"westus2","name":"asotest-rg-evifap","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        form:
+            api-version:
+                - "2020-06-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "93"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - f9f6de50cc28be869ae1b9789b5b263a5f35e82eee6cff3dd17284ebbfb0c7a8
+            Test-Request-Hash:
+                - f9f6de50cc28be869ae1b9789b5b263a5f35e82eee6cff3dd17284ebbfb0c7a8
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap?api-version=2020-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 276
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap","name":"asotest-rg-evifap","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: F0DC200923E84360917E4668D8D388B8 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:02:37Z'
+        status: 201 Created
+        code: 201
+        duration: 2.686150876s
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 276
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap","name":"asotest-rg-evifap","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 92C3C9597C424251824DA725CC0DB66E Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:02:43Z'
+        status: 200 OK
+        code: 200
+        duration: 399.199389ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 182
+        host: management.azure.com
+        body: '{"kind":"StorageV2","location":"northeurope","name":"asotestflexstorocahld","properties":{"accessTier":"Hot","allowBlobPublicAccess":false},"sku":{"name":"Standard_LRS"},"tags":null}'
+        form:
+            api-version:
+                - "2023-01-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "182"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - fd8fb3e54141b7bdd3d0da2c2b7149db438b3a23af14c53972d966ae20d29032
+            Test-Request-Hash:
+                - fd8fb3e54141b7bdd3d0da2c2b7149db438b3a23af14c53972d966ae20d29032
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld?api-version=2023-01-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Content-Type:
+                - text/plain; charset=utf-8
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/northeurope/asyncoperations/841c7954-90ba-4ced-8500-712322bc4de9?monitor=true&api-version=2023-01-01&t=639201133730077837&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=BnUya4D9WMmez0rkFQ4DDYJb_VaqZYbhATkgiZ96_WHpHXXvPf-HGTJByLCMJqVhY9ZNdPadb1NjgWgxTZpt8HcLCQuUR9ThX-cX79KZ-IlvFW0ycmkmHvbP3CthB_po2Rs76P58OZS_zeZZ7v3FapRCZty8RMreKBgx-mmc1Vkd1xbvCJiBqYvRrO0U1iDkNyWCfmXvWvxIjxdqABxUHtfkgcuuiVcIPhPA3ECBSv2N4iRQGPVpd-EYRfuXB-EWQxzbFC7_T-nA9IcX4qVhu7mVuqEuUi83EccRaSsAZUNH2PmRl2ZbNCyRlj0j1yEd5lx-kmN1bApz-lHGLVpcQQ&h=Tepj5HeOEXBeUM-hUCY39tkdxYoPpQQYJLofVDxEnic
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "17"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/e80cf4f2-9ca3-41ac-88e7-8fcad2b3062f
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 6E1F93DD604F45029AE9A6DB9E7FB76C Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:02:50Z'
+        status: 202 Accepted
+        code: 202
+        duration: 2.689539974s
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 53
+        host: management.azure.com
+        body: '{"location":"northeurope","name":"asotest-mi-vqqhdz"}'
+        form:
+            api-version:
+                - "2023-01-31"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "53"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - f2bc2c26887b90a7bd180da89a5cd622c228baa444eb6d002b5043b417249f89
+            Test-Request-Hash:
+                - f2bc2c26887b90a7bd180da89a5cd622c228baa444eb6d002b5043b417249f89
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz?api-version=2023-01-31
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 458
+        body: '{"location":"northeurope","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz","name":"asotest-mi-vqqhdz","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"c7848a66-0338-4678-b379-f44a78a2e982","clientId":"ec8e645a-c21d-4331-8306-b9419ec85f73"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "458"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Location:
+                - /subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/da9ae837-671a-4a33-9b0b-8c56d431d68b
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 2F31EEFB2D4A4FD29EC7427A85EA36FE Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:02:50Z'
+        status: 201 Created
+        code: 201
+        duration: 3.023649695s
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2023-01-01"
+            c:
+                - MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT
+            h:
+                - Tepj5HeOEXBeUM-hUCY39tkdxYoPpQQYJLofVDxEnic
+            monitor:
+                - "true"
+            s:
+                - BnUya4D9WMmez0rkFQ4DDYJb_VaqZYbhATkgiZ96_WHpHXXvPf-HGTJByLCMJqVhY9ZNdPadb1NjgWgxTZpt8HcLCQuUR9ThX-cX79KZ-IlvFW0ycmkmHvbP3CthB_po2Rs76P58OZS_zeZZ7v3FapRCZty8RMreKBgx-mmc1Vkd1xbvCJiBqYvRrO0U1iDkNyWCfmXvWvxIjxdqABxUHtfkgcuuiVcIPhPA3ECBSv2N4iRQGPVpd-EYRfuXB-EWQxzbFC7_T-nA9IcX4qVhu7mVuqEuUi83EccRaSsAZUNH2PmRl2ZbNCyRlj0j1yEd5lx-kmN1bApz-lHGLVpcQQ
+            t:
+                - "639201133730077837"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/northeurope/asyncoperations/841c7954-90ba-4ced-8500-712322bc4de9?monitor=true&api-version=2023-01-01&t=639201133730077837&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=BnUya4D9WMmez0rkFQ4DDYJb_VaqZYbhATkgiZ96_WHpHXXvPf-HGTJByLCMJqVhY9ZNdPadb1NjgWgxTZpt8HcLCQuUR9ThX-cX79KZ-IlvFW0ycmkmHvbP3CthB_po2Rs76P58OZS_zeZZ7v3FapRCZty8RMreKBgx-mmc1Vkd1xbvCJiBqYvRrO0U1iDkNyWCfmXvWvxIjxdqABxUHtfkgcuuiVcIPhPA3ECBSv2N4iRQGPVpd-EYRfuXB-EWQxzbFC7_T-nA9IcX4qVhu7mVuqEuUi83EccRaSsAZUNH2PmRl2ZbNCyRlj0j1yEd5lx-kmN1bApz-lHGLVpcQQ&h=Tepj5HeOEXBeUM-hUCY39tkdxYoPpQQYJLofVDxEnic
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Content-Type:
+                - text/plain; charset=utf-8
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/northeurope/asyncoperations/841c7954-90ba-4ced-8500-712322bc4de9?monitor=true&api-version=2023-01-01&t=639201133788801811&c=MIIIJzCCBw-gAwIBAgIRAPkg2z-B9Jm_vrDg-qNrjwswDQYJKoZIhvcNAQELBQAwNjE0MDIGA1UEAxMrQ0NNRSBHMSBUTFMgUlNBIDIwNDggU0hBMjU2IDIwNDkgV0NVUyBDQSAwMTAeFw0yNjA0MTAwNjUyMTdaFw0yNjEwMDUxMjUyMTdaMEAxPjA8BgNVBAMTNWFzeW5jb3BlcmF0aW9uc2lnbmluZ2NlcnRpZmljYXRlLm1hbmFnZW1lbnQuYXp1cmUuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxhFGHIBug-4Pg8y8wrt85aTDI_1ckzX8XYnsk6BmTh36sX4QX-zrgCccWt1yXC8y3lSRvEr66Pgoywj0gN60U0prO-Llj-OOWdlGOnbBFPBaBa2ogrj2ULknxSn8HyrgUsMa3zGCqoR_eDSq7R_O20UZDFBlonw8TSmqdLPA4fe1TarGVXDGoRxYv_BQE0sxI54JmyZ5uATcXoIBRqCEmrRFh6MO0V4rK5-sBO8yodyMdOweERdOFcDfLvM2WCaax5HnsjPSLMYy-XTD01vXM3XkKAJ6K30JxQ4_Wtn1IvN-b0R-eEdUMUdPKhH4RDL_8xL-ALqsnaG0cNZazOQr1QIDAQABo4IFJDCCBSAwgZ0GA1UdIASBlTCBkjAMBgorBgEEAYI3ewEBMGYGCisGAQQBgjd7AgIwWDBWBggrBgEFBQcCAjBKHkgAMwAzAGUAMAAxADkAMgAxAC0ANABkADYANAAtADQAZgA4AGMALQBhADAANQA1AC0ANQBiAGQAYQBmAGYAZAA1AGUAMwAzAGQwDAYKKwYBBAGCN3sDAjAMBgorBgEEAYI3ewQCMAwGA1UdEwEB_wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMA4GA1UdDwEB_wQEAwIFoDAdBgNVHQ4EFgQUdjmEGeQg6LiPic0f-L1KBD3vO0wwHwYDVR0jBBgwFoAUFNI34PbWfX7djbq6ZasElCXglh0wggH7BgNVHR8EggHyMIIB7jB7oHmgd4Z1aHR0cDovL3ByaW1hcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L3dlc3RjZW50cmFsdXMvY3Jscy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMH2ge6B5hndodHRwOi8vc2Vjb25kYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC93ZXN0Y2VudHJhbHVzL2NybHMvY2NtZXdlc3RjZW50cmFsdXNwa2kvY2NtZXdlc3RjZW50cmFsdXNpY2EwMS8yOS9jdXJyZW50LmNybDBsoGqgaIZmaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3dlc3RjZW50cmFsdXMvY3Jscy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMIGBoH-gfYZ7aHR0cDovL2NjbWV3ZXN0Y2VudHJhbHVzcGtpLndlc3RjZW50cmFsdXMucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMIICAAYIKwYBBQUHAQEEggHyMIIB7jB-BggrBgEFBQcwAoZyaHR0cDovL3ByaW1hcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L3dlc3RjZW50cmFsdXMvY2FjZXJ0cy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxL2NlcnQuY2VyMIGABggrBgEFBQcwAoZ0aHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvd2VzdGNlbnRyYWx1cy9jYWNlcnRzL2NjbWV3ZXN0Y2VudHJhbHVzcGtpL2NjbWV3ZXN0Y2VudHJhbHVzaWNhMDEvY2VydC5jZXIwbwYIKwYBBQUHMAKGY2h0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS93ZXN0Y2VudHJhbHVzL2NhY2VydHMvY2NtZXdlc3RjZW50cmFsdXNwa2kvY2NtZXdlc3RjZW50cmFsdXNpY2EwMS9jZXJ0LmNlcjB4BggrBgEFBQcwAoZsaHR0cDovL2NjbWV3ZXN0Y2VudHJhbHVzcGtpLndlc3RjZW50cmFsdXMucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21ld2VzdGNlbnRyYWx1c2ljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQAwpZthpdA-8D9zmLFa9DswaQjZpHoWrNOxcAkBHpasqPjLn8-Kn0Epr2tRtCqiDWEGx_u3n8ziMDqRxvNKiDUdDWhMl9QuodIY45vNfF6z92zdJEJ0m01EaNwji4O0BNu0Yy7zPa_L79KmbrFPHHQkexKO2qyHqYM0M22afvWFTacEIlhMIcL-Hq6afh-pfO3r2D3ZnFSmrZFt1A8qT0qTCXRaOqAM1Wk35M7k-idK2KawQ4Q9KnP0h62bPPhktf4Hi_Ax5-Ms7zxobTxMvoilvGVHYDeQ2zZDEoMmyNZ1gfzPjnGnV2BbMj3JEHIzWuKuw033HBrOIc8peAt8JKrH&s=bmHQiwdRCHpaPOS2uQl9d1_49_kFDX8N9-f-a4-kcIww_dfcHkK-c2Sre1jI760dli2UlAUctssiNXY3JggMQXBBBtUtK7Jdx4HtmrvJHapwkzPCxouGZJecKQfbYw2tIT9Xfxm44UxNuPKkpwtFJe1keGDsqU25fRxwC2PWmoGMq1ipKMEQjJuja8Mcjg08HCgh9cxVpWz9cZUuI2piZWvaW7B6vbcY_eJV7E_D7_iJx9ICpdHAbWlc2RmBB-BfLQIPWgaH9YlzmozxPGELFVua4ZSsObd22O9PQnMtiYvajE3L8aRQw-WavCEqELElsL8nc1e4v8nAQ3COREu3Ww&h=ncfFEGh-0QjBt6Npjyja3DkmlQQeZDcP8ie5LG0o1ds
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "17"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/fe427d5a-ebf3-4336-a267-3cd570cfbfbd
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: D3AE69BE2A434AF099EFE6D34DD2B2DF Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:02:58Z'
+        status: 202 Accepted
+        code: 202
+        duration: 574.551414ms
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 53
+        host: management.azure.com
+        body: '{"location":"northeurope","name":"asotest-mi-vqqhdz"}'
+        form:
+            api-version:
+                - "2023-01-31"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "53"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - f2bc2c26887b90a7bd180da89a5cd622c228baa444eb6d002b5043b417249f89
+            Test-Request-Hash:
+                - f2bc2c26887b90a7bd180da89a5cd622c228baa444eb6d002b5043b417249f89
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz?api-version=2023-01-31
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 458
+        body: '{"location":"northeurope","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz","name":"asotest-mi-vqqhdz","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"c7848a66-0338-4678-b379-f44a78a2e982","clientId":"ec8e645a-c21d-4331-8306-b9419ec85f73"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "458"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/146be9c2-c013-4416-8447-3c8cdb4ed09c
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 4125AC9562E34D5DAD5A6EB4528257B6 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:02:58Z'
+        status: 200 OK
+        code: 200
+        duration: 887.613175ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2023-01-31"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz?api-version=2023-01-31
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 458
+        body: '{"location":"northeurope","tags":{},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz","name":"asotest-mi-vqqhdz","type":"Microsoft.ManagedIdentity/userAssignedIdentities","properties":{"tenantId":"00000000-0000-0000-0000-000000000000","principalId":"c7848a66-0338-4678-b379-f44a78a2e982","clientId":"ec8e645a-c21d-4331-8306-b9419ec85f73"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "458"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 600B60196B974AFF9EC9AB076E5727A0 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:03:00Z'
+        status: 200 OK
+        code: 200
+        duration: 743.399484ms
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2023-01-01"
+            c:
+                - MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT
+            h:
+                - Tepj5HeOEXBeUM-hUCY39tkdxYoPpQQYJLofVDxEnic
+            monitor:
+                - "true"
+            s:
+                - BnUya4D9WMmez0rkFQ4DDYJb_VaqZYbhATkgiZ96_WHpHXXvPf-HGTJByLCMJqVhY9ZNdPadb1NjgWgxTZpt8HcLCQuUR9ThX-cX79KZ-IlvFW0ycmkmHvbP3CthB_po2Rs76P58OZS_zeZZ7v3FapRCZty8RMreKBgx-mmc1Vkd1xbvCJiBqYvRrO0U1iDkNyWCfmXvWvxIjxdqABxUHtfkgcuuiVcIPhPA3ECBSv2N4iRQGPVpd-EYRfuXB-EWQxzbFC7_T-nA9IcX4qVhu7mVuqEuUi83EccRaSsAZUNH2PmRl2ZbNCyRlj0j1yEd5lx-kmN1bApz-lHGLVpcQQ
+            t:
+                - "639201133730077837"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Storage/locations/northeurope/asyncoperations/841c7954-90ba-4ced-8500-712322bc4de9?monitor=true&api-version=2023-01-01&t=639201133730077837&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=BnUya4D9WMmez0rkFQ4DDYJb_VaqZYbhATkgiZ96_WHpHXXvPf-HGTJByLCMJqVhY9ZNdPadb1NjgWgxTZpt8HcLCQuUR9ThX-cX79KZ-IlvFW0ycmkmHvbP3CthB_po2Rs76P58OZS_zeZZ7v3FapRCZty8RMreKBgx-mmc1Vkd1xbvCJiBqYvRrO0U1iDkNyWCfmXvWvxIjxdqABxUHtfkgcuuiVcIPhPA3ECBSv2N4iRQGPVpd-EYRfuXB-EWQxzbFC7_T-nA9IcX4qVhu7mVuqEuUi83EccRaSsAZUNH2PmRl2ZbNCyRlj0j1yEd5lx-kmN1bApz-lHGLVpcQQ&h=Tepj5HeOEXBeUM-hUCY39tkdxYoPpQQYJLofVDxEnic
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1516
+        body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld","name":"asotestflexstorocahld","type":"Microsoft.Storage/storageAccounts","location":"northeurope","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"allowCrossTenantReplication":false,"privateEndpointConnections":[],"minimumTlsVersion":"TLS1_2","allowBlobPublicAccess":false,"networkAcls":{"ipv6Rules":[],"bypass":"None","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asotestflexstorocahld.dfs.core.windows.net/","web":"https://asotestflexstorocahld.z16.web.core.windows.net/","blob":"https://asotestflexstorocahld.blob.core.windows.net/","queue":"https://asotestflexstorocahld.queue.core.windows.net/","table":"https://asotestflexstorocahld.table.core.windows.net/","file":"https://asotestflexstorocahld.file.core.windows.net/"},"primaryLocation":"northeurope","statusOfPrimary":"available"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1516"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/southeastasia/c0e66b5d-8ea2-4ceb-93de-23c4d3b572c0
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 6860D36F9D854FE9B2ED28148C081E6D Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:03:18Z'
+        status: 200 OK
+        code: 200
+        duration: 321.092651ms
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2023-01-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld?api-version=2023-01-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1516
+        body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"kind":"StorageV2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld","name":"asotestflexstorocahld","type":"Microsoft.Storage/storageAccounts","location":"northeurope","tags":{},"properties":{"keyCreationTime":{"key1":"2001-02-03T04:05:06Z","key2":"2001-02-03T04:05:06Z"},"allowCrossTenantReplication":false,"privateEndpointConnections":[],"minimumTlsVersion":"TLS1_2","allowBlobPublicAccess":false,"networkAcls":{"ipv6Rules":[],"bypass":"None","virtualNetworkRules":[],"ipRules":[],"defaultAction":"Allow"},"supportsHttpsTrafficOnly":true,"encryption":{"services":{"file":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"},"blob":{"keyType":"Account","enabled":true,"lastEnabledTime":"2001-02-03T04:05:06Z"}},"keySource":"Microsoft.Storage"},"accessTier":"Hot","provisioningState":"Succeeded","creationTime":"2001-02-03T04:05:06Z","primaryEndpoints":{"dfs":"https://asotestflexstorocahld.dfs.core.windows.net/","web":"https://asotestflexstorocahld.z16.web.core.windows.net/","blob":"https://asotestflexstorocahld.blob.core.windows.net/","queue":"https://asotestflexstorocahld.queue.core.windows.net/","table":"https://asotestflexstorocahld.table.core.windows.net/","file":"https://asotestflexstorocahld.file.core.windows.net/"},"primaryLocation":"northeurope","statusOfPrimary":"available"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1516"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 447DDF175CD54CFCA0838157EBB7B9F7 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:03:19Z'
+        status: 200 OK
+        code: 200
+        duration: 682.159008ms
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 18
+        host: management.azure.com
+        body: '{"name":"default"}'
+        form:
+            api-version:
+                - "2023-01-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "18"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 5ce56ac9ff40a1b5ecd80c5cf78ae9e29c4ad6cfc5dd91d9cb0026580cb13791
+            Test-Request-Hash:
+                - 5ce56ac9ff40a1b5ecd80c5cf78ae9e29c4ad6cfc5dd91d9cb0026580cb13791
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/blobServices/default?api-version=2023-01-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 18
+        body: '{"name":"default"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "18"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/e31e846c-cf22-4915-bcce-8623cb07c341
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: C9DA5F341CA64DE1B4022B2F751824C2 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:03:24Z'
+        status: 200 OK
+        code: 200
+        duration: 524.020251ms
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2023-01-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/blobServices/default?api-version=2023-01-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 411
+        body: '{"sku":{"name":"Standard_LRS","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/blobServices/default","name":"default","type":"Microsoft.Storage/storageAccounts/blobServices","properties":{"cors":{"corsRules":[]},"deleteRetentionPolicy":{"allowPermanentDelete":false,"enabled":false}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "411"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/ab92489f-ed5f-4af7-a98f-1d36636e5875
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: A3ED19AA22D54CF69CDEF5B8D202CE6E Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:03:25Z'
+        status: 200 OK
+        code: 200
+        duration: 448.103845ms
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 28
+        host: management.azure.com
+        body: '{"name":"deploymentpackage"}'
+        form:
+            api-version:
+                - "2023-01-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "28"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - ccc98f3026cd7a193efc049f9153738a25d3143d713bd72cfb4b778d324cb49a
+            Test-Request-Hash:
+                - ccc98f3026cd7a193efc049f9153738a25d3143d713bd72cfb4b778d324cb49a
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/blobServices/default/containers/deploymentpackage?api-version=2023-01-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 303
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/blobServices/default/containers/deploymentpackage","name":"deploymentpackage","type":"Microsoft.Storage/storageAccounts/blobServices/containers"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "303"
+            Content-Type:
+                - application/json
+            Etag:
+                - '"0x8DEE60B8BB4ECCC"'
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/92339907-ca46-4e32-b6a7-d3f9017dbfec
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 0DB5459CF87D4C938990647B90228AFC Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:03:59Z'
+        status: 201 Created
+        code: 201
+        duration: 729.651948ms
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2023-01-01"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/blobServices/default/containers/deploymentpackage?api-version=2023-01-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 697
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/blobServices/default/containers/deploymentpackage","name":"deploymentpackage","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DEE60B8BB4ECCC\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "697"
+            Content-Type:
+                - application/json
+            Etag:
+                - '"0x8DEE60B8BB4ECCC"'
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/36e40dad-a9e9-418e-a5f1-61ac5507b5cd
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 2AA69BED8F3F4C7F8A17BA5006907BC0 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:04:01Z'
+        status: 200 OK
+        code: 200
+        duration: 444.411126ms
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2023-01-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/blobServices/default/containers/deploymentpackage?api-version=2023-01-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 697
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/blobServices/default/containers/deploymentpackage","name":"deploymentpackage","type":"Microsoft.Storage/storageAccounts/blobServices/containers","etag":"\"0x8DEE60B8BB4ECCC\"","properties":{"deleted":false,"remainingRetentionDays":0,"defaultEncryptionScope":"$account-encryption-key","denyEncryptionScopeOverride":false,"publicAccess":"None","leaseStatus":"Unlocked","leaseState":"Available","lastModifiedTime":"2001-02-03T04:05:06Z","legalHold":{"hasLegalHold":false,"tags":[]},"hasImmutabilityPolicy":false,"hasLegalHold":false}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "697"
+            Content-Type:
+                - application/json
+            Etag:
+                - '"0x8DEE60B8BB4ECCC"'
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/bac58635-e516-43c1-a5e9-5818059fb561
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: DA934ED8633545F5A6837987029B3E03 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:04:03Z'
+        status: 200 OK
+        code: 200
+        duration: 443.610924ms
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 310
+        host: management.azure.com
+        body: '{"name":"b830b141-7c05-56ca-9d41-d06eebe17614","properties":{"principalId":"c7848a66-0338-4678-b379-f44a78a2e982","principalType":"ServicePrincipal","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b7e6dc6d-f1e8-4753-8033-0f276bb0955b"}}'
+        form:
+            api-version:
+                - "2022-04-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "310"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 433b0101c3839e38eee9db791308349f2d836339d2bc907fa6db61f6dfd6ccd9
+            Test-Request-Hash:
+                - 433b0101c3839e38eee9db791308349f2d836339d2bc907fa6db61f6dfd6ccd9
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/providers/Microsoft.Authorization/roleAssignments/b830b141-7c05-56ca-9d41-d06eebe17614?api-version=2022-04-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1021
+        body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b7e6dc6d-f1e8-4753-8033-0f276bb0955b","principalId":"c7848a66-0338-4678-b379-f44a78a2e982","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"1ae5915d-78fe-468d-affb-c275790fa149","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/providers/Microsoft.Authorization/roleAssignments/b830b141-7c05-56ca-9d41-d06eebe17614","type":"Microsoft.Authorization/roleAssignments","name":"b830b141-7c05-56ca-9d41-d06eebe17614"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1021"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/259a971a-cc50-4437-84a7-abd18430c48b
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: B0A64067EAD0402D8FD13C0107438F83 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:04:06Z'
+        status: 201 Created
+        code: 201
+        duration: 2.574144956s
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2022-04-01"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/providers/Microsoft.Authorization/roleAssignments/b830b141-7c05-56ca-9d41-d06eebe17614?api-version=2022-04-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1055
+        body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b7e6dc6d-f1e8-4753-8033-0f276bb0955b","principalId":"c7848a66-0338-4678-b379-f44a78a2e982","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"1ae5915d-78fe-468d-affb-c275790fa149","updatedBy":"1ae5915d-78fe-468d-affb-c275790fa149","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/providers/Microsoft.Authorization/roleAssignments/b830b141-7c05-56ca-9d41-d06eebe17614","type":"Microsoft.Authorization/roleAssignments","name":"b830b141-7c05-56ca-9d41-d06eebe17614"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1055"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/7d4619e7-8a0d-4efd-bca0-23888a637f91
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 85AA8FC7D5C447FEA776BF9C0340D176 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:04:14Z'
+        status: 200 OK
+        code: 200
+        duration: 311.896843ms
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2022-04-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/providers/Microsoft.Authorization/roleAssignments/b830b141-7c05-56ca-9d41-d06eebe17614?api-version=2022-04-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1055
+        body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b7e6dc6d-f1e8-4753-8033-0f276bb0955b","principalId":"c7848a66-0338-4678-b379-f44a78a2e982","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"1ae5915d-78fe-468d-affb-c275790fa149","updatedBy":"1ae5915d-78fe-468d-affb-c275790fa149","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/providers/Microsoft.Authorization/roleAssignments/b830b141-7c05-56ca-9d41-d06eebe17614","type":"Microsoft.Authorization/roleAssignments","name":"b830b141-7c05-56ca-9d41-d06eebe17614"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1055"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/9e05c68a-b803-4245-9ee0-3c0275486d13
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: A8A4426ECE564B6DAE91255F486118AD Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:04:15Z'
+        status: 200 OK
+        code: 200
+        duration: 322.889251ms
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 159
+        host: management.azure.com
+        body: '{"kind":"functionapp","location":"northeurope","name":"asotest-appservice-ktbjee","properties":{"reserved":true},"sku":{"name":"FC1","tier":"FlexConsumption"}}'
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "159"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 9ca7ca5b09efdc37b8147d3f27bdb627a91b4cfb0089ff682c5e881276cbaabf
+            Test-Request-Hash:
+                - 9ca7ca5b09efdc37b8147d3f27bdb627a91b4cfb0089ff682c5e881276cbaabf
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee?api-version=2025-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1894
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee","name":"asotest-appservice-ktbjee","type":"Microsoft.Web/serverfarms","kind":"functionapp","location":"northeurope","properties":{"serverFarmId":24091,"name":"asotest-appservice-ktbjee","sku":{"name":"FC1","tier":"FlexConsumption","size":"FC1","family":"FC","capacity":0},"workerSize":"Small","workerSizeId":0,"workerTierName":null,"numberOfWorkers":0,"currentWorkerSize":"Small","currentWorkerSizeId":0,"currentNumberOfWorkers":0,"status":"Ready","webSpace":"flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace","subscription":"00000000-0000-0000-0000-000000000000","adminSiteName":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"maximumNumberOfWorkers":0,"planName":"VirtualDedicatedPlan","adminRuntimeSiteName":null,"computeMode":"Dynamic","siteMode":null,"geoRegion":"North Europe","perSiteScaling":false,"elasticScaleEnabled":false,"maximumElasticWorkerCount":1,"numberOfSites":0,"hostingEnvironmentId":null,"isSpot":false,"spotExpirationTime":null,"freeOfferExpirationTime":null,"tags":null,"kind":"functionapp","resourceGroup":"asotest-rg-evifap","reserved":true,"isXenon":false,"hyperV":false,"mdmId":"waws-prod-db3-287_24091","targetWorkerCount":0,"targetWorkerSizeId":0,"targetWorkerSku":null,"provisioningState":"Succeeded","webSiteId":null,"existingServerFarmIds":null,"kubeEnvironmentProfile":null,"zoneRedundant":false,"maximumNumberOfZones":3,"currentNumberOfZonesUtilized":0,"migrateToVMSS":null,"vnetConnectionsUsed":null,"vnetConnectionsMax":null,"createdTime":"2026-07-20T03:04:21.7333333","asyncScalingEnabled":false,"isCustomMode":false,"powerState":"Running","eligibleLogCategories":""},"sku":{"name":"FC1","tier":"FlexConsumption","size":"FC1","family":"FC","capacity":0}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1894"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/f2017fe3-1609-46bc-9725-471959273d16
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: F68867559251431A932FD7A658D15D60 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:04:17Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 4.215806171s
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee?api-version=2025-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1803
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee","name":"asotest-appservice-ktbjee","type":"Microsoft.Web/serverfarms","kind":"functionapp","location":"North Europe","properties":{"serverFarmId":24091,"name":"asotest-appservice-ktbjee","workerSize":"Small","workerSizeId":0,"workerTierName":null,"numberOfWorkers":0,"currentWorkerSize":"Small","currentWorkerSizeId":0,"currentNumberOfWorkers":0,"status":"Ready","webSpace":"flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace","subscription":"00000000-0000-0000-0000-000000000000","adminSiteName":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"maximumNumberOfWorkers":0,"planName":"VirtualDedicatedPlan","adminRuntimeSiteName":null,"computeMode":"Dynamic","siteMode":null,"geoRegion":"North Europe","perSiteScaling":false,"elasticScaleEnabled":false,"maximumElasticWorkerCount":1,"numberOfSites":0,"hostingEnvironmentId":null,"isSpot":false,"spotExpirationTime":null,"freeOfferExpirationTime":null,"tags":null,"kind":"functionapp","resourceGroup":"asotest-rg-evifap","reserved":true,"isXenon":false,"hyperV":false,"mdmId":"waws-prod-db3-287_24091","targetWorkerCount":0,"targetWorkerSizeId":0,"targetWorkerSku":null,"provisioningState":"Succeeded","webSiteId":null,"existingServerFarmIds":null,"kubeEnvironmentProfile":null,"zoneRedundant":false,"maximumNumberOfZones":3,"currentNumberOfZonesUtilized":0,"migrateToVMSS":null,"vnetConnectionsUsed":0,"vnetConnectionsMax":2,"createdTime":"2026-07-20T03:04:21.7333333","asyncScalingEnabled":false,"isCustomMode":false,"powerState":"Running","eligibleLogCategories":""},"sku":{"name":"FC1","tier":"FlexConsumption","size":"FC1","family":"FC","capacity":0}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1803"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 56081D28DED74310B2FFC8C1F2D9CAB5 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:04:26Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 599.011707ms
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 1316
+        host: management.azure.com
+        body: '{"identity":{"type":"UserAssigned","userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz":{}}},"kind":"functionapp,linux","location":"northeurope","name":"asotest-function-hzfnym","properties":{"enabled":true,"functionAppConfig":{"deployment":{"storage":{"authentication":{"type":"UserAssignedIdentity","userAssignedIdentityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz"},"type":"blobContainer","value":"https://asotestflexstorocahld.blob.core.windows.net/deploymentpackage"}},"runtime":{"name":"dotnet-isolated","version":"8.0"},"scaleAndConcurrency":{"instanceMemoryMB":2048,"maximumInstanceCount":100}},"httpsOnly":true,"serverFarmId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee","siteConfig":{"appSettings":[{"name":"AzureWebJobsStorage__accountName","value":"asotestflexstorocahld"},{"name":"AzureWebJobsStorage__credential","value":"managedidentity"},{"name":"AzureWebJobsStorage__clientId","value":"ec8e645a-c21d-4331-8306-b9419ec85f73"}]}}}'
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "1316"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - ab07f720129a13e49490bc4652cd702faff17aea94f4872381037191ff74c5d0
+            Test-Request-Hash:
+                - ab07f720129a13e49490bc4652cd702faff17aea94f4872381037191ff74c5d0
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym?api-version=2025-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 9731
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym","name":"asotest-function-hzfnym","type":"Microsoft.Web/sites","kind":"functionapp,linux","location":"northeurope","properties":{"name":"asotest-function-hzfnym","state":"Running","hostNames":["asotest-function-hzfnym.azurewebsites.net"],"webSpace":"flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace","selfLink":"https://waws-prod-db3-287.api.azurewebsites.windows.net:454/subscriptions/00000000-0000-0000-0000-000000000000/webspaces/flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace/sites/asotest-function-hzfnym","repositorySiteName":"asotest-function-hzfnym","owner":null,"usageState":"Normal","enabled":true,"adminEnabled":true,"siteScopedCertificatesEnabled":true,"afdEnabled":false,"enabledHostNames":["asotest-function-hzfnym.azurewebsites.net","asotest-function-hzfnym.scm.azurewebsites.net"],"siteProperties":{"metadata":null,"properties":[{"name":"LinuxFxVersion","value":""},{"name":"WindowsFxVersion","value":null}],"appSettings":null},"availabilityState":"Normal","sslCertificates":null,"csrs":[],"cers":null,"siteMode":null,"hostNameSslStates":[{"name":"asotest-function-hzfnym.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Standard"},{"name":"asotest-function-hzfnym.scm.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Repository"}],"hostNamePrivateStates":[],"computeMode":null,"serverFarm":null,"serverFarmId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee","reserved":true,"isXenon":false,"hyperV":false,"sandboxType":null,"lastModifiedTimeUtc":"2026-07-20T03:04:36.55","storageRecoveryDefaultState":"Running","contentAvailabilityState":"Normal","runtimeAvailabilityState":"Normal","dnsConfiguration":{},"containerAllocationSubnet":null,"useContainerLocalhostBindings":null,"outboundVnetRouting":{"allTraffic":false,"applicationTraffic":false,"contentShareTraffic":false,"imagePullTraffic":false,"backupRestoreTraffic":false,"managedIdentityTraffic":false},"legacyServiceEndpointTrafficEvaluation":null,"siteConfig":{"numberOfWorkers":1,"defaultDocuments":null,"netFrameworkVersion":null,"phpVersion":null,"pythonVersion":null,"nodeVersion":null,"powerShellVersion":null,"linuxFxVersion":"","windowsFxVersion":null,"sandboxType":null,"windowsConfiguredStacks":null,"requestTracingEnabled":null,"remoteDebuggingEnabled":null,"remoteDebuggingVersion":null,"httpLoggingEnabled":null,"azureMonitorLogCategories":null,"acrUseManagedIdentityCreds":false,"acrUserManagedIdentityID":null,"logsDirectorySizeLimit":null,"detailedErrorLoggingEnabled":null,"publishingUsername":null,"publishingPassword":null,"appSettings":null,"metadata":null,"connectionStrings":null,"machineKey":null,"handlerMappings":null,"documentRoot":null,"scmType":null,"use32BitWorkerProcess":null,"webSocketsEnabled":null,"alwaysOn":false,"javaVersion":null,"javaContainer":null,"javaContainerVersion":null,"appCommandLine":null,"managedPipelineMode":null,"virtualApplications":null,"winAuthAdminState":null,"winAuthTenantState":null,"customAppPoolIdentityAdminState":null,"customAppPoolIdentityTenantState":null,"runtimeADUser":null,"runtimeADUserPassword":null,"loadBalancing":null,"routingRules":null,"experiments":null,"limits":null,"autoHealEnabled":null,"autoHealRules":null,"tracingOptions":null,"vnetName":null,"vnetRouteAllEnabled":null,"vnetPrivatePortsCount":null,"publicNetworkAccess":null,"cors":null,"push":null,"apiDefinition":null,"apiManagementConfig":null,"autoSwapSlotName":null,"localMySqlEnabled":null,"managedServiceIdentityId":null,"xManagedServiceIdentityId":null,"keyVaultReferenceIdentity":null,"ipSecurityRestrictions":[{"ipAddress":"Any","action":"Allow","priority":2147483647,"name":"Allow all","description":"Allow all access"}],"ipSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictions":[{"ipAddress":"Any","action":"Allow","priority":2147483647,"name":"Allow all","description":"Allow all access"}],"scmIpSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictionsUseMain":null,"http20Enabled":false,"minTlsVersion":null,"minTlsCipherSuite":null,"scmMinTlsCipherSuite":null,"supportedTlsCipherSuites":null,"scmSupportedTlsCipherSuites":null,"scmMinTlsVersion":null,"ftpsState":null,"preWarmedInstanceCount":null,"functionAppScaleLimit":0,"elasticWebAppScaleLimit":null,"healthCheckPath":null,"fileChangeAuditEnabled":null,"functionsRuntimeScaleMonitoringEnabled":null,"websiteTimeZone":null,"minimumElasticInstanceCount":0,"azureStorageAccounts":null,"http20ProxyFlag":null,"sitePort":null,"antivirusScanEnabled":null,"storageType":null,"sitePrivateLinkHostEnabled":null,"clusteringEnabled":false,"webJobsEnabled":false},"functionAppConfig":{"deployment":{"storage":{"type":"blobContainer","value":"https://asotestflexstorocahld.blob.core.windows.net/deploymentpackage","authentication":{"type":"UserAssignedIdentity","userAssignedIdentityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz","storageAccountConnectionStringName":null}}},"runtime":{"name":"dotnet-isolated","version":"8.0"},"scaleAndConcurrency":{"alwaysReady":null,"maximumInstanceCount":100,"instanceMemoryMB":2048,"triggers":null},"siteUpdateStrategy":{"type":"Recreate"}},"daprConfig":null,"aiIntegration":null,"deploymentId":"asotest-function-hzfnym","slotName":null,"trafficManagerHostNames":null,"sku":"FlexConsumption","scmSiteAlsoStopped":false,"targetSwapSlot":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"clientAffinityEnabled":false,"clientAffinityProxyEnabled":false,"useQueryStringAffinity":false,"blockPathTraversal":false,"clientCertEnabled":false,"clientCertMode":"Required","clientCertExclusionPaths":null,"clientCertExclusionEndPoints":null,"hostNamesDisabled":false,"ipMode":"IPv4","domainVerificationIdentifiers":null,"customDomainVerificationId":"CEA470442A579CDE893E8039B31672DE796C8BD603742211E111AD6257834176","kind":"functionapp,linux","managedEnvironmentId":null,"workloadProfileName":null,"resourceConfig":null,"inboundIpAddress":"20.107.224.32,20.107.224.44","possibleInboundIpAddresses":"20.107.224.32,20.107.224.44","inboundIpv6Address":"2603:1020:5:5::51","possibleInboundIpv6Addresses":"2603:1020:5:5::51","ftpUsername":"asotest-function-hzfnym\\$asotest-function-hzfnym","ftpsHostName":"ftps://waws-prod-db3-287.ftp.azurewebsites.windows.net/site/wwwroot","outboundIpAddresses":"20.223.54.157,20.223.54.168,20.223.54.185,20.223.54.201,20.223.54.242,20.223.55.2,20.107.224.32,20.107.224.44","possibleOutboundIpAddresses":"20.223.54.157,20.223.54.168,20.223.54.185,20.223.54.201,20.223.54.242,20.223.55.2,20.223.55.7,20.223.55.54,20.223.55.64,20.223.55.67,20.223.55.82,20.223.55.95,20.223.55.143,20.223.55.227,20.223.55.237,20.223.49.6,20.223.55.254,20.166.152.8,20.166.152.12,20.166.152.29,20.166.152.41,20.166.152.67,20.166.152.71,20.166.152.81,20.107.224.32,20.107.224.44","outboundIpv6Addresses":"2603:1020:0:e::482,2603:1020:0:e::483,2603:1020:0:e::484,2603:1020:0:e::485,2603:1020:0:e::486,2603:1020:0:e::487,2603:1020:5:5::51,2603:10e1:100:2::146b:e020,2603:1020:5:5::5b,2603:10e1:100:2::146b:e02c","possibleOutboundIpv6Addresses":"2603:1020:0:e::482,2603:1020:0:e::483,2603:1020:0:e::484,2603:1020:0:e::485,2603:1020:0:e::486,2603:1020:0:e::487,2603:1020:0:e::488,2603:1020:0:e::489,2603:1020:0:e::48a,2603:1020:0:e::48b,2603:1020:0:e::48c,2603:1020:0:e::48d,2603:1020:0:e::478,2603:1020:0:e::48e,2603:1020:0:e::48f,2603:1020:0:e::490,2603:1020:0:e::491,2603:1020:0:e::492,2603:1020:0:e::493,2603:1020:0:e::47a,2603:1020:0:e::494,2603:1020:0:e::495,2603:1020:0:e::496,2603:1020:0:e::497,2603:1020:5:5::51,2603:10e1:100:2::146b:e020,2603:1020:5:5::5b,2603:10e1:100:2::146b:e02c","containerSize":1536,"dailyMemoryTimeQuota":0,"suspendedTill":null,"siteDisabledReason":0,"functionExecutionUnitsCache":null,"maxNumberOfWorkers":null,"homeStamp":"waws-prod-db3-287","cloningInfo":null,"hostingEnvironmentId":null,"tags":null,"resourceGroup":"asotest-rg-evifap","defaultHostName":"asotest-function-hzfnym.azurewebsites.net","slotSwapStatus":null,"httpsOnly":true,"endToEndEncryptionEnabled":false,"functionsRuntimeAdminIsolationEnabled":false,"redundancyMode":"None","inProgressOperationId":null,"geoDistributions":null,"privateEndpointConnections":null,"publicNetworkAccess":"Enabled","buildVersion":null,"targetBuildVersion":null,"migrationState":null,"eligibleLogCategories":"FunctionAppLogs,AppServiceAuthenticationLogs,AppServiceAuditLogs,AppServiceIPSecAuditLogs","inFlightFeatures":null,"platformVersion":null,"storageAccountRequired":false,"virtualNetworkSubnetId":null,"keyVaultReferenceIdentity":"SystemAssigned","autoGeneratedDomainNameLabelScope":null,"privateLinkIdentifiers":null,"sshEnabled":null,"maintenanceEnabled":false},"identity":{"type":"UserAssigned","userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz":{"principalId":"c7848a66-0338-4678-b379-f44a78a2e982","clientId":"ec8e645a-c21d-4331-8306-b9419ec85f73"}}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "9731"
+            Content-Type:
+                - application/json
+            Etag:
+                - '"1DD17F47FB4D740"'
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/681c6bf0-aa5c-4e74-887f-ecb7581f956c
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "99"
+            X-Msedge-Ref:
+                - 'Ref A: 68822B5E438541138C81FF80BA7236EC Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:04:34Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 21.694215514s
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym?api-version=2025-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 9543
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym","name":"asotest-function-hzfnym","type":"Microsoft.Web/sites","kind":"functionapp,linux","location":"North Europe","properties":{"name":"asotest-function-hzfnym","state":"Running","hostNames":["asotest-function-hzfnym.azurewebsites.net"],"webSpace":"flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace","selfLink":"https://waws-prod-db3-287.api.azurewebsites.windows.net:455/subscriptions/00000000-0000-0000-0000-000000000000/webspaces/flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace/sites/asotest-function-hzfnym","repositorySiteName":"asotest-function-hzfnym","owner":null,"usageState":"Normal","enabled":true,"adminEnabled":true,"siteScopedCertificatesEnabled":true,"afdEnabled":false,"enabledHostNames":["asotest-function-hzfnym.azurewebsites.net","asotest-function-hzfnym.scm.azurewebsites.net"],"siteProperties":{"metadata":null,"properties":[{"name":"LinuxFxVersion","value":""},{"name":"WindowsFxVersion","value":null}],"appSettings":null},"availabilityState":"Normal","sslCertificates":null,"csrs":[],"cers":null,"siteMode":null,"hostNameSslStates":[{"name":"asotest-function-hzfnym.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Standard"},{"name":"asotest-function-hzfnym.scm.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Repository"}],"hostNamePrivateStates":[],"computeMode":null,"serverFarm":null,"serverFarmId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee","reserved":true,"isXenon":false,"hyperV":false,"sandboxType":null,"lastModifiedTimeUtc":"2026-07-20T03:04:57.0833333","storageRecoveryDefaultState":"Running","contentAvailabilityState":"Normal","runtimeAvailabilityState":"Normal","dnsConfiguration":{},"containerAllocationSubnet":null,"useContainerLocalhostBindings":null,"outboundVnetRouting":{"allTraffic":false,"applicationTraffic":false,"contentShareTraffic":false,"imagePullTraffic":false,"backupRestoreTraffic":false,"managedIdentityTraffic":false},"legacyServiceEndpointTrafficEvaluation":null,"siteConfig":{"numberOfWorkers":1,"defaultDocuments":null,"netFrameworkVersion":null,"phpVersion":null,"pythonVersion":null,"nodeVersion":null,"powerShellVersion":null,"linuxFxVersion":"","windowsFxVersion":null,"sandboxType":null,"windowsConfiguredStacks":null,"requestTracingEnabled":null,"remoteDebuggingEnabled":null,"remoteDebuggingVersion":null,"httpLoggingEnabled":null,"azureMonitorLogCategories":null,"acrUseManagedIdentityCreds":false,"acrUserManagedIdentityID":null,"logsDirectorySizeLimit":null,"detailedErrorLoggingEnabled":null,"publishingUsername":null,"publishingPassword":null,"appSettings":null,"metadata":null,"connectionStrings":null,"machineKey":null,"handlerMappings":null,"documentRoot":null,"scmType":null,"use32BitWorkerProcess":null,"webSocketsEnabled":null,"alwaysOn":false,"javaVersion":null,"javaContainer":null,"javaContainerVersion":null,"appCommandLine":null,"managedPipelineMode":null,"virtualApplications":null,"winAuthAdminState":null,"winAuthTenantState":null,"customAppPoolIdentityAdminState":null,"customAppPoolIdentityTenantState":null,"runtimeADUser":null,"runtimeADUserPassword":null,"loadBalancing":null,"routingRules":null,"experiments":null,"limits":null,"autoHealEnabled":null,"autoHealRules":null,"tracingOptions":null,"vnetName":null,"vnetRouteAllEnabled":null,"vnetPrivatePortsCount":null,"publicNetworkAccess":null,"cors":null,"push":null,"apiDefinition":null,"apiManagementConfig":null,"autoSwapSlotName":null,"localMySqlEnabled":null,"managedServiceIdentityId":null,"xManagedServiceIdentityId":null,"keyVaultReferenceIdentity":null,"ipSecurityRestrictions":null,"ipSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictions":null,"scmIpSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictionsUseMain":null,"http20Enabled":false,"minTlsVersion":null,"minTlsCipherSuite":null,"scmMinTlsCipherSuite":null,"supportedTlsCipherSuites":null,"scmSupportedTlsCipherSuites":null,"scmMinTlsVersion":null,"ftpsState":null,"preWarmedInstanceCount":null,"functionAppScaleLimit":100,"elasticWebAppScaleLimit":null,"healthCheckPath":null,"fileChangeAuditEnabled":null,"functionsRuntimeScaleMonitoringEnabled":null,"websiteTimeZone":null,"minimumElasticInstanceCount":0,"azureStorageAccounts":null,"http20ProxyFlag":null,"sitePort":null,"antivirusScanEnabled":null,"storageType":null,"sitePrivateLinkHostEnabled":null,"clusteringEnabled":false,"webJobsEnabled":false},"functionAppConfig":{"deployment":{"storage":{"type":"blobContainer","value":"https://asotestflexstorocahld.blob.core.windows.net/deploymentpackage","authentication":{"type":"UserAssignedIdentity","userAssignedIdentityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz","storageAccountConnectionStringName":null}}},"runtime":{"name":"dotnet-isolated","version":"8.0"},"scaleAndConcurrency":{"alwaysReady":null,"maximumInstanceCount":100,"instanceMemoryMB":2048,"triggers":null},"siteUpdateStrategy":{"type":"Recreate"}},"daprConfig":null,"aiIntegration":null,"deploymentId":"asotest-function-hzfnym","slotName":null,"trafficManagerHostNames":null,"sku":"FlexConsumption","scmSiteAlsoStopped":false,"targetSwapSlot":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"clientAffinityEnabled":false,"clientAffinityProxyEnabled":false,"useQueryStringAffinity":false,"blockPathTraversal":false,"clientCertEnabled":false,"clientCertMode":"Required","clientCertExclusionPaths":null,"clientCertExclusionEndPoints":null,"hostNamesDisabled":false,"ipMode":"IPv4","domainVerificationIdentifiers":null,"customDomainVerificationId":"CEA470442A579CDE893E8039B31672DE796C8BD603742211E111AD6257834176","kind":"functionapp,linux","managedEnvironmentId":null,"workloadProfileName":null,"resourceConfig":null,"inboundIpAddress":"20.107.224.32,20.107.224.44","possibleInboundIpAddresses":"20.107.224.32,20.107.224.44","inboundIpv6Address":"2603:1020:5:5::51","possibleInboundIpv6Addresses":"2603:1020:5:5::51","ftpUsername":"asotest-function-hzfnym\\$asotest-function-hzfnym","ftpsHostName":"ftps://waws-prod-db3-287.ftp.azurewebsites.windows.net/site/wwwroot","outboundIpAddresses":"20.223.54.157,20.223.54.168,20.223.54.185,20.223.54.201,20.223.54.242,20.223.55.2,20.107.224.32,20.107.224.44","possibleOutboundIpAddresses":"20.223.54.157,20.223.54.168,20.223.54.185,20.223.54.201,20.223.54.242,20.223.55.2,20.223.55.7,20.223.55.54,20.223.55.64,20.223.55.67,20.223.55.82,20.223.55.95,20.223.55.143,20.223.55.227,20.223.55.237,20.223.49.6,20.223.55.254,20.166.152.8,20.166.152.12,20.166.152.29,20.166.152.41,20.166.152.67,20.166.152.71,20.166.152.81,20.107.224.32,20.107.224.44","outboundIpv6Addresses":"2603:1020:0:e::482,2603:1020:0:e::483,2603:1020:0:e::484,2603:1020:0:e::485,2603:1020:0:e::486,2603:1020:0:e::487,2603:1020:5:5::51,2603:10e1:100:2::146b:e020,2603:1020:5:5::5b,2603:10e1:100:2::146b:e02c","possibleOutboundIpv6Addresses":"2603:1020:0:e::482,2603:1020:0:e::483,2603:1020:0:e::484,2603:1020:0:e::485,2603:1020:0:e::486,2603:1020:0:e::487,2603:1020:0:e::488,2603:1020:0:e::489,2603:1020:0:e::48a,2603:1020:0:e::48b,2603:1020:0:e::48c,2603:1020:0:e::48d,2603:1020:0:e::478,2603:1020:0:e::48e,2603:1020:0:e::48f,2603:1020:0:e::490,2603:1020:0:e::491,2603:1020:0:e::492,2603:1020:0:e::493,2603:1020:0:e::47a,2603:1020:0:e::494,2603:1020:0:e::495,2603:1020:0:e::496,2603:1020:0:e::497,2603:1020:5:5::51,2603:10e1:100:2::146b:e020,2603:1020:5:5::5b,2603:10e1:100:2::146b:e02c","containerSize":1536,"dailyMemoryTimeQuota":0,"suspendedTill":null,"siteDisabledReason":0,"functionExecutionUnitsCache":null,"maxNumberOfWorkers":null,"homeStamp":"waws-prod-db3-287","cloningInfo":null,"hostingEnvironmentId":null,"tags":null,"resourceGroup":"asotest-rg-evifap","defaultHostName":"asotest-function-hzfnym.azurewebsites.net","slotSwapStatus":null,"httpsOnly":true,"endToEndEncryptionEnabled":false,"functionsRuntimeAdminIsolationEnabled":false,"redundancyMode":"None","inProgressOperationId":null,"geoDistributions":null,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","buildVersion":null,"targetBuildVersion":null,"migrationState":null,"eligibleLogCategories":"FunctionAppLogs,AppServiceAuthenticationLogs,AppServiceAuditLogs,AppServiceIPSecAuditLogs","inFlightFeatures":["SiteContainers"],"platformVersion":"109.0.7.36","storageAccountRequired":false,"virtualNetworkSubnetId":null,"keyVaultReferenceIdentity":"SystemAssigned","autoGeneratedDomainNameLabelScope":null,"privateLinkIdentifiers":null,"sshEnabled":null,"maintenanceEnabled":false},"identity":{"type":"UserAssigned","userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz":{"principalId":"c7848a66-0338-4678-b379-f44a78a2e982","clientId":"ec8e645a-c21d-4331-8306-b9419ec85f73"}}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "9543"
+            Content-Type:
+                - application/json
+            Etag:
+                - 1DD17F48B7F89B5
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 934951EEA47A4CB892B9CDF5FC07F832 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:05:21Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 792.988569ms
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 1317
+        host: management.azure.com
+        body: '{"identity":{"type":"UserAssigned","userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz":{}}},"kind":"functionapp,linux","location":"northeurope","name":"asotest-function-hzfnym","properties":{"enabled":false,"functionAppConfig":{"deployment":{"storage":{"authentication":{"type":"UserAssignedIdentity","userAssignedIdentityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz"},"type":"blobContainer","value":"https://asotestflexstorocahld.blob.core.windows.net/deploymentpackage"}},"runtime":{"name":"dotnet-isolated","version":"8.0"},"scaleAndConcurrency":{"instanceMemoryMB":2048,"maximumInstanceCount":100}},"httpsOnly":true,"serverFarmId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee","siteConfig":{"appSettings":[{"name":"AzureWebJobsStorage__accountName","value":"asotestflexstorocahld"},{"name":"AzureWebJobsStorage__credential","value":"managedidentity"},{"name":"AzureWebJobsStorage__clientId","value":"ec8e645a-c21d-4331-8306-b9419ec85f73"}]}}}'
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "1317"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 2fdd1a2a7f1de2545625d14f4f2c352e45663b17f8127521c8220d30e7206275
+            Test-Request-Hash:
+                - 2fdd1a2a7f1de2545625d14f4f2c352e45663b17f8127521c8220d30e7206275
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym?api-version=2025-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 9740
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym","name":"asotest-function-hzfnym","type":"Microsoft.Web/sites","kind":"functionapp,linux","location":"northeurope","properties":{"name":"asotest-function-hzfnym","state":"Disabled","hostNames":["asotest-function-hzfnym.azurewebsites.net"],"webSpace":"flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace","selfLink":"https://waws-prod-db3-287.api.azurewebsites.windows.net:455/subscriptions/00000000-0000-0000-0000-000000000000/webspaces/flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace/sites/asotest-function-hzfnym","repositorySiteName":"asotest-function-hzfnym","owner":null,"usageState":"Normal","enabled":false,"adminEnabled":true,"siteScopedCertificatesEnabled":true,"afdEnabled":false,"enabledHostNames":["asotest-function-hzfnym.azurewebsites.net","asotest-function-hzfnym.scm.azurewebsites.net"],"siteProperties":{"metadata":null,"properties":[{"name":"LinuxFxVersion","value":""},{"name":"WindowsFxVersion","value":null}],"appSettings":null},"availabilityState":"Normal","sslCertificates":null,"csrs":[],"cers":null,"siteMode":null,"hostNameSslStates":[{"name":"asotest-function-hzfnym.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Standard"},{"name":"asotest-function-hzfnym.scm.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Repository"}],"hostNamePrivateStates":[],"computeMode":null,"serverFarm":null,"serverFarmId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee","reserved":true,"isXenon":false,"hyperV":false,"sandboxType":null,"lastModifiedTimeUtc":"2026-07-20T03:05:29.8833333","storageRecoveryDefaultState":"Running","contentAvailabilityState":"Normal","runtimeAvailabilityState":"Normal","dnsConfiguration":{},"containerAllocationSubnet":null,"useContainerLocalhostBindings":null,"outboundVnetRouting":{"allTraffic":false,"applicationTraffic":false,"contentShareTraffic":false,"imagePullTraffic":false,"backupRestoreTraffic":false,"managedIdentityTraffic":false},"legacyServiceEndpointTrafficEvaluation":null,"siteConfig":{"numberOfWorkers":1,"defaultDocuments":null,"netFrameworkVersion":null,"phpVersion":null,"pythonVersion":null,"nodeVersion":null,"powerShellVersion":null,"linuxFxVersion":"","windowsFxVersion":null,"sandboxType":null,"windowsConfiguredStacks":null,"requestTracingEnabled":null,"remoteDebuggingEnabled":null,"remoteDebuggingVersion":null,"httpLoggingEnabled":null,"azureMonitorLogCategories":null,"acrUseManagedIdentityCreds":false,"acrUserManagedIdentityID":null,"logsDirectorySizeLimit":null,"detailedErrorLoggingEnabled":null,"publishingUsername":null,"publishingPassword":null,"appSettings":null,"metadata":null,"connectionStrings":null,"machineKey":null,"handlerMappings":null,"documentRoot":null,"scmType":null,"use32BitWorkerProcess":null,"webSocketsEnabled":null,"alwaysOn":false,"javaVersion":null,"javaContainer":null,"javaContainerVersion":null,"appCommandLine":null,"managedPipelineMode":null,"virtualApplications":null,"winAuthAdminState":null,"winAuthTenantState":null,"customAppPoolIdentityAdminState":null,"customAppPoolIdentityTenantState":null,"runtimeADUser":null,"runtimeADUserPassword":null,"loadBalancing":null,"routingRules":null,"experiments":null,"limits":null,"autoHealEnabled":null,"autoHealRules":null,"tracingOptions":null,"vnetName":null,"vnetRouteAllEnabled":null,"vnetPrivatePortsCount":null,"publicNetworkAccess":null,"cors":null,"push":null,"apiDefinition":null,"apiManagementConfig":null,"autoSwapSlotName":null,"localMySqlEnabled":null,"managedServiceIdentityId":null,"xManagedServiceIdentityId":null,"keyVaultReferenceIdentity":null,"ipSecurityRestrictions":[{"ipAddress":"Any","action":"Allow","priority":2147483647,"name":"Allow all","description":"Allow all access"}],"ipSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictions":[{"ipAddress":"Any","action":"Allow","priority":2147483647,"name":"Allow all","description":"Allow all access"}],"scmIpSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictionsUseMain":null,"http20Enabled":false,"minTlsVersion":null,"minTlsCipherSuite":null,"scmMinTlsCipherSuite":null,"supportedTlsCipherSuites":null,"scmSupportedTlsCipherSuites":null,"scmMinTlsVersion":null,"ftpsState":null,"preWarmedInstanceCount":null,"functionAppScaleLimit":100,"elasticWebAppScaleLimit":null,"healthCheckPath":null,"fileChangeAuditEnabled":null,"functionsRuntimeScaleMonitoringEnabled":null,"websiteTimeZone":null,"minimumElasticInstanceCount":0,"azureStorageAccounts":null,"http20ProxyFlag":null,"sitePort":null,"antivirusScanEnabled":null,"storageType":null,"sitePrivateLinkHostEnabled":null,"clusteringEnabled":false,"webJobsEnabled":false},"functionAppConfig":{"deployment":{"storage":{"type":"blobContainer","value":"https://asotestflexstorocahld.blob.core.windows.net/deploymentpackage","authentication":{"type":"UserAssignedIdentity","userAssignedIdentityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz","storageAccountConnectionStringName":null}}},"runtime":{"name":"dotnet-isolated","version":"8.0"},"scaleAndConcurrency":{"alwaysReady":null,"maximumInstanceCount":100,"instanceMemoryMB":2048,"triggers":null},"siteUpdateStrategy":{"type":"Recreate"}},"daprConfig":null,"aiIntegration":null,"deploymentId":"asotest-function-hzfnym","slotName":null,"trafficManagerHostNames":null,"sku":"FlexConsumption","scmSiteAlsoStopped":false,"targetSwapSlot":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"clientAffinityEnabled":false,"clientAffinityProxyEnabled":false,"useQueryStringAffinity":false,"blockPathTraversal":false,"clientCertEnabled":false,"clientCertMode":"Required","clientCertExclusionPaths":null,"clientCertExclusionEndPoints":null,"hostNamesDisabled":false,"ipMode":"IPv4","domainVerificationIdentifiers":null,"customDomainVerificationId":"CEA470442A579CDE893E8039B31672DE796C8BD603742211E111AD6257834176","kind":"functionapp,linux","managedEnvironmentId":null,"workloadProfileName":null,"resourceConfig":null,"inboundIpAddress":"20.107.224.32,20.107.224.44","possibleInboundIpAddresses":"20.107.224.32,20.107.224.44","inboundIpv6Address":"2603:1020:5:5::51","possibleInboundIpv6Addresses":"2603:1020:5:5::51","ftpUsername":"asotest-function-hzfnym\\$asotest-function-hzfnym","ftpsHostName":"ftps://waws-prod-db3-287.ftp.azurewebsites.windows.net/site/wwwroot","outboundIpAddresses":"20.223.54.157,20.223.54.168,20.223.54.185,20.223.54.201,20.223.54.242,20.223.55.2,20.107.224.32,20.107.224.44","possibleOutboundIpAddresses":"20.223.54.157,20.223.54.168,20.223.54.185,20.223.54.201,20.223.54.242,20.223.55.2,20.223.55.7,20.223.55.54,20.223.55.64,20.223.55.67,20.223.55.82,20.223.55.95,20.223.55.143,20.223.55.227,20.223.55.237,20.223.49.6,20.223.55.254,20.166.152.8,20.166.152.12,20.166.152.29,20.166.152.41,20.166.152.67,20.166.152.71,20.166.152.81,20.107.224.32,20.107.224.44","outboundIpv6Addresses":"2603:1020:0:e::482,2603:1020:0:e::483,2603:1020:0:e::484,2603:1020:0:e::485,2603:1020:0:e::486,2603:1020:0:e::487,2603:1020:5:5::51,2603:10e1:100:2::146b:e020,2603:1020:5:5::5b,2603:10e1:100:2::146b:e02c","possibleOutboundIpv6Addresses":"2603:1020:0:e::482,2603:1020:0:e::483,2603:1020:0:e::484,2603:1020:0:e::485,2603:1020:0:e::486,2603:1020:0:e::487,2603:1020:0:e::488,2603:1020:0:e::489,2603:1020:0:e::48a,2603:1020:0:e::48b,2603:1020:0:e::48c,2603:1020:0:e::48d,2603:1020:0:e::478,2603:1020:0:e::48e,2603:1020:0:e::48f,2603:1020:0:e::490,2603:1020:0:e::491,2603:1020:0:e::492,2603:1020:0:e::493,2603:1020:0:e::47a,2603:1020:0:e::494,2603:1020:0:e::495,2603:1020:0:e::496,2603:1020:0:e::497,2603:1020:5:5::51,2603:10e1:100:2::146b:e020,2603:1020:5:5::5b,2603:10e1:100:2::146b:e02c","containerSize":1536,"dailyMemoryTimeQuota":0,"suspendedTill":null,"siteDisabledReason":0,"functionExecutionUnitsCache":null,"maxNumberOfWorkers":null,"homeStamp":"waws-prod-db3-287","cloningInfo":null,"hostingEnvironmentId":null,"tags":null,"resourceGroup":"asotest-rg-evifap","defaultHostName":"asotest-function-hzfnym.azurewebsites.net","slotSwapStatus":null,"httpsOnly":true,"endToEndEncryptionEnabled":false,"functionsRuntimeAdminIsolationEnabled":false,"redundancyMode":"None","inProgressOperationId":null,"geoDistributions":null,"privateEndpointConnections":null,"publicNetworkAccess":"Enabled","buildVersion":null,"targetBuildVersion":null,"migrationState":null,"eligibleLogCategories":"FunctionAppLogs,AppServiceAuthenticationLogs,AppServiceAuditLogs,AppServiceIPSecAuditLogs","inFlightFeatures":null,"platformVersion":null,"storageAccountRequired":false,"virtualNetworkSubnetId":null,"keyVaultReferenceIdentity":"SystemAssigned","autoGeneratedDomainNameLabelScope":null,"privateLinkIdentifiers":null,"sshEnabled":null,"maintenanceEnabled":false},"identity":{"type":"UserAssigned","userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz":{"principalId":"c7848a66-0338-4678-b379-f44a78a2e982","clientId":"ec8e645a-c21d-4331-8306-b9419ec85f73"}}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "9740"
+            Content-Type:
+                - application/json
+            Etag:
+                - 1DD17F48B7F89B5
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/e672c28a-f08a-4684-a976-9745348eae62
+            X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+                - "99"
+            X-Msedge-Ref:
+                - 'Ref A: ED05EFA396B84515BEA5C0F22934061B Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:05:27Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 2.954584381s
+    - id: 22
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym?api-version=2025-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 9545
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym","name":"asotest-function-hzfnym","type":"Microsoft.Web/sites","kind":"functionapp,linux","location":"North Europe","properties":{"name":"asotest-function-hzfnym","state":"Disabled","hostNames":["asotest-function-hzfnym.azurewebsites.net"],"webSpace":"flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace","selfLink":"https://waws-prod-db3-287.api.azurewebsites.windows.net:455/subscriptions/00000000-0000-0000-0000-000000000000/webspaces/flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace/sites/asotest-function-hzfnym","repositorySiteName":"asotest-function-hzfnym","owner":null,"usageState":"Normal","enabled":false,"adminEnabled":true,"siteScopedCertificatesEnabled":true,"afdEnabled":false,"enabledHostNames":["asotest-function-hzfnym.azurewebsites.net","asotest-function-hzfnym.scm.azurewebsites.net"],"siteProperties":{"metadata":null,"properties":[{"name":"LinuxFxVersion","value":""},{"name":"WindowsFxVersion","value":null}],"appSettings":null},"availabilityState":"Normal","sslCertificates":null,"csrs":[],"cers":null,"siteMode":null,"hostNameSslStates":[{"name":"asotest-function-hzfnym.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Standard"},{"name":"asotest-function-hzfnym.scm.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Repository"}],"hostNamePrivateStates":[],"computeMode":null,"serverFarm":null,"serverFarmId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee","reserved":true,"isXenon":false,"hyperV":false,"sandboxType":null,"lastModifiedTimeUtc":"2026-07-20T03:05:29.8833333","storageRecoveryDefaultState":"Running","contentAvailabilityState":"Normal","runtimeAvailabilityState":"Normal","dnsConfiguration":{},"containerAllocationSubnet":null,"useContainerLocalhostBindings":null,"outboundVnetRouting":{"allTraffic":false,"applicationTraffic":false,"contentShareTraffic":false,"imagePullTraffic":false,"backupRestoreTraffic":false,"managedIdentityTraffic":false},"legacyServiceEndpointTrafficEvaluation":null,"siteConfig":{"numberOfWorkers":1,"defaultDocuments":null,"netFrameworkVersion":null,"phpVersion":null,"pythonVersion":null,"nodeVersion":null,"powerShellVersion":null,"linuxFxVersion":"","windowsFxVersion":null,"sandboxType":null,"windowsConfiguredStacks":null,"requestTracingEnabled":null,"remoteDebuggingEnabled":null,"remoteDebuggingVersion":null,"httpLoggingEnabled":null,"azureMonitorLogCategories":null,"acrUseManagedIdentityCreds":false,"acrUserManagedIdentityID":null,"logsDirectorySizeLimit":null,"detailedErrorLoggingEnabled":null,"publishingUsername":null,"publishingPassword":null,"appSettings":null,"metadata":null,"connectionStrings":null,"machineKey":null,"handlerMappings":null,"documentRoot":null,"scmType":null,"use32BitWorkerProcess":null,"webSocketsEnabled":null,"alwaysOn":false,"javaVersion":null,"javaContainer":null,"javaContainerVersion":null,"appCommandLine":null,"managedPipelineMode":null,"virtualApplications":null,"winAuthAdminState":null,"winAuthTenantState":null,"customAppPoolIdentityAdminState":null,"customAppPoolIdentityTenantState":null,"runtimeADUser":null,"runtimeADUserPassword":null,"loadBalancing":null,"routingRules":null,"experiments":null,"limits":null,"autoHealEnabled":null,"autoHealRules":null,"tracingOptions":null,"vnetName":null,"vnetRouteAllEnabled":null,"vnetPrivatePortsCount":null,"publicNetworkAccess":null,"cors":null,"push":null,"apiDefinition":null,"apiManagementConfig":null,"autoSwapSlotName":null,"localMySqlEnabled":null,"managedServiceIdentityId":null,"xManagedServiceIdentityId":null,"keyVaultReferenceIdentity":null,"ipSecurityRestrictions":null,"ipSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictions":null,"scmIpSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictionsUseMain":null,"http20Enabled":false,"minTlsVersion":null,"minTlsCipherSuite":null,"scmMinTlsCipherSuite":null,"supportedTlsCipherSuites":null,"scmSupportedTlsCipherSuites":null,"scmMinTlsVersion":null,"ftpsState":null,"preWarmedInstanceCount":null,"functionAppScaleLimit":100,"elasticWebAppScaleLimit":null,"healthCheckPath":null,"fileChangeAuditEnabled":null,"functionsRuntimeScaleMonitoringEnabled":null,"websiteTimeZone":null,"minimumElasticInstanceCount":0,"azureStorageAccounts":null,"http20ProxyFlag":null,"sitePort":null,"antivirusScanEnabled":null,"storageType":null,"sitePrivateLinkHostEnabled":null,"clusteringEnabled":false,"webJobsEnabled":false},"functionAppConfig":{"deployment":{"storage":{"type":"blobContainer","value":"https://asotestflexstorocahld.blob.core.windows.net/deploymentpackage","authentication":{"type":"UserAssignedIdentity","userAssignedIdentityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz","storageAccountConnectionStringName":null}}},"runtime":{"name":"dotnet-isolated","version":"8.0"},"scaleAndConcurrency":{"alwaysReady":null,"maximumInstanceCount":100,"instanceMemoryMB":2048,"triggers":null},"siteUpdateStrategy":{"type":"Recreate"}},"daprConfig":null,"aiIntegration":null,"deploymentId":"asotest-function-hzfnym","slotName":null,"trafficManagerHostNames":null,"sku":"FlexConsumption","scmSiteAlsoStopped":false,"targetSwapSlot":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"clientAffinityEnabled":false,"clientAffinityProxyEnabled":false,"useQueryStringAffinity":false,"blockPathTraversal":false,"clientCertEnabled":false,"clientCertMode":"Required","clientCertExclusionPaths":null,"clientCertExclusionEndPoints":null,"hostNamesDisabled":false,"ipMode":"IPv4","domainVerificationIdentifiers":null,"customDomainVerificationId":"CEA470442A579CDE893E8039B31672DE796C8BD603742211E111AD6257834176","kind":"functionapp,linux","managedEnvironmentId":null,"workloadProfileName":null,"resourceConfig":null,"inboundIpAddress":"20.107.224.32,20.107.224.44","possibleInboundIpAddresses":"20.107.224.32,20.107.224.44","inboundIpv6Address":"2603:1020:5:5::51","possibleInboundIpv6Addresses":"2603:1020:5:5::51","ftpUsername":"asotest-function-hzfnym\\$asotest-function-hzfnym","ftpsHostName":"ftps://waws-prod-db3-287.ftp.azurewebsites.windows.net/site/wwwroot","outboundIpAddresses":"20.223.54.157,20.223.54.168,20.223.54.185,20.223.54.201,20.223.54.242,20.223.55.2,20.107.224.32,20.107.224.44","possibleOutboundIpAddresses":"20.223.54.157,20.223.54.168,20.223.54.185,20.223.54.201,20.223.54.242,20.223.55.2,20.223.55.7,20.223.55.54,20.223.55.64,20.223.55.67,20.223.55.82,20.223.55.95,20.223.55.143,20.223.55.227,20.223.55.237,20.223.49.6,20.223.55.254,20.166.152.8,20.166.152.12,20.166.152.29,20.166.152.41,20.166.152.67,20.166.152.71,20.166.152.81,20.107.224.32,20.107.224.44","outboundIpv6Addresses":"2603:1020:0:e::482,2603:1020:0:e::483,2603:1020:0:e::484,2603:1020:0:e::485,2603:1020:0:e::486,2603:1020:0:e::487,2603:1020:5:5::51,2603:10e1:100:2::146b:e020,2603:1020:5:5::5b,2603:10e1:100:2::146b:e02c","possibleOutboundIpv6Addresses":"2603:1020:0:e::482,2603:1020:0:e::483,2603:1020:0:e::484,2603:1020:0:e::485,2603:1020:0:e::486,2603:1020:0:e::487,2603:1020:0:e::488,2603:1020:0:e::489,2603:1020:0:e::48a,2603:1020:0:e::48b,2603:1020:0:e::48c,2603:1020:0:e::48d,2603:1020:0:e::478,2603:1020:0:e::48e,2603:1020:0:e::48f,2603:1020:0:e::490,2603:1020:0:e::491,2603:1020:0:e::492,2603:1020:0:e::493,2603:1020:0:e::47a,2603:1020:0:e::494,2603:1020:0:e::495,2603:1020:0:e::496,2603:1020:0:e::497,2603:1020:5:5::51,2603:10e1:100:2::146b:e020,2603:1020:5:5::5b,2603:10e1:100:2::146b:e02c","containerSize":1536,"dailyMemoryTimeQuota":0,"suspendedTill":null,"siteDisabledReason":0,"functionExecutionUnitsCache":null,"maxNumberOfWorkers":null,"homeStamp":"waws-prod-db3-287","cloningInfo":null,"hostingEnvironmentId":null,"tags":null,"resourceGroup":"asotest-rg-evifap","defaultHostName":"asotest-function-hzfnym.azurewebsites.net","slotSwapStatus":null,"httpsOnly":true,"endToEndEncryptionEnabled":false,"functionsRuntimeAdminIsolationEnabled":false,"redundancyMode":"None","inProgressOperationId":null,"geoDistributions":null,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","buildVersion":null,"targetBuildVersion":null,"migrationState":null,"eligibleLogCategories":"FunctionAppLogs,AppServiceAuthenticationLogs,AppServiceAuditLogs,AppServiceIPSecAuditLogs","inFlightFeatures":["SiteContainers"],"platformVersion":"109.0.7.36","storageAccountRequired":false,"virtualNetworkSubnetId":null,"keyVaultReferenceIdentity":"SystemAssigned","autoGeneratedDomainNameLabelScope":null,"privateLinkIdentifiers":null,"sshEnabled":null,"maintenanceEnabled":false},"identity":{"type":"UserAssigned","userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz":{"principalId":"c7848a66-0338-4678-b379-f44a78a2e982","clientId":"ec8e645a-c21d-4331-8306-b9419ec85f73"}}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "9545"
+            Content-Type:
+                - application/json
+            Etag:
+                - 1DD17F49F0C6BB5
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: EA5983D20315494C84CF3891F44F8C34 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:05:34Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 751.563216ms
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym?api-version=2025-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 9545
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym","name":"asotest-function-hzfnym","type":"Microsoft.Web/sites","kind":"functionapp,linux","location":"North Europe","properties":{"name":"asotest-function-hzfnym","state":"Disabled","hostNames":["asotest-function-hzfnym.azurewebsites.net"],"webSpace":"flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace","selfLink":"https://waws-prod-db3-287.api.azurewebsites.windows.net:455/subscriptions/00000000-0000-0000-0000-000000000000/webspaces/flex-206415b9958823c4bf0aaab9b47252cc1eddfe32f6006195b6387f1b04ea37c9-webspace/sites/asotest-function-hzfnym","repositorySiteName":"asotest-function-hzfnym","owner":null,"usageState":"Normal","enabled":false,"adminEnabled":true,"siteScopedCertificatesEnabled":true,"afdEnabled":false,"enabledHostNames":["asotest-function-hzfnym.azurewebsites.net","asotest-function-hzfnym.scm.azurewebsites.net"],"siteProperties":{"metadata":null,"properties":[{"name":"LinuxFxVersion","value":""},{"name":"WindowsFxVersion","value":null}],"appSettings":null},"availabilityState":"Normal","sslCertificates":null,"csrs":[],"cers":null,"siteMode":null,"hostNameSslStates":[{"name":"asotest-function-hzfnym.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Standard"},{"name":"asotest-function-hzfnym.scm.azurewebsites.net","sslState":"Disabled","ipBasedSslResult":null,"virtualIP":null,"virtualIPv6":null,"thumbprint":null,"certificateResourceId":null,"toUpdate":null,"toUpdateIpBasedSsl":null,"ipBasedSslState":"NotConfigured","hostType":"Repository"}],"hostNamePrivateStates":[],"computeMode":null,"serverFarm":null,"serverFarmId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee","reserved":true,"isXenon":false,"hyperV":false,"sandboxType":null,"lastModifiedTimeUtc":"2026-07-20T03:05:29.8833333","storageRecoveryDefaultState":"Running","contentAvailabilityState":"Normal","runtimeAvailabilityState":"Normal","dnsConfiguration":{},"containerAllocationSubnet":null,"useContainerLocalhostBindings":null,"outboundVnetRouting":{"allTraffic":false,"applicationTraffic":false,"contentShareTraffic":false,"imagePullTraffic":false,"backupRestoreTraffic":false,"managedIdentityTraffic":false},"legacyServiceEndpointTrafficEvaluation":null,"siteConfig":{"numberOfWorkers":1,"defaultDocuments":null,"netFrameworkVersion":null,"phpVersion":null,"pythonVersion":null,"nodeVersion":null,"powerShellVersion":null,"linuxFxVersion":"","windowsFxVersion":null,"sandboxType":null,"windowsConfiguredStacks":null,"requestTracingEnabled":null,"remoteDebuggingEnabled":null,"remoteDebuggingVersion":null,"httpLoggingEnabled":null,"azureMonitorLogCategories":null,"acrUseManagedIdentityCreds":false,"acrUserManagedIdentityID":null,"logsDirectorySizeLimit":null,"detailedErrorLoggingEnabled":null,"publishingUsername":null,"publishingPassword":null,"appSettings":null,"metadata":null,"connectionStrings":null,"machineKey":null,"handlerMappings":null,"documentRoot":null,"scmType":null,"use32BitWorkerProcess":null,"webSocketsEnabled":null,"alwaysOn":false,"javaVersion":null,"javaContainer":null,"javaContainerVersion":null,"appCommandLine":null,"managedPipelineMode":null,"virtualApplications":null,"winAuthAdminState":null,"winAuthTenantState":null,"customAppPoolIdentityAdminState":null,"customAppPoolIdentityTenantState":null,"runtimeADUser":null,"runtimeADUserPassword":null,"loadBalancing":null,"routingRules":null,"experiments":null,"limits":null,"autoHealEnabled":null,"autoHealRules":null,"tracingOptions":null,"vnetName":null,"vnetRouteAllEnabled":null,"vnetPrivatePortsCount":null,"publicNetworkAccess":null,"cors":null,"push":null,"apiDefinition":null,"apiManagementConfig":null,"autoSwapSlotName":null,"localMySqlEnabled":null,"managedServiceIdentityId":null,"xManagedServiceIdentityId":null,"keyVaultReferenceIdentity":null,"ipSecurityRestrictions":null,"ipSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictions":null,"scmIpSecurityRestrictionsDefaultAction":null,"scmIpSecurityRestrictionsUseMain":null,"http20Enabled":false,"minTlsVersion":null,"minTlsCipherSuite":null,"scmMinTlsCipherSuite":null,"supportedTlsCipherSuites":null,"scmSupportedTlsCipherSuites":null,"scmMinTlsVersion":null,"ftpsState":null,"preWarmedInstanceCount":null,"functionAppScaleLimit":100,"elasticWebAppScaleLimit":null,"healthCheckPath":null,"fileChangeAuditEnabled":null,"functionsRuntimeScaleMonitoringEnabled":null,"websiteTimeZone":null,"minimumElasticInstanceCount":0,"azureStorageAccounts":null,"http20ProxyFlag":null,"sitePort":null,"antivirusScanEnabled":null,"storageType":null,"sitePrivateLinkHostEnabled":null,"clusteringEnabled":false,"webJobsEnabled":false},"functionAppConfig":{"deployment":{"storage":{"type":"blobContainer","value":"https://asotestflexstorocahld.blob.core.windows.net/deploymentpackage","authentication":{"type":"UserAssignedIdentity","userAssignedIdentityResourceId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz","storageAccountConnectionStringName":null}}},"runtime":{"name":"dotnet-isolated","version":"8.0"},"scaleAndConcurrency":{"alwaysReady":null,"maximumInstanceCount":100,"instanceMemoryMB":2048,"triggers":null},"siteUpdateStrategy":{"type":"Recreate"}},"daprConfig":null,"aiIntegration":null,"deploymentId":"asotest-function-hzfnym","slotName":null,"trafficManagerHostNames":null,"sku":"FlexConsumption","scmSiteAlsoStopped":false,"targetSwapSlot":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"clientAffinityEnabled":false,"clientAffinityProxyEnabled":false,"useQueryStringAffinity":false,"blockPathTraversal":false,"clientCertEnabled":false,"clientCertMode":"Required","clientCertExclusionPaths":null,"clientCertExclusionEndPoints":null,"hostNamesDisabled":false,"ipMode":"IPv4","domainVerificationIdentifiers":null,"customDomainVerificationId":"CEA470442A579CDE893E8039B31672DE796C8BD603742211E111AD6257834176","kind":"functionapp,linux","managedEnvironmentId":null,"workloadProfileName":null,"resourceConfig":null,"inboundIpAddress":"20.107.224.32,20.107.224.44","possibleInboundIpAddresses":"20.107.224.32,20.107.224.44","inboundIpv6Address":"2603:1020:5:5::51","possibleInboundIpv6Addresses":"2603:1020:5:5::51","ftpUsername":"asotest-function-hzfnym\\$asotest-function-hzfnym","ftpsHostName":"ftps://waws-prod-db3-287.ftp.azurewebsites.windows.net/site/wwwroot","outboundIpAddresses":"20.223.54.157,20.223.54.168,20.223.54.185,20.223.54.201,20.223.54.242,20.223.55.2,20.107.224.32,20.107.224.44","possibleOutboundIpAddresses":"20.223.54.157,20.223.54.168,20.223.54.185,20.223.54.201,20.223.54.242,20.223.55.2,20.223.55.7,20.223.55.54,20.223.55.64,20.223.55.67,20.223.55.82,20.223.55.95,20.223.55.143,20.223.55.227,20.223.55.237,20.223.49.6,20.223.55.254,20.166.152.8,20.166.152.12,20.166.152.29,20.166.152.41,20.166.152.67,20.166.152.71,20.166.152.81,20.107.224.32,20.107.224.44","outboundIpv6Addresses":"2603:1020:0:e::482,2603:1020:0:e::483,2603:1020:0:e::484,2603:1020:0:e::485,2603:1020:0:e::486,2603:1020:0:e::487,2603:1020:5:5::51,2603:10e1:100:2::146b:e020,2603:1020:5:5::5b,2603:10e1:100:2::146b:e02c","possibleOutboundIpv6Addresses":"2603:1020:0:e::482,2603:1020:0:e::483,2603:1020:0:e::484,2603:1020:0:e::485,2603:1020:0:e::486,2603:1020:0:e::487,2603:1020:0:e::488,2603:1020:0:e::489,2603:1020:0:e::48a,2603:1020:0:e::48b,2603:1020:0:e::48c,2603:1020:0:e::48d,2603:1020:0:e::478,2603:1020:0:e::48e,2603:1020:0:e::48f,2603:1020:0:e::490,2603:1020:0:e::491,2603:1020:0:e::492,2603:1020:0:e::493,2603:1020:0:e::47a,2603:1020:0:e::494,2603:1020:0:e::495,2603:1020:0:e::496,2603:1020:0:e::497,2603:1020:5:5::51,2603:10e1:100:2::146b:e020,2603:1020:5:5::5b,2603:10e1:100:2::146b:e02c","containerSize":1536,"dailyMemoryTimeQuota":0,"suspendedTill":null,"siteDisabledReason":0,"functionExecutionUnitsCache":null,"maxNumberOfWorkers":null,"homeStamp":"waws-prod-db3-287","cloningInfo":null,"hostingEnvironmentId":null,"tags":null,"resourceGroup":"asotest-rg-evifap","defaultHostName":"asotest-function-hzfnym.azurewebsites.net","slotSwapStatus":null,"httpsOnly":true,"endToEndEncryptionEnabled":false,"functionsRuntimeAdminIsolationEnabled":false,"redundancyMode":"None","inProgressOperationId":null,"geoDistributions":null,"privateEndpointConnections":[],"publicNetworkAccess":"Enabled","buildVersion":null,"targetBuildVersion":null,"migrationState":null,"eligibleLogCategories":"FunctionAppLogs,AppServiceAuthenticationLogs,AppServiceAuditLogs,AppServiceIPSecAuditLogs","inFlightFeatures":["SiteContainers"],"platformVersion":"109.0.7.36","storageAccountRequired":false,"virtualNetworkSubnetId":null,"keyVaultReferenceIdentity":"SystemAssigned","autoGeneratedDomainNameLabelScope":null,"privateLinkIdentifiers":null,"sshEnabled":null,"maintenanceEnabled":false},"identity":{"type":"UserAssigned","userAssignedIdentities":{"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz":{"principalId":"c7848a66-0338-4678-b379-f44a78a2e982","clientId":"ec8e645a-c21d-4331-8306-b9419ec85f73"}}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "9545"
+            Content-Type:
+                - application/json
+            Etag:
+                - 1DD17F49F0C6BB5
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 8CEEFA21480D4E23ABE008F06C820420 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:05:38Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 542.233985ms
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym?api-version=2025-05-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Etag:
+                - 1DD17F49F0C6BB5
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/c7219603-d851-46a1-9572-c3126c983b21
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "12000"
+            X-Msedge-Ref:
+                - 'Ref A: 88F4FBBD77B94874988CC65D61505EC1 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:05:39Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 9.840496174s
+    - id: 25
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/sites/asotest-function-hzfnym?api-version=2025-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 232
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Web/sites/asotest-function-hzfnym'' under resource group ''asotest-rg-evifap'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "232"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 731F71B84AC743FE995054E4918DCAEB Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:06:06Z'
+        status: 404 Not Found
+        code: 404
+        duration: 402.988359ms
+    - id: 26
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap?api-version=2020-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFVklGQVAtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639201135674630499&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=n1i5YTwSjxvpuIKAsbp2_H74E7WnEok7okxV-OsT-Xw1p8BK2YihaUGwXgNH7-J8YTCJgd8EURHXlJIWnZc3sWP_GPV8NkPWnCqgzGf8I2M3wDFxE5HzqcDg4RJeK5FhBdmhRjtrJV6__PqCepOvPWaUjK4jEQ-uLw0H3icgs_yps5RH5BrX4-Wr3tVmen8T4FjqAo7xkh9c7VYuzuZ5-Vcu5eMFlbbSnQQVLozz4ncT_XSuJvtimTvgxiO58T-EF35i3NzipDvNLMJJjZM9QGYvfMZldpFbQdtqEvv8Bkt8cJUvRoglFRe99oqGb_qYLwXGSMynLDhlUCqMHVNh8w&h=eHBMqgE30HIk3WytqHs7eo80yjY0A0_30eGARL2XgR4
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 06C02E14F17B499A963D07435FAA0A26 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:06:07Z'
+        status: 202 Accepted
+        code: 202
+        duration: 464.187392ms
+    - id: 27
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+            c:
+                - MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT
+            h:
+                - eHBMqgE30HIk3WytqHs7eo80yjY0A0_30eGARL2XgR4
+            s:
+                - n1i5YTwSjxvpuIKAsbp2_H74E7WnEok7okxV-OsT-Xw1p8BK2YihaUGwXgNH7-J8YTCJgd8EURHXlJIWnZc3sWP_GPV8NkPWnCqgzGf8I2M3wDFxE5HzqcDg4RJeK5FhBdmhRjtrJV6__PqCepOvPWaUjK4jEQ-uLw0H3icgs_yps5RH5BrX4-Wr3tVmen8T4FjqAo7xkh9c7VYuzuZ5-Vcu5eMFlbbSnQQVLozz4ncT_XSuJvtimTvgxiO58T-EF35i3NzipDvNLMJJjZM9QGYvfMZldpFbQdtqEvv8Bkt8cJUvRoglFRe99oqGb_qYLwXGSMynLDhlUCqMHVNh8w
+            t:
+                - "639201135674630499"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFVklGQVAtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639201135674630499&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=n1i5YTwSjxvpuIKAsbp2_H74E7WnEok7okxV-OsT-Xw1p8BK2YihaUGwXgNH7-J8YTCJgd8EURHXlJIWnZc3sWP_GPV8NkPWnCqgzGf8I2M3wDFxE5HzqcDg4RJeK5FhBdmhRjtrJV6__PqCepOvPWaUjK4jEQ-uLw0H3icgs_yps5RH5BrX4-Wr3tVmen8T4FjqAo7xkh9c7VYuzuZ5-Vcu5eMFlbbSnQQVLozz4ncT_XSuJvtimTvgxiO58T-EF35i3NzipDvNLMJJjZM9QGYvfMZldpFbQdtqEvv8Bkt8cJUvRoglFRe99oqGb_qYLwXGSMynLDhlUCqMHVNh8w&h=eHBMqgE30HIk3WytqHs7eo80yjY0A0_30eGARL2XgR4
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFVklGQVAtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639201135854821185&c=MIIIJzCCBw-gAwIBAgIRAPkg2z-B9Jm_vrDg-qNrjwswDQYJKoZIhvcNAQELBQAwNjE0MDIGA1UEAxMrQ0NNRSBHMSBUTFMgUlNBIDIwNDggU0hBMjU2IDIwNDkgV0NVUyBDQSAwMTAeFw0yNjA0MTAwNjUyMTdaFw0yNjEwMDUxMjUyMTdaMEAxPjA8BgNVBAMTNWFzeW5jb3BlcmF0aW9uc2lnbmluZ2NlcnRpZmljYXRlLm1hbmFnZW1lbnQuYXp1cmUuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxhFGHIBug-4Pg8y8wrt85aTDI_1ckzX8XYnsk6BmTh36sX4QX-zrgCccWt1yXC8y3lSRvEr66Pgoywj0gN60U0prO-Llj-OOWdlGOnbBFPBaBa2ogrj2ULknxSn8HyrgUsMa3zGCqoR_eDSq7R_O20UZDFBlonw8TSmqdLPA4fe1TarGVXDGoRxYv_BQE0sxI54JmyZ5uATcXoIBRqCEmrRFh6MO0V4rK5-sBO8yodyMdOweERdOFcDfLvM2WCaax5HnsjPSLMYy-XTD01vXM3XkKAJ6K30JxQ4_Wtn1IvN-b0R-eEdUMUdPKhH4RDL_8xL-ALqsnaG0cNZazOQr1QIDAQABo4IFJDCCBSAwgZ0GA1UdIASBlTCBkjAMBgorBgEEAYI3ewEBMGYGCisGAQQBgjd7AgIwWDBWBggrBgEFBQcCAjBKHkgAMwAzAGUAMAAxADkAMgAxAC0ANABkADYANAAtADQAZgA4AGMALQBhADAANQA1AC0ANQBiAGQAYQBmAGYAZAA1AGUAMwAzAGQwDAYKKwYBBAGCN3sDAjAMBgorBgEEAYI3ewQCMAwGA1UdEwEB_wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMA4GA1UdDwEB_wQEAwIFoDAdBgNVHQ4EFgQUdjmEGeQg6LiPic0f-L1KBD3vO0wwHwYDVR0jBBgwFoAUFNI34PbWfX7djbq6ZasElCXglh0wggH7BgNVHR8EggHyMIIB7jB7oHmgd4Z1aHR0cDovL3ByaW1hcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L3dlc3RjZW50cmFsdXMvY3Jscy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMH2ge6B5hndodHRwOi8vc2Vjb25kYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC93ZXN0Y2VudHJhbHVzL2NybHMvY2NtZXdlc3RjZW50cmFsdXNwa2kvY2NtZXdlc3RjZW50cmFsdXNpY2EwMS8yOS9jdXJyZW50LmNybDBsoGqgaIZmaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3dlc3RjZW50cmFsdXMvY3Jscy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMIGBoH-gfYZ7aHR0cDovL2NjbWV3ZXN0Y2VudHJhbHVzcGtpLndlc3RjZW50cmFsdXMucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMIICAAYIKwYBBQUHAQEEggHyMIIB7jB-BggrBgEFBQcwAoZyaHR0cDovL3ByaW1hcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L3dlc3RjZW50cmFsdXMvY2FjZXJ0cy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxL2NlcnQuY2VyMIGABggrBgEFBQcwAoZ0aHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvd2VzdGNlbnRyYWx1cy9jYWNlcnRzL2NjbWV3ZXN0Y2VudHJhbHVzcGtpL2NjbWV3ZXN0Y2VudHJhbHVzaWNhMDEvY2VydC5jZXIwbwYIKwYBBQUHMAKGY2h0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS93ZXN0Y2VudHJhbHVzL2NhY2VydHMvY2NtZXdlc3RjZW50cmFsdXNwa2kvY2NtZXdlc3RjZW50cmFsdXNpY2EwMS9jZXJ0LmNlcjB4BggrBgEFBQcwAoZsaHR0cDovL2NjbWV3ZXN0Y2VudHJhbHVzcGtpLndlc3RjZW50cmFsdXMucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21ld2VzdGNlbnRyYWx1c2ljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQAwpZthpdA-8D9zmLFa9DswaQjZpHoWrNOxcAkBHpasqPjLn8-Kn0Epr2tRtCqiDWEGx_u3n8ziMDqRxvNKiDUdDWhMl9QuodIY45vNfF6z92zdJEJ0m01EaNwji4O0BNu0Yy7zPa_L79KmbrFPHHQkexKO2qyHqYM0M22afvWFTacEIlhMIcL-Hq6afh-pfO3r2D3ZnFSmrZFt1A8qT0qTCXRaOqAM1Wk35M7k-idK2KawQ4Q9KnP0h62bPPhktf4Hi_Ax5-Ms7zxobTxMvoilvGVHYDeQ2zZDEoMmyNZ1gfzPjnGnV2BbMj3JEHIzWuKuw033HBrOIc8peAt8JKrH&s=Ig_FG1yar6BAQKWNpJMzDvqs_NEzWcTS7SxKTZgh-2kdwEP-p_WB3Q31Cjsv1_RnzEbgq_sAgaFXFh3aU21b_fqZYWhSe-R1Dv72-WbOx_kT-jiyxRsnUkFQYMYOQhr85v_1F8Pv6vKFH4_NIZAuYmt_TCoJFBSfxVfTGHoMz7DHpXLCmCtbOnPzbNCZEfX7d_qj9fMfFuK3BRgVS6OxspXHODfQJog5XBgtlVDns7wXIdINf9A3ZNURjifvInRo8CQxraDIYtSCDEkKHoqL-LGZCSd0iVFTewAGsrqWrXPY6UIcFJXWoHfm2X6x8DCKK0XZPYQnRSESqJRtgIjxVw&h=VH8JcoZOZwH-SV7zsIWnCJsl7BCo_lHV2JiyOq05DT0
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: FA36C9D56A31490FA812394003EDA021 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:06:24Z'
+        status: 202 Accepted
+        code: 202
+        duration: 948.790585ms
+    - id: 28
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+            c:
+                - MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT
+            h:
+                - eHBMqgE30HIk3WytqHs7eo80yjY0A0_30eGARL2XgR4
+            s:
+                - n1i5YTwSjxvpuIKAsbp2_H74E7WnEok7okxV-OsT-Xw1p8BK2YihaUGwXgNH7-J8YTCJgd8EURHXlJIWnZc3sWP_GPV8NkPWnCqgzGf8I2M3wDFxE5HzqcDg4RJeK5FhBdmhRjtrJV6__PqCepOvPWaUjK4jEQ-uLw0H3icgs_yps5RH5BrX4-Wr3tVmen8T4FjqAo7xkh9c7VYuzuZ5-Vcu5eMFlbbSnQQVLozz4ncT_XSuJvtimTvgxiO58T-EF35i3NzipDvNLMJJjZM9QGYvfMZldpFbQdtqEvv8Bkt8cJUvRoglFRe99oqGb_qYLwXGSMynLDhlUCqMHVNh8w
+            t:
+                - "639201135674630499"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFVklGQVAtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639201135674630499&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=n1i5YTwSjxvpuIKAsbp2_H74E7WnEok7okxV-OsT-Xw1p8BK2YihaUGwXgNH7-J8YTCJgd8EURHXlJIWnZc3sWP_GPV8NkPWnCqgzGf8I2M3wDFxE5HzqcDg4RJeK5FhBdmhRjtrJV6__PqCepOvPWaUjK4jEQ-uLw0H3icgs_yps5RH5BrX4-Wr3tVmen8T4FjqAo7xkh9c7VYuzuZ5-Vcu5eMFlbbSnQQVLozz4ncT_XSuJvtimTvgxiO58T-EF35i3NzipDvNLMJJjZM9QGYvfMZldpFbQdtqEvv8Bkt8cJUvRoglFRe99oqGb_qYLwXGSMynLDhlUCqMHVNh8w&h=eHBMqgE30HIk3WytqHs7eo80yjY0A0_30eGARL2XgR4
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFVklGQVAtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639201136038656621&c=MIIIJzCCBw-gAwIBAgIRAPkg2z-B9Jm_vrDg-qNrjwswDQYJKoZIhvcNAQELBQAwNjE0MDIGA1UEAxMrQ0NNRSBHMSBUTFMgUlNBIDIwNDggU0hBMjU2IDIwNDkgV0NVUyBDQSAwMTAeFw0yNjA0MTAwNjUyMTdaFw0yNjEwMDUxMjUyMTdaMEAxPjA8BgNVBAMTNWFzeW5jb3BlcmF0aW9uc2lnbmluZ2NlcnRpZmljYXRlLm1hbmFnZW1lbnQuYXp1cmUuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxhFGHIBug-4Pg8y8wrt85aTDI_1ckzX8XYnsk6BmTh36sX4QX-zrgCccWt1yXC8y3lSRvEr66Pgoywj0gN60U0prO-Llj-OOWdlGOnbBFPBaBa2ogrj2ULknxSn8HyrgUsMa3zGCqoR_eDSq7R_O20UZDFBlonw8TSmqdLPA4fe1TarGVXDGoRxYv_BQE0sxI54JmyZ5uATcXoIBRqCEmrRFh6MO0V4rK5-sBO8yodyMdOweERdOFcDfLvM2WCaax5HnsjPSLMYy-XTD01vXM3XkKAJ6K30JxQ4_Wtn1IvN-b0R-eEdUMUdPKhH4RDL_8xL-ALqsnaG0cNZazOQr1QIDAQABo4IFJDCCBSAwgZ0GA1UdIASBlTCBkjAMBgorBgEEAYI3ewEBMGYGCisGAQQBgjd7AgIwWDBWBggrBgEFBQcCAjBKHkgAMwAzAGUAMAAxADkAMgAxAC0ANABkADYANAAtADQAZgA4AGMALQBhADAANQA1AC0ANQBiAGQAYQBmAGYAZAA1AGUAMwAzAGQwDAYKKwYBBAGCN3sDAjAMBgorBgEEAYI3ewQCMAwGA1UdEwEB_wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMA4GA1UdDwEB_wQEAwIFoDAdBgNVHQ4EFgQUdjmEGeQg6LiPic0f-L1KBD3vO0wwHwYDVR0jBBgwFoAUFNI34PbWfX7djbq6ZasElCXglh0wggH7BgNVHR8EggHyMIIB7jB7oHmgd4Z1aHR0cDovL3ByaW1hcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L3dlc3RjZW50cmFsdXMvY3Jscy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMH2ge6B5hndodHRwOi8vc2Vjb25kYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC93ZXN0Y2VudHJhbHVzL2NybHMvY2NtZXdlc3RjZW50cmFsdXNwa2kvY2NtZXdlc3RjZW50cmFsdXNpY2EwMS8yOS9jdXJyZW50LmNybDBsoGqgaIZmaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3dlc3RjZW50cmFsdXMvY3Jscy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMIGBoH-gfYZ7aHR0cDovL2NjbWV3ZXN0Y2VudHJhbHVzcGtpLndlc3RjZW50cmFsdXMucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMIICAAYIKwYBBQUHAQEEggHyMIIB7jB-BggrBgEFBQcwAoZyaHR0cDovL3ByaW1hcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L3dlc3RjZW50cmFsdXMvY2FjZXJ0cy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxL2NlcnQuY2VyMIGABggrBgEFBQcwAoZ0aHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvd2VzdGNlbnRyYWx1cy9jYWNlcnRzL2NjbWV3ZXN0Y2VudHJhbHVzcGtpL2NjbWV3ZXN0Y2VudHJhbHVzaWNhMDEvY2VydC5jZXIwbwYIKwYBBQUHMAKGY2h0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS93ZXN0Y2VudHJhbHVzL2NhY2VydHMvY2NtZXdlc3RjZW50cmFsdXNwa2kvY2NtZXdlc3RjZW50cmFsdXNpY2EwMS9jZXJ0LmNlcjB4BggrBgEFBQcwAoZsaHR0cDovL2NjbWV3ZXN0Y2VudHJhbHVzcGtpLndlc3RjZW50cmFsdXMucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21ld2VzdGNlbnRyYWx1c2ljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQAwpZthpdA-8D9zmLFa9DswaQjZpHoWrNOxcAkBHpasqPjLn8-Kn0Epr2tRtCqiDWEGx_u3n8ziMDqRxvNKiDUdDWhMl9QuodIY45vNfF6z92zdJEJ0m01EaNwji4O0BNu0Yy7zPa_L79KmbrFPHHQkexKO2qyHqYM0M22afvWFTacEIlhMIcL-Hq6afh-pfO3r2D3ZnFSmrZFt1A8qT0qTCXRaOqAM1Wk35M7k-idK2KawQ4Q9KnP0h62bPPhktf4Hi_Ax5-Ms7zxobTxMvoilvGVHYDeQ2zZDEoMmyNZ1gfzPjnGnV2BbMj3JEHIzWuKuw033HBrOIc8peAt8JKrH&s=Hwwkqt0JuOiZFOo_4BmCqjGk6ANOEKEt21tsYFQkirhXKVDpf7WGGtdW4YKWt99bUqLR6DrBTo9Q5A5w5KjGZzkUr3gMfYJ2aOWhjY-dE_l1eXKg7djiedxocYVwSc1q80ujBu-W7xtJlaPC-ymJdoP6QuDzCM1VHUg4W7Fi9g-jT5HJWBbAgqxQELDyUr5FmrTiy2d0qJXILavuRGPX5x0ijSFmDHcxapeI2Dfa1x5NUi4wHf5VGopSAF3U7i9V6J5ALUJFPAi5JmjaZ_KLSNgz5LBp54VdoBkq9X5tmBMAyeg0cXvsrC_BnY943JvNgp06jvsv1Ap2Ua75kSejFg&h=n1TKOIlBGiiwwgPP7DbiigbUIXzRgwFQ_J2surU3t3k
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: FF73B0A89EC844BC8C9ADD1A3C2A15A8 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:06:43Z'
+        status: 202 Accepted
+        code: 202
+        duration: 899.659752ms
+    - id: 29
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+            c:
+                - MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT
+            h:
+                - eHBMqgE30HIk3WytqHs7eo80yjY0A0_30eGARL2XgR4
+            s:
+                - n1i5YTwSjxvpuIKAsbp2_H74E7WnEok7okxV-OsT-Xw1p8BK2YihaUGwXgNH7-J8YTCJgd8EURHXlJIWnZc3sWP_GPV8NkPWnCqgzGf8I2M3wDFxE5HzqcDg4RJeK5FhBdmhRjtrJV6__PqCepOvPWaUjK4jEQ-uLw0H3icgs_yps5RH5BrX4-Wr3tVmen8T4FjqAo7xkh9c7VYuzuZ5-Vcu5eMFlbbSnQQVLozz4ncT_XSuJvtimTvgxiO58T-EF35i3NzipDvNLMJJjZM9QGYvfMZldpFbQdtqEvv8Bkt8cJUvRoglFRe99oqGb_qYLwXGSMynLDhlUCqMHVNh8w
+            t:
+                - "639201135674630499"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFVklGQVAtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639201135674630499&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=n1i5YTwSjxvpuIKAsbp2_H74E7WnEok7okxV-OsT-Xw1p8BK2YihaUGwXgNH7-J8YTCJgd8EURHXlJIWnZc3sWP_GPV8NkPWnCqgzGf8I2M3wDFxE5HzqcDg4RJeK5FhBdmhRjtrJV6__PqCepOvPWaUjK4jEQ-uLw0H3icgs_yps5RH5BrX4-Wr3tVmen8T4FjqAo7xkh9c7VYuzuZ5-Vcu5eMFlbbSnQQVLozz4ncT_XSuJvtimTvgxiO58T-EF35i3NzipDvNLMJJjZM9QGYvfMZldpFbQdtqEvv8Bkt8cJUvRoglFRe99oqGb_qYLwXGSMynLDhlUCqMHVNh8w&h=eHBMqgE30HIk3WytqHs7eo80yjY0A0_30eGARL2XgR4
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFVklGQVAtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639201136219163364&c=MIIIJzCCBw-gAwIBAgIRAPkg2z-B9Jm_vrDg-qNrjwswDQYJKoZIhvcNAQELBQAwNjE0MDIGA1UEAxMrQ0NNRSBHMSBUTFMgUlNBIDIwNDggU0hBMjU2IDIwNDkgV0NVUyBDQSAwMTAeFw0yNjA0MTAwNjUyMTdaFw0yNjEwMDUxMjUyMTdaMEAxPjA8BgNVBAMTNWFzeW5jb3BlcmF0aW9uc2lnbmluZ2NlcnRpZmljYXRlLm1hbmFnZW1lbnQuYXp1cmUuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxhFGHIBug-4Pg8y8wrt85aTDI_1ckzX8XYnsk6BmTh36sX4QX-zrgCccWt1yXC8y3lSRvEr66Pgoywj0gN60U0prO-Llj-OOWdlGOnbBFPBaBa2ogrj2ULknxSn8HyrgUsMa3zGCqoR_eDSq7R_O20UZDFBlonw8TSmqdLPA4fe1TarGVXDGoRxYv_BQE0sxI54JmyZ5uATcXoIBRqCEmrRFh6MO0V4rK5-sBO8yodyMdOweERdOFcDfLvM2WCaax5HnsjPSLMYy-XTD01vXM3XkKAJ6K30JxQ4_Wtn1IvN-b0R-eEdUMUdPKhH4RDL_8xL-ALqsnaG0cNZazOQr1QIDAQABo4IFJDCCBSAwgZ0GA1UdIASBlTCBkjAMBgorBgEEAYI3ewEBMGYGCisGAQQBgjd7AgIwWDBWBggrBgEFBQcCAjBKHkgAMwAzAGUAMAAxADkAMgAxAC0ANABkADYANAAtADQAZgA4AGMALQBhADAANQA1AC0ANQBiAGQAYQBmAGYAZAA1AGUAMwAzAGQwDAYKKwYBBAGCN3sDAjAMBgorBgEEAYI3ewQCMAwGA1UdEwEB_wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMA4GA1UdDwEB_wQEAwIFoDAdBgNVHQ4EFgQUdjmEGeQg6LiPic0f-L1KBD3vO0wwHwYDVR0jBBgwFoAUFNI34PbWfX7djbq6ZasElCXglh0wggH7BgNVHR8EggHyMIIB7jB7oHmgd4Z1aHR0cDovL3ByaW1hcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L3dlc3RjZW50cmFsdXMvY3Jscy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMH2ge6B5hndodHRwOi8vc2Vjb25kYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC93ZXN0Y2VudHJhbHVzL2NybHMvY2NtZXdlc3RjZW50cmFsdXNwa2kvY2NtZXdlc3RjZW50cmFsdXNpY2EwMS8yOS9jdXJyZW50LmNybDBsoGqgaIZmaHR0cDovL2NybC5taWNyb3NvZnQuY29tL3dlc3RjZW50cmFsdXMvY3Jscy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMIGBoH-gfYZ7aHR0cDovL2NjbWV3ZXN0Y2VudHJhbHVzcGtpLndlc3RjZW50cmFsdXMucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21ld2VzdGNlbnRyYWx1c2ljYTAxLzI5L2N1cnJlbnQuY3JsMIICAAYIKwYBBQUHAQEEggHyMIIB7jB-BggrBgEFBQcwAoZyaHR0cDovL3ByaW1hcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L3dlc3RjZW50cmFsdXMvY2FjZXJ0cy9jY21ld2VzdGNlbnRyYWx1c3BraS9jY21ld2VzdGNlbnRyYWx1c2ljYTAxL2NlcnQuY2VyMIGABggrBgEFBQcwAoZ0aHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvd2VzdGNlbnRyYWx1cy9jYWNlcnRzL2NjbWV3ZXN0Y2VudHJhbHVzcGtpL2NjbWV3ZXN0Y2VudHJhbHVzaWNhMDEvY2VydC5jZXIwbwYIKwYBBQUHMAKGY2h0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS93ZXN0Y2VudHJhbHVzL2NhY2VydHMvY2NtZXdlc3RjZW50cmFsdXNwa2kvY2NtZXdlc3RjZW50cmFsdXNpY2EwMS9jZXJ0LmNlcjB4BggrBgEFBQcwAoZsaHR0cDovL2NjbWV3ZXN0Y2VudHJhbHVzcGtpLndlc3RjZW50cmFsdXMucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21ld2VzdGNlbnRyYWx1c2ljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQAwpZthpdA-8D9zmLFa9DswaQjZpHoWrNOxcAkBHpasqPjLn8-Kn0Epr2tRtCqiDWEGx_u3n8ziMDqRxvNKiDUdDWhMl9QuodIY45vNfF6z92zdJEJ0m01EaNwji4O0BNu0Yy7zPa_L79KmbrFPHHQkexKO2qyHqYM0M22afvWFTacEIlhMIcL-Hq6afh-pfO3r2D3ZnFSmrZFt1A8qT0qTCXRaOqAM1Wk35M7k-idK2KawQ4Q9KnP0h62bPPhktf4Hi_Ax5-Ms7zxobTxMvoilvGVHYDeQ2zZDEoMmyNZ1gfzPjnGnV2BbMj3JEHIzWuKuw033HBrOIc8peAt8JKrH&s=XAAaOJQ0WRA13yazjuOQ2qFugOdzCs0UY9lMJ9Lfktotiu5UrIm68pzJ263OT3rS2FGB3gvNnJjChNhLU1o969fhlnHUnfK_r1K2vv_-Uk6RP0DqUbchnPXlh2eG7loeYnIk9o016P9C3QGx6hdPy-hK9WoM70CO4kRGD8xDxqJBMm9RZkmR8ohDg_VgO0RsyFr6DxqU4rXGV-8lonif4TSVlsfgfDoJAS36GooOWpkYfLxKqQaNeQRGqs4n0-vTIstkqkZlJMkfIN9EdvMpHl12YL9wR8ySq7sRDX1qAbl8TgONmeZN-ghcQ4uczKSaNFYnTlsmJj5HYqukxXmCqw&h=KaUw_Fb3rt7jp0UEjR1YipDKjRd3d_IK_vbzIi6Ia-s
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 47F5E41304EF47118638F62AA3799F52 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:07:01Z'
+        status: 202 Accepted
+        code: 202
+        duration: 623.409087ms
+    - id: 30
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+            c:
+                - MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT
+            h:
+                - eHBMqgE30HIk3WytqHs7eo80yjY0A0_30eGARL2XgR4
+            s:
+                - n1i5YTwSjxvpuIKAsbp2_H74E7WnEok7okxV-OsT-Xw1p8BK2YihaUGwXgNH7-J8YTCJgd8EURHXlJIWnZc3sWP_GPV8NkPWnCqgzGf8I2M3wDFxE5HzqcDg4RJeK5FhBdmhRjtrJV6__PqCepOvPWaUjK4jEQ-uLw0H3icgs_yps5RH5BrX4-Wr3tVmen8T4FjqAo7xkh9c7VYuzuZ5-Vcu5eMFlbbSnQQVLozz4ncT_XSuJvtimTvgxiO58T-EF35i3NzipDvNLMJJjZM9QGYvfMZldpFbQdtqEvv8Bkt8cJUvRoglFRe99oqGb_qYLwXGSMynLDhlUCqMHVNh8w
+            t:
+                - "639201135674630499"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRFVklGQVAtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639201135674630499&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=n1i5YTwSjxvpuIKAsbp2_H74E7WnEok7okxV-OsT-Xw1p8BK2YihaUGwXgNH7-J8YTCJgd8EURHXlJIWnZc3sWP_GPV8NkPWnCqgzGf8I2M3wDFxE5HzqcDg4RJeK5FhBdmhRjtrJV6__PqCepOvPWaUjK4jEQ-uLw0H3icgs_yps5RH5BrX4-Wr3tVmen8T4FjqAo7xkh9c7VYuzuZ5-Vcu5eMFlbbSnQQVLozz4ncT_XSuJvtimTvgxiO58T-EF35i3NzipDvNLMJJjZM9QGYvfMZldpFbQdtqEvv8Bkt8cJUvRoglFRe99oqGb_qYLwXGSMynLDhlUCqMHVNh8w&h=eHBMqgE30HIk3WytqHs7eo80yjY0A0_30eGARL2XgR4
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 2C317DC896E848A2880D254CA4C338AB Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:07:19Z'
+        status: 200 OK
+        code: 200
+        duration: 974.759745ms
+    - id: 31
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2023-01-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld?api-version=2023-01-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 109
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-evifap'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 712B72A10FF4404E9EEE846B7135E45B Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:07:23Z'
+        status: 404 Not Found
+        code: 404
+        duration: 759.169118ms
+    - id: 32
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2023-01-31"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-vqqhdz?api-version=2023-01-31
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 109
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-evifap'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: A6BABA76676F4EF0BA0AC34F6733AA67 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:07:23Z'
+        status: 404 Not Found
+        code: 404
+        duration: 872.353657ms
+    - id: 33
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Web/serverfarms/asotest-appservice-ktbjee?api-version=2025-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 109
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-evifap'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: AFE4B7472FEA423B869F71141CD64467 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:07:23Z'
+        status: 404 Not Found
+        code: 404
+        duration: 864.951483ms
+    - id: 34
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2022-04-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/providers/Microsoft.Authorization/roleAssignments/b830b141-7c05-56ca-9d41-d06eebe17614?api-version=2022-04-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 109
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-evifap'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 1FBE283B3C2342CDA0C08FBD1209C6F7 Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:07:29Z'
+        status: 404 Not Found
+        code: 404
+        duration: 818.461678ms
+    - id: 35
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2023-01-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-evifap/providers/Microsoft.Storage/storageAccounts/asotestflexstorocahld/blobServices/default/containers/deploymentpackage?api-version=2023-01-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 109
+        body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-evifap'' could not be found."}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "109"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 9829D4A15ED94AF4A1275EA506AE868B Ref B: SG2AA1040519023 Ref C: 2026-07-20T03:07:34Z'
+        status: 404 Not Found
+        code: 404
+        duration: 828.795423ms

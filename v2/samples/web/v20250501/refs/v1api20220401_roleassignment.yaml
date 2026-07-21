@@ -1,0 +1,16 @@
+apiVersion: authorization.azure.com/v1api20220401
+kind: RoleAssignment
+metadata:
+  name: aso-sample-flex-storage-role
+  namespace: default
+spec:
+  owner:
+    group: storage.azure.com
+    kind: StorageAccount
+    name: aso-sample-flex-storage
+  principalIdFromConfig:
+    name: aso-sample-flex-identity-settings
+    key: principalId
+  principalType: ServicePrincipal
+  roleDefinitionReference:
+    wellKnownName: Storage Blob Data Owner

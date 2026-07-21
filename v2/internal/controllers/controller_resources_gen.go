@@ -544,6 +544,9 @@ import (
 	web_v20220301 "github.com/Azure/azure-service-operator/v2/api/web/v20220301"
 	web_v20220301s "github.com/Azure/azure-service-operator/v2/api/web/v20220301/storage"
 	web_v20220301w "github.com/Azure/azure-service-operator/v2/api/web/v20220301/webhook"
+	web_v20250501 "github.com/Azure/azure-service-operator/v2/api/web/v20250501"
+	web_v20250501s "github.com/Azure/azure-service-operator/v2/api/web/v20250501/storage"
+	web_v20250501w "github.com/Azure/azure-service-operator/v2/api/web/v20250501/webhook"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 	"k8s.io/api/core/v1"
@@ -3192,9 +3195,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(synapse_v20210601s.WorkspacesBigDataPool)})
-	result = append(result, &registration.StorageType{Obj: new(web_v20220301s.ServerFarm)})
+	result = append(result, &registration.StorageType{Obj: new(web_v20250501s.ServerFarm)})
 	result = append(result, &registration.StorageType{
-		Obj: new(web_v20220301s.Site),
+		Obj: new(web_v20250501s.Site),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.siteConfig.azureStorageAccounts.accessKey",
@@ -3208,12 +3211,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.siteConfig.azureStorageAccounts.accessKey",
 					},
-					&web_v20220301s.SiteList{}),
+					&web_v20250501s.SiteList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(web_v20220301s.SitesSourcecontrol),
+		Obj: new(web_v20250501s.SitesSourcecontrol),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.gitHubActionConfiguration.containerConfiguration.password",
@@ -3227,7 +3230,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.gitHubActionConfiguration.containerConfiguration.password",
 					},
-					&web_v20220301s.SitesSourcecontrolList{}),
+					&web_v20250501s.SitesSourcecontrolList{}),
 			},
 		},
 	})
@@ -7861,6 +7864,28 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(web_v20220301s.ServerFarm)},
 		&registration.KnownType{Obj: new(web_v20220301s.Site)},
 		&registration.KnownType{Obj: new(web_v20220301s.SitesSourcecontrol)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(web_v20250501.ServerFarm),
+			Defaulter: &web_v20250501w.ServerFarm{},
+			Validator: &web_v20250501w.ServerFarm{},
+		},
+		&registration.KnownType{
+			Obj:       new(web_v20250501.Site),
+			Defaulter: &web_v20250501w.Site{},
+			Validator: &web_v20250501w.Site{},
+		},
+		&registration.KnownType{
+			Obj:       new(web_v20250501.SitesSourcecontrol),
+			Defaulter: &web_v20250501w.SitesSourcecontrol{},
+			Validator: &web_v20250501w.SitesSourcecontrol{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(web_v20250501s.ServerFarm)},
+		&registration.KnownType{Obj: new(web_v20250501s.Site)},
+		&registration.KnownType{Obj: new(web_v20250501s.SitesSourcecontrol)})
 	return result
 }
 
@@ -8198,6 +8223,8 @@ func createScheme() *runtime.Scheme {
 	_ = web_v1api20220301s.AddToScheme(scheme)
 	_ = web_v20220301.AddToScheme(scheme)
 	_ = web_v20220301s.AddToScheme(scheme)
+	_ = web_v20250501.AddToScheme(scheme)
+	_ = web_v20250501s.AddToScheme(scheme)
 	return scheme
 }
 
@@ -13263,9 +13290,9 @@ func indexSynapseWorkspaceSqlAdministratorLoginPassword(rawObj client.Object) []
 	return obj.Spec.SqlAdministratorLoginPassword.Index()
 }
 
-// indexWebSiteAccessKey an index function for web_v20220301s.Site .spec.siteConfig.azureStorageAccounts.accessKey
+// indexWebSiteAccessKey an index function for web_v20250501s.Site .spec.siteConfig.azureStorageAccounts.accessKey
 func indexWebSiteAccessKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*web_v20220301s.Site)
+	obj, ok := rawObj.(*web_v20250501s.Site)
 	if !ok {
 		return nil
 	}
@@ -13282,9 +13309,9 @@ func indexWebSiteAccessKey(rawObj client.Object) []string {
 	return result
 }
 
-// indexWebSitesSourcecontrolPassword an index function for web_v20220301s.SitesSourcecontrol .spec.gitHubActionConfiguration.containerConfiguration.password
+// indexWebSitesSourcecontrolPassword an index function for web_v20250501s.SitesSourcecontrol .spec.gitHubActionConfiguration.containerConfiguration.password
 func indexWebSitesSourcecontrolPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*web_v20220301s.SitesSourcecontrol)
+	obj, ok := rawObj.(*web_v20250501s.SitesSourcecontrol)
 	if !ok {
 		return nil
 	}
