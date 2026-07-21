@@ -1,14 +1,13 @@
 # This sample demonstrates how to create a Redis Enterprise cluster using the v20250701 API version.
-# This version adds support for the publicNetworkAccess flag, which controls whether the cluster can
-# be reached over the public network.
+# This version includes new features like high availability configuration.
 # ASO represents Azure Managed Redis as RedisEnterprise because naming follows the ARM resource type.
 apiVersion: cache.azure.com/v20250701
 kind: RedisEnterprise
 metadata:
-  name: sampleredisenterprise
+  name: sampleredisent
   namespace: default
 spec:
-  location: westus2
+  location: southeastasia
   owner:
     name: aso-sample-rg
   minimumTlsVersion: "1.2"
@@ -16,10 +15,6 @@ spec:
   publicNetworkAccess: Enabled
   sku:
     name: Balanced_B0
-  zones:
-    - "1"
-    - "2"
-    - "3"
   tags:
     environment: sample
     application: redis-enterprise

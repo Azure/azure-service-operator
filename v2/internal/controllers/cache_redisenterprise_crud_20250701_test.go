@@ -118,6 +118,9 @@ func RedisEnterprise_Database_20250701_CRUD(tc *testcommon.KubePerTestContext, r
 			Owner:            testcommon.AsOwner(redis),
 			AzureName:        "default",
 			ClusteringPolicy: to.Ptr(cache.DatabaseCreateProperties_ClusteringPolicy_OSSCluster),
+			// Note that in this API version, AccessKeysAuthentication is Disabled by default. We want to test
+			// access key secret export though, so we set it to true.
+			AccessKeysAuthentication: to.Ptr(cache.DatabaseCreateProperties_AccessKeysAuthentication_Enabled),
 			OperatorSpec: &cache.RedisEnterpriseDatabaseOperatorSpec{
 				SecretExpressions: []*core.DestinationExpression{
 					{
