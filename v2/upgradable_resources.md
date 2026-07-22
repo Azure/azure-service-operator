@@ -160,6 +160,7 @@ The following resources have newer versions available in the Azure REST API spec
 | 💡    | ApplicationSecurityGroup | **2025-07-01**   | 2024-01-01       | -                 | -                 |
 |      | AzureFirewall            | 2025-07-01       | 2025-03-01       | -                 | -                 |
 |      | BastionHost              | 2025-07-01       | 2025-03-01       | -                 | -                 |
+|      | DdosProtectionPlan       | 2025-07-01       | 2025-03-01       | -                 | -                 |
 | 💡    | DnsForwardingRuleset     | **2025-05-01**   | 2022-07-01       | -                 | -                 |
 | 💡    | DnsResolver              | **2025-05-01**   | 2022-07-01       | -                 | -                 |
 |      | FirewallPolicy           | 2025-07-01       | 2025-03-01       | -                 | -                 |
