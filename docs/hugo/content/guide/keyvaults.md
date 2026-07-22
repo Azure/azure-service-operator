@@ -93,8 +93,10 @@ Because of this, under the default `manage` reconcile-policy (see
    attempt to disable, modify, or otherwise change the key in Azure - there is no ARM operation
    capable of doing so.
 
-If the key no longer exists in Azure (e.g. it was disabled/purged via the data plane out of band),
-ASO detects this via the GET and allows the Kubernetes resource to be removed.
+If the key no longer exists in Azure (e.g. it was deleted and purged via the data plane out of
+band - merely disabling the key is not sufficient, since a disabled key still exists and still
+returns success on GET), ASO detects this via the GET and allows the Kubernetes resource to be
+removed.
 
 To remove the Kubernetes resource while leaving the key active (enabled) in Azure, set **both**
 of the following on the object before deleting it:
@@ -108,9 +110,13 @@ block-until-removed behavior described above. This is deliberate: detaching a `V
 live, enabled cryptographic key behind in Azure, so it requires an explicit, per-object
 acknowledgment rather than a policy that might apply more broadly than intended.
 
-To disable or fully destroy a key, use the Azure Key Vault data-plane (Azure CLI, PowerShell, or
-the Azure Portal) directly - ASO does not perform these actions, and operators remain responsible
-for the key's data-plane lifecycle.
+To fully remove a key so that ASO's next check sees it as gone, use the Azure Key Vault
+data-plane (Azure CLI, PowerShell, or the Azure Portal) to delete **and purge** the key (e.g.
+`az keyvault key delete` followed by `az keyvault key purge` if soft-delete/purge-protection
+requires it) directly - ASO does not perform these actions, and operators remain responsible
+for the key's data-plane lifecycle. Simply disabling the key is not sufficient: a disabled key
+still exists and still returns success on GET, so deletion of the Kubernetes resource will
+remain blocked.
 
 ### Required RBAC for ASO's identity
 
