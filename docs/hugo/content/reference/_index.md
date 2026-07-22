@@ -949,6 +949,7 @@ These resource(s) are the latest versions available for use in the current relea
 | Resource                                                          | ARM Version | CRD Version   | Supported From | Sample                                                                                                                       |
 |-------------------------------------------------------------------|-------------|---------------|----------------|------------------------------------------------------------------------------------------------------------------------------|
 | [Vault]({{< relref "/reference/keyvault/v1api20230701#Vault" >}}) | 2023-07-01  | v1api20230701 | v2.5.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v1api20230701/v1api20230701_vault.yaml) |
+| VaultsKey                                                         | 2023-07-01  | v20230701     | v2.19.0        | -                                                                                                                            |
 
 ### Other Supported Versions
 
