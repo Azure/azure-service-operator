@@ -13,7 +13,7 @@ This is a compact map of the source-controlled directories in the Azure Service 
 | `ci/`            | CI-specific Task targets and supporting configuration.                          |
 | `docs/`          | User, contributor, policy, and release documentation.                           |
 | `hack/`          | Pinned development tools and build helpers.                                     |
-| `scripts/`       | Repository utility scripts; v2 scripts are in `scripts/v2/`.                    |
+| `scripts/v2`     | Repository utility scripts.                                                     |
 | `v2/`            | Main Azure Service Operator v2 codebase.                                        |
 
 ## Documentation
