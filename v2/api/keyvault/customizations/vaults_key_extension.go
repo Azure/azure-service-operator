@@ -137,8 +137,9 @@ func (e *VaultsKeyExtension) Delete(
 			"API supports only create and read; it has no update or delete operation). ASO will not remove "+
 			"this Kubernetes resource while the key still exists in Azure. To proceed: (a) set "+
 			"reconcile-policy=detach-on-delete plus annotation %s=\"true\" to detach the CR while leaving "+
-			"the key intact in Azure, or (b) disable/destroy the key via the Key Vault data-plane "+
-			"(CLI/Portal/az keyvault key set-attributes|delete), then re-attempt deletion",
+			"the key intact in Azure, or (b) fully delete/purge the key via the Key Vault data-plane "+
+			"(CLI/Portal/az keyvault key delete, followed by az keyvault key purge if soft-delete/"+
+			"purge-protection requires it), then re-attempt deletion",
 		detachAckAnnotation,
 	)
 	return ctrl.Result{}, conditions.NewReadyConditionImpactingError(
