@@ -4,6 +4,8 @@ metadata:
   name: aso-sample-serverskey
   namespace: default
 spec:
+  # azureName must follow the format: <vaultName>_<keyName>_<keyVersion>
+  azureName: aso-sample-keyvault_aso-sample-key_aso-sample-key-version
   owner:
     name: aso-sample-sqlserver
   serverKeyType: AzureKeyVault

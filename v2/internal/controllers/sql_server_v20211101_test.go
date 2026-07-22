@@ -7,10 +7,14 @@ package controllers_test
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	. "github.com/onsi/gomega"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
+
+	keyvault "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
@@ -70,6 +74,15 @@ func Test_SQL_Server_v20211101_CRUD(t *testing.T) {
 		Spec: sql.Server_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
+			Identity: &sql.ResourceIdentity{
+				Type: to.Ptr(sql.ResourceIdentity_Type_UserAssigned),
+				UserAssignedIdentities: []sql.UserAssignedIdentityDetails{
+					{
+						Reference: *tc.MakeReferenceFromResource(mi),
+					},
+				},
+			},
+			PrimaryUserAssignedIdentityReference: tc.MakeReferenceFromResource(mi),
 			Administrators: &sql.ServerExternalAdministrator{
 				AdministratorType:         to.Ptr(sql.ServerExternalAdministrator_AdministratorType_ActiveDirectory),
 				PrincipalType:             to.Ptr(sql.ServerExternalAdministrator_PrincipalType_Application),
@@ -170,6 +183,12 @@ func Test_SQL_Server_v20211101_CRUD(t *testing.T) {
 			Name: "SQL AuditingSetting CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				SQL_Server_AuditingSetting_CRUD(tc, server, storageDetails)
+			},
+		},
+		testcommon.Subtest{
+			Name: "SQL ServersKey and EncryptionProtector CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				SQL_Server_Key_And_EncryptionProtector_CRUD(tc, server, rg, mi)
 			},
 		},
 	)
@@ -751,4 +770,132 @@ func makeSubnetForSQLServer(tc *testcommon.KubePerTestContext, rg *resources.Res
 	tc.CreateResourcesAndWait(vnet, subnet)
 
 	return subnet
+}
+
+func SQL_Server_Key_And_EncryptionProtector_CRUD(tc *testcommon.KubePerTestContext, server *sql.Server, rg *resources.ResourceGroup, mi *managedidentity.UserAssignedIdentity) {
+	// Create a KeyVault for the SQL Server TDE key
+	// The KeyVault needs access policies for both:
+	// 1. The current user/SP (to create keys via ARM SDK)
+	// 2. The SQL Server's managed identity (so SQL can use the key for TDE)
+	kv := &keyvault.Vault{
+		ObjectMeta: tc.MakeObjectMeta("sqlkv"),
+		Spec: keyvault.Vault_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			Properties: &keyvault.VaultProperties{
+				CreateMode: to.Ptr(keyvault.VaultProperties_CreateMode_CreateOrRecover),
+				Sku: &keyvault.Sku{
+					Family: to.Ptr(keyvault.Sku_Family_A),
+					Name:   to.Ptr(keyvault.Sku_Name_Standard),
+				},
+				TenantId:                     to.Ptr(tc.AzureTenant),
+				EnableSoftDelete:             to.Ptr(true),
+				SoftDeleteRetentionInDays:    to.Ptr(7),
+				EnablePurgeProtection:        to.Ptr(true),
+				EnabledForDiskEncryption:     to.Ptr(true),
+				EnableRbacAuthorization:      to.Ptr(false),
+				EnabledForDeployment:         to.Ptr(true),
+				EnabledForTemplateDeployment: to.Ptr(true),
+				AccessPolicies: []keyvault.AccessPolicyEntry{
+					{
+						// Access policy for the current user/SP running the test
+						TenantId: to.Ptr(tc.AzureTenant),
+						ObjectId: to.Ptr(tc.AzureTenant),
+						Permissions: &keyvault.Permissions{
+							Keys: []keyvault.Permissions_Keys{
+								keyvault.Permissions_Keys_Get,
+								keyvault.Permissions_Keys_List,
+								keyvault.Permissions_Keys_Create,
+								keyvault.Permissions_Keys_UnwrapKey,
+								keyvault.Permissions_Keys_WrapKey,
+							},
+						},
+					},
+					{
+						// Access policy for the SQL Server's managed identity
+						TenantId: to.Ptr(tc.AzureTenant),
+						ObjectId: to.Ptr(*mi.Status.PrincipalId),
+						Permissions: &keyvault.Permissions{
+							Keys: []keyvault.Permissions_Keys{
+								keyvault.Permissions_Keys_Get,
+								keyvault.Permissions_Keys_List,
+								keyvault.Permissions_Keys_UnwrapKey,
+								keyvault.Permissions_Keys_WrapKey,
+							},
+						},
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(kv)
+
+	// Create a key in the KeyVault using the ARM SDK
+	key := createKeyVaultKeyForSQL(tc, kv, rg)
+	tc.Expect(key.Properties.KeyURIWithVersion).ToNot(BeNil())
+
+	keyURI := *key.Properties.KeyURIWithVersion
+
+	// The Azure name for a ServersKey must follow the pattern: <vaultname>_<keyname>_<keyversion>
+	// Extract parts from the key URI: https://<vaultname>.vault.azure.net/keys/<keyname>/<keyversion>
+	vaultName := kv.AzureName()
+	keyName := "sqlenckey"
+	// Extract the key version from the URI
+	parts := strings.Split(keyURI, "/")
+	keyVersion := parts[len(parts)-1]
+	serverKeyName := fmt.Sprintf("%s_%s_%s", vaultName, keyName, keyVersion)
+
+	// Create the ServersKey resource
+	// The Azure name must follow the pattern <vaultname>_<keyname>_<keyversion> (with underscores),
+	// but the Kubernetes metadata.name must be a valid RFC 1123 subdomain (no underscores).
+	serversKey := &sql.ServersKey{
+		ObjectMeta: tc.MakeObjectMeta("serverkey"),
+		Spec: sql.ServersKey_Spec{
+			AzureName:     serverKeyName,
+			Owner:         testcommon.AsOwner(server),
+			ServerKeyType: to.Ptr(sql.ServerKeyProperties_ServerKeyType_AzureKeyVault),
+			Uri:           to.Ptr(keyURI),
+		},
+	}
+
+	tc.CreateResourceAndWait(serversKey)
+	tc.Expect(serversKey.Status.Id).ToNot(BeNil())
+
+	// Create the ServersEncryptionProtector resource pointing to the key
+	encryptionProtector := &sql.ServersEncryptionProtector{
+		ObjectMeta: tc.MakeObjectMeta("current"),
+		Spec: sql.ServersEncryptionProtector_Spec{
+			Owner:               testcommon.AsOwner(server),
+			ServerKeyType:       to.Ptr(sql.EncryptionProtectorProperties_ServerKeyType_AzureKeyVault),
+			ServerKeyName:       to.Ptr(serverKeyName),
+			AutoRotationEnabled: to.Ptr(true),
+		},
+	}
+
+	// Don't try to delete directly, this is not a real resource - to delete it in Azure you must delete its parent.
+	tc.AddAnnotation(&encryptionProtector.ObjectMeta, "serviceoperator.azure.com/reconcile-policy", "detach-on-delete")
+
+	tc.CreateResourceAndWait(encryptionProtector)
+	tc.Expect(encryptionProtector.Status.Id).ToNot(BeNil())
+}
+
+func createKeyVaultKeyForSQL(tc *testcommon.KubePerTestContext, kv *keyvault.Vault, rg *resources.ResourceGroup) armkeyvault.Key {
+	client, err := armkeyvault.NewKeysClient(tc.AzureSubscription, tc.AzureClient.Creds(), tc.AzureClient.ClientOptions())
+	tc.Expect(err).To(BeNil())
+
+	keyProperties := armkeyvault.KeyCreateParameters{
+		Properties: &armkeyvault.KeyProperties{
+			Attributes: &armkeyvault.KeyAttributes{
+				Enabled: to.Ptr(true),
+			},
+			KeySize: to.Ptr(int32(2048)),
+			Kty:     to.Ptr(armkeyvault.JSONWebKeyTypeRSA),
+		},
+	}
+
+	keyResp, err := client.CreateIfNotExist(tc.Ctx, rg.Name, kv.AzureName(), "sqlenckey", keyProperties, nil)
+	tc.Expect(err).ToNot(HaveOccurred())
+
+	return keyResp.Key
 }

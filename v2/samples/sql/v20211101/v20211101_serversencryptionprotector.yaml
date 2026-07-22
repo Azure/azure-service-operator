@@ -4,6 +4,7 @@ metadata:
   name: aso-sample-serversencryptionprotector
   namespace: default
 spec:
+  azureName: current
   owner:
     name: aso-sample-sqlserver
   serverKeyType: AzureKeyVault
