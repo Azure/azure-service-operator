@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ServersKey_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersKey to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersKey, ServersKeyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersKey tests if a specific instance of ServersKey round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersKey(subject ServersKey) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersKey
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersKey
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersKey_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersKey to ServersKey via AssignProperties_To_ServersKey & AssignProperties_From_ServersKey returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersKey, ServersKeyGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersKey tests if a specific instance of ServersKey can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersKey(subject ServersKey) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersKey
+	err := copied.AssignProperties_To_ServersKey(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersKey
+	err = actual.AssignProperties_From_ServersKey(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ServersKey_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -83,6 +179,53 @@ func AddRelatedPropertyGeneratorsForServersKey(gens map[string]gopter.Gen) {
 	gens["Status"] = ServersKey_STATUSGenerator()
 }
 
+func Test_ServersKeyOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersKeyOperatorSpec to ServersKeyOperatorSpec via AssignProperties_To_ServersKeyOperatorSpec & AssignProperties_From_ServersKeyOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersKeyOperatorSpec, ServersKeyOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersKeyOperatorSpec tests if a specific instance of ServersKeyOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersKeyOperatorSpec(subject ServersKeyOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersKeyOperatorSpec
+	err := copied.AssignProperties_To_ServersKeyOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersKeyOperatorSpec
+	err = actual.AssignProperties_From_ServersKeyOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersKeyOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -141,6 +284,53 @@ func ServersKeyOperatorSpecGenerator() gopter.Gen {
 	serversKeyOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersKeyOperatorSpec{}), generators)
 
 	return serversKeyOperatorSpecGenerator
+}
+
+func Test_ServersKey_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersKey_STATUS to ServersKey_STATUS via AssignProperties_To_ServersKey_STATUS & AssignProperties_From_ServersKey_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersKey_STATUS, ServersKey_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersKey_STATUS tests if a specific instance of ServersKey_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersKey_STATUS(subject ServersKey_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersKey_STATUS
+	err := copied.AssignProperties_To_ServersKey_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersKey_STATUS
+	err = actual.AssignProperties_From_ServersKey_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersKey_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -216,6 +406,53 @@ func AddIndependentPropertyGeneratorsForServersKey_STATUS(gens map[string]gopter
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Uri"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ServersKey_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersKey_Spec to ServersKey_Spec via AssignProperties_To_ServersKey_Spec & AssignProperties_From_ServersKey_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersKey_Spec, ServersKey_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersKey_Spec tests if a specific instance of ServersKey_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersKey_Spec(subject ServersKey_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersKey_Spec
+	err := copied.AssignProperties_To_ServersKey_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersKey_Spec
+	err = actual.AssignProperties_From_ServersKey_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersKey_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

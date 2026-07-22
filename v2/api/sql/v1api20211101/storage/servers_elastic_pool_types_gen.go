@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersElasticPool{}
 
 // ConvertFrom populates our ServersElasticPool from the provided hub ServersElasticPool
 func (pool *ServersElasticPool) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersElasticPool)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersElasticPool but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersElasticPool
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return pool.AssignProperties_From_ServersElasticPool(source)
+	err = pool.AssignProperties_From_ServersElasticPool(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to pool")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersElasticPool from our ServersElasticPool
 func (pool *ServersElasticPool) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersElasticPool)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersElasticPool but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersElasticPool
+	err := pool.AssignProperties_To_ServersElasticPool(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from pool")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return pool.AssignProperties_To_ServersElasticPool(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersElasticPool{}

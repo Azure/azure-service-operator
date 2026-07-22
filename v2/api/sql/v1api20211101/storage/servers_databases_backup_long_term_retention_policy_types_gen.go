@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersDatabasesBackupLongTermRetentionPolicy{}
 
 // ConvertFrom populates our ServersDatabasesBackupLongTermRetentionPolicy from the provided hub ServersDatabasesBackupLongTermRetentionPolicy
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersDatabasesBackupLongTermRetentionPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabasesBackupLongTermRetentionPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersDatabasesBackupLongTermRetentionPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy(source)
+	err = policy.AssignProperties_From_ServersDatabasesBackupLongTermRetentionPolicy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersDatabasesBackupLongTermRetentionPolicy from our ServersDatabasesBackupLongTermRetentionPolicy
 func (policy *ServersDatabasesBackupLongTermRetentionPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersDatabasesBackupLongTermRetentionPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabasesBackupLongTermRetentionPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersDatabasesBackupLongTermRetentionPolicy
+	err := policy.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_ServersDatabasesBackupLongTermRetentionPolicy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersDatabasesBackupLongTermRetentionPolicy{}

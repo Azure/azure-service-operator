@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersDatabasesAuditingSetting{}
 
 // ConvertFrom populates our ServersDatabasesAuditingSetting from the provided hub ServersDatabasesAuditingSetting
 func (setting *ServersDatabasesAuditingSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersDatabasesAuditingSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabasesAuditingSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersDatabasesAuditingSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_ServersDatabasesAuditingSetting(source)
+	err = setting.AssignProperties_From_ServersDatabasesAuditingSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersDatabasesAuditingSetting from our ServersDatabasesAuditingSetting
 func (setting *ServersDatabasesAuditingSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersDatabasesAuditingSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabasesAuditingSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersDatabasesAuditingSetting
+	err := setting.AssignProperties_To_ServersDatabasesAuditingSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_ServersDatabasesAuditingSetting(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersDatabasesAuditingSetting{}
