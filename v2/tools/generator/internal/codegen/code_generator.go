@@ -15,7 +15,6 @@ import (
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 
-	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -272,7 +271,7 @@ func createAllPipelineStages(
 	}
 }
 
-// Generate produces the Go code corresponding to the configured JSON schema in the given output folder
+// Generate produces the Go code for the configured resources in the given output folder
 // ctx is used to cancel the generation process.
 // log is used to log progress.
 func (generator *CodeGenerator) Generate(
@@ -280,8 +279,7 @@ func (generator *CodeGenerator) Generate(
 	log logr.Logger,
 ) error {
 	log.V(1).Info(
-		"ASO Code Generator",
-		"version", version.BuildVersion,
+		"ASO Code Generator, running...",
 	)
 
 	if generator.debugSettings != nil {
