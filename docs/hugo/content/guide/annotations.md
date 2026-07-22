@@ -24,6 +24,16 @@ it is _not_ deleted in Azure. In REST API terminology, PUT and GET are allowed w
     
 Unknown values default to `manage`.
 
+### `vaultskey.aso.io/acknowledge-key-retained-enabled`
+
+Applies only to `VaultsKey` (`Microsoft.KeyVault/vaults/keys`) resources. `Microsoft.KeyVault/vaults/keys`
+has no ARM DELETE operation, so by default deleting a `VaultsKey` resource in Kubernetes disables
+(but does not delete) the key in Azure, and blocks removal of the Kubernetes finalizer. Set this
+annotation to `"true"`, together with `serviceoperator.azure.com/reconcile-policy: detach-on-delete`,
+to acknowledge that the underlying Azure key will be left **enabled and live** in Key Vault, and allow
+the Kubernetes resource to be removed. See [KeyVaults]( {{< relref "keyvaults#vaultskey" >}} ) for
+details.
+
 ### `serviceoperator.azure.com/credential-from`
 
 Instructs the operator to read the credential for the resource from the specified secret. 
