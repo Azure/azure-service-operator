@@ -35,6 +35,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/common/labels"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
 
 // NamespaceAnnotation defines the annotation name to use when marking
@@ -247,14 +248,53 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 	return gr.Reconciler.CreateOrUpdate(ctx, log, gr.Recorder, metaObj)
 }
 
+// resourceExtensionProvider is implemented by genruntime.Reconciler implementations that have an
+// associated genruntime.ResourceExtension (currently only the ARM reconciler). Type-asserting against
+// this small interface lets the generic reconciler reach the extension without depending on any
+// specific Reconciler implementation.
+type resourceExtensionProvider interface {
+	ResourceExtension() genruntime.ResourceExtension
+}
+
+// detachAcknowledgementError returns a non-nil error if the resource's extension (if any) implements
+// extensions.DetachAcknowledgementRequirer and reports that the resource may not currently be detached.
+// Returns nil if there is no extension, the extension doesn't implement the interface, or the extension
+// permits the detach - in all of those cases behavior is unchanged from before this check existed.
+func (gr *GenericReconciler) detachAcknowledgementError(metaObj genruntime.MetaObject) error {
+	provider, ok := gr.Reconciler.(resourceExtensionProvider)
+	if !ok {
+		return nil
+	}
+
+	ext := provider.ResourceExtension()
+	if ext == nil {
+		return nil
+	}
+
+	requirer, ok := ext.(extensions.DetachAcknowledgementRequirer)
+	if !ok {
+		return nil
+	}
+
+	return requirer.RequireDetachAcknowledgement(metaObj)
+}
+
 func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaObj genruntime.MetaObject) (ctrl.Result, error) {
 	// Check the reconcile policy to ensure we're allowed to issue a delete
 	reconcilePolicy := gr.mergeReconcilePolicy(ctx, log, metaObj)
 	if !reconcilePolicy.AllowsDelete() {
-		log.V(Info).Info("Bypassing delete of resource due to policy", "policy", reconcilePolicy)
-		controllerutil.RemoveFinalizer(metaObj, genruntime.ReconcilerFinalizer)
-		log.V(Status).Info("Deleted resource")
-		return ctrl.Result{}, nil
+		if ackErr := gr.detachAcknowledgementError(metaObj); ackErr != nil {
+			// The resource's extension requires explicit acknowledgment before a detach can be honored
+			// (e.g. because detaching leaves a live/enabled resource behind in Azure). That acknowledgment
+			// hasn't been given, so fall through to the normal delete path below instead of bypassing it.
+			log.V(Info).Info("Detach acknowledgement required but not present; proceeding with normal delete handling instead of bypassing delete", "policy", reconcilePolicy, "reason", ackErr.Error())
+			gr.Recorder.Event(metaObj, corev1.EventTypeWarning, "DetachAcknowledgementRequired", ackErr.Error())
+		} else {
+			log.V(Info).Info("Bypassing delete of resource due to policy", "policy", reconcilePolicy)
+			controllerutil.RemoveFinalizer(metaObj, genruntime.ReconcilerFinalizer)
+			log.V(Status).Info("Deleted resource")
+			return ctrl.Result{}, nil
+		}
 	}
 
 	// Check if we actually need to issue a delete
