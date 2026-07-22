@@ -14,12 +14,13 @@
 #    resource has been created in Azure. A validating webhook rejects any attempt to change
 #    them. To change key parameters, delete this resource and create a new one.
 #
-# 3. Deletion does not destroy the key: Microsoft.KeyVault/vaults/keys has no ARM DELETE
-#    operation. Under the default "manage" reconcile-policy, deleting this CR disables the
-#    key in Azure Key Vault (sets attributes.enabled=false) but does NOT delete/purge it, and
-#    the Kubernetes finalizer is deliberately not removed until this is resolved. See the
-#    resource's reference documentation for the full deletion/lifecycle story, including how
-#    to detach the Kubernetes object while leaving the key active in Azure.
+# 3. Deletion does not destroy the key: Microsoft.KeyVault/vaults/keys has no ARM DELETE (or
+#    UPDATE) operation. Under the default "manage" reconcile-policy, deleting this CR does NOT
+#    disable, modify, or delete/purge the key in Azure Key Vault - ASO has no ARM operation
+#    capable of doing so. Instead, the Kubernetes finalizer is deliberately not removed while
+#    the key still exists in Azure. See the resource's reference documentation for the full
+#    deletion/lifecycle story, including how to detach the Kubernetes object while leaving the
+#    key active in Azure.
 apiVersion: keyvault.azure.com/v20230701
 kind: VaultsKey
 metadata:

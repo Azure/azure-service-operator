@@ -98,9 +98,10 @@ func Test_KeyVault_VaultsKey_20230701_CRUD(t *testing.T) {
 
 	// --- Delete-blocking behavior under the default "manage" reconcile-policy ---
 	//
-	// Deleting the CR should NOT actually remove it: VaultsKeyExtension.Delete disables the key in
-	// Azure but always blocks finalizer removal (there is no ARM DELETE for keys), surfacing a
-	// KeyDeletionBlocked condition/event in the meantime.
+	// Deleting the CR should NOT actually remove it: VaultsKeyExtension.Delete has no ARM operation
+	// capable of modifying or deleting an existing key (there is no ARM UPDATE or DELETE for keys), so
+	// it always blocks finalizer removal while the key still exists, surfacing a KeyDeletionBlocked
+	// condition/event in the meantime. No write/PUT is ever attempted against the key.
 	tc.DeleteResource(key)
 
 	objectKey := client.ObjectKeyFromObject(key)

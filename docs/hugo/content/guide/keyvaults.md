@@ -78,15 +78,23 @@ webhook for this resource version - exportable keys are not supported.
 
 ### Deletion and lifecycle
 
-`Microsoft.KeyVault/vaults/keys` has **no ARM DELETE operation** - keys can only be disabled or
-purged via the Key Vault data plane, never deleted via ARM.
+`Microsoft.KeyVault/vaults/keys` has **no ARM DELETE operation, and no ARM UPDATE operation either**
+- the only ARM operations available are create (`CreateIfNotExist`, which is a no-op if the key
+already exists) and read. Disabling, updating, or deleting a key's attributes is exclusively a Key
+Vault **data-plane** concept (Azure CLI, PowerShell, Portal, or the data-plane SDK/API), entirely
+outside the ARM control plane that ASO operates on for this resource.
 
 Because of this, under the default `manage` reconcile-policy (see
 [annotations]( {{< relref "annotations" >}} )), deleting a `VaultsKey` resource in Kubernetes:
 
-1. Disables the key in Azure (sets `attributes.enabled` to `false`), and
-2. Blocks removal of the Kubernetes finalizer, leaving the resource present with a status
-   condition explaining why deletion is blocked and what to do next.
+1. GETs the key to check whether it still exists in Azure, and
+2. If it still exists, blocks removal of the Kubernetes finalizer, leaving the resource present
+   with a status condition explaining why deletion is blocked and what to do next. ASO does **not**
+   attempt to disable, modify, or otherwise change the key in Azure - there is no ARM operation
+   capable of doing so.
+
+If the key no longer exists in Azure (e.g. it was disabled/purged via the data plane out of band),
+ASO detects this via the GET and allows the Kubernetes resource to be removed.
 
 To remove the Kubernetes resource while leaving the key active (enabled) in Azure, set **both**
 of the following on the object before deleting it:
@@ -96,12 +104,13 @@ of the following on the object before deleting it:
 
 Without the acknowledgment annotation, a `detach-on-delete` policy (even one applied at the
 namespace level) is **not** honored for `VaultsKey`, and the operator falls back to the managed
-disable-and-block behavior described above. This is deliberate: detaching a `VaultsKey` leaves a
+block-until-removed behavior described above. This is deliberate: detaching a `VaultsKey` leaves a
 live, enabled cryptographic key behind in Azure, so it requires an explicit, per-object
 acknowledgment rather than a policy that might apply more broadly than intended.
 
-To fully destroy a key, use the Azure Key Vault data-plane (Azure CLI, PowerShell, or the Azure
-Portal) directly - ASO does not perform this action.
+To disable or fully destroy a key, use the Azure Key Vault data-plane (Azure CLI, PowerShell, or
+the Azure Portal) directly - ASO does not perform these actions, and operators remain responsible
+for the key's data-plane lifecycle.
 
 ### Required RBAC for ASO's identity
 
