@@ -2,6 +2,109 @@ groupModelConfiguration:
   v1: # Handcrafted 
     User:
       $supportedFrom: v2.0.0
+  2025-01-01:
+    # Note that there are a few commented out resources which we are not exporting for sql. They're commented out as
+    # they seem of questionable value to users, but if we get an ask for them we can add them in.
+    Server:
+      $exportAs: Server
+      $supportedFrom: v2.22.0
+      $generatedConfigs:
+        FullyQualifiedDomainName: $.Status.FullyQualifiedDomainName
+    ServerExternalAdministrator:
+      Login:
+        $importConfigMapMode: optional
+    Servers_Administrator:
+      $exportAs: ServersAdministrator
+      $supportedFrom: v2.22.0
+    Servers_SecurityAlertPolicy:
+      $exportAs: ServersSecurityAlertPolicy
+      $supportedFrom: v2.22.0
+    SecurityAlertsPolicyProperties:
+      StorageAccountAccessKey:
+        $isSecret: true
+    Servers_AdvancedThreatProtectionSetting:
+      $exportAs: ServersAdvancedThreatProtectionSetting
+      $supportedFrom: v2.22.0
+    Servers_AuditingSetting:
+      $exportAs: ServersAuditingSetting
+      $supportedFrom: v2.22.0
+    Servers_AzureADOnlyAuthentication:
+      $exportAs: ServersAzureADOnlyAuthentication
+      $supportedFrom: v2.22.0
+    Servers_ConnectionPolicy:
+      $exportAs: ServersConnectionPolicy
+      $supportedFrom: v2.22.0
+    Servers_ElasticPool:
+      $exportAs: ServersElasticPool
+      $supportedFrom: v2.22.0
+    Servers_EncryptionProtector:
+      $exportAs: ServersEncryptionProtector
+      $supportedFrom: v2.22.0
+    Servers_FailoverGroup:
+      $exportAs: ServersFailoverGroup
+      $supportedFrom: v2.22.0
+    Servers_FirewallRule:
+      $exportAs: ServersFirewallRule
+      $supportedFrom: v2.22.0
+    Servers_Ipv6FirewallRule:
+      $exportAs: ServersIPV6FirewallRule
+      $supportedFrom: v2.22.0
+    Servers_Key:
+      $exportAs: ServersKey
+      $supportedFrom: v2.22.0
+    Servers_OutboundFirewallRule:
+      $exportAs: ServersOutboundFirewallRule
+      $supportedFrom: v2.22.0
+    Servers_VirtualNetworkRule:
+      $exportAs: ServersVirtualNetworkRule
+      $supportedFrom: v2.22.0
+    Servers_VulnerabilityAssessment:
+      $exportAs: ServersVulnerabilityAssessment
+      $supportedFrom: v2.22.0
+    ServerProperties:
+      PrimaryUserAssignedIdentityId:
+        $referenceType: arm
+    ServerVulnerabilityAssessmentProperties:
+      StorageContainerPath:
+        $importConfigMapMode: optional
+      StorageAccountAccessKey:
+        $isSecret: true
+      StorageContainerSasKey:
+        $isSecret: true
+    VirtualNetworkRuleProperties:
+      VirtualNetworkSubnetId:
+        $referenceType: arm
+    Servers_Database:
+      $exportAs: ServersDatabase
+      $supportedFrom: v2.22.0
+    Servers_Databases_BackupLongTermRetentionPolicy:
+      $exportAs: ServersDatabasesBackupLongTermRetentionPolicy
+      $supportedFrom: v2.22.0
+    Servers_Databases_BackupShortTermRetentionPolicy:
+      $exportAs: ServersDatabasesBackupShortTermRetentionPolicy
+      $supportedFrom: v2.22.0
+    Servers_Databases_AdvancedThreatProtectionSetting:
+      $exportAs: ServersDatabasesAdvancedThreatProtectionSetting
+      $supportedFrom: v2.22.0
+    Servers_Databases_AuditingSetting:
+      $exportAs: ServersDatabasesAuditingSetting
+      $supportedFrom: v2.22.0
+    Servers_Databases_SecurityAlertPolicy:
+      $exportAs: ServersDatabasesSecurityAlertPolicy
+      $supportedFrom: v2.22.0
+    Servers_Databases_TransparentDataEncryption:
+      $exportAs: ServersDatabasesTransparentDataEncryption
+      $supportedFrom: v2.22.0
+    Servers_Databases_VulnerabilityAssessment:
+      $exportAs: ServersDatabasesVulnerabilityAssessment
+      $supportedFrom: v2.22.0
+    DatabaseVulnerabilityAssessmentProperties:
+      StorageContainerPath:
+        $importConfigMapMode: optional
+      StorageAccountAccessKey:
+        $isSecret: true
+      StorageContainerSasKey:
+        $isSecret: true
   2021-11-01:
     # Note that there are a few commented out resources which we are not exporting for sql. They're commented out as
     # they seem of questionable value to users, but if we get an ask for them we can add them in.

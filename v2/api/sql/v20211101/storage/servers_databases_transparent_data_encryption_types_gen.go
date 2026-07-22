@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serversdatabasestransparentdataencryptions,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serversdatabasestransparentdataencryptions/status,serversdatabasestransparentdataencryptions/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (encryption *ServersDatabasesTransparentDataEncryption) GetConditions() con
 // SetConditions sets the conditions on the resource status
 func (encryption *ServersDatabasesTransparentDataEncryption) SetConditions(conditions conditions.Conditions) {
 	encryption.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersDatabasesTransparentDataEncryption{}
+
+// ConvertFrom populates our ServersDatabasesTransparentDataEncryption from the provided hub ServersDatabasesTransparentDataEncryption
+func (encryption *ServersDatabasesTransparentDataEncryption) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersDatabasesTransparentDataEncryption)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersDatabasesTransparentDataEncryption but received %T instead", hub)
+	}
+
+	return encryption.AssignProperties_From_ServersDatabasesTransparentDataEncryption(source)
+}
+
+// ConvertTo populates the provided hub ServersDatabasesTransparentDataEncryption from our ServersDatabasesTransparentDataEncryption
+func (encryption *ServersDatabasesTransparentDataEncryption) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersDatabasesTransparentDataEncryption)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersDatabasesTransparentDataEncryption but received %T instead", hub)
+	}
+
+	return encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption(destination)
 }
 
 var _ configmaps.Exporter = &ServersDatabasesTransparentDataEncryption{}
@@ -142,8 +163,75 @@ func (encryption *ServersDatabasesTransparentDataEncryption) SetStatus(status ge
 	return nil
 }
 
-// Hub marks that this ServersDatabasesTransparentDataEncryption is the hub type for conversion
-func (encryption *ServersDatabasesTransparentDataEncryption) Hub() {}
+// AssignProperties_From_ServersDatabasesTransparentDataEncryption populates our ServersDatabasesTransparentDataEncryption from the provided source ServersDatabasesTransparentDataEncryption
+func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_From_ServersDatabasesTransparentDataEncryption(source *storage.ServersDatabasesTransparentDataEncryption) error {
+
+	// ObjectMeta
+	encryption.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersDatabasesTransparentDataEncryption_Spec
+	err := spec.AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec() to populate field Spec")
+	}
+	encryption.Spec = spec
+
+	// Status
+	var status ServersDatabasesTransparentDataEncryption_STATUS
+	err = status.AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS() to populate field Status")
+	}
+	encryption.Status = status
+
+	// Invoke the augmentConversionForServersDatabasesTransparentDataEncryption interface (if implemented) to customize the conversion
+	var encryptionAsAny any = encryption
+	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForServersDatabasesTransparentDataEncryption); ok {
+		err := augmentedEncryption.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesTransparentDataEncryption populates the provided destination ServersDatabasesTransparentDataEncryption from our ServersDatabasesTransparentDataEncryption
+func (encryption *ServersDatabasesTransparentDataEncryption) AssignProperties_To_ServersDatabasesTransparentDataEncryption(destination *storage.ServersDatabasesTransparentDataEncryption) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *encryption.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersDatabasesTransparentDataEncryption_Spec
+	err := encryption.Spec.AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersDatabasesTransparentDataEncryption_STATUS
+	err = encryption.Status.AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersDatabasesTransparentDataEncryption interface (if implemented) to customize the conversion
+	var encryptionAsAny any = encryption
+	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForServersDatabasesTransparentDataEncryption); ok {
+		err := augmentedEncryption.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (encryption *ServersDatabasesTransparentDataEncryption) OriginalGVK() *schema.GroupVersionKind {
@@ -165,6 +253,11 @@ type ServersDatabasesTransparentDataEncryptionList struct {
 	Items           []ServersDatabasesTransparentDataEncryption `json:"items"`
 }
 
+type augmentConversionForServersDatabasesTransparentDataEncryption interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesTransparentDataEncryption) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesTransparentDataEncryption) error
+}
+
 // Storage version of v20211101.ServersDatabasesTransparentDataEncryption_Spec
 type ServersDatabasesTransparentDataEncryption_Spec struct {
 	OperatorSpec    *ServersDatabasesTransparentDataEncryptionOperatorSpec `json:"operatorSpec,omitempty"`
@@ -183,20 +276,172 @@ var _ genruntime.ConvertibleSpec = &ServersDatabasesTransparentDataEncryption_Sp
 
 // ConvertSpecFrom populates our ServersDatabasesTransparentDataEncryption_Spec from the provided source
 func (encryption *ServersDatabasesTransparentDataEncryption_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == encryption {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersDatabasesTransparentDataEncryption_Spec)
+	if ok {
+		// Populate our instance from source
+		return encryption.AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec(src)
 	}
 
-	return source.ConvertSpecTo(encryption)
+	// Convert to an intermediate form
+	src = &storage.ServersDatabasesTransparentDataEncryption_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = encryption.AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersDatabasesTransparentDataEncryption_Spec
 func (encryption *ServersDatabasesTransparentDataEncryption_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == encryption {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersDatabasesTransparentDataEncryption_Spec)
+	if ok {
+		// Populate destination from our instance
+		return encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(encryption)
+	// Convert to an intermediate form
+	dst = &storage.ServersDatabasesTransparentDataEncryption_Spec{}
+	err := encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec populates our ServersDatabasesTransparentDataEncryption_Spec from the provided source ServersDatabasesTransparentDataEncryption_Spec
+func (encryption *ServersDatabasesTransparentDataEncryption_Spec) AssignProperties_From_ServersDatabasesTransparentDataEncryption_Spec(source *storage.ServersDatabasesTransparentDataEncryption_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersDatabasesTransparentDataEncryptionOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec() to populate field OperatorSpec")
+		}
+		encryption.OperatorSpec = &operatorSpec
+	} else {
+		encryption.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	encryption.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		encryption.Owner = &owner
+	} else {
+		encryption.Owner = nil
+	}
+
+	// ScanState
+	if source.ScanState != nil {
+		propertyBag.Add("ScanState", *source.ScanState)
+	} else {
+		propertyBag.Remove("ScanState")
+	}
+
+	// State
+	encryption.State = genruntime.ClonePointerToString(source.State)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		encryption.PropertyBag = propertyBag
+	} else {
+		encryption.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesTransparentDataEncryption_Spec interface (if implemented) to customize the conversion
+	var encryptionAsAny any = encryption
+	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForServersDatabasesTransparentDataEncryption_Spec); ok {
+		err := augmentedEncryption.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec populates the provided destination ServersDatabasesTransparentDataEncryption_Spec from our ServersDatabasesTransparentDataEncryption_Spec
+func (encryption *ServersDatabasesTransparentDataEncryption_Spec) AssignProperties_To_ServersDatabasesTransparentDataEncryption_Spec(destination *storage.ServersDatabasesTransparentDataEncryption_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
+
+	// OperatorSpec
+	if encryption.OperatorSpec != nil {
+		var operatorSpec storage.ServersDatabasesTransparentDataEncryptionOperatorSpec
+		err := encryption.OperatorSpec.AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = encryption.OriginalVersion
+
+	// Owner
+	if encryption.Owner != nil {
+		owner := encryption.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// ScanState
+	if propertyBag.Contains("ScanState") {
+		var scanState string
+		err := propertyBag.Pull("ScanState", &scanState)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ScanState' from propertyBag")
+		}
+
+		destination.ScanState = &scanState
+	} else {
+		destination.ScanState = nil
+	}
+
+	// State
+	destination.State = genruntime.ClonePointerToString(encryption.State)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesTransparentDataEncryption_Spec interface (if implemented) to customize the conversion
+	var encryptionAsAny any = encryption
+	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForServersDatabasesTransparentDataEncryption_Spec); ok {
+		err := augmentedEncryption.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20211101.ServersDatabasesTransparentDataEncryption_STATUS
@@ -213,20 +458,180 @@ var _ genruntime.ConvertibleStatus = &ServersDatabasesTransparentDataEncryption_
 
 // ConvertStatusFrom populates our ServersDatabasesTransparentDataEncryption_STATUS from the provided source
 func (encryption *ServersDatabasesTransparentDataEncryption_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == encryption {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersDatabasesTransparentDataEncryption_STATUS)
+	if ok {
+		// Populate our instance from source
+		return encryption.AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(encryption)
+	// Convert to an intermediate form
+	src = &storage.ServersDatabasesTransparentDataEncryption_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = encryption.AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersDatabasesTransparentDataEncryption_STATUS
 func (encryption *ServersDatabasesTransparentDataEncryption_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == encryption {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersDatabasesTransparentDataEncryption_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(encryption)
+	// Convert to an intermediate form
+	dst = &storage.ServersDatabasesTransparentDataEncryption_STATUS{}
+	err := encryption.AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS populates our ServersDatabasesTransparentDataEncryption_STATUS from the provided source ServersDatabasesTransparentDataEncryption_STATUS
+func (encryption *ServersDatabasesTransparentDataEncryption_STATUS) AssignProperties_From_ServersDatabasesTransparentDataEncryption_STATUS(source *storage.ServersDatabasesTransparentDataEncryption_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	encryption.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	encryption.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	encryption.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ScanState
+	if source.ScanState != nil {
+		propertyBag.Add("ScanState", *source.ScanState)
+	} else {
+		propertyBag.Remove("ScanState")
+	}
+
+	// State
+	encryption.State = genruntime.ClonePointerToString(source.State)
+
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
+	// Type
+	encryption.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		encryption.PropertyBag = propertyBag
+	} else {
+		encryption.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesTransparentDataEncryption_STATUS interface (if implemented) to customize the conversion
+	var encryptionAsAny any = encryption
+	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForServersDatabasesTransparentDataEncryption_STATUS); ok {
+		err := augmentedEncryption.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS populates the provided destination ServersDatabasesTransparentDataEncryption_STATUS from our ServersDatabasesTransparentDataEncryption_STATUS
+func (encryption *ServersDatabasesTransparentDataEncryption_STATUS) AssignProperties_To_ServersDatabasesTransparentDataEncryption_STATUS(destination *storage.ServersDatabasesTransparentDataEncryption_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(encryption.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(encryption.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(encryption.Name)
+
+	// ScanState
+	if propertyBag.Contains("ScanState") {
+		var scanState string
+		err := propertyBag.Pull("ScanState", &scanState)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ScanState' from propertyBag")
+		}
+
+		destination.ScanState = &scanState
+	} else {
+		destination.ScanState = nil
+	}
+
+	// State
+	destination.State = genruntime.ClonePointerToString(encryption.State)
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(encryption.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesTransparentDataEncryption_STATUS interface (if implemented) to customize the conversion
+	var encryptionAsAny any = encryption
+	if augmentedEncryption, ok := encryptionAsAny.(augmentConversionForServersDatabasesTransparentDataEncryption_STATUS); ok {
+		err := augmentedEncryption.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersDatabasesTransparentDataEncryption_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesTransparentDataEncryption_Spec) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesTransparentDataEncryption_Spec) error
+}
+
+type augmentConversionForServersDatabasesTransparentDataEncryption_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesTransparentDataEncryption_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesTransparentDataEncryption_STATUS) error
 }
 
 // Storage version of v20211101.ServersDatabasesTransparentDataEncryptionOperatorSpec
@@ -235,6 +640,125 @@ type ServersDatabasesTransparentDataEncryptionOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec populates our ServersDatabasesTransparentDataEncryptionOperatorSpec from the provided source ServersDatabasesTransparentDataEncryptionOperatorSpec
+func (operator *ServersDatabasesTransparentDataEncryptionOperatorSpec) AssignProperties_From_ServersDatabasesTransparentDataEncryptionOperatorSpec(source *storage.ServersDatabasesTransparentDataEncryptionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesTransparentDataEncryptionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersDatabasesTransparentDataEncryptionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec populates the provided destination ServersDatabasesTransparentDataEncryptionOperatorSpec from our ServersDatabasesTransparentDataEncryptionOperatorSpec
+func (operator *ServersDatabasesTransparentDataEncryptionOperatorSpec) AssignProperties_To_ServersDatabasesTransparentDataEncryptionOperatorSpec(destination *storage.ServersDatabasesTransparentDataEncryptionOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersDatabasesTransparentDataEncryptionOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersDatabasesTransparentDataEncryptionOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersDatabasesTransparentDataEncryptionOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersDatabasesTransparentDataEncryptionOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersDatabasesTransparentDataEncryptionOperatorSpec) error
 }
 
 func init() {

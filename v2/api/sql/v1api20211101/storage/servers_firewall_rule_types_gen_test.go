@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForServersFirewallRule(subject ServersFirewallRule
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersFirewallRule
+	var hub v20250101s.ServersFirewallRule
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForServersFirewallRule(subject ServersFirewallRule
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFirewallRule
+	var other v20211101s.ServersFirewallRule
 	err := copied.AssignProperties_To_ServersFirewallRule(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForServersFirewallRuleOperatorSpec(subject Servers
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFirewallRuleOperatorSpec
+	var other v20211101s.ServersFirewallRuleOperatorSpec
 	err := copied.AssignProperties_To_ServersFirewallRuleOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForServersFirewallRule_STATUS(subject ServersFirew
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFirewallRule_STATUS
+	var other v20211101s.ServersFirewallRule_STATUS
 	err := copied.AssignProperties_To_ServersFirewallRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -426,7 +427,7 @@ func RunPropertyAssignmentTestForServersFirewallRule_Spec(subject ServersFirewal
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersFirewallRule_Spec
+	var other v20211101s.ServersFirewallRule_Spec
 	err := copied.AssignProperties_To_ServersFirewallRule_Spec(&other)
 	if err != nil {
 		return err.Error()

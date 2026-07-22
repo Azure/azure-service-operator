@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,53 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ElasticPoolPerDatabaseSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ElasticPoolPerDatabaseSettings to ElasticPoolPerDatabaseSettings via AssignProperties_To_ElasticPoolPerDatabaseSettings & AssignProperties_From_ElasticPoolPerDatabaseSettings returns original",
+		prop.ForAll(RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings, ElasticPoolPerDatabaseSettingsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings tests if a specific instance of ElasticPoolPerDatabaseSettings can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings(subject ElasticPoolPerDatabaseSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ElasticPoolPerDatabaseSettings
+	err := copied.AssignProperties_To_ElasticPoolPerDatabaseSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ElasticPoolPerDatabaseSettings
+	err = actual.AssignProperties_From_ElasticPoolPerDatabaseSettings(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ElasticPoolPerDatabaseSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -82,6 +130,53 @@ func ElasticPoolPerDatabaseSettingsGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForElasticPoolPerDatabaseSettings(gens map[string]gopter.Gen) {
 	gens["MaxCapacity"] = gen.PtrOf(gen.Float64())
 	gens["MinCapacity"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_ElasticPoolPerDatabaseSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ElasticPoolPerDatabaseSettings_STATUS to ElasticPoolPerDatabaseSettings_STATUS via AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS & AssignProperties_From_ElasticPoolPerDatabaseSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings_STATUS, ElasticPoolPerDatabaseSettings_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings_STATUS tests if a specific instance of ElasticPoolPerDatabaseSettings_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings_STATUS(subject ElasticPoolPerDatabaseSettings_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ElasticPoolPerDatabaseSettings_STATUS
+	err := copied.AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ElasticPoolPerDatabaseSettings_STATUS
+	err = actual.AssignProperties_From_ElasticPoolPerDatabaseSettings_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ElasticPoolPerDatabaseSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -151,6 +246,101 @@ func AddIndependentPropertyGeneratorsForElasticPoolPerDatabaseSettings_STATUS(ge
 	gens["MinCapacity"] = gen.PtrOf(gen.Float64())
 }
 
+func Test_ServersElasticPool_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersElasticPool to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersElasticPool, ServersElasticPoolGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersElasticPool tests if a specific instance of ServersElasticPool round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersElasticPool(subject ServersElasticPool) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersElasticPool
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersElasticPool
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersElasticPool_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersElasticPool to ServersElasticPool via AssignProperties_To_ServersElasticPool & AssignProperties_From_ServersElasticPool returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersElasticPool, ServersElasticPoolGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersElasticPool tests if a specific instance of ServersElasticPool can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersElasticPool(subject ServersElasticPool) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersElasticPool
+	err := copied.AssignProperties_To_ServersElasticPool(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersElasticPool
+	err = actual.AssignProperties_From_ServersElasticPool(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersElasticPool_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -217,6 +407,53 @@ func AddRelatedPropertyGeneratorsForServersElasticPool(gens map[string]gopter.Ge
 	gens["Status"] = ServersElasticPool_STATUSGenerator()
 }
 
+func Test_ServersElasticPoolOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersElasticPoolOperatorSpec to ServersElasticPoolOperatorSpec via AssignProperties_To_ServersElasticPoolOperatorSpec & AssignProperties_From_ServersElasticPoolOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersElasticPoolOperatorSpec, ServersElasticPoolOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersElasticPoolOperatorSpec tests if a specific instance of ServersElasticPoolOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersElasticPoolOperatorSpec(subject ServersElasticPoolOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersElasticPoolOperatorSpec
+	err := copied.AssignProperties_To_ServersElasticPoolOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersElasticPoolOperatorSpec
+	err = actual.AssignProperties_From_ServersElasticPoolOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersElasticPoolOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -275,6 +512,53 @@ func ServersElasticPoolOperatorSpecGenerator() gopter.Gen {
 	serversElasticPoolOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersElasticPoolOperatorSpec{}), generators)
 
 	return serversElasticPoolOperatorSpecGenerator
+}
+
+func Test_ServersElasticPool_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersElasticPool_STATUS to ServersElasticPool_STATUS via AssignProperties_To_ServersElasticPool_STATUS & AssignProperties_From_ServersElasticPool_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersElasticPool_STATUS, ServersElasticPool_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersElasticPool_STATUS tests if a specific instance of ServersElasticPool_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersElasticPool_STATUS(subject ServersElasticPool_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersElasticPool_STATUS
+	err := copied.AssignProperties_To_ServersElasticPool_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersElasticPool_STATUS
+	err = actual.AssignProperties_From_ServersElasticPool_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersElasticPool_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -371,6 +655,53 @@ func AddIndependentPropertyGeneratorsForServersElasticPool_STATUS(gens map[strin
 func AddRelatedPropertyGeneratorsForServersElasticPool_STATUS(gens map[string]gopter.Gen) {
 	gens["PerDatabaseSettings"] = gen.PtrOf(ElasticPoolPerDatabaseSettings_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
+}
+
+func Test_ServersElasticPool_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersElasticPool_Spec to ServersElasticPool_Spec via AssignProperties_To_ServersElasticPool_Spec & AssignProperties_From_ServersElasticPool_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersElasticPool_Spec, ServersElasticPool_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersElasticPool_Spec tests if a specific instance of ServersElasticPool_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersElasticPool_Spec(subject ServersElasticPool_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersElasticPool_Spec
+	err := copied.AssignProperties_To_ServersElasticPool_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersElasticPool_Spec
+	err = actual.AssignProperties_From_ServersElasticPool_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersElasticPool_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

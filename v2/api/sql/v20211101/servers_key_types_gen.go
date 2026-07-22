@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersKey{}
 
 // ConvertFrom populates our ServersKey from the provided hub ServersKey
 func (serversKey *ServersKey) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersKey)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersKey but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersKey
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return serversKey.AssignProperties_From_ServersKey(source)
+	err = serversKey.AssignProperties_From_ServersKey(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to serversKey")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersKey from our ServersKey
 func (serversKey *ServersKey) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersKey)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersKey but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersKey
+	err := serversKey.AssignProperties_To_ServersKey(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from serversKey")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return serversKey.AssignProperties_To_ServersKey(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersKey{}
@@ -87,17 +101,6 @@ func (serversKey *ServersKey) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return serversKey.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersKey{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (serversKey *ServersKey) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersKey_STATUS); ok {
-		return serversKey.Spec.Initialize_From_ServersKey_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersKey_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersKey{}
@@ -486,24 +489,6 @@ func (serversKey *ServersKey_Spec) AssignProperties_To_ServersKey_Spec(destinati
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersKey_STATUS populates our ServersKey_Spec from the provided source ServersKey_STATUS
-func (serversKey *ServersKey_Spec) Initialize_From_ServersKey_STATUS(source *ServersKey_STATUS) error {
-
-	// ServerKeyType
-	if source.ServerKeyType != nil {
-		serverKeyType := genruntime.ToEnum(string(*source.ServerKeyType), serverKeyProperties_ServerKeyType_Values)
-		serversKey.ServerKeyType = &serverKeyType
-	} else {
-		serversKey.ServerKeyType = nil
-	}
-
-	// Uri
-	serversKey.Uri = genruntime.ClonePointerToString(source.Uri)
 
 	// No error
 	return nil

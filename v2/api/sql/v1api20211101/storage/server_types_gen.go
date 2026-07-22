@@ -5,7 +5,6 @@ package storage
 
 import (
 	"context"
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -55,22 +54,36 @@ var _ conversion.Convertible = &Server{}
 
 // ConvertFrom populates our Server from the provided hub Server
 func (server *Server) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Server)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/Server but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Server
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_Server(source)
+	err = server.AssignProperties_From_Server(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Server from our Server
 func (server *Server) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Server)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/Server but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Server
+	err := server.AssignProperties_To_Server(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_Server(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Server{}

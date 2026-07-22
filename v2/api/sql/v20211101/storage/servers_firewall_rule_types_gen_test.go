@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ServersFirewallRule_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersFirewallRule to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersFirewallRule, ServersFirewallRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersFirewallRule tests if a specific instance of ServersFirewallRule round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersFirewallRule(subject ServersFirewallRule) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersFirewallRule
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersFirewallRule
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersFirewallRule_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersFirewallRule to ServersFirewallRule via AssignProperties_To_ServersFirewallRule & AssignProperties_From_ServersFirewallRule returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersFirewallRule, ServersFirewallRuleGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersFirewallRule tests if a specific instance of ServersFirewallRule can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersFirewallRule(subject ServersFirewallRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersFirewallRule
+	err := copied.AssignProperties_To_ServersFirewallRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersFirewallRule
+	err = actual.AssignProperties_From_ServersFirewallRule(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ServersFirewallRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -84,6 +180,53 @@ func AddRelatedPropertyGeneratorsForServersFirewallRule(gens map[string]gopter.G
 	gens["Status"] = ServersFirewallRule_STATUSGenerator()
 }
 
+func Test_ServersFirewallRuleOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersFirewallRuleOperatorSpec to ServersFirewallRuleOperatorSpec via AssignProperties_To_ServersFirewallRuleOperatorSpec & AssignProperties_From_ServersFirewallRuleOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersFirewallRuleOperatorSpec, ServersFirewallRuleOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersFirewallRuleOperatorSpec tests if a specific instance of ServersFirewallRuleOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersFirewallRuleOperatorSpec(subject ServersFirewallRuleOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersFirewallRuleOperatorSpec
+	err := copied.AssignProperties_To_ServersFirewallRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersFirewallRuleOperatorSpec
+	err = actual.AssignProperties_From_ServersFirewallRuleOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersFirewallRuleOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -142,6 +285,53 @@ func ServersFirewallRuleOperatorSpecGenerator() gopter.Gen {
 	serversFirewallRuleOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersFirewallRuleOperatorSpec{}), generators)
 
 	return serversFirewallRuleOperatorSpecGenerator
+}
+
+func Test_ServersFirewallRule_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersFirewallRule_STATUS to ServersFirewallRule_STATUS via AssignProperties_To_ServersFirewallRule_STATUS & AssignProperties_From_ServersFirewallRule_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersFirewallRule_STATUS, ServersFirewallRule_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersFirewallRule_STATUS tests if a specific instance of ServersFirewallRule_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersFirewallRule_STATUS(subject ServersFirewallRule_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersFirewallRule_STATUS
+	err := copied.AssignProperties_To_ServersFirewallRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersFirewallRule_STATUS
+	err = actual.AssignProperties_From_ServersFirewallRule_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersFirewallRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -212,6 +402,53 @@ func AddIndependentPropertyGeneratorsForServersFirewallRule_STATUS(gens map[stri
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["StartIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ServersFirewallRule_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersFirewallRule_Spec to ServersFirewallRule_Spec via AssignProperties_To_ServersFirewallRule_Spec & AssignProperties_From_ServersFirewallRule_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersFirewallRule_Spec, ServersFirewallRule_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersFirewallRule_Spec tests if a specific instance of ServersFirewallRule_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersFirewallRule_Spec(subject ServersFirewallRule_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersFirewallRule_Spec
+	err := copied.AssignProperties_To_ServersFirewallRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersFirewallRule_Spec
+	err = actual.AssignProperties_From_ServersFirewallRule_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersFirewallRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

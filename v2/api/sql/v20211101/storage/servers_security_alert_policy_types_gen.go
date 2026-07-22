@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serverssecurityalertpolicies,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serverssecurityalertpolicies/status,serverssecurityalertpolicies/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (policy *ServersSecurityAlertPolicy) GetConditions() conditions.Conditions 
 // SetConditions sets the conditions on the resource status
 func (policy *ServersSecurityAlertPolicy) SetConditions(conditions conditions.Conditions) {
 	policy.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersSecurityAlertPolicy{}
+
+// ConvertFrom populates our ServersSecurityAlertPolicy from the provided hub ServersSecurityAlertPolicy
+func (policy *ServersSecurityAlertPolicy) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersSecurityAlertPolicy)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersSecurityAlertPolicy but received %T instead", hub)
+	}
+
+	return policy.AssignProperties_From_ServersSecurityAlertPolicy(source)
+}
+
+// ConvertTo populates the provided hub ServersSecurityAlertPolicy from our ServersSecurityAlertPolicy
+func (policy *ServersSecurityAlertPolicy) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersSecurityAlertPolicy)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersSecurityAlertPolicy but received %T instead", hub)
+	}
+
+	return policy.AssignProperties_To_ServersSecurityAlertPolicy(destination)
 }
 
 var _ configmaps.Exporter = &ServersSecurityAlertPolicy{}
@@ -142,8 +163,75 @@ func (policy *ServersSecurityAlertPolicy) SetStatus(status genruntime.Convertibl
 	return nil
 }
 
-// Hub marks that this ServersSecurityAlertPolicy is the hub type for conversion
-func (policy *ServersSecurityAlertPolicy) Hub() {}
+// AssignProperties_From_ServersSecurityAlertPolicy populates our ServersSecurityAlertPolicy from the provided source ServersSecurityAlertPolicy
+func (policy *ServersSecurityAlertPolicy) AssignProperties_From_ServersSecurityAlertPolicy(source *storage.ServersSecurityAlertPolicy) error {
+
+	// ObjectMeta
+	policy.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersSecurityAlertPolicy_Spec
+	err := spec.AssignProperties_From_ServersSecurityAlertPolicy_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersSecurityAlertPolicy_Spec() to populate field Spec")
+	}
+	policy.Spec = spec
+
+	// Status
+	var status ServersSecurityAlertPolicy_STATUS
+	err = status.AssignProperties_From_ServersSecurityAlertPolicy_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersSecurityAlertPolicy_STATUS() to populate field Status")
+	}
+	policy.Status = status
+
+	// Invoke the augmentConversionForServersSecurityAlertPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersSecurityAlertPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersSecurityAlertPolicy populates the provided destination ServersSecurityAlertPolicy from our ServersSecurityAlertPolicy
+func (policy *ServersSecurityAlertPolicy) AssignProperties_To_ServersSecurityAlertPolicy(destination *storage.ServersSecurityAlertPolicy) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *policy.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersSecurityAlertPolicy_Spec
+	err := policy.Spec.AssignProperties_To_ServersSecurityAlertPolicy_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersSecurityAlertPolicy_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersSecurityAlertPolicy_STATUS
+	err = policy.Status.AssignProperties_To_ServersSecurityAlertPolicy_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersSecurityAlertPolicy_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersSecurityAlertPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersSecurityAlertPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (policy *ServersSecurityAlertPolicy) OriginalGVK() *schema.GroupVersionKind {
@@ -163,6 +251,11 @@ type ServersSecurityAlertPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ServersSecurityAlertPolicy `json:"items"`
+}
+
+type augmentConversionForServersSecurityAlertPolicy interface {
+	AssignPropertiesFrom(src *storage.ServersSecurityAlertPolicy) error
+	AssignPropertiesTo(dst *storage.ServersSecurityAlertPolicy) error
 }
 
 // Storage version of v20211101.ServersSecurityAlertPolicy_Spec
@@ -189,20 +282,208 @@ var _ genruntime.ConvertibleSpec = &ServersSecurityAlertPolicy_Spec{}
 
 // ConvertSpecFrom populates our ServersSecurityAlertPolicy_Spec from the provided source
 func (policy *ServersSecurityAlertPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersSecurityAlertPolicy_Spec)
+	if ok {
+		// Populate our instance from source
+		return policy.AssignProperties_From_ServersSecurityAlertPolicy_Spec(src)
 	}
 
-	return source.ConvertSpecTo(policy)
+	// Convert to an intermediate form
+	src = &storage.ServersSecurityAlertPolicy_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = policy.AssignProperties_From_ServersSecurityAlertPolicy_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersSecurityAlertPolicy_Spec
 func (policy *ServersSecurityAlertPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersSecurityAlertPolicy_Spec)
+	if ok {
+		// Populate destination from our instance
+		return policy.AssignProperties_To_ServersSecurityAlertPolicy_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(policy)
+	// Convert to an intermediate form
+	dst = &storage.ServersSecurityAlertPolicy_Spec{}
+	err := policy.AssignProperties_To_ServersSecurityAlertPolicy_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersSecurityAlertPolicy_Spec populates our ServersSecurityAlertPolicy_Spec from the provided source ServersSecurityAlertPolicy_Spec
+func (policy *ServersSecurityAlertPolicy_Spec) AssignProperties_From_ServersSecurityAlertPolicy_Spec(source *storage.ServersSecurityAlertPolicy_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DisabledAlerts
+	policy.DisabledAlerts = genruntime.CloneSliceOfString(source.DisabledAlerts)
+
+	// EmailAccountAdmins
+	if source.EmailAccountAdmins != nil {
+		emailAccountAdmin := *source.EmailAccountAdmins
+		policy.EmailAccountAdmins = &emailAccountAdmin
+	} else {
+		policy.EmailAccountAdmins = nil
+	}
+
+	// EmailAddresses
+	policy.EmailAddresses = genruntime.CloneSliceOfString(source.EmailAddresses)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersSecurityAlertPolicyOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersSecurityAlertPolicyOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersSecurityAlertPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		policy.OperatorSpec = &operatorSpec
+	} else {
+		policy.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	policy.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		policy.Owner = &owner
+	} else {
+		policy.Owner = nil
+	}
+
+	// RetentionDays
+	policy.RetentionDays = genruntime.ClonePointerToInt(source.RetentionDays)
+
+	// State
+	policy.State = genruntime.ClonePointerToString(source.State)
+
+	// StorageAccountAccessKey
+	if source.StorageAccountAccessKey != nil {
+		storageAccountAccessKey := source.StorageAccountAccessKey.Copy()
+		policy.StorageAccountAccessKey = &storageAccountAccessKey
+	} else {
+		policy.StorageAccountAccessKey = nil
+	}
+
+	// StorageEndpoint
+	policy.StorageEndpoint = genruntime.ClonePointerToString(source.StorageEndpoint)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersSecurityAlertPolicy_Spec interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersSecurityAlertPolicy_Spec); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersSecurityAlertPolicy_Spec populates the provided destination ServersSecurityAlertPolicy_Spec from our ServersSecurityAlertPolicy_Spec
+func (policy *ServersSecurityAlertPolicy_Spec) AssignProperties_To_ServersSecurityAlertPolicy_Spec(destination *storage.ServersSecurityAlertPolicy_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// DisabledAlerts
+	destination.DisabledAlerts = genruntime.CloneSliceOfString(policy.DisabledAlerts)
+
+	// EmailAccountAdmins
+	if policy.EmailAccountAdmins != nil {
+		emailAccountAdmin := *policy.EmailAccountAdmins
+		destination.EmailAccountAdmins = &emailAccountAdmin
+	} else {
+		destination.EmailAccountAdmins = nil
+	}
+
+	// EmailAddresses
+	destination.EmailAddresses = genruntime.CloneSliceOfString(policy.EmailAddresses)
+
+	// OperatorSpec
+	if policy.OperatorSpec != nil {
+		var operatorSpec storage.ServersSecurityAlertPolicyOperatorSpec
+		err := policy.OperatorSpec.AssignProperties_To_ServersSecurityAlertPolicyOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersSecurityAlertPolicyOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = policy.OriginalVersion
+
+	// Owner
+	if policy.Owner != nil {
+		owner := policy.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// RetentionDays
+	destination.RetentionDays = genruntime.ClonePointerToInt(policy.RetentionDays)
+
+	// State
+	destination.State = genruntime.ClonePointerToString(policy.State)
+
+	// StorageAccountAccessKey
+	if policy.StorageAccountAccessKey != nil {
+		storageAccountAccessKey := policy.StorageAccountAccessKey.Copy()
+		destination.StorageAccountAccessKey = &storageAccountAccessKey
+	} else {
+		destination.StorageAccountAccessKey = nil
+	}
+
+	// StorageEndpoint
+	destination.StorageEndpoint = genruntime.ClonePointerToString(policy.StorageEndpoint)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersSecurityAlertPolicy_Spec interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersSecurityAlertPolicy_Spec); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20211101.ServersSecurityAlertPolicy_STATUS
@@ -226,20 +507,210 @@ var _ genruntime.ConvertibleStatus = &ServersSecurityAlertPolicy_STATUS{}
 
 // ConvertStatusFrom populates our ServersSecurityAlertPolicy_STATUS from the provided source
 func (policy *ServersSecurityAlertPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersSecurityAlertPolicy_STATUS)
+	if ok {
+		// Populate our instance from source
+		return policy.AssignProperties_From_ServersSecurityAlertPolicy_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(policy)
+	// Convert to an intermediate form
+	src = &storage.ServersSecurityAlertPolicy_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = policy.AssignProperties_From_ServersSecurityAlertPolicy_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersSecurityAlertPolicy_STATUS
 func (policy *ServersSecurityAlertPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == policy {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersSecurityAlertPolicy_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return policy.AssignProperties_To_ServersSecurityAlertPolicy_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(policy)
+	// Convert to an intermediate form
+	dst = &storage.ServersSecurityAlertPolicy_STATUS{}
+	err := policy.AssignProperties_To_ServersSecurityAlertPolicy_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersSecurityAlertPolicy_STATUS populates our ServersSecurityAlertPolicy_STATUS from the provided source ServersSecurityAlertPolicy_STATUS
+func (policy *ServersSecurityAlertPolicy_STATUS) AssignProperties_From_ServersSecurityAlertPolicy_STATUS(source *storage.ServersSecurityAlertPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	policy.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CreationTime
+	policy.CreationTime = genruntime.ClonePointerToString(source.CreationTime)
+
+	// DisabledAlerts
+	policy.DisabledAlerts = genruntime.CloneSliceOfString(source.DisabledAlerts)
+
+	// EmailAccountAdmins
+	if source.EmailAccountAdmins != nil {
+		emailAccountAdmin := *source.EmailAccountAdmins
+		policy.EmailAccountAdmins = &emailAccountAdmin
+	} else {
+		policy.EmailAccountAdmins = nil
+	}
+
+	// EmailAddresses
+	policy.EmailAddresses = genruntime.CloneSliceOfString(source.EmailAddresses)
+
+	// Id
+	policy.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	policy.Name = genruntime.ClonePointerToString(source.Name)
+
+	// RetentionDays
+	policy.RetentionDays = genruntime.ClonePointerToInt(source.RetentionDays)
+
+	// State
+	policy.State = genruntime.ClonePointerToString(source.State)
+
+	// StorageEndpoint
+	policy.StorageEndpoint = genruntime.ClonePointerToString(source.StorageEndpoint)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		policy.SystemData = &systemDatum
+	} else {
+		policy.SystemData = nil
+	}
+
+	// Type
+	policy.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersSecurityAlertPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersSecurityAlertPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersSecurityAlertPolicy_STATUS populates the provided destination ServersSecurityAlertPolicy_STATUS from our ServersSecurityAlertPolicy_STATUS
+func (policy *ServersSecurityAlertPolicy_STATUS) AssignProperties_To_ServersSecurityAlertPolicy_STATUS(destination *storage.ServersSecurityAlertPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(policy.Conditions)
+
+	// CreationTime
+	destination.CreationTime = genruntime.ClonePointerToString(policy.CreationTime)
+
+	// DisabledAlerts
+	destination.DisabledAlerts = genruntime.CloneSliceOfString(policy.DisabledAlerts)
+
+	// EmailAccountAdmins
+	if policy.EmailAccountAdmins != nil {
+		emailAccountAdmin := *policy.EmailAccountAdmins
+		destination.EmailAccountAdmins = &emailAccountAdmin
+	} else {
+		destination.EmailAccountAdmins = nil
+	}
+
+	// EmailAddresses
+	destination.EmailAddresses = genruntime.CloneSliceOfString(policy.EmailAddresses)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(policy.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(policy.Name)
+
+	// RetentionDays
+	destination.RetentionDays = genruntime.ClonePointerToInt(policy.RetentionDays)
+
+	// State
+	destination.State = genruntime.ClonePointerToString(policy.State)
+
+	// StorageEndpoint
+	destination.StorageEndpoint = genruntime.ClonePointerToString(policy.StorageEndpoint)
+
+	// SystemData
+	if policy.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := policy.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(policy.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersSecurityAlertPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForServersSecurityAlertPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersSecurityAlertPolicy_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersSecurityAlertPolicy_Spec) error
+	AssignPropertiesTo(dst *storage.ServersSecurityAlertPolicy_Spec) error
+}
+
+type augmentConversionForServersSecurityAlertPolicy_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersSecurityAlertPolicy_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersSecurityAlertPolicy_STATUS) error
 }
 
 // Storage version of v20211101.ServersSecurityAlertPolicyOperatorSpec
@@ -248,6 +719,125 @@ type ServersSecurityAlertPolicyOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersSecurityAlertPolicyOperatorSpec populates our ServersSecurityAlertPolicyOperatorSpec from the provided source ServersSecurityAlertPolicyOperatorSpec
+func (operator *ServersSecurityAlertPolicyOperatorSpec) AssignProperties_From_ServersSecurityAlertPolicyOperatorSpec(source *storage.ServersSecurityAlertPolicyOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersSecurityAlertPolicyOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersSecurityAlertPolicyOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersSecurityAlertPolicyOperatorSpec populates the provided destination ServersSecurityAlertPolicyOperatorSpec from our ServersSecurityAlertPolicyOperatorSpec
+func (operator *ServersSecurityAlertPolicyOperatorSpec) AssignProperties_To_ServersSecurityAlertPolicyOperatorSpec(destination *storage.ServersSecurityAlertPolicyOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersSecurityAlertPolicyOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersSecurityAlertPolicyOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersSecurityAlertPolicyOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersSecurityAlertPolicyOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersSecurityAlertPolicyOperatorSpec) error
 }
 
 func init() {
