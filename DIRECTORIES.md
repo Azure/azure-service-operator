@@ -11,11 +11,10 @@ This document provides an overview of the directory structure of the Azure Servi
 | `.github/`       | GitHub configuration (workflows, issue templates, CODEOWNERS, Dependabot) |
 | `.vscode/`       | VS Code workspace settings                                                |
 | `charts/`        | Helm chart repository for ASO v1 (packaged `.tgz` releases)               |
-| `ci/`            | CI-specific Taskfile                                 |
 | `docs/`          | Documentation (Hugo site, FAQs, troubleshooting, OPA policies)            |
 | `hack/`          | Build tools and helper scripts (Crossplane tooling, pinned tool binaries) |
 | `reports/`       | Build and test report output directory                                    |
-| `scripts/`       | Utility scripts (v2 related)                                              |
+| `scripts/v2/`    | Utility scripts (v2 related)                                              |
 | `v2/`            | **Main ASO v2 codebase** (all active development)                         |
 
 ## `.github/workflows/`
@@ -43,23 +42,23 @@ Pinned versions of build tools used by the project: `task`, `kustomize`, `contro
 
 ## `v2/` — Main Codebase
 
-| Directory        | Purpose                                                                     |
-| ---------------- | --------------------------------------------------------------------------- |
-| `api/`           | Generated Kubernetes API types organized by Azure service group             |
-| `azure-arm/`     | Per-group YAML configuration files for the code generator                   |
-| `azure-arm.yaml` | Master code generator configuration (resource exports, references, secrets) |
-| `bin/`           | Compiled binary output                                                      |
-| `charts/`        | Helm chart repository for ASO v2 (packaged releases + source chart)         |
-| `cmd/`           | Entrypoints for built binaries                                              |
-| `config/`        | Kubernetes deployment manifests (Kustomize overlays)                        |
-| `docs/`          | Additional v2-specific documentation                                        |
-| `internal/`      | Internal packages (controllers, reconcilers, utilities)                     |
-| `out/`           | Intermediate build outputs                                                  |
-| `pkg/`           | Public/shared packages (genruntime, common utilities)                       |
-| `samples/`       | Example YAML resource definitions organized by service group                |
-| `specs/`         | Git submodule of Azure REST API specs (OpenAPI source of truth)             |
-| `test/`          | Integration and end-to-end tests                                            |
-| `tools/`         | Code generator and auxiliary tools                                          |
+| Directory        | Purpose                                                             |
+| ---------------- | ------------------------------------------------------------------- |
+| `api/`           | Generated Kubernetes API types organized by Azure service group     |
+| `azure-arm/`     | Per-group YAML configuration files for the code generator           |
+| `azure-arm.yaml` | Master code generator configuration                                 |
+| `bin/`           | Compiled binary output                                              |
+| `charts/`        | Helm chart repository for ASO v2 (packaged releases + source chart) |
+| `cmd/`           | Entrypoints for built binaries                                      |
+| `config/`        | Kubernetes deployment manifests (Kustomize overlays)                |
+| `docs/`          | Additional v2-specific documentation                                |
+| `internal/`      | Internal packages (controllers, reconcilers, utilities)             |
+| `out/`           | Intermediate build outputs                                          |
+| `pkg/`           | Public/shared packages (genruntime, common utilities)               |
+| `samples/`       | Example YAML resource definitions organized by service group        |
+| `specs/`         | Git submodule of Azure REST API specs (OpenAPI source of truth)     |
+| `test/`          | Integration and end-to-end tests                                    |
+| `tools/`         | Code generator and auxiliary tools                                  |
 
 ### `v2/api/`
 
@@ -69,42 +68,34 @@ Contains generated Go types for each Azure service group. Each subdirectory (e.g
 
 Most group directories (e.g., `v2/api/storage/`) contain generated code following the structure below. A few groups like `entra/` contain hand-written APIs with a simpler layout (no `arm/`, `storage/`, or `structure.txt` subdirectories).
 
-| Item                 | Purpose                                                                                                                                                                                                      |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `customizations/`    | Hand-written extension code that customizes generated resource behavior (e.g., secret export logic). Contains `*_extension_types_gen.go` (generated scaffolding) and `*_extensions.go` (hand-written logic). |
-| `v1api<YYYYMMDD>/`   | **API version directories** (legacy naming) — the Kubernetes CRD version exposed to users. Contains the full resource definitions registered with the API server.                                            |
-| `v<YYYYMMDD>/`       | **API version directories** (hybrid naming) — newer convention without the `v1api` prefix. Same internal structure as legacy-named versions.                                                                 |
-| `versions_matrix.md` | Generated matrix showing which types exist in which versions.                                                                                                                                                |
+| Item                 | Purpose                                                                                                                                                                            |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `customizations/`    | Hand-written extension code to customize generated resource behavior (e.g., secret export logic). Contains both generated scaffolding (`*_gen.go`) and hand-written code (`*.go`). |
+| `v<YYYYMMDD>/`       | **API version directories** (new style) — the Kubernetes CRD version exposed to users. Contains the full resource definitions registered with the API server.                      |
+| `v1api<YYYYMMDD>/`   | **API version directories** (legacy naming) — older convention. Same internal structure.                                                                                           |
+| `versions_matrix.md` | Generated matrix showing which types exist in which versions.                                                                                                                      |
 
 #### Version Directory Structure (e.g., `v1api20230101/` or `v20250601/`)
 
 Each version directory represents a single Kubernetes API version and contains:
 
-| Item                           | Purpose                                                                                                                                                   |
-| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `doc.go`                       | Package documentation with `+groupName` and `+versionName` markers                                                                                        |
-| `groupversion_info_gen.go`     | Kubernetes scheme registration (GroupVersion, SchemeBuilder, AddToScheme)                                                                                 |
-| `<resource>_types_gen.go`      | Main resource type definitions (Spec, Status, resource struct, List type). One file per resource.                                                         |
-| `<resource>_types_gen_test.go` | Round-trip serialization tests for resource types                                                                                                         |
-| `zz_generated.deepcopy.go`     | Generated DeepCopy implementations                                                                                                                        |
-| `structure.txt`                | Human-readable tree showing the full type structure of all resources in this version                                                                      |
-| `arm/`                         | ARM (Azure Resource Manager) wire-format types, split into `*_spec_types_gen.go` and `*_status_types_gen.go`                                              |
-| `storage/`                     | **Storage version** types used for Kubernetes storage/conversion (hub-spoke pattern). Has its own `groupversion_info_gen.go` and per-resource type files. |
-| `webhook/`                     | Admission webhook implementations (defaulting and validation) for each resource                                                                           |
-
-#### File Naming Convention
-
-Resource files follow the pattern: `<parent>_<child>_types_gen.go` where nested resources include their parent chain:
-
-- `storage_account_types_gen.go` — top-level StorageAccount resource
-- `storage_accounts_blob_service_types_gen.go` — child BlobService under StorageAccount
-- `storage_accounts_blob_services_container_types_gen.go` — Container under BlobService under StorageAccount
+| Item                           | Purpose                                                                                           |
+| ------------------------------ | ------------------------------------------------------------------------------------------------- |
+| `doc.go`                       | Package documentation                                                                             |
+| `groupversion_info_gen.go`     | Kubernetes scheme registration (GroupVersion, SchemeBuilder, AddToScheme)                         |
+| `<resource>_types_gen.go`      | Main resource type definitions (Spec, Status, resource struct, List type). One file per resource. |
+| `<resource>_types_gen_test.go` | Round-trip serialization tests for resource types                                                 |
+| `zz_generated.deepcopy.go`     | Generated DeepCopy implementations                                                                |
+| `structure.txt`                | Human-readable tree showing the full type structure of all resources in this version              |
+| `arm/`                         | ARM (Azure Resource Manager) wire-format types                                                    |
+| `storage/`                     | **Storage version** types used for Kubernetes storage/conversion (hub-spoke pattern).             |
+| `webhook/`                     | Admission webhook implementations (defaulting and validation) for each resource                   |
 
 #### Version Naming Convention
 
-- **`v1api<YYYYMMDD>`** (e.g., `v1api20230101`) — Legacy naming convention. The `v1api` prefix indicates the first API compatibility version. These are being phased out.
-- **`v<YYYYMMDD>`** (e.g., `v20250601`) — Hybrid naming convention. Newer resources use this simpler format without the compatibility prefix.
-- **`v1api<YYYYMMDD>preview`** or **`v<YYYYMMDD>preview`** (e.g., `v1api20220131preview`, `v20250601preview`) — Preview API versions. Same structure as stable versions but targeting pre-release Azure APIs.
+- **`v<YYYYMMDD>`** (e.g., `v20250601`) — New naming convention. Newer resources use this simpler format without the compatibility prefix.
+- **`v1api<YYYYMMDD>`** (e.g., `v1api20230101`) — Legacy naming convention. These are being phased out. (See #4831)
+- **`v<YYYYMMDD>preview`** or **`v1api<YYYYMMDD>preview`** (e.g., `v20250601preview` or `v1api20220131preview`) — Preview API versions. Same structure as stable versions but targeting pre-release Azure APIs.
 
 ### `v2/cmd/`
 
@@ -212,4 +203,6 @@ Contains top-level integration test files (e.g., `suite_test.go`, `azuresql_test
 
 ### `v2/samples/`
 
-Example Kubernetes YAML manifests for each supported Azure service group (e.g., `compute/`, `storage/`, `network/`). Used as documentation and for integration testing.
+Example Kubernetes YAML manifests for each supported Azure service group (e.g., `compute/`, `storage/`, `network/`).
+Used as documentation and for integration testing.
+Every sample is verified as a part of CI - see the `testsamples` package.
