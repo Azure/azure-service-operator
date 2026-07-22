@@ -44,7 +44,7 @@ groupModelConfiguration:
       $supportedFrom: v2.5.0
     Vaults_Key:
       $exportAs: VaultsKey
-      $supportedFrom: v2.19.0
+      $supportedFrom: v2.21.0
     VaultProperties:
       TenantId:
         $importConfigMapMode: optional
