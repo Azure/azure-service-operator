@@ -3050,9 +3050,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersElasticPool)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersEncryptionProtector)})
 	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersFailoverGroup)})
 	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersFirewallRule)})
 	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersIPV6FirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersKey)})
 	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersOutboundFirewallRule)})
 	result = append(result, &registration.StorageType{
 		Obj: new(sql_v20211101s.ServersSecurityAlertPolicy),
@@ -7337,6 +7339,11 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &sql_v20211101w.ServersElasticPool{},
 		},
 		&registration.KnownType{
+			Obj:       new(sql_v20211101.ServersEncryptionProtector),
+			Defaulter: &sql_v20211101w.ServersEncryptionProtector{},
+			Validator: &sql_v20211101w.ServersEncryptionProtector{},
+		},
+		&registration.KnownType{
 			Obj:       new(sql_v20211101.ServersFailoverGroup),
 			Defaulter: &sql_v20211101w.ServersFailoverGroup{},
 			Validator: &sql_v20211101w.ServersFailoverGroup{},
@@ -7350,6 +7357,11 @@ func getKnownTypes() []*registration.KnownType {
 			Obj:       new(sql_v20211101.ServersIPV6FirewallRule),
 			Defaulter: &sql_v20211101w.ServersIPV6FirewallRule{},
 			Validator: &sql_v20211101w.ServersIPV6FirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20211101.ServersKey),
+			Defaulter: &sql_v20211101w.ServersKey{},
+			Validator: &sql_v20211101w.ServersKey{},
 		},
 		&registration.KnownType{
 			Obj:       new(sql_v20211101.ServersOutboundFirewallRule),
@@ -7388,9 +7400,11 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersDatabasesTransparentDataEncryption)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersDatabasesVulnerabilityAssessment)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersElasticPool)},
+		&registration.KnownType{Obj: new(sql_v20211101s.ServersEncryptionProtector)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersFailoverGroup)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersFirewallRule)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersIPV6FirewallRule)},
+		&registration.KnownType{Obj: new(sql_v20211101s.ServersKey)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersOutboundFirewallRule)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersSecurityAlertPolicy)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersVirtualNetworkRule)},
@@ -8495,9 +8509,11 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &sql_customizations.ServersDatabasesTransparentDataEncryptionExtension{})
 	result = append(result, &sql_customizations.ServersDatabasesVulnerabilityAssessmentExtension{})
 	result = append(result, &sql_customizations.ServersElasticPoolExtension{})
+	result = append(result, &sql_customizations.ServersEncryptionProtectorExtension{})
 	result = append(result, &sql_customizations.ServersFailoverGroupExtension{})
 	result = append(result, &sql_customizations.ServersFirewallRuleExtension{})
 	result = append(result, &sql_customizations.ServersIPV6FirewallRuleExtension{})
+	result = append(result, &sql_customizations.ServersKeyExtension{})
 	result = append(result, &sql_customizations.ServersOutboundFirewallRuleExtension{})
 	result = append(result, &sql_customizations.ServersSecurityAlertPolicyExtension{})
 	result = append(result, &sql_customizations.ServersVirtualNetworkRuleExtension{})
