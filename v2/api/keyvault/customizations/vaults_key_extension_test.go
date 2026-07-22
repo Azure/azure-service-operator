@@ -100,41 +100,19 @@ func Test_VaultsKeyExtension_Delete(t *testing.T) {
 			expectBlocked:  true,
 		},
 		{
-			name: "GET succeeds, disable PUT succeeds - blocked, KeyDeletionBlocked",
+			name: "GET succeeds (key exists) - blocked, no write attempted, KeyDeletionBlocked",
 			handler: func(w http.ResponseWriter, r *http.Request) {
 				switch r.Method {
 				case http.MethodGet:
 					w.WriteHeader(http.StatusOK)
 					_, _ = w.Write([]byte(`{"name":"mykey","properties":{"attributes":{"enabled":true}}}`))
-				case http.MethodPut:
-					w.WriteHeader(http.StatusOK)
-					_, _ = w.Write([]byte(`{"name":"mykey","properties":{"attributes":{"enabled":false}}}`))
 				default:
-					t.Fatalf("unexpected request: %s %s", r.Method, r.URL)
+					t.Fatalf("unexpected request (no write should be attempted): %s %s", r.Method, r.URL)
 				}
 			},
 			expectErr:      true,
 			expectReason:   ReasonKeyDeletionBlocked.Name,
 			expectSeverity: conditions.ConditionSeverityInfo,
-			expectBlocked:  true,
-		},
-		{
-			name: "GET succeeds, disable PUT fails - blocked, KeyDeletionBlockedDisableFailed",
-			handler: func(w http.ResponseWriter, r *http.Request) {
-				switch r.Method {
-				case http.MethodGet:
-					w.WriteHeader(http.StatusOK)
-					_, _ = w.Write([]byte(`{"name":"mykey","properties":{"attributes":{"enabled":true}}}`))
-				case http.MethodPut:
-					w.WriteHeader(http.StatusForbidden)
-					_, _ = w.Write([]byte(`{"error":{"code":"Forbidden","message":"no permission"}}`))
-				default:
-					t.Fatalf("unexpected request: %s %s", r.Method, r.URL)
-				}
-			},
-			expectErr:      true,
-			expectReason:   ReasonKeyDeletionBlockedDisableFailed.Name,
-			expectSeverity: conditions.ConditionSeverityWarning,
 			expectBlocked:  true,
 		},
 	}
@@ -158,6 +136,12 @@ func Test_VaultsKeyExtension_Delete(t *testing.T) {
 				g.Expect(ok).To(BeTrue(), "expected a ReadyConditionImpactingError, got: %v", err)
 				g.Expect(readyErr.Reason).To(Equal(c.expectReason))
 				g.Expect(readyErr.Severity).To(Equal(c.expectSeverity))
+				if c.expectReason == ReasonKeyDeletionBlocked.Name {
+					g.Expect(err.Error()).To(ContainSubstring(
+						"cannot be modified or deleted through the ARM control plane"))
+					g.Expect(err.Error()).To(ContainSubstring("no update or delete operation"))
+					g.Expect(err.Error()).ToNot(ContainSubstring("disabled"))
+				}
 			} else {
 				g.Expect(err).ToNot(HaveOccurred())
 			}
@@ -179,6 +163,7 @@ func Test_VaultsKeyExtension_RequireDetachAcknowledgement(t *testing.T) {
 		err := extension.RequireDetachAcknowledgement(obj)
 		g.Expect(err).To(HaveOccurred())
 		g.Expect(err.Error()).To(ContainSubstring(detachAckAnnotation))
+		g.Expect(err.Error()).ToNot(ContainSubstring("disables the key on delete"))
 	})
 
 	t.Run("annotation present but not true - detach not allowed", func(t *testing.T) {

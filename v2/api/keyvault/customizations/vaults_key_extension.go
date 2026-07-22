@@ -26,7 +26,8 @@ import (
 // detachAckAnnotation, when set to "true" on a VaultsKey object, acknowledges that the underlying Azure
 // key will be left ENABLED and live in Key Vault when the object is detached (reconcile-policy=detach-on-delete).
 // Without this acknowledgment, detach requests are not honored and the operator falls back to its
-// managed-delete behavior (disable the key and block deletion).
+// managed-delete behavior, which blocks deletion of the Kubernetes resource until the key no longer
+// exists in Azure (see Delete below).
 const detachAckAnnotation = "vaultskey.aso.io/acknowledge-key-retained-enabled"
 
 // vaultsKeyARMAPIVersion is the (fixed) ARM API version for VaultsKey. VaultsKey currently has only a
@@ -38,13 +39,10 @@ const vaultsKeyARMAPIVersion = "2023-07-01"
 // Reasons used for the Ready condition set (indirectly, via ReadyConditionImpactingError) while
 // blocking deletion of a VaultsKey.
 var (
-	// ReasonKeyDeletionBlocked indicates the key was successfully disabled in Azure, but deletion
-	// of the Kubernetes resource remains blocked until the operator is explicitly told to proceed.
+	// ReasonKeyDeletionBlocked indicates the key still exists in Azure. VaultsKey has no ARM operation
+	// capable of modifying or deleting an existing key, so deletion of the Kubernetes resource remains
+	// blocked until the key is removed via the Key Vault data-plane, or until detach is acknowledged.
 	ReasonKeyDeletionBlocked = conditions.MakeReason("KeyDeletionBlocked", retry.Slow)
-
-	// ReasonKeyDeletionBlockedDisableFailed indicates an attempt to disable the key in Azure failed,
-	// so the key may still be ENABLED. Deletion remains blocked.
-	ReasonKeyDeletionBlockedDisableFailed = conditions.MakeReason("KeyDeletionBlockedDisableFailed", retry.Slow)
 
 	// ReasonKeyDeletionStatusUnknown indicates the operator could not determine whether the key still
 	// exists in Azure (a GET failed for a reason other than NotFound). Deletion remains blocked and the
@@ -66,20 +64,22 @@ func (e *VaultsKeyExtension) RequireDetachAcknowledgement(obj genruntime.MetaObj
 	return errors.New("reconcile-policy=detach-on-delete is in effect (possibly via a namespace-wide policy), " +
 		"but VaultsKey retains the Azure key in an ENABLED, live state when detached. To detach, set annotation " +
 		detachAckAnnotation + `="true" on THIS object, or override with object-level reconcile-policy=manage ` +
-		"(which disables the key on delete). Falling back to managed delete (disable + block) until then.")
+		"(which blocks deletion until the key is removed via the data-plane). Falling back to managed delete " +
+		"(block until key is removed) until then.")
 }
 
 var _ extensions.Deleter = &VaultsKeyExtension{}
 
 // Delete implements extensions.Deleter.
 //
-// There is no ARM management-plane DELETE operation for Key Vault keys (see
-// VaultsKey.GetSupportedOperations, which only returns Get and Put); deleting/disabling keys is a
-// data-plane concept. Because of this, and because a key holds live cryptographic material, this
-// extension deliberately never allows the operator to make the underlying Azure key inaccessible on
-// its own initiative: the best it will do is disable the key (attributes.enabled=false) via an ARM PUT,
-// and it always blocks removal of the Kubernetes finalizer afterward. The only ways to actually get rid
-// of the Kubernetes object are:
+// There is no ARM management-plane DELETE (or UPDATE) operation for Key Vault keys (see
+// VaultsKey.GetSupportedOperations, which only returns Get and Put; the Put operation
+// - Keys_CreateIfNotExist - performs no write operations when the key already exists, i.e. it is
+// create-only). Modifying or disabling a key's attributes is exclusively a Key Vault data-plane
+// concept, outside the ARM control plane this resource operates on. Because of this, and because a key
+// holds live cryptographic material, this extension deliberately never allows the operator to make the
+// underlying Azure key inaccessible on its own initiative: it always blocks removal of the Kubernetes
+// finalizer while the key still exists. The only ways to actually get rid of the Kubernetes object are:
 //   - the key has already been removed/purged from Key Vault out of band (data-plane purge), in which
 //     case the GET below returns NotFound and we allow the Kubernetes delete to proceed, or
 //   - RequireDetachAcknowledgement above is satisfied and reconcile-policy=detach-on-delete is used, in
@@ -103,18 +103,12 @@ func (e *VaultsKeyExtension) Delete(
 
 	resourceID := genruntime.GetResourceIDOrDefault(typedObj)
 	if resourceID == "" {
-		// Never created in Azure to begin with, nothing to disable/block on.
+		// Never created in Azure to begin with, nothing to block on.
 		log.V(1).Info("VaultsKey has no ARM resource ID; nothing to delete")
 		return ctrl.Result{}, nil
 	}
 
-	// Step 1: GET the current state of the key from ARM.
-	//
-	// Known, documented, non-blocking limitation: there is a narrow race window between this GET and
-	// the PUT below. If the key is purged (data-plane) in that split-second window, this PUT will
-	// recreate the key (in a disabled state) rather than leaving it purged. There is no atomic
-	// conditional PUT available in this ARM API to close this race entirely. This is considered
-	// acceptable: the window is narrow, and the outcome (a disabled key) is still safe.
+	// GET the current state of the key from ARM to determine whether it still exists.
 	raw := make(map[string]any)
 	_, err := armClient.GetByID(ctx, resourceID, vaultsKeyARMAPIVersion, &raw)
 	if err != nil {
@@ -125,8 +119,7 @@ func (e *VaultsKeyExtension) Delete(
 			return ctrl.Result{}, nil
 		}
 
-		// We couldn't determine whether the key still exists. Do not proceed with a PUT, and do not
-		// allow deletion to proceed either - retry.
+		// We couldn't determine whether the key still exists. Do not allow deletion to proceed - retry.
 		return ctrl.Result{}, conditions.NewReadyConditionImpactingError(
 			eris.Wrapf(err, "failed to get current state of key %q before delete", typedObj.Name),
 			conditions.ConditionSeverityWarning,
@@ -134,34 +127,18 @@ func (e *VaultsKeyExtension) Delete(
 		)
 	}
 
-	// Step 2: best-effort disable (not delete) of the key via ARM PUT.
-	disableErr := disableKey(ctx, armClient, resourceID, vaultsKeyARMAPIVersion, raw)
-
-	// Step 3/4: regardless of whether disabling succeeded, deletion remains blocked. We distinguish the
-	// two outcomes via distinct Reasons/Severities on the Ready condition (set indirectly via the
-	// returned ReadyConditionImpactingError - see generic_reconciler.go, which unconditionally overwrites
-	// any condition we might set directly here on a non-error return, so an error return is required for
-	// a custom Reason/Message to stick).
-	if disableErr != nil {
-		msg := eris.Wrapf(
-			disableErr,
-			"failed to disable key %q in Azure; the key MAY STILL BE ENABLED. Deletion of this resource is "+
-				"blocked until the key can be confirmed disabled. Retry, or check RBAC/permissions on the key vault",
-			typedObj.Name,
-		)
-		return ctrl.Result{}, conditions.NewReadyConditionImpactingError(
-			msg,
-			conditions.ConditionSeverityWarning,
-			ReasonKeyDeletionBlockedDisableFailed,
-		)
-	}
-
+	// The key still exists in Azure. There is no ARM operation available to modify or delete it (see
+	// the function doc comment above), so deletion of this Kubernetes resource remains blocked. We
+	// return an error to force a custom Reason/Message to stick on the Ready condition (set indirectly
+	// via ReadyConditionImpactingError - see generic_reconciler.go, which unconditionally overwrites any
+	// condition we might set directly here on a non-error return).
 	msg := eris.Errorf(
-		"key %q has been disabled in Azure but not deleted; VaultsKey does not support deleting keys via "+
-			"ARM. Deletion of this resource remains blocked to prevent silently leaving a live/enabled key "+
-			"behind. To proceed, either use reconcile-policy=detach-on-delete with the %q=\"true\" "+
-			"annotation, or purge the key out of band via the Key Vault data plane",
-		typedObj.Name,
+		"Microsoft.KeyVault/vaults/keys cannot be modified or deleted through the ARM control plane (the "+
+			"API supports only create and read; it has no update or delete operation). ASO will not remove "+
+			"this Kubernetes resource while the key still exists in Azure. To proceed: (a) set "+
+			"reconcile-policy=detach-on-delete plus annotation %s=\"true\" to detach the CR while leaving "+
+			"the key intact in Azure, or (b) disable/destroy the key via the Key Vault data-plane "+
+			"(CLI/Portal/az keyvault key set-attributes|delete), then re-attempt deletion",
 		detachAckAnnotation,
 	)
 	return ctrl.Result{}, conditions.NewReadyConditionImpactingError(
@@ -169,40 +146,4 @@ func (e *VaultsKeyExtension) Delete(
 		conditions.ConditionSeverityInfo,
 		ReasonKeyDeletionBlocked,
 	)
-}
-
-// disableKey issues a best-effort ARM PUT to set properties.attributes.enabled=false on the raw ARM
-// resource representation obtained from a prior GET, without otherwise modifying the resource.
-func disableKey(
-	ctx context.Context,
-	armClient *genericarmclient.GenericClient,
-	resourceID string,
-	apiVersion string,
-	raw map[string]any,
-) error {
-	properties, ok := raw["properties"].(map[string]any)
-	if !ok {
-		properties = map[string]any{}
-		raw["properties"] = properties
-	}
-
-	attributes, ok := properties["attributes"].(map[string]any)
-	if !ok {
-		attributes = map[string]any{}
-		properties["attributes"] = attributes
-	}
-
-	attributes["enabled"] = false
-
-	poller, err := armClient.BeginCreateOrUpdateByID(ctx, resourceID, apiVersion, raw)
-	if err != nil {
-		return eris.Wrapf(err, "failed to begin disabling key")
-	}
-
-	_, err = poller.Poller.PollUntilDone(ctx, nil)
-	if err != nil {
-		return eris.Wrapf(err, "failed while polling disable operation to completion")
-	}
-
-	return nil
 }
