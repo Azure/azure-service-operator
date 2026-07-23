@@ -340,6 +340,9 @@ groupModelConfiguration:
     Service_Certificate:
       $exportAs: Certificate
       $supportedFrom: v2.19.0
+    Service_Diagnostic:
+      $exportAs: Diagnostic
+      $supportedFrom: v2.21.0
     Service_Gateway:
       $exportAs: ServiceGateway # Has to be prefixed with service because a non-service Gateway exists too
       $supportedFrom: v2.19.0
