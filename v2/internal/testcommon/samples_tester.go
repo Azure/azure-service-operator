@@ -67,6 +67,7 @@ var exclusions = []*regexp.Regexp{
 	// which the samples recordings aren't using.
 	regexp.MustCompile(`sql/.*_serversadministrator.yaml`),
 	regexp.MustCompile(`sql/.*_serversazureadonlyauthentication.yaml`),
+	regexp.MustCompile(`dbforpostgresql/.*_flexibleserversadministrator.yaml`),
 
 	// Requires creating multiple linked SQL servers which is hard to do in the samples
 	regexp.MustCompile(`sql/.*_serversfailovergroup.yaml`),
