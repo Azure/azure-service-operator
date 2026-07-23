@@ -3,10 +3,15 @@
 package v1
 
 import (
+	"fmt"
+
+	"github.com/google/uuid"
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
+	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
+	asoentra "github.com/Azure/azure-service-operator/v2/api/entra"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -55,6 +60,7 @@ type SecurityGroupList struct {
 	Items           []SecurityGroup `json:"items"`
 }
 
+// +kubebuilder:validation:XValidation:rule="(has(self.owners) ? size(self.owners) : 0) + (has(self.members) ? size(self.members) : 0) <= 20",message="the combined number of owners and members must not exceed 20"
 type SecurityGroupSpec struct {
 	// DisplayName: The display name of the group.
 	// +kubebuilder:validation:Required
@@ -76,11 +82,150 @@ type SecurityGroupSpec struct {
 
 	// IsAssignableToRole: Indicates whether the group can be assigned to a role.
 	IsAssignableToRole *bool `json:"isAssignableToRole,omitempty"`
+
+	// Owners: Directory objects (users, service principals, groups) to assign as owners of the security
+	// group at creation time. Applied during the initial POST to Microsoft Graph via `owners@odata.bind`
+	// and then used as desired owner state for later reconciliation.
+	// Required when ASO authenticates with an app-only token and the calling principal lacks Group.ReadWrite.All —
+	// otherwise the created group has no owners and is unmanageable.
+	// +kubebuilder:validation:MaxItems=20
+	// +kubebuilder:validation:XValidation:rule="size(self.filter(x, has(x.objectID)).map(x, x.objectID).distinct()) == size(self.filter(x, has(x.objectID)))",message="owners must be unique"
+	// +kubebuilder:validation:XValidation:rule="size(self.filter(x, has(x.objectIDFromConfig)).map(x, x.objectIDFromConfig).distinct()) == size(self.filter(x, has(x.objectIDFromConfig)))",message="owners must be unique"
+	Owners []SecurityGroupMemberReference `json:"owners,omitempty"`
+
+	// Members: Directory objects (users, service principals, groups) to assign as members of the security
+	// group at creation time. Applied during the initial POST to Microsoft Graph via `members@odata.bind`
+	// and then used as desired member state for later reconciliation.
+	// +kubebuilder:validation:MaxItems=20
+	// +kubebuilder:validation:XValidation:rule="size(self.filter(x, has(x.objectID)).map(x, x.objectID).distinct()) == size(self.filter(x, has(x.objectID)))",message="members must be unique"
+	// +kubebuilder:validation:XValidation:rule="size(self.filter(x, has(x.objectIDFromConfig)).map(x, x.objectIDFromConfig).distinct()) == size(self.filter(x, has(x.objectIDFromConfig)))",message="members must be unique"
+	Members []SecurityGroupMemberReference `json:"members,omitempty"`
+}
+
+// SecurityGroupMemberReference is a reference to a directory object (user, service principal, or group) by its
+// Entra Object ID.
+// +kubebuilder:validation:XValidation:rule="has(self.objectID) != has(self.objectIDFromConfig)",message="exactly one of objectID or objectIDFromConfig must be specified"
+type SecurityGroupMemberReference struct {
+	// ObjectID: The Entra Object ID (GUID) of the directory object.
+	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+	ObjectID *string `json:"objectID,omitempty" optionalConfigMapPair:"ObjectID"`
+
+	// ObjectIDFromConfig: Reference to a configmap value containing the Entra Object ID.
+	ObjectIDFromConfig *genruntime.ConfigMapReference `json:"objectIDFromConfig,omitempty" optionalConfigMapPair:"ObjectID"`
+}
+
+// ResolveObjectID returns the Entra Object ID for this reference, looking it up via the resolved
+// config maps when ObjectIDFromConfig is set. Returns an error if neither ObjectID nor
+// ObjectIDFromConfig is populated, or if the configmap lookup fails.
+func (ref *SecurityGroupMemberReference) ResolveObjectID(
+	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
+) (string, error) {
+	switch {
+	case ref.ObjectID != nil:
+		return *ref.ObjectID, nil
+
+	case ref.ObjectIDFromConfig != nil:
+		val, err := resolved.Lookup(*ref.ObjectIDFromConfig)
+		if err != nil {
+			return "", eris.Wrapf(err, "failed resolving objectIDFromConfig")
+		}
+
+		// Check that the resolved value is a valid GUID by trying to parse it
+		if _, err = uuid.Parse(val); err != nil {
+			return "", eris.Wrapf(err, "invalid GUID resolved from objectIDFromConfig")
+		}
+
+		return val, nil
+
+	default:
+		return "", eris.New("missing objectID or objectIDFromConfig")
+	}
 }
 
 // OriginalVersion returns the original API version used to create the resource.
 func (spec *SecurityGroupSpec) OriginalVersion() string {
 	return GroupVersion.Version
+}
+
+// AssignODataBindOnCreate sets the `owners@odata.bind` and `members@odata.bind` additional data
+// on the group model. These annotations are only valid during the initial POST to Microsoft Graph;
+// they must NOT be included in PATCH requests.
+// The typed setters (SetOwners/SetMembers) serialize as nested objects which Graph rejects on create —
+// the @odata.bind annotation is the only working shape for setting owners/members inline at creation time.
+func (spec *SecurityGroupSpec) AssignODataBindOnCreate(
+	model models.Groupable,
+	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
+) error {
+	additionalData := model.GetAdditionalData()
+	if additionalData == nil {
+		additionalData = make(map[string]any)
+	}
+
+	if len(spec.Owners) > 0 {
+		owners, err := graphDirectoryURIs(spec.Owners, "owners", resolved)
+		if err != nil {
+			return err
+		}
+
+		additionalData["owners@odata.bind"] = owners
+	}
+
+	if len(spec.Members) > 0 {
+		members, err := graphDirectoryURIs(spec.Members, "members", resolved)
+		if err != nil {
+			return err
+		}
+
+		additionalData["members@odata.bind"] = members
+	}
+
+	model.SetAdditionalData(additionalData)
+	return nil
+}
+
+// ResolveOwnerObjectIDs resolves owner object IDs, returning an error if two entries
+// resolve to the same identifier.
+func (spec *SecurityGroupSpec) ResolveOwnerObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]string, error) {
+	return resolveMemberObjectIDs(spec.Owners, "owners", resolved)
+}
+
+// ResolveMemberObjectIDs resolves member object IDs, returning an error if two entries
+// resolve to the same identifier.
+func (spec *SecurityGroupSpec) ResolveMemberObjectIDs(resolved genruntime.Resolved[genruntime.ConfigMapReference, string]) ([]string, error) {
+	return resolveMemberObjectIDs(spec.Members, "members", resolved)
+}
+
+// resolveMemberObjectIDs resolves each entry via ResolveObjectID and returns an error
+// if two entries share the same resolved id. CEL admission rules already catch
+// inline-vs-inline and configmap-vs-configmap collisions, but they cannot detect a
+// mixed case where an inline ObjectID equals a value looked up from a ConfigMap; that
+// case needs to be checked at reconcile time so users see the problem instead of
+// having ASO silently drop one of the entries.
+func resolveMemberObjectIDs(
+	references []SecurityGroupMemberReference,
+	field string,
+	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
+) ([]string, error) {
+	firstSeenAt := make(map[string]int, len(references))
+	result := make([]string, 0, len(references))
+	for i, ref := range references {
+		id, err := ref.ResolveObjectID(resolved)
+		if err != nil {
+			return nil, eris.Wrapf(err, "%s[%d]", field, i)
+		}
+
+		if firstIndex, ok := firstSeenAt[id]; ok {
+			return nil, eris.Errorf(
+				"%s[%d] resolves to the same object id as %s[%d] (%s)",
+				field, i, field, firstIndex, id,
+			)
+		}
+
+		firstSeenAt[id] = i
+		result = append(result, id)
+	}
+
+	return result, nil
 }
 
 // AssignToGroup configures the provided instance with the details of the group
@@ -160,8 +305,7 @@ func (status *SecurityGroupStatus) AssignFromGroup(model models.Groupable) {
 	}
 }
 
-// +kubebuilder:validation:Enum={"assigned","enabled","assignedm365","enabledm365"}
-// +kubebuilder:default=AdoptOrCreate
+// +kubebuilder:validation:Enum={"assigned","dynamic","assignedm365","dynamicm365"}
 type SecurityGroupMembershipType string
 
 const (
@@ -210,6 +354,26 @@ func (spec *SecurityGroupOperatorSpec) AdoptionAllowed() bool {
 type SecurityGroupOperatorConfigMaps struct {
 	// EntraID: The Entra ID of the group.
 	EntraID *genruntime.ConfigMapDestination `json:"entraID,omitempty"`
+}
+
+// graphDirectoryURIs resolves a slice of member references to Microsoft Graph directory object URIs.
+// fieldName (e.g. "owners" or "members") is used to provide context in error messages.
+func graphDirectoryURIs(
+	references []SecurityGroupMemberReference,
+	fieldName string,
+	resolved genruntime.Resolved[genruntime.ConfigMapReference, string],
+) ([]string, error) {
+	uris := make([]string, 0, len(references))
+	for i, ref := range references {
+		id, err := ref.ResolveObjectID(resolved)
+		if err != nil {
+			return nil, fmt.Errorf("%s[%d]: %w", fieldName, i, err)
+		}
+
+		uris = append(uris, asoentra.DirectoryObjectRefURI(id))
+	}
+
+	return uris, nil
 }
 
 func init() {

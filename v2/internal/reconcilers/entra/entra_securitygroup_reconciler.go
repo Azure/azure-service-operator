@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -23,7 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
+	asoentrav1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
@@ -73,7 +74,7 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 ) (ctrl.Result, error) {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", group.Name)
+		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", obj.GetName())
 	}
 
 	// If we already know the Entra ID of the group (captured in an annotation), we can update it directly
@@ -110,11 +111,11 @@ func (r *EntraSecurityGroupReconciler) Delete(
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
 ) (ctrl.Result, error) {
-	log.V(Status).Info("Updating Entra security group")
+	log.V(Status).Info("Deleting Entra security group")
 
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", group.Name)
+		return ctrl.Result{}, eris.Wrapf(err, "deleting security group %s", obj.GetName())
 	}
 
 	// If don't know the Entra ID of the group (captured in an annotation), there's nothing to do.
@@ -167,7 +168,7 @@ func (r *EntraSecurityGroupReconciler) Claim(
 func (r *EntraSecurityGroupReconciler) update(
 	ctx context.Context,
 	id string,
-	group *asoentra.SecurityGroup,
+	group *asoentrav1.SecurityGroup,
 	log logr.Logger,
 ) (ctrl.Result, error) {
 	log = log.WithValues("id", id)
@@ -204,6 +205,10 @@ func (r *EntraSecurityGroupReconciler) update(
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update group %s", id)
 	}
 
+	if result, err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log); err != nil {
+		return classifyRelationshipError(result, err)
+	}
+
 	group.Status.AssignFromGroup(g)
 
 	return ctrl.Result{}, nil
@@ -220,7 +225,7 @@ func (r *EntraSecurityGroupReconciler) update(
 // or nil, error if there was a problem finding the group.
 func (r *EntraSecurityGroupReconciler) tryAdopt(
 	ctx context.Context,
-	group *asoentra.SecurityGroup,
+	group *asoentrav1.SecurityGroup,
 	log logr.Logger,
 ) (string, error) {
 	log.V(Status).Info("Searching for existing Entra security group to adopt", "group", group.Name)
@@ -278,7 +283,7 @@ func (r *EntraSecurityGroupReconciler) tryAdopt(
 // log is the logger to use for logging.
 func (r *EntraSecurityGroupReconciler) create(
 	ctx context.Context,
-	group *asoentra.SecurityGroup,
+	group *asoentrav1.SecurityGroup,
 	log logr.Logger,
 ) (ctrl.Result, error) {
 	log.V(Status).Info("Creating Entra security group")
@@ -291,6 +296,17 @@ func (r *EntraSecurityGroupReconciler) create(
 
 	g := msgraphmodels.NewGroup()
 	group.Spec.AssignToGroup(g)
+
+	// Resolve config map references for this resource so we can populate any
+	// ObjectIDFromConfig values used in owners/members.
+	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
+	}
+
+	if err := group.Spec.AssignODataBindOnCreate(g, resolvedConfigMaps); err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed preparing create payload for group %s", group.Name)
+	}
 
 	status, err := client.Client().Groups().Post(ctx, g, nil)
 	if err != nil {
@@ -320,7 +336,7 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 ) error {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return eris.Wrapf(err, "updating status of security group %s", group.Name)
+		return eris.Wrapf(err, "updating status of security group %s", obj.GetName())
 	}
 
 	client, err := r.EntraClientFactory(ctx, obj)
@@ -383,8 +399,11 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 	displayName string,
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Groupable, error) {
-	// Try to get the group by display name
-	filterStr := fmt.Sprintf("displayName eq '%s'", displayName)
+	// Try to get the group by display name.
+	// Escape single quotes in the display name per the OData v4 spec: a single quote
+	// within a string literal is represented as two consecutive single quotes.
+	escapedDisplayName := strings.ReplaceAll(displayName, "'", "''")
+	filterStr := fmt.Sprintf("displayName eq '%s'", escapedDisplayName)
 
 	query := &groups.GroupsRequestBuilderGetQueryParameters{
 		Filter: &filterStr,
@@ -417,8 +436,8 @@ func (r *EntraSecurityGroupReconciler) isNotFound(err error) bool {
 
 func (r *EntraSecurityGroupReconciler) asSecurityGroup(
 	obj genruntime.MetaObject,
-) (*asoentra.SecurityGroup, error) {
-	typedObj, ok := obj.(*asoentra.SecurityGroup)
+) (*asoentrav1.SecurityGroup, error) {
+	typedObj, ok := obj.(*asoentrav1.SecurityGroup)
 	if !ok {
 		return nil, eris.Errorf("cannot modify resource that is not of type *entra.SecurityGroup. Type is %T", obj)
 	}
@@ -426,7 +445,7 @@ func (r *EntraSecurityGroupReconciler) asSecurityGroup(
 	return typedObj, nil
 }
 
-func (r *EntraSecurityGroupReconciler) canAdopt(group *asoentra.SecurityGroup) bool {
+func (r *EntraSecurityGroupReconciler) canAdopt(group *asoentrav1.SecurityGroup) bool {
 	if group.Spec.OperatorSpec == nil {
 		// Default is AdoptOrCreate
 		return true
@@ -435,7 +454,7 @@ func (r *EntraSecurityGroupReconciler) canAdopt(group *asoentra.SecurityGroup) b
 	return group.Spec.OperatorSpec.AdoptionAllowed()
 }
 
-func (r *EntraSecurityGroupReconciler) canCreate(group *asoentra.SecurityGroup) bool {
+func (r *EntraSecurityGroupReconciler) canCreate(group *asoentrav1.SecurityGroup) bool {
 	if group.Spec.OperatorSpec == nil {
 		// Default is AdoptOrCreate
 		return true
@@ -449,7 +468,7 @@ func (r *EntraSecurityGroupReconciler) canCreate(group *asoentra.SecurityGroup) 
 // TODO: Currently hard coded, but we should extract common features for reuse across other Entra resources
 func (r *EntraSecurityGroupReconciler) saveAssociatedKubernetesResources(
 	ctx context.Context,
-	group *asoentra.SecurityGroup,
+	group *asoentrav1.SecurityGroup,
 	log logr.Logger,
 ) error {
 	if group == nil ||
