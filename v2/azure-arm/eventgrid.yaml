@@ -1,3 +1,11 @@
+typeTransformers:
+  # PrincipalId and TenantId are populated by Azure once the identity is provisioned; they aren't legal for a user
+  # to set, but Swagger doesn't mark them readOnly because the same IdentityInfo shape is reused for output.
+  - name: IdentityInfo
+    property: PrincipalId;TenantId
+    remove: true
+    because: These properties are populated by Azure and should only appear in status, not spec
+
 groupModelConfiguration:
   2020-06-01:
     Domain:
@@ -12,6 +20,27 @@ groupModelConfiguration:
     Topic:
       $exportAs: Topic
       $supportedFrom: v2.0.0-alpha.3
+      $azureGeneratedSecrets:
+        - Key1
+        - Key2
+      $generatedConfigs:
+        Endpoint: $.Status.Endpoint
+  2025-02-15:
+    StaticDeliveryAttributeMappingProperties:
+      IsSecret:
+        $importSecretMode: never # This is a boolean flag indicating whether the delivery attribute value is sensitive, not a secret value itself
+    Domain:
+      $exportAs: Domain
+      $supportedFrom: v2.21.0
+    Domains_Topic:
+      $exportAs: DomainsTopic
+      $supportedFrom: v2.21.0
+    EventSubscription:
+      $exportAs: EventSubscription
+      $supportedFrom: v2.21.0
+    Topic:
+      $exportAs: Topic
+      $supportedFrom: v2.21.0
       $azureGeneratedSecrets:
         - Key1
         - Key2

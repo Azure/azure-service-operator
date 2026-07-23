@@ -317,6 +317,9 @@ import (
 	eventgrid_v20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601"
 	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
 	eventgrid_v20200601w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/webhook"
+	eventgrid_v20250215 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215"
+	eventgrid_v20250215s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/storage"
+	eventgrid_v20250215w "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/webhook"
 	eventhub_customizations "github.com/Azure/azure-service-operator/v2/api/eventhub/customizations"
 	eventhub_v20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101"
 	eventhub_v20211101s "github.com/Azure/azure-service-operator/v2/api/eventhub/v1api20211101/storage"
@@ -1715,11 +1718,15 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Domain)})
-	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.DomainsTopic)})
+	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.Domain)})
+	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.DomainsTopic)})
 	result = append(result, &registration.StorageType{
-		Obj: new(eventgrid_v20200601s.EventSubscription),
+		Obj: new(eventgrid_v20250215s.EventSubscription),
 		Indexes: []registration.Index{
+			{
+				Key:  ".spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl",
+				Func: indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl,
+			},
 			{
 				Key:  ".spec.destination.webHook.endpointUrl",
 				Func: indexEventgridEventSubscriptionEndpointUrl,
@@ -1730,13 +1737,14 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Type: &v1.Secret{},
 				MakeEventHandler: watchSecretsFactory(
 					[]string{
+						".spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl",
 						".spec.destination.webHook.endpointUrl",
 					},
-					&eventgrid_v20200601s.EventSubscriptionList{}),
+					&eventgrid_v20250215s.EventSubscriptionList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20200601s.Topic)})
+	result = append(result, &registration.StorageType{Obj: new(eventgrid_v20250215s.Topic)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.Namespace)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesAuthorizationRule)})
 	result = append(result, &registration.StorageType{Obj: new(eventhub_v20240101s.NamespacesEventhub)})
@@ -5856,6 +5864,34 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.Domain),
+			Defaulter: &eventgrid_v20250215w.Domain{},
+			Validator: &eventgrid_v20250215w.Domain{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.DomainsTopic),
+			Defaulter: &eventgrid_v20250215w.DomainsTopic{},
+			Validator: &eventgrid_v20250215w.DomainsTopic{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.EventSubscription),
+			Defaulter: &eventgrid_v20250215w.EventSubscription{},
+			Validator: &eventgrid_v20250215w.EventSubscription{},
+		},
+		&registration.KnownType{
+			Obj:       new(eventgrid_v20250215.Topic),
+			Defaulter: &eventgrid_v20250215w.Topic{},
+			Validator: &eventgrid_v20250215w.Topic{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.Domain)},
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.DomainsTopic)},
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.EventSubscription)},
+		&registration.KnownType{Obj: new(eventgrid_v20250215s.Topic)})
+	result = append(
+		result,
+		&registration.KnownType{
 			Obj:       new(eventhub_v20211101.Namespace),
 			Defaulter: &eventhub_v20211101w.Namespace{},
 			Validator: &eventhub_v20211101w.Namespace{},
@@ -8094,6 +8130,8 @@ func createScheme() *runtime.Scheme {
 	_ = eventgrid_v1api20200601s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
 	_ = eventgrid_v20200601s.AddToScheme(scheme)
+	_ = eventgrid_v20250215.AddToScheme(scheme)
+	_ = eventgrid_v20250215s.AddToScheme(scheme)
 	_ = eventhub_v20211101.AddToScheme(scheme)
 	_ = eventhub_v20211101s.AddToScheme(scheme)
 	_ = eventhub_v20240101.AddToScheme(scheme)
@@ -10092,9 +10130,30 @@ func indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 	return obj.Spec.PrincipalIdFromConfig.Index()
 }
 
-// indexEventgridEventSubscriptionEndpointUrl an index function for eventgrid_v20200601s.EventSubscription .spec.destination.webHook.endpointUrl
+// indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl an index function for eventgrid_v20250215s.EventSubscription .spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl
+func indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.EndpointUrl == nil {
+		return nil
+	}
+	return obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.EndpointUrl.Index()
+}
+
+// indexEventgridEventSubscriptionEndpointUrl an index function for eventgrid_v20250215s.EventSubscription .spec.destination.webHook.endpointUrl
 func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
-	obj, ok := rawObj.(*eventgrid_v20200601s.EventSubscription)
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
 	if !ok {
 		return nil
 	}
