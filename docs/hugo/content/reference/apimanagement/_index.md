@@ -11,9 +11,9 @@ To install the CRDs for these resources, your ASO configuration must include `ap
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                                                                     | ARM Version | CRD Version | Supported From | Sample |
-|------------------------------------------------------------------------------|-------------|-------------|----------------|--------|
-| [Diagnostic]({{< relref "/reference/apimanagement/v20240501#Diagnostic" >}}) | 2024-05-01  | v20240501   | v2.21.0        | -      |
+| Resource                                                                     | ARM Version | CRD Version | Supported From | Sample                                                                                                                         |
+|------------------------------------------------------------------------------|-------------|-------------|----------------|--------------------------------------------------------------------------------------------------------------------------------|
+| [Diagnostic]({{< relref "/reference/apimanagement/v20240501#Diagnostic" >}}) | 2024-05-01  | v20240501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_diagnostic.yaml) |
 
 ### Latest Released Versions
 
