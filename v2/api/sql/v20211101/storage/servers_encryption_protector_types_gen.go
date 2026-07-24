@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serversencryptionprotectors,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serversencryptionprotectors/status,serversencryptionprotectors/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (protector *ServersEncryptionProtector) GetConditions() conditions.Conditio
 // SetConditions sets the conditions on the resource status
 func (protector *ServersEncryptionProtector) SetConditions(conditions conditions.Conditions) {
 	protector.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersEncryptionProtector{}
+
+// ConvertFrom populates our ServersEncryptionProtector from the provided hub ServersEncryptionProtector
+func (protector *ServersEncryptionProtector) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersEncryptionProtector)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersEncryptionProtector but received %T instead", hub)
+	}
+
+	return protector.AssignProperties_From_ServersEncryptionProtector(source)
+}
+
+// ConvertTo populates the provided hub ServersEncryptionProtector from our ServersEncryptionProtector
+func (protector *ServersEncryptionProtector) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersEncryptionProtector)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersEncryptionProtector but received %T instead", hub)
+	}
+
+	return protector.AssignProperties_To_ServersEncryptionProtector(destination)
 }
 
 var _ configmaps.Exporter = &ServersEncryptionProtector{}
@@ -142,8 +163,75 @@ func (protector *ServersEncryptionProtector) SetStatus(status genruntime.Convert
 	return nil
 }
 
-// Hub marks that this ServersEncryptionProtector is the hub type for conversion
-func (protector *ServersEncryptionProtector) Hub() {}
+// AssignProperties_From_ServersEncryptionProtector populates our ServersEncryptionProtector from the provided source ServersEncryptionProtector
+func (protector *ServersEncryptionProtector) AssignProperties_From_ServersEncryptionProtector(source *storage.ServersEncryptionProtector) error {
+
+	// ObjectMeta
+	protector.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersEncryptionProtector_Spec
+	err := spec.AssignProperties_From_ServersEncryptionProtector_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersEncryptionProtector_Spec() to populate field Spec")
+	}
+	protector.Spec = spec
+
+	// Status
+	var status ServersEncryptionProtector_STATUS
+	err = status.AssignProperties_From_ServersEncryptionProtector_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersEncryptionProtector_STATUS() to populate field Status")
+	}
+	protector.Status = status
+
+	// Invoke the augmentConversionForServersEncryptionProtector interface (if implemented) to customize the conversion
+	var protectorAsAny any = protector
+	if augmentedProtector, ok := protectorAsAny.(augmentConversionForServersEncryptionProtector); ok {
+		err := augmentedProtector.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersEncryptionProtector populates the provided destination ServersEncryptionProtector from our ServersEncryptionProtector
+func (protector *ServersEncryptionProtector) AssignProperties_To_ServersEncryptionProtector(destination *storage.ServersEncryptionProtector) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *protector.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersEncryptionProtector_Spec
+	err := protector.Spec.AssignProperties_To_ServersEncryptionProtector_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersEncryptionProtector_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersEncryptionProtector_STATUS
+	err = protector.Status.AssignProperties_To_ServersEncryptionProtector_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersEncryptionProtector_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersEncryptionProtector interface (if implemented) to customize the conversion
+	var protectorAsAny any = protector
+	if augmentedProtector, ok := protectorAsAny.(augmentConversionForServersEncryptionProtector); ok {
+		err := augmentedProtector.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (protector *ServersEncryptionProtector) OriginalGVK() *schema.GroupVersionKind {
@@ -163,6 +251,11 @@ type ServersEncryptionProtectorList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ServersEncryptionProtector `json:"items"`
+}
+
+type augmentConversionForServersEncryptionProtector interface {
+	AssignPropertiesFrom(src *storage.ServersEncryptionProtector) error
+	AssignPropertiesTo(dst *storage.ServersEncryptionProtector) error
 }
 
 // Storage version of v20211101.ServersEncryptionProtector_Spec
@@ -185,20 +278,174 @@ var _ genruntime.ConvertibleSpec = &ServersEncryptionProtector_Spec{}
 
 // ConvertSpecFrom populates our ServersEncryptionProtector_Spec from the provided source
 func (protector *ServersEncryptionProtector_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == protector {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersEncryptionProtector_Spec)
+	if ok {
+		// Populate our instance from source
+		return protector.AssignProperties_From_ServersEncryptionProtector_Spec(src)
 	}
 
-	return source.ConvertSpecTo(protector)
+	// Convert to an intermediate form
+	src = &storage.ServersEncryptionProtector_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = protector.AssignProperties_From_ServersEncryptionProtector_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersEncryptionProtector_Spec
 func (protector *ServersEncryptionProtector_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == protector {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersEncryptionProtector_Spec)
+	if ok {
+		// Populate destination from our instance
+		return protector.AssignProperties_To_ServersEncryptionProtector_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(protector)
+	// Convert to an intermediate form
+	dst = &storage.ServersEncryptionProtector_Spec{}
+	err := protector.AssignProperties_To_ServersEncryptionProtector_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersEncryptionProtector_Spec populates our ServersEncryptionProtector_Spec from the provided source ServersEncryptionProtector_Spec
+func (protector *ServersEncryptionProtector_Spec) AssignProperties_From_ServersEncryptionProtector_Spec(source *storage.ServersEncryptionProtector_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutoRotationEnabled
+	if source.AutoRotationEnabled != nil {
+		autoRotationEnabled := *source.AutoRotationEnabled
+		protector.AutoRotationEnabled = &autoRotationEnabled
+	} else {
+		protector.AutoRotationEnabled = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersEncryptionProtectorOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersEncryptionProtectorOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersEncryptionProtectorOperatorSpec() to populate field OperatorSpec")
+		}
+		protector.OperatorSpec = &operatorSpec
+	} else {
+		protector.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	protector.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		protector.Owner = &owner
+	} else {
+		protector.Owner = nil
+	}
+
+	// ServerKeyName
+	protector.ServerKeyName = genruntime.ClonePointerToString(source.ServerKeyName)
+
+	// ServerKeyType
+	protector.ServerKeyType = genruntime.ClonePointerToString(source.ServerKeyType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		protector.PropertyBag = propertyBag
+	} else {
+		protector.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersEncryptionProtector_Spec interface (if implemented) to customize the conversion
+	var protectorAsAny any = protector
+	if augmentedProtector, ok := protectorAsAny.(augmentConversionForServersEncryptionProtector_Spec); ok {
+		err := augmentedProtector.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersEncryptionProtector_Spec populates the provided destination ServersEncryptionProtector_Spec from our ServersEncryptionProtector_Spec
+func (protector *ServersEncryptionProtector_Spec) AssignProperties_To_ServersEncryptionProtector_Spec(destination *storage.ServersEncryptionProtector_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(protector.PropertyBag)
+
+	// AutoRotationEnabled
+	if protector.AutoRotationEnabled != nil {
+		autoRotationEnabled := *protector.AutoRotationEnabled
+		destination.AutoRotationEnabled = &autoRotationEnabled
+	} else {
+		destination.AutoRotationEnabled = nil
+	}
+
+	// OperatorSpec
+	if protector.OperatorSpec != nil {
+		var operatorSpec storage.ServersEncryptionProtectorOperatorSpec
+		err := protector.OperatorSpec.AssignProperties_To_ServersEncryptionProtectorOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersEncryptionProtectorOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = protector.OriginalVersion
+
+	// Owner
+	if protector.Owner != nil {
+		owner := protector.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// ServerKeyName
+	destination.ServerKeyName = genruntime.ClonePointerToString(protector.ServerKeyName)
+
+	// ServerKeyType
+	destination.ServerKeyType = genruntime.ClonePointerToString(protector.ServerKeyType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersEncryptionProtector_Spec interface (if implemented) to customize the conversion
+	var protectorAsAny any = protector
+	if augmentedProtector, ok := protectorAsAny.(augmentConversionForServersEncryptionProtector_Spec); ok {
+		err := augmentedProtector.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20211101.ServersEncryptionProtector_STATUS
@@ -222,20 +469,232 @@ var _ genruntime.ConvertibleStatus = &ServersEncryptionProtector_STATUS{}
 
 // ConvertStatusFrom populates our ServersEncryptionProtector_STATUS from the provided source
 func (protector *ServersEncryptionProtector_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == protector {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersEncryptionProtector_STATUS)
+	if ok {
+		// Populate our instance from source
+		return protector.AssignProperties_From_ServersEncryptionProtector_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(protector)
+	// Convert to an intermediate form
+	src = &storage.ServersEncryptionProtector_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = protector.AssignProperties_From_ServersEncryptionProtector_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersEncryptionProtector_STATUS
 func (protector *ServersEncryptionProtector_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == protector {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersEncryptionProtector_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return protector.AssignProperties_To_ServersEncryptionProtector_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(protector)
+	// Convert to an intermediate form
+	dst = &storage.ServersEncryptionProtector_STATUS{}
+	err := protector.AssignProperties_To_ServersEncryptionProtector_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersEncryptionProtector_STATUS populates our ServersEncryptionProtector_STATUS from the provided source ServersEncryptionProtector_STATUS
+func (protector *ServersEncryptionProtector_STATUS) AssignProperties_From_ServersEncryptionProtector_STATUS(source *storage.ServersEncryptionProtector_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutoRotationEnabled
+	if source.AutoRotationEnabled != nil {
+		autoRotationEnabled := *source.AutoRotationEnabled
+		protector.AutoRotationEnabled = &autoRotationEnabled
+	} else {
+		protector.AutoRotationEnabled = nil
+	}
+
+	// Conditions
+	protector.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	protector.Id = genruntime.ClonePointerToString(source.Id)
+
+	// KeyVersion
+	if source.KeyVersion != nil {
+		propertyBag.Add("KeyVersion", *source.KeyVersion)
+	} else {
+		propertyBag.Remove("KeyVersion")
+	}
+
+	// Kind
+	protector.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// Location
+	protector.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	protector.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ServerKeyName
+	protector.ServerKeyName = genruntime.ClonePointerToString(source.ServerKeyName)
+
+	// ServerKeyType
+	protector.ServerKeyType = genruntime.ClonePointerToString(source.ServerKeyType)
+
+	// Subregion
+	protector.Subregion = genruntime.ClonePointerToString(source.Subregion)
+
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
+	// Thumbprint
+	protector.Thumbprint = genruntime.ClonePointerToString(source.Thumbprint)
+
+	// Type
+	protector.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Uri
+	protector.Uri = genruntime.ClonePointerToString(source.Uri)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		protector.PropertyBag = propertyBag
+	} else {
+		protector.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersEncryptionProtector_STATUS interface (if implemented) to customize the conversion
+	var protectorAsAny any = protector
+	if augmentedProtector, ok := protectorAsAny.(augmentConversionForServersEncryptionProtector_STATUS); ok {
+		err := augmentedProtector.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersEncryptionProtector_STATUS populates the provided destination ServersEncryptionProtector_STATUS from our ServersEncryptionProtector_STATUS
+func (protector *ServersEncryptionProtector_STATUS) AssignProperties_To_ServersEncryptionProtector_STATUS(destination *storage.ServersEncryptionProtector_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(protector.PropertyBag)
+
+	// AutoRotationEnabled
+	if protector.AutoRotationEnabled != nil {
+		autoRotationEnabled := *protector.AutoRotationEnabled
+		destination.AutoRotationEnabled = &autoRotationEnabled
+	} else {
+		destination.AutoRotationEnabled = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(protector.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(protector.Id)
+
+	// KeyVersion
+	if propertyBag.Contains("KeyVersion") {
+		var keyVersion string
+		err := propertyBag.Pull("KeyVersion", &keyVersion)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'KeyVersion' from propertyBag")
+		}
+
+		destination.KeyVersion = &keyVersion
+	} else {
+		destination.KeyVersion = nil
+	}
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(protector.Kind)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(protector.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(protector.Name)
+
+	// ServerKeyName
+	destination.ServerKeyName = genruntime.ClonePointerToString(protector.ServerKeyName)
+
+	// ServerKeyType
+	destination.ServerKeyType = genruntime.ClonePointerToString(protector.ServerKeyType)
+
+	// Subregion
+	destination.Subregion = genruntime.ClonePointerToString(protector.Subregion)
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Thumbprint
+	destination.Thumbprint = genruntime.ClonePointerToString(protector.Thumbprint)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(protector.Type)
+
+	// Uri
+	destination.Uri = genruntime.ClonePointerToString(protector.Uri)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersEncryptionProtector_STATUS interface (if implemented) to customize the conversion
+	var protectorAsAny any = protector
+	if augmentedProtector, ok := protectorAsAny.(augmentConversionForServersEncryptionProtector_STATUS); ok {
+		err := augmentedProtector.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersEncryptionProtector_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersEncryptionProtector_Spec) error
+	AssignPropertiesTo(dst *storage.ServersEncryptionProtector_Spec) error
+}
+
+type augmentConversionForServersEncryptionProtector_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersEncryptionProtector_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersEncryptionProtector_STATUS) error
 }
 
 // Storage version of v20211101.ServersEncryptionProtectorOperatorSpec
@@ -244,6 +703,125 @@ type ServersEncryptionProtectorOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersEncryptionProtectorOperatorSpec populates our ServersEncryptionProtectorOperatorSpec from the provided source ServersEncryptionProtectorOperatorSpec
+func (operator *ServersEncryptionProtectorOperatorSpec) AssignProperties_From_ServersEncryptionProtectorOperatorSpec(source *storage.ServersEncryptionProtectorOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersEncryptionProtectorOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersEncryptionProtectorOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersEncryptionProtectorOperatorSpec populates the provided destination ServersEncryptionProtectorOperatorSpec from our ServersEncryptionProtectorOperatorSpec
+func (operator *ServersEncryptionProtectorOperatorSpec) AssignProperties_To_ServersEncryptionProtectorOperatorSpec(destination *storage.ServersEncryptionProtectorOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersEncryptionProtectorOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersEncryptionProtectorOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersEncryptionProtectorOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersEncryptionProtectorOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersEncryptionProtectorOperatorSpec) error
 }
 
 func init() {

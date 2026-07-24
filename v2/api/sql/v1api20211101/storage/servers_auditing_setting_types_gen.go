@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersAuditingSetting{}
 
 // ConvertFrom populates our ServersAuditingSetting from the provided hub ServersAuditingSetting
 func (setting *ServersAuditingSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersAuditingSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersAuditingSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersAuditingSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_ServersAuditingSetting(source)
+	err = setting.AssignProperties_From_ServersAuditingSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersAuditingSetting from our ServersAuditingSetting
 func (setting *ServersAuditingSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersAuditingSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersAuditingSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersAuditingSetting
+	err := setting.AssignProperties_To_ServersAuditingSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_ServersAuditingSetting(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersAuditingSetting{}

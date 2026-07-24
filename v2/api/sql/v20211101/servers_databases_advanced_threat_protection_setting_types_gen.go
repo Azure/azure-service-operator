@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersDatabasesAdvancedThreatProtectionSetting{
 
 // ConvertFrom populates our ServersDatabasesAdvancedThreatProtectionSetting from the provided hub ServersDatabasesAdvancedThreatProtectionSetting
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersDatabasesAdvancedThreatProtectionSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabasesAdvancedThreatProtectionSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersDatabasesAdvancedThreatProtectionSetting
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return setting.AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting(source)
+	err = setting.AssignProperties_From_ServersDatabasesAdvancedThreatProtectionSetting(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to setting")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersDatabasesAdvancedThreatProtectionSetting from our ServersDatabasesAdvancedThreatProtectionSetting
 func (setting *ServersDatabasesAdvancedThreatProtectionSetting) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersDatabasesAdvancedThreatProtectionSetting)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersDatabasesAdvancedThreatProtectionSetting but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersDatabasesAdvancedThreatProtectionSetting
+	err := setting.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from setting")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return setting.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersDatabasesAdvancedThreatProtectionSetting{}
@@ -87,17 +101,6 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting) SecretDestinatio
 		return nil
 	}
 	return setting.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersDatabasesAdvancedThreatProtectionSetting{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (setting *ServersDatabasesAdvancedThreatProtectionSetting) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersDatabasesAdvancedThreatProtectionSetting_STATUS); ok {
-		return setting.Spec.Initialize_From_ServersDatabasesAdvancedThreatProtectionSetting_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersDatabasesAdvancedThreatProtectionSetting_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersDatabasesAdvancedThreatProtectionSetting{}
@@ -449,21 +452,6 @@ func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) AssignPrope
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersDatabasesAdvancedThreatProtectionSetting_STATUS populates our ServersDatabasesAdvancedThreatProtectionSetting_Spec from the provided source ServersDatabasesAdvancedThreatProtectionSetting_STATUS
-func (setting *ServersDatabasesAdvancedThreatProtectionSetting_Spec) Initialize_From_ServersDatabasesAdvancedThreatProtectionSetting_STATUS(source *ServersDatabasesAdvancedThreatProtectionSetting_STATUS) error {
-
-	// State
-	if source.State != nil {
-		state := genruntime.ToEnum(string(*source.State), advancedThreatProtectionProperties_State_Values)
-		setting.State = &state
-	} else {
-		setting.State = nil
 	}
 
 	// No error

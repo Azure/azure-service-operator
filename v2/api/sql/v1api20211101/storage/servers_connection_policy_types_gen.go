@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersConnectionPolicy{}
 
 // ConvertFrom populates our ServersConnectionPolicy from the provided hub ServersConnectionPolicy
 func (policy *ServersConnectionPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersConnectionPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersConnectionPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersConnectionPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_ServersConnectionPolicy(source)
+	err = policy.AssignProperties_From_ServersConnectionPolicy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersConnectionPolicy from our ServersConnectionPolicy
 func (policy *ServersConnectionPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersConnectionPolicy)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersConnectionPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersConnectionPolicy
+	err := policy.AssignProperties_To_ServersConnectionPolicy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_ServersConnectionPolicy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersConnectionPolicy{}

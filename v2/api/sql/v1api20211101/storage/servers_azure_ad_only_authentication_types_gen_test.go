@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForServersAzureADOnlyAuthentication(subject Server
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersAzureADOnlyAuthentication
+	var hub v20250101s.ServersAzureADOnlyAuthentication
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication(subject Server
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersAzureADOnlyAuthentication
+	var other v20211101s.ServersAzureADOnlyAuthentication
 	err := copied.AssignProperties_To_ServersAzureADOnlyAuthentication(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthenticationOperatorSpec(su
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersAzureADOnlyAuthenticationOperatorSpec
+	var other v20211101s.ServersAzureADOnlyAuthenticationOperatorSpec
 	err := copied.AssignProperties_To_ServersAzureADOnlyAuthenticationOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_STATUS(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersAzureADOnlyAuthentication_STATUS
+	var other v20211101s.ServersAzureADOnlyAuthentication_STATUS
 	err := copied.AssignProperties_To_ServersAzureADOnlyAuthentication_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -425,7 +426,7 @@ func RunPropertyAssignmentTestForServersAzureADOnlyAuthentication_Spec(subject S
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersAzureADOnlyAuthentication_Spec
+	var other v20211101s.ServersAzureADOnlyAuthentication_Spec
 	err := copied.AssignProperties_To_ServersAzureADOnlyAuthentication_Spec(&other)
 	if err != nil {
 		return err.Error()

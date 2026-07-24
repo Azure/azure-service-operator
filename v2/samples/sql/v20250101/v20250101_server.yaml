@@ -1,0 +1,19 @@
+apiVersion: sql.azure.com/v20250101
+kind: Server
+metadata:
+  name: aso-sample-sqlserver
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-rg
+  location: australiaeast
+  administrators:
+    administratorType: ActiveDirectory
+    azureADOnlyAuthentication: true
+    principalType: Application
+    loginFromConfig:
+      name: sql-admin-mi-config
+      key: name
+    sid: "00000000-0000-0000-0000-000000000000"
+    tenantId: "00000000-0000-0000-0000-000000000000"
+  version: "12.0"
