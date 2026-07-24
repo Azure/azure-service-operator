@@ -5,8 +5,7 @@ package storage
 
 import (
 	"context"
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20230101/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -55,22 +54,36 @@ var _ conversion.Convertible = &BackupVault{}
 
 // ConvertFrom populates our BackupVault from the provided hub BackupVault
 func (vault *BackupVault) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.BackupVault)
-	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVault but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.BackupVault
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return vault.AssignProperties_From_BackupVault(source)
+	err = vault.AssignProperties_From_BackupVault(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to vault")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub BackupVault from our BackupVault
 func (vault *BackupVault) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.BackupVault)
-	if !ok {
-		return fmt.Errorf("expected dataprotection/v1api20231101/storage/BackupVault but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.BackupVault
+	err := vault.AssignProperties_To_BackupVault(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from vault")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return vault.AssignProperties_To_BackupVault(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &BackupVault{}
@@ -814,13 +827,6 @@ func (vault *BackupVault_STATUS) AssignProperties_From_BackupVault_STATUS(source
 	// ProvisioningState
 	vault.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
-	// ReplicatedRegions
-	if len(source.ReplicatedRegions) > 0 {
-		propertyBag.Add("ReplicatedRegions", source.ReplicatedRegions)
-	} else {
-		propertyBag.Remove("ReplicatedRegions")
-	}
-
 	// ResourceMoveDetails
 	if source.ResourceMoveDetails != nil {
 		var resourceMoveDetail ResourceMoveDetails_STATUS
@@ -835,13 +841,6 @@ func (vault *BackupVault_STATUS) AssignProperties_From_BackupVault_STATUS(source
 
 	// ResourceMoveState
 	vault.ResourceMoveState = genruntime.ClonePointerToString(source.ResourceMoveState)
-
-	// SecureScore
-	if source.SecureScore != nil {
-		propertyBag.Add("SecureScore", *source.SecureScore)
-	} else {
-		propertyBag.Remove("SecureScore")
-	}
 
 	// SecuritySettings
 	if source.SecuritySettings != nil {
@@ -931,19 +930,6 @@ func (vault *BackupVault_STATUS) AssignProperties_To_BackupVault_STATUS(destinat
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(vault.ProvisioningState)
 
-	// ReplicatedRegions
-	if propertyBag.Contains("ReplicatedRegions") {
-		var replicatedRegion []string
-		err := propertyBag.Pull("ReplicatedRegions", &replicatedRegion)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ReplicatedRegions' from propertyBag")
-		}
-
-		destination.ReplicatedRegions = replicatedRegion
-	} else {
-		destination.ReplicatedRegions = nil
-	}
-
 	// ResourceMoveDetails
 	if vault.ResourceMoveDetails != nil {
 		var resourceMoveDetail storage.ResourceMoveDetails_STATUS
@@ -958,19 +944,6 @@ func (vault *BackupVault_STATUS) AssignProperties_To_BackupVault_STATUS(destinat
 
 	// ResourceMoveState
 	destination.ResourceMoveState = genruntime.ClonePointerToString(vault.ResourceMoveState)
-
-	// SecureScore
-	if propertyBag.Contains("SecureScore") {
-		var secureScore string
-		err := propertyBag.Pull("SecureScore", &secureScore)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SecureScore' from propertyBag")
-		}
-
-		destination.SecureScore = &secureScore
-	} else {
-		destination.SecureScore = nil
-	}
 
 	// SecuritySettings
 	if vault.SecuritySettings != nil {
@@ -1206,13 +1179,6 @@ func (vault *BackupVaultSpec) AssignProperties_From_BackupVaultSpec(source *stor
 		vault.MonitoringSettings = nil
 	}
 
-	// ReplicatedRegions
-	if len(source.ReplicatedRegions) > 0 {
-		propertyBag.Add("ReplicatedRegions", source.ReplicatedRegions)
-	} else {
-		propertyBag.Remove("ReplicatedRegions")
-	}
-
 	// SecuritySettings
 	if source.SecuritySettings != nil {
 		var securitySetting SecuritySettings
@@ -1290,19 +1256,6 @@ func (vault *BackupVaultSpec) AssignProperties_To_BackupVaultSpec(destination *s
 		destination.MonitoringSettings = nil
 	}
 
-	// ReplicatedRegions
-	if propertyBag.Contains("ReplicatedRegions") {
-		var replicatedRegion []string
-		err := propertyBag.Pull("ReplicatedRegions", &replicatedRegion)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'ReplicatedRegions' from propertyBag")
-		}
-
-		destination.ReplicatedRegions = replicatedRegion
-	} else {
-		destination.ReplicatedRegions = nil
-	}
-
 	// SecuritySettings
 	if vault.SecuritySettings != nil {
 		var securitySetting storage.SecuritySettings
@@ -1366,13 +1319,6 @@ func (details *DppIdentityDetails) AssignProperties_From_DppIdentityDetails(sour
 	// Type
 	details.Type = genruntime.ClonePointerToString(source.Type)
 
-	// UserAssignedIdentities
-	if len(source.UserAssignedIdentities) > 0 {
-		propertyBag.Add("UserAssignedIdentities", source.UserAssignedIdentities)
-	} else {
-		propertyBag.Remove("UserAssignedIdentities")
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		details.PropertyBag = propertyBag
@@ -1400,19 +1346,6 @@ func (details *DppIdentityDetails) AssignProperties_To_DppIdentityDetails(destin
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(details.Type)
-
-	// UserAssignedIdentities
-	if propertyBag.Contains("UserAssignedIdentities") {
-		var userAssignedIdentity []storage.UserAssignedIdentityDetails
-		err := propertyBag.Pull("UserAssignedIdentities", &userAssignedIdentity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'UserAssignedIdentities' from propertyBag")
-		}
-
-		destination.UserAssignedIdentities = userAssignedIdentity
-	} else {
-		destination.UserAssignedIdentities = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1457,13 +1390,6 @@ func (details *DppIdentityDetails_STATUS) AssignProperties_From_DppIdentityDetai
 	// Type
 	details.Type = genruntime.ClonePointerToString(source.Type)
 
-	// UserAssignedIdentities
-	if len(source.UserAssignedIdentities) > 0 {
-		propertyBag.Add("UserAssignedIdentities", source.UserAssignedIdentities)
-	} else {
-		propertyBag.Remove("UserAssignedIdentities")
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		details.PropertyBag = propertyBag
@@ -1497,19 +1423,6 @@ func (details *DppIdentityDetails_STATUS) AssignProperties_To_DppIdentityDetails
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(details.Type)
-
-	// UserAssignedIdentities
-	if propertyBag.Contains("UserAssignedIdentities") {
-		var userAssignedIdentity map[string]storage.UserAssignedIdentity_STATUS
-		err := propertyBag.Pull("UserAssignedIdentities", &userAssignedIdentity)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'UserAssignedIdentities' from propertyBag")
-		}
-
-		destination.UserAssignedIdentities = userAssignedIdentity
-	} else {
-		destination.UserAssignedIdentities = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1743,13 +1656,6 @@ func (settings *FeatureSettings) AssignProperties_From_FeatureSettings(source *s
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// CrossRegionRestoreSettings
-	if source.CrossRegionRestoreSettings != nil {
-		propertyBag.Add("CrossRegionRestoreSettings", *source.CrossRegionRestoreSettings)
-	} else {
-		propertyBag.Remove("CrossRegionRestoreSettings")
-	}
-
 	// CrossSubscriptionRestoreSettings
 	if source.CrossSubscriptionRestoreSettings != nil {
 		var crossSubscriptionRestoreSetting CrossSubscriptionRestoreSettings
@@ -1786,19 +1692,6 @@ func (settings *FeatureSettings) AssignProperties_From_FeatureSettings(source *s
 func (settings *FeatureSettings) AssignProperties_To_FeatureSettings(destination *storage.FeatureSettings) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
-
-	// CrossRegionRestoreSettings
-	if propertyBag.Contains("CrossRegionRestoreSettings") {
-		var crossRegionRestoreSetting storage.CrossRegionRestoreSettings
-		err := propertyBag.Pull("CrossRegionRestoreSettings", &crossRegionRestoreSetting)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'CrossRegionRestoreSettings' from propertyBag")
-		}
-
-		destination.CrossRegionRestoreSettings = &crossRegionRestoreSetting
-	} else {
-		destination.CrossRegionRestoreSettings = nil
-	}
 
 	// CrossSubscriptionRestoreSettings
 	if settings.CrossSubscriptionRestoreSettings != nil {
@@ -1844,13 +1737,6 @@ func (settings *FeatureSettings_STATUS) AssignProperties_From_FeatureSettings_ST
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// CrossRegionRestoreSettings
-	if source.CrossRegionRestoreSettings != nil {
-		propertyBag.Add("CrossRegionRestoreSettings", *source.CrossRegionRestoreSettings)
-	} else {
-		propertyBag.Remove("CrossRegionRestoreSettings")
-	}
-
 	// CrossSubscriptionRestoreSettings
 	if source.CrossSubscriptionRestoreSettings != nil {
 		var crossSubscriptionRestoreSetting CrossSubscriptionRestoreSettings_STATUS
@@ -1887,19 +1773,6 @@ func (settings *FeatureSettings_STATUS) AssignProperties_From_FeatureSettings_ST
 func (settings *FeatureSettings_STATUS) AssignProperties_To_FeatureSettings_STATUS(destination *storage.FeatureSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
-
-	// CrossRegionRestoreSettings
-	if propertyBag.Contains("CrossRegionRestoreSettings") {
-		var crossRegionRestoreSetting storage.CrossRegionRestoreSettings_STATUS
-		err := propertyBag.Pull("CrossRegionRestoreSettings", &crossRegionRestoreSetting)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'CrossRegionRestoreSettings' from propertyBag")
-		}
-
-		destination.CrossRegionRestoreSettings = &crossRegionRestoreSetting
-	} else {
-		destination.CrossRegionRestoreSettings = nil
-	}
 
 	// CrossSubscriptionRestoreSettings
 	if settings.CrossSubscriptionRestoreSettings != nil {

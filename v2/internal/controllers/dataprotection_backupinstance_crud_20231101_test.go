@@ -15,7 +15,7 @@ import (
 
 	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20200801preview"
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801"
-	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
+	dataprotection "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20231101"
 	kubernetesconfiguration "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"

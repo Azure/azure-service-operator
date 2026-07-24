@@ -95,8 +95,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"appconfiguration": VersionMigrationModeHybrid,
 
 	"authorization": VersionMigrationModeHybrid,
-
-	"batch": VersionMigrationModeHybrid,
+	"batch":         VersionMigrationModeHybrid,
 
 	"cache": VersionMigrationModeHybrid,
 	"cdn":   VersionMigrationModeHybrid,
@@ -109,17 +108,19 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"containerregistry": VersionMigrationModeLegacy,
 	"containerservice":  VersionMigrationModeLegacy,
 
-	"datafactory": VersionMigrationModeHybrid,
+	"datafactory":    VersionMigrationModeHybrid,
+	"dataprotection": VersionMigrationModeHybrid,
 
-	"dataprotection": VersionMigrationModeLegacy,
-	"dbformariadb":   VersionMigrationModeLegacy,
+	"dbformariadb": VersionMigrationModeLegacy,
 
 	"dbformysql": VersionMigrationModeHybrid,
 
-	"dbforpostgresql":         VersionMigrationModeLegacy,
-	"devices":                 VersionMigrationModeLegacy,
-	"documentdb":              VersionMigrationModeLegacy,
-	"eventgrid":               VersionMigrationModeHybrid,
+	"dbforpostgresql": VersionMigrationModeLegacy,
+	"devices":         VersionMigrationModeLegacy,
+	"documentdb":      VersionMigrationModeLegacy,
+
+	"eventgrid": VersionMigrationModeHybrid,
+
 	"eventhub":                VersionMigrationModeLegacy,
 	"insights":                VersionMigrationModeLegacy,
 	"keyvault":                VersionMigrationModeLegacy,
@@ -138,7 +139,8 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"search":                  VersionMigrationModeLegacy,
 	"servicebus":              VersionMigrationModeLegacy,
 	"signalrservice":          VersionMigrationModeLegacy,
-	"sql":                     VersionMigrationModeHybrid,
+
+	"sql": VersionMigrationModeHybrid,
 
 	"storage": VersionMigrationModeHybrid,
 

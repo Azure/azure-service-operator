@@ -233,12 +233,18 @@ import (
 	datafactory_v20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v20180601/storage"
 	datafactory_v20180601w "github.com/Azure/azure-service-operator/v2/api/datafactory/v20180601/webhook"
 	dataprotection_customizations "github.com/Azure/azure-service-operator/v2/api/dataprotection/customizations"
-	dataprotection_v20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
-	dataprotection_v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/storage"
-	dataprotection_v20230101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/webhook"
-	dataprotection_v20231101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
-	dataprotection_v20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
-	dataprotection_v20231101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/webhook"
+	dataprotection_v1api20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101"
+	dataprotection_v1api20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/storage"
+	dataprotection_v1api20230101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20230101/webhook"
+	dataprotection_v1api20231101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101"
+	dataprotection_v1api20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/storage"
+	dataprotection_v1api20231101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v1api20231101/webhook"
+	dataprotection_v20230101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20230101"
+	dataprotection_v20230101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20230101/storage"
+	dataprotection_v20230101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20230101/webhook"
+	dataprotection_v20231101 "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20231101"
+	dataprotection_v20231101s "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20231101/storage"
+	dataprotection_v20231101w "github.com/Azure/azure-service-operator/v2/api/dataprotection/v20231101/webhook"
 	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
 	dbformariadb_v20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601"
 	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1api20180601/storage"
@@ -5009,6 +5015,38 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(datafactory_v20180601s.Factory)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(dataprotection_v1api20230101.BackupVault),
+		Defaulter: &dataprotection_v1api20230101w.BackupVault{},
+		Validator: &dataprotection_v1api20230101w.BackupVault{},
+	}, &registration.KnownType{
+		Obj:       new(dataprotection_v1api20230101.BackupVaultsBackupPolicy),
+		Defaulter: &dataprotection_v1api20230101w.BackupVaultsBackupPolicy{},
+		Validator: &dataprotection_v1api20230101w.BackupVaultsBackupPolicy{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(dataprotection_v1api20230101s.BackupVault)}, &registration.KnownType{Obj: new(dataprotection_v1api20230101s.BackupVaultsBackupPolicy)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(dataprotection_v1api20231101.BackupVault),
+			Defaulter: &dataprotection_v1api20231101w.BackupVault{},
+			Validator: &dataprotection_v1api20231101w.BackupVault{},
+		},
+		&registration.KnownType{
+			Obj:       new(dataprotection_v1api20231101.BackupVaultsBackupInstance),
+			Defaulter: &dataprotection_v1api20231101w.BackupVaultsBackupInstance{},
+			Validator: &dataprotection_v1api20231101w.BackupVaultsBackupInstance{},
+		},
+		&registration.KnownType{
+			Obj:       new(dataprotection_v1api20231101.BackupVaultsBackupPolicy),
+			Defaulter: &dataprotection_v1api20231101w.BackupVaultsBackupPolicy{},
+			Validator: &dataprotection_v1api20231101w.BackupVaultsBackupPolicy{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(dataprotection_v1api20231101s.BackupVault)},
+		&registration.KnownType{Obj: new(dataprotection_v1api20231101s.BackupVaultsBackupInstance)},
+		&registration.KnownType{Obj: new(dataprotection_v1api20231101s.BackupVaultsBackupPolicy)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(dataprotection_v20230101.BackupVault),
 		Defaulter: &dataprotection_v20230101w.BackupVault{},
 		Validator: &dataprotection_v20230101w.BackupVault{},
@@ -8081,6 +8119,10 @@ func createScheme() *runtime.Scheme {
 	_ = datafactory_v1api20180601s.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
 	_ = datafactory_v20180601s.AddToScheme(scheme)
+	_ = dataprotection_v1api20230101.AddToScheme(scheme)
+	_ = dataprotection_v1api20230101s.AddToScheme(scheme)
+	_ = dataprotection_v1api20231101.AddToScheme(scheme)
+	_ = dataprotection_v1api20231101s.AddToScheme(scheme)
 	_ = dataprotection_v20230101.AddToScheme(scheme)
 	_ = dataprotection_v20230101s.AddToScheme(scheme)
 	_ = dataprotection_v20231101.AddToScheme(scheme)
