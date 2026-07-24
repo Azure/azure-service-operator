@@ -206,11 +206,6 @@ func AKS_ManagedCluster_IdentityBinding_20251002preview_CRUD(tc *testcommon.Kube
 		},
 	}
 
-	tc.CreateResourceAndWait(identity)
-	defer tc.DeleteResourceAndWait(identity)
-
-	tc.Expect(identity.Status.Id).ToNot(BeNil())
-
 	identityBinding := &aks.IdentityBinding{
 		ObjectMeta: tc.MakeObjectMetaWithName("identitybinding1"),
 		Spec: aks.IdentityBinding_Spec{
@@ -218,16 +213,20 @@ func AKS_ManagedCluster_IdentityBinding_20251002preview_CRUD(tc *testcommon.Kube
 			Properties: &aks.IdentityBindingProperties{
 				ManagedIdentity: &aks.IdentityBindingManagedIdentityProfile{
 					ResourceReference: &genruntime.ResourceReference{
-						ARMID: *identity.Status.Id,
+						Group: managedidentity.GroupVersion.Group,
+						Kind:  "UserAssignedIdentity",
+						Name:  identity.Name,
 					},
 				},
 			},
 		},
 	}
 
-	tc.CreateResourceAndWait(identityBinding)
-	defer tc.DeleteResourceAndWait(identityBinding)
+	// Create the identity and the identity binding together to flush out any dependency issues.
+	tc.CreateResourcesAndWait(identity, identityBinding)
+	defer tc.DeleteResourcesAndWait(identity, identityBinding)
 
+	tc.Expect(identity.Status.Id).ToNot(BeNil())
 	tc.Expect(identityBinding.Status.Id).ToNot(BeNil())
 	tc.Expect(identityBinding.Status.Properties).ToNot(BeNil())
 	tc.Expect(identityBinding.Status.Properties.ManagedIdentity).ToNot(BeNil())
