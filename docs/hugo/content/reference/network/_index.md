@@ -17,7 +17,7 @@ Development of these new resources is complete and they will be available in the
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+These resource(s) are the latest versions available for use in the current release of ASO.
 | Resource                                                                                                                             | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                        |
 |--------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [ApplicationGateway]({{< relref "/reference/network/v1api20220701#ApplicationGateway" >}})                                           | 2022-07-01  | v1api20220701 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/network/v1api20220701/v1api20220701_applicationgateway.yaml)                      |
