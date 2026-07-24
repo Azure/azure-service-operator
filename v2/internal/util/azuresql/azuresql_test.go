@@ -66,3 +66,87 @@ func TestFindBadChars(t *testing.T) {
 		})
 	}
 }
+
+func TestEscapeStringContent(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "no special chars",
+			input:    "simplepassword",
+			expected: "simplepassword",
+		},
+		{
+			name:     "single quote is doubled",
+			input:    "pass'word",
+			expected: "pass''word",
+		},
+		{
+			name:     "semicolons are preserved",
+			input:    "pass;word",
+			expected: "pass;word",
+		},
+		{
+			name:     "double dashes are preserved",
+			input:    "pass--word",
+			expected: "pass--word",
+		},
+		{
+			name:     "complex special chars",
+			input:    "p@ss;w'rd--/*test",
+			expected: "p@ss;w''rd--/*test",
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			result := escapeStringContent(c.input)
+			g.Expect(result).To(Equal(c.expected))
+		})
+	}
+}
+
+func TestEscapeIdentifierContent(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "no special chars",
+			input:    "username",
+			expected: "username",
+		},
+		{
+			name:     "double quote is doubled",
+			input:    "user\"name",
+			expected: "user\"\"name",
+		},
+		{
+			name:     "other special chars are preserved",
+			input:    "user;name",
+			expected: "user;name",
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			result := escapeIdentifierContent(c.input)
+			g.Expect(result).To(Equal(c.expected))
+		})
+	}
+}
