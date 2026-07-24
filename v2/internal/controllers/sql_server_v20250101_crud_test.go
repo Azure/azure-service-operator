@@ -319,7 +319,7 @@ func SQL_Server_AuditingSetting_v20250101_CRUD(tc *testcommon.KubePerTestContext
 		Spec: sql.ServersAuditingSetting_Spec{
 			Owner:                        testcommon.AsOwner(server),
 			State:                        &enabled,
-			StorageAccountSubscriptionId: &tc.AzureSubscription, // TODO: Make this easier for users to set? Via configmap?
+			StorageAccountSubscriptionId: to.Ptr(sql.AzureCoreUuid(tc.AzureSubscription)), // TODO: Make this easier for users to set? Via configmap?
 			StorageAccountAccessKey: &genruntime.SecretReference{
 				Name: storageDetails.secretName,
 				Key:  storageDetails.keySecretKey,
@@ -535,7 +535,7 @@ func SQL_Database_AuditingSetting_v20250101_CRUD(tc *testcommon.KubePerTestConte
 		Spec: sql.ServersDatabasesAuditingSetting_Spec{
 			Owner:                        testcommon.AsOwner(db),
 			State:                        &enabled,
-			StorageAccountSubscriptionId: &tc.AzureSubscription, // TODO: Make this easier for users to set? Via configmap?
+			StorageAccountSubscriptionId: to.Ptr(sql.AzureCoreUuid(tc.AzureSubscription)), // TODO: Make this easier for users to set? Via configmap?
 			StorageAccountAccessKey: &genruntime.SecretReference{
 				Name: storageDetails.secretName,
 				Key:  storageDetails.keySecretKey,
