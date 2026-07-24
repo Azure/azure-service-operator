@@ -1,0 +1,14 @@
+apiVersion: containerservice.azure.com/v20251002preview
+kind: IdentityBinding
+metadata:
+  name: sample-identitybinding
+  namespace: default
+spec:
+  owner:
+    name: sample-managedcluster-20251002preview
+  properties:
+    managedIdentity:
+      resourceReference:
+        group: managedidentity.azure.com
+        kind: UserAssignedIdentity
+        name: sample-identitybinding-identity
