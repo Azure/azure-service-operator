@@ -51,22 +51,36 @@ var _ conversion.Convertible = &RedisEnterpriseDatabaseAccessPolicyAssignment{}
 
 // ConvertFrom populates our RedisEnterpriseDatabaseAccessPolicyAssignment from the provided hub RedisEnterpriseDatabaseAccessPolicyAssignment
 func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisEnterpriseDatabaseAccessPolicyAssignment)
-	if !ok {
-		return fmt.Errorf("expected cache/v20250401/storage/RedisEnterpriseDatabaseAccessPolicyAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisEnterpriseDatabaseAccessPolicyAssignment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return assignment.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment(source)
+	err = assignment.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to assignment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterpriseDatabaseAccessPolicyAssignment from our RedisEnterpriseDatabaseAccessPolicyAssignment
 func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisEnterpriseDatabaseAccessPolicyAssignment)
-	if !ok {
-		return fmt.Errorf("expected cache/v20250401/storage/RedisEnterpriseDatabaseAccessPolicyAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisEnterpriseDatabaseAccessPolicyAssignment
+	err := assignment.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from assignment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return assignment.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisEnterpriseDatabaseAccessPolicyAssignment{}
@@ -87,17 +101,6 @@ func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) SecretDestinati
 		return nil
 	}
 	return assignment.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RedisEnterpriseDatabaseAccessPolicyAssignment{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS); ok {
-		return assignment.Spec.Initialize_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RedisEnterpriseDatabaseAccessPolicyAssignment{}
@@ -506,28 +509,6 @@ func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) AssignProp
 	return nil
 }
 
-// Initialize_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS populates our RedisEnterpriseDatabaseAccessPolicyAssignment_Spec from the provided source RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS
-func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) Initialize_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(source *RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) error {
-
-	// AccessPolicyName
-	assignment.AccessPolicyName = genruntime.ClonePointerToString(source.AccessPolicyName)
-
-	// User
-	if source.User != nil {
-		var user AccessPolicyAssignmentProperties_User
-		err := user.Initialize_From_AccessPolicyAssignmentProperties_User_STATUS(source.User)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AccessPolicyAssignmentProperties_User_STATUS() to populate field User")
-		}
-		assignment.User = &user
-	} else {
-		assignment.User = nil
-	}
-
-	// No error
-	return nil
-}
-
 // OriginalVersion returns the original API version used to create the resource.
 func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) OriginalVersion() string {
 	return GroupVersion.Version
@@ -876,16 +857,6 @@ func (user *AccessPolicyAssignmentProperties_User) AssignProperties_To_AccessPol
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AccessPolicyAssignmentProperties_User_STATUS populates our AccessPolicyAssignmentProperties_User from the provided source AccessPolicyAssignmentProperties_User_STATUS
-func (user *AccessPolicyAssignmentProperties_User) Initialize_From_AccessPolicyAssignmentProperties_User_STATUS(source *AccessPolicyAssignmentProperties_User_STATUS) error {
-
-	// ObjectId
-	user.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
 
 	// No error
 	return nil

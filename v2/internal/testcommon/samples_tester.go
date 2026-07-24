@@ -385,9 +385,10 @@ func PathContains(path string, matches []string) bool {
 }
 
 func IsSampleFolderExcluded(path string) bool {
-	// Allow the cache v20250401 sample test to run while keeping all other
+	// Allow the cache v20250401 and v20250701 sample tests to run while keeping all other
 	// cache sample folders excluded (linked-cache deletion issues).
-	if strings.Contains(path, "/cache/v20250401") {
+	if strings.Contains(path, "/cache/v20250401") ||
+		strings.Contains(path, "/cache/v20250701") {
 		return false
 	}
 
