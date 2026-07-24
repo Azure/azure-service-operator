@@ -51,22 +51,36 @@ var _ conversion.Convertible = &RedisEnterprise{}
 
 // ConvertFrom populates our RedisEnterprise from the provided hub RedisEnterprise
 func (enterprise *RedisEnterprise) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisEnterprise)
-	if !ok {
-		return fmt.Errorf("expected cache/v20250401/storage/RedisEnterprise but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisEnterprise
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return enterprise.AssignProperties_From_RedisEnterprise(source)
+	err = enterprise.AssignProperties_From_RedisEnterprise(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to enterprise")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterprise from our RedisEnterprise
 func (enterprise *RedisEnterprise) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisEnterprise)
-	if !ok {
-		return fmt.Errorf("expected cache/v20250401/storage/RedisEnterprise but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisEnterprise
+	err := enterprise.AssignProperties_To_RedisEnterprise(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from enterprise")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return enterprise.AssignProperties_To_RedisEnterprise(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisEnterprise{}
@@ -87,17 +101,6 @@ func (enterprise *RedisEnterprise) SecretDestinationExpressions() []*core.Destin
 		return nil
 	}
 	return enterprise.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RedisEnterprise{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (enterprise *RedisEnterprise) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RedisEnterprise_STATUS); ok {
-		return enterprise.Spec.Initialize_From_RedisEnterprise_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RedisEnterprise_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RedisEnterprise{}
@@ -757,82 +760,6 @@ func (enterprise *RedisEnterprise_Spec) AssignProperties_To_RedisEnterprise_Spec
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RedisEnterprise_STATUS populates our RedisEnterprise_Spec from the provided source RedisEnterprise_STATUS
-func (enterprise *RedisEnterprise_Spec) Initialize_From_RedisEnterprise_STATUS(source *RedisEnterprise_STATUS) error {
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption ClusterProperties_Encryption
-		err := encryption.Initialize_From_ClusterProperties_Encryption_STATUS(source.Encryption)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ClusterProperties_Encryption_STATUS() to populate field Encryption")
-		}
-		enterprise.Encryption = &encryption
-	} else {
-		enterprise.Encryption = nil
-	}
-
-	// HighAvailability
-	if source.HighAvailability != nil {
-		highAvailability := genruntime.ToEnum(string(*source.HighAvailability), clusterProperties_HighAvailability_Values)
-		enterprise.HighAvailability = &highAvailability
-	} else {
-		enterprise.HighAvailability = nil
-	}
-
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.Initialize_From_ManagedServiceIdentity_STATUS(source.Identity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedServiceIdentity_STATUS() to populate field Identity")
-		}
-		enterprise.Identity = &identity
-	} else {
-		enterprise.Identity = nil
-	}
-
-	// Kind
-	if source.Kind != nil {
-		kind := genruntime.ToEnum(string(*source.Kind), kind_Values)
-		enterprise.Kind = &kind
-	} else {
-		enterprise.Kind = nil
-	}
-
-	// Location
-	enterprise.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := genruntime.ToEnum(string(*source.MinimumTlsVersion), clusterProperties_MinimumTlsVersion_Values)
-		enterprise.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		enterprise.MinimumTlsVersion = nil
-	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.Initialize_From_Sku_STATUS(source.Sku)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Sku_STATUS() to populate field Sku")
-		}
-		enterprise.Sku = &sku
-	} else {
-		enterprise.Sku = nil
-	}
-
-	// Tags
-	enterprise.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Zones
-	enterprise.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1532,25 +1459,6 @@ func (encryption *ClusterProperties_Encryption) AssignProperties_To_ClusterPrope
 	return nil
 }
 
-// Initialize_From_ClusterProperties_Encryption_STATUS populates our ClusterProperties_Encryption from the provided source ClusterProperties_Encryption_STATUS
-func (encryption *ClusterProperties_Encryption) Initialize_From_ClusterProperties_Encryption_STATUS(source *ClusterProperties_Encryption_STATUS) error {
-
-	// CustomerManagedKeyEncryption
-	if source.CustomerManagedKeyEncryption != nil {
-		var customerManagedKeyEncryption ClusterProperties_Encryption_CustomerManagedKeyEncryption
-		err := customerManagedKeyEncryption.Initialize_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(source.CustomerManagedKeyEncryption)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS() to populate field CustomerManagedKeyEncryption")
-		}
-		encryption.CustomerManagedKeyEncryption = &customerManagedKeyEncryption
-	} else {
-		encryption.CustomerManagedKeyEncryption = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ClusterProperties_Encryption_STATUS struct {
 	// CustomerManagedKeyEncryption: All Customer-managed key encryption properties for the resource. Set this to an empty
 	// object to use Microsoft-managed key encryption.
@@ -1865,33 +1773,6 @@ func (identity *ManagedServiceIdentity) AssignProperties_To_ManagedServiceIdenti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ManagedServiceIdentity_STATUS populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity_STATUS
-func (identity *ManagedServiceIdentity) Initialize_From_ManagedServiceIdentity_STATUS(source *ManagedServiceIdentity_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedServiceIdentityType_Values)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityList := make([]UserAssignedIdentityDetails, 0, len(source.UserAssignedIdentities))
-		for userAssignedIdentitiesKey := range source.UserAssignedIdentities {
-			userAssignedIdentitiesRef := genruntime.CreateResourceReferenceFromARMID(userAssignedIdentitiesKey)
-			userAssignedIdentityList = append(userAssignedIdentityList, UserAssignedIdentityDetails{Reference: userAssignedIdentitiesRef})
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityList
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -2380,24 +2261,6 @@ func (sku *Sku) AssignProperties_To_Sku(destination *storage.Sku) error {
 	return nil
 }
 
-// Initialize_From_Sku_STATUS populates our Sku from the provided source Sku_STATUS
-func (sku *Sku) Initialize_From_Sku_STATUS(source *Sku_STATUS) error {
-
-	// Capacity
-	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), sku_Name_Values)
-		sku.Name = &name
-	} else {
-		sku.Name = nil
-	}
-
-	// No error
-	return nil
-}
-
 // SKU parameters supplied to the create Redis Enterprise cluster operation.
 type Sku_STATUS struct {
 	// Capacity: This property is only used with Enterprise and EnterpriseFlash SKUs. Determines the size of the cluster. Valid
@@ -2606,28 +2469,6 @@ func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption) Ass
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS populates our ClusterProperties_Encryption_CustomerManagedKeyEncryption from the provided source ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS
-func (encryption *ClusterProperties_Encryption_CustomerManagedKeyEncryption) Initialize_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS(source *ClusterProperties_Encryption_CustomerManagedKeyEncryption_STATUS) error {
-
-	// KeyEncryptionKeyIdentity
-	if source.KeyEncryptionKeyIdentity != nil {
-		var keyEncryptionKeyIdentity ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity
-		err := keyEncryptionKeyIdentity.Initialize_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(source.KeyEncryptionKeyIdentity)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS() to populate field KeyEncryptionKeyIdentity")
-		}
-		encryption.KeyEncryptionKeyIdentity = &keyEncryptionKeyIdentity
-	} else {
-		encryption.KeyEncryptionKeyIdentity = nil
-	}
-
-	// KeyEncryptionKeyUrl
-	encryption.KeyEncryptionKeyUrl = genruntime.ClonePointerToString(source.KeyEncryptionKeyUrl)
 
 	// No error
 	return nil
@@ -3230,29 +3071,6 @@ func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEnc
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS populates our ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity from the provided source ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS
-func (identity *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity) Initialize_From_ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS(source *ClusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_STATUS) error {
-
-	// IdentityType
-	if source.IdentityType != nil {
-		identityType := genruntime.ToEnum(string(*source.IdentityType), clusterProperties_Encryption_CustomerManagedKeyEncryption_KeyEncryptionKeyIdentity_IdentityType_Values)
-		identity.IdentityType = &identityType
-	} else {
-		identity.IdentityType = nil
-	}
-
-	// UserAssignedIdentityResourceReference
-	if source.UserAssignedIdentityResourceId != nil {
-		userAssignedIdentityResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.UserAssignedIdentityResourceId)
-		identity.UserAssignedIdentityResourceReference = &userAssignedIdentityResourceReference
-	} else {
-		identity.UserAssignedIdentityResourceReference = nil
 	}
 
 	// No error

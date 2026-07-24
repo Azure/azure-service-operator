@@ -16,12 +16,6 @@ The following resources have newer versions available in the Azure REST API spec
 |--|--------------|------------------|------------------|-------------------|-------------------|
 |  | BatchAccount | 2025-06-01       | 2024-07-01       | -                 | -                 |
 
-## cache
-
-|  | Resource        | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|--|-----------------|------------------|------------------|-------------------|-------------------|
-|  | RedisEnterprise | 2025-07-01       | 2025-04-01       | -                 | -                 |
-
 ## cdn
 
 |      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |

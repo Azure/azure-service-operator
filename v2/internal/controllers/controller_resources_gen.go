@@ -125,6 +125,9 @@ import (
 	cache_v20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v20250401"
 	cache_v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
 	cache_v20250401w "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/webhook"
+	cache_v20250701 "github.com/Azure/azure-service-operator/v2/api/cache/v20250701"
+	cache_v20250701s "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/storage"
+	cache_v20250701w "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/webhook"
 	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
 	cdn_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
 	cdn_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
@@ -976,10 +979,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisFirewallRule)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisLinkedServer)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisPatchSchedule)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20250401s.RedisEnterprise)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20250401s.RedisEnterpriseDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20250701s.RedisEnterprise)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20250701s.RedisEnterpriseDatabase)})
 	result = append(result, &registration.StorageType{
-		Obj: new(cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment),
+		Obj: new(cache_v20250701s.RedisEnterpriseDatabaseAccessPolicyAssignment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.user.objectIdFromConfig",
@@ -993,7 +996,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.user.objectIdFromConfig",
 					},
-					&cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignmentList{}),
+					&cache_v20250701s.RedisEnterpriseDatabaseAccessPolicyAssignmentList{}),
 			},
 		},
 	})
@@ -4381,6 +4384,28 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(cache_v20250401s.RedisEnterprise)},
 		&registration.KnownType{Obj: new(cache_v20250401s.RedisEnterpriseDatabase)},
 		&registration.KnownType{Obj: new(cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(cache_v20250701.RedisEnterprise),
+			Defaulter: &cache_v20250701w.RedisEnterprise{},
+			Validator: &cache_v20250701w.RedisEnterprise{},
+		},
+		&registration.KnownType{
+			Obj:       new(cache_v20250701.RedisEnterpriseDatabase),
+			Defaulter: &cache_v20250701w.RedisEnterpriseDatabase{},
+			Validator: &cache_v20250701w.RedisEnterpriseDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(cache_v20250701.RedisEnterpriseDatabaseAccessPolicyAssignment),
+			Defaulter: &cache_v20250701w.RedisEnterpriseDatabaseAccessPolicyAssignment{},
+			Validator: &cache_v20250701w.RedisEnterpriseDatabaseAccessPolicyAssignment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(cache_v20250701s.RedisEnterprise)},
+		&registration.KnownType{Obj: new(cache_v20250701s.RedisEnterpriseDatabase)},
+		&registration.KnownType{Obj: new(cache_v20250701s.RedisEnterpriseDatabaseAccessPolicyAssignment)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(cdn_v1api20210601.Profile),
 		Defaulter: &cdn_v1api20210601w.Profile{},
@@ -7976,6 +8001,8 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20241101s.AddToScheme(scheme)
 	_ = cache_v20250401.AddToScheme(scheme)
 	_ = cache_v20250401s.AddToScheme(scheme)
+	_ = cache_v20250701.AddToScheme(scheme)
+	_ = cache_v20250701s.AddToScheme(scheme)
 	_ = cdn_v1api20210601.AddToScheme(scheme)
 	_ = cdn_v1api20210601s.AddToScheme(scheme)
 	_ = cdn_v1api20230501.AddToScheme(scheme)
@@ -9018,9 +9045,9 @@ func indexCacheRedisAccessPolicyAssignmentObjectIdFromConfig(rawObj client.Objec
 	return obj.Spec.ObjectIdFromConfig.Index()
 }
 
-// indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig an index function for cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment .spec.user.objectIdFromConfig
+// indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig an index function for cache_v20250701s.RedisEnterpriseDatabaseAccessPolicyAssignment .spec.user.objectIdFromConfig
 func indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment)
+	obj, ok := rawObj.(*cache_v20250701s.RedisEnterpriseDatabaseAccessPolicyAssignment)
 	if !ok {
 		return nil
 	}
