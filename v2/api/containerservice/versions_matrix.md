@@ -157,6 +157,15 @@
 | IPFamily_STATUS                                                                      |               |               |               | v20251002preview |
 | IPTag                                                                                | v1api20240901 |               | v1api20250801 | v20251002preview |
 | IPTag_STATUS                                                                         | v1api20240901 |               | v1api20250801 | v20251002preview |
+| IdentityBinding                                                                      |               |               |               | v20251002preview |
+| IdentityBindingManagedIdentityProfile                                                |               |               |               | v20251002preview |
+| IdentityBindingManagedIdentityProfile_STATUS                                         |               |               |               | v20251002preview |
+| IdentityBindingOidcIssuerProfile_STATUS                                              |               |               |               | v20251002preview |
+| IdentityBindingProperties                                                            |               |               |               | v20251002preview |
+| IdentityBindingProperties_STATUS                                                     |               |               |               | v20251002preview |
+| IdentityBindingProvisioningState_STATUS                                              |               |               |               | v20251002preview |
+| IdentityBinding_STATUS                                                               |               |               |               | v20251002preview |
+| IdentityBinding_Spec                                                                 |               |               |               | v20251002preview |
 | IpvsScheduler                                                                        |               |               |               | v20251002preview |
 | IpvsScheduler_STATUS                                                                 |               |               |               | v20251002preview |
 | IstioCertificateAuthority                                                            | v1api20240901 |               | v1api20250801 | v20251002preview |
