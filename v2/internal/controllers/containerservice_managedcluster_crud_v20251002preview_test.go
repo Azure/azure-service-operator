@@ -11,6 +11,8 @@ import (
 	. "github.com/onsi/gomega"
 
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20230131"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -41,6 +43,9 @@ func Test_AKS_ManagedCluster_20251002preview_CRUD(t *testing.T) {
 			},
 			Identity: &aks.ManagedClusterIdentity{
 				Type: to.Ptr(aks.ResourceIdentityType_SystemAssigned),
+			},
+			OidcIssuerProfile: &aks.ManagedClusterOIDCIssuerProfile{
+				Enabled: to.Ptr(true),
 			},
 		},
 	}
@@ -85,6 +90,12 @@ func Test_AKS_ManagedCluster_20251002preview_CRUD(t *testing.T) {
 			Name: "AKS MaintenanceWindow CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				AKS_ManagedCluster_MaintenanceConfiguration_20251002preview_CRUD(tc, cluster)
+			},
+		},
+		testcommon.Subtest{
+			Name: "AKS IdentityBinding CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				AKS_ManagedCluster_IdentityBinding_20251002preview_CRUD(tc, rg, cluster)
 			},
 		},
 	)
@@ -183,4 +194,42 @@ func AKS_ManagedCluster_MaintenanceConfiguration_20251002preview_CRUD(tc *testco
 	tc.PatchResourceAndWait(old, mtcConfiguration)
 	tc.Expect(mtcConfiguration.Status.MaintenanceWindow.DurationHours).ToNot(BeNil())
 	tc.Expect(*mtcConfiguration.Status.MaintenanceWindow.DurationHours).To(Equal(8))
+}
+
+func AKS_ManagedCluster_IdentityBinding_20251002preview_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, cluster *aks.ManagedCluster) {
+	// IdentityBindings require a user-assigned managed identity to bind to.
+	identity := &managedidentity.UserAssignedIdentity{
+		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("mi")),
+		Spec: managedidentity.UserAssignedIdentity_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+		},
+	}
+
+	tc.CreateResourceAndWait(identity)
+	defer tc.DeleteResourceAndWait(identity)
+
+	tc.Expect(identity.Status.Id).ToNot(BeNil())
+
+	identityBinding := &aks.IdentityBinding{
+		ObjectMeta: tc.MakeObjectMetaWithName("identitybinding1"),
+		Spec: aks.IdentityBinding_Spec{
+			Owner: testcommon.AsOwner(cluster),
+			Properties: &aks.IdentityBindingProperties{
+				ManagedIdentity: &aks.IdentityBindingManagedIdentityProfile{
+					ResourceReference: &genruntime.ResourceReference{
+						ARMID: *identity.Status.Id,
+					},
+				},
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(identityBinding)
+	defer tc.DeleteResourceAndWait(identityBinding)
+
+	tc.Expect(identityBinding.Status.Id).ToNot(BeNil())
+	tc.Expect(identityBinding.Status.Properties).ToNot(BeNil())
+	tc.Expect(identityBinding.Status.Properties.ManagedIdentity).ToNot(BeNil())
+	tc.Expect(identityBinding.Status.Properties.ManagedIdentity.ResourceId).ToNot(BeNil())
 }

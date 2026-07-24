@@ -4,6 +4,50 @@ github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview
 APIVersion: Enum (1 value)
 └── "2025-10-02-preview"
 
+IdentityBinding: Resource
+├── Owner: containerservice/v20251002preview.ManagedCluster
+├── Spec: Object (6 properties)
+│   ├── AzureName: string
+│   ├── OperatorSpec: *Object (3 properties)
+│   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
+│   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   └── SecretExpressions: *core.DestinationExpression[]
+│   ├── OriginalVersion: string
+│   ├── Owner: *genruntime.KnownResourceReference
+│   ├── Properties: *Object (2 properties)
+│   │   ├── ManagedIdentity: *Object (2 properties)
+│   │   │   ├── PropertyBag: genruntime.PropertyBag
+│   │   │   └── ResourceReference: *genruntime.ResourceReference
+│   │   └── PropertyBag: genruntime.PropertyBag
+│   └── PropertyBag: genruntime.PropertyBag
+└── Status: Object (8 properties)
+    ├── Conditions: conditions.Condition[]
+    ├── ETag: *string
+    ├── Id: *string
+    ├── Name: *string
+    ├── Properties: *Object (4 properties)
+    │   ├── ManagedIdentity: *Object (5 properties)
+    │   │   ├── ClientId: *string
+    │   │   ├── ObjectId: *string
+    │   │   ├── PropertyBag: genruntime.PropertyBag
+    │   │   ├── ResourceId: *string
+    │   │   └── TenantId: *string
+    │   ├── OidcIssuer: *Object (2 properties)
+    │   │   ├── OidcIssuerUrl: *string
+    │   │   └── PropertyBag: genruntime.PropertyBag
+    │   ├── PropertyBag: genruntime.PropertyBag
+    │   └── ProvisioningState: *string
+    ├── PropertyBag: genruntime.PropertyBag
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
+    └── Type: *string
+
 MaintenanceConfiguration: Resource
 ├── Owner: containerservice/v20251002preview.ManagedCluster
 ├── Spec: Object (8 properties)

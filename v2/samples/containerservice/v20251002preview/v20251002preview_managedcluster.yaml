@@ -16,3 +16,5 @@ spec:
       mode: System
   identity:
     type: SystemAssigned
+  oidcIssuerProfile:
+    enabled: true
