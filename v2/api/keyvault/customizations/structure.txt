@@ -3,3 +3,5 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/customizations
 ----------------------------------------------------------------------
 VaultExtension: Object (0 properties)
 
+VaultsKeyExtension: Object (0 properties)
+

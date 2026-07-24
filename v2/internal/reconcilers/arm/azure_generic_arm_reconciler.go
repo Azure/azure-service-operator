@@ -87,6 +87,13 @@ func NewAzureDeploymentReconciler(
 	}
 }
 
+// ResourceExtension returns the genruntime.ResourceExtension configured for this reconciler, if any.
+// This allows callers (such as the generic reconciler) that only have a genruntime.Reconciler to reach
+// the underlying resource extension without needing to know about ARM-specific reconciler internals.
+func (r *AzureDeploymentReconciler) ResourceExtension() genruntime.ResourceExtension {
+	return r.Extension
+}
+
 func (r *AzureDeploymentReconciler) asARMObj(obj genruntime.MetaObject) (genruntime.ARMMetaObject, error) {
 	typedObj, ok := obj.(genruntime.ARMMetaObject)
 	if !ok {

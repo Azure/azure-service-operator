@@ -368,12 +368,15 @@ import (
 	insights_v20250101ps "github.com/Azure/azure-service-operator/v2/api/insights/v1api20250101preview/storage"
 	insights_v20250101pw "github.com/Azure/azure-service-operator/v2/api/insights/v1api20250101preview/webhook"
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
-	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
-	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
-	keyvault_v20210401pw "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/webhook"
-	keyvault_v20230701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
-	keyvault_v20230701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
-	keyvault_v20230701w "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/webhook"
+	keyvault_v1api20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview"
+	keyvault_v1api20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/storage"
+	keyvault_v1api20210401pw "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20210401preview/webhook"
+	keyvault_v1api20230701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701"
+	keyvault_v1api20230701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/storage"
+	keyvault_v1api20230701w "github.com/Azure/azure-service-operator/v2/api/keyvault/v1api20230701/webhook"
+	keyvault_v20230701 "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701"
+	keyvault_v20230701s "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701/storage"
+	keyvault_v20230701w "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701/webhook"
 	kubernetesconfiguration_customizations "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/customizations"
 	kubernetesconfiguration_v20230501 "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501"
 	kubernetesconfiguration_v20230501s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20230501/storage"
@@ -1759,7 +1762,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(insights_v20240311s.DataCollectionRule)})
 	result = append(result, &registration.StorageType{Obj: new(insights_v20240311s.DataCollectionRuleAssociation)})
 	result = append(result, &registration.StorageType{
-		Obj: new(keyvault_v20230701s.Vault),
+		Obj: new(keyvault_v1api20230701s.Vault),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.accessPolicies.applicationIdFromConfig",
@@ -1788,10 +1791,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.accessPolicies.tenantIdFromConfig",
 						".spec.properties.tenantIdFromConfig",
 					},
-					&keyvault_v20230701s.VaultList{}),
+					&keyvault_v1api20230701s.VaultList{}),
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(keyvault_v20230701s.VaultsKey)})
 	result = append(result, &registration.StorageType{
 		Obj: new(kubernetesconfiguration_v20241101s.Extension),
 		Indexes: []registration.Index{
@@ -6063,17 +6067,23 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(insights_v20250101ps.ScheduledQueryRule)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(keyvault_v20210401p.Vault),
-		Defaulter: &keyvault_v20210401pw.Vault{},
-		Validator: &keyvault_v20210401pw.Vault{},
+		Obj:       new(keyvault_v1api20210401p.Vault),
+		Defaulter: &keyvault_v1api20210401pw.Vault{},
+		Validator: &keyvault_v1api20210401pw.Vault{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(keyvault_v20210401ps.Vault)})
+	result = append(result, &registration.KnownType{Obj: new(keyvault_v1api20210401ps.Vault)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(keyvault_v20230701.Vault),
-		Defaulter: &keyvault_v20230701w.Vault{},
-		Validator: &keyvault_v20230701w.Vault{},
+		Obj:       new(keyvault_v1api20230701.Vault),
+		Defaulter: &keyvault_v1api20230701w.Vault{},
+		Validator: &keyvault_v1api20230701w.Vault{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(keyvault_v20230701s.Vault)})
+	result = append(result, &registration.KnownType{Obj: new(keyvault_v1api20230701s.Vault)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(keyvault_v20230701.VaultsKey),
+		Defaulter: &keyvault_v20230701w.VaultsKey{},
+		Validator: &keyvault_v20230701w.VaultsKey{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(keyvault_v20230701s.VaultsKey)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(kubernetesconfiguration_v20230501.Extension),
 		Defaulter: &kubernetesconfiguration_v20230501w.Extension{},
@@ -8165,8 +8175,10 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20240311s.AddToScheme(scheme)
 	_ = insights_v20250101p.AddToScheme(scheme)
 	_ = insights_v20250101ps.AddToScheme(scheme)
-	_ = keyvault_v20210401p.AddToScheme(scheme)
-	_ = keyvault_v20210401ps.AddToScheme(scheme)
+	_ = keyvault_v1api20210401p.AddToScheme(scheme)
+	_ = keyvault_v1api20210401ps.AddToScheme(scheme)
+	_ = keyvault_v1api20230701.AddToScheme(scheme)
+	_ = keyvault_v1api20230701s.AddToScheme(scheme)
 	_ = keyvault_v20230701.AddToScheme(scheme)
 	_ = keyvault_v20230701s.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20230501.AddToScheme(scheme)
@@ -8431,6 +8443,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.WebtestExtension{})
 	result = append(result, &insights_customizations.WorkbookExtension{})
 	result = append(result, &keyvault_customizations.VaultExtension{})
+	result = append(result, &keyvault_customizations.VaultsKeyExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.ExtensionExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.FluxConfigurationExtension{})
 	result = append(result, &kusto_customizations.ClusterExtension{})
@@ -10153,9 +10166,9 @@ func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
 	return obj.Spec.Destination.WebHook.EndpointUrl.Index()
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.applicationIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v1api20230701s.Vault .spec.properties.accessPolicies.applicationIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
+	obj, ok := rawObj.(*keyvault_v1api20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -10172,9 +10185,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig(rawObj cl
 	return result
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.objectIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig an index function for keyvault_v1api20230701s.Vault .spec.properties.accessPolicies.objectIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
+	obj, ok := rawObj.(*keyvault_v1api20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -10191,9 +10204,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesObjectIdFromConfig(rawObj client.
 	return result
 }
 
-// indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.tenantIdFromConfig
+// indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig an index function for keyvault_v1api20230701s.Vault .spec.properties.accessPolicies.tenantIdFromConfig
 func indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
+	obj, ok := rawObj.(*keyvault_v1api20230701s.Vault)
 	if !ok {
 		return nil
 	}
@@ -10210,9 +10223,9 @@ func indexKeyvaultVaultPropertiesAccessPoliciesTenantIdFromConfig(rawObj client.
 	return result
 }
 
-// indexKeyvaultVaultPropertiesTenantIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.tenantIdFromConfig
+// indexKeyvaultVaultPropertiesTenantIdFromConfig an index function for keyvault_v1api20230701s.Vault .spec.properties.tenantIdFromConfig
 func indexKeyvaultVaultPropertiesTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*keyvault_v20230701s.Vault)
+	obj, ok := rawObj.(*keyvault_v1api20230701s.Vault)
 	if !ok {
 		return nil
 	}
