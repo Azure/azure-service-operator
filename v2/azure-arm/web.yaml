@@ -37,3 +37,52 @@ groupModelConfiguration:
     Sites_Sourcecontrol:
       $exportAs: SitesSourcecontrol
       $supportedFrom: v2.12.0
+  2025-05-01:
+    ApiManagementConfig:
+      Id:
+        $referenceType: arm
+    CloningInfo:
+      TrafficManagerProfileId:
+        $referenceType: arm
+      SourceWebAppId:
+        $referenceType: arm
+    DefaultIdentity:
+      UserAssignedIdentityResourceId:
+        $referenceType: arm
+    FunctionsDeploymentStorageAuthentication:
+      UserAssignedIdentityResourceId:
+        $referenceType: arm
+    HostingEnvironmentProfile:
+      Id:
+        $referenceType: arm
+    IpSecurityRestriction:
+      VnetSubnetResourceId:
+        $referenceType: arm
+    KubeEnvironmentProfile:
+      Id:
+        $referenceType: arm
+    PushSettings:
+      # This actually is a resource I think, but as far as I can tell in the context it's used
+      # here as part of SitesConfig it has to be embedded as there is no writable ID field
+      $isResource: false
+    PushSettings_STATUS:
+      $isResource: false
+    ServerFarm:
+      $exportAs: ServerFarm
+      $supportedFrom: v2.21.0
+    ServerFarmNetworkSettings:
+      VirtualNetworkSubnetId:
+        $referenceType: arm
+    Site:
+      $exportAs: Site
+      $supportedFrom: v2.21.0
+    SiteProperties:
+      ServerFarmId:
+        $referenceType: arm
+      VirtualNetworkSubnetId:
+        $referenceType: arm
+      ManagedEnvironmentId:
+        $referenceType: arm
+    Sites_Sourcecontrol:
+      $exportAs: SitesSourcecontrol
+      $supportedFrom: v2.21.0

@@ -69,4 +69,7 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "chore"
-      
+    groups:
+      codeql-action:
+        patterns:
+          - "github/codeql-action/*"

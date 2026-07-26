@@ -182,3 +182,133 @@ func TestResourceVersionsReportGroupInfo_GivenGroup_ReturnsExpectedResult(t *tes
 		})
 	}
 }
+
+// TestResourceVersionsReport_SupportedFrom_OverridesForHybridMigrationGroup verifies that we
+// report the correct "Supported From" version for resources in a group whose migration to
+// Hybrid versioning has not yet been released. See #5534.
+func TestResourceVersionsReport_SupportedFrom_OverridesForHybridMigrationGroup(t *testing.T) {
+	t.Parallel()
+
+	// authorization is registered in versionMigrationHybridReleases with an upcoming migration
+	// release, so pre-migration resources in that group should be reported as available in that
+	// upcoming release (not their original release).
+	authorizationHybridRelease, ok := astmodel.HybridMigrationReleaseForGroup("authorization")
+	NewGomegaWithT(t).Expect(ok).To(BeTrue(), "authorization must be registered as a hybrid migration group")
+
+	newStylePkg := test.MakeLocalPackageReference("authorization", "v20220401")
+	legacyStylePkg := newStylePkg.WithVersionPrefix(astmodel.GeneratorVersion) // v1api prefix
+	cdnPkg := test.MakeLocalPackageReference("cdn", "v20230501").WithVersionPrefix(astmodel.GeneratorVersion)
+
+	roleAssignmentNewStyle := astmodel.MakeInternalTypeName(newStylePkg, "RoleAssignment")
+	roleAssignmentLegacyStyle := astmodel.MakeInternalTypeName(legacyStylePkg, "RoleAssignment")
+	cdnProfile := astmodel.MakeInternalTypeName(cdnPkg, "Profile")
+
+	cases := map[string]struct {
+		name           astmodel.InternalTypeName
+		configuredFrom string
+		expected       string
+	}{
+		"NewStyleAuthorizationResource_UsesMigrationRelease": {
+			// The `v`-prefixed variant of a resource introduced pre-v2.17 in an unreleased hybrid group
+			// should have its Supported From bumped to the migration release.
+			name:           roleAssignmentNewStyle,
+			configuredFrom: "v2.4.0",
+			expected:       authorizationHybridRelease,
+		},
+		"LegacyStyleAuthorizationResource_KeepsOriginal": {
+			// The `v1api`-prefixed variant retains the original supportedFrom because it has always
+			// been available at that release.
+			name:           roleAssignmentLegacyStyle,
+			configuredFrom: "v2.4.0",
+			expected:       "v2.4.0",
+		},
+		"NonHybridGroup_KeepsOriginal": {
+			// cdn is Legacy (not Hybrid) so the original supportedFrom is preserved regardless.
+			name:           cdnProfile,
+			configuredFrom: "v2.0.0",
+			expected:       "v2.0.0",
+		},
+		"PreGARelease_MappedToV200": {
+			// v2.0.0-alpha.X strings continue to be normalized to v2.0.0 for older legacy resources.
+			name:           roleAssignmentLegacyStyle,
+			configuredFrom: "v2.0.0-alpha.2",
+			expected:       "v2.0.0",
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			cfg := config.NewConfiguration()
+			g.Expect(cfg.ObjectModelConfiguration.ModifyType(
+				c.name,
+				func(tc *config.TypeConfiguration) error {
+					tc.SupportedFrom.Set(c.configuredFrom)
+					return nil
+				},
+			)).To(Succeed())
+
+			report := &ResourceVersionsReport{
+				reportConfiguration:      cfg.SupportedResourcesReport,
+				objectModelConfiguration: cfg.ObjectModelConfiguration,
+			}
+
+			g.Expect(report.supportedFrom(c.name)).To(Equal(c.expected))
+		})
+	}
+}
+
+// TestResourceVersionsReport_IsDeprecatedResource_HybridMigration verifies that `v1api`-prefixed
+// resources in a Hybrid group whose migration hasn't shipped yet are NOT flagged as deprecated,
+// since they're still the only variants users can use. See #5534.
+func TestResourceVersionsReport_IsDeprecatedResource_HybridMigration(t *testing.T) {
+	t.Parallel()
+
+	authorizationLegacyPkg := test.MakeLocalPackageReference("authorization", "v20220401").
+		WithVersionPrefix(astmodel.GeneratorVersion) // v1api prefix
+	authorizationLegacyItem := ResourceVersionsReportResourceItem{
+		name: astmodel.MakeInternalTypeName(authorizationLegacyPkg, "RoleAssignment"),
+	}
+
+	// alertsmanagement is Hybrid but has no upcoming migration release registered (migration
+	// happened long ago), so its v1api variants ARE deprecated.
+	alertsLegacyPkg := test.MakeLocalPackageReference("alertsmanagement", "v20210401").
+		WithVersionPrefix(astmodel.GeneratorVersion)
+	alertsLegacyItem := ResourceVersionsReportResourceItem{
+		name: astmodel.MakeInternalTypeName(alertsLegacyPkg, "SmartDetector"),
+	}
+
+	cases := map[string]struct {
+		item     ResourceVersionsReportResourceItem
+		expected bool
+	}{
+		"UpcomingHybridMigration_LegacyNotDeprecated": {
+			item:     authorizationLegacyItem,
+			expected: false,
+		},
+		"AlreadyReleasedHybridMigration_LegacyDeprecated": {
+			item:     alertsLegacyItem,
+			expected: true,
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			cfg := config.NewConfiguration()
+			// CurrentRelease matches the value used in azure-arm.yaml at the time this test was
+			// written; the authorization migration (v2.21.0) is later than this.
+			cfg.SupportedResourcesReport.CurrentRelease = "v2.20.0"
+
+			report := &ResourceVersionsReport{
+				reportConfiguration: cfg.SupportedResourcesReport,
+			}
+
+			g.Expect(report.isDeprecatedResource(c.item)).To(Equal(c.expected))
+		})
+	}
+}

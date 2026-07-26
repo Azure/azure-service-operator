@@ -322,7 +322,9 @@ tasks:
     desc: Generate the {{.GENERATOR_APP}} binary.
     dir: '{{.GENERATOR_ROOT}}'
     cmds:
-      - go build {{.LDFLAGS}} -o ../../bin/{{.GENERATOR_APP}} .
+      # Not passing LDFLAGS here as embedding the version in the generator causes frequent rebuilds during local development
+      # that are unnecessary
+      - go build -o ../../bin/{{.GENERATOR_APP}} .
 
   # Stub retained until migration of workflows complete
   generator:diagrams:

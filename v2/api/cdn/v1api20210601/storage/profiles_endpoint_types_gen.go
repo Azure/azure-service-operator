@@ -4,7 +4,8 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v20210601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -13,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=cdn.azure.com,resources=profilesendpoints,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=cdn.azure.com,resources={profilesendpoints/status,profilesendpoints/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,cdn}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -47,6 +45,28 @@ func (endpoint *ProfilesEndpoint) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (endpoint *ProfilesEndpoint) SetConditions(conditions conditions.Conditions) {
 	endpoint.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ProfilesEndpoint{}
+
+// ConvertFrom populates our ProfilesEndpoint from the provided hub ProfilesEndpoint
+func (endpoint *ProfilesEndpoint) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ProfilesEndpoint)
+	if !ok {
+		return fmt.Errorf("expected cdn/v20210601/storage/ProfilesEndpoint but received %T instead", hub)
+	}
+
+	return endpoint.AssignProperties_From_ProfilesEndpoint(source)
+}
+
+// ConvertTo populates the provided hub ProfilesEndpoint from our ProfilesEndpoint
+func (endpoint *ProfilesEndpoint) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ProfilesEndpoint)
+	if !ok {
+		return fmt.Errorf("expected cdn/v20210601/storage/ProfilesEndpoint but received %T instead", hub)
+	}
+
+	return endpoint.AssignProperties_To_ProfilesEndpoint(destination)
 }
 
 var _ configmaps.Exporter = &ProfilesEndpoint{}
@@ -144,8 +164,75 @@ func (endpoint *ProfilesEndpoint) SetStatus(status genruntime.ConvertibleStatus)
 	return nil
 }
 
-// Hub marks that this ProfilesEndpoint is the hub type for conversion
-func (endpoint *ProfilesEndpoint) Hub() {}
+// AssignProperties_From_ProfilesEndpoint populates our ProfilesEndpoint from the provided source ProfilesEndpoint
+func (endpoint *ProfilesEndpoint) AssignProperties_From_ProfilesEndpoint(source *storage.ProfilesEndpoint) error {
+
+	// ObjectMeta
+	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ProfilesEndpoint_Spec
+	err := spec.AssignProperties_From_ProfilesEndpoint_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ProfilesEndpoint_Spec() to populate field Spec")
+	}
+	endpoint.Spec = spec
+
+	// Status
+	var status ProfilesEndpoint_STATUS
+	err = status.AssignProperties_From_ProfilesEndpoint_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ProfilesEndpoint_STATUS() to populate field Status")
+	}
+	endpoint.Status = status
+
+	// Invoke the augmentConversionForProfilesEndpoint interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForProfilesEndpoint); ok {
+		err := augmentedEndpoint.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ProfilesEndpoint populates the provided destination ProfilesEndpoint from our ProfilesEndpoint
+func (endpoint *ProfilesEndpoint) AssignProperties_To_ProfilesEndpoint(destination *storage.ProfilesEndpoint) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ProfilesEndpoint_Spec
+	err := endpoint.Spec.AssignProperties_To_ProfilesEndpoint_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ProfilesEndpoint_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ProfilesEndpoint_STATUS
+	err = endpoint.Status.AssignProperties_To_ProfilesEndpoint_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ProfilesEndpoint_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForProfilesEndpoint interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForProfilesEndpoint); ok {
+		err := augmentedEndpoint.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (endpoint *ProfilesEndpoint) OriginalGVK() *schema.GroupVersionKind {
@@ -165,6 +252,11 @@ type ProfilesEndpointList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ProfilesEndpoint `json:"items"`
+}
+
+type augmentConversionForProfilesEndpoint interface {
+	AssignPropertiesFrom(src *storage.ProfilesEndpoint) error
+	AssignPropertiesTo(dst *storage.ProfilesEndpoint) error
 }
 
 // Storage version of v1api20210601.ProfilesEndpoint_Spec
@@ -205,20 +297,448 @@ var _ genruntime.ConvertibleSpec = &ProfilesEndpoint_Spec{}
 
 // ConvertSpecFrom populates our ProfilesEndpoint_Spec from the provided source
 func (endpoint *ProfilesEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == endpoint {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ProfilesEndpoint_Spec)
+	if ok {
+		// Populate our instance from source
+		return endpoint.AssignProperties_From_ProfilesEndpoint_Spec(src)
 	}
 
-	return source.ConvertSpecTo(endpoint)
+	// Convert to an intermediate form
+	src = &storage.ProfilesEndpoint_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = endpoint.AssignProperties_From_ProfilesEndpoint_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ProfilesEndpoint_Spec
 func (endpoint *ProfilesEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == endpoint {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ProfilesEndpoint_Spec)
+	if ok {
+		// Populate destination from our instance
+		return endpoint.AssignProperties_To_ProfilesEndpoint_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(endpoint)
+	// Convert to an intermediate form
+	dst = &storage.ProfilesEndpoint_Spec{}
+	err := endpoint.AssignProperties_To_ProfilesEndpoint_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ProfilesEndpoint_Spec populates our ProfilesEndpoint_Spec from the provided source ProfilesEndpoint_Spec
+func (endpoint *ProfilesEndpoint_Spec) AssignProperties_From_ProfilesEndpoint_Spec(source *storage.ProfilesEndpoint_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	endpoint.AzureName = source.AzureName
+
+	// ContentTypesToCompress
+	endpoint.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
+
+	// DefaultOriginGroup
+	if source.DefaultOriginGroup != nil {
+		var defaultOriginGroup ResourceReference
+		err := defaultOriginGroup.AssignProperties_From_ResourceReference(source.DefaultOriginGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field DefaultOriginGroup")
+		}
+		endpoint.DefaultOriginGroup = &defaultOriginGroup
+	} else {
+		endpoint.DefaultOriginGroup = nil
+	}
+
+	// DeliveryPolicy
+	if source.DeliveryPolicy != nil {
+		var deliveryPolicy EndpointProperties_DeliveryPolicy
+		err := deliveryPolicy.AssignProperties_From_EndpointProperties_DeliveryPolicy(source.DeliveryPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_EndpointProperties_DeliveryPolicy() to populate field DeliveryPolicy")
+		}
+		endpoint.DeliveryPolicy = &deliveryPolicy
+	} else {
+		endpoint.DeliveryPolicy = nil
+	}
+
+	// GeoFilters
+	if source.GeoFilters != nil {
+		geoFilterList := make([]GeoFilter, len(source.GeoFilters))
+		for geoFilterIndex, geoFilterItem := range source.GeoFilters {
+			var geoFilter GeoFilter
+			err := geoFilter.AssignProperties_From_GeoFilter(&geoFilterItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_GeoFilter() to populate field GeoFilters")
+			}
+			geoFilterList[geoFilterIndex] = geoFilter
+		}
+		endpoint.GeoFilters = geoFilterList
+	} else {
+		endpoint.GeoFilters = nil
+	}
+
+	// IsCompressionEnabled
+	if source.IsCompressionEnabled != nil {
+		isCompressionEnabled := *source.IsCompressionEnabled
+		endpoint.IsCompressionEnabled = &isCompressionEnabled
+	} else {
+		endpoint.IsCompressionEnabled = nil
+	}
+
+	// IsHttpAllowed
+	if source.IsHttpAllowed != nil {
+		isHttpAllowed := *source.IsHttpAllowed
+		endpoint.IsHttpAllowed = &isHttpAllowed
+	} else {
+		endpoint.IsHttpAllowed = nil
+	}
+
+	// IsHttpsAllowed
+	if source.IsHttpsAllowed != nil {
+		isHttpsAllowed := *source.IsHttpsAllowed
+		endpoint.IsHttpsAllowed = &isHttpsAllowed
+	} else {
+		endpoint.IsHttpsAllowed = nil
+	}
+
+	// Location
+	endpoint.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ProfilesEndpointOperatorSpec
+		err := operatorSpec.AssignProperties_From_ProfilesEndpointOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ProfilesEndpointOperatorSpec() to populate field OperatorSpec")
+		}
+		endpoint.OperatorSpec = &operatorSpec
+	} else {
+		endpoint.OperatorSpec = nil
+	}
+
+	// OptimizationType
+	endpoint.OptimizationType = genruntime.ClonePointerToString(source.OptimizationType)
+
+	// OriginGroups
+	if source.OriginGroups != nil {
+		originGroupList := make([]DeepCreatedOriginGroup, len(source.OriginGroups))
+		for originGroupIndex, originGroupItem := range source.OriginGroups {
+			var originGroup DeepCreatedOriginGroup
+			err := originGroup.AssignProperties_From_DeepCreatedOriginGroup(&originGroupItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_DeepCreatedOriginGroup() to populate field OriginGroups")
+			}
+			originGroupList[originGroupIndex] = originGroup
+		}
+		endpoint.OriginGroups = originGroupList
+	} else {
+		endpoint.OriginGroups = nil
+	}
+
+	// OriginHostHeader
+	endpoint.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
+
+	// OriginPath
+	endpoint.OriginPath = genruntime.ClonePointerToString(source.OriginPath)
+
+	// OriginalVersion
+	endpoint.OriginalVersion = source.OriginalVersion
+
+	// Origins
+	if source.Origins != nil {
+		originList := make([]DeepCreatedOrigin, len(source.Origins))
+		for originIndex, originItem := range source.Origins {
+			var origin DeepCreatedOrigin
+			err := origin.AssignProperties_From_DeepCreatedOrigin(&originItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_DeepCreatedOrigin() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		endpoint.Origins = originList
+	} else {
+		endpoint.Origins = nil
+	}
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		endpoint.Owner = &owner
+	} else {
+		endpoint.Owner = nil
+	}
+
+	// ProbePath
+	endpoint.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
+
+	// QueryStringCachingBehavior
+	endpoint.QueryStringCachingBehavior = genruntime.ClonePointerToString(source.QueryStringCachingBehavior)
+
+	// Tags
+	endpoint.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// UrlSigningKeys
+	if source.UrlSigningKeys != nil {
+		urlSigningKeyList := make([]UrlSigningKey, len(source.UrlSigningKeys))
+		for urlSigningKeyIndex, urlSigningKeyItem := range source.UrlSigningKeys {
+			var urlSigningKey UrlSigningKey
+			err := urlSigningKey.AssignProperties_From_UrlSigningKey(&urlSigningKeyItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_UrlSigningKey() to populate field UrlSigningKeys")
+			}
+			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
+		}
+		endpoint.UrlSigningKeys = urlSigningKeyList
+	} else {
+		endpoint.UrlSigningKeys = nil
+	}
+
+	// WebApplicationFirewallPolicyLink
+	if source.WebApplicationFirewallPolicyLink != nil {
+		var webApplicationFirewallPolicyLink EndpointProperties_WebApplicationFirewallPolicyLink
+		err := webApplicationFirewallPolicyLink.AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink(source.WebApplicationFirewallPolicyLink)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+		}
+		endpoint.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
+	} else {
+		endpoint.WebApplicationFirewallPolicyLink = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		endpoint.PropertyBag = propertyBag
+	} else {
+		endpoint.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProfilesEndpoint_Spec interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForProfilesEndpoint_Spec); ok {
+		err := augmentedEndpoint.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ProfilesEndpoint_Spec populates the provided destination ProfilesEndpoint_Spec from our ProfilesEndpoint_Spec
+func (endpoint *ProfilesEndpoint_Spec) AssignProperties_To_ProfilesEndpoint_Spec(destination *storage.ProfilesEndpoint_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
+
+	// AzureName
+	destination.AzureName = endpoint.AzureName
+
+	// ContentTypesToCompress
+	destination.ContentTypesToCompress = genruntime.CloneSliceOfString(endpoint.ContentTypesToCompress)
+
+	// DefaultOriginGroup
+	if endpoint.DefaultOriginGroup != nil {
+		var defaultOriginGroup storage.ResourceReference
+		err := endpoint.DefaultOriginGroup.AssignProperties_To_ResourceReference(&defaultOriginGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field DefaultOriginGroup")
+		}
+		destination.DefaultOriginGroup = &defaultOriginGroup
+	} else {
+		destination.DefaultOriginGroup = nil
+	}
+
+	// DeliveryPolicy
+	if endpoint.DeliveryPolicy != nil {
+		var deliveryPolicy storage.EndpointProperties_DeliveryPolicy
+		err := endpoint.DeliveryPolicy.AssignProperties_To_EndpointProperties_DeliveryPolicy(&deliveryPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_EndpointProperties_DeliveryPolicy() to populate field DeliveryPolicy")
+		}
+		destination.DeliveryPolicy = &deliveryPolicy
+	} else {
+		destination.DeliveryPolicy = nil
+	}
+
+	// GeoFilters
+	if endpoint.GeoFilters != nil {
+		geoFilterList := make([]storage.GeoFilter, len(endpoint.GeoFilters))
+		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
+			var geoFilter storage.GeoFilter
+			err := geoFilterItem.AssignProperties_To_GeoFilter(&geoFilter)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_GeoFilter() to populate field GeoFilters")
+			}
+			geoFilterList[geoFilterIndex] = geoFilter
+		}
+		destination.GeoFilters = geoFilterList
+	} else {
+		destination.GeoFilters = nil
+	}
+
+	// IsCompressionEnabled
+	if endpoint.IsCompressionEnabled != nil {
+		isCompressionEnabled := *endpoint.IsCompressionEnabled
+		destination.IsCompressionEnabled = &isCompressionEnabled
+	} else {
+		destination.IsCompressionEnabled = nil
+	}
+
+	// IsHttpAllowed
+	if endpoint.IsHttpAllowed != nil {
+		isHttpAllowed := *endpoint.IsHttpAllowed
+		destination.IsHttpAllowed = &isHttpAllowed
+	} else {
+		destination.IsHttpAllowed = nil
+	}
+
+	// IsHttpsAllowed
+	if endpoint.IsHttpsAllowed != nil {
+		isHttpsAllowed := *endpoint.IsHttpsAllowed
+		destination.IsHttpsAllowed = &isHttpsAllowed
+	} else {
+		destination.IsHttpsAllowed = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(endpoint.Location)
+
+	// OperatorSpec
+	if endpoint.OperatorSpec != nil {
+		var operatorSpec storage.ProfilesEndpointOperatorSpec
+		err := endpoint.OperatorSpec.AssignProperties_To_ProfilesEndpointOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ProfilesEndpointOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OptimizationType
+	destination.OptimizationType = genruntime.ClonePointerToString(endpoint.OptimizationType)
+
+	// OriginGroups
+	if endpoint.OriginGroups != nil {
+		originGroupList := make([]storage.DeepCreatedOriginGroup, len(endpoint.OriginGroups))
+		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
+			var originGroup storage.DeepCreatedOriginGroup
+			err := originGroupItem.AssignProperties_To_DeepCreatedOriginGroup(&originGroup)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_DeepCreatedOriginGroup() to populate field OriginGroups")
+			}
+			originGroupList[originGroupIndex] = originGroup
+		}
+		destination.OriginGroups = originGroupList
+	} else {
+		destination.OriginGroups = nil
+	}
+
+	// OriginHostHeader
+	destination.OriginHostHeader = genruntime.ClonePointerToString(endpoint.OriginHostHeader)
+
+	// OriginPath
+	destination.OriginPath = genruntime.ClonePointerToString(endpoint.OriginPath)
+
+	// OriginalVersion
+	destination.OriginalVersion = endpoint.OriginalVersion
+
+	// Origins
+	if endpoint.Origins != nil {
+		originList := make([]storage.DeepCreatedOrigin, len(endpoint.Origins))
+		for originIndex, originItem := range endpoint.Origins {
+			var origin storage.DeepCreatedOrigin
+			err := originItem.AssignProperties_To_DeepCreatedOrigin(&origin)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_DeepCreatedOrigin() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		destination.Origins = originList
+	} else {
+		destination.Origins = nil
+	}
+
+	// Owner
+	if endpoint.Owner != nil {
+		owner := endpoint.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// ProbePath
+	destination.ProbePath = genruntime.ClonePointerToString(endpoint.ProbePath)
+
+	// QueryStringCachingBehavior
+	destination.QueryStringCachingBehavior = genruntime.ClonePointerToString(endpoint.QueryStringCachingBehavior)
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(endpoint.Tags)
+
+	// UrlSigningKeys
+	if endpoint.UrlSigningKeys != nil {
+		urlSigningKeyList := make([]storage.UrlSigningKey, len(endpoint.UrlSigningKeys))
+		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
+			var urlSigningKey storage.UrlSigningKey
+			err := urlSigningKeyItem.AssignProperties_To_UrlSigningKey(&urlSigningKey)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_UrlSigningKey() to populate field UrlSigningKeys")
+			}
+			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
+		}
+		destination.UrlSigningKeys = urlSigningKeyList
+	} else {
+		destination.UrlSigningKeys = nil
+	}
+
+	// WebApplicationFirewallPolicyLink
+	if endpoint.WebApplicationFirewallPolicyLink != nil {
+		var webApplicationFirewallPolicyLink storage.EndpointProperties_WebApplicationFirewallPolicyLink
+		err := endpoint.WebApplicationFirewallPolicyLink.AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+		}
+		destination.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
+	} else {
+		destination.WebApplicationFirewallPolicyLink = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProfilesEndpoint_Spec interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForProfilesEndpoint_Spec); ok {
+		err := augmentedEndpoint.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210601.ProfilesEndpoint_STATUS
@@ -257,20 +777,504 @@ var _ genruntime.ConvertibleStatus = &ProfilesEndpoint_STATUS{}
 
 // ConvertStatusFrom populates our ProfilesEndpoint_STATUS from the provided source
 func (endpoint *ProfilesEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == endpoint {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ProfilesEndpoint_STATUS)
+	if ok {
+		// Populate our instance from source
+		return endpoint.AssignProperties_From_ProfilesEndpoint_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(endpoint)
+	// Convert to an intermediate form
+	src = &storage.ProfilesEndpoint_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = endpoint.AssignProperties_From_ProfilesEndpoint_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ProfilesEndpoint_STATUS
 func (endpoint *ProfilesEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == endpoint {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ProfilesEndpoint_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return endpoint.AssignProperties_To_ProfilesEndpoint_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(endpoint)
+	// Convert to an intermediate form
+	dst = &storage.ProfilesEndpoint_STATUS{}
+	err := endpoint.AssignProperties_To_ProfilesEndpoint_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ProfilesEndpoint_STATUS populates our ProfilesEndpoint_STATUS from the provided source ProfilesEndpoint_STATUS
+func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_From_ProfilesEndpoint_STATUS(source *storage.ProfilesEndpoint_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	endpoint.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// ContentTypesToCompress
+	endpoint.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
+
+	// CustomDomains
+	if source.CustomDomains != nil {
+		customDomainList := make([]DeepCreatedCustomDomain_STATUS, len(source.CustomDomains))
+		for customDomainIndex, customDomainItem := range source.CustomDomains {
+			var customDomain DeepCreatedCustomDomain_STATUS
+			err := customDomain.AssignProperties_From_DeepCreatedCustomDomain_STATUS(&customDomainItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_DeepCreatedCustomDomain_STATUS() to populate field CustomDomains")
+			}
+			customDomainList[customDomainIndex] = customDomain
+		}
+		endpoint.CustomDomains = customDomainList
+	} else {
+		endpoint.CustomDomains = nil
+	}
+
+	// DefaultOriginGroup
+	if source.DefaultOriginGroup != nil {
+		var defaultOriginGroup ResourceReference_STATUS
+		err := defaultOriginGroup.AssignProperties_From_ResourceReference_STATUS(source.DefaultOriginGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field DefaultOriginGroup")
+		}
+		endpoint.DefaultOriginGroup = &defaultOriginGroup
+	} else {
+		endpoint.DefaultOriginGroup = nil
+	}
+
+	// DeliveryPolicy
+	if source.DeliveryPolicy != nil {
+		var deliveryPolicy EndpointProperties_DeliveryPolicy_STATUS
+		err := deliveryPolicy.AssignProperties_From_EndpointProperties_DeliveryPolicy_STATUS(source.DeliveryPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_EndpointProperties_DeliveryPolicy_STATUS() to populate field DeliveryPolicy")
+		}
+		endpoint.DeliveryPolicy = &deliveryPolicy
+	} else {
+		endpoint.DeliveryPolicy = nil
+	}
+
+	// GeoFilters
+	if source.GeoFilters != nil {
+		geoFilterList := make([]GeoFilter_STATUS, len(source.GeoFilters))
+		for geoFilterIndex, geoFilterItem := range source.GeoFilters {
+			var geoFilter GeoFilter_STATUS
+			err := geoFilter.AssignProperties_From_GeoFilter_STATUS(&geoFilterItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_GeoFilter_STATUS() to populate field GeoFilters")
+			}
+			geoFilterList[geoFilterIndex] = geoFilter
+		}
+		endpoint.GeoFilters = geoFilterList
+	} else {
+		endpoint.GeoFilters = nil
+	}
+
+	// HostName
+	endpoint.HostName = genruntime.ClonePointerToString(source.HostName)
+
+	// Id
+	endpoint.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IsCompressionEnabled
+	if source.IsCompressionEnabled != nil {
+		isCompressionEnabled := *source.IsCompressionEnabled
+		endpoint.IsCompressionEnabled = &isCompressionEnabled
+	} else {
+		endpoint.IsCompressionEnabled = nil
+	}
+
+	// IsHttpAllowed
+	if source.IsHttpAllowed != nil {
+		isHttpAllowed := *source.IsHttpAllowed
+		endpoint.IsHttpAllowed = &isHttpAllowed
+	} else {
+		endpoint.IsHttpAllowed = nil
+	}
+
+	// IsHttpsAllowed
+	if source.IsHttpsAllowed != nil {
+		isHttpsAllowed := *source.IsHttpsAllowed
+		endpoint.IsHttpsAllowed = &isHttpsAllowed
+	} else {
+		endpoint.IsHttpsAllowed = nil
+	}
+
+	// Location
+	endpoint.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	endpoint.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OptimizationType
+	endpoint.OptimizationType = genruntime.ClonePointerToString(source.OptimizationType)
+
+	// OriginGroups
+	if source.OriginGroups != nil {
+		originGroupList := make([]DeepCreatedOriginGroup_STATUS, len(source.OriginGroups))
+		for originGroupIndex, originGroupItem := range source.OriginGroups {
+			var originGroup DeepCreatedOriginGroup_STATUS
+			err := originGroup.AssignProperties_From_DeepCreatedOriginGroup_STATUS(&originGroupItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_DeepCreatedOriginGroup_STATUS() to populate field OriginGroups")
+			}
+			originGroupList[originGroupIndex] = originGroup
+		}
+		endpoint.OriginGroups = originGroupList
+	} else {
+		endpoint.OriginGroups = nil
+	}
+
+	// OriginHostHeader
+	endpoint.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
+
+	// OriginPath
+	endpoint.OriginPath = genruntime.ClonePointerToString(source.OriginPath)
+
+	// Origins
+	if source.Origins != nil {
+		originList := make([]DeepCreatedOrigin_STATUS, len(source.Origins))
+		for originIndex, originItem := range source.Origins {
+			var origin DeepCreatedOrigin_STATUS
+			err := origin.AssignProperties_From_DeepCreatedOrigin_STATUS(&originItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_DeepCreatedOrigin_STATUS() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		endpoint.Origins = originList
+	} else {
+		endpoint.Origins = nil
+	}
+
+	// ProbePath
+	endpoint.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
+
+	// ProvisioningState
+	endpoint.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// QueryStringCachingBehavior
+	endpoint.QueryStringCachingBehavior = genruntime.ClonePointerToString(source.QueryStringCachingBehavior)
+
+	// ResourceState
+	endpoint.ResourceState = genruntime.ClonePointerToString(source.ResourceState)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		endpoint.SystemData = &systemDatum
+	} else {
+		endpoint.SystemData = nil
+	}
+
+	// Tags
+	endpoint.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	endpoint.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UrlSigningKeys
+	if source.UrlSigningKeys != nil {
+		urlSigningKeyList := make([]UrlSigningKey_STATUS, len(source.UrlSigningKeys))
+		for urlSigningKeyIndex, urlSigningKeyItem := range source.UrlSigningKeys {
+			var urlSigningKey UrlSigningKey_STATUS
+			err := urlSigningKey.AssignProperties_From_UrlSigningKey_STATUS(&urlSigningKeyItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_UrlSigningKey_STATUS() to populate field UrlSigningKeys")
+			}
+			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
+		}
+		endpoint.UrlSigningKeys = urlSigningKeyList
+	} else {
+		endpoint.UrlSigningKeys = nil
+	}
+
+	// WebApplicationFirewallPolicyLink
+	if source.WebApplicationFirewallPolicyLink != nil {
+		var webApplicationFirewallPolicyLink EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+		err := webApplicationFirewallPolicyLink.AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(source.WebApplicationFirewallPolicyLink)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS() to populate field WebApplicationFirewallPolicyLink")
+		}
+		endpoint.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
+	} else {
+		endpoint.WebApplicationFirewallPolicyLink = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		endpoint.PropertyBag = propertyBag
+	} else {
+		endpoint.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProfilesEndpoint_STATUS interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForProfilesEndpoint_STATUS); ok {
+		err := augmentedEndpoint.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ProfilesEndpoint_STATUS populates the provided destination ProfilesEndpoint_STATUS from our ProfilesEndpoint_STATUS
+func (endpoint *ProfilesEndpoint_STATUS) AssignProperties_To_ProfilesEndpoint_STATUS(destination *storage.ProfilesEndpoint_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(endpoint.Conditions)
+
+	// ContentTypesToCompress
+	destination.ContentTypesToCompress = genruntime.CloneSliceOfString(endpoint.ContentTypesToCompress)
+
+	// CustomDomains
+	if endpoint.CustomDomains != nil {
+		customDomainList := make([]storage.DeepCreatedCustomDomain_STATUS, len(endpoint.CustomDomains))
+		for customDomainIndex, customDomainItem := range endpoint.CustomDomains {
+			var customDomain storage.DeepCreatedCustomDomain_STATUS
+			err := customDomainItem.AssignProperties_To_DeepCreatedCustomDomain_STATUS(&customDomain)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_DeepCreatedCustomDomain_STATUS() to populate field CustomDomains")
+			}
+			customDomainList[customDomainIndex] = customDomain
+		}
+		destination.CustomDomains = customDomainList
+	} else {
+		destination.CustomDomains = nil
+	}
+
+	// DefaultOriginGroup
+	if endpoint.DefaultOriginGroup != nil {
+		var defaultOriginGroup storage.ResourceReference_STATUS
+		err := endpoint.DefaultOriginGroup.AssignProperties_To_ResourceReference_STATUS(&defaultOriginGroup)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field DefaultOriginGroup")
+		}
+		destination.DefaultOriginGroup = &defaultOriginGroup
+	} else {
+		destination.DefaultOriginGroup = nil
+	}
+
+	// DeliveryPolicy
+	if endpoint.DeliveryPolicy != nil {
+		var deliveryPolicy storage.EndpointProperties_DeliveryPolicy_STATUS
+		err := endpoint.DeliveryPolicy.AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS(&deliveryPolicy)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS() to populate field DeliveryPolicy")
+		}
+		destination.DeliveryPolicy = &deliveryPolicy
+	} else {
+		destination.DeliveryPolicy = nil
+	}
+
+	// GeoFilters
+	if endpoint.GeoFilters != nil {
+		geoFilterList := make([]storage.GeoFilter_STATUS, len(endpoint.GeoFilters))
+		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
+			var geoFilter storage.GeoFilter_STATUS
+			err := geoFilterItem.AssignProperties_To_GeoFilter_STATUS(&geoFilter)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_GeoFilter_STATUS() to populate field GeoFilters")
+			}
+			geoFilterList[geoFilterIndex] = geoFilter
+		}
+		destination.GeoFilters = geoFilterList
+	} else {
+		destination.GeoFilters = nil
+	}
+
+	// HostName
+	destination.HostName = genruntime.ClonePointerToString(endpoint.HostName)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
+
+	// IsCompressionEnabled
+	if endpoint.IsCompressionEnabled != nil {
+		isCompressionEnabled := *endpoint.IsCompressionEnabled
+		destination.IsCompressionEnabled = &isCompressionEnabled
+	} else {
+		destination.IsCompressionEnabled = nil
+	}
+
+	// IsHttpAllowed
+	if endpoint.IsHttpAllowed != nil {
+		isHttpAllowed := *endpoint.IsHttpAllowed
+		destination.IsHttpAllowed = &isHttpAllowed
+	} else {
+		destination.IsHttpAllowed = nil
+	}
+
+	// IsHttpsAllowed
+	if endpoint.IsHttpsAllowed != nil {
+		isHttpsAllowed := *endpoint.IsHttpsAllowed
+		destination.IsHttpsAllowed = &isHttpsAllowed
+	} else {
+		destination.IsHttpsAllowed = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(endpoint.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(endpoint.Name)
+
+	// OptimizationType
+	destination.OptimizationType = genruntime.ClonePointerToString(endpoint.OptimizationType)
+
+	// OriginGroups
+	if endpoint.OriginGroups != nil {
+		originGroupList := make([]storage.DeepCreatedOriginGroup_STATUS, len(endpoint.OriginGroups))
+		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
+			var originGroup storage.DeepCreatedOriginGroup_STATUS
+			err := originGroupItem.AssignProperties_To_DeepCreatedOriginGroup_STATUS(&originGroup)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_DeepCreatedOriginGroup_STATUS() to populate field OriginGroups")
+			}
+			originGroupList[originGroupIndex] = originGroup
+		}
+		destination.OriginGroups = originGroupList
+	} else {
+		destination.OriginGroups = nil
+	}
+
+	// OriginHostHeader
+	destination.OriginHostHeader = genruntime.ClonePointerToString(endpoint.OriginHostHeader)
+
+	// OriginPath
+	destination.OriginPath = genruntime.ClonePointerToString(endpoint.OriginPath)
+
+	// Origins
+	if endpoint.Origins != nil {
+		originList := make([]storage.DeepCreatedOrigin_STATUS, len(endpoint.Origins))
+		for originIndex, originItem := range endpoint.Origins {
+			var origin storage.DeepCreatedOrigin_STATUS
+			err := originItem.AssignProperties_To_DeepCreatedOrigin_STATUS(&origin)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_DeepCreatedOrigin_STATUS() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		destination.Origins = originList
+	} else {
+		destination.Origins = nil
+	}
+
+	// ProbePath
+	destination.ProbePath = genruntime.ClonePointerToString(endpoint.ProbePath)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(endpoint.ProvisioningState)
+
+	// QueryStringCachingBehavior
+	destination.QueryStringCachingBehavior = genruntime.ClonePointerToString(endpoint.QueryStringCachingBehavior)
+
+	// ResourceState
+	destination.ResourceState = genruntime.ClonePointerToString(endpoint.ResourceState)
+
+	// SystemData
+	if endpoint.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := endpoint.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(endpoint.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(endpoint.Type)
+
+	// UrlSigningKeys
+	if endpoint.UrlSigningKeys != nil {
+		urlSigningKeyList := make([]storage.UrlSigningKey_STATUS, len(endpoint.UrlSigningKeys))
+		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
+			var urlSigningKey storage.UrlSigningKey_STATUS
+			err := urlSigningKeyItem.AssignProperties_To_UrlSigningKey_STATUS(&urlSigningKey)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_UrlSigningKey_STATUS() to populate field UrlSigningKeys")
+			}
+			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
+		}
+		destination.UrlSigningKeys = urlSigningKeyList
+	} else {
+		destination.UrlSigningKeys = nil
+	}
+
+	// WebApplicationFirewallPolicyLink
+	if endpoint.WebApplicationFirewallPolicyLink != nil {
+		var webApplicationFirewallPolicyLink storage.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+		err := endpoint.WebApplicationFirewallPolicyLink.AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(&webApplicationFirewallPolicyLink)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS() to populate field WebApplicationFirewallPolicyLink")
+		}
+		destination.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
+	} else {
+		destination.WebApplicationFirewallPolicyLink = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProfilesEndpoint_STATUS interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForProfilesEndpoint_STATUS); ok {
+		err := augmentedEndpoint.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForProfilesEndpoint_Spec interface {
+	AssignPropertiesFrom(src *storage.ProfilesEndpoint_Spec) error
+	AssignPropertiesTo(dst *storage.ProfilesEndpoint_Spec) error
+}
+
+type augmentConversionForProfilesEndpoint_STATUS interface {
+	AssignPropertiesFrom(src *storage.ProfilesEndpoint_STATUS) error
+	AssignPropertiesTo(dst *storage.ProfilesEndpoint_STATUS) error
 }
 
 // Storage version of v1api20210601.DeepCreatedCustomDomain_STATUS
@@ -280,6 +1284,74 @@ type DeepCreatedCustomDomain_STATUS struct {
 	Name           *string                `json:"name,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ValidationData *string                `json:"validationData,omitempty"`
+}
+
+// AssignProperties_From_DeepCreatedCustomDomain_STATUS populates our DeepCreatedCustomDomain_STATUS from the provided source DeepCreatedCustomDomain_STATUS
+func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_From_DeepCreatedCustomDomain_STATUS(source *storage.DeepCreatedCustomDomain_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// HostName
+	domain.HostName = genruntime.ClonePointerToString(source.HostName)
+
+	// Name
+	domain.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ValidationData
+	domain.ValidationData = genruntime.ClonePointerToString(source.ValidationData)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		domain.PropertyBag = propertyBag
+	} else {
+		domain.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeepCreatedCustomDomain_STATUS interface (if implemented) to customize the conversion
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForDeepCreatedCustomDomain_STATUS); ok {
+		err := augmentedDomain.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeepCreatedCustomDomain_STATUS populates the provided destination DeepCreatedCustomDomain_STATUS from our DeepCreatedCustomDomain_STATUS
+func (domain *DeepCreatedCustomDomain_STATUS) AssignProperties_To_DeepCreatedCustomDomain_STATUS(destination *storage.DeepCreatedCustomDomain_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(domain.PropertyBag)
+
+	// HostName
+	destination.HostName = genruntime.ClonePointerToString(domain.HostName)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(domain.Name)
+
+	// ValidationData
+	destination.ValidationData = genruntime.ClonePointerToString(domain.ValidationData)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeepCreatedCustomDomain_STATUS interface (if implemented) to customize the conversion
+	var domainAsAny any = domain
+	if augmentedDomain, ok := domainAsAny.(augmentConversionForDeepCreatedCustomDomain_STATUS); ok {
+		err := augmentedDomain.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210601.DeepCreatedOrigin
@@ -306,6 +1378,158 @@ type DeepCreatedOrigin struct {
 	Weight                       *int                          `json:"weight,omitempty"`
 }
 
+// AssignProperties_From_DeepCreatedOrigin populates our DeepCreatedOrigin from the provided source DeepCreatedOrigin
+func (origin *DeepCreatedOrigin) AssignProperties_From_DeepCreatedOrigin(source *storage.DeepCreatedOrigin) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		origin.Enabled = &enabled
+	} else {
+		origin.Enabled = nil
+	}
+
+	// HostName
+	origin.HostName = genruntime.ClonePointerToString(source.HostName)
+
+	// HttpPort
+	origin.HttpPort = genruntime.ClonePointerToInt(source.HttpPort)
+
+	// HttpsPort
+	origin.HttpsPort = genruntime.ClonePointerToInt(source.HttpsPort)
+
+	// Name
+	origin.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OriginHostHeader
+	origin.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
+
+	// Priority
+	origin.Priority = genruntime.ClonePointerToInt(source.Priority)
+
+	// PrivateLinkAlias
+	origin.PrivateLinkAlias = genruntime.ClonePointerToString(source.PrivateLinkAlias)
+
+	// PrivateLinkApprovalMessage
+	origin.PrivateLinkApprovalMessage = genruntime.ClonePointerToString(source.PrivateLinkApprovalMessage)
+
+	// PrivateLinkLocationReference
+	if source.PrivateLinkLocationReference != nil {
+		privateLinkLocationReference := source.PrivateLinkLocationReference.Copy()
+		origin.PrivateLinkLocationReference = &privateLinkLocationReference
+	} else {
+		origin.PrivateLinkLocationReference = nil
+	}
+
+	// PrivateLinkResourceReference
+	if source.PrivateLinkResourceReference != nil {
+		privateLinkResourceReference := source.PrivateLinkResourceReference.Copy()
+		origin.PrivateLinkResourceReference = &privateLinkResourceReference
+	} else {
+		origin.PrivateLinkResourceReference = nil
+	}
+
+	// Weight
+	origin.Weight = genruntime.ClonePointerToInt(source.Weight)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		origin.PropertyBag = propertyBag
+	} else {
+		origin.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeepCreatedOrigin interface (if implemented) to customize the conversion
+	var originAsAny any = origin
+	if augmentedOrigin, ok := originAsAny.(augmentConversionForDeepCreatedOrigin); ok {
+		err := augmentedOrigin.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeepCreatedOrigin populates the provided destination DeepCreatedOrigin from our DeepCreatedOrigin
+func (origin *DeepCreatedOrigin) AssignProperties_To_DeepCreatedOrigin(destination *storage.DeepCreatedOrigin) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(origin.PropertyBag)
+
+	// Enabled
+	if origin.Enabled != nil {
+		enabled := *origin.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// HostName
+	destination.HostName = genruntime.ClonePointerToString(origin.HostName)
+
+	// HttpPort
+	destination.HttpPort = genruntime.ClonePointerToInt(origin.HttpPort)
+
+	// HttpsPort
+	destination.HttpsPort = genruntime.ClonePointerToInt(origin.HttpsPort)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(origin.Name)
+
+	// OriginHostHeader
+	destination.OriginHostHeader = genruntime.ClonePointerToString(origin.OriginHostHeader)
+
+	// Priority
+	destination.Priority = genruntime.ClonePointerToInt(origin.Priority)
+
+	// PrivateLinkAlias
+	destination.PrivateLinkAlias = genruntime.ClonePointerToString(origin.PrivateLinkAlias)
+
+	// PrivateLinkApprovalMessage
+	destination.PrivateLinkApprovalMessage = genruntime.ClonePointerToString(origin.PrivateLinkApprovalMessage)
+
+	// PrivateLinkLocationReference
+	if origin.PrivateLinkLocationReference != nil {
+		privateLinkLocationReference := origin.PrivateLinkLocationReference.Copy()
+		destination.PrivateLinkLocationReference = &privateLinkLocationReference
+	} else {
+		destination.PrivateLinkLocationReference = nil
+	}
+
+	// PrivateLinkResourceReference
+	if origin.PrivateLinkResourceReference != nil {
+		privateLinkResourceReference := origin.PrivateLinkResourceReference.Copy()
+		destination.PrivateLinkResourceReference = &privateLinkResourceReference
+	} else {
+		destination.PrivateLinkResourceReference = nil
+	}
+
+	// Weight
+	destination.Weight = genruntime.ClonePointerToInt(origin.Weight)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeepCreatedOrigin interface (if implemented) to customize the conversion
+	var originAsAny any = origin
+	if augmentedOrigin, ok := originAsAny.(augmentConversionForDeepCreatedOrigin); ok {
+		err := augmentedOrigin.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.DeepCreatedOrigin_STATUS
 // The main origin of CDN content which is added when creating a CDN endpoint.
 type DeepCreatedOrigin_STATUS struct {
@@ -325,6 +1549,144 @@ type DeepCreatedOrigin_STATUS struct {
 	Weight                     *int                   `json:"weight,omitempty"`
 }
 
+// AssignProperties_From_DeepCreatedOrigin_STATUS populates our DeepCreatedOrigin_STATUS from the provided source DeepCreatedOrigin_STATUS
+func (origin *DeepCreatedOrigin_STATUS) AssignProperties_From_DeepCreatedOrigin_STATUS(source *storage.DeepCreatedOrigin_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		origin.Enabled = &enabled
+	} else {
+		origin.Enabled = nil
+	}
+
+	// HostName
+	origin.HostName = genruntime.ClonePointerToString(source.HostName)
+
+	// HttpPort
+	origin.HttpPort = genruntime.ClonePointerToInt(source.HttpPort)
+
+	// HttpsPort
+	origin.HttpsPort = genruntime.ClonePointerToInt(source.HttpsPort)
+
+	// Name
+	origin.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OriginHostHeader
+	origin.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
+
+	// Priority
+	origin.Priority = genruntime.ClonePointerToInt(source.Priority)
+
+	// PrivateEndpointStatus
+	origin.PrivateEndpointStatus = genruntime.ClonePointerToString(source.PrivateEndpointStatus)
+
+	// PrivateLinkAlias
+	origin.PrivateLinkAlias = genruntime.ClonePointerToString(source.PrivateLinkAlias)
+
+	// PrivateLinkApprovalMessage
+	origin.PrivateLinkApprovalMessage = genruntime.ClonePointerToString(source.PrivateLinkApprovalMessage)
+
+	// PrivateLinkLocation
+	origin.PrivateLinkLocation = genruntime.ClonePointerToString(source.PrivateLinkLocation)
+
+	// PrivateLinkResourceId
+	origin.PrivateLinkResourceId = genruntime.ClonePointerToString(source.PrivateLinkResourceId)
+
+	// Weight
+	origin.Weight = genruntime.ClonePointerToInt(source.Weight)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		origin.PropertyBag = propertyBag
+	} else {
+		origin.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeepCreatedOrigin_STATUS interface (if implemented) to customize the conversion
+	var originAsAny any = origin
+	if augmentedOrigin, ok := originAsAny.(augmentConversionForDeepCreatedOrigin_STATUS); ok {
+		err := augmentedOrigin.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeepCreatedOrigin_STATUS populates the provided destination DeepCreatedOrigin_STATUS from our DeepCreatedOrigin_STATUS
+func (origin *DeepCreatedOrigin_STATUS) AssignProperties_To_DeepCreatedOrigin_STATUS(destination *storage.DeepCreatedOrigin_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(origin.PropertyBag)
+
+	// Enabled
+	if origin.Enabled != nil {
+		enabled := *origin.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// HostName
+	destination.HostName = genruntime.ClonePointerToString(origin.HostName)
+
+	// HttpPort
+	destination.HttpPort = genruntime.ClonePointerToInt(origin.HttpPort)
+
+	// HttpsPort
+	destination.HttpsPort = genruntime.ClonePointerToInt(origin.HttpsPort)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(origin.Name)
+
+	// OriginHostHeader
+	destination.OriginHostHeader = genruntime.ClonePointerToString(origin.OriginHostHeader)
+
+	// Priority
+	destination.Priority = genruntime.ClonePointerToInt(origin.Priority)
+
+	// PrivateEndpointStatus
+	destination.PrivateEndpointStatus = genruntime.ClonePointerToString(origin.PrivateEndpointStatus)
+
+	// PrivateLinkAlias
+	destination.PrivateLinkAlias = genruntime.ClonePointerToString(origin.PrivateLinkAlias)
+
+	// PrivateLinkApprovalMessage
+	destination.PrivateLinkApprovalMessage = genruntime.ClonePointerToString(origin.PrivateLinkApprovalMessage)
+
+	// PrivateLinkLocation
+	destination.PrivateLinkLocation = genruntime.ClonePointerToString(origin.PrivateLinkLocation)
+
+	// PrivateLinkResourceId
+	destination.PrivateLinkResourceId = genruntime.ClonePointerToString(origin.PrivateLinkResourceId)
+
+	// Weight
+	destination.Weight = genruntime.ClonePointerToInt(origin.Weight)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeepCreatedOrigin_STATUS interface (if implemented) to customize the conversion
+	var originAsAny any = origin
+	if augmentedOrigin, ok := originAsAny.(augmentConversionForDeepCreatedOrigin_STATUS); ok {
+		err := augmentedOrigin.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.DeepCreatedOriginGroup
 // The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
 // origin group based on origin health.
@@ -335,6 +1697,148 @@ type DeepCreatedOriginGroup struct {
 	PropertyBag                                           genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
 	ResponseBasedOriginErrorDetectionSettings             *ResponseBasedOriginErrorDetectionParameters `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                         `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
+}
+
+// AssignProperties_From_DeepCreatedOriginGroup populates our DeepCreatedOriginGroup from the provided source DeepCreatedOriginGroup
+func (group *DeepCreatedOriginGroup) AssignProperties_From_DeepCreatedOriginGroup(source *storage.DeepCreatedOriginGroup) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// HealthProbeSettings
+	if source.HealthProbeSettings != nil {
+		var healthProbeSetting HealthProbeParameters
+		err := healthProbeSetting.AssignProperties_From_HealthProbeParameters(source.HealthProbeSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_HealthProbeParameters() to populate field HealthProbeSettings")
+		}
+		group.HealthProbeSettings = &healthProbeSetting
+	} else {
+		group.HealthProbeSettings = nil
+	}
+
+	// Name
+	group.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Origins
+	if source.Origins != nil {
+		originList := make([]ResourceReference, len(source.Origins))
+		for originIndex, originItem := range source.Origins {
+			var origin ResourceReference
+			err := origin.AssignProperties_From_ResourceReference(&originItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ResourceReference() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		group.Origins = originList
+	} else {
+		group.Origins = nil
+	}
+
+	// ResponseBasedOriginErrorDetectionSettings
+	if source.ResponseBasedOriginErrorDetectionSettings != nil {
+		var responseBasedOriginErrorDetectionSetting ResponseBasedOriginErrorDetectionParameters
+		err := responseBasedOriginErrorDetectionSetting.AssignProperties_From_ResponseBasedOriginErrorDetectionParameters(source.ResponseBasedOriginErrorDetectionSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
+		}
+		group.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
+	} else {
+		group.ResponseBasedOriginErrorDetectionSettings = nil
+	}
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		group.PropertyBag = propertyBag
+	} else {
+		group.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeepCreatedOriginGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForDeepCreatedOriginGroup); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeepCreatedOriginGroup populates the provided destination DeepCreatedOriginGroup from our DeepCreatedOriginGroup
+func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(destination *storage.DeepCreatedOriginGroup) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
+
+	// HealthProbeSettings
+	if group.HealthProbeSettings != nil {
+		var healthProbeSetting storage.HealthProbeParameters
+		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters(&healthProbeSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_HealthProbeParameters() to populate field HealthProbeSettings")
+		}
+		destination.HealthProbeSettings = &healthProbeSetting
+	} else {
+		destination.HealthProbeSettings = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(group.Name)
+
+	// Origins
+	if group.Origins != nil {
+		originList := make([]storage.ResourceReference, len(group.Origins))
+		for originIndex, originItem := range group.Origins {
+			var origin storage.ResourceReference
+			err := originItem.AssignProperties_To_ResourceReference(&origin)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ResourceReference() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		destination.Origins = originList
+	} else {
+		destination.Origins = nil
+	}
+
+	// ResponseBasedOriginErrorDetectionSettings
+	if group.ResponseBasedOriginErrorDetectionSettings != nil {
+		var responseBasedOriginErrorDetectionSetting storage.ResponseBasedOriginErrorDetectionParameters
+		err := group.ResponseBasedOriginErrorDetectionSettings.AssignProperties_To_ResponseBasedOriginErrorDetectionParameters(&responseBasedOriginErrorDetectionSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
+		}
+		destination.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
+	} else {
+		destination.ResponseBasedOriginErrorDetectionSettings = nil
+	}
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeepCreatedOriginGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForDeepCreatedOriginGroup); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210601.DeepCreatedOriginGroup_STATUS
@@ -349,6 +1853,148 @@ type DeepCreatedOriginGroup_STATUS struct {
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int                                                `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
+// AssignProperties_From_DeepCreatedOriginGroup_STATUS populates our DeepCreatedOriginGroup_STATUS from the provided source DeepCreatedOriginGroup_STATUS
+func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_From_DeepCreatedOriginGroup_STATUS(source *storage.DeepCreatedOriginGroup_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// HealthProbeSettings
+	if source.HealthProbeSettings != nil {
+		var healthProbeSetting HealthProbeParameters_STATUS
+		err := healthProbeSetting.AssignProperties_From_HealthProbeParameters_STATUS(source.HealthProbeSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
+		}
+		group.HealthProbeSettings = &healthProbeSetting
+	} else {
+		group.HealthProbeSettings = nil
+	}
+
+	// Name
+	group.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Origins
+	if source.Origins != nil {
+		originList := make([]ResourceReference_STATUS, len(source.Origins))
+		for originIndex, originItem := range source.Origins {
+			var origin ResourceReference_STATUS
+			err := origin.AssignProperties_From_ResourceReference_STATUS(&originItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ResourceReference_STATUS() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		group.Origins = originList
+	} else {
+		group.Origins = nil
+	}
+
+	// ResponseBasedOriginErrorDetectionSettings
+	if source.ResponseBasedOriginErrorDetectionSettings != nil {
+		var responseBasedOriginErrorDetectionSetting ResponseBasedOriginErrorDetectionParameters_STATUS
+		err := responseBasedOriginErrorDetectionSetting.AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS(source.ResponseBasedOriginErrorDetectionSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
+		}
+		group.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
+	} else {
+		group.ResponseBasedOriginErrorDetectionSettings = nil
+	}
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		group.PropertyBag = propertyBag
+	} else {
+		group.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeepCreatedOriginGroup_STATUS interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForDeepCreatedOriginGroup_STATUS); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeepCreatedOriginGroup_STATUS populates the provided destination DeepCreatedOriginGroup_STATUS from our DeepCreatedOriginGroup_STATUS
+func (group *DeepCreatedOriginGroup_STATUS) AssignProperties_To_DeepCreatedOriginGroup_STATUS(destination *storage.DeepCreatedOriginGroup_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
+
+	// HealthProbeSettings
+	if group.HealthProbeSettings != nil {
+		var healthProbeSetting storage.HealthProbeParameters_STATUS
+		err := group.HealthProbeSettings.AssignProperties_To_HealthProbeParameters_STATUS(&healthProbeSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
+		}
+		destination.HealthProbeSettings = &healthProbeSetting
+	} else {
+		destination.HealthProbeSettings = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(group.Name)
+
+	// Origins
+	if group.Origins != nil {
+		originList := make([]storage.ResourceReference_STATUS, len(group.Origins))
+		for originIndex, originItem := range group.Origins {
+			var origin storage.ResourceReference_STATUS
+			err := originItem.AssignProperties_To_ResourceReference_STATUS(&origin)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ResourceReference_STATUS() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		destination.Origins = originList
+	} else {
+		destination.Origins = nil
+	}
+
+	// ResponseBasedOriginErrorDetectionSettings
+	if group.ResponseBasedOriginErrorDetectionSettings != nil {
+		var responseBasedOriginErrorDetectionSetting storage.ResponseBasedOriginErrorDetectionParameters_STATUS
+		err := group.ResponseBasedOriginErrorDetectionSettings.AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS(&responseBasedOriginErrorDetectionSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
+		}
+		destination.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
+	} else {
+		destination.ResponseBasedOriginErrorDetectionSettings = nil
+	}
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeepCreatedOriginGroup_STATUS interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForDeepCreatedOriginGroup_STATUS); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.EndpointProperties_DeliveryPolicy
 type EndpointProperties_DeliveryPolicy struct {
 	Description *string                `json:"description,omitempty"`
@@ -356,11 +2002,187 @@ type EndpointProperties_DeliveryPolicy struct {
 	Rules       []DeliveryRule         `json:"rules,omitempty"`
 }
 
+// AssignProperties_From_EndpointProperties_DeliveryPolicy populates our EndpointProperties_DeliveryPolicy from the provided source EndpointProperties_DeliveryPolicy
+func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_From_EndpointProperties_DeliveryPolicy(source *storage.EndpointProperties_DeliveryPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Description
+	policy.Description = genruntime.ClonePointerToString(source.Description)
+
+	// Rules
+	if source.Rules != nil {
+		ruleList := make([]DeliveryRule, len(source.Rules))
+		for ruleIndex, ruleItem := range source.Rules {
+			var rule DeliveryRule
+			err := rule.AssignProperties_From_DeliveryRule(&ruleItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_DeliveryRule() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		policy.Rules = ruleList
+	} else {
+		policy.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEndpointProperties_DeliveryPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForEndpointProperties_DeliveryPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EndpointProperties_DeliveryPolicy populates the provided destination EndpointProperties_DeliveryPolicy from our EndpointProperties_DeliveryPolicy
+func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_To_EndpointProperties_DeliveryPolicy(destination *storage.EndpointProperties_DeliveryPolicy) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(policy.Description)
+
+	// Rules
+	if policy.Rules != nil {
+		ruleList := make([]storage.DeliveryRule, len(policy.Rules))
+		for ruleIndex, ruleItem := range policy.Rules {
+			var rule storage.DeliveryRule
+			err := ruleItem.AssignProperties_To_DeliveryRule(&rule)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_DeliveryRule() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		destination.Rules = ruleList
+	} else {
+		destination.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEndpointProperties_DeliveryPolicy interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForEndpointProperties_DeliveryPolicy); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.EndpointProperties_DeliveryPolicy_STATUS
 type EndpointProperties_DeliveryPolicy_STATUS struct {
 	Description *string                `json:"description,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Rules       []DeliveryRule_STATUS  `json:"rules,omitempty"`
+}
+
+// AssignProperties_From_EndpointProperties_DeliveryPolicy_STATUS populates our EndpointProperties_DeliveryPolicy_STATUS from the provided source EndpointProperties_DeliveryPolicy_STATUS
+func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_From_EndpointProperties_DeliveryPolicy_STATUS(source *storage.EndpointProperties_DeliveryPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Description
+	policy.Description = genruntime.ClonePointerToString(source.Description)
+
+	// Rules
+	if source.Rules != nil {
+		ruleList := make([]DeliveryRule_STATUS, len(source.Rules))
+		for ruleIndex, ruleItem := range source.Rules {
+			var rule DeliveryRule_STATUS
+			err := rule.AssignProperties_From_DeliveryRule_STATUS(&ruleItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_DeliveryRule_STATUS() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		policy.Rules = ruleList
+	} else {
+		policy.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		policy.PropertyBag = propertyBag
+	} else {
+		policy.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEndpointProperties_DeliveryPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForEndpointProperties_DeliveryPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS populates the provided destination EndpointProperties_DeliveryPolicy_STATUS from our EndpointProperties_DeliveryPolicy_STATUS
+func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignProperties_To_EndpointProperties_DeliveryPolicy_STATUS(destination *storage.EndpointProperties_DeliveryPolicy_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(policy.Description)
+
+	// Rules
+	if policy.Rules != nil {
+		ruleList := make([]storage.DeliveryRule_STATUS, len(policy.Rules))
+		for ruleIndex, ruleItem := range policy.Rules {
+			var rule storage.DeliveryRule_STATUS
+			err := ruleItem.AssignProperties_To_DeliveryRule_STATUS(&rule)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_DeliveryRule_STATUS() to populate field Rules")
+			}
+			ruleList[ruleIndex] = rule
+		}
+		destination.Rules = ruleList
+	} else {
+		destination.Rules = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEndpointProperties_DeliveryPolicy_STATUS interface (if implemented) to customize the conversion
+	var policyAsAny any = policy
+	if augmentedPolicy, ok := policyAsAny.(augmentConversionForEndpointProperties_DeliveryPolicy_STATUS); ok {
+		err := augmentedPolicy.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210601.EndpointProperties_WebApplicationFirewallPolicyLink
@@ -371,10 +2193,132 @@ type EndpointProperties_WebApplicationFirewallPolicyLink struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+// AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink populates our EndpointProperties_WebApplicationFirewallPolicyLink from the provided source EndpointProperties_WebApplicationFirewallPolicyLink
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink(source *storage.EndpointProperties_WebApplicationFirewallPolicyLink) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		link.Reference = &reference
+	} else {
+		link.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		link.PropertyBag = propertyBag
+	} else {
+		link.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink interface (if implemented) to customize the conversion
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink); ok {
+		err := augmentedLink.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink populates the provided destination EndpointProperties_WebApplicationFirewallPolicyLink from our EndpointProperties_WebApplicationFirewallPolicyLink
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink(destination *storage.EndpointProperties_WebApplicationFirewallPolicyLink) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(link.PropertyBag)
+
+	// Reference
+	if link.Reference != nil {
+		reference := link.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink interface (if implemented) to customize the conversion
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink); ok {
+		err := augmentedLink.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
 type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS populates our EndpointProperties_WebApplicationFirewallPolicyLink_STATUS from the provided source EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignProperties_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(source *storage.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	link.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		link.PropertyBag = propertyBag
+	} else {
+		link.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink_STATUS interface (if implemented) to customize the conversion
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink_STATUS); ok {
+		err := augmentedLink.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS populates the provided destination EndpointProperties_WebApplicationFirewallPolicyLink_STATUS from our EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignProperties_To_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(destination *storage.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(link.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(link.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink_STATUS interface (if implemented) to customize the conversion
+	var linkAsAny any = link
+	if augmentedLink, ok := linkAsAny.(augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink_STATUS); ok {
+		err := augmentedLink.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210601.GeoFilter
@@ -386,6 +2330,74 @@ type GeoFilter struct {
 	RelativePath *string                `json:"relativePath,omitempty"`
 }
 
+// AssignProperties_From_GeoFilter populates our GeoFilter from the provided source GeoFilter
+func (filter *GeoFilter) AssignProperties_From_GeoFilter(source *storage.GeoFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Action
+	filter.Action = genruntime.ClonePointerToString(source.Action)
+
+	// CountryCodes
+	filter.CountryCodes = genruntime.CloneSliceOfString(source.CountryCodes)
+
+	// RelativePath
+	filter.RelativePath = genruntime.ClonePointerToString(source.RelativePath)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForGeoFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForGeoFilter); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_GeoFilter populates the provided destination GeoFilter from our GeoFilter
+func (filter *GeoFilter) AssignProperties_To_GeoFilter(destination *storage.GeoFilter) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Action
+	destination.Action = genruntime.ClonePointerToString(filter.Action)
+
+	// CountryCodes
+	destination.CountryCodes = genruntime.CloneSliceOfString(filter.CountryCodes)
+
+	// RelativePath
+	destination.RelativePath = genruntime.ClonePointerToString(filter.RelativePath)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForGeoFilter interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForGeoFilter); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.GeoFilter_STATUS
 // Rules defining user's geo access within a CDN endpoint.
 type GeoFilter_STATUS struct {
@@ -395,12 +2407,194 @@ type GeoFilter_STATUS struct {
 	RelativePath *string                `json:"relativePath,omitempty"`
 }
 
+// AssignProperties_From_GeoFilter_STATUS populates our GeoFilter_STATUS from the provided source GeoFilter_STATUS
+func (filter *GeoFilter_STATUS) AssignProperties_From_GeoFilter_STATUS(source *storage.GeoFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Action
+	filter.Action = genruntime.ClonePointerToString(source.Action)
+
+	// CountryCodes
+	filter.CountryCodes = genruntime.CloneSliceOfString(source.CountryCodes)
+
+	// RelativePath
+	filter.RelativePath = genruntime.ClonePointerToString(source.RelativePath)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		filter.PropertyBag = propertyBag
+	} else {
+		filter.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForGeoFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForGeoFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_GeoFilter_STATUS populates the provided destination GeoFilter_STATUS from our GeoFilter_STATUS
+func (filter *GeoFilter_STATUS) AssignProperties_To_GeoFilter_STATUS(destination *storage.GeoFilter_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
+
+	// Action
+	destination.Action = genruntime.ClonePointerToString(filter.Action)
+
+	// CountryCodes
+	destination.CountryCodes = genruntime.CloneSliceOfString(filter.CountryCodes)
+
+	// RelativePath
+	destination.RelativePath = genruntime.ClonePointerToString(filter.RelativePath)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForGeoFilter_STATUS interface (if implemented) to customize the conversion
+	var filterAsAny any = filter
+	if augmentedFilter, ok := filterAsAny.(augmentConversionForGeoFilter_STATUS); ok {
+		err := augmentedFilter.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.ProfilesEndpointOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ProfilesEndpointOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ProfilesEndpointOperatorSpec populates our ProfilesEndpointOperatorSpec from the provided source ProfilesEndpointOperatorSpec
+func (operator *ProfilesEndpointOperatorSpec) AssignProperties_From_ProfilesEndpointOperatorSpec(source *storage.ProfilesEndpointOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProfilesEndpointOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForProfilesEndpointOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ProfilesEndpointOperatorSpec populates the provided destination ProfilesEndpointOperatorSpec from our ProfilesEndpointOperatorSpec
+func (operator *ProfilesEndpointOperatorSpec) AssignProperties_To_ProfilesEndpointOperatorSpec(destination *storage.ProfilesEndpointOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForProfilesEndpointOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForProfilesEndpointOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210601.ResourceReference
@@ -549,12 +2743,232 @@ type UrlSigningKey struct {
 	PropertyBag         genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_UrlSigningKey populates our UrlSigningKey from the provided source UrlSigningKey
+func (signingKey *UrlSigningKey) AssignProperties_From_UrlSigningKey(source *storage.UrlSigningKey) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// KeyId
+	signingKey.KeyId = genruntime.ClonePointerToString(source.KeyId)
+
+	// KeySourceParameters
+	if source.KeySourceParameters != nil {
+		var keySourceParameter KeyVaultSigningKeyParameters
+		err := keySourceParameter.AssignProperties_From_KeyVaultSigningKeyParameters(source.KeySourceParameters)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultSigningKeyParameters() to populate field KeySourceParameters")
+		}
+		signingKey.KeySourceParameters = &keySourceParameter
+	} else {
+		signingKey.KeySourceParameters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		signingKey.PropertyBag = propertyBag
+	} else {
+		signingKey.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUrlSigningKey interface (if implemented) to customize the conversion
+	var signingKeyAsAny any = signingKey
+	if augmentedSigningKey, ok := signingKeyAsAny.(augmentConversionForUrlSigningKey); ok {
+		err := augmentedSigningKey.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UrlSigningKey populates the provided destination UrlSigningKey from our UrlSigningKey
+func (signingKey *UrlSigningKey) AssignProperties_To_UrlSigningKey(destination *storage.UrlSigningKey) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(signingKey.PropertyBag)
+
+	// KeyId
+	destination.KeyId = genruntime.ClonePointerToString(signingKey.KeyId)
+
+	// KeySourceParameters
+	if signingKey.KeySourceParameters != nil {
+		var keySourceParameter storage.KeyVaultSigningKeyParameters
+		err := signingKey.KeySourceParameters.AssignProperties_To_KeyVaultSigningKeyParameters(&keySourceParameter)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultSigningKeyParameters() to populate field KeySourceParameters")
+		}
+		destination.KeySourceParameters = &keySourceParameter
+	} else {
+		destination.KeySourceParameters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUrlSigningKey interface (if implemented) to customize the conversion
+	var signingKeyAsAny any = signingKey
+	if augmentedSigningKey, ok := signingKeyAsAny.(augmentConversionForUrlSigningKey); ok {
+		err := augmentedSigningKey.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.UrlSigningKey_STATUS
 // Url signing key
 type UrlSigningKey_STATUS struct {
 	KeyId               *string                              `json:"keyId,omitempty"`
 	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS `json:"keySourceParameters,omitempty"`
 	PropertyBag         genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_UrlSigningKey_STATUS populates our UrlSigningKey_STATUS from the provided source UrlSigningKey_STATUS
+func (signingKey *UrlSigningKey_STATUS) AssignProperties_From_UrlSigningKey_STATUS(source *storage.UrlSigningKey_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// KeyId
+	signingKey.KeyId = genruntime.ClonePointerToString(source.KeyId)
+
+	// KeySourceParameters
+	if source.KeySourceParameters != nil {
+		var keySourceParameter KeyVaultSigningKeyParameters_STATUS
+		err := keySourceParameter.AssignProperties_From_KeyVaultSigningKeyParameters_STATUS(source.KeySourceParameters)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_KeyVaultSigningKeyParameters_STATUS() to populate field KeySourceParameters")
+		}
+		signingKey.KeySourceParameters = &keySourceParameter
+	} else {
+		signingKey.KeySourceParameters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		signingKey.PropertyBag = propertyBag
+	} else {
+		signingKey.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUrlSigningKey_STATUS interface (if implemented) to customize the conversion
+	var signingKeyAsAny any = signingKey
+	if augmentedSigningKey, ok := signingKeyAsAny.(augmentConversionForUrlSigningKey_STATUS); ok {
+		err := augmentedSigningKey.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_UrlSigningKey_STATUS populates the provided destination UrlSigningKey_STATUS from our UrlSigningKey_STATUS
+func (signingKey *UrlSigningKey_STATUS) AssignProperties_To_UrlSigningKey_STATUS(destination *storage.UrlSigningKey_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(signingKey.PropertyBag)
+
+	// KeyId
+	destination.KeyId = genruntime.ClonePointerToString(signingKey.KeyId)
+
+	// KeySourceParameters
+	if signingKey.KeySourceParameters != nil {
+		var keySourceParameter storage.KeyVaultSigningKeyParameters_STATUS
+		err := signingKey.KeySourceParameters.AssignProperties_To_KeyVaultSigningKeyParameters_STATUS(&keySourceParameter)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_KeyVaultSigningKeyParameters_STATUS() to populate field KeySourceParameters")
+		}
+		destination.KeySourceParameters = &keySourceParameter
+	} else {
+		destination.KeySourceParameters = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForUrlSigningKey_STATUS interface (if implemented) to customize the conversion
+	var signingKeyAsAny any = signingKey
+	if augmentedSigningKey, ok := signingKeyAsAny.(augmentConversionForUrlSigningKey_STATUS); ok {
+		err := augmentedSigningKey.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForDeepCreatedCustomDomain_STATUS interface {
+	AssignPropertiesFrom(src *storage.DeepCreatedCustomDomain_STATUS) error
+	AssignPropertiesTo(dst *storage.DeepCreatedCustomDomain_STATUS) error
+}
+
+type augmentConversionForDeepCreatedOrigin interface {
+	AssignPropertiesFrom(src *storage.DeepCreatedOrigin) error
+	AssignPropertiesTo(dst *storage.DeepCreatedOrigin) error
+}
+
+type augmentConversionForDeepCreatedOrigin_STATUS interface {
+	AssignPropertiesFrom(src *storage.DeepCreatedOrigin_STATUS) error
+	AssignPropertiesTo(dst *storage.DeepCreatedOrigin_STATUS) error
+}
+
+type augmentConversionForDeepCreatedOriginGroup interface {
+	AssignPropertiesFrom(src *storage.DeepCreatedOriginGroup) error
+	AssignPropertiesTo(dst *storage.DeepCreatedOriginGroup) error
+}
+
+type augmentConversionForDeepCreatedOriginGroup_STATUS interface {
+	AssignPropertiesFrom(src *storage.DeepCreatedOriginGroup_STATUS) error
+	AssignPropertiesTo(dst *storage.DeepCreatedOriginGroup_STATUS) error
+}
+
+type augmentConversionForEndpointProperties_DeliveryPolicy interface {
+	AssignPropertiesFrom(src *storage.EndpointProperties_DeliveryPolicy) error
+	AssignPropertiesTo(dst *storage.EndpointProperties_DeliveryPolicy) error
+}
+
+type augmentConversionForEndpointProperties_DeliveryPolicy_STATUS interface {
+	AssignPropertiesFrom(src *storage.EndpointProperties_DeliveryPolicy_STATUS) error
+	AssignPropertiesTo(dst *storage.EndpointProperties_DeliveryPolicy_STATUS) error
+}
+
+type augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink interface {
+	AssignPropertiesFrom(src *storage.EndpointProperties_WebApplicationFirewallPolicyLink) error
+	AssignPropertiesTo(dst *storage.EndpointProperties_WebApplicationFirewallPolicyLink) error
+}
+
+type augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink_STATUS interface {
+	AssignPropertiesFrom(src *storage.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error
+	AssignPropertiesTo(dst *storage.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error
+}
+
+type augmentConversionForGeoFilter interface {
+	AssignPropertiesFrom(src *storage.GeoFilter) error
+	AssignPropertiesTo(dst *storage.GeoFilter) error
+}
+
+type augmentConversionForGeoFilter_STATUS interface {
+	AssignPropertiesFrom(src *storage.GeoFilter_STATUS) error
+	AssignPropertiesTo(dst *storage.GeoFilter_STATUS) error
+}
+
+type augmentConversionForProfilesEndpointOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ProfilesEndpointOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ProfilesEndpointOperatorSpec) error
 }
 
 type augmentConversionForResourceReference interface {
@@ -567,6 +2981,16 @@ type augmentConversionForResourceReference_STATUS interface {
 	AssignPropertiesTo(dst *storage.ResourceReference_STATUS) error
 }
 
+type augmentConversionForUrlSigningKey interface {
+	AssignPropertiesFrom(src *storage.UrlSigningKey) error
+	AssignPropertiesTo(dst *storage.UrlSigningKey) error
+}
+
+type augmentConversionForUrlSigningKey_STATUS interface {
+	AssignPropertiesFrom(src *storage.UrlSigningKey_STATUS) error
+	AssignPropertiesTo(dst *storage.UrlSigningKey_STATUS) error
+}
+
 // Storage version of v1api20210601.DeliveryRule
 // A rule that specifies a set of actions and conditions
 type DeliveryRule struct {
@@ -577,6 +3001,132 @@ type DeliveryRule struct {
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_DeliveryRule populates our DeliveryRule from the provided source DeliveryRule
+func (rule *DeliveryRule) AssignProperties_From_DeliveryRule(source *storage.DeliveryRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Actions
+	if source.Actions != nil {
+		actionList := make([]DeliveryRuleAction, len(source.Actions))
+		for actionIndex, actionItem := range source.Actions {
+			var action DeliveryRuleAction
+			err := action.AssignProperties_From_DeliveryRuleAction(&actionItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_DeliveryRuleAction() to populate field Actions")
+			}
+			actionList[actionIndex] = action
+		}
+		rule.Actions = actionList
+	} else {
+		rule.Actions = nil
+	}
+
+	// Conditions
+	if source.Conditions != nil {
+		conditionList := make([]DeliveryRuleCondition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			var condition DeliveryRuleCondition
+			err := condition.AssignProperties_From_DeliveryRuleCondition(&conditionItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_DeliveryRuleCondition() to populate field Conditions")
+			}
+			conditionList[conditionIndex] = condition
+		}
+		rule.Conditions = conditionList
+	} else {
+		rule.Conditions = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Order
+	rule.Order = genruntime.ClonePointerToInt(source.Order)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeliveryRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForDeliveryRule); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeliveryRule populates the provided destination DeliveryRule from our DeliveryRule
+func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *storage.DeliveryRule) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Actions
+	if rule.Actions != nil {
+		actionList := make([]storage.DeliveryRuleAction, len(rule.Actions))
+		for actionIndex, actionItem := range rule.Actions {
+			var action storage.DeliveryRuleAction
+			err := actionItem.AssignProperties_To_DeliveryRuleAction(&action)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_DeliveryRuleAction() to populate field Actions")
+			}
+			actionList[actionIndex] = action
+		}
+		destination.Actions = actionList
+	} else {
+		destination.Actions = nil
+	}
+
+	// Conditions
+	if rule.Conditions != nil {
+		conditionList := make([]storage.DeliveryRuleCondition, len(rule.Conditions))
+		for conditionIndex, conditionItem := range rule.Conditions {
+			var condition storage.DeliveryRuleCondition
+			err := conditionItem.AssignProperties_To_DeliveryRuleCondition(&condition)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_DeliveryRuleCondition() to populate field Conditions")
+			}
+			conditionList[conditionIndex] = condition
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Order
+	destination.Order = genruntime.ClonePointerToInt(rule.Order)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeliveryRule interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForDeliveryRule); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.DeliveryRule_STATUS
 // A rule that specifies a set of actions and conditions
 type DeliveryRule_STATUS struct {
@@ -585,6 +3135,132 @@ type DeliveryRule_STATUS struct {
 	Name        *string                        `json:"name,omitempty"`
 	Order       *int                           `json:"order,omitempty"`
 	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_DeliveryRule_STATUS populates our DeliveryRule_STATUS from the provided source DeliveryRule_STATUS
+func (rule *DeliveryRule_STATUS) AssignProperties_From_DeliveryRule_STATUS(source *storage.DeliveryRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Actions
+	if source.Actions != nil {
+		actionList := make([]DeliveryRuleAction_STATUS, len(source.Actions))
+		for actionIndex, actionItem := range source.Actions {
+			var action DeliveryRuleAction_STATUS
+			err := action.AssignProperties_From_DeliveryRuleAction_STATUS(&actionItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_DeliveryRuleAction_STATUS() to populate field Actions")
+			}
+			actionList[actionIndex] = action
+		}
+		rule.Actions = actionList
+	} else {
+		rule.Actions = nil
+	}
+
+	// Conditions
+	if source.Conditions != nil {
+		conditionList := make([]DeliveryRuleCondition_STATUS, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			var condition DeliveryRuleCondition_STATUS
+			err := condition.AssignProperties_From_DeliveryRuleCondition_STATUS(&conditionItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_DeliveryRuleCondition_STATUS() to populate field Conditions")
+			}
+			conditionList[conditionIndex] = condition
+		}
+		rule.Conditions = conditionList
+	} else {
+		rule.Conditions = nil
+	}
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Order
+	rule.Order = genruntime.ClonePointerToInt(source.Order)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeliveryRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForDeliveryRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeliveryRule_STATUS populates the provided destination DeliveryRule_STATUS from our DeliveryRule_STATUS
+func (rule *DeliveryRule_STATUS) AssignProperties_To_DeliveryRule_STATUS(destination *storage.DeliveryRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Actions
+	if rule.Actions != nil {
+		actionList := make([]storage.DeliveryRuleAction_STATUS, len(rule.Actions))
+		for actionIndex, actionItem := range rule.Actions {
+			var action storage.DeliveryRuleAction_STATUS
+			err := actionItem.AssignProperties_To_DeliveryRuleAction_STATUS(&action)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_DeliveryRuleAction_STATUS() to populate field Actions")
+			}
+			actionList[actionIndex] = action
+		}
+		destination.Actions = actionList
+	} else {
+		destination.Actions = nil
+	}
+
+	// Conditions
+	if rule.Conditions != nil {
+		conditionList := make([]storage.DeliveryRuleCondition_STATUS, len(rule.Conditions))
+		for conditionIndex, conditionItem := range rule.Conditions {
+			var condition storage.DeliveryRuleCondition_STATUS
+			err := conditionItem.AssignProperties_To_DeliveryRuleCondition_STATUS(&condition)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_DeliveryRuleCondition_STATUS() to populate field Conditions")
+			}
+			conditionList[conditionIndex] = condition
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Order
+	destination.Order = genruntime.ClonePointerToInt(rule.Order)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeliveryRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForDeliveryRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210601.HealthProbeParameters
@@ -767,6 +3443,92 @@ type KeyVaultSigningKeyParameters struct {
 	VaultName         *string                `json:"vaultName,omitempty"`
 }
 
+// AssignProperties_From_KeyVaultSigningKeyParameters populates our KeyVaultSigningKeyParameters from the provided source KeyVaultSigningKeyParameters
+func (parameters *KeyVaultSigningKeyParameters) AssignProperties_From_KeyVaultSigningKeyParameters(source *storage.KeyVaultSigningKeyParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ResourceGroupName
+	parameters.ResourceGroupName = genruntime.ClonePointerToString(source.ResourceGroupName)
+
+	// SecretName
+	parameters.SecretName = genruntime.ClonePointerToString(source.SecretName)
+
+	// SecretVersion
+	parameters.SecretVersion = genruntime.ClonePointerToString(source.SecretVersion)
+
+	// SubscriptionId
+	parameters.SubscriptionId = genruntime.ClonePointerToString(source.SubscriptionId)
+
+	// TypeName
+	parameters.TypeName = genruntime.ClonePointerToString(source.TypeName)
+
+	// VaultName
+	parameters.VaultName = genruntime.ClonePointerToString(source.VaultName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKeyVaultSigningKeyParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForKeyVaultSigningKeyParameters); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_KeyVaultSigningKeyParameters populates the provided destination KeyVaultSigningKeyParameters from our KeyVaultSigningKeyParameters
+func (parameters *KeyVaultSigningKeyParameters) AssignProperties_To_KeyVaultSigningKeyParameters(destination *storage.KeyVaultSigningKeyParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// ResourceGroupName
+	destination.ResourceGroupName = genruntime.ClonePointerToString(parameters.ResourceGroupName)
+
+	// SecretName
+	destination.SecretName = genruntime.ClonePointerToString(parameters.SecretName)
+
+	// SecretVersion
+	destination.SecretVersion = genruntime.ClonePointerToString(parameters.SecretVersion)
+
+	// SubscriptionId
+	destination.SubscriptionId = genruntime.ClonePointerToString(parameters.SubscriptionId)
+
+	// TypeName
+	destination.TypeName = genruntime.ClonePointerToString(parameters.TypeName)
+
+	// VaultName
+	destination.VaultName = genruntime.ClonePointerToString(parameters.VaultName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKeyVaultSigningKeyParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForKeyVaultSigningKeyParameters); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.KeyVaultSigningKeyParameters_STATUS
 // Describes the parameters for using a user's KeyVault for URL Signing Key.
 type KeyVaultSigningKeyParameters_STATUS struct {
@@ -779,6 +3541,92 @@ type KeyVaultSigningKeyParameters_STATUS struct {
 	VaultName         *string                `json:"vaultName,omitempty"`
 }
 
+// AssignProperties_From_KeyVaultSigningKeyParameters_STATUS populates our KeyVaultSigningKeyParameters_STATUS from the provided source KeyVaultSigningKeyParameters_STATUS
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_From_KeyVaultSigningKeyParameters_STATUS(source *storage.KeyVaultSigningKeyParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ResourceGroupName
+	parameters.ResourceGroupName = genruntime.ClonePointerToString(source.ResourceGroupName)
+
+	// SecretName
+	parameters.SecretName = genruntime.ClonePointerToString(source.SecretName)
+
+	// SecretVersion
+	parameters.SecretVersion = genruntime.ClonePointerToString(source.SecretVersion)
+
+	// SubscriptionId
+	parameters.SubscriptionId = genruntime.ClonePointerToString(source.SubscriptionId)
+
+	// TypeName
+	parameters.TypeName = genruntime.ClonePointerToString(source.TypeName)
+
+	// VaultName
+	parameters.VaultName = genruntime.ClonePointerToString(source.VaultName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKeyVaultSigningKeyParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForKeyVaultSigningKeyParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_KeyVaultSigningKeyParameters_STATUS populates the provided destination KeyVaultSigningKeyParameters_STATUS from our KeyVaultSigningKeyParameters_STATUS
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignProperties_To_KeyVaultSigningKeyParameters_STATUS(destination *storage.KeyVaultSigningKeyParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// ResourceGroupName
+	destination.ResourceGroupName = genruntime.ClonePointerToString(parameters.ResourceGroupName)
+
+	// SecretName
+	destination.SecretName = genruntime.ClonePointerToString(parameters.SecretName)
+
+	// SecretVersion
+	destination.SecretVersion = genruntime.ClonePointerToString(parameters.SecretVersion)
+
+	// SubscriptionId
+	destination.SubscriptionId = genruntime.ClonePointerToString(parameters.SubscriptionId)
+
+	// TypeName
+	destination.TypeName = genruntime.ClonePointerToString(parameters.TypeName)
+
+	// VaultName
+	destination.VaultName = genruntime.ClonePointerToString(parameters.VaultName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForKeyVaultSigningKeyParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForKeyVaultSigningKeyParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.ResponseBasedOriginErrorDetectionParameters
 // The JSON object that contains the properties to determine origin health using real requests/responses.
 type ResponseBasedOriginErrorDetectionParameters struct {
@@ -786,6 +3634,100 @@ type ResponseBasedOriginErrorDetectionParameters struct {
 	PropertyBag                              genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	ResponseBasedDetectedErrorTypes          *string                    `json:"responseBasedDetectedErrorTypes,omitempty"`
 	ResponseBasedFailoverThresholdPercentage *int                       `json:"responseBasedFailoverThresholdPercentage,omitempty"`
+}
+
+// AssignProperties_From_ResponseBasedOriginErrorDetectionParameters populates our ResponseBasedOriginErrorDetectionParameters from the provided source ResponseBasedOriginErrorDetectionParameters
+func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters(source *storage.ResponseBasedOriginErrorDetectionParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// HttpErrorRanges
+	if source.HttpErrorRanges != nil {
+		httpErrorRangeList := make([]HttpErrorRangeParameters, len(source.HttpErrorRanges))
+		for httpErrorRangeIndex, httpErrorRangeItem := range source.HttpErrorRanges {
+			var httpErrorRange HttpErrorRangeParameters
+			err := httpErrorRange.AssignProperties_From_HttpErrorRangeParameters(&httpErrorRangeItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_HttpErrorRangeParameters() to populate field HttpErrorRanges")
+			}
+			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
+		}
+		parameters.HttpErrorRanges = httpErrorRangeList
+	} else {
+		parameters.HttpErrorRanges = nil
+	}
+
+	// ResponseBasedDetectedErrorTypes
+	parameters.ResponseBasedDetectedErrorTypes = genruntime.ClonePointerToString(source.ResponseBasedDetectedErrorTypes)
+
+	// ResponseBasedFailoverThresholdPercentage
+	parameters.ResponseBasedFailoverThresholdPercentage = genruntime.ClonePointerToInt(source.ResponseBasedFailoverThresholdPercentage)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResponseBasedOriginErrorDetectionParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForResponseBasedOriginErrorDetectionParameters); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResponseBasedOriginErrorDetectionParameters populates the provided destination ResponseBasedOriginErrorDetectionParameters from our ResponseBasedOriginErrorDetectionParameters
+func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters(destination *storage.ResponseBasedOriginErrorDetectionParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// HttpErrorRanges
+	if parameters.HttpErrorRanges != nil {
+		httpErrorRangeList := make([]storage.HttpErrorRangeParameters, len(parameters.HttpErrorRanges))
+		for httpErrorRangeIndex, httpErrorRangeItem := range parameters.HttpErrorRanges {
+			var httpErrorRange storage.HttpErrorRangeParameters
+			err := httpErrorRangeItem.AssignProperties_To_HttpErrorRangeParameters(&httpErrorRange)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_HttpErrorRangeParameters() to populate field HttpErrorRanges")
+			}
+			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
+		}
+		destination.HttpErrorRanges = httpErrorRangeList
+	} else {
+		destination.HttpErrorRanges = nil
+	}
+
+	// ResponseBasedDetectedErrorTypes
+	destination.ResponseBasedDetectedErrorTypes = genruntime.ClonePointerToString(parameters.ResponseBasedDetectedErrorTypes)
+
+	// ResponseBasedFailoverThresholdPercentage
+	destination.ResponseBasedFailoverThresholdPercentage = genruntime.ClonePointerToInt(parameters.ResponseBasedFailoverThresholdPercentage)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResponseBasedOriginErrorDetectionParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForResponseBasedOriginErrorDetectionParameters); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20210601.ResponseBasedOriginErrorDetectionParameters_STATUS
@@ -797,6 +3739,110 @@ type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
 	ResponseBasedFailoverThresholdPercentage *int                              `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
 
+// AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS populates our ResponseBasedOriginErrorDetectionParameters_STATUS from the provided source ResponseBasedOriginErrorDetectionParameters_STATUS
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_From_ResponseBasedOriginErrorDetectionParameters_STATUS(source *storage.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// HttpErrorRanges
+	if source.HttpErrorRanges != nil {
+		httpErrorRangeList := make([]HttpErrorRangeParameters_STATUS, len(source.HttpErrorRanges))
+		for httpErrorRangeIndex, httpErrorRangeItem := range source.HttpErrorRanges {
+			var httpErrorRange HttpErrorRangeParameters_STATUS
+			err := httpErrorRange.AssignProperties_From_HttpErrorRangeParameters_STATUS(&httpErrorRangeItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_HttpErrorRangeParameters_STATUS() to populate field HttpErrorRanges")
+			}
+			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
+		}
+		parameters.HttpErrorRanges = httpErrorRangeList
+	} else {
+		parameters.HttpErrorRanges = nil
+	}
+
+	// ResponseBasedDetectedErrorTypes
+	parameters.ResponseBasedDetectedErrorTypes = genruntime.ClonePointerToString(source.ResponseBasedDetectedErrorTypes)
+
+	// ResponseBasedFailoverThresholdPercentage
+	parameters.ResponseBasedFailoverThresholdPercentage = genruntime.ClonePointerToInt(source.ResponseBasedFailoverThresholdPercentage)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResponseBasedOriginErrorDetectionParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForResponseBasedOriginErrorDetectionParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS populates the provided destination ResponseBasedOriginErrorDetectionParameters_STATUS from our ResponseBasedOriginErrorDetectionParameters_STATUS
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProperties_To_ResponseBasedOriginErrorDetectionParameters_STATUS(destination *storage.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// HttpErrorRanges
+	if parameters.HttpErrorRanges != nil {
+		httpErrorRangeList := make([]storage.HttpErrorRangeParameters_STATUS, len(parameters.HttpErrorRanges))
+		for httpErrorRangeIndex, httpErrorRangeItem := range parameters.HttpErrorRanges {
+			var httpErrorRange storage.HttpErrorRangeParameters_STATUS
+			err := httpErrorRangeItem.AssignProperties_To_HttpErrorRangeParameters_STATUS(&httpErrorRange)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_HttpErrorRangeParameters_STATUS() to populate field HttpErrorRanges")
+			}
+			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
+		}
+		destination.HttpErrorRanges = httpErrorRangeList
+	} else {
+		destination.HttpErrorRanges = nil
+	}
+
+	// ResponseBasedDetectedErrorTypes
+	destination.ResponseBasedDetectedErrorTypes = genruntime.ClonePointerToString(parameters.ResponseBasedDetectedErrorTypes)
+
+	// ResponseBasedFailoverThresholdPercentage
+	destination.ResponseBasedFailoverThresholdPercentage = genruntime.ClonePointerToInt(parameters.ResponseBasedFailoverThresholdPercentage)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForResponseBasedOriginErrorDetectionParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForResponseBasedOriginErrorDetectionParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForDeliveryRule interface {
+	AssignPropertiesFrom(src *storage.DeliveryRule) error
+	AssignPropertiesTo(dst *storage.DeliveryRule) error
+}
+
+type augmentConversionForDeliveryRule_STATUS interface {
+	AssignPropertiesFrom(src *storage.DeliveryRule_STATUS) error
+	AssignPropertiesTo(dst *storage.DeliveryRule_STATUS) error
+}
+
 type augmentConversionForHealthProbeParameters interface {
 	AssignPropertiesFrom(src *storage.HealthProbeParameters) error
 	AssignPropertiesTo(dst *storage.HealthProbeParameters) error
@@ -805,6 +3851,26 @@ type augmentConversionForHealthProbeParameters interface {
 type augmentConversionForHealthProbeParameters_STATUS interface {
 	AssignPropertiesFrom(src *storage.HealthProbeParameters_STATUS) error
 	AssignPropertiesTo(dst *storage.HealthProbeParameters_STATUS) error
+}
+
+type augmentConversionForKeyVaultSigningKeyParameters interface {
+	AssignPropertiesFrom(src *storage.KeyVaultSigningKeyParameters) error
+	AssignPropertiesTo(dst *storage.KeyVaultSigningKeyParameters) error
+}
+
+type augmentConversionForKeyVaultSigningKeyParameters_STATUS interface {
+	AssignPropertiesFrom(src *storage.KeyVaultSigningKeyParameters_STATUS) error
+	AssignPropertiesTo(dst *storage.KeyVaultSigningKeyParameters_STATUS) error
+}
+
+type augmentConversionForResponseBasedOriginErrorDetectionParameters interface {
+	AssignPropertiesFrom(src *storage.ResponseBasedOriginErrorDetectionParameters) error
+	AssignPropertiesTo(dst *storage.ResponseBasedOriginErrorDetectionParameters) error
+}
+
+type augmentConversionForResponseBasedOriginErrorDetectionParameters_STATUS interface {
+	AssignPropertiesFrom(src *storage.ResponseBasedOriginErrorDetectionParameters_STATUS) error
+	AssignPropertiesTo(dst *storage.ResponseBasedOriginErrorDetectionParameters_STATUS) error
 }
 
 // Storage version of v1api20210601.DeliveryRuleAction
@@ -2439,12 +5505,136 @@ type HttpErrorRangeParameters struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_HttpErrorRangeParameters populates our HttpErrorRangeParameters from the provided source HttpErrorRangeParameters
+func (parameters *HttpErrorRangeParameters) AssignProperties_From_HttpErrorRangeParameters(source *storage.HttpErrorRangeParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Begin
+	parameters.Begin = genruntime.ClonePointerToInt(source.Begin)
+
+	// End
+	parameters.End = genruntime.ClonePointerToInt(source.End)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHttpErrorRangeParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForHttpErrorRangeParameters); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HttpErrorRangeParameters populates the provided destination HttpErrorRangeParameters from our HttpErrorRangeParameters
+func (parameters *HttpErrorRangeParameters) AssignProperties_To_HttpErrorRangeParameters(destination *storage.HttpErrorRangeParameters) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// Begin
+	destination.Begin = genruntime.ClonePointerToInt(parameters.Begin)
+
+	// End
+	destination.End = genruntime.ClonePointerToInt(parameters.End)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHttpErrorRangeParameters interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForHttpErrorRangeParameters); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20210601.HttpErrorRangeParameters_STATUS
 // The JSON object that represents the range for http status codes
 type HttpErrorRangeParameters_STATUS struct {
 	Begin       *int                   `json:"begin,omitempty"`
 	End         *int                   `json:"end,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_HttpErrorRangeParameters_STATUS populates our HttpErrorRangeParameters_STATUS from the provided source HttpErrorRangeParameters_STATUS
+func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_From_HttpErrorRangeParameters_STATUS(source *storage.HttpErrorRangeParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Begin
+	parameters.Begin = genruntime.ClonePointerToInt(source.Begin)
+
+	// End
+	parameters.End = genruntime.ClonePointerToInt(source.End)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHttpErrorRangeParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForHttpErrorRangeParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_HttpErrorRangeParameters_STATUS populates the provided destination HttpErrorRangeParameters_STATUS from our HttpErrorRangeParameters_STATUS
+func (parameters *HttpErrorRangeParameters_STATUS) AssignProperties_To_HttpErrorRangeParameters_STATUS(destination *storage.HttpErrorRangeParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// Begin
+	destination.Begin = genruntime.ClonePointerToInt(parameters.Begin)
+
+	// End
+	destination.End = genruntime.ClonePointerToInt(parameters.End)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForHttpErrorRangeParameters_STATUS interface (if implemented) to customize the conversion
+	var parametersAsAny any = parameters
+	if augmentedParameters, ok := parametersAsAny.(augmentConversionForHttpErrorRangeParameters_STATUS); ok {
+		err := augmentedParameters.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 type augmentConversionForDeliveryRuleAction interface {
@@ -2465,6 +5655,16 @@ type augmentConversionForDeliveryRuleCondition interface {
 type augmentConversionForDeliveryRuleCondition_STATUS interface {
 	AssignPropertiesFrom(src *storage.DeliveryRuleCondition_STATUS) error
 	AssignPropertiesTo(dst *storage.DeliveryRuleCondition_STATUS) error
+}
+
+type augmentConversionForHttpErrorRangeParameters interface {
+	AssignPropertiesFrom(src *storage.HttpErrorRangeParameters) error
+	AssignPropertiesTo(dst *storage.HttpErrorRangeParameters) error
+}
+
+type augmentConversionForHttpErrorRangeParameters_STATUS interface {
+	AssignPropertiesFrom(src *storage.HttpErrorRangeParameters_STATUS) error
+	AssignPropertiesTo(dst *storage.HttpErrorRangeParameters_STATUS) error
 }
 
 // Storage version of v1api20210601.DeliveryRuleCacheExpirationAction

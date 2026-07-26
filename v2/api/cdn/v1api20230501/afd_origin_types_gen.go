@@ -51,22 +51,36 @@ var _ conversion.Convertible = &AfdOrigin{}
 
 // ConvertFrom populates our AfdOrigin from the provided hub AfdOrigin
 func (origin *AfdOrigin) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.AfdOrigin)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/AfdOrigin but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.AfdOrigin
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return origin.AssignProperties_From_AfdOrigin(source)
+	err = origin.AssignProperties_From_AfdOrigin(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to origin")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub AfdOrigin from our AfdOrigin
 func (origin *AfdOrigin) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.AfdOrigin)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/AfdOrigin but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.AfdOrigin
+	err := origin.AssignProperties_To_AfdOrigin(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from origin")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return origin.AssignProperties_To_AfdOrigin(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &AfdOrigin{}
@@ -87,17 +101,6 @@ func (origin *AfdOrigin) SecretDestinationExpressions() []*core.DestinationExpre
 		return nil
 	}
 	return origin.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &AfdOrigin{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (origin *AfdOrigin) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*AfdOrigin_STATUS); ok {
-		return origin.Spec.Initialize_From_AfdOrigin_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type AfdOrigin_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &AfdOrigin{}
@@ -777,71 +780,6 @@ func (origin *AfdOrigin_Spec) AssignProperties_To_AfdOrigin_Spec(destination *st
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AfdOrigin_STATUS populates our AfdOrigin_Spec from the provided source AfdOrigin_STATUS
-func (origin *AfdOrigin_Spec) Initialize_From_AfdOrigin_STATUS(source *AfdOrigin_STATUS) error {
-
-	// AzureOrigin
-	if source.AzureOrigin != nil {
-		var azureOrigin ResourceReference
-		err := azureOrigin.Initialize_From_ResourceReference_STATUS(source.AzureOrigin)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field AzureOrigin")
-		}
-		origin.AzureOrigin = &azureOrigin
-	} else {
-		origin.AzureOrigin = nil
-	}
-
-	// EnabledState
-	if source.EnabledState != nil {
-		enabledState := genruntime.ToEnum(string(*source.EnabledState), aFDOriginProperties_EnabledState_Values)
-		origin.EnabledState = &enabledState
-	} else {
-		origin.EnabledState = nil
-	}
-
-	// EnforceCertificateNameCheck
-	if source.EnforceCertificateNameCheck != nil {
-		enforceCertificateNameCheck := *source.EnforceCertificateNameCheck
-		origin.EnforceCertificateNameCheck = &enforceCertificateNameCheck
-	} else {
-		origin.EnforceCertificateNameCheck = nil
-	}
-
-	// HostName
-	origin.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// HttpPort
-	origin.HttpPort = genruntime.ClonePointerToInt(source.HttpPort)
-
-	// HttpsPort
-	origin.HttpsPort = genruntime.ClonePointerToInt(source.HttpsPort)
-
-	// OriginHostHeader
-	origin.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
-
-	// Priority
-	origin.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// SharedPrivateLinkResource
-	if source.SharedPrivateLinkResource != nil {
-		var sharedPrivateLinkResource SharedPrivateLinkResourceProperties
-		err := sharedPrivateLinkResource.Initialize_From_SharedPrivateLinkResourceProperties_STATUS(source.SharedPrivateLinkResource)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SharedPrivateLinkResourceProperties_STATUS() to populate field SharedPrivateLinkResource")
-		}
-		origin.SharedPrivateLinkResource = &sharedPrivateLinkResource
-	} else {
-		origin.SharedPrivateLinkResource = nil
-	}
-
-	// Weight
-	origin.Weight = genruntime.ClonePointerToInt(source.Weight)
 
 	// No error
 	return nil
@@ -1727,42 +1665,6 @@ func (properties *SharedPrivateLinkResourceProperties) AssignProperties_To_Share
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SharedPrivateLinkResourceProperties_STATUS populates our SharedPrivateLinkResourceProperties from the provided source SharedPrivateLinkResourceProperties_STATUS
-func (properties *SharedPrivateLinkResourceProperties) Initialize_From_SharedPrivateLinkResourceProperties_STATUS(source *SharedPrivateLinkResourceProperties_STATUS) error {
-
-	// GroupId
-	properties.GroupId = genruntime.ClonePointerToString(source.GroupId)
-
-	// PrivateLink
-	if source.PrivateLink != nil {
-		var privateLink ResourceReference
-		err := privateLink.Initialize_From_ResourceReference_STATUS(source.PrivateLink)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field PrivateLink")
-		}
-		properties.PrivateLink = &privateLink
-	} else {
-		properties.PrivateLink = nil
-	}
-
-	// PrivateLinkLocation
-	properties.PrivateLinkLocation = genruntime.ClonePointerToString(source.PrivateLinkLocation)
-
-	// RequestMessage
-	properties.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
-
-	// Status
-	if source.Status != nil {
-		status := genruntime.ToEnum(string(*source.Status), sharedPrivateLinkResourceProperties_Status_Values)
-		properties.Status = &status
-	} else {
-		properties.Status = nil
 	}
 
 	// No error

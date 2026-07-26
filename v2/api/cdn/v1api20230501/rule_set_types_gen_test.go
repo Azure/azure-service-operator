@@ -5,7 +5,8 @@ package v1api20230501
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForRuleSet(subject RuleSet) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RuleSet
+	var hub cdn_v20230501s.RuleSet
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForRuleSet(subject RuleSet) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RuleSet
+	var other cdn_v1api20230501s.RuleSet
 	err := copied.AssignProperties_To_RuleSet(&other)
 	if err != nil {
 		return err.Error()
@@ -201,7 +202,7 @@ func RunPropertyAssignmentTestForRuleSetOperatorSpec(subject RuleSetOperatorSpec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RuleSetOperatorSpec
+	var other cdn_v1api20230501s.RuleSetOperatorSpec
 	err := copied.AssignProperties_To_RuleSetOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -308,7 +309,7 @@ func RunPropertyAssignmentTestForRuleSet_STATUS(subject RuleSet_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RuleSet_STATUS
+	var other cdn_v1api20230501s.RuleSet_STATUS
 	err := copied.AssignProperties_To_RuleSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -448,7 +449,7 @@ func RunPropertyAssignmentTestForRuleSet_Spec(subject RuleSet_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RuleSet_Spec
+	var other cdn_v1api20230501s.RuleSet_Spec
 	err := copied.AssignProperties_To_RuleSet_Spec(&other)
 	if err != nil {
 		return err.Error()
