@@ -124,7 +124,6 @@ func (resourceVersionsReportPartition) isDeprecatedResource(
 		// the v1api variants are still the only versions users can use - so they aren't deprecated
 		// yet. They will become deprecated once the migration release ships.
 		if migratedIn, ok := astmodel.HybridMigrationReleaseForGroup(grp); ok {
-			currentRelease := currentRelease
 			if astmodel.ComparePathAndVersion(migratedIn, currentRelease) > 0 {
 				return false
 			}
