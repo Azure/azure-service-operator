@@ -1038,8 +1038,6 @@ var skipDeletionPrecheck = sets.NewString(
 	"dbforpostgresql.azure.com",
 	"devices.azure.com",
 	"network.azure.com",
-	"servicebus.azure.com",
-	"resources.azure.com",
 )
 
 // deleteResource deletes a resource in ARM. This function is used as the default deletion handler and can
