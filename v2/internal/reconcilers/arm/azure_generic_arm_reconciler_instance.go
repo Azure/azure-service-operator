@@ -1034,7 +1034,6 @@ func ConvertToARMResourceImpl(
 // skipDeletionPrecheck is a set of resource groups for which we skip the pre-deletion existence check.
 // This is to bypass the need to re-record every test in one go - we enable the extra check group by group.
 var skipDeletionPrecheck = sets.NewString(
-	"compute.azure.com",
 	"dbforpostgresql.azure.com",
 	"devices.azure.com",
 	"network.azure.com",
