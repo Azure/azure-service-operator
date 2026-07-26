@@ -65,22 +65,23 @@ const LastLegacyASOVersion = "v2.16.0"
 // Keys are group names in lower case; values are ASO version strings (e.g. "v2.21.0").
 // When migrating a new group to Hybrid mode, add an entry here recording the upcoming ASO release.
 var versionMigrationHybridReleases = map[string]string{
-	"alertsmanagement": "v2.19.0",
-	"apimanagement":    "v2.19.0",
-	"app":              "v2.20.0",
-	"appconfiguration": "v2.19.0",
-	"authorization":    "v2.21.0",
-	"batch":            "v2.18.0",
-	"cache":            "v2.21.0",
-	"compute":          "v2.20.0",
-	"datafactory":      "v2.20.0",
-	"dbformysql":       "v2.19.0",
-	"eventgrid":        "v2.20.0",
-	"sql":              "v2.21.0",
-	"storage":          "v2.18.0",
-	"subscription":     "v2.21.0",
-	"synapse":          "v2.19.0",
-	"web":              "v2.19.0",
+	"alertsmanagement":  "v2.19.0",
+	"apimanagement":     "v2.19.0",
+	"app":               "v2.20.0",
+	"appconfiguration":  "v2.19.0",
+	"authorization":     "v2.21.0",
+	"batch":             "v2.18.0",
+	"cache":             "v2.21.0",
+	"cognitiveservices": "v2.21.0",
+	"compute":           "v2.20.0",
+	"datafactory":       "v2.20.0",
+	"dbformysql":        "v2.19.0",
+	"eventgrid":         "v2.20.0",
+	"sql":               "v2.21.0",
+	"storage":           "v2.18.0",
+	"subscription":      "v2.21.0",
+	"synapse":           "v2.19.0",
+	"web":               "v2.19.0",
 }
 
 // versionMigrationModes contains a mapping of group names to their version migration modes.
@@ -89,19 +90,16 @@ var versionMigrationHybridReleases = map[string]string{
 // As we move groups to the new versioning scheme, we'll move them to hybrid mode (giving users a migration path forward).
 // Once all groups have been fully migrated, we will delete this file.
 var versionMigrationModes = map[string]VersionMigrationMode{
-	"alertsmanagement": VersionMigrationModeHybrid,
-	"apimanagement":    VersionMigrationModeHybrid,
-	"app":              VersionMigrationModeHybrid,
-	"appconfiguration": VersionMigrationModeHybrid,
-	"authorization":    VersionMigrationModeHybrid,
-	"batch":            VersionMigrationModeHybrid,
-	"cache":            VersionMigrationModeHybrid,
-
-	"cdn": VersionMigrationModeLegacy,
-
+	"alertsmanagement":  VersionMigrationModeHybrid,
+	"apimanagement":     VersionMigrationModeHybrid,
+	"app":               VersionMigrationModeHybrid,
+	"appconfiguration":  VersionMigrationModeHybrid,
+	"authorization":     VersionMigrationModeHybrid,
+	"batch":             VersionMigrationModeHybrid,
+	"cache":             VersionMigrationModeHybrid,
+	"cdn":               VersionMigrationModeHybrid,
 	"cognitiveservices": VersionMigrationModeHybrid,
 	"compute":           VersionMigrationModeHybrid,
-	"cdn":               VersionMigrationModeHybrid,
 
 	"containerinstance": VersionMigrationModeLegacy,
 	"containerregistry": VersionMigrationModeLegacy,
