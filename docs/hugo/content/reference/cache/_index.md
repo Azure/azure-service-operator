@@ -45,7 +45,7 @@ Development of these new resources is complete and they will be available in the
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+These resource(s) are the latest versions available for use in the current release of ASO.
 | Resource                                                                                                                                   | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                                    |
 |--------------------------------------------------------------------------------------------------------------------------------------------|-------------|---------------|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [Redis]({{< relref "/reference/cache/v1api20241101#Redis" >}})                                                                             | 2024-11-01  | v1api20241101 | v2.16.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/cache/v1api20241101/v1api20241101_redis.yaml)                                 |
