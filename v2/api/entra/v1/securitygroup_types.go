@@ -3,8 +3,6 @@
 package v1
 
 import (
-	"fmt"
-
 	"github.com/google/uuid"
 	"github.com/microsoftgraph/msgraph-sdk-go/models"
 	"github.com/rotisserie/eris"
@@ -367,7 +365,7 @@ func graphDirectoryURIs(
 	for i, ref := range references {
 		id, err := ref.ResolveObjectID(resolved)
 		if err != nil {
-			return nil, fmt.Errorf("%s[%d]: %w", fieldName, i, err)
+			return nil, eris.Wrapf(err, "%s[%d]", fieldName, i)
 		}
 
 		uris = append(uris, asoentra.DirectoryObjectRefURI(id))

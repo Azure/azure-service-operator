@@ -18,6 +18,7 @@ import (
 
 	asoentra "github.com/Azure/azure-service-operator/v2/api/entra"
 	asoentrav1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
 
@@ -32,34 +33,12 @@ type relationshipDelta struct {
 // ResolveMemberObjectIDs for desired); duplicates in the inputs will appear
 // duplicated in the output.
 func planRelationshipDelta(current []string, desired []string) relationshipDelta {
-	currentSet := make(map[string]struct{}, len(current))
-	desiredSet := make(map[string]struct{}, len(desired))
-
-	for _, value := range current {
-		currentSet[value] = struct{}{}
-	}
-
-	for _, value := range desired {
-		desiredSet[value] = struct{}{}
-	}
-
-	toAdd := make([]string, 0)
-	for _, value := range desired {
-		if _, ok := currentSet[value]; !ok {
-			toAdd = append(toAdd, value)
-		}
-	}
-
-	toRemove := make([]string, 0)
-	for _, value := range current {
-		if _, ok := desiredSet[value]; !ok {
-			toRemove = append(toRemove, value)
-		}
-	}
+	currentSet := set.Make[string](current...)
+	desiredSet := set.Make[string](desired...)
 
 	return relationshipDelta{
-		ToAdd:    toAdd,
-		ToRemove: toRemove,
+		ToAdd:    desiredSet.Except(currentSet).Values(),
+		ToRemove: currentSet.Except(desiredSet).Values(),
 	}
 }
 

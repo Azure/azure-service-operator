@@ -24,7 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
-	asoentrav1 "github.com/Azure/azure-service-operator/v2/api/entra/v1"
+	asoentra "github.com/Azure/azure-service-operator/v2/api/entra/v1"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/identity"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
@@ -168,7 +168,7 @@ func (r *EntraSecurityGroupReconciler) Claim(
 func (r *EntraSecurityGroupReconciler) update(
 	ctx context.Context,
 	id string,
-	group *asoentrav1.SecurityGroup,
+	group *asoentra.SecurityGroup,
 	log logr.Logger,
 ) (ctrl.Result, error) {
 	log = log.WithValues("id", id)
@@ -225,7 +225,7 @@ func (r *EntraSecurityGroupReconciler) update(
 // or nil, error if there was a problem finding the group.
 func (r *EntraSecurityGroupReconciler) tryAdopt(
 	ctx context.Context,
-	group *asoentrav1.SecurityGroup,
+	group *asoentra.SecurityGroup,
 	log logr.Logger,
 ) (string, error) {
 	log.V(Status).Info("Searching for existing Entra security group to adopt", "group", group.Name)
@@ -283,7 +283,7 @@ func (r *EntraSecurityGroupReconciler) tryAdopt(
 // log is the logger to use for logging.
 func (r *EntraSecurityGroupReconciler) create(
 	ctx context.Context,
-	group *asoentrav1.SecurityGroup,
+	group *asoentra.SecurityGroup,
 	log logr.Logger,
 ) (ctrl.Result, error) {
 	log.V(Status).Info("Creating Entra security group")
@@ -436,8 +436,8 @@ func (r *EntraSecurityGroupReconciler) isNotFound(err error) bool {
 
 func (r *EntraSecurityGroupReconciler) asSecurityGroup(
 	obj genruntime.MetaObject,
-) (*asoentrav1.SecurityGroup, error) {
-	typedObj, ok := obj.(*asoentrav1.SecurityGroup)
+) (*asoentra.SecurityGroup, error) {
+	typedObj, ok := obj.(*asoentra.SecurityGroup)
 	if !ok {
 		return nil, eris.Errorf("cannot modify resource that is not of type *entra.SecurityGroup. Type is %T", obj)
 	}
@@ -445,7 +445,7 @@ func (r *EntraSecurityGroupReconciler) asSecurityGroup(
 	return typedObj, nil
 }
 
-func (r *EntraSecurityGroupReconciler) canAdopt(group *asoentrav1.SecurityGroup) bool {
+func (r *EntraSecurityGroupReconciler) canAdopt(group *asoentra.SecurityGroup) bool {
 	if group.Spec.OperatorSpec == nil {
 		// Default is AdoptOrCreate
 		return true
@@ -454,7 +454,7 @@ func (r *EntraSecurityGroupReconciler) canAdopt(group *asoentrav1.SecurityGroup)
 	return group.Spec.OperatorSpec.AdoptionAllowed()
 }
 
-func (r *EntraSecurityGroupReconciler) canCreate(group *asoentrav1.SecurityGroup) bool {
+func (r *EntraSecurityGroupReconciler) canCreate(group *asoentra.SecurityGroup) bool {
 	if group.Spec.OperatorSpec == nil {
 		// Default is AdoptOrCreate
 		return true
@@ -468,7 +468,7 @@ func (r *EntraSecurityGroupReconciler) canCreate(group *asoentrav1.SecurityGroup
 // TODO: Currently hard coded, but we should extract common features for reuse across other Entra resources
 func (r *EntraSecurityGroupReconciler) saveAssociatedKubernetesResources(
 	ctx context.Context,
-	group *asoentrav1.SecurityGroup,
+	group *asoentra.SecurityGroup,
 	log logr.Logger,
 ) error {
 	if group == nil ||
