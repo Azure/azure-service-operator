@@ -71,6 +71,11 @@ var exclusions = []*regexp.Regexp{
 	// Requires creating multiple linked SQL servers which is hard to do in the samples
 	regexp.MustCompile(`sql/.*_serversfailovergroup.yaml`),
 
+	// Excluding sql serverskey and serversencryptionprotector as they require a keyvault key URI
+	// which can't be created via ASO (no Keyvault/Keys resource support)
+	regexp.MustCompile(`sql/.*_serverskey.yaml`),
+	regexp.MustCompile(`sql/.*_serversencryptionprotector.yaml`),
+
 	// TODO: Unable to test diskencryptionsets sample since it requires keyvault/key URI.
 	// TODO: we don't support Keyvault/Keys to automate the process
 	regexp.MustCompile(`compute/.*_diskencryptionset.yaml`),
@@ -380,9 +385,10 @@ func PathContains(path string, matches []string) bool {
 }
 
 func IsSampleFolderExcluded(path string) bool {
-	// Allow the cache v20250401 sample test to run while keeping all other
+	// Allow the cache v20250401 and v20250701 sample tests to run while keeping all other
 	// cache sample folders excluded (linked-cache deletion issues).
-	if strings.Contains(path, "/cache/v20250401") {
+	if strings.Contains(path, "/cache/v20250401") ||
+		strings.Contains(path, "/cache/v20250701") {
 		return false
 	}
 
