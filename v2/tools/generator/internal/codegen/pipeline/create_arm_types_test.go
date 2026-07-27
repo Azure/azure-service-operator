@@ -6,6 +6,7 @@
 package pipeline
 
 import (
+	"regexp"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -1195,6 +1196,81 @@ func TestCreateARMTypes_DependentResourceAndOwnership(t *testing.T) {
 		ApplyARMConversionInterface(idFactory, cfg),
 		SimplifyDefinitions(),
 		StripUnreferencedTypeDefinitions(),
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+// TestCreateARMTypeWithConfigMapForNamedStringType tests that ConfigMap references are correctly generated
+// for properties that use named string types (like AzureCoreUuid) rather than plain string.
+func TestCreateARMTypeWithConfigMapForNamedStringType_CreatesExpectedConversions(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Create a named string type with validation (like AzureCoreUuid is in the real code).
+	// ValidatedType survives RemoveTypeAliases, so the property type stays as a TypeName reference.
+	uuidRegex := regexp.MustCompile("^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$")
+	uuidTypeName := astmodel.MakeInternalTypeName(test.Pkg2020, "UUIDType")
+	uuidTypeDef := astmodel.MakeTypeDefinition(
+		uuidTypeName,
+		astmodel.NewValidatedType(astmodel.StringType, astmodel.StringValidations{Patterns: []*regexp.Regexp{uuidRegex}}),
+	)
+
+	// Create a property using the named string type (optional, so it becomes *UUIDType)
+	sidProperty := astmodel.NewPropertyDefinition("Sid", "sid", astmodel.NewOptionalType(uuidTypeName)).
+		WithDescription("SID (object ID) of the administrator")
+
+	// Define a test resource with a nested properties type (typical ARM pattern)
+	specProperties := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"PersonProperties",
+		test.FullNameProperty,
+		sidProperty,
+	)
+	specPropertiesProp := astmodel.NewPropertyDefinition(
+		"Properties",
+		"properties",
+		specProperties.Name(),
+	).MakeTypeOptional()
+	spec := test.CreateSpec(test.Pkg2020, "Person", specPropertiesProp, test.NameProperty)
+	status := test.CreateStatus(test.Pkg2020, "Person")
+	resource := test.CreateARMResource(test.Pkg2020, "Person", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, specProperties, uuidTypeDef, test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	omc := config.NewObjectModelConfiguration()
+
+	// Configure Sid as an optional configmap import (same as $importConfigMapMode: optional in yaml)
+	g.Expect(
+		omc.ModifyProperty(
+			specProperties.Name(),
+			sidProperty.PropertyName(),
+			func(pc *config.PropertyConfiguration) error {
+				pc.ImportConfigMapMode.Set(config.ImportConfigMapModeOptional)
+				return nil
+			},
+		),
+	).To(Succeed())
+
+	configuration := config.NewConfiguration()
+	configuration.ObjectModelConfiguration = omc
+
+	addConfigMaps := AddConfigMaps(configuration)
+	createARMTypes := CreateARMTypes(omc, idFactory, logr.Discard())
+	applyARMConversionInterface := ApplyARMConversionInterface(idFactory, omc)
+	simplify := SimplifyDefinitions()
+	strip := StripUnreferencedTypeDefinitions()
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		addConfigMaps,
+		createARMTypes,
+		applyARMConversionInterface,
+		simplify,
+		strip,
 	)
 	g.Expect(err).ToNot(HaveOccurred())
 
