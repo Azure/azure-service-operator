@@ -35,7 +35,7 @@ Applications that need connection strings with specific (possibly non-standard) 
   <meta itemprop="description" content="CEL Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
 Expressions in ASO can be used to build your own Secret or ConfigMap output. This helps to solve problems like:
 Applications that need connection strings with specific (possibly non-standard) formats. Exporting arbitrary fields from a resource for use by other applications. Exporting static text alongside dynamic data. CEL expressions are currently supported on most resources via the spec.operatorSpec.configMapExpressions and spec.operatorSpec.secretExpressions fields, which allow configuring expressions output to ConfigMaps and Secrets, respectively.">
-  <meta itemprop="wordCount" content="658">
+  <meta itemprop="wordCount" content="677">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="CEL Expressions">
   <meta name="twitter:description" content="CEL Expressions in ASO ASO offers some support for Common Expression Language (CEL) expressions.
@@ -394,6 +394,8 @@ Applications that need connection strings with specific (possibly non-standard) 
   <a href="/azure-service-operator/reference/cache/v20241101/" title="cache.azure.com/v20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20241101"><span class="">v20241101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev20250401-li">
   <a href="/azure-service-operator/reference/cache/v20250401/" title="cache.azure.com/v20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20250401"><span class="">v20250401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev20250701-li">
+  <a href="/azure-service-operator/reference/cache/v20250701/" title="cache.azure.com/v20250701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20250701"><span class="">v20250701</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatorreferencecdn-li">
@@ -851,6 +853,8 @@ Applications that need connection strings with specific (possibly non-standard) 
   <a href="/azure-service-operator/reference/web/v1api20220301/" title="web.azure.com/v1api20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1api20220301"><span class="">v1api20220301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv20220301-li">
   <a href="/azure-service-operator/reference/web/v20220301/" title="web.azure.com/v20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv20220301"><span class="">v20220301</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv20250501-li">
+  <a href="/azure-service-operator/reference/web/v20250501/" title="web.azure.com/v20250501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv20250501"><span class="">v20250501</span></a>
 </li>
   </ul>
 </li>
@@ -1241,9 +1245,9 @@ documentation to understand what the <code>name</code>/<code>key</code>/<code>va
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">maxmemory-policy</span>: <span style="color:#ae81ff">allkeys-lru</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">redisVersion</span>: <span style="color:#e6db74">&#34;6&#34;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">zones</span>:
-</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;1&#34;</span>
-</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;2&#34;</span>
-</span></span><span style="display:flex;"><span>  - <span style="color:#e6db74">&#34;3&#34;</span> 
+</span></span><span style="display:flex;"><span>    - <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#e6db74">&#34;2&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#e6db74">&#34;3&#34;</span>
 </span></span></code></pre></div>
 
 <div class="alert alert-primary" role="alert">
@@ -1259,9 +1263,9 @@ CEL expressions with <code>self.status</code> in addition to <code>self.spec</co
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">operatorSpec</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">configMapExpressions</span>:
-</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-configmap</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">key</span>: <span style="color:#ae81ff">location</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">value</span>: <span style="color:#ae81ff">self.spec.location</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-configmap</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">key</span>: <span style="color:#ae81ff">location</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value</span>: <span style="color:#ae81ff">self.spec.location</span>
 </span></span></code></pre></div><p>Output (ConfigMap):</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-configmap</span>
@@ -1279,8 +1283,13 @@ and the resulting output, still based on the example <code>Redis</code> above.</
   </thead>
   <tbody>
       <tr>
-          <td>Hardcoded string</td>
-          <td><code>&quot;helloworld&quot;</code></td>
+          <td>Hardcoded string (single quotes inside double-quots so CEL sees the &lsquo;)</td>
+          <td><code>&quot;'helloworld'&quot;</code></td>
+          <td><code>helloworld</code></td>
+      </tr>
+      <tr>
+          <td>Hardcoded string (escaped so CEL sees the quotes)</td>
+          <td><code>&quot;\&quot;helloworld\&quot;&quot;</code></td>
           <td><code>helloworld</code></td>
       </tr>
       <tr>

@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   <meta itemprop="description" content="APIVersion Value Description “2025-03-01” AzureFirewall Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}
 Used by: AzureFirewallList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_SpecOptional status AzureFirewall_STATUSOptional AzureFirewall_Spec Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfigurationOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocationOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResourceOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddressesOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfigurationOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection[]Optional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure AzureFirewallOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired sku The Azure Firewall Resource SKU. AzureFirewallSkuOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelModeOptional virtualHub The virtualHub to which the firewall belongs. SubResourceOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewall_STATUS Property Description Type additionalProperties The additional properties used to further config this azure firewall. map[string]stringOptional applicationRuleCollections Collection of application rule collections used by Azure Firewall. AzureFirewallApplicationRuleCollection_STATUS[]Optional autoscaleConfiguration Properties to provide a custom autoscale configuration to this azure firewall. AzureFirewallAutoscaleConfiguration_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional etag A unique read-only string that changes whenever the resource is updated. stringOptional extendedLocation The extended location of type local virtual network gateway. ExtendedLocation_STATUSOptional firewallPolicy The firewallPolicy associated with this azure firewall. SubResource_STATUSOptional hubIPAddresses IP addresses associated with AzureFirewall. HubIPAddresses_STATUSOptional id Resource ID. stringOptional ipConfigurations IP configuration of the Azure Firewall resource. AzureFirewallIPConfiguration_STATUS[]Optional ipGroups IpGroups associated with AzureFirewall. AzureFirewallIpGroups_STATUS[]Optional location Resource location. stringOptional managementIpConfiguration IP configuration of the Azure Firewall used for management traffic. AzureFirewallIPConfiguration_STATUSOptional name Resource name. stringOptional natRuleCollections Collection of NAT rule collections used by Azure Firewall. AzureFirewallNatRuleCollection_STATUS[]Optional networkRuleCollections Collection of network rule collections used by Azure Firewall. AzureFirewallNetworkRuleCollection_STATUS[]Optional provisioningState The provisioning state of the Azure firewall resource. AzureFirewallProvisioningState_STATUSOptional sku The Azure Firewall Resource SKU. AzureFirewallSku_STATUSOptional tags Resource tags. map[string]stringOptional threatIntelMode The operation mode for Threat Intelligence. AzureFirewallThreatIntelMode_STATUSOptional type Resource type. stringOptional virtualHub The virtualHub to which the firewall belongs. SubResource_STATUSOptional zones A list of availability zones denoting where the resource needs to come from. string[]Optional AzureFirewallList Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}">
-  <meta itemprop="wordCount" content="38658">
+  <meta itemprop="wordCount" content="39251">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="network.azure.com/v20250301">
   <meta name="twitter:description" content="APIVersion Value Description “2025-03-01” AzureFirewall Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/azureFirewall.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​azureFirewalls/​{azureFirewallName}
@@ -394,6 +394,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   <a href="/azure-service-operator/reference/cache/v20241101/" title="cache.azure.com/v20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20241101"><span class="">v20241101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev20250401-li">
   <a href="/azure-service-operator/reference/cache/v20250401/" title="cache.azure.com/v20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20250401"><span class="">v20250401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev20250701-li">
+  <a href="/azure-service-operator/reference/cache/v20250701/" title="cache.azure.com/v20250701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20250701"><span class="">v20250701</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -851,6 +853,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
   <a href="/azure-service-operator/reference/web/v1api20220301/" title="web.azure.com/v1api20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1api20220301"><span class="">v1api20220301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv20220301-li">
   <a href="/azure-service-operator/reference/web/v20220301/" title="web.azure.com/v20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv20220301"><span class="">v20220301</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv20250501-li">
+  <a href="/azure-service-operator/reference/web/v20250501/" title="web.azure.com/v20250501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv20250501"><span class="">v20250501</span></a>
 </li>
   </ul>
 </li>
@@ -1044,6 +1048,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
       </ul>
     </li>
     <li><a href="#BastionHostList">BastionHostList</a></li>
+    <li><a href="#DdosProtectionPlan">DdosProtectionPlan</a>
+      <ul>
+        <li><a href="#DdosProtectionPlan_Spec">DdosProtectionPlan_Spec</a></li>
+        <li><a href="#DdosProtectionPlan_STATUS">DdosProtectionPlan_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#DdosProtectionPlanList">DdosProtectionPlanList</a></li>
     <li><a href="#FirewallPoliciesRuleCollectionGroup">FirewallPoliciesRuleCollectionGroup</a>
       <ul>
         <li><a href="#FirewallPoliciesRuleCollectionGroup_Spec">FirewallPoliciesRuleCollectionGroup_Spec</a></li>
@@ -1181,6 +1192,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
     <li><a href="#AzureFirewall_STATUS">AzureFirewall_STATUS</a></li>
     <li><a href="#BastionHost_Spec">BastionHost_Spec</a></li>
     <li><a href="#BastionHost_STATUS">BastionHost_STATUS</a></li>
+    <li><a href="#DdosProtectionPlan_Spec">DdosProtectionPlan_Spec</a></li>
+    <li><a href="#DdosProtectionPlan_STATUS">DdosProtectionPlan_STATUS</a></li>
     <li><a href="#FirewallPoliciesRuleCollectionGroup_Spec">FirewallPoliciesRuleCollectionGroup_Spec</a></li>
     <li><a href="#FirewallPoliciesRuleCollectionGroup_STATUS">FirewallPoliciesRuleCollectionGroup_STATUS</a></li>
     <li><a href="#FirewallPolicy_Spec">FirewallPolicy_Spec</a></li>
@@ -1256,6 +1269,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
     <li><a href="#BgpSettings">BgpSettings</a></li>
     <li><a href="#BgpSettings_STATUS">BgpSettings_STATUS</a></li>
     <li><a href="#CustomDnsConfigPropertiesFormat_STATUS">CustomDnsConfigPropertiesFormat_STATUS</a></li>
+    <li><a href="#DdosProtectionPlanOperatorSpec">DdosProtectionPlanOperatorSpec</a></li>
+    <li><a href="#DdosProtectionPlanProvisioningState_STATUS">DdosProtectionPlanProvisioningState_STATUS</a></li>
     <li><a href="#DdosSettings">DdosSettings</a></li>
     <li><a href="#DdosSettings_STATUS">DdosSettings_STATUS</a></li>
     <li><a href="#Delegation">Delegation</a></li>
@@ -2307,6 +2322,172 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
           <td>items</td>
           <td></td>
           <td><a href="#BastionHost">BastionHost[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DdosProtectionPlan">DdosProtectionPlan</h2>
+<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/ddosProtectionPlan.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​ddosProtectionPlans/​{ddosProtectionPlanName}</p>
+<p>Used by: <a href="#DdosProtectionPlanList">DdosProtectionPlanList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#DdosProtectionPlan_Spec">DdosProtectionPlan_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#DdosProtectionPlan_STATUS">DdosProtectionPlan_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="DdosProtectionPlan_Spec">DdosProtectionPlan_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>Resource location.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#DdosProtectionPlanOperatorSpec">DdosProtectionPlanOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="DdosProtectionPlan_STATUS">DdosProtectionPlan_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>etag</td>
+          <td>A unique read-only string that changes whenever the resource is updated.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Resource ID.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>Resource location.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>Resource name.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the DDoS protection plan resource.</td>
+          <td><a href="#DdosProtectionPlanProvisioningState_STATUS">DdosProtectionPlanProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicIPAddresses</td>
+          <td>The list of public IPs associated with the DDoS protection plan resource. This list is read-only.</td>
+          <td><a href="#SubResource_STATUS">SubResource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>resourceGuid</td>
+          <td>The resource GUID property of the DDoS protection plan resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>Resource type.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>virtualNetworks</td>
+          <td>The list of virtual networks associated with the DDoS protection plan resource. This list is read-only.</td>
+          <td><a href="#SubResource_STATUS">SubResource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DdosProtectionPlanList">DdosProtectionPlanList</h2>
+<p>Generator information: - Generated from: /network/resource-manager/Microsoft.Network/Network/stable/2025-03-01/ddosProtectionPlan.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Network/​ddosProtectionPlans/​{ddosProtectionPlanName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#DdosProtectionPlan">DdosProtectionPlan[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -7608,6 +7789,113 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
       </tr>
   </tbody>
 </table>
+<h2 id="DdosProtectionPlan_Spec">DdosProtectionPlan_Spec</h2>
+<p>Used by: <a href="#DdosProtectionPlan">DdosProtectionPlan</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>Resource location.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#DdosProtectionPlanOperatorSpec">DdosProtectionPlanOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DdosProtectionPlan_STATUS">DdosProtectionPlan_STATUS</h2>
+<p>A DDoS protection plan in a resource group.</p>
+<p>Used by: <a href="#DdosProtectionPlan">DdosProtectionPlan</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>etag</td>
+          <td>A unique read-only string that changes whenever the resource is updated.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Resource ID.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>Resource location.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>Resource name.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>provisioningState</td>
+          <td>The provisioning state of the DDoS protection plan resource.</td>
+          <td><a href="#DdosProtectionPlanProvisioningState_STATUS">DdosProtectionPlanProvisioningState_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>publicIPAddresses</td>
+          <td>The list of public IPs associated with the DDoS protection plan resource. This list is read-only.</td>
+          <td><a href="#SubResource_STATUS">SubResource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>resourceGuid</td>
+          <td>The resource GUID property of the DDoS protection plan resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>tags</td>
+          <td>Resource tags.</td>
+          <td>map[string]string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>Resource type.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>virtualNetworks</td>
+          <td>The list of virtual networks associated with the DDoS protection plan resource. This list is read-only.</td>
+          <td><a href="#SubResource_STATUS">SubResource_STATUS[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="FirewallPoliciesRuleCollectionGroup_Spec">FirewallPoliciesRuleCollectionGroup_Spec</h2>
 <p>Used by: <a href="#FirewallPoliciesRuleCollectionGroup">FirewallPoliciesRuleCollectionGroup</a>.</p>
 <table>
@@ -12294,6 +12582,59 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
           <td>ipAddresses</td>
           <td>A list of private ip addresses of the private endpoint.</td>
           <td>string[]<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DdosProtectionPlanOperatorSpec">DdosProtectionPlanOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#DdosProtectionPlan_Spec">DdosProtectionPlan_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DdosProtectionPlanProvisioningState_STATUS">DdosProtectionPlanProvisioningState_STATUS</h2>
+<p>The current provisioning state.</p>
+<p>Used by: <a href="#DdosProtectionPlan_STATUS">DdosProtectionPlan_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;Deleting&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Failed&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Succeeded&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;Updating&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -17176,7 +17517,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec AzureFirewall_S
 </table>
 <h2 id="SubResource_STATUS">SubResource_STATUS</h2>
 <p>Reference to another subresource.</p>
-<p>Used by: <a href="#AzureFirewall_STATUS">AzureFirewall_STATUS</a>, <a href="#AzureFirewall_STATUS">AzureFirewall_STATUS</a>, <a href="#BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#BastionHost_STATUS">BastionHost_STATUS</a>, <a href="#DdosSettings_STATUS">DdosSettings_STATUS</a>, <a href="#FirewallPolicy_STATUS">FirewallPolicy_STATUS</a>, <a href="#FirewallPolicy_STATUS">FirewallPolicy_STATUS</a>, <a href="#FirewallPolicy_STATUS">FirewallPolicy_STATUS</a>, <a href="#FirewallPolicy_STATUS">FirewallPolicy_STATUS</a>, <a href="#FirewallPolicyLogAnalyticsResources_STATUS">FirewallPolicyLogAnalyticsResources_STATUS</a>, <a href="#FirewallPolicyLogAnalyticsWorkspace_STATUS">FirewallPolicyLogAnalyticsWorkspace_STATUS</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#InboundNatPool_STATUS">InboundNatPool_STATUS</a>, <a href="#InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded">InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded">InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#LoadBalancerBackendAddress_STATUS">LoadBalancerBackendAddress_STATUS</a>, <a href="#LoadBalancerBackendAddress_STATUS">LoadBalancerBackendAddress_STATUS</a>, <a href="#LoadBalancerBackendAddress_STATUS">LoadBalancerBackendAddress_STATUS</a>, <a href="#LoadBalancerBackendAddress_STATUS">LoadBalancerBackendAddress_STATUS</a>, <a href="#LoadBalancersInboundNatRule_STATUS">LoadBalancersInboundNatRule_STATUS</a>, <a href="#LoadBalancersInboundNatRule_STATUS">LoadBalancersInboundNatRule_STATUS</a>, <a href="#LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>, <a href="#LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>, <a href="#LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>, <a href="#LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NetworkInterface_STATUS">NetworkInterface_STATUS</a>, <a href="#NetworkInterface_STATUS">NetworkInterface_STATUS</a>, <a href="#NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded</a>, <a href="#OutboundRule_STATUS">OutboundRule_STATUS</a>, <a href="#OutboundRule_STATUS">OutboundRule_STATUS</a>, <a href="#Probe_STATUS">Probe_STATUS</a>, <a href="#PublicIPAddress_STATUS">PublicIPAddress_STATUS</a>, <a href="#PublicIPPrefix_STATUS">PublicIPPrefix_STATUS</a>, <a href="#PublicIPPrefix_STATUS">PublicIPPrefix_STATUS</a>, <a href="#ServiceEndpointPropertiesFormat_STATUS">ServiceEndpointPropertiesFormat_STATUS</a>, <a href="#VirtualNetwork_STATUS">VirtualNetwork_STATUS</a>, <a href="#VirtualNetwork_STATUS">VirtualNetwork_STATUS</a>, <a href="#VirtualNetwork_STATUS">VirtualNetwork_STATUS</a>, <a href="#VirtualNetworkGateway_STATUS">VirtualNetworkGateway_STATUS</a>, <a href="#VirtualNetworkGatewayIPConfiguration_STATUS">VirtualNetworkGatewayIPConfiguration_STATUS</a>, <a href="#VirtualNetworkGatewayIPConfiguration_STATUS">VirtualNetworkGatewayIPConfiguration_STATUS</a>, <a href="#VirtualNetworkGatewayPolicyGroup_STATUS">VirtualNetworkGatewayPolicyGroup_STATUS</a>, <a href="#VirtualNetworksSubnet_STATUS">VirtualNetworksSubnet_STATUS</a>, <a href="#VirtualNetworksSubnet_STATUS">VirtualNetworksSubnet_STATUS</a>, and <a href="#VirtualNetworksVirtualNetworkPeering_STATUS">VirtualNetworksVirtualNetworkPeering_STATUS</a>.</p>
+<p>Used by: <a href="#AzureFirewall_STATUS">AzureFirewall_STATUS</a>, <a href="#AzureFirewall_STATUS">AzureFirewall_STATUS</a>, <a href="#BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded">BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#BastionHost_STATUS">BastionHost_STATUS</a>, <a href="#DdosProtectionPlan_STATUS">DdosProtectionPlan_STATUS</a>, <a href="#DdosProtectionPlan_STATUS">DdosProtectionPlan_STATUS</a>, <a href="#DdosSettings_STATUS">DdosSettings_STATUS</a>, <a href="#FirewallPolicy_STATUS">FirewallPolicy_STATUS</a>, <a href="#FirewallPolicy_STATUS">FirewallPolicy_STATUS</a>, <a href="#FirewallPolicy_STATUS">FirewallPolicy_STATUS</a>, <a href="#FirewallPolicy_STATUS">FirewallPolicy_STATUS</a>, <a href="#FirewallPolicyLogAnalyticsResources_STATUS">FirewallPolicyLogAnalyticsResources_STATUS</a>, <a href="#FirewallPolicyLogAnalyticsWorkspace_STATUS">FirewallPolicyLogAnalyticsWorkspace_STATUS</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded">FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#InboundNatPool_STATUS">InboundNatPool_STATUS</a>, <a href="#InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded">InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded">InboundNatRule_STATUS_LoadBalancer_SubResourceEmbedded</a>, <a href="#LoadBalancerBackendAddress_STATUS">LoadBalancerBackendAddress_STATUS</a>, <a href="#LoadBalancerBackendAddress_STATUS">LoadBalancerBackendAddress_STATUS</a>, <a href="#LoadBalancerBackendAddress_STATUS">LoadBalancerBackendAddress_STATUS</a>, <a href="#LoadBalancerBackendAddress_STATUS">LoadBalancerBackendAddress_STATUS</a>, <a href="#LoadBalancersInboundNatRule_STATUS">LoadBalancersInboundNatRule_STATUS</a>, <a href="#LoadBalancersInboundNatRule_STATUS">LoadBalancersInboundNatRule_STATUS</a>, <a href="#LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>, <a href="#LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>, <a href="#LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>, <a href="#LoadBalancingRule_STATUS">LoadBalancingRule_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NatGateway_STATUS">NatGateway_STATUS</a>, <a href="#NetworkInterface_STATUS">NetworkInterface_STATUS</a>, <a href="#NetworkInterface_STATUS">NetworkInterface_STATUS</a>, <a href="#NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded">NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResourceEmbedded</a>, <a href="#OutboundRule_STATUS">OutboundRule_STATUS</a>, <a href="#OutboundRule_STATUS">OutboundRule_STATUS</a>, <a href="#Probe_STATUS">Probe_STATUS</a>, <a href="#PublicIPAddress_STATUS">PublicIPAddress_STATUS</a>, <a href="#PublicIPPrefix_STATUS">PublicIPPrefix_STATUS</a>, <a href="#PublicIPPrefix_STATUS">PublicIPPrefix_STATUS</a>, <a href="#ServiceEndpointPropertiesFormat_STATUS">ServiceEndpointPropertiesFormat_STATUS</a>, <a href="#VirtualNetwork_STATUS">VirtualNetwork_STATUS</a>, <a href="#VirtualNetwork_STATUS">VirtualNetwork_STATUS</a>, <a href="#VirtualNetwork_STATUS">VirtualNetwork_STATUS</a>, <a href="#VirtualNetworkGateway_STATUS">VirtualNetworkGateway_STATUS</a>, <a href="#VirtualNetworkGatewayIPConfiguration_STATUS">VirtualNetworkGatewayIPConfiguration_STATUS</a>, <a href="#VirtualNetworkGatewayIPConfiguration_STATUS">VirtualNetworkGatewayIPConfiguration_STATUS</a>, <a href="#VirtualNetworkGatewayPolicyGroup_STATUS">VirtualNetworkGatewayPolicyGroup_STATUS</a>, <a href="#VirtualNetworksSubnet_STATUS">VirtualNetworksSubnet_STATUS</a>, <a href="#VirtualNetworksSubnet_STATUS">VirtualNetworksSubnet_STATUS</a>, and <a href="#VirtualNetworksVirtualNetworkPeering_STATUS">VirtualNetworksVirtualNetworkPeering_STATUS</a>.</p>
 <table>
   <thead>
       <tr>

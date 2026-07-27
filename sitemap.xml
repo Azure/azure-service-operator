@@ -736,11 +736,15 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/compute/v20250401/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/web/v20250501/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/cognitiveservices/v20250601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/storage/v20250601/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/dbformysql/v20250601preview/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/reference/cache/v20250701/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/operationalinsights/v20250701/</loc>
   </url><url>

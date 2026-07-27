@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   <meta itemprop="description" content="APIVersion Value Description “2021-11-01” Server Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}
 Used by: ServerList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOptional status Server_STATUSOptional Server_Spec Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administratorLoginPassword The administrator login password (required for server creation). genruntime.SecretReferenceOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministratorOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional federatedClientId The Client id used for cross tenant CMK scenario stringOptional identity The Azure Active Directory identity of the server. ResourceIdentityOptional keyId A CMK URI of the key to use for encryption. stringOptional location Resource location. stringRequired minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ServerOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a resources.azure.com/ResourceGroup resource genruntime.KnownResourceReferenceRequired primaryUserAssignedIdentityReference The resource id of a user assigned identity to be used by default. genruntime.ResourceReferenceOptional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccessOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccessOptional tags Resource tags. map[string]stringOptional version The version of the server. stringOptional Server_STATUS Property Description Type administratorLogin Administrator username for the server. Once created it cannot be changed. stringOptional administrators The Azure Active Directory administrator of the server. ServerExternalAdministrator_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional federatedClientId The Client id used for cross tenant CMK scenario stringOptional fullyQualifiedDomainName The fully qualified domain name of the server. stringOptional id Resource ID. stringOptional identity The Azure Active Directory identity of the server. ResourceIdentity_STATUSOptional keyId A CMK URI of the key to use for encryption. stringOptional kind Kind of sql server. This is metadata used for the Azure portal experience. stringOptional location Resource location. stringOptional minimalTlsVersion Minimal TLS version. Allowed values: 1.0, 1.1, 1.2 stringOptional name Resource name. stringOptional primaryUserAssignedIdentityId The resource id of a user assigned identity to be used by default. stringOptional privateEndpointConnections List of private endpoint connections on a server ServerPrivateEndpointConnection_STATUS[]Optional publicNetworkAccess Whether or not public endpoint access is allowed for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_PublicNetworkAccess_STATUSOptional restrictOutboundNetworkAccess Whether or not to restrict outbound network access for this server. Value is optional but if passed in, must be Enabled or Disabled ServerProperties_RestrictOutboundNetworkAccess_STATUSOptional state The state of the server. stringOptional tags Resource tags. map[string]stringOptional type Resource type. stringOptional version The version of the server. stringOptional workspaceFeature Whether or not existing server has a workspace created and if it allows connection from workspace ServerProperties_WorkspaceFeature_STATUSOptional ServerList Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}">
-  <meta itemprop="wordCount" content="21651">
+  <meta itemprop="wordCount" content="22777">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="sql.azure.com/v20211101">
   <meta name="twitter:description" content="APIVersion Value Description “2021-11-01” Server Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/Servers.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}
@@ -394,6 +394,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   <a href="/azure-service-operator/reference/cache/v20241101/" title="cache.azure.com/v20241101" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20241101"><span class="">v20241101</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev20250401-li">
   <a href="/azure-service-operator/reference/cache/v20250401/" title="cache.azure.com/v20250401" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20250401"><span class="">v20250401</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencecachev20250701-li">
+  <a href="/azure-service-operator/reference/cache/v20250701/" title="cache.azure.com/v20250701" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencecachev20250701"><span class="">v20250701</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreferencecdn-li">
@@ -851,6 +853,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
   <a href="/azure-service-operator/reference/web/v1api20220301/" title="web.azure.com/v1api20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv1api20220301"><span class="">v1api20220301</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv20220301-li">
   <a href="/azure-service-operator/reference/web/v20220301/" title="web.azure.com/v20220301" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv20220301"><span class="">v20220301</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorreferencewebv20250501-li">
+  <a href="/azure-service-operator/reference/web/v20250501/" title="web.azure.com/v20250501" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorreferencewebv20250501"><span class="">v20250501</span></a>
 </li>
   </ul>
 </li>
@@ -1135,6 +1139,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </ul>
     </li>
     <li><a href="#ServersElasticPoolList">ServersElasticPoolList</a></li>
+    <li><a href="#ServersEncryptionProtector">ServersEncryptionProtector</a>
+      <ul>
+        <li><a href="#ServersEncryptionProtector_Spec">ServersEncryptionProtector_Spec</a></li>
+        <li><a href="#ServersEncryptionProtector_STATUS">ServersEncryptionProtector_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#ServersEncryptionProtectorList">ServersEncryptionProtectorList</a></li>
     <li><a href="#ServersFailoverGroup">ServersFailoverGroup</a>
       <ul>
         <li><a href="#ServersFailoverGroup_Spec">ServersFailoverGroup_Spec</a></li>
@@ -1156,6 +1167,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </ul>
     </li>
     <li><a href="#ServersIPV6FirewallRuleList">ServersIPV6FirewallRuleList</a></li>
+    <li><a href="#ServersKey">ServersKey</a>
+      <ul>
+        <li><a href="#ServersKey_Spec">ServersKey_Spec</a></li>
+        <li><a href="#ServersKey_STATUS">ServersKey_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#ServersKeyList">ServersKeyList</a></li>
     <li><a href="#ServersOutboundFirewallRule">ServersOutboundFirewallRule</a>
       <ul>
         <li><a href="#ServersOutboundFirewallRule_Spec">ServersOutboundFirewallRule_Spec</a></li>
@@ -1214,12 +1232,16 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
     <li><a href="#ServersDatabasesVulnerabilityAssessment_STATUS">ServersDatabasesVulnerabilityAssessment_STATUS</a></li>
     <li><a href="#ServersElasticPool_Spec">ServersElasticPool_Spec</a></li>
     <li><a href="#ServersElasticPool_STATUS">ServersElasticPool_STATUS</a></li>
+    <li><a href="#ServersEncryptionProtector_Spec">ServersEncryptionProtector_Spec</a></li>
+    <li><a href="#ServersEncryptionProtector_STATUS">ServersEncryptionProtector_STATUS</a></li>
     <li><a href="#ServersFailoverGroup_Spec">ServersFailoverGroup_Spec</a></li>
     <li><a href="#ServersFailoverGroup_STATUS">ServersFailoverGroup_STATUS</a></li>
     <li><a href="#ServersFirewallRule_Spec">ServersFirewallRule_Spec</a></li>
     <li><a href="#ServersFirewallRule_STATUS">ServersFirewallRule_STATUS</a></li>
     <li><a href="#ServersIPV6FirewallRule_Spec">ServersIPV6FirewallRule_Spec</a></li>
     <li><a href="#ServersIPV6FirewallRule_STATUS">ServersIPV6FirewallRule_STATUS</a></li>
+    <li><a href="#ServersKey_Spec">ServersKey_Spec</a></li>
+    <li><a href="#ServersKey_STATUS">ServersKey_STATUS</a></li>
     <li><a href="#ServersOutboundFirewallRule_Spec">ServersOutboundFirewallRule_Spec</a></li>
     <li><a href="#ServersOutboundFirewallRule_STATUS">ServersOutboundFirewallRule_STATUS</a></li>
     <li><a href="#ServersSecurityAlertPolicy_Spec">ServersSecurityAlertPolicy_Spec</a></li>
@@ -1261,6 +1283,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
     <li><a href="#ElasticPoolProperties_LicenseType">ElasticPoolProperties_LicenseType</a></li>
     <li><a href="#ElasticPoolProperties_LicenseType_STATUS">ElasticPoolProperties_LicenseType_STATUS</a></li>
     <li><a href="#ElasticPoolProperties_State_STATUS">ElasticPoolProperties_State_STATUS</a></li>
+    <li><a href="#EncryptionProtectorProperties_ServerKeyType">EncryptionProtectorProperties_ServerKeyType</a></li>
+    <li><a href="#EncryptionProtectorProperties_ServerKeyType_STATUS">EncryptionProtectorProperties_ServerKeyType_STATUS</a></li>
     <li><a href="#FailoverGroupProperties_ReplicationRole_STATUS">FailoverGroupProperties_ReplicationRole_STATUS</a></li>
     <li><a href="#FailoverGroupReadOnlyEndpoint">FailoverGroupReadOnlyEndpoint</a></li>
     <li><a href="#FailoverGroupReadOnlyEndpoint_STATUS">FailoverGroupReadOnlyEndpoint_STATUS</a></li>
@@ -1276,6 +1300,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
     <li><a href="#ServerConnectionPolicyProperties_ConnectionType_STATUS">ServerConnectionPolicyProperties_ConnectionType_STATUS</a></li>
     <li><a href="#ServerExternalAdministrator">ServerExternalAdministrator</a></li>
     <li><a href="#ServerExternalAdministrator_STATUS">ServerExternalAdministrator_STATUS</a></li>
+    <li><a href="#ServerKeyProperties_ServerKeyType">ServerKeyProperties_ServerKeyType</a></li>
+    <li><a href="#ServerKeyProperties_ServerKeyType_STATUS">ServerKeyProperties_ServerKeyType_STATUS</a></li>
     <li><a href="#ServerOperatorSpec">ServerOperatorSpec</a></li>
     <li><a href="#ServerPrivateEndpointConnection_STATUS">ServerPrivateEndpointConnection_STATUS</a></li>
     <li><a href="#ServerProperties_PublicNetworkAccess">ServerProperties_PublicNetworkAccess</a></li>
@@ -1299,9 +1325,11 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
     <li><a href="#ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State">ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State</a></li>
     <li><a href="#ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS">ServerSecurityAlertPoliciesSecurityAlertsPolicyProperties_State_STATUS</a></li>
     <li><a href="#ServersElasticPoolOperatorSpec">ServersElasticPoolOperatorSpec</a></li>
+    <li><a href="#ServersEncryptionProtectorOperatorSpec">ServersEncryptionProtectorOperatorSpec</a></li>
     <li><a href="#ServersFailoverGroupOperatorSpec">ServersFailoverGroupOperatorSpec</a></li>
     <li><a href="#ServersFirewallRuleOperatorSpec">ServersFirewallRuleOperatorSpec</a></li>
     <li><a href="#ServersIPV6FirewallRuleOperatorSpec">ServersIPV6FirewallRuleOperatorSpec</a></li>
+    <li><a href="#ServersKeyOperatorSpec">ServersKeyOperatorSpec</a></li>
     <li><a href="#ServersOutboundFirewallRuleOperatorSpec">ServersOutboundFirewallRuleOperatorSpec</a></li>
     <li><a href="#ServersSecurityAlertPolicyOperatorSpec">ServersSecurityAlertPolicyOperatorSpec</a></li>
     <li><a href="#ServersVirtualNetworkRuleOperatorSpec">ServersVirtualNetworkRuleOperatorSpec</a></li>
@@ -4283,6 +4311,177 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
   </tbody>
 </table>
+<h2 id="ServersEncryptionProtector">ServersEncryptionProtector</h2>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/EncryptionProtectors.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​encryptionProtector/​{encryptionProtectorName}</p>
+<p>Used by: <a href="#ServersEncryptionProtectorList">ServersEncryptionProtectorList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#ServersEncryptionProtector_Spec">ServersEncryptionProtector_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#ServersEncryptionProtector_STATUS">ServersEncryptionProtector_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="ServersEncryptionProtector_Spec">ServersEncryptionProtector_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>autoRotationEnabled</td>
+          <td>Key auto rotation opt-in flag. Either true or false.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#ServersEncryptionProtectorOperatorSpec">ServersEncryptionProtectorOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a sql.azure.com/Server resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyName</td>
+          <td>The name of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyType</td>
+          <td>The encryption protector type like <code>ServiceManaged</code>, <code>AzureKeyVault</code>.</td>
+          <td><a href="#EncryptionProtectorProperties_ServerKeyType">EncryptionProtectorProperties_ServerKeyType</a><br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="ServersEncryptionProtector_STATUS">ServersEncryptionProtector_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>autoRotationEnabled</td>
+          <td>Key auto rotation opt-in flag. Either true or false.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Resource ID.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kind</td>
+          <td>Kind of encryption protector. This is metadata used for the Azure portal experience.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>Resource location.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>Resource name.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyName</td>
+          <td>The name of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyType</td>
+          <td>The encryption protector type like <code>ServiceManaged</code>, <code>AzureKeyVault</code>.</td>
+          <td><a href="#EncryptionProtectorProperties_ServerKeyType_STATUS">EncryptionProtectorProperties_ServerKeyType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>subregion</td>
+          <td>Subregion of the encryption protector.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>thumbprint</td>
+          <td>Thumbprint of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>Resource type.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>uri</td>
+          <td>The URI of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ServersEncryptionProtectorList">ServersEncryptionProtectorList</h2>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/EncryptionProtectors.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​encryptionProtector/​{encryptionProtectorName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#ServersEncryptionProtector">ServersEncryptionProtector[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="ServersFailoverGroup">ServersFailoverGroup</h2>
 <p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/FailoverGroups.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​failoverGroups/​{failoverGroupName}</p>
 <p>Used by: <a href="#ServersFailoverGroupList">ServersFailoverGroupList</a>.</p>
@@ -4748,6 +4947,177 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
           <td>items</td>
           <td></td>
           <td><a href="#ServersIPV6FirewallRule">ServersIPV6FirewallRule[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ServersKey">ServersKey</h2>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/ServerKeys.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​keys/​{keyName}</p>
+<p>Used by: <a href="#ServersKeyList">ServersKeyList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#ServersKey_Spec">ServersKey_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#ServersKey_STATUS">ServersKey_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="ServersKey_Spec">ServersKey_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#ServersKeyOperatorSpec">ServersKeyOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a sql.azure.com/Server resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyType</td>
+          <td>The server key type like <code>ServiceManaged</code>, <code>AzureKeyVault</code>.</td>
+          <td><a href="#ServerKeyProperties_ServerKeyType">ServerKeyProperties_ServerKeyType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>uri</td>
+          <td>The URI of the server key. If the ServerKeyType is AzureKeyVault, then the URI is required. The AKV URI is required to be in this format: &lsquo;<a href="https://YourVaultName.vault.azure.net/keys/YourKeyName/YourKeyVersion'">https://YourVaultName.vault.azure.net/keys/YourKeyName/YourKeyVersion'</a></td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="ServersKey_STATUS">ServersKey_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>autoRotationEnabled</td>
+          <td>Key auto rotation opt-in flag. Either true or false.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>creationDate</td>
+          <td>The server key creation date.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Resource ID.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kind</td>
+          <td>Kind of encryption protector. This is metadata used for the Azure portal experience.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>Resource location.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>Resource name.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyType</td>
+          <td>The server key type like <code>ServiceManaged</code>, <code>AzureKeyVault</code>.</td>
+          <td><a href="#ServerKeyProperties_ServerKeyType_STATUS">ServerKeyProperties_ServerKeyType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>subregion</td>
+          <td>Subregion of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>thumbprint</td>
+          <td>Thumbprint of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>Resource type.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>uri</td>
+          <td>The URI of the server key. If the ServerKeyType is AzureKeyVault, then the URI is required. The AKV URI is required to be in this format: &lsquo;<a href="https://YourVaultName.vault.azure.net/keys/YourKeyName/YourKeyVersion'">https://YourVaultName.vault.azure.net/keys/YourKeyName/YourKeyVersion'</a></td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ServersKeyList">ServersKeyList</h2>
+<p>Generator information: - Generated from: /sql/resource-manager/Microsoft.Sql/SQL/stable/2021-11-01/ServerKeys.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.Sql/​servers/​{serverName}/​keys/​{keyName}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#ServersKey">ServersKey[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -7366,6 +7736,117 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
   </tbody>
 </table>
+<h2 id="ServersEncryptionProtector_Spec">ServersEncryptionProtector_Spec</h2>
+<p>Used by: <a href="#ServersEncryptionProtector">ServersEncryptionProtector</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>autoRotationEnabled</td>
+          <td>Key auto rotation opt-in flag. Either true or false.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#ServersEncryptionProtectorOperatorSpec">ServersEncryptionProtectorOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a sql.azure.com/Server resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyName</td>
+          <td>The name of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyType</td>
+          <td>The encryption protector type like <code>ServiceManaged</code>, <code>AzureKeyVault</code>.</td>
+          <td><a href="#EncryptionProtectorProperties_ServerKeyType">EncryptionProtectorProperties_ServerKeyType</a><br/><small>Required</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ServersEncryptionProtector_STATUS">ServersEncryptionProtector_STATUS</h2>
+<p>Used by: <a href="#ServersEncryptionProtector">ServersEncryptionProtector</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>autoRotationEnabled</td>
+          <td>Key auto rotation opt-in flag. Either true or false.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Resource ID.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kind</td>
+          <td>Kind of encryption protector. This is metadata used for the Azure portal experience.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>Resource location.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>Resource name.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyName</td>
+          <td>The name of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyType</td>
+          <td>The encryption protector type like <code>ServiceManaged</code>, <code>AzureKeyVault</code>.</td>
+          <td><a href="#EncryptionProtectorProperties_ServerKeyType_STATUS">EncryptionProtectorProperties_ServerKeyType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>subregion</td>
+          <td>Subregion of the encryption protector.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>thumbprint</td>
+          <td>Thumbprint of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>Resource type.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>uri</td>
+          <td>The URI of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="ServersFailoverGroup_Spec">ServersFailoverGroup_Spec</h2>
 <p>Used by: <a href="#ServersFailoverGroup">ServersFailoverGroup</a>.</p>
 <table>
@@ -7650,6 +8131,117 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       <tr>
           <td>type</td>
           <td>Resource type.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ServersKey_Spec">ServersKey_Spec</h2>
+<p>Used by: <a href="#ServersKey">ServersKey</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#ServersKeyOperatorSpec">ServersKeyOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a sql.azure.com/Server resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyType</td>
+          <td>The server key type like <code>ServiceManaged</code>, <code>AzureKeyVault</code>.</td>
+          <td><a href="#ServerKeyProperties_ServerKeyType">ServerKeyProperties_ServerKeyType</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>uri</td>
+          <td>The URI of the server key. If the ServerKeyType is AzureKeyVault, then the URI is required. The AKV URI is required to be in this format: &lsquo;<a href="https://YourVaultName.vault.azure.net/keys/YourKeyName/YourKeyVersion'">https://YourVaultName.vault.azure.net/keys/YourKeyName/YourKeyVersion'</a></td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ServersKey_STATUS">ServersKey_STATUS</h2>
+<p>Used by: <a href="#ServersKey">ServersKey</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>autoRotationEnabled</td>
+          <td>Key auto rotation opt-in flag. Either true or false.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>creationDate</td>
+          <td>The server key creation date.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Resource ID.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>kind</td>
+          <td>Kind of encryption protector. This is metadata used for the Azure portal experience.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>location</td>
+          <td>Resource location.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>Resource name.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>serverKeyType</td>
+          <td>The server key type like <code>ServiceManaged</code>, <code>AzureKeyVault</code>.</td>
+          <td><a href="#ServerKeyProperties_ServerKeyType_STATUS">ServerKeyProperties_ServerKeyType_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>subregion</td>
+          <td>Subregion of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>thumbprint</td>
+          <td>Thumbprint of the server key.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>Resource type.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>uri</td>
+          <td>The URI of the server key. If the ServerKeyType is AzureKeyVault, then the URI is required. The AKV URI is required to be in this format: &lsquo;<a href="https://YourVaultName.vault.azure.net/keys/YourKeyName/YourKeyVersion'">https://YourVaultName.vault.azure.net/keys/YourKeyName/YourKeyVersion'</a></td>
           <td>string<br/><small>Optional</small></td>
       </tr>
   </tbody>
@@ -8897,6 +9489,46 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
   </tbody>
 </table>
+<h2 id="EncryptionProtectorProperties_ServerKeyType">EncryptionProtectorProperties_ServerKeyType</h2>
+<p>Used by: <a href="#ServersEncryptionProtector_Spec">ServersEncryptionProtector_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;AzureKeyVault&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ServiceManaged&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="EncryptionProtectorProperties_ServerKeyType_STATUS">EncryptionProtectorProperties_ServerKeyType_STATUS</h2>
+<p>Used by: <a href="#ServersEncryptionProtector_STATUS">ServersEncryptionProtector_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;AzureKeyVault&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ServiceManaged&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="FailoverGroupProperties_ReplicationRole_STATUS">FailoverGroupProperties_ReplicationRole_STATUS</h2>
 <p>Used by: <a href="#ServersFailoverGroup_STATUS">ServersFailoverGroup_STATUS</a>.</p>
 <table>
@@ -9297,6 +9929,46 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
           <td>tenantId</td>
           <td>Tenant ID of the administrator.</td>
           <td>string<br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ServerKeyProperties_ServerKeyType">ServerKeyProperties_ServerKeyType</h2>
+<p>Used by: <a href="#ServersKey_Spec">ServersKey_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;AzureKeyVault&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ServiceManaged&rdquo;</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ServerKeyProperties_ServerKeyType_STATUS">ServerKeyProperties_ServerKeyType_STATUS</h2>
+<p>Used by: <a href="#ServersKey_STATUS">ServersKey_STATUS</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Value</th>
+          <th>Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>&ldquo;AzureKeyVault&rdquo;</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>&ldquo;ServiceManaged&rdquo;</td>
+          <td></td>
       </tr>
   </tbody>
 </table>
@@ -9829,6 +10501,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
       </tr>
   </tbody>
 </table>
+<h2 id="ServersEncryptionProtectorOperatorSpec">ServersEncryptionProtectorOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#ServersEncryptionProtector_Spec">ServersEncryptionProtector_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="ServersFailoverGroupOperatorSpec">ServersFailoverGroupOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 <p>Used by: <a href="#ServersFailoverGroup_Spec">ServersFailoverGroup_Spec</a>.</p>
@@ -9880,6 +10576,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Server_SpecOpti
 <h2 id="ServersIPV6FirewallRuleOperatorSpec">ServersIPV6FirewallRuleOperatorSpec</h2>
 <p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
 <p>Used by: <a href="#ServersIPV6FirewallRule_Spec">ServersIPV6FirewallRule_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="ServersKeyOperatorSpec">ServersKeyOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#ServersKey_Spec">ServersKey_Spec</a>.</p>
 <table>
   <thead>
       <tr>
