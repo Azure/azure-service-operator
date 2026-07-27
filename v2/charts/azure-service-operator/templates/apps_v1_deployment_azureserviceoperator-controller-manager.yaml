@@ -64,6 +64,7 @@ spec:
         - --v=2
         {{- if and (eq .Values.installCRDs true) (or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks")) }}
         - --crd-pattern={{ if kindIs "slice" .Values.crdPattern }}{{ join ";" .Values.crdPattern }}{{ else }}{{ .Values.crdPattern }}{{ end }}
+        - --crd-labels={{ if kindIs "slice" .Values.crdLabels }}{{ join "," .Values.crdLabels }}{{ else }}{{ .Values.crdLabels }}{{ end }}
         {{- end }}
         - --webhook-port={{ .Values.webhook.port }}
         {{- if or (eq .Values.multitenant.enable false) (eq .Values.azureOperatorMode "webhooks") }}

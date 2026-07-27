@@ -158,6 +158,14 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		os.Exit(1)
 	}
 
+	// Parse the configured CRD labels regardless of CRD management mode, so that a misconfiguration
+	// fails fast rather than only when this pod is later switched into webhooks mode.
+	crdLabels, err := parseCRDLabels(flgs.CRDLabels)
+	if err != nil {
+		setupLog.Error(err, "failed to parse CRD labels")
+		os.Exit(1)
+	}
+
 	switch flgs.CRDManagementMode {
 	case "auto":
 		// We only apply CRDs if we're in webhooks mode. No other mode will have CRD CRUD permissions
@@ -165,6 +173,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 			// Note that this step will restart the pod when it succeeds
 			err = crdManager.Install(ctx, crdmanagement.Options{
 				CRDPatterns:  flgs.CRDPatterns,
+				CRDLabels:    crdLabels,
 				ExistingCRDs: &existingCRDs,
 				Path:         crdmanagement.CRDLocation,
 				Namespace:    cfg.PodNamespace,
