@@ -1036,7 +1036,6 @@ func ConvertToARMResourceImpl(
 var skipDeletionPrecheck = sets.NewString(
 	"dbforpostgresql.azure.com",
 	"devices.azure.com",
-	"network.azure.com",
 	"resources.azure.com",
 )
 
