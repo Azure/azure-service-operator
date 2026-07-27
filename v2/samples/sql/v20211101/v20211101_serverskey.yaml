@@ -1,0 +1,12 @@
+apiVersion: sql.azure.com/v20211101
+kind: ServersKey
+metadata:
+  name: aso-sample-serverskey
+  namespace: default
+spec:
+  # azureName must follow the format: <vaultName>_<keyName>_<keyVersion>
+  azureName: aso-sample-keyvault_aso-sample-key_aso-sample-key-version
+  owner:
+    name: aso-sample-sqlserver
+  serverKeyType: AzureKeyVault
+  uri: https://aso-sample-keyvault.vault.azure.net/keys/aso-sample-key/aso-sample-key-version

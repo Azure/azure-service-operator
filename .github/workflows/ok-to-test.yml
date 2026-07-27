@@ -8,10 +8,6 @@ on:
 
 permissions: {}
 
-concurrency:
-  group: ok-to-test-${{ github.event.issue.number }}
-  cancel-in-progress: true
-
 jobs:
   ok-to-test:
     runs-on: ubuntu-latest
