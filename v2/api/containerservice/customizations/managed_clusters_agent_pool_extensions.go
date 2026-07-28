@@ -12,6 +12,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
+	"k8s.io/apimachinery/pkg/util/version"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
@@ -19,12 +20,15 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
 )
 
 var (
 	_ extensions.PreReconciliationChecker      = &ManagedClustersAgentPoolExtension{}
 	_ extensions.PreReconciliationOwnerChecker = &ManagedClustersAgentPoolExtension{}
+	_ extensions.ErrorClassifier               = &ManagedClustersAgentPoolExtension{}
 )
 
 // If an agent pool has a provisioningState not in this set, it will reject any attempt to PUT a new state out of
@@ -54,6 +58,17 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileOwnerCheck(
 				),
 				nil
 		}
+
+		if managedClusterUpgradeInProgress(managedCluster) {
+			return extensions.BlockReconcile(
+					fmt.Sprintf(
+						"Managed cluster %q has not reached Kubernetes version %q",
+						owner.GetName(),
+						*managedCluster.Spec.KubernetesVersion,
+					),
+				),
+				nil
+		}
 	}
 
 	return next(ctx, owner, resourceResolver, armClient, log)
@@ -79,6 +94,25 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = agentPool
 
+	if resourceResolver != nil {
+		ownerDetails, err := resourceResolver.ResolveOwner(ctx, agentPool)
+		if err != nil {
+			return extensions.PreReconcileCheckResult{}, err
+		}
+
+		if managedCluster, ok := ownerDetails.Owner.(*containerservice.ManagedCluster); ok &&
+			agentPoolVersionExceedsControlPlaneVersion(agentPool, managedCluster) {
+			return extensions.BlockReconcile(
+					fmt.Sprintf(
+						"Managed cluster %q has not reached Kubernetes version %q",
+						managedCluster.GetName(),
+						*agentPool.Spec.OrchestratorVersion,
+					),
+				),
+				nil
+		}
+	}
+
 	// If the agent pool is in a state that will reject any PUT, then we should skip reconciliation
 	// as there's no point in even trying.
 	// This allows us to "play nice with others" and not use up request quota attempting to make changes when we
@@ -92,6 +126,55 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	}
 
 	return next(ctx, obj, resourceResolver, armClient, log)
+}
+
+func managedClusterUpgradeInProgress(managedCluster *containerservice.ManagedCluster) bool {
+	return managedCluster.Spec.KubernetesVersion != nil &&
+		managedCluster.Status.CurrentKubernetesVersion != nil &&
+		*managedCluster.Spec.KubernetesVersion != *managedCluster.Status.CurrentKubernetesVersion
+}
+
+func agentPoolVersionExceedsControlPlaneVersion(
+	agentPool *containerservice.ManagedClustersAgentPool,
+	managedCluster *containerservice.ManagedCluster,
+) bool {
+	if agentPool.Spec.OrchestratorVersion == nil || managedCluster.Status.CurrentKubernetesVersion == nil {
+		return false
+	}
+
+	agentPoolVersion, err := version.ParseSemantic(*agentPool.Spec.OrchestratorVersion)
+	if err != nil {
+		return false
+	}
+
+	controlPlaneVersion, err := version.ParseSemantic(*managedCluster.Status.CurrentKubernetesVersion)
+	if err != nil {
+		return false
+	}
+
+	return agentPoolVersion.Major() > controlPlaneVersion.Major() ||
+		(agentPoolVersion.Major() == controlPlaneVersion.Major() &&
+			agentPoolVersion.Minor() > controlPlaneVersion.Minor())
+}
+
+// ClassifyError evaluates the provided error, returning including whether it is fatal or can be retried.
+func (ext *ManagedClustersAgentPoolExtension) ClassifyError(
+	cloudError *genericarmclient.CloudError,
+	apiVersion string,
+	log logr.Logger,
+	next extensions.ErrorClassifierFunc,
+) (core.CloudErrorDetails, error) {
+	details, err := next(cloudError)
+	if err != nil {
+		return core.CloudErrorDetails{}, err
+	}
+
+	if cloudError != nil && cloudError.Code() == "NodePoolMcVersionIncompatible" {
+		details.Classification = core.ErrorRetryable
+		details.Retry = retry.Slow
+	}
+
+	return details, nil
 }
 
 func agentPoolProvisioningStateBlocksReconciliation(provisioningState *string) bool {
