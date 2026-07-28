@@ -20,4 +20,3 @@ spec:
     managed-by: azure-service-operator
   identity:
     type: None
-
