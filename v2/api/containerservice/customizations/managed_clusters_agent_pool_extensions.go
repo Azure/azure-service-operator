@@ -129,9 +129,24 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 }
 
 func managedClusterUpgradeInProgress(managedCluster *containerservice.ManagedCluster) bool {
-	return managedCluster.Spec.KubernetesVersion != nil &&
-		managedCluster.Status.CurrentKubernetesVersion != nil &&
-		*managedCluster.Spec.KubernetesVersion != *managedCluster.Status.CurrentKubernetesVersion
+	if managedCluster.Spec.KubernetesVersion == nil || managedCluster.Status.CurrentKubernetesVersion == nil {
+		return false
+	}
+
+	specVersion, err := version.ParseSemantic(*managedCluster.Spec.KubernetesVersion)
+	if err != nil {
+		return false
+	}
+
+	currentVersion, err := version.ParseSemantic(*managedCluster.Status.CurrentKubernetesVersion)
+	if err != nil {
+		return false
+	}
+
+	// Only block reconciliation if the desired version is a higher major/minor than the current version,
+	// indicating an in-progress upgrade. Downgrades and patch-only differences do not block.
+	return specVersion.Major() > currentVersion.Major() ||
+		(specVersion.Major() == currentVersion.Major() && specVersion.Minor() > currentVersion.Minor())
 }
 
 func agentPoolVersionExceedsControlPlaneVersion(
@@ -157,7 +172,7 @@ func agentPoolVersionExceedsControlPlaneVersion(
 			agentPoolVersion.Minor() > controlPlaneVersion.Minor())
 }
 
-// ClassifyError evaluates the provided error, returning including whether it is fatal or can be retried.
+// ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
 func (ext *ManagedClustersAgentPoolExtension) ClassifyError(
 	cloudError *genericarmclient.CloudError,
 	apiVersion string,
