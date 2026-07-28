@@ -137,14 +137,14 @@ type LionCubProperties struct {
 	Cuteness int `json:"cuteness,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={Microsoft.Lions/cub}
+// +kubebuilder:validation:Enum={"Microsoft.Lions/cub"}
 type LionCubType string
 
-const LionCubType_type = LionCubType(Microsoft.Lions/cub)
+const LionCubType_type = LionCubType("Microsoft.Lions/cub")
 
 // Mapping from string to LionCubType
 var lionCubType_Values = map[string]LionCubType{
-	microsoft.lions/cub: LionCubType_type,
+	"microsoft.lions/cub": LionCubType_type,
 }
 
 type LionPrideProperties struct {
@@ -152,14 +152,14 @@ type LionPrideProperties struct {
 	Lions []LionRef `json:"lions,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={Microsoft.Lions/lionPride}
+// +kubebuilder:validation:Enum={"Microsoft.Lions/lionPride"}
 type LionPrideType string
 
-const LionPrideType_type = LionPrideType(Microsoft.Lions/lionPride)
+const LionPrideType_type = LionPrideType("Microsoft.Lions/lionPride")
 
 // Mapping from string to LionPrideType
 var lionPrideType_Values = map[string]LionPrideType{
-	microsoft.lions/lionpride: LionPrideType_type,
+	"microsoft.lions/lionpride": LionPrideType_type,
 }
 
 type LionProperties struct {
@@ -167,14 +167,14 @@ type LionProperties struct {
 	RoarVolumeDecibels int          `json:"roarVolumeDecibels,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={Microsoft.Lions/lion}
+// +kubebuilder:validation:Enum={"Microsoft.Lions/lion"}
 type LionType string
 
-const LionType_type = LionType(Microsoft.Lions/lion)
+const LionType_type = LionType("Microsoft.Lions/lion")
 
 // Mapping from string to LionType
 var lionType_Values = map[string]LionType{
-	microsoft.lions/lion: LionType_type,
+	"microsoft.lions/lion": LionType_type,
 }
 
 type LionCubRef struct {
