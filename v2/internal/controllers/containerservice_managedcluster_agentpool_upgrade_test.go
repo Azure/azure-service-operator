@@ -55,4 +55,6 @@ func TestManagedClustersAgentPoolUpgrade_WaitsForControlPlane(t *testing.T) {
 
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.BlockReconciliation()).To(BeTrue())
+	g.Expect(result.Message()).To(ContainSubstring("has not reached Kubernetes version"))
+	g.Expect(result.Message()).To(ContainSubstring("1.36.1"))
 }

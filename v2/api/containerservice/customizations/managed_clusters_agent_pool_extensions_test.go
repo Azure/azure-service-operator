@@ -16,6 +16,7 @@ import (
 	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
@@ -29,10 +30,10 @@ func TestManagedClustersAgentPoolExtension_PreReconcileOwnerCheck_BlocksWhileClu
 	extension := &ManagedClustersAgentPoolExtension{}
 	cluster := &containerservice.ManagedCluster{
 		Spec: containerservice.ManagedCluster_Spec{
-			KubernetesVersion: stringPtr("1.36.1"),
+			KubernetesVersion: to.Ptr("1.36.1"),
 		},
 		Status: containerservice.ManagedCluster_STATUS{
-			CurrentKubernetesVersion: stringPtr("1.35.4"),
+			CurrentKubernetesVersion: to.Ptr("1.35.4"),
 		},
 	}
 
@@ -56,6 +57,8 @@ func TestManagedClustersAgentPoolExtension_PreReconcileOwnerCheck_BlocksWhileClu
 
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.BlockReconciliation()).To(BeTrue())
+	g.Expect(result.Message()).To(ContainSubstring("has not reached Kubernetes version"))
+	g.Expect(result.Message()).To(ContainSubstring("1.36.1"))
 }
 
 func TestManagedClustersAgentPoolExtension_ClassifyError_NodePoolMcVersionIncompatible_RetriesSlowly(t *testing.T) {
@@ -72,6 +75,7 @@ func TestManagedClustersAgentPoolExtension_ClassifyError_NodePoolMcVersionIncomp
 			return core.CloudErrorDetails{
 				Classification: core.ErrorRetryable,
 				Retry:          retry.VerySlow,
+				Message:        "control plane is upgrading",
 			}, nil
 		},
 	)
@@ -79,6 +83,7 @@ func TestManagedClustersAgentPoolExtension_ClassifyError_NodePoolMcVersionIncomp
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(result.Classification).To(Equal(core.ErrorRetryable))
 	g.Expect(result.Retry).To(Equal(retry.Slow))
+	g.Expect(result.Message).To(ContainSubstring("control plane is upgrading"))
 }
 
 func TestAgentPoolVersionExceedsControlPlaneVersion(t *testing.T) {
@@ -90,18 +95,18 @@ func TestAgentPoolVersionExceedsControlPlaneVersion(t *testing.T) {
 		expected            bool
 	}{
 		"higher minor version": {
-			agentPoolVersion:    stringPtr("1.36.1"),
-			controlPlaneVersion: stringPtr("1.35.4"),
+			agentPoolVersion:    to.Ptr("1.36.1"),
+			controlPlaneVersion: to.Ptr("1.35.4"),
 			expected:            true,
 		},
 		"higher patch version": {
-			agentPoolVersion:    stringPtr("1.35.5"),
-			controlPlaneVersion: stringPtr("1.35.4"),
+			agentPoolVersion:    to.Ptr("1.35.5"),
+			controlPlaneVersion: to.Ptr("1.35.4"),
 			expected:            false,
 		},
 		"invalid agent pool version": {
-			agentPoolVersion:    stringPtr("not-a-version"),
-			controlPlaneVersion: stringPtr("1.35.4"),
+			agentPoolVersion:    to.Ptr("not-a-version"),
+			controlPlaneVersion: to.Ptr("1.35.4"),
 			expected:            false,
 		},
 	}
@@ -109,6 +114,7 @@ func TestAgentPoolVersionExceedsControlPlaneVersion(t *testing.T) {
 	for name, c := range cases {
 		t.Run(name, func(t *testing.T) {
 			t.Parallel()
+			g := NewGomegaWithT(t)
 
 			agentPool := &containerservice.ManagedClustersAgentPool{
 				Spec: containerservice.ManagedClustersAgentPool_Spec{
@@ -121,13 +127,7 @@ func TestAgentPoolVersionExceedsControlPlaneVersion(t *testing.T) {
 				},
 			}
 
-			if actual := agentPoolVersionExceedsControlPlaneVersion(agentPool, cluster); actual != c.expected {
-				t.Errorf("agentPoolVersionExceedsControlPlaneVersion() = %t, want %t", actual, c.expected)
-			}
+			g.Expect(agentPoolVersionExceedsControlPlaneVersion(agentPool, cluster)).To(Equal(c.expected))
 		})
 	}
-}
-
-func stringPtr(value string) *string {
-	return &value
 }
