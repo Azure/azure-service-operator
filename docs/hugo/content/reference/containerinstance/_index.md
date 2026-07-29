@@ -11,9 +11,9 @@ To install the CRDs for these resources, your ASO configuration must include `co
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource       | ARM Version | CRD Version | Supported From | Sample |
-|----------------|-------------|-------------|----------------|--------|
-| ContainerGroup | 2021-10-01  | v20211001   | v2.21.0        | -      |
+| Resource                                                                                 | ARM Version | CRD Version | Supported From | Sample                                                                                                                                 |
+|------------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| [ContainerGroup]({{< relref "/reference/containerinstance/v20211001#ContainerGroup" >}}) | 2021-10-01  | v20211001   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerinstance/v20211001/v20211001_containergroup.yaml) |
 
 ### Released
 
