@@ -78,7 +78,7 @@ func (vaultsKey *VaultsKey) validateImmutable(_ context.Context, oldObj *v202307
 	if !reflect.DeepEqual(oldObj.Spec.Properties, newObj.Spec.Properties) {
 		return nil, eris.Errorf(
 			"spec.properties is immutable after creation for %s : %s (this includes kty, keySize, curveName, "+
-				"keyOps, attributes, releasePolicy, and rotationPolicy); delete and recreate the resource to "+
+				"keyOps, attributes, release_policy, and rotationPolicy); delete and recreate the resource to "+
 				"change it",
 			newObj.GetObjectKind().GroupVersionKind(),
 			newObj.GetName(),
