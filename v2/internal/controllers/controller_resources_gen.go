@@ -202,9 +202,12 @@ import (
 	compute_v20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v20250401/storage"
 	compute_v20250401w "github.com/Azure/azure-service-operator/v2/api/compute/v20250401/webhook"
 	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
-	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
-	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/storage"
-	containerinstance_v20211001w "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/webhook"
+	containerinstance_v1api20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
+	containerinstance_v1api20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/storage"
+	containerinstance_v1api20211001w "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/webhook"
+	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v20211001"
+	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v20211001/storage"
+	containerinstance_v20211001w "github.com/Azure/azure-service-operator/v2/api/containerinstance/v20211001/webhook"
 	containerregistry_customizations "github.com/Azure/azure-service-operator/v2/api/containerregistry/customizations"
 	containerregistry_v20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901"
 	containerregistry_v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/storage"
@@ -4857,6 +4860,12 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(compute_v20250401s.CapacityReservation)}, &registration.KnownType{Obj: new(compute_v20250401s.CapacityReservationGroup)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(containerinstance_v1api20211001.ContainerGroup),
+		Defaulter: &containerinstance_v1api20211001w.ContainerGroup{},
+		Validator: &containerinstance_v1api20211001w.ContainerGroup{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(containerinstance_v1api20211001s.ContainerGroup)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(containerinstance_v20211001.ContainerGroup),
 		Defaulter: &containerinstance_v20211001w.ContainerGroup{},
 		Validator: &containerinstance_v20211001w.ContainerGroup{},
@@ -8063,6 +8072,8 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20241101s.AddToScheme(scheme)
 	_ = compute_v20250401.AddToScheme(scheme)
 	_ = compute_v20250401s.AddToScheme(scheme)
+	_ = containerinstance_v1api20211001.AddToScheme(scheme)
+	_ = containerinstance_v1api20211001s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
 	_ = containerinstance_v20211001s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)

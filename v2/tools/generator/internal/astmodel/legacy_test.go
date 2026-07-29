@@ -21,6 +21,15 @@ func TestHybridMigrationReleaseForGroup_WhenRegistered_ReturnsRelease(t *testing
 	g.Expect(release).To(Equal("v2.21.0"))
 }
 
+func TestHybridMigrationReleaseForGroup_ContainerInstance(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	release, ok := HybridMigrationReleaseForGroup("containerinstance")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(release).To(Equal("v2.21.0"))
+}
+
 func TestHybridMigrationReleaseForGroup_WhenNotRegistered_ReturnsFalse(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

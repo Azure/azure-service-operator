@@ -65,22 +65,23 @@ const LastLegacyASOVersion = "v2.16.0"
 // Keys are group names in lower case; values are ASO version strings (e.g. "v2.21.0").
 // When migrating a new group to Hybrid mode, add an entry here recording the upcoming ASO release.
 var versionMigrationHybridReleases = map[string]string{
-	"alertsmanagement": "v2.19.0",
-	"apimanagement":    "v2.19.0",
-	"app":              "v2.20.0",
-	"appconfiguration": "v2.19.0",
-	"authorization":    "v2.21.0",
-	"batch":            "v2.18.0",
-	"cache":            "v2.21.0",
-	"compute":          "v2.20.0",
-	"datafactory":      "v2.20.0",
-	"dbformysql":       "v2.19.0",
-	"eventgrid":        "v2.20.0",
-	"sql":              "v2.21.0",
-	"storage":          "v2.18.0",
-	"subscription":     "v2.21.0",
-	"synapse":          "v2.19.0",
-	"web":              "v2.19.0",
+	"alertsmanagement":  "v2.19.0",
+	"apimanagement":     "v2.19.0",
+	"app":               "v2.20.0",
+	"appconfiguration":  "v2.19.0",
+	"authorization":     "v2.21.0",
+	"batch":             "v2.18.0",
+	"cache":             "v2.21.0",
+	"compute":           "v2.20.0",
+	"containerinstance": "v2.21.0",
+	"datafactory":       "v2.20.0",
+	"dbformysql":        "v2.19.0",
+	"eventgrid":         "v2.20.0",
+	"sql":               "v2.21.0",
+	"storage":           "v2.18.0",
+	"subscription":      "v2.21.0",
+	"synapse":           "v2.19.0",
+	"web":               "v2.19.0",
 }
 
 // versionMigrationModes contains a mapping of group names to their version migration modes.
@@ -105,7 +106,7 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 
 	"compute": VersionMigrationModeHybrid,
 
-	"containerinstance": VersionMigrationModeLegacy,
+	"containerinstance": VersionMigrationModeHybrid,
 	"containerregistry": VersionMigrationModeLegacy,
 	"containerservice":  VersionMigrationModeLegacy,
 
