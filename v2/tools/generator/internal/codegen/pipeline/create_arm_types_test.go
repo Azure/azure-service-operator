@@ -1202,9 +1202,9 @@ func TestCreateARMTypes_DependentResourceAndOwnership(t *testing.T) {
 	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
 }
 
-// TestCreateARMTypeWithConfigMapForNamedStringType tests that ConfigMap references are correctly generated
-// for properties that use named string types (like AzureCoreUuid) rather than plain string.
-func TestCreateARMTypeWithConfigMapForNamedStringType_CreatesExpectedConversions(t *testing.T) {
+// TestCreateARMTypeWithConfigMapAndSecretForNamedStringType tests that ConfigMap and Secret references
+// are correctly generated for properties that use named string types (like AzureCoreUuid) rather than plain string.
+func TestCreateARMTypeWithConfigMapAndSecretForNamedStringType_CreatesExpectedConversions(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -1217,9 +1217,11 @@ func TestCreateARMTypeWithConfigMapForNamedStringType_CreatesExpectedConversions
 		astmodel.NewValidatedType(astmodel.StringType, astmodel.StringValidations{Patterns: []*regexp.Regexp{uuidRegex}}),
 	)
 
-	// Create a property using the named string type (optional, so it becomes *UUIDType)
+	// Create properties using the named string type (optional, so it becomes *UUIDType)
 	sidProperty := astmodel.NewPropertyDefinition("Sid", "sid", astmodel.NewOptionalType(uuidTypeName)).
 		WithDescription("SID (object ID) of the administrator")
+	tenantIdProperty := astmodel.NewPropertyDefinition("TenantId", "tenantId", astmodel.NewOptionalType(uuidTypeName)).
+		WithDescription("Tenant ID of the administrator")
 
 	// Define a test resource with a nested properties type (typical ARM pattern)
 	specProperties := test.CreateObjectDefinition(
@@ -1227,6 +1229,7 @@ func TestCreateARMTypeWithConfigMapForNamedStringType_CreatesExpectedConversions
 		"PersonProperties",
 		test.FullNameProperty,
 		sidProperty,
+		tenantIdProperty,
 	)
 	specPropertiesProp := astmodel.NewPropertyDefinition(
 		"Properties",
@@ -1255,10 +1258,23 @@ func TestCreateARMTypeWithConfigMapForNamedStringType_CreatesExpectedConversions
 		),
 	).To(Succeed())
 
+	// Configure TenantId as an optional secret import
+	g.Expect(
+		omc.ModifyProperty(
+			specProperties.Name(),
+			tenantIdProperty.PropertyName(),
+			func(pc *config.PropertyConfiguration) error {
+				pc.Secrecy.Set(astmodel.ImportSecretModeOptional)
+				return nil
+			},
+		),
+	).To(Succeed())
+
 	configuration := config.NewConfiguration()
 	configuration.ObjectModelConfiguration = omc
 
 	addConfigMaps := AddConfigMaps(configuration)
+	addSecrets := AddSecrets(configuration)
 	createARMTypes := CreateARMTypes(omc, idFactory, logr.Discard())
 	applyARMConversionInterface := ApplyARMConversionInterface(idFactory, omc)
 	simplify := SimplifyDefinitions()
@@ -1267,6 +1283,7 @@ func TestCreateARMTypeWithConfigMapForNamedStringType_CreatesExpectedConversions
 	state, err := RunTestPipeline(
 		NewState(defs),
 		addConfigMaps,
+		addSecrets,
 		createARMTypes,
 		applyARMConversionInterface,
 		simplify,

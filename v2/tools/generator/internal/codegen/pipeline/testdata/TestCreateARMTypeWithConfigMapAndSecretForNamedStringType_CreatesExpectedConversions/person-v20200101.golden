@@ -129,6 +129,12 @@ type PersonProperties struct {
 
 	// SidFromConfig: SID (object ID) of the administrator
 	SidFromConfig *genruntime.ConfigMapReference `json:"sidFromConfig,omitempty" optionalConfigMapPair:"Sid"`
+
+	// TenantId: Tenant ID of the administrator
+	TenantId *UUIDType `json:"tenantId,omitempty" optionalSecretPair:"TenantId"`
+
+	// TenantIdFromSecret: Tenant ID of the administrator
+	TenantIdFromSecret *genruntime.SecretReference `json:"tenantIdFromSecret,omitempty" optionalSecretPair:"TenantId"`
 }
 
 var _ genruntime.ARMTransformer = &PersonProperties{}
@@ -156,6 +162,20 @@ func (properties *PersonProperties) ConvertToARM(resolved genruntime.ConvertToAR
 		sid := sidValue
 		result.Sid = &sid
 	}
+
+	// Set property "TenantId":
+	if properties.TenantId != nil {
+		tenantId := string(*properties.TenantId)
+		result.TenantId = &tenantId
+	}
+	if properties.TenantIdFromSecret != nil {
+		tenantIdSecret, err := resolved.ResolvedSecrets.Lookup(*properties.TenantIdFromSecret)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up secret for property TenantId")
+		}
+		tenantId := tenantIdSecret
+		result.TenantId = &tenantId
+	}
 	return result, nil
 }
 
@@ -181,6 +201,14 @@ func (properties *PersonProperties) PopulateFromARM(owner genruntime.ArbitraryOw
 	}
 
 	// no assignment for property "SidFromConfig"
+
+	// Set property "TenantId":
+	if typedInput.TenantId != nil {
+		tenantId := UUIDType(*typedInput.TenantId)
+		properties.TenantId = &tenantId
+	}
+
+	// no assignment for property "TenantIdFromSecret"
 
 	// No error
 	return nil
