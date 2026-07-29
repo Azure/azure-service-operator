@@ -382,3 +382,4 @@ ContainerGroup_Spec: Object (6 properties)
 │       └── Secret: map[string]string
 ├── Tags: map[string]string
 └── Zones: string[]
+

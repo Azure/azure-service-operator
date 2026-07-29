@@ -398,3 +398,4 @@ ContainerGroup: Resource
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── Secret: map[string]string
     └── Zones: string[]
+
