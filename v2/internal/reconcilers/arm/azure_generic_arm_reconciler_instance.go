@@ -1033,9 +1033,7 @@ func ConvertToARMResourceImpl(
 
 // skipDeletionPrecheck is a set of resource groups for which we skip the pre-deletion existence check.
 // This is to bypass the need to re-record every test in one go - we enable the extra check group by group.
-var skipDeletionPrecheck = sets.NewString(
-	"devices.azure.com",
-)
+var skipDeletionPrecheck = sets.NewString()
 
 // deleteResource deletes a resource in ARM. This function is used as the default deletion handler and can
 // have its behavior modified by resources implementing the genruntime.Deleter extension
