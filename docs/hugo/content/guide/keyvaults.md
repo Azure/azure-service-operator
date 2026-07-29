@@ -69,7 +69,7 @@ restrict who/what is permitted to create keys in the target vault using Azure RB
 ### Immutable after creation
 
 All fields under `spec.properties` (`kty`, `keySize`, `curveName`, `keyOps`, `attributes`,
-`releasePolicy`, `rotationPolicy`) and `spec.tags` are immutable once the resource has been
+`release_policy`, `rotationPolicy`) and `spec.tags` are immutable once the resource has been
 created in Azure. A validating webhook rejects any attempt to change them; delete and recreate
 the resource to change key parameters.
 
@@ -85,7 +85,7 @@ Vault **data-plane** concept (Azure CLI, PowerShell, Portal, or the data-plane S
 outside the ARM control plane that ASO operates on for this resource.
 
 Because of this, under the default `manage` reconcile-policy (see
-[annotations]( {{< relref "annotations" >}} )), deleting a `VaultsKey` resource in Kubernetes:
+[annotations]( {{< relref "annotations" >}} ), deleting a `VaultsKey` resource in Kubernetes:
 
 1. GETs the key to check whether it still exists in Azure, and
 2. If it still exists, blocks removal of the Kubernetes finalizer, leaving the resource present
