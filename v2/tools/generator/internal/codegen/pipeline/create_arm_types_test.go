@@ -482,7 +482,7 @@ func TestCreateARMTypes_WithTopLevelOneOf_GeneratesExpectedCode(t *testing.T) {
 	// This test checks that the generated code correctly handles this situation.
 	// The object structure created here mirrors that for Kusto/ClusterDatabase
 
-	readWriteKind := astmodel.MakeEnumValue("ReadWrite", "ReadWrite")
+	readWriteKind := astmodel.MakeEnumValue("ReadWrite", `"ReadWrite"`)
 	readWriteDatabaseKind := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2022, "ReadWriteDatabaseKind"),
 		astmodel.NewEnumType(
@@ -499,7 +499,7 @@ func TestCreateARMTypes_WithTopLevelOneOf_GeneratesExpectedCode(t *testing.T) {
 		astmodel.NewPropertyDefinition("Properties", "properties", astmodel.OptionalStringType),
 	)
 
-	readOnlyFollowingKind := astmodel.MakeEnumValue("ReadOnlyFollowing", "ReadOnlyFollowing")
+	readOnlyFollowingKind := astmodel.MakeEnumValue("ReadOnlyFollowing", `"ReadOnlyFollowing"`)
 	readOnlyFollowingDatabaseKind := astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(test.Pkg2022, "ReadOnlyFollowingDatabaseKind"),
 		astmodel.NewEnumType(
@@ -573,6 +573,628 @@ func TestCreateARMTypes_WithTopLevelOneOf_GeneratesExpectedCode(t *testing.T) {
 		flatten,
 		simplify,
 		strip,
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+// TestCreateARMTypes_SimpleResourceRendersSpec tests that a minimal ARM resource with just standard
+// properties (name, type, apiVersion) generates correct ARM types and conversions.
+func TestCreateARMTypes_SimpleResourceRendersSpec(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	spec := test.CreateSpec(test.Pkg2020, "FakeResource", test.NameProperty)
+	status := test.CreateStatus(test.Pkg2020, "FakeResource")
+	resource := test.CreateARMResource(test.Pkg2020, "FakeResource", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	cfg := config.NewObjectModelConfiguration()
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		CreateARMTypes(cfg, idFactory, logr.Discard()),
+		ApplyARMConversionInterface(idFactory, cfg),
+		SimplifyDefinitions(),
+		StripUnreferencedTypeDefinitions(),
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+// TestCreateARMTypes_SimpleResourceComplexProperties tests that an ARM resource with nested object
+// references and enum properties generates correct ARM types and conversions.
+func TestCreateARMTypes_SimpleResourceComplexProperties(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Define the Foo type
+	fooNameProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType)
+	foo := test.CreateObjectDefinition(test.Pkg2020, "Foo", fooNameProperty)
+
+	// Define color enum
+	colorEnum := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "Color"),
+		astmodel.NewEnumType(
+			astmodel.StringType,
+			astmodel.MakeEnumValue("blue", `"blue"`),
+			astmodel.MakeEnumValue("green", `"green"`),
+			astmodel.MakeEnumValue("red", `"red"`),
+		),
+	)
+
+	// Create spec with complex properties
+	optionalFooProp := astmodel.NewPropertyDefinition(
+		"OptionalFoo",
+		"optionalFoo",
+		astmodel.NewOptionalType(foo.Name()),
+	)
+	requiredFooProp := astmodel.NewPropertyDefinition(
+		"Foo",
+		"foo",
+		foo.Name(),
+	).MakeTypeOptional().MakeRequired()
+	colorProp := astmodel.NewPropertyDefinition(
+		"Color",
+		"color",
+		astmodel.NewOptionalType(colorEnum.Name()),
+	)
+
+	spec := test.CreateSpec(
+		test.Pkg2020,
+		"FakeResource",
+		test.NameProperty,
+		optionalFooProp,
+		requiredFooProp,
+		colorProp,
+	)
+	status := test.CreateStatus(test.Pkg2020, "FakeResource")
+	resource := test.CreateARMResource(test.Pkg2020, "FakeResource", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, foo, colorEnum, test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	cfg := config.NewObjectModelConfiguration()
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		CreateARMTypes(cfg, idFactory, logr.Discard()),
+		ApplyARMConversionInterface(idFactory, cfg),
+		SimplifyDefinitions(),
+		StripUnreferencedTypeDefinitions(),
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+// TestCreateARMTypes_SimpleResourceArrayProperties tests that an ARM resource with various array
+// property types (arrays of objects, arrays of arrays, arrays of maps, arrays of enums) generates
+// correct ARM types and conversions.
+func TestCreateARMTypes_SimpleResourceArrayProperties(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Define the Foo type
+	fooNameProperty := astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType)
+	foo := test.CreateObjectDefinition(test.Pkg2020, "Foo", fooNameProperty)
+
+	// Define Color enum
+	colorEnum := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "Color"),
+		astmodel.NewEnumType(
+			astmodel.StringType,
+			astmodel.MakeEnumValue("blue", `"blue"`),
+			astmodel.MakeEnumValue("green", `"green"`),
+			astmodel.MakeEnumValue("red", `"red"`),
+		),
+	)
+
+	// Array of Foo (required)
+	arrayFooProp := astmodel.NewPropertyDefinition(
+		"ArrayFoo",
+		"arrayFoo",
+		astmodel.NewArrayType(foo.Name()),
+	).MakeTypeOptional().MakeRequired()
+	// Array of arrays of Foo
+	arrayOfArraysProp := astmodel.NewPropertyDefinition(
+		"ArrayOfArrays",
+		"arrayOfArrays",
+		astmodel.NewArrayType(astmodel.NewArrayType(foo.Name())),
+	)
+	// Array of arrays of arrays of Foo
+	arrayOfArraysOfArraysProp := astmodel.NewPropertyDefinition(
+		"ArrayOfArraysOfArrays",
+		"arrayOfArraysOfArrays",
+		astmodel.NewArrayType(astmodel.NewArrayType(astmodel.NewArrayType(foo.Name()))),
+	)
+	// Array of maps of Foo
+	arrayOfMapsProp := astmodel.NewPropertyDefinition(
+		"ArrayOfMaps",
+		"arrayOfMaps",
+		astmodel.NewArrayType(astmodel.NewMapType(astmodel.StringType, foo.Name())),
+	)
+	// Array of enums
+	arrayOfEnumsProp := astmodel.NewPropertyDefinition(
+		"ArrayOfEnums",
+		"arrayOfEnums",
+		astmodel.NewArrayType(colorEnum.Name()),
+	)
+
+	spec := test.CreateSpec(
+		test.Pkg2020,
+		"FakeResource",
+		test.NameProperty,
+		arrayFooProp,
+		arrayOfArraysProp,
+		arrayOfArraysOfArraysProp,
+		arrayOfMapsProp,
+		arrayOfEnumsProp,
+	)
+	status := test.CreateStatus(test.Pkg2020, "FakeResource")
+	resource := test.CreateARMResource(test.Pkg2020, "FakeResource", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, foo, colorEnum, test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	cfg := config.NewObjectModelConfiguration()
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		CreateARMTypes(cfg, idFactory, logr.Discard()),
+		ApplyARMConversionInterface(idFactory, cfg),
+		SimplifyDefinitions(),
+		StripUnreferencedTypeDefinitions(),
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+// TestCreateARMTypes_SimpleResourceMapProperties tests that an ARM resource with various map property
+// types (maps of objects, maps of maps, maps of arrays, maps of enums, maps of strings) generates
+// correct ARM types and conversions.
+func TestCreateARMTypes_SimpleResourceMapProperties(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Define the Foo type (note: uses "fooName" in the map properties JSON)
+	fooNameProperty := astmodel.NewPropertyDefinition("FooName", "fooName", astmodel.OptionalStringType)
+	foo := test.CreateObjectDefinition(test.Pkg2020, "Foo", fooNameProperty)
+
+	// Define Color enum
+	colorEnum := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "Color"),
+		astmodel.NewEnumType(
+			astmodel.StringType,
+			astmodel.MakeEnumValue("blue", `"blue"`),
+			astmodel.MakeEnumValue("green", `"green"`),
+			astmodel.MakeEnumValue("red", `"red"`),
+		),
+	)
+
+	// Map of Foo (required)
+	mapFooProp := astmodel.NewPropertyDefinition(
+		"MapFoo",
+		"mapFoo",
+		astmodel.NewMapType(astmodel.StringType, foo.Name()),
+	).MakeTypeOptional().MakeRequired()
+	// Map of maps of Foo
+	mapOfMapsProp := astmodel.NewPropertyDefinition(
+		"MapOfMaps",
+		"mapOfMaps",
+		astmodel.NewMapType(astmodel.StringType, astmodel.NewMapType(astmodel.StringType, foo.Name())),
+	)
+	// Map of arrays of Foo
+	mapOfArraysProp := astmodel.NewPropertyDefinition(
+		"MapOfArrays",
+		"mapOfArrays",
+		astmodel.NewMapType(astmodel.StringType, astmodel.NewArrayType(foo.Name())),
+	)
+	// Map of enums
+	mapOfEnumsProp := astmodel.NewPropertyDefinition(
+		"MapOfEnums",
+		"mapOfEnums",
+		astmodel.NewMapType(astmodel.StringType, colorEnum.Name()),
+	)
+	// Map of strings
+	mapOfStringsProp := astmodel.NewPropertyDefinition(
+		"MapOfStrings",
+		"mapOfStrings",
+		astmodel.NewMapType(astmodel.StringType, astmodel.StringType),
+	)
+	// Map of maps of maps of strings
+	mapOfMapsOfMapsOfStringsProp := astmodel.NewPropertyDefinition(
+		"MapOfMapsOfMapsOfStrings",
+		"mapOfMapsOfMapsOfStrings",
+		astmodel.NewMapType(astmodel.StringType,
+			astmodel.NewMapType(astmodel.StringType,
+				astmodel.NewMapType(astmodel.StringType, astmodel.StringType))),
+	)
+	// Map of maps of maps of Foo
+	mapOfMapsOfMapsProp := astmodel.NewPropertyDefinition(
+		"MapOfMapsOfMaps",
+		"mapOfMapsOfMaps",
+		astmodel.NewMapType(astmodel.StringType,
+			astmodel.NewMapType(astmodel.StringType,
+				astmodel.NewMapType(astmodel.StringType, foo.Name()))),
+	)
+
+	spec := test.CreateSpec(
+		test.Pkg2020,
+		"FakeResource",
+		test.NameProperty,
+		mapFooProp,
+		mapOfMapsProp,
+		mapOfArraysProp,
+		mapOfEnumsProp,
+		mapOfStringsProp,
+		mapOfMapsOfMapsOfStringsProp,
+		mapOfMapsOfMapsProp,
+	)
+	status := test.CreateStatus(test.Pkg2020, "FakeResource")
+	resource := test.CreateARMResource(test.Pkg2020, "FakeResource", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, foo, colorEnum, test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	cfg := config.NewObjectModelConfiguration()
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		CreateARMTypes(cfg, idFactory, logr.Discard()),
+		ApplyARMConversionInterface(idFactory, cfg),
+		SimplifyDefinitions(),
+		StripUnreferencedTypeDefinitions(),
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+// TestCreateARMTypes_SimpleResourceJSONFields tests that an ARM resource with raw JSON fields
+// (untyped schemas and object-typed schemas) generates correct ARM types and conversions.
+func TestCreateARMTypes_SimpleResourceJSONFields(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// mandatoryJson: untyped JSON (empty schema {}), required
+	mandatoryJsonProp := astmodel.NewPropertyDefinition(
+		"MandatoryJson",
+		"mandatoryJson",
+		astmodel.AnyType,
+	).MakeTypeOptional().MakeRequired()
+	// optionalJson: untyped JSON (empty schema {}), optional
+	optionalJsonProp := astmodel.NewPropertyDefinition(
+		"OptionalJson",
+		"optionalJson",
+		astmodel.AnyType,
+	).MakeTypeOptional()
+	// jsonObject: {"type": "object"} → map[string]interface{}, required
+	jsonObjectProp := astmodel.NewPropertyDefinition(
+		"JsonObject",
+		"jsonObject",
+		astmodel.NewMapType(astmodel.StringType, astmodel.AnyType),
+	).MakeTypeOptional().MakeRequired()
+
+	spec := test.CreateSpec(
+		test.Pkg2020,
+		"FakeResource",
+		test.NameProperty,
+		mandatoryJsonProp,
+		optionalJsonProp,
+		jsonObjectProp,
+	)
+	status := test.CreateStatus(test.Pkg2020, "FakeResource")
+	resource := test.CreateARMResource(test.Pkg2020, "FakeResource", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	cfg := config.NewObjectModelConfiguration()
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		ReplaceAnyTypeWithJSON(),
+		CreateARMTypes(cfg, idFactory, logr.Discard()),
+		ApplyARMConversionInterface(idFactory, cfg),
+		SimplifyDefinitions(),
+		StripUnreferencedTypeDefinitions(),
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+// TestCreateARMTypes_OneOfResourceConversion tests that a resource with a oneOf discriminated union
+// in its properties generates correct ARM types and conversions.
+func TestCreateARMTypes_OneOfResourceConversion(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Discriminator enums for each variant
+	fooDiscrim := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "FooDiscrim"),
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("foo", `"foo"`)),
+	)
+	barDiscrim := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "BarDiscrim"),
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("bar", `"bar"`)),
+	)
+	bazDiscrim := astmodel.MakeTypeDefinition(
+		astmodel.MakeInternalTypeName(test.Pkg2020, "BazDiscrim"),
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("baz", `"baz"`)),
+	)
+
+	// Foo variant: discrim (required) + name
+	fooObj := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Foo",
+		astmodel.NewPropertyDefinition("Discrim", "discrim", astmodel.NewOptionalType(fooDiscrim.Name())).MakeRequired(),
+		astmodel.NewPropertyDefinition("Name", "name", astmodel.OptionalStringType),
+	)
+
+	// Bar variant: discrim (required) + size (required)
+	barObj := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Bar",
+		astmodel.NewPropertyDefinition("Discrim", "discrim", astmodel.NewOptionalType(barDiscrim.Name())).MakeRequired(),
+		astmodel.NewPropertyDefinition("Size", "size", astmodel.NewOptionalType(astmodel.IntType)).MakeRequired(),
+	)
+
+	// Baz variant: discrim (required) + enabled (required)
+	bazObj := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Baz",
+		astmodel.NewPropertyDefinition("Discrim", "discrim", astmodel.NewOptionalType(bazDiscrim.Name())).MakeRequired(),
+		astmodel.NewPropertyDefinition("Enabled", "enabled", astmodel.NewOptionalType(astmodel.BoolType)).MakeRequired(),
+	)
+
+	// Properties type with oneOf referencing Foo, Bar, Baz
+	propertiesObj := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Properties",
+		astmodel.NewPropertyDefinition("Bar", "bar", astmodel.NewOptionalType(barObj.Name())),
+		astmodel.NewPropertyDefinition("Baz", "baz", astmodel.NewOptionalType(bazObj.Name())),
+		astmodel.NewPropertyDefinition("Foo", "foo", astmodel.NewOptionalType(fooObj.Name())),
+	)
+
+	// Apply OneOf flag to properties
+	var err error
+	propertiesObj, err = propertiesObj.ApplyObjectTransformation(
+		func(o *astmodel.ObjectType) (astmodel.Type, error) {
+			return astmodel.OneOfFlag.ApplyTo(o), nil
+		},
+	)
+	g.Expect(err).NotTo(HaveOccurred())
+
+	// Create spec with properties reference
+	propertiesProp := astmodel.NewPropertyDefinition(
+		"Properties",
+		"properties",
+		astmodel.NewOptionalType(propertiesObj.Name()),
+	)
+	spec := test.CreateSpec(test.Pkg2020, "FakeResource", test.NameProperty, propertiesProp)
+	status := test.CreateStatus(test.Pkg2020, "FakeResource")
+	resource := test.CreateARMResource(test.Pkg2020, "FakeResource", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(
+		resource, status, spec, propertiesObj, fooObj, barObj, bazObj,
+		fooDiscrim, barDiscrim, bazDiscrim, test.Pkg2020APIVersion,
+	)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	cfg := config.NewObjectModelConfiguration()
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		CreateARMTypes(cfg, idFactory, logr.Discard()),
+		ApplyARMConversionInterface(idFactory, cfg),
+		SimplifyDefinitions(),
+		StripUnreferencedTypeDefinitions(),
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+// TestCreateARMTypes_IDResourceReference tests that properties containing ARM resource ID strings
+// are correctly transformed into ResourceReference types.
+func TestCreateARMTypes_IDResourceReference(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// FakeResourceProperties with various resource reference patterns
+	idProp := astmodel.NewPropertyDefinition("Id", "id", astmodel.OptionalStringType).
+		WithDescription("A string of the form /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}")
+	subnetIdProp := astmodel.NewPropertyDefinition("SubnetId", "subnetId", astmodel.OptionalStringType).
+		WithDescription("A string of the form /SUBSCRIPTIONS/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}")
+	nsgIdsProp := astmodel.NewPropertyDefinition(
+		"NsgIds",
+		"nsgIds",
+		astmodel.NewArrayType(astmodel.StringType),
+	).WithDescription("A collection of NSG IDs of the form /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/networkSecurityGroups/{nsgName}")
+	nsgMapProp := astmodel.NewPropertyDefinition(
+		"NsgMap",
+		"nsgMap",
+		astmodel.NewMapType(astmodel.StringType, astmodel.StringType),
+	).WithDescription("A map of NSG IDs of the form /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/networkSecurityGroups/{nsgName}")
+
+	specProperties := test.CreateObjectDefinition(
+		test.Pkg2020, "FakeResourceProperties", idProp, subnetIdProp, nsgIdsProp, nsgMapProp,
+	)
+
+	propertiesProp := astmodel.NewPropertyDefinition(
+		"Properties",
+		"properties",
+		astmodel.NewOptionalType(specProperties.Name()),
+	)
+	spec := test.CreateSpec(test.Pkg2020, "FakeResource", test.NameProperty, propertiesProp)
+	status := test.CreateStatus(test.Pkg2020, "FakeResource")
+	resource := test.CreateARMResource(test.Pkg2020, "FakeResource", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, specProperties, test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	omc := config.NewObjectModelConfiguration()
+	for _, prop := range []*astmodel.PropertyDefinition{idProp, subnetIdProp, nsgIdsProp, nsgMapProp} {
+		g.Expect(
+			omc.ModifyProperty(
+				specProperties.Name(),
+				prop.PropertyName(),
+				func(pc *config.PropertyConfiguration) error {
+					pc.ReferenceType.Set(config.ReferenceTypeARM)
+					return nil
+				},
+			),
+		).To(Succeed())
+	}
+
+	configuration := config.NewConfiguration()
+	configuration.ObjectModelConfiguration = omc
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		ApplyCrossResourceReferencesFromConfig(configuration, logr.Discard()),
+		TransformCrossResourceReferences(configuration, idFactory),
+		CreateARMTypes(omc, idFactory, logr.Discard()),
+		ApplyARMConversionInterface(idFactory, omc),
+		SimplifyDefinitions(),
+		StripUnreferencedTypeDefinitions(),
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+// TestCreateARMTypes_RequiredAndOptionalResourceReferences tests that ARM resource references with
+// different requirement levels (required vs optional) generate correct types and conversions.
+func TestCreateARMTypes_RequiredAndOptionalResourceReferences(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	requiredVNetProp := astmodel.NewPropertyDefinition("RequiredVNet", "requiredVNet", astmodel.StringType).
+		MakeTypeOptional().
+		MakeRequired().
+		WithDescription("A string of the form /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}")
+	optionalVNetProp := astmodel.NewPropertyDefinition("OptionalVNet", "optionalVNet", astmodel.OptionalStringType).
+		WithDescription("A string of the form /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}")
+
+	specProperties := test.CreateObjectDefinition(
+		test.Pkg2020, "FakeResourceProperties", requiredVNetProp, optionalVNetProp,
+	)
+
+	propertiesProp := astmodel.NewPropertyDefinition(
+		"Properties",
+		"properties",
+		astmodel.NewOptionalType(specProperties.Name()),
+	)
+	spec := test.CreateSpec(test.Pkg2020, "FakeResource", test.NameProperty, propertiesProp)
+	status := test.CreateStatus(test.Pkg2020, "FakeResource")
+	resource := test.CreateARMResource(test.Pkg2020, "FakeResource", spec, status, test.Pkg2020APIVersion)
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(resource, status, spec, specProperties, test.Pkg2020APIVersion)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	omc := config.NewObjectModelConfiguration()
+	for _, prop := range []*astmodel.PropertyDefinition{requiredVNetProp, optionalVNetProp} {
+		g.Expect(
+			omc.ModifyProperty(
+				specProperties.Name(),
+				prop.PropertyName(),
+				func(pc *config.PropertyConfiguration) error {
+					pc.ReferenceType.Set(config.ReferenceTypeARM)
+					return nil
+				},
+			),
+		).To(Succeed())
+	}
+
+	configuration := config.NewConfiguration()
+	configuration.ObjectModelConfiguration = omc
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		ApplyCrossResourceReferencesFromConfig(configuration, logr.Discard()),
+		TransformCrossResourceReferences(configuration, idFactory),
+		CreateARMTypes(omc, idFactory, logr.Discard()),
+		ApplyARMConversionInterface(idFactory, omc),
+		SimplifyDefinitions(),
+		StripUnreferencedTypeDefinitions(),
+	)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test.AssertPackagesGenerateExpectedCode(t, state.Definitions())
+}
+
+// TestCreateARMTypes_DependentResourceAndOwnership tests that an ARM resource graph with
+// hierarchical ownership (A owns B, B owns C and D) generates correct types for each resource.
+func TestCreateARMTypes_DependentResourceAndOwnership(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Resource D (child of B, no children of its own)
+	specD := test.CreateSpec(test.Pkg2020, "D", test.NameProperty)
+	statusD := test.CreateStatus(test.Pkg2020, "D")
+	resourceD := test.CreateARMResource(test.Pkg2020, "D", specD, statusD, test.Pkg2020APIVersion)
+
+	// Resource C (child of B, no children of its own)
+	specC := test.CreateSpec(test.Pkg2020, "C", test.NameProperty)
+	statusC := test.CreateStatus(test.Pkg2020, "C")
+	resourceC := test.CreateARMResource(test.Pkg2020, "C", specC, statusC, test.Pkg2020APIVersion)
+
+	// Resource B (child of A, parent of C and D)
+	specB := test.CreateSpec(test.Pkg2020, "B", test.NameProperty)
+	statusB := test.CreateStatus(test.Pkg2020, "B")
+	resourceB := test.CreateARMResource(test.Pkg2020, "B", specB, statusB, test.Pkg2020APIVersion)
+
+	// Resource A (top-level, parent of B)
+	specA := test.CreateSpec(test.Pkg2020, "A", test.NameProperty)
+	statusA := test.CreateStatus(test.Pkg2020, "A")
+	resourceA := test.CreateARMResource(test.Pkg2020, "A", specA, statusA, test.Pkg2020APIVersion)
+
+	// Set up ownership: B is owned by A
+	resourceBRT, _ := astmodel.AsResourceType(resourceB.Type())
+	resourceB = resourceB.WithType(resourceBRT.WithOwner(resourceA.Name()))
+
+	// C is owned by B
+	resourceCRT, _ := astmodel.AsResourceType(resourceC.Type())
+	resourceC = resourceC.WithType(resourceCRT.WithOwner(resourceB.Name()))
+
+	// D is owned by B
+	resourceDRT, _ := astmodel.AsResourceType(resourceD.Type())
+	resourceD = resourceD.WithType(resourceDRT.WithOwner(resourceB.Name()))
+
+	defs := make(astmodel.TypeDefinitionSet)
+	defs.AddAll(
+		resourceA, specA, statusA,
+		resourceB, specB, statusB,
+		resourceC, specC, statusC,
+		resourceD, specD, statusD,
+		test.Pkg2020APIVersion,
+	)
+
+	idFactory := astmodel.NewIdentifierFactory()
+	cfg := config.NewObjectModelConfiguration()
+
+	state, err := RunTestPipeline(
+		NewState(defs),
+		CreateARMTypes(cfg, idFactory, logr.Discard()),
+		ApplyARMConversionInterface(idFactory, cfg),
+		SimplifyDefinitions(),
+		StripUnreferencedTypeDefinitions(),
 	)
 	g.Expect(err).ToNot(HaveOccurred())
 
