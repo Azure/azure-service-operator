@@ -10,7 +10,7 @@
 #    this CR, or any Secret.
 #
 # 2. Immutable after creation: every field under spec.properties (kty, keySize, curveName,
-#    keyOps, attributes, releasePolicy, rotationPolicy) and spec.tags is immutable once the
+#    keyOps, attributes, release_policy, rotationPolicy) and spec.tags is immutable once the
 #    resource has been created in Azure. A validating webhook rejects any attempt to change
 #    them. To change key parameters, delete this resource and create a new one.
 #
