@@ -5,7 +5,8 @@ package v20251015
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
+	v20251015s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
+	v20260315s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForCassandraCluster(subject CassandraCluster) stri
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.CassandraCluster
+	var hub v20260315s.CassandraCluster
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForCassandraCluster(subject CassandraCluster) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraCluster
+	var other v20251015s.CassandraCluster
 	err := copied.AssignProperties_To_CassandraCluster(&other)
 	if err != nil {
 		return err.Error()
@@ -201,7 +202,7 @@ func RunPropertyAssignmentTestForCassandraClusterOperatorSpec(subject CassandraC
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraClusterOperatorSpec
+	var other v20251015s.CassandraClusterOperatorSpec
 	err := copied.AssignProperties_To_CassandraClusterOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -308,7 +309,7 @@ func RunPropertyAssignmentTestForCassandraCluster_Properties_STATUS(subject Cass
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraCluster_Properties_STATUS
+	var other v20251015s.CassandraCluster_Properties_STATUS
 	err := copied.AssignProperties_To_CassandraCluster_Properties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -458,7 +459,7 @@ func RunPropertyAssignmentTestForCassandraCluster_Properties_Spec(subject Cassan
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraCluster_Properties_Spec
+	var other v20251015s.CassandraCluster_Properties_Spec
 	err := copied.AssignProperties_To_CassandraCluster_Properties_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -594,7 +595,7 @@ func RunPropertyAssignmentTestForCassandraCluster_STATUS(subject CassandraCluste
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraCluster_STATUS
+	var other v20251015s.CassandraCluster_STATUS
 	err := copied.AssignProperties_To_CassandraCluster_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -728,7 +729,7 @@ func RunPropertyAssignmentTestForCassandraCluster_Spec(subject CassandraCluster_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraCluster_Spec
+	var other v20251015s.CassandraCluster_Spec
 	err := copied.AssignProperties_To_CassandraCluster_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -861,7 +862,7 @@ func RunPropertyAssignmentTestForCassandraError_STATUS(subject CassandraError_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.CassandraError_STATUS
+	var other v20251015s.CassandraError_STATUS
 	err := copied.AssignProperties_To_CassandraError_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -977,7 +978,7 @@ func RunPropertyAssignmentTestForCertificate(subject Certificate) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Certificate
+	var other v20251015s.Certificate
 	err := copied.AssignProperties_To_Certificate(&other)
 	if err != nil {
 		return err.Error()
@@ -1083,7 +1084,7 @@ func RunPropertyAssignmentTestForCertificate_STATUS(subject Certificate_STATUS) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Certificate_STATUS
+	var other v20251015s.Certificate_STATUS
 	err := copied.AssignProperties_To_Certificate_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1189,7 +1190,7 @@ func RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedCassandraManagedServiceIdentity
+	var other v20251015s.ManagedCassandraManagedServiceIdentity
 	err := copied.AssignProperties_To_ManagedCassandraManagedServiceIdentity(&other)
 	if err != nil {
 		return err.Error()
@@ -1302,7 +1303,7 @@ func RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity_STATUS(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ManagedCassandraManagedServiceIdentity_STATUS
+	var other v20251015s.ManagedCassandraManagedServiceIdentity_STATUS
 	err := copied.AssignProperties_To_ManagedCassandraManagedServiceIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1417,7 +1418,7 @@ func RunPropertyAssignmentTestForSeedNode(subject SeedNode) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SeedNode
+	var other v20251015s.SeedNode
 	err := copied.AssignProperties_To_SeedNode(&other)
 	if err != nil {
 		return err.Error()
@@ -1529,7 +1530,7 @@ func RunPropertyAssignmentTestForSeedNode_STATUS(subject SeedNode_STATUS) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.SeedNode_STATUS
+	var other v20251015s.SeedNode_STATUS
 	err := copied.AssignProperties_To_SeedNode_STATUS(&other)
 	if err != nil {
 		return err.Error()

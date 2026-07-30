@@ -313,6 +313,9 @@ import (
 	documentdb_v20251015 "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015"
 	documentdb_v20251015s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
 	documentdb_v20251015w "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/webhook"
+	documentdb_v20260315 "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315"
+	documentdb_v20260315s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315/storage"
+	documentdb_v20260315w "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315/webhook"
 	eventgrid_customizations "github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations"
 	eventgrid_v1api20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
 	eventgrid_v1api20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
@@ -1632,7 +1635,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(documentdb_v20251015s.CassandraCluster),
+		Obj: new(documentdb_v20260315s.CassandraCluster),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.clientCertificates.pem",
@@ -1664,7 +1667,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.externalGossipCertificates.pem",
 						".spec.properties.initialCassandraAdminPassword",
 					},
-					&documentdb_v20251015s.CassandraClusterList{}),
+					&documentdb_v20260315s.CassandraClusterList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -1673,12 +1676,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.externalSeedNodes.ipAddressFromConfig",
 						".spec.properties.prometheusEndpoint.ipAddressFromConfig",
 					},
-					&documentdb_v20251015s.CassandraClusterList{}),
+					&documentdb_v20260315s.CassandraClusterList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(documentdb_v20251015s.CassandraDataCenter),
+		Obj: new(documentdb_v20260315s.CassandraDataCenter),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.backupStorageCustomerKeyUriFromConfig",
@@ -1705,7 +1708,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.authenticationMethodLdapProperties.serverCertificates.pem",
 						".spec.properties.authenticationMethodLdapProperties.serviceUserPassword",
 					},
-					&documentdb_v20251015s.CassandraDataCenterList{}),
+					&documentdb_v20260315s.CassandraDataCenterList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -1714,7 +1717,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.backupStorageCustomerKeyUriFromConfig",
 						".spec.properties.privateEndpointIpAddressFromConfig",
 					},
-					&documentdb_v20251015s.CassandraDataCenterList{}),
+					&documentdb_v20260315s.CassandraDataCenterList{}),
 			},
 		},
 	})
@@ -5824,6 +5827,16 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &documentdb_v20251015w.CassandraDataCenter{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(documentdb_v20251015s.CassandraCluster)}, &registration.KnownType{Obj: new(documentdb_v20251015s.CassandraDataCenter)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(documentdb_v20260315.CassandraCluster),
+		Defaulter: &documentdb_v20260315w.CassandraCluster{},
+		Validator: &documentdb_v20260315w.CassandraCluster{},
+	}, &registration.KnownType{
+		Obj:       new(documentdb_v20260315.CassandraDataCenter),
+		Defaulter: &documentdb_v20260315w.CassandraDataCenter{},
+		Validator: &documentdb_v20260315w.CassandraDataCenter{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(documentdb_v20260315s.CassandraCluster)}, &registration.KnownType{Obj: new(documentdb_v20260315s.CassandraDataCenter)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -8131,6 +8144,8 @@ func createScheme() *runtime.Scheme {
 	_ = documentdb_v20240815s.AddToScheme(scheme)
 	_ = documentdb_v20251015.AddToScheme(scheme)
 	_ = documentdb_v20251015s.AddToScheme(scheme)
+	_ = documentdb_v20260315.AddToScheme(scheme)
+	_ = documentdb_v20260315s.AddToScheme(scheme)
 	_ = eventgrid_v1api20200601.AddToScheme(scheme)
 	_ = eventgrid_v1api20200601s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
@@ -9933,9 +9948,9 @@ func indexDevicesIotHubStorageEndpointsConnectionString(rawObj client.Object) []
 	return result
 }
 
-// indexDocumentdbCassandraClusterClientCertificatesPem an index function for documentdb_v20251015s.CassandraCluster .spec.properties.clientCertificates.pem
+// indexDocumentdbCassandraClusterClientCertificatesPem an index function for documentdb_v20260315s.CassandraCluster .spec.properties.clientCertificates.pem
 func indexDocumentdbCassandraClusterClientCertificatesPem(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraCluster)
 	if !ok {
 		return nil
 	}
@@ -9952,9 +9967,9 @@ func indexDocumentdbCassandraClusterClientCertificatesPem(rawObj client.Object) 
 	return result
 }
 
-// indexDocumentdbCassandraClusterExternalGossipCertificatesPem an index function for documentdb_v20251015s.CassandraCluster .spec.properties.externalGossipCertificates.pem
+// indexDocumentdbCassandraClusterExternalGossipCertificatesPem an index function for documentdb_v20260315s.CassandraCluster .spec.properties.externalGossipCertificates.pem
 func indexDocumentdbCassandraClusterExternalGossipCertificatesPem(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraCluster)
 	if !ok {
 		return nil
 	}
@@ -9971,9 +9986,9 @@ func indexDocumentdbCassandraClusterExternalGossipCertificatesPem(rawObj client.
 	return result
 }
 
-// indexDocumentdbCassandraClusterExternalSeedNodesIpAddressFromConfig an index function for documentdb_v20251015s.CassandraCluster .spec.properties.externalSeedNodes.ipAddressFromConfig
+// indexDocumentdbCassandraClusterExternalSeedNodesIpAddressFromConfig an index function for documentdb_v20260315s.CassandraCluster .spec.properties.externalSeedNodes.ipAddressFromConfig
 func indexDocumentdbCassandraClusterExternalSeedNodesIpAddressFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraCluster)
 	if !ok {
 		return nil
 	}
@@ -9990,9 +10005,9 @@ func indexDocumentdbCassandraClusterExternalSeedNodesIpAddressFromConfig(rawObj 
 	return result
 }
 
-// indexDocumentdbCassandraClusterInitialCassandraAdminPassword an index function for documentdb_v20251015s.CassandraCluster .spec.properties.initialCassandraAdminPassword
+// indexDocumentdbCassandraClusterInitialCassandraAdminPassword an index function for documentdb_v20260315s.CassandraCluster .spec.properties.initialCassandraAdminPassword
 func indexDocumentdbCassandraClusterInitialCassandraAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraCluster)
 	if !ok {
 		return nil
 	}
@@ -10005,9 +10020,9 @@ func indexDocumentdbCassandraClusterInitialCassandraAdminPassword(rawObj client.
 	return obj.Spec.Properties.InitialCassandraAdminPassword.Index()
 }
 
-// indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig an index function for documentdb_v20251015s.CassandraCluster .spec.properties.prometheusEndpoint.ipAddressFromConfig
+// indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig an index function for documentdb_v20260315s.CassandraCluster .spec.properties.prometheusEndpoint.ipAddressFromConfig
 func indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraCluster)
 	if !ok {
 		return nil
 	}
@@ -10023,9 +10038,9 @@ func indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig(rawObj
 	return obj.Spec.Properties.PrometheusEndpoint.IpAddressFromConfig.Index()
 }
 
-// indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.backupStorageCustomerKeyUriFromConfig
+// indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig an index function for documentdb_v20260315s.CassandraDataCenter .spec.properties.backupStorageCustomerKeyUriFromConfig
 func indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraDataCenter)
 	if !ok {
 		return nil
 	}
@@ -10038,9 +10053,9 @@ func indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig(raw
 	return obj.Spec.Properties.BackupStorageCustomerKeyUriFromConfig.Index()
 }
 
-// indexDocumentdbCassandraDataCenterPem an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serverCertificates.pem
+// indexDocumentdbCassandraDataCenterPem an index function for documentdb_v20260315s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serverCertificates.pem
 func indexDocumentdbCassandraDataCenterPem(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraDataCenter)
 	if !ok {
 		return nil
 	}
@@ -10060,9 +10075,9 @@ func indexDocumentdbCassandraDataCenterPem(rawObj client.Object) []string {
 	return result
 }
 
-// indexDocumentdbCassandraDataCenterPrivateEndpointIpAddressFromConfig an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.privateEndpointIpAddressFromConfig
+// indexDocumentdbCassandraDataCenterPrivateEndpointIpAddressFromConfig an index function for documentdb_v20260315s.CassandraDataCenter .spec.properties.privateEndpointIpAddressFromConfig
 func indexDocumentdbCassandraDataCenterPrivateEndpointIpAddressFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraDataCenter)
 	if !ok {
 		return nil
 	}
@@ -10075,9 +10090,9 @@ func indexDocumentdbCassandraDataCenterPrivateEndpointIpAddressFromConfig(rawObj
 	return obj.Spec.Properties.PrivateEndpointIpAddressFromConfig.Index()
 }
 
-// indexDocumentdbCassandraDataCenterServiceUserPassword an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serviceUserPassword
+// indexDocumentdbCassandraDataCenterServiceUserPassword an index function for documentdb_v20260315s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serviceUserPassword
 func indexDocumentdbCassandraDataCenterServiceUserPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraDataCenter)
 	if !ok {
 		return nil
 	}
