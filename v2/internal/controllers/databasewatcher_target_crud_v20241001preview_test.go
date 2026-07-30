@@ -29,6 +29,8 @@ func Test_DatabaseWatcher_Target_v20241001preview_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
+	// A target isn't ready until the watcher it belongs to runs, and a watcher can't run without
+	// somewhere to write what it collects
 	watcher := &databasewatcher.Watcher{
 		ObjectMeta: tc.MakeObjectMeta("watcher"),
 		Spec: databasewatcher.Watcher_Spec{
@@ -37,6 +39,7 @@ func Test_DatabaseWatcher_Target_v20241001preview_CRUD(t *testing.T) {
 			Identity: &databasewatcher.ManagedServiceIdentity{
 				Type: to.Ptr(databasewatcher.ManagedServiceIdentityType_SystemAssigned),
 			},
+			Datastore: databaseWatcherDatastore(tc.AzureSubscription, rg.Name, "asotest-target-datastore"),
 		},
 	}
 
