@@ -37,10 +37,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-// NamespaceAnnotation defines the annotation name to use when marking
-// a resource with the namespace of the managing operator.
-const NamespaceAnnotation = "serviceoperator.azure.com/operator-namespace"
-
 type (
 	LoggerFactory func(genruntime.MetaObject) logr.Logger
 )
@@ -319,7 +315,7 @@ func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, log l
 func (gr *GenericReconciler) takeOwnership(ctx context.Context, log logr.Logger, metaObj genruntime.MetaObject) (*ctrl.Result, error) {
 	// Ensure the resource is tagged with the operator's namespace.
 	annotations := metaObj.GetAnnotations()
-	reconcilerNamespace := annotations[NamespaceAnnotation]
+	reconcilerNamespace := annotations[reconcilers.OperatorNamespaceAnnotation]
 	if reconcilerNamespace != gr.Config.PodNamespace && reconcilerNamespace != "" {
 		// We don't want to get into a fight with another operator -
 		// so if we see another operator already has this object leave
@@ -335,7 +331,7 @@ func (gr *GenericReconciler) takeOwnership(ctx context.Context, log logr.Logger,
 
 		return &ctrl.Result{}, nil
 	} else if reconcilerNamespace == "" && gr.Config.PodNamespace != "" {
-		genruntime.AddAnnotation(metaObj, NamespaceAnnotation, gr.Config.PodNamespace)
+		genruntime.AddAnnotation(metaObj, reconcilers.OperatorNamespaceAnnotation, gr.Config.PodNamespace)
 		return &ctrl.Result{Requeue: true}, gr.CommitUpdate(ctx, log, nil, metaObj, kubeclient.SpecOnly)
 	}
 
