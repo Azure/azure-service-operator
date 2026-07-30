@@ -26,6 +26,15 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 )
 
+// resumeTokenSuffix ends every annotation a poller resume token is kept under. A token carries the signed
+// URL of the operation it follows, so none of them belong in a log.
+const resumeTokenSuffix = "-resume-token"
+
+// isResumeToken matches by suffix, since resources that invoke an ARM action keep tokens of their own.
+func isResumeToken(annotation string) bool {
+	return strings.HasSuffix(strings.ToLower(annotation), resumeTokenSuffix)
+}
+
 // LogObj logs the obj
 func LogObj(log logr.Logger, level int, note string, obj genruntime.MetaObject) {
 	if log.V(level).Enabled() {
@@ -36,7 +45,7 @@ func LogObj(log logr.Logger, level int, note string, obj genruntime.MetaObject) 
 				continue
 			}
 
-			if strings.EqualFold(key, PollerResumeTokenAnnotation) {
+			if isResumeToken(key) {
 				// Redact annotations with sensitive values
 				value = "REDACTED"
 			}
