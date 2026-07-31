@@ -81,6 +81,19 @@ func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 		`redactedtenant.onmicrosoft.com`,
 	)
 
+	// Whoever recorded the test. Azure records the identity that created a resource, and echoes the
+	// caller's Entra object ID back in a header, both of which name a person rather than a service
+	// principal when the recording wasn't made by CI.
+	redactor.AddRegexRedaction(
+		`"(?P<field>createdBy|lastModifiedBy)":"[^"\\]*@[^"\\]*"`,
+		`"${field}":"redacted@example.com"`,
+	)
+
+	redactor.AddRegexRedaction(
+		`objectId=[0-9a-fA-F-]{36}`,
+		`objectId=`+nilGUID,
+	)
+
 	return redactor
 }
 
