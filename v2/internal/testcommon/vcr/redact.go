@@ -18,6 +18,7 @@ import (
 
 type Redactor struct {
 	redactions []redaction
+	policyTags *policyTagRedactor
 }
 
 type redaction struct {
@@ -28,6 +29,7 @@ type redaction struct {
 func NewRedactor(azureIDs creds.AzureIDs) *Redactor {
 	redactor := &Redactor{
 		redactions: []redaction{},
+		policyTags: newPolicyTagRedactor(azureIDs.ResourceGroupTags),
 	}
 
 	// Add AzureIDs redaction as default
@@ -178,7 +180,9 @@ func (r *Redactor) HideRecordingData(s string) string {
 }
 
 func (r *Redactor) hideRecordingDataWithCustomRedaction(s string) string {
-	res := s
+	// Policy tags are matched by value, so remove them before another redaction can rewrite one
+	res := r.policyTags.hide(s)
+
 	// Replace and hide all the custom data
 	for _, obj := range r.redactions {
 		res = obj.pattern.ReplaceAllString(res, obj.replacementValue)
