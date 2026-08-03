@@ -19,7 +19,7 @@ Development of these new resources is complete and they will be available in the
 
 ### Latest Released Versions
 
-These resource(s) are the latest versions available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
+These resource(s) are the latest versions available for use in the current release of ASO.
 | Resource                                                                                 | ARM Version | CRD Version   | Supported From | Sample                                                                                                                                     |
 |------------------------------------------------------------------------------------------|-------------|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | [RoleAssignment]({{< relref "/reference/authorization/v1api20220401#RoleAssignment" >}}) | 2022-04-01  | v1api20220401 | v2.4.0         | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/authorization/v1api20220401/v1api20220401_roleassignment.yaml) |

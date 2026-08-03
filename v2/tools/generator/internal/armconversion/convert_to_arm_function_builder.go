@@ -268,19 +268,25 @@ func (builder *convertToARMBuilder) optionalSecretPropertyHandler(
 		return notHandled, nil
 	}
 
-	// Figure out which property is which type. There should be 1 string and 1 genruntime.SecretReference
+	// Figure out which property is which type. There should be 1 string and 1 genruntime.SecretReference.
+	// We identify by the reference type (which is always exact) rather than the string type
+	// (which may be a named string type like AzureCoreUuid).
 	var strProp *astmodel.PropertyDefinition
 	var refProp *astmodel.PropertyDefinition
-	if propType, ok := astmodel.AsPrimitiveType(fromProps[0].PropertyType()); ok && propType == astmodel.StringType {
-		strProp = fromProps[0]
-		refProp = fromProps[1]
-	} else {
-		strProp = fromProps[1]
+	if astmodel.TypeEquals(fromProps[0].PropertyType(), astmodel.NewOptionalType(astmodel.SecretReferenceType)) {
 		refProp = fromProps[0]
+		strProp = fromProps[1]
+	} else {
+		refProp = fromProps[0]
+		strProp = fromProps[1]
+		if astmodel.TypeEquals(fromProps[1].PropertyType(), astmodel.NewOptionalType(astmodel.SecretReferenceType)) {
+			refProp = fromProps[1]
+			strProp = fromProps[0]
+		}
 	}
 
-	optionalType, isOptional := astmodel.AsOptionalType(strProp.PropertyType())
-	if !isOptional || !astmodel.TypeEquals(optionalType, astmodel.OptionalStringType) {
+	_, isOptional := astmodel.AsOptionalType(strProp.PropertyType())
+	if !isOptional {
 		return notHandled, nil
 	}
 	if !astmodel.TypeEquals(refProp.PropertyType(), astmodel.NewOptionalType(astmodel.SecretReferenceType)) {
@@ -365,21 +371,27 @@ func (builder *convertToARMBuilder) configMapReferencePropertyHandler(
 		return notHandled, nil
 	}
 
-	// Figure out which property is which type. There should be 1 string and 1 genruntime.ConfigMapReference
+	// Figure out which property is which type. There should be 1 string and 1 genruntime.ConfigMapReference.
+	// We identify by the reference type (which is always exact) rather than the string type
+	// (which may be a named string type like AzureCoreUuid).
 	var strProp *astmodel.PropertyDefinition
 	var refProp *astmodel.PropertyDefinition
-	if propType, ok := astmodel.AsPrimitiveType(fromProps[0].PropertyType()); ok && propType == astmodel.StringType {
-		strProp = fromProps[0]
-		refProp = fromProps[1]
-	} else {
-		strProp = fromProps[1]
+	if astmodel.TypeEquals(fromProps[0].PropertyType(), astmodel.NewOptionalType(astmodel.ConfigMapReferenceType)) {
 		refProp = fromProps[0]
+		strProp = fromProps[1]
+	} else {
+		refProp = fromProps[0]
+		strProp = fromProps[1]
+		if astmodel.TypeEquals(fromProps[1].PropertyType(), astmodel.NewOptionalType(astmodel.ConfigMapReferenceType)) {
+			refProp = fromProps[1]
+			strProp = fromProps[0]
+		}
 	}
 
 	// This is technically more permissive than we would like as it allows collections too, but they won't make it this far because
 	// of the FindAllPropertiesWithTagValue above
-	optionalType, isOptional := astmodel.AsOptionalType(strProp.PropertyType())
-	if !isOptional || !astmodel.TypeEquals(optionalType, astmodel.OptionalStringType) {
+	_, isOptional := astmodel.AsOptionalType(strProp.PropertyType())
+	if !isOptional {
 		return notHandled, nil
 	}
 	if !astmodel.TypeEquals(refProp.PropertyType(), astmodel.NewOptionalType(astmodel.ConfigMapReferenceType)) {

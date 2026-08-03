@@ -148,6 +148,29 @@ func Find[T any](obj any) ([]T, error) {
 	return result, nil
 }
 
+// asStringPtr checks if a value is a pointer to a string or a pointer to a named string type
+// (e.g. *AzureCoreUuid where AzureCoreUuid is `type AzureCoreUuid string`). If so, it returns
+// a *string pointing to the underlying string value. Otherwise returns nil, false.
+func asStringPtr(val any) (*string, bool) {
+	if s, ok := val.(*string); ok {
+		return s, true
+	}
+
+	v := reflect.ValueOf(val)
+	if v.Kind() == reflect.Ptr {
+		if v.IsNil() {
+			return nil, true
+		}
+		elem := v.Elem()
+		if elem.Kind() == reflect.String {
+			s := elem.String()
+			return &s, true
+		}
+	}
+
+	return nil, false
+}
+
 // FindOptionalConfigMapReferences finds all the genruntime.ConfigMapReference's on the provided object
 func FindOptionalConfigMapReferences(obj any) ([]*configmaps.OptionalReferencePair, error) {
 	untypedResult, err := FindPropertiesWithTag(obj, "optionalConfigMapPair") // TODO: This is astmodel.OptionalConfigMapPairTag
@@ -167,7 +190,7 @@ func FindOptionalConfigMapReferences(obj any) ([]*configmaps.OptionalReferencePa
 
 		collector[key] = make([]*configmaps.OptionalReferencePair, 0, len(values))
 		for _, val := range values {
-			typedValue, ok := val.(*string)
+			typedValue, ok := asStringPtr(val)
 			if !ok {
 				return nil, eris.Errorf("value of property %s was not a *string like expected", key)
 			}
@@ -225,7 +248,7 @@ func FindOptionalSecretReferences(obj any) ([]*secrets.OptionalReferencePair, er
 
 		collector[key] = make([]*secrets.OptionalReferencePair, 0, len(values))
 		for _, val := range values {
-			typedValue, ok := val.(*string)
+			typedValue, ok := asStringPtr(val)
 			if !ok {
 				return nil, eris.Errorf("value of property %s was not a *string like expected", key)
 			}
