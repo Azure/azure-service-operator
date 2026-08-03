@@ -17,9 +17,11 @@ interactions:
         url: https://graph.microsoft.com/v1.0/groups?%24filter=displayName%20eq%20%27ASO%20Test%20Security%20Group%27
         method: GET
       response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
         content_length: -1
         uncompressed: true
         body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups","value":[]}'
@@ -36,7 +38,7 @@ interactions:
                 - Accept-Encoding
         status: 200 OK
         code: 200
-        duration: 468.726121ms
+        duration: 244.402068ms
     - id: 1
       request:
         proto: HTTP/1.1
@@ -57,19 +59,21 @@ interactions:
         url: https://graph.microsoft.com/v1.0/groups
         method: POST
       response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
         content_length: -1
         uncompressed: true
-        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","id":"94d49167-f076-4490-bb92-7c0f40388605","deletedDateTime":null,"classification":null,"createdDateTime":"2001-02-03T04:05:06Z","creationOptions":[],"description":null,"displayName":"ASO Test Security Group","expirationDateTime":null,"groupTypes":["Unified"],"infoCatalogs":[],"isAssignableToRole":null,"mail":"asotest-security-group@microsoft.onmicrosoft.com","mailEnabled":true,"mailNickname":"asotest-security-group","membershipRule":null,"membershipRuleProcessingState":null,"onPremisesDomainName":null,"onPremisesLastSyncDateTime":null,"onPremisesNetBiosName":null,"onPremisesSamAccountName":null,"onPremisesSecurityIdentifier":null,"onPremisesSyncEnabled":null,"preferredDataLocation":"APC","preferredLanguage":null,"proxyAddresses":["SMTP:asotest-security-group@microsoft.onmicrosoft.com"],"renewedDateTime":"2001-02-03T04:05:06Z","resourceBehaviorOptions":[],"resourceProvisioningOptions":[],"securityEnabled":true,"securityIdentifier":"S-1-12-1-2496958823-1150349430-259822267-92682304","theme":null,"uniqueName":null,"visibility":"Public","onPremisesProvisioningErrors":[],"serviceProvisioningErrors":[]}'
+        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","id":"ffffdfde-468b-48be-b11d-4c1303f10cee","deletedDateTime":null,"classification":null,"createdDateTime":"2001-02-03T04:05:06Z","creationOptions":[],"description":null,"displayName":"ASO Test Security Group","expirationDateTime":null,"groupTypes":["Unified"],"infoCatalogs":[],"isAssignableToRole":null,"mail":"asotest-security-group@bevanarpsoutlook.onmicrosoft.com","mailEnabled":true,"mailNickname":"asotest-security-group","membershipRule":null,"membershipRuleProcessingState":null,"onPremisesDomainName":null,"onPremisesLastSyncDateTime":null,"onPremisesNetBiosName":null,"onPremisesSamAccountName":null,"onPremisesSecurityIdentifier":null,"onPremisesSyncEnabled":null,"preferredDataLocation":null,"preferredLanguage":null,"proxyAddresses":["SMTP:asotest-security-group@bevanarpsoutlook.onmicrosoft.com"],"renewedDateTime":"2001-02-03T04:05:06Z","resourceBehaviorOptions":[],"resourceProvisioningOptions":[],"securityEnabled":true,"securityIdentifier":"S-1-12-1-4294959070-1220429451-323755441-3993825539","theme":null,"uniqueName":null,"visibility":"Public","onPremisesProvisioningErrors":[],"serviceProvisioningErrors":[]}'
         headers:
             Cache-Control:
                 - no-cache
             Content-Type:
                 - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
             Location:
-                - https://graph.microsoft.com/v1.0/00000000-0000-0000-0000-000000000000/directoryObjects/94d49167-f076-4490-bb92-7c0f40388605/Microsoft.DirectoryServices.Group
+                - https://graph.microsoft.com/v1.0/00000000-0000-0000-0000-000000000000/directoryObjects/ffffdfde-468b-48be-b11d-4c1303f10cee/Microsoft.DirectoryServices.Group
             Odata-Version:
                 - "4.0"
             Strict-Transport-Security:
@@ -78,7 +82,7 @@ interactions:
                 - Accept-Encoding
         status: 201 Created
         code: 201
-        duration: 1.573195384s
+        duration: 118.723198ms
     - id: 2
       request:
         proto: HTTP/1.1
@@ -89,15 +93,17 @@ interactions:
         headers:
             Accept:
                 - application/json
-        url: https://graph.microsoft.com/v1.0/groups/94d49167-f076-4490-bb92-7c0f40388605
+        url: https://graph.microsoft.com/v1.0/groups/ffffdfde-468b-48be-b11d-4c1303f10cee
         method: GET
       response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
         content_length: -1
         uncompressed: true
-        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","id":"94d49167-f076-4490-bb92-7c0f40388605","deletedDateTime":null,"classification":null,"createdDateTime":"2001-02-03T04:05:06Z","creationOptions":[],"description":null,"displayName":"ASO Test Security Group","expirationDateTime":null,"groupTypes":["Unified"],"infoCatalogs":[],"isAssignableToRole":null,"mail":"asotest-security-group@microsoft.onmicrosoft.com","mailEnabled":true,"mailNickname":"asotest-security-group","membershipRule":null,"membershipRuleProcessingState":null,"onPremisesDomainName":null,"onPremisesLastSyncDateTime":null,"onPremisesNetBiosName":null,"onPremisesSamAccountName":null,"onPremisesSecurityIdentifier":null,"onPremisesSyncEnabled":null,"preferredDataLocation":"APC","preferredLanguage":null,"proxyAddresses":["SMTP:asotest-security-group@microsoft.onmicrosoft.com"],"renewedDateTime":"2001-02-03T04:05:06Z","resourceBehaviorOptions":[],"resourceProvisioningOptions":[],"securityEnabled":true,"securityIdentifier":"S-1-12-1-2496958823-1150349430-259822267-92682304","theme":null,"uniqueName":null,"visibility":"Public","onPremisesProvisioningErrors":[],"serviceProvisioningErrors":[]}'
+        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","id":"ffffdfde-468b-48be-b11d-4c1303f10cee","deletedDateTime":null,"classification":null,"createdDateTime":"2001-02-03T04:05:06Z","creationOptions":[],"description":null,"displayName":"ASO Test Security Group","expirationDateTime":null,"groupTypes":["Unified"],"infoCatalogs":[],"isAssignableToRole":null,"mail":"asotest-security-group@bevanarpsoutlook.onmicrosoft.com","mailEnabled":true,"mailNickname":"asotest-security-group","membershipRule":null,"membershipRuleProcessingState":null,"onPremisesDomainName":null,"onPremisesLastSyncDateTime":null,"onPremisesNetBiosName":null,"onPremisesSamAccountName":null,"onPremisesSecurityIdentifier":null,"onPremisesSyncEnabled":null,"preferredDataLocation":null,"preferredLanguage":null,"proxyAddresses":["SMTP:asotest-security-group@bevanarpsoutlook.onmicrosoft.com"],"renewedDateTime":"2001-02-03T04:05:06Z","resourceBehaviorOptions":[],"resourceProvisioningOptions":[],"securityEnabled":true,"securityIdentifier":"S-1-12-1-4294959070-1220429451-323755441-3993825539","theme":null,"uniqueName":null,"visibility":"Public","onPremisesProvisioningErrors":[],"serviceProvisioningErrors":[]}'
         headers:
             Cache-Control:
                 - no-cache
@@ -111,7 +117,7 @@ interactions:
                 - Accept-Encoding
         status: 200 OK
         code: 200
-        duration: 219.378605ms
+        duration: 77.282315ms
     - id: 3
       request:
         proto: HTTP/1.1
@@ -119,23 +125,23 @@ interactions:
         proto_minor: 1
         content_length: 0
         host: graph.microsoft.com
-        body: '{"@odata.type":"#microsoft.graph.group","@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","creationOptions":[]}'
+        body: '{"@odata.type":"#microsoft.graph.group","displayName":"ASO Test Security Group Updated","groupTypes":["Unified"],"mailEnabled":false,"mailNickname":"asotest-security-group","securityEnabled":true}'
         headers:
             Accept:
                 - application/json
             Content-Type:
                 - application/json
             Test-Request-Canonical-Hash:
-                - a5eb2750bf28ef85de4e9461f6d5f61d28e63fc79dd3931f6f52cd9d71b9d6a0
+                - c5bc262804f950ceae4cd9ef8820c25c542dcbd8094d8168bee7a6171c7e57b2
             Test-Request-Hash:
-                - c7e9483a100cee6a8e8c4941aaf6775b59e7428ae61a827526d0fffa5b8f2ded
-        url: https://graph.microsoft.com/v1.0/groups/94d49167-f076-4490-bb92-7c0f40388605
+                - c5bc262804f950ceae4cd9ef8820c25c542dcbd8094d8168bee7a6171c7e57b2
+        url: https://graph.microsoft.com/v1.0/groups/ffffdfde-468b-48be-b11d-4c1303f10cee
         method: PATCH
       response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        content_length: -1
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
         body: ""
         headers:
             Cache-Control:
@@ -144,7 +150,7 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 253.534186ms
+        duration: 104.696471ms
     - id: 4
       request:
         proto: HTTP/1.1
@@ -155,13 +161,48 @@ interactions:
         headers:
             Accept:
                 - application/json
-        url: https://graph.microsoft.com/v1.0/groups/94d49167-f076-4490-bb92-7c0f40388605
+        url: https://graph.microsoft.com/v1.0/groups/ffffdfde-468b-48be-b11d-4c1303f10cee
+        method: GET
+      response:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        transfer_encoding:
+            - chunked
+        content_length: -1
+        uncompressed: true
+        body: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#groups/$entity","id":"ffffdfde-468b-48be-b11d-4c1303f10cee","deletedDateTime":null,"classification":null,"createdDateTime":"2001-02-03T04:05:06Z","creationOptions":[],"description":null,"displayName":"ASO Test Security Group Updated","expirationDateTime":null,"groupTypes":["Unified"],"infoCatalogs":[],"isAssignableToRole":null,"mail":"asotest-security-group@bevanarpsoutlook.onmicrosoft.com","mailEnabled":true,"mailNickname":"asotest-security-group","membershipRule":null,"membershipRuleProcessingState":null,"onPremisesDomainName":null,"onPremisesLastSyncDateTime":null,"onPremisesNetBiosName":null,"onPremisesSamAccountName":null,"onPremisesSecurityIdentifier":null,"onPremisesSyncEnabled":null,"preferredDataLocation":null,"preferredLanguage":null,"proxyAddresses":["SMTP:asotest-security-group@bevanarpsoutlook.onmicrosoft.com"],"renewedDateTime":"2001-02-03T04:05:06Z","resourceBehaviorOptions":[],"resourceProvisioningOptions":[],"securityEnabled":true,"securityIdentifier":"S-1-12-1-4294959070-1220429451-323755441-3993825539","theme":null,"uniqueName":null,"visibility":"Public","onPremisesProvisioningErrors":[],"serviceProvisioningErrors":[]}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Type:
+                - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+            Odata-Version:
+                - "4.0"
+            Strict-Transport-Security:
+                - max-age=31536000
+            Vary:
+                - Accept-Encoding
+        status: 200 OK
+        code: 200
+        duration: 107.814388ms
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: graph.microsoft.com
+        headers:
+            Accept:
+                - application/json
+        url: https://graph.microsoft.com/v1.0/groups/ffffdfde-468b-48be-b11d-4c1303f10cee
         method: DELETE
       response:
-        proto: HTTP/2.0
-        proto_major: 2
-        proto_minor: 0
-        content_length: -1
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
         body: ""
         headers:
             Cache-Control:
@@ -170,4 +211,4 @@ interactions:
                 - max-age=31536000
         status: 204 No Content
         code: 204
-        duration: 1.434684001s
+        duration: 219.580401ms
