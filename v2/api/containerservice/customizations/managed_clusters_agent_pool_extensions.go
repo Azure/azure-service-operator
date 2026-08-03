@@ -12,7 +12,6 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
-	"k8s.io/apimachinery/pkg/util/version"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	containerservice "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20250801/storage"
@@ -58,17 +57,6 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileOwnerCheck(
 				),
 				nil
 		}
-
-		if managedClusterUpgradeInProgress(managedCluster) {
-			return extensions.BlockReconcile(
-					fmt.Sprintf(
-						"Managed cluster %q has not reached Kubernetes version %q",
-						owner.GetName(),
-						*managedCluster.Spec.KubernetesVersion,
-					),
-				),
-				nil
-		}
 	}
 
 	return next(ctx, owner, resourceResolver, armClient, log)
@@ -94,25 +82,6 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = agentPool
 
-	if resourceResolver != nil {
-		ownerDetails, err := resourceResolver.ResolveOwner(ctx, agentPool)
-		if err != nil {
-			return extensions.PreReconcileCheckResult{}, err
-		}
-
-		if managedCluster, ok := ownerDetails.Owner.(*containerservice.ManagedCluster); ok &&
-			agentPoolVersionExceedsControlPlaneVersion(agentPool, managedCluster) {
-			return extensions.BlockReconcile(
-					fmt.Sprintf(
-						"Managed cluster %q has not reached Kubernetes version %q",
-						managedCluster.GetName(),
-						*agentPool.Spec.OrchestratorVersion,
-					),
-				),
-				nil
-		}
-	}
-
 	// If the agent pool is in a state that will reject any PUT, then we should skip reconciliation
 	// as there's no point in even trying.
 	// This allows us to "play nice with others" and not use up request quota attempting to make changes when we
@@ -128,50 +97,6 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	return next(ctx, obj, resourceResolver, armClient, log)
 }
 
-func managedClusterUpgradeInProgress(managedCluster *containerservice.ManagedCluster) bool {
-	if managedCluster.Spec.KubernetesVersion == nil || managedCluster.Status.CurrentKubernetesVersion == nil {
-		return false
-	}
-
-	specVersion, err := version.ParseSemantic(*managedCluster.Spec.KubernetesVersion)
-	if err != nil {
-		return false
-	}
-
-	currentVersion, err := version.ParseSemantic(*managedCluster.Status.CurrentKubernetesVersion)
-	if err != nil {
-		return false
-	}
-
-	// Only block reconciliation if the desired version is a higher major/minor than the current version,
-	// indicating an in-progress upgrade. Downgrades and patch-only differences do not block.
-	return specVersion.Major() > currentVersion.Major() ||
-		(specVersion.Major() == currentVersion.Major() && specVersion.Minor() > currentVersion.Minor())
-}
-
-func agentPoolVersionExceedsControlPlaneVersion(
-	agentPool *containerservice.ManagedClustersAgentPool,
-	managedCluster *containerservice.ManagedCluster,
-) bool {
-	if agentPool.Spec.OrchestratorVersion == nil || managedCluster.Status.CurrentKubernetesVersion == nil {
-		return false
-	}
-
-	agentPoolVersion, err := version.ParseSemantic(*agentPool.Spec.OrchestratorVersion)
-	if err != nil {
-		return false
-	}
-
-	controlPlaneVersion, err := version.ParseSemantic(*managedCluster.Status.CurrentKubernetesVersion)
-	if err != nil {
-		return false
-	}
-
-	return agentPoolVersion.Major() > controlPlaneVersion.Major() ||
-		(agentPoolVersion.Major() == controlPlaneVersion.Major() &&
-			agentPoolVersion.Minor() > controlPlaneVersion.Minor())
-}
-
 // ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
 func (ext *ManagedClustersAgentPoolExtension) ClassifyError(
 	cloudError *genericarmclient.CloudError,
@@ -185,6 +110,8 @@ func (ext *ManagedClustersAgentPoolExtension) ClassifyError(
 	}
 
 	if cloudError != nil && cloudError.Code() == "NodePoolMcVersionIncompatible" {
+		// NodePoolMcVersionIncompatible can occur in the midst of a pool upgrade and shouldn't be treated as a fatal
+		// error; instead, we should retry slowly until the upgrade is complete.
 		details.Classification = core.ErrorRetryable
 		details.Retry = retry.Slow
 	}
