@@ -148,6 +148,9 @@ func ResourceGroupTagsFromEnvironment() (map[string]string, error) {
 	if err != nil {
 		return nil, eris.Wrapf(err, "reading %s, which must be a JSON object of tag names to values", TestResourceGroupTagsVar)
 	}
+	if tags == nil {
+		return nil, eris.Errorf("reading %s, which must be a JSON object of tag names to values", TestResourceGroupTagsVar)
+	}
 
 	return tags, nil
 }

@@ -11,7 +11,7 @@ These are sometimes also called `envtest` tests, because they use
 
 ### Required variables
 
-| Environment Variable     | Value                                                                                                   | Needed for CI (Github Actions) | Needed for local testing                     |
+| Environment Variable     | Value                                                                                                   | Needed for CI (GitHub Actions) | Needed for local testing                     |
 | ------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------- | --------------------------------------------- |
 | AZURE_SUBSCRIPTION_ID    | The Azure Subscription ID                                                                               | Yes                            | Yes (when recording)                         |
 | AZURE_TENANT_ID          | The Azure Tenant ID                                                                                     | Yes                            | Yes (when recording)                         |

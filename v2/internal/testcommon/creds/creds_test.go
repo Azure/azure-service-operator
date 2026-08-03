@@ -22,6 +22,11 @@ func Test_ResourceGroupTagsFromEnvironment_givenSetting_returnsExpectedTags(t *t
 			expected: nil,
 			valid:    true,
 		},
+		"Empty object": {
+			setting:  `{}`,
+			expected: map[string]string{},
+			valid:    true,
+		},
 		"Single tag": {
 			setting: `{"Owner":"someone"}`,
 			expected: map[string]string{
@@ -54,6 +59,10 @@ func Test_ResourceGroupTagsFromEnvironment_givenSetting_returnsExpectedTags(t *t
 		},
 		"Not an object": {
 			setting: `Owner=someone`,
+			valid:   false,
+		},
+		"Null": {
+			setting: `null`,
 			valid:   false,
 		},
 		"Values that aren't strings": {
