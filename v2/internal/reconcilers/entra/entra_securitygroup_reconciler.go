@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 
@@ -73,7 +74,7 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 ) (ctrl.Result, error) {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", group.Name)
+		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", obj.GetName())
 	}
 
 	// If we already know the Entra ID of the group (captured in an annotation), we can update it directly
@@ -110,11 +111,11 @@ func (r *EntraSecurityGroupReconciler) Delete(
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
 ) (ctrl.Result, error) {
-	log.V(Status).Info("Updating Entra security group")
+	log.V(Status).Info("Deleting Entra security group")
 
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return ctrl.Result{}, eris.Wrapf(err, "creating or updating security group %s", group.Name)
+		return ctrl.Result{}, eris.Wrapf(err, "deleting security group %s", obj.GetName())
 	}
 
 	// If don't know the Entra ID of the group (captured in an annotation), there's nothing to do.
@@ -202,6 +203,10 @@ func (r *EntraSecurityGroupReconciler) update(
 	if err != nil {
 		// Failed to update
 		return ctrl.Result{}, eris.Wrapf(err, "failed to update group %s", id)
+	}
+
+	if result, err := r.reconcileOwnersAndMembers(ctx, group, client.Client(), log); err != nil {
+		return classifyRelationshipError(result, err)
 	}
 
 	group.Status.AssignFromGroup(g)
@@ -292,6 +297,17 @@ func (r *EntraSecurityGroupReconciler) create(
 	g := msgraphmodels.NewGroup()
 	group.Spec.AssignToGroup(g)
 
+	// Resolve config map references for this resource so we can populate any
+	// ObjectIDFromConfig values used in owners/members.
+	resolvedConfigMaps, err := r.ResourceResolver.ResolveResourceConfigMapReferences(ctx, group)
+	if err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed resolving config map references for group %s", group.Name)
+	}
+
+	if err := group.Spec.AssignODataBindOnCreate(g, resolvedConfigMaps); err != nil {
+		return ctrl.Result{}, eris.Wrapf(err, "failed preparing create payload for group %s", group.Name)
+	}
+
 	status, err := client.Client().Groups().Post(ctx, g, nil)
 	if err != nil {
 		// Failed to create
@@ -320,7 +336,7 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 ) error {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
-		return eris.Wrapf(err, "updating status of security group %s", group.Name)
+		return eris.Wrapf(err, "updating status of security group %s", obj.GetName())
 	}
 
 	client, err := r.EntraClientFactory(ctx, obj)
@@ -383,8 +399,11 @@ func (r *EntraSecurityGroupReconciler) loadGroupsByDisplayName(
 	displayName string,
 	client *msgraphsdkgo.GraphServiceClient,
 ) ([]msgraphmodels.Groupable, error) {
-	// Try to get the group by display name
-	filterStr := fmt.Sprintf("displayName eq '%s'", displayName)
+	// Try to get the group by display name.
+	// Escape single quotes in the display name per the OData v4 spec: a single quote
+	// within a string literal is represented as two consecutive single quotes.
+	escapedDisplayName := strings.ReplaceAll(displayName, "'", "''")
+	filterStr := fmt.Sprintf("displayName eq '%s'", escapedDisplayName)
 
 	query := &groups.GroupsRequestBuilderGetQueryParameters{
 		Filter: &filterStr,
