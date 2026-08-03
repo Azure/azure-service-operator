@@ -319,14 +319,16 @@ EventSubscription: Resource
 │   │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   │   └── "ServiceBusTopic"
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── StorageQueue: *Object (4 properties)
+│   │   │   ├── StorageQueue: *Object (5 properties)
 │   │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   │   └── "StorageQueue"
 │   │   │   │   ├── QueueMessageTimeToLiveInSeconds: *int
 │   │   │   │   ├── QueueName: *string
+│   │   │   │   ├── QueueNameFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   └── WebHook: *Object (8 properties)
+│   │   │   └── WebHook: *Object (9 properties)
 │   │   │       ├── AzureActiveDirectoryApplicationIdOrUri: *string
+│   │   │       ├── AzureActiveDirectoryApplicationIdOrUriFromConfig: *genruntime.ConfigMapReference
 │   │   │       ├── AzureActiveDirectoryTenantId: *string
 │   │   │       ├── DeliveryAttributeMappings: Object (2 properties)[]
 │   │   │       │   ├── Dynamic: *Object (3 properties)
@@ -452,14 +454,16 @@ EventSubscription: Resource
 │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   └── "ServiceBusTopic"
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   ├── StorageQueue: *Object (4 properties)
+│   │   ├── StorageQueue: *Object (5 properties)
 │   │   │   ├── EndpointType: *Enum (1 value)
 │   │   │   │   └── "StorageQueue"
 │   │   │   ├── QueueMessageTimeToLiveInSeconds: *int
 │   │   │   ├── QueueName: *string
+│   │   │   ├── QueueNameFromConfig: *genruntime.ConfigMapReference
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   └── WebHook: *Object (8 properties)
+│   │   └── WebHook: *Object (9 properties)
 │   │       ├── AzureActiveDirectoryApplicationIdOrUri: *string
+│   │       ├── AzureActiveDirectoryApplicationIdOrUriFromConfig: *genruntime.ConfigMapReference
 │   │       ├── AzureActiveDirectoryTenantId: *string
 │   │       ├── DeliveryAttributeMappings: Object (2 properties)[]
 │   │       │   ├── Dynamic: *Object (3 properties)

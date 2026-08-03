@@ -592,10 +592,11 @@ type StorageBlobDeadLetterDestination_STATUS struct {
 
 // Storage version of v20250215.StorageQueueEventSubscriptionDestination
 type StorageQueueEventSubscriptionDestination struct {
-	EndpointType                    *string                `json:"endpointType,omitempty"`
-	PropertyBag                     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	QueueMessageTimeToLiveInSeconds *int                   `json:"queueMessageTimeToLiveInSeconds,omitempty"`
-	QueueName                       *string                `json:"queueName,omitempty"`
+	EndpointType                    *string                        `json:"endpointType,omitempty"`
+	PropertyBag                     genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	QueueMessageTimeToLiveInSeconds *int                           `json:"queueMessageTimeToLiveInSeconds,omitempty"`
+	QueueName                       *string                        `json:"queueName,omitempty" optionalConfigMapPair:"QueueName"`
+	QueueNameFromConfig             *genruntime.ConfigMapReference `json:"queueNameFromConfig,omitempty" optionalConfigMapPair:"QueueName"`
 
 	// ResourceReference: The Azure Resource ID of the storage account that contains the queue that is the destination of an
 	// event subscription.
@@ -613,15 +614,16 @@ type StorageQueueEventSubscriptionDestination_STATUS struct {
 
 // Storage version of v20250215.WebHookEventSubscriptionDestination
 type WebHookEventSubscriptionDestination struct {
-	AzureActiveDirectoryApplicationIdOrUri *string                     `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
-	AzureActiveDirectoryTenantId           *string                     `json:"azureActiveDirectoryTenantId,omitempty"`
-	DeliveryAttributeMappings              []DeliveryAttributeMapping  `json:"deliveryAttributeMappings,omitempty"`
-	EndpointType                           *string                     `json:"endpointType,omitempty"`
-	EndpointUrl                            *genruntime.SecretReference `json:"endpointUrl,omitempty"`
-	MaxEventsPerBatch                      *int                        `json:"maxEventsPerBatch,omitempty"`
-	MinimumTlsVersionAllowed               *string                     `json:"minimumTlsVersionAllowed,omitempty"`
-	PreferredBatchSizeInKilobytes          *int                        `json:"preferredBatchSizeInKilobytes,omitempty"`
-	PropertyBag                            genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	AzureActiveDirectoryApplicationIdOrUri           *string                        `json:"azureActiveDirectoryApplicationIdOrUri,omitempty" optionalConfigMapPair:"AzureActiveDirectoryApplicationIdOrUri"`
+	AzureActiveDirectoryApplicationIdOrUriFromConfig *genruntime.ConfigMapReference `json:"azureActiveDirectoryApplicationIdOrUriFromConfig,omitempty" optionalConfigMapPair:"AzureActiveDirectoryApplicationIdOrUri"`
+	AzureActiveDirectoryTenantId                     *string                        `json:"azureActiveDirectoryTenantId,omitempty"`
+	DeliveryAttributeMappings                        []DeliveryAttributeMapping     `json:"deliveryAttributeMappings,omitempty"`
+	EndpointType                                     *string                        `json:"endpointType,omitempty"`
+	EndpointUrl                                      *genruntime.SecretReference    `json:"endpointUrl,omitempty"`
+	MaxEventsPerBatch                                *int                           `json:"maxEventsPerBatch,omitempty"`
+	MinimumTlsVersionAllowed                         *string                        `json:"minimumTlsVersionAllowed,omitempty"`
+	PreferredBatchSizeInKilobytes                    *int                           `json:"preferredBatchSizeInKilobytes,omitempty"`
+	PropertyBag                                      genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20250215.WebHookEventSubscriptionDestination_STATUS

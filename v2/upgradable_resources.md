@@ -12,9 +12,9 @@ The following resources have newer versions available in the Azure REST API spec
 
 ## batch
 
-|  | Resource     | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|--|--------------|------------------|------------------|-------------------|-------------------|
-|  | BatchAccount | 2025-06-01       | 2024-07-01       | -                 | -                 |
+|      | Resource     | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|--------------|------------------|------------------|-------------------|-------------------|
+| 💡    | BatchAccount | **2025-06-01**   | 2024-07-01       | -                 | -                 |
 
 ## cache
 

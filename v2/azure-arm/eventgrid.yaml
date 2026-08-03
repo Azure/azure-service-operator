@@ -17,6 +17,9 @@ groupModelConfiguration:
     EventSubscription:
       $exportAs: EventSubscription
       $supportedFrom: v2.0.0-alpha.5
+    StorageQueueEventSubscriptionDestinationProperties:
+      QueueName:
+        $importConfigMapMode: optional
     Topic:
       $exportAs: Topic
       $supportedFrom: v2.0.0-alpha.3
@@ -25,6 +28,9 @@ groupModelConfiguration:
         - Key2
       $generatedConfigs:
         Endpoint: $.Status.Endpoint
+    WebHookEventSubscriptionDestinationProperties:
+      AzureActiveDirectoryApplicationIdOrUri:
+        $importConfigMapMode: optional
   2025-02-15:
     StaticDeliveryAttributeMappingProperties:
       IsSecret:
@@ -38,6 +44,9 @@ groupModelConfiguration:
     EventSubscription:
       $exportAs: EventSubscription
       $supportedFrom: v2.21.0
+    StorageQueueEventSubscriptionDestinationProperties:
+      QueueName:
+        $importConfigMapMode: optional
     Topic:
       $exportAs: Topic
       $supportedFrom: v2.21.0
@@ -46,3 +55,6 @@ groupModelConfiguration:
         - Key2
       $generatedConfigs:
         Endpoint: $.Status.Endpoint
+    WebHookEventSubscriptionDestinationProperties:
+      AzureActiveDirectoryApplicationIdOrUri:
+        $importConfigMapMode: optional

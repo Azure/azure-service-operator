@@ -1721,12 +1721,28 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(eventgrid_v20250215s.EventSubscription),
 		Indexes: []registration.Index{
 			{
+				Key:  ".spec.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
+				Func: indexEventgridEventSubscriptionAzureActiveDirectoryApplicationIdOrUriFromConfig,
+			},
+			{
+				Key:  ".spec.deliveryWithResourceIdentity.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
+				Func: indexEventgridEventSubscriptionDeliveryWithResourceIdentityAzureActiveDirectoryApplicationIdOrUriFromConfig,
+			},
+			{
 				Key:  ".spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl",
 				Func: indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl,
 			},
 			{
+				Key:  ".spec.deliveryWithResourceIdentity.destination.storageQueue.queueNameFromConfig",
+				Func: indexEventgridEventSubscriptionDeliveryWithResourceIdentityQueueNameFromConfig,
+			},
+			{
 				Key:  ".spec.destination.webHook.endpointUrl",
 				Func: indexEventgridEventSubscriptionEndpointUrl,
+			},
+			{
+				Key:  ".spec.destination.storageQueue.queueNameFromConfig",
+				Func: indexEventgridEventSubscriptionQueueNameFromConfig,
 			},
 		},
 		Watches: []registration.Watch{
@@ -1736,6 +1752,17 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl",
 						".spec.destination.webHook.endpointUrl",
+					},
+					&eventgrid_v20250215s.EventSubscriptionList{}),
+			},
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.deliveryWithResourceIdentity.destination.storageQueue.queueNameFromConfig",
+						".spec.deliveryWithResourceIdentity.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
+						".spec.destination.storageQueue.queueNameFromConfig",
+						".spec.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig",
 					},
 					&eventgrid_v20250215s.EventSubscriptionList{}),
 			},
@@ -10095,6 +10122,45 @@ func indexDocumentdbSqlRoleAssignmentPrincipalIdFromConfig(rawObj client.Object)
 	return obj.Spec.PrincipalIdFromConfig.Index()
 }
 
+// indexEventgridEventSubscriptionAzureActiveDirectoryApplicationIdOrUriFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig
+func indexEventgridEventSubscriptionAzureActiveDirectoryApplicationIdOrUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Destination == nil {
+		return nil
+	}
+	if obj.Spec.Destination.WebHook == nil {
+		return nil
+	}
+	if obj.Spec.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig.Index()
+}
+
+// indexEventgridEventSubscriptionDeliveryWithResourceIdentityAzureActiveDirectoryApplicationIdOrUriFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.deliveryWithResourceIdentity.destination.webHook.azureActiveDirectoryApplicationIdOrUriFromConfig
+func indexEventgridEventSubscriptionDeliveryWithResourceIdentityAzureActiveDirectoryApplicationIdOrUriFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.AzureActiveDirectoryApplicationIdOrUriFromConfig.Index()
+}
+
 // indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl an index function for eventgrid_v20250215s.EventSubscription .spec.deliveryWithResourceIdentity.destination.webHook.endpointUrl
 func indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl(rawObj client.Object) []string {
 	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
@@ -10116,6 +10182,27 @@ func indexEventgridEventSubscriptionDeliveryWithResourceIdentityEndpointUrl(rawO
 	return obj.Spec.DeliveryWithResourceIdentity.Destination.WebHook.EndpointUrl.Index()
 }
 
+// indexEventgridEventSubscriptionDeliveryWithResourceIdentityQueueNameFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.deliveryWithResourceIdentity.destination.storageQueue.queueNameFromConfig
+func indexEventgridEventSubscriptionDeliveryWithResourceIdentityQueueNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.StorageQueue == nil {
+		return nil
+	}
+	if obj.Spec.DeliveryWithResourceIdentity.Destination.StorageQueue.QueueNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.DeliveryWithResourceIdentity.Destination.StorageQueue.QueueNameFromConfig.Index()
+}
+
 // indexEventgridEventSubscriptionEndpointUrl an index function for eventgrid_v20250215s.EventSubscription .spec.destination.webHook.endpointUrl
 func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
 	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
@@ -10132,6 +10219,24 @@ func indexEventgridEventSubscriptionEndpointUrl(rawObj client.Object) []string {
 		return nil
 	}
 	return obj.Spec.Destination.WebHook.EndpointUrl.Index()
+}
+
+// indexEventgridEventSubscriptionQueueNameFromConfig an index function for eventgrid_v20250215s.EventSubscription .spec.destination.storageQueue.queueNameFromConfig
+func indexEventgridEventSubscriptionQueueNameFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*eventgrid_v20250215s.EventSubscription)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Destination == nil {
+		return nil
+	}
+	if obj.Spec.Destination.StorageQueue == nil {
+		return nil
+	}
+	if obj.Spec.Destination.StorageQueue.QueueNameFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.Destination.StorageQueue.QueueNameFromConfig.Index()
 }
 
 // indexKeyvaultVaultPropertiesAccessPoliciesApplicationIdFromConfig an index function for keyvault_v20230701s.Vault .spec.properties.accessPolicies.applicationIdFromConfig

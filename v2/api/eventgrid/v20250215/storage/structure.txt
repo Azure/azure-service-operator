@@ -297,14 +297,16 @@ EventSubscription: Resource
 │   │   │   │   ├── EndpointType: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   ├── StorageQueue: *Object (5 properties)
+│   │   │   ├── StorageQueue: *Object (6 properties)
 │   │   │   │   ├── EndpointType: *string
 │   │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   │   ├── QueueMessageTimeToLiveInSeconds: *int
 │   │   │   │   ├── QueueName: *string
+│   │   │   │   ├── QueueNameFromConfig: *genruntime.ConfigMapReference
 │   │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   │   └── WebHook: *Object (9 properties)
+│   │   │   └── WebHook: *Object (10 properties)
 │   │   │       ├── AzureActiveDirectoryApplicationIdOrUri: *string
+│   │   │       ├── AzureActiveDirectoryApplicationIdOrUriFromConfig: *genruntime.ConfigMapReference
 │   │   │       ├── AzureActiveDirectoryTenantId: *string
 │   │   │       ├── DeliveryAttributeMappings: Object (3 properties)[]
 │   │   │       │   ├── Dynamic: *Object (4 properties)
@@ -429,14 +431,16 @@ EventSubscription: Resource
 │   │   │   ├── EndpointType: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   ├── StorageQueue: *Object (5 properties)
+│   │   ├── StorageQueue: *Object (6 properties)
 │   │   │   ├── EndpointType: *string
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── QueueMessageTimeToLiveInSeconds: *int
 │   │   │   ├── QueueName: *string
+│   │   │   ├── QueueNameFromConfig: *genruntime.ConfigMapReference
 │   │   │   └── ResourceReference: *genruntime.ResourceReference
-│   │   └── WebHook: *Object (9 properties)
+│   │   └── WebHook: *Object (10 properties)
 │   │       ├── AzureActiveDirectoryApplicationIdOrUri: *string
+│   │       ├── AzureActiveDirectoryApplicationIdOrUriFromConfig: *genruntime.ConfigMapReference
 │   │       ├── AzureActiveDirectoryTenantId: *string
 │   │       ├── DeliveryAttributeMappings: Object (3 properties)[]
 │   │       │   ├── Dynamic: *Object (4 properties)

@@ -120,6 +120,7 @@ func (subscription *EventSubscription) createValidations() []func(ctx context.Co
 		subscription.validateResourceReferences,
 		subscription.validateSecretDestinations,
 		subscription.validateConfigMapDestinations,
+		subscription.validateOptionalConfigMapReferences,
 	}
 }
 
@@ -141,6 +142,9 @@ func (subscription *EventSubscription) updateValidations() []func(ctx context.Co
 		func(ctx context.Context, oldObj *v20250215.EventSubscription, newObj *v20250215.EventSubscription) (admission.Warnings, error) {
 			return subscription.validateConfigMapDestinations(ctx, newObj)
 		},
+		func(ctx context.Context, oldObj *v20250215.EventSubscription, newObj *v20250215.EventSubscription) (admission.Warnings, error) {
+			return subscription.validateOptionalConfigMapReferences(ctx, newObj)
+		},
 	}
 }
 
@@ -150,6 +154,15 @@ func (subscription *EventSubscription) validateConfigMapDestinations(ctx context
 		return nil, nil
 	}
 	return configmaps.ValidateDestinations(obj, nil, obj.Spec.OperatorSpec.ConfigMapExpressions)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (subscription *EventSubscription) validateOptionalConfigMapReferences(ctx context.Context, obj *v20250215.EventSubscription) (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&obj.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateResourceReferences validates all resource references
