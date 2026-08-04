@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serverskeys,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serverskeys/status,serverskeys/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (serversKey *ServersKey) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (serversKey *ServersKey) SetConditions(conditions conditions.Conditions) {
 	serversKey.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersKey{}
+
+// ConvertFrom populates our ServersKey from the provided hub ServersKey
+func (serversKey *ServersKey) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersKey)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersKey but received %T instead", hub)
+	}
+
+	return serversKey.AssignProperties_From_ServersKey(source)
+}
+
+// ConvertTo populates the provided hub ServersKey from our ServersKey
+func (serversKey *ServersKey) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersKey)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersKey but received %T instead", hub)
+	}
+
+	return serversKey.AssignProperties_To_ServersKey(destination)
 }
 
 var _ configmaps.Exporter = &ServersKey{}
@@ -143,8 +164,75 @@ func (serversKey *ServersKey) SetStatus(status genruntime.ConvertibleStatus) err
 	return nil
 }
 
-// Hub marks that this ServersKey is the hub type for conversion
-func (serversKey *ServersKey) Hub() {}
+// AssignProperties_From_ServersKey populates our ServersKey from the provided source ServersKey
+func (serversKey *ServersKey) AssignProperties_From_ServersKey(source *storage.ServersKey) error {
+
+	// ObjectMeta
+	serversKey.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersKey_Spec
+	err := spec.AssignProperties_From_ServersKey_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersKey_Spec() to populate field Spec")
+	}
+	serversKey.Spec = spec
+
+	// Status
+	var status ServersKey_STATUS
+	err = status.AssignProperties_From_ServersKey_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersKey_STATUS() to populate field Status")
+	}
+	serversKey.Status = status
+
+	// Invoke the augmentConversionForServersKey interface (if implemented) to customize the conversion
+	var serversKeyAsAny any = serversKey
+	if augmentedServersKey, ok := serversKeyAsAny.(augmentConversionForServersKey); ok {
+		err := augmentedServersKey.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersKey populates the provided destination ServersKey from our ServersKey
+func (serversKey *ServersKey) AssignProperties_To_ServersKey(destination *storage.ServersKey) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *serversKey.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersKey_Spec
+	err := serversKey.Spec.AssignProperties_To_ServersKey_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersKey_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersKey_STATUS
+	err = serversKey.Status.AssignProperties_To_ServersKey_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersKey_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersKey interface (if implemented) to customize the conversion
+	var serversKeyAsAny any = serversKey
+	if augmentedServersKey, ok := serversKeyAsAny.(augmentConversionForServersKey); ok {
+		err := augmentedServersKey.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (serversKey *ServersKey) OriginalGVK() *schema.GroupVersionKind {
@@ -164,6 +252,11 @@ type ServersKeyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ServersKey `json:"items"`
+}
+
+type augmentConversionForServersKey interface {
+	AssignPropertiesFrom(src *storage.ServersKey) error
+	AssignPropertiesTo(dst *storage.ServersKey) error
 }
 
 // Storage version of v20211101.ServersKey_Spec
@@ -188,20 +281,164 @@ var _ genruntime.ConvertibleSpec = &ServersKey_Spec{}
 
 // ConvertSpecFrom populates our ServersKey_Spec from the provided source
 func (serversKey *ServersKey_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == serversKey {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersKey_Spec)
+	if ok {
+		// Populate our instance from source
+		return serversKey.AssignProperties_From_ServersKey_Spec(src)
 	}
 
-	return source.ConvertSpecTo(serversKey)
+	// Convert to an intermediate form
+	src = &storage.ServersKey_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = serversKey.AssignProperties_From_ServersKey_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersKey_Spec
 func (serversKey *ServersKey_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == serversKey {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersKey_Spec)
+	if ok {
+		// Populate destination from our instance
+		return serversKey.AssignProperties_To_ServersKey_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(serversKey)
+	// Convert to an intermediate form
+	dst = &storage.ServersKey_Spec{}
+	err := serversKey.AssignProperties_To_ServersKey_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersKey_Spec populates our ServersKey_Spec from the provided source ServersKey_Spec
+func (serversKey *ServersKey_Spec) AssignProperties_From_ServersKey_Spec(source *storage.ServersKey_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	serversKey.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersKeyOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersKeyOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersKeyOperatorSpec() to populate field OperatorSpec")
+		}
+		serversKey.OperatorSpec = &operatorSpec
+	} else {
+		serversKey.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	serversKey.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		serversKey.Owner = &owner
+	} else {
+		serversKey.Owner = nil
+	}
+
+	// ServerKeyType
+	serversKey.ServerKeyType = genruntime.ClonePointerToString(source.ServerKeyType)
+
+	// Uri
+	serversKey.Uri = genruntime.ClonePointerToString(source.Uri)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		serversKey.PropertyBag = propertyBag
+	} else {
+		serversKey.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersKey_Spec interface (if implemented) to customize the conversion
+	var serversKeyAsAny any = serversKey
+	if augmentedServersKey, ok := serversKeyAsAny.(augmentConversionForServersKey_Spec); ok {
+		err := augmentedServersKey.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersKey_Spec populates the provided destination ServersKey_Spec from our ServersKey_Spec
+func (serversKey *ServersKey_Spec) AssignProperties_To_ServersKey_Spec(destination *storage.ServersKey_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(serversKey.PropertyBag)
+
+	// AzureName
+	destination.AzureName = serversKey.AzureName
+
+	// OperatorSpec
+	if serversKey.OperatorSpec != nil {
+		var operatorSpec storage.ServersKeyOperatorSpec
+		err := serversKey.OperatorSpec.AssignProperties_To_ServersKeyOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersKeyOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = serversKey.OriginalVersion
+
+	// Owner
+	if serversKey.Owner != nil {
+		owner := serversKey.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// ServerKeyType
+	destination.ServerKeyType = genruntime.ClonePointerToString(serversKey.ServerKeyType)
+
+	// Uri
+	destination.Uri = genruntime.ClonePointerToString(serversKey.Uri)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersKey_Spec interface (if implemented) to customize the conversion
+	var serversKeyAsAny any = serversKey
+	if augmentedServersKey, ok := serversKeyAsAny.(augmentConversionForServersKey_Spec); ok {
+		err := augmentedServersKey.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20211101.ServersKey_STATUS
@@ -225,20 +462,232 @@ var _ genruntime.ConvertibleStatus = &ServersKey_STATUS{}
 
 // ConvertStatusFrom populates our ServersKey_STATUS from the provided source
 func (serversKey *ServersKey_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == serversKey {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersKey_STATUS)
+	if ok {
+		// Populate our instance from source
+		return serversKey.AssignProperties_From_ServersKey_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(serversKey)
+	// Convert to an intermediate form
+	src = &storage.ServersKey_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = serversKey.AssignProperties_From_ServersKey_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersKey_STATUS
 func (serversKey *ServersKey_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == serversKey {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersKey_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return serversKey.AssignProperties_To_ServersKey_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(serversKey)
+	// Convert to an intermediate form
+	dst = &storage.ServersKey_STATUS{}
+	err := serversKey.AssignProperties_To_ServersKey_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersKey_STATUS populates our ServersKey_STATUS from the provided source ServersKey_STATUS
+func (serversKey *ServersKey_STATUS) AssignProperties_From_ServersKey_STATUS(source *storage.ServersKey_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AutoRotationEnabled
+	if source.AutoRotationEnabled != nil {
+		autoRotationEnabled := *source.AutoRotationEnabled
+		serversKey.AutoRotationEnabled = &autoRotationEnabled
+	} else {
+		serversKey.AutoRotationEnabled = nil
+	}
+
+	// Conditions
+	serversKey.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CreationDate
+	serversKey.CreationDate = genruntime.ClonePointerToString(source.CreationDate)
+
+	// Id
+	serversKey.Id = genruntime.ClonePointerToString(source.Id)
+
+	// KeyVersion
+	if source.KeyVersion != nil {
+		propertyBag.Add("KeyVersion", *source.KeyVersion)
+	} else {
+		propertyBag.Remove("KeyVersion")
+	}
+
+	// Kind
+	serversKey.Kind = genruntime.ClonePointerToString(source.Kind)
+
+	// Location
+	serversKey.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	serversKey.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ServerKeyType
+	serversKey.ServerKeyType = genruntime.ClonePointerToString(source.ServerKeyType)
+
+	// Subregion
+	serversKey.Subregion = genruntime.ClonePointerToString(source.Subregion)
+
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
+	// Thumbprint
+	serversKey.Thumbprint = genruntime.ClonePointerToString(source.Thumbprint)
+
+	// Type
+	serversKey.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Uri
+	serversKey.Uri = genruntime.ClonePointerToString(source.Uri)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		serversKey.PropertyBag = propertyBag
+	} else {
+		serversKey.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersKey_STATUS interface (if implemented) to customize the conversion
+	var serversKeyAsAny any = serversKey
+	if augmentedServersKey, ok := serversKeyAsAny.(augmentConversionForServersKey_STATUS); ok {
+		err := augmentedServersKey.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersKey_STATUS populates the provided destination ServersKey_STATUS from our ServersKey_STATUS
+func (serversKey *ServersKey_STATUS) AssignProperties_To_ServersKey_STATUS(destination *storage.ServersKey_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(serversKey.PropertyBag)
+
+	// AutoRotationEnabled
+	if serversKey.AutoRotationEnabled != nil {
+		autoRotationEnabled := *serversKey.AutoRotationEnabled
+		destination.AutoRotationEnabled = &autoRotationEnabled
+	} else {
+		destination.AutoRotationEnabled = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(serversKey.Conditions)
+
+	// CreationDate
+	destination.CreationDate = genruntime.ClonePointerToString(serversKey.CreationDate)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(serversKey.Id)
+
+	// KeyVersion
+	if propertyBag.Contains("KeyVersion") {
+		var keyVersion string
+		err := propertyBag.Pull("KeyVersion", &keyVersion)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'KeyVersion' from propertyBag")
+		}
+
+		destination.KeyVersion = &keyVersion
+	} else {
+		destination.KeyVersion = nil
+	}
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(serversKey.Kind)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(serversKey.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(serversKey.Name)
+
+	// ServerKeyType
+	destination.ServerKeyType = genruntime.ClonePointerToString(serversKey.ServerKeyType)
+
+	// Subregion
+	destination.Subregion = genruntime.ClonePointerToString(serversKey.Subregion)
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Thumbprint
+	destination.Thumbprint = genruntime.ClonePointerToString(serversKey.Thumbprint)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(serversKey.Type)
+
+	// Uri
+	destination.Uri = genruntime.ClonePointerToString(serversKey.Uri)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersKey_STATUS interface (if implemented) to customize the conversion
+	var serversKeyAsAny any = serversKey
+	if augmentedServersKey, ok := serversKeyAsAny.(augmentConversionForServersKey_STATUS); ok {
+		err := augmentedServersKey.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersKey_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersKey_Spec) error
+	AssignPropertiesTo(dst *storage.ServersKey_Spec) error
+}
+
+type augmentConversionForServersKey_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersKey_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersKey_STATUS) error
 }
 
 // Storage version of v20211101.ServersKeyOperatorSpec
@@ -247,6 +696,125 @@ type ServersKeyOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersKeyOperatorSpec populates our ServersKeyOperatorSpec from the provided source ServersKeyOperatorSpec
+func (operator *ServersKeyOperatorSpec) AssignProperties_From_ServersKeyOperatorSpec(source *storage.ServersKeyOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersKeyOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersKeyOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersKeyOperatorSpec populates the provided destination ServersKeyOperatorSpec from our ServersKeyOperatorSpec
+func (operator *ServersKeyOperatorSpec) AssignProperties_To_ServersKeyOperatorSpec(destination *storage.ServersKeyOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersKeyOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersKeyOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersKeyOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersKeyOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersKeyOperatorSpec) error
 }
 
 func init() {

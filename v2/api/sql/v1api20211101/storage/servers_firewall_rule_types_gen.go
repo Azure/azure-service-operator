@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersFirewallRule{}
 
 // ConvertFrom populates our ServersFirewallRule from the provided hub ServersFirewallRule
 func (rule *ServersFirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersFirewallRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_ServersFirewallRule(source)
+	err = rule.AssignProperties_From_ServersFirewallRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersFirewallRule from our ServersFirewallRule
 func (rule *ServersFirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersFirewallRule
+	err := rule.AssignProperties_To_ServersFirewallRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_ServersFirewallRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersFirewallRule{}

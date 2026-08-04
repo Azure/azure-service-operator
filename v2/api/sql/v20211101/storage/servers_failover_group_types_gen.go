@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=sql.azure.com,resources=serversfailovergroups,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=sql.azure.com,resources={serversfailovergroups/status,serversfailovergroups/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,sql}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (group *ServersFailoverGroup) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (group *ServersFailoverGroup) SetConditions(conditions conditions.Conditions) {
 	group.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ServersFailoverGroup{}
+
+// ConvertFrom populates our ServersFailoverGroup from the provided hub ServersFailoverGroup
+func (group *ServersFailoverGroup) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.ServersFailoverGroup)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersFailoverGroup but received %T instead", hub)
+	}
+
+	return group.AssignProperties_From_ServersFailoverGroup(source)
+}
+
+// ConvertTo populates the provided hub ServersFailoverGroup from our ServersFailoverGroup
+func (group *ServersFailoverGroup) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.ServersFailoverGroup)
+	if !ok {
+		return fmt.Errorf("expected sql/v20250101/storage/ServersFailoverGroup but received %T instead", hub)
+	}
+
+	return group.AssignProperties_To_ServersFailoverGroup(destination)
 }
 
 var _ configmaps.Exporter = &ServersFailoverGroup{}
@@ -143,8 +164,75 @@ func (group *ServersFailoverGroup) SetStatus(status genruntime.ConvertibleStatus
 	return nil
 }
 
-// Hub marks that this ServersFailoverGroup is the hub type for conversion
-func (group *ServersFailoverGroup) Hub() {}
+// AssignProperties_From_ServersFailoverGroup populates our ServersFailoverGroup from the provided source ServersFailoverGroup
+func (group *ServersFailoverGroup) AssignProperties_From_ServersFailoverGroup(source *storage.ServersFailoverGroup) error {
+
+	// ObjectMeta
+	group.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec ServersFailoverGroup_Spec
+	err := spec.AssignProperties_From_ServersFailoverGroup_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersFailoverGroup_Spec() to populate field Spec")
+	}
+	group.Spec = spec
+
+	// Status
+	var status ServersFailoverGroup_STATUS
+	err = status.AssignProperties_From_ServersFailoverGroup_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_ServersFailoverGroup_STATUS() to populate field Status")
+	}
+	group.Status = status
+
+	// Invoke the augmentConversionForServersFailoverGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForServersFailoverGroup); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersFailoverGroup populates the provided destination ServersFailoverGroup from our ServersFailoverGroup
+func (group *ServersFailoverGroup) AssignProperties_To_ServersFailoverGroup(destination *storage.ServersFailoverGroup) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *group.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.ServersFailoverGroup_Spec
+	err := group.Spec.AssignProperties_To_ServersFailoverGroup_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersFailoverGroup_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.ServersFailoverGroup_STATUS
+	err = group.Status.AssignProperties_To_ServersFailoverGroup_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_ServersFailoverGroup_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForServersFailoverGroup interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForServersFailoverGroup); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (group *ServersFailoverGroup) OriginalGVK() *schema.GroupVersionKind {
@@ -164,6 +252,11 @@ type ServersFailoverGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ServersFailoverGroup `json:"items"`
+}
+
+type augmentConversionForServersFailoverGroup interface {
+	AssignPropertiesFrom(src *storage.ServersFailoverGroup) error
+	AssignPropertiesTo(dst *storage.ServersFailoverGroup) error
 }
 
 // Storage version of v20211101.ServersFailoverGroup_Spec
@@ -191,20 +284,280 @@ var _ genruntime.ConvertibleSpec = &ServersFailoverGroup_Spec{}
 
 // ConvertSpecFrom populates our ServersFailoverGroup_Spec from the provided source
 func (group *ServersFailoverGroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.ServersFailoverGroup_Spec)
+	if ok {
+		// Populate our instance from source
+		return group.AssignProperties_From_ServersFailoverGroup_Spec(src)
 	}
 
-	return source.ConvertSpecTo(group)
+	// Convert to an intermediate form
+	src = &storage.ServersFailoverGroup_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = group.AssignProperties_From_ServersFailoverGroup_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our ServersFailoverGroup_Spec
 func (group *ServersFailoverGroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.ServersFailoverGroup_Spec)
+	if ok {
+		// Populate destination from our instance
+		return group.AssignProperties_To_ServersFailoverGroup_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(group)
+	// Convert to an intermediate form
+	dst = &storage.ServersFailoverGroup_Spec{}
+	err := group.AssignProperties_To_ServersFailoverGroup_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersFailoverGroup_Spec populates our ServersFailoverGroup_Spec from the provided source ServersFailoverGroup_Spec
+func (group *ServersFailoverGroup_Spec) AssignProperties_From_ServersFailoverGroup_Spec(source *storage.ServersFailoverGroup_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	group.AzureName = source.AzureName
+
+	// DatabasesReferences
+	if source.DatabasesReferences != nil {
+		databasesReferenceList := make([]genruntime.ResourceReference, len(source.DatabasesReferences))
+		for databasesReferenceIndex, databasesReferenceItem := range source.DatabasesReferences {
+			databasesReferenceList[databasesReferenceIndex] = databasesReferenceItem.Copy()
+		}
+		group.DatabasesReferences = databasesReferenceList
+	} else {
+		group.DatabasesReferences = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ServersFailoverGroupOperatorSpec
+		err := operatorSpec.AssignProperties_From_ServersFailoverGroupOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ServersFailoverGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		group.OperatorSpec = &operatorSpec
+	} else {
+		group.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	group.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		group.Owner = &owner
+	} else {
+		group.Owner = nil
+	}
+
+	// PartnerServers
+	if source.PartnerServers != nil {
+		partnerServerList := make([]PartnerInfo, len(source.PartnerServers))
+		for partnerServerIndex, partnerServerItem := range source.PartnerServers {
+			var partnerServer PartnerInfo
+			err := partnerServer.AssignProperties_From_PartnerInfo(&partnerServerItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_PartnerInfo() to populate field PartnerServers")
+			}
+			partnerServerList[partnerServerIndex] = partnerServer
+		}
+		group.PartnerServers = partnerServerList
+	} else {
+		group.PartnerServers = nil
+	}
+
+	// ReadOnlyEndpoint
+	if source.ReadOnlyEndpoint != nil {
+		var readOnlyEndpoint FailoverGroupReadOnlyEndpoint
+		err := readOnlyEndpoint.AssignProperties_From_FailoverGroupReadOnlyEndpoint(source.ReadOnlyEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_FailoverGroupReadOnlyEndpoint() to populate field ReadOnlyEndpoint")
+		}
+		group.ReadOnlyEndpoint = &readOnlyEndpoint
+	} else {
+		group.ReadOnlyEndpoint = nil
+	}
+
+	// ReadWriteEndpoint
+	if source.ReadWriteEndpoint != nil {
+		var readWriteEndpoint FailoverGroupReadWriteEndpoint
+		err := readWriteEndpoint.AssignProperties_From_FailoverGroupReadWriteEndpoint(source.ReadWriteEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_FailoverGroupReadWriteEndpoint() to populate field ReadWriteEndpoint")
+		}
+		group.ReadWriteEndpoint = &readWriteEndpoint
+	} else {
+		group.ReadWriteEndpoint = nil
+	}
+
+	// SecondaryType
+	if source.SecondaryType != nil {
+		propertyBag.Add("SecondaryType", *source.SecondaryType)
+	} else {
+		propertyBag.Remove("SecondaryType")
+	}
+
+	// Tags
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		group.PropertyBag = propertyBag
+	} else {
+		group.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersFailoverGroup_Spec interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForServersFailoverGroup_Spec); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersFailoverGroup_Spec populates the provided destination ServersFailoverGroup_Spec from our ServersFailoverGroup_Spec
+func (group *ServersFailoverGroup_Spec) AssignProperties_To_ServersFailoverGroup_Spec(destination *storage.ServersFailoverGroup_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
+
+	// AzureName
+	destination.AzureName = group.AzureName
+
+	// DatabasesReferences
+	if group.DatabasesReferences != nil {
+		databasesReferenceList := make([]genruntime.ResourceReference, len(group.DatabasesReferences))
+		for databasesReferenceIndex, databasesReferenceItem := range group.DatabasesReferences {
+			databasesReferenceList[databasesReferenceIndex] = databasesReferenceItem.Copy()
+		}
+		destination.DatabasesReferences = databasesReferenceList
+	} else {
+		destination.DatabasesReferences = nil
+	}
+
+	// OperatorSpec
+	if group.OperatorSpec != nil {
+		var operatorSpec storage.ServersFailoverGroupOperatorSpec
+		err := group.OperatorSpec.AssignProperties_To_ServersFailoverGroupOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ServersFailoverGroupOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = group.OriginalVersion
+
+	// Owner
+	if group.Owner != nil {
+		owner := group.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// PartnerServers
+	if group.PartnerServers != nil {
+		partnerServerList := make([]storage.PartnerInfo, len(group.PartnerServers))
+		for partnerServerIndex, partnerServerItem := range group.PartnerServers {
+			var partnerServer storage.PartnerInfo
+			err := partnerServerItem.AssignProperties_To_PartnerInfo(&partnerServer)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_PartnerInfo() to populate field PartnerServers")
+			}
+			partnerServerList[partnerServerIndex] = partnerServer
+		}
+		destination.PartnerServers = partnerServerList
+	} else {
+		destination.PartnerServers = nil
+	}
+
+	// ReadOnlyEndpoint
+	if group.ReadOnlyEndpoint != nil {
+		var readOnlyEndpoint storage.FailoverGroupReadOnlyEndpoint
+		err := group.ReadOnlyEndpoint.AssignProperties_To_FailoverGroupReadOnlyEndpoint(&readOnlyEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_FailoverGroupReadOnlyEndpoint() to populate field ReadOnlyEndpoint")
+		}
+		destination.ReadOnlyEndpoint = &readOnlyEndpoint
+	} else {
+		destination.ReadOnlyEndpoint = nil
+	}
+
+	// ReadWriteEndpoint
+	if group.ReadWriteEndpoint != nil {
+		var readWriteEndpoint storage.FailoverGroupReadWriteEndpoint
+		err := group.ReadWriteEndpoint.AssignProperties_To_FailoverGroupReadWriteEndpoint(&readWriteEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_FailoverGroupReadWriteEndpoint() to populate field ReadWriteEndpoint")
+		}
+		destination.ReadWriteEndpoint = &readWriteEndpoint
+	} else {
+		destination.ReadWriteEndpoint = nil
+	}
+
+	// SecondaryType
+	if propertyBag.Contains("SecondaryType") {
+		var secondaryType string
+		err := propertyBag.Pull("SecondaryType", &secondaryType)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SecondaryType' from propertyBag")
+		}
+
+		destination.SecondaryType = &secondaryType
+	} else {
+		destination.SecondaryType = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersFailoverGroup_Spec interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForServersFailoverGroup_Spec); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20211101.ServersFailoverGroup_STATUS
@@ -228,20 +581,284 @@ var _ genruntime.ConvertibleStatus = &ServersFailoverGroup_STATUS{}
 
 // ConvertStatusFrom populates our ServersFailoverGroup_STATUS from the provided source
 func (group *ServersFailoverGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.ServersFailoverGroup_STATUS)
+	if ok {
+		// Populate our instance from source
+		return group.AssignProperties_From_ServersFailoverGroup_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(group)
+	// Convert to an intermediate form
+	src = &storage.ServersFailoverGroup_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = group.AssignProperties_From_ServersFailoverGroup_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our ServersFailoverGroup_STATUS
 func (group *ServersFailoverGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == group {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.ServersFailoverGroup_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return group.AssignProperties_To_ServersFailoverGroup_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(group)
+	// Convert to an intermediate form
+	dst = &storage.ServersFailoverGroup_STATUS{}
+	err := group.AssignProperties_To_ServersFailoverGroup_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_ServersFailoverGroup_STATUS populates our ServersFailoverGroup_STATUS from the provided source ServersFailoverGroup_STATUS
+func (group *ServersFailoverGroup_STATUS) AssignProperties_From_ServersFailoverGroup_STATUS(source *storage.ServersFailoverGroup_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	group.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Databases
+	group.Databases = genruntime.CloneSliceOfString(source.Databases)
+
+	// Id
+	group.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	group.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	group.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PartnerServers
+	if source.PartnerServers != nil {
+		partnerServerList := make([]PartnerInfo_STATUS, len(source.PartnerServers))
+		for partnerServerIndex, partnerServerItem := range source.PartnerServers {
+			var partnerServer PartnerInfo_STATUS
+			err := partnerServer.AssignProperties_From_PartnerInfo_STATUS(&partnerServerItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_PartnerInfo_STATUS() to populate field PartnerServers")
+			}
+			partnerServerList[partnerServerIndex] = partnerServer
+		}
+		group.PartnerServers = partnerServerList
+	} else {
+		group.PartnerServers = nil
+	}
+
+	// ReadOnlyEndpoint
+	if source.ReadOnlyEndpoint != nil {
+		var readOnlyEndpoint FailoverGroupReadOnlyEndpoint_STATUS
+		err := readOnlyEndpoint.AssignProperties_From_FailoverGroupReadOnlyEndpoint_STATUS(source.ReadOnlyEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_FailoverGroupReadOnlyEndpoint_STATUS() to populate field ReadOnlyEndpoint")
+		}
+		group.ReadOnlyEndpoint = &readOnlyEndpoint
+	} else {
+		group.ReadOnlyEndpoint = nil
+	}
+
+	// ReadWriteEndpoint
+	if source.ReadWriteEndpoint != nil {
+		var readWriteEndpoint FailoverGroupReadWriteEndpoint_STATUS
+		err := readWriteEndpoint.AssignProperties_From_FailoverGroupReadWriteEndpoint_STATUS(source.ReadWriteEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_FailoverGroupReadWriteEndpoint_STATUS() to populate field ReadWriteEndpoint")
+		}
+		group.ReadWriteEndpoint = &readWriteEndpoint
+	} else {
+		group.ReadWriteEndpoint = nil
+	}
+
+	// ReplicationRole
+	group.ReplicationRole = genruntime.ClonePointerToString(source.ReplicationRole)
+
+	// ReplicationState
+	group.ReplicationState = genruntime.ClonePointerToString(source.ReplicationState)
+
+	// SecondaryType
+	if source.SecondaryType != nil {
+		propertyBag.Add("SecondaryType", *source.SecondaryType)
+	} else {
+		propertyBag.Remove("SecondaryType")
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
+	// Tags
+	group.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	group.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		group.PropertyBag = propertyBag
+	} else {
+		group.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersFailoverGroup_STATUS interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForServersFailoverGroup_STATUS); ok {
+		err := augmentedGroup.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersFailoverGroup_STATUS populates the provided destination ServersFailoverGroup_STATUS from our ServersFailoverGroup_STATUS
+func (group *ServersFailoverGroup_STATUS) AssignProperties_To_ServersFailoverGroup_STATUS(destination *storage.ServersFailoverGroup_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(group.Conditions)
+
+	// Databases
+	destination.Databases = genruntime.CloneSliceOfString(group.Databases)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(group.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(group.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(group.Name)
+
+	// PartnerServers
+	if group.PartnerServers != nil {
+		partnerServerList := make([]storage.PartnerInfo_STATUS, len(group.PartnerServers))
+		for partnerServerIndex, partnerServerItem := range group.PartnerServers {
+			var partnerServer storage.PartnerInfo_STATUS
+			err := partnerServerItem.AssignProperties_To_PartnerInfo_STATUS(&partnerServer)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_PartnerInfo_STATUS() to populate field PartnerServers")
+			}
+			partnerServerList[partnerServerIndex] = partnerServer
+		}
+		destination.PartnerServers = partnerServerList
+	} else {
+		destination.PartnerServers = nil
+	}
+
+	// ReadOnlyEndpoint
+	if group.ReadOnlyEndpoint != nil {
+		var readOnlyEndpoint storage.FailoverGroupReadOnlyEndpoint_STATUS
+		err := group.ReadOnlyEndpoint.AssignProperties_To_FailoverGroupReadOnlyEndpoint_STATUS(&readOnlyEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_FailoverGroupReadOnlyEndpoint_STATUS() to populate field ReadOnlyEndpoint")
+		}
+		destination.ReadOnlyEndpoint = &readOnlyEndpoint
+	} else {
+		destination.ReadOnlyEndpoint = nil
+	}
+
+	// ReadWriteEndpoint
+	if group.ReadWriteEndpoint != nil {
+		var readWriteEndpoint storage.FailoverGroupReadWriteEndpoint_STATUS
+		err := group.ReadWriteEndpoint.AssignProperties_To_FailoverGroupReadWriteEndpoint_STATUS(&readWriteEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_FailoverGroupReadWriteEndpoint_STATUS() to populate field ReadWriteEndpoint")
+		}
+		destination.ReadWriteEndpoint = &readWriteEndpoint
+	} else {
+		destination.ReadWriteEndpoint = nil
+	}
+
+	// ReplicationRole
+	destination.ReplicationRole = genruntime.ClonePointerToString(group.ReplicationRole)
+
+	// ReplicationState
+	destination.ReplicationState = genruntime.ClonePointerToString(group.ReplicationState)
+
+	// SecondaryType
+	if propertyBag.Contains("SecondaryType") {
+		var secondaryType string
+		err := propertyBag.Pull("SecondaryType", &secondaryType)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SecondaryType' from propertyBag")
+		}
+
+		destination.SecondaryType = &secondaryType
+	} else {
+		destination.SecondaryType = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(group.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(group.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersFailoverGroup_STATUS interface (if implemented) to customize the conversion
+	var groupAsAny any = group
+	if augmentedGroup, ok := groupAsAny.(augmentConversionForServersFailoverGroup_STATUS); ok {
+		err := augmentedGroup.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForServersFailoverGroup_Spec interface {
+	AssignPropertiesFrom(src *storage.ServersFailoverGroup_Spec) error
+	AssignPropertiesTo(dst *storage.ServersFailoverGroup_Spec) error
+}
+
+type augmentConversionForServersFailoverGroup_STATUS interface {
+	AssignPropertiesFrom(src *storage.ServersFailoverGroup_STATUS) error
+	AssignPropertiesTo(dst *storage.ServersFailoverGroup_STATUS) error
 }
 
 // Storage version of v20211101.FailoverGroupReadOnlyEndpoint
@@ -251,11 +868,163 @@ type FailoverGroupReadOnlyEndpoint struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_FailoverGroupReadOnlyEndpoint populates our FailoverGroupReadOnlyEndpoint from the provided source FailoverGroupReadOnlyEndpoint
+func (endpoint *FailoverGroupReadOnlyEndpoint) AssignProperties_From_FailoverGroupReadOnlyEndpoint(source *storage.FailoverGroupReadOnlyEndpoint) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FailoverPolicy
+	endpoint.FailoverPolicy = genruntime.ClonePointerToString(source.FailoverPolicy)
+
+	// TargetServerReference
+	if source.TargetServerReference != nil {
+		propertyBag.Add("TargetServerReference", *source.TargetServerReference)
+	} else {
+		propertyBag.Remove("TargetServerReference")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		endpoint.PropertyBag = propertyBag
+	} else {
+		endpoint.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailoverGroupReadOnlyEndpoint interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForFailoverGroupReadOnlyEndpoint); ok {
+		err := augmentedEndpoint.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FailoverGroupReadOnlyEndpoint populates the provided destination FailoverGroupReadOnlyEndpoint from our FailoverGroupReadOnlyEndpoint
+func (endpoint *FailoverGroupReadOnlyEndpoint) AssignProperties_To_FailoverGroupReadOnlyEndpoint(destination *storage.FailoverGroupReadOnlyEndpoint) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
+
+	// FailoverPolicy
+	destination.FailoverPolicy = genruntime.ClonePointerToString(endpoint.FailoverPolicy)
+
+	// TargetServerReference
+	if propertyBag.Contains("TargetServerReference") {
+		var targetServerReference genruntime.ResourceReference
+		err := propertyBag.Pull("TargetServerReference", &targetServerReference)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'TargetServerReference' from propertyBag")
+		}
+
+		destination.TargetServerReference = &targetServerReference
+	} else {
+		destination.TargetServerReference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailoverGroupReadOnlyEndpoint interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForFailoverGroupReadOnlyEndpoint); ok {
+		err := augmentedEndpoint.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20211101.FailoverGroupReadOnlyEndpoint_STATUS
 // Read-only endpoint of the failover group instance.
 type FailoverGroupReadOnlyEndpoint_STATUS struct {
 	FailoverPolicy *string                `json:"failoverPolicy,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_FailoverGroupReadOnlyEndpoint_STATUS populates our FailoverGroupReadOnlyEndpoint_STATUS from the provided source FailoverGroupReadOnlyEndpoint_STATUS
+func (endpoint *FailoverGroupReadOnlyEndpoint_STATUS) AssignProperties_From_FailoverGroupReadOnlyEndpoint_STATUS(source *storage.FailoverGroupReadOnlyEndpoint_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FailoverPolicy
+	endpoint.FailoverPolicy = genruntime.ClonePointerToString(source.FailoverPolicy)
+
+	// TargetServer
+	if source.TargetServer != nil {
+		propertyBag.Add("TargetServer", *source.TargetServer)
+	} else {
+		propertyBag.Remove("TargetServer")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		endpoint.PropertyBag = propertyBag
+	} else {
+		endpoint.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailoverGroupReadOnlyEndpoint_STATUS interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForFailoverGroupReadOnlyEndpoint_STATUS); ok {
+		err := augmentedEndpoint.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FailoverGroupReadOnlyEndpoint_STATUS populates the provided destination FailoverGroupReadOnlyEndpoint_STATUS from our FailoverGroupReadOnlyEndpoint_STATUS
+func (endpoint *FailoverGroupReadOnlyEndpoint_STATUS) AssignProperties_To_FailoverGroupReadOnlyEndpoint_STATUS(destination *storage.FailoverGroupReadOnlyEndpoint_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
+
+	// FailoverPolicy
+	destination.FailoverPolicy = genruntime.ClonePointerToString(endpoint.FailoverPolicy)
+
+	// TargetServer
+	if propertyBag.Contains("TargetServer") {
+		var targetServer string
+		err := propertyBag.Pull("TargetServer", &targetServer)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'TargetServer' from propertyBag")
+		}
+
+		destination.TargetServer = &targetServer
+	} else {
+		destination.TargetServer = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailoverGroupReadOnlyEndpoint_STATUS interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForFailoverGroupReadOnlyEndpoint_STATUS); ok {
+		err := augmentedEndpoint.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20211101.FailoverGroupReadWriteEndpoint
@@ -266,12 +1035,136 @@ type FailoverGroupReadWriteEndpoint struct {
 	PropertyBag                            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_FailoverGroupReadWriteEndpoint populates our FailoverGroupReadWriteEndpoint from the provided source FailoverGroupReadWriteEndpoint
+func (endpoint *FailoverGroupReadWriteEndpoint) AssignProperties_From_FailoverGroupReadWriteEndpoint(source *storage.FailoverGroupReadWriteEndpoint) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FailoverPolicy
+	endpoint.FailoverPolicy = genruntime.ClonePointerToString(source.FailoverPolicy)
+
+	// FailoverWithDataLossGracePeriodMinutes
+	endpoint.FailoverWithDataLossGracePeriodMinutes = genruntime.ClonePointerToInt(source.FailoverWithDataLossGracePeriodMinutes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		endpoint.PropertyBag = propertyBag
+	} else {
+		endpoint.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailoverGroupReadWriteEndpoint interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForFailoverGroupReadWriteEndpoint); ok {
+		err := augmentedEndpoint.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FailoverGroupReadWriteEndpoint populates the provided destination FailoverGroupReadWriteEndpoint from our FailoverGroupReadWriteEndpoint
+func (endpoint *FailoverGroupReadWriteEndpoint) AssignProperties_To_FailoverGroupReadWriteEndpoint(destination *storage.FailoverGroupReadWriteEndpoint) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
+
+	// FailoverPolicy
+	destination.FailoverPolicy = genruntime.ClonePointerToString(endpoint.FailoverPolicy)
+
+	// FailoverWithDataLossGracePeriodMinutes
+	destination.FailoverWithDataLossGracePeriodMinutes = genruntime.ClonePointerToInt(endpoint.FailoverWithDataLossGracePeriodMinutes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailoverGroupReadWriteEndpoint interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForFailoverGroupReadWriteEndpoint); ok {
+		err := augmentedEndpoint.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20211101.FailoverGroupReadWriteEndpoint_STATUS
 // Read-write endpoint of the failover group instance.
 type FailoverGroupReadWriteEndpoint_STATUS struct {
 	FailoverPolicy                         *string                `json:"failoverPolicy,omitempty"`
 	FailoverWithDataLossGracePeriodMinutes *int                   `json:"failoverWithDataLossGracePeriodMinutes,omitempty"`
 	PropertyBag                            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_FailoverGroupReadWriteEndpoint_STATUS populates our FailoverGroupReadWriteEndpoint_STATUS from the provided source FailoverGroupReadWriteEndpoint_STATUS
+func (endpoint *FailoverGroupReadWriteEndpoint_STATUS) AssignProperties_From_FailoverGroupReadWriteEndpoint_STATUS(source *storage.FailoverGroupReadWriteEndpoint_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FailoverPolicy
+	endpoint.FailoverPolicy = genruntime.ClonePointerToString(source.FailoverPolicy)
+
+	// FailoverWithDataLossGracePeriodMinutes
+	endpoint.FailoverWithDataLossGracePeriodMinutes = genruntime.ClonePointerToInt(source.FailoverWithDataLossGracePeriodMinutes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		endpoint.PropertyBag = propertyBag
+	} else {
+		endpoint.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailoverGroupReadWriteEndpoint_STATUS interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForFailoverGroupReadWriteEndpoint_STATUS); ok {
+		err := augmentedEndpoint.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_FailoverGroupReadWriteEndpoint_STATUS populates the provided destination FailoverGroupReadWriteEndpoint_STATUS from our FailoverGroupReadWriteEndpoint_STATUS
+func (endpoint *FailoverGroupReadWriteEndpoint_STATUS) AssignProperties_To_FailoverGroupReadWriteEndpoint_STATUS(destination *storage.FailoverGroupReadWriteEndpoint_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
+
+	// FailoverPolicy
+	destination.FailoverPolicy = genruntime.ClonePointerToString(endpoint.FailoverPolicy)
+
+	// FailoverWithDataLossGracePeriodMinutes
+	destination.FailoverWithDataLossGracePeriodMinutes = genruntime.ClonePointerToInt(endpoint.FailoverWithDataLossGracePeriodMinutes)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForFailoverGroupReadWriteEndpoint_STATUS interface (if implemented) to customize the conversion
+	var endpointAsAny any = endpoint
+	if augmentedEndpoint, ok := endpointAsAny.(augmentConversionForFailoverGroupReadWriteEndpoint_STATUS); ok {
+		err := augmentedEndpoint.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20211101.PartnerInfo
@@ -284,6 +1177,72 @@ type PartnerInfo struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
+// AssignProperties_From_PartnerInfo populates our PartnerInfo from the provided source PartnerInfo
+func (info *PartnerInfo) AssignProperties_From_PartnerInfo(source *storage.PartnerInfo) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		info.Reference = &reference
+	} else {
+		info.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		info.PropertyBag = propertyBag
+	} else {
+		info.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPartnerInfo interface (if implemented) to customize the conversion
+	var infoAsAny any = info
+	if augmentedInfo, ok := infoAsAny.(augmentConversionForPartnerInfo); ok {
+		err := augmentedInfo.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PartnerInfo populates the provided destination PartnerInfo from our PartnerInfo
+func (info *PartnerInfo) AssignProperties_To_PartnerInfo(destination *storage.PartnerInfo) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(info.PropertyBag)
+
+	// Reference
+	if info.Reference != nil {
+		reference := info.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPartnerInfo interface (if implemented) to customize the conversion
+	var infoAsAny any = info
+	if augmentedInfo, ok := infoAsAny.(augmentConversionForPartnerInfo); ok {
+		err := augmentedInfo.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20211101.PartnerInfo_STATUS
 // Partner server information for the failover group.
 type PartnerInfo_STATUS struct {
@@ -293,12 +1252,229 @@ type PartnerInfo_STATUS struct {
 	ReplicationRole *string                `json:"replicationRole,omitempty"`
 }
 
+// AssignProperties_From_PartnerInfo_STATUS populates our PartnerInfo_STATUS from the provided source PartnerInfo_STATUS
+func (info *PartnerInfo_STATUS) AssignProperties_From_PartnerInfo_STATUS(source *storage.PartnerInfo_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	info.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	info.Location = genruntime.ClonePointerToString(source.Location)
+
+	// ReplicationRole
+	info.ReplicationRole = genruntime.ClonePointerToString(source.ReplicationRole)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		info.PropertyBag = propertyBag
+	} else {
+		info.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPartnerInfo_STATUS interface (if implemented) to customize the conversion
+	var infoAsAny any = info
+	if augmentedInfo, ok := infoAsAny.(augmentConversionForPartnerInfo_STATUS); ok {
+		err := augmentedInfo.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_PartnerInfo_STATUS populates the provided destination PartnerInfo_STATUS from our PartnerInfo_STATUS
+func (info *PartnerInfo_STATUS) AssignProperties_To_PartnerInfo_STATUS(destination *storage.PartnerInfo_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(info.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(info.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(info.Location)
+
+	// ReplicationRole
+	destination.ReplicationRole = genruntime.ClonePointerToString(info.ReplicationRole)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForPartnerInfo_STATUS interface (if implemented) to customize the conversion
+	var infoAsAny any = info
+	if augmentedInfo, ok := infoAsAny.(augmentConversionForPartnerInfo_STATUS); ok {
+		err := augmentedInfo.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20211101.ServersFailoverGroupOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ServersFailoverGroupOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_ServersFailoverGroupOperatorSpec populates our ServersFailoverGroupOperatorSpec from the provided source ServersFailoverGroupOperatorSpec
+func (operator *ServersFailoverGroupOperatorSpec) AssignProperties_From_ServersFailoverGroupOperatorSpec(source *storage.ServersFailoverGroupOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersFailoverGroupOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersFailoverGroupOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ServersFailoverGroupOperatorSpec populates the provided destination ServersFailoverGroupOperatorSpec from our ServersFailoverGroupOperatorSpec
+func (operator *ServersFailoverGroupOperatorSpec) AssignProperties_To_ServersFailoverGroupOperatorSpec(destination *storage.ServersFailoverGroupOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForServersFailoverGroupOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForServersFailoverGroupOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForFailoverGroupReadOnlyEndpoint interface {
+	AssignPropertiesFrom(src *storage.FailoverGroupReadOnlyEndpoint) error
+	AssignPropertiesTo(dst *storage.FailoverGroupReadOnlyEndpoint) error
+}
+
+type augmentConversionForFailoverGroupReadOnlyEndpoint_STATUS interface {
+	AssignPropertiesFrom(src *storage.FailoverGroupReadOnlyEndpoint_STATUS) error
+	AssignPropertiesTo(dst *storage.FailoverGroupReadOnlyEndpoint_STATUS) error
+}
+
+type augmentConversionForFailoverGroupReadWriteEndpoint interface {
+	AssignPropertiesFrom(src *storage.FailoverGroupReadWriteEndpoint) error
+	AssignPropertiesTo(dst *storage.FailoverGroupReadWriteEndpoint) error
+}
+
+type augmentConversionForFailoverGroupReadWriteEndpoint_STATUS interface {
+	AssignPropertiesFrom(src *storage.FailoverGroupReadWriteEndpoint_STATUS) error
+	AssignPropertiesTo(dst *storage.FailoverGroupReadWriteEndpoint_STATUS) error
+}
+
+type augmentConversionForPartnerInfo interface {
+	AssignPropertiesFrom(src *storage.PartnerInfo) error
+	AssignPropertiesTo(dst *storage.PartnerInfo) error
+}
+
+type augmentConversionForPartnerInfo_STATUS interface {
+	AssignPropertiesFrom(src *storage.PartnerInfo_STATUS) error
+	AssignPropertiesTo(dst *storage.PartnerInfo_STATUS) error
+}
+
+type augmentConversionForServersFailoverGroupOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.ServersFailoverGroupOperatorSpec) error
+	AssignPropertiesTo(dst *storage.ServersFailoverGroupOperatorSpec) error
 }
 
 func init() {
