@@ -51,22 +51,36 @@ var _ conversion.Convertible = &AfdCustomDomain{}
 
 // ConvertFrom populates our AfdCustomDomain from the provided hub AfdCustomDomain
 func (domain *AfdCustomDomain) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.AfdCustomDomain)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/AfdCustomDomain but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.AfdCustomDomain
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return domain.AssignProperties_From_AfdCustomDomain(source)
+	err = domain.AssignProperties_From_AfdCustomDomain(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to domain")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub AfdCustomDomain from our AfdCustomDomain
 func (domain *AfdCustomDomain) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.AfdCustomDomain)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/AfdCustomDomain but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.AfdCustomDomain
+	err := domain.AssignProperties_To_AfdCustomDomain(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from domain")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return domain.AssignProperties_To_AfdCustomDomain(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &AfdCustomDomain{}
@@ -87,17 +101,6 @@ func (domain *AfdCustomDomain) SecretDestinationExpressions() []*core.Destinatio
 		return nil
 	}
 	return domain.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &AfdCustomDomain{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (domain *AfdCustomDomain) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*AfdCustomDomain_STATUS); ok {
-		return domain.Spec.Initialize_From_AfdCustomDomain_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type AfdCustomDomain_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &AfdCustomDomain{}
@@ -626,55 +629,6 @@ func (domain *AfdCustomDomain_Spec) AssignProperties_To_AfdCustomDomain_Spec(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AfdCustomDomain_STATUS populates our AfdCustomDomain_Spec from the provided source AfdCustomDomain_STATUS
-func (domain *AfdCustomDomain_Spec) Initialize_From_AfdCustomDomain_STATUS(source *AfdCustomDomain_STATUS) error {
-
-	// AzureDnsZone
-	if source.AzureDnsZone != nil {
-		var azureDnsZone ResourceReference
-		err := azureDnsZone.Initialize_From_ResourceReference_STATUS(source.AzureDnsZone)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field AzureDnsZone")
-		}
-		domain.AzureDnsZone = &azureDnsZone
-	} else {
-		domain.AzureDnsZone = nil
-	}
-
-	// ExtendedProperties
-	domain.ExtendedProperties = genruntime.CloneMapOfStringToString(source.ExtendedProperties)
-
-	// HostName
-	domain.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// PreValidatedCustomDomainResourceId
-	if source.PreValidatedCustomDomainResourceId != nil {
-		var preValidatedCustomDomainResourceId ResourceReference
-		err := preValidatedCustomDomainResourceId.Initialize_From_ResourceReference_STATUS(source.PreValidatedCustomDomainResourceId)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field PreValidatedCustomDomainResourceId")
-		}
-		domain.PreValidatedCustomDomainResourceId = &preValidatedCustomDomainResourceId
-	} else {
-		domain.PreValidatedCustomDomainResourceId = nil
-	}
-
-	// TlsSettings
-	if source.TlsSettings != nil {
-		var tlsSetting AFDDomainHttpsParameters
-		err := tlsSetting.Initialize_From_AFDDomainHttpsParameters_STATUS(source.TlsSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AFDDomainHttpsParameters_STATUS() to populate field TlsSettings")
-		}
-		domain.TlsSettings = &tlsSetting
-	} else {
-		domain.TlsSettings = nil
 	}
 
 	// No error
@@ -1465,41 +1419,6 @@ func (parameters *AFDDomainHttpsParameters) AssignProperties_To_AFDDomainHttpsPa
 	return nil
 }
 
-// Initialize_From_AFDDomainHttpsParameters_STATUS populates our AFDDomainHttpsParameters from the provided source AFDDomainHttpsParameters_STATUS
-func (parameters *AFDDomainHttpsParameters) Initialize_From_AFDDomainHttpsParameters_STATUS(source *AFDDomainHttpsParameters_STATUS) error {
-
-	// CertificateType
-	if source.CertificateType != nil {
-		certificateType := genruntime.ToEnum(string(*source.CertificateType), aFDDomainHttpsParameters_CertificateType_Values)
-		parameters.CertificateType = &certificateType
-	} else {
-		parameters.CertificateType = nil
-	}
-
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := genruntime.ToEnum(string(*source.MinimumTlsVersion), aFDDomainHttpsParameters_MinimumTlsVersion_Values)
-		parameters.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		parameters.MinimumTlsVersion = nil
-	}
-
-	// Secret
-	if source.Secret != nil {
-		var secret ResourceReference
-		err := secret.Initialize_From_ResourceReference_STATUS(source.Secret)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field Secret")
-		}
-		parameters.Secret = &secret
-	} else {
-		parameters.Secret = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The JSON object that contains the properties to secure a domain.
 type AFDDomainHttpsParameters_STATUS struct {
 	// CertificateType: Defines the source of the SSL certificate.
@@ -1853,21 +1772,6 @@ func (reference *ResourceReference) AssignProperties_To_ResourceReference(destin
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ResourceReference_STATUS populates our ResourceReference from the provided source ResourceReference_STATUS
-func (reference *ResourceReference) Initialize_From_ResourceReference_STATUS(source *ResourceReference_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		referenceTemp := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
 	}
 
 	// No error

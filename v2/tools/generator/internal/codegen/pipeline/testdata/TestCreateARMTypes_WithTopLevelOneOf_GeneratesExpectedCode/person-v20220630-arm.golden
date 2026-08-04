@@ -52,11 +52,11 @@ func (database *ClusterDatabase_Spec) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	discriminator := rawJson["kind"]
-	if discriminator == ReadOnlyFollowing {
+	if discriminator == "ReadOnlyFollowing" {
 		database.ReadOnlyFollowing = &ReadOnlyFollowingDatabase{}
 		return json.Unmarshal(data, database.ReadOnlyFollowing)
 	}
-	if discriminator == ReadWrite {
+	if discriminator == "ReadWrite" {
 		database.ReadWrite = &ReadWriteDatabase{}
 		return json.Unmarshal(data, database.ReadWrite)
 	}
@@ -83,22 +83,22 @@ type ReadWriteDatabase struct {
 	Properties *string               `json:"properties,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={ReadOnlyFollowing}
+// +kubebuilder:validation:Enum={"ReadOnlyFollowing"}
 type ReadOnlyFollowingDatabaseKind string
 
-const ReadOnlyFollowingDatabaseKind_ReadOnlyFollowing = ReadOnlyFollowingDatabaseKind(ReadOnlyFollowing)
+const ReadOnlyFollowingDatabaseKind_ReadOnlyFollowing = ReadOnlyFollowingDatabaseKind("ReadOnlyFollowing")
 
 // Mapping from string to ReadOnlyFollowingDatabaseKind
 var readOnlyFollowingDatabaseKind_Values = map[string]ReadOnlyFollowingDatabaseKind{
-	readonlyfollowing: ReadOnlyFollowingDatabaseKind_ReadOnlyFollowing,
+	"readonlyfollowing": ReadOnlyFollowingDatabaseKind_ReadOnlyFollowing,
 }
 
-// +kubebuilder:validation:Enum={ReadWrite}
+// +kubebuilder:validation:Enum={"ReadWrite"}
 type ReadWriteDatabaseKind string
 
-const ReadWriteDatabaseKind_ReadWrite = ReadWriteDatabaseKind(ReadWrite)
+const ReadWriteDatabaseKind_ReadWrite = ReadWriteDatabaseKind("ReadWrite")
 
 // Mapping from string to ReadWriteDatabaseKind
 var readWriteDatabaseKind_Values = map[string]ReadWriteDatabaseKind{
-	readwrite: ReadWriteDatabaseKind_ReadWrite,
+	"readwrite": ReadWriteDatabaseKind_ReadWrite,
 }

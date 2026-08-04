@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20230801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &RedisFirewallRule{}
 
 // ConvertFrom populates our RedisFirewallRule from the provided hub RedisFirewallRule
 func (rule *RedisFirewallRule) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20241101/storage/RedisFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisFirewallRule
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return rule.AssignProperties_From_RedisFirewallRule(source)
+	err = rule.AssignProperties_From_RedisFirewallRule(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to rule")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisFirewallRule from our RedisFirewallRule
 func (rule *RedisFirewallRule) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisFirewallRule)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20241101/storage/RedisFirewallRule but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisFirewallRule
+	err := rule.AssignProperties_To_RedisFirewallRule(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from rule")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return rule.AssignProperties_To_RedisFirewallRule(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisFirewallRule{}
@@ -522,13 +535,6 @@ func (rule *RedisFirewallRule_STATUS) AssignProperties_From_RedisFirewallRule_ST
 	// StartIP
 	rule.StartIP = genruntime.ClonePointerToString(source.StartIP)
 
-	// SystemData
-	if source.SystemData != nil {
-		propertyBag.Add("SystemData", *source.SystemData)
-	} else {
-		propertyBag.Remove("SystemData")
-	}
-
 	// Type
 	rule.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -571,19 +577,6 @@ func (rule *RedisFirewallRule_STATUS) AssignProperties_To_RedisFirewallRule_STAT
 
 	// StartIP
 	destination.StartIP = genruntime.ClonePointerToString(rule.StartIP)
-
-	// SystemData
-	if propertyBag.Contains("SystemData") {
-		var systemDatum storage.SystemData_STATUS
-		err := propertyBag.Pull("SystemData", &systemDatum)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
-		}
-
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(rule.Type)

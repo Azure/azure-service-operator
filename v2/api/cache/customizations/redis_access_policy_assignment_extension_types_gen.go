@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	v20241101 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v1api20241101 "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101"
+	cache_v1api20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v20241101 "github.com/Azure/azure-service-operator/v2/api/cache/v20241101"
+	cache_v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v20241101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type RedisAccessPolicyAssignmentExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RedisAccessPolicyAssignmentExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20241101.RedisAccessPolicyAssignment{},
-		&storage.RedisAccessPolicyAssignment{}}
+		&cache_v1api20241101.RedisAccessPolicyAssignment{},
+		&cache_v1api20241101s.RedisAccessPolicyAssignment{},
+		&cache_v20241101.RedisAccessPolicyAssignment{},
+		&cache_v20241101s.RedisAccessPolicyAssignment{}}
 }

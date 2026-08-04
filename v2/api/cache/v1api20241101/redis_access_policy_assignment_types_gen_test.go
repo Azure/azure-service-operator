@@ -5,7 +5,8 @@ package v1api20241101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v1api20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	cache_v20241101s "github.com/Azure/azure-service-operator/v2/api/cache/v20241101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForRedisAccessPolicyAssignment(subject RedisAccess
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RedisAccessPolicyAssignment
+	var hub cache_v20241101s.RedisAccessPolicyAssignment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignment(subject RedisAccess
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisAccessPolicyAssignment
+	var other cache_v1api20241101s.RedisAccessPolicyAssignment
 	err := copied.AssignProperties_To_RedisAccessPolicyAssignment(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignmentOperatorSpec(subject
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisAccessPolicyAssignmentOperatorSpec
+	var other cache_v1api20241101s.RedisAccessPolicyAssignmentOperatorSpec
 	err := copied.AssignProperties_To_RedisAccessPolicyAssignmentOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignment_STATUS(subject Redi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisAccessPolicyAssignment_STATUS
+	var other cache_v1api20241101s.RedisAccessPolicyAssignment_STATUS
 	err := copied.AssignProperties_To_RedisAccessPolicyAssignment_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -448,7 +449,7 @@ func RunPropertyAssignmentTestForRedisAccessPolicyAssignment_Spec(subject RedisA
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RedisAccessPolicyAssignment_Spec
+	var other cache_v1api20241101s.RedisAccessPolicyAssignment_Spec
 	err := copied.AssignProperties_To_RedisAccessPolicyAssignment_Spec(&other)
 	if err != nil {
 		return err.Error()

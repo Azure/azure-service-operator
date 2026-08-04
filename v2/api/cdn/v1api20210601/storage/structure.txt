@@ -835,6 +835,18 @@ augmentConversionForCookiesMatchConditionParameters: Interface
 
 augmentConversionForCookiesMatchConditionParameters_STATUS: Interface
 
+augmentConversionForDeepCreatedCustomDomain_STATUS: Interface
+
+augmentConversionForDeepCreatedOrigin: Interface
+
+augmentConversionForDeepCreatedOriginGroup: Interface
+
+augmentConversionForDeepCreatedOriginGroup_STATUS: Interface
+
+augmentConversionForDeepCreatedOrigin_STATUS: Interface
+
+augmentConversionForDeliveryRule: Interface
+
 augmentConversionForDeliveryRuleAction: Interface
 
 augmentConversionForDeliveryRuleAction_STATUS: Interface
@@ -939,6 +951,20 @@ augmentConversionForDeliveryRuleUrlPathCondition: Interface
 
 augmentConversionForDeliveryRuleUrlPathCondition_STATUS: Interface
 
+augmentConversionForDeliveryRule_STATUS: Interface
+
+augmentConversionForEndpointProperties_DeliveryPolicy: Interface
+
+augmentConversionForEndpointProperties_DeliveryPolicy_STATUS: Interface
+
+augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink: Interface
+
+augmentConversionForEndpointProperties_WebApplicationFirewallPolicyLink_STATUS: Interface
+
+augmentConversionForGeoFilter: Interface
+
+augmentConversionForGeoFilter_STATUS: Interface
+
 augmentConversionForHeaderActionParameters: Interface
 
 augmentConversionForHeaderActionParameters_STATUS: Interface
@@ -951,6 +977,10 @@ augmentConversionForHostNameMatchConditionParameters: Interface
 
 augmentConversionForHostNameMatchConditionParameters_STATUS: Interface
 
+augmentConversionForHttpErrorRangeParameters: Interface
+
+augmentConversionForHttpErrorRangeParameters_STATUS: Interface
+
 augmentConversionForHttpVersionMatchConditionParameters: Interface
 
 augmentConversionForHttpVersionMatchConditionParameters_STATUS: Interface
@@ -958,6 +988,10 @@ augmentConversionForHttpVersionMatchConditionParameters_STATUS: Interface
 augmentConversionForIsDeviceMatchConditionParameters: Interface
 
 augmentConversionForIsDeviceMatchConditionParameters_STATUS: Interface
+
+augmentConversionForKeyVaultSigningKeyParameters: Interface
+
+augmentConversionForKeyVaultSigningKeyParameters_STATUS: Interface
 
 augmentConversionForOriginGroupOverride: Interface
 
@@ -982,6 +1016,14 @@ augmentConversionForProfileOperatorSpec: Interface
 augmentConversionForProfile_STATUS: Interface
 
 augmentConversionForProfile_Spec: Interface
+
+augmentConversionForProfilesEndpoint: Interface
+
+augmentConversionForProfilesEndpointOperatorSpec: Interface
+
+augmentConversionForProfilesEndpoint_STATUS: Interface
+
+augmentConversionForProfilesEndpoint_Spec: Interface
 
 augmentConversionForQueryStringMatchConditionParameters: Interface
 
@@ -1014,6 +1056,10 @@ augmentConversionForRequestUriMatchConditionParameters_STATUS: Interface
 augmentConversionForResourceReference: Interface
 
 augmentConversionForResourceReference_STATUS: Interface
+
+augmentConversionForResponseBasedOriginErrorDetectionParameters: Interface
+
+augmentConversionForResponseBasedOriginErrorDetectionParameters_STATUS: Interface
 
 augmentConversionForRouteConfigurationOverrideActionParameters: Interface
 
@@ -1072,6 +1118,10 @@ augmentConversionForUrlSigningActionParameters: Interface
 augmentConversionForUrlSigningActionParameters_STATUS: Interface
 
 augmentConversionForUrlSigningAction_STATUS: Interface
+
+augmentConversionForUrlSigningKey: Interface
+
+augmentConversionForUrlSigningKey_STATUS: Interface
 
 augmentConversionForUrlSigningParamIdentifier: Interface
 

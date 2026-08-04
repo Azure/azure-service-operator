@@ -14,7 +14,6 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
 
-	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/xcontext"
 )
 
@@ -55,7 +54,6 @@ func newRootCommand() (*cobra.Command, error) {
 	cmdFuncs := []func() (*cobra.Command, error){
 		NewGenTypesCommand,
 		NewGenKustomizeCommand,
-		version.NewCommand,
 	}
 
 	for _, f := range cmdFuncs {

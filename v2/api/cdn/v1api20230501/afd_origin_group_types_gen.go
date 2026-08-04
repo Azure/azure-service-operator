@@ -51,22 +51,36 @@ var _ conversion.Convertible = &AfdOriginGroup{}
 
 // ConvertFrom populates our AfdOriginGroup from the provided hub AfdOriginGroup
 func (group *AfdOriginGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.AfdOriginGroup)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/AfdOriginGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.AfdOriginGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_AfdOriginGroup(source)
+	err = group.AssignProperties_From_AfdOriginGroup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub AfdOriginGroup from our AfdOriginGroup
 func (group *AfdOriginGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.AfdOriginGroup)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/AfdOriginGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.AfdOriginGroup
+	err := group.AssignProperties_To_AfdOriginGroup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_AfdOriginGroup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &AfdOriginGroup{}
@@ -87,17 +101,6 @@ func (group *AfdOriginGroup) SecretDestinationExpressions() []*core.DestinationE
 		return nil
 	}
 	return group.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &AfdOriginGroup{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (group *AfdOriginGroup) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*AfdOriginGroup_STATUS); ok {
-		return group.Spec.Initialize_From_AfdOriginGroup_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type AfdOriginGroup_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &AfdOriginGroup{}
@@ -589,48 +592,6 @@ func (group *AfdOriginGroup_Spec) AssignProperties_To_AfdOriginGroup_Spec(destin
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AfdOriginGroup_STATUS populates our AfdOriginGroup_Spec from the provided source AfdOriginGroup_STATUS
-func (group *AfdOriginGroup_Spec) Initialize_From_AfdOriginGroup_STATUS(source *AfdOriginGroup_STATUS) error {
-
-	// HealthProbeSettings
-	if source.HealthProbeSettings != nil {
-		var healthProbeSetting HealthProbeParameters
-		err := healthProbeSetting.Initialize_From_HealthProbeParameters_STATUS(source.HealthProbeSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
-		}
-		group.HealthProbeSettings = &healthProbeSetting
-	} else {
-		group.HealthProbeSettings = nil
-	}
-
-	// LoadBalancingSettings
-	if source.LoadBalancingSettings != nil {
-		var loadBalancingSetting LoadBalancingSettingsParameters
-		err := loadBalancingSetting.Initialize_From_LoadBalancingSettingsParameters_STATUS(source.LoadBalancingSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_LoadBalancingSettingsParameters_STATUS() to populate field LoadBalancingSettings")
-		}
-		group.LoadBalancingSettings = &loadBalancingSetting
-	} else {
-		group.LoadBalancingSettings = nil
-	}
-
-	// SessionAffinityState
-	if source.SessionAffinityState != nil {
-		sessionAffinityState := genruntime.ToEnum(string(*source.SessionAffinityState), aFDOriginGroupProperties_SessionAffinityState_Values)
-		group.SessionAffinityState = &sessionAffinityState
-	} else {
-		group.SessionAffinityState = nil
-	}
-
-	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
 
 	// No error
 	return nil
@@ -1370,35 +1331,6 @@ func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParamete
 	return nil
 }
 
-// Initialize_From_HealthProbeParameters_STATUS populates our HealthProbeParameters from the provided source HealthProbeParameters_STATUS
-func (parameters *HealthProbeParameters) Initialize_From_HealthProbeParameters_STATUS(source *HealthProbeParameters_STATUS) error {
-
-	// ProbeIntervalInSeconds
-	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
-
-	// ProbePath
-	parameters.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
-
-	// ProbeProtocol
-	if source.ProbeProtocol != nil {
-		probeProtocol := genruntime.ToEnum(string(*source.ProbeProtocol), healthProbeParameters_ProbeProtocol_Values)
-		parameters.ProbeProtocol = &probeProtocol
-	} else {
-		parameters.ProbeProtocol = nil
-	}
-
-	// ProbeRequestType
-	if source.ProbeRequestType != nil {
-		probeRequestType := genruntime.ToEnum(string(*source.ProbeRequestType), healthProbeParameters_ProbeRequestType_Values)
-		parameters.ProbeRequestType = &probeRequestType
-	} else {
-		parameters.ProbeRequestType = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters_STATUS struct {
 	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
@@ -1640,22 +1572,6 @@ func (parameters *LoadBalancingSettingsParameters) AssignProperties_To_LoadBalan
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_LoadBalancingSettingsParameters_STATUS populates our LoadBalancingSettingsParameters from the provided source LoadBalancingSettingsParameters_STATUS
-func (parameters *LoadBalancingSettingsParameters) Initialize_From_LoadBalancingSettingsParameters_STATUS(source *LoadBalancingSettingsParameters_STATUS) error {
-
-	// AdditionalLatencyInMilliseconds
-	parameters.AdditionalLatencyInMilliseconds = genruntime.ClonePointerToInt(source.AdditionalLatencyInMilliseconds)
-
-	// SampleSize
-	parameters.SampleSize = genruntime.ClonePointerToInt(source.SampleSize)
-
-	// SuccessfulSamplesRequired
-	parameters.SuccessfulSamplesRequired = genruntime.ClonePointerToInt(source.SuccessfulSamplesRequired)
 
 	// No error
 	return nil

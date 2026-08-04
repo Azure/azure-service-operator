@@ -105,15 +105,15 @@ var (
 
 	LionPrideTypeEnumDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionPrideType"),
-		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/lionPride")),
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", `"Microsoft.Lions/lionPride"`)),
 	)
 	LionTypeEnumDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionType"),
-		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/lion")),
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", `"Microsoft.Lions/lion"`)),
 	)
 	LionCubTypeEnumDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "LionCubType"),
-		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", "Microsoft.Lions/cub")),
+		astmodel.NewEnumType(astmodel.StringType, astmodel.MakeEnumValue("type", `"Microsoft.Lions/cub"`)),
 	)
 	APIVersionTypeEnumDef = astmodel.MakeTypeDefinition(
 		astmodel.MakeInternalTypeName(LionsPkg, "APIVersion"),

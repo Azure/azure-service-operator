@@ -51,22 +51,36 @@ var _ conversion.Convertible = &RedisAccessPolicyAssignment{}
 
 // ConvertFrom populates our RedisAccessPolicyAssignment from the provided hub RedisAccessPolicyAssignment
 func (assignment *RedisAccessPolicyAssignment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisAccessPolicyAssignment)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20241101/storage/RedisAccessPolicyAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisAccessPolicyAssignment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return assignment.AssignProperties_From_RedisAccessPolicyAssignment(source)
+	err = assignment.AssignProperties_From_RedisAccessPolicyAssignment(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to assignment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisAccessPolicyAssignment from our RedisAccessPolicyAssignment
 func (assignment *RedisAccessPolicyAssignment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisAccessPolicyAssignment)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20241101/storage/RedisAccessPolicyAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisAccessPolicyAssignment
+	err := assignment.AssignProperties_To_RedisAccessPolicyAssignment(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from assignment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return assignment.AssignProperties_To_RedisAccessPolicyAssignment(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisAccessPolicyAssignment{}
@@ -87,17 +101,6 @@ func (assignment *RedisAccessPolicyAssignment) SecretDestinationExpressions() []
 		return nil
 	}
 	return assignment.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RedisAccessPolicyAssignment{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (assignment *RedisAccessPolicyAssignment) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RedisAccessPolicyAssignment_STATUS); ok {
-		return assignment.Spec.Initialize_From_RedisAccessPolicyAssignment_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RedisAccessPolicyAssignment_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RedisAccessPolicyAssignment{}
@@ -558,22 +561,6 @@ func (assignment *RedisAccessPolicyAssignment_Spec) AssignProperties_To_RedisAcc
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RedisAccessPolicyAssignment_STATUS populates our RedisAccessPolicyAssignment_Spec from the provided source RedisAccessPolicyAssignment_STATUS
-func (assignment *RedisAccessPolicyAssignment_Spec) Initialize_From_RedisAccessPolicyAssignment_STATUS(source *RedisAccessPolicyAssignment_STATUS) error {
-
-	// AccessPolicyName
-	assignment.AccessPolicyName = genruntime.ClonePointerToString(source.AccessPolicyName)
-
-	// ObjectId
-	assignment.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
-
-	// ObjectIdAlias
-	assignment.ObjectIdAlias = genruntime.ClonePointerToString(source.ObjectIdAlias)
 
 	// No error
 	return nil
