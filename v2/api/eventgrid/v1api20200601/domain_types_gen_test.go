@@ -5,8 +5,8 @@ package v1api20200601
 
 import (
 	"encoding/json"
-	eventgrid_v1api20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
-	eventgrid_v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20200601/storage"
+	v20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
+	v20250215s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v20250215/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -42,7 +42,7 @@ func RunResourceConversionTestForDomain(subject Domain) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub eventgrid_v20200601s.Domain
+	var hub v20250215s.Domain
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -89,7 +89,7 @@ func RunPropertyAssignmentTestForDomain(subject Domain) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.Domain
+	var other v20200601s.Domain
 	err := copied.AssignProperties_To_Domain(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +202,7 @@ func RunPropertyAssignmentTestForDomainOperatorSpec(subject DomainOperatorSpec) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.DomainOperatorSpec
+	var other v20200601s.DomainOperatorSpec
 	err := copied.AssignProperties_To_DomainOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -308,7 +308,7 @@ func RunPropertyAssignmentTestForDomain_STATUS(subject Domain_STATUS) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.Domain_STATUS
+	var other v20200601s.Domain_STATUS
 	err := copied.AssignProperties_To_Domain_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -454,7 +454,7 @@ func RunPropertyAssignmentTestForDomain_Spec(subject Domain_Spec) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.Domain_Spec
+	var other v20200601s.Domain_Spec
 	err := copied.AssignProperties_To_Domain_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -588,7 +588,7 @@ func RunPropertyAssignmentTestForInboundIpRule(subject InboundIpRule) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.InboundIpRule
+	var other v20200601s.InboundIpRule
 	err := copied.AssignProperties_To_InboundIpRule(&other)
 	if err != nil {
 		return err.Error()
@@ -701,7 +701,7 @@ func RunPropertyAssignmentTestForInboundIpRule_STATUS(subject InboundIpRule_STAT
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.InboundIpRule_STATUS
+	var other v20200601s.InboundIpRule_STATUS
 	err := copied.AssignProperties_To_InboundIpRule_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -815,7 +815,7 @@ func RunPropertyAssignmentTestForInputSchemaMapping(subject InputSchemaMapping) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.InputSchemaMapping
+	var other v20200601s.InputSchemaMapping
 	err := copied.AssignProperties_To_InputSchemaMapping(&other)
 	if err != nil {
 		return err.Error()
@@ -936,7 +936,7 @@ func RunPropertyAssignmentTestForInputSchemaMapping_STATUS(subject InputSchemaMa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.InputSchemaMapping_STATUS
+	var other v20200601s.InputSchemaMapping_STATUS
 	err := copied.AssignProperties_To_InputSchemaMapping_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1058,7 +1058,7 @@ func RunPropertyAssignmentTestForJsonField(subject JsonField) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.JsonField
+	var other v20200601s.JsonField
 	err := copied.AssignProperties_To_JsonField(&other)
 	if err != nil {
 		return err.Error()
@@ -1170,7 +1170,7 @@ func RunPropertyAssignmentTestForJsonFieldWithDefault(subject JsonFieldWithDefau
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.JsonFieldWithDefault
+	var other v20200601s.JsonFieldWithDefault
 	err := copied.AssignProperties_To_JsonFieldWithDefault(&other)
 	if err != nil {
 		return err.Error()
@@ -1284,7 +1284,7 @@ func RunPropertyAssignmentTestForJsonFieldWithDefault_STATUS(subject JsonFieldWi
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.JsonFieldWithDefault_STATUS
+	var other v20200601s.JsonFieldWithDefault_STATUS
 	err := copied.AssignProperties_To_JsonFieldWithDefault_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1398,7 +1398,7 @@ func RunPropertyAssignmentTestForJsonField_STATUS(subject JsonField_STATUS) stri
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.JsonField_STATUS
+	var other v20200601s.JsonField_STATUS
 	err := copied.AssignProperties_To_JsonField_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1510,7 +1510,7 @@ func RunPropertyAssignmentTestForJsonInputSchemaMapping(subject JsonInputSchemaM
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.JsonInputSchemaMapping
+	var other v20200601s.JsonInputSchemaMapping
 	err := copied.AssignProperties_To_JsonInputSchemaMapping(&other)
 	if err != nil {
 		return err.Error()
@@ -1642,7 +1642,7 @@ func RunPropertyAssignmentTestForJsonInputSchemaMapping_STATUS(subject JsonInput
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.JsonInputSchemaMapping_STATUS
+	var other v20200601s.JsonInputSchemaMapping_STATUS
 	err := copied.AssignProperties_To_JsonInputSchemaMapping_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1774,7 +1774,7 @@ func RunPropertyAssignmentTestForPrivateEndpointConnection_STATUS_Domain_SubReso
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
+	var other v20200601s.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
 	err := copied.AssignProperties_To_PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
@@ -1887,7 +1887,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other eventgrid_v1api20200601s.SystemData_STATUS
+	var other v20200601s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()

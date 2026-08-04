@@ -12,9 +12,9 @@ The following resources have newer versions available in the Azure REST API spec
 
 ## batch
 
-|  | Resource     | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|--|--------------|------------------|------------------|-------------------|-------------------|
-|  | BatchAccount | 2025-06-01       | 2024-07-01       | -                 | -                 |
+|      | Resource     | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|--------------|------------------|------------------|-------------------|-------------------|
+| 💡    | BatchAccount | **2025-06-01**   | 2024-07-01       | -                 | -                 |
 
 ## cdn
 
@@ -86,14 +86,6 @@ The following resources have newer versions available in the Azure REST API spec
 |      | CassandraCluster | 2026-03-15       | 2025-10-15       | -                 | -                 |
 | 💡    | DatabaseAccount  | **2026-03-15**   | 2024-08-15       | -                 | -                 |
 | 💡    | MongoCluster     | **2025-09-01**   | 2024-07-01       | -                 | -                 |
-
-## eventgrid
-
-|      | Resource          | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|------|-------------------|------------------|------------------|-------------------|-------------------|
-| 💡    | Domain            | **2025-02-15**   | 2020-06-01       | -                 | -                 |
-| 💡    | EventSubscription | **2025-02-15**   | 2020-06-01       | -                 | -                 |
-| 💡    | Topic             | **2025-02-15**   | 2020-06-01       | -                 | -                 |
 
 ## eventhub
 

@@ -1,0 +1,18 @@
+apiVersion: eventgrid.azure.com/v20250215
+kind: EventSubscription
+metadata:
+  name: sample-subscription
+  namespace: default
+spec:
+  owner:
+    name: sample-domain-topic
+    group: eventgrid.azure.com
+    kind: Topic
+  destination:
+    storageQueue:
+      endpointType: StorageQueue
+      resourceReference:
+        group: storage.azure.com
+        kind: StorageAccount
+        name: samplekubestoragebeta
+      queueName: samplequeuebeta

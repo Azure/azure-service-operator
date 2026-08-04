@@ -646,7 +646,7 @@ var storageQueueEventSubscriptionDestination_EndpointType_Values = map[string]St
 // The properties for a storage queue destination.
 type StorageQueueEventSubscriptionDestinationProperties struct {
 	// QueueName: The name of the Storage queue under a storage account that is the destination of an event subscription.
-	QueueName *string `json:"queueName,omitempty"`
+	QueueName *string `json:"queueName,omitempty" optionalConfigMapPair:"QueueName"`
 
 	// ResourceId: The Azure Resource ID of the storage account that contains the queue that is the destination of an event
 	// subscription.
@@ -722,7 +722,7 @@ var webHookEventSubscriptionDestination_EndpointType_Values = map[string]WebHook
 type WebHookEventSubscriptionDestinationProperties struct {
 	// AzureActiveDirectoryApplicationIdOrUri: The Azure Active Directory Application ID or URI to get the access token that
 	// will be included as the bearer token in delivery requests.
-	AzureActiveDirectoryApplicationIdOrUri *string `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
+	AzureActiveDirectoryApplicationIdOrUri *string `json:"azureActiveDirectoryApplicationIdOrUri,omitempty" optionalConfigMapPair:"AzureActiveDirectoryApplicationIdOrUri"`
 
 	// AzureActiveDirectoryTenantId: The Azure Active Directory Tenant ID to get the access token that will be included as the
 	// bearer token in delivery requests.
