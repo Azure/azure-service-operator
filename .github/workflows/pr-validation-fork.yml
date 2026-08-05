@@ -93,7 +93,7 @@ jobs:
         run: scripts/v2/check-changes.sh
 
       - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@371161bbe7024a29a25c5e19bfcbc0804fe9ad2c # pinned to v4.5.2
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # pinned to v4.6.0
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
