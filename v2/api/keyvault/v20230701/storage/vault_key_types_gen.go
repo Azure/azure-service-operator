@@ -14,8 +14,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-// +kubebuilder:rbac:groups=keyvault.azure.com,resources=vaultskeys,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=keyvault.azure.com,resources={vaultskeys/status,vaultskeys/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=keyvault.azure.com,resources=vaultkeys,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=keyvault.azure.com,resources={vaultkeys/status,vaultkeys/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,keyvault}
@@ -25,78 +25,78 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v20230701.VaultsKey
+// Storage version of v20230701.VaultKey
 // Generator information:
 // - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2023-07-01/keys.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}
-type VaultsKey struct {
+type VaultKey struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VaultsKey_Spec   `json:"spec,omitempty"`
-	Status            VaultsKey_STATUS `json:"status,omitempty"`
+	Spec              VaultKey_Spec   `json:"spec,omitempty"`
+	Status            VaultKey_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &VaultsKey{}
+var _ conditions.Conditioner = &VaultKey{}
 
 // GetConditions returns the conditions of the resource
-func (vaultsKey *VaultsKey) GetConditions() conditions.Conditions {
-	return vaultsKey.Status.Conditions
+func (vaultKey *VaultKey) GetConditions() conditions.Conditions {
+	return vaultKey.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (vaultsKey *VaultsKey) SetConditions(conditions conditions.Conditions) {
-	vaultsKey.Status.Conditions = conditions
+func (vaultKey *VaultKey) SetConditions(conditions conditions.Conditions) {
+	vaultKey.Status.Conditions = conditions
 }
 
-var _ configmaps.Exporter = &VaultsKey{}
+var _ configmaps.Exporter = &VaultKey{}
 
 // ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
-func (vaultsKey *VaultsKey) ConfigMapDestinationExpressions() []*core.DestinationExpression {
-	if vaultsKey.Spec.OperatorSpec == nil {
+func (vaultKey *VaultKey) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if vaultKey.Spec.OperatorSpec == nil {
 		return nil
 	}
-	return vaultsKey.Spec.OperatorSpec.ConfigMapExpressions
+	return vaultKey.Spec.OperatorSpec.ConfigMapExpressions
 }
 
-var _ secrets.Exporter = &VaultsKey{}
+var _ secrets.Exporter = &VaultKey{}
 
 // SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
-func (vaultsKey *VaultsKey) SecretDestinationExpressions() []*core.DestinationExpression {
-	if vaultsKey.Spec.OperatorSpec == nil {
+func (vaultKey *VaultKey) SecretDestinationExpressions() []*core.DestinationExpression {
+	if vaultKey.Spec.OperatorSpec == nil {
 		return nil
 	}
-	return vaultsKey.Spec.OperatorSpec.SecretExpressions
+	return vaultKey.Spec.OperatorSpec.SecretExpressions
 }
 
-var _ genruntime.KubernetesResource = &VaultsKey{}
+var _ genruntime.KubernetesResource = &VaultKey{}
 
 // AzureName returns the Azure name of the resource
-func (vaultsKey *VaultsKey) AzureName() string {
-	return vaultsKey.Spec.AzureName
+func (vaultKey *VaultKey) AzureName() string {
+	return vaultKey.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-07-01"
-func (vaultsKey VaultsKey) GetAPIVersion() string {
+func (vaultKey VaultKey) GetAPIVersion() string {
 	return "2023-07-01"
 }
 
 // GetResourceScope returns the scope of the resource
-func (vaultsKey *VaultsKey) GetResourceScope() genruntime.ResourceScope {
+func (vaultKey *VaultKey) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (vaultsKey *VaultsKey) GetSpec() genruntime.ConvertibleSpec {
-	return &vaultsKey.Spec
+func (vaultKey *VaultKey) GetSpec() genruntime.ConvertibleSpec {
+	return &vaultKey.Spec
 }
 
 // GetStatus returns the status of this resource
-func (vaultsKey *VaultsKey) GetStatus() genruntime.ConvertibleStatus {
-	return &vaultsKey.Status
+func (vaultKey *VaultKey) GetStatus() genruntime.ConvertibleStatus {
+	return &vaultKey.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (vaultsKey *VaultsKey) GetSupportedOperations() []genruntime.ResourceOperation {
+func (vaultKey *VaultKey) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationGet,
 		genruntime.ResourceOperationPut,
@@ -104,65 +104,65 @@ func (vaultsKey *VaultsKey) GetSupportedOperations() []genruntime.ResourceOperat
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.KeyVault/vaults/keys"
-func (vaultsKey *VaultsKey) GetType() string {
+func (vaultKey *VaultKey) GetType() string {
 	return "Microsoft.KeyVault/vaults/keys"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (vaultsKey *VaultsKey) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VaultsKey_STATUS{}
+func (vaultKey *VaultKey) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &VaultKey_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (vaultsKey *VaultsKey) Owner() *genruntime.ResourceReference {
-	if vaultsKey.Spec.Owner == nil {
+func (vaultKey *VaultKey) Owner() *genruntime.ResourceReference {
+	if vaultKey.Spec.Owner == nil {
 		return nil
 	}
 
-	group, kind := genruntime.LookupOwnerGroupKind(vaultsKey.Spec)
-	return vaultsKey.Spec.Owner.AsResourceReference(group, kind)
+	group, kind := genruntime.LookupOwnerGroupKind(vaultKey.Spec)
+	return vaultKey.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
-func (vaultsKey *VaultsKey) SetStatus(status genruntime.ConvertibleStatus) error {
+func (vaultKey *VaultKey) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VaultsKey_STATUS); ok {
-		vaultsKey.Status = *st
+	if st, ok := status.(*VaultKey_STATUS); ok {
+		vaultKey.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VaultsKey_STATUS
+	var st VaultKey_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
 	}
 
-	vaultsKey.Status = st
+	vaultKey.Status = st
 	return nil
 }
 
-// Hub marks that this VaultsKey is the hub type for conversion
-func (vaultsKey *VaultsKey) Hub() {}
+// Hub marks that this VaultKey is the hub type for conversion
+func (vaultKey *VaultKey) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (vaultsKey *VaultsKey) OriginalGVK() *schema.GroupVersionKind {
+func (vaultKey *VaultKey) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: vaultsKey.Spec.OriginalVersion,
-		Kind:    "VaultsKey",
+		Version: vaultKey.Spec.OriginalVersion,
+		Kind:    "VaultKey",
 	}
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v20230701.VaultsKey
+// Storage version of v20230701.VaultKey
 // Generator information:
 // - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2023-07-01/keys.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}
-type VaultsKeyList struct {
+type VaultKeyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []VaultsKey `json:"items"`
+	Items           []VaultKey `json:"items"`
 }
 
 // Storage version of v20230701.APIVersion
@@ -171,13 +171,13 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2023-07-01")
 
-// Storage version of v20230701.VaultsKey_Spec
-type VaultsKey_Spec struct {
+// Storage version of v20230701.VaultKey_Spec
+type VaultKey_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string                 `json:"azureName,omitempty"`
-	OperatorSpec    *VaultsKeyOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion string                 `json:"originalVersion,omitempty"`
+	AzureName       string                `json:"azureName,omitempty"`
+	OperatorSpec    *VaultKeyOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -189,28 +189,28 @@ type VaultsKey_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &VaultsKey_Spec{}
+var _ genruntime.ConvertibleSpec = &VaultKey_Spec{}
 
-// ConvertSpecFrom populates our VaultsKey_Spec from the provided source
-func (vaultsKey *VaultsKey_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == vaultsKey {
+// ConvertSpecFrom populates our VaultKey_Spec from the provided source
+func (vaultKey *VaultKey_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == vaultKey {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(vaultsKey)
+	return source.ConvertSpecTo(vaultKey)
 }
 
-// ConvertSpecTo populates the provided destination from our VaultsKey_Spec
-func (vaultsKey *VaultsKey_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == vaultsKey {
+// ConvertSpecTo populates the provided destination from our VaultKey_Spec
+func (vaultKey *VaultKey_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == vaultKey {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(vaultsKey)
+	return destination.ConvertSpecFrom(vaultKey)
 }
 
-// Storage version of v20230701.VaultsKey_STATUS
-type VaultsKey_STATUS struct {
+// Storage version of v20230701.VaultKey_STATUS
+type VaultKey_STATUS struct {
 	Attributes        *KeyAttributes_STATUS    `json:"attributes,omitempty"`
 	Conditions        []conditions.Condition   `json:"conditions,omitempty"`
 	CurveName         *string                  `json:"curveName,omitempty"`
@@ -229,24 +229,24 @@ type VaultsKey_STATUS struct {
 	Type              *string                  `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VaultsKey_STATUS{}
+var _ genruntime.ConvertibleStatus = &VaultKey_STATUS{}
 
-// ConvertStatusFrom populates our VaultsKey_STATUS from the provided source
-func (vaultsKey *VaultsKey_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == vaultsKey {
+// ConvertStatusFrom populates our VaultKey_STATUS from the provided source
+func (vaultKey *VaultKey_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == vaultKey {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(vaultsKey)
+	return source.ConvertStatusTo(vaultKey)
 }
 
-// ConvertStatusTo populates the provided destination from our VaultsKey_STATUS
-func (vaultsKey *VaultsKey_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == vaultsKey {
+// ConvertStatusTo populates the provided destination from our VaultKey_STATUS
+func (vaultKey *VaultKey_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == vaultKey {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(vaultsKey)
+	return destination.ConvertStatusFrom(vaultKey)
 }
 
 // Storage version of v20230701.KeyAttributes_STATUS
@@ -289,9 +289,9 @@ type RotationPolicy_STATUS struct {
 	PropertyBag     genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v20230701.VaultsKeyOperatorSpec
+// Storage version of v20230701.VaultKeyOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type VaultsKeyOperatorSpec struct {
+type VaultKeyOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
@@ -376,5 +376,5 @@ type Trigger struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&VaultsKey{}, &VaultsKeyList{})
+	SchemeBuilder.Register(&VaultKey{}, &VaultKeyList{})
 }

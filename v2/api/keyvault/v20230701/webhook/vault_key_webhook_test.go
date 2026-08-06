@@ -17,13 +17,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func newTestVaultsKeyObj() *v20230701.VaultsKey {
+func newTestVaultKeyObj() *v20230701.VaultKey {
 	kty := v20230701.KeyProperties_Kty_RSA
-	return &v20230701.VaultsKey{
+	return &v20230701.VaultKey{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: "mykey",
 		},
-		Spec: v20230701.VaultsKey_Spec{
+		Spec: v20230701.VaultKey_Spec{
 			AzureName: "mykey",
 			Properties: &v20230701.KeyProperties{
 				Kty:     &kty,
@@ -36,19 +36,19 @@ func newTestVaultsKeyObj() *v20230701.VaultsKey {
 	}
 }
 
-func markCreated(obj *v20230701.VaultsKey) *v20230701.VaultsKey {
+func markCreated(obj *v20230701.VaultKey) *v20230701.VaultKey {
 	genruntime.SetResourceID(obj, "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myrg/providers/Microsoft.KeyVault/vaults/myvault/keys/mykey")
 	return obj
 }
 
-func Test_VaultsKey_ValidateNotExportable(t *testing.T) {
+func Test_VaultKey_ValidateNotExportable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	webhook := &VaultsKey{}
+	webhook := &VaultKey{}
 
 	t.Run("create with exportable=true is rejected", func(t *testing.T) {
-		obj := newTestVaultsKeyObj()
+		obj := newTestVaultKeyObj()
 		obj.Spec.Properties.Attributes.Exportable = to.Ptr(true)
 
 		_, err := webhook.validateNotExportable(context.Background(), obj)
@@ -57,7 +57,7 @@ func Test_VaultsKey_ValidateNotExportable(t *testing.T) {
 	})
 
 	t.Run("create with exportable=false is allowed", func(t *testing.T) {
-		obj := newTestVaultsKeyObj()
+		obj := newTestVaultKeyObj()
 		obj.Spec.Properties.Attributes.Exportable = to.Ptr(false)
 
 		_, err := webhook.validateNotExportable(context.Background(), obj)
@@ -65,14 +65,14 @@ func Test_VaultsKey_ValidateNotExportable(t *testing.T) {
 	})
 
 	t.Run("create with exportable unset is allowed", func(t *testing.T) {
-		obj := newTestVaultsKeyObj()
+		obj := newTestVaultKeyObj()
 
 		_, err := webhook.validateNotExportable(context.Background(), obj)
 		g.Expect(err).ToNot(HaveOccurred())
 	})
 
 	t.Run("update to exportable=true is rejected", func(t *testing.T) {
-		newObj := markCreated(newTestVaultsKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Properties.Attributes.Exportable = to.Ptr(true)
 
 		_, err := webhook.validateNotExportable(context.Background(), newObj)
@@ -81,15 +81,15 @@ func Test_VaultsKey_ValidateNotExportable(t *testing.T) {
 	})
 }
 
-func Test_VaultsKey_ValidateImmutable(t *testing.T) {
+func Test_VaultKey_ValidateImmutable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	webhook := &VaultsKey{}
+	webhook := &VaultKey{}
 
 	t.Run("not yet created - any change allowed", func(t *testing.T) {
-		oldObj := newTestVaultsKeyObj()
-		newObj := newTestVaultsKeyObj()
+		oldObj := newTestVaultKeyObj()
+		newObj := newTestVaultKeyObj()
 		newObj.Spec.Properties.KeySize = to.Ptr(4096)
 
 		_, err := webhook.validateImmutable(context.Background(), oldObj, newObj)
@@ -97,8 +97,8 @@ func Test_VaultsKey_ValidateImmutable(t *testing.T) {
 	})
 
 	t.Run("created - changing keySize is rejected", func(t *testing.T) {
-		oldObj := markCreated(newTestVaultsKeyObj())
-		newObj := markCreated(newTestVaultsKeyObj())
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Properties.KeySize = to.Ptr(4096)
 
 		_, err := webhook.validateImmutable(context.Background(), oldObj, newObj)
@@ -107,8 +107,8 @@ func Test_VaultsKey_ValidateImmutable(t *testing.T) {
 	})
 
 	t.Run("created - changing tags is rejected", func(t *testing.T) {
-		oldObj := markCreated(newTestVaultsKeyObj())
-		newObj := markCreated(newTestVaultsKeyObj())
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Tags = map[string]string{"foo": "bar"}
 
 		_, err := webhook.validateImmutable(context.Background(), oldObj, newObj)
@@ -117,8 +117,8 @@ func Test_VaultsKey_ValidateImmutable(t *testing.T) {
 	})
 
 	t.Run("created - true no-op update is allowed", func(t *testing.T) {
-		oldObj := markCreated(newTestVaultsKeyObj())
-		newObj := markCreated(newTestVaultsKeyObj())
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
 
 		_, err := webhook.validateImmutable(context.Background(), oldObj, newObj)
 		g.Expect(err).ToNot(HaveOccurred())

@@ -9,12 +9,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type VaultsKeyExtension struct {
+type VaultKeyExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *VaultsKeyExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *VaultKeyExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20230701.VaultsKey{},
-		&storage.VaultsKey{}}
+		&v20230701.VaultKey{},
+		&storage.VaultKey{}}
 }

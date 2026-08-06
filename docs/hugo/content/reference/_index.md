@@ -947,9 +947,9 @@ To install the CRDs for these resources, your ASO configuration must include `ke
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource  | ARM Version | CRD Version | Supported From | Sample |
-|-----------|-------------|-------------|----------------|--------|
-| VaultsKey | 2023-07-01  | v20230701   | v2.21.0        | -      |
+| Resource                                                            | ARM Version | CRD Version | Supported From | Sample                                                                                                                  |
+|---------------------------------------------------------------------|-------------|-------------|----------------|-------------------------------------------------------------------------------------------------------------------------|
+| [VaultKey]({{< relref "/reference/keyvault/v20230701#VaultKey" >}}) | 2023-07-01  | v20230701   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/keyvault/v20230701/v20230701_vaultkey.yaml) |
 
 ### Latest Released Versions
 

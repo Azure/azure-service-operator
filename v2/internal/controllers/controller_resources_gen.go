@@ -1792,7 +1792,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(keyvault_v20230701s.VaultsKey)})
+	result = append(result, &registration.StorageType{Obj: new(keyvault_v20230701s.VaultKey)})
 	result = append(result, &registration.StorageType{
 		Obj: new(kubernetesconfiguration_v20241101s.Extension),
 		Indexes: []registration.Index{
@@ -6051,11 +6051,11 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(keyvault_v1api20230701s.Vault)})
 	result = append(result, &registration.KnownType{
-		Obj:       new(keyvault_v20230701.VaultsKey),
-		Defaulter: &keyvault_v20230701w.VaultsKey{},
-		Validator: &keyvault_v20230701w.VaultsKey{},
+		Obj:       new(keyvault_v20230701.VaultKey),
+		Defaulter: &keyvault_v20230701w.VaultKey{},
+		Validator: &keyvault_v20230701w.VaultKey{},
 	})
-	result = append(result, &registration.KnownType{Obj: new(keyvault_v20230701s.VaultsKey)})
+	result = append(result, &registration.KnownType{Obj: new(keyvault_v20230701s.VaultKey)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(kubernetesconfiguration_v20230501.Extension),
 		Defaulter: &kubernetesconfiguration_v20230501w.Extension{},
@@ -8395,7 +8395,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &insights_customizations.WebtestExtension{})
 	result = append(result, &insights_customizations.WorkbookExtension{})
 	result = append(result, &keyvault_customizations.VaultExtension{})
-	result = append(result, &keyvault_customizations.VaultsKeyExtension{})
+	result = append(result, &keyvault_customizations.VaultKeyExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.ExtensionExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.FluxConfigurationExtension{})
 	result = append(result, &kusto_customizations.ClusterExtension{})
