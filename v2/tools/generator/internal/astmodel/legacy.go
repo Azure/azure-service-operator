@@ -72,6 +72,7 @@ var versionMigrationHybridReleases = map[string]string{
 	"authorization":     "v2.21.0",
 	"batch":             "v2.18.0",
 	"cache":             "v2.21.0",
+	"cognitiveservices": "v2.21.0",
 	"compute":           "v2.20.0",
 	"containerinstance": "v2.21.0",
 	"datafactory":       "v2.20.0",
@@ -90,21 +91,16 @@ var versionMigrationHybridReleases = map[string]string{
 // As we move groups to the new versioning scheme, we'll move them to hybrid mode (giving users a migration path forward).
 // Once all groups have been fully migrated, we will delete this file.
 var versionMigrationModes = map[string]VersionMigrationMode{
-	"alertsmanagement": VersionMigrationModeHybrid,
-	"apimanagement":    VersionMigrationModeHybrid,
-	"app":              VersionMigrationModeHybrid,
-	"appconfiguration": VersionMigrationModeHybrid,
-
-	"authorization": VersionMigrationModeHybrid,
-
-	"batch": VersionMigrationModeHybrid,
-
-	"cache": VersionMigrationModeHybrid,
-	"cdn":   VersionMigrationModeHybrid,
-
-	"cognitiveservices": VersionMigrationModeLegacy,
-
-	"compute": VersionMigrationModeHybrid,
+	"alertsmanagement":  VersionMigrationModeHybrid,
+	"apimanagement":     VersionMigrationModeHybrid,
+	"app":               VersionMigrationModeHybrid,
+	"appconfiguration":  VersionMigrationModeHybrid,
+	"authorization":     VersionMigrationModeHybrid,
+	"batch":             VersionMigrationModeHybrid,
+	"cache":             VersionMigrationModeHybrid,
+	"cdn":               VersionMigrationModeHybrid,
+	"cognitiveservices": VersionMigrationModeHybrid,
+	"compute":           VersionMigrationModeHybrid,
 
 	"containerinstance": VersionMigrationModeHybrid,
 	"containerregistry": VersionMigrationModeLegacy,
@@ -117,10 +113,12 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 
 	"dbformysql": VersionMigrationModeHybrid,
 
-	"dbforpostgresql":         VersionMigrationModeLegacy,
-	"devices":                 VersionMigrationModeLegacy,
-	"documentdb":              VersionMigrationModeLegacy,
-	"eventgrid":               VersionMigrationModeHybrid,
+	"dbforpostgresql": VersionMigrationModeLegacy,
+	"devices":         VersionMigrationModeLegacy,
+	"documentdb":      VersionMigrationModeLegacy,
+
+	"eventgrid": VersionMigrationModeHybrid,
+
 	"eventhub":                VersionMigrationModeLegacy,
 	"insights":                VersionMigrationModeLegacy,
 	"keyvault":                VersionMigrationModeLegacy,
@@ -139,14 +137,12 @@ var versionMigrationModes = map[string]VersionMigrationMode{
 	"search":                  VersionMigrationModeLegacy,
 	"servicebus":              VersionMigrationModeLegacy,
 	"signalrservice":          VersionMigrationModeLegacy,
-	"sql":                     VersionMigrationModeHybrid,
 
-	"storage": VersionMigrationModeHybrid,
-
+	"sql":          VersionMigrationModeHybrid,
+	"storage":      VersionMigrationModeHybrid,
 	"subscription": VersionMigrationModeHybrid,
-
-	"synapse": VersionMigrationModeHybrid,
-	"web":     VersionMigrationModeHybrid,
+	"synapse":      VersionMigrationModeHybrid,
+	"web":          VersionMigrationModeHybrid,
 }
 
 // VersionPrefixForGroup returns the version prefix to use for the specified group.

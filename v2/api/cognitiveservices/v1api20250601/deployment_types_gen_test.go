@@ -5,7 +5,8 @@ package v1api20250601
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/storage"
+	cognitiveservices_v1api20250601s "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601/storage"
+	cognitiveservices_v20250601s "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v20250601/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForDeployment(subject Deployment) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.Deployment
+	var hub cognitiveservices_v20250601s.Deployment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForDeployment(subject Deployment) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Deployment
+	var other cognitiveservices_v1api20250601s.Deployment
 	err := copied.AssignProperties_To_Deployment(&other)
 	if err != nil {
 		return err.Error()
@@ -201,7 +202,7 @@ func RunPropertyAssignmentTestForDeploymentCapacitySettings(subject DeploymentCa
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentCapacitySettings
+	var other cognitiveservices_v1api20250601s.DeploymentCapacitySettings
 	err := copied.AssignProperties_To_DeploymentCapacitySettings(&other)
 	if err != nil {
 		return err.Error()
@@ -315,7 +316,7 @@ func RunPropertyAssignmentTestForDeploymentCapacitySettings_STATUS(subject Deplo
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentCapacitySettings_STATUS
+	var other cognitiveservices_v1api20250601s.DeploymentCapacitySettings_STATUS
 	err := copied.AssignProperties_To_DeploymentCapacitySettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -429,7 +430,7 @@ func RunPropertyAssignmentTestForDeploymentModel(subject DeploymentModel) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentModel
+	var other cognitiveservices_v1api20250601s.DeploymentModel
 	err := copied.AssignProperties_To_DeploymentModel(&other)
 	if err != nil {
 		return err.Error()
@@ -544,7 +545,7 @@ func RunPropertyAssignmentTestForDeploymentModel_STATUS(subject DeploymentModel_
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentModel_STATUS
+	var other cognitiveservices_v1api20250601s.DeploymentModel_STATUS
 	err := copied.AssignProperties_To_DeploymentModel_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -676,7 +677,7 @@ func RunPropertyAssignmentTestForDeploymentOperatorSpec(subject DeploymentOperat
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentOperatorSpec
+	var other cognitiveservices_v1api20250601s.DeploymentOperatorSpec
 	err := copied.AssignProperties_To_DeploymentOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -783,7 +784,7 @@ func RunPropertyAssignmentTestForDeploymentProperties(subject DeploymentProperti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentProperties
+	var other cognitiveservices_v1api20250601s.DeploymentProperties
 	err := copied.AssignProperties_To_DeploymentProperties(&other)
 	if err != nil {
 		return err.Error()
@@ -915,7 +916,7 @@ func RunPropertyAssignmentTestForDeploymentProperties_STATUS(subject DeploymentP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentProperties_STATUS
+	var other cognitiveservices_v1api20250601s.DeploymentProperties_STATUS
 	err := copied.AssignProperties_To_DeploymentProperties_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1063,7 +1064,7 @@ func RunPropertyAssignmentTestForDeploymentScaleSettings(subject DeploymentScale
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentScaleSettings
+	var other cognitiveservices_v1api20250601s.DeploymentScaleSettings
 	err := copied.AssignProperties_To_DeploymentScaleSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -1177,7 +1178,7 @@ func RunPropertyAssignmentTestForDeploymentScaleSettings_STATUS(subject Deployme
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.DeploymentScaleSettings_STATUS
+	var other cognitiveservices_v1api20250601s.DeploymentScaleSettings_STATUS
 	err := copied.AssignProperties_To_DeploymentScaleSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1292,7 +1293,7 @@ func RunPropertyAssignmentTestForDeployment_STATUS(subject Deployment_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Deployment_STATUS
+	var other cognitiveservices_v1api20250601s.Deployment_STATUS
 	err := copied.AssignProperties_To_Deployment_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1426,7 +1427,7 @@ func RunPropertyAssignmentTestForDeployment_Spec(subject Deployment_Spec) string
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Deployment_Spec
+	var other cognitiveservices_v1api20250601s.Deployment_Spec
 	err := copied.AssignProperties_To_Deployment_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -1557,7 +1558,7 @@ func RunPropertyAssignmentTestForRequestMatchPattern_STATUS(subject RequestMatch
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RequestMatchPattern_STATUS
+	var other cognitiveservices_v1api20250601s.RequestMatchPattern_STATUS
 	err := copied.AssignProperties_To_RequestMatchPattern_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -1671,7 +1672,7 @@ func RunPropertyAssignmentTestForThrottlingRule_STATUS(subject ThrottlingRule_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ThrottlingRule_STATUS
+	var other cognitiveservices_v1api20250601s.ThrottlingRule_STATUS
 	err := copied.AssignProperties_To_ThrottlingRule_STATUS(&other)
 	if err != nil {
 		return err.Error()

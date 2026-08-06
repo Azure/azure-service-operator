@@ -12,9 +12,9 @@ The following resources have newer versions available in the Azure REST API spec
 
 ## batch
 
-|  | Resource     | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|--|--------------|------------------|------------------|-------------------|-------------------|
-|  | BatchAccount | 2025-06-01       | 2024-07-01       | -                 | -                 |
+|      | Resource     | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|--------------|------------------|------------------|-------------------|-------------------|
+| 💡    | BatchAccount | **2025-06-01**   | 2024-07-01       | -                 | -                 |
 
 ## cdn
 
@@ -194,12 +194,6 @@ The following resources have newer versions available in the Azure REST API spec
 |      | Resource  | Available Stable | Supported Stable | Available Preview | Supported Preview  |
 |------|-----------|------------------|------------------|-------------------|--------------------|
 | 💡    | Namespace | **2026-01-01**   | 2024-01-01       |                   | 2022-10-01-preview |
-
-## sql
-
-|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|------|----------|------------------|------------------|-------------------|-------------------|
-| 💡    | Server   | **2025-01-01**   | 2021-11-01       | -                 | -                 |
 
 ## storage
 
