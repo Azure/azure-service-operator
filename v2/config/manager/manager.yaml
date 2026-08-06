@@ -47,6 +47,7 @@ spec:
         - --enable-leader-election
         - --v=2
         - --crd-pattern=
+        - --crd-labels=
         ports:
           - containerPort: 8081
             name: health-port
