@@ -4,7 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701
 APIVersion: Enum (1 value)
 └── "2023-07-01"
 
-VaultsKey: Resource
+VaultKey: Resource
 ├── Owner: keyvault/v1api20230701.Vault
 ├── Spec: Object (5 properties)
 │   ├── AzureName: Validated<string> (1 rule)

@@ -62,6 +62,9 @@
 | Trigger                                                  |                      |               | v20230701 |
 | Trigger_STATUS                                           |                      |               | v20230701 |
 | Vault                                                    | v1api20210401preview | v1api20230701 |           |
+| VaultKey                                                 |                      |               | v20230701 |
+| VaultKey_STATUS                                          |                      |               | v20230701 |
+| VaultKey_Spec                                            |                      |               | v20230701 |
 | VaultProperties                                          | v1api20210401preview | v1api20230701 |           |
 | VaultProperties_CreateMode                               | v1api20210401preview | v1api20230701 |           |
 | VaultProperties_CreateMode_STATUS                        | v1api20210401preview | v1api20230701 |           |
@@ -70,8 +73,5 @@
 | VaultProperties_STATUS                                   | v1api20210401preview | v1api20230701 |           |
 | Vault_STATUS                                             | v1api20210401preview | v1api20230701 |           |
 | Vault_Spec                                               | v1api20210401preview | v1api20230701 |           |
-| VaultsKey                                                |                      |               | v20230701 |
-| VaultsKey_STATUS                                         |                      |               | v20230701 |
-| VaultsKey_Spec                                           |                      |               | v20230701 |
 | VirtualNetworkRule                                       | v1api20210401preview | v1api20230701 |           |
 | VirtualNetworkRule_STATUS                                | v1api20210401preview | v1api20230701 |           |
