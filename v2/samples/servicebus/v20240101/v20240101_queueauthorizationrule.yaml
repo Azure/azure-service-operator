@@ -1,0 +1,11 @@
+apiVersion: servicebus.azure.com/v20240101
+kind: QueueAuthorizationRule
+metadata:
+  name: samplesauthorizationrule
+  namespace: default
+spec:
+  owner:
+    name: samplequeue
+  rights:
+    - Listen
+    - Send
