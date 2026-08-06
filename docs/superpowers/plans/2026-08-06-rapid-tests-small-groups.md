@@ -153,7 +153,17 @@ fi
 
 Expected: the first command finds rapid imports and generated calls; the second command produces no matches.
 
-- [ ] **Step 7: Review and commit the implementation**
+- [ ] **Step 7: Format the implementation**
+
+Run:
+
+```bash
+./hack/tools/task format-code
+```
+
+Expected: PASS and any formatting changes are limited to Task 1 files.
+
+- [ ] **Step 8: Review and commit the implementation**
 
 Run:
 
@@ -186,17 +196,7 @@ Expected: one implementation commit containing only the migration gate, its unit
 - Consumes: the committed five-group migration from Task 1
 - Produces: a pushed branch and GitHub pull request
 
-- [ ] **Step 1: Run repository formatting**
-
-Run:
-
-```bash
-./hack/tools/task format-code
-```
-
-Expected: PASS; commit any formatting changes only if they affect Task 1 files.
-
-- [ ] **Step 2: Run generator checks**
+- [ ] **Step 1: Run generator checks**
 
 Run:
 
@@ -206,7 +206,7 @@ Run:
 
 Expected: PASS.
 
-- [ ] **Step 3: Run controller checks**
+- [ ] **Step 2: Run controller checks**
 
 Run:
 
@@ -216,7 +216,7 @@ Run:
 
 Expected: PASS.
 
-- [ ] **Step 4: Run asoctl checks**
+- [ ] **Step 3: Run asoctl checks**
 
 Run:
 
@@ -226,7 +226,7 @@ Run:
 
 Expected: PASS.
 
-- [ ] **Step 5: Confirm the branch is ready**
+- [ ] **Step 4: Confirm the branch is ready**
 
 Run:
 
@@ -238,7 +238,7 @@ git diff --check origin/main...HEAD
 
 Expected: a clean worktree, the design/plan commits plus one focused implementation commit, and no whitespace errors.
 
-- [ ] **Step 6: Push and open the pull request**
+- [ ] **Step 5: Push and open the pull request**
 
 Run:
 
