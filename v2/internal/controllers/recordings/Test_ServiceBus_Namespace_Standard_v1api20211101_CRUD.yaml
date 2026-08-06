@@ -1,1504 +1,2067 @@
 ---
-version: 1
+version: 2
 interactions:
-- request:
-    body: '{"location":"westus2","name":"asotest-rg-oucoat","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "93"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat?api-version=2020-06-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat","name":"asotest-rg-oucoat","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "276"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat","name":"asotest-rg-oucoat","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"asotest-namespace-sbjmwy","properties":{"zoneRedundant":false},"sku":{"name":"Standard"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "119"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Activating"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Activating"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Activating"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Activating"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Activating"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Activating"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Active"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Active"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"asotest-queue-wgrtru"}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "31"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru","name":"asotest-queue-wgrtru","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"asotest-topic-uajkmi"}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "31"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi","name":"asotest-topic-uajkmi","type":"Microsoft.ServiceBus/namespaces/topics","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"duplicateDetectionHistoryTimeWindow":"PT10M","enableBatchedOperations":true,"sizeInBytes":0,"status":"Active","supportOrdering":true,"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00","subscriptionCount":0,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0}}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru","name":"asotest-queue-wgrtru","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi","name":"asotest-topic-uajkmi","type":"Microsoft.ServiceBus/namespaces/topics","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"duplicateDetectionHistoryTimeWindow":"PT10M","enableBatchedOperations":true,"sizeInBytes":0,"status":"Active","supportOrdering":true,"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z","subscriptionCount":0,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0}}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"asotest-rule-oiszcy","properties":{"rights":["Listen","Send"]}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "72"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/asotest-rule-oiszcy?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/asotest-rule-oiszcy","name":"asotest-rule-oiszcy","type":"Microsoft.ServiceBus/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"asotest-subscription-bdlrev"}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "38"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev","name":"asotest-subscription-bdlrev","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions","location":"westus2","properties":{"isClientAffine":false,"lockDuration":"PT1M","requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"deadLetteringOnFilterEvaluationExceptions":true,"messageCount":0,"maxDeliveryCount":10,"status":"Active","enableBatchedOperations":true,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00","countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"asotest-namespace-sbjmwy","properties":{"zoneRedundant":false},"sku":{"name":"Standard"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "119"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Activating"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev","name":"asotest-subscription-bdlrev","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions","location":"westus2","properties":{"isClientAffine":false,"lockDuration":"PT1M","requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"deadLetteringOnFilterEvaluationExceptions":true,"messageCount":0,"maxDeliveryCount":10,"status":"Active","enableBatchedOperations":true,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z","countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/asotest-rule-oiszcy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/authorizationrules/asotest-rule-oiszcy","name":"asotest-rule-oiszcy","type":"Microsoft.ServiceBus/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/asotest-rule-oiszcy/listKeys?api-version=2021-11-01
-    method: POST
-  response:
-    body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-sbjmwy.servicebus.windows.net/;SharedAccessKeyName=asotest-rule-oiszcy;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-namespace-sbjmwy.servicebus.windows.net/;SharedAccessKeyName=asotest-rule-oiszcy;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"asotest-rule-oiszcy"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Activating"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: '{"name":"asotest-subrule-rvwwao"}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "33"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao?api-version=2021-11-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao","name":"asotest-subrule-rvwwao","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions/rules","location":"westus2","properties":{"action":{},"filterType":"SqlFilter","sqlFilter":{"sqlExpression":"1=1","compatibilityLevel":20,"parameters":{}}}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao","name":"asotest-subrule-rvwwao","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions/rules","location":"westus2","properties":{"action":{},"filterType":"SqlFilter","sqlFilter":{"sqlExpression":"1=1","compatibilityLevel":20,"parameters":{}}}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Active"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "9"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Active"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/RootManageSharedAccessKey/listKeys?api-version=2021-11-01
-    method: POST
-  response:
-    body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-sbjmwy.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-namespace-sbjmwy.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"RootManageSharedAccessKey"}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"error":{"code":"SubscriptionNotFound","message":"Rule does not exist"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "73"
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/asotest-rule-oiszcy?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"error":{"code":"SubscriptionNotFound","message":"Subscription does not
-      exist"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "81"
-      Content-Type:
-      - application/json
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/operationresults/asotest-namespace-sbjmwy?api-version=2021-11-01
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/operationresults/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Removing"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "662"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/operationresults/asotest-namespace-sbjmwy?api-version=2021-11-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "38"
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "10"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Removing"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "11"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Removing"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "12"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"West
-      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/","status":"Removing"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "13"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
-    method: GET
-  response:
-    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 1ce0b28c-d2ed-4103-9509-cb6ee782056d","code":"NotFound"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "119"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat?api-version=2020-06-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
-    method: GET
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 93
+        host: management.azure.com
+        body: '{"location":"westus2","name":"asotest-rg-oucoat","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        form:
+            api-version:
+                - "2020-06-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "93"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - f83e9f87bdbc1002f30a29dfa14d6ee7d3c6a6ead174ff0a979c73a7aeb83575
+            Test-Request-Hash:
+                - f83e9f87bdbc1002f30a29dfa14d6ee7d3c6a6ead174ff0a979c73a7aeb83575
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat?api-version=2020-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 276
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat","name":"asotest-rg-oucoat","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 5409C41CA35F4C6EAE2328FCAB537424 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:12:53Z'
+        status: 201 Created
+        code: 201
+        duration: 3.329200071s
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 276
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat","name":"asotest-rg-oucoat","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: A6947B7CDB1E4CD599B101D50AF9DA5D Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:01Z'
+        status: 200 OK
+        code: 200
+        duration: 223.015372ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 119
+        host: management.azure.com
+        body: '{"location":"westus2","name":"asotest-namespace-sbjmwy","properties":{"zoneRedundant":false},"sku":{"name":"Standard"}}'
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "119"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 6a8baca4a764f185a70b9f381370be60a3fbac4d106a1183cd685ef88a3f9702
+            Test-Request-Hash:
+                - 6a8baca4a764f185a70b9f381370be60a3fbac4d106a1183cd685ef88a3f9702
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 667
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":true,"provisioningState":"Creating","status":"Creating","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/"},"sku":{"name":"Standard","tier":"Standard"}}'
+        headers:
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/cf19e27c-4699-45f4-a750-cec845d851de?isAsyncHeader=true&resourceName=asotest-namespace-sbjmwy&resourceType=namespace&api-version=2021-11-01&operationType=Active&t=639203731874438032&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=VgXXe976XhuviJDndshZT1AH6HLBJXReZ-O7f2EXVi0eozy0QTQpjRyaG4rngUV1gwwPvLEtItX359p4l6SHoaXYycQhvhNKDq-PFyqovzaRzppTR8z9fsJoliX6a6pG9kLJ8xbHg-vSmGha74Q_rd6ob-568Rex2v01tbNBer-FUk_228TtVBpo_nEdy3l6QJxzdoBA7yQJca6V3GhRk9qADBEhZ4ktw6JGo1HYaie5QBPWm6HyERkuJYVeqmj-67bt_oTYH6OIqegi6k0hLKr0Ofxp0IjiEKtshSjR6oXpLhMNyjs-7P1xK37xfAkVOcQ2bVQ9efGEJjJSEHmLRQ&h=lwfOSvXWl3zrMw2ZTCFuMiudKaf42tjDc3LzK1hjDsQ
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "667"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/cf19e27c-4699-45f4-a750-cec845d851de?isAsyncHeader=false&resourceName=asotest-namespace-sbjmwy&resourceType=namespace&api-version=2021-11-01&operationType=Active&t=639203731874594690&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=bJ9pfjjy3Ul039ZfixasLLJEJXFaa1hwwx7YHsTEeixyajjut-I9Cg7Dyjl0azSskcQa7fj5n6LBraoC7FZ3i4IOyi_Z3HypJ98PLdvLLcSsYqXk27Y4uKdIQAINWlG0aBPDe2_ZAv8bvVY5d6pyo-a4cKcaLLh407bQSXOT5yp5_dFCXz8_HZz9ThGaBi1SkScKTbVlgQbDlsfVl7O2rXjyDaqggr8eO9CmQmic7bEDTWGTRbt5W7cfd2peI_mCOyjTxSKqqUK2hzgeDlIwaKv9XHShM37r9SyRyhIqRx-2gd3AMV6S2T_OdvCWou-WYFmMG0s8c3fMDw2_ncOkWg&h=CPFhib9t_Pxy6afv3IlYIOVhLavvevrcGIT9cHHoOh0
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - fd3ef673-ee80-4f8a-97a4-19664cf80bd0
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G13|2026-07-23T03:13:07
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/7ff19b30-e2a2-480b-b7de-fce3b50660ed
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: CED8F45D8CEC4B1C9D04497727FFE83C Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:03Z'
+        status: 201 Created
+        code: 201
+        duration: 4.282297303s
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+            c:
+                - MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT
+            h:
+                - lwfOSvXWl3zrMw2ZTCFuMiudKaf42tjDc3LzK1hjDsQ
+            isAsyncHeader:
+                - "true"
+            operationType:
+                - Active
+            resourceName:
+                - asotest-namespace-sbjmwy
+            resourceType:
+                - namespace
+            s:
+                - VgXXe976XhuviJDndshZT1AH6HLBJXReZ-O7f2EXVi0eozy0QTQpjRyaG4rngUV1gwwPvLEtItX359p4l6SHoaXYycQhvhNKDq-PFyqovzaRzppTR8z9fsJoliX6a6pG9kLJ8xbHg-vSmGha74Q_rd6ob-568Rex2v01tbNBer-FUk_228TtVBpo_nEdy3l6QJxzdoBA7yQJca6V3GhRk9qADBEhZ4ktw6JGo1HYaie5QBPWm6HyERkuJYVeqmj-67bt_oTYH6OIqegi6k0hLKr0Ofxp0IjiEKtshSjR6oXpLhMNyjs-7P1xK37xfAkVOcQ2bVQ9efGEJjJSEHmLRQ
+            t:
+                - "639203731874438032"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/cf19e27c-4699-45f4-a750-cec845d851de?isAsyncHeader=true&resourceName=asotest-namespace-sbjmwy&resourceType=namespace&api-version=2021-11-01&operationType=Active&t=639203731874438032&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=VgXXe976XhuviJDndshZT1AH6HLBJXReZ-O7f2EXVi0eozy0QTQpjRyaG4rngUV1gwwPvLEtItX359p4l6SHoaXYycQhvhNKDq-PFyqovzaRzppTR8z9fsJoliX6a6pG9kLJ8xbHg-vSmGha74Q_rd6ob-568Rex2v01tbNBer-FUk_228TtVBpo_nEdy3l6QJxzdoBA7yQJca6V3GhRk9qADBEhZ4ktw6JGo1HYaie5QBPWm6HyERkuJYVeqmj-67bt_oTYH6OIqegi6k0hLKr0Ofxp0IjiEKtshSjR6oXpLhMNyjs-7P1xK37xfAkVOcQ2bVQ9efGEJjJSEHmLRQ&h=lwfOSvXWl3zrMw2ZTCFuMiudKaf42tjDc3LzK1hjDsQ
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 68
+        body: '{"name":"cf19e27c-4699-45f4-a750-cec845d851de","status":"Succeeded"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "68"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 582f377d-b817-4e11-8cc2-601a96a86a6b
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G10|2026-07-23T03:13:15
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/6f5cea20-ea39-446e-8918-1cd897872dd6
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 2CD3CDAB068948FF966D7F4824BE5646 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:14Z'
+        status: 200 OK
+        code: 200
+        duration: 719.3928ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 666
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/"},"sku":{"name":"Standard","tier":"Standard"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "666"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 6cf31a89-8819-4f18-b9c7-8833bf72490d
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G8|2026-07-23T03:13:16
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 6A9B6245268D46718DA7AF42F06B7FC1 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:15Z'
+        status: 200 OK
+        code: 200
+        duration: 234.993579ms
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 666
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/"},"sku":{"name":"Standard","tier":"Standard"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "666"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 7bfe365d-9d72-41f6-b6cc-4d907473a49e
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G0|2026-07-23T03:13:16
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 556732E6762B4775A4E59ED61C4E1F68 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:16Z'
+        status: 200 OK
+        code: 200
+        duration: 222.858035ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 31
+        host: management.azure.com
+        body: '{"name":"asotest-queue-wgrtru"}'
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "31"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - a35688a60ab30e1ee9a67883526a607bec3c5782e058d004a823d3e68a8ec52e
+            Test-Request-Hash:
+                - a35688a60ab30e1ee9a67883526a607bec3c5782e058d004a823d3e68a8ec52e
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1049
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru","name":"asotest-queue-wgrtru","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1049"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 4c69620f-5a67-44aa-af86-51c0ce49c337
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G2|2026-07-23T03:13:21
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/3182eb71-55e2-4e59-a424-e374d52db32c
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: A6DB98FB9F3342A5AB668C35A0B1A3AD Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:19Z'
+        status: 200 OK
+        code: 200
+        duration: 2.047330355s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 31
+        host: management.azure.com
+        body: '{"name":"asotest-topic-uajkmi"}'
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "31"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 22b28cc8df083a12d6d9e6f16df6e86a638d9bcec00d11cebc4777b0d3202f72
+            Test-Request-Hash:
+                - 22b28cc8df083a12d6d9e6f16df6e86a638d9bcec00d11cebc4777b0d3202f72
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 969
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi","name":"asotest-topic-uajkmi","type":"Microsoft.ServiceBus/namespaces/topics","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"duplicateDetectionHistoryTimeWindow":"PT10M","enableBatchedOperations":true,"sizeInBytes":0,"status":"Active","supportOrdering":true,"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00","subscriptionCount":0,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "969"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - ee79395c-f527-4414-aae1-1ce6315321bb
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G1|2026-07-23T03:13:21
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/f7ed1d02-9429-438a-bbd6-e6fb80d19620
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: CE626EB2E4B0434C8030FE0B20658DB2 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:19Z'
+        status: 200 OK
+        code: 200
+        duration: 2.136366976s
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1050
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru","name":"asotest-queue-wgrtru","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1050"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - ba2b22e2-7f0e-485e-b2e5-985f4df374ec
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G1|2026-07-23T03:13:24
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/d1b6f72d-da6d-4964-b048-579e204d7c1f
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: C79A96EEC7FA4EF49D83616174C92B4F Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:24Z'
+        status: 200 OK
+        code: 200
+        duration: 235.706354ms
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 979
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi","name":"asotest-topic-uajkmi","type":"Microsoft.ServiceBus/namespaces/topics","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"duplicateDetectionHistoryTimeWindow":"PT10M","enableBatchedOperations":true,"sizeInBytes":0,"status":"Active","supportOrdering":true,"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z","subscriptionCount":0,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "979"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 5d36115d-8b6b-44c5-a729-ae7552d5b186
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G2|2026-07-23T03:13:24
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/ef5b7aed-21b2-484c-9e11-d7866c320caa
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: DF77EFE87A21433998627C9CCAD9FE87 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:24Z'
+        status: 200 OK
+        code: 200
+        duration: 231.707554ms
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 72
+        host: management.azure.com
+        body: '{"name":"asotest-rule-oiszcy","properties":{"rights":["Listen","Send"]}}'
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "72"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 64b2f853cec0f26ae61122cd55b4a995095e547aa0ad758236759e35141e17f7
+            Test-Request-Hash:
+                - 64b2f853cec0f26ae61122cd55b4a995095e547aa0ad758236759e35141e17f7
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/asotest-rule-oiszcy?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 351
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/asotest-rule-oiszcy","name":"asotest-rule-oiszcy","type":"Microsoft.ServiceBus/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "351"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 1e5c30ac-ffd2-4e2d-ba19-1f1053811d0a
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G1|2026-07-23T03:13:26
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/735e204e-282f-4575-9b1c-cd674cb7679d
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "12000"
+            X-Msedge-Ref:
+                - 'Ref A: 1096ECE6889B489C8077A685AE3CF6D1 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:19Z'
+        status: 200 OK
+        code: 200
+        duration: 6.52466579s
+    - id: 11
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1050
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru","name":"asotest-queue-wgrtru","type":"Microsoft.ServiceBus/namespaces/queues","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1050"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 57b85bf3-a295-4752-8e46-d491be10f343
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G1|2026-07-23T03:13:29
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/797ada1e-e68e-4fa0-822d-3884b5144140
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: E75103BD2FEC4ACF8AF1AE483F720313 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:28Z'
+        status: 200 OK
+        code: 200
+        duration: 229.383679ms
+    - id: 12
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/queues/asotest-queue-wgrtru?api-version=2021-11-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 00000001-0000-0000-0002-000000011116
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G5|2026-07-23T03:13:30
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/de778d06-df01-447c-bb8c-2a252f7f3c4d
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: D709D89B85484685A38310FC9570B9FD Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:29Z'
+        status: 200 OK
+        code: 200
+        duration: 1.077612319s
+    - id: 13
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/asotest-rule-oiszcy?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 351
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/authorizationrules/asotest-rule-oiszcy","name":"asotest-rule-oiszcy","type":"Microsoft.ServiceBus/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "351"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 6f78eee6-4591-40a9-abd4-9e03e337942b
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G8|2026-07-23T03:13:34
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/8b131b2d-bc40-4fe0-9ed3-7c78c8acbe83
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: 1EEE5F7E1D2E42B290AED60430F2DF3C Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:33Z'
+        status: 200 OK
+        code: 200
+        duration: 589.337634ms
+    - id: 14
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/asotest-rule-oiszcy/listKeys?api-version=2021-11-01
+        method: POST
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 541
+        body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-sbjmwy.servicebus.windows.net/;SharedAccessKeyName=asotest-rule-oiszcy;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-namespace-sbjmwy.servicebus.windows.net/;SharedAccessKeyName=asotest-rule-oiszcy;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"asotest-rule-oiszcy"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "541"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 7e93257e-d34e-4b85-a5cc-61f0ae9e0515
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G9|2026-07-23T03:13:36
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/b1da7eff-cd39-44d5-8858-32e9b257f3fd
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 75AF57E6FB304B65B92A78926118F925 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:35Z'
+        status: 200 OK
+        code: 200
+        duration: 662.77398ms
+    - id: 15
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 38
+        host: management.azure.com
+        body: '{"name":"asotest-subscription-bdlrev"}'
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "38"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 7190187e28c4e4e7c2409e687833917faf607972b58d547d176bbf5936fd4e5a
+            Test-Request-Hash:
+                - 7190187e28c4e4e7c2409e687833917faf607972b58d547d176bbf5936fd4e5a
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 990
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev","name":"asotest-subscription-bdlrev","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions","location":"westus2","properties":{"isClientAffine":false,"lockDuration":"PT1M","requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"deadLetteringOnFilterEvaluationExceptions":true,"messageCount":0,"maxDeliveryCount":10,"status":"Active","enableBatchedOperations":true,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00","countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "990"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - a4be6820-8a6f-4391-8887-b58c30571702
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G1|2026-07-23T03:13:36
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/81eb346d-b542-4b23-b26e-c1822280d109
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 1C23A9FD1E254D6DA17E71DD0F25510C Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:35Z'
+        status: 200 OK
+        code: 200
+        duration: 1.429530877s
+    - id: 16
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 999
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev","name":"asotest-subscription-bdlrev","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions","location":"westus2","properties":{"isClientAffine":false,"lockDuration":"PT1M","requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"deadLetteringOnFilterEvaluationExceptions":true,"messageCount":0,"maxDeliveryCount":10,"status":"Active","enableBatchedOperations":true,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z","countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "999"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - ecc35046-60f0-445c-b14e-b69d7d90d214
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G0|2026-07-23T03:13:38
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/d29aa173-2dac-40a0-b0a5-365058736f8b
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: C0CA9FAA1AB1412DAF0BB15936AE3C14 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:38Z'
+        status: 200 OK
+        code: 200
+        duration: 235.49841ms
+    - id: 17
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/asotest-rule-oiszcy?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 351
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/authorizationrules/asotest-rule-oiszcy","name":"asotest-rule-oiszcy","type":"Microsoft.ServiceBus/Namespaces/AuthorizationRules","location":"westus2","properties":{"rights":["Listen","Send"]}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "351"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - eae79753-f492-43c3-979a-4baaf4fb5462
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G9|2026-07-23T03:13:40
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/3e23a280-7e0d-4d21-b58f-10c5a401787f
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 7B0C581CC9684D7798D75E11082CDEFB Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:39Z'
+        status: 200 OK
+        code: 200
+        duration: 677.707641ms
+    - id: 18
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 33
+        host: management.azure.com
+        body: '{"name":"asotest-subrule-rvwwao"}'
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "33"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 896baff6cf4552ab1d7d28c693de0d47601ee67d09e00c85010555beda7154aa
+            Test-Request-Hash:
+                - 896baff6cf4552ab1d7d28c693de0d47601ee67d09e00c85010555beda7154aa
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 508
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao","name":"asotest-subrule-rvwwao","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions/rules","location":"westus2","properties":{"action":{},"filterType":"SqlFilter","sqlFilter":{"sqlExpression":"1=1","compatibilityLevel":20,"parameters":{}}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "508"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - f11cd8a7-a053-46cd-88ac-5ecafa189702
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G9|2026-07-23T03:13:42
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/7a794cec-8ffd-4885-9cbf-9c5d1cc6a21a
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11998"
+            X-Msedge-Ref:
+                - 'Ref A: 77FEBE6EC85C4F02AAABD15660E5C084 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:40Z'
+        status: 200 OK
+        code: 200
+        duration: 1.500412791s
+    - id: 19
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 508
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao","name":"asotest-subrule-rvwwao","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions/rules","location":"westus2","properties":{"action":{},"filterType":"SqlFilter","sqlFilter":{"sqlExpression":"1=1","compatibilityLevel":20,"parameters":{}}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "508"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 163a8241-cfbd-4812-af50-661e9dc4e24e
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G8|2026-07-23T03:13:44
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/d6fa40da-698b-4462-8cb9-c8a77e1cbe5a
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: D4492A26CCB74F5CBD0AE4C6436CFEBA Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:43Z'
+        status: 200 OK
+        code: 200
+        duration: 233.875423ms
+    - id: 20
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 508
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao","name":"asotest-subrule-rvwwao","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions/rules","location":"westus2","properties":{"action":{},"filterType":"SqlFilter","sqlFilter":{"sqlExpression":"1=1","compatibilityLevel":20,"parameters":{}}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "508"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 0251ad72-5ca9-481f-88b4-9661cd2affcd
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G8|2026-07-23T03:13:45
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/61e1f839-cdf7-4d3f-bc94-dc81668abc52
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 526957FFE76D471F857153A1F9D7C6DC Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:44Z'
+        status: 200 OK
+        code: 200
+        duration: 249.346713ms
+    - id: 21
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao?api-version=2021-11-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 00000001-0000-0000-0002-000000007012
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G1|2026-07-23T03:13:45
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/0029ec53-26eb-4633-84a5-830020a03682
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 4E3426D16EDA46EDB019C8DD70539B66 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:45Z'
+        status: 200 OK
+        code: 200
+        duration: 416.857077ms
+    - id: 22
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/asotest-rule-oiszcy?api-version=2021-11-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 00000001-0000-0000-0002-000000006724
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G12|2026-07-23T03:13:46
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/dda71af2-7486-401c-9cc5-02c58bb91725
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 3FAC0170C35F47E99AADF76982B83D86 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:40Z'
+        status: 200 OK
+        code: 200
+        duration: 5.72685325s
+    - id: 23
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev/rules/asotest-subrule-rvwwao?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 73
+        body: '{"error":{"code":"SubscriptionNotFound","message":"Rule does not exist"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "73"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - d91f2528-29e5-471e-83ed-5da3bc15f1de
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G8|2026-07-23T03:13:52
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/3f9664c9-b554-4b6f-a08c-23afa01db99c
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: E26B1551FA2A458DB11B82A9609EF1B0 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:51Z'
+        status: 404 Not Found
+        code: 404
+        duration: 1.104341661s
+    - id: 24
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 999
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev","name":"asotest-subscription-bdlrev","type":"Microsoft.ServiceBus/namespaces/topics/subscriptions","location":"westus2","properties":{"isClientAffine":false,"lockDuration":"PT1M","requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"deadLetteringOnFilterEvaluationExceptions":true,"messageCount":0,"maxDeliveryCount":10,"status":"Active","enableBatchedOperations":true,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z","countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "999"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 596e7380-0604-45ed-bfda-2ef0783c5b85
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G3|2026-07-23T03:13:54
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/059a2e4d-16ea-4e07-8578-d61cb37f8053
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: 2AE4B9A9A2CA4B95868D278E522DF423 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:54Z'
+        status: 200 OK
+        code: 200
+        duration: 234.949738ms
+    - id: 25
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev?api-version=2021-11-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 00000001-0000-0000-0002-000000006724
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G12|2026-07-23T03:13:54
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/ac40b16d-fd95-4318-957c-e3b1c0c87702
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 0311FF61082A485EA253903108ADD137 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:54Z'
+        status: 200 OK
+        code: 200
+        duration: 334.086278ms
+    - id: 26
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi/subscriptions/asotest-subscription-bdlrev?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 81
+        body: '{"error":{"code":"SubscriptionNotFound","message":"Subscription does not exist"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "81"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 5a8584c1-ca63-44bb-9dfe-370109a7d258
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G12|2026-07-23T03:14:00
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/07111d91-c817-4a71-bc4f-c1486589e925
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: CAD0D8F084FE4E31AC918AA7BD543B35 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:13:59Z'
+        status: 404 Not Found
+        code: 404
+        duration: 1.125174895s
+    - id: 27
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 987
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi","name":"asotest-topic-uajkmi","type":"Microsoft.ServiceBus/namespaces/topics","location":"westus2","properties":{"maxMessageSizeInKilobytes":256,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"duplicateDetectionHistoryTimeWindow":"PT10M","enableBatchedOperations":true,"sizeInBytes":0,"status":"Active","supportOrdering":true,"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"2001-02-03T04:05:06Z","subscriptionCount":0,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0}}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "987"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 4c1baede-54c6-4176-8a8b-147223620345
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G8|2026-07-23T03:14:01
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/73550764-e980-4414-8195-a62951792098
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: B949FE2B8D76439EA3147D1C552DE75F Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:01Z'
+        status: 200 OK
+        code: 200
+        duration: 240.512315ms
+    - id: 28
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/topics/asotest-topic-uajkmi?api-version=2021-11-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 00000001-0000-0000-0002-000000004476
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G8|2026-07-23T03:14:03
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/79a00223-9118-4c23-b08e-60173b5eaa59
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 46BC26F030D64AF09CAD33EAD16D6301 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:02Z'
+        status: 200 OK
+        code: 200
+        duration: 1.007956254s
+    - id: 29
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 119
+        host: management.azure.com
+        body: '{"location":"westus2","name":"asotest-namespace-sbjmwy","properties":{"zoneRedundant":false},"sku":{"name":"Standard"}}'
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "119"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 6a8baca4a764f185a70b9f381370be60a3fbac4d106a1183cd685ef88a3f9702
+            Test-Request-Hash:
+                - 6a8baca4a764f185a70b9f381370be60a3fbac4d106a1183cd685ef88a3f9702
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 667
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/"},"sku":{"name":"Standard","tier":"Standard"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "667"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - cfaa7020-bf55-460d-8d0b-a44a48f0d9b9
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G8|2026-07-23T03:14:07
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/8b671f5e-12a5-4199-9110-20ee3c62fabc
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 96FF6E4444E54C62B9F7BF4824CC7CB8 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:07Z'
+        status: 200 OK
+        code: 200
+        duration: 412.352556ms
+    - id: 30
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 666
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/"},"sku":{"name":"Standard","tier":"Standard"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "666"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - acf5259a-43d3-4b66-a374-ed30cb565fac
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G2|2026-07-23T03:14:08
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16498"
+            X-Msedge-Ref:
+                - 'Ref A: 39CF6B53B50E40A1A230A939008D12B2 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:08Z'
+        status: 200 OK
+        code: 200
+        duration: 239.615248ms
+    - id: 31
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy/AuthorizationRules/RootManageSharedAccessKey/listKeys?api-version=2021-11-01
+        method: POST
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 559
+        body: '{"primaryConnectionString":"Endpoint=sb://asotest-namespace-sbjmwy.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","secondaryConnectionString":"Endpoint=sb://asotest-namespace-sbjmwy.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey={KEY}","primaryKey":"{KEY}","secondaryKey":"{KEY}","keyName":"RootManageSharedAccessKey"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "559"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - f3cc5b51-8520-45a7-82a4-2be9dd255b52
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G3|2026-07-23T03:14:09
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/d507190a-54b6-4ceb-8457-d910cc9efd5c
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: FD2F31511C26405E9197478374A858A8 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:09Z'
+        status: 200 OK
+        code: 200
+        duration: 556.039847ms
+    - id: 32
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 666
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy","name":"asotest-namespace-sbjmwy","type":"Microsoft.ServiceBus/Namespaces","location":"westus2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":true,"provisioningState":"Succeeded","status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-sbjmwy","serviceBusEndpoint":"https://asotest-namespace-sbjmwy.servicebus.windows.net:443/"},"sku":{"name":"Standard","tier":"Standard"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "666"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - b0a33d0b-f819-4831-bbfb-dca1a00f7651
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G0|2026-07-23T03:14:12
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 7615FBF583AB48C8A89567C47A3F6564 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:12Z'
+        status: 200 OK
+        code: 200
+        duration: 225.633256ms
+    - id: 33
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Azure-Asyncoperation:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/cf19e27c-4699-45f4-a750-cec845d851de?isAsyncHeader=true&resourceName=asotest-namespace-sbjmwy&resourceType=namespace&api-version=2021-11-01&operationType=Deleted&t=639203732536730993&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=F9pZSv9vq21AY6LDhQAgGTPXvqWaWqvLvt9CCOAXPtmcUM25VHlgSMGoJjFJXuZQXOcziS5Hra__8Lkl1fbghWZ6vS1GYoyMv-jSVW1ACmgdqE3Mov8m6Dx74k_PHD8VYywAsvnxNyiw_XZxeMkVZqiMT2s170i5OGgrnL-dVqbYGeIVT8E1BCS-3wpCFT63fvO7Rbpu0Pl2575XcilEh5NQieIW4FzOoh4CwjhpjlOac7osLVBE0V_36ZTQcxSimyG2ZBPHpZ-v5AT2CdtvG2c-UWN4O0OUtKXdQYI8V_JXTQrCHSbAL638vzLAOE1HDEGypMvPigSpwtXXVJlYow&h=_21-WrJfSIDswzSqxIUOLTgHUQvIq9R1WQO1E3C3jP4
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/cf19e27c-4699-45f4-a750-cec845d851de?isAsyncHeader=false&resourceName=asotest-namespace-sbjmwy&resourceType=namespace&api-version=2021-11-01&operationType=Deleted&t=639203732536887178&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=AK_repfTkQ1nxrNVjjYiAs9TFdp5AY2ECm-gbeBInbKZauYXodwLW2ZvZLaWw5RarR6yE-CWeVVHDcdXFXysmOHXVNxDR8NaSpHVXLhj9T4eP-Lw9jg_9mMbzq_gK-s0DN3nGU3HkIkKVfGc_0rX02HnXQO34E9IXUfH0WOIRtxsYD_QkFndTKACQ3W_FGi8Q-jqQcZWyhPZ1KEkj76WmD474_-AWkvwgW3FgF4LuCKJ953IILi8jxfoyc6otnyAcODxfGrVHOQ8glk2B4Fllzd-Cxb0oabko1nL6vWdwCsMpIEop7D3lWxxdZQ1s2c3TC5aGX6BenY34XlO8SAbLQ&h=4KmjVzZatQHY4HORK0WcVsm4WF1lXNRekANU1Uw0Kxw
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 00000001-0000-0000-0002-000000006724
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G12|2026-07-23T03:14:13
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/a64690ef-e9fd-4bea-86f5-198b237d1b6e
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 923FDCBCBC1A4F8486E8EC4D8AF903C8 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:13Z'
+        status: 202 Accepted
+        code: 202
+        duration: 745.603854ms
+    - id: 34
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+            c:
+                - MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT
+            h:
+                - _21-WrJfSIDswzSqxIUOLTgHUQvIq9R1WQO1E3C3jP4
+            isAsyncHeader:
+                - "true"
+            operationType:
+                - Deleted
+            resourceName:
+                - asotest-namespace-sbjmwy
+            resourceType:
+                - namespace
+            s:
+                - F9pZSv9vq21AY6LDhQAgGTPXvqWaWqvLvt9CCOAXPtmcUM25VHlgSMGoJjFJXuZQXOcziS5Hra__8Lkl1fbghWZ6vS1GYoyMv-jSVW1ACmgdqE3Mov8m6Dx74k_PHD8VYywAsvnxNyiw_XZxeMkVZqiMT2s170i5OGgrnL-dVqbYGeIVT8E1BCS-3wpCFT63fvO7Rbpu0Pl2575XcilEh5NQieIW4FzOoh4CwjhpjlOac7osLVBE0V_36ZTQcxSimyG2ZBPHpZ-v5AT2CdtvG2c-UWN4O0OUtKXdQYI8V_JXTQrCHSbAL638vzLAOE1HDEGypMvPigSpwtXXVJlYow
+            t:
+                - "639203732536730993"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/cf19e27c-4699-45f4-a750-cec845d851de?isAsyncHeader=true&resourceName=asotest-namespace-sbjmwy&resourceType=namespace&api-version=2021-11-01&operationType=Deleted&t=639203732536730993&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=F9pZSv9vq21AY6LDhQAgGTPXvqWaWqvLvt9CCOAXPtmcUM25VHlgSMGoJjFJXuZQXOcziS5Hra__8Lkl1fbghWZ6vS1GYoyMv-jSVW1ACmgdqE3Mov8m6Dx74k_PHD8VYywAsvnxNyiw_XZxeMkVZqiMT2s170i5OGgrnL-dVqbYGeIVT8E1BCS-3wpCFT63fvO7Rbpu0Pl2575XcilEh5NQieIW4FzOoh4CwjhpjlOac7osLVBE0V_36ZTQcxSimyG2ZBPHpZ-v5AT2CdtvG2c-UWN4O0OUtKXdQYI8V_JXTQrCHSbAL638vzLAOE1HDEGypMvPigSpwtXXVJlYow&h=_21-WrJfSIDswzSqxIUOLTgHUQvIq9R1WQO1E3C3jP4
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 66
+        body: '{"name":"cf19e27c-4699-45f4-a750-cec845d851de","status":"Running"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "66"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 7eef3d19-f4a8-4838-90c9-e363b353b8fe
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G10|2026-07-23T03:14:16
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/ab7d5f07-40c4-49f5-a0f4-c5996d8fd9fd
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: ABBC29F3AFD74CD0A808214B652D0691 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:15Z'
+        status: 200 OK
+        code: 200
+        duration: 753.052606ms
+    - id: 35
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+            c:
+                - MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT
+            h:
+                - _21-WrJfSIDswzSqxIUOLTgHUQvIq9R1WQO1E3C3jP4
+            isAsyncHeader:
+                - "true"
+            operationType:
+                - Deleted
+            resourceName:
+                - asotest-namespace-sbjmwy
+            resourceType:
+                - namespace
+            s:
+                - F9pZSv9vq21AY6LDhQAgGTPXvqWaWqvLvt9CCOAXPtmcUM25VHlgSMGoJjFJXuZQXOcziS5Hra__8Lkl1fbghWZ6vS1GYoyMv-jSVW1ACmgdqE3Mov8m6Dx74k_PHD8VYywAsvnxNyiw_XZxeMkVZqiMT2s170i5OGgrnL-dVqbYGeIVT8E1BCS-3wpCFT63fvO7Rbpu0Pl2575XcilEh5NQieIW4FzOoh4CwjhpjlOac7osLVBE0V_36ZTQcxSimyG2ZBPHpZ-v5AT2CdtvG2c-UWN4O0OUtKXdQYI8V_JXTQrCHSbAL638vzLAOE1HDEGypMvPigSpwtXXVJlYow
+            t:
+                - "639203732536730993"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ServiceBus/locations/westus2/namespaceOperationResults/cf19e27c-4699-45f4-a750-cec845d851de?isAsyncHeader=true&resourceName=asotest-namespace-sbjmwy&resourceType=namespace&api-version=2021-11-01&operationType=Deleted&t=639203732536730993&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=F9pZSv9vq21AY6LDhQAgGTPXvqWaWqvLvt9CCOAXPtmcUM25VHlgSMGoJjFJXuZQXOcziS5Hra__8Lkl1fbghWZ6vS1GYoyMv-jSVW1ACmgdqE3Mov8m6Dx74k_PHD8VYywAsvnxNyiw_XZxeMkVZqiMT2s170i5OGgrnL-dVqbYGeIVT8E1BCS-3wpCFT63fvO7Rbpu0Pl2575XcilEh5NQieIW4FzOoh4CwjhpjlOac7osLVBE0V_36ZTQcxSimyG2ZBPHpZ-v5AT2CdtvG2c-UWN4O0OUtKXdQYI8V_JXTQrCHSbAL638vzLAOE1HDEGypMvPigSpwtXXVJlYow&h=_21-WrJfSIDswzSqxIUOLTgHUQvIq9R1WQO1E3C3jP4
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 68
+        body: '{"name":"cf19e27c-4699-45f4-a750-cec845d851de","status":"Succeeded"}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "68"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 960ec5a8-f5ee-4a80-9440-de012b48ddd7
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G0|2026-07-23T03:14:20
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/australiaeast/0f4935ca-b743-41cb-810f-95e356234dcc
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 2ADA140AE40D4F8695A0006B77F28E28 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:19Z'
+        status: 200 OK
+        code: 200
+        duration: 771.383339ms
+    - id: 36
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2021-11-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat/providers/Microsoft.ServiceBus/namespaces/asotest-namespace-sbjmwy?api-version=2021-11-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 97
+        body: '{"error":{"code":"NamespaceNotFound","message":"Namespace ''asotest-namespace-sbjmwy'' not found"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "97"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Messaging-Activity-Id:
+                - 0934dc46-7315-4bef-b755-be8b2e397e26
+            X-Ms-Messaging-Routing-Id:
+                - PROD|WESTUS2|WESTUS2|G12|2026-07-23T03:14:23
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: A2B515DDF9554B8B97DB8B036D9CD2FC Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:23Z'
+        status: 404 Not Found
+        code: 404
+        duration: 271.427886ms
+    - id: 37
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-oucoat?api-version=2020-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639203732641766524&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=Vmx9j-KgrRG2gI3PNU3nsD2RPFTLPT4-_NJgzFyKOqVgU0WPObQ78PqcYCcd01VIZ87OWGUGnrZxZ1ffkj113fazL-3iCLfarb9sD2tvpqw6_Xf6kSzn_kQ3UQmxtYDsSak0mEw953qoa92plzSuryj9UbrQ2aySaAfyXBPdXpuHDx0cjhhQTZvGlrud2QxJTp2OoLfoofv1hcJdnjoWs9Ezgu-g8-aJTUQqQMc_cG0UQoQferwal136y6Vih37nta26SKJjOKHLUIAqO_o6uirZErdya7MdLLkwCdKUIh7tvCzQr7ozcYWO6XymmsOnM-jh2bd4IDtUcq7gSYGbIg&h=0XJGByVCirW8SLy4n_6ae4qyEcnW4VXEQqCLUvw6hv4
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 29C1F150CDFE404BAB73F1F4DB9179E4 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:23Z'
+        status: 202 Accepted
+        code: 202
+        duration: 374.244752ms
+    - id: 38
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+            c:
+                - MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT
+            h:
+                - 0XJGByVCirW8SLy4n_6ae4qyEcnW4VXEQqCLUvw6hv4
+            s:
+                - Vmx9j-KgrRG2gI3PNU3nsD2RPFTLPT4-_NJgzFyKOqVgU0WPObQ78PqcYCcd01VIZ87OWGUGnrZxZ1ffkj113fazL-3iCLfarb9sD2tvpqw6_Xf6kSzn_kQ3UQmxtYDsSak0mEw953qoa92plzSuryj9UbrQ2aySaAfyXBPdXpuHDx0cjhhQTZvGlrud2QxJTp2OoLfoofv1hcJdnjoWs9Ezgu-g8-aJTUQqQMc_cG0UQoQferwal136y6Vih37nta26SKJjOKHLUIAqO_o6uirZErdya7MdLLkwCdKUIh7tvCzQr7ozcYWO6XymmsOnM-jh2bd4IDtUcq7gSYGbIg
+            t:
+                - "639203732641766524"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRPVUNPQVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639203732641766524&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=Vmx9j-KgrRG2gI3PNU3nsD2RPFTLPT4-_NJgzFyKOqVgU0WPObQ78PqcYCcd01VIZ87OWGUGnrZxZ1ffkj113fazL-3iCLfarb9sD2tvpqw6_Xf6kSzn_kQ3UQmxtYDsSak0mEw953qoa92plzSuryj9UbrQ2aySaAfyXBPdXpuHDx0cjhhQTZvGlrud2QxJTp2OoLfoofv1hcJdnjoWs9Ezgu-g8-aJTUQqQMc_cG0UQoQferwal136y6Vih37nta26SKJjOKHLUIAqO_o6uirZErdya7MdLLkwCdKUIh7tvCzQr7ozcYWO6XymmsOnM-jh2bd4IDtUcq7gSYGbIg&h=0XJGByVCirW8SLy4n_6ae4qyEcnW4VXEQqCLUvw6hv4
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 6BBAB625AE9846F7938A03F7C2A3C105 Ref B: SYD03EDGE2108 Ref C: 2026-07-23T03:14:40Z'
+        status: 200 OK
+        code: 200
+        duration: 856.205769ms

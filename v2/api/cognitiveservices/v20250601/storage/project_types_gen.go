@@ -166,12 +166,6 @@ type ProjectList struct {
 	Items           []Project `json:"items"`
 }
 
-// Storage version of v20250601.APIVersion
-// +kubebuilder:validation:Enum={"2025-06-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2025-06-01")
-
 // Storage version of v20250601.Project_Spec
 type Project_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -247,24 +241,6 @@ func (project *Project_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 	return destination.ConvertStatusFrom(project)
 }
 
-// Storage version of v20250601.Identity
-// Identity for the resource.
-type Identity struct {
-	PropertyBag            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Type                   *string                       `json:"type,omitempty"`
-	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
-}
-
-// Storage version of v20250601.Identity_STATUS
-// Identity for the resource.
-type Identity_STATUS struct {
-	PrincipalId            *string                                `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-	TenantId               *string                                `json:"tenantId,omitempty"`
-	Type                   *string                                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
-}
-
 // Storage version of v20250601.ProjectOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type ProjectOperatorSpec struct {
@@ -290,33 +266,6 @@ type ProjectProperties_STATUS struct {
 	IsDefault         *bool                  `json:"isDefault,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ProvisioningState *string                `json:"provisioningState,omitempty"`
-}
-
-// Storage version of v20250601.SystemData_STATUS
-// Metadata pertaining to creation and last modification of the resource.
-type SystemData_STATUS struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v20250601.UserAssignedIdentity_STATUS
-// User-assigned managed identity.
-type UserAssignedIdentity_STATUS struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v20250601.UserAssignedIdentityDetails
-// Information about the user assigned identity for the resource
-type UserAssignedIdentityDetails struct {
-	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Reference   genruntime.ResourceReference `armReference:"Reference" json:"reference,omitempty"`
 }
 
 func init() {

@@ -125,6 +125,9 @@ import (
 	cache_v20250401 "github.com/Azure/azure-service-operator/v2/api/cache/v20250401"
 	cache_v20250401s "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/storage"
 	cache_v20250401w "github.com/Azure/azure-service-operator/v2/api/cache/v20250401/webhook"
+	cache_v20250701 "github.com/Azure/azure-service-operator/v2/api/cache/v20250701"
+	cache_v20250701s "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/storage"
+	cache_v20250701w "github.com/Azure/azure-service-operator/v2/api/cache/v20250701/webhook"
 	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
 	cdn_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
 	cdn_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
@@ -504,6 +507,9 @@ import (
 	sql_v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
 	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	sql_v20211101w "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/webhook"
+	sql_v20250101 "github.com/Azure/azure-service-operator/v2/api/sql/v20250101"
+	sql_v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
+	sql_v20250101w "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/webhook"
 	storage_customizations "github.com/Azure/azure-service-operator/v2/api/storage/customizations"
 	storage_v1api20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	storage_v1api20210401s "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401/storage"
@@ -979,10 +985,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisFirewallRule)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisLinkedServer)})
 	result = append(result, &registration.StorageType{Obj: new(cache_v20241101s.RedisPatchSchedule)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20250401s.RedisEnterprise)})
-	result = append(result, &registration.StorageType{Obj: new(cache_v20250401s.RedisEnterpriseDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20250701s.RedisEnterprise)})
+	result = append(result, &registration.StorageType{Obj: new(cache_v20250701s.RedisEnterpriseDatabase)})
 	result = append(result, &registration.StorageType{
-		Obj: new(cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment),
+		Obj: new(cache_v20250701s.RedisEnterpriseDatabaseAccessPolicyAssignment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.user.objectIdFromConfig",
@@ -996,7 +1002,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.user.objectIdFromConfig",
 					},
-					&cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignmentList{}),
+					&cache_v20250701s.RedisEnterpriseDatabaseAccessPolicyAssignmentList{}),
 			},
 		},
 	})
@@ -1030,7 +1036,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.Secret)})
 	result = append(result, &registration.StorageType{Obj: new(cdn_v20230501s.SecurityPolicy)})
 	result = append(result, &registration.StorageType{
-		Obj: new(cognitiveservices_v1api20250601s.Account),
+		Obj: new(cognitiveservices_v20250601s.Account),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.apiProperties.aadClientIdFromConfig",
@@ -1083,7 +1089,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.apiProperties.storageAccountConnectionString",
 						".spec.properties.migrationToken",
 					},
-					&cognitiveservices_v1api20250601s.AccountList{}),
+					&cognitiveservices_v20250601s.AccountList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -1096,12 +1102,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.apiProperties.superUserFromConfig",
 						".spec.properties.apiProperties.websiteNameFromConfig",
 					},
-					&cognitiveservices_v1api20250601s.AccountList{}),
+					&cognitiveservices_v20250601s.AccountList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(cognitiveservices_v1api20250601s.Deployment),
+		Obj: new(cognitiveservices_v20250601s.Deployment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.model.formatFromConfig",
@@ -1130,7 +1136,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.model.publisherFromConfig",
 						".spec.properties.model.versionFromConfig",
 					},
-					&cognitiveservices_v1api20250601s.DeploymentList{}),
+					&cognitiveservices_v20250601s.DeploymentList{}),
 			},
 		},
 	})
@@ -2454,6 +2460,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(network_v20241001s.NetworkWatchersFlowLog)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.AzureFirewall)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.BastionHost)})
+	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.DdosProtectionPlan)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.FirewallPoliciesRuleCollectionGroup)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.FirewallPolicy)})
 	result = append(result, &registration.StorageType{Obj: new(network_v20250301s.LoadBalancer)})
@@ -2887,7 +2894,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20240301s.Replica)})
 	result = append(result, &registration.StorageType{Obj: new(signalrservice_v20240301s.SignalR)})
 	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20211101s.Server),
+		Obj: new(sql_v20250101s.Server),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.administratorLoginPassword",
@@ -2913,7 +2920,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.administratorLoginPassword",
 					},
-					&sql_v20211101s.ServerList{}),
+					&sql_v20250101s.ServerList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -2923,12 +2930,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.administrators.sidFromConfig",
 						".spec.administrators.tenantIdFromConfig",
 					},
-					&sql_v20211101s.ServerList{}),
+					&sql_v20250101s.ServerList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20211101s.ServersAdministrator),
+		Obj: new(sql_v20250101s.ServersAdministrator),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.sidFromConfig",
@@ -2947,13 +2954,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.sidFromConfig",
 						".spec.tenantIdFromConfig",
 					},
-					&sql_v20211101s.ServersAdministratorList{}),
+					&sql_v20250101s.ServersAdministratorList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersAdvancedThreatProtectionSetting)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersAdvancedThreatProtectionSetting)})
 	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20211101s.ServersAuditingSetting),
+		Obj: new(sql_v20250101s.ServersAuditingSetting),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.storageAccountAccessKey",
@@ -2967,16 +2974,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.storageAccountAccessKey",
 					},
-					&sql_v20211101s.ServersAuditingSettingList{}),
+					&sql_v20250101s.ServersAuditingSettingList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersAzureADOnlyAuthentication)})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersConnectionPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersDatabase)})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersDatabasesAdvancedThreatProtectionSetting)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersAzureADOnlyAuthentication)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersConnectionPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersDatabase)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersDatabasesAdvancedThreatProtectionSetting)})
 	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20211101s.ServersDatabasesAuditingSetting),
+		Obj: new(sql_v20250101s.ServersDatabasesAuditingSetting),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.storageAccountAccessKey",
@@ -2990,14 +2997,14 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.storageAccountAccessKey",
 					},
-					&sql_v20211101s.ServersDatabasesAuditingSettingList{}),
+					&sql_v20250101s.ServersDatabasesAuditingSettingList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersDatabasesBackupLongTermRetentionPolicy)})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersDatabasesBackupShortTermRetentionPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersDatabasesBackupLongTermRetentionPolicy)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersDatabasesBackupShortTermRetentionPolicy)})
 	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20211101s.ServersDatabasesSecurityAlertPolicy),
+		Obj: new(sql_v20250101s.ServersDatabasesSecurityAlertPolicy),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.storageAccountAccessKey",
@@ -3011,13 +3018,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.storageAccountAccessKey",
 					},
-					&sql_v20211101s.ServersDatabasesSecurityAlertPolicyList{}),
+					&sql_v20250101s.ServersDatabasesSecurityAlertPolicyList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersDatabasesTransparentDataEncryption)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersDatabasesTransparentDataEncryption)})
 	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20211101s.ServersDatabasesVulnerabilityAssessment),
+		Obj: new(sql_v20250101s.ServersDatabasesVulnerabilityAssessment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.storageAccountAccessKey",
@@ -3040,7 +3047,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.storageAccountAccessKey",
 						".spec.storageContainerSasKey",
 					},
-					&sql_v20211101s.ServersDatabasesVulnerabilityAssessmentList{}),
+					&sql_v20250101s.ServersDatabasesVulnerabilityAssessmentList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -3048,17 +3055,19 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.storageContainerPathFromConfig",
 					},
-					&sql_v20211101s.ServersDatabasesVulnerabilityAssessmentList{}),
+					&sql_v20250101s.ServersDatabasesVulnerabilityAssessmentList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersElasticPool)})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersFailoverGroup)})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersFirewallRule)})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersIPV6FirewallRule)})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersOutboundFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersElasticPool)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersEncryptionProtector)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersFailoverGroup)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersFirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersIPV6FirewallRule)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersKey)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersOutboundFirewallRule)})
 	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20211101s.ServersSecurityAlertPolicy),
+		Obj: new(sql_v20250101s.ServersSecurityAlertPolicy),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.storageAccountAccessKey",
@@ -3072,13 +3081,13 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.storageAccountAccessKey",
 					},
-					&sql_v20211101s.ServersSecurityAlertPolicyList{}),
+					&sql_v20250101s.ServersSecurityAlertPolicyList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(sql_v20211101s.ServersVirtualNetworkRule)})
+	result = append(result, &registration.StorageType{Obj: new(sql_v20250101s.ServersVirtualNetworkRule)})
 	result = append(result, &registration.StorageType{
-		Obj: new(sql_v20211101s.ServersVulnerabilityAssessment),
+		Obj: new(sql_v20250101s.ServersVulnerabilityAssessment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.storageAccountAccessKey",
@@ -3101,7 +3110,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.storageAccountAccessKey",
 						".spec.storageContainerSasKey",
 					},
-					&sql_v20211101s.ServersVulnerabilityAssessmentList{}),
+					&sql_v20250101s.ServersVulnerabilityAssessmentList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -3109,7 +3118,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.storageContainerPathFromConfig",
 					},
-					&sql_v20211101s.ServersVulnerabilityAssessmentList{}),
+					&sql_v20250101s.ServersVulnerabilityAssessmentList{}),
 			},
 		},
 	})
@@ -4384,6 +4393,28 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(cache_v20250401s.RedisEnterprise)},
 		&registration.KnownType{Obj: new(cache_v20250401s.RedisEnterpriseDatabase)},
 		&registration.KnownType{Obj: new(cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(cache_v20250701.RedisEnterprise),
+			Defaulter: &cache_v20250701w.RedisEnterprise{},
+			Validator: &cache_v20250701w.RedisEnterprise{},
+		},
+		&registration.KnownType{
+			Obj:       new(cache_v20250701.RedisEnterpriseDatabase),
+			Defaulter: &cache_v20250701w.RedisEnterpriseDatabase{},
+			Validator: &cache_v20250701w.RedisEnterpriseDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(cache_v20250701.RedisEnterpriseDatabaseAccessPolicyAssignment),
+			Defaulter: &cache_v20250701w.RedisEnterpriseDatabaseAccessPolicyAssignment{},
+			Validator: &cache_v20250701w.RedisEnterpriseDatabaseAccessPolicyAssignment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(cache_v20250701s.RedisEnterprise)},
+		&registration.KnownType{Obj: new(cache_v20250701s.RedisEnterpriseDatabase)},
+		&registration.KnownType{Obj: new(cache_v20250701s.RedisEnterpriseDatabaseAccessPolicyAssignment)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(cdn_v1api20210601.Profile),
 		Defaulter: &cdn_v1api20210601w.Profile{},
@@ -4542,12 +4573,28 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &cognitiveservices_v1api20250601w.Deployment{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v1api20250601s.Account)}, &registration.KnownType{Obj: new(cognitiveservices_v1api20250601s.Deployment)})
-	result = append(result, &registration.KnownType{
-		Obj:       new(cognitiveservices_v20250601.Project),
-		Defaulter: &cognitiveservices_v20250601w.Project{},
-		Validator: &cognitiveservices_v20250601w.Project{},
-	})
-	result = append(result, &registration.KnownType{Obj: new(cognitiveservices_v20250601s.Project)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(cognitiveservices_v20250601.Account),
+			Defaulter: &cognitiveservices_v20250601w.Account{},
+			Validator: &cognitiveservices_v20250601w.Account{},
+		},
+		&registration.KnownType{
+			Obj:       new(cognitiveservices_v20250601.Deployment),
+			Defaulter: &cognitiveservices_v20250601w.Deployment{},
+			Validator: &cognitiveservices_v20250601w.Deployment{},
+		},
+		&registration.KnownType{
+			Obj:       new(cognitiveservices_v20250601.Project),
+			Defaulter: &cognitiveservices_v20250601w.Project{},
+			Validator: &cognitiveservices_v20250601w.Project{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(cognitiveservices_v20250601s.Account)},
+		&registration.KnownType{Obj: new(cognitiveservices_v20250601s.Deployment)},
+		&registration.KnownType{Obj: new(cognitiveservices_v20250601s.Project)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6733,6 +6780,11 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &network_v20250301w.BastionHost{},
 		},
 		&registration.KnownType{
+			Obj:       new(network_v20250301.DdosProtectionPlan),
+			Defaulter: &network_v20250301w.DdosProtectionPlan{},
+			Validator: &network_v20250301w.DdosProtectionPlan{},
+		},
+		&registration.KnownType{
 			Obj:       new(network_v20250301.FirewallPoliciesRuleCollectionGroup),
 			Defaulter: &network_v20250301w.FirewallPoliciesRuleCollectionGroup{},
 			Validator: &network_v20250301w.FirewallPoliciesRuleCollectionGroup{},
@@ -6831,6 +6883,7 @@ func getKnownTypes() []*registration.KnownType {
 		result,
 		&registration.KnownType{Obj: new(network_v20250301s.AzureFirewall)},
 		&registration.KnownType{Obj: new(network_v20250301s.BastionHost)},
+		&registration.KnownType{Obj: new(network_v20250301s.DdosProtectionPlan)},
 		&registration.KnownType{Obj: new(network_v20250301s.FirewallPoliciesRuleCollectionGroup)},
 		&registration.KnownType{Obj: new(network_v20250301s.FirewallPolicy)},
 		&registration.KnownType{Obj: new(network_v20250301s.LoadBalancer)},
@@ -7340,6 +7393,11 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &sql_v20211101w.ServersElasticPool{},
 		},
 		&registration.KnownType{
+			Obj:       new(sql_v20211101.ServersEncryptionProtector),
+			Defaulter: &sql_v20211101w.ServersEncryptionProtector{},
+			Validator: &sql_v20211101w.ServersEncryptionProtector{},
+		},
+		&registration.KnownType{
 			Obj:       new(sql_v20211101.ServersFailoverGroup),
 			Defaulter: &sql_v20211101w.ServersFailoverGroup{},
 			Validator: &sql_v20211101w.ServersFailoverGroup{},
@@ -7353,6 +7411,11 @@ func getKnownTypes() []*registration.KnownType {
 			Obj:       new(sql_v20211101.ServersIPV6FirewallRule),
 			Defaulter: &sql_v20211101w.ServersIPV6FirewallRule{},
 			Validator: &sql_v20211101w.ServersIPV6FirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20211101.ServersKey),
+			Defaulter: &sql_v20211101w.ServersKey{},
+			Validator: &sql_v20211101w.ServersKey{},
 		},
 		&registration.KnownType{
 			Obj:       new(sql_v20211101.ServersOutboundFirewallRule),
@@ -7391,13 +7454,163 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersDatabasesTransparentDataEncryption)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersDatabasesVulnerabilityAssessment)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersElasticPool)},
+		&registration.KnownType{Obj: new(sql_v20211101s.ServersEncryptionProtector)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersFailoverGroup)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersFirewallRule)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersIPV6FirewallRule)},
+		&registration.KnownType{Obj: new(sql_v20211101s.ServersKey)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersOutboundFirewallRule)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersSecurityAlertPolicy)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersVirtualNetworkRule)},
 		&registration.KnownType{Obj: new(sql_v20211101s.ServersVulnerabilityAssessment)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.Server),
+			Defaulter: &sql_v20250101w.Server{},
+			Validator: &sql_v20250101w.Server{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersAdministrator),
+			Defaulter: &sql_v20250101w.ServersAdministrator{},
+			Validator: &sql_v20250101w.ServersAdministrator{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersAdvancedThreatProtectionSetting),
+			Defaulter: &sql_v20250101w.ServersAdvancedThreatProtectionSetting{},
+			Validator: &sql_v20250101w.ServersAdvancedThreatProtectionSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersAuditingSetting),
+			Defaulter: &sql_v20250101w.ServersAuditingSetting{},
+			Validator: &sql_v20250101w.ServersAuditingSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersAzureADOnlyAuthentication),
+			Defaulter: &sql_v20250101w.ServersAzureADOnlyAuthentication{},
+			Validator: &sql_v20250101w.ServersAzureADOnlyAuthentication{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersConnectionPolicy),
+			Defaulter: &sql_v20250101w.ServersConnectionPolicy{},
+			Validator: &sql_v20250101w.ServersConnectionPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersDatabase),
+			Defaulter: &sql_v20250101w.ServersDatabase{},
+			Validator: &sql_v20250101w.ServersDatabase{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersDatabasesAdvancedThreatProtectionSetting),
+			Defaulter: &sql_v20250101w.ServersDatabasesAdvancedThreatProtectionSetting{},
+			Validator: &sql_v20250101w.ServersDatabasesAdvancedThreatProtectionSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersDatabasesAuditingSetting),
+			Defaulter: &sql_v20250101w.ServersDatabasesAuditingSetting{},
+			Validator: &sql_v20250101w.ServersDatabasesAuditingSetting{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersDatabasesBackupLongTermRetentionPolicy),
+			Defaulter: &sql_v20250101w.ServersDatabasesBackupLongTermRetentionPolicy{},
+			Validator: &sql_v20250101w.ServersDatabasesBackupLongTermRetentionPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersDatabasesBackupShortTermRetentionPolicy),
+			Defaulter: &sql_v20250101w.ServersDatabasesBackupShortTermRetentionPolicy{},
+			Validator: &sql_v20250101w.ServersDatabasesBackupShortTermRetentionPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersDatabasesSecurityAlertPolicy),
+			Defaulter: &sql_v20250101w.ServersDatabasesSecurityAlertPolicy{},
+			Validator: &sql_v20250101w.ServersDatabasesSecurityAlertPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersDatabasesTransparentDataEncryption),
+			Defaulter: &sql_v20250101w.ServersDatabasesTransparentDataEncryption{},
+			Validator: &sql_v20250101w.ServersDatabasesTransparentDataEncryption{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersDatabasesVulnerabilityAssessment),
+			Defaulter: &sql_v20250101w.ServersDatabasesVulnerabilityAssessment{},
+			Validator: &sql_v20250101w.ServersDatabasesVulnerabilityAssessment{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersElasticPool),
+			Defaulter: &sql_v20250101w.ServersElasticPool{},
+			Validator: &sql_v20250101w.ServersElasticPool{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersEncryptionProtector),
+			Defaulter: &sql_v20250101w.ServersEncryptionProtector{},
+			Validator: &sql_v20250101w.ServersEncryptionProtector{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersFailoverGroup),
+			Defaulter: &sql_v20250101w.ServersFailoverGroup{},
+			Validator: &sql_v20250101w.ServersFailoverGroup{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersFirewallRule),
+			Defaulter: &sql_v20250101w.ServersFirewallRule{},
+			Validator: &sql_v20250101w.ServersFirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersIPV6FirewallRule),
+			Defaulter: &sql_v20250101w.ServersIPV6FirewallRule{},
+			Validator: &sql_v20250101w.ServersIPV6FirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersKey),
+			Defaulter: &sql_v20250101w.ServersKey{},
+			Validator: &sql_v20250101w.ServersKey{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersOutboundFirewallRule),
+			Defaulter: &sql_v20250101w.ServersOutboundFirewallRule{},
+			Validator: &sql_v20250101w.ServersOutboundFirewallRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersSecurityAlertPolicy),
+			Defaulter: &sql_v20250101w.ServersSecurityAlertPolicy{},
+			Validator: &sql_v20250101w.ServersSecurityAlertPolicy{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersVirtualNetworkRule),
+			Defaulter: &sql_v20250101w.ServersVirtualNetworkRule{},
+			Validator: &sql_v20250101w.ServersVirtualNetworkRule{},
+		},
+		&registration.KnownType{
+			Obj:       new(sql_v20250101.ServersVulnerabilityAssessment),
+			Defaulter: &sql_v20250101w.ServersVulnerabilityAssessment{},
+			Validator: &sql_v20250101w.ServersVulnerabilityAssessment{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(sql_v20250101s.Server)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersAdministrator)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersAdvancedThreatProtectionSetting)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersAuditingSetting)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersAzureADOnlyAuthentication)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersConnectionPolicy)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersDatabase)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersDatabasesAdvancedThreatProtectionSetting)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersDatabasesAuditingSetting)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersDatabasesBackupLongTermRetentionPolicy)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersDatabasesBackupShortTermRetentionPolicy)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersDatabasesSecurityAlertPolicy)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersDatabasesTransparentDataEncryption)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersDatabasesVulnerabilityAssessment)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersElasticPool)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersEncryptionProtector)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersFailoverGroup)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersFirewallRule)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersIPV6FirewallRule)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersKey)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersOutboundFirewallRule)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersSecurityAlertPolicy)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersVirtualNetworkRule)},
+		&registration.KnownType{Obj: new(sql_v20250101s.ServersVulnerabilityAssessment)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -7979,6 +8192,8 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20241101s.AddToScheme(scheme)
 	_ = cache_v20250401.AddToScheme(scheme)
 	_ = cache_v20250401s.AddToScheme(scheme)
+	_ = cache_v20250701.AddToScheme(scheme)
+	_ = cache_v20250701s.AddToScheme(scheme)
 	_ = cdn_v1api20210601.AddToScheme(scheme)
 	_ = cdn_v1api20210601s.AddToScheme(scheme)
 	_ = cdn_v1api20230501.AddToScheme(scheme)
@@ -8209,6 +8424,8 @@ func createScheme() *runtime.Scheme {
 	_ = sql_v1api20211101s.AddToScheme(scheme)
 	_ = sql_v20211101.AddToScheme(scheme)
 	_ = sql_v20211101s.AddToScheme(scheme)
+	_ = sql_v20250101.AddToScheme(scheme)
+	_ = sql_v20250101s.AddToScheme(scheme)
 	_ = storage_v1api20210401.AddToScheme(scheme)
 	_ = storage_v1api20210401s.AddToScheme(scheme)
 	_ = storage_v1api20220901.AddToScheme(scheme)
@@ -8413,6 +8630,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &network_customizations.ApplicationSecurityGroupExtension{})
 	result = append(result, &network_customizations.AzureFirewallExtension{})
 	result = append(result, &network_customizations.BastionHostExtension{})
+	result = append(result, &network_customizations.DdosProtectionPlanExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsForwardingRuleExtension{})
 	result = append(result, &network_customizations.DnsForwardingRuleSetsVirtualNetworkLinkExtension{})
 	result = append(result, &network_customizations.DnsForwardingRulesetExtension{})
@@ -8500,9 +8718,11 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &sql_customizations.ServersDatabasesTransparentDataEncryptionExtension{})
 	result = append(result, &sql_customizations.ServersDatabasesVulnerabilityAssessmentExtension{})
 	result = append(result, &sql_customizations.ServersElasticPoolExtension{})
+	result = append(result, &sql_customizations.ServersEncryptionProtectorExtension{})
 	result = append(result, &sql_customizations.ServersFailoverGroupExtension{})
 	result = append(result, &sql_customizations.ServersFirewallRuleExtension{})
 	result = append(result, &sql_customizations.ServersIPV6FirewallRuleExtension{})
+	result = append(result, &sql_customizations.ServersKeyExtension{})
 	result = append(result, &sql_customizations.ServersOutboundFirewallRuleExtension{})
 	result = append(result, &sql_customizations.ServersSecurityAlertPolicyExtension{})
 	result = append(result, &sql_customizations.ServersVirtualNetworkRuleExtension{})
@@ -9023,9 +9243,9 @@ func indexCacheRedisAccessPolicyAssignmentObjectIdFromConfig(rawObj client.Objec
 	return obj.Spec.ObjectIdFromConfig.Index()
 }
 
-// indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig an index function for cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment .spec.user.objectIdFromConfig
+// indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig an index function for cache_v20250701s.RedisEnterpriseDatabaseAccessPolicyAssignment .spec.user.objectIdFromConfig
 func indexCacheRedisEnterpriseDatabaseAccessPolicyAssignmentObjectIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cache_v20250401s.RedisEnterpriseDatabaseAccessPolicyAssignment)
+	obj, ok := rawObj.(*cache_v20250701s.RedisEnterpriseDatabaseAccessPolicyAssignment)
 	if !ok {
 		return nil
 	}
@@ -9050,9 +9270,9 @@ func indexCdnAfdOriginHostNameFromConfig(rawObj client.Object) []string {
 	return obj.Spec.HostNameFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountAadClientIdFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.aadClientIdFromConfig
+// indexCognitiveservicesAccountAadClientIdFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.aadClientIdFromConfig
 func indexCognitiveservicesAccountAadClientIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9068,9 +9288,9 @@ func indexCognitiveservicesAccountAadClientIdFromConfig(rawObj client.Object) []
 	return obj.Spec.Properties.ApiProperties.AadClientIdFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountAadTenantIdFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.aadTenantIdFromConfig
+// indexCognitiveservicesAccountAadTenantIdFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.aadTenantIdFromConfig
 func indexCognitiveservicesAccountAadTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9086,9 +9306,9 @@ func indexCognitiveservicesAccountAadTenantIdFromConfig(rawObj client.Object) []
 	return obj.Spec.Properties.ApiProperties.AadTenantIdFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountEventHubConnectionString an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.eventHubConnectionString
+// indexCognitiveservicesAccountEventHubConnectionString an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.eventHubConnectionString
 func indexCognitiveservicesAccountEventHubConnectionString(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9104,9 +9324,9 @@ func indexCognitiveservicesAccountEventHubConnectionString(rawObj client.Object)
 	return obj.Spec.Properties.ApiProperties.EventHubConnectionString.Index()
 }
 
-// indexCognitiveservicesAccountMigrationToken an index function for cognitiveservices_v1api20250601s.Account .spec.properties.migrationToken
+// indexCognitiveservicesAccountMigrationToken an index function for cognitiveservices_v20250601s.Account .spec.properties.migrationToken
 func indexCognitiveservicesAccountMigrationToken(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9119,9 +9339,9 @@ func indexCognitiveservicesAccountMigrationToken(rawObj client.Object) []string 
 	return obj.Spec.Properties.MigrationToken.Index()
 }
 
-// indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointIdFromConfig
+// indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointIdFromConfig
 func indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9137,9 +9357,9 @@ func indexCognitiveservicesAccountQnaAzureSearchEndpointIdFromConfig(rawObj clie
 	return obj.Spec.Properties.ApiProperties.QnaAzureSearchEndpointIdFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountQnaAzureSearchEndpointKey an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointKey
+// indexCognitiveservicesAccountQnaAzureSearchEndpointKey an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.qnaAzureSearchEndpointKey
 func indexCognitiveservicesAccountQnaAzureSearchEndpointKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9155,9 +9375,9 @@ func indexCognitiveservicesAccountQnaAzureSearchEndpointKey(rawObj client.Object
 	return obj.Spec.Properties.ApiProperties.QnaAzureSearchEndpointKey.Index()
 }
 
-// indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.qnaRuntimeEndpointFromConfig
+// indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.qnaRuntimeEndpointFromConfig
 func indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9173,9 +9393,9 @@ func indexCognitiveservicesAccountQnaRuntimeEndpointFromConfig(rawObj client.Obj
 	return obj.Spec.Properties.ApiProperties.QnaRuntimeEndpointFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountStorageAccountConnectionString an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.storageAccountConnectionString
+// indexCognitiveservicesAccountStorageAccountConnectionString an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.storageAccountConnectionString
 func indexCognitiveservicesAccountStorageAccountConnectionString(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9191,9 +9411,9 @@ func indexCognitiveservicesAccountStorageAccountConnectionString(rawObj client.O
 	return obj.Spec.Properties.ApiProperties.StorageAccountConnectionString.Index()
 }
 
-// indexCognitiveservicesAccountSuperUserFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.superUserFromConfig
+// indexCognitiveservicesAccountSuperUserFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.superUserFromConfig
 func indexCognitiveservicesAccountSuperUserFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9209,9 +9429,9 @@ func indexCognitiveservicesAccountSuperUserFromConfig(rawObj client.Object) []st
 	return obj.Spec.Properties.ApiProperties.SuperUserFromConfig.Index()
 }
 
-// indexCognitiveservicesAccountWebsiteNameFromConfig an index function for cognitiveservices_v1api20250601s.Account .spec.properties.apiProperties.websiteNameFromConfig
+// indexCognitiveservicesAccountWebsiteNameFromConfig an index function for cognitiveservices_v20250601s.Account .spec.properties.apiProperties.websiteNameFromConfig
 func indexCognitiveservicesAccountWebsiteNameFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Account)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Account)
 	if !ok {
 		return nil
 	}
@@ -9227,9 +9447,9 @@ func indexCognitiveservicesAccountWebsiteNameFromConfig(rawObj client.Object) []
 	return obj.Spec.Properties.ApiProperties.WebsiteNameFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentFormatFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.formatFromConfig
+// indexCognitiveservicesDeploymentFormatFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.formatFromConfig
 func indexCognitiveservicesDeploymentFormatFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
 	if !ok {
 		return nil
 	}
@@ -9245,9 +9465,9 @@ func indexCognitiveservicesDeploymentFormatFromConfig(rawObj client.Object) []st
 	return obj.Spec.Properties.Model.FormatFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentNameFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.nameFromConfig
+// indexCognitiveservicesDeploymentNameFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.nameFromConfig
 func indexCognitiveservicesDeploymentNameFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
 	if !ok {
 		return nil
 	}
@@ -9263,9 +9483,9 @@ func indexCognitiveservicesDeploymentNameFromConfig(rawObj client.Object) []stri
 	return obj.Spec.Properties.Model.NameFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentPublisherFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.publisherFromConfig
+// indexCognitiveservicesDeploymentPublisherFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.publisherFromConfig
 func indexCognitiveservicesDeploymentPublisherFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
 	if !ok {
 		return nil
 	}
@@ -9281,9 +9501,9 @@ func indexCognitiveservicesDeploymentPublisherFromConfig(rawObj client.Object) [
 	return obj.Spec.Properties.Model.PublisherFromConfig.Index()
 }
 
-// indexCognitiveservicesDeploymentVersionFromConfig an index function for cognitiveservices_v1api20250601s.Deployment .spec.properties.model.versionFromConfig
+// indexCognitiveservicesDeploymentVersionFromConfig an index function for cognitiveservices_v20250601s.Deployment .spec.properties.model.versionFromConfig
 func indexCognitiveservicesDeploymentVersionFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*cognitiveservices_v1api20250601s.Deployment)
+	obj, ok := rawObj.(*cognitiveservices_v20250601s.Deployment)
 	if !ok {
 		return nil
 	}
@@ -12965,9 +13185,9 @@ func indexSignalrserviceCustomCertificateKeyVaultBaseUriFromConfig(rawObj client
 	return obj.Spec.KeyVaultBaseUriFromConfig.Index()
 }
 
-// indexSqlServerAdministratorLoginPassword an index function for sql_v20211101s.Server .spec.administratorLoginPassword
+// indexSqlServerAdministratorLoginPassword an index function for sql_v20250101s.Server .spec.administratorLoginPassword
 func indexSqlServerAdministratorLoginPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.Server)
+	obj, ok := rawObj.(*sql_v20250101s.Server)
 	if !ok {
 		return nil
 	}
@@ -12977,9 +13197,9 @@ func indexSqlServerAdministratorLoginPassword(rawObj client.Object) []string {
 	return obj.Spec.AdministratorLoginPassword.Index()
 }
 
-// indexSqlServerLoginFromConfig an index function for sql_v20211101s.Server .spec.administrators.loginFromConfig
+// indexSqlServerLoginFromConfig an index function for sql_v20250101s.Server .spec.administrators.loginFromConfig
 func indexSqlServerLoginFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.Server)
+	obj, ok := rawObj.(*sql_v20250101s.Server)
 	if !ok {
 		return nil
 	}
@@ -12992,9 +13212,9 @@ func indexSqlServerLoginFromConfig(rawObj client.Object) []string {
 	return obj.Spec.Administrators.LoginFromConfig.Index()
 }
 
-// indexSqlServerSidFromConfig an index function for sql_v20211101s.Server .spec.administrators.sidFromConfig
+// indexSqlServerSidFromConfig an index function for sql_v20250101s.Server .spec.administrators.sidFromConfig
 func indexSqlServerSidFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.Server)
+	obj, ok := rawObj.(*sql_v20250101s.Server)
 	if !ok {
 		return nil
 	}
@@ -13007,9 +13227,9 @@ func indexSqlServerSidFromConfig(rawObj client.Object) []string {
 	return obj.Spec.Administrators.SidFromConfig.Index()
 }
 
-// indexSqlServerTenantIdFromConfig an index function for sql_v20211101s.Server .spec.administrators.tenantIdFromConfig
+// indexSqlServerTenantIdFromConfig an index function for sql_v20250101s.Server .spec.administrators.tenantIdFromConfig
 func indexSqlServerTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.Server)
+	obj, ok := rawObj.(*sql_v20250101s.Server)
 	if !ok {
 		return nil
 	}
@@ -13022,9 +13242,9 @@ func indexSqlServerTenantIdFromConfig(rawObj client.Object) []string {
 	return obj.Spec.Administrators.TenantIdFromConfig.Index()
 }
 
-// indexSqlServersAdministratorSidFromConfig an index function for sql_v20211101s.ServersAdministrator .spec.sidFromConfig
+// indexSqlServersAdministratorSidFromConfig an index function for sql_v20250101s.ServersAdministrator .spec.sidFromConfig
 func indexSqlServersAdministratorSidFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersAdministrator)
+	obj, ok := rawObj.(*sql_v20250101s.ServersAdministrator)
 	if !ok {
 		return nil
 	}
@@ -13034,9 +13254,9 @@ func indexSqlServersAdministratorSidFromConfig(rawObj client.Object) []string {
 	return obj.Spec.SidFromConfig.Index()
 }
 
-// indexSqlServersAdministratorTenantIdFromConfig an index function for sql_v20211101s.ServersAdministrator .spec.tenantIdFromConfig
+// indexSqlServersAdministratorTenantIdFromConfig an index function for sql_v20250101s.ServersAdministrator .spec.tenantIdFromConfig
 func indexSqlServersAdministratorTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersAdministrator)
+	obj, ok := rawObj.(*sql_v20250101s.ServersAdministrator)
 	if !ok {
 		return nil
 	}
@@ -13046,9 +13266,9 @@ func indexSqlServersAdministratorTenantIdFromConfig(rawObj client.Object) []stri
 	return obj.Spec.TenantIdFromConfig.Index()
 }
 
-// indexSqlServersAuditingSettingStorageAccountAccessKey an index function for sql_v20211101s.ServersAuditingSetting .spec.storageAccountAccessKey
+// indexSqlServersAuditingSettingStorageAccountAccessKey an index function for sql_v20250101s.ServersAuditingSetting .spec.storageAccountAccessKey
 func indexSqlServersAuditingSettingStorageAccountAccessKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersAuditingSetting)
+	obj, ok := rawObj.(*sql_v20250101s.ServersAuditingSetting)
 	if !ok {
 		return nil
 	}
@@ -13058,9 +13278,9 @@ func indexSqlServersAuditingSettingStorageAccountAccessKey(rawObj client.Object)
 	return obj.Spec.StorageAccountAccessKey.Index()
 }
 
-// indexSqlServersDatabasesAuditingSettingStorageAccountAccessKey an index function for sql_v20211101s.ServersDatabasesAuditingSetting .spec.storageAccountAccessKey
+// indexSqlServersDatabasesAuditingSettingStorageAccountAccessKey an index function for sql_v20250101s.ServersDatabasesAuditingSetting .spec.storageAccountAccessKey
 func indexSqlServersDatabasesAuditingSettingStorageAccountAccessKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersDatabasesAuditingSetting)
+	obj, ok := rawObj.(*sql_v20250101s.ServersDatabasesAuditingSetting)
 	if !ok {
 		return nil
 	}
@@ -13070,9 +13290,9 @@ func indexSqlServersDatabasesAuditingSettingStorageAccountAccessKey(rawObj clien
 	return obj.Spec.StorageAccountAccessKey.Index()
 }
 
-// indexSqlServersDatabasesSecurityAlertPolicyStorageAccountAccessKey an index function for sql_v20211101s.ServersDatabasesSecurityAlertPolicy .spec.storageAccountAccessKey
+// indexSqlServersDatabasesSecurityAlertPolicyStorageAccountAccessKey an index function for sql_v20250101s.ServersDatabasesSecurityAlertPolicy .spec.storageAccountAccessKey
 func indexSqlServersDatabasesSecurityAlertPolicyStorageAccountAccessKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersDatabasesSecurityAlertPolicy)
+	obj, ok := rawObj.(*sql_v20250101s.ServersDatabasesSecurityAlertPolicy)
 	if !ok {
 		return nil
 	}
@@ -13082,9 +13302,9 @@ func indexSqlServersDatabasesSecurityAlertPolicyStorageAccountAccessKey(rawObj c
 	return obj.Spec.StorageAccountAccessKey.Index()
 }
 
-// indexSqlServersDatabasesVulnerabilityAssessmentStorageAccountAccessKey an index function for sql_v20211101s.ServersDatabasesVulnerabilityAssessment .spec.storageAccountAccessKey
+// indexSqlServersDatabasesVulnerabilityAssessmentStorageAccountAccessKey an index function for sql_v20250101s.ServersDatabasesVulnerabilityAssessment .spec.storageAccountAccessKey
 func indexSqlServersDatabasesVulnerabilityAssessmentStorageAccountAccessKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersDatabasesVulnerabilityAssessment)
+	obj, ok := rawObj.(*sql_v20250101s.ServersDatabasesVulnerabilityAssessment)
 	if !ok {
 		return nil
 	}
@@ -13094,9 +13314,9 @@ func indexSqlServersDatabasesVulnerabilityAssessmentStorageAccountAccessKey(rawO
 	return obj.Spec.StorageAccountAccessKey.Index()
 }
 
-// indexSqlServersDatabasesVulnerabilityAssessmentStorageContainerPathFromConfig an index function for sql_v20211101s.ServersDatabasesVulnerabilityAssessment .spec.storageContainerPathFromConfig
+// indexSqlServersDatabasesVulnerabilityAssessmentStorageContainerPathFromConfig an index function for sql_v20250101s.ServersDatabasesVulnerabilityAssessment .spec.storageContainerPathFromConfig
 func indexSqlServersDatabasesVulnerabilityAssessmentStorageContainerPathFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersDatabasesVulnerabilityAssessment)
+	obj, ok := rawObj.(*sql_v20250101s.ServersDatabasesVulnerabilityAssessment)
 	if !ok {
 		return nil
 	}
@@ -13106,9 +13326,9 @@ func indexSqlServersDatabasesVulnerabilityAssessmentStorageContainerPathFromConf
 	return obj.Spec.StorageContainerPathFromConfig.Index()
 }
 
-// indexSqlServersDatabasesVulnerabilityAssessmentStorageContainerSasKey an index function for sql_v20211101s.ServersDatabasesVulnerabilityAssessment .spec.storageContainerSasKey
+// indexSqlServersDatabasesVulnerabilityAssessmentStorageContainerSasKey an index function for sql_v20250101s.ServersDatabasesVulnerabilityAssessment .spec.storageContainerSasKey
 func indexSqlServersDatabasesVulnerabilityAssessmentStorageContainerSasKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersDatabasesVulnerabilityAssessment)
+	obj, ok := rawObj.(*sql_v20250101s.ServersDatabasesVulnerabilityAssessment)
 	if !ok {
 		return nil
 	}
@@ -13118,9 +13338,9 @@ func indexSqlServersDatabasesVulnerabilityAssessmentStorageContainerSasKey(rawOb
 	return obj.Spec.StorageContainerSasKey.Index()
 }
 
-// indexSqlServersSecurityAlertPolicyStorageAccountAccessKey an index function for sql_v20211101s.ServersSecurityAlertPolicy .spec.storageAccountAccessKey
+// indexSqlServersSecurityAlertPolicyStorageAccountAccessKey an index function for sql_v20250101s.ServersSecurityAlertPolicy .spec.storageAccountAccessKey
 func indexSqlServersSecurityAlertPolicyStorageAccountAccessKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersSecurityAlertPolicy)
+	obj, ok := rawObj.(*sql_v20250101s.ServersSecurityAlertPolicy)
 	if !ok {
 		return nil
 	}
@@ -13130,9 +13350,9 @@ func indexSqlServersSecurityAlertPolicyStorageAccountAccessKey(rawObj client.Obj
 	return obj.Spec.StorageAccountAccessKey.Index()
 }
 
-// indexSqlServersVulnerabilityAssessmentStorageAccountAccessKey an index function for sql_v20211101s.ServersVulnerabilityAssessment .spec.storageAccountAccessKey
+// indexSqlServersVulnerabilityAssessmentStorageAccountAccessKey an index function for sql_v20250101s.ServersVulnerabilityAssessment .spec.storageAccountAccessKey
 func indexSqlServersVulnerabilityAssessmentStorageAccountAccessKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersVulnerabilityAssessment)
+	obj, ok := rawObj.(*sql_v20250101s.ServersVulnerabilityAssessment)
 	if !ok {
 		return nil
 	}
@@ -13142,9 +13362,9 @@ func indexSqlServersVulnerabilityAssessmentStorageAccountAccessKey(rawObj client
 	return obj.Spec.StorageAccountAccessKey.Index()
 }
 
-// indexSqlServersVulnerabilityAssessmentStorageContainerPathFromConfig an index function for sql_v20211101s.ServersVulnerabilityAssessment .spec.storageContainerPathFromConfig
+// indexSqlServersVulnerabilityAssessmentStorageContainerPathFromConfig an index function for sql_v20250101s.ServersVulnerabilityAssessment .spec.storageContainerPathFromConfig
 func indexSqlServersVulnerabilityAssessmentStorageContainerPathFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersVulnerabilityAssessment)
+	obj, ok := rawObj.(*sql_v20250101s.ServersVulnerabilityAssessment)
 	if !ok {
 		return nil
 	}
@@ -13154,9 +13374,9 @@ func indexSqlServersVulnerabilityAssessmentStorageContainerPathFromConfig(rawObj
 	return obj.Spec.StorageContainerPathFromConfig.Index()
 }
 
-// indexSqlServersVulnerabilityAssessmentStorageContainerSasKey an index function for sql_v20211101s.ServersVulnerabilityAssessment .spec.storageContainerSasKey
+// indexSqlServersVulnerabilityAssessmentStorageContainerSasKey an index function for sql_v20250101s.ServersVulnerabilityAssessment .spec.storageContainerSasKey
 func indexSqlServersVulnerabilityAssessmentStorageContainerSasKey(rawObj client.Object) []string {
-	obj, ok := rawObj.(*sql_v20211101s.ServersVulnerabilityAssessment)
+	obj, ok := rawObj.(*sql_v20250101s.ServersVulnerabilityAssessment)
 	if !ok {
 		return nil
 	}

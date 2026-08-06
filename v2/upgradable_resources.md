@@ -16,12 +16,6 @@ The following resources have newer versions available in the Azure REST API spec
 |------|--------------|------------------|------------------|-------------------|-------------------|
 | 💡    | BatchAccount | **2025-06-01**   | 2024-07-01       | -                 | -                 |
 
-## cache
-
-|  | Resource        | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|--|-----------------|------------------|------------------|-------------------|-------------------|
-|  | RedisEnterprise | 2025-07-01       | 2025-04-01       | -                 | -                 |
-
 ## cdn
 
 |      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
@@ -160,6 +154,7 @@ The following resources have newer versions available in the Azure REST API spec
 | 💡    | ApplicationSecurityGroup | **2025-07-01**   | 2024-01-01       | -                 | -                 |
 |      | AzureFirewall            | 2025-07-01       | 2025-03-01       | -                 | -                 |
 |      | BastionHost              | 2025-07-01       | 2025-03-01       | -                 | -                 |
+|      | DdosProtectionPlan       | 2025-07-01       | 2025-03-01       | -                 | -                 |
 | 💡    | DnsForwardingRuleset     | **2025-05-01**   | 2022-07-01       | -                 | -                 |
 | 💡    | DnsResolver              | **2025-05-01**   | 2022-07-01       | -                 | -                 |
 |      | FirewallPolicy           | 2025-07-01       | 2025-03-01       | -                 | -                 |
@@ -199,12 +194,6 @@ The following resources have newer versions available in the Azure REST API spec
 |      | Resource  | Available Stable | Supported Stable | Available Preview | Supported Preview  |
 |------|-----------|------------------|------------------|-------------------|--------------------|
 | 💡    | Namespace | **2026-01-01**   | 2024-01-01       |                   | 2022-10-01-preview |
-
-## sql
-
-|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|------|----------|------------------|------------------|-------------------|-------------------|
-| 💡    | Server   | **2025-01-01**   | 2021-11-01       | -                 | -                 |
 
 ## storage
 
