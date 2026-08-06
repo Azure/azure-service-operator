@@ -5,7 +5,7 @@ package arm
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type VaultsKey_Spec struct {
+type VaultKey_Spec struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The properties of the key to be created.
@@ -15,20 +15,20 @@ type VaultsKey_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &VaultsKey_Spec{}
+var _ genruntime.ARMResourceSpec = &VaultKey_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-07-01"
-func (vaultsKey VaultsKey_Spec) GetAPIVersion() string {
+func (vaultKey VaultKey_Spec) GetAPIVersion() string {
 	return "2023-07-01"
 }
 
 // GetName returns the Name of the resource
-func (vaultsKey *VaultsKey_Spec) GetName() string {
-	return vaultsKey.Name
+func (vaultKey *VaultKey_Spec) GetName() string {
+	return vaultKey.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.KeyVault/vaults/keys"
-func (vaultsKey *VaultsKey_Spec) GetType() string {
+func (vaultKey *VaultKey_Spec) GetType() string {
 	return "Microsoft.KeyVault/vaults/keys"
 }
 

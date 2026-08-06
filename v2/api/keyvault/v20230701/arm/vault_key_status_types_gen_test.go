@@ -596,7 +596,7 @@ func AddIndependentPropertyGeneratorsForTrigger_STATUS(gens map[string]gopter.Ge
 	gens["TimeBeforeExpiry"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_VaultsKey_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VaultKey_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -608,13 +608,13 @@ func Test_VaultsKey_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T
 	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VaultsKey_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVaultsKey_STATUS, VaultsKey_STATUSGenerator()))
+		"Round trip of VaultKey_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVaultKey_STATUS, VaultKey_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVaultsKey_STATUS runs a test to see if a specific instance of VaultsKey_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVaultsKey_STATUS(subject VaultsKey_STATUS) string {
+// RunJSONSerializationTestForVaultKey_STATUS runs a test to see if a specific instance of VaultKey_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVaultKey_STATUS(subject VaultKey_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -622,7 +622,7 @@ func RunJSONSerializationTestForVaultsKey_STATUS(subject VaultsKey_STATUS) strin
 	}
 
 	// Deserialize back into memory
-	var actual VaultsKey_STATUS
+	var actual VaultKey_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -640,33 +640,33 @@ func RunJSONSerializationTestForVaultsKey_STATUS(subject VaultsKey_STATUS) strin
 	return ""
 }
 
-// Generator of VaultsKey_STATUS instances for property testing - lazily instantiated by VaultsKey_STATUSGenerator()
-var vaultsKey_STATUSGenerator gopter.Gen
+// Generator of VaultKey_STATUS instances for property testing - lazily instantiated by VaultKey_STATUSGenerator()
+var vaultKey_STATUSGenerator gopter.Gen
 
-// VaultsKey_STATUSGenerator returns a generator of VaultsKey_STATUS instances for property testing.
-// We first initialize vaultsKey_STATUSGenerator with a simplified generator based on the
+// VaultKey_STATUSGenerator returns a generator of VaultKey_STATUS instances for property testing.
+// We first initialize vaultKey_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VaultsKey_STATUSGenerator() gopter.Gen {
-	if vaultsKey_STATUSGenerator != nil {
-		return vaultsKey_STATUSGenerator
+func VaultKey_STATUSGenerator() gopter.Gen {
+	if vaultKey_STATUSGenerator != nil {
+		return vaultKey_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVaultsKey_STATUS(generators)
-	vaultsKey_STATUSGenerator = gen.Struct(reflect.TypeOf(VaultsKey_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVaultKey_STATUS(generators)
+	vaultKey_STATUSGenerator = gen.Struct(reflect.TypeOf(VaultKey_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVaultsKey_STATUS(generators)
-	AddRelatedPropertyGeneratorsForVaultsKey_STATUS(generators)
-	vaultsKey_STATUSGenerator = gen.Struct(reflect.TypeOf(VaultsKey_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVaultKey_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVaultKey_STATUS(generators)
+	vaultKey_STATUSGenerator = gen.Struct(reflect.TypeOf(VaultKey_STATUS{}), generators)
 
-	return vaultsKey_STATUSGenerator
+	return vaultKey_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVaultsKey_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVaultsKey_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVaultKey_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVaultKey_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -676,7 +676,7 @@ func AddIndependentPropertyGeneratorsForVaultsKey_STATUS(gens map[string]gopter.
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVaultsKey_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVaultsKey_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVaultKey_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVaultKey_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(KeyProperties_STATUSGenerator())
 }

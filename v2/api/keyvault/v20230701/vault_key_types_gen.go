@@ -28,107 +28,107 @@ import (
 // Generator information:
 // - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2023-07-01/keys.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}
-type VaultsKey struct {
+type VaultKey struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VaultsKey_Spec   `json:"spec,omitempty"`
-	Status            VaultsKey_STATUS `json:"status,omitempty"`
+	Spec              VaultKey_Spec   `json:"spec,omitempty"`
+	Status            VaultKey_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &VaultsKey{}
+var _ conditions.Conditioner = &VaultKey{}
 
 // GetConditions returns the conditions of the resource
-func (vaultsKey *VaultsKey) GetConditions() conditions.Conditions {
-	return vaultsKey.Status.Conditions
+func (vaultKey *VaultKey) GetConditions() conditions.Conditions {
+	return vaultKey.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (vaultsKey *VaultsKey) SetConditions(conditions conditions.Conditions) {
-	vaultsKey.Status.Conditions = conditions
+func (vaultKey *VaultKey) SetConditions(conditions conditions.Conditions) {
+	vaultKey.Status.Conditions = conditions
 }
 
-var _ conversion.Convertible = &VaultsKey{}
+var _ conversion.Convertible = &VaultKey{}
 
-// ConvertFrom populates our VaultsKey from the provided hub VaultsKey
-func (vaultsKey *VaultsKey) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.VaultsKey)
+// ConvertFrom populates our VaultKey from the provided hub VaultKey
+func (vaultKey *VaultKey) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.VaultKey)
 	if !ok {
-		return fmt.Errorf("expected keyvault/v20230701/storage/VaultsKey but received %T instead", hub)
+		return fmt.Errorf("expected keyvault/v20230701/storage/VaultKey but received %T instead", hub)
 	}
 
-	return vaultsKey.AssignProperties_From_VaultsKey(source)
+	return vaultKey.AssignProperties_From_VaultKey(source)
 }
 
-// ConvertTo populates the provided hub VaultsKey from our VaultsKey
-func (vaultsKey *VaultsKey) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.VaultsKey)
+// ConvertTo populates the provided hub VaultKey from our VaultKey
+func (vaultKey *VaultKey) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.VaultKey)
 	if !ok {
-		return fmt.Errorf("expected keyvault/v20230701/storage/VaultsKey but received %T instead", hub)
+		return fmt.Errorf("expected keyvault/v20230701/storage/VaultKey but received %T instead", hub)
 	}
 
-	return vaultsKey.AssignProperties_To_VaultsKey(destination)
+	return vaultKey.AssignProperties_To_VaultKey(destination)
 }
 
-var _ configmaps.Exporter = &VaultsKey{}
+var _ configmaps.Exporter = &VaultKey{}
 
 // ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
-func (vaultsKey *VaultsKey) ConfigMapDestinationExpressions() []*core.DestinationExpression {
-	if vaultsKey.Spec.OperatorSpec == nil {
+func (vaultKey *VaultKey) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if vaultKey.Spec.OperatorSpec == nil {
 		return nil
 	}
-	return vaultsKey.Spec.OperatorSpec.ConfigMapExpressions
+	return vaultKey.Spec.OperatorSpec.ConfigMapExpressions
 }
 
-var _ secrets.Exporter = &VaultsKey{}
+var _ secrets.Exporter = &VaultKey{}
 
 // SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
-func (vaultsKey *VaultsKey) SecretDestinationExpressions() []*core.DestinationExpression {
-	if vaultsKey.Spec.OperatorSpec == nil {
+func (vaultKey *VaultKey) SecretDestinationExpressions() []*core.DestinationExpression {
+	if vaultKey.Spec.OperatorSpec == nil {
 		return nil
 	}
-	return vaultsKey.Spec.OperatorSpec.SecretExpressions
+	return vaultKey.Spec.OperatorSpec.SecretExpressions
 }
 
-var _ genruntime.ImportableResource = &VaultsKey{}
+var _ genruntime.ImportableResource = &VaultKey{}
 
 // InitializeSpec initializes the spec for this resource from the given status
-func (vaultsKey *VaultsKey) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*VaultsKey_STATUS); ok {
-		return vaultsKey.Spec.Initialize_From_VaultsKey_STATUS(s)
+func (vaultKey *VaultKey) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*VaultKey_STATUS); ok {
+		return vaultKey.Spec.Initialize_From_VaultKey_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type VaultsKey_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type VaultKey_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesResource = &VaultsKey{}
+var _ genruntime.KubernetesResource = &VaultKey{}
 
 // AzureName returns the Azure name of the resource
-func (vaultsKey *VaultsKey) AzureName() string {
-	return vaultsKey.Spec.AzureName
+func (vaultKey *VaultKey) AzureName() string {
+	return vaultKey.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2023-07-01"
-func (vaultsKey VaultsKey) GetAPIVersion() string {
+func (vaultKey VaultKey) GetAPIVersion() string {
 	return "2023-07-01"
 }
 
 // GetResourceScope returns the scope of the resource
-func (vaultsKey *VaultsKey) GetResourceScope() genruntime.ResourceScope {
+func (vaultKey *VaultKey) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (vaultsKey *VaultsKey) GetSpec() genruntime.ConvertibleSpec {
-	return &vaultsKey.Spec
+func (vaultKey *VaultKey) GetSpec() genruntime.ConvertibleSpec {
+	return &vaultKey.Spec
 }
 
 // GetStatus returns the status of this resource
-func (vaultsKey *VaultsKey) GetStatus() genruntime.ConvertibleStatus {
-	return &vaultsKey.Status
+func (vaultKey *VaultKey) GetStatus() genruntime.ConvertibleStatus {
+	return &vaultKey.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (vaultsKey *VaultsKey) GetSupportedOperations() []genruntime.ResourceOperation {
+func (vaultKey *VaultKey) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationGet,
 		genruntime.ResourceOperationPut,
@@ -136,89 +136,89 @@ func (vaultsKey *VaultsKey) GetSupportedOperations() []genruntime.ResourceOperat
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.KeyVault/vaults/keys"
-func (vaultsKey *VaultsKey) GetType() string {
+func (vaultKey *VaultKey) GetType() string {
 	return "Microsoft.KeyVault/vaults/keys"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (vaultsKey *VaultsKey) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VaultsKey_STATUS{}
+func (vaultKey *VaultKey) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &VaultKey_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (vaultsKey *VaultsKey) Owner() *genruntime.ResourceReference {
-	if vaultsKey.Spec.Owner == nil {
+func (vaultKey *VaultKey) Owner() *genruntime.ResourceReference {
+	if vaultKey.Spec.Owner == nil {
 		return nil
 	}
 
-	group, kind := genruntime.LookupOwnerGroupKind(vaultsKey.Spec)
-	return vaultsKey.Spec.Owner.AsResourceReference(group, kind)
+	group, kind := genruntime.LookupOwnerGroupKind(vaultKey.Spec)
+	return vaultKey.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
-func (vaultsKey *VaultsKey) SetStatus(status genruntime.ConvertibleStatus) error {
+func (vaultKey *VaultKey) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VaultsKey_STATUS); ok {
-		vaultsKey.Status = *st
+	if st, ok := status.(*VaultKey_STATUS); ok {
+		vaultKey.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VaultsKey_STATUS
+	var st VaultKey_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
 	}
 
-	vaultsKey.Status = st
+	vaultKey.Status = st
 	return nil
 }
 
-// AssignProperties_From_VaultsKey populates our VaultsKey from the provided source VaultsKey
-func (vaultsKey *VaultsKey) AssignProperties_From_VaultsKey(source *storage.VaultsKey) error {
+// AssignProperties_From_VaultKey populates our VaultKey from the provided source VaultKey
+func (vaultKey *VaultKey) AssignProperties_From_VaultKey(source *storage.VaultKey) error {
 
 	// ObjectMeta
-	vaultsKey.ObjectMeta = *source.ObjectMeta.DeepCopy()
+	vaultKey.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec VaultsKey_Spec
-	err := spec.AssignProperties_From_VaultsKey_Spec(&source.Spec)
+	var spec VaultKey_Spec
+	err := spec.AssignProperties_From_VaultKey_Spec(&source.Spec)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_VaultsKey_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_VaultKey_Spec() to populate field Spec")
 	}
-	vaultsKey.Spec = spec
+	vaultKey.Spec = spec
 
 	// Status
-	var status VaultsKey_STATUS
-	err = status.AssignProperties_From_VaultsKey_STATUS(&source.Status)
+	var status VaultKey_STATUS
+	err = status.AssignProperties_From_VaultKey_STATUS(&source.Status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_VaultsKey_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_VaultKey_STATUS() to populate field Status")
 	}
-	vaultsKey.Status = status
+	vaultKey.Status = status
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_VaultsKey populates the provided destination VaultsKey from our VaultsKey
-func (vaultsKey *VaultsKey) AssignProperties_To_VaultsKey(destination *storage.VaultsKey) error {
+// AssignProperties_To_VaultKey populates the provided destination VaultKey from our VaultKey
+func (vaultKey *VaultKey) AssignProperties_To_VaultKey(destination *storage.VaultKey) error {
 
 	// ObjectMeta
-	destination.ObjectMeta = *vaultsKey.ObjectMeta.DeepCopy()
+	destination.ObjectMeta = *vaultKey.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.VaultsKey_Spec
-	err := vaultsKey.Spec.AssignProperties_To_VaultsKey_Spec(&spec)
+	var spec storage.VaultKey_Spec
+	err := vaultKey.Spec.AssignProperties_To_VaultKey_Spec(&spec)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_VaultsKey_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_VaultKey_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.VaultsKey_STATUS
-	err = vaultsKey.Status.AssignProperties_To_VaultsKey_STATUS(&status)
+	var status storage.VaultKey_STATUS
+	err = vaultKey.Status.AssignProperties_To_VaultKey_STATUS(&status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_VaultsKey_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_VaultKey_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -227,11 +227,11 @@ func (vaultsKey *VaultsKey) AssignProperties_To_VaultsKey(destination *storage.V
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (vaultsKey *VaultsKey) OriginalGVK() *schema.GroupVersionKind {
+func (vaultKey *VaultKey) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: vaultsKey.Spec.OriginalVersion(),
-		Kind:    "VaultsKey",
+		Version: vaultKey.Spec.OriginalVersion(),
+		Kind:    "VaultKey",
 	}
 }
 
@@ -239,10 +239,10 @@ func (vaultsKey *VaultsKey) OriginalGVK() *schema.GroupVersionKind {
 // Generator information:
 // - Generated from: /keyvault/resource-manager/Microsoft.KeyVault/KeyVault/stable/2023-07-01/keys.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/keys/{keyName}
-type VaultsKeyList struct {
+type VaultKeyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []VaultsKey `json:"items"`
+	Items           []VaultKey `json:"items"`
 }
 
 // +kubebuilder:validation:Enum={"2023-07-01"}
@@ -250,7 +250,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2023-07-01")
 
-type VaultsKey_Spec struct {
+type VaultKey_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9-]{1,127}$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -258,7 +258,7 @@ type VaultsKey_Spec struct {
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
-	OperatorSpec *VaultsKeyOperatorSpec `json:"operatorSpec,omitempty"`
+	OperatorSpec *VaultKeyOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -274,21 +274,21 @@ type VaultsKey_Spec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &VaultsKey_Spec{}
+var _ genruntime.ARMTransformer = &VaultKey_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (vaultsKey *VaultsKey_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if vaultsKey == nil {
+func (vaultKey *VaultKey_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if vaultKey == nil {
 		return nil, nil
 	}
-	result := &arm.VaultsKey_Spec{}
+	result := &arm.VaultKey_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
-	if vaultsKey.Properties != nil {
-		properties_ARM, err := vaultsKey.Properties.ConvertToARM(resolved)
+	if vaultKey.Properties != nil {
+		properties_ARM, err := vaultKey.Properties.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -297,9 +297,9 @@ func (vaultsKey *VaultsKey_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 
 	// Set property "Tags":
-	if vaultsKey.Tags != nil {
-		result.Tags = make(map[string]string, len(vaultsKey.Tags))
-		for key, value := range vaultsKey.Tags {
+	if vaultKey.Tags != nil {
+		result.Tags = make(map[string]string, len(vaultKey.Tags))
+		for key, value := range vaultKey.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -307,24 +307,24 @@ func (vaultsKey *VaultsKey_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vaultsKey *VaultsKey_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.VaultsKey_Spec{}
+func (vaultKey *VaultKey_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.VaultKey_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (vaultsKey *VaultsKey_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.VaultsKey_Spec)
+func (vaultKey *VaultKey_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.VaultKey_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VaultsKey_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VaultKey_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
-	vaultsKey.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	vaultKey.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	vaultsKey.Owner = &genruntime.KnownResourceReference{
+	vaultKey.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
 	}
@@ -337,14 +337,14 @@ func (vaultsKey *VaultsKey_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 			return err
 		}
 		properties := properties1
-		vaultsKey.Properties = &properties
+		vaultKey.Properties = &properties
 	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
-		vaultsKey.Tags = make(map[string]string, len(typedInput.Tags))
+		vaultKey.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			vaultsKey.Tags[key] = value
+			vaultKey.Tags[key] = value
 		}
 	}
 
@@ -352,25 +352,25 @@ func (vaultsKey *VaultsKey_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &VaultsKey_Spec{}
+var _ genruntime.ConvertibleSpec = &VaultKey_Spec{}
 
-// ConvertSpecFrom populates our VaultsKey_Spec from the provided source
-func (vaultsKey *VaultsKey_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.VaultsKey_Spec)
+// ConvertSpecFrom populates our VaultKey_Spec from the provided source
+func (vaultKey *VaultKey_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.VaultKey_Spec)
 	if ok {
 		// Populate our instance from source
-		return vaultsKey.AssignProperties_From_VaultsKey_Spec(src)
+		return vaultKey.AssignProperties_From_VaultKey_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.VaultsKey_Spec{}
+	src = &storage.VaultKey_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = vaultsKey.AssignProperties_From_VaultsKey_Spec(src)
+	err = vaultKey.AssignProperties_From_VaultKey_Spec(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -378,17 +378,17 @@ func (vaultsKey *VaultsKey_Spec) ConvertSpecFrom(source genruntime.ConvertibleSp
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our VaultsKey_Spec
-func (vaultsKey *VaultsKey_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.VaultsKey_Spec)
+// ConvertSpecTo populates the provided destination from our VaultKey_Spec
+func (vaultKey *VaultKey_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.VaultKey_Spec)
 	if ok {
 		// Populate destination from our instance
-		return vaultsKey.AssignProperties_To_VaultsKey_Spec(dst)
+		return vaultKey.AssignProperties_To_VaultKey_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.VaultsKey_Spec{}
-	err := vaultsKey.AssignProperties_To_VaultsKey_Spec(dst)
+	dst = &storage.VaultKey_Spec{}
+	err := vaultKey.AssignProperties_To_VaultKey_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -402,30 +402,30 @@ func (vaultsKey *VaultsKey_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	return nil
 }
 
-// AssignProperties_From_VaultsKey_Spec populates our VaultsKey_Spec from the provided source VaultsKey_Spec
-func (vaultsKey *VaultsKey_Spec) AssignProperties_From_VaultsKey_Spec(source *storage.VaultsKey_Spec) error {
+// AssignProperties_From_VaultKey_Spec populates our VaultKey_Spec from the provided source VaultKey_Spec
+func (vaultKey *VaultKey_Spec) AssignProperties_From_VaultKey_Spec(source *storage.VaultKey_Spec) error {
 
 	// AzureName
-	vaultsKey.AzureName = source.AzureName
+	vaultKey.AzureName = source.AzureName
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
-		var operatorSpec VaultsKeyOperatorSpec
-		err := operatorSpec.AssignProperties_From_VaultsKeyOperatorSpec(source.OperatorSpec)
+		var operatorSpec VaultKeyOperatorSpec
+		err := operatorSpec.AssignProperties_From_VaultKeyOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_VaultsKeyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_VaultKeyOperatorSpec() to populate field OperatorSpec")
 		}
-		vaultsKey.OperatorSpec = &operatorSpec
+		vaultKey.OperatorSpec = &operatorSpec
 	} else {
-		vaultsKey.OperatorSpec = nil
+		vaultKey.OperatorSpec = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		vaultsKey.Owner = &owner
+		vaultKey.Owner = &owner
 	} else {
-		vaultsKey.Owner = nil
+		vaultKey.Owner = nil
 	}
 
 	// Properties
@@ -435,32 +435,32 @@ func (vaultsKey *VaultsKey_Spec) AssignProperties_From_VaultsKey_Spec(source *st
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_KeyProperties() to populate field Properties")
 		}
-		vaultsKey.Properties = &property
+		vaultKey.Properties = &property
 	} else {
-		vaultsKey.Properties = nil
+		vaultKey.Properties = nil
 	}
 
 	// Tags
-	vaultsKey.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	vaultKey.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_VaultsKey_Spec populates the provided destination VaultsKey_Spec from our VaultsKey_Spec
-func (vaultsKey *VaultsKey_Spec) AssignProperties_To_VaultsKey_Spec(destination *storage.VaultsKey_Spec) error {
+// AssignProperties_To_VaultKey_Spec populates the provided destination VaultKey_Spec from our VaultKey_Spec
+func (vaultKey *VaultKey_Spec) AssignProperties_To_VaultKey_Spec(destination *storage.VaultKey_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = vaultsKey.AzureName
+	destination.AzureName = vaultKey.AzureName
 
 	// OperatorSpec
-	if vaultsKey.OperatorSpec != nil {
-		var operatorSpec storage.VaultsKeyOperatorSpec
-		err := vaultsKey.OperatorSpec.AssignProperties_To_VaultsKeyOperatorSpec(&operatorSpec)
+	if vaultKey.OperatorSpec != nil {
+		var operatorSpec storage.VaultKeyOperatorSpec
+		err := vaultKey.OperatorSpec.AssignProperties_To_VaultKeyOperatorSpec(&operatorSpec)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_VaultsKeyOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_VaultKeyOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -468,20 +468,20 @@ func (vaultsKey *VaultsKey_Spec) AssignProperties_To_VaultsKey_Spec(destination 
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = vaultsKey.OriginalVersion()
+	destination.OriginalVersion = vaultKey.OriginalVersion()
 
 	// Owner
-	if vaultsKey.Owner != nil {
-		owner := vaultsKey.Owner.Copy()
+	if vaultKey.Owner != nil {
+		owner := vaultKey.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Properties
-	if vaultsKey.Properties != nil {
+	if vaultKey.Properties != nil {
 		var property storage.KeyProperties
-		err := vaultsKey.Properties.AssignProperties_To_KeyProperties(&property)
+		err := vaultKey.Properties.AssignProperties_To_KeyProperties(&property)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_KeyProperties() to populate field Properties")
 		}
@@ -491,7 +491,7 @@ func (vaultsKey *VaultsKey_Spec) AssignProperties_To_VaultsKey_Spec(destination 
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(vaultsKey.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(vaultKey.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -504,25 +504,25 @@ func (vaultsKey *VaultsKey_Spec) AssignProperties_To_VaultsKey_Spec(destination 
 	return nil
 }
 
-// Initialize_From_VaultsKey_STATUS populates our VaultsKey_Spec from the provided source VaultsKey_STATUS
-func (vaultsKey *VaultsKey_Spec) Initialize_From_VaultsKey_STATUS(source *VaultsKey_STATUS) error {
+// Initialize_From_VaultKey_STATUS populates our VaultKey_Spec from the provided source VaultKey_STATUS
+func (vaultKey *VaultKey_Spec) Initialize_From_VaultKey_STATUS(source *VaultKey_STATUS) error {
 
 	// Tags
-	vaultsKey.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	vaultKey.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (vaultsKey *VaultsKey_Spec) OriginalVersion() string {
+func (vaultKey *VaultKey_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (vaultsKey *VaultsKey_Spec) SetAzureName(azureName string) { vaultsKey.AzureName = azureName }
+func (vaultKey *VaultKey_Spec) SetAzureName(azureName string) { vaultKey.AzureName = azureName }
 
-type VaultsKey_STATUS struct {
+type VaultKey_STATUS struct {
 	// Attributes: The attributes of the key.
 	Attributes *KeyAttributes_STATUS `json:"attributes,omitempty"`
 
@@ -567,25 +567,25 @@ type VaultsKey_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VaultsKey_STATUS{}
+var _ genruntime.ConvertibleStatus = &VaultKey_STATUS{}
 
-// ConvertStatusFrom populates our VaultsKey_STATUS from the provided source
-func (vaultsKey *VaultsKey_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.VaultsKey_STATUS)
+// ConvertStatusFrom populates our VaultKey_STATUS from the provided source
+func (vaultKey *VaultKey_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.VaultKey_STATUS)
 	if ok {
 		// Populate our instance from source
-		return vaultsKey.AssignProperties_From_VaultsKey_STATUS(src)
+		return vaultKey.AssignProperties_From_VaultKey_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.VaultsKey_STATUS{}
+	src = &storage.VaultKey_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = vaultsKey.AssignProperties_From_VaultsKey_STATUS(src)
+	err = vaultKey.AssignProperties_From_VaultKey_STATUS(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -593,17 +593,17 @@ func (vaultsKey *VaultsKey_STATUS) ConvertStatusFrom(source genruntime.Convertib
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our VaultsKey_STATUS
-func (vaultsKey *VaultsKey_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.VaultsKey_STATUS)
+// ConvertStatusTo populates the provided destination from our VaultKey_STATUS
+func (vaultKey *VaultKey_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.VaultKey_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return vaultsKey.AssignProperties_To_VaultsKey_STATUS(dst)
+		return vaultKey.AssignProperties_To_VaultKey_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.VaultsKey_STATUS{}
-	err := vaultsKey.AssignProperties_To_VaultsKey_STATUS(dst)
+	dst = &storage.VaultKey_STATUS{}
+	err := vaultKey.AssignProperties_To_VaultKey_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -617,18 +617,18 @@ func (vaultsKey *VaultsKey_STATUS) ConvertStatusTo(destination genruntime.Conver
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &VaultsKey_STATUS{}
+var _ genruntime.FromARMConverter = &VaultKey_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vaultsKey *VaultsKey_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.VaultsKey_STATUS{}
+func (vaultKey *VaultKey_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.VaultKey_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (vaultsKey *VaultsKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.VaultsKey_STATUS)
+func (vaultKey *VaultKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.VaultKey_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VaultsKey_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.VaultKey_STATUS, got %T", armInput)
 	}
 
 	// Set property "Attributes":
@@ -641,7 +641,7 @@ func (vaultsKey *VaultsKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			attributes := attributes1
-			vaultsKey.Attributes = &attributes
+			vaultKey.Attributes = &attributes
 		}
 	}
 
@@ -654,14 +654,14 @@ func (vaultsKey *VaultsKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 			var temp string
 			temp = string(*typedInput.Properties.CurveName)
 			curveName := KeyProperties_CurveName_STATUS(temp)
-			vaultsKey.CurveName = &curveName
+			vaultKey.CurveName = &curveName
 		}
 	}
 
 	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		vaultsKey.Id = &id
+		vaultKey.Id = &id
 	}
 
 	// Set property "KeyOps":
@@ -670,7 +670,7 @@ func (vaultsKey *VaultsKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		for _, item := range typedInput.Properties.KeyOps {
 			var temp string
 			temp = string(item)
-			vaultsKey.KeyOps = append(vaultsKey.KeyOps, KeyProperties_KeyOps_STATUS(temp))
+			vaultKey.KeyOps = append(vaultKey.KeyOps, KeyProperties_KeyOps_STATUS(temp))
 		}
 	}
 
@@ -679,7 +679,7 @@ func (vaultsKey *VaultsKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeySize != nil {
 			keySize := *typedInput.Properties.KeySize
-			vaultsKey.KeySize = &keySize
+			vaultKey.KeySize = &keySize
 		}
 	}
 
@@ -688,7 +688,7 @@ func (vaultsKey *VaultsKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyUri != nil {
 			keyUri := *typedInput.Properties.KeyUri
-			vaultsKey.KeyUri = &keyUri
+			vaultKey.KeyUri = &keyUri
 		}
 	}
 
@@ -697,7 +697,7 @@ func (vaultsKey *VaultsKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyUriWithVersion != nil {
 			keyUriWithVersion := *typedInput.Properties.KeyUriWithVersion
-			vaultsKey.KeyUriWithVersion = &keyUriWithVersion
+			vaultKey.KeyUriWithVersion = &keyUriWithVersion
 		}
 	}
 
@@ -708,20 +708,20 @@ func (vaultsKey *VaultsKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 			var temp string
 			temp = string(*typedInput.Properties.Kty)
 			kty := KeyProperties_Kty_STATUS(temp)
-			vaultsKey.Kty = &kty
+			vaultKey.Kty = &kty
 		}
 	}
 
 	// Set property "Location":
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		vaultsKey.Location = &location
+		vaultKey.Location = &location
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		vaultsKey.Name = &name
+		vaultKey.Name = &name
 	}
 
 	// Set property "Release_Policy":
@@ -734,7 +734,7 @@ func (vaultsKey *VaultsKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			releasePolicy := releasePolicy1
-			vaultsKey.Release_Policy = &releasePolicy
+			vaultKey.Release_Policy = &releasePolicy
 		}
 	}
 
@@ -748,30 +748,30 @@ func (vaultsKey *VaultsKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 				return err
 			}
 			rotationPolicy := rotationPolicy1
-			vaultsKey.RotationPolicy = &rotationPolicy
+			vaultKey.RotationPolicy = &rotationPolicy
 		}
 	}
 
 	// Set property "Tags":
 	if typedInput.Tags != nil {
-		vaultsKey.Tags = make(map[string]string, len(typedInput.Tags))
+		vaultKey.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
-			vaultsKey.Tags[key] = value
+			vaultKey.Tags[key] = value
 		}
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		vaultsKey.Type = &typeVar
+		vaultKey.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_VaultsKey_STATUS populates our VaultsKey_STATUS from the provided source VaultsKey_STATUS
-func (vaultsKey *VaultsKey_STATUS) AssignProperties_From_VaultsKey_STATUS(source *storage.VaultsKey_STATUS) error {
+// AssignProperties_From_VaultKey_STATUS populates our VaultKey_STATUS from the provided source VaultKey_STATUS
+func (vaultKey *VaultKey_STATUS) AssignProperties_From_VaultKey_STATUS(source *storage.VaultKey_STATUS) error {
 
 	// Attributes
 	if source.Attributes != nil {
@@ -780,25 +780,25 @@ func (vaultsKey *VaultsKey_STATUS) AssignProperties_From_VaultsKey_STATUS(source
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_KeyAttributes_STATUS() to populate field Attributes")
 		}
-		vaultsKey.Attributes = &attribute
+		vaultKey.Attributes = &attribute
 	} else {
-		vaultsKey.Attributes = nil
+		vaultKey.Attributes = nil
 	}
 
 	// Conditions
-	vaultsKey.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	vaultKey.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CurveName
 	if source.CurveName != nil {
 		curveName := *source.CurveName
 		curveNameTemp := genruntime.ToEnum(curveName, keyProperties_CurveName_STATUS_Values)
-		vaultsKey.CurveName = &curveNameTemp
+		vaultKey.CurveName = &curveNameTemp
 	} else {
-		vaultsKey.CurveName = nil
+		vaultKey.CurveName = nil
 	}
 
 	// Id
-	vaultsKey.Id = genruntime.ClonePointerToString(source.Id)
+	vaultKey.Id = genruntime.ClonePointerToString(source.Id)
 
 	// KeyOps
 	if source.KeyOps != nil {
@@ -806,34 +806,34 @@ func (vaultsKey *VaultsKey_STATUS) AssignProperties_From_VaultsKey_STATUS(source
 		for keyOpIndex, keyOpItem := range source.KeyOps {
 			keyOpList[keyOpIndex] = genruntime.ToEnum(keyOpItem, keyProperties_KeyOps_STATUS_Values)
 		}
-		vaultsKey.KeyOps = keyOpList
+		vaultKey.KeyOps = keyOpList
 	} else {
-		vaultsKey.KeyOps = nil
+		vaultKey.KeyOps = nil
 	}
 
 	// KeySize
-	vaultsKey.KeySize = genruntime.ClonePointerToInt(source.KeySize)
+	vaultKey.KeySize = genruntime.ClonePointerToInt(source.KeySize)
 
 	// KeyUri
-	vaultsKey.KeyUri = genruntime.ClonePointerToString(source.KeyUri)
+	vaultKey.KeyUri = genruntime.ClonePointerToString(source.KeyUri)
 
 	// KeyUriWithVersion
-	vaultsKey.KeyUriWithVersion = genruntime.ClonePointerToString(source.KeyUriWithVersion)
+	vaultKey.KeyUriWithVersion = genruntime.ClonePointerToString(source.KeyUriWithVersion)
 
 	// Kty
 	if source.Kty != nil {
 		kty := *source.Kty
 		ktyTemp := genruntime.ToEnum(kty, keyProperties_Kty_STATUS_Values)
-		vaultsKey.Kty = &ktyTemp
+		vaultKey.Kty = &ktyTemp
 	} else {
-		vaultsKey.Kty = nil
+		vaultKey.Kty = nil
 	}
 
 	// Location
-	vaultsKey.Location = genruntime.ClonePointerToString(source.Location)
+	vaultKey.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	vaultsKey.Name = genruntime.ClonePointerToString(source.Name)
+	vaultKey.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Release_Policy
 	if source.Release_Policy != nil {
@@ -842,9 +842,9 @@ func (vaultsKey *VaultsKey_STATUS) AssignProperties_From_VaultsKey_STATUS(source
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_KeyReleasePolicy_STATUS() to populate field Release_Policy")
 		}
-		vaultsKey.Release_Policy = &releasePolicy
+		vaultKey.Release_Policy = &releasePolicy
 	} else {
-		vaultsKey.Release_Policy = nil
+		vaultKey.Release_Policy = nil
 	}
 
 	// RotationPolicy
@@ -854,30 +854,30 @@ func (vaultsKey *VaultsKey_STATUS) AssignProperties_From_VaultsKey_STATUS(source
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_RotationPolicy_STATUS() to populate field RotationPolicy")
 		}
-		vaultsKey.RotationPolicy = &rotationPolicy
+		vaultKey.RotationPolicy = &rotationPolicy
 	} else {
-		vaultsKey.RotationPolicy = nil
+		vaultKey.RotationPolicy = nil
 	}
 
 	// Tags
-	vaultsKey.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	vaultKey.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	vaultsKey.Type = genruntime.ClonePointerToString(source.Type)
+	vaultKey.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_VaultsKey_STATUS populates the provided destination VaultsKey_STATUS from our VaultsKey_STATUS
-func (vaultsKey *VaultsKey_STATUS) AssignProperties_To_VaultsKey_STATUS(destination *storage.VaultsKey_STATUS) error {
+// AssignProperties_To_VaultKey_STATUS populates the provided destination VaultKey_STATUS from our VaultKey_STATUS
+func (vaultKey *VaultKey_STATUS) AssignProperties_To_VaultKey_STATUS(destination *storage.VaultKey_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Attributes
-	if vaultsKey.Attributes != nil {
+	if vaultKey.Attributes != nil {
 		var attribute storage.KeyAttributes_STATUS
-		err := vaultsKey.Attributes.AssignProperties_To_KeyAttributes_STATUS(&attribute)
+		err := vaultKey.Attributes.AssignProperties_To_KeyAttributes_STATUS(&attribute)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_KeyAttributes_STATUS() to populate field Attributes")
 		}
@@ -887,23 +887,23 @@ func (vaultsKey *VaultsKey_STATUS) AssignProperties_To_VaultsKey_STATUS(destinat
 	}
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(vaultsKey.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(vaultKey.Conditions)
 
 	// CurveName
-	if vaultsKey.CurveName != nil {
-		curveName := string(*vaultsKey.CurveName)
+	if vaultKey.CurveName != nil {
+		curveName := string(*vaultKey.CurveName)
 		destination.CurveName = &curveName
 	} else {
 		destination.CurveName = nil
 	}
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(vaultsKey.Id)
+	destination.Id = genruntime.ClonePointerToString(vaultKey.Id)
 
 	// KeyOps
-	if vaultsKey.KeyOps != nil {
-		keyOpList := make([]string, len(vaultsKey.KeyOps))
-		for keyOpIndex, keyOpItem := range vaultsKey.KeyOps {
+	if vaultKey.KeyOps != nil {
+		keyOpList := make([]string, len(vaultKey.KeyOps))
+		for keyOpIndex, keyOpItem := range vaultKey.KeyOps {
 			keyOpList[keyOpIndex] = string(keyOpItem)
 		}
 		destination.KeyOps = keyOpList
@@ -912,32 +912,32 @@ func (vaultsKey *VaultsKey_STATUS) AssignProperties_To_VaultsKey_STATUS(destinat
 	}
 
 	// KeySize
-	destination.KeySize = genruntime.ClonePointerToInt(vaultsKey.KeySize)
+	destination.KeySize = genruntime.ClonePointerToInt(vaultKey.KeySize)
 
 	// KeyUri
-	destination.KeyUri = genruntime.ClonePointerToString(vaultsKey.KeyUri)
+	destination.KeyUri = genruntime.ClonePointerToString(vaultKey.KeyUri)
 
 	// KeyUriWithVersion
-	destination.KeyUriWithVersion = genruntime.ClonePointerToString(vaultsKey.KeyUriWithVersion)
+	destination.KeyUriWithVersion = genruntime.ClonePointerToString(vaultKey.KeyUriWithVersion)
 
 	// Kty
-	if vaultsKey.Kty != nil {
-		kty := string(*vaultsKey.Kty)
+	if vaultKey.Kty != nil {
+		kty := string(*vaultKey.Kty)
 		destination.Kty = &kty
 	} else {
 		destination.Kty = nil
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(vaultsKey.Location)
+	destination.Location = genruntime.ClonePointerToString(vaultKey.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(vaultsKey.Name)
+	destination.Name = genruntime.ClonePointerToString(vaultKey.Name)
 
 	// Release_Policy
-	if vaultsKey.Release_Policy != nil {
+	if vaultKey.Release_Policy != nil {
 		var releasePolicy storage.KeyReleasePolicy_STATUS
-		err := vaultsKey.Release_Policy.AssignProperties_To_KeyReleasePolicy_STATUS(&releasePolicy)
+		err := vaultKey.Release_Policy.AssignProperties_To_KeyReleasePolicy_STATUS(&releasePolicy)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_KeyReleasePolicy_STATUS() to populate field Release_Policy")
 		}
@@ -947,9 +947,9 @@ func (vaultsKey *VaultsKey_STATUS) AssignProperties_To_VaultsKey_STATUS(destinat
 	}
 
 	// RotationPolicy
-	if vaultsKey.RotationPolicy != nil {
+	if vaultKey.RotationPolicy != nil {
 		var rotationPolicy storage.RotationPolicy_STATUS
-		err := vaultsKey.RotationPolicy.AssignProperties_To_RotationPolicy_STATUS(&rotationPolicy)
+		err := vaultKey.RotationPolicy.AssignProperties_To_RotationPolicy_STATUS(&rotationPolicy)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_RotationPolicy_STATUS() to populate field RotationPolicy")
 		}
@@ -959,10 +959,10 @@ func (vaultsKey *VaultsKey_STATUS) AssignProperties_To_VaultsKey_STATUS(destinat
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(vaultsKey.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(vaultKey.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(vaultsKey.Type)
+	destination.Type = genruntime.ClonePointerToString(vaultKey.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1745,7 +1745,7 @@ func (policy *RotationPolicy_STATUS) AssignProperties_To_RotationPolicy_STATUS(d
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type VaultsKeyOperatorSpec struct {
+type VaultKeyOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 
@@ -1753,8 +1753,8 @@ type VaultsKeyOperatorSpec struct {
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
-// AssignProperties_From_VaultsKeyOperatorSpec populates our VaultsKeyOperatorSpec from the provided source VaultsKeyOperatorSpec
-func (operator *VaultsKeyOperatorSpec) AssignProperties_From_VaultsKeyOperatorSpec(source *storage.VaultsKeyOperatorSpec) error {
+// AssignProperties_From_VaultKeyOperatorSpec populates our VaultKeyOperatorSpec from the provided source VaultKeyOperatorSpec
+func (operator *VaultKeyOperatorSpec) AssignProperties_From_VaultKeyOperatorSpec(source *storage.VaultKeyOperatorSpec) error {
 
 	// ConfigMapExpressions
 	if source.ConfigMapExpressions != nil {
@@ -1792,8 +1792,8 @@ func (operator *VaultsKeyOperatorSpec) AssignProperties_From_VaultsKeyOperatorSp
 	return nil
 }
 
-// AssignProperties_To_VaultsKeyOperatorSpec populates the provided destination VaultsKeyOperatorSpec from our VaultsKeyOperatorSpec
-func (operator *VaultsKeyOperatorSpec) AssignProperties_To_VaultsKeyOperatorSpec(destination *storage.VaultsKeyOperatorSpec) error {
+// AssignProperties_To_VaultKeyOperatorSpec populates the provided destination VaultKeyOperatorSpec from our VaultKeyOperatorSpec
+func (operator *VaultKeyOperatorSpec) AssignProperties_To_VaultKeyOperatorSpec(destination *storage.VaultKeyOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3111,5 +3111,5 @@ var action_Type_Values = map[string]Action_Type{
 }
 
 func init() {
-	SchemeBuilder.Register(&VaultsKey{}, &VaultsKeyList{})
+	SchemeBuilder.Register(&VaultKey{}, &VaultKeyList{})
 }

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package arm
 
-type VaultsKey_STATUS struct {
+type VaultKey_STATUS struct {
 	// Id: Fully qualified identifier of the key vault resource.
 	Id *string `json:"id,omitempty"`
 
