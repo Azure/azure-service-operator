@@ -10,8 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	cognitiveservices "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v1api20250601"
-	cognitiveservicesv20250601 "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v20250601"
+	cognitiveservices "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v20250601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -103,15 +102,15 @@ func Test_CognitiveServices_Account_20250601_CRUD(t *testing.T) {
 
 func cognitiveServicesProjectCRUD(account *cognitiveservices.Account) func(tc *testcommon.KubePerTestContext) {
 	return func(tc *testcommon.KubePerTestContext) {
-		project := &cognitiveservicesv20250601.Project{
+		project := &cognitiveservices.Project{
 			ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("cogsvcprj")),
-			Spec: cognitiveservicesv20250601.Project_Spec{
-				Identity: &cognitiveservicesv20250601.Identity{
-					Type: to.Ptr(cognitiveservicesv20250601.Identity_Type_SystemAssigned),
+			Spec: cognitiveservices.Project_Spec{
+				Identity: &cognitiveservices.Identity{
+					Type: to.Ptr(cognitiveservices.Identity_Type_SystemAssigned),
 				},
 				Location: tc.AzureRegion,
 				Owner:    testcommon.AsOwner(account),
-				Properties: &cognitiveservicesv20250601.ProjectProperties{
+				Properties: &cognitiveservices.ProjectProperties{
 					Description: to.Ptr("Test project for ASO integration tests"),
 					DisplayName: to.Ptr("ASO Test Project"),
 				},
@@ -130,7 +129,7 @@ func cognitiveServicesProjectCRUD(account *cognitiveservices.Account) func(tc *t
 		tc.Expect(project.Status.Properties.Description).To(Equal(to.Ptr("Updated description")))
 
 		tc.DeleteResourceAndWait(project)
-		exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, *project.Status.Id, string(cognitiveservicesv20250601.APIVersion_Value))
+		exists, _, err := tc.AzureClient.CheckExistenceWithGetByID(tc.Ctx, *project.Status.Id, string(cognitiveservices.APIVersion_Value))
 		tc.Expect(err).ToNot(HaveOccurred())
 		tc.Expect(exists).To(BeFalse())
 	}

@@ -4,7 +4,6 @@
 package storage
 
 import (
-	"fmt"
 	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &ServersFailoverGroup{}
 
 // ConvertFrom populates our ServersFailoverGroup from the provided hub ServersFailoverGroup
 func (group *ServersFailoverGroup) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersFailoverGroup)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersFailoverGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersFailoverGroup
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return group.AssignProperties_From_ServersFailoverGroup(source)
+	err = group.AssignProperties_From_ServersFailoverGroup(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to group")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersFailoverGroup from our ServersFailoverGroup
 func (group *ServersFailoverGroup) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersFailoverGroup)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersFailoverGroup but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersFailoverGroup
+	err := group.AssignProperties_To_ServersFailoverGroup(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from group")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return group.AssignProperties_To_ServersFailoverGroup(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersFailoverGroup{}

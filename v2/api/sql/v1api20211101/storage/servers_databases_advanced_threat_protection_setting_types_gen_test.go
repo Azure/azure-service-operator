@@ -5,7 +5,8 @@ package storage
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -41,7 +42,7 @@ func RunResourceConversionTestForServersDatabasesAdvancedThreatProtectionSetting
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersDatabasesAdvancedThreatProtectionSetting
+	var hub v20250101s.ServersDatabasesAdvancedThreatProtectionSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -88,7 +89,7 @@ func RunPropertyAssignmentTestForServersDatabasesAdvancedThreatProtectionSetting
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAdvancedThreatProtectionSetting
+	var other v20211101s.ServersDatabasesAdvancedThreatProtectionSetting
 	err := copied.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -202,7 +203,7 @@ func RunPropertyAssignmentTestForServersDatabasesAdvancedThreatProtectionSetting
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
+	var other v20211101s.ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec
 	err := copied.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSettingOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -309,7 +310,7 @@ func RunPropertyAssignmentTestForServersDatabasesAdvancedThreatProtectionSetting
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAdvancedThreatProtectionSetting_STATUS
+	var other v20211101s.ServersDatabasesAdvancedThreatProtectionSetting_STATUS
 	err := copied.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -440,7 +441,7 @@ func RunPropertyAssignmentTestForServersDatabasesAdvancedThreatProtectionSetting
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersDatabasesAdvancedThreatProtectionSetting_Spec
+	var other v20211101s.ServersDatabasesAdvancedThreatProtectionSetting_Spec
 	err := copied.AssignProperties_To_ServersDatabasesAdvancedThreatProtectionSetting_Spec(&other)
 	if err != nil {
 		return err.Error()

@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ServersEncryptionProtector{}
 
 // ConvertFrom populates our ServersEncryptionProtector from the provided hub ServersEncryptionProtector
 func (protector *ServersEncryptionProtector) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ServersEncryptionProtector)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersEncryptionProtector but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ServersEncryptionProtector
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return protector.AssignProperties_From_ServersEncryptionProtector(source)
+	err = protector.AssignProperties_From_ServersEncryptionProtector(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to protector")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ServersEncryptionProtector from our ServersEncryptionProtector
 func (protector *ServersEncryptionProtector) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ServersEncryptionProtector)
-	if !ok {
-		return fmt.Errorf("expected sql/v20211101/storage/ServersEncryptionProtector but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ServersEncryptionProtector
+	err := protector.AssignProperties_To_ServersEncryptionProtector(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from protector")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return protector.AssignProperties_To_ServersEncryptionProtector(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ServersEncryptionProtector{}
@@ -87,17 +101,6 @@ func (protector *ServersEncryptionProtector) SecretDestinationExpressions() []*c
 		return nil
 	}
 	return protector.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ServersEncryptionProtector{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (protector *ServersEncryptionProtector) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ServersEncryptionProtector_STATUS); ok {
-		return protector.Spec.Initialize_From_ServersEncryptionProtector_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ServersEncryptionProtector_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ServersEncryptionProtector{}
@@ -504,32 +507,6 @@ func (protector *ServersEncryptionProtector_Spec) AssignProperties_To_ServersEnc
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServersEncryptionProtector_STATUS populates our ServersEncryptionProtector_Spec from the provided source ServersEncryptionProtector_STATUS
-func (protector *ServersEncryptionProtector_Spec) Initialize_From_ServersEncryptionProtector_STATUS(source *ServersEncryptionProtector_STATUS) error {
-
-	// AutoRotationEnabled
-	if source.AutoRotationEnabled != nil {
-		autoRotationEnabled := *source.AutoRotationEnabled
-		protector.AutoRotationEnabled = &autoRotationEnabled
-	} else {
-		protector.AutoRotationEnabled = nil
-	}
-
-	// ServerKeyName
-	protector.ServerKeyName = genruntime.ClonePointerToString(source.ServerKeyName)
-
-	// ServerKeyType
-	if source.ServerKeyType != nil {
-		serverKeyType := genruntime.ToEnum(string(*source.ServerKeyType), encryptionProtectorProperties_ServerKeyType_Values)
-		protector.ServerKeyType = &serverKeyType
-	} else {
-		protector.ServerKeyType = nil
 	}
 
 	// No error
