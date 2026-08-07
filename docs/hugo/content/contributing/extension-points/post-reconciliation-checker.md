@@ -231,6 +231,11 @@ When testing `PostReconciliationChecker` extensions:
 
 - **Call `next()` if appropriate**: Allows for check chaining (rarely needed)
 - **Don't modify the resource**: This is for validation only
+- **Respect the reconcile policy**: This check runs even when the policy forbids modification, since the
+  skip path still updates status, so an extension that acts on Azure must first call
+  `reconcilers.ReconcilePolicyFromContext`. To act on *another* resource, check that one too with
+  `reconcilers.ReconcilePolicyForAnnotation(ctx, itsAnnotation)`. Resolve it there rather than by hand: an
+  unusable annotation falls back to the operator's policy, not the namespace's
 - **Be patient**: Checks may run many times before succeeding
 - **Use factory methods**: Always uses the factory methods for `PostReconcileCheckResult` to ensure consistency
 - **Provide clear reasons**: Failure messages shown to users
