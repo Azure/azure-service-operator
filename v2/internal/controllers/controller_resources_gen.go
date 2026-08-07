@@ -225,6 +225,10 @@ import (
 	containerservice_v20251002p "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview"
 	containerservice_v20251002ps "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/storage"
 	containerservice_v20251002pw "github.com/Azure/azure-service-operator/v2/api/containerservice/v20251002preview/webhook"
+	databasewatcher_customizations "github.com/Azure/azure-service-operator/v2/api/databasewatcher/customizations"
+	databasewatcher_v20241001p "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview"
+	databasewatcher_v20241001ps "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/storage"
+	databasewatcher_v20241001pw "github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/webhook"
 	datafactory_customizations "github.com/Azure/azure-service-operator/v2/api/datafactory/customizations"
 	datafactory_v1api20180601 "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601"
 	datafactory_v1api20180601s "github.com/Azure/azure-service-operator/v2/api/datafactory/v1api20180601/storage"
@@ -1378,6 +1382,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.ManagedClustersAgentPool)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250801s.TrustedAccessRoleBinding)})
+	result = append(result, &registration.StorageType{Obj: new(databasewatcher_v20241001ps.SharedPrivateLinkResource)})
+	result = append(result, &registration.StorageType{Obj: new(databasewatcher_v20241001ps.Target)})
+	result = append(result, &registration.StorageType{Obj: new(databasewatcher_v20241001ps.Watcher)})
 	result = append(result, &registration.StorageType{Obj: new(datafactory_v20180601s.Factory)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVault)})
 	result = append(result, &registration.StorageType{Obj: new(dataprotection_v20231101s.BackupVaultsBackupInstance)})
@@ -5045,6 +5052,28 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedCluster)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.ManagedClustersAgentPool)},
 		&registration.KnownType{Obj: new(containerservice_v20251002ps.TrustedAccessRoleBinding)})
+	result = append(
+		result,
+		&registration.KnownType{
+			Obj:       new(databasewatcher_v20241001p.SharedPrivateLinkResource),
+			Defaulter: &databasewatcher_v20241001pw.SharedPrivateLinkResource{},
+			Validator: &databasewatcher_v20241001pw.SharedPrivateLinkResource{},
+		},
+		&registration.KnownType{
+			Obj:       new(databasewatcher_v20241001p.Target),
+			Defaulter: &databasewatcher_v20241001pw.Target{},
+			Validator: &databasewatcher_v20241001pw.Target{},
+		},
+		&registration.KnownType{
+			Obj:       new(databasewatcher_v20241001p.Watcher),
+			Defaulter: &databasewatcher_v20241001pw.Watcher{},
+			Validator: &databasewatcher_v20241001pw.Watcher{},
+		})
+	result = append(
+		result,
+		&registration.KnownType{Obj: new(databasewatcher_v20241001ps.SharedPrivateLinkResource)},
+		&registration.KnownType{Obj: new(databasewatcher_v20241001ps.Target)},
+		&registration.KnownType{Obj: new(databasewatcher_v20241001ps.Watcher)})
 	result = append(result, &registration.KnownType{
 		Obj:       new(datafactory_v1api20180601.Factory),
 		Defaulter: &datafactory_v1api20180601w.Factory{},
@@ -8290,6 +8319,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_v20250801s.AddToScheme(scheme)
 	_ = containerservice_v20251002p.AddToScheme(scheme)
 	_ = containerservice_v20251002ps.AddToScheme(scheme)
+	_ = databasewatcher_v20241001p.AddToScheme(scheme)
+	_ = databasewatcher_v20241001ps.AddToScheme(scheme)
 	_ = datafactory_v1api20180601.AddToScheme(scheme)
 	_ = datafactory_v1api20180601s.AddToScheme(scheme)
 	_ = datafactory_v20180601.AddToScheme(scheme)
@@ -8587,6 +8618,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
 	result = append(result, &containerservice_customizations.TrustedAccessRoleBindingExtension{})
+	result = append(result, &databasewatcher_customizations.SharedPrivateLinkResourceExtension{})
+	result = append(result, &databasewatcher_customizations.TargetExtension{})
+	result = append(result, &databasewatcher_customizations.WatcherExtension{})
 	result = append(result, &datafactory_customizations.FactoryExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultExtension{})
 	result = append(result, &dataprotection_customizations.BackupVaultsBackupInstanceExtension{})

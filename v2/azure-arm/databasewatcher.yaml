@@ -1,0 +1,18 @@
+typeFilters:
+  - action: include
+    version: v*20241001preview
+    because: ARM only serves preview api-versions for Microsoft.DatabaseWatcher, so the stable 2025-01-02 version can't be used
+groupModelConfiguration:
+  2024-10-01-preview:
+    Watcher:
+      $exportAs: Watcher
+      $supportedFrom: v2.21.0
+    Watchers_Target:
+      $exportAs: Target
+      $supportedFrom: v2.21.0
+    Watchers_SharedPrivateLinkResource:
+      $exportAs: SharedPrivateLinkResource
+      $supportedFrom: v2.21.0
+    VaultSecret:
+      AkvTargetPassword:
+        $importSecretMode: never # the path to a Key Vault secret, not the secret itself
