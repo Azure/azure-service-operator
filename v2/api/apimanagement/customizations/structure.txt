@@ -19,6 +19,8 @@ BackendExtension: Object (0 properties)
 
 CertificateExtension: Object (0 properties)
 
+DiagnosticExtension: Object (0 properties)
+
 GroupExtension: Object (0 properties)
 
 LoggerExtension: Object (0 properties)
