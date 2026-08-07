@@ -81,11 +81,10 @@ The following resources have newer versions available in the Azure REST API spec
 
 ## documentdb
 
-|      | Resource         | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|------|------------------|------------------|------------------|-------------------|-------------------|
-|      | CassandraCluster | 2026-03-15       | 2025-10-15       | -                 | -                 |
-| 💡    | DatabaseAccount  | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | MongoCluster     | **2025-09-01**   | 2024-07-01       | -                 | -                 |
+|      | Resource        | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|-----------------|------------------|------------------|-------------------|-------------------|
+| 💡    | DatabaseAccount | **2026-03-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | MongoCluster    | **2025-09-01**   | 2024-07-01       | -                 | -                 |
 
 ## eventgrid
 

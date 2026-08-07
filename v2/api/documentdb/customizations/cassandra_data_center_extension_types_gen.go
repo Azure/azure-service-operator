@@ -5,7 +5,9 @@ package customizations
 
 import (
 	v20251015 "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015"
-	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
+	v20251015s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
+	v20260315 "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315"
+	v20260315s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +18,7 @@ type CassandraDataCenterExtension struct {
 func (extension *CassandraDataCenterExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20251015.CassandraDataCenter{},
-		&storage.CassandraDataCenter{}}
+		&v20251015s.CassandraDataCenter{},
+		&v20260315.CassandraDataCenter{},
+		&v20260315s.CassandraDataCenter{}}
 }
