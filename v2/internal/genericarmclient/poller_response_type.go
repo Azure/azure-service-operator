@@ -24,3 +24,9 @@ type GenericResource struct {
 type GenericDeleteResponse struct {
 	// Empty, for extension later
 }
+
+// GenericActionResponse is the response type for an action poller. An action reports whether it worked
+// through the operation it starts, so nothing is kept from the body it finishes with.
+type GenericActionResponse struct {
+	// Empty, for extension later
+}

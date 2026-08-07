@@ -1,0 +1,17 @@
+apiVersion: databasewatcher.azure.com/v20241001preview
+kind: Target
+metadata:
+  name: aso-sample-target
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-watcher
+  properties:
+    sqlDb:
+      targetType: SqlDb
+      targetAuthenticationType: Aad
+      connectionServerName: aso-sample-sqlserver.database.windows.net
+      sqlDbResourceReference:
+        group: sql.azure.com
+        kind: ServersDatabase
+        name: aso-sample-db

@@ -1,0 +1,16 @@
+apiVersion: databasewatcher.azure.com/v20241001preview
+kind: SharedPrivateLinkResource
+metadata:
+  name: aso-sample-sharedprivatelinkresource
+  namespace: default
+spec:
+  owner:
+    name: aso-sample-watcher
+  groupId: sqlServer
+  # dnsZone is required for Azure Data Explorer clusters and SQL managed instances, and must be
+  # omitted for SQL logical servers and key vaults, as here
+  requestMessage: Please approve the connection from the database watcher
+  privateLinkResourceReference:
+    group: sql.azure.com
+    kind: Server
+    name: aso-sample-sqlserver
