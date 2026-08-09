@@ -35,7 +35,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   <meta itemprop="description" content="Api Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}
 Used by: ApiList.
 Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptional status Api_STATUSOptional Api_Spec Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiType Type of API to create. * http creates a REST API * soap creates a SOAP pass-through API * websocket creates websocket API * graphql creates GraphQL API. New types can be added in the future. ApiCreateOrUpdateProperties_ApiTypeOptional apiVersion Indicates the version identifier of the API if the API is versioned stringOptional apiVersionDescription Description of the API Version. stringOptional apiVersionSet Version set details ApiVersionSetContractDetailsOptional apiVersionSetReference A resource identifier for the related ApiVersionSet. genruntime.ResourceReferenceOptional authenticationSettings Collection of authentication settings included into this API. AuthenticationSettingsContractOptional azureName The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn’t have to be. stringOptional contact Contact information for the API. ApiContactInformationOptional description Description of the API. May include HTML formatting tags. stringOptional displayName API name. Must be 1 to 300 characters long. stringOptional format Format of the Content in which the API is getting imported. New formats can be added in the future ApiCreateOrUpdateProperties_FormatOptional isCurrent Indicates if API revision is current api revision. boolOptional license License information for the API. ApiLicenseInformationOptional operatorSpec The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure ApiOperatorSpecOptional owner The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource genruntime.KnownResourceReferenceRequired path Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. stringRequired protocols Describes on which protocols the operations in this API can be invoked. ApiCreateOrUpdateProperties_Protocols[]Optional serviceUrl Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. stringOptional sourceApiReference API identifier of the source API. genruntime.ResourceReferenceOptional subscriptionKeyParameterNames Protocols over which API is made available. SubscriptionKeyParameterNamesContractOptional subscriptionRequired Specifies whether an API or Product subscription is required for accessing the API. boolOptional termsOfServiceUrl A URL to the Terms of Service for the API. MUST be in the format of a URL. stringOptional translateRequiredQueryParameters Strategy of translating required query parameters to template ones. By default has value template. Possible values: template, query ApiCreateOrUpdateProperties_TranslateRequiredQueryParametersOptional type Type of API. ApiCreateOrUpdateProperties_TypeOptional value Content value when Importing an API. stringOptional wsdlSelector Criteria to limit import of WSDL to a subset of the document. ApiCreateOrUpdateProperties_WsdlSelectorOptional Api_STATUS Property Description Type apiRevision Describes the revision of the API. If no value is provided, default revision 1 is created stringOptional apiRevisionDescription Description of the API Revision. stringOptional apiVersion Indicates the version identifier of the API if the API is versioned stringOptional apiVersionDescription Description of the API Version. stringOptional apiVersionSet Version set details ApiVersionSetContractDetails_STATUSOptional apiVersionSetId A resource identifier for the related ApiVersionSet. stringOptional authenticationSettings Collection of authentication settings included into this API. AuthenticationSettingsContract_STATUSOptional conditions The observed state of the resource conditions.Condition[]Optional contact Contact information for the API. ApiContactInformation_STATUSOptional description Description of the API. May include HTML formatting tags. stringOptional displayName API name. Must be 1 to 300 characters long. stringOptional id Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName} stringOptional isCurrent Indicates if API revision is current api revision. boolOptional isOnline Indicates if API revision is accessible via the gateway. boolOptional license License information for the API. ApiLicenseInformation_STATUSOptional name The name of the resource stringOptional path Relative URL uniquely identifying this API and all of its resource paths within the API Management service instance. It is appended to the API endpoint base URL specified during the service instance creation to form a public URL for this API. stringOptional properties_type Type of API. ApiContractProperties_Type_STATUSOptional protocols Describes on which protocols the operations in this API can be invoked. ApiContractProperties_Protocols_STATUS[]Optional provisioningState The provisioning state stringOptional serviceUrl Absolute URL of the backend service implementing this API. Cannot be more than 2000 characters long. stringOptional sourceApiId API identifier of the source API. stringOptional subscriptionKeyParameterNames Protocols over which API is made available. SubscriptionKeyParameterNamesContract_STATUSOptional subscriptionRequired Specifies whether an API or Product subscription is required for accessing the API. boolOptional termsOfServiceUrl A URL to the Terms of Service for the API. MUST be in the format of a URL. stringOptional type The type of the resource. E.g. “Microsoft.Compute/virtualMachines” or “Microsoft.Storage/storageAccounts” stringOptional ApiDiagnostic Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}/​diagnostics/​{diagnosticId}">
-  <meta itemprop="wordCount" content="24271">
+  <meta itemprop="wordCount" content="25122">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="apimanagement.azure.com/v20240501">
   <meta name="twitter:description" content="Api Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimapis.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​apis/​{apiId}
@@ -1097,6 +1097,13 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
       </ul>
     </li>
     <li><a href="#CertificateList">CertificateList</a></li>
+    <li><a href="#Diagnostic">Diagnostic</a>
+      <ul>
+        <li><a href="#Diagnostic_Spec">Diagnostic_Spec</a></li>
+        <li><a href="#Diagnostic_STATUS">Diagnostic_STATUS</a></li>
+      </ul>
+    </li>
+    <li><a href="#DiagnosticList">DiagnosticList</a></li>
     <li><a href="#Group">Group</a>
       <ul>
         <li><a href="#Group_Spec">Group_Spec</a></li>
@@ -1227,6 +1234,8 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
     <li><a href="#Backend_STATUS">Backend_STATUS</a></li>
     <li><a href="#Certificate_Spec">Certificate_Spec</a></li>
     <li><a href="#Certificate_STATUS">Certificate_STATUS</a></li>
+    <li><a href="#Diagnostic_Spec">Diagnostic_Spec</a></li>
+    <li><a href="#Diagnostic_STATUS">Diagnostic_STATUS</a></li>
     <li><a href="#Group_Spec">Group_Spec</a></li>
     <li><a href="#Group_STATUS">Group_STATUS</a></li>
     <li><a href="#Logger_Spec">Logger_Spec</a></li>
@@ -1340,6 +1349,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
     <li><a href="#DiagnosticContractProperties_OperationNameFormat_STATUS">DiagnosticContractProperties_OperationNameFormat_STATUS</a></li>
     <li><a href="#DiagnosticContractProperties_Verbosity">DiagnosticContractProperties_Verbosity</a></li>
     <li><a href="#DiagnosticContractProperties_Verbosity_STATUS">DiagnosticContractProperties_Verbosity_STATUS</a></li>
+    <li><a href="#DiagnosticOperatorSpec">DiagnosticOperatorSpec</a></li>
     <li><a href="#GroupContractProperties_STATUS">GroupContractProperties_STATUS</a></li>
     <li><a href="#GroupContractProperties_Type_STATUS">GroupContractProperties_Type_STATUS</a></li>
     <li><a href="#GroupCreateParametersProperties_Type">GroupCreateParametersProperties_Type</a></li>
@@ -3254,6 +3264,227 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
           <td>items</td>
           <td></td>
           <td><a href="#Certificate">Certificate[]</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Diagnostic">Diagnostic</h2>
+<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimdiagnostics.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​diagnostics/​{diagnosticId}</p>
+<p>Used by: <a href="#DiagnosticList">DiagnosticList</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ObjectMeta">metav1.ObjectMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>spec</td>
+          <td></td>
+          <td><a href="#Diagnostic_Spec">Diagnostic_Spec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>status</td>
+          <td></td>
+          <td><a href="#Diagnostic_STATUS">Diagnostic_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="Diagnostic_Spec">Diagnostic_Spec</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>alwaysLog</td>
+          <td>Specifies for what type of messages sampling settings should not apply.</td>
+          <td><a href="#DiagnosticContractProperties_AlwaysLog">DiagnosticContractProperties_AlwaysLog</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>backend</td>
+          <td>Diagnostic settings for incoming/outgoing HTTP messages to the Backend</td>
+          <td><a href="#PipelineDiagnosticSettings">PipelineDiagnosticSettings</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>frontend</td>
+          <td>Diagnostic settings for incoming/outgoing HTTP messages to the Gateway.</td>
+          <td><a href="#PipelineDiagnosticSettings">PipelineDiagnosticSettings</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>httpCorrelationProtocol</td>
+          <td>Sets correlation protocol to use for Application Insights diagnostics.</td>
+          <td><a href="#DiagnosticContractProperties_HttpCorrelationProtocol">DiagnosticContractProperties_HttpCorrelationProtocol</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>logClientIp</td>
+          <td>Log the ClientIP. Default is false.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>loggerReference</td>
+          <td>Resource Id of a target logger.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>metrics</td>
+          <td>Emit custom metrics via emit-metric policy. Applicable only to Application Insights diagnostic settings.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operationNameFormat</td>
+          <td>The format of the Operation Name for Application Insights telemetries. Default is Name.</td>
+          <td><a href="#DiagnosticContractProperties_OperationNameFormat">DiagnosticContractProperties_OperationNameFormat</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#DiagnosticOperatorSpec">DiagnosticOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>sampling</td>
+          <td>Sampling settings for Diagnostic.</td>
+          <td><a href="#SamplingSettings">SamplingSettings</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>verbosity</td>
+          <td>The verbosity level applied to traces emitted by trace policies.</td>
+          <td><a href="#DiagnosticContractProperties_Verbosity">DiagnosticContractProperties_Verbosity</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="Diagnostic_STATUS">Diagnostic_STATUS</h3>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>alwaysLog</td>
+          <td>Specifies for what type of messages sampling settings should not apply.</td>
+          <td><a href="#DiagnosticContractProperties_AlwaysLog_STATUS">DiagnosticContractProperties_AlwaysLog_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>backend</td>
+          <td>Diagnostic settings for incoming/outgoing HTTP messages to the Backend</td>
+          <td><a href="#PipelineDiagnosticSettings_STATUS">PipelineDiagnosticSettings_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>frontend</td>
+          <td>Diagnostic settings for incoming/outgoing HTTP messages to the Gateway.</td>
+          <td><a href="#PipelineDiagnosticSettings_STATUS">PipelineDiagnosticSettings_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>httpCorrelationProtocol</td>
+          <td>Sets correlation protocol to use for Application Insights diagnostics.</td>
+          <td><a href="#DiagnosticContractProperties_HttpCorrelationProtocol_STATUS">DiagnosticContractProperties_HttpCorrelationProtocol_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>logClientIp</td>
+          <td>Log the ClientIP. Default is false.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>loggerId</td>
+          <td>Resource Id of a target logger.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>metrics</td>
+          <td>Emit custom metrics via emit-metric policy. Applicable only to Application Insights diagnostic settings.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operationNameFormat</td>
+          <td>The format of the Operation Name for Application Insights telemetries. Default is Name.</td>
+          <td><a href="#DiagnosticContractProperties_OperationNameFormat_STATUS">DiagnosticContractProperties_OperationNameFormat_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sampling</td>
+          <td>Sampling settings for Diagnostic.</td>
+          <td><a href="#SamplingSettings_STATUS">SamplingSettings_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>verbosity</td>
+          <td>The verbosity level applied to traces emitted by trace policies.</td>
+          <td><a href="#DiagnosticContractProperties_Verbosity_STATUS">DiagnosticContractProperties_Verbosity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DiagnosticList">DiagnosticList</h2>
+<p>Generator information: - Generated from: /apimanagement/resource-manager/Microsoft.ApiManagement/ApiManagement/stable/2024-05-01/apimdiagnostics.json - ARM URI: /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​Microsoft.ApiManagement/​service/​{serviceName}/​diagnostics/​{diagnosticId}</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#TypeMeta">metav1.TypeMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#ListMeta">metav1.ListMeta</a></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>items</td>
+          <td></td>
+          <td><a href="#Diagnostic">Diagnostic[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -7237,6 +7468,167 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
       </tr>
   </tbody>
 </table>
+<h2 id="Diagnostic_Spec">Diagnostic_Spec</h2>
+<p>Used by: <a href="#Diagnostic">Diagnostic</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>alwaysLog</td>
+          <td>Specifies for what type of messages sampling settings should not apply.</td>
+          <td><a href="#DiagnosticContractProperties_AlwaysLog">DiagnosticContractProperties_AlwaysLog</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>azureName</td>
+          <td>The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it doesn&rsquo;t have to be.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>backend</td>
+          <td>Diagnostic settings for incoming/outgoing HTTP messages to the Backend</td>
+          <td><a href="#PipelineDiagnosticSettings">PipelineDiagnosticSettings</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>frontend</td>
+          <td>Diagnostic settings for incoming/outgoing HTTP messages to the Gateway.</td>
+          <td><a href="#PipelineDiagnosticSettings">PipelineDiagnosticSettings</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>httpCorrelationProtocol</td>
+          <td>Sets correlation protocol to use for Application Insights diagnostics.</td>
+          <td><a href="#DiagnosticContractProperties_HttpCorrelationProtocol">DiagnosticContractProperties_HttpCorrelationProtocol</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>logClientIp</td>
+          <td>Log the ClientIP. Default is false.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>loggerReference</td>
+          <td>Resource Id of a target logger.</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#ResourceReference">genruntime.ResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>metrics</td>
+          <td>Emit custom metrics via emit-metric policy. Applicable only to Application Insights diagnostic settings.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operationNameFormat</td>
+          <td>The format of the Operation Name for Application Insights telemetries. Default is Name.</td>
+          <td><a href="#DiagnosticContractProperties_OperationNameFormat">DiagnosticContractProperties_OperationNameFormat</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operatorSpec</td>
+          <td>The specification for configuring operator behavior. This field is interpreted by the operator and not passed directly to Azure</td>
+          <td><a href="#DiagnosticOperatorSpec">DiagnosticOperatorSpec</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>owner</td>
+          <td>The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a reference to a apimanagement.azure.com/Service resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference">genruntime.KnownResourceReference</a><br/><small>Required</small></td>
+      </tr>
+      <tr>
+          <td>sampling</td>
+          <td>Sampling settings for Diagnostic.</td>
+          <td><a href="#SamplingSettings">SamplingSettings</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>verbosity</td>
+          <td>The verbosity level applied to traces emitted by trace policies.</td>
+          <td><a href="#DiagnosticContractProperties_Verbosity">DiagnosticContractProperties_Verbosity</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="Diagnostic_STATUS">Diagnostic_STATUS</h2>
+<p>Used by: <a href="#Diagnostic">Diagnostic</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>alwaysLog</td>
+          <td>Specifies for what type of messages sampling settings should not apply.</td>
+          <td><a href="#DiagnosticContractProperties_AlwaysLog_STATUS">DiagnosticContractProperties_AlwaysLog_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>backend</td>
+          <td>Diagnostic settings for incoming/outgoing HTTP messages to the Backend</td>
+          <td><a href="#PipelineDiagnosticSettings_STATUS">PipelineDiagnosticSettings_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>conditions</td>
+          <td>The observed state of the resource</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions#Condition">conditions.Condition[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>frontend</td>
+          <td>Diagnostic settings for incoming/outgoing HTTP messages to the Gateway.</td>
+          <td><a href="#PipelineDiagnosticSettings_STATUS">PipelineDiagnosticSettings_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>httpCorrelationProtocol</td>
+          <td>Sets correlation protocol to use for Application Insights diagnostics.</td>
+          <td><a href="#DiagnosticContractProperties_HttpCorrelationProtocol_STATUS">DiagnosticContractProperties_HttpCorrelationProtocol_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>id</td>
+          <td>Fully qualified resource ID for the resource. Ex - /​subscriptions/​{subscriptionId}/​resourceGroups/​{resourceGroupName}/​providers/​{resourceProviderNamespace}/​{resourceType}/​{resourceName}</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>logClientIp</td>
+          <td>Log the ClientIP. Default is false.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>loggerId</td>
+          <td>Resource Id of a target logger.</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>metrics</td>
+          <td>Emit custom metrics via emit-metric policy. Applicable only to Application Insights diagnostic settings.</td>
+          <td>bool<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>name</td>
+          <td>The name of the resource</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>operationNameFormat</td>
+          <td>The format of the Operation Name for Application Insights telemetries. Default is Name.</td>
+          <td><a href="#DiagnosticContractProperties_OperationNameFormat_STATUS">DiagnosticContractProperties_OperationNameFormat_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>sampling</td>
+          <td>Sampling settings for Diagnostic.</td>
+          <td><a href="#SamplingSettings_STATUS">SamplingSettings_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>type</td>
+          <td>The type of the resource. E.g. &ldquo;Microsoft.Compute/virtualMachines&rdquo; or &ldquo;Microsoft.Storage/storageAccounts&rdquo;</td>
+          <td>string<br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>verbosity</td>
+          <td>The verbosity level applied to traces emitted by trace policies.</td>
+          <td><a href="#DiagnosticContractProperties_Verbosity_STATUS">DiagnosticContractProperties_Verbosity_STATUS</a><br/><small>Optional</small></td>
+      </tr>
+  </tbody>
+</table>
 <h2 id="Group_Spec">Group_Spec</h2>
 <p>Used by: <a href="#Group">Group</a>.</p>
 <table>
@@ -10974,7 +11366,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="DiagnosticContractProperties_AlwaysLog">DiagnosticContractProperties_AlwaysLog</h2>
-<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>, and <a href="#Diagnostic_Spec">Diagnostic_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -10990,7 +11382,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="DiagnosticContractProperties_AlwaysLog_STATUS">DiagnosticContractProperties_AlwaysLog_STATUS</h2>
-<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>, and <a href="#Diagnostic_STATUS">Diagnostic_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -11006,7 +11398,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="DiagnosticContractProperties_HttpCorrelationProtocol">DiagnosticContractProperties_HttpCorrelationProtocol</h2>
-<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>, and <a href="#Diagnostic_Spec">Diagnostic_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -11030,7 +11422,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="DiagnosticContractProperties_HttpCorrelationProtocol_STATUS">DiagnosticContractProperties_HttpCorrelationProtocol_STATUS</h2>
-<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>, and <a href="#Diagnostic_STATUS">Diagnostic_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -11054,7 +11446,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="DiagnosticContractProperties_OperationNameFormat">DiagnosticContractProperties_OperationNameFormat</h2>
-<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>, and <a href="#Diagnostic_Spec">Diagnostic_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -11074,7 +11466,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="DiagnosticContractProperties_OperationNameFormat_STATUS">DiagnosticContractProperties_OperationNameFormat_STATUS</h2>
-<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>, and <a href="#Diagnostic_STATUS">Diagnostic_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -11094,7 +11486,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="DiagnosticContractProperties_Verbosity">DiagnosticContractProperties_Verbosity</h2>
-<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>, and <a href="#Diagnostic_Spec">Diagnostic_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -11118,7 +11510,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
   </tbody>
 </table>
 <h2 id="DiagnosticContractProperties_Verbosity_STATUS">DiagnosticContractProperties_Verbosity_STATUS</h2>
-<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>, and <a href="#Diagnostic_STATUS">Diagnostic_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -11138,6 +11530,30 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
       <tr>
           <td>&ldquo;verbose&rdquo;</td>
           <td></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="DiagnosticOperatorSpec">DiagnosticOperatorSpec</h2>
+<p>Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure</p>
+<p>Used by: <a href="#Diagnostic_Spec">Diagnostic_Spec</a>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Property</th>
+          <th>Description</th>
+          <th>Type</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>configMapExpressions</td>
+          <td>configures where to place operator written dynamic ConfigMaps (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
+      </tr>
+      <tr>
+          <td>secretExpressions</td>
+          <td>configures where to place operator written dynamic secrets (created with CEL expressions).</td>
+          <td><a href="https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime/core#DestinationExpression">core.DestinationExpression[]</a><br/><small>Optional</small></td>
       </tr>
   </tbody>
 </table>
@@ -11546,7 +11962,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
 </table>
 <h2 id="PipelineDiagnosticSettings">PipelineDiagnosticSettings</h2>
 <p>Diagnostic settings for incoming/outgoing HTTP messages to the Gateway.</p>
-<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>, and <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>, <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>, <a href="#Diagnostic_Spec">Diagnostic_Spec</a>, and <a href="#Diagnostic_Spec">Diagnostic_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -11570,7 +11986,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
 </table>
 <h2 id="PipelineDiagnosticSettings_STATUS">PipelineDiagnosticSettings_STATUS</h2>
 <p>Diagnostic settings for incoming/outgoing HTTP messages to the Gateway.</p>
-<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>, and <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>, <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>, <a href="#Diagnostic_STATUS">Diagnostic_STATUS</a>, and <a href="#Diagnostic_STATUS">Diagnostic_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
@@ -11991,7 +12407,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
 </table>
 <h2 id="SamplingSettings">SamplingSettings</h2>
 <p>Sampling settings for Diagnostic.</p>
-<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_Spec">ApiDiagnostic_Spec</a>, and <a href="#Diagnostic_Spec">Diagnostic_Spec</a>.</p>
 <table>
   <thead>
       <tr>
@@ -12015,7 +12431,7 @@ Property Description Type metav1.TypeMeta metav1.ObjectMeta spec Api_SpecOptiona
 </table>
 <h2 id="SamplingSettings_STATUS">SamplingSettings_STATUS</h2>
 <p>Sampling settings for Diagnostic.</p>
-<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>.</p>
+<p>Used by: <a href="#ApiDiagnostic_STATUS">ApiDiagnostic_STATUS</a>, and <a href="#Diagnostic_STATUS">Diagnostic_STATUS</a>.</p>
 <table>
   <thead>
       <tr>
