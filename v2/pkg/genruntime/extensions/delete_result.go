@@ -99,6 +99,10 @@ func (r DeleteResult) OperationToken() (string, error) {
 }
 
 func (r DeleteResult) RetryAfter() time.Duration {
+	if r.pollerResponse == nil {
+		return 0
+	}
+
 	return genericarmclient.GetRetryAfter(r.pollerResponse.RawResponse)
 }
 
