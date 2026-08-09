@@ -184,7 +184,6 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 
 	deleter := extensions.CreateDeleter(r.Extension, r.deleteResource)
 	result, err := deleter(ctx, r.Log, r.ResourceResolver, r.ARMConnection.Client(), r.Obj)
-
 	if err != nil {
 		// Something went wrong
 		return ctrl.Result{}, err
