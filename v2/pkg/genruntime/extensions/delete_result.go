@@ -16,12 +16,9 @@ import (
 
 type DeleteResult struct {
 	action         deleteResultType
-	operationID    string
-	operationToken string
 	severity       conditions.ConditionSeverity
 	reason         conditions.Reason
 	message        string
-	retryAfter     time.Duration
 	pollerResponse *genericarmclient.PollerResponse[genericarmclient.GenericDeleteResponse]
 }
 
