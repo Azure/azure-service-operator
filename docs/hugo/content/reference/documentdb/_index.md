@@ -11,10 +11,10 @@ To install the CRDs for these resources, your ASO configuration must include `do
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource            | ARM Version | CRD Version | Supported From | Sample                                                                                                                                         |
-|---------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| CassandraCluster    | 2026-03-15  | v20260315   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20260315/v20260315_cassandracluster.yaml)    |
-| CassandraDataCenter | 2026-03-15  | v20260315   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20260315/v20260315_cassandradatacenter.yaml) |
+| Resource                                                                                    | ARM Version | CRD Version | Supported From | Sample                                                                                                                                         |
+|---------------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| [CassandraCluster]({{< relref "/reference/documentdb/v20260315#CassandraCluster" >}})       | 2026-03-15  | v20260315   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20260315/v20260315_cassandracluster.yaml)    |
+| [CassandraDataCenter]({{< relref "/reference/documentdb/v20260315#CassandraDataCenter" >}}) | 2026-03-15  | v20260315   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20260315/v20260315_cassandradatacenter.yaml) |
 
 ### Latest Released Versions
 
