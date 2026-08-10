@@ -189,7 +189,9 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 		return ctrl.Result{}, err
 	}
 
-	if result.MonitorDeletion() {
+	switch {
+
+	case result.MonitorDeletion():
 		token, err := result.OperationToken()
 		if err != nil {
 			return ctrl.Result{},
@@ -208,21 +210,23 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 			Requeue:      true,
 			RequeueAfter: result.RetryAfter(),
 		}, nil
+
+	case result.BlockDeletion():
+		if result.BlockDeletion() {
+			msg := fmt.Sprintf(
+				"Resource deletion blocked: %s",
+				result.Message(),
+			)
+
+			r.Log.V(Verbose).Info(msg)
+
+			return ctrl.Result{}, result.CreateConditionError()
+		}
+
+	default:
+		// Deletion completed successfully
+		return ctrl.Result{}, nil
 	}
-
-	if result.BlockDeletion() {
-		msg := fmt.Sprintf(
-			"Resource deletion blocked: %s",
-			result.Message(),
-		)
-
-		r.Log.V(Verbose).Info(msg)
-
-		return ctrl.Result{}, result.CreateConditionError()
-	}
-
-	// Deletion completed successfully
-	return ctrl.Result{}, nil
 }
 
 // MonitorDelete will call Azure to check if the resource still exists. If so, it will requeue, else,

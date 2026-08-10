@@ -35,8 +35,10 @@ func ProceedWithDelete() DeleteResult {
 // message is an explanatory reason to show to the user via a warning condition on the resource.
 func BlockDelete(message string) DeleteResult {
 	return DeleteResult{
-		action:  deleteResultTypeBlock,
-		message: message,
+		action:   deleteResultTypeBlock,
+		message:  message,
+		severity: conditions.ConditionSeverityWarning,
+		reason:   conditions.ReasonReconcileBlocked,
 	}
 }
 
