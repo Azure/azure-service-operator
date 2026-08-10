@@ -224,7 +224,10 @@ func (d *DefaulterBuilder) defaultFunction(
 	methodName string,
 ) (*dst.FuncDecl, error) {
 	receiverIdent := k.IDFactory().CreateReceiver(receiver.Name())
-	resourceIdent := resourceParameterIdent(receiverIdent, k.IDFactory())
+	knownLocals := astmodel.NewKnownLocalsSet(k.IDFactory())
+	knownLocals.Add(receiverIdent)
+
+	resourceIdent := knownLocals.CreateLocal("resource", "", "Obj")
 	objectIdent := "obj"
 	contextIdent := "ctx"
 

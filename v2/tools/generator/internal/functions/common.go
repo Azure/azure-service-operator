@@ -27,16 +27,6 @@ func createBodyReturningLiteralString(
 	)
 }
 
-// resourceParameterIdent returns the identifier a webhook function uses for the resource, whether as a
-// parameter (the validators) or as the local the defaulter type-asserts obj into. It renames the
-// identifier when the receiver has already taken it, as happens for a kind called AlertRuleResource.
-func resourceParameterIdent(receiverIdent string, idFactory astmodel.IdentifierFactory) string {
-	knownLocals := astmodel.NewKnownLocalsSet(idFactory)
-	knownLocals.Add(receiverIdent)
-
-	return knownLocals.CreateLocal("resource", "", "Obj")
-}
-
 func createBodyReturningValue(
 	result dst.Expr,
 	returnType astmodel.Type,
