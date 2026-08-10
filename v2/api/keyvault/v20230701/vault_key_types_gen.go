@@ -89,17 +89,6 @@ func (vaultKey *VaultKey) SecretDestinationExpressions() []*core.DestinationExpr
 	return vaultKey.Spec.OperatorSpec.SecretExpressions
 }
 
-var _ genruntime.ImportableResource = &VaultKey{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (vaultKey *VaultKey) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*VaultKey_STATUS); ok {
-		return vaultKey.Spec.Initialize_From_VaultKey_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type VaultKey_STATUS but received %T instead", status)
-}
-
 var _ genruntime.KubernetesResource = &VaultKey{}
 
 // AzureName returns the Azure name of the resource
@@ -499,16 +488,6 @@ func (vaultKey *VaultKey_Spec) AssignProperties_To_VaultKey_Spec(destination *st
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_VaultKey_STATUS populates our VaultKey_Spec from the provided source VaultKey_STATUS
-func (vaultKey *VaultKey_Spec) Initialize_From_VaultKey_STATUS(source *VaultKey_STATUS) error {
-
-	// Tags
-	vaultKey.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
