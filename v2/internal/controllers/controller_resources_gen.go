@@ -212,6 +212,9 @@ import (
 	containerregistry_v20230701 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701"
 	containerregistry_v20230701s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/storage"
 	containerregistry_v20230701w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701/webhook"
+	containerregistry_v20250401 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20250401"
+	containerregistry_v20250401s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20250401/storage"
+	containerregistry_v20250401w "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20250401/webhook"
 	containerservice_customizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
 	containerservice_v20240901 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901"
 	containerservice_v20240901s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1api20240901/storage"
@@ -1315,6 +1318,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
+	result = append(result, &registration.StorageType{Obj: new(containerregistry_v20250401s.RegistryCacheRule)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.Fleet)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsAutoUpgradeProfile)})
 	result = append(result, &registration.StorageType{Obj: new(containerservice_v20250301s.FleetsMember)})
@@ -4934,6 +4938,12 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &containerregistry_v20230701w.RegistryReplication{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20230701s.Registry)}, &registration.KnownType{Obj: new(containerregistry_v20230701s.RegistryReplication)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(containerregistry_v20250401.RegistryCacheRule),
+		Defaulter: &containerregistry_v20250401w.RegistryCacheRule{},
+		Validator: &containerregistry_v20250401w.RegistryCacheRule{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(containerregistry_v20250401s.RegistryCacheRule)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -8289,6 +8299,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerregistry_v20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20230701.AddToScheme(scheme)
 	_ = containerregistry_v20230701s.AddToScheme(scheme)
+	_ = containerregistry_v20250401.AddToScheme(scheme)
+	_ = containerregistry_v20250401s.AddToScheme(scheme)
 	_ = containerservice_v20240901.AddToScheme(scheme)
 	_ = containerservice_v20240901s.AddToScheme(scheme)
 	_ = containerservice_v20250301.AddToScheme(scheme)
@@ -8584,6 +8596,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &compute_customizations.VirtualMachineScaleSetsExtensionExtension{})
 	result = append(result, &compute_customizations.VirtualMachinesExtensionExtension{})
 	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
+	result = append(result, &containerregistry_customizations.RegistryCacheRuleExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerregistry_customizations.RegistryReplicationExtension{})
 	result = append(result, &containerservice_customizations.FleetExtension{})

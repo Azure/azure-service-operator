@@ -1,0 +1,10 @@
+apiVersion: containerregistry.azure.com/v20250401
+kind: RegistryCacheRule
+metadata:
+  name: sample-cache-rule
+  namespace: default
+spec:
+  owner:
+    name: sampleregistry
+  sourceRepository: docker.io/library/hello-world
+  targetRepository: cached-docker-hub/hello-world
