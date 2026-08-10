@@ -224,9 +224,11 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 		}
 
 	default:
-		// Deletion completed successfully
-		return ctrl.Result{}, nil
+		// Fall-through
 	}
+
+	// Deletion completed successfully
+	return ctrl.Result{}, nil
 }
 
 // MonitorDelete will call Azure to check if the resource still exists. If so, it will requeue, else,
