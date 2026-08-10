@@ -81,7 +81,7 @@ func Test_VaultKey_ValidateNotExportable(t *testing.T) {
 	})
 }
 
-func Test_VaultKey_ValidateImmutable(t *testing.T) {
+func Test_VaultKey_ValidateIntrinsicallyImmutable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -92,7 +92,7 @@ func Test_VaultKey_ValidateImmutable(t *testing.T) {
 		newObj := newTestVaultKeyObj()
 		newObj.Spec.Properties.KeySize = to.Ptr(4096)
 
-		_, err := webhook.validateImmutable(context.Background(), oldObj, newObj)
+		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
 		g.Expect(err).ToNot(HaveOccurred())
 	})
 
@@ -101,7 +101,71 @@ func Test_VaultKey_ValidateImmutable(t *testing.T) {
 		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Properties.KeySize = to.Ptr(4096)
 
-		_, err := webhook.validateImmutable(context.Background(), oldObj, newObj)
+		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("keySize"))
+	})
+
+	t.Run("created - changing kty is rejected", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		ec := v20230701.KeyProperties_Kty_EC
+		newObj.Spec.Properties.Kty = &ec
+
+		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("kty"))
+	})
+
+	t.Run("created - changing attributes is NOT this validator's concern", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.Attributes.Enabled = to.Ptr(false)
+
+		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+
+	t.Run("created - true no-op update is allowed", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+
+		_, err := webhook.validateIntrinsicallyImmutable(context.Background(), oldObj, newObj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+}
+
+func Test_VaultKey_ValidateNotSilentlyIgnored(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	webhook := &VaultKey{}
+
+	t.Run("not yet created - any change allowed", func(t *testing.T) {
+		oldObj := newTestVaultKeyObj()
+		newObj := newTestVaultKeyObj()
+		newObj.Spec.Properties.Attributes.Enabled = to.Ptr(false)
+
+		_, err := webhook.validateNotSilentlyIgnored(context.Background(), oldObj, newObj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+
+	t.Run("created - changing attributes is rejected", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.Attributes.Enabled = to.Ptr(false)
+
+		_, err := webhook.validateNotSilentlyIgnored(context.Background(), oldObj, newObj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("spec.properties"))
+	})
+
+	t.Run("created - changing keyOps is rejected", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{v20230701.KeyProperties_KeyOps_Sign}
+
+		_, err := webhook.validateNotSilentlyIgnored(context.Background(), oldObj, newObj)
 		g.Expect(err).To(HaveOccurred())
 		g.Expect(err.Error()).To(ContainSubstring("spec.properties"))
 	})
@@ -111,16 +175,25 @@ func Test_VaultKey_ValidateImmutable(t *testing.T) {
 		newObj := markCreated(newTestVaultKeyObj())
 		newObj.Spec.Tags = map[string]string{"foo": "bar"}
 
-		_, err := webhook.validateImmutable(context.Background(), oldObj, newObj)
+		_, err := webhook.validateNotSilentlyIgnored(context.Background(), oldObj, newObj)
 		g.Expect(err).To(HaveOccurred())
 		g.Expect(err.Error()).To(ContainSubstring("spec.tags"))
+	})
+
+	t.Run("created - changing keySize is NOT this validator's concern", func(t *testing.T) {
+		oldObj := markCreated(newTestVaultKeyObj())
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.KeySize = to.Ptr(4096)
+
+		_, err := webhook.validateNotSilentlyIgnored(context.Background(), oldObj, newObj)
+		g.Expect(err).ToNot(HaveOccurred())
 	})
 
 	t.Run("created - true no-op update is allowed", func(t *testing.T) {
 		oldObj := markCreated(newTestVaultKeyObj())
 		newObj := markCreated(newTestVaultKeyObj())
 
-		_, err := webhook.validateImmutable(context.Background(), oldObj, newObj)
+		_, err := webhook.validateNotSilentlyIgnored(context.Background(), oldObj, newObj)
 		g.Expect(err).ToNot(HaveOccurred())
 	})
 }
