@@ -45,8 +45,9 @@ func (extension *ProductExtension) Delete(
 	}
 
 	if id.Parent == nil {
-		return extensions.DeleteResult{}, eris.Wrapf(err, ". APIM Product had no parent ID: %s", id.String())
+		return extensions.DeleteResult{}, eris.Errorf("APIM Product has no parent ID: %s", id.String())
 	}
+
 	parentName := id.Parent.Name
 
 	// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new

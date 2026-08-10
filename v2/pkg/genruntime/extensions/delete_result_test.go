@@ -32,10 +32,6 @@ func TestDeleteResultFactories(t *testing.T) {
 		hasOperation       bool
 		expectedRetryAfter time.Duration
 	}{
-		"proceed": {
-			result:         ProceedWithDelete(),
-			expectedAction: deleteResultTypeProceed,
-		},
 		"block": {
 			result:          BlockDelete("waiting for dependents"),
 			expectedAction:  deleteResultTypeBlock,
@@ -77,16 +73,6 @@ func TestDeleteResultFactories(t *testing.T) {
 			g.Expect(operationID).To(Equal(c.expectedOperation))
 		})
 	}
-}
-
-func TestDeleteResult_OperationTokenWithoutPollerResponse_ReturnsError(t *testing.T) {
-	t.Parallel()
-	g := NewGomegaWithT(t)
-
-	token, err := ProceedWithDelete().OperationToken()
-
-	g.Expect(token).To(BeEmpty())
-	g.Expect(err).To(MatchError("no poller response available"))
 }
 
 func TestDeleteResult_OperationToken(t *testing.T) {

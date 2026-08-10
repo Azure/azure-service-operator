@@ -32,7 +32,7 @@ type Deleter interface {
 	// armClient allows making ARM API calls.
 	// obj is the Kubernetes resource being deleted.
 	// next is the default deletion implementation - call this to perform standard ARM DELETE.
-	// Returns a reconciliation result (e.g., requeue timing) and an error if deletion fails.
+	// Returns a DeleteResult indicating the status of deletion, or an error if deletion fails.
 	Delete(
 		ctx context.Context,
 		log logr.Logger,

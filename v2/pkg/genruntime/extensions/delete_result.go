@@ -22,14 +22,6 @@ type DeleteResult struct {
 	pollerResponse *genericarmclient.PollerResponse[genericarmclient.GenericDeleteResponse]
 }
 
-// ProceedWithDelete is returned if normal deletion of the resource should proceed.
-// with action `Proceed`.
-func ProceedWithDelete() DeleteResult {
-	return DeleteResult{
-		action: deleteResultTypeProceed,
-	}
-}
-
 // BlockDelete is returned if deletion of the resource should be blocked for now, but can be retried later
 // The deletion will automatically be retried after a short delay.
 // message is an explanatory reason to show to the user via a warning condition on the resource.
@@ -80,7 +72,7 @@ func (r DeleteResult) Message() string {
 
 // OperationID returns the operation ID associated monitoring the deletion operation, if any.
 func (r DeleteResult) OperationID() (string, bool) {
-	if r.pollerResponse == nil {
+	if r.pollerResponse == nil || r.pollerResponse.ID == "" {
 		return "", false
 	}
 

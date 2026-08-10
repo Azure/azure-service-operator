@@ -212,16 +212,14 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 		}, nil
 
 	case result.BlockDeletion():
-		if result.BlockDeletion() {
-			msg := fmt.Sprintf(
-				"Resource deletion blocked: %s",
-				result.Message(),
-			)
+		msg := fmt.Sprintf(
+			"Resource deletion blocked: %s",
+			result.Message(),
+		)
 
-			r.Log.V(Verbose).Info(msg)
+		r.Log.V(Verbose).Info(msg)
 
-			return ctrl.Result{}, result.CreateConditionError()
-		}
+		return ctrl.Result{}, result.CreateConditionError()
 
 	default:
 		// Fall-through
