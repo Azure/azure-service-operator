@@ -107,11 +107,14 @@ key still exists in Azure, so deletion of the Kubernetes resource remains blocke
 
 ### Required RBAC for ASO's identity
 
-ASO's identity needs only:
+ASO's identity should be scoped to **only**:
 
 * `Microsoft.KeyVault/vaults/keys/read`
 * `Microsoft.KeyVault/vaults/keys/write`
 
-It does not need delete, purge, import, export, release, or cryptographic operation
-(encrypt/decrypt/sign/verify/wrap/unwrap) permissions. The built-in "Key Vault Crypto Officer"
-role is broader than this; consider a custom role restricted to the two actions above.
+It should explicitly **not** include delete, purge, import, export, release, or cryptographic
+operation (encrypt/decrypt/sign/verify/wrap/unwrap) permissions - none of these are needed by ASO,
+and granting them expands the blast radius of a compromised ASO identity beyond what's required.
+
+The built-in "Key Vault Crypto Officer" role is broader than this and should be avoided for ASO's
+identity; define a custom role restricted to the two actions above instead.
