@@ -25,17 +25,17 @@ var _ webhook.CustomDefaulter = &AResource{}
 
 // Default applies defaults to the AResource resource
 func (resource *AResource) Default(ctx context.Context, obj runtime.Object) error {
-	resource, ok := obj.(*v20200101.AResource)
+	resourceObj, ok := obj.(*v20200101.AResource)
 	if !ok {
 		return fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/AResource, but got %T", obj)
 	}
-	err := resource.defaultImpl(ctx, resource)
+	err := resource.defaultImpl(ctx, resourceObj)
 	if err != nil {
 		return err
 	}
 	var temp any = resource
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
-		err = runtimeDefaulter.CustomDefault(ctx, resource)
+		err = runtimeDefaulter.CustomDefault(ctx, resourceObj)
 		if err != nil {
 			return err
 		}
@@ -53,10 +53,10 @@ func (resource *AResource) defaultImpl(ctx context.Context, obj *v20200101.AReso
 var _ webhook.CustomValidator = &AResource{}
 
 // ValidateCreate validates the creation of the resource
-func (resource *AResource) ValidateCreate(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
-	obj, ok := resource.(*v20200101.AResource)
+func (resource *AResource) ValidateCreate(ctx context.Context, resourceObj runtime.Object) (admission.Warnings, error) {
+	obj, ok := resourceObj.(*v20200101.AResource)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/AResource, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/AResource, but got %T", resourceObj)
 	}
 	validations := resource.createValidations()
 	var temp any = resource
@@ -67,10 +67,10 @@ func (resource *AResource) ValidateCreate(ctx context.Context, resource runtime.
 }
 
 // ValidateDelete validates the deletion of the resource
-func (resource *AResource) ValidateDelete(ctx context.Context, resource runtime.Object) (admission.Warnings, error) {
-	obj, ok := resource.(*v20200101.AResource)
+func (resource *AResource) ValidateDelete(ctx context.Context, resourceObj runtime.Object) (admission.Warnings, error) {
+	obj, ok := resourceObj.(*v20200101.AResource)
 	if !ok {
-		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/AResource, but got %T", resource)
+		return nil, fmt.Errorf("expected github.com/Azure/azure-service-operator/testing/test/v20200101/AResource, but got %T", resourceObj)
 	}
 	validations := resource.deleteValidations()
 	var temp any = resource
