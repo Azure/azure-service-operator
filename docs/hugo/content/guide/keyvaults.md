@@ -90,6 +90,15 @@ To remove the Kubernetes resource while leaving the key in Azure, set the standa
 `serviceoperator.azure.com/reconcile-policy: detach-on-delete` (or `skip`) annotation on the
 object before deleting it - see [annotations]( {{< relref "annotations" >}} ).
 
+**Note:** the effective `reconcile-policy` for an object can also come from an annotation on its
+**namespace**, or operator-wide from the `DEFAULT_RECONCILE_POLICY` setting - see
+[configuration options]( {{< relref "aso-controller-settings-options" >}} ). If
+`detach-on-delete` (or `skip`) is in effect from any of those sources, deleting a `VaultKey`
+removes the Kubernetes resource **without any further prompt**, leaving the key enabled and live
+in Key Vault but no longer tracked by ASO. ASO never deletes or disables the key itself; if the
+key must actually be removed, do so via the Key Vault data plane as described below. Consider
+keeping `VaultKey` resources in namespaces that use the default `manage` policy.
+
 To fully remove a key, use the Azure Key Vault data-plane (Azure CLI, PowerShell, or the Azure
 Portal) to delete **and purge** the key (e.g. `az keyvault key delete`, followed by
 `az keyvault key purge` if required). Once the key no longer exists in Azure, deletion of the
