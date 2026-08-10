@@ -81,6 +81,54 @@ func Test_VaultKey_ValidateNotExportable(t *testing.T) {
 	})
 }
 
+func Test_VaultKey_ValidateNoImportKeyOp(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	webhook := &VaultKey{}
+
+	t.Run("create with keyOps including import is rejected", func(t *testing.T) {
+		obj := newTestVaultKeyObj()
+		obj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{
+			v20230701.KeyProperties_KeyOps_Sign,
+			v20230701.KeyProperties_KeyOps_Import,
+		}
+
+		_, err := webhook.validateNoImportKeyOp(context.Background(), obj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("import"))
+	})
+
+	t.Run("create with keyOps without import is allowed", func(t *testing.T) {
+		obj := newTestVaultKeyObj()
+		obj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{
+			v20230701.KeyProperties_KeyOps_Sign,
+			v20230701.KeyProperties_KeyOps_Verify,
+		}
+
+		_, err := webhook.validateNoImportKeyOp(context.Background(), obj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+
+	t.Run("create with keyOps unset is allowed", func(t *testing.T) {
+		obj := newTestVaultKeyObj()
+
+		_, err := webhook.validateNoImportKeyOp(context.Background(), obj)
+		g.Expect(err).ToNot(HaveOccurred())
+	})
+
+	t.Run("update adding import to keyOps is rejected", func(t *testing.T) {
+		newObj := markCreated(newTestVaultKeyObj())
+		newObj.Spec.Properties.KeyOps = []v20230701.KeyProperties_KeyOps{
+			v20230701.KeyProperties_KeyOps_Import,
+		}
+
+		_, err := webhook.validateNoImportKeyOp(context.Background(), newObj)
+		g.Expect(err).To(HaveOccurred())
+		g.Expect(err.Error()).To(ContainSubstring("import"))
+	})
+}
+
 func Test_VaultKey_ValidateIntrinsicallyImmutable(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)

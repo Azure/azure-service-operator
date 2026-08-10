@@ -55,6 +55,11 @@ a result:
 
 * This resource **cannot be used to import an existing key**. Importing key material is
   exclusively a Key Vault _data-plane_ operation, which this resource does not use.
+* For the same reason, `spec.properties.keyOps` may not include `import` - the validating
+  webhook rejects it. The `import` operation is a data-plane permission that would allow new key
+  material to be imported into the key (as a new key version), which contradicts the
+  generation-only guarantee; rejecting it keeps the guarantee enforced rather than merely
+  documented.
 * Private key material never transits the Kubernetes cluster, the `VaultKey` spec, or any
   Kubernetes `Secret`.
 
