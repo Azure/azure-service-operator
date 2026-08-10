@@ -55,7 +55,8 @@ func Test_AfdCustomDomainExtension_ClassifyError(t *testing.T) {
 						Code:           err.Code(),
 						Message:        err.Message(),
 					}, nil
-				})
+				},
+			)
 
 			g.Expect(err).ToNot(HaveOccurred())
 			g.Expect(details.Retry).To(Equal(c.expected))
