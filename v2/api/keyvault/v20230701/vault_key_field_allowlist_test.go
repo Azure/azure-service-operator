@@ -11,6 +11,9 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+
+	storage "github.com/Azure/azure-service-operator/v2/api/keyvault/v20230701/storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // This test is a safety net, not a style test. VaultKey's spec surfaces (directly or indirectly)
@@ -113,4 +116,33 @@ func Test_RotationPolicy_FieldAllowlist(t *testing.T) {
 	sort.Strings(expected)
 
 	g.Expect(fieldNamesOf(t, RotationPolicy{})).To(Equal(expected))
+}
+
+// Test_VaultKey_SupportedOperations_Allowlist is a safety net, not a style test. VaultKey
+// deliberately relies on the ARM API exposing no DELETE verb: DetermineDeleteAction routes
+// deletion to the built-in DeleteNotPossibleInAzure handling precisely because
+// ResourceOperationDelete is absent from this list, which is what guarantees ASO can never
+// destroy live key material. SupportedOperations is derived mechanically from the swagger
+// (see getSupportedOperations in the generator's swagger_type_extractor.go), with no
+// configuration override, so a future spec bump that adds DELETE to
+// Microsoft.KeyVault/vaults/keys would silently turn VaultKey into a resource that issues
+// real ARM deletes against live cryptographic keys - inside an otherwise unremarkable
+// regeneration diff. This test forces that change to be explicit and reviewed.
+//
+// Both the versioned type and the storage (hub) type are asserted: the reconciler operates
+// on the hub type, so that is the one that strictly must be guarded; the versioned type is
+// included for symmetry.
+func Test_VaultKey_SupportedOperations_Allowlist(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	g.Expect((&VaultKey{}).GetSupportedOperations()).To(ConsistOf(
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	))
+
+	g.Expect((&storage.VaultKey{}).GetSupportedOperations()).To(ConsistOf(
+		genruntime.ResourceOperationGet,
+		genruntime.ResourceOperationPut,
+	))
 }
