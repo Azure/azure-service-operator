@@ -22,6 +22,7 @@ var _ genruntime.Validator[*v20230701.VaultKey] = &VaultKey{}
 func (vaultKey *VaultKey) CreateValidations() []func(ctx context.Context, obj *v20230701.VaultKey) (admission.Warnings, error) {
 	return []func(ctx context.Context, obj *v20230701.VaultKey) (admission.Warnings, error){
 		vaultKey.validateNotExportable,
+		vaultKey.validateNoImportKeyOp,
 	}
 }
 
@@ -30,6 +31,9 @@ func (vaultKey *VaultKey) UpdateValidations() []func(ctx context.Context, oldObj
 	return []func(ctx context.Context, oldObj *v20230701.VaultKey, newObj *v20230701.VaultKey) (admission.Warnings, error){
 		func(ctx context.Context, oldObj *v20230701.VaultKey, newObj *v20230701.VaultKey) (admission.Warnings, error) {
 			return vaultKey.validateNotExportable(ctx, newObj)
+		},
+		func(ctx context.Context, oldObj *v20230701.VaultKey, newObj *v20230701.VaultKey) (admission.Warnings, error) {
+			return vaultKey.validateNoImportKeyOp(ctx, newObj)
 		},
 		vaultKey.validateIntrinsicallyImmutable,
 		vaultKey.validateNotSilentlyIgnored,
@@ -56,6 +60,32 @@ func (vaultKey *VaultKey) validateNotExportable(_ context.Context, obj *v2023070
 			obj.GetObjectKind().GroupVersionKind(),
 			obj.GetName(),
 		)
+	}
+
+	return nil, nil
+}
+
+// validateNoImportKeyOp rejects any VaultKey whose properties.keyOps includes "import", on both
+// create and update. The documented contract for this resource is that it is generation-only and
+// cannot be used to import key material; the "import" keyOp is a data-plane permission that would
+// allow new key material to be imported into the key (as a new key version), so permitting it would
+// leave the guarantee documented but not enforced. This mirrors the existing hard rejection of
+// attributes.exportable.
+func (vaultKey *VaultKey) validateNoImportKeyOp(_ context.Context, obj *v20230701.VaultKey) (admission.Warnings, error) {
+	if obj.Spec.Properties == nil {
+		return nil, nil
+	}
+
+	for _, op := range obj.Spec.Properties.KeyOps {
+		if op == v20230701.KeyProperties_KeyOps_Import {
+			return nil, eris.Errorf(
+				"spec.properties.keyOps must not include \"import\" for %s : %s; this resource is "+
+					"generation-only and cannot be used to import key material, so granting the import "+
+					"operation on the key is not supported",
+				obj.GetObjectKind().GroupVersionKind(),
+				obj.GetName(),
+			)
+		}
 	}
 
 	return nil, nil
