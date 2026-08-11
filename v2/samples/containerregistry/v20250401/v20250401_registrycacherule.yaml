@@ -6,5 +6,5 @@ metadata:
 spec:
   owner:
     name: sampleregistry
-  sourceRepository: docker.io/library/hello-world
-  targetRepository: cached-docker-hub/hello-world
+  sourceRepository: mcr.microsoft.com/azuredocs/aci-helloworld
+  targetRepository: cached-mcr/aci-helloworld

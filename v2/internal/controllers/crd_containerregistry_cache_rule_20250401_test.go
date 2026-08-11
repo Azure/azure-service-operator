@@ -10,8 +10,8 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	containerregistry "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20250401"
 	registry "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20230701"
+	containerregistry "github.com/Azure/azure-service-operator/v2/api/containerregistry/v20250401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 )
@@ -41,8 +41,8 @@ func Test_ContainerRegistry_CacheRule_20250401_CRUD(t *testing.T) {
 		ObjectMeta: tc.MakeObjectMeta("cache-rule"),
 		Spec: containerregistry.RegistryCacheRule_Spec{
 			Owner:            testcommon.AsOwner(acr),
-			SourceRepository: to.Ptr("docker.io/library/hello-world"),
-			TargetRepository: to.Ptr("cached-docker-hub/hello-world"),
+			SourceRepository: to.Ptr("mcr.microsoft.com/azuredocs/aci-helloworld"),
+			TargetRepository: to.Ptr("cached-mcr/aci-helloworld"),
 		},
 	}
 
