@@ -35,6 +35,31 @@ typeTransformers:
     property: ProvisioningState
     remove: true
     because: This property should have been marked readonly but wasn't.
+  # 2026-03-15 onwards the properties bags are named types, so they need their own transformers.
+  - name: ClusterResourceProperties
+    property: Deallocated
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - name: ClusterResourceProperties
+    property: ProvisionError
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - name: ClusterResourceProperties
+    property: ProvisioningState
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - name: DataCenterResourceProperties
+    property: Deallocated
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - name: DataCenterResourceProperties
+    property: ProvisionError
+    remove: true
+    because: This property should have been marked readonly but wasn't.
+  - name: DataCenterResourceProperties
+    property: ProvisioningState
+    remove: true
+    because: This property should have been marked readonly but wasn't.
 groupModelConfiguration:
   2021-05-15:
     DatabaseAccount:
@@ -282,16 +307,20 @@ groupModelConfiguration:
       $exportAs: CassandraCluster
       $supportedFrom: v2.19.0
     CassandraCluster_Properties_Spec:
+      $nameInNextVersion: ClusterResourceProperties
       DelegatedManagementSubnetId:
         $referenceType: arm
       InitialCassandraAdminPassword:
         $importSecretMode: required
       RestoreFromBackupId:
         $referenceType: arm
+    CassandraCluster_Properties_STATUS:
+      $nameInNextVersion: ClusterResourceProperties_STATUS
     CassandraClusters_DataCenter:
       $exportAs: CassandraDataCenter
       $supportedFrom: v2.19.0
     CassandraClusters_DataCenter_Properties_Spec:
+      $nameInNextVersion: DataCenterResourceProperties
       BackupStorageCustomerKeyUri:
         $importConfigMapMode: optional
       DelegatedSubnetId:
@@ -300,9 +329,43 @@ groupModelConfiguration:
         $referenceType: arm
       PrivateEndpointIpAddress:
         $importConfigMapMode: optional
+    CassandraClusters_DataCenter_Properties_STATUS:
+      $nameInNextVersion: DataCenterResourceProperties_STATUS
     Certificate:
       Pem:
         $importSecretMode: required
+    SeedNode:
+      IpAddress:
+        $importConfigMapMode: optional
+  2026-03-15:
+    AuthenticationMethodLdapProperties:
+      ServiceUserPassword:
+        $importSecretMode: required
+    CassandraCluster:
+      $exportAs: CassandraCluster
+      $supportedFrom: v2.21.0
+    CassandraClusters_DataCenter:
+      $exportAs: CassandraDataCenter
+      $supportedFrom: v2.21.0
+    Certificate:
+      Pem:
+        $importSecretMode: required
+    ClusterResourceProperties:
+      DelegatedManagementSubnetId:
+        $referenceType: arm
+      InitialCassandraAdminPassword:
+        $importSecretMode: required
+      RestoreFromBackupId:
+        $referenceType: arm
+    DataCenterResourceProperties:
+      BackupStorageCustomerKeyUri:
+        $importConfigMapMode: optional
+      DelegatedSubnetId:
+        $referenceType: arm
+      ManagedDiskCustomerKeyUri:
+        $referenceType: arm
+      PrivateEndpointIpAddress:
+        $importConfigMapMode: optional
     SeedNode:
       IpAddress:
         $importConfigMapMode: optional

@@ -11,15 +11,16 @@ These are sometimes also called `envtest` tests, because they use
 
 ### Required variables
 
-| Environment Variable  | Value                                                                                                   | Needed for CI (Github Actions) | Needed for local testing                     |
-| --------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------ | -------------------------------------------- |
-| AZURE_SUBSCRIPTION_ID | The Azure Subscription ID                                                                               | Yes                            | Yes (when recording)                         |
-| AZURE_TENANT_ID       | The Azure Tenant ID                                                                                     | Yes                            | Yes (when recording)                         |
-| TEST_BILLING_ID       | The Azure billing ID                                                                                    | No                             | Yes (when recording SubscriptionAlias tests) |
-| CODECOV_TOKEN         | The token to <https://app.codecov.io/gh/Azure/azure-service-operator>                                   | Yes                            | No                                           |
-| REGISTRY_LOGIN        | The Azure Container Registry to log in to (for az acr login --name {name})                              | Yes                            | No                                           |
-| REGISTRY_PRERELEASE   | The path to the container prerelease registry (right now this isn't used)                               | No                             | No                                           |
-| REGISTRY_PUBLIC       | The path to the container release registry, used in --tag "{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}" | No                             | No                                           |
+| Environment Variable     | Value                                                                                                   | Needed for CI (GitHub Actions) | Needed for local testing                     |
+| ------------------------- | -------------------------------------------------------------------------------------------------------- | ------------------------------- | --------------------------------------------- |
+| AZURE_SUBSCRIPTION_ID    | The Azure Subscription ID                                                                               | Yes                            | Yes (when recording)                         |
+| AZURE_TENANT_ID          | The Azure Tenant ID                                                                                     | Yes                            | Yes (when recording)                         |
+| TEST_RESOURCE_GROUP_TAGS | Tags the tenant requires on every resource group, as JSON: {"Owner":"someone"}                          | No                             | Yes (when recording in such a tenant)        |
+| TEST_BILLING_ID          | The Azure billing ID                                                                                    | No                             | Yes (when recording SubscriptionAlias tests) |
+| CODECOV_TOKEN            | The token to <https://app.codecov.io/gh/Azure/azure-service-operator>                                   | Yes                            | No                                           |
+| REGISTRY_LOGIN           | The Azure Container Registry to log in to (for az acr login --name {name})                              | Yes                            | No                                           |
+| REGISTRY_PRERELEASE      | The path to the container prerelease registry (right now this isn't used)                               | No                             | No                                           |
+| REGISTRY_PUBLIC          | The path to the container release registry, used in --tag "{REGISTRY_PUBLIC}/{CONTROLLER_DOCKER_IMAGE}" | No                             | No                                           |
 
 ### Record/replay
 
@@ -39,6 +40,12 @@ Note that you must be `Owner` on the subscription to execute some tests in recor
 A few tests also need the `TEST_BILLING_ID` environment variable set to a valid Azure Billing ID when running in record mode.
 In replay mode this variable is never required. Note that the billing ID is redacted from all recording files so that
 the resulting file can be replayed by anybody, even somebody who does not know the Billing ID the test was recorded with.
+
+If your tenant requires tags by policy on every resource group, set `TEST_RESOURCE_GROUP_TAGS` to them as a
+JSON object (`{"Owner":"someone","Project":"something"}`) when running in record mode, and the tests will
+tag the resource groups they create.
+Those tags are redacted from the recording, so the resulting file replays in a tenant without the policy. In replay mode
+this variable is never required.
 
 Some Azure resources take longer to provision or delete than the default test timeout of 15m. To change the timeout,
 set `TIMEOUT` to a suitable value when running task. For example, to give your test a 60m timeout, use:

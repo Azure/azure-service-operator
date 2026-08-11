@@ -34,6 +34,14 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `apimanagement.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                     | ARM Version | CRD Version | Supported From | Sample                                                                                                                         |
+|------------------------------------------------------------------------------|-------------|-------------|----------------|--------------------------------------------------------------------------------------------------------------------------------|
+| [Diagnostic]({{< relref "/reference/apimanagement/v20240501#Diagnostic" >}}) | 2024-05-01  | v20240501   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/apimanagement/v20240501/v20240501_diagnostic.yaml) |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
@@ -284,6 +292,14 @@ These resource(s) are the latest versions available for use in the current relea
 
 To install the CRDs for these resources, your ASO configuration must include `containerinstance.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                 | ARM Version | CRD Version | Supported From | Sample                                                                                                                                 |
+|------------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| [ContainerGroup]({{< relref "/reference/containerinstance/v20211001#ContainerGroup" >}}) | 2021-10-01  | v20211001   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/containerinstance/v20211001/v20211001_containergroup.yaml) |
+
 ### Released
 
 These resource(s) are available for use in the current release of ASO. Different versions of a given resource reflect different versions of the Azure ARM API.
@@ -431,6 +447,15 @@ These resource(s) are available for use in the current release of ASO. Different
 
 To install the CRDs for these resources, your ASO configuration must include `documentdb.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
 
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                    | ARM Version | CRD Version | Supported From | Sample                                                                                                                                         |
+|---------------------------------------------------------------------------------------------|-------------|-------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| [CassandraCluster]({{< relref "/reference/documentdb/v20260315#CassandraCluster" >}})       | 2026-03-15  | v20260315   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20260315/v20260315_cassandracluster.yaml)    |
+| [CassandraDataCenter]({{< relref "/reference/documentdb/v20260315#CassandraDataCenter" >}}) | 2026-03-15  | v20260315   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/documentdb/cassandra/v20260315/v20260315_cassandradatacenter.yaml) |
+
 ### Latest Released Versions
 
 These resource(s) are the latest versions available for use in the current release of ASO.
@@ -559,6 +584,14 @@ These resource(s) are the latest versions available for use in the current relea
 <!-- Documentation generated by azure-service-operator-codegen. DO NOT EDIT. -->
 
 To install the CRDs for these resources, your ASO configuration must include `kusto.azure.com/*` as one of the configured CRD patterns. See [CRD Management in ASO](https://azure.github.io/azure-service-operator/guide/crd-management/) for details on doing this for both [Helm](https://azure.github.io/azure-service-operator/guide/crd-management/#helm) and [YAML](https://azure.github.io/azure-service-operator/guide/crd-management/#yaml) based installations.
+
+### Next Release
+
+Development of these new resources is complete and they will be available in the next release of ASO.
+
+| Resource                                                                                             | ARM Version | CRD Version | Supported From | Sample                                                                                                                                 |
+|------------------------------------------------------------------------------------------------------|-------------|-------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| [ClusterPrincipalAssignment]({{< relref "/reference/kusto/v20240413#ClusterPrincipalAssignment" >}}) | 2024-04-13  | v20240413   | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/kusto/v20240413/v20240413_clusterprincipalassignment.yaml) |
 
 ### Latest Released Versions
 

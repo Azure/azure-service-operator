@@ -202,9 +202,12 @@ import (
 	compute_v20250401s "github.com/Azure/azure-service-operator/v2/api/compute/v20250401/storage"
 	compute_v20250401w "github.com/Azure/azure-service-operator/v2/api/compute/v20250401/webhook"
 	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
-	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
-	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/storage"
-	containerinstance_v20211001w "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/webhook"
+	containerinstance_v1api20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001"
+	containerinstance_v1api20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/storage"
+	containerinstance_v1api20211001w "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1api20211001/webhook"
+	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v20211001"
+	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v20211001/storage"
+	containerinstance_v20211001w "github.com/Azure/azure-service-operator/v2/api/containerinstance/v20211001/webhook"
 	containerregistry_customizations "github.com/Azure/azure-service-operator/v2/api/containerregistry/customizations"
 	containerregistry_v20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901"
 	containerregistry_v20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1api20210901/storage"
@@ -313,6 +316,9 @@ import (
 	documentdb_v20251015 "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015"
 	documentdb_v20251015s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/storage"
 	documentdb_v20251015w "github.com/Azure/azure-service-operator/v2/api/documentdb/v20251015/webhook"
+	documentdb_v20260315 "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315"
+	documentdb_v20260315s "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315/storage"
+	documentdb_v20260315w "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315/webhook"
 	eventgrid_customizations "github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations"
 	eventgrid_v1api20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601"
 	eventgrid_v1api20200601s "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1api20200601/storage"
@@ -382,12 +388,15 @@ import (
 	kubernetesconfiguration_v20241101s "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20241101/storage"
 	kubernetesconfiguration_v20241101w "github.com/Azure/azure-service-operator/v2/api/kubernetesconfiguration/v1api20241101/webhook"
 	kusto_customizations "github.com/Azure/azure-service-operator/v2/api/kusto/customizations"
-	kusto_v20230815 "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815"
-	kusto_v20230815s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/storage"
-	kusto_v20230815w "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/webhook"
-	kusto_v20240413 "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413"
-	kusto_v20240413s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/storage"
-	kusto_v20240413w "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/webhook"
+	kusto_v1api20230815 "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815"
+	kusto_v1api20230815s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/storage"
+	kusto_v1api20230815w "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20230815/webhook"
+	kusto_v1api20240413 "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413"
+	kusto_v1api20240413s "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/storage"
+	kusto_v1api20240413w "github.com/Azure/azure-service-operator/v2/api/kusto/v1api20240413/webhook"
+	kusto_v20240413 "github.com/Azure/azure-service-operator/v2/api/kusto/v20240413"
+	kusto_v20240413s "github.com/Azure/azure-service-operator/v2/api/kusto/v20240413/storage"
+	kusto_v20240413w "github.com/Azure/azure-service-operator/v2/api/kusto/v20240413/webhook"
 	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
 	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701"
 	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1api20210701/storage"
@@ -692,6 +701,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 		},
 	})
+	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Diagnostic)})
 	result = append(result, &registration.StorageType{Obj: new(apimanagement_v20240501s.Group)})
 	result = append(result, &registration.StorageType{
 		Obj: new(apimanagement_v20240501s.Logger),
@@ -1635,7 +1645,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(documentdb_v20251015s.CassandraCluster),
+		Obj: new(documentdb_v20260315s.CassandraCluster),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.clientCertificates.pem",
@@ -1667,7 +1677,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.externalGossipCertificates.pem",
 						".spec.properties.initialCassandraAdminPassword",
 					},
-					&documentdb_v20251015s.CassandraClusterList{}),
+					&documentdb_v20260315s.CassandraClusterList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -1676,12 +1686,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.externalSeedNodes.ipAddressFromConfig",
 						".spec.properties.prometheusEndpoint.ipAddressFromConfig",
 					},
-					&documentdb_v20251015s.CassandraClusterList{}),
+					&documentdb_v20260315s.CassandraClusterList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(documentdb_v20251015s.CassandraDataCenter),
+		Obj: new(documentdb_v20260315s.CassandraDataCenter),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.properties.backupStorageCustomerKeyUriFromConfig",
@@ -1708,7 +1718,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.authenticationMethodLdapProperties.serverCertificates.pem",
 						".spec.properties.authenticationMethodLdapProperties.serviceUserPassword",
 					},
-					&documentdb_v20251015s.CassandraDataCenterList{}),
+					&documentdb_v20260315s.CassandraDataCenterList{}),
 			},
 			{
 				Type: &v1.ConfigMap{},
@@ -1717,7 +1727,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.properties.backupStorageCustomerKeyUriFromConfig",
 						".spec.properties.privateEndpointIpAddressFromConfig",
 					},
-					&documentdb_v20251015s.CassandraDataCenterList{}),
+					&documentdb_v20260315s.CassandraDataCenterList{}),
 			},
 		},
 	})
@@ -1901,7 +1911,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(kusto_v20240413s.Cluster),
+		Obj: new(kusto_v1api20240413s.Cluster),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.virtualClusterGraduationProperties",
@@ -1915,14 +1925,14 @@ func getKnownStorageTypes() []*registration.StorageType {
 					[]string{
 						".spec.virtualClusterGraduationProperties",
 					},
-					&kusto_v20240413s.ClusterList{}),
+					&kusto_v1api20240413s.ClusterList{}),
 			},
 		},
 	})
-	result = append(result, &registration.StorageType{Obj: new(kusto_v20240413s.DataConnection)})
-	result = append(result, &registration.StorageType{Obj: new(kusto_v20240413s.Database)})
+	result = append(result, &registration.StorageType{Obj: new(kusto_v1api20240413s.DataConnection)})
+	result = append(result, &registration.StorageType{Obj: new(kusto_v1api20240413s.Database)})
 	result = append(result, &registration.StorageType{
-		Obj: new(kusto_v20240413s.PrincipalAssignment),
+		Obj: new(kusto_v1api20240413s.PrincipalAssignment),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.principalIdFromConfig",
@@ -1941,7 +1951,31 @@ func getKnownStorageTypes() []*registration.StorageType {
 						".spec.principalIdFromConfig",
 						".spec.tenantIdFromConfig",
 					},
-					&kusto_v20240413s.PrincipalAssignmentList{}),
+					&kusto_v1api20240413s.PrincipalAssignmentList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(kusto_v20240413s.ClusterPrincipalAssignment),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.principalIdFromConfig",
+				Func: indexKustoClusterPrincipalAssignmentPrincipalIdFromConfig,
+			},
+			{
+				Key:  ".spec.tenantIdFromConfig",
+				Func: indexKustoClusterPrincipalAssignmentTenantIdFromConfig,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Type: &v1.ConfigMap{},
+				MakeEventHandler: watchConfigMapsFactory(
+					[]string{
+						".spec.principalIdFromConfig",
+						".spec.tenantIdFromConfig",
+					},
+					&kusto_v20240413s.ClusterPrincipalAssignmentList{}),
 			},
 		},
 	})
@@ -3761,6 +3795,11 @@ func getKnownTypes() []*registration.KnownType {
 			Validator: &apimanagement_v20240501w.Certificate{},
 		},
 		&registration.KnownType{
+			Obj:       new(apimanagement_v20240501.Diagnostic),
+			Defaulter: &apimanagement_v20240501w.Diagnostic{},
+			Validator: &apimanagement_v20240501w.Diagnostic{},
+		},
+		&registration.KnownType{
 			Obj:       new(apimanagement_v20240501.Group),
 			Defaulter: &apimanagement_v20240501w.Group{},
 			Validator: &apimanagement_v20240501w.Group{},
@@ -3851,6 +3890,7 @@ func getKnownTypes() []*registration.KnownType {
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.AuthorizationProvidersAuthorizationsAccessPolicy)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Backend)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Certificate)},
+		&registration.KnownType{Obj: new(apimanagement_v20240501s.Diagnostic)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Group)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.Logger)},
 		&registration.KnownType{Obj: new(apimanagement_v20240501s.NamedValue)},
@@ -4876,6 +4916,12 @@ func getKnownTypes() []*registration.KnownType {
 	})
 	result = append(result, &registration.KnownType{Obj: new(compute_v20250401s.CapacityReservation)}, &registration.KnownType{Obj: new(compute_v20250401s.CapacityReservationGroup)})
 	result = append(result, &registration.KnownType{
+		Obj:       new(containerinstance_v1api20211001.ContainerGroup),
+		Defaulter: &containerinstance_v1api20211001w.ContainerGroup{},
+		Validator: &containerinstance_v1api20211001w.ContainerGroup{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(containerinstance_v1api20211001s.ContainerGroup)})
+	result = append(result, &registration.KnownType{
 		Obj:       new(containerinstance_v20211001.ContainerGroup),
 		Defaulter: &containerinstance_v20211001w.ContainerGroup{},
 		Validator: &containerinstance_v20211001w.ContainerGroup{},
@@ -5843,6 +5889,16 @@ func getKnownTypes() []*registration.KnownType {
 		Validator: &documentdb_v20251015w.CassandraDataCenter{},
 	})
 	result = append(result, &registration.KnownType{Obj: new(documentdb_v20251015s.CassandraCluster)}, &registration.KnownType{Obj: new(documentdb_v20251015s.CassandraDataCenter)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(documentdb_v20260315.CassandraCluster),
+		Defaulter: &documentdb_v20260315w.CassandraCluster{},
+		Validator: &documentdb_v20260315w.CassandraCluster{},
+	}, &registration.KnownType{
+		Obj:       new(documentdb_v20260315.CassandraDataCenter),
+		Defaulter: &documentdb_v20260315w.CassandraDataCenter{},
+		Validator: &documentdb_v20260315w.CassandraDataCenter{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(documentdb_v20260315s.CassandraCluster)}, &registration.KnownType{Obj: new(documentdb_v20260315s.CassandraDataCenter)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -6116,53 +6172,59 @@ func getKnownTypes() []*registration.KnownType {
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(kusto_v20230815.Cluster),
-			Defaulter: &kusto_v20230815w.Cluster{},
-			Validator: &kusto_v20230815w.Cluster{},
+			Obj:       new(kusto_v1api20230815.Cluster),
+			Defaulter: &kusto_v1api20230815w.Cluster{},
+			Validator: &kusto_v1api20230815w.Cluster{},
 		},
 		&registration.KnownType{
-			Obj:       new(kusto_v20230815.DataConnection),
-			Defaulter: &kusto_v20230815w.DataConnection{},
-			Validator: &kusto_v20230815w.DataConnection{},
+			Obj:       new(kusto_v1api20230815.DataConnection),
+			Defaulter: &kusto_v1api20230815w.DataConnection{},
+			Validator: &kusto_v1api20230815w.DataConnection{},
 		},
 		&registration.KnownType{
-			Obj:       new(kusto_v20230815.Database),
-			Defaulter: &kusto_v20230815w.Database{},
-			Validator: &kusto_v20230815w.Database{},
+			Obj:       new(kusto_v1api20230815.Database),
+			Defaulter: &kusto_v1api20230815w.Database{},
+			Validator: &kusto_v1api20230815w.Database{},
 		})
 	result = append(
 		result,
-		&registration.KnownType{Obj: new(kusto_v20230815s.Cluster)},
-		&registration.KnownType{Obj: new(kusto_v20230815s.DataConnection)},
-		&registration.KnownType{Obj: new(kusto_v20230815s.Database)})
+		&registration.KnownType{Obj: new(kusto_v1api20230815s.Cluster)},
+		&registration.KnownType{Obj: new(kusto_v1api20230815s.DataConnection)},
+		&registration.KnownType{Obj: new(kusto_v1api20230815s.Database)})
 	result = append(
 		result,
 		&registration.KnownType{
-			Obj:       new(kusto_v20240413.Cluster),
-			Defaulter: &kusto_v20240413w.Cluster{},
-			Validator: &kusto_v20240413w.Cluster{},
+			Obj:       new(kusto_v1api20240413.Cluster),
+			Defaulter: &kusto_v1api20240413w.Cluster{},
+			Validator: &kusto_v1api20240413w.Cluster{},
 		},
 		&registration.KnownType{
-			Obj:       new(kusto_v20240413.DataConnection),
-			Defaulter: &kusto_v20240413w.DataConnection{},
-			Validator: &kusto_v20240413w.DataConnection{},
+			Obj:       new(kusto_v1api20240413.DataConnection),
+			Defaulter: &kusto_v1api20240413w.DataConnection{},
+			Validator: &kusto_v1api20240413w.DataConnection{},
 		},
 		&registration.KnownType{
-			Obj:       new(kusto_v20240413.Database),
-			Defaulter: &kusto_v20240413w.Database{},
-			Validator: &kusto_v20240413w.Database{},
+			Obj:       new(kusto_v1api20240413.Database),
+			Defaulter: &kusto_v1api20240413w.Database{},
+			Validator: &kusto_v1api20240413w.Database{},
 		},
 		&registration.KnownType{
-			Obj:       new(kusto_v20240413.PrincipalAssignment),
-			Defaulter: &kusto_v20240413w.PrincipalAssignment{},
-			Validator: &kusto_v20240413w.PrincipalAssignment{},
+			Obj:       new(kusto_v1api20240413.PrincipalAssignment),
+			Defaulter: &kusto_v1api20240413w.PrincipalAssignment{},
+			Validator: &kusto_v1api20240413w.PrincipalAssignment{},
 		})
 	result = append(
 		result,
-		&registration.KnownType{Obj: new(kusto_v20240413s.Cluster)},
-		&registration.KnownType{Obj: new(kusto_v20240413s.DataConnection)},
-		&registration.KnownType{Obj: new(kusto_v20240413s.Database)},
-		&registration.KnownType{Obj: new(kusto_v20240413s.PrincipalAssignment)})
+		&registration.KnownType{Obj: new(kusto_v1api20240413s.Cluster)},
+		&registration.KnownType{Obj: new(kusto_v1api20240413s.DataConnection)},
+		&registration.KnownType{Obj: new(kusto_v1api20240413s.Database)},
+		&registration.KnownType{Obj: new(kusto_v1api20240413s.PrincipalAssignment)})
+	result = append(result, &registration.KnownType{
+		Obj:       new(kusto_v20240413.ClusterPrincipalAssignment),
+		Defaulter: &kusto_v20240413w.ClusterPrincipalAssignment{},
+		Validator: &kusto_v20240413w.ClusterPrincipalAssignment{},
+	})
+	result = append(result, &registration.KnownType{Obj: new(kusto_v20240413s.ClusterPrincipalAssignment)})
 	result = append(
 		result,
 		&registration.KnownType{
@@ -8230,6 +8292,8 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20241101s.AddToScheme(scheme)
 	_ = compute_v20250401.AddToScheme(scheme)
 	_ = compute_v20250401s.AddToScheme(scheme)
+	_ = containerinstance_v1api20211001.AddToScheme(scheme)
+	_ = containerinstance_v1api20211001s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
 	_ = containerinstance_v20211001s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
@@ -8298,6 +8362,8 @@ func createScheme() *runtime.Scheme {
 	_ = documentdb_v20240815s.AddToScheme(scheme)
 	_ = documentdb_v20251015.AddToScheme(scheme)
 	_ = documentdb_v20251015s.AddToScheme(scheme)
+	_ = documentdb_v20260315.AddToScheme(scheme)
+	_ = documentdb_v20260315s.AddToScheme(scheme)
 	_ = eventgrid_v1api20200601.AddToScheme(scheme)
 	_ = eventgrid_v1api20200601s.AddToScheme(scheme)
 	_ = eventgrid_v20200601.AddToScheme(scheme)
@@ -8340,8 +8406,10 @@ func createScheme() *runtime.Scheme {
 	_ = kubernetesconfiguration_v20230501s.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20241101.AddToScheme(scheme)
 	_ = kubernetesconfiguration_v20241101s.AddToScheme(scheme)
-	_ = kusto_v20230815.AddToScheme(scheme)
-	_ = kusto_v20230815s.AddToScheme(scheme)
+	_ = kusto_v1api20230815.AddToScheme(scheme)
+	_ = kusto_v1api20230815s.AddToScheme(scheme)
+	_ = kusto_v1api20240413.AddToScheme(scheme)
+	_ = kusto_v1api20240413s.AddToScheme(scheme)
 	_ = kusto_v20240413.AddToScheme(scheme)
 	_ = kusto_v20240413s.AddToScheme(scheme)
 	_ = machinelearningservices_v20210701.AddToScheme(scheme)
@@ -8459,6 +8527,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &apimanagement_customizations.AuthorizationProvidersAuthorizationsAccessPolicyExtension{})
 	result = append(result, &apimanagement_customizations.BackendExtension{})
 	result = append(result, &apimanagement_customizations.CertificateExtension{})
+	result = append(result, &apimanagement_customizations.DiagnosticExtension{})
 	result = append(result, &apimanagement_customizations.GroupExtension{})
 	result = append(result, &apimanagement_customizations.LoggerExtension{})
 	result = append(result, &apimanagement_customizations.NamedValueExtension{})
@@ -8603,6 +8672,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &kubernetesconfiguration_customizations.ExtensionExtension{})
 	result = append(result, &kubernetesconfiguration_customizations.FluxConfigurationExtension{})
 	result = append(result, &kusto_customizations.ClusterExtension{})
+	result = append(result, &kusto_customizations.ClusterPrincipalAssignmentExtension{})
 	result = append(result, &kusto_customizations.DataConnectionExtension{})
 	result = append(result, &kusto_customizations.DatabaseExtension{})
 	result = append(result, &kusto_customizations.PrincipalAssignmentExtension{})
@@ -10102,9 +10172,9 @@ func indexDevicesIotHubStorageEndpointsConnectionString(rawObj client.Object) []
 	return result
 }
 
-// indexDocumentdbCassandraClusterClientCertificatesPem an index function for documentdb_v20251015s.CassandraCluster .spec.properties.clientCertificates.pem
+// indexDocumentdbCassandraClusterClientCertificatesPem an index function for documentdb_v20260315s.CassandraCluster .spec.properties.clientCertificates.pem
 func indexDocumentdbCassandraClusterClientCertificatesPem(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraCluster)
 	if !ok {
 		return nil
 	}
@@ -10121,9 +10191,9 @@ func indexDocumentdbCassandraClusterClientCertificatesPem(rawObj client.Object) 
 	return result
 }
 
-// indexDocumentdbCassandraClusterExternalGossipCertificatesPem an index function for documentdb_v20251015s.CassandraCluster .spec.properties.externalGossipCertificates.pem
+// indexDocumentdbCassandraClusterExternalGossipCertificatesPem an index function for documentdb_v20260315s.CassandraCluster .spec.properties.externalGossipCertificates.pem
 func indexDocumentdbCassandraClusterExternalGossipCertificatesPem(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraCluster)
 	if !ok {
 		return nil
 	}
@@ -10140,9 +10210,9 @@ func indexDocumentdbCassandraClusterExternalGossipCertificatesPem(rawObj client.
 	return result
 }
 
-// indexDocumentdbCassandraClusterExternalSeedNodesIpAddressFromConfig an index function for documentdb_v20251015s.CassandraCluster .spec.properties.externalSeedNodes.ipAddressFromConfig
+// indexDocumentdbCassandraClusterExternalSeedNodesIpAddressFromConfig an index function for documentdb_v20260315s.CassandraCluster .spec.properties.externalSeedNodes.ipAddressFromConfig
 func indexDocumentdbCassandraClusterExternalSeedNodesIpAddressFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraCluster)
 	if !ok {
 		return nil
 	}
@@ -10159,9 +10229,9 @@ func indexDocumentdbCassandraClusterExternalSeedNodesIpAddressFromConfig(rawObj 
 	return result
 }
 
-// indexDocumentdbCassandraClusterInitialCassandraAdminPassword an index function for documentdb_v20251015s.CassandraCluster .spec.properties.initialCassandraAdminPassword
+// indexDocumentdbCassandraClusterInitialCassandraAdminPassword an index function for documentdb_v20260315s.CassandraCluster .spec.properties.initialCassandraAdminPassword
 func indexDocumentdbCassandraClusterInitialCassandraAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraCluster)
 	if !ok {
 		return nil
 	}
@@ -10174,9 +10244,9 @@ func indexDocumentdbCassandraClusterInitialCassandraAdminPassword(rawObj client.
 	return obj.Spec.Properties.InitialCassandraAdminPassword.Index()
 }
 
-// indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig an index function for documentdb_v20251015s.CassandraCluster .spec.properties.prometheusEndpoint.ipAddressFromConfig
+// indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig an index function for documentdb_v20260315s.CassandraCluster .spec.properties.prometheusEndpoint.ipAddressFromConfig
 func indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraCluster)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraCluster)
 	if !ok {
 		return nil
 	}
@@ -10192,9 +10262,9 @@ func indexDocumentdbCassandraClusterPrometheusEndpointIpAddressFromConfig(rawObj
 	return obj.Spec.Properties.PrometheusEndpoint.IpAddressFromConfig.Index()
 }
 
-// indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.backupStorageCustomerKeyUriFromConfig
+// indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig an index function for documentdb_v20260315s.CassandraDataCenter .spec.properties.backupStorageCustomerKeyUriFromConfig
 func indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraDataCenter)
 	if !ok {
 		return nil
 	}
@@ -10207,9 +10277,9 @@ func indexDocumentdbCassandraDataCenterBackupStorageCustomerKeyUriFromConfig(raw
 	return obj.Spec.Properties.BackupStorageCustomerKeyUriFromConfig.Index()
 }
 
-// indexDocumentdbCassandraDataCenterPem an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serverCertificates.pem
+// indexDocumentdbCassandraDataCenterPem an index function for documentdb_v20260315s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serverCertificates.pem
 func indexDocumentdbCassandraDataCenterPem(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraDataCenter)
 	if !ok {
 		return nil
 	}
@@ -10229,9 +10299,9 @@ func indexDocumentdbCassandraDataCenterPem(rawObj client.Object) []string {
 	return result
 }
 
-// indexDocumentdbCassandraDataCenterPrivateEndpointIpAddressFromConfig an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.privateEndpointIpAddressFromConfig
+// indexDocumentdbCassandraDataCenterPrivateEndpointIpAddressFromConfig an index function for documentdb_v20260315s.CassandraDataCenter .spec.properties.privateEndpointIpAddressFromConfig
 func indexDocumentdbCassandraDataCenterPrivateEndpointIpAddressFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraDataCenter)
 	if !ok {
 		return nil
 	}
@@ -10244,9 +10314,9 @@ func indexDocumentdbCassandraDataCenterPrivateEndpointIpAddressFromConfig(rawObj
 	return obj.Spec.Properties.PrivateEndpointIpAddressFromConfig.Index()
 }
 
-// indexDocumentdbCassandraDataCenterServiceUserPassword an index function for documentdb_v20251015s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serviceUserPassword
+// indexDocumentdbCassandraDataCenterServiceUserPassword an index function for documentdb_v20260315s.CassandraDataCenter .spec.properties.authenticationMethodLdapProperties.serviceUserPassword
 func indexDocumentdbCassandraDataCenterServiceUserPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*documentdb_v20251015s.CassandraDataCenter)
+	obj, ok := rawObj.(*documentdb_v20260315s.CassandraDataCenter)
 	if !ok {
 		return nil
 	}
@@ -10622,21 +10692,9 @@ func indexKubernetesconfigurationFluxConfigurationTlsConfigPrivateKey(rawObj cli
 	return obj.Spec.OciRepository.TlsConfig.PrivateKey.Index()
 }
 
-// indexKustoClusterVirtualClusterGraduationProperties an index function for kusto_v20240413s.Cluster .spec.virtualClusterGraduationProperties
-func indexKustoClusterVirtualClusterGraduationProperties(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kusto_v20240413s.Cluster)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.VirtualClusterGraduationProperties == nil {
-		return nil
-	}
-	return obj.Spec.VirtualClusterGraduationProperties.Index()
-}
-
-// indexKustoPrincipalAssignmentPrincipalIdFromConfig an index function for kusto_v20240413s.PrincipalAssignment .spec.principalIdFromConfig
-func indexKustoPrincipalAssignmentPrincipalIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kusto_v20240413s.PrincipalAssignment)
+// indexKustoClusterPrincipalAssignmentPrincipalIdFromConfig an index function for kusto_v20240413s.ClusterPrincipalAssignment .spec.principalIdFromConfig
+func indexKustoClusterPrincipalAssignmentPrincipalIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kusto_v20240413s.ClusterPrincipalAssignment)
 	if !ok {
 		return nil
 	}
@@ -10646,9 +10704,45 @@ func indexKustoPrincipalAssignmentPrincipalIdFromConfig(rawObj client.Object) []
 	return obj.Spec.PrincipalIdFromConfig.Index()
 }
 
-// indexKustoPrincipalAssignmentTenantIdFromConfig an index function for kusto_v20240413s.PrincipalAssignment .spec.tenantIdFromConfig
+// indexKustoClusterPrincipalAssignmentTenantIdFromConfig an index function for kusto_v20240413s.ClusterPrincipalAssignment .spec.tenantIdFromConfig
+func indexKustoClusterPrincipalAssignmentTenantIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kusto_v20240413s.ClusterPrincipalAssignment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.TenantIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.TenantIdFromConfig.Index()
+}
+
+// indexKustoClusterVirtualClusterGraduationProperties an index function for kusto_v1api20240413s.Cluster .spec.virtualClusterGraduationProperties
+func indexKustoClusterVirtualClusterGraduationProperties(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kusto_v1api20240413s.Cluster)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.VirtualClusterGraduationProperties == nil {
+		return nil
+	}
+	return obj.Spec.VirtualClusterGraduationProperties.Index()
+}
+
+// indexKustoPrincipalAssignmentPrincipalIdFromConfig an index function for kusto_v1api20240413s.PrincipalAssignment .spec.principalIdFromConfig
+func indexKustoPrincipalAssignmentPrincipalIdFromConfig(rawObj client.Object) []string {
+	obj, ok := rawObj.(*kusto_v1api20240413s.PrincipalAssignment)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.PrincipalIdFromConfig == nil {
+		return nil
+	}
+	return obj.Spec.PrincipalIdFromConfig.Index()
+}
+
+// indexKustoPrincipalAssignmentTenantIdFromConfig an index function for kusto_v1api20240413s.PrincipalAssignment .spec.tenantIdFromConfig
 func indexKustoPrincipalAssignmentTenantIdFromConfig(rawObj client.Object) []string {
-	obj, ok := rawObj.(*kusto_v20240413s.PrincipalAssignment)
+	obj, ok := rawObj.(*kusto_v1api20240413s.PrincipalAssignment)
 	if !ok {
 		return nil
 	}

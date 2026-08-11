@@ -1,0 +1,23 @@
+apiVersion: kusto.azure.com/v1api20240413
+kind: Cluster
+metadata:
+  name: aso-sample-cluster
+  namespace: default
+spec:
+  location: westus2
+  owner:
+    name: aso-sample-rg
+  sku:
+    capacity: 2
+    name: Standard_D13_v2
+    tier: Standard
+  identity:
+    type: SystemAssigned
+  operatorSpec:
+    configMaps:
+      clusterPrincipalId:
+        name: kusto-outputs
+        key: clusterPrincipalId
+      clusterTenantId:
+        name: kusto-outputs
+        key: clusterTenantId

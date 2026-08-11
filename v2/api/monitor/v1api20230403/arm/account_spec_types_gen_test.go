@@ -9,11 +9,7 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
@@ -24,29 +20,23 @@ func Test_Account_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Account_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAccount_Spec, Account_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAccount_Spec)
 }
 
 // RunJSONSerializationTestForAccount_Spec runs a test to see if a specific instance of Account_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForAccount_Spec(subject Account_Spec) string {
+func RunJSONSerializationTestForAccount_Spec(t *rapid.T) {
+	subject := Account_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual Account_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -55,49 +45,36 @@ func RunJSONSerializationTestForAccount_Spec(subject Account_Spec) string {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of Account_Spec instances for property testing - lazily instantiated by Account_SpecGenerator()
-var account_SpecGenerator gopter.Gen
+var account_SpecGenerator *rapid.Generator[Account_Spec]
 
 // Account_SpecGenerator returns a generator of Account_Spec instances for property testing.
-// We first initialize account_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func Account_SpecGenerator() gopter.Gen {
+func Account_SpecGenerator() *rapid.Generator[Account_Spec] {
 	if account_SpecGenerator != nil {
 		return account_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAccount_Spec(generators)
-	account_SpecGenerator = gen.Struct(reflect.TypeOf(Account_Spec{}), generators)
+	location := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	properties := rapid.Ptr(AzureMonitorWorkspaceGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAccount_Spec(generators)
-	AddRelatedPropertyGeneratorsForAccount_Spec(generators)
-	account_SpecGenerator = gen.Struct(reflect.TypeOf(Account_Spec{}), generators)
+	account_SpecGenerator = rapid.Custom(func(t *rapid.T) Account_Spec {
+		var result Account_Spec
+		result.Location = location.Draw(t, "Location")
+		result.Name = name.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return account_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAccount_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAccount_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForAccount_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAccount_Spec(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AzureMonitorWorkspaceGenerator())
 }
 
 func Test_AzureMonitorWorkspace_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -107,29 +84,23 @@ func Test_AzureMonitorWorkspace_WhenSerializedToJson_DeserializesAsEqual(t *test
 		return
 	}
 
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AzureMonitorWorkspace via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAzureMonitorWorkspace, AzureMonitorWorkspaceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+	rapid.Check(t, RunJSONSerializationTestForAzureMonitorWorkspace)
 }
 
 // RunJSONSerializationTestForAzureMonitorWorkspace runs a test to see if a specific instance of AzureMonitorWorkspace round trips to JSON and back losslessly
-func RunJSONSerializationTestForAzureMonitorWorkspace(subject AzureMonitorWorkspace) string {
+func RunJSONSerializationTestForAzureMonitorWorkspace(t *rapid.T) {
+	subject := AzureMonitorWorkspaceGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual AzureMonitorWorkspace
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -138,30 +109,27 @@ func RunJSONSerializationTestForAzureMonitorWorkspace(subject AzureMonitorWorksp
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of AzureMonitorWorkspace instances for property testing - lazily instantiated by
 // AzureMonitorWorkspaceGenerator()
-var azureMonitorWorkspaceGenerator gopter.Gen
+var azureMonitorWorkspaceGenerator *rapid.Generator[AzureMonitorWorkspace]
 
 // AzureMonitorWorkspaceGenerator returns a generator of AzureMonitorWorkspace instances for property testing.
-func AzureMonitorWorkspaceGenerator() gopter.Gen {
+func AzureMonitorWorkspaceGenerator() *rapid.Generator[AzureMonitorWorkspace] {
 	if azureMonitorWorkspaceGenerator != nil {
 		return azureMonitorWorkspaceGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAzureMonitorWorkspace(generators)
-	azureMonitorWorkspaceGenerator = gen.Struct(reflect.TypeOf(AzureMonitorWorkspace{}), generators)
+	publicNetworkAccess := rapid.Ptr(rapid.SampledFrom([]AzureMonitorWorkspace_PublicNetworkAccess{AzureMonitorWorkspace_PublicNetworkAccess_Disabled, AzureMonitorWorkspace_PublicNetworkAccess_Enabled}), true)
+
+	azureMonitorWorkspaceGenerator = rapid.Custom(func(t *rapid.T) AzureMonitorWorkspace {
+		var result AzureMonitorWorkspace
+		result.PublicNetworkAccess = publicNetworkAccess.Draw(t, "PublicNetworkAccess")
+		return result
+	})
 
 	return azureMonitorWorkspaceGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAzureMonitorWorkspace is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAzureMonitorWorkspace(gens map[string]gopter.Gen) {
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(AzureMonitorWorkspace_PublicNetworkAccess_Disabled, AzureMonitorWorkspace_PublicNetworkAccess_Enabled))
 }

@@ -1,0 +1,31 @@
+apiVersion: documentdb.azure.com/v20260315
+kind: CassandraCluster
+metadata:
+  name: aso-cassandra-cluster
+  namespace: default
+spec:
+  azureName: aso-cassandra-cluster
+  location: eastus
+  owner:
+    name: aso-sample-rg
+  properties:
+    cassandraVersion: "4.0"
+    delegatedManagementSubnetReference:
+      group: network.azure.com
+      kind: VirtualNetworksSubnet
+      name: cassandra-mgmt-subnet
+    initialCassandraAdminPassword:
+      name: cassandra-admin-secret
+      key: password
+    repairEnabled: true
+    cassandraAuditLoggingEnabled: false
+    # Cassandra extensions to install on the cluster, new in 2026-03-15.
+    extensions:
+      - cassandra-lucene-index
+    # Which keyspaces are auto-replicated to data centers joining the cluster, new in 2026-03-15.
+    autoReplicate: SystemKeyspaces
+    # How the nodes react to Azure scheduled events, new in 2026-03-15.
+    scheduledEventStrategy: StopByRack
+  tags:
+    environment: dev
+    project: sample

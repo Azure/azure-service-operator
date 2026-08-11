@@ -1,0 +1,20 @@
+apiVersion: authorization.azure.com/v1api20220401
+kind: RoleAssignment
+metadata:
+  name: cassandra-dc-assignment
+  namespace: default
+  annotations: 
+    # Doesn't need to be directly delected, will naturally be deleted when the subnet is deleted.
+    serviceoperator.azure.com/reconcile-policy: detach-on-delete
+spec:
+  owner:
+    name: cassandra-dc-subnet
+    group: network.azure.com
+    kind: VirtualNetworksSubnet
+  # This is the object ID within our subscriptino that matches PrincipleId a232010e-820c-4083-83bb-3ace5fc29d0b
+  # Obtained by running az ad sp show --id a232010e-820c-4083-83bb-3ace5fc29d0b --query id -o tsv
+  principalId: e5007d2c-4b13-4a74-9b6a-605d99f03501
+  principalType: ServicePrincipal
+  roleDefinitionReference:
+    # ASO allows you to specify global roles by name instead of the published GUID. Lookup is case insensitive.
+    wellKnownName: Network Contributor
