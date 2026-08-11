@@ -11,9 +11,9 @@ To install the CRDs for these resources, your ASO configuration must include `da
 
 Development of these new resources is complete and they will be available in the next release of ASO.
 
-| Resource                  | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                                        |
-|---------------------------|--------------------|------------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| SharedPrivateLinkResource | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_sharedprivatelinkresource.yaml) |
-| Target                    | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_target.yaml)                    |
-| Watcher                   | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_watcher.yaml)                   |
+| Resource          | ARM Version        | CRD Version      | Supported From | Sample                                                                                                                                                |
+|-------------------|--------------------|------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| SharedPrivateLink | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_sharedprivatelink.yaml) |
+| Target            | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_target.yaml)            |
+| Watcher           | 2024-10-01-preview | v20241001preview | v2.21.0        | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/samples/databasewatcher/v20241001preview/v20241001preview_watcher.yaml)           |
 
