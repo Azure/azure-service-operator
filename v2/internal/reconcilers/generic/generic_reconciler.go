@@ -460,7 +460,8 @@ func (gr *GenericReconciler) namespaceReconcilePolicy(
 	namespaceObject, err := gr.KubeClient.GetObject(
 		ctx,
 		types.NamespacedName{Name: namespace},
-		schema.GroupVersionKind{Group: "", Version: "v1", Kind: "Namespace"})
+		schema.GroupVersionKind{Group: "", Version: "v1", Kind: "Namespace"},
+	)
 	if err != nil {
 		log.V(Verbose).Info("Error while retrieving namespace object", "error", err)
 		return "", false
