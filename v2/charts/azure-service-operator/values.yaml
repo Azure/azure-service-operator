@@ -149,6 +149,23 @@ installCRDs: true
 # See https://azure.github.io/azure-service-operator/guide/crd-management for more details.
 crdPattern: ""
 
+# crdLabels is a comma-delimited (or semicolon-delimited) string, or a list of key=value strings, containing
+# additional labels to apply to all CRDs managed by ASO.
+# Setting this has no effect if installCRDs is false.
+# Existing labels not managed by ASO are preserved when CRDs are upgraded. Note that removing a label from this
+# list does not remove it from CRDs already in the cluster.
+# Labels reserved by ASO itself (app.kubernetes.io/name, app.kubernetes.io/version and any label prefixed with
+# serviceoperator.azure.com/) cannot be set here and will be rejected at startup.
+# Example: "cluster.x-k8s.io/provider=infrastructure-azure"
+# Example: "cluster.x-k8s.io/provider=infrastructure-azure,environment=production" would apply both labels.
+# Example: "cluster.x-k8s.io/provider=infrastructure-azure;environment=production" is equivalent, using the
+# semicolon delimiter also accepted by crdPattern.
+# Example as a list:
+#   crdLabels:
+#     - cluster.x-k8s.io/provider=infrastructure-azure
+#     - environment=production
+crdLabels: ""
+
 useJSONLogging: false
 
 # deploymentAnnotations contain the deployment annotations for Azure Service Operator

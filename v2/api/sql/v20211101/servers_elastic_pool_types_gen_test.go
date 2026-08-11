@@ -5,7 +5,8 @@ package v20211101
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -40,7 +41,7 @@ func RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings(subject ElasticP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ElasticPoolPerDatabaseSettings
+	var other v20211101s.ElasticPoolPerDatabaseSettings
 	err := copied.AssignProperties_To_ElasticPoolPerDatabaseSettings(&other)
 	if err != nil {
 		return err.Error()
@@ -154,7 +155,7 @@ func RunPropertyAssignmentTestForElasticPoolPerDatabaseSettings_STATUS(subject E
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ElasticPoolPerDatabaseSettings_STATUS
+	var other v20211101s.ElasticPoolPerDatabaseSettings_STATUS
 	err := copied.AssignProperties_To_ElasticPoolPerDatabaseSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -269,7 +270,7 @@ func RunResourceConversionTestForServersElasticPool(subject ServersElasticPool) 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.ServersElasticPool
+	var hub v20250101s.ServersElasticPool
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -316,7 +317,7 @@ func RunPropertyAssignmentTestForServersElasticPool(subject ServersElasticPool) 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersElasticPool
+	var other v20211101s.ServersElasticPool
 	err := copied.AssignProperties_To_ServersElasticPool(&other)
 	if err != nil {
 		return err.Error()
@@ -429,7 +430,7 @@ func RunPropertyAssignmentTestForServersElasticPoolOperatorSpec(subject ServersE
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersElasticPoolOperatorSpec
+	var other v20211101s.ServersElasticPoolOperatorSpec
 	err := copied.AssignProperties_To_ServersElasticPoolOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -536,7 +537,7 @@ func RunPropertyAssignmentTestForServersElasticPool_STATUS(subject ServersElasti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersElasticPool_STATUS
+	var other v20211101s.ServersElasticPool_STATUS
 	err := copied.AssignProperties_To_ServersElasticPool_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -679,7 +680,7 @@ func RunPropertyAssignmentTestForServersElasticPool_Spec(subject ServersElasticP
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.ServersElasticPool_Spec
+	var other v20211101s.ServersElasticPool_Spec
 	err := copied.AssignProperties_To_ServersElasticPool_Spec(&other)
 	if err != nil {
 		return err.Error()

@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_ServersEncryptionProtector_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersEncryptionProtector to hub returns original",
+		prop.ForAll(RunResourceConversionTestForServersEncryptionProtector, ServersEncryptionProtectorGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForServersEncryptionProtector tests if a specific instance of ServersEncryptionProtector round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForServersEncryptionProtector(subject ServersEncryptionProtector) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.ServersEncryptionProtector
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual ServersEncryptionProtector
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_ServersEncryptionProtector_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersEncryptionProtector to ServersEncryptionProtector via AssignProperties_To_ServersEncryptionProtector & AssignProperties_From_ServersEncryptionProtector returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersEncryptionProtector, ServersEncryptionProtectorGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersEncryptionProtector tests if a specific instance of ServersEncryptionProtector can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersEncryptionProtector(subject ServersEncryptionProtector) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersEncryptionProtector
+	err := copied.AssignProperties_To_ServersEncryptionProtector(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersEncryptionProtector
+	err = actual.AssignProperties_From_ServersEncryptionProtector(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_ServersEncryptionProtector_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -84,6 +180,53 @@ func AddRelatedPropertyGeneratorsForServersEncryptionProtector(gens map[string]g
 	gens["Status"] = ServersEncryptionProtector_STATUSGenerator()
 }
 
+func Test_ServersEncryptionProtectorOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersEncryptionProtectorOperatorSpec to ServersEncryptionProtectorOperatorSpec via AssignProperties_To_ServersEncryptionProtectorOperatorSpec & AssignProperties_From_ServersEncryptionProtectorOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersEncryptionProtectorOperatorSpec, ServersEncryptionProtectorOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersEncryptionProtectorOperatorSpec tests if a specific instance of ServersEncryptionProtectorOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersEncryptionProtectorOperatorSpec(subject ServersEncryptionProtectorOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersEncryptionProtectorOperatorSpec
+	err := copied.AssignProperties_To_ServersEncryptionProtectorOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersEncryptionProtectorOperatorSpec
+	err = actual.AssignProperties_From_ServersEncryptionProtectorOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_ServersEncryptionProtectorOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -142,6 +285,53 @@ func ServersEncryptionProtectorOperatorSpecGenerator() gopter.Gen {
 	serversEncryptionProtectorOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ServersEncryptionProtectorOperatorSpec{}), generators)
 
 	return serversEncryptionProtectorOperatorSpecGenerator
+}
+
+func Test_ServersEncryptionProtector_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersEncryptionProtector_STATUS to ServersEncryptionProtector_STATUS via AssignProperties_To_ServersEncryptionProtector_STATUS & AssignProperties_From_ServersEncryptionProtector_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersEncryptionProtector_STATUS, ServersEncryptionProtector_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersEncryptionProtector_STATUS tests if a specific instance of ServersEncryptionProtector_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersEncryptionProtector_STATUS(subject ServersEncryptionProtector_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersEncryptionProtector_STATUS
+	err := copied.AssignProperties_To_ServersEncryptionProtector_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersEncryptionProtector_STATUS
+	err = actual.AssignProperties_From_ServersEncryptionProtector_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersEncryptionProtector_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -218,6 +408,53 @@ func AddIndependentPropertyGeneratorsForServersEncryptionProtector_STATUS(gens m
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Uri"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ServersEncryptionProtector_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ServersEncryptionProtector_Spec to ServersEncryptionProtector_Spec via AssignProperties_To_ServersEncryptionProtector_Spec & AssignProperties_From_ServersEncryptionProtector_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForServersEncryptionProtector_Spec, ServersEncryptionProtector_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForServersEncryptionProtector_Spec tests if a specific instance of ServersEncryptionProtector_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForServersEncryptionProtector_Spec(subject ServersEncryptionProtector_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ServersEncryptionProtector_Spec
+	err := copied.AssignProperties_To_ServersEncryptionProtector_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ServersEncryptionProtector_Spec
+	err = actual.AssignProperties_From_ServersEncryptionProtector_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ServersEncryptionProtector_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

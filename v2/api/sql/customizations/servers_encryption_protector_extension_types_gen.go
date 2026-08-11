@@ -5,7 +5,9 @@ package customizations
 
 import (
 	v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
-	storage "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20250101 "github.com/Azure/azure-service-operator/v2/api/sql/v20250101"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -16,5 +18,7 @@ type ServersEncryptionProtectorExtension struct {
 func (extension *ServersEncryptionProtectorExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
 		&v20211101.ServersEncryptionProtector{},
-		&storage.ServersEncryptionProtector{}}
+		&v20211101s.ServersEncryptionProtector{},
+		&v20250101.ServersEncryptionProtector{},
+		&v20250101s.ServersEncryptionProtector{}}
 }

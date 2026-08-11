@@ -81,11 +81,10 @@ The following resources have newer versions available in the Azure REST API spec
 
 ## documentdb
 
-|      | Resource         | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|------|------------------|------------------|------------------|-------------------|-------------------|
-|      | CassandraCluster | 2026-03-15       | 2025-10-15       | -                 | -                 |
-| 💡    | DatabaseAccount  | **2026-03-15**   | 2024-08-15       | -                 | -                 |
-| 💡    | MongoCluster     | **2025-09-01**   | 2024-07-01       | -                 | -                 |
+|      | Resource        | Available Stable | Supported Stable | Available Preview | Supported Preview |
+|------|-----------------|------------------|------------------|-------------------|-------------------|
+| 💡    | DatabaseAccount | **2026-03-15**   | 2024-08-15       | -                 | -                 |
+| 💡    | MongoCluster    | **2025-09-01**   | 2024-07-01       | -                 | -                 |
 
 ## eventgrid
 
@@ -194,12 +193,6 @@ The following resources have newer versions available in the Azure REST API spec
 |      | Resource  | Available Stable | Supported Stable | Available Preview | Supported Preview  |
 |------|-----------|------------------|------------------|-------------------|--------------------|
 | 💡    | Namespace | **2026-01-01**   | 2024-01-01       |                   | 2022-10-01-preview |
-
-## sql
-
-|      | Resource | Available Stable | Supported Stable | Available Preview | Supported Preview |
-|------|----------|------------------|------------------|-------------------|-------------------|
-| 💡    | Server   | **2025-01-01**   | 2021-11-01       | -                 | -                 |
 
 ## storage
 

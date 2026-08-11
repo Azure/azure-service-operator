@@ -19,12 +19,15 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/retry"
 )
 
 var (
 	_ extensions.PreReconciliationChecker      = &ManagedClustersAgentPoolExtension{}
 	_ extensions.PreReconciliationOwnerChecker = &ManagedClustersAgentPoolExtension{}
+	_ extensions.ErrorClassifier               = &ManagedClustersAgentPoolExtension{}
 )
 
 // If an agent pool has a provisioningState not in this set, it will reject any attempt to PUT a new state out of
@@ -92,6 +95,28 @@ func (ext *ManagedClustersAgentPoolExtension) PreReconcileCheck(
 	}
 
 	return next(ctx, obj, resourceResolver, armClient, log)
+}
+
+// ClassifyError evaluates the provided error, returning whether it is fatal or can be retried.
+func (ext *ManagedClustersAgentPoolExtension) ClassifyError(
+	cloudError *genericarmclient.CloudError,
+	apiVersion string,
+	log logr.Logger,
+	next extensions.ErrorClassifierFunc,
+) (core.CloudErrorDetails, error) {
+	details, err := next(cloudError)
+	if err != nil {
+		return core.CloudErrorDetails{}, err
+	}
+
+	if cloudError != nil && cloudError.Code() == "NodePoolMcVersionIncompatible" {
+		// NodePoolMcVersionIncompatible can occur in the midst of a pool upgrade and shouldn't be treated as a fatal
+		// error; instead, we should retry slowly until the upgrade is complete.
+		details.Classification = core.ErrorRetryable
+		details.Retry = retry.Slow
+	}
+
+	return details, nil
 }
 
 func agentPoolProvisioningStateBlocksReconciliation(provisioningState *string) bool {
