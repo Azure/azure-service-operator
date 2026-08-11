@@ -77,9 +77,9 @@ func Test_DatabaseWatcher_Target_v20241001preview_CRUD(t *testing.T) {
 	}
 
 	// DnsZone must be omitted for SQL logical servers
-	sharedPrivateLink := &databasewatcher.SharedPrivateLinkResource{
+	sharedPrivateLink := &databasewatcher.SharedPrivateLink{
 		ObjectMeta: tc.MakeObjectMeta("spl"),
-		Spec: databasewatcher.SharedPrivateLinkResource_Spec{
+		Spec: databasewatcher.SharedPrivateLink_Spec{
 			Owner:                        testcommon.AsOwner(watcher),
 			GroupId:                      to.Ptr("sqlServer"),
 			PrivateLinkResourceReference: tc.MakeReferenceFromResource(server),

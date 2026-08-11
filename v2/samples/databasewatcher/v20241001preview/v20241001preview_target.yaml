@@ -10,7 +10,9 @@ spec:
     sqlDb:
       targetType: SqlDb
       targetAuthenticationType: Aad
-      connectionServerName: aso-sample-sqlserver.database.windows.net
+      connectionServerNameFromConfig:
+        name: asotestdbwserver-config
+        key: fullyQualifiedDomainName
       sqlDbResourceReference:
         group: sql.azure.com
         kind: ServersDatabase

@@ -1,7 +1,7 @@
 apiVersion: databasewatcher.azure.com/v20241001preview
-kind: SharedPrivateLinkResource
+kind: SharedPrivateLink
 metadata:
-  name: aso-sample-sharedprivatelinkresource
+  name: aso-sample-sharedprivatelink
   namespace: default
 spec:
   owner:
@@ -13,4 +13,4 @@ spec:
   privateLinkResourceReference:
     group: sql.azure.com
     kind: Server
-    name: aso-sample-sqlserver
+    name: asotestdbwserver
