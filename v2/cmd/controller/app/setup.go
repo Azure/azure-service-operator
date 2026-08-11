@@ -7,6 +7,7 @@ package app
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"math/rand"
 	"net/http"
@@ -93,6 +94,17 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		}
 	}
 
+	tlsMinVersion, err := flgs.TLSVersion()
+	if err != nil {
+		setupLog.Error(err, "invalid TLS version")
+		os.Exit(1)
+	}
+	tlsOpts := []func(*tls.Config){
+		func(cfg *tls.Config) {
+			cfg.MinVersion = tlsMinVersion
+		},
+	}
+
 	k8sConfig := ctrl.GetConfigOrDie()
 	ctrlOptions := ctrl.Options{
 		Scheme: scheme,
@@ -117,10 +129,11 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 		// flgs.EnableLeaderElection is true.
 		LeaderElectionReleaseOnCancel: flgs.EnableLeaderElection,
 		HealthProbeBindAddress:        flgs.HealthAddr,
-		Metrics:                       getMetricsOpts(flgs),
+		Metrics:                       getMetricsOpts(flgs, tlsOpts),
 		WebhookServer: webhook.NewServer(webhook.Options{
 			Port:    flgs.WebhookPort,
 			CertDir: flgs.WebhookCertDir,
+			TLSOpts: tlsOpts,
 		}),
 	}
 	mgr, err := ctrl.NewManager(k8sConfig, ctrlOptions)
@@ -260,7 +273,7 @@ func SetupControllerManager(ctx context.Context, setupLog logr.Logger, flgs *Fla
 	}
 }
 
-func getMetricsOpts(flags *Flags) server.Options {
+func getMetricsOpts(flags *Flags, tlsOpts []func(*tls.Config)) server.Options {
 	var metricsOptions server.Options
 
 	if flags.SecureMetrics {
@@ -269,6 +282,7 @@ func getMetricsOpts(flags *Flags) server.Options {
 			SecureServing:  true,
 			FilterProvider: filters.WithAuthenticationAndAuthorization,
 			CertDir:        flags.MetricsCertDir,
+			TLSOpts:        tlsOpts,
 		}
 		// Note that pprof endpoints are meant to be sensitive and shouldn't be exposed publicly.
 		if flags.ProfilingMetrics {

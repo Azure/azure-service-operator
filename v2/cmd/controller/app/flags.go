@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package app
 
 import (
+	"crypto/tls"
 	"flag"
 	"fmt"
 
@@ -27,6 +28,7 @@ type Flags struct {
 	CRDManagementMode    string
 	CRDPatterns          string // This is a ';' delimited string containing a collection of patterns
 	CRDLabels            string // This is a ',' or ';' delimited string containing labels to apply to managed CRDs
+	TLSMinVersion        string
 }
 
 // parseCRDLabels parses the --crd-labels flag, rejecting any label reserved for ASO's own use.
@@ -48,7 +50,7 @@ func parseCRDLabels(value string) (map[string]string, error) {
 
 func (f Flags) String() string {
 	return fmt.Sprintf(
-		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, MetricsCertDir: %s, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, CRDManagementMode: %s, CRDPatterns: %s, CRDLabels: %s",
+		"MetricsAddr: %s, SecureMetrics: %t, ProfilingMetrics: %t, MetricsCertDir: %s, HealthAddr: %s, WebhookPort: %d, WebhookCertDir: %s, EnableLeaderElection: %t, CRDManagementMode: %s, CRDPatterns: %s, CRDLabels: %s, TLSMinVersion: %s",
 		f.MetricsAddr,
 		f.SecureMetrics,
 		f.ProfilingMetrics,
@@ -60,6 +62,7 @@ func (f Flags) String() string {
 		f.CRDManagementMode,
 		f.CRDPatterns,
 		f.CRDLabels,
+		f.TLSMinVersion,
 	)
 }
 
@@ -80,6 +83,20 @@ func InitFlags(flagSet *flag.FlagSet) *Flags {
 		"Instructs the operator on how it should manage the Custom Resource Definitions. One of 'auto', 'none'")
 	flagSet.StringVar(&result.CRDPatterns, "crd-pattern", "", "Install these CRDs. CRDs already in the cluster will also always be upgraded.")
 	flagSet.StringVar(&result.CRDLabels, "crd-labels", "", "Comma-separated (or semicolon-separated) labels to apply to all managed CRDs (for example, example.com/owner=aso,environment=production). Labels reserved by the operator (app.kubernetes.io/name, app.kubernetes.io/version and the serviceoperator.azure.com/ prefix) cannot be set.")
+	flagSet.StringVar(&result.TLSMinVersion, "tls-min-version", "VersionTLS12", "The minimum TLS version in use by the webhook and metrics servers. Possible values: VersionTLS12, VersionTLS13.")
 
 	return result
+}
+
+var tlsVersionMap = map[string]uint16{
+	"VersionTLS12": tls.VersionTLS12,
+	"VersionTLS13": tls.VersionTLS13,
+}
+
+func (f Flags) TLSVersion() (uint16, error) {
+	v, ok := tlsVersionMap[f.TLSMinVersion]
+	if !ok {
+		return 0, fmt.Errorf("invalid TLS version %q, must be one of: VersionTLS12, VersionTLS13", f.TLSMinVersion)
+	}
+	return v, nil
 }
