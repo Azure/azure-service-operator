@@ -11,8 +11,27 @@ groupModelConfiguration:
       $exportAs: Target
       $supportedFrom: v2.21.0
     Watchers_SharedPrivateLinkResource:
-      $exportAs: SharedPrivateLinkResource
+      $exportAs: SharedPrivateLink
       $supportedFrom: v2.21.0
+    Datastore: # a watcher points at a Kusto cluster the user creates separately
+      KustoClusterUri:
+        $importConfigMapMode: optional
+      KustoDataIngestionUri:
+        $importConfigMapMode: optional
+      KustoManagementUrl:
+        $importConfigMapMode: optional
+    SqlDbSingleDatabaseTargetProperties: # ConnectionServerName is the FQDN of a server created at runtime
+      ConnectionServerName:
+        $importConfigMapMode: optional
+    SqlDbElasticPoolTargetProperties:
+      ConnectionServerName:
+        $importConfigMapMode: optional
+    SqlMiTargetProperties:
+      ConnectionServerName:
+        $importConfigMapMode: optional
+    SqlVmTargetProperties:
+      ConnectionServerName:
+        $importConfigMapMode: optional
     VaultSecret:
       AkvTargetPassword:
         $importSecretMode: never # the path to a Key Vault secret, not the secret itself
