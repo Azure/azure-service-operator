@@ -22,4 +22,4 @@ groupModelConfiguration:
         $referenceType: arm
     Registries_CacheRule:
       $exportAs: RegistryCacheRule
-      $supportedFrom: v2.20.0
+      $supportedFrom: v2.21.0
