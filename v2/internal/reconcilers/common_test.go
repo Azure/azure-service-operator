@@ -29,7 +29,8 @@ func Test_LogObj_givenResumeTokenAnnotation_doesNotLogIt(t *testing.T) {
 	var logged strings.Builder
 	log := funcr.New(
 		func(prefix string, args string) { logged.WriteString(args) },
-		funcr.Options{Verbosity: 10})
+		funcr.Options{Verbosity: 10},
+	)
 
 	obj := &resources.ResourceGroup{
 		ObjectMeta: metav1.ObjectMeta{

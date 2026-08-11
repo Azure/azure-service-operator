@@ -79,7 +79,8 @@ func (extension *TargetExtension) PostReconcileCheck(
 	// ARM rejects the start (WatcherStartFailedDueToNoDataStore), so say what's missing
 	if watcher.Spec.Datastore == nil {
 		return extensions.PostReconcileCheckResultFailure(
-			fmt.Sprintf("watcher %q has no datastore, so it cannot be started", watcher.Name)), nil
+			fmt.Sprintf("watcher %q has no datastore, so it cannot be started", watcher.Name),
+		), nil
 	}
 
 	// The watcher has no failure state of its own, so a start already submitted is followed to its end
@@ -118,7 +119,8 @@ func (extension *TargetExtension) PostReconcileCheck(
 				"cannot start watcher %q, which asks for %s while this target asks for %s",
 				watcher.Name,
 				describeCredential(watcher),
-				describeCredential(target))), nil
+				describeCredential(target),
+			)), nil
 		}
 
 		token, err := submitStart(ctx, watcher, armClient, log)
@@ -171,7 +173,8 @@ func foreignWatcher(target *databasewatcher.Target, watcher *databasewatcher.Wat
 			"cannot start watcher %q, which is managed by the operator in %s while this target is managed by the operator in %s",
 			watcher.Name,
 			describeOperator(watcher),
-			describeOperator(target))
+			describeOperator(target),
+		)
 	}
 
 	return ""
@@ -219,7 +222,8 @@ func describeCredential(obj genruntime.MetaObject) string {
 // target's.
 func startAllowed(ctx context.Context, watcher *databasewatcher.Watcher) bool {
 	return reconcilers.ReconcilePolicyForAnnotation(
-		ctx, watcher.GetAnnotations()[annotations.ReconcilePolicy]).AllowsModify()
+		ctx, watcher.GetAnnotations()[annotations.ReconcilePolicy],
+	).AllowsModify()
 }
 
 // submitStart asks Azure to start the watcher, returning a token for the operation. Nothing waits here.

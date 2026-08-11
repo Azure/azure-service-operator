@@ -105,7 +105,8 @@ func databaseWatcherDatastore(subscription string, resourceGroup string, cluster
 		"/subscriptions/%s/resourceGroups/%s/providers/Microsoft.Kusto/clusters/%s",
 		subscription,
 		resourceGroup,
-		clusterName)
+		clusterName,
+	)
 
 	// KustoClusterDisplayName is optional in the ARM schema, but ARM rejects a data store without one for
 	// the adx and free offerings

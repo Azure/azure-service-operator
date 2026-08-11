@@ -50,7 +50,8 @@ func watcherResponse(status string) string {
 	return fmt.Sprintf(
 		`{"id": %q, "name": "watcher", "properties": {"status": %q, "provisioningState": "Succeeded"}}`,
 		watcherARMID,
-		status)
+		status,
+	)
 }
 
 // A start is long running, and a target sees it through across as many reconciles as it takes. Anything
@@ -129,7 +130,8 @@ func Test_TargetPostReconcileCheck_givenFailedStart_reportsTheFailure(t *testing
 		case r.URL.Path == operationPath:
 			w.WriteHeader(http.StatusOK)
 			g.Expect(w.Write([]byte(
-				`{"status": "Failed", "error": {"code": "WatcherStartFailed", "message": "No."}}`))).ToNot(BeZero())
+				`{"status": "Failed", "error": {"code": "WatcherStartFailed", "message": "No."}}`,
+			))).ToNot(BeZero())
 
 		default:
 			w.WriteHeader(http.StatusOK)
