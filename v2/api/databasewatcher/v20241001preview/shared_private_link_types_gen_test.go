@@ -14,8 +14,8 @@ import (
 	"testing"
 )
 
-// Test_SharedPrivateLinkResource_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of SharedPrivateLinkResource round trips to the hub storage version and back losslessly
-func Test_SharedPrivateLinkResource_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+// Test_SharedPrivateLink_WhenConvertedToHub_RoundTripsWithoutLoss tests if a specific instance of SharedPrivateLink round trips to the hub storage version and back losslessly
+func Test_SharedPrivateLink_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -23,19 +23,19 @@ func Test_SharedPrivateLinkResource_WhenConvertedToHub_RoundTripsWithoutLoss(t *
 	}
 
 	rapid.Check(t, func(t *rapid.T) {
-		subject := SharedPrivateLinkResourceGenerator().Draw(t, "subject")
+		subject := SharedPrivateLinkGenerator().Draw(t, "subject")
 		// Copy subject to make sure conversion doesn't modify it
 		copied := subject.DeepCopy()
 
 		// Convert to our hub version
-		var hub storage.SharedPrivateLinkResource
+		var hub storage.SharedPrivateLink
 		err := copied.ConvertTo(&hub)
 		if err != nil {
 			t.Fatal("ConvertTo: " + err.Error())
 		}
 
 		// Convert from our hub version
-		var actual SharedPrivateLinkResource
+		var actual SharedPrivateLink
 		err = actual.ConvertFrom(&hub)
 		if err != nil {
 			t.Fatal("ConvertFrom: " + err.Error())
@@ -52,8 +52,8 @@ func Test_SharedPrivateLinkResource_WhenConvertedToHub_RoundTripsWithoutLoss(t *
 	})
 }
 
-// Test_SharedPrivateLinkResource_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SharedPrivateLinkResource can be assigned to storage and back losslessly
-func Test_SharedPrivateLinkResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+// Test_SharedPrivateLink_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SharedPrivateLink can be assigned to storage and back losslessly
+func Test_SharedPrivateLink_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -61,20 +61,20 @@ func Test_SharedPrivateLinkResource_WhenPropertiesConverted_RoundTripsWithoutLos
 	}
 
 	rapid.Check(t, func(t *rapid.T) {
-		subject := SharedPrivateLinkResourceGenerator().Draw(t, "subject")
+		subject := SharedPrivateLinkGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.SharedPrivateLinkResource
-		err := copied.AssignProperties_To_SharedPrivateLinkResource(&other)
+		var other storage.SharedPrivateLink
+		err := copied.AssignProperties_To_SharedPrivateLink(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
-		var actual SharedPrivateLinkResource
-		err = actual.AssignProperties_From_SharedPrivateLinkResource(&other)
+		var actual SharedPrivateLink
+		err = actual.AssignProperties_From_SharedPrivateLink(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
@@ -90,19 +90,19 @@ func Test_SharedPrivateLinkResource_WhenPropertiesConverted_RoundTripsWithoutLos
 	})
 }
 
-func Test_SharedPrivateLinkResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SharedPrivateLink_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
 		return
 	}
 
-	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLinkResource)
+	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLink)
 }
 
-// RunJSONSerializationTestForSharedPrivateLinkResource runs a test to see if a specific instance of SharedPrivateLinkResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForSharedPrivateLinkResource(t *rapid.T) {
-	subject := SharedPrivateLinkResourceGenerator().Draw(t, "subject")
+// RunJSONSerializationTestForSharedPrivateLink runs a test to see if a specific instance of SharedPrivateLink round trips to JSON and back losslessly
+func RunJSONSerializationTestForSharedPrivateLink(t *rapid.T) {
+	subject := SharedPrivateLinkGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -110,7 +110,7 @@ func RunJSONSerializationTestForSharedPrivateLinkResource(t *rapid.T) {
 	}
 
 	// Deserialize back into memory
-	var actual SharedPrivateLinkResource
+	var actual SharedPrivateLink
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		t.Fatal(err)
@@ -126,31 +126,30 @@ func RunJSONSerializationTestForSharedPrivateLinkResource(t *rapid.T) {
 	}
 }
 
-// Generator of SharedPrivateLinkResource instances for property testing - lazily instantiated by
-// SharedPrivateLinkResourceGenerator()
-var sharedPrivateLinkResourceGenerator *rapid.Generator[SharedPrivateLinkResource]
+// Generator of SharedPrivateLink instances for property testing - lazily instantiated by SharedPrivateLinkGenerator()
+var sharedPrivateLinkGenerator *rapid.Generator[SharedPrivateLink]
 
-// SharedPrivateLinkResourceGenerator returns a generator of SharedPrivateLinkResource instances for property testing.
-func SharedPrivateLinkResourceGenerator() *rapid.Generator[SharedPrivateLinkResource] {
-	if sharedPrivateLinkResourceGenerator != nil {
-		return sharedPrivateLinkResourceGenerator
+// SharedPrivateLinkGenerator returns a generator of SharedPrivateLink instances for property testing.
+func SharedPrivateLinkGenerator() *rapid.Generator[SharedPrivateLink] {
+	if sharedPrivateLinkGenerator != nil {
+		return sharedPrivateLinkGenerator
 	}
 
-	spec := SharedPrivateLinkResource_SpecGenerator()
-	status := SharedPrivateLinkResource_STATUSGenerator()
+	spec := SharedPrivateLink_SpecGenerator()
+	status := SharedPrivateLink_STATUSGenerator()
 
-	sharedPrivateLinkResourceGenerator = rapid.Custom(func(t *rapid.T) SharedPrivateLinkResource {
-		var result SharedPrivateLinkResource
+	sharedPrivateLinkGenerator = rapid.Custom(func(t *rapid.T) SharedPrivateLink {
+		var result SharedPrivateLink
 		result.Spec = spec.Draw(t, "Spec")
 		result.Status = status.Draw(t, "Status")
 		return result
 	})
 
-	return sharedPrivateLinkResourceGenerator
+	return sharedPrivateLinkGenerator
 }
 
-// Test_SharedPrivateLinkResourceOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SharedPrivateLinkResourceOperatorSpec can be assigned to storage and back losslessly
-func Test_SharedPrivateLinkResourceOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+// Test_SharedPrivateLinkOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SharedPrivateLinkOperatorSpec can be assigned to storage and back losslessly
+func Test_SharedPrivateLinkOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -158,20 +157,20 @@ func Test_SharedPrivateLinkResourceOperatorSpec_WhenPropertiesConverted_RoundTri
 	}
 
 	rapid.Check(t, func(t *rapid.T) {
-		subject := SharedPrivateLinkResourceOperatorSpecGenerator().Draw(t, "subject")
+		subject := SharedPrivateLinkOperatorSpecGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.SharedPrivateLinkResourceOperatorSpec
-		err := copied.AssignProperties_To_SharedPrivateLinkResourceOperatorSpec(&other)
+		var other storage.SharedPrivateLinkOperatorSpec
+		err := copied.AssignProperties_To_SharedPrivateLinkOperatorSpec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
-		var actual SharedPrivateLinkResourceOperatorSpec
-		err = actual.AssignProperties_From_SharedPrivateLinkResourceOperatorSpec(&other)
+		var actual SharedPrivateLinkOperatorSpec
+		err = actual.AssignProperties_From_SharedPrivateLinkOperatorSpec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
@@ -187,19 +186,19 @@ func Test_SharedPrivateLinkResourceOperatorSpec_WhenPropertiesConverted_RoundTri
 	})
 }
 
-func Test_SharedPrivateLinkResourceOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SharedPrivateLinkOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
 		return
 	}
 
-	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLinkResourceOperatorSpec)
+	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLinkOperatorSpec)
 }
 
-// RunJSONSerializationTestForSharedPrivateLinkResourceOperatorSpec runs a test to see if a specific instance of SharedPrivateLinkResourceOperatorSpec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSharedPrivateLinkResourceOperatorSpec(t *rapid.T) {
-	subject := SharedPrivateLinkResourceOperatorSpecGenerator().Draw(t, "subject")
+// RunJSONSerializationTestForSharedPrivateLinkOperatorSpec runs a test to see if a specific instance of SharedPrivateLinkOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSharedPrivateLinkOperatorSpec(t *rapid.T) {
+	subject := SharedPrivateLinkOperatorSpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -207,7 +206,7 @@ func RunJSONSerializationTestForSharedPrivateLinkResourceOperatorSpec(t *rapid.T
 	}
 
 	// Deserialize back into memory
-	var actual SharedPrivateLinkResourceOperatorSpec
+	var actual SharedPrivateLinkOperatorSpec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		t.Fatal(err)
@@ -223,23 +222,23 @@ func RunJSONSerializationTestForSharedPrivateLinkResourceOperatorSpec(t *rapid.T
 	}
 }
 
-// Generator of SharedPrivateLinkResourceOperatorSpec instances for property testing - lazily instantiated by
-// SharedPrivateLinkResourceOperatorSpecGenerator()
-var sharedPrivateLinkResourceOperatorSpecGenerator *rapid.Generator[SharedPrivateLinkResourceOperatorSpec]
+// Generator of SharedPrivateLinkOperatorSpec instances for property testing - lazily instantiated by
+// SharedPrivateLinkOperatorSpecGenerator()
+var sharedPrivateLinkOperatorSpecGenerator *rapid.Generator[SharedPrivateLinkOperatorSpec]
 
-// SharedPrivateLinkResourceOperatorSpecGenerator returns a generator of SharedPrivateLinkResourceOperatorSpec instances for property testing.
-func SharedPrivateLinkResourceOperatorSpecGenerator() *rapid.Generator[SharedPrivateLinkResourceOperatorSpec] {
-	if sharedPrivateLinkResourceOperatorSpecGenerator != nil {
-		return sharedPrivateLinkResourceOperatorSpecGenerator
+// SharedPrivateLinkOperatorSpecGenerator returns a generator of SharedPrivateLinkOperatorSpec instances for property testing.
+func SharedPrivateLinkOperatorSpecGenerator() *rapid.Generator[SharedPrivateLinkOperatorSpec] {
+	if sharedPrivateLinkOperatorSpecGenerator != nil {
+		return sharedPrivateLinkOperatorSpecGenerator
 	}
 
-	sharedPrivateLinkResourceOperatorSpecGenerator = rapid.Just(SharedPrivateLinkResourceOperatorSpec{})
+	sharedPrivateLinkOperatorSpecGenerator = rapid.Just(SharedPrivateLinkOperatorSpec{})
 
-	return sharedPrivateLinkResourceOperatorSpecGenerator
+	return sharedPrivateLinkOperatorSpecGenerator
 }
 
-// Test_SharedPrivateLinkResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SharedPrivateLinkResource_STATUS can be assigned to storage and back losslessly
-func Test_SharedPrivateLinkResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+// Test_SharedPrivateLink_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SharedPrivateLink_STATUS can be assigned to storage and back losslessly
+func Test_SharedPrivateLink_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -247,20 +246,20 @@ func Test_SharedPrivateLinkResource_STATUS_WhenPropertiesConverted_RoundTripsWit
 	}
 
 	rapid.Check(t, func(t *rapid.T) {
-		subject := SharedPrivateLinkResource_STATUSGenerator().Draw(t, "subject")
+		subject := SharedPrivateLink_STATUSGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.SharedPrivateLinkResource_STATUS
-		err := copied.AssignProperties_To_SharedPrivateLinkResource_STATUS(&other)
+		var other storage.SharedPrivateLink_STATUS
+		err := copied.AssignProperties_To_SharedPrivateLink_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
-		var actual SharedPrivateLinkResource_STATUS
-		err = actual.AssignProperties_From_SharedPrivateLinkResource_STATUS(&other)
+		var actual SharedPrivateLink_STATUS
+		err = actual.AssignProperties_From_SharedPrivateLink_STATUS(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
@@ -276,19 +275,19 @@ func Test_SharedPrivateLinkResource_STATUS_WhenPropertiesConverted_RoundTripsWit
 	})
 }
 
-func Test_SharedPrivateLinkResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SharedPrivateLink_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
 		return
 	}
 
-	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLinkResource_STATUS)
+	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLink_STATUS)
 }
 
-// RunJSONSerializationTestForSharedPrivateLinkResource_STATUS runs a test to see if a specific instance of SharedPrivateLinkResource_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSharedPrivateLinkResource_STATUS(t *rapid.T) {
-	subject := SharedPrivateLinkResource_STATUSGenerator().Draw(t, "subject")
+// RunJSONSerializationTestForSharedPrivateLink_STATUS runs a test to see if a specific instance of SharedPrivateLink_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSharedPrivateLink_STATUS(t *rapid.T) {
+	subject := SharedPrivateLink_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -296,7 +295,7 @@ func RunJSONSerializationTestForSharedPrivateLinkResource_STATUS(t *rapid.T) {
 	}
 
 	// Deserialize back into memory
-	var actual SharedPrivateLinkResource_STATUS
+	var actual SharedPrivateLink_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		t.Fatal(err)
@@ -312,14 +311,14 @@ func RunJSONSerializationTestForSharedPrivateLinkResource_STATUS(t *rapid.T) {
 	}
 }
 
-// Generator of SharedPrivateLinkResource_STATUS instances for property testing - lazily instantiated by
-// SharedPrivateLinkResource_STATUSGenerator()
-var sharedPrivateLinkResource_STATUSGenerator *rapid.Generator[SharedPrivateLinkResource_STATUS]
+// Generator of SharedPrivateLink_STATUS instances for property testing - lazily instantiated by
+// SharedPrivateLink_STATUSGenerator()
+var sharedPrivateLink_STATUSGenerator *rapid.Generator[SharedPrivateLink_STATUS]
 
-// SharedPrivateLinkResource_STATUSGenerator returns a generator of SharedPrivateLinkResource_STATUS instances for property testing.
-func SharedPrivateLinkResource_STATUSGenerator() *rapid.Generator[SharedPrivateLinkResource_STATUS] {
-	if sharedPrivateLinkResource_STATUSGenerator != nil {
-		return sharedPrivateLinkResource_STATUSGenerator
+// SharedPrivateLink_STATUSGenerator returns a generator of SharedPrivateLink_STATUS instances for property testing.
+func SharedPrivateLink_STATUSGenerator() *rapid.Generator[SharedPrivateLink_STATUS] {
+	if sharedPrivateLink_STATUSGenerator != nil {
+		return sharedPrivateLink_STATUSGenerator
 	}
 
 	ptrString := rapid.Ptr(rapid.String(), true)
@@ -327,8 +326,8 @@ func SharedPrivateLinkResource_STATUSGenerator() *rapid.Generator[SharedPrivateL
 	status := rapid.Ptr(rapid.SampledFrom([]SharedPrivateLinkResourceStatus_STATUS{SharedPrivateLinkResourceStatus_STATUS_Approved, SharedPrivateLinkResourceStatus_STATUS_Disconnected, SharedPrivateLinkResourceStatus_STATUS_Pending, SharedPrivateLinkResourceStatus_STATUS_Rejected}), true)
 	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	sharedPrivateLinkResource_STATUSGenerator = rapid.Custom(func(t *rapid.T) SharedPrivateLinkResource_STATUS {
-		var result SharedPrivateLinkResource_STATUS
+	sharedPrivateLink_STATUSGenerator = rapid.Custom(func(t *rapid.T) SharedPrivateLink_STATUS {
+		var result SharedPrivateLink_STATUS
 		result.DnsZone = ptrString.Draw(t, "DnsZone")
 		result.GroupId = ptrString.Draw(t, "GroupId")
 		result.Id = ptrString.Draw(t, "Id")
@@ -342,11 +341,11 @@ func SharedPrivateLinkResource_STATUSGenerator() *rapid.Generator[SharedPrivateL
 		return result
 	})
 
-	return sharedPrivateLinkResource_STATUSGenerator
+	return sharedPrivateLink_STATUSGenerator
 }
 
-// Test_SharedPrivateLinkResource_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SharedPrivateLinkResource_Spec can be assigned to storage and back losslessly
-func Test_SharedPrivateLinkResource_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+// Test_SharedPrivateLink_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SharedPrivateLink_Spec can be assigned to storage and back losslessly
+func Test_SharedPrivateLink_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
@@ -354,20 +353,20 @@ func Test_SharedPrivateLinkResource_Spec_WhenPropertiesConverted_RoundTripsWitho
 	}
 
 	rapid.Check(t, func(t *rapid.T) {
-		subject := SharedPrivateLinkResource_SpecGenerator().Draw(t, "subject")
+		subject := SharedPrivateLink_SpecGenerator().Draw(t, "subject")
 		// Copy subject to make sure assignment doesn't modify it
 		copied := subject.DeepCopy()
 
 		// Use AssignPropertiesTo() for the first stage of conversion
-		var other storage.SharedPrivateLinkResource_Spec
-		err := copied.AssignProperties_To_SharedPrivateLinkResource_Spec(&other)
+		var other storage.SharedPrivateLink_Spec
+		err := copied.AssignProperties_To_SharedPrivateLink_Spec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesTo: " + err.Error())
 		}
 
 		// Use AssignPropertiesFrom() to convert back to our original type
-		var actual SharedPrivateLinkResource_Spec
-		err = actual.AssignProperties_From_SharedPrivateLinkResource_Spec(&other)
+		var actual SharedPrivateLink_Spec
+		err = actual.AssignProperties_From_SharedPrivateLink_Spec(&other)
 		if err != nil {
 			t.Fatal("AssignPropertiesFrom: " + err.Error())
 		}
@@ -383,19 +382,19 @@ func Test_SharedPrivateLinkResource_Spec_WhenPropertiesConverted_RoundTripsWitho
 	})
 }
 
-func Test_SharedPrivateLinkResource_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SharedPrivateLink_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
 		return
 	}
 
-	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLinkResource_Spec)
+	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLink_Spec)
 }
 
-// RunJSONSerializationTestForSharedPrivateLinkResource_Spec runs a test to see if a specific instance of SharedPrivateLinkResource_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSharedPrivateLinkResource_Spec(t *rapid.T) {
-	subject := SharedPrivateLinkResource_SpecGenerator().Draw(t, "subject")
+// RunJSONSerializationTestForSharedPrivateLink_Spec runs a test to see if a specific instance of SharedPrivateLink_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSharedPrivateLink_Spec(t *rapid.T) {
+	subject := SharedPrivateLink_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -403,7 +402,7 @@ func RunJSONSerializationTestForSharedPrivateLinkResource_Spec(t *rapid.T) {
 	}
 
 	// Deserialize back into memory
-	var actual SharedPrivateLinkResource_Spec
+	var actual SharedPrivateLink_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		t.Fatal(err)
@@ -419,22 +418,22 @@ func RunJSONSerializationTestForSharedPrivateLinkResource_Spec(t *rapid.T) {
 	}
 }
 
-// Generator of SharedPrivateLinkResource_Spec instances for property testing - lazily instantiated by
-// SharedPrivateLinkResource_SpecGenerator()
-var sharedPrivateLinkResource_SpecGenerator *rapid.Generator[SharedPrivateLinkResource_Spec]
+// Generator of SharedPrivateLink_Spec instances for property testing - lazily instantiated by
+// SharedPrivateLink_SpecGenerator()
+var sharedPrivateLink_SpecGenerator *rapid.Generator[SharedPrivateLink_Spec]
 
-// SharedPrivateLinkResource_SpecGenerator returns a generator of SharedPrivateLinkResource_Spec instances for property testing.
-func SharedPrivateLinkResource_SpecGenerator() *rapid.Generator[SharedPrivateLinkResource_Spec] {
-	if sharedPrivateLinkResource_SpecGenerator != nil {
-		return sharedPrivateLinkResource_SpecGenerator
+// SharedPrivateLink_SpecGenerator returns a generator of SharedPrivateLink_Spec instances for property testing.
+func SharedPrivateLink_SpecGenerator() *rapid.Generator[SharedPrivateLink_Spec] {
+	if sharedPrivateLink_SpecGenerator != nil {
+		return sharedPrivateLink_SpecGenerator
 	}
 
 	ptrString := rapid.Ptr(rapid.String(), true)
 	azureName := rapid.String()
-	operatorSpec := rapid.Ptr(SharedPrivateLinkResourceOperatorSpecGenerator(), true)
+	operatorSpec := rapid.Ptr(SharedPrivateLinkOperatorSpecGenerator(), true)
 
-	sharedPrivateLinkResource_SpecGenerator = rapid.Custom(func(t *rapid.T) SharedPrivateLinkResource_Spec {
-		var result SharedPrivateLinkResource_Spec
+	sharedPrivateLink_SpecGenerator = rapid.Custom(func(t *rapid.T) SharedPrivateLink_Spec {
+		var result SharedPrivateLink_Spec
 		result.AzureName = azureName.Draw(t, "AzureName")
 		result.DnsZone = ptrString.Draw(t, "DnsZone")
 		result.GroupId = ptrString.Draw(t, "GroupId")
@@ -443,7 +442,7 @@ func SharedPrivateLinkResource_SpecGenerator() *rapid.Generator[SharedPrivateLin
 		return result
 	})
 
-	return sharedPrivateLinkResource_SpecGenerator
+	return sharedPrivateLink_SpecGenerator
 }
 
 // Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly

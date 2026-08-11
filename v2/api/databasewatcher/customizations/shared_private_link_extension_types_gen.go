@@ -9,12 +9,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type SharedPrivateLinkResourceExtension struct {
+type SharedPrivateLinkExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *SharedPrivateLinkResourceExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *SharedPrivateLinkExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20241001p.SharedPrivateLinkResource{},
-		&storage.SharedPrivateLinkResource{}}
+		&v20241001p.SharedPrivateLink{},
+		&storage.SharedPrivateLink{}}
 }

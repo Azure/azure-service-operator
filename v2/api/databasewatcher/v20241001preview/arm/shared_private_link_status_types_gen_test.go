@@ -77,19 +77,19 @@ func SharedPrivateLinkResourceProperties_STATUSGenerator() *rapid.Generator[Shar
 	return sharedPrivateLinkResourceProperties_STATUSGenerator
 }
 
-func Test_SharedPrivateLinkResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SharedPrivateLink_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
 		return
 	}
 
-	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLinkResource_STATUS)
+	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLink_STATUS)
 }
 
-// RunJSONSerializationTestForSharedPrivateLinkResource_STATUS runs a test to see if a specific instance of SharedPrivateLinkResource_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSharedPrivateLinkResource_STATUS(t *rapid.T) {
-	subject := SharedPrivateLinkResource_STATUSGenerator().Draw(t, "subject")
+// RunJSONSerializationTestForSharedPrivateLink_STATUS runs a test to see if a specific instance of SharedPrivateLink_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSharedPrivateLink_STATUS(t *rapid.T) {
+	subject := SharedPrivateLink_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -97,7 +97,7 @@ func RunJSONSerializationTestForSharedPrivateLinkResource_STATUS(t *rapid.T) {
 	}
 
 	// Deserialize back into memory
-	var actual SharedPrivateLinkResource_STATUS
+	var actual SharedPrivateLink_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		t.Fatal(err)
@@ -113,22 +113,22 @@ func RunJSONSerializationTestForSharedPrivateLinkResource_STATUS(t *rapid.T) {
 	}
 }
 
-// Generator of SharedPrivateLinkResource_STATUS instances for property testing - lazily instantiated by
-// SharedPrivateLinkResource_STATUSGenerator()
-var sharedPrivateLinkResource_STATUSGenerator *rapid.Generator[SharedPrivateLinkResource_STATUS]
+// Generator of SharedPrivateLink_STATUS instances for property testing - lazily instantiated by
+// SharedPrivateLink_STATUSGenerator()
+var sharedPrivateLink_STATUSGenerator *rapid.Generator[SharedPrivateLink_STATUS]
 
-// SharedPrivateLinkResource_STATUSGenerator returns a generator of SharedPrivateLinkResource_STATUS instances for property testing.
-func SharedPrivateLinkResource_STATUSGenerator() *rapid.Generator[SharedPrivateLinkResource_STATUS] {
-	if sharedPrivateLinkResource_STATUSGenerator != nil {
-		return sharedPrivateLinkResource_STATUSGenerator
+// SharedPrivateLink_STATUSGenerator returns a generator of SharedPrivateLink_STATUS instances for property testing.
+func SharedPrivateLink_STATUSGenerator() *rapid.Generator[SharedPrivateLink_STATUS] {
+	if sharedPrivateLink_STATUSGenerator != nil {
+		return sharedPrivateLink_STATUSGenerator
 	}
 
 	ptrString := rapid.Ptr(rapid.String(), true)
 	properties := rapid.Ptr(SharedPrivateLinkResourceProperties_STATUSGenerator(), true)
 	systemData := rapid.Ptr(SystemData_STATUSGenerator(), true)
 
-	sharedPrivateLinkResource_STATUSGenerator = rapid.Custom(func(t *rapid.T) SharedPrivateLinkResource_STATUS {
-		var result SharedPrivateLinkResource_STATUS
+	sharedPrivateLink_STATUSGenerator = rapid.Custom(func(t *rapid.T) SharedPrivateLink_STATUS {
+		var result SharedPrivateLink_STATUS
 		result.Id = ptrString.Draw(t, "Id")
 		result.Name = ptrString.Draw(t, "Name")
 		result.Properties = properties.Draw(t, "Properties")
@@ -137,7 +137,7 @@ func SharedPrivateLinkResource_STATUSGenerator() *rapid.Generator[SharedPrivateL
 		return result
 	})
 
-	return sharedPrivateLinkResource_STATUSGenerator
+	return sharedPrivateLink_STATUSGenerator
 }
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

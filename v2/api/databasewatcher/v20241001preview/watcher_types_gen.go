@@ -1063,21 +1063,27 @@ type Datastore struct {
 	// KustoClusterDisplayName: The Kusto cluster display name.
 	KustoClusterDisplayName *string `json:"kustoClusterDisplayName,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// KustoClusterUri: The Kusto cluster URI.
-	KustoClusterUri *string `json:"kustoClusterUri,omitempty"`
+	KustoClusterUri *string `json:"kustoClusterUri,omitempty" optionalConfigMapPair:"KustoClusterUri"`
 
-	// +kubebuilder:validation:Required
+	// KustoClusterUriFromConfig: The Kusto cluster URI.
+	KustoClusterUriFromConfig *genruntime.ConfigMapReference `json:"kustoClusterUriFromConfig,omitempty" optionalConfigMapPair:"KustoClusterUri"`
+
 	// KustoDataIngestionUri: The Kusto data ingestion URI.
-	KustoDataIngestionUri *string `json:"kustoDataIngestionUri,omitempty"`
+	KustoDataIngestionUri *string `json:"kustoDataIngestionUri,omitempty" optionalConfigMapPair:"KustoDataIngestionUri"`
+
+	// KustoDataIngestionUriFromConfig: The Kusto data ingestion URI.
+	KustoDataIngestionUriFromConfig *genruntime.ConfigMapReference `json:"kustoDataIngestionUriFromConfig,omitempty" optionalConfigMapPair:"KustoDataIngestionUri"`
 
 	// +kubebuilder:validation:Required
 	// KustoDatabaseName: The name of a Kusto database.
 	KustoDatabaseName *string `json:"kustoDatabaseName,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// KustoManagementUrl: The Kusto management URL.
-	KustoManagementUrl *string `json:"kustoManagementUrl,omitempty"`
+	KustoManagementUrl *string `json:"kustoManagementUrl,omitempty" optionalConfigMapPair:"KustoManagementUrl"`
+
+	// KustoManagementUrlFromConfig: The Kusto management URL.
+	KustoManagementUrlFromConfig *genruntime.ConfigMapReference `json:"kustoManagementUrlFromConfig,omitempty" optionalConfigMapPair:"KustoManagementUrl"`
 
 	// +kubebuilder:validation:Required
 	// KustoOfferingType: The type of a Kusto offering.
@@ -1114,10 +1120,26 @@ func (datastore *Datastore) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		kustoClusterUri := *datastore.KustoClusterUri
 		result.KustoClusterUri = &kustoClusterUri
 	}
+	if datastore.KustoClusterUriFromConfig != nil {
+		kustoClusterUriValue, err := resolved.ResolvedConfigMaps.Lookup(*datastore.KustoClusterUriFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property KustoClusterUri")
+		}
+		kustoClusterUri := kustoClusterUriValue
+		result.KustoClusterUri = &kustoClusterUri
+	}
 
 	// Set property "KustoDataIngestionUri":
 	if datastore.KustoDataIngestionUri != nil {
 		kustoDataIngestionUri := *datastore.KustoDataIngestionUri
+		result.KustoDataIngestionUri = &kustoDataIngestionUri
+	}
+	if datastore.KustoDataIngestionUriFromConfig != nil {
+		kustoDataIngestionUriValue, err := resolved.ResolvedConfigMaps.Lookup(*datastore.KustoDataIngestionUriFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property KustoDataIngestionUri")
+		}
+		kustoDataIngestionUri := kustoDataIngestionUriValue
 		result.KustoDataIngestionUri = &kustoDataIngestionUri
 	}
 
@@ -1130,6 +1152,14 @@ func (datastore *Datastore) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	// Set property "KustoManagementUrl":
 	if datastore.KustoManagementUrl != nil {
 		kustoManagementUrl := *datastore.KustoManagementUrl
+		result.KustoManagementUrl = &kustoManagementUrl
+	}
+	if datastore.KustoManagementUrlFromConfig != nil {
+		kustoManagementUrlValue, err := resolved.ResolvedConfigMaps.Lookup(*datastore.KustoManagementUrlFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property KustoManagementUrl")
+		}
+		kustoManagementUrl := kustoManagementUrlValue
 		result.KustoManagementUrl = &kustoManagementUrl
 	}
 
@@ -1169,11 +1199,15 @@ func (datastore *Datastore) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		datastore.KustoClusterUri = &kustoClusterUri
 	}
 
+	// no assignment for property "KustoClusterUriFromConfig"
+
 	// Set property "KustoDataIngestionUri":
 	if typedInput.KustoDataIngestionUri != nil {
 		kustoDataIngestionUri := *typedInput.KustoDataIngestionUri
 		datastore.KustoDataIngestionUri = &kustoDataIngestionUri
 	}
+
+	// no assignment for property "KustoDataIngestionUriFromConfig"
 
 	// Set property "KustoDatabaseName":
 	if typedInput.KustoDatabaseName != nil {
@@ -1186,6 +1220,8 @@ func (datastore *Datastore) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 		kustoManagementUrl := *typedInput.KustoManagementUrl
 		datastore.KustoManagementUrl = &kustoManagementUrl
 	}
+
+	// no assignment for property "KustoManagementUrlFromConfig"
 
 	// Set property "KustoOfferingType":
 	if typedInput.KustoOfferingType != nil {
@@ -1216,14 +1252,38 @@ func (datastore *Datastore) AssignProperties_From_Datastore(source *storage.Data
 	// KustoClusterUri
 	datastore.KustoClusterUri = genruntime.ClonePointerToString(source.KustoClusterUri)
 
+	// KustoClusterUriFromConfig
+	if source.KustoClusterUriFromConfig != nil {
+		kustoClusterUriFromConfig := source.KustoClusterUriFromConfig.Copy()
+		datastore.KustoClusterUriFromConfig = &kustoClusterUriFromConfig
+	} else {
+		datastore.KustoClusterUriFromConfig = nil
+	}
+
 	// KustoDataIngestionUri
 	datastore.KustoDataIngestionUri = genruntime.ClonePointerToString(source.KustoDataIngestionUri)
+
+	// KustoDataIngestionUriFromConfig
+	if source.KustoDataIngestionUriFromConfig != nil {
+		kustoDataIngestionUriFromConfig := source.KustoDataIngestionUriFromConfig.Copy()
+		datastore.KustoDataIngestionUriFromConfig = &kustoDataIngestionUriFromConfig
+	} else {
+		datastore.KustoDataIngestionUriFromConfig = nil
+	}
 
 	// KustoDatabaseName
 	datastore.KustoDatabaseName = genruntime.ClonePointerToString(source.KustoDatabaseName)
 
 	// KustoManagementUrl
 	datastore.KustoManagementUrl = genruntime.ClonePointerToString(source.KustoManagementUrl)
+
+	// KustoManagementUrlFromConfig
+	if source.KustoManagementUrlFromConfig != nil {
+		kustoManagementUrlFromConfig := source.KustoManagementUrlFromConfig.Copy()
+		datastore.KustoManagementUrlFromConfig = &kustoManagementUrlFromConfig
+	} else {
+		datastore.KustoManagementUrlFromConfig = nil
+	}
 
 	// KustoOfferingType
 	if source.KustoOfferingType != nil {
@@ -1257,14 +1317,38 @@ func (datastore *Datastore) AssignProperties_To_Datastore(destination *storage.D
 	// KustoClusterUri
 	destination.KustoClusterUri = genruntime.ClonePointerToString(datastore.KustoClusterUri)
 
+	// KustoClusterUriFromConfig
+	if datastore.KustoClusterUriFromConfig != nil {
+		kustoClusterUriFromConfig := datastore.KustoClusterUriFromConfig.Copy()
+		destination.KustoClusterUriFromConfig = &kustoClusterUriFromConfig
+	} else {
+		destination.KustoClusterUriFromConfig = nil
+	}
+
 	// KustoDataIngestionUri
 	destination.KustoDataIngestionUri = genruntime.ClonePointerToString(datastore.KustoDataIngestionUri)
+
+	// KustoDataIngestionUriFromConfig
+	if datastore.KustoDataIngestionUriFromConfig != nil {
+		kustoDataIngestionUriFromConfig := datastore.KustoDataIngestionUriFromConfig.Copy()
+		destination.KustoDataIngestionUriFromConfig = &kustoDataIngestionUriFromConfig
+	} else {
+		destination.KustoDataIngestionUriFromConfig = nil
+	}
 
 	// KustoDatabaseName
 	destination.KustoDatabaseName = genruntime.ClonePointerToString(datastore.KustoDatabaseName)
 
 	// KustoManagementUrl
 	destination.KustoManagementUrl = genruntime.ClonePointerToString(datastore.KustoManagementUrl)
+
+	// KustoManagementUrlFromConfig
+	if datastore.KustoManagementUrlFromConfig != nil {
+		kustoManagementUrlFromConfig := datastore.KustoManagementUrlFromConfig.Copy()
+		destination.KustoManagementUrlFromConfig = &kustoManagementUrlFromConfig
+	} else {
+		destination.KustoManagementUrlFromConfig = nil
+	}
 
 	// KustoOfferingType
 	if datastore.KustoOfferingType != nil {

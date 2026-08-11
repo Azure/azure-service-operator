@@ -11,12 +11,12 @@
 | ManagedServiceIdentityType                            | v20241001preview |
 | ManagedServiceIdentityType_STATUS                     | v20241001preview |
 | ManagedServiceIdentity_STATUS                         | v20241001preview |
-| SharedPrivateLinkResource                             | v20241001preview |
+| SharedPrivateLink                                     | v20241001preview |
 | SharedPrivateLinkResourceProperties                   | v20241001preview |
 | SharedPrivateLinkResourceProperties_STATUS            | v20241001preview |
 | SharedPrivateLinkResourceStatus_STATUS                | v20241001preview |
-| SharedPrivateLinkResource_STATUS                      | v20241001preview |
-| SharedPrivateLinkResource_Spec                        | v20241001preview |
+| SharedPrivateLink_STATUS                              | v20241001preview |
+| SharedPrivateLink_Spec                                | v20241001preview |
 | SqlDbElasticPoolTargetProperties                      | v20241001preview |
 | SqlDbElasticPoolTargetProperties_STATUS               | v20241001preview |
 | SqlDbElasticPoolTargetProperties_TargetType           | v20241001preview |

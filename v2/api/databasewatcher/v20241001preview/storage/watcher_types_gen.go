@@ -252,14 +252,17 @@ func (watcher *Watcher_STATUS) ConvertStatusTo(destination genruntime.Convertibl
 // The properties of a data store.
 type Datastore struct {
 	// AdxClusterResourceReference: The Azure resource ID of an Azure Data Explorer cluster.
-	AdxClusterResourceReference *genruntime.ResourceReference `armReference:"AdxClusterResourceId" json:"adxClusterResourceReference,omitempty"`
-	KustoClusterDisplayName     *string                       `json:"kustoClusterDisplayName,omitempty"`
-	KustoClusterUri             *string                       `json:"kustoClusterUri,omitempty"`
-	KustoDataIngestionUri       *string                       `json:"kustoDataIngestionUri,omitempty"`
-	KustoDatabaseName           *string                       `json:"kustoDatabaseName,omitempty"`
-	KustoManagementUrl          *string                       `json:"kustoManagementUrl,omitempty"`
-	KustoOfferingType           *string                       `json:"kustoOfferingType,omitempty"`
-	PropertyBag                 genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	AdxClusterResourceReference     *genruntime.ResourceReference  `armReference:"AdxClusterResourceId" json:"adxClusterResourceReference,omitempty"`
+	KustoClusterDisplayName         *string                        `json:"kustoClusterDisplayName,omitempty"`
+	KustoClusterUri                 *string                        `json:"kustoClusterUri,omitempty" optionalConfigMapPair:"KustoClusterUri"`
+	KustoClusterUriFromConfig       *genruntime.ConfigMapReference `json:"kustoClusterUriFromConfig,omitempty" optionalConfigMapPair:"KustoClusterUri"`
+	KustoDataIngestionUri           *string                        `json:"kustoDataIngestionUri,omitempty" optionalConfigMapPair:"KustoDataIngestionUri"`
+	KustoDataIngestionUriFromConfig *genruntime.ConfigMapReference `json:"kustoDataIngestionUriFromConfig,omitempty" optionalConfigMapPair:"KustoDataIngestionUri"`
+	KustoDatabaseName               *string                        `json:"kustoDatabaseName,omitempty"`
+	KustoManagementUrl              *string                        `json:"kustoManagementUrl,omitempty" optionalConfigMapPair:"KustoManagementUrl"`
+	KustoManagementUrlFromConfig    *genruntime.ConfigMapReference `json:"kustoManagementUrlFromConfig,omitempty" optionalConfigMapPair:"KustoManagementUrl"`
+	KustoOfferingType               *string                        `json:"kustoOfferingType,omitempty"`
+	PropertyBag                     genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v20241001preview.Datastore_STATUS

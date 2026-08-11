@@ -121,6 +121,7 @@ func (watcher *Watcher) createValidations() []func(ctx context.Context, obj *v20
 		watcher.validateOwnerReference,
 		watcher.validateSecretDestinations,
 		watcher.validateConfigMapDestinations,
+		watcher.validateOptionalConfigMapReferences,
 	}
 }
 
@@ -145,6 +146,9 @@ func (watcher *Watcher) updateValidations() []func(ctx context.Context, oldObj *
 		func(ctx context.Context, oldObj *v20241001p.Watcher, newObj *v20241001p.Watcher) (admission.Warnings, error) {
 			return watcher.validateConfigMapDestinations(ctx, newObj)
 		},
+		func(ctx context.Context, oldObj *v20241001p.Watcher, newObj *v20241001p.Watcher) (admission.Warnings, error) {
+			return watcher.validateOptionalConfigMapReferences(ctx, newObj)
+		},
 	}
 }
 
@@ -154,6 +158,15 @@ func (watcher *Watcher) validateConfigMapDestinations(ctx context.Context, obj *
 		return nil, nil
 	}
 	return configmaps.ValidateDestinations(obj, nil, obj.Spec.OperatorSpec.ConfigMapExpressions)
+}
+
+// validateOptionalConfigMapReferences validates all optional configmap reference pairs to ensure that at most 1 is set
+func (watcher *Watcher) validateOptionalConfigMapReferences(ctx context.Context, obj *v20241001p.Watcher) (admission.Warnings, error) {
+	refs, err := reflecthelpers.FindOptionalConfigMapReferences(&obj.Spec)
+	if err != nil {
+		return nil, err
+	}
+	return configmaps.ValidateOptionalReferences(refs)
 }
 
 // validateOwnerReference validates the owner field

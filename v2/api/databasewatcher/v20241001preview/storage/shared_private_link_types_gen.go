@@ -14,8 +14,8 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-// +kubebuilder:rbac:groups=databasewatcher.azure.com,resources=sharedprivatelinkresources,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=databasewatcher.azure.com,resources={sharedprivatelinkresources/status,sharedprivatelinkresources/finalizers},verbs=get;update;patch
+// +kubebuilder:rbac:groups=databasewatcher.azure.com,resources=sharedprivatelinks,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=databasewatcher.azure.com,resources={sharedprivatelinks/status,sharedprivatelinks/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,databasewatcher}
@@ -25,78 +25,78 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Storage version of v20241001preview.SharedPrivateLinkResource
+// Storage version of v20241001preview.SharedPrivateLink
 // Generator information:
 // - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}
-type SharedPrivateLinkResource struct {
+type SharedPrivateLink struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SharedPrivateLinkResource_Spec   `json:"spec,omitempty"`
-	Status            SharedPrivateLinkResource_STATUS `json:"status,omitempty"`
+	Spec              SharedPrivateLink_Spec   `json:"spec,omitempty"`
+	Status            SharedPrivateLink_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &SharedPrivateLinkResource{}
+var _ conditions.Conditioner = &SharedPrivateLink{}
 
 // GetConditions returns the conditions of the resource
-func (resource *SharedPrivateLinkResource) GetConditions() conditions.Conditions {
-	return resource.Status.Conditions
+func (link *SharedPrivateLink) GetConditions() conditions.Conditions {
+	return link.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (resource *SharedPrivateLinkResource) SetConditions(conditions conditions.Conditions) {
-	resource.Status.Conditions = conditions
+func (link *SharedPrivateLink) SetConditions(conditions conditions.Conditions) {
+	link.Status.Conditions = conditions
 }
 
-var _ configmaps.Exporter = &SharedPrivateLinkResource{}
+var _ configmaps.Exporter = &SharedPrivateLink{}
 
 // ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
-func (resource *SharedPrivateLinkResource) ConfigMapDestinationExpressions() []*core.DestinationExpression {
-	if resource.Spec.OperatorSpec == nil {
+func (link *SharedPrivateLink) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if link.Spec.OperatorSpec == nil {
 		return nil
 	}
-	return resource.Spec.OperatorSpec.ConfigMapExpressions
+	return link.Spec.OperatorSpec.ConfigMapExpressions
 }
 
-var _ secrets.Exporter = &SharedPrivateLinkResource{}
+var _ secrets.Exporter = &SharedPrivateLink{}
 
 // SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
-func (resource *SharedPrivateLinkResource) SecretDestinationExpressions() []*core.DestinationExpression {
-	if resource.Spec.OperatorSpec == nil {
+func (link *SharedPrivateLink) SecretDestinationExpressions() []*core.DestinationExpression {
+	if link.Spec.OperatorSpec == nil {
 		return nil
 	}
-	return resource.Spec.OperatorSpec.SecretExpressions
+	return link.Spec.OperatorSpec.SecretExpressions
 }
 
-var _ genruntime.KubernetesResource = &SharedPrivateLinkResource{}
+var _ genruntime.KubernetesResource = &SharedPrivateLink{}
 
 // AzureName returns the Azure name of the resource
-func (resource *SharedPrivateLinkResource) AzureName() string {
-	return resource.Spec.AzureName
+func (link *SharedPrivateLink) AzureName() string {
+	return link.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-10-01-preview"
-func (resource SharedPrivateLinkResource) GetAPIVersion() string {
+func (link SharedPrivateLink) GetAPIVersion() string {
 	return "2024-10-01-preview"
 }
 
 // GetResourceScope returns the scope of the resource
-func (resource *SharedPrivateLinkResource) GetResourceScope() genruntime.ResourceScope {
+func (link *SharedPrivateLink) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (resource *SharedPrivateLinkResource) GetSpec() genruntime.ConvertibleSpec {
-	return &resource.Spec
+func (link *SharedPrivateLink) GetSpec() genruntime.ConvertibleSpec {
+	return &link.Spec
 }
 
 // GetStatus returns the status of this resource
-func (resource *SharedPrivateLinkResource) GetStatus() genruntime.ConvertibleStatus {
-	return &resource.Status
+func (link *SharedPrivateLink) GetStatus() genruntime.ConvertibleStatus {
+	return &link.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (resource *SharedPrivateLinkResource) GetSupportedOperations() []genruntime.ResourceOperation {
+func (link *SharedPrivateLink) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationDelete,
 		genruntime.ResourceOperationGet,
@@ -105,65 +105,65 @@ func (resource *SharedPrivateLinkResource) GetSupportedOperations() []genruntime
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DatabaseWatcher/watchers/sharedPrivateLinkResources"
-func (resource *SharedPrivateLinkResource) GetType() string {
+func (link *SharedPrivateLink) GetType() string {
 	return "Microsoft.DatabaseWatcher/watchers/sharedPrivateLinkResources"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (resource *SharedPrivateLinkResource) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SharedPrivateLinkResource_STATUS{}
+func (link *SharedPrivateLink) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &SharedPrivateLink_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (resource *SharedPrivateLinkResource) Owner() *genruntime.ResourceReference {
-	if resource.Spec.Owner == nil {
+func (link *SharedPrivateLink) Owner() *genruntime.ResourceReference {
+	if link.Spec.Owner == nil {
 		return nil
 	}
 
-	group, kind := genruntime.LookupOwnerGroupKind(resource.Spec)
-	return resource.Spec.Owner.AsResourceReference(group, kind)
+	group, kind := genruntime.LookupOwnerGroupKind(link.Spec)
+	return link.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
-func (resource *SharedPrivateLinkResource) SetStatus(status genruntime.ConvertibleStatus) error {
+func (link *SharedPrivateLink) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SharedPrivateLinkResource_STATUS); ok {
-		resource.Status = *st
+	if st, ok := status.(*SharedPrivateLink_STATUS); ok {
+		link.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SharedPrivateLinkResource_STATUS
+	var st SharedPrivateLink_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
 	}
 
-	resource.Status = st
+	link.Status = st
 	return nil
 }
 
-// Hub marks that this SharedPrivateLinkResource is the hub type for conversion
-func (resource *SharedPrivateLinkResource) Hub() {}
+// Hub marks that this SharedPrivateLink is the hub type for conversion
+func (link *SharedPrivateLink) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (resource *SharedPrivateLinkResource) OriginalGVK() *schema.GroupVersionKind {
+func (link *SharedPrivateLink) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: resource.Spec.OriginalVersion,
-		Kind:    "SharedPrivateLinkResource",
+		Version: link.Spec.OriginalVersion,
+		Kind:    "SharedPrivateLink",
 	}
 }
 
 // +kubebuilder:object:root=true
-// Storage version of v20241001preview.SharedPrivateLinkResource
+// Storage version of v20241001preview.SharedPrivateLink
 // Generator information:
 // - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}
-type SharedPrivateLinkResourceList struct {
+type SharedPrivateLinkList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SharedPrivateLinkResource `json:"items"`
+	Items           []SharedPrivateLink `json:"items"`
 }
 
 // Storage version of v20241001preview.APIVersion
@@ -172,15 +172,15 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2024-10-01-preview")
 
-// Storage version of v20241001preview.SharedPrivateLinkResource_Spec
-type SharedPrivateLinkResource_Spec struct {
+// Storage version of v20241001preview.SharedPrivateLink_Spec
+type SharedPrivateLink_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string                                 `json:"azureName,omitempty"`
-	DnsZone         *string                                `json:"dnsZone,omitempty"`
-	GroupId         *string                                `json:"groupId,omitempty"`
-	OperatorSpec    *SharedPrivateLinkResourceOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion string                                 `json:"originalVersion,omitempty"`
+	AzureName       string                         `json:"azureName,omitempty"`
+	DnsZone         *string                        `json:"dnsZone,omitempty"`
+	GroupId         *string                        `json:"groupId,omitempty"`
+	OperatorSpec    *SharedPrivateLinkOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -195,28 +195,28 @@ type SharedPrivateLinkResource_Spec struct {
 	RequestMessage               *string                       `json:"requestMessage,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &SharedPrivateLinkResource_Spec{}
+var _ genruntime.ConvertibleSpec = &SharedPrivateLink_Spec{}
 
-// ConvertSpecFrom populates our SharedPrivateLinkResource_Spec from the provided source
-func (resource *SharedPrivateLinkResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == resource {
+// ConvertSpecFrom populates our SharedPrivateLink_Spec from the provided source
+func (link *SharedPrivateLink_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == link {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(resource)
+	return source.ConvertSpecTo(link)
 }
 
-// ConvertSpecTo populates the provided destination from our SharedPrivateLinkResource_Spec
-func (resource *SharedPrivateLinkResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == resource {
+// ConvertSpecTo populates the provided destination from our SharedPrivateLink_Spec
+func (link *SharedPrivateLink_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == link {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(resource)
+	return destination.ConvertSpecFrom(link)
 }
 
-// Storage version of v20241001preview.SharedPrivateLinkResource_STATUS
-type SharedPrivateLinkResource_STATUS struct {
+// Storage version of v20241001preview.SharedPrivateLink_STATUS
+type SharedPrivateLink_STATUS struct {
 	Conditions            []conditions.Condition `json:"conditions,omitempty"`
 	DnsZone               *string                `json:"dnsZone,omitempty"`
 	GroupId               *string                `json:"groupId,omitempty"`
@@ -231,29 +231,29 @@ type SharedPrivateLinkResource_STATUS struct {
 	Type                  *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SharedPrivateLinkResource_STATUS{}
+var _ genruntime.ConvertibleStatus = &SharedPrivateLink_STATUS{}
 
-// ConvertStatusFrom populates our SharedPrivateLinkResource_STATUS from the provided source
-func (resource *SharedPrivateLinkResource_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == resource {
+// ConvertStatusFrom populates our SharedPrivateLink_STATUS from the provided source
+func (link *SharedPrivateLink_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == link {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(resource)
+	return source.ConvertStatusTo(link)
 }
 
-// ConvertStatusTo populates the provided destination from our SharedPrivateLinkResource_STATUS
-func (resource *SharedPrivateLinkResource_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == resource {
+// ConvertStatusTo populates the provided destination from our SharedPrivateLink_STATUS
+func (link *SharedPrivateLink_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == link {
 		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(resource)
+	return destination.ConvertStatusFrom(link)
 }
 
-// Storage version of v20241001preview.SharedPrivateLinkResourceOperatorSpec
+// Storage version of v20241001preview.SharedPrivateLinkOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type SharedPrivateLinkResourceOperatorSpec struct {
+type SharedPrivateLinkOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
@@ -272,5 +272,5 @@ type SystemData_STATUS struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&SharedPrivateLinkResource{}, &SharedPrivateLinkResourceList{})
+	SchemeBuilder.Register(&SharedPrivateLink{}, &SharedPrivateLinkList{})
 }

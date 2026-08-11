@@ -63,16 +63,16 @@ type Datastore struct {
 	KustoClusterDisplayName *string `json:"kustoClusterDisplayName,omitempty"`
 
 	// KustoClusterUri: The Kusto cluster URI.
-	KustoClusterUri *string `json:"kustoClusterUri,omitempty"`
+	KustoClusterUri *string `json:"kustoClusterUri,omitempty" optionalConfigMapPair:"KustoClusterUri"`
 
 	// KustoDataIngestionUri: The Kusto data ingestion URI.
-	KustoDataIngestionUri *string `json:"kustoDataIngestionUri,omitempty"`
+	KustoDataIngestionUri *string `json:"kustoDataIngestionUri,omitempty" optionalConfigMapPair:"KustoDataIngestionUri"`
 
 	// KustoDatabaseName: The name of a Kusto database.
 	KustoDatabaseName *string `json:"kustoDatabaseName,omitempty"`
 
 	// KustoManagementUrl: The Kusto management URL.
-	KustoManagementUrl *string `json:"kustoManagementUrl,omitempty"`
+	KustoManagementUrl *string `json:"kustoManagementUrl,omitempty" optionalConfigMapPair:"KustoManagementUrl"`
 
 	// KustoOfferingType: The type of a Kusto offering.
 	KustoOfferingType *KustoOfferingType `json:"kustoOfferingType,omitempty"`

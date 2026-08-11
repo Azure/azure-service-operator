@@ -4,7 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview/
 APIVersion: Enum (1 value)
 └── "2024-10-01-preview"
 
-SharedPrivateLinkResource: Resource
+SharedPrivateLink: Resource
 ├── Owner: databasewatcher/v20241001preview.Watcher
 ├── Spec: Object (9 properties)
 │   ├── AzureName: string
@@ -52,8 +52,9 @@ Target: Resource
 │   ├── Owner: *genruntime.KnownResourceReference
 │   ├── Properties: *Object (5 properties)
 │   │   ├── PropertyBag: genruntime.PropertyBag
-│   │   ├── SqlDb: *Object (7 properties)
+│   │   ├── SqlDb: *Object (8 properties)
 │   │   │   ├── ConnectionServerName: *string
+│   │   │   ├── ConnectionServerNameFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── ReadIntent: *bool
 │   │   │   ├── SqlDbResourceReference: *genruntime.ResourceReference
@@ -64,9 +65,10 @@ Target: Resource
 │   │   │       ├── AkvTargetPassword: *string
 │   │   │       ├── AkvTargetUser: *string
 │   │   │       └── PropertyBag: genruntime.PropertyBag
-│   │   ├── SqlEp: *Object (8 properties)
+│   │   ├── SqlEp: *Object (9 properties)
 │   │   │   ├── AnchorDatabaseResourceReference: *genruntime.ResourceReference
 │   │   │   ├── ConnectionServerName: *string
+│   │   │   ├── ConnectionServerNameFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── ReadIntent: *bool
 │   │   │   ├── SqlEpResourceReference: *genruntime.ResourceReference
@@ -77,8 +79,9 @@ Target: Resource
 │   │   │       ├── AkvTargetPassword: *string
 │   │   │       ├── AkvTargetUser: *string
 │   │   │       └── PropertyBag: genruntime.PropertyBag
-│   │   ├── SqlMi: *Object (8 properties)
+│   │   ├── SqlMi: *Object (9 properties)
 │   │   │   ├── ConnectionServerName: *string
+│   │   │   ├── ConnectionServerNameFromConfig: *genruntime.ConfigMapReference
 │   │   │   ├── ConnectionTcpPort: *int
 │   │   │   ├── PropertyBag: genruntime.PropertyBag
 │   │   │   ├── ReadIntent: *bool
@@ -90,8 +93,9 @@ Target: Resource
 │   │   │       ├── AkvTargetPassword: *string
 │   │   │       ├── AkvTargetUser: *string
 │   │   │       └── PropertyBag: genruntime.PropertyBag
-│   │   └── SqlVm: *Object (8 properties)
+│   │   └── SqlVm: *Object (9 properties)
 │   │       ├── ConnectionServerName: *string
+│   │       ├── ConnectionServerNameFromConfig: *genruntime.ConfigMapReference
 │   │       ├── ConnectionTcpPort: *int
 │   │       ├── PropertyBag: genruntime.PropertyBag
 │   │       ├── SqlNamedInstanceName: *string
@@ -180,13 +184,16 @@ Watcher: Resource
 ├── Owner: resources/v1apiv20191001.ResourceGroup
 ├── Spec: Object (10 properties)
 │   ├── AzureName: string
-│   ├── Datastore: *Object (8 properties)
+│   ├── Datastore: *Object (11 properties)
 │   │   ├── AdxClusterResourceReference: *genruntime.ResourceReference
 │   │   ├── KustoClusterDisplayName: *string
 │   │   ├── KustoClusterUri: *string
+│   │   ├── KustoClusterUriFromConfig: *genruntime.ConfigMapReference
 │   │   ├── KustoDataIngestionUri: *string
+│   │   ├── KustoDataIngestionUriFromConfig: *genruntime.ConfigMapReference
 │   │   ├── KustoDatabaseName: *string
 │   │   ├── KustoManagementUrl: *string
+│   │   ├── KustoManagementUrlFromConfig: *genruntime.ConfigMapReference
 │   │   ├── KustoOfferingType: *string
 │   │   └── PropertyBag: genruntime.PropertyBag
 │   ├── DefaultAlertRuleIdentityResourceReference: *genruntime.ResourceReference

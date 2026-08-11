@@ -73,19 +73,19 @@ func SharedPrivateLinkResourcePropertiesGenerator() *rapid.Generator[SharedPriva
 	return sharedPrivateLinkResourcePropertiesGenerator
 }
 
-func Test_SharedPrivateLinkResource_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SharedPrivateLink_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
 	if testing.Short() {
 		return
 	}
 
-	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLinkResource_Spec)
+	rapid.Check(t, RunJSONSerializationTestForSharedPrivateLink_Spec)
 }
 
-// RunJSONSerializationTestForSharedPrivateLinkResource_Spec runs a test to see if a specific instance of SharedPrivateLinkResource_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForSharedPrivateLinkResource_Spec(t *rapid.T) {
-	subject := SharedPrivateLinkResource_SpecGenerator().Draw(t, "subject")
+// RunJSONSerializationTestForSharedPrivateLink_Spec runs a test to see if a specific instance of SharedPrivateLink_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSharedPrivateLink_Spec(t *rapid.T) {
+	subject := SharedPrivateLink_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -93,7 +93,7 @@ func RunJSONSerializationTestForSharedPrivateLinkResource_Spec(t *rapid.T) {
 	}
 
 	// Deserialize back into memory
-	var actual SharedPrivateLinkResource_Spec
+	var actual SharedPrivateLink_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		t.Fatal(err)
@@ -109,25 +109,25 @@ func RunJSONSerializationTestForSharedPrivateLinkResource_Spec(t *rapid.T) {
 	}
 }
 
-// Generator of SharedPrivateLinkResource_Spec instances for property testing - lazily instantiated by
-// SharedPrivateLinkResource_SpecGenerator()
-var sharedPrivateLinkResource_SpecGenerator *rapid.Generator[SharedPrivateLinkResource_Spec]
+// Generator of SharedPrivateLink_Spec instances for property testing - lazily instantiated by
+// SharedPrivateLink_SpecGenerator()
+var sharedPrivateLink_SpecGenerator *rapid.Generator[SharedPrivateLink_Spec]
 
-// SharedPrivateLinkResource_SpecGenerator returns a generator of SharedPrivateLinkResource_Spec instances for property testing.
-func SharedPrivateLinkResource_SpecGenerator() *rapid.Generator[SharedPrivateLinkResource_Spec] {
-	if sharedPrivateLinkResource_SpecGenerator != nil {
-		return sharedPrivateLinkResource_SpecGenerator
+// SharedPrivateLink_SpecGenerator returns a generator of SharedPrivateLink_Spec instances for property testing.
+func SharedPrivateLink_SpecGenerator() *rapid.Generator[SharedPrivateLink_Spec] {
+	if sharedPrivateLink_SpecGenerator != nil {
+		return sharedPrivateLink_SpecGenerator
 	}
 
 	name := rapid.String()
 	properties := rapid.Ptr(SharedPrivateLinkResourcePropertiesGenerator(), true)
 
-	sharedPrivateLinkResource_SpecGenerator = rapid.Custom(func(t *rapid.T) SharedPrivateLinkResource_Spec {
-		var result SharedPrivateLinkResource_Spec
+	sharedPrivateLink_SpecGenerator = rapid.Custom(func(t *rapid.T) SharedPrivateLink_Spec {
+		var result SharedPrivateLink_Spec
 		result.Name = name.Draw(t, "Name")
 		result.Properties = properties.Draw(t, "Properties")
 		return result
 	})
 
-	return sharedPrivateLinkResource_SpecGenerator
+	return sharedPrivateLink_SpecGenerator
 }

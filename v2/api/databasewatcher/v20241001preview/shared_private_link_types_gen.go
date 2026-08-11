@@ -28,107 +28,107 @@ import (
 // Generator information:
 // - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}
-type SharedPrivateLinkResource struct {
+type SharedPrivateLink struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SharedPrivateLinkResource_Spec   `json:"spec,omitempty"`
-	Status            SharedPrivateLinkResource_STATUS `json:"status,omitempty"`
+	Spec              SharedPrivateLink_Spec   `json:"spec,omitempty"`
+	Status            SharedPrivateLink_STATUS `json:"status,omitempty"`
 }
 
-var _ conditions.Conditioner = &SharedPrivateLinkResource{}
+var _ conditions.Conditioner = &SharedPrivateLink{}
 
 // GetConditions returns the conditions of the resource
-func (resource *SharedPrivateLinkResource) GetConditions() conditions.Conditions {
-	return resource.Status.Conditions
+func (link *SharedPrivateLink) GetConditions() conditions.Conditions {
+	return link.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (resource *SharedPrivateLinkResource) SetConditions(conditions conditions.Conditions) {
-	resource.Status.Conditions = conditions
+func (link *SharedPrivateLink) SetConditions(conditions conditions.Conditions) {
+	link.Status.Conditions = conditions
 }
 
-var _ conversion.Convertible = &SharedPrivateLinkResource{}
+var _ conversion.Convertible = &SharedPrivateLink{}
 
-// ConvertFrom populates our SharedPrivateLinkResource from the provided hub SharedPrivateLinkResource
-func (resource *SharedPrivateLinkResource) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SharedPrivateLinkResource)
+// ConvertFrom populates our SharedPrivateLink from the provided hub SharedPrivateLink
+func (link *SharedPrivateLink) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.SharedPrivateLink)
 	if !ok {
-		return fmt.Errorf("expected databasewatcher/v20241001preview/storage/SharedPrivateLinkResource but received %T instead", hub)
+		return fmt.Errorf("expected databasewatcher/v20241001preview/storage/SharedPrivateLink but received %T instead", hub)
 	}
 
-	return resource.AssignProperties_From_SharedPrivateLinkResource(source)
+	return link.AssignProperties_From_SharedPrivateLink(source)
 }
 
-// ConvertTo populates the provided hub SharedPrivateLinkResource from our SharedPrivateLinkResource
-func (resource *SharedPrivateLinkResource) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SharedPrivateLinkResource)
+// ConvertTo populates the provided hub SharedPrivateLink from our SharedPrivateLink
+func (link *SharedPrivateLink) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.SharedPrivateLink)
 	if !ok {
-		return fmt.Errorf("expected databasewatcher/v20241001preview/storage/SharedPrivateLinkResource but received %T instead", hub)
+		return fmt.Errorf("expected databasewatcher/v20241001preview/storage/SharedPrivateLink but received %T instead", hub)
 	}
 
-	return resource.AssignProperties_To_SharedPrivateLinkResource(destination)
+	return link.AssignProperties_To_SharedPrivateLink(destination)
 }
 
-var _ configmaps.Exporter = &SharedPrivateLinkResource{}
+var _ configmaps.Exporter = &SharedPrivateLink{}
 
 // ConfigMapDestinationExpressions returns the Spec.OperatorSpec.ConfigMapExpressions property
-func (resource *SharedPrivateLinkResource) ConfigMapDestinationExpressions() []*core.DestinationExpression {
-	if resource.Spec.OperatorSpec == nil {
+func (link *SharedPrivateLink) ConfigMapDestinationExpressions() []*core.DestinationExpression {
+	if link.Spec.OperatorSpec == nil {
 		return nil
 	}
-	return resource.Spec.OperatorSpec.ConfigMapExpressions
+	return link.Spec.OperatorSpec.ConfigMapExpressions
 }
 
-var _ secrets.Exporter = &SharedPrivateLinkResource{}
+var _ secrets.Exporter = &SharedPrivateLink{}
 
 // SecretDestinationExpressions returns the Spec.OperatorSpec.SecretExpressions property
-func (resource *SharedPrivateLinkResource) SecretDestinationExpressions() []*core.DestinationExpression {
-	if resource.Spec.OperatorSpec == nil {
+func (link *SharedPrivateLink) SecretDestinationExpressions() []*core.DestinationExpression {
+	if link.Spec.OperatorSpec == nil {
 		return nil
 	}
-	return resource.Spec.OperatorSpec.SecretExpressions
+	return link.Spec.OperatorSpec.SecretExpressions
 }
 
-var _ genruntime.ImportableResource = &SharedPrivateLinkResource{}
+var _ genruntime.ImportableResource = &SharedPrivateLink{}
 
 // InitializeSpec initializes the spec for this resource from the given status
-func (resource *SharedPrivateLinkResource) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*SharedPrivateLinkResource_STATUS); ok {
-		return resource.Spec.Initialize_From_SharedPrivateLinkResource_STATUS(s)
+func (link *SharedPrivateLink) InitializeSpec(status genruntime.ConvertibleStatus) error {
+	if s, ok := status.(*SharedPrivateLink_STATUS); ok {
+		return link.Spec.Initialize_From_SharedPrivateLink_STATUS(s)
 	}
 
-	return fmt.Errorf("expected Status of type SharedPrivateLinkResource_STATUS but received %T instead", status)
+	return fmt.Errorf("expected Status of type SharedPrivateLink_STATUS but received %T instead", status)
 }
 
-var _ genruntime.KubernetesResource = &SharedPrivateLinkResource{}
+var _ genruntime.KubernetesResource = &SharedPrivateLink{}
 
 // AzureName returns the Azure name of the resource
-func (resource *SharedPrivateLinkResource) AzureName() string {
-	return resource.Spec.AzureName
+func (link *SharedPrivateLink) AzureName() string {
+	return link.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-10-01-preview"
-func (resource SharedPrivateLinkResource) GetAPIVersion() string {
+func (link SharedPrivateLink) GetAPIVersion() string {
 	return "2024-10-01-preview"
 }
 
 // GetResourceScope returns the scope of the resource
-func (resource *SharedPrivateLinkResource) GetResourceScope() genruntime.ResourceScope {
+func (link *SharedPrivateLink) GetResourceScope() genruntime.ResourceScope {
 	return genruntime.ResourceScopeResourceGroup
 }
 
 // GetSpec returns the specification of this resource
-func (resource *SharedPrivateLinkResource) GetSpec() genruntime.ConvertibleSpec {
-	return &resource.Spec
+func (link *SharedPrivateLink) GetSpec() genruntime.ConvertibleSpec {
+	return &link.Spec
 }
 
 // GetStatus returns the status of this resource
-func (resource *SharedPrivateLinkResource) GetStatus() genruntime.ConvertibleStatus {
-	return &resource.Status
+func (link *SharedPrivateLink) GetStatus() genruntime.ConvertibleStatus {
+	return &link.Status
 }
 
 // GetSupportedOperations returns the operations supported by the resource
-func (resource *SharedPrivateLinkResource) GetSupportedOperations() []genruntime.ResourceOperation {
+func (link *SharedPrivateLink) GetSupportedOperations() []genruntime.ResourceOperation {
 	return []genruntime.ResourceOperation{
 		genruntime.ResourceOperationDelete,
 		genruntime.ResourceOperationGet,
@@ -137,89 +137,89 @@ func (resource *SharedPrivateLinkResource) GetSupportedOperations() []genruntime
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DatabaseWatcher/watchers/sharedPrivateLinkResources"
-func (resource *SharedPrivateLinkResource) GetType() string {
+func (link *SharedPrivateLink) GetType() string {
 	return "Microsoft.DatabaseWatcher/watchers/sharedPrivateLinkResources"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (resource *SharedPrivateLinkResource) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SharedPrivateLinkResource_STATUS{}
+func (link *SharedPrivateLink) NewEmptyStatus() genruntime.ConvertibleStatus {
+	return &SharedPrivateLink_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner
-func (resource *SharedPrivateLinkResource) Owner() *genruntime.ResourceReference {
-	if resource.Spec.Owner == nil {
+func (link *SharedPrivateLink) Owner() *genruntime.ResourceReference {
+	if link.Spec.Owner == nil {
 		return nil
 	}
 
-	group, kind := genruntime.LookupOwnerGroupKind(resource.Spec)
-	return resource.Spec.Owner.AsResourceReference(group, kind)
+	group, kind := genruntime.LookupOwnerGroupKind(link.Spec)
+	return link.Spec.Owner.AsResourceReference(group, kind)
 }
 
 // SetStatus sets the status of this resource
-func (resource *SharedPrivateLinkResource) SetStatus(status genruntime.ConvertibleStatus) error {
+func (link *SharedPrivateLink) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SharedPrivateLinkResource_STATUS); ok {
-		resource.Status = *st
+	if st, ok := status.(*SharedPrivateLink_STATUS); ok {
+		link.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SharedPrivateLinkResource_STATUS
+	var st SharedPrivateLink_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return eris.Wrap(err, "failed to convert status")
 	}
 
-	resource.Status = st
+	link.Status = st
 	return nil
 }
 
-// AssignProperties_From_SharedPrivateLinkResource populates our SharedPrivateLinkResource from the provided source SharedPrivateLinkResource
-func (resource *SharedPrivateLinkResource) AssignProperties_From_SharedPrivateLinkResource(source *storage.SharedPrivateLinkResource) error {
+// AssignProperties_From_SharedPrivateLink populates our SharedPrivateLink from the provided source SharedPrivateLink
+func (link *SharedPrivateLink) AssignProperties_From_SharedPrivateLink(source *storage.SharedPrivateLink) error {
 
 	// ObjectMeta
-	resource.ObjectMeta = *source.ObjectMeta.DeepCopy()
+	link.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec SharedPrivateLinkResource_Spec
-	err := spec.AssignProperties_From_SharedPrivateLinkResource_Spec(&source.Spec)
+	var spec SharedPrivateLink_Spec
+	err := spec.AssignProperties_From_SharedPrivateLink_Spec(&source.Spec)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_SharedPrivateLinkResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_From_SharedPrivateLink_Spec() to populate field Spec")
 	}
-	resource.Spec = spec
+	link.Spec = spec
 
 	// Status
-	var status SharedPrivateLinkResource_STATUS
-	err = status.AssignProperties_From_SharedPrivateLinkResource_STATUS(&source.Status)
+	var status SharedPrivateLink_STATUS
+	err = status.AssignProperties_From_SharedPrivateLink_STATUS(&source.Status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_From_SharedPrivateLinkResource_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_From_SharedPrivateLink_STATUS() to populate field Status")
 	}
-	resource.Status = status
+	link.Status = status
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_SharedPrivateLinkResource populates the provided destination SharedPrivateLinkResource from our SharedPrivateLinkResource
-func (resource *SharedPrivateLinkResource) AssignProperties_To_SharedPrivateLinkResource(destination *storage.SharedPrivateLinkResource) error {
+// AssignProperties_To_SharedPrivateLink populates the provided destination SharedPrivateLink from our SharedPrivateLink
+func (link *SharedPrivateLink) AssignProperties_To_SharedPrivateLink(destination *storage.SharedPrivateLink) error {
 
 	// ObjectMeta
-	destination.ObjectMeta = *resource.ObjectMeta.DeepCopy()
+	destination.ObjectMeta = *link.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec storage.SharedPrivateLinkResource_Spec
-	err := resource.Spec.AssignProperties_To_SharedPrivateLinkResource_Spec(&spec)
+	var spec storage.SharedPrivateLink_Spec
+	err := link.Spec.AssignProperties_To_SharedPrivateLink_Spec(&spec)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResource_Spec() to populate field Spec")
+		return eris.Wrap(err, "calling AssignProperties_To_SharedPrivateLink_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status storage.SharedPrivateLinkResource_STATUS
-	err = resource.Status.AssignProperties_To_SharedPrivateLinkResource_STATUS(&status)
+	var status storage.SharedPrivateLink_STATUS
+	err = link.Status.AssignProperties_To_SharedPrivateLink_STATUS(&status)
 	if err != nil {
-		return eris.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResource_STATUS() to populate field Status")
+		return eris.Wrap(err, "calling AssignProperties_To_SharedPrivateLink_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -228,11 +228,11 @@ func (resource *SharedPrivateLinkResource) AssignProperties_To_SharedPrivateLink
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (resource *SharedPrivateLinkResource) OriginalGVK() *schema.GroupVersionKind {
+func (link *SharedPrivateLink) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: resource.Spec.OriginalVersion(),
-		Kind:    "SharedPrivateLinkResource",
+		Version: link.Spec.OriginalVersion(),
+		Kind:    "SharedPrivateLink",
 	}
 }
 
@@ -240,10 +240,10 @@ func (resource *SharedPrivateLinkResource) OriginalGVK() *schema.GroupVersionKin
 // Generator information:
 // - Generated from: /databasewatcher/resource-manager/Microsoft.DatabaseWatcher/preview/2024-10-01-preview/Watcher.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}
-type SharedPrivateLinkResourceList struct {
+type SharedPrivateLinkList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []SharedPrivateLinkResource `json:"items"`
+	Items           []SharedPrivateLink `json:"items"`
 }
 
 // +kubebuilder:validation:Enum={"2024-10-01-preview"}
@@ -251,7 +251,7 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2024-10-01-preview")
 
-type SharedPrivateLinkResource_Spec struct {
+type SharedPrivateLink_Spec struct {
 	// +kubebuilder:validation:Pattern="^[a-zA-Z0-9]{1}[a-zA-Z0-9-_.]{0,62}[a-zA-Z0-9_]{1}$"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -270,7 +270,7 @@ type SharedPrivateLinkResource_Spec struct {
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
-	OperatorSpec *SharedPrivateLinkResourceOperatorSpec `json:"operatorSpec,omitempty"`
+	OperatorSpec *SharedPrivateLinkOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -287,69 +287,69 @@ type SharedPrivateLinkResource_Spec struct {
 	RequestMessage *string `json:"requestMessage,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &SharedPrivateLinkResource_Spec{}
+var _ genruntime.ARMTransformer = &SharedPrivateLink_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resource *SharedPrivateLinkResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if resource == nil {
+func (link *SharedPrivateLink_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if link == nil {
 		return nil, nil
 	}
-	result := &arm.SharedPrivateLinkResource_Spec{}
+	result := &arm.SharedPrivateLink_Spec{}
 
 	// Set property "Name":
 	result.Name = resolved.Name
 
 	// Set property "Properties":
-	if resource.DnsZone != nil ||
-		resource.GroupId != nil ||
-		resource.PrivateLinkResourceReference != nil ||
-		resource.RequestMessage != nil {
+	if link.DnsZone != nil ||
+		link.GroupId != nil ||
+		link.PrivateLinkResourceReference != nil ||
+		link.RequestMessage != nil {
 		result.Properties = &arm.SharedPrivateLinkResourceProperties{}
 	}
-	if resource.DnsZone != nil {
-		dnsZone := *resource.DnsZone
+	if link.DnsZone != nil {
+		dnsZone := *link.DnsZone
 		result.Properties.DnsZone = &dnsZone
 	}
-	if resource.GroupId != nil {
-		groupId := *resource.GroupId
+	if link.GroupId != nil {
+		groupId := *link.GroupId
 		result.Properties.GroupId = &groupId
 	}
-	if resource.PrivateLinkResourceReference != nil {
-		privateLinkResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*resource.PrivateLinkResourceReference)
+	if link.PrivateLinkResourceReference != nil {
+		privateLinkResourceIdARMID, err := resolved.ResolvedReferences.Lookup(*link.PrivateLinkResourceReference)
 		if err != nil {
 			return nil, err
 		}
 		privateLinkResourceId := privateLinkResourceIdARMID
 		result.Properties.PrivateLinkResourceId = &privateLinkResourceId
 	}
-	if resource.RequestMessage != nil {
-		requestMessage := *resource.RequestMessage
+	if link.RequestMessage != nil {
+		requestMessage := *link.RequestMessage
 		result.Properties.RequestMessage = &requestMessage
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SharedPrivateLinkResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.SharedPrivateLinkResource_Spec{}
+func (link *SharedPrivateLink_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.SharedPrivateLink_Spec{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SharedPrivateLinkResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.SharedPrivateLinkResource_Spec)
+func (link *SharedPrivateLink_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.SharedPrivateLink_Spec)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SharedPrivateLinkResource_Spec, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SharedPrivateLink_Spec, got %T", armInput)
 	}
 
 	// Set property "AzureName":
-	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	link.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property "DnsZone":
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsZone != nil {
 			dnsZone := *typedInput.Properties.DnsZone
-			resource.DnsZone = &dnsZone
+			link.DnsZone = &dnsZone
 		}
 	}
 
@@ -358,14 +358,14 @@ func (resource *SharedPrivateLinkResource_Spec) PopulateFromARM(owner genruntime
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GroupId != nil {
 			groupId := *typedInput.Properties.GroupId
-			resource.GroupId = &groupId
+			link.GroupId = &groupId
 		}
 	}
 
 	// no assignment for property "OperatorSpec"
 
 	// Set property "Owner":
-	resource.Owner = &genruntime.KnownResourceReference{
+	link.Owner = &genruntime.KnownResourceReference{
 		Name:  owner.Name,
 		ARMID: owner.ARMID,
 	}
@@ -377,7 +377,7 @@ func (resource *SharedPrivateLinkResource_Spec) PopulateFromARM(owner genruntime
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestMessage != nil {
 			requestMessage := *typedInput.Properties.RequestMessage
-			resource.RequestMessage = &requestMessage
+			link.RequestMessage = &requestMessage
 		}
 	}
 
@@ -385,25 +385,25 @@ func (resource *SharedPrivateLinkResource_Spec) PopulateFromARM(owner genruntime
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &SharedPrivateLinkResource_Spec{}
+var _ genruntime.ConvertibleSpec = &SharedPrivateLink_Spec{}
 
-// ConvertSpecFrom populates our SharedPrivateLinkResource_Spec from the provided source
-func (resource *SharedPrivateLinkResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*storage.SharedPrivateLinkResource_Spec)
+// ConvertSpecFrom populates our SharedPrivateLink_Spec from the provided source
+func (link *SharedPrivateLink_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*storage.SharedPrivateLink_Spec)
 	if ok {
 		// Populate our instance from source
-		return resource.AssignProperties_From_SharedPrivateLinkResource_Spec(src)
+		return link.AssignProperties_From_SharedPrivateLink_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.SharedPrivateLinkResource_Spec{}
+	src = &storage.SharedPrivateLink_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = resource.AssignProperties_From_SharedPrivateLinkResource_Spec(src)
+	err = link.AssignProperties_From_SharedPrivateLink_Spec(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -411,17 +411,17 @@ func (resource *SharedPrivateLinkResource_Spec) ConvertSpecFrom(source genruntim
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our SharedPrivateLinkResource_Spec
-func (resource *SharedPrivateLinkResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*storage.SharedPrivateLinkResource_Spec)
+// ConvertSpecTo populates the provided destination from our SharedPrivateLink_Spec
+func (link *SharedPrivateLink_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*storage.SharedPrivateLink_Spec)
 	if ok {
 		// Populate destination from our instance
-		return resource.AssignProperties_To_SharedPrivateLinkResource_Spec(dst)
+		return link.AssignProperties_To_SharedPrivateLink_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.SharedPrivateLinkResource_Spec{}
-	err := resource.AssignProperties_To_SharedPrivateLinkResource_Spec(dst)
+	dst = &storage.SharedPrivateLink_Spec{}
+	err := link.AssignProperties_To_SharedPrivateLink_Spec(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -435,73 +435,73 @@ func (resource *SharedPrivateLinkResource_Spec) ConvertSpecTo(destination genrun
 	return nil
 }
 
-// AssignProperties_From_SharedPrivateLinkResource_Spec populates our SharedPrivateLinkResource_Spec from the provided source SharedPrivateLinkResource_Spec
-func (resource *SharedPrivateLinkResource_Spec) AssignProperties_From_SharedPrivateLinkResource_Spec(source *storage.SharedPrivateLinkResource_Spec) error {
+// AssignProperties_From_SharedPrivateLink_Spec populates our SharedPrivateLink_Spec from the provided source SharedPrivateLink_Spec
+func (link *SharedPrivateLink_Spec) AssignProperties_From_SharedPrivateLink_Spec(source *storage.SharedPrivateLink_Spec) error {
 
 	// AzureName
-	resource.AzureName = source.AzureName
+	link.AzureName = source.AzureName
 
 	// DnsZone
-	resource.DnsZone = genruntime.ClonePointerToString(source.DnsZone)
+	link.DnsZone = genruntime.ClonePointerToString(source.DnsZone)
 
 	// GroupId
-	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
+	link.GroupId = genruntime.ClonePointerToString(source.GroupId)
 
 	// OperatorSpec
 	if source.OperatorSpec != nil {
-		var operatorSpec SharedPrivateLinkResourceOperatorSpec
-		err := operatorSpec.AssignProperties_From_SharedPrivateLinkResourceOperatorSpec(source.OperatorSpec)
+		var operatorSpec SharedPrivateLinkOperatorSpec
+		err := operatorSpec.AssignProperties_From_SharedPrivateLinkOperatorSpec(source.OperatorSpec)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_SharedPrivateLinkResourceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_From_SharedPrivateLinkOperatorSpec() to populate field OperatorSpec")
 		}
-		resource.OperatorSpec = &operatorSpec
+		link.OperatorSpec = &operatorSpec
 	} else {
-		resource.OperatorSpec = nil
+		link.OperatorSpec = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		resource.Owner = &owner
+		link.Owner = &owner
 	} else {
-		resource.Owner = nil
+		link.Owner = nil
 	}
 
 	// PrivateLinkResourceReference
 	if source.PrivateLinkResourceReference != nil {
 		privateLinkResourceReference := source.PrivateLinkResourceReference.Copy()
-		resource.PrivateLinkResourceReference = &privateLinkResourceReference
+		link.PrivateLinkResourceReference = &privateLinkResourceReference
 	} else {
-		resource.PrivateLinkResourceReference = nil
+		link.PrivateLinkResourceReference = nil
 	}
 
 	// RequestMessage
-	resource.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
+	link.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_SharedPrivateLinkResource_Spec populates the provided destination SharedPrivateLinkResource_Spec from our SharedPrivateLinkResource_Spec
-func (resource *SharedPrivateLinkResource_Spec) AssignProperties_To_SharedPrivateLinkResource_Spec(destination *storage.SharedPrivateLinkResource_Spec) error {
+// AssignProperties_To_SharedPrivateLink_Spec populates the provided destination SharedPrivateLink_Spec from our SharedPrivateLink_Spec
+func (link *SharedPrivateLink_Spec) AssignProperties_To_SharedPrivateLink_Spec(destination *storage.SharedPrivateLink_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = resource.AzureName
+	destination.AzureName = link.AzureName
 
 	// DnsZone
-	destination.DnsZone = genruntime.ClonePointerToString(resource.DnsZone)
+	destination.DnsZone = genruntime.ClonePointerToString(link.DnsZone)
 
 	// GroupId
-	destination.GroupId = genruntime.ClonePointerToString(resource.GroupId)
+	destination.GroupId = genruntime.ClonePointerToString(link.GroupId)
 
 	// OperatorSpec
-	if resource.OperatorSpec != nil {
-		var operatorSpec storage.SharedPrivateLinkResourceOperatorSpec
-		err := resource.OperatorSpec.AssignProperties_To_SharedPrivateLinkResourceOperatorSpec(&operatorSpec)
+	if link.OperatorSpec != nil {
+		var operatorSpec storage.SharedPrivateLinkOperatorSpec
+		err := link.OperatorSpec.AssignProperties_To_SharedPrivateLinkOperatorSpec(&operatorSpec)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkResourceOperatorSpec() to populate field OperatorSpec")
+			return eris.Wrap(err, "calling AssignProperties_To_SharedPrivateLinkOperatorSpec() to populate field OperatorSpec")
 		}
 		destination.OperatorSpec = &operatorSpec
 	} else {
@@ -509,26 +509,26 @@ func (resource *SharedPrivateLinkResource_Spec) AssignProperties_To_SharedPrivat
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = resource.OriginalVersion()
+	destination.OriginalVersion = link.OriginalVersion()
 
 	// Owner
-	if resource.Owner != nil {
-		owner := resource.Owner.Copy()
+	if link.Owner != nil {
+		owner := link.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// PrivateLinkResourceReference
-	if resource.PrivateLinkResourceReference != nil {
-		privateLinkResourceReference := resource.PrivateLinkResourceReference.Copy()
+	if link.PrivateLinkResourceReference != nil {
+		privateLinkResourceReference := link.PrivateLinkResourceReference.Copy()
 		destination.PrivateLinkResourceReference = &privateLinkResourceReference
 	} else {
 		destination.PrivateLinkResourceReference = nil
 	}
 
 	// RequestMessage
-	destination.RequestMessage = genruntime.ClonePointerToString(resource.RequestMessage)
+	destination.RequestMessage = genruntime.ClonePointerToString(link.RequestMessage)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -541,41 +541,39 @@ func (resource *SharedPrivateLinkResource_Spec) AssignProperties_To_SharedPrivat
 	return nil
 }
 
-// Initialize_From_SharedPrivateLinkResource_STATUS populates our SharedPrivateLinkResource_Spec from the provided source SharedPrivateLinkResource_STATUS
-func (resource *SharedPrivateLinkResource_Spec) Initialize_From_SharedPrivateLinkResource_STATUS(source *SharedPrivateLinkResource_STATUS) error {
+// Initialize_From_SharedPrivateLink_STATUS populates our SharedPrivateLink_Spec from the provided source SharedPrivateLink_STATUS
+func (link *SharedPrivateLink_Spec) Initialize_From_SharedPrivateLink_STATUS(source *SharedPrivateLink_STATUS) error {
 
 	// DnsZone
-	resource.DnsZone = genruntime.ClonePointerToString(source.DnsZone)
+	link.DnsZone = genruntime.ClonePointerToString(source.DnsZone)
 
 	// GroupId
-	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
+	link.GroupId = genruntime.ClonePointerToString(source.GroupId)
 
 	// PrivateLinkResourceReference
 	if source.PrivateLinkResourceId != nil {
 		privateLinkResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.PrivateLinkResourceId)
-		resource.PrivateLinkResourceReference = &privateLinkResourceReference
+		link.PrivateLinkResourceReference = &privateLinkResourceReference
 	} else {
-		resource.PrivateLinkResourceReference = nil
+		link.PrivateLinkResourceReference = nil
 	}
 
 	// RequestMessage
-	resource.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
+	link.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
 
 	// No error
 	return nil
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (resource *SharedPrivateLinkResource_Spec) OriginalVersion() string {
+func (link *SharedPrivateLink_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (resource *SharedPrivateLinkResource_Spec) SetAzureName(azureName string) {
-	resource.AzureName = azureName
-}
+func (link *SharedPrivateLink_Spec) SetAzureName(azureName string) { link.AzureName = azureName }
 
-type SharedPrivateLinkResource_STATUS struct {
+type SharedPrivateLink_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -615,25 +613,25 @@ type SharedPrivateLinkResource_STATUS struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SharedPrivateLinkResource_STATUS{}
+var _ genruntime.ConvertibleStatus = &SharedPrivateLink_STATUS{}
 
-// ConvertStatusFrom populates our SharedPrivateLinkResource_STATUS from the provided source
-func (resource *SharedPrivateLinkResource_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*storage.SharedPrivateLinkResource_STATUS)
+// ConvertStatusFrom populates our SharedPrivateLink_STATUS from the provided source
+func (link *SharedPrivateLink_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*storage.SharedPrivateLink_STATUS)
 	if ok {
 		// Populate our instance from source
-		return resource.AssignProperties_From_SharedPrivateLinkResource_STATUS(src)
+		return link.AssignProperties_From_SharedPrivateLink_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &storage.SharedPrivateLinkResource_STATUS{}
+	src = &storage.SharedPrivateLink_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = resource.AssignProperties_From_SharedPrivateLinkResource_STATUS(src)
+	err = link.AssignProperties_From_SharedPrivateLink_STATUS(src)
 	if err != nil {
 		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -641,17 +639,17 @@ func (resource *SharedPrivateLinkResource_STATUS) ConvertStatusFrom(source genru
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SharedPrivateLinkResource_STATUS
-func (resource *SharedPrivateLinkResource_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*storage.SharedPrivateLinkResource_STATUS)
+// ConvertStatusTo populates the provided destination from our SharedPrivateLink_STATUS
+func (link *SharedPrivateLink_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*storage.SharedPrivateLink_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return resource.AssignProperties_To_SharedPrivateLinkResource_STATUS(dst)
+		return link.AssignProperties_To_SharedPrivateLink_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &storage.SharedPrivateLinkResource_STATUS{}
-	err := resource.AssignProperties_To_SharedPrivateLinkResource_STATUS(dst)
+	dst = &storage.SharedPrivateLink_STATUS{}
+	err := link.AssignProperties_To_SharedPrivateLink_STATUS(dst)
 	if err != nil {
 		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -665,18 +663,18 @@ func (resource *SharedPrivateLinkResource_STATUS) ConvertStatusTo(destination ge
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SharedPrivateLinkResource_STATUS{}
+var _ genruntime.FromARMConverter = &SharedPrivateLink_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SharedPrivateLinkResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.SharedPrivateLinkResource_STATUS{}
+func (link *SharedPrivateLink_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.SharedPrivateLink_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.SharedPrivateLinkResource_STATUS)
+func (link *SharedPrivateLink_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.SharedPrivateLink_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SharedPrivateLinkResource_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.SharedPrivateLink_STATUS, got %T", armInput)
 	}
 
 	// no assignment for property "Conditions"
@@ -686,7 +684,7 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DnsZone != nil {
 			dnsZone := *typedInput.Properties.DnsZone
-			resource.DnsZone = &dnsZone
+			link.DnsZone = &dnsZone
 		}
 	}
 
@@ -695,20 +693,20 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 	if typedInput.Properties != nil {
 		if typedInput.Properties.GroupId != nil {
 			groupId := *typedInput.Properties.GroupId
-			resource.GroupId = &groupId
+			link.GroupId = &groupId
 		}
 	}
 
 	// Set property "Id":
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		resource.Id = &id
+		link.Id = &id
 	}
 
 	// Set property "Name":
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		resource.Name = &name
+		link.Name = &name
 	}
 
 	// Set property "PrivateLinkResourceId":
@@ -716,7 +714,7 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrivateLinkResourceId != nil {
 			privateLinkResourceId := *typedInput.Properties.PrivateLinkResourceId
-			resource.PrivateLinkResourceId = &privateLinkResourceId
+			link.PrivateLinkResourceId = &privateLinkResourceId
 		}
 	}
 
@@ -727,7 +725,7 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
 			provisioningState := AzureResourceManagerResourceProvisioningState_STATUS(temp)
-			resource.ProvisioningState = &provisioningState
+			link.ProvisioningState = &provisioningState
 		}
 	}
 
@@ -736,7 +734,7 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequestMessage != nil {
 			requestMessage := *typedInput.Properties.RequestMessage
-			resource.RequestMessage = &requestMessage
+			link.RequestMessage = &requestMessage
 		}
 	}
 
@@ -747,7 +745,7 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 			var temp string
 			temp = string(*typedInput.Properties.Status)
 			status := SharedPrivateLinkResourceStatus_STATUS(temp)
-			resource.Status = &status
+			link.Status = &status
 		}
 	}
 
@@ -759,59 +757,59 @@ func (resource *SharedPrivateLinkResource_STATUS) PopulateFromARM(owner genrunti
 			return err
 		}
 		systemData := systemData1
-		resource.SystemData = &systemData
+		link.SystemData = &systemData
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		resource.Type = &typeVar
+		link.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignProperties_From_SharedPrivateLinkResource_STATUS populates our SharedPrivateLinkResource_STATUS from the provided source SharedPrivateLinkResource_STATUS
-func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_From_SharedPrivateLinkResource_STATUS(source *storage.SharedPrivateLinkResource_STATUS) error {
+// AssignProperties_From_SharedPrivateLink_STATUS populates our SharedPrivateLink_STATUS from the provided source SharedPrivateLink_STATUS
+func (link *SharedPrivateLink_STATUS) AssignProperties_From_SharedPrivateLink_STATUS(source *storage.SharedPrivateLink_STATUS) error {
 
 	// Conditions
-	resource.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	link.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DnsZone
-	resource.DnsZone = genruntime.ClonePointerToString(source.DnsZone)
+	link.DnsZone = genruntime.ClonePointerToString(source.DnsZone)
 
 	// GroupId
-	resource.GroupId = genruntime.ClonePointerToString(source.GroupId)
+	link.GroupId = genruntime.ClonePointerToString(source.GroupId)
 
 	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
+	link.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
-	resource.Name = genruntime.ClonePointerToString(source.Name)
+	link.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PrivateLinkResourceId
-	resource.PrivateLinkResourceId = genruntime.ClonePointerToString(source.PrivateLinkResourceId)
+	link.PrivateLinkResourceId = genruntime.ClonePointerToString(source.PrivateLinkResourceId)
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
 		provisioningStateTemp := genruntime.ToEnum(provisioningState, azureResourceManagerResourceProvisioningState_STATUS_Values)
-		resource.ProvisioningState = &provisioningStateTemp
+		link.ProvisioningState = &provisioningStateTemp
 	} else {
-		resource.ProvisioningState = nil
+		link.ProvisioningState = nil
 	}
 
 	// RequestMessage
-	resource.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
+	link.RequestMessage = genruntime.ClonePointerToString(source.RequestMessage)
 
 	// Status
 	if source.Status != nil {
 		status := *source.Status
 		statusTemp := genruntime.ToEnum(status, sharedPrivateLinkResourceStatus_STATUS_Values)
-		resource.Status = &statusTemp
+		link.Status = &statusTemp
 	} else {
-		resource.Status = nil
+		link.Status = nil
 	}
 
 	// SystemData
@@ -821,64 +819,64 @@ func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_From_SharedPr
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
 		}
-		resource.SystemData = &systemDatum
+		link.SystemData = &systemDatum
 	} else {
-		resource.SystemData = nil
+		link.SystemData = nil
 	}
 
 	// Type
-	resource.Type = genruntime.ClonePointerToString(source.Type)
+	link.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignProperties_To_SharedPrivateLinkResource_STATUS populates the provided destination SharedPrivateLinkResource_STATUS from our SharedPrivateLinkResource_STATUS
-func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_To_SharedPrivateLinkResource_STATUS(destination *storage.SharedPrivateLinkResource_STATUS) error {
+// AssignProperties_To_SharedPrivateLink_STATUS populates the provided destination SharedPrivateLink_STATUS from our SharedPrivateLink_STATUS
+func (link *SharedPrivateLink_STATUS) AssignProperties_To_SharedPrivateLink_STATUS(destination *storage.SharedPrivateLink_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(resource.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(link.Conditions)
 
 	// DnsZone
-	destination.DnsZone = genruntime.ClonePointerToString(resource.DnsZone)
+	destination.DnsZone = genruntime.ClonePointerToString(link.DnsZone)
 
 	// GroupId
-	destination.GroupId = genruntime.ClonePointerToString(resource.GroupId)
+	destination.GroupId = genruntime.ClonePointerToString(link.GroupId)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
+	destination.Id = genruntime.ClonePointerToString(link.Id)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(resource.Name)
+	destination.Name = genruntime.ClonePointerToString(link.Name)
 
 	// PrivateLinkResourceId
-	destination.PrivateLinkResourceId = genruntime.ClonePointerToString(resource.PrivateLinkResourceId)
+	destination.PrivateLinkResourceId = genruntime.ClonePointerToString(link.PrivateLinkResourceId)
 
 	// ProvisioningState
-	if resource.ProvisioningState != nil {
-		provisioningState := string(*resource.ProvisioningState)
+	if link.ProvisioningState != nil {
+		provisioningState := string(*link.ProvisioningState)
 		destination.ProvisioningState = &provisioningState
 	} else {
 		destination.ProvisioningState = nil
 	}
 
 	// RequestMessage
-	destination.RequestMessage = genruntime.ClonePointerToString(resource.RequestMessage)
+	destination.RequestMessage = genruntime.ClonePointerToString(link.RequestMessage)
 
 	// Status
-	if resource.Status != nil {
-		status := string(*resource.Status)
+	if link.Status != nil {
+		status := string(*link.Status)
 		destination.Status = &status
 	} else {
 		destination.Status = nil
 	}
 
 	// SystemData
-	if resource.SystemData != nil {
+	if link.SystemData != nil {
 		var systemDatum storage.SystemData_STATUS
-		err := resource.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		err := link.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
 		if err != nil {
 			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
 		}
@@ -888,7 +886,7 @@ func (resource *SharedPrivateLinkResource_STATUS) AssignProperties_To_SharedPriv
 	}
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(resource.Type)
+	destination.Type = genruntime.ClonePointerToString(link.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -918,7 +916,7 @@ var azureResourceManagerResourceProvisioningState_STATUS_Values = map[string]Azu
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
-type SharedPrivateLinkResourceOperatorSpec struct {
+type SharedPrivateLinkOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 
@@ -926,8 +924,8 @@ type SharedPrivateLinkResourceOperatorSpec struct {
 	SecretExpressions []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
-// AssignProperties_From_SharedPrivateLinkResourceOperatorSpec populates our SharedPrivateLinkResourceOperatorSpec from the provided source SharedPrivateLinkResourceOperatorSpec
-func (operator *SharedPrivateLinkResourceOperatorSpec) AssignProperties_From_SharedPrivateLinkResourceOperatorSpec(source *storage.SharedPrivateLinkResourceOperatorSpec) error {
+// AssignProperties_From_SharedPrivateLinkOperatorSpec populates our SharedPrivateLinkOperatorSpec from the provided source SharedPrivateLinkOperatorSpec
+func (operator *SharedPrivateLinkOperatorSpec) AssignProperties_From_SharedPrivateLinkOperatorSpec(source *storage.SharedPrivateLinkOperatorSpec) error {
 
 	// ConfigMapExpressions
 	if source.ConfigMapExpressions != nil {
@@ -965,8 +963,8 @@ func (operator *SharedPrivateLinkResourceOperatorSpec) AssignProperties_From_Sha
 	return nil
 }
 
-// AssignProperties_To_SharedPrivateLinkResourceOperatorSpec populates the provided destination SharedPrivateLinkResourceOperatorSpec from our SharedPrivateLinkResourceOperatorSpec
-func (operator *SharedPrivateLinkResourceOperatorSpec) AssignProperties_To_SharedPrivateLinkResourceOperatorSpec(destination *storage.SharedPrivateLinkResourceOperatorSpec) error {
+// AssignProperties_To_SharedPrivateLinkOperatorSpec populates the provided destination SharedPrivateLinkOperatorSpec from our SharedPrivateLinkOperatorSpec
+func (operator *SharedPrivateLinkOperatorSpec) AssignProperties_To_SharedPrivateLinkOperatorSpec(destination *storage.SharedPrivateLinkOperatorSpec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1226,5 +1224,5 @@ var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModi
 }
 
 func init() {
-	SchemeBuilder.Register(&SharedPrivateLinkResource{}, &SharedPrivateLinkResourceList{})
+	SchemeBuilder.Register(&SharedPrivateLink{}, &SharedPrivateLinkList{})
 }

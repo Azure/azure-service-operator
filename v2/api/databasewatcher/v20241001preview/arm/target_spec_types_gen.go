@@ -105,7 +105,7 @@ type SqlDbElasticPoolTargetProperties struct {
 	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
 	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
 	// separately.
-	ConnectionServerName *string `json:"connectionServerName,omitempty"`
+	ConnectionServerName *string `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
 
 	// ReadIntent: Set to true to monitor a high availability replica of specified target, if any.
 	ReadIntent *bool `json:"readIntent,omitempty"`
@@ -130,7 +130,7 @@ type SqlDbSingleDatabaseTargetProperties struct {
 	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
 	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
 	// separately.
-	ConnectionServerName *string `json:"connectionServerName,omitempty"`
+	ConnectionServerName *string `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
 
 	// ReadIntent: Set to true to monitor a high availability replica of specified target, if any.
 	ReadIntent *bool `json:"readIntent,omitempty"`
@@ -155,7 +155,7 @@ type SqlMiTargetProperties struct {
 	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
 	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
 	// separately.
-	ConnectionServerName *string `json:"connectionServerName,omitempty"`
+	ConnectionServerName *string `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
 
 	// ConnectionTcpPort: The TCP port number to optionally use in the connection string when connecting to an Azure SQL
 	// Managed Instance target.
@@ -184,7 +184,7 @@ type SqlVmTargetProperties struct {
 	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
 	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
 	// separately.
-	ConnectionServerName *string `json:"connectionServerName,omitempty"`
+	ConnectionServerName *string `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
 
 	// ConnectionTcpPort: The TCP port number to optionally use in the connection string when connecting to an Azure SQL VM
 	// target.

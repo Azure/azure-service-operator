@@ -5,27 +5,27 @@ package arm
 
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
-type SharedPrivateLinkResource_Spec struct {
+type SharedPrivateLink_Spec struct {
 	Name string `json:"name,omitempty"`
 
 	// Properties: The resource-specific properties for this resource.
 	Properties *SharedPrivateLinkResourceProperties `json:"properties,omitempty"`
 }
 
-var _ genruntime.ARMResourceSpec = &SharedPrivateLinkResource_Spec{}
+var _ genruntime.ARMResourceSpec = &SharedPrivateLink_Spec{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2024-10-01-preview"
-func (resource SharedPrivateLinkResource_Spec) GetAPIVersion() string {
+func (link SharedPrivateLink_Spec) GetAPIVersion() string {
 	return "2024-10-01-preview"
 }
 
 // GetName returns the Name of the resource
-func (resource *SharedPrivateLinkResource_Spec) GetName() string {
-	return resource.Name
+func (link *SharedPrivateLink_Spec) GetName() string {
+	return link.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DatabaseWatcher/watchers/sharedPrivateLinkResources"
-func (resource *SharedPrivateLinkResource_Spec) GetType() string {
+func (link *SharedPrivateLink_Spec) GetType() string {
 	return "Microsoft.DatabaseWatcher/watchers/sharedPrivateLinkResources"
 }
 

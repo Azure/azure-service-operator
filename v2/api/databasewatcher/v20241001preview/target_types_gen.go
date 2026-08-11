@@ -1322,14 +1322,20 @@ type SqlDbElasticPoolTargetProperties struct {
 	// AnchorDatabaseResourceReference: The Azure resource ID of the anchor database used to connect to an elastic pool.
 	AnchorDatabaseResourceReference *genruntime.ResourceReference `armReference:"AnchorDatabaseResourceId" json:"anchorDatabaseResourceReference,omitempty"`
 
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=200
 	// ConnectionServerName: The FQDN host name of the server to use in the connection string when connecting to a target. For
 	// example, for an Azure SQL logical server in the Azure commercial cloud, the value might be
 	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
 	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
 	// separately.
-	ConnectionServerName *string `json:"connectionServerName,omitempty"`
+	ConnectionServerName *string `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+
+	// ConnectionServerNameFromConfig: The FQDN host name of the server to use in the connection string when connecting to a
+	// target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be
+	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
+	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
+	// separately.
+	ConnectionServerNameFromConfig *genruntime.ConfigMapReference `json:"connectionServerNameFromConfig,omitempty" optionalConfigMapPair:"ConnectionServerName"`
 
 	// ReadIntent: Set to true to monitor a high availability replica of specified target, if any.
 	ReadIntent *bool `json:"readIntent,omitempty"`
@@ -1373,6 +1379,14 @@ func (properties *SqlDbElasticPoolTargetProperties) ConvertToARM(resolved genrun
 	// Set property "ConnectionServerName":
 	if properties.ConnectionServerName != nil {
 		connectionServerName := *properties.ConnectionServerName
+		result.ConnectionServerName = &connectionServerName
+	}
+	if properties.ConnectionServerNameFromConfig != nil {
+		connectionServerNameValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.ConnectionServerNameFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property ConnectionServerName")
+		}
+		connectionServerName := connectionServerNameValue
 		result.ConnectionServerName = &connectionServerName
 	}
 
@@ -1441,6 +1455,8 @@ func (properties *SqlDbElasticPoolTargetProperties) PopulateFromARM(owner genrun
 		properties.ConnectionServerName = &connectionServerName
 	}
 
+	// no assignment for property "ConnectionServerNameFromConfig"
+
 	// Set property "ReadIntent":
 	if typedInput.ReadIntent != nil {
 		readIntent := *typedInput.ReadIntent
@@ -1492,6 +1508,14 @@ func (properties *SqlDbElasticPoolTargetProperties) AssignProperties_From_SqlDbE
 
 	// ConnectionServerName
 	properties.ConnectionServerName = genruntime.ClonePointerToString(source.ConnectionServerName)
+
+	// ConnectionServerNameFromConfig
+	if source.ConnectionServerNameFromConfig != nil {
+		connectionServerNameFromConfig := source.ConnectionServerNameFromConfig.Copy()
+		properties.ConnectionServerNameFromConfig = &connectionServerNameFromConfig
+	} else {
+		properties.ConnectionServerNameFromConfig = nil
+	}
 
 	// ReadIntent
 	if source.ReadIntent != nil {
@@ -1558,6 +1582,14 @@ func (properties *SqlDbElasticPoolTargetProperties) AssignProperties_To_SqlDbEla
 
 	// ConnectionServerName
 	destination.ConnectionServerName = genruntime.ClonePointerToString(properties.ConnectionServerName)
+
+	// ConnectionServerNameFromConfig
+	if properties.ConnectionServerNameFromConfig != nil {
+		connectionServerNameFromConfig := properties.ConnectionServerNameFromConfig.Copy()
+		destination.ConnectionServerNameFromConfig = &connectionServerNameFromConfig
+	} else {
+		destination.ConnectionServerNameFromConfig = nil
+	}
 
 	// ReadIntent
 	if properties.ReadIntent != nil {
@@ -1916,14 +1948,20 @@ func (properties *SqlDbElasticPoolTargetProperties_STATUS) AssignProperties_To_S
 }
 
 type SqlDbSingleDatabaseTargetProperties struct {
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=200
 	// ConnectionServerName: The FQDN host name of the server to use in the connection string when connecting to a target. For
 	// example, for an Azure SQL logical server in the Azure commercial cloud, the value might be
 	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
 	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
 	// separately.
-	ConnectionServerName *string `json:"connectionServerName,omitempty"`
+	ConnectionServerName *string `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+
+	// ConnectionServerNameFromConfig: The FQDN host name of the server to use in the connection string when connecting to a
+	// target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be
+	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
+	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
+	// separately.
+	ConnectionServerNameFromConfig *genruntime.ConfigMapReference `json:"connectionServerNameFromConfig,omitempty" optionalConfigMapPair:"ConnectionServerName"`
 
 	// ReadIntent: Set to true to monitor a high availability replica of specified target, if any.
 	ReadIntent *bool `json:"readIntent,omitempty"`
@@ -1957,6 +1995,14 @@ func (properties *SqlDbSingleDatabaseTargetProperties) ConvertToARM(resolved gen
 	// Set property "ConnectionServerName":
 	if properties.ConnectionServerName != nil {
 		connectionServerName := *properties.ConnectionServerName
+		result.ConnectionServerName = &connectionServerName
+	}
+	if properties.ConnectionServerNameFromConfig != nil {
+		connectionServerNameValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.ConnectionServerNameFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property ConnectionServerName")
+		}
+		connectionServerName := connectionServerNameValue
 		result.ConnectionServerName = &connectionServerName
 	}
 
@@ -2023,6 +2069,8 @@ func (properties *SqlDbSingleDatabaseTargetProperties) PopulateFromARM(owner gen
 		properties.ConnectionServerName = &connectionServerName
 	}
 
+	// no assignment for property "ConnectionServerNameFromConfig"
+
 	// Set property "ReadIntent":
 	if typedInput.ReadIntent != nil {
 		readIntent := *typedInput.ReadIntent
@@ -2066,6 +2114,14 @@ func (properties *SqlDbSingleDatabaseTargetProperties) AssignProperties_From_Sql
 
 	// ConnectionServerName
 	properties.ConnectionServerName = genruntime.ClonePointerToString(source.ConnectionServerName)
+
+	// ConnectionServerNameFromConfig
+	if source.ConnectionServerNameFromConfig != nil {
+		connectionServerNameFromConfig := source.ConnectionServerNameFromConfig.Copy()
+		properties.ConnectionServerNameFromConfig = &connectionServerNameFromConfig
+	} else {
+		properties.ConnectionServerNameFromConfig = nil
+	}
 
 	// ReadIntent
 	if source.ReadIntent != nil {
@@ -2124,6 +2180,14 @@ func (properties *SqlDbSingleDatabaseTargetProperties) AssignProperties_To_SqlDb
 
 	// ConnectionServerName
 	destination.ConnectionServerName = genruntime.ClonePointerToString(properties.ConnectionServerName)
+
+	// ConnectionServerNameFromConfig
+	if properties.ConnectionServerNameFromConfig != nil {
+		connectionServerNameFromConfig := properties.ConnectionServerNameFromConfig.Copy()
+		destination.ConnectionServerNameFromConfig = &connectionServerNameFromConfig
+	} else {
+		destination.ConnectionServerNameFromConfig = nil
+	}
 
 	// ReadIntent
 	if properties.ReadIntent != nil {
@@ -2459,14 +2523,20 @@ func (properties *SqlDbSingleDatabaseTargetProperties_STATUS) AssignProperties_T
 }
 
 type SqlMiTargetProperties struct {
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=200
 	// ConnectionServerName: The FQDN host name of the server to use in the connection string when connecting to a target. For
 	// example, for an Azure SQL logical server in the Azure commercial cloud, the value might be
 	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
 	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
 	// separately.
-	ConnectionServerName *string `json:"connectionServerName,omitempty"`
+	ConnectionServerName *string `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+
+	// ConnectionServerNameFromConfig: The FQDN host name of the server to use in the connection string when connecting to a
+	// target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be
+	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
+	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
+	// separately.
+	ConnectionServerNameFromConfig *genruntime.ConfigMapReference `json:"connectionServerNameFromConfig,omitempty" optionalConfigMapPair:"ConnectionServerName"`
 
 	// ConnectionTcpPort: The TCP port number to optionally use in the connection string when connecting to an Azure SQL
 	// Managed Instance target.
@@ -2504,6 +2574,14 @@ func (properties *SqlMiTargetProperties) ConvertToARM(resolved genruntime.Conver
 	// Set property "ConnectionServerName":
 	if properties.ConnectionServerName != nil {
 		connectionServerName := *properties.ConnectionServerName
+		result.ConnectionServerName = &connectionServerName
+	}
+	if properties.ConnectionServerNameFromConfig != nil {
+		connectionServerNameValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.ConnectionServerNameFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property ConnectionServerName")
+		}
+		connectionServerName := connectionServerNameValue
 		result.ConnectionServerName = &connectionServerName
 	}
 
@@ -2576,6 +2654,8 @@ func (properties *SqlMiTargetProperties) PopulateFromARM(owner genruntime.Arbitr
 		properties.ConnectionServerName = &connectionServerName
 	}
 
+	// no assignment for property "ConnectionServerNameFromConfig"
+
 	// Set property "ConnectionTcpPort":
 	if typedInput.ConnectionTcpPort != nil {
 		connectionTcpPort := *typedInput.ConnectionTcpPort
@@ -2625,6 +2705,14 @@ func (properties *SqlMiTargetProperties) AssignProperties_From_SqlMiTargetProper
 
 	// ConnectionServerName
 	properties.ConnectionServerName = genruntime.ClonePointerToString(source.ConnectionServerName)
+
+	// ConnectionServerNameFromConfig
+	if source.ConnectionServerNameFromConfig != nil {
+		connectionServerNameFromConfig := source.ConnectionServerNameFromConfig.Copy()
+		properties.ConnectionServerNameFromConfig = &connectionServerNameFromConfig
+	} else {
+		properties.ConnectionServerNameFromConfig = nil
+	}
 
 	// ConnectionTcpPort
 	properties.ConnectionTcpPort = genruntime.ClonePointerToInt(source.ConnectionTcpPort)
@@ -2686,6 +2774,14 @@ func (properties *SqlMiTargetProperties) AssignProperties_To_SqlMiTargetProperti
 
 	// ConnectionServerName
 	destination.ConnectionServerName = genruntime.ClonePointerToString(properties.ConnectionServerName)
+
+	// ConnectionServerNameFromConfig
+	if properties.ConnectionServerNameFromConfig != nil {
+		connectionServerNameFromConfig := properties.ConnectionServerNameFromConfig.Copy()
+		destination.ConnectionServerNameFromConfig = &connectionServerNameFromConfig
+	} else {
+		destination.ConnectionServerNameFromConfig = nil
+	}
 
 	// ConnectionTcpPort
 	destination.ConnectionTcpPort = genruntime.ClonePointerToInt(properties.ConnectionTcpPort)
@@ -3043,14 +3139,20 @@ func (properties *SqlMiTargetProperties_STATUS) AssignProperties_To_SqlMiTargetP
 }
 
 type SqlVmTargetProperties struct {
-	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:MaxLength=200
 	// ConnectionServerName: The FQDN host name of the server to use in the connection string when connecting to a target. For
 	// example, for an Azure SQL logical server in the Azure commercial cloud, the value might be
 	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
 	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
 	// separately.
-	ConnectionServerName *string `json:"connectionServerName,omitempty"`
+	ConnectionServerName *string `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+
+	// ConnectionServerNameFromConfig: The FQDN host name of the server to use in the connection string when connecting to a
+	// target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be
+	// 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the
+	// value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified
+	// separately.
+	ConnectionServerNameFromConfig *genruntime.ConfigMapReference `json:"connectionServerNameFromConfig,omitempty" optionalConfigMapPair:"ConnectionServerName"`
 
 	// ConnectionTcpPort: The TCP port number to optionally use in the connection string when connecting to an Azure SQL VM
 	// target.
@@ -3089,6 +3191,14 @@ func (properties *SqlVmTargetProperties) ConvertToARM(resolved genruntime.Conver
 	// Set property "ConnectionServerName":
 	if properties.ConnectionServerName != nil {
 		connectionServerName := *properties.ConnectionServerName
+		result.ConnectionServerName = &connectionServerName
+	}
+	if properties.ConnectionServerNameFromConfig != nil {
+		connectionServerNameValue, err := resolved.ResolvedConfigMaps.Lookup(*properties.ConnectionServerNameFromConfig)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up configmap for property ConnectionServerName")
+		}
+		connectionServerName := connectionServerNameValue
 		result.ConnectionServerName = &connectionServerName
 	}
 
@@ -3161,6 +3271,8 @@ func (properties *SqlVmTargetProperties) PopulateFromARM(owner genruntime.Arbitr
 		properties.ConnectionServerName = &connectionServerName
 	}
 
+	// no assignment for property "ConnectionServerNameFromConfig"
+
 	// Set property "ConnectionTcpPort":
 	if typedInput.ConnectionTcpPort != nil {
 		connectionTcpPort := *typedInput.ConnectionTcpPort
@@ -3210,6 +3322,14 @@ func (properties *SqlVmTargetProperties) AssignProperties_From_SqlVmTargetProper
 
 	// ConnectionServerName
 	properties.ConnectionServerName = genruntime.ClonePointerToString(source.ConnectionServerName)
+
+	// ConnectionServerNameFromConfig
+	if source.ConnectionServerNameFromConfig != nil {
+		connectionServerNameFromConfig := source.ConnectionServerNameFromConfig.Copy()
+		properties.ConnectionServerNameFromConfig = &connectionServerNameFromConfig
+	} else {
+		properties.ConnectionServerNameFromConfig = nil
+	}
 
 	// ConnectionTcpPort
 	properties.ConnectionTcpPort = genruntime.ClonePointerToInt(source.ConnectionTcpPort)
@@ -3266,6 +3386,14 @@ func (properties *SqlVmTargetProperties) AssignProperties_To_SqlVmTargetProperti
 
 	// ConnectionServerName
 	destination.ConnectionServerName = genruntime.ClonePointerToString(properties.ConnectionServerName)
+
+	// ConnectionServerNameFromConfig
+	if properties.ConnectionServerNameFromConfig != nil {
+		connectionServerNameFromConfig := properties.ConnectionServerNameFromConfig.Copy()
+		destination.ConnectionServerNameFromConfig = &connectionServerNameFromConfig
+	} else {
+		destination.ConnectionServerNameFromConfig = nil
+	}
 
 	// ConnectionTcpPort
 	destination.ConnectionTcpPort = genruntime.ClonePointerToInt(properties.ConnectionTcpPort)

@@ -264,10 +264,11 @@ type TargetProperties_STATUS struct {
 type SqlDbElasticPoolTargetProperties struct {
 	// +kubebuilder:validation:Required
 	// AnchorDatabaseResourceReference: The Azure resource ID of the anchor database used to connect to an elastic pool.
-	AnchorDatabaseResourceReference *genruntime.ResourceReference `armReference:"AnchorDatabaseResourceId" json:"anchorDatabaseResourceReference,omitempty"`
-	ConnectionServerName            *string                       `json:"connectionServerName,omitempty"`
-	PropertyBag                     genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ReadIntent                      *bool                         `json:"readIntent,omitempty"`
+	AnchorDatabaseResourceReference *genruntime.ResourceReference  `armReference:"AnchorDatabaseResourceId" json:"anchorDatabaseResourceReference,omitempty"`
+	ConnectionServerName            *string                        `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+	ConnectionServerNameFromConfig  *genruntime.ConfigMapReference `json:"connectionServerNameFromConfig,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+	PropertyBag                     genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	ReadIntent                      *bool                          `json:"readIntent,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// SqlEpResourceReference: The Azure resource ID of an Azure SQL DB elastic pool target.
@@ -292,9 +293,10 @@ type SqlDbElasticPoolTargetProperties_STATUS struct {
 
 // Storage version of v20241001preview.SqlDbSingleDatabaseTargetProperties
 type SqlDbSingleDatabaseTargetProperties struct {
-	ConnectionServerName *string                `json:"connectionServerName,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ReadIntent           *bool                  `json:"readIntent,omitempty"`
+	ConnectionServerName           *string                        `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+	ConnectionServerNameFromConfig *genruntime.ConfigMapReference `json:"connectionServerNameFromConfig,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+	PropertyBag                    genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	ReadIntent                     *bool                          `json:"readIntent,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// SqlDbResourceReference: The Azure resource ID of an Azure SQL DB database target.
@@ -318,10 +320,11 @@ type SqlDbSingleDatabaseTargetProperties_STATUS struct {
 
 // Storage version of v20241001preview.SqlMiTargetProperties
 type SqlMiTargetProperties struct {
-	ConnectionServerName *string                `json:"connectionServerName,omitempty"`
-	ConnectionTcpPort    *int                   `json:"connectionTcpPort,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ReadIntent           *bool                  `json:"readIntent,omitempty"`
+	ConnectionServerName           *string                        `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+	ConnectionServerNameFromConfig *genruntime.ConfigMapReference `json:"connectionServerNameFromConfig,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+	ConnectionTcpPort              *int                           `json:"connectionTcpPort,omitempty"`
+	PropertyBag                    genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	ReadIntent                     *bool                          `json:"readIntent,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// SqlMiResourceReference: The Azure resource ID of an Azure SQL Managed Instance target.
@@ -346,10 +349,11 @@ type SqlMiTargetProperties_STATUS struct {
 
 // Storage version of v20241001preview.SqlVmTargetProperties
 type SqlVmTargetProperties struct {
-	ConnectionServerName *string                `json:"connectionServerName,omitempty"`
-	ConnectionTcpPort    *int                   `json:"connectionTcpPort,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SqlNamedInstanceName *string                `json:"sqlNamedInstanceName,omitempty"`
+	ConnectionServerName           *string                        `json:"connectionServerName,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+	ConnectionServerNameFromConfig *genruntime.ConfigMapReference `json:"connectionServerNameFromConfig,omitempty" optionalConfigMapPair:"ConnectionServerName"`
+	ConnectionTcpPort              *int                           `json:"connectionTcpPort,omitempty"`
+	PropertyBag                    genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	SqlNamedInstanceName           *string                        `json:"sqlNamedInstanceName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// SqlVmResourceReference: The Azure resource ID of an Azure SQL VM target.

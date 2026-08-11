@@ -4,7 +4,7 @@ github.com/Azure/azure-service-operator/v2/api/databasewatcher/v20241001preview
 APIVersion: Enum (1 value)
 └── "2024-10-01-preview"
 
-SharedPrivateLinkResource: Resource
+SharedPrivateLink: Resource
 ├── Owner: Watcher
 ├── Spec: Object (7 properties)
 │   ├── AzureName: Validated<string> (1 rule)
@@ -61,9 +61,10 @@ Target: Resource
 │   │   └── SecretExpressions: *core.DestinationExpression[]
 │   ├── Owner: *genruntime.KnownResourceReference
 │   └── Properties: *Object (4 properties)
-│       ├── SqlDb: *Object (6 properties)
+│       ├── SqlDb: *Object (7 properties)
 │       │   ├── ConnectionServerName: Validated<*string> (1 rule)
 │       │   │   └── Rule 0: MaxLength: 200
+│       │   ├── ConnectionServerNameFromConfig: *genruntime.ConfigMapReference
 │       │   ├── ReadIntent: *bool
 │       │   ├── SqlDbResourceReference: *genruntime.ResourceReference
 │       │   ├── TargetAuthenticationType: *Enum (2 values)
@@ -77,10 +78,11 @@ Target: Resource
 │       │       │   └── Rule 0: Pattern: "^[a-zA-Z0-9-]{1,127}$"
 │       │       └── AkvTargetUser: Validated<*string> (1 rule)
 │       │           └── Rule 0: Pattern: "^[a-zA-Z0-9-]{1,127}$"
-│       ├── SqlEp: *Object (7 properties)
+│       ├── SqlEp: *Object (8 properties)
 │       │   ├── AnchorDatabaseResourceReference: *genruntime.ResourceReference
 │       │   ├── ConnectionServerName: Validated<*string> (1 rule)
 │       │   │   └── Rule 0: MaxLength: 200
+│       │   ├── ConnectionServerNameFromConfig: *genruntime.ConfigMapReference
 │       │   ├── ReadIntent: *bool
 │       │   ├── SqlEpResourceReference: *genruntime.ResourceReference
 │       │   ├── TargetAuthenticationType: *Enum (2 values)
@@ -94,9 +96,10 @@ Target: Resource
 │       │       │   └── Rule 0: Pattern: "^[a-zA-Z0-9-]{1,127}$"
 │       │       └── AkvTargetUser: Validated<*string> (1 rule)
 │       │           └── Rule 0: Pattern: "^[a-zA-Z0-9-]{1,127}$"
-│       ├── SqlMi: *Object (7 properties)
+│       ├── SqlMi: *Object (8 properties)
 │       │   ├── ConnectionServerName: Validated<*string> (1 rule)
 │       │   │   └── Rule 0: MaxLength: 200
+│       │   ├── ConnectionServerNameFromConfig: *genruntime.ConfigMapReference
 │       │   ├── ConnectionTcpPort: *int
 │       │   ├── ReadIntent: *bool
 │       │   ├── SqlMiResourceReference: *genruntime.ResourceReference
@@ -111,9 +114,10 @@ Target: Resource
 │       │       │   └── Rule 0: Pattern: "^[a-zA-Z0-9-]{1,127}$"
 │       │       └── AkvTargetUser: Validated<*string> (1 rule)
 │       │           └── Rule 0: Pattern: "^[a-zA-Z0-9-]{1,127}$"
-│       └── SqlVm: *Object (7 properties)
+│       └── SqlVm: *Object (8 properties)
 │           ├── ConnectionServerName: Validated<*string> (1 rule)
 │           │   └── Rule 0: MaxLength: 200
+│           ├── ConnectionServerNameFromConfig: *genruntime.ConfigMapReference
 │           ├── ConnectionTcpPort: *int
 │           ├── SqlNamedInstanceName: *string
 │           ├── SqlVmResourceReference: *genruntime.ResourceReference
@@ -226,13 +230,16 @@ Watcher: Resource
 ├── Spec: Object (8 properties)
 │   ├── AzureName: Validated<string> (1 rule)
 │   │   └── Rule 0: Pattern: "^[a-zA-Z0-9]{1}[a-zA-Z0-9-_]{3,60}$"
-│   ├── Datastore: *Object (7 properties)
+│   ├── Datastore: *Object (10 properties)
 │   │   ├── AdxClusterResourceReference: *genruntime.ResourceReference
 │   │   ├── KustoClusterDisplayName: *string
 │   │   ├── KustoClusterUri: *string
+│   │   ├── KustoClusterUriFromConfig: *genruntime.ConfigMapReference
 │   │   ├── KustoDataIngestionUri: *string
+│   │   ├── KustoDataIngestionUriFromConfig: *genruntime.ConfigMapReference
 │   │   ├── KustoDatabaseName: *string
 │   │   ├── KustoManagementUrl: *string
+│   │   ├── KustoManagementUrlFromConfig: *genruntime.ConfigMapReference
 │   │   └── KustoOfferingType: *Enum (3 values)
 │   │       ├── "adx"
 │   │       ├── "fabric"
