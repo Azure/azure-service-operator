@@ -5,8 +5,8 @@ package v1api20211101
 
 import (
 	"encoding/json"
-	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
-	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
+	v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -42,7 +42,7 @@ func RunResourceConversionTestForServersAdvancedThreatProtectionSetting(subject 
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub sql_v20211101s.ServersAdvancedThreatProtectionSetting
+	var hub v20250101s.ServersAdvancedThreatProtectionSetting
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -89,7 +89,7 @@ func RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting(subject 
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersAdvancedThreatProtectionSetting
+	var other v20211101s.ServersAdvancedThreatProtectionSetting
 	err := copied.AssignProperties_To_ServersAdvancedThreatProtectionSetting(&other)
 	if err != nil {
 		return err.Error()
@@ -203,7 +203,7 @@ func RunPropertyAssignmentTestForServersAdvancedThreatProtectionSettingOperatorS
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersAdvancedThreatProtectionSettingOperatorSpec
+	var other v20211101s.ServersAdvancedThreatProtectionSettingOperatorSpec
 	err := copied.AssignProperties_To_ServersAdvancedThreatProtectionSettingOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -310,7 +310,7 @@ func RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting_STATUS(s
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersAdvancedThreatProtectionSetting_STATUS
+	var other v20211101s.ServersAdvancedThreatProtectionSetting_STATUS
 	err := copied.AssignProperties_To_ServersAdvancedThreatProtectionSetting_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -441,7 +441,7 @@ func RunPropertyAssignmentTestForServersAdvancedThreatProtectionSetting_Spec(sub
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.ServersAdvancedThreatProtectionSetting_Spec
+	var other v20211101s.ServersAdvancedThreatProtectionSetting_Spec
 	err := copied.AssignProperties_To_ServersAdvancedThreatProtectionSetting_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -568,7 +568,7 @@ func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other sql_v1api20211101s.SystemData_STATUS
+	var other v20211101s.SystemData_STATUS
 	err := copied.AssignProperties_To_SystemData_STATUS(&other)
 	if err != nil {
 		return err.Error()

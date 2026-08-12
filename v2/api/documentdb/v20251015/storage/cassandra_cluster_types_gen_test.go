@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -16,6 +17,101 @@ import (
 	"reflect"
 	"testing"
 )
+
+func Test_CassandraCluster_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraCluster to hub returns original",
+		prop.ForAll(RunResourceConversionTestForCassandraCluster, CassandraClusterGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForCassandraCluster tests if a specific instance of CassandraCluster round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForCassandraCluster(subject CassandraCluster) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.CassandraCluster
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual CassandraCluster
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_CassandraCluster_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraCluster to CassandraCluster via AssignProperties_To_CassandraCluster & AssignProperties_From_CassandraCluster returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraCluster, CassandraClusterGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraCluster tests if a specific instance of CassandraCluster can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraCluster(subject CassandraCluster) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CassandraCluster
+	err := copied.AssignProperties_To_CassandraCluster(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraCluster
+	err = actual.AssignProperties_From_CassandraCluster(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
 
 func Test_CassandraCluster_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
@@ -83,6 +179,53 @@ func AddRelatedPropertyGeneratorsForCassandraCluster(gens map[string]gopter.Gen)
 	gens["Status"] = CassandraCluster_STATUSGenerator()
 }
 
+func Test_CassandraClusterOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraClusterOperatorSpec to CassandraClusterOperatorSpec via AssignProperties_To_CassandraClusterOperatorSpec & AssignProperties_From_CassandraClusterOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraClusterOperatorSpec, CassandraClusterOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraClusterOperatorSpec tests if a specific instance of CassandraClusterOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraClusterOperatorSpec(subject CassandraClusterOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CassandraClusterOperatorSpec
+	err := copied.AssignProperties_To_CassandraClusterOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraClusterOperatorSpec
+	err = actual.AssignProperties_From_CassandraClusterOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CassandraClusterOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -141,6 +284,53 @@ func CassandraClusterOperatorSpecGenerator() gopter.Gen {
 	cassandraClusterOperatorSpecGenerator = gen.Struct(reflect.TypeOf(CassandraClusterOperatorSpec{}), generators)
 
 	return cassandraClusterOperatorSpecGenerator
+}
+
+func Test_CassandraCluster_Properties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraCluster_Properties_STATUS to ClusterResourceProperties_STATUS via AssignProperties_To_ClusterResourceProperties_STATUS & AssignProperties_From_ClusterResourceProperties_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraCluster_Properties_STATUS, CassandraCluster_Properties_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraCluster_Properties_STATUS tests if a specific instance of CassandraCluster_Properties_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraCluster_Properties_STATUS(subject CassandraCluster_Properties_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ClusterResourceProperties_STATUS
+	err := copied.AssignProperties_To_ClusterResourceProperties_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraCluster_Properties_STATUS
+	err = actual.AssignProperties_From_ClusterResourceProperties_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CassandraCluster_Properties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -240,6 +430,53 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_Properties_STATUS(gens map[
 	gens["SeedNodes"] = gen.SliceOf(SeedNode_STATUSGenerator())
 }
 
+func Test_CassandraCluster_Properties_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraCluster_Properties_Spec to ClusterResourceProperties via AssignProperties_To_ClusterResourceProperties & AssignProperties_From_ClusterResourceProperties returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraCluster_Properties_Spec, CassandraCluster_Properties_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraCluster_Properties_Spec tests if a specific instance of CassandraCluster_Properties_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraCluster_Properties_Spec(subject CassandraCluster_Properties_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ClusterResourceProperties
+	err := copied.AssignProperties_To_ClusterResourceProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraCluster_Properties_Spec
+	err = actual.AssignProperties_From_ClusterResourceProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CassandraCluster_Properties_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -329,6 +566,53 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_Properties_Spec(gens map[st
 	gens["PrometheusEndpoint"] = gen.PtrOf(SeedNodeGenerator())
 }
 
+func Test_CassandraCluster_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraCluster_STATUS to CassandraCluster_STATUS via AssignProperties_To_CassandraCluster_STATUS & AssignProperties_From_CassandraCluster_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraCluster_STATUS, CassandraCluster_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraCluster_STATUS tests if a specific instance of CassandraCluster_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraCluster_STATUS(subject CassandraCluster_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CassandraCluster_STATUS
+	err := copied.AssignProperties_To_CassandraCluster_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraCluster_STATUS
+	err = actual.AssignProperties_From_CassandraCluster_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CassandraCluster_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -414,6 +698,53 @@ func AddIndependentPropertyGeneratorsForCassandraCluster_STATUS(gens map[string]
 func AddRelatedPropertyGeneratorsForCassandraCluster_STATUS(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(ManagedCassandraManagedServiceIdentity_STATUSGenerator())
 	gens["Properties"] = gen.PtrOf(CassandraCluster_Properties_STATUSGenerator())
+}
+
+func Test_CassandraCluster_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraCluster_Spec to CassandraCluster_Spec via AssignProperties_To_CassandraCluster_Spec & AssignProperties_From_CassandraCluster_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraCluster_Spec, CassandraCluster_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraCluster_Spec tests if a specific instance of CassandraCluster_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraCluster_Spec(subject CassandraCluster_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CassandraCluster_Spec
+	err := copied.AssignProperties_To_CassandraCluster_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraCluster_Spec
+	err = actual.AssignProperties_From_CassandraCluster_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_CassandraCluster_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -503,6 +834,53 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_Spec(gens map[string]gopter
 	gens["Properties"] = gen.PtrOf(CassandraCluster_Properties_SpecGenerator())
 }
 
+func Test_CassandraError_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from CassandraError_STATUS to CassandraError_STATUS via AssignProperties_To_CassandraError_STATUS & AssignProperties_From_CassandraError_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCassandraError_STATUS, CassandraError_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCassandraError_STATUS tests if a specific instance of CassandraError_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCassandraError_STATUS(subject CassandraError_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.CassandraError_STATUS
+	err := copied.AssignProperties_To_CassandraError_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual CassandraError_STATUS
+	err = actual.AssignProperties_From_CassandraError_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_CassandraError_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -572,6 +950,53 @@ func AddIndependentPropertyGeneratorsForCassandraError_STATUS(gens map[string]go
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_Certificate_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Certificate to Certificate via AssignProperties_To_Certificate & AssignProperties_From_Certificate returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCertificate, CertificateGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCertificate tests if a specific instance of Certificate can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCertificate(subject Certificate) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Certificate
+	err := copied.AssignProperties_To_Certificate(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Certificate
+	err = actual.AssignProperties_From_Certificate(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Certificate_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -631,6 +1056,53 @@ func CertificateGenerator() gopter.Gen {
 	return certificateGenerator
 }
 
+func Test_Certificate_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Certificate_STATUS to Certificate_STATUS via AssignProperties_To_Certificate_STATUS & AssignProperties_From_Certificate_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForCertificate_STATUS, Certificate_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForCertificate_STATUS tests if a specific instance of Certificate_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForCertificate_STATUS(subject Certificate_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.Certificate_STATUS
+	err := copied.AssignProperties_To_Certificate_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Certificate_STATUS
+	err = actual.AssignProperties_From_Certificate_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_Certificate_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -688,6 +1160,53 @@ func Certificate_STATUSGenerator() gopter.Gen {
 	certificate_STATUSGenerator = gen.Struct(reflect.TypeOf(Certificate_STATUS{}), generators)
 
 	return certificate_STATUSGenerator
+}
+
+func Test_ManagedCassandraManagedServiceIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedCassandraManagedServiceIdentity to ManagedCassandraManagedServiceIdentity via AssignProperties_To_ManagedCassandraManagedServiceIdentity & AssignProperties_From_ManagedCassandraManagedServiceIdentity returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity, ManagedCassandraManagedServiceIdentityGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity tests if a specific instance of ManagedCassandraManagedServiceIdentity can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity(subject ManagedCassandraManagedServiceIdentity) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ManagedCassandraManagedServiceIdentity
+	err := copied.AssignProperties_To_ManagedCassandraManagedServiceIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedCassandraManagedServiceIdentity
+	err = actual.AssignProperties_From_ManagedCassandraManagedServiceIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ManagedCassandraManagedServiceIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -754,6 +1273,53 @@ func ManagedCassandraManagedServiceIdentityGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedCassandraManagedServiceIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedCassandraManagedServiceIdentity(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ManagedCassandraManagedServiceIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from ManagedCassandraManagedServiceIdentity_STATUS to ManagedCassandraManagedServiceIdentity_STATUS via AssignProperties_To_ManagedCassandraManagedServiceIdentity_STATUS & AssignProperties_From_ManagedCassandraManagedServiceIdentity_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity_STATUS, ManagedCassandraManagedServiceIdentity_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity_STATUS tests if a specific instance of ManagedCassandraManagedServiceIdentity_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForManagedCassandraManagedServiceIdentity_STATUS(subject ManagedCassandraManagedServiceIdentity_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.ManagedCassandraManagedServiceIdentity_STATUS
+	err := copied.AssignProperties_To_ManagedCassandraManagedServiceIdentity_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual ManagedCassandraManagedServiceIdentity_STATUS
+	err = actual.AssignProperties_From_ManagedCassandraManagedServiceIdentity_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_ManagedCassandraManagedServiceIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -824,6 +1390,53 @@ func AddIndependentPropertyGeneratorsForManagedCassandraManagedServiceIdentity_S
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_SeedNode_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SeedNode to SeedNode via AssignProperties_To_SeedNode & AssignProperties_From_SeedNode returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSeedNode, SeedNodeGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSeedNode tests if a specific instance of SeedNode can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSeedNode(subject SeedNode) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SeedNode
+	err := copied.AssignProperties_To_SeedNode(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SeedNode
+	err = actual.AssignProperties_From_SeedNode(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SeedNode_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 
@@ -887,6 +1500,53 @@ func SeedNodeGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSeedNode is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSeedNode(gens map[string]gopter.Gen) {
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_SeedNode_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SeedNode_STATUS to SeedNode_STATUS via AssignProperties_To_SeedNode_STATUS & AssignProperties_From_SeedNode_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSeedNode_STATUS, SeedNode_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSeedNode_STATUS tests if a specific instance of SeedNode_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSeedNode_STATUS(subject SeedNode_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SeedNode_STATUS
+	err := copied.AssignProperties_To_SeedNode_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SeedNode_STATUS
+	err = actual.AssignProperties_From_SeedNode_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
 }
 
 func Test_SeedNode_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

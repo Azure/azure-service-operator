@@ -206,7 +206,7 @@ var secretDetectors = []struct {
 }
 
 func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	specVisitor := astmodel.TypeVisitorBuilder[any]{
+	specVisitor := astmodel.TypeVisitorBuilder[astmodel.TypeDefinitionSet]{
 		VisitObjectType: transformSecretProperties,
 	}.Build()
 
@@ -218,7 +218,7 @@ func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.Type
 	result := make(astmodel.TypeDefinitionSet)
 
 	for _, def := range specTypes {
-		updatedDef, err := specVisitor.VisitDefinition(def, nil)
+		updatedDef, err := specVisitor.VisitDefinition(def, definitions)
 		if err != nil {
 			return nil, eris.Wrapf(err, "visiting type %q", def.Name())
 		}
@@ -230,7 +230,7 @@ func transformSpecSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.Type
 }
 
 func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-	specVisitor := astmodel.TypeVisitorBuilder[any]{
+	specVisitor := astmodel.TypeVisitorBuilder[astmodel.TypeDefinitionSet]{
 		VisitObjectType: removeSecretProperties,
 	}.Build()
 
@@ -242,7 +242,7 @@ func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeD
 	result := make(astmodel.TypeDefinitionSet)
 
 	for _, def := range statusTypes {
-		updatedDef, err := specVisitor.VisitDefinition(def, nil)
+		updatedDef, err := specVisitor.VisitDefinition(def, definitions)
 		if err != nil {
 			return nil, eris.Wrapf(err, "visiting type %q", def.Name())
 		}
@@ -253,8 +253,13 @@ func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeD
 	return result, nil
 }
 
-func isTypeSecretReferenceCandidate(t astmodel.Type) bool {
-	isStringOrOptionalString := astmodel.TypeEquals(astmodel.Unwrap(t), astmodel.StringType)
+func isTypeSecretReferenceCandidate(t astmodel.Type, definitions astmodel.TypeDefinitionSet) bool {
+	resolved, err := astmodel.UnwrapAndResolve(definitions, t)
+	if err != nil {
+		return false
+	}
+
+	isStringOrOptionalString := astmodel.TypeEquals(resolved, astmodel.StringType)
 
 	isStringSlice := isTypeSecretSliceCandidate(t)
 	isStringMap := isTypeSecretMapCandidate(t)
@@ -270,7 +275,7 @@ func isTypeSecretMapCandidate(t astmodel.Type) bool {
 	return astmodel.TypeEquals(t, astmodel.MapOfStringStringType)
 }
 
-func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
+func removeSecretProperties(_ *astmodel.TypeVisitor[astmodel.TypeDefinitionSet], it *astmodel.ObjectType, definitions astmodel.TypeDefinitionSet) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
 		switch prop.Secrecy() {
 		case astmodel.ImportSecretModeRequired, astmodel.ImportSecretModeOptional:
@@ -286,7 +291,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 				continue
 			}
 
-			if !isTypeSecretReferenceCandidate(propType) {
+			if !isTypeSecretReferenceCandidate(propType, definitions) {
 				return nil, eris.Errorf(
 					"expected property %q to be a string, optional string, map[string]string, or []string, but was: %s",
 					prop.PropertyName(),
@@ -303,13 +308,13 @@ func removeSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectTyp
 	return it, nil
 }
 
-func transformSecretProperties(_ *astmodel.TypeVisitor[any], it *astmodel.ObjectType, _ any) (astmodel.Type, error) {
+func transformSecretProperties(_ *astmodel.TypeVisitor[astmodel.TypeDefinitionSet], it *astmodel.ObjectType, definitions astmodel.TypeDefinitionSet) (astmodel.Type, error) {
 	for _, prop := range it.Properties().Copy() {
 		switch prop.Secrecy() {
 		case astmodel.ImportSecretModeRequired, astmodel.ImportSecretModeOptional:
 			propType := prop.PropertyType()
 
-			if !isTypeSecretReferenceCandidate(propType) {
+			if !isTypeSecretReferenceCandidate(propType, definitions) {
 				return nil, eris.Errorf(
 					"expected property %q to be a string, optional string, map[string]string, or []string, but was: %s",
 					prop.PropertyName(),

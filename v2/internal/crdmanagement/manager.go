@@ -30,16 +30,23 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/match"
+	asolabels "github.com/Azure/azure-service-operator/v2/pkg/common/labels"
 )
 
-// ServiceOperatorVersionLabelOld is the label the CRDs have on them containing the ASO version. This value must match the value
-// injected by config/crd/labels.yaml
-const (
-	ServiceOperatorVersionLabelOld = "serviceoperator.azure.com/version"
-	ServiceOperatorVersionLabel    = "app.kubernetes.io/version"
-	ServiceOperatorAppLabel        = "app.kubernetes.io/name"
-	ServiceOperatorAppValue        = "azure-service-operator"
-)
+// IsReservedLabel returns true if the given label key is reserved for ASO's own use and so may not be
+// set by the user. Overwriting these labels would break CRD discovery (ListCRDs matches on
+// ServiceOperatorAppLabel) or CRD upgrade detection (VersionEqual compares ServiceOperatorVersionLabel).
+// Surrounding whitespace is ignored so that the result doesn't depend on the caller having trimmed the key.
+func IsReservedLabel(key string) bool {
+	key = strings.TrimSpace(key)
+
+	switch key {
+	case asolabels.ServiceOperatorAppLabel, asolabels.ServiceOperatorVersionLabel, asolabels.ServiceOperatorVersionLabelOld:
+		return true
+	}
+
+	return strings.HasPrefix(key, asolabels.ServiceOperatorLabelPrefix)
+}
 
 const CRDLocation = "crds"
 
@@ -163,7 +170,11 @@ func (m *Manager) ListCRDs(ctx context.Context, list *apiextensions.CustomResour
 	list.ResourceVersion = ""
 
 	selector := labels.NewSelector()
-	requirement, err := labels.NewRequirement(ServiceOperatorAppLabel, selection.Equals, []string{ServiceOperatorAppValue})
+	requirement, err := labels.NewRequirement(
+		asolabels.ServiceOperatorAppLabel,
+		selection.Equals,
+		[]string{asolabels.ServiceOperatorAppValue},
+	)
 	if err != nil {
 		return err
 	}
@@ -323,6 +334,18 @@ func (m *Manager) DetermineCRDsToInstallOrUpgrade(
 		result.DiffResult = VersionDifferent
 	}
 
+	goalCRDsWithDifferentMetadata := m.FindNonMatchingCRDs(existingCRDs, filteredGoalCRDs, DesiredMetadataEqual)
+	for name := range goalCRDsWithDifferentMetadata {
+		result, ok := resultMap[name]
+		if !ok {
+			return nil, eris.Errorf("Couldn't find goal CRD %q. This is unexpected!", name)
+		}
+
+		if result.DiffResult == NoDifference {
+			result.DiffResult = MetadataDifferent
+		}
+	}
+
 	// Collapse result to a slice
 	results := maps.Values(resultMap)
 	return results, nil
@@ -392,8 +415,10 @@ func (m *Manager) applyCRDs(
 
 		result, err := controllerutil.CreateOrUpdate(ctx, m.kubeClient, toApply, func() error {
 			resourceVersion := toApply.ResourceVersion
+			existingMetadata := toApply.ObjectMeta
 			*toApply = instruction.CRD
 			toApply.ResourceVersion = resourceVersion
+			mergeCRDMetadata(existingMetadata, toApply)
 
 			return nil
 		})
@@ -427,6 +452,7 @@ type Options struct {
 	Path         string
 	Namespace    string
 	CRDPatterns  string
+	CRDLabels    map[string]string
 	ExistingCRDs *apiextensions.CustomResourceDefinitionList
 }
 
@@ -436,6 +462,7 @@ func (m *Manager) Install(ctx context.Context, options Options) error {
 	if err != nil {
 		return eris.Wrap(err, "failed to load CRDs from disk")
 	}
+	applyCRDLabels(goalCRDs, options.CRDLabels)
 
 	installationInstructions, err := m.DetermineCRDsToInstallOrUpgrade(goalCRDs, options.ExistingCRDs.Items, options.CRDPatterns)
 	if err != nil {
@@ -702,8 +729,8 @@ func VersionEqual(a apiextensions.CustomResourceDefinition, b apiextensions.Cust
 		return false
 	}
 
-	aVersion, aOk := a.Labels[ServiceOperatorVersionLabel]
-	bVersion, bOk := b.Labels[ServiceOperatorVersionLabel]
+	aVersion, aOk := a.Labels[asolabels.ServiceOperatorVersionLabel]
+	bVersion, bOk := b.Labels[asolabels.ServiceOperatorVersionLabel]
 
 	if !aOk && !bOk {
 		return true

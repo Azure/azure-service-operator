@@ -51,22 +51,36 @@ var _ conversion.Convertible = &CassandraDataCenter{}
 
 // ConvertFrom populates our CassandraDataCenter from the provided hub CassandraDataCenter
 func (center *CassandraDataCenter) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.CassandraDataCenter)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v20251015/storage/CassandraDataCenter but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.CassandraDataCenter
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return center.AssignProperties_From_CassandraDataCenter(source)
+	err = center.AssignProperties_From_CassandraDataCenter(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to center")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub CassandraDataCenter from our CassandraDataCenter
 func (center *CassandraDataCenter) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.CassandraDataCenter)
-	if !ok {
-		return fmt.Errorf("expected documentdb/v20251015/storage/CassandraDataCenter but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.CassandraDataCenter
+	err := center.AssignProperties_To_CassandraDataCenter(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from center")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return center.AssignProperties_To_CassandraDataCenter(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &CassandraDataCenter{}
@@ -87,17 +101,6 @@ func (center *CassandraDataCenter) SecretDestinationExpressions() []*core.Destin
 		return nil
 	}
 	return center.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &CassandraDataCenter{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (center *CassandraDataCenter) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*CassandraDataCenter_STATUS); ok {
-		return center.Spec.Initialize_From_CassandraDataCenter_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type CassandraDataCenter_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &CassandraDataCenter{}
@@ -470,25 +473,6 @@ func (center *CassandraDataCenter_Spec) AssignProperties_To_CassandraDataCenter_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CassandraDataCenter_STATUS populates our CassandraDataCenter_Spec from the provided source CassandraDataCenter_STATUS
-func (center *CassandraDataCenter_Spec) Initialize_From_CassandraDataCenter_STATUS(source *CassandraDataCenter_STATUS) error {
-
-	// Properties
-	if source.Properties != nil {
-		var property CassandraClusters_DataCenter_Properties_Spec
-		err := property.Initialize_From_CassandraClusters_DataCenter_Properties_STATUS(source.Properties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CassandraClusters_DataCenter_Properties_STATUS() to populate field Properties")
-		}
-		center.Properties = &property
-	} else {
-		center.Properties = nil
 	}
 
 	// No error
@@ -1116,65 +1100,6 @@ func (properties *CassandraClusters_DataCenter_Properties_Spec) AssignProperties
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CassandraClusters_DataCenter_Properties_STATUS populates our CassandraClusters_DataCenter_Properties_Spec from the provided source CassandraClusters_DataCenter_Properties_STATUS
-func (properties *CassandraClusters_DataCenter_Properties_Spec) Initialize_From_CassandraClusters_DataCenter_Properties_STATUS(source *CassandraClusters_DataCenter_Properties_STATUS) error {
-
-	// AuthenticationMethodLdapProperties
-	if source.AuthenticationMethodLdapProperties != nil {
-		var authenticationMethodLdapProperty AuthenticationMethodLdapProperties
-		err := authenticationMethodLdapProperty.Initialize_From_AuthenticationMethodLdapProperties_STATUS(source.AuthenticationMethodLdapProperties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AuthenticationMethodLdapProperties_STATUS() to populate field AuthenticationMethodLdapProperties")
-		}
-		properties.AuthenticationMethodLdapProperties = &authenticationMethodLdapProperty
-	} else {
-		properties.AuthenticationMethodLdapProperties = nil
-	}
-
-	// AvailabilityZone
-	if source.AvailabilityZone != nil {
-		availabilityZone := *source.AvailabilityZone
-		properties.AvailabilityZone = &availabilityZone
-	} else {
-		properties.AvailabilityZone = nil
-	}
-
-	// BackupStorageCustomerKeyUri
-	properties.BackupStorageCustomerKeyUri = genruntime.ClonePointerToString(source.BackupStorageCustomerKeyUri)
-
-	// Base64EncodedCassandraYamlFragment
-	properties.Base64EncodedCassandraYamlFragment = genruntime.ClonePointerToString(source.Base64EncodedCassandraYamlFragment)
-
-	// DataCenterLocation
-	properties.DataCenterLocation = genruntime.ClonePointerToString(source.DataCenterLocation)
-
-	// DelegatedSubnetReference
-	if source.DelegatedSubnetId != nil {
-		delegatedSubnetReference := genruntime.CreateResourceReferenceFromARMID(*source.DelegatedSubnetId)
-		properties.DelegatedSubnetReference = &delegatedSubnetReference
-	} else {
-		properties.DelegatedSubnetReference = nil
-	}
-
-	// DiskCapacity
-	properties.DiskCapacity = genruntime.ClonePointerToInt(source.DiskCapacity)
-
-	// DiskSku
-	properties.DiskSku = genruntime.ClonePointerToString(source.DiskSku)
-
-	// NodeCount
-	properties.NodeCount = genruntime.ClonePointerToInt(source.NodeCount)
-
-	// PrivateEndpointIpAddress
-	properties.PrivateEndpointIpAddress = genruntime.ClonePointerToString(source.PrivateEndpointIpAddress)
-
-	// Sku
-	properties.Sku = genruntime.ClonePointerToString(source.Sku)
 
 	// No error
 	return nil
@@ -1939,47 +1864,6 @@ func (properties *AuthenticationMethodLdapProperties) AssignProperties_To_Authen
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AuthenticationMethodLdapProperties_STATUS populates our AuthenticationMethodLdapProperties from the provided source AuthenticationMethodLdapProperties_STATUS
-func (properties *AuthenticationMethodLdapProperties) Initialize_From_AuthenticationMethodLdapProperties_STATUS(source *AuthenticationMethodLdapProperties_STATUS) error {
-
-	// ConnectionTimeoutInMs
-	properties.ConnectionTimeoutInMs = genruntime.ClonePointerToInt(source.ConnectionTimeoutInMs)
-
-	// SearchBaseDistinguishedName
-	properties.SearchBaseDistinguishedName = genruntime.ClonePointerToString(source.SearchBaseDistinguishedName)
-
-	// SearchFilterTemplate
-	properties.SearchFilterTemplate = genruntime.ClonePointerToString(source.SearchFilterTemplate)
-
-	// ServerCertificates
-	if source.ServerCertificates != nil {
-		serverCertificateList := make([]Certificate, len(source.ServerCertificates))
-		for serverCertificateIndex, serverCertificateItem := range source.ServerCertificates {
-			var serverCertificate Certificate
-			err := serverCertificate.Initialize_From_Certificate_STATUS(&serverCertificateItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Certificate_STATUS() to populate field ServerCertificates")
-			}
-			serverCertificateList[serverCertificateIndex] = serverCertificate
-		}
-		properties.ServerCertificates = serverCertificateList
-	} else {
-		properties.ServerCertificates = nil
-	}
-
-	// ServerHostname
-	properties.ServerHostname = genruntime.ClonePointerToString(source.ServerHostname)
-
-	// ServerPort
-	properties.ServerPort = genruntime.ClonePointerToInt(source.ServerPort)
-
-	// ServiceUserDistinguishedName
-	properties.ServiceUserDistinguishedName = genruntime.ClonePointerToString(source.ServiceUserDistinguishedName)
 
 	// No error
 	return nil

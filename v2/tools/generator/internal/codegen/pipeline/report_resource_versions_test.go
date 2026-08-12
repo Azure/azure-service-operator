@@ -109,7 +109,7 @@ func TestResourceVersionsReportGroupInfo_GivenGroup_ReturnsExpectedResult(t *tes
 
 	storagePkg := test.MakeLocalPackageReference("storage", "v20230101")
 
-	storageAccount := ResourceVersionsReportResourceItem{
+	storageAccount := resourceVersionsReportItem{
 		name:          astmodel.MakeInternalTypeName(storagePkg, "StorageAccount"),
 		armType:       "Microsoft.Storage/storageAccounts",
 		armVersion:    "2023-01-01",
@@ -118,21 +118,21 @@ func TestResourceVersionsReportGroupInfo_GivenGroup_ReturnsExpectedResult(t *tes
 
 	alertsManagementPkg := test.MakeLocalPackageReference("alertsmanagement", "v20210401")
 
-	smartDetector := ResourceVersionsReportResourceItem{
+	smartDetector := resourceVersionsReportItem{
 		name:          astmodel.MakeInternalTypeName(alertsManagementPkg, "SmartDetector"),
 		armType:       "microsoft.alertsManagement/smartDetectorAlertRules",
 		armVersion:    "2021-04-01",
 		supportedFrom: "v2.11.0",
 	}
 
-	prometheusRuleGroup := ResourceVersionsReportResourceItem{
+	prometheusRuleGroup := resourceVersionsReportItem{
 		name:    astmodel.MakeInternalTypeName(alertsManagementPkg, "PrometheusRuleGroup"),
 		armType: "Microsoft.AlertsManagement/prometheusRuleGroups",
 	}
 
 	cases := map[string]struct {
 		group            string
-		items            set.Set[ResourceVersionsReportResourceItem]
+		items            set.Set[resourceVersionsReportItem]
 		expectedGroup    string
 		expectedProvider string
 		expectedTitle    string
@@ -256,59 +256,6 @@ func TestResourceVersionsReport_SupportedFrom_OverridesForHybridMigrationGroup(t
 			}
 
 			g.Expect(report.supportedFrom(c.name)).To(Equal(c.expected))
-		})
-	}
-}
-
-// TestResourceVersionsReport_IsDeprecatedResource_HybridMigration verifies that `v1api`-prefixed
-// resources in a Hybrid group whose migration hasn't shipped yet are NOT flagged as deprecated,
-// since they're still the only variants users can use. See #5534.
-func TestResourceVersionsReport_IsDeprecatedResource_HybridMigration(t *testing.T) {
-	t.Parallel()
-
-	authorizationLegacyPkg := test.MakeLocalPackageReference("authorization", "v20220401").
-		WithVersionPrefix(astmodel.GeneratorVersion) // v1api prefix
-	authorizationLegacyItem := ResourceVersionsReportResourceItem{
-		name: astmodel.MakeInternalTypeName(authorizationLegacyPkg, "RoleAssignment"),
-	}
-
-	// alertsmanagement is Hybrid but has no upcoming migration release registered (migration
-	// happened long ago), so its v1api variants ARE deprecated.
-	alertsLegacyPkg := test.MakeLocalPackageReference("alertsmanagement", "v20210401").
-		WithVersionPrefix(astmodel.GeneratorVersion)
-	alertsLegacyItem := ResourceVersionsReportResourceItem{
-		name: astmodel.MakeInternalTypeName(alertsLegacyPkg, "SmartDetector"),
-	}
-
-	cases := map[string]struct {
-		item     ResourceVersionsReportResourceItem
-		expected bool
-	}{
-		"UpcomingHybridMigration_LegacyNotDeprecated": {
-			item:     authorizationLegacyItem,
-			expected: false,
-		},
-		"AlreadyReleasedHybridMigration_LegacyDeprecated": {
-			item:     alertsLegacyItem,
-			expected: true,
-		},
-	}
-
-	for name, c := range cases {
-		t.Run(name, func(t *testing.T) {
-			t.Parallel()
-			g := NewGomegaWithT(t)
-
-			cfg := config.NewConfiguration()
-			// CurrentRelease matches the value used in azure-arm.yaml at the time this test was
-			// written; the authorization migration (v2.21.0) is later than this.
-			cfg.SupportedResourcesReport.CurrentRelease = "v2.20.0"
-
-			report := &ResourceVersionsReport{
-				reportConfiguration: cfg.SupportedResourcesReport,
-			}
-
-			g.Expect(report.isDeprecatedResource(c.item)).To(Equal(c.expected))
 		})
 	}
 }

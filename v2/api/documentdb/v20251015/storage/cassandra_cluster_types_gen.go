@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v20260315/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources=cassandraclusters,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources={cassandraclusters/status,cassandraclusters/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,documentdb}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (cluster *CassandraCluster) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (cluster *CassandraCluster) SetConditions(conditions conditions.Conditions) {
 	cluster.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &CassandraCluster{}
+
+// ConvertFrom populates our CassandraCluster from the provided hub CassandraCluster
+func (cluster *CassandraCluster) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.CassandraCluster)
+	if !ok {
+		return fmt.Errorf("expected documentdb/v20260315/storage/CassandraCluster but received %T instead", hub)
+	}
+
+	return cluster.AssignProperties_From_CassandraCluster(source)
+}
+
+// ConvertTo populates the provided hub CassandraCluster from our CassandraCluster
+func (cluster *CassandraCluster) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.CassandraCluster)
+	if !ok {
+		return fmt.Errorf("expected documentdb/v20260315/storage/CassandraCluster but received %T instead", hub)
+	}
+
+	return cluster.AssignProperties_To_CassandraCluster(destination)
 }
 
 var _ configmaps.Exporter = &CassandraCluster{}
@@ -143,8 +164,75 @@ func (cluster *CassandraCluster) SetStatus(status genruntime.ConvertibleStatus) 
 	return nil
 }
 
-// Hub marks that this CassandraCluster is the hub type for conversion
-func (cluster *CassandraCluster) Hub() {}
+// AssignProperties_From_CassandraCluster populates our CassandraCluster from the provided source CassandraCluster
+func (cluster *CassandraCluster) AssignProperties_From_CassandraCluster(source *storage.CassandraCluster) error {
+
+	// ObjectMeta
+	cluster.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec CassandraCluster_Spec
+	err := spec.AssignProperties_From_CassandraCluster_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_CassandraCluster_Spec() to populate field Spec")
+	}
+	cluster.Spec = spec
+
+	// Status
+	var status CassandraCluster_STATUS
+	err = status.AssignProperties_From_CassandraCluster_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_CassandraCluster_STATUS() to populate field Status")
+	}
+	cluster.Status = status
+
+	// Invoke the augmentConversionForCassandraCluster interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForCassandraCluster); ok {
+		err := augmentedCluster.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CassandraCluster populates the provided destination CassandraCluster from our CassandraCluster
+func (cluster *CassandraCluster) AssignProperties_To_CassandraCluster(destination *storage.CassandraCluster) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *cluster.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.CassandraCluster_Spec
+	err := cluster.Spec.AssignProperties_To_CassandraCluster_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_CassandraCluster_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.CassandraCluster_STATUS
+	err = cluster.Status.AssignProperties_To_CassandraCluster_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_CassandraCluster_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForCassandraCluster interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForCassandraCluster); ok {
+		err := augmentedCluster.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (cluster *CassandraCluster) OriginalGVK() *schema.GroupVersionKind {
@@ -172,6 +260,11 @@ type APIVersion string
 
 const APIVersion_Value = APIVersion("2025-10-15")
 
+type augmentConversionForCassandraCluster interface {
+	AssignPropertiesFrom(src *storage.CassandraCluster) error
+	AssignPropertiesTo(dst *storage.CassandraCluster) error
+}
+
 // Storage version of v20251015.CassandraCluster_Spec
 type CassandraCluster_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -196,20 +289,212 @@ var _ genruntime.ConvertibleSpec = &CassandraCluster_Spec{}
 
 // ConvertSpecFrom populates our CassandraCluster_Spec from the provided source
 func (cluster *CassandraCluster_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == cluster {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.CassandraCluster_Spec)
+	if ok {
+		// Populate our instance from source
+		return cluster.AssignProperties_From_CassandraCluster_Spec(src)
 	}
 
-	return source.ConvertSpecTo(cluster)
+	// Convert to an intermediate form
+	src = &storage.CassandraCluster_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = cluster.AssignProperties_From_CassandraCluster_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our CassandraCluster_Spec
 func (cluster *CassandraCluster_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == cluster {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.CassandraCluster_Spec)
+	if ok {
+		// Populate destination from our instance
+		return cluster.AssignProperties_To_CassandraCluster_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(cluster)
+	// Convert to an intermediate form
+	dst = &storage.CassandraCluster_Spec{}
+	err := cluster.AssignProperties_To_CassandraCluster_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_CassandraCluster_Spec populates our CassandraCluster_Spec from the provided source CassandraCluster_Spec
+func (cluster *CassandraCluster_Spec) AssignProperties_From_CassandraCluster_Spec(source *storage.CassandraCluster_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	cluster.AzureName = source.AzureName
+
+	// Identity
+	if source.Identity != nil {
+		var identity ManagedCassandraManagedServiceIdentity
+		err := identity.AssignProperties_From_ManagedCassandraManagedServiceIdentity(source.Identity)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedCassandraManagedServiceIdentity() to populate field Identity")
+		}
+		cluster.Identity = &identity
+	} else {
+		cluster.Identity = nil
+	}
+
+	// Location
+	cluster.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec CassandraClusterOperatorSpec
+		err := operatorSpec.AssignProperties_From_CassandraClusterOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CassandraClusterOperatorSpec() to populate field OperatorSpec")
+		}
+		cluster.OperatorSpec = &operatorSpec
+	} else {
+		cluster.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	cluster.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		cluster.Owner = &owner
+	} else {
+		cluster.Owner = nil
+	}
+
+	// Properties
+	if source.Properties != nil {
+		var property CassandraCluster_Properties_Spec
+		err := property.AssignProperties_From_ClusterResourceProperties(source.Properties)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterResourceProperties() to populate field Properties")
+		}
+		cluster.Properties = &property
+	} else {
+		cluster.Properties = nil
+	}
+
+	// Tags
+	cluster.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		cluster.PropertyBag = propertyBag
+	} else {
+		cluster.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraCluster_Spec interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForCassandraCluster_Spec); ok {
+		err := augmentedCluster.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CassandraCluster_Spec populates the provided destination CassandraCluster_Spec from our CassandraCluster_Spec
+func (cluster *CassandraCluster_Spec) AssignProperties_To_CassandraCluster_Spec(destination *storage.CassandraCluster_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(cluster.PropertyBag)
+
+	// AzureName
+	destination.AzureName = cluster.AzureName
+
+	// Identity
+	if cluster.Identity != nil {
+		var identity storage.ManagedCassandraManagedServiceIdentity
+		err := cluster.Identity.AssignProperties_To_ManagedCassandraManagedServiceIdentity(&identity)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedCassandraManagedServiceIdentity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(cluster.Location)
+
+	// OperatorSpec
+	if cluster.OperatorSpec != nil {
+		var operatorSpec storage.CassandraClusterOperatorSpec
+		err := cluster.OperatorSpec.AssignProperties_To_CassandraClusterOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CassandraClusterOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = cluster.OriginalVersion
+
+	// Owner
+	if cluster.Owner != nil {
+		owner := cluster.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Properties
+	if cluster.Properties != nil {
+		var property storage.ClusterResourceProperties
+		err := cluster.Properties.AssignProperties_To_ClusterResourceProperties(&property)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterResourceProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(cluster.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraCluster_Spec interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForCassandraCluster_Spec); ok {
+		err := augmentedCluster.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20251015.CassandraCluster_STATUS
@@ -229,20 +514,214 @@ var _ genruntime.ConvertibleStatus = &CassandraCluster_STATUS{}
 
 // ConvertStatusFrom populates our CassandraCluster_STATUS from the provided source
 func (cluster *CassandraCluster_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == cluster {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.CassandraCluster_STATUS)
+	if ok {
+		// Populate our instance from source
+		return cluster.AssignProperties_From_CassandraCluster_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(cluster)
+	// Convert to an intermediate form
+	src = &storage.CassandraCluster_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = cluster.AssignProperties_From_CassandraCluster_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our CassandraCluster_STATUS
 func (cluster *CassandraCluster_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == cluster {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.CassandraCluster_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return cluster.AssignProperties_To_CassandraCluster_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(cluster)
+	// Convert to an intermediate form
+	dst = &storage.CassandraCluster_STATUS{}
+	err := cluster.AssignProperties_To_CassandraCluster_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_CassandraCluster_STATUS populates our CassandraCluster_STATUS from the provided source CassandraCluster_STATUS
+func (cluster *CassandraCluster_STATUS) AssignProperties_From_CassandraCluster_STATUS(source *storage.CassandraCluster_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	cluster.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	cluster.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		var identity ManagedCassandraManagedServiceIdentity_STATUS
+		err := identity.AssignProperties_From_ManagedCassandraManagedServiceIdentity_STATUS(source.Identity)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ManagedCassandraManagedServiceIdentity_STATUS() to populate field Identity")
+		}
+		cluster.Identity = &identity
+	} else {
+		cluster.Identity = nil
+	}
+
+	// Location
+	cluster.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	cluster.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property CassandraCluster_Properties_STATUS
+		err := property.AssignProperties_From_ClusterResourceProperties_STATUS(source.Properties)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_ClusterResourceProperties_STATUS() to populate field Properties")
+		}
+		cluster.Properties = &property
+	} else {
+		cluster.Properties = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		propertyBag.Add("SystemData", *source.SystemData)
+	} else {
+		propertyBag.Remove("SystemData")
+	}
+
+	// Tags
+	cluster.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	cluster.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		cluster.PropertyBag = propertyBag
+	} else {
+		cluster.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraCluster_STATUS interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForCassandraCluster_STATUS); ok {
+		err := augmentedCluster.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CassandraCluster_STATUS populates the provided destination CassandraCluster_STATUS from our CassandraCluster_STATUS
+func (cluster *CassandraCluster_STATUS) AssignProperties_To_CassandraCluster_STATUS(destination *storage.CassandraCluster_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(cluster.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(cluster.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(cluster.Id)
+
+	// Identity
+	if cluster.Identity != nil {
+		var identity storage.ManagedCassandraManagedServiceIdentity_STATUS
+		err := cluster.Identity.AssignProperties_To_ManagedCassandraManagedServiceIdentity_STATUS(&identity)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ManagedCassandraManagedServiceIdentity_STATUS() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(cluster.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(cluster.Name)
+
+	// Properties
+	if cluster.Properties != nil {
+		var property storage.ClusterResourceProperties_STATUS
+		err := cluster.Properties.AssignProperties_To_ClusterResourceProperties_STATUS(&property)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_ClusterResourceProperties_STATUS() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// SystemData
+	if propertyBag.Contains("SystemData") {
+		var systemDatum storage.SystemData_STATUS
+		err := propertyBag.Pull("SystemData", &systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
+		}
+
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(cluster.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(cluster.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraCluster_STATUS interface (if implemented) to customize the conversion
+	var clusterAsAny any = cluster
+	if augmentedCluster, ok := clusterAsAny.(augmentConversionForCassandraCluster_STATUS); ok {
+		err := augmentedCluster.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForCassandraCluster_Spec interface {
+	AssignPropertiesFrom(src *storage.CassandraCluster_Spec) error
+	AssignPropertiesTo(dst *storage.CassandraCluster_Spec) error
+}
+
+type augmentConversionForCassandraCluster_STATUS interface {
+	AssignPropertiesFrom(src *storage.CassandraCluster_STATUS) error
+	AssignPropertiesTo(dst *storage.CassandraCluster_STATUS) error
 }
 
 // Storage version of v20251015.CassandraCluster_Properties_Spec
@@ -272,6 +751,386 @@ type CassandraCluster_Properties_Spec struct {
 	RestoreFromBackupReference *genruntime.ResourceReference `armReference:"RestoreFromBackupId" json:"restoreFromBackupReference,omitempty"`
 }
 
+// AssignProperties_From_ClusterResourceProperties populates our CassandraCluster_Properties_Spec from the provided source ClusterResourceProperties
+func (properties *CassandraCluster_Properties_Spec) AssignProperties_From_ClusterResourceProperties(source *storage.ClusterResourceProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuthenticationMethod
+	properties.AuthenticationMethod = genruntime.ClonePointerToString(source.AuthenticationMethod)
+
+	// AutoReplicate
+	if source.AutoReplicate != nil {
+		propertyBag.Add("AutoReplicate", *source.AutoReplicate)
+	} else {
+		propertyBag.Remove("AutoReplicate")
+	}
+
+	// AzureConnectionMethod
+	properties.AzureConnectionMethod = genruntime.ClonePointerToString(source.AzureConnectionMethod)
+
+	// BackupSchedules
+	if len(source.BackupSchedules) > 0 {
+		propertyBag.Add("BackupSchedules", source.BackupSchedules)
+	} else {
+		propertyBag.Remove("BackupSchedules")
+	}
+
+	// CassandraAuditLoggingEnabled
+	if source.CassandraAuditLoggingEnabled != nil {
+		cassandraAuditLoggingEnabled := *source.CassandraAuditLoggingEnabled
+		properties.CassandraAuditLoggingEnabled = &cassandraAuditLoggingEnabled
+	} else {
+		properties.CassandraAuditLoggingEnabled = nil
+	}
+
+	// CassandraVersion
+	properties.CassandraVersion = genruntime.ClonePointerToString(source.CassandraVersion)
+
+	// ClientCertificates
+	if source.ClientCertificates != nil {
+		clientCertificateList := make([]Certificate, len(source.ClientCertificates))
+		for clientCertificateIndex, clientCertificateItem := range source.ClientCertificates {
+			var clientCertificate Certificate
+			err := clientCertificate.AssignProperties_From_Certificate(&clientCertificateItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_Certificate() to populate field ClientCertificates")
+			}
+			clientCertificateList[clientCertificateIndex] = clientCertificate
+		}
+		properties.ClientCertificates = clientCertificateList
+	} else {
+		properties.ClientCertificates = nil
+	}
+
+	// ClusterNameOverride
+	properties.ClusterNameOverride = genruntime.ClonePointerToString(source.ClusterNameOverride)
+
+	// DelegatedManagementSubnetReference
+	if source.DelegatedManagementSubnetReference != nil {
+		delegatedManagementSubnetReference := source.DelegatedManagementSubnetReference.Copy()
+		properties.DelegatedManagementSubnetReference = &delegatedManagementSubnetReference
+	} else {
+		properties.DelegatedManagementSubnetReference = nil
+	}
+
+	// Extensions
+	if len(source.Extensions) > 0 {
+		propertyBag.Add("Extensions", source.Extensions)
+	} else {
+		propertyBag.Remove("Extensions")
+	}
+
+	// ExternalDataCenters
+	if len(source.ExternalDataCenters) > 0 {
+		propertyBag.Add("ExternalDataCenters", source.ExternalDataCenters)
+	} else {
+		propertyBag.Remove("ExternalDataCenters")
+	}
+
+	// ExternalGossipCertificates
+	if source.ExternalGossipCertificates != nil {
+		externalGossipCertificateList := make([]Certificate, len(source.ExternalGossipCertificates))
+		for externalGossipCertificateIndex, externalGossipCertificateItem := range source.ExternalGossipCertificates {
+			var externalGossipCertificate Certificate
+			err := externalGossipCertificate.AssignProperties_From_Certificate(&externalGossipCertificateItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_Certificate() to populate field ExternalGossipCertificates")
+			}
+			externalGossipCertificateList[externalGossipCertificateIndex] = externalGossipCertificate
+		}
+		properties.ExternalGossipCertificates = externalGossipCertificateList
+	} else {
+		properties.ExternalGossipCertificates = nil
+	}
+
+	// ExternalSeedNodes
+	if source.ExternalSeedNodes != nil {
+		externalSeedNodeList := make([]SeedNode, len(source.ExternalSeedNodes))
+		for externalSeedNodeIndex, externalSeedNodeItem := range source.ExternalSeedNodes {
+			var externalSeedNode SeedNode
+			err := externalSeedNode.AssignProperties_From_SeedNode(&externalSeedNodeItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SeedNode() to populate field ExternalSeedNodes")
+			}
+			externalSeedNodeList[externalSeedNodeIndex] = externalSeedNode
+		}
+		properties.ExternalSeedNodes = externalSeedNodeList
+	} else {
+		properties.ExternalSeedNodes = nil
+	}
+
+	// HoursBetweenBackups
+	properties.HoursBetweenBackups = genruntime.ClonePointerToInt(source.HoursBetweenBackups)
+
+	// InitialCassandraAdminPassword
+	if source.InitialCassandraAdminPassword != nil {
+		initialCassandraAdminPassword := source.InitialCassandraAdminPassword.Copy()
+		properties.InitialCassandraAdminPassword = &initialCassandraAdminPassword
+	} else {
+		properties.InitialCassandraAdminPassword = nil
+	}
+
+	// PrometheusEndpoint
+	if source.PrometheusEndpoint != nil {
+		var prometheusEndpoint SeedNode
+		err := prometheusEndpoint.AssignProperties_From_SeedNode(source.PrometheusEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SeedNode() to populate field PrometheusEndpoint")
+		}
+		properties.PrometheusEndpoint = &prometheusEndpoint
+	} else {
+		properties.PrometheusEndpoint = nil
+	}
+
+	// RepairEnabled
+	if source.RepairEnabled != nil {
+		repairEnabled := *source.RepairEnabled
+		properties.RepairEnabled = &repairEnabled
+	} else {
+		properties.RepairEnabled = nil
+	}
+
+	// RestoreFromBackupReference
+	if source.RestoreFromBackupReference != nil {
+		restoreFromBackupReference := source.RestoreFromBackupReference.Copy()
+		properties.RestoreFromBackupReference = &restoreFromBackupReference
+	} else {
+		properties.RestoreFromBackupReference = nil
+	}
+
+	// ScheduledEventStrategy
+	if source.ScheduledEventStrategy != nil {
+		propertyBag.Add("ScheduledEventStrategy", *source.ScheduledEventStrategy)
+	} else {
+		propertyBag.Remove("ScheduledEventStrategy")
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraCluster_Properties_Spec interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForCassandraCluster_Properties_Spec); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ClusterResourceProperties populates the provided destination ClusterResourceProperties from our CassandraCluster_Properties_Spec
+func (properties *CassandraCluster_Properties_Spec) AssignProperties_To_ClusterResourceProperties(destination *storage.ClusterResourceProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// AuthenticationMethod
+	destination.AuthenticationMethod = genruntime.ClonePointerToString(properties.AuthenticationMethod)
+
+	// AutoReplicate
+	if propertyBag.Contains("AutoReplicate") {
+		var autoReplicate string
+		err := propertyBag.Pull("AutoReplicate", &autoReplicate)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'AutoReplicate' from propertyBag")
+		}
+
+		destination.AutoReplicate = &autoReplicate
+	} else {
+		destination.AutoReplicate = nil
+	}
+
+	// AzureConnectionMethod
+	destination.AzureConnectionMethod = genruntime.ClonePointerToString(properties.AzureConnectionMethod)
+
+	// BackupSchedules
+	if propertyBag.Contains("BackupSchedules") {
+		var backupSchedule []storage.BackupSchedule
+		err := propertyBag.Pull("BackupSchedules", &backupSchedule)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'BackupSchedules' from propertyBag")
+		}
+
+		destination.BackupSchedules = backupSchedule
+	} else {
+		destination.BackupSchedules = nil
+	}
+
+	// CassandraAuditLoggingEnabled
+	if properties.CassandraAuditLoggingEnabled != nil {
+		cassandraAuditLoggingEnabled := *properties.CassandraAuditLoggingEnabled
+		destination.CassandraAuditLoggingEnabled = &cassandraAuditLoggingEnabled
+	} else {
+		destination.CassandraAuditLoggingEnabled = nil
+	}
+
+	// CassandraVersion
+	destination.CassandraVersion = genruntime.ClonePointerToString(properties.CassandraVersion)
+
+	// ClientCertificates
+	if properties.ClientCertificates != nil {
+		clientCertificateList := make([]storage.Certificate, len(properties.ClientCertificates))
+		for clientCertificateIndex, clientCertificateItem := range properties.ClientCertificates {
+			var clientCertificate storage.Certificate
+			err := clientCertificateItem.AssignProperties_To_Certificate(&clientCertificate)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_Certificate() to populate field ClientCertificates")
+			}
+			clientCertificateList[clientCertificateIndex] = clientCertificate
+		}
+		destination.ClientCertificates = clientCertificateList
+	} else {
+		destination.ClientCertificates = nil
+	}
+
+	// ClusterNameOverride
+	destination.ClusterNameOverride = genruntime.ClonePointerToString(properties.ClusterNameOverride)
+
+	// DelegatedManagementSubnetReference
+	if properties.DelegatedManagementSubnetReference != nil {
+		delegatedManagementSubnetReference := properties.DelegatedManagementSubnetReference.Copy()
+		destination.DelegatedManagementSubnetReference = &delegatedManagementSubnetReference
+	} else {
+		destination.DelegatedManagementSubnetReference = nil
+	}
+
+	// Extensions
+	if propertyBag.Contains("Extensions") {
+		var extension []string
+		err := propertyBag.Pull("Extensions", &extension)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Extensions' from propertyBag")
+		}
+
+		destination.Extensions = extension
+	} else {
+		destination.Extensions = nil
+	}
+
+	// ExternalDataCenters
+	if propertyBag.Contains("ExternalDataCenters") {
+		var externalDataCenter []string
+		err := propertyBag.Pull("ExternalDataCenters", &externalDataCenter)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ExternalDataCenters' from propertyBag")
+		}
+
+		destination.ExternalDataCenters = externalDataCenter
+	} else {
+		destination.ExternalDataCenters = nil
+	}
+
+	// ExternalGossipCertificates
+	if properties.ExternalGossipCertificates != nil {
+		externalGossipCertificateList := make([]storage.Certificate, len(properties.ExternalGossipCertificates))
+		for externalGossipCertificateIndex, externalGossipCertificateItem := range properties.ExternalGossipCertificates {
+			var externalGossipCertificate storage.Certificate
+			err := externalGossipCertificateItem.AssignProperties_To_Certificate(&externalGossipCertificate)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_Certificate() to populate field ExternalGossipCertificates")
+			}
+			externalGossipCertificateList[externalGossipCertificateIndex] = externalGossipCertificate
+		}
+		destination.ExternalGossipCertificates = externalGossipCertificateList
+	} else {
+		destination.ExternalGossipCertificates = nil
+	}
+
+	// ExternalSeedNodes
+	if properties.ExternalSeedNodes != nil {
+		externalSeedNodeList := make([]storage.SeedNode, len(properties.ExternalSeedNodes))
+		for externalSeedNodeIndex, externalSeedNodeItem := range properties.ExternalSeedNodes {
+			var externalSeedNode storage.SeedNode
+			err := externalSeedNodeItem.AssignProperties_To_SeedNode(&externalSeedNode)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SeedNode() to populate field ExternalSeedNodes")
+			}
+			externalSeedNodeList[externalSeedNodeIndex] = externalSeedNode
+		}
+		destination.ExternalSeedNodes = externalSeedNodeList
+	} else {
+		destination.ExternalSeedNodes = nil
+	}
+
+	// HoursBetweenBackups
+	destination.HoursBetweenBackups = genruntime.ClonePointerToInt(properties.HoursBetweenBackups)
+
+	// InitialCassandraAdminPassword
+	if properties.InitialCassandraAdminPassword != nil {
+		initialCassandraAdminPassword := properties.InitialCassandraAdminPassword.Copy()
+		destination.InitialCassandraAdminPassword = &initialCassandraAdminPassword
+	} else {
+		destination.InitialCassandraAdminPassword = nil
+	}
+
+	// PrometheusEndpoint
+	if properties.PrometheusEndpoint != nil {
+		var prometheusEndpoint storage.SeedNode
+		err := properties.PrometheusEndpoint.AssignProperties_To_SeedNode(&prometheusEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SeedNode() to populate field PrometheusEndpoint")
+		}
+		destination.PrometheusEndpoint = &prometheusEndpoint
+	} else {
+		destination.PrometheusEndpoint = nil
+	}
+
+	// RepairEnabled
+	if properties.RepairEnabled != nil {
+		repairEnabled := *properties.RepairEnabled
+		destination.RepairEnabled = &repairEnabled
+	} else {
+		destination.RepairEnabled = nil
+	}
+
+	// RestoreFromBackupReference
+	if properties.RestoreFromBackupReference != nil {
+		restoreFromBackupReference := properties.RestoreFromBackupReference.Copy()
+		destination.RestoreFromBackupReference = &restoreFromBackupReference
+	} else {
+		destination.RestoreFromBackupReference = nil
+	}
+
+	// ScheduledEventStrategy
+	if propertyBag.Contains("ScheduledEventStrategy") {
+		var scheduledEventStrategy string
+		err := propertyBag.Pull("ScheduledEventStrategy", &scheduledEventStrategy)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ScheduledEventStrategy' from propertyBag")
+		}
+
+		destination.ScheduledEventStrategy = &scheduledEventStrategy
+	} else {
+		destination.ScheduledEventStrategy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraCluster_Properties_Spec interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForCassandraCluster_Properties_Spec); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20251015.CassandraCluster_Properties_STATUS
 type CassandraCluster_Properties_STATUS struct {
 	AuthenticationMethod         *string                `json:"authenticationMethod,omitempty"`
@@ -296,6 +1155,466 @@ type CassandraCluster_Properties_STATUS struct {
 	SeedNodes                    []SeedNode_STATUS      `json:"seedNodes,omitempty"`
 }
 
+// AssignProperties_From_ClusterResourceProperties_STATUS populates our CassandraCluster_Properties_STATUS from the provided source ClusterResourceProperties_STATUS
+func (properties *CassandraCluster_Properties_STATUS) AssignProperties_From_ClusterResourceProperties_STATUS(source *storage.ClusterResourceProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AuthenticationMethod
+	properties.AuthenticationMethod = genruntime.ClonePointerToString(source.AuthenticationMethod)
+
+	// AutoReplicate
+	if source.AutoReplicate != nil {
+		propertyBag.Add("AutoReplicate", *source.AutoReplicate)
+	} else {
+		propertyBag.Remove("AutoReplicate")
+	}
+
+	// AzureConnectionMethod
+	properties.AzureConnectionMethod = genruntime.ClonePointerToString(source.AzureConnectionMethod)
+
+	// BackupSchedules
+	if len(source.BackupSchedules) > 0 {
+		propertyBag.Add("BackupSchedules", source.BackupSchedules)
+	} else {
+		propertyBag.Remove("BackupSchedules")
+	}
+
+	// CassandraAuditLoggingEnabled
+	if source.CassandraAuditLoggingEnabled != nil {
+		cassandraAuditLoggingEnabled := *source.CassandraAuditLoggingEnabled
+		properties.CassandraAuditLoggingEnabled = &cassandraAuditLoggingEnabled
+	} else {
+		properties.CassandraAuditLoggingEnabled = nil
+	}
+
+	// CassandraVersion
+	properties.CassandraVersion = genruntime.ClonePointerToString(source.CassandraVersion)
+
+	// ClientCertificates
+	if source.ClientCertificates != nil {
+		clientCertificateList := make([]Certificate_STATUS, len(source.ClientCertificates))
+		for clientCertificateIndex, clientCertificateItem := range source.ClientCertificates {
+			var clientCertificate Certificate_STATUS
+			err := clientCertificate.AssignProperties_From_Certificate_STATUS(&clientCertificateItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_Certificate_STATUS() to populate field ClientCertificates")
+			}
+			clientCertificateList[clientCertificateIndex] = clientCertificate
+		}
+		properties.ClientCertificates = clientCertificateList
+	} else {
+		properties.ClientCertificates = nil
+	}
+
+	// ClusterNameOverride
+	properties.ClusterNameOverride = genruntime.ClonePointerToString(source.ClusterNameOverride)
+
+	// Deallocated
+	if source.Deallocated != nil {
+		deallocated := *source.Deallocated
+		properties.Deallocated = &deallocated
+	} else {
+		properties.Deallocated = nil
+	}
+
+	// DelegatedManagementSubnetId
+	properties.DelegatedManagementSubnetId = genruntime.ClonePointerToString(source.DelegatedManagementSubnetId)
+
+	// Extensions
+	if len(source.Extensions) > 0 {
+		propertyBag.Add("Extensions", source.Extensions)
+	} else {
+		propertyBag.Remove("Extensions")
+	}
+
+	// ExternalDataCenters
+	if len(source.ExternalDataCenters) > 0 {
+		propertyBag.Add("ExternalDataCenters", source.ExternalDataCenters)
+	} else {
+		propertyBag.Remove("ExternalDataCenters")
+	}
+
+	// ExternalGossipCertificates
+	if source.ExternalGossipCertificates != nil {
+		externalGossipCertificateList := make([]Certificate_STATUS, len(source.ExternalGossipCertificates))
+		for externalGossipCertificateIndex, externalGossipCertificateItem := range source.ExternalGossipCertificates {
+			var externalGossipCertificate Certificate_STATUS
+			err := externalGossipCertificate.AssignProperties_From_Certificate_STATUS(&externalGossipCertificateItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_Certificate_STATUS() to populate field ExternalGossipCertificates")
+			}
+			externalGossipCertificateList[externalGossipCertificateIndex] = externalGossipCertificate
+		}
+		properties.ExternalGossipCertificates = externalGossipCertificateList
+	} else {
+		properties.ExternalGossipCertificates = nil
+	}
+
+	// ExternalSeedNodes
+	if source.ExternalSeedNodes != nil {
+		externalSeedNodeList := make([]SeedNode_STATUS, len(source.ExternalSeedNodes))
+		for externalSeedNodeIndex, externalSeedNodeItem := range source.ExternalSeedNodes {
+			var externalSeedNode SeedNode_STATUS
+			err := externalSeedNode.AssignProperties_From_SeedNode_STATUS(&externalSeedNodeItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SeedNode_STATUS() to populate field ExternalSeedNodes")
+			}
+			externalSeedNodeList[externalSeedNodeIndex] = externalSeedNode
+		}
+		properties.ExternalSeedNodes = externalSeedNodeList
+	} else {
+		properties.ExternalSeedNodes = nil
+	}
+
+	// GossipCertificates
+	if source.GossipCertificates != nil {
+		gossipCertificateList := make([]Certificate_STATUS, len(source.GossipCertificates))
+		for gossipCertificateIndex, gossipCertificateItem := range source.GossipCertificates {
+			var gossipCertificate Certificate_STATUS
+			err := gossipCertificate.AssignProperties_From_Certificate_STATUS(&gossipCertificateItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_Certificate_STATUS() to populate field GossipCertificates")
+			}
+			gossipCertificateList[gossipCertificateIndex] = gossipCertificate
+		}
+		properties.GossipCertificates = gossipCertificateList
+	} else {
+		properties.GossipCertificates = nil
+	}
+
+	// HoursBetweenBackups
+	properties.HoursBetweenBackups = genruntime.ClonePointerToInt(source.HoursBetweenBackups)
+
+	// PrivateLinkResourceId
+	properties.PrivateLinkResourceId = genruntime.ClonePointerToString(source.PrivateLinkResourceId)
+
+	// PrometheusEndpoint
+	if source.PrometheusEndpoint != nil {
+		var prometheusEndpoint SeedNode_STATUS
+		err := prometheusEndpoint.AssignProperties_From_SeedNode_STATUS(source.PrometheusEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SeedNode_STATUS() to populate field PrometheusEndpoint")
+		}
+		properties.PrometheusEndpoint = &prometheusEndpoint
+	} else {
+		properties.PrometheusEndpoint = nil
+	}
+
+	// ProvisionError
+	if source.ProvisionError != nil {
+		var provisionError CassandraError_STATUS
+		err := provisionError.AssignProperties_From_CassandraError_STATUS(source.ProvisionError)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CassandraError_STATUS() to populate field ProvisionError")
+		}
+		properties.ProvisionError = &provisionError
+	} else {
+		properties.ProvisionError = nil
+	}
+
+	// ProvisioningState
+	properties.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// RepairEnabled
+	if source.RepairEnabled != nil {
+		repairEnabled := *source.RepairEnabled
+		properties.RepairEnabled = &repairEnabled
+	} else {
+		properties.RepairEnabled = nil
+	}
+
+	// RestoreFromBackupId
+	properties.RestoreFromBackupId = genruntime.ClonePointerToString(source.RestoreFromBackupId)
+
+	// ScheduledEventStrategy
+	if source.ScheduledEventStrategy != nil {
+		propertyBag.Add("ScheduledEventStrategy", *source.ScheduledEventStrategy)
+	} else {
+		propertyBag.Remove("ScheduledEventStrategy")
+	}
+
+	// SeedNodes
+	if source.SeedNodes != nil {
+		seedNodeList := make([]SeedNode_STATUS, len(source.SeedNodes))
+		for seedNodeIndex, seedNodeItem := range source.SeedNodes {
+			var seedNode SeedNode_STATUS
+			err := seedNode.AssignProperties_From_SeedNode_STATUS(&seedNodeItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_SeedNode_STATUS() to populate field SeedNodes")
+			}
+			seedNodeList[seedNodeIndex] = seedNode
+		}
+		properties.SeedNodes = seedNodeList
+	} else {
+		properties.SeedNodes = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraCluster_Properties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForCassandraCluster_Properties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ClusterResourceProperties_STATUS populates the provided destination ClusterResourceProperties_STATUS from our CassandraCluster_Properties_STATUS
+func (properties *CassandraCluster_Properties_STATUS) AssignProperties_To_ClusterResourceProperties_STATUS(destination *storage.ClusterResourceProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// AuthenticationMethod
+	destination.AuthenticationMethod = genruntime.ClonePointerToString(properties.AuthenticationMethod)
+
+	// AutoReplicate
+	if propertyBag.Contains("AutoReplicate") {
+		var autoReplicate string
+		err := propertyBag.Pull("AutoReplicate", &autoReplicate)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'AutoReplicate' from propertyBag")
+		}
+
+		destination.AutoReplicate = &autoReplicate
+	} else {
+		destination.AutoReplicate = nil
+	}
+
+	// AzureConnectionMethod
+	destination.AzureConnectionMethod = genruntime.ClonePointerToString(properties.AzureConnectionMethod)
+
+	// BackupSchedules
+	if propertyBag.Contains("BackupSchedules") {
+		var backupSchedule []storage.BackupSchedule_STATUS
+		err := propertyBag.Pull("BackupSchedules", &backupSchedule)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'BackupSchedules' from propertyBag")
+		}
+
+		destination.BackupSchedules = backupSchedule
+	} else {
+		destination.BackupSchedules = nil
+	}
+
+	// CassandraAuditLoggingEnabled
+	if properties.CassandraAuditLoggingEnabled != nil {
+		cassandraAuditLoggingEnabled := *properties.CassandraAuditLoggingEnabled
+		destination.CassandraAuditLoggingEnabled = &cassandraAuditLoggingEnabled
+	} else {
+		destination.CassandraAuditLoggingEnabled = nil
+	}
+
+	// CassandraVersion
+	destination.CassandraVersion = genruntime.ClonePointerToString(properties.CassandraVersion)
+
+	// ClientCertificates
+	if properties.ClientCertificates != nil {
+		clientCertificateList := make([]storage.Certificate_STATUS, len(properties.ClientCertificates))
+		for clientCertificateIndex, clientCertificateItem := range properties.ClientCertificates {
+			var clientCertificate storage.Certificate_STATUS
+			err := clientCertificateItem.AssignProperties_To_Certificate_STATUS(&clientCertificate)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_Certificate_STATUS() to populate field ClientCertificates")
+			}
+			clientCertificateList[clientCertificateIndex] = clientCertificate
+		}
+		destination.ClientCertificates = clientCertificateList
+	} else {
+		destination.ClientCertificates = nil
+	}
+
+	// ClusterNameOverride
+	destination.ClusterNameOverride = genruntime.ClonePointerToString(properties.ClusterNameOverride)
+
+	// Deallocated
+	if properties.Deallocated != nil {
+		deallocated := *properties.Deallocated
+		destination.Deallocated = &deallocated
+	} else {
+		destination.Deallocated = nil
+	}
+
+	// DelegatedManagementSubnetId
+	destination.DelegatedManagementSubnetId = genruntime.ClonePointerToString(properties.DelegatedManagementSubnetId)
+
+	// Extensions
+	if propertyBag.Contains("Extensions") {
+		var extension []string
+		err := propertyBag.Pull("Extensions", &extension)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'Extensions' from propertyBag")
+		}
+
+		destination.Extensions = extension
+	} else {
+		destination.Extensions = nil
+	}
+
+	// ExternalDataCenters
+	if propertyBag.Contains("ExternalDataCenters") {
+		var externalDataCenter []string
+		err := propertyBag.Pull("ExternalDataCenters", &externalDataCenter)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ExternalDataCenters' from propertyBag")
+		}
+
+		destination.ExternalDataCenters = externalDataCenter
+	} else {
+		destination.ExternalDataCenters = nil
+	}
+
+	// ExternalGossipCertificates
+	if properties.ExternalGossipCertificates != nil {
+		externalGossipCertificateList := make([]storage.Certificate_STATUS, len(properties.ExternalGossipCertificates))
+		for externalGossipCertificateIndex, externalGossipCertificateItem := range properties.ExternalGossipCertificates {
+			var externalGossipCertificate storage.Certificate_STATUS
+			err := externalGossipCertificateItem.AssignProperties_To_Certificate_STATUS(&externalGossipCertificate)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_Certificate_STATUS() to populate field ExternalGossipCertificates")
+			}
+			externalGossipCertificateList[externalGossipCertificateIndex] = externalGossipCertificate
+		}
+		destination.ExternalGossipCertificates = externalGossipCertificateList
+	} else {
+		destination.ExternalGossipCertificates = nil
+	}
+
+	// ExternalSeedNodes
+	if properties.ExternalSeedNodes != nil {
+		externalSeedNodeList := make([]storage.SeedNode_STATUS, len(properties.ExternalSeedNodes))
+		for externalSeedNodeIndex, externalSeedNodeItem := range properties.ExternalSeedNodes {
+			var externalSeedNode storage.SeedNode_STATUS
+			err := externalSeedNodeItem.AssignProperties_To_SeedNode_STATUS(&externalSeedNode)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SeedNode_STATUS() to populate field ExternalSeedNodes")
+			}
+			externalSeedNodeList[externalSeedNodeIndex] = externalSeedNode
+		}
+		destination.ExternalSeedNodes = externalSeedNodeList
+	} else {
+		destination.ExternalSeedNodes = nil
+	}
+
+	// GossipCertificates
+	if properties.GossipCertificates != nil {
+		gossipCertificateList := make([]storage.Certificate_STATUS, len(properties.GossipCertificates))
+		for gossipCertificateIndex, gossipCertificateItem := range properties.GossipCertificates {
+			var gossipCertificate storage.Certificate_STATUS
+			err := gossipCertificateItem.AssignProperties_To_Certificate_STATUS(&gossipCertificate)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_Certificate_STATUS() to populate field GossipCertificates")
+			}
+			gossipCertificateList[gossipCertificateIndex] = gossipCertificate
+		}
+		destination.GossipCertificates = gossipCertificateList
+	} else {
+		destination.GossipCertificates = nil
+	}
+
+	// HoursBetweenBackups
+	destination.HoursBetweenBackups = genruntime.ClonePointerToInt(properties.HoursBetweenBackups)
+
+	// PrivateLinkResourceId
+	destination.PrivateLinkResourceId = genruntime.ClonePointerToString(properties.PrivateLinkResourceId)
+
+	// PrometheusEndpoint
+	if properties.PrometheusEndpoint != nil {
+		var prometheusEndpoint storage.SeedNode_STATUS
+		err := properties.PrometheusEndpoint.AssignProperties_To_SeedNode_STATUS(&prometheusEndpoint)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SeedNode_STATUS() to populate field PrometheusEndpoint")
+		}
+		destination.PrometheusEndpoint = &prometheusEndpoint
+	} else {
+		destination.PrometheusEndpoint = nil
+	}
+
+	// ProvisionError
+	if properties.ProvisionError != nil {
+		var provisionError storage.CassandraError_STATUS
+		err := properties.ProvisionError.AssignProperties_To_CassandraError_STATUS(&provisionError)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CassandraError_STATUS() to populate field ProvisionError")
+		}
+		destination.ProvisionError = &provisionError
+	} else {
+		destination.ProvisionError = nil
+	}
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(properties.ProvisioningState)
+
+	// RepairEnabled
+	if properties.RepairEnabled != nil {
+		repairEnabled := *properties.RepairEnabled
+		destination.RepairEnabled = &repairEnabled
+	} else {
+		destination.RepairEnabled = nil
+	}
+
+	// RestoreFromBackupId
+	destination.RestoreFromBackupId = genruntime.ClonePointerToString(properties.RestoreFromBackupId)
+
+	// ScheduledEventStrategy
+	if propertyBag.Contains("ScheduledEventStrategy") {
+		var scheduledEventStrategy string
+		err := propertyBag.Pull("ScheduledEventStrategy", &scheduledEventStrategy)
+		if err != nil {
+			return eris.Wrap(err, "pulling 'ScheduledEventStrategy' from propertyBag")
+		}
+
+		destination.ScheduledEventStrategy = &scheduledEventStrategy
+	} else {
+		destination.ScheduledEventStrategy = nil
+	}
+
+	// SeedNodes
+	if properties.SeedNodes != nil {
+		seedNodeList := make([]storage.SeedNode_STATUS, len(properties.SeedNodes))
+		for seedNodeIndex, seedNodeItem := range properties.SeedNodes {
+			var seedNode storage.SeedNode_STATUS
+			err := seedNodeItem.AssignProperties_To_SeedNode_STATUS(&seedNode)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_SeedNode_STATUS() to populate field SeedNodes")
+			}
+			seedNodeList[seedNodeIndex] = seedNode
+		}
+		destination.SeedNodes = seedNodeList
+	} else {
+		destination.SeedNodes = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraCluster_Properties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForCassandraCluster_Properties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20251015.CassandraClusterOperatorSpec
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type CassandraClusterOperatorSpec struct {
@@ -304,11 +1623,181 @@ type CassandraClusterOperatorSpec struct {
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
 }
 
+// AssignProperties_From_CassandraClusterOperatorSpec populates our CassandraClusterOperatorSpec from the provided source CassandraClusterOperatorSpec
+func (operator *CassandraClusterOperatorSpec) AssignProperties_From_CassandraClusterOperatorSpec(source *storage.CassandraClusterOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraClusterOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForCassandraClusterOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CassandraClusterOperatorSpec populates the provided destination CassandraClusterOperatorSpec from our CassandraClusterOperatorSpec
+func (operator *CassandraClusterOperatorSpec) AssignProperties_To_CassandraClusterOperatorSpec(destination *storage.CassandraClusterOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraClusterOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForCassandraClusterOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20251015.ManagedCassandraManagedServiceIdentity
 // Identity for the resource.
 type ManagedCassandraManagedServiceIdentity struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
+}
+
+// AssignProperties_From_ManagedCassandraManagedServiceIdentity populates our ManagedCassandraManagedServiceIdentity from the provided source ManagedCassandraManagedServiceIdentity
+func (identity *ManagedCassandraManagedServiceIdentity) AssignProperties_From_ManagedCassandraManagedServiceIdentity(source *storage.ManagedCassandraManagedServiceIdentity) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Type
+	identity.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedCassandraManagedServiceIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedCassandraManagedServiceIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedCassandraManagedServiceIdentity populates the provided destination ManagedCassandraManagedServiceIdentity from our ManagedCassandraManagedServiceIdentity
+func (identity *ManagedCassandraManagedServiceIdentity) AssignProperties_To_ManagedCassandraManagedServiceIdentity(destination *storage.ManagedCassandraManagedServiceIdentity) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedCassandraManagedServiceIdentity interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedCassandraManagedServiceIdentity); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20251015.ManagedCassandraManagedServiceIdentity_STATUS
@@ -320,6 +1809,99 @@ type ManagedCassandraManagedServiceIdentity_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
+// AssignProperties_From_ManagedCassandraManagedServiceIdentity_STATUS populates our ManagedCassandraManagedServiceIdentity_STATUS from the provided source ManagedCassandraManagedServiceIdentity_STATUS
+func (identity *ManagedCassandraManagedServiceIdentity_STATUS) AssignProperties_From_ManagedCassandraManagedServiceIdentity_STATUS(source *storage.ManagedCassandraManagedServiceIdentity_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// PrincipalId
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// TenantId
+	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Type
+	identity.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedCassandraManagedServiceIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedCassandraManagedServiceIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ManagedCassandraManagedServiceIdentity_STATUS populates the provided destination ManagedCassandraManagedServiceIdentity_STATUS from our ManagedCassandraManagedServiceIdentity_STATUS
+func (identity *ManagedCassandraManagedServiceIdentity_STATUS) AssignProperties_To_ManagedCassandraManagedServiceIdentity_STATUS(destination *storage.ManagedCassandraManagedServiceIdentity_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForManagedCassandraManagedServiceIdentity_STATUS interface (if implemented) to customize the conversion
+	var identityAsAny any = identity
+	if augmentedIdentity, ok := identityAsAny.(augmentConversionForManagedCassandraManagedServiceIdentity_STATUS); ok {
+		err := augmentedIdentity.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForCassandraCluster_Properties_Spec interface {
+	AssignPropertiesFrom(src *storage.ClusterResourceProperties) error
+	AssignPropertiesTo(dst *storage.ClusterResourceProperties) error
+}
+
+type augmentConversionForCassandraCluster_Properties_STATUS interface {
+	AssignPropertiesFrom(src *storage.ClusterResourceProperties_STATUS) error
+	AssignPropertiesTo(dst *storage.ClusterResourceProperties_STATUS) error
+}
+
+type augmentConversionForCassandraClusterOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.CassandraClusterOperatorSpec) error
+	AssignPropertiesTo(dst *storage.CassandraClusterOperatorSpec) error
+}
+
+type augmentConversionForManagedCassandraManagedServiceIdentity interface {
+	AssignPropertiesFrom(src *storage.ManagedCassandraManagedServiceIdentity) error
+	AssignPropertiesTo(dst *storage.ManagedCassandraManagedServiceIdentity) error
+}
+
+type augmentConversionForManagedCassandraManagedServiceIdentity_STATUS interface {
+	AssignPropertiesFrom(src *storage.ManagedCassandraManagedServiceIdentity_STATUS) error
+	AssignPropertiesTo(dst *storage.ManagedCassandraManagedServiceIdentity_STATUS) error
+}
+
 // Storage version of v20251015.CassandraError_STATUS
 type CassandraError_STATUS struct {
 	AdditionalErrorInfo *string                `json:"additionalErrorInfo,omitempty"`
@@ -329,15 +1911,205 @@ type CassandraError_STATUS struct {
 	Target              *string                `json:"target,omitempty"`
 }
 
+// AssignProperties_From_CassandraError_STATUS populates our CassandraError_STATUS from the provided source CassandraError_STATUS
+func (error *CassandraError_STATUS) AssignProperties_From_CassandraError_STATUS(source *storage.CassandraError_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdditionalErrorInfo
+	error.AdditionalErrorInfo = genruntime.ClonePointerToString(source.AdditionalErrorInfo)
+
+	// Code
+	error.Code = genruntime.ClonePointerToString(source.Code)
+
+	// Message
+	error.Message = genruntime.ClonePointerToString(source.Message)
+
+	// Target
+	error.Target = genruntime.ClonePointerToString(source.Target)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		error.PropertyBag = propertyBag
+	} else {
+		error.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraError_STATUS interface (if implemented) to customize the conversion
+	var errorAsAny any = error
+	if augmentedError, ok := errorAsAny.(augmentConversionForCassandraError_STATUS); ok {
+		err := augmentedError.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_CassandraError_STATUS populates the provided destination CassandraError_STATUS from our CassandraError_STATUS
+func (error *CassandraError_STATUS) AssignProperties_To_CassandraError_STATUS(destination *storage.CassandraError_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
+
+	// AdditionalErrorInfo
+	destination.AdditionalErrorInfo = genruntime.ClonePointerToString(error.AdditionalErrorInfo)
+
+	// Code
+	destination.Code = genruntime.ClonePointerToString(error.Code)
+
+	// Message
+	destination.Message = genruntime.ClonePointerToString(error.Message)
+
+	// Target
+	destination.Target = genruntime.ClonePointerToString(error.Target)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCassandraError_STATUS interface (if implemented) to customize the conversion
+	var errorAsAny any = error
+	if augmentedError, ok := errorAsAny.(augmentConversionForCassandraError_STATUS); ok {
+		err := augmentedError.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20251015.Certificate
 type Certificate struct {
 	Pem         *genruntime.SecretReference `json:"pem,omitempty"`
 	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_Certificate populates our Certificate from the provided source Certificate
+func (certificate *Certificate) AssignProperties_From_Certificate(source *storage.Certificate) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Pem
+	if source.Pem != nil {
+		pem := source.Pem.Copy()
+		certificate.Pem = &pem
+	} else {
+		certificate.Pem = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		certificate.PropertyBag = propertyBag
+	} else {
+		certificate.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCertificate interface (if implemented) to customize the conversion
+	var certificateAsAny any = certificate
+	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForCertificate); ok {
+		err := augmentedCertificate.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Certificate populates the provided destination Certificate from our Certificate
+func (certificate *Certificate) AssignProperties_To_Certificate(destination *storage.Certificate) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(certificate.PropertyBag)
+
+	// Pem
+	if certificate.Pem != nil {
+		pem := certificate.Pem.Copy()
+		destination.Pem = &pem
+	} else {
+		destination.Pem = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCertificate interface (if implemented) to customize the conversion
+	var certificateAsAny any = certificate
+	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForCertificate); ok {
+		err := augmentedCertificate.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20251015.Certificate_STATUS
 type Certificate_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_Certificate_STATUS populates our Certificate_STATUS from the provided source Certificate_STATUS
+func (certificate *Certificate_STATUS) AssignProperties_From_Certificate_STATUS(source *storage.Certificate_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		certificate.PropertyBag = propertyBag
+	} else {
+		certificate.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCertificate_STATUS interface (if implemented) to customize the conversion
+	var certificateAsAny any = certificate
+	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForCertificate_STATUS); ok {
+		err := augmentedCertificate.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Certificate_STATUS populates the provided destination Certificate_STATUS from our Certificate_STATUS
+func (certificate *Certificate_STATUS) AssignProperties_To_Certificate_STATUS(destination *storage.Certificate_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(certificate.PropertyBag)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForCertificate_STATUS interface (if implemented) to customize the conversion
+	var certificateAsAny any = certificate
+	if augmentedCertificate, ok := certificateAsAny.(augmentConversionForCertificate_STATUS); ok {
+		err := augmentedCertificate.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v20251015.SeedNode
@@ -347,10 +2119,163 @@ type SeedNode struct {
 	PropertyBag         genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_SeedNode populates our SeedNode from the provided source SeedNode
+func (node *SeedNode) AssignProperties_From_SeedNode(source *storage.SeedNode) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// IpAddress
+	node.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
+
+	// IpAddressFromConfig
+	if source.IpAddressFromConfig != nil {
+		ipAddressFromConfig := source.IpAddressFromConfig.Copy()
+		node.IpAddressFromConfig = &ipAddressFromConfig
+	} else {
+		node.IpAddressFromConfig = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		node.PropertyBag = propertyBag
+	} else {
+		node.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSeedNode interface (if implemented) to customize the conversion
+	var nodeAsAny any = node
+	if augmentedNode, ok := nodeAsAny.(augmentConversionForSeedNode); ok {
+		err := augmentedNode.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SeedNode populates the provided destination SeedNode from our SeedNode
+func (node *SeedNode) AssignProperties_To_SeedNode(destination *storage.SeedNode) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(node.PropertyBag)
+
+	// IpAddress
+	destination.IpAddress = genruntime.ClonePointerToString(node.IpAddress)
+
+	// IpAddressFromConfig
+	if node.IpAddressFromConfig != nil {
+		ipAddressFromConfig := node.IpAddressFromConfig.Copy()
+		destination.IpAddressFromConfig = &ipAddressFromConfig
+	} else {
+		destination.IpAddressFromConfig = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSeedNode interface (if implemented) to customize the conversion
+	var nodeAsAny any = node
+	if augmentedNode, ok := nodeAsAny.(augmentConversionForSeedNode); ok {
+		err := augmentedNode.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v20251015.SeedNode_STATUS
 type SeedNode_STATUS struct {
 	IpAddress   *string                `json:"ipAddress,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_SeedNode_STATUS populates our SeedNode_STATUS from the provided source SeedNode_STATUS
+func (node *SeedNode_STATUS) AssignProperties_From_SeedNode_STATUS(source *storage.SeedNode_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// IpAddress
+	node.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		node.PropertyBag = propertyBag
+	} else {
+		node.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSeedNode_STATUS interface (if implemented) to customize the conversion
+	var nodeAsAny any = node
+	if augmentedNode, ok := nodeAsAny.(augmentConversionForSeedNode_STATUS); ok {
+		err := augmentedNode.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_SeedNode_STATUS populates the provided destination SeedNode_STATUS from our SeedNode_STATUS
+func (node *SeedNode_STATUS) AssignProperties_To_SeedNode_STATUS(destination *storage.SeedNode_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(node.PropertyBag)
+
+	// IpAddress
+	destination.IpAddress = genruntime.ClonePointerToString(node.IpAddress)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForSeedNode_STATUS interface (if implemented) to customize the conversion
+	var nodeAsAny any = node
+	if augmentedNode, ok := nodeAsAny.(augmentConversionForSeedNode_STATUS); ok {
+		err := augmentedNode.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForCassandraError_STATUS interface {
+	AssignPropertiesFrom(src *storage.CassandraError_STATUS) error
+	AssignPropertiesTo(dst *storage.CassandraError_STATUS) error
+}
+
+type augmentConversionForCertificate interface {
+	AssignPropertiesFrom(src *storage.Certificate) error
+	AssignPropertiesTo(dst *storage.Certificate) error
+}
+
+type augmentConversionForCertificate_STATUS interface {
+	AssignPropertiesFrom(src *storage.Certificate_STATUS) error
+	AssignPropertiesTo(dst *storage.Certificate_STATUS) error
+}
+
+type augmentConversionForSeedNode interface {
+	AssignPropertiesFrom(src *storage.SeedNode) error
+	AssignPropertiesTo(dst *storage.SeedNode) error
+}
+
+type augmentConversionForSeedNode_STATUS interface {
+	AssignPropertiesFrom(src *storage.SeedNode_STATUS) error
+	AssignPropertiesTo(dst *storage.SeedNode_STATUS) error
 }
 
 func init() {

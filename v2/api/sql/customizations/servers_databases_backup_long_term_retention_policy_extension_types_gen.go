@@ -8,6 +8,8 @@ import (
 	sql_v1api20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101/storage"
 	sql_v20211101 "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
 	sql_v20211101s "github.com/Azure/azure-service-operator/v2/api/sql/v20211101/storage"
+	sql_v20250101 "github.com/Azure/azure-service-operator/v2/api/sql/v20250101"
+	sql_v20250101s "github.com/Azure/azure-service-operator/v2/api/sql/v20250101/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -20,5 +22,7 @@ func (extension *ServersDatabasesBackupLongTermRetentionPolicyExtension) GetExte
 		&sql_v1api20211101.ServersDatabasesBackupLongTermRetentionPolicy{},
 		&sql_v1api20211101s.ServersDatabasesBackupLongTermRetentionPolicy{},
 		&sql_v20211101.ServersDatabasesBackupLongTermRetentionPolicy{},
-		&sql_v20211101s.ServersDatabasesBackupLongTermRetentionPolicy{}}
+		&sql_v20211101s.ServersDatabasesBackupLongTermRetentionPolicy{},
+		&sql_v20250101.ServersDatabasesBackupLongTermRetentionPolicy{},
+		&sql_v20250101s.ServersDatabasesBackupLongTermRetentionPolicy{}}
 }
