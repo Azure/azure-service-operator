@@ -35,8 +35,9 @@ Redis: Resource
 │   ├── PublicNetworkAccess: *Enum (2 values)
 │   │   ├── "Disabled"
 │   │   └── "Enabled"
-│   ├── RedisConfiguration: *Object (16 properties)
+│   ├── RedisConfiguration: *Object (17 properties)
 │   │   ├── AadEnabled: *string
+│   │   ├── AdditionalProperties: map[string]v1.JSON
 │   │   ├── AofBackupEnabled: *string
 │   │   ├── AofStorageConnectionString0: *string
 │   │   ├── AofStorageConnectionString1: *string
@@ -125,8 +126,9 @@ Redis: Resource
     ├── PublicNetworkAccess: *Enum (2 values)
     │   ├── "Disabled"
     │   └── "Enabled"
-    ├── RedisConfiguration: *Object (19 properties)
+    ├── RedisConfiguration: *Object (20 properties)
     │   ├── AadEnabled: *string
+    │   ├── AdditionalProperties: map[string]v1.JSON
     │   ├── AofBackupEnabled: *string
     │   ├── AofStorageConnectionString0: *string
     │   ├── AofStorageConnectionString1: *string

@@ -19,6 +19,11 @@ import (
 
 func Test_RedisPatchSchedule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -94,6 +99,11 @@ func AddRelatedPropertyGeneratorsForRedisPatchSchedule_Spec(gens map[string]gopt
 
 func Test_ScheduleEntries_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -154,6 +164,11 @@ func AddRelatedPropertyGeneratorsForScheduleEntries(gens map[string]gopter.Gen) 
 
 func Test_ScheduleEntry_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

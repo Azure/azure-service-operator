@@ -970,6 +970,11 @@ func (in *FluxConfiguration_STATUS) DeepCopyInto(out *FluxConfiguration_STATUS) 
 		*out = new(bool)
 		**out = **in
 	}
+	if in.SystemData != nil {
+		in, out := &in.SystemData, &out.SystemData
+		*out = new(SystemData_STATUS)
+		(*in).DeepCopyInto(*out)
+	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
 		*out = new(string)

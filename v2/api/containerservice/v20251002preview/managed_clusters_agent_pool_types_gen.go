@@ -356,6 +356,9 @@ type ManagedClustersAgentPool_Spec struct {
 	// NodeCustomizationProfile: Settings to determine the node customization used to provision nodes in a pool.
 	NodeCustomizationProfile *NodeCustomizationProfile `json:"nodeCustomizationProfile,omitempty"`
 
+	// NodeImageVersion: The version of node image
+	NodeImageVersion *string `json:"nodeImageVersion,omitempty"`
+
 	// NodeInitializationTaints: Taints added on the nodes during creation that will not be reconciled by AKS. These taints
 	// will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is
 	// created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node
@@ -529,6 +532,7 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		pool.Mode != nil ||
 		pool.NetworkProfile != nil ||
 		pool.NodeCustomizationProfile != nil ||
+		pool.NodeImageVersion != nil ||
 		pool.NodeInitializationTaints != nil ||
 		pool.NodeLabels != nil ||
 		pool.NodePublicIPPrefixReference != nil ||
@@ -708,6 +712,10 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		}
 		nodeCustomizationProfile := *nodeCustomizationProfile_ARM.(*arm.NodeCustomizationProfile)
 		result.Properties.NodeCustomizationProfile = &nodeCustomizationProfile
+	}
+	if pool.NodeImageVersion != nil {
+		nodeImageVersion := *pool.NodeImageVersion
+		result.Properties.NodeImageVersion = &nodeImageVersion
 	}
 	for _, item := range pool.NodeInitializationTaints {
 		result.Properties.NodeInitializationTaints = append(result.Properties.NodeInitializationTaints, item)
@@ -1176,6 +1184,15 @@ func (pool *ManagedClustersAgentPool_Spec) PopulateFromARM(owner genruntime.Arbi
 			}
 			nodeCustomizationProfile := nodeCustomizationProfile1
 			pool.NodeCustomizationProfile = &nodeCustomizationProfile
+		}
+	}
+
+	// Set property "NodeImageVersion":
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.NodeImageVersion != nil {
+			nodeImageVersion := *typedInput.Properties.NodeImageVersion
+			pool.NodeImageVersion = &nodeImageVersion
 		}
 	}
 
@@ -1745,6 +1762,9 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_From_ManagedClusters
 		pool.NodeCustomizationProfile = nil
 	}
 
+	// NodeImageVersion
+	pool.NodeImageVersion = genruntime.ClonePointerToString(source.NodeImageVersion)
+
 	// NodeInitializationTaints
 	pool.NodeInitializationTaints = genruntime.CloneSliceOfString(source.NodeInitializationTaints)
 
@@ -2221,6 +2241,9 @@ func (pool *ManagedClustersAgentPool_Spec) AssignProperties_To_ManagedClustersAg
 	} else {
 		destination.NodeCustomizationProfile = nil
 	}
+
+	// NodeImageVersion
+	destination.NodeImageVersion = genruntime.ClonePointerToString(pool.NodeImageVersion)
 
 	// NodeInitializationTaints
 	destination.NodeInitializationTaints = genruntime.CloneSliceOfString(pool.NodeInitializationTaints)
@@ -4434,6 +4457,7 @@ func (pool *ManagedClustersAgentPool_STATUS) AssignProperties_To_ManagedClusters
 	return nil
 }
 
+// Artifact streaming profile for the agent pool.
 type AgentPoolArtifactStreamingProfile struct {
 	// Enabled: Artifact streaming speeds up the cold-start of containers on a node through on-demand image loading. To use
 	// this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false.
@@ -4518,6 +4542,7 @@ func (profile *AgentPoolArtifactStreamingProfile) AssignProperties_To_AgentPoolA
 	return nil
 }
 
+// Artifact streaming profile for the agent pool.
 type AgentPoolArtifactStreamingProfile_STATUS struct {
 	// Enabled: Artifact streaming speeds up the cold-start of containers on a node through on-demand image loading. To use
 	// this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false.

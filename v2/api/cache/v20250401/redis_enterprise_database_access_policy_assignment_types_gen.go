@@ -51,22 +51,36 @@ var _ conversion.Convertible = &RedisEnterpriseDatabaseAccessPolicyAssignment{}
 
 // ConvertFrom populates our RedisEnterpriseDatabaseAccessPolicyAssignment from the provided hub RedisEnterpriseDatabaseAccessPolicyAssignment
 func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisEnterpriseDatabaseAccessPolicyAssignment)
-	if !ok {
-		return fmt.Errorf("expected cache/v20250401/storage/RedisEnterpriseDatabaseAccessPolicyAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisEnterpriseDatabaseAccessPolicyAssignment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return assignment.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment(source)
+	err = assignment.AssignProperties_From_RedisEnterpriseDatabaseAccessPolicyAssignment(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to assignment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisEnterpriseDatabaseAccessPolicyAssignment from our RedisEnterpriseDatabaseAccessPolicyAssignment
 func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisEnterpriseDatabaseAccessPolicyAssignment)
-	if !ok {
-		return fmt.Errorf("expected cache/v20250401/storage/RedisEnterpriseDatabaseAccessPolicyAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisEnterpriseDatabaseAccessPolicyAssignment
+	err := assignment.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from assignment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return assignment.AssignProperties_To_RedisEnterpriseDatabaseAccessPolicyAssignment(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisEnterpriseDatabaseAccessPolicyAssignment{}
@@ -87,17 +101,6 @@ func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) SecretDestinati
 		return nil
 	}
 	return assignment.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RedisEnterpriseDatabaseAccessPolicyAssignment{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS); ok {
-		return assignment.Spec.Initialize_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RedisEnterpriseDatabaseAccessPolicyAssignment{}
@@ -245,11 +248,6 @@ type RedisEnterpriseDatabaseAccessPolicyAssignmentList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterpriseDatabaseAccessPolicyAssignment `json:"items"`
 }
-
-// +kubebuilder:validation:Enum={"2025-04-01"}
-type APIVersion string
-
-const APIVersion_Value = APIVersion("2025-04-01")
 
 type RedisEnterpriseDatabaseAccessPolicyAssignment_Spec struct {
 	// +kubebuilder:validation:Required
@@ -505,28 +503,6 @@ func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) AssignProp
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS populates our RedisEnterpriseDatabaseAccessPolicyAssignment_Spec from the provided source RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS
-func (assignment *RedisEnterpriseDatabaseAccessPolicyAssignment_Spec) Initialize_From_RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS(source *RedisEnterpriseDatabaseAccessPolicyAssignment_STATUS) error {
-
-	// AccessPolicyName
-	assignment.AccessPolicyName = genruntime.ClonePointerToString(source.AccessPolicyName)
-
-	// User
-	if source.User != nil {
-		var user AccessPolicyAssignmentProperties_User
-		err := user.Initialize_From_AccessPolicyAssignmentProperties_User_STATUS(source.User)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AccessPolicyAssignmentProperties_User_STATUS() to populate field User")
-		}
-		assignment.User = &user
-	} else {
-		assignment.User = nil
 	}
 
 	// No error
@@ -886,16 +862,6 @@ func (user *AccessPolicyAssignmentProperties_User) AssignProperties_To_AccessPol
 	return nil
 }
 
-// Initialize_From_AccessPolicyAssignmentProperties_User_STATUS populates our AccessPolicyAssignmentProperties_User from the provided source AccessPolicyAssignmentProperties_User_STATUS
-func (user *AccessPolicyAssignmentProperties_User) Initialize_From_AccessPolicyAssignmentProperties_User_STATUS(source *AccessPolicyAssignmentProperties_User_STATUS) error {
-
-	// ObjectId
-	user.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
-
-	// No error
-	return nil
-}
-
 type AccessPolicyAssignmentProperties_User_STATUS struct {
 	// ObjectId: The object ID of the user.
 	ObjectId *string `json:"objectId,omitempty"`
@@ -952,28 +918,6 @@ func (user *AccessPolicyAssignmentProperties_User_STATUS) AssignProperties_To_Ac
 
 	// No error
 	return nil
-}
-
-// Current provisioning status
-type ProvisioningState_STATUS string
-
-const (
-	ProvisioningState_STATUS_Canceled  = ProvisioningState_STATUS("Canceled")
-	ProvisioningState_STATUS_Creating  = ProvisioningState_STATUS("Creating")
-	ProvisioningState_STATUS_Deleting  = ProvisioningState_STATUS("Deleting")
-	ProvisioningState_STATUS_Failed    = ProvisioningState_STATUS("Failed")
-	ProvisioningState_STATUS_Succeeded = ProvisioningState_STATUS("Succeeded")
-	ProvisioningState_STATUS_Updating  = ProvisioningState_STATUS("Updating")
-)
-
-// Mapping from string to ProvisioningState_STATUS
-var provisioningState_STATUS_Values = map[string]ProvisioningState_STATUS{
-	"canceled":  ProvisioningState_STATUS_Canceled,
-	"creating":  ProvisioningState_STATUS_Creating,
-	"deleting":  ProvisioningState_STATUS_Deleting,
-	"failed":    ProvisioningState_STATUS_Failed,
-	"succeeded": ProvisioningState_STATUS_Succeeded,
-	"updating":  ProvisioningState_STATUS_Updating,
 }
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure

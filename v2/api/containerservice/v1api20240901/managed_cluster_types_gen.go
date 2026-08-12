@@ -5729,7 +5729,7 @@ type ManagedClusterAADProfile struct {
 	ServerAppID *string `json:"serverAppID,omitempty"`
 
 	// ServerAppSecret: (DEPRECATED) The server AAD application secret. Learn more at https://aka.ms/aks/aad-legacy.
-	ServerAppSecret *string `json:"serverAppSecret,omitempty"`
+	ServerAppSecret *genruntime.SecretReference `json:"serverAppSecret,omitempty"`
 
 	// TenantID: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment
 	// subscription.
@@ -5776,7 +5776,11 @@ func (profile *ManagedClusterAADProfile) ConvertToARM(resolved genruntime.Conver
 
 	// Set property "ServerAppSecret":
 	if profile.ServerAppSecret != nil {
-		serverAppSecret := *profile.ServerAppSecret
+		serverAppSecretSecret, err := resolved.ResolvedSecrets.Lookup(*profile.ServerAppSecret)
+		if err != nil {
+			return nil, eris.Wrap(err, "looking up secret for property ServerAppSecret")
+		}
+		serverAppSecret := serverAppSecretSecret
 		result.ServerAppSecret = &serverAppSecret
 	}
 
@@ -5829,11 +5833,7 @@ func (profile *ManagedClusterAADProfile) PopulateFromARM(owner genruntime.Arbitr
 		profile.ServerAppID = &serverAppID
 	}
 
-	// Set property "ServerAppSecret":
-	if typedInput.ServerAppSecret != nil {
-		serverAppSecret := *typedInput.ServerAppSecret
-		profile.ServerAppSecret = &serverAppSecret
-	}
+	// no assignment for property "ServerAppSecret"
 
 	// Set property "TenantID":
 	if typedInput.TenantID != nil {
@@ -5874,7 +5874,12 @@ func (profile *ManagedClusterAADProfile) AssignProperties_From_ManagedClusterAAD
 	profile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
 
 	// ServerAppSecret
-	profile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
+	if source.ServerAppSecret != nil {
+		serverAppSecret := source.ServerAppSecret.Copy()
+		profile.ServerAppSecret = &serverAppSecret
+	} else {
+		profile.ServerAppSecret = nil
+	}
 
 	// TenantID
 	profile.TenantID = genruntime.ClonePointerToString(source.TenantID)
@@ -5914,7 +5919,12 @@ func (profile *ManagedClusterAADProfile) AssignProperties_To_ManagedClusterAADPr
 	destination.ServerAppID = genruntime.ClonePointerToString(profile.ServerAppID)
 
 	// ServerAppSecret
-	destination.ServerAppSecret = genruntime.ClonePointerToString(profile.ServerAppSecret)
+	if profile.ServerAppSecret != nil {
+		serverAppSecret := profile.ServerAppSecret.Copy()
+		destination.ServerAppSecret = &serverAppSecret
+	} else {
+		destination.ServerAppSecret = nil
+	}
 
 	// TenantID
 	destination.TenantID = genruntime.ClonePointerToString(profile.TenantID)
@@ -5946,9 +5956,6 @@ type ManagedClusterAADProfile_STATUS struct {
 
 	// ServerAppID: (DEPRECATED) The server AAD application ID. Learn more at https://aka.ms/aks/aad-legacy.
 	ServerAppID *string `json:"serverAppID,omitempty"`
-
-	// ServerAppSecret: (DEPRECATED) The server AAD application secret. Learn more at https://aka.ms/aks/aad-legacy.
-	ServerAppSecret *string `json:"serverAppSecret,omitempty"`
 
 	// TenantID: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment
 	// subscription.
@@ -5998,12 +6005,6 @@ func (profile *ManagedClusterAADProfile_STATUS) PopulateFromARM(owner genruntime
 		profile.ServerAppID = &serverAppID
 	}
 
-	// Set property "ServerAppSecret":
-	if typedInput.ServerAppSecret != nil {
-		serverAppSecret := *typedInput.ServerAppSecret
-		profile.ServerAppSecret = &serverAppSecret
-	}
-
 	// Set property "TenantID":
 	if typedInput.TenantID != nil {
 		tenantID := *typedInput.TenantID
@@ -6042,9 +6043,6 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_From_ManagedClu
 	// ServerAppID
 	profile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
 
-	// ServerAppSecret
-	profile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
-
 	// TenantID
 	profile.TenantID = genruntime.ClonePointerToString(source.TenantID)
 
@@ -6081,9 +6079,6 @@ func (profile *ManagedClusterAADProfile_STATUS) AssignProperties_To_ManagedClust
 
 	// ServerAppID
 	destination.ServerAppID = genruntime.ClonePointerToString(profile.ServerAppID)
-
-	// ServerAppSecret
-	destination.ServerAppSecret = genruntime.ClonePointerToString(profile.ServerAppSecret)
 
 	// TenantID
 	destination.TenantID = genruntime.ClonePointerToString(profile.TenantID)

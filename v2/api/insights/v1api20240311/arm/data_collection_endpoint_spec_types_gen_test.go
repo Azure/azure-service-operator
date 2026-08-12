@@ -19,6 +19,11 @@ import (
 
 func Test_DataCollectionEndpointSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -94,6 +99,11 @@ func AddRelatedPropertyGeneratorsForDataCollectionEndpointSpec(gens map[string]g
 
 func Test_DataCollectionEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -159,7 +169,7 @@ func DataCollectionEndpoint_SpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDataCollectionEndpoint_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataCollectionEndpoint_Spec(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DataCollectionEndpoint_Kind_Spec_Linux, DataCollectionEndpoint_Kind_Spec_Windows))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(KnownDataCollectionEndpointResourceKind_Linux, KnownDataCollectionEndpointResourceKind_Windows))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(
@@ -176,6 +186,11 @@ func AddRelatedPropertyGeneratorsForDataCollectionEndpoint_Spec(gens map[string]
 
 func Test_ManagedServiceIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -257,6 +272,11 @@ func AddRelatedPropertyGeneratorsForManagedServiceIdentity(gens map[string]gopte
 
 func Test_NetworkRuleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -312,11 +332,16 @@ func NetworkRuleSetGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSet is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSet(gens map[string]gopter.Gen) {
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_PublicNetworkAccess_Disabled, NetworkRuleSet_PublicNetworkAccess_Enabled, NetworkRuleSet_PublicNetworkAccess_SecuredByPerimeter))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(KnownPublicNetworkAccessOptions_Disabled, KnownPublicNetworkAccessOptions_Enabled, KnownPublicNetworkAccessOptions_SecuredByPerimeter))
 }
 
 func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -385,6 +410,11 @@ func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 
 func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

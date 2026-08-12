@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}
 type DataCollectionEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (endpoint *DataCollectionEndpoint) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionEndpoints_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}
 type DataCollectionEndpointList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -263,10 +263,10 @@ type DataCollectionEndpoint_Spec struct {
 	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
 
 	// Kind: The kind of the resource.
-	Kind *DataCollectionEndpoint_Kind_Spec `json:"kind,omitempty"`
+	Kind *KnownDataCollectionEndpointResourceKind `json:"kind,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: The geo-location where the resource lives.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// NetworkAcls: Network access control rules for the endpoints.
@@ -312,7 +312,7 @@ func (endpoint *DataCollectionEndpoint_Spec) ConvertToARM(resolved genruntime.Co
 	if endpoint.Kind != nil {
 		var temp string
 		temp = string(*endpoint.Kind)
-		kind := arm.DataCollectionEndpoint_Kind_Spec(temp)
+		kind := arm.KnownDataCollectionEndpointResourceKind(temp)
 		result.Kind = &kind
 	}
 
@@ -401,7 +401,7 @@ func (endpoint *DataCollectionEndpoint_Spec) PopulateFromARM(owner genruntime.Ar
 	if typedInput.Kind != nil {
 		var temp string
 		temp = string(*typedInput.Kind)
-		kind := DataCollectionEndpoint_Kind_Spec(temp)
+		kind := KnownDataCollectionEndpointResourceKind(temp)
 		endpoint.Kind = &kind
 	}
 
@@ -530,7 +530,7 @@ func (endpoint *DataCollectionEndpoint_Spec) AssignProperties_From_DataCollectio
 	// Kind
 	if source.Kind != nil {
 		kind := *source.Kind
-		kindTemp := genruntime.ToEnum(kind, dataCollectionEndpoint_Kind_Spec_Values)
+		kindTemp := genruntime.ToEnum(kind, knownDataCollectionEndpointResourceKind_Values)
 		endpoint.Kind = &kindTemp
 	} else {
 		endpoint.Kind = nil
@@ -705,7 +705,7 @@ func (endpoint *DataCollectionEndpoint_Spec) Initialize_From_DataCollectionEndpo
 
 	// Kind
 	if source.Kind != nil {
-		kind := genruntime.ToEnum(string(*source.Kind), dataCollectionEndpoint_Kind_Spec_Values)
+		kind := genruntime.ToEnum(string(*source.Kind), knownDataCollectionEndpointResourceKind_Values)
 		endpoint.Kind = &kind
 	} else {
 		endpoint.Kind = nil
@@ -773,7 +773,8 @@ type DataCollectionEndpointResource_STATUS struct {
 	// Data Collection Endpoint with Log Analytics Destination.
 	FailoverConfiguration *FailoverConfigurationSpec_STATUS `json:"failoverConfiguration,omitempty"`
 
-	// Id: Fully qualified ID of the resource.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: Managed service identity of the resource.
@@ -783,9 +784,9 @@ type DataCollectionEndpointResource_STATUS struct {
 	ImmutableId *string `json:"immutableId,omitempty"`
 
 	// Kind: The kind of the resource.
-	Kind *DataCollectionEndpointResource_Kind_STATUS `json:"kind,omitempty"`
+	Kind *KnownDataCollectionEndpointResourceKind_STATUS `json:"kind,omitempty"`
 
-	// Location: The geo-location where the resource lives.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// LogsIngestion: The endpoint used by clients to ingest logs.
@@ -798,7 +799,7 @@ type DataCollectionEndpointResource_STATUS struct {
 	// MetricsIngestion: The endpoint used by clients to ingest metrics.
 	MetricsIngestion *MetricsIngestionEndpointSpec_STATUS `json:"metricsIngestion,omitempty"`
 
-	// Name: The name of the resource.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// NetworkAcls: Network access control rules for the endpoints.
@@ -809,18 +810,18 @@ type DataCollectionEndpointResource_STATUS struct {
 	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUS `json:"privateLinkScopedResources,omitempty"`
 
 	// ProvisioningState: The resource provisioning state. This property is READ-ONLY.
-	ProvisioningState *DataCollectionEndpoint_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *KnownDataCollectionEndpointProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// Sku: The SKU of the resource.
 	Sku *Sku_STATUS `json:"sku,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: The type of the resource.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -963,7 +964,7 @@ func (resource *DataCollectionEndpointResource_STATUS) PopulateFromARM(owner gen
 	if typedInput.Kind != nil {
 		var temp string
 		temp = string(*typedInput.Kind)
-		kind := DataCollectionEndpointResource_Kind_STATUS(temp)
+		kind := KnownDataCollectionEndpointResourceKind_STATUS(temp)
 		resource.Kind = &kind
 	}
 
@@ -1054,7 +1055,7 @@ func (resource *DataCollectionEndpointResource_STATUS) PopulateFromARM(owner gen
 		if typedInput.Properties.ProvisioningState != nil {
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
-			provisioningState := DataCollectionEndpoint_ProvisioningState_STATUS(temp)
+			provisioningState := KnownDataCollectionEndpointProvisioningState_STATUS(temp)
 			resource.ProvisioningState = &provisioningState
 		}
 	}
@@ -1156,7 +1157,7 @@ func (resource *DataCollectionEndpointResource_STATUS) AssignProperties_From_Dat
 	// Kind
 	if source.Kind != nil {
 		kind := *source.Kind
-		kindTemp := genruntime.ToEnum(kind, dataCollectionEndpointResource_Kind_STATUS_Values)
+		kindTemp := genruntime.ToEnum(kind, knownDataCollectionEndpointResourceKind_STATUS_Values)
 		resource.Kind = &kindTemp
 	} else {
 		resource.Kind = nil
@@ -1235,7 +1236,7 @@ func (resource *DataCollectionEndpointResource_STATUS) AssignProperties_From_Dat
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
-		provisioningStateTemp := genruntime.ToEnum(provisioningState, dataCollectionEndpoint_ProvisioningState_STATUS_Values)
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, knownDataCollectionEndpointProvisioningState_STATUS_Values)
 		resource.ProvisioningState = &provisioningStateTemp
 	} else {
 		resource.ProvisioningState = nil
@@ -1517,41 +1518,6 @@ func (endpoint *ConfigurationAccessEndpointSpec_STATUS) AssignProperties_To_Conf
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Linux","Windows"}
-type DataCollectionEndpoint_Kind_Spec string
-
-const (
-	DataCollectionEndpoint_Kind_Spec_Linux   = DataCollectionEndpoint_Kind_Spec("Linux")
-	DataCollectionEndpoint_Kind_Spec_Windows = DataCollectionEndpoint_Kind_Spec("Windows")
-)
-
-// Mapping from string to DataCollectionEndpoint_Kind_Spec
-var dataCollectionEndpoint_Kind_Spec_Values = map[string]DataCollectionEndpoint_Kind_Spec{
-	"linux":   DataCollectionEndpoint_Kind_Spec_Linux,
-	"windows": DataCollectionEndpoint_Kind_Spec_Windows,
-}
-
-type DataCollectionEndpoint_ProvisioningState_STATUS string
-
-const (
-	DataCollectionEndpoint_ProvisioningState_STATUS_Canceled  = DataCollectionEndpoint_ProvisioningState_STATUS("Canceled")
-	DataCollectionEndpoint_ProvisioningState_STATUS_Creating  = DataCollectionEndpoint_ProvisioningState_STATUS("Creating")
-	DataCollectionEndpoint_ProvisioningState_STATUS_Deleting  = DataCollectionEndpoint_ProvisioningState_STATUS("Deleting")
-	DataCollectionEndpoint_ProvisioningState_STATUS_Failed    = DataCollectionEndpoint_ProvisioningState_STATUS("Failed")
-	DataCollectionEndpoint_ProvisioningState_STATUS_Succeeded = DataCollectionEndpoint_ProvisioningState_STATUS("Succeeded")
-	DataCollectionEndpoint_ProvisioningState_STATUS_Updating  = DataCollectionEndpoint_ProvisioningState_STATUS("Updating")
-)
-
-// Mapping from string to DataCollectionEndpoint_ProvisioningState_STATUS
-var dataCollectionEndpoint_ProvisioningState_STATUS_Values = map[string]DataCollectionEndpoint_ProvisioningState_STATUS{
-	"canceled":  DataCollectionEndpoint_ProvisioningState_STATUS_Canceled,
-	"creating":  DataCollectionEndpoint_ProvisioningState_STATUS_Creating,
-	"deleting":  DataCollectionEndpoint_ProvisioningState_STATUS_Deleting,
-	"failed":    DataCollectionEndpoint_ProvisioningState_STATUS_Failed,
-	"succeeded": DataCollectionEndpoint_ProvisioningState_STATUS_Succeeded,
-	"updating":  DataCollectionEndpoint_ProvisioningState_STATUS_Updating,
-}
-
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DataCollectionEndpointOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
@@ -1646,19 +1612,6 @@ func (operator *DataCollectionEndpointOperatorSpec) AssignProperties_To_DataColl
 
 	// No error
 	return nil
-}
-
-type DataCollectionEndpointResource_Kind_STATUS string
-
-const (
-	DataCollectionEndpointResource_Kind_STATUS_Linux   = DataCollectionEndpointResource_Kind_STATUS("Linux")
-	DataCollectionEndpointResource_Kind_STATUS_Windows = DataCollectionEndpointResource_Kind_STATUS("Windows")
-)
-
-// Mapping from string to DataCollectionEndpointResource_Kind_STATUS
-var dataCollectionEndpointResource_Kind_STATUS_Values = map[string]DataCollectionEndpointResource_Kind_STATUS{
-	"linux":   DataCollectionEndpointResource_Kind_STATUS_Linux,
-	"windows": DataCollectionEndpointResource_Kind_STATUS_Windows,
 }
 
 type FailoverConfigurationSpec_STATUS struct {
@@ -1762,6 +1715,57 @@ func (configuration *FailoverConfigurationSpec_STATUS) AssignProperties_To_Failo
 
 	// No error
 	return nil
+}
+
+// The resource provisioning state. This property is READ-ONLY.
+type KnownDataCollectionEndpointProvisioningState_STATUS string
+
+const (
+	KnownDataCollectionEndpointProvisioningState_STATUS_Canceled  = KnownDataCollectionEndpointProvisioningState_STATUS("Canceled")
+	KnownDataCollectionEndpointProvisioningState_STATUS_Creating  = KnownDataCollectionEndpointProvisioningState_STATUS("Creating")
+	KnownDataCollectionEndpointProvisioningState_STATUS_Deleting  = KnownDataCollectionEndpointProvisioningState_STATUS("Deleting")
+	KnownDataCollectionEndpointProvisioningState_STATUS_Failed    = KnownDataCollectionEndpointProvisioningState_STATUS("Failed")
+	KnownDataCollectionEndpointProvisioningState_STATUS_Succeeded = KnownDataCollectionEndpointProvisioningState_STATUS("Succeeded")
+	KnownDataCollectionEndpointProvisioningState_STATUS_Updating  = KnownDataCollectionEndpointProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to KnownDataCollectionEndpointProvisioningState_STATUS
+var knownDataCollectionEndpointProvisioningState_STATUS_Values = map[string]KnownDataCollectionEndpointProvisioningState_STATUS{
+	"canceled":  KnownDataCollectionEndpointProvisioningState_STATUS_Canceled,
+	"creating":  KnownDataCollectionEndpointProvisioningState_STATUS_Creating,
+	"deleting":  KnownDataCollectionEndpointProvisioningState_STATUS_Deleting,
+	"failed":    KnownDataCollectionEndpointProvisioningState_STATUS_Failed,
+	"succeeded": KnownDataCollectionEndpointProvisioningState_STATUS_Succeeded,
+	"updating":  KnownDataCollectionEndpointProvisioningState_STATUS_Updating,
+}
+
+// The kind of the resource.
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type KnownDataCollectionEndpointResourceKind string
+
+const (
+	KnownDataCollectionEndpointResourceKind_Linux   = KnownDataCollectionEndpointResourceKind("Linux")
+	KnownDataCollectionEndpointResourceKind_Windows = KnownDataCollectionEndpointResourceKind("Windows")
+)
+
+// Mapping from string to KnownDataCollectionEndpointResourceKind
+var knownDataCollectionEndpointResourceKind_Values = map[string]KnownDataCollectionEndpointResourceKind{
+	"linux":   KnownDataCollectionEndpointResourceKind_Linux,
+	"windows": KnownDataCollectionEndpointResourceKind_Windows,
+}
+
+// The kind of the resource.
+type KnownDataCollectionEndpointResourceKind_STATUS string
+
+const (
+	KnownDataCollectionEndpointResourceKind_STATUS_Linux   = KnownDataCollectionEndpointResourceKind_STATUS("Linux")
+	KnownDataCollectionEndpointResourceKind_STATUS_Windows = KnownDataCollectionEndpointResourceKind_STATUS("Windows")
+)
+
+// Mapping from string to KnownDataCollectionEndpointResourceKind_STATUS
+var knownDataCollectionEndpointResourceKind_STATUS_Values = map[string]KnownDataCollectionEndpointResourceKind_STATUS{
+	"linux":   KnownDataCollectionEndpointResourceKind_STATUS_Linux,
+	"windows": KnownDataCollectionEndpointResourceKind_STATUS_Windows,
 }
 
 // Definition of the endpoint used for ingesting logs.
@@ -2287,7 +2291,7 @@ func (endpoint *MetricsIngestionEndpointSpec_STATUS) AssignProperties_To_Metrics
 // Definition of the network rules.
 type NetworkRuleSet struct {
 	// PublicNetworkAccess: The configuration to set whether network access from public internet to the endpoints are allowed.
-	PublicNetworkAccess *NetworkRuleSet_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *KnownPublicNetworkAccessOptions `json:"publicNetworkAccess,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkRuleSet{}
@@ -2303,7 +2307,7 @@ func (ruleSet *NetworkRuleSet) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if ruleSet.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*ruleSet.PublicNetworkAccess)
-		publicNetworkAccess := arm.NetworkRuleSet_PublicNetworkAccess(temp)
+		publicNetworkAccess := arm.KnownPublicNetworkAccessOptions(temp)
 		result.PublicNetworkAccess = &publicNetworkAccess
 	}
 	return result, nil
@@ -2325,7 +2329,7 @@ func (ruleSet *NetworkRuleSet) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*typedInput.PublicNetworkAccess)
-		publicNetworkAccess := NetworkRuleSet_PublicNetworkAccess(temp)
+		publicNetworkAccess := KnownPublicNetworkAccessOptions(temp)
 		ruleSet.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -2339,7 +2343,7 @@ func (ruleSet *NetworkRuleSet) AssignProperties_From_NetworkRuleSet(source *stor
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
 		publicNetworkAccess := *source.PublicNetworkAccess
-		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, networkRuleSet_PublicNetworkAccess_Values)
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, knownPublicNetworkAccessOptions_Values)
 		ruleSet.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		ruleSet.PublicNetworkAccess = nil
@@ -2378,7 +2382,7 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), networkRuleSet_PublicNetworkAccess_Values)
+		publicNetworkAccess := genruntime.ToEnum(string(*source.PublicNetworkAccess), knownPublicNetworkAccessOptions_Values)
 		ruleSet.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		ruleSet.PublicNetworkAccess = nil
@@ -2391,7 +2395,7 @@ func (ruleSet *NetworkRuleSet) Initialize_From_NetworkRuleSet_STATUS(source *Net
 // Definition of the network rules.
 type NetworkRuleSet_STATUS struct {
 	// PublicNetworkAccess: The configuration to set whether network access from public internet to the endpoints are allowed.
-	PublicNetworkAccess *NetworkRuleSet_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *KnownPublicNetworkAccessOptions_STATUS `json:"publicNetworkAccess,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &NetworkRuleSet_STATUS{}
@@ -2412,7 +2416,7 @@ func (ruleSet *NetworkRuleSet_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.PublicNetworkAccess != nil {
 		var temp string
 		temp = string(*typedInput.PublicNetworkAccess)
-		publicNetworkAccess := NetworkRuleSet_PublicNetworkAccess_STATUS(temp)
+		publicNetworkAccess := KnownPublicNetworkAccessOptions_STATUS(temp)
 		ruleSet.PublicNetworkAccess = &publicNetworkAccess
 	}
 
@@ -2426,7 +2430,7 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignProperties_From_NetworkRuleSet_STATU
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
 		publicNetworkAccess := *source.PublicNetworkAccess
-		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, networkRuleSet_PublicNetworkAccess_STATUS_Values)
+		publicNetworkAccessTemp := genruntime.ToEnum(publicNetworkAccess, knownPublicNetworkAccessOptions_STATUS_Values)
 		ruleSet.PublicNetworkAccess = &publicNetworkAccessTemp
 	} else {
 		ruleSet.PublicNetworkAccess = nil
@@ -2544,7 +2548,7 @@ type Sku struct {
 	Family *string `json:"family,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The name of the SKU. E.g. P3. It is typically a letter+number code
+	// Name: The name of the SKU. Ex - P3. It is typically a letter+number code
 	Name *string `json:"name,omitempty"`
 
 	// Size: The SKU size. When the name field is the combination of tier and some other value, this would be the standalone
@@ -2747,7 +2751,7 @@ type Sku_STATUS struct {
 	// Family: If the service has different generations of hardware, for the same SKU, then that can be captured here.
 	Family *string `json:"family,omitempty"`
 
-	// Name: The name of the SKU. E.g. P3. It is typically a letter+number code
+	// Name: The name of the SKU. Ex - P3. It is typically a letter+number code
 	Name *string `json:"name,omitempty"`
 
 	// Size: The SKU size. When the name field is the combination of tier and some other value, this would be the standalone
@@ -3033,12 +3037,45 @@ func (data *SystemData_STATUS) AssignProperties_To_SystemData_STATUS(destination
 	return nil
 }
 
+// The configuration to set whether network access from public internet to the endpoints are allowed.
+// +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
+type KnownPublicNetworkAccessOptions string
+
+const (
+	KnownPublicNetworkAccessOptions_Disabled           = KnownPublicNetworkAccessOptions("Disabled")
+	KnownPublicNetworkAccessOptions_Enabled            = KnownPublicNetworkAccessOptions("Enabled")
+	KnownPublicNetworkAccessOptions_SecuredByPerimeter = KnownPublicNetworkAccessOptions("SecuredByPerimeter")
+)
+
+// Mapping from string to KnownPublicNetworkAccessOptions
+var knownPublicNetworkAccessOptions_Values = map[string]KnownPublicNetworkAccessOptions{
+	"disabled":           KnownPublicNetworkAccessOptions_Disabled,
+	"enabled":            KnownPublicNetworkAccessOptions_Enabled,
+	"securedbyperimeter": KnownPublicNetworkAccessOptions_SecuredByPerimeter,
+}
+
+// The configuration to set whether network access from public internet to the endpoints are allowed.
+type KnownPublicNetworkAccessOptions_STATUS string
+
+const (
+	KnownPublicNetworkAccessOptions_STATUS_Disabled           = KnownPublicNetworkAccessOptions_STATUS("Disabled")
+	KnownPublicNetworkAccessOptions_STATUS_Enabled            = KnownPublicNetworkAccessOptions_STATUS("Enabled")
+	KnownPublicNetworkAccessOptions_STATUS_SecuredByPerimeter = KnownPublicNetworkAccessOptions_STATUS("SecuredByPerimeter")
+)
+
+// Mapping from string to KnownPublicNetworkAccessOptions_STATUS
+var knownPublicNetworkAccessOptions_STATUS_Values = map[string]KnownPublicNetworkAccessOptions_STATUS{
+	"disabled":           KnownPublicNetworkAccessOptions_STATUS_Disabled,
+	"enabled":            KnownPublicNetworkAccessOptions_STATUS_Enabled,
+	"securedbyperimeter": KnownPublicNetworkAccessOptions_STATUS_SecuredByPerimeter,
+}
+
 type LocationSpec_STATUS struct {
 	// Location: Name of location.
 	Location *string `json:"location,omitempty"`
 
 	// ProvisioningStatus: The resource provisioning state in this location.
-	ProvisioningStatus *LocationSpec_ProvisioningStatus_STATUS `json:"provisioningStatus,omitempty"`
+	ProvisioningStatus *KnownLocationSpecProvisioningStatus_STATUS `json:"provisioningStatus,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LocationSpec_STATUS{}
@@ -3065,7 +3102,7 @@ func (location *LocationSpec_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.ProvisioningStatus != nil {
 		var temp string
 		temp = string(*typedInput.ProvisioningStatus)
-		provisioningStatus := LocationSpec_ProvisioningStatus_STATUS(temp)
+		provisioningStatus := KnownLocationSpecProvisioningStatus_STATUS(temp)
 		location.ProvisioningStatus = &provisioningStatus
 	}
 
@@ -3082,7 +3119,7 @@ func (location *LocationSpec_STATUS) AssignProperties_From_LocationSpec_STATUS(s
 	// ProvisioningStatus
 	if source.ProvisioningStatus != nil {
 		provisioningStatus := *source.ProvisioningStatus
-		provisioningStatusTemp := genruntime.ToEnum(provisioningStatus, locationSpec_ProvisioningStatus_STATUS_Values)
+		provisioningStatusTemp := genruntime.ToEnum(provisioningStatus, knownLocationSpecProvisioningStatus_STATUS_Values)
 		location.ProvisioningStatus = &provisioningStatusTemp
 	} else {
 		location.ProvisioningStatus = nil
@@ -3154,37 +3191,6 @@ var managedServiceIdentityType_STATUS_Values = map[string]ManagedServiceIdentity
 	"systemassigned":              ManagedServiceIdentityType_STATUS_SystemAssigned,
 	"systemassigned,userassigned": ManagedServiceIdentityType_STATUS_SystemAssignedUserAssigned,
 	"userassigned":                ManagedServiceIdentityType_STATUS_UserAssigned,
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled","SecuredByPerimeter"}
-type NetworkRuleSet_PublicNetworkAccess string
-
-const (
-	NetworkRuleSet_PublicNetworkAccess_Disabled           = NetworkRuleSet_PublicNetworkAccess("Disabled")
-	NetworkRuleSet_PublicNetworkAccess_Enabled            = NetworkRuleSet_PublicNetworkAccess("Enabled")
-	NetworkRuleSet_PublicNetworkAccess_SecuredByPerimeter = NetworkRuleSet_PublicNetworkAccess("SecuredByPerimeter")
-)
-
-// Mapping from string to NetworkRuleSet_PublicNetworkAccess
-var networkRuleSet_PublicNetworkAccess_Values = map[string]NetworkRuleSet_PublicNetworkAccess{
-	"disabled":           NetworkRuleSet_PublicNetworkAccess_Disabled,
-	"enabled":            NetworkRuleSet_PublicNetworkAccess_Enabled,
-	"securedbyperimeter": NetworkRuleSet_PublicNetworkAccess_SecuredByPerimeter,
-}
-
-type NetworkRuleSet_PublicNetworkAccess_STATUS string
-
-const (
-	NetworkRuleSet_PublicNetworkAccess_STATUS_Disabled           = NetworkRuleSet_PublicNetworkAccess_STATUS("Disabled")
-	NetworkRuleSet_PublicNetworkAccess_STATUS_Enabled            = NetworkRuleSet_PublicNetworkAccess_STATUS("Enabled")
-	NetworkRuleSet_PublicNetworkAccess_STATUS_SecuredByPerimeter = NetworkRuleSet_PublicNetworkAccess_STATUS("SecuredByPerimeter")
-)
-
-// Mapping from string to NetworkRuleSet_PublicNetworkAccess_STATUS
-var networkRuleSet_PublicNetworkAccess_STATUS_Values = map[string]NetworkRuleSet_PublicNetworkAccess_STATUS{
-	"disabled":           NetworkRuleSet_PublicNetworkAccess_STATUS_Disabled,
-	"enabled":            NetworkRuleSet_PublicNetworkAccess_STATUS_Enabled,
-	"securedbyperimeter": NetworkRuleSet_PublicNetworkAccess_STATUS_SecuredByPerimeter,
 }
 
 // This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not
@@ -3368,25 +3374,26 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 	return nil
 }
 
-type LocationSpec_ProvisioningStatus_STATUS string
+// The resource provisioning state in this location.
+type KnownLocationSpecProvisioningStatus_STATUS string
 
 const (
-	LocationSpec_ProvisioningStatus_STATUS_Canceled  = LocationSpec_ProvisioningStatus_STATUS("Canceled")
-	LocationSpec_ProvisioningStatus_STATUS_Creating  = LocationSpec_ProvisioningStatus_STATUS("Creating")
-	LocationSpec_ProvisioningStatus_STATUS_Deleting  = LocationSpec_ProvisioningStatus_STATUS("Deleting")
-	LocationSpec_ProvisioningStatus_STATUS_Failed    = LocationSpec_ProvisioningStatus_STATUS("Failed")
-	LocationSpec_ProvisioningStatus_STATUS_Succeeded = LocationSpec_ProvisioningStatus_STATUS("Succeeded")
-	LocationSpec_ProvisioningStatus_STATUS_Updating  = LocationSpec_ProvisioningStatus_STATUS("Updating")
+	KnownLocationSpecProvisioningStatus_STATUS_Canceled  = KnownLocationSpecProvisioningStatus_STATUS("Canceled")
+	KnownLocationSpecProvisioningStatus_STATUS_Creating  = KnownLocationSpecProvisioningStatus_STATUS("Creating")
+	KnownLocationSpecProvisioningStatus_STATUS_Deleting  = KnownLocationSpecProvisioningStatus_STATUS("Deleting")
+	KnownLocationSpecProvisioningStatus_STATUS_Failed    = KnownLocationSpecProvisioningStatus_STATUS("Failed")
+	KnownLocationSpecProvisioningStatus_STATUS_Succeeded = KnownLocationSpecProvisioningStatus_STATUS("Succeeded")
+	KnownLocationSpecProvisioningStatus_STATUS_Updating  = KnownLocationSpecProvisioningStatus_STATUS("Updating")
 )
 
-// Mapping from string to LocationSpec_ProvisioningStatus_STATUS
-var locationSpec_ProvisioningStatus_STATUS_Values = map[string]LocationSpec_ProvisioningStatus_STATUS{
-	"canceled":  LocationSpec_ProvisioningStatus_STATUS_Canceled,
-	"creating":  LocationSpec_ProvisioningStatus_STATUS_Creating,
-	"deleting":  LocationSpec_ProvisioningStatus_STATUS_Deleting,
-	"failed":    LocationSpec_ProvisioningStatus_STATUS_Failed,
-	"succeeded": LocationSpec_ProvisioningStatus_STATUS_Succeeded,
-	"updating":  LocationSpec_ProvisioningStatus_STATUS_Updating,
+// Mapping from string to KnownLocationSpecProvisioningStatus_STATUS
+var knownLocationSpecProvisioningStatus_STATUS_Values = map[string]KnownLocationSpecProvisioningStatus_STATUS{
+	"canceled":  KnownLocationSpecProvisioningStatus_STATUS_Canceled,
+	"creating":  KnownLocationSpecProvisioningStatus_STATUS_Creating,
+	"deleting":  KnownLocationSpecProvisioningStatus_STATUS_Deleting,
+	"failed":    KnownLocationSpecProvisioningStatus_STATUS_Failed,
+	"succeeded": KnownLocationSpecProvisioningStatus_STATUS_Succeeded,
+	"updating":  KnownLocationSpecProvisioningStatus_STATUS_Updating,
 }
 
 func init() {

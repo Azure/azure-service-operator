@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}
 type ScheduledQueryRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -241,7 +241,7 @@ func (rule *ScheduledQueryRule) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/preview/2025-01-01-preview/scheduledQueryRule_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/preview/2025-01-01-preview/scheduledQueryRule.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}
 type ScheduledQueryRuleList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -288,10 +288,10 @@ type ScheduledQueryRule_Spec struct {
 	EvaluationFrequency *string `json:"evaluationFrequency,omitempty"`
 
 	// Identity: The identity of the resource.
-	Identity *Identity `json:"identity,omitempty"`
+	Identity *MicrosoftCommonIdentity `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of scheduled query rule. The default is LogAlert.
-	Kind *ScheduledQueryRule_Kind_Spec `json:"kind,omitempty"`
+	Kind *Kind `json:"kind,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Location: The geo-location where the resource lives
@@ -324,7 +324,7 @@ type ScheduledQueryRule_Spec struct {
 
 	// Severity: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only
 	// for rules of the kind LogAlert.
-	Severity *ScheduledQueryRuleProperties_Severity `json:"severity,omitempty"`
+	Severity *AlertSeverity `json:"severity,omitempty"`
 
 	// SkipQueryValidation: The flag which indicates whether the provided query should be validated or not. The default is
 	// false. Relevant only for rules of the kind LogAlert.
@@ -359,7 +359,7 @@ func (rule *ScheduledQueryRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		identity := *identity_ARM.(*arm.Identity)
+		identity := *identity_ARM.(*arm.MicrosoftCommonIdentity)
 		result.Identity = &identity
 	}
 
@@ -367,7 +367,7 @@ func (rule *ScheduledQueryRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if rule.Kind != nil {
 		var temp string
 		temp = string(*rule.Kind)
-		kind := arm.ScheduledQueryRule_Kind_Spec(temp)
+		kind := arm.Kind(temp)
 		result.Kind = &kind
 	}
 
@@ -465,7 +465,7 @@ func (rule *ScheduledQueryRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if rule.Severity != nil {
 		var temp int
 		temp = int(*rule.Severity)
-		severity := arm.ScheduledQueryRuleProperties_Severity(temp)
+		severity := arm.AlertSeverity(temp)
 		result.Properties.Severity = &severity
 	}
 	if rule.SkipQueryValidation != nil {
@@ -589,7 +589,7 @@ func (rule *ScheduledQueryRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property "Identity":
 	if typedInput.Identity != nil {
-		var identity1 Identity
+		var identity1 MicrosoftCommonIdentity
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
 		if err != nil {
 			return err
@@ -602,7 +602,7 @@ func (rule *ScheduledQueryRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Kind != nil {
 		var temp string
 		temp = string(*typedInput.Kind)
-		kind := ScheduledQueryRule_Kind_Spec(temp)
+		kind := Kind(temp)
 		rule.Kind = &kind
 	}
 
@@ -660,7 +660,7 @@ func (rule *ScheduledQueryRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		if typedInput.Properties.Severity != nil {
 			var temp int
 			temp = int(*typedInput.Properties.Severity)
-			severity := ScheduledQueryRuleProperties_Severity(temp)
+			severity := AlertSeverity(temp)
 			rule.Severity = &severity
 		}
 	}
@@ -818,10 +818,10 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Sp
 
 	// Identity
 	if source.Identity != nil {
-		var identity Identity
-		err := identity.AssignProperties_From_Identity(source.Identity)
+		var identity MicrosoftCommonIdentity
+		err := identity.AssignProperties_From_MicrosoftCommonIdentity(source.Identity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Identity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_MicrosoftCommonIdentity() to populate field Identity")
 		}
 		rule.Identity = &identity
 	} else {
@@ -831,7 +831,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Sp
 	// Kind
 	if source.Kind != nil {
 		kind := *source.Kind
-		kindTemp := genruntime.ToEnum(kind, scheduledQueryRule_Kind_Spec_Values)
+		kindTemp := genruntime.ToEnum(kind, kind_Values)
 		rule.Kind = &kindTemp
 	} else {
 		rule.Kind = nil
@@ -891,7 +891,7 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_From_ScheduledQueryRule_Sp
 
 	// Severity
 	if source.Severity != nil {
-		severity := ScheduledQueryRuleProperties_Severity(*source.Severity)
+		severity := AlertSeverity(*source.Severity)
 		rule.Severity = &severity
 	} else {
 		rule.Severity = nil
@@ -985,10 +985,10 @@ func (rule *ScheduledQueryRule_Spec) AssignProperties_To_ScheduledQueryRule_Spec
 
 	// Identity
 	if rule.Identity != nil {
-		var identity storage.Identity
-		err := rule.Identity.AssignProperties_To_Identity(&identity)
+		var identity storage.MicrosoftCommonIdentity
+		err := rule.Identity.AssignProperties_To_MicrosoftCommonIdentity(&identity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Identity() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_MicrosoftCommonIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1132,10 +1132,10 @@ type ScheduledQueryRule_STATUS struct {
 	// Enabled: The flag which indicates whether this scheduled query rule is enabled. Value should be true or false
 	Enabled *bool `json:"enabled,omitempty"`
 
-	// Etag: The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per
-	// the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource.
-	// HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and
-	// If-Range (section 14.27) header fields.
+	// Etag: "If etag is provided in the response body, it may also be provided as a header per the normal etag convention.
+	// Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in
+	// the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header
+	// fields.")
 	Etag *string `json:"etag,omitempty"`
 
 	// EvaluationFrequency: How often the scheduled query rule is evaluated represented in ISO 8601 duration format. Relevant
@@ -1147,7 +1147,7 @@ type ScheduledQueryRule_STATUS struct {
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
-	Identity *Identity_STATUS `json:"identity,omitempty"`
+	Identity *MicrosoftCommonIdentity_STATUS `json:"identity,omitempty"`
 
 	// IsLegacyLogAnalyticsRule: True if alert rule is legacy Log Analytic rule
 	IsLegacyLogAnalyticsRule *bool `json:"isLegacyLogAnalyticsRule,omitempty"`
@@ -1157,7 +1157,7 @@ type ScheduledQueryRule_STATUS struct {
 	IsWorkspaceAlertsStorageConfigured *bool `json:"isWorkspaceAlertsStorageConfigured,omitempty"`
 
 	// Kind: Indicates the type of scheduled query rule. The default is LogAlert.
-	Kind *ScheduledQueryRule_Kind_STATUS `json:"kind,omitempty"`
+	Kind *Kind_STATUS `json:"kind,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -1182,13 +1182,13 @@ type ScheduledQueryRule_STATUS struct {
 
 	// Severity: Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only
 	// for rules of the kind LogAlert.
-	Severity *ScheduledQueryRuleProperties_Severity_STATUS `json:"severity,omitempty"`
+	Severity *AlertSeverity_STATUS `json:"severity,omitempty"`
 
 	// SkipQueryValidation: The flag which indicates whether the provided query should be validated or not. The default is
 	// false. Relevant only for rules of the kind LogAlert.
 	SkipQueryValidation *bool `json:"skipQueryValidation,omitempty"`
 
-	// SystemData: SystemData of ScheduledQueryRule.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
@@ -1379,7 +1379,7 @@ func (rule *ScheduledQueryRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property "Identity":
 	if typedInput.Identity != nil {
-		var identity1 Identity_STATUS
+		var identity1 MicrosoftCommonIdentity_STATUS
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
 		if err != nil {
 			return err
@@ -1410,7 +1410,7 @@ func (rule *ScheduledQueryRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Kind != nil {
 		var temp string
 		temp = string(*typedInput.Kind)
-		kind := ScheduledQueryRule_Kind_STATUS(temp)
+		kind := Kind_STATUS(temp)
 		rule.Kind = &kind
 	}
 
@@ -1472,7 +1472,7 @@ func (rule *ScheduledQueryRule_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 		if typedInput.Properties.Severity != nil {
 			var temp int
 			temp = int(*typedInput.Properties.Severity)
-			severity := ScheduledQueryRuleProperties_Severity_STATUS(temp)
+			severity := AlertSeverity_STATUS(temp)
 			rule.Severity = &severity
 		}
 	}
@@ -1606,10 +1606,10 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 
 	// Identity
 	if source.Identity != nil {
-		var identity Identity_STATUS
-		err := identity.AssignProperties_From_Identity_STATUS(source.Identity)
+		var identity MicrosoftCommonIdentity_STATUS
+		err := identity.AssignProperties_From_MicrosoftCommonIdentity_STATUS(source.Identity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Identity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_From_MicrosoftCommonIdentity_STATUS() to populate field Identity")
 		}
 		rule.Identity = &identity
 	} else {
@@ -1635,7 +1635,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 	// Kind
 	if source.Kind != nil {
 		kind := *source.Kind
-		kindTemp := genruntime.ToEnum(kind, scheduledQueryRule_Kind_STATUS_Values)
+		kindTemp := genruntime.ToEnum(kind, kind_STATUS_Values)
 		rule.Kind = &kindTemp
 	} else {
 		rule.Kind = nil
@@ -1670,7 +1670,7 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_From_ScheduledQueryRule_
 
 	// Severity
 	if source.Severity != nil {
-		severity := ScheduledQueryRuleProperties_Severity_STATUS(*source.Severity)
+		severity := AlertSeverity_STATUS(*source.Severity)
 		rule.Severity = &severity
 	} else {
 		rule.Severity = nil
@@ -1788,10 +1788,10 @@ func (rule *ScheduledQueryRule_STATUS) AssignProperties_To_ScheduledQueryRule_ST
 
 	// Identity
 	if rule.Identity != nil {
-		var identity storage.Identity_STATUS
-		err := rule.Identity.AssignProperties_To_Identity_STATUS(&identity)
+		var identity storage.MicrosoftCommonIdentity_STATUS
+		err := rule.Identity.AssignProperties_To_MicrosoftCommonIdentity_STATUS(&identity)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Identity_STATUS() to populate field Identity")
+			return eris.Wrap(err, "calling AssignProperties_To_MicrosoftCommonIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2131,11 +2131,69 @@ func (actions *Actions_STATUS) AssignProperties_To_Actions_STATUS(destination *s
 	return nil
 }
 
+// Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules
+// of the kind LogAlert.
+// +kubebuilder:validation:Enum={0,1,2,3,4}
+type AlertSeverity int
+
+const (
+	AlertSeverity_0 = AlertSeverity(0)
+	AlertSeverity_1 = AlertSeverity(1)
+	AlertSeverity_2 = AlertSeverity(2)
+	AlertSeverity_3 = AlertSeverity(3)
+	AlertSeverity_4 = AlertSeverity(4)
+)
+
+// Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules
+// of the kind LogAlert.
+type AlertSeverity_STATUS int
+
+const (
+	AlertSeverity_STATUS_0 = AlertSeverity_STATUS(0)
+	AlertSeverity_STATUS_1 = AlertSeverity_STATUS(1)
+	AlertSeverity_STATUS_2 = AlertSeverity_STATUS(2)
+	AlertSeverity_STATUS_3 = AlertSeverity_STATUS(3)
+	AlertSeverity_STATUS_4 = AlertSeverity_STATUS(4)
+)
+
+// Indicates the type of scheduled query rule. The default is LogAlert.
+// +kubebuilder:validation:Enum={"LogAlert","LogToMetric","SimpleLogAlert"}
+type Kind string
+
+const (
+	Kind_LogAlert       = Kind("LogAlert")
+	Kind_LogToMetric    = Kind("LogToMetric")
+	Kind_SimpleLogAlert = Kind("SimpleLogAlert")
+)
+
+// Mapping from string to Kind
+var kind_Values = map[string]Kind{
+	"logalert":       Kind_LogAlert,
+	"logtometric":    Kind_LogToMetric,
+	"simplelogalert": Kind_SimpleLogAlert,
+}
+
+// Indicates the type of scheduled query rule. The default is LogAlert.
+type Kind_STATUS string
+
+const (
+	Kind_STATUS_LogAlert       = Kind_STATUS("LogAlert")
+	Kind_STATUS_LogToMetric    = Kind_STATUS("LogToMetric")
+	Kind_STATUS_SimpleLogAlert = Kind_STATUS("SimpleLogAlert")
+)
+
+// Mapping from string to Kind_STATUS
+var kind_STATUS_Values = map[string]Kind_STATUS{
+	"logalert":       Kind_STATUS_LogAlert,
+	"logtometric":    Kind_STATUS_LogToMetric,
+	"simplelogalert": Kind_STATUS_SimpleLogAlert,
+}
+
 // Identity for the resource.
-type Identity struct {
+type MicrosoftCommonIdentity struct {
 	// +kubebuilder:validation:Required
 	// Type: Type of managed service identity.
-	Type *Identity_Type `json:"type,omitempty"`
+	Type *MicrosoftCommonIdentityType `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity dictionary key
 	// references will be ARM resource ids in the form:
@@ -2143,20 +2201,20 @@ type Identity struct {
 	UserAssignedIdentities []UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Identity{}
+var _ genruntime.ARMTransformer = &MicrosoftCommonIdentity{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (identity *MicrosoftCommonIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if identity == nil {
 		return nil, nil
 	}
-	result := &arm.Identity{}
+	result := &arm.MicrosoftCommonIdentity{}
 
 	// Set property "Type":
 	if identity.Type != nil {
 		var temp string
 		temp = string(*identity.Type)
-		typeVar := arm.Identity_Type(temp)
+		typeVar := arm.MicrosoftCommonIdentityType(temp)
 		result.Type = &typeVar
 	}
 
@@ -2174,22 +2232,22 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *Identity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Identity{}
+func (identity *MicrosoftCommonIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.MicrosoftCommonIdentity{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Identity)
+func (identity *MicrosoftCommonIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.MicrosoftCommonIdentity)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Identity, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MicrosoftCommonIdentity, got %T", armInput)
 	}
 
 	// Set property "Type":
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := Identity_Type(temp)
+		typeVar := MicrosoftCommonIdentityType(temp)
 		identity.Type = &typeVar
 	}
 
@@ -2199,13 +2257,13 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	return nil
 }
 
-// AssignProperties_From_Identity populates our Identity from the provided source Identity
-func (identity *Identity) AssignProperties_From_Identity(source *storage.Identity) error {
+// AssignProperties_From_MicrosoftCommonIdentity populates our MicrosoftCommonIdentity from the provided source MicrosoftCommonIdentity
+func (identity *MicrosoftCommonIdentity) AssignProperties_From_MicrosoftCommonIdentity(source *storage.MicrosoftCommonIdentity) error {
 
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, identity_Type_Values)
+		typeTemp := genruntime.ToEnum(typeVar, microsoftCommonIdentityType_Values)
 		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
@@ -2231,8 +2289,8 @@ func (identity *Identity) AssignProperties_From_Identity(source *storage.Identit
 	return nil
 }
 
-// AssignProperties_To_Identity populates the provided destination Identity from our Identity
-func (identity *Identity) AssignProperties_To_Identity(destination *storage.Identity) error {
+// AssignProperties_To_MicrosoftCommonIdentity populates the provided destination MicrosoftCommonIdentity from our MicrosoftCommonIdentity
+func (identity *MicrosoftCommonIdentity) AssignProperties_To_MicrosoftCommonIdentity(destination *storage.MicrosoftCommonIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2272,7 +2330,7 @@ func (identity *Identity) AssignProperties_To_Identity(destination *storage.Iden
 }
 
 // Identity for the resource.
-type Identity_STATUS struct {
+type MicrosoftCommonIdentity_STATUS struct {
 	// PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -2280,26 +2338,26 @@ type Identity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
+	Type *MicrosoftCommonIdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity dictionary key
 	// references will be ARM resource ids in the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]UserIdentityProperties_STATUS `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]MicrosoftCommonUserIdentityProperties_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &Identity_STATUS{}
+var _ genruntime.FromARMConverter = &MicrosoftCommonIdentity_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *Identity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Identity_STATUS{}
+func (identity *MicrosoftCommonIdentity_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.MicrosoftCommonIdentity_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Identity_STATUS)
+func (identity *MicrosoftCommonIdentity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.MicrosoftCommonIdentity_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Identity_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MicrosoftCommonIdentity_STATUS, got %T", armInput)
 	}
 
 	// Set property "PrincipalId":
@@ -2318,15 +2376,15 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := Identity_Type_STATUS(temp)
+		typeVar := MicrosoftCommonIdentityType_STATUS(temp)
 		identity.Type = &typeVar
 	}
 
 	// Set property "UserAssignedIdentities":
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]UserIdentityProperties_STATUS, len(typedInput.UserAssignedIdentities))
+		identity.UserAssignedIdentities = make(map[string]MicrosoftCommonUserIdentityProperties_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
-			var value1 UserIdentityProperties_STATUS
+			var value1 MicrosoftCommonUserIdentityProperties_STATUS
 			err := value1.PopulateFromARM(owner, value)
 			if err != nil {
 				return err
@@ -2339,8 +2397,8 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignProperties_From_Identity_STATUS populates our Identity_STATUS from the provided source Identity_STATUS
-func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *storage.Identity_STATUS) error {
+// AssignProperties_From_MicrosoftCommonIdentity_STATUS populates our MicrosoftCommonIdentity_STATUS from the provided source MicrosoftCommonIdentity_STATUS
+func (identity *MicrosoftCommonIdentity_STATUS) AssignProperties_From_MicrosoftCommonIdentity_STATUS(source *storage.MicrosoftCommonIdentity_STATUS) error {
 
 	// PrincipalId
 	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
@@ -2351,7 +2409,7 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *s
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, identity_Type_STATUS_Values)
+		typeTemp := genruntime.ToEnum(typeVar, microsoftCommonIdentityType_STATUS_Values)
 		identity.Type = &typeTemp
 	} else {
 		identity.Type = nil
@@ -2359,12 +2417,12 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *s
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]UserIdentityProperties_STATUS, len(source.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]MicrosoftCommonUserIdentityProperties_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			var userAssignedIdentity UserIdentityProperties_STATUS
-			err := userAssignedIdentity.AssignProperties_From_UserIdentityProperties_STATUS(&userAssignedIdentityValue)
+			var userAssignedIdentity MicrosoftCommonUserIdentityProperties_STATUS
+			err := userAssignedIdentity.AssignProperties_From_MicrosoftCommonUserIdentityProperties_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_From_UserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_From_MicrosoftCommonUserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2377,8 +2435,8 @@ func (identity *Identity_STATUS) AssignProperties_From_Identity_STATUS(source *s
 	return nil
 }
 
-// AssignProperties_To_Identity_STATUS populates the provided destination Identity_STATUS from our Identity_STATUS
-func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination *storage.Identity_STATUS) error {
+// AssignProperties_To_MicrosoftCommonIdentity_STATUS populates the provided destination MicrosoftCommonIdentity_STATUS from our MicrosoftCommonIdentity_STATUS
+func (identity *MicrosoftCommonIdentity_STATUS) AssignProperties_To_MicrosoftCommonIdentity_STATUS(destination *storage.MicrosoftCommonIdentity_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2398,12 +2456,12 @@ func (identity *Identity_STATUS) AssignProperties_To_Identity_STATUS(destination
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]storage.UserIdentityProperties_STATUS, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]storage.MicrosoftCommonUserIdentityProperties_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			var userAssignedIdentity storage.UserIdentityProperties_STATUS
-			err := userAssignedIdentityValue.AssignProperties_To_UserIdentityProperties_STATUS(&userAssignedIdentity)
+			var userAssignedIdentity storage.MicrosoftCommonUserIdentityProperties_STATUS
+			err := userAssignedIdentityValue.AssignProperties_To_MicrosoftCommonUserIdentityProperties_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return eris.Wrap(err, "calling AssignProperties_To_UserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
+				return eris.Wrap(err, "calling AssignProperties_To_MicrosoftCommonUserIdentityProperties_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -2612,37 +2670,6 @@ func (configuration *RuleResolveConfiguration_STATUS) AssignProperties_To_RuleRe
 
 	// No error
 	return nil
-}
-
-// +kubebuilder:validation:Enum={"LogAlert","LogToMetric","SimpleLogAlert"}
-type ScheduledQueryRule_Kind_Spec string
-
-const (
-	ScheduledQueryRule_Kind_Spec_LogAlert       = ScheduledQueryRule_Kind_Spec("LogAlert")
-	ScheduledQueryRule_Kind_Spec_LogToMetric    = ScheduledQueryRule_Kind_Spec("LogToMetric")
-	ScheduledQueryRule_Kind_Spec_SimpleLogAlert = ScheduledQueryRule_Kind_Spec("SimpleLogAlert")
-)
-
-// Mapping from string to ScheduledQueryRule_Kind_Spec
-var scheduledQueryRule_Kind_Spec_Values = map[string]ScheduledQueryRule_Kind_Spec{
-	"logalert":       ScheduledQueryRule_Kind_Spec_LogAlert,
-	"logtometric":    ScheduledQueryRule_Kind_Spec_LogToMetric,
-	"simplelogalert": ScheduledQueryRule_Kind_Spec_SimpleLogAlert,
-}
-
-type ScheduledQueryRule_Kind_STATUS string
-
-const (
-	ScheduledQueryRule_Kind_STATUS_LogAlert       = ScheduledQueryRule_Kind_STATUS("LogAlert")
-	ScheduledQueryRule_Kind_STATUS_LogToMetric    = ScheduledQueryRule_Kind_STATUS("LogToMetric")
-	ScheduledQueryRule_Kind_STATUS_SimpleLogAlert = ScheduledQueryRule_Kind_STATUS("SimpleLogAlert")
-)
-
-// Mapping from string to ScheduledQueryRule_Kind_STATUS
-var scheduledQueryRule_Kind_STATUS_Values = map[string]ScheduledQueryRule_Kind_STATUS{
-	"logalert":       ScheduledQueryRule_Kind_STATUS_LogAlert,
-	"logtometric":    ScheduledQueryRule_Kind_STATUS_LogToMetric,
-	"simplelogalert": ScheduledQueryRule_Kind_STATUS_SimpleLogAlert,
 }
 
 // The rule criteria that defines the conditions of the scheduled query rule.
@@ -2937,27 +2964,6 @@ func (operator *ScheduledQueryRuleOperatorSpec) AssignProperties_To_ScheduledQue
 	return nil
 }
 
-// +kubebuilder:validation:Enum={0,1,2,3,4}
-type ScheduledQueryRuleProperties_Severity int
-
-const (
-	ScheduledQueryRuleProperties_Severity_0 = ScheduledQueryRuleProperties_Severity(0)
-	ScheduledQueryRuleProperties_Severity_1 = ScheduledQueryRuleProperties_Severity(1)
-	ScheduledQueryRuleProperties_Severity_2 = ScheduledQueryRuleProperties_Severity(2)
-	ScheduledQueryRuleProperties_Severity_3 = ScheduledQueryRuleProperties_Severity(3)
-	ScheduledQueryRuleProperties_Severity_4 = ScheduledQueryRuleProperties_Severity(4)
-)
-
-type ScheduledQueryRuleProperties_Severity_STATUS int
-
-const (
-	ScheduledQueryRuleProperties_Severity_STATUS_0 = ScheduledQueryRuleProperties_Severity_STATUS(0)
-	ScheduledQueryRuleProperties_Severity_STATUS_1 = ScheduledQueryRuleProperties_Severity_STATUS(1)
-	ScheduledQueryRuleProperties_Severity_STATUS_2 = ScheduledQueryRuleProperties_Severity_STATUS(2)
-	ScheduledQueryRuleProperties_Severity_STATUS_3 = ScheduledQueryRuleProperties_Severity_STATUS(3)
-	ScheduledQueryRuleProperties_Severity_STATUS_4 = ScheduledQueryRuleProperties_Severity_STATUS(4)
-)
-
 // Metadata pertaining to creation and last modification of the resource.
 type SystemData_STATUS struct {
 	// CreatedAt: The timestamp of resource creation (UTC).
@@ -3126,14 +3132,14 @@ type Condition struct {
 	AlertSensitivity *string `json:"alertSensitivity,omitempty"`
 
 	// CriterionType: Specifies the type of threshold criteria
-	CriterionType *Condition_CriterionType `json:"criterionType,omitempty"`
+	CriterionType *MicrosoftCommonCriterionType `json:"criterionType,omitempty"`
 
 	// Dimensions: List of Dimensions conditions
 	Dimensions []Dimension `json:"dimensions,omitempty"`
 
 	// FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
 	// alert. Relevant only for rules of the kind LogAlert.
-	FailingPeriods *Condition_FailingPeriods `json:"failingPeriods,omitempty"`
+	FailingPeriods *ConditionFailingPeriods `json:"failingPeriods,omitempty"`
 
 	// IgnoreDataBefore: Use this option to set the date from which to start learning the metric historical data and calculate
 	// the dynamic thresholds (in ISO8601 format). Relevant only for dynamic threshold rules of the kind LogAlert.
@@ -3150,7 +3156,7 @@ type Condition struct {
 	MinRecurrenceCount *int `json:"minRecurrenceCount,omitempty"`
 
 	// Operator: The criteria operator. Relevant and required only for rules of the kind LogAlert.
-	Operator *Condition_Operator `json:"operator,omitempty"`
+	Operator *ConditionOperator `json:"operator,omitempty"`
 
 	// Query: Log query alert
 	Query *string `json:"query,omitempty"`
@@ -3164,7 +3170,7 @@ type Condition struct {
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: Aggregation type. Relevant and required only for rules of the kind LogAlert.
-	TimeAggregation *Condition_TimeAggregation `json:"timeAggregation,omitempty"`
+	TimeAggregation *TimeAggregation `json:"timeAggregation,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Condition{}
@@ -3186,7 +3192,7 @@ func (condition *Condition) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if condition.CriterionType != nil {
 		var temp string
 		temp = string(*condition.CriterionType)
-		criterionType := arm.Condition_CriterionType(temp)
+		criterionType := arm.MicrosoftCommonCriterionType(temp)
 		result.CriterionType = &criterionType
 	}
 
@@ -3205,7 +3211,7 @@ func (condition *Condition) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		if err != nil {
 			return nil, err
 		}
-		failingPeriods := *failingPeriods_ARM.(*arm.Condition_FailingPeriods)
+		failingPeriods := *failingPeriods_ARM.(*arm.ConditionFailingPeriods)
 		result.FailingPeriods = &failingPeriods
 	}
 
@@ -3237,7 +3243,7 @@ func (condition *Condition) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if condition.Operator != nil {
 		var temp string
 		temp = string(*condition.Operator)
-		operator := arm.Condition_Operator(temp)
+		operator := arm.ConditionOperator(temp)
 		result.Operator = &operator
 	}
 
@@ -3267,7 +3273,7 @@ func (condition *Condition) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if condition.TimeAggregation != nil {
 		var temp string
 		temp = string(*condition.TimeAggregation)
-		timeAggregation := arm.Condition_TimeAggregation(temp)
+		timeAggregation := arm.TimeAggregation(temp)
 		result.TimeAggregation = &timeAggregation
 	}
 	return result, nil
@@ -3295,7 +3301,7 @@ func (condition *Condition) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.CriterionType != nil {
 		var temp string
 		temp = string(*typedInput.CriterionType)
-		criterionType := Condition_CriterionType(temp)
+		criterionType := MicrosoftCommonCriterionType(temp)
 		condition.CriterionType = &criterionType
 	}
 
@@ -3311,7 +3317,7 @@ func (condition *Condition) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 
 	// Set property "FailingPeriods":
 	if typedInput.FailingPeriods != nil {
-		var failingPeriods1 Condition_FailingPeriods
+		var failingPeriods1 ConditionFailingPeriods
 		err := failingPeriods1.PopulateFromARM(owner, *typedInput.FailingPeriods)
 		if err != nil {
 			return err
@@ -3348,7 +3354,7 @@ func (condition *Condition) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Operator != nil {
 		var temp string
 		temp = string(*typedInput.Operator)
-		operator := Condition_Operator(temp)
+		operator := ConditionOperator(temp)
 		condition.Operator = &operator
 	}
 
@@ -3370,7 +3376,7 @@ func (condition *Condition) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.TimeAggregation != nil {
 		var temp string
 		temp = string(*typedInput.TimeAggregation)
-		timeAggregation := Condition_TimeAggregation(temp)
+		timeAggregation := TimeAggregation(temp)
 		condition.TimeAggregation = &timeAggregation
 	}
 
@@ -3387,7 +3393,7 @@ func (condition *Condition) AssignProperties_From_Condition(source *storage.Cond
 	// CriterionType
 	if source.CriterionType != nil {
 		criterionType := *source.CriterionType
-		criterionTypeTemp := genruntime.ToEnum(criterionType, condition_CriterionType_Values)
+		criterionTypeTemp := genruntime.ToEnum(criterionType, microsoftCommonCriterionType_Values)
 		condition.CriterionType = &criterionTypeTemp
 	} else {
 		condition.CriterionType = nil
@@ -3411,10 +3417,10 @@ func (condition *Condition) AssignProperties_From_Condition(source *storage.Cond
 
 	// FailingPeriods
 	if source.FailingPeriods != nil {
-		var failingPeriod Condition_FailingPeriods
-		err := failingPeriod.AssignProperties_From_Condition_FailingPeriods(source.FailingPeriods)
+		var failingPeriod ConditionFailingPeriods
+		err := failingPeriod.AssignProperties_From_ConditionFailingPeriods(source.FailingPeriods)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Condition_FailingPeriods() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_From_ConditionFailingPeriods() to populate field FailingPeriods")
 		}
 		condition.FailingPeriods = &failingPeriod
 	} else {
@@ -3436,7 +3442,7 @@ func (condition *Condition) AssignProperties_From_Condition(source *storage.Cond
 	// Operator
 	if source.Operator != nil {
 		operator := *source.Operator
-		operatorTemp := genruntime.ToEnum(operator, condition_Operator_Values)
+		operatorTemp := genruntime.ToEnum(operator, conditionOperator_Values)
 		condition.Operator = &operatorTemp
 	} else {
 		condition.Operator = nil
@@ -3464,7 +3470,7 @@ func (condition *Condition) AssignProperties_From_Condition(source *storage.Cond
 	// TimeAggregation
 	if source.TimeAggregation != nil {
 		timeAggregation := *source.TimeAggregation
-		timeAggregationTemp := genruntime.ToEnum(timeAggregation, condition_TimeAggregation_Values)
+		timeAggregationTemp := genruntime.ToEnum(timeAggregation, timeAggregation_Values)
 		condition.TimeAggregation = &timeAggregationTemp
 	} else {
 		condition.TimeAggregation = nil
@@ -3508,10 +3514,10 @@ func (condition *Condition) AssignProperties_To_Condition(destination *storage.C
 
 	// FailingPeriods
 	if condition.FailingPeriods != nil {
-		var failingPeriod storage.Condition_FailingPeriods
-		err := condition.FailingPeriods.AssignProperties_To_Condition_FailingPeriods(&failingPeriod)
+		var failingPeriod storage.ConditionFailingPeriods
+		err := condition.FailingPeriods.AssignProperties_To_ConditionFailingPeriods(&failingPeriod)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_To_ConditionFailingPeriods() to populate field FailingPeriods")
 		}
 		destination.FailingPeriods = &failingPeriod
 	} else {
@@ -3584,14 +3590,14 @@ type Condition_STATUS struct {
 	AlertSensitivity *string `json:"alertSensitivity,omitempty"`
 
 	// CriterionType: Specifies the type of threshold criteria
-	CriterionType *Condition_CriterionType_STATUS `json:"criterionType,omitempty"`
+	CriterionType *MicrosoftCommonCriterionType_STATUS `json:"criterionType,omitempty"`
 
 	// Dimensions: List of Dimensions conditions
 	Dimensions []Dimension_STATUS `json:"dimensions,omitempty"`
 
 	// FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
 	// alert. Relevant only for rules of the kind LogAlert.
-	FailingPeriods *Condition_FailingPeriods_STATUS `json:"failingPeriods,omitempty"`
+	FailingPeriods *ConditionFailingPeriods_STATUS `json:"failingPeriods,omitempty"`
 
 	// IgnoreDataBefore: Use this option to set the date from which to start learning the metric historical data and calculate
 	// the dynamic thresholds (in ISO8601 format). Relevant only for dynamic threshold rules of the kind LogAlert.
@@ -3608,7 +3614,7 @@ type Condition_STATUS struct {
 	MinRecurrenceCount *int `json:"minRecurrenceCount,omitempty"`
 
 	// Operator: The criteria operator. Relevant and required only for rules of the kind LogAlert.
-	Operator *Condition_Operator_STATUS `json:"operator,omitempty"`
+	Operator *ConditionOperator_STATUS `json:"operator,omitempty"`
 
 	// Query: Log query alert
 	Query *string `json:"query,omitempty"`
@@ -3622,7 +3628,7 @@ type Condition_STATUS struct {
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: Aggregation type. Relevant and required only for rules of the kind LogAlert.
-	TimeAggregation *Condition_TimeAggregation_STATUS `json:"timeAggregation,omitempty"`
+	TimeAggregation *TimeAggregation_STATUS `json:"timeAggregation,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &Condition_STATUS{}
@@ -3649,7 +3655,7 @@ func (condition *Condition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.CriterionType != nil {
 		var temp string
 		temp = string(*typedInput.CriterionType)
-		criterionType := Condition_CriterionType_STATUS(temp)
+		criterionType := MicrosoftCommonCriterionType_STATUS(temp)
 		condition.CriterionType = &criterionType
 	}
 
@@ -3665,7 +3671,7 @@ func (condition *Condition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "FailingPeriods":
 	if typedInput.FailingPeriods != nil {
-		var failingPeriods1 Condition_FailingPeriods_STATUS
+		var failingPeriods1 ConditionFailingPeriods_STATUS
 		err := failingPeriods1.PopulateFromARM(owner, *typedInput.FailingPeriods)
 		if err != nil {
 			return err
@@ -3702,7 +3708,7 @@ func (condition *Condition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Operator != nil {
 		var temp string
 		temp = string(*typedInput.Operator)
-		operator := Condition_Operator_STATUS(temp)
+		operator := ConditionOperator_STATUS(temp)
 		condition.Operator = &operator
 	}
 
@@ -3728,7 +3734,7 @@ func (condition *Condition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.TimeAggregation != nil {
 		var temp string
 		temp = string(*typedInput.TimeAggregation)
-		timeAggregation := Condition_TimeAggregation_STATUS(temp)
+		timeAggregation := TimeAggregation_STATUS(temp)
 		condition.TimeAggregation = &timeAggregation
 	}
 
@@ -3745,7 +3751,7 @@ func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source
 	// CriterionType
 	if source.CriterionType != nil {
 		criterionType := *source.CriterionType
-		criterionTypeTemp := genruntime.ToEnum(criterionType, condition_CriterionType_STATUS_Values)
+		criterionTypeTemp := genruntime.ToEnum(criterionType, microsoftCommonCriterionType_STATUS_Values)
 		condition.CriterionType = &criterionTypeTemp
 	} else {
 		condition.CriterionType = nil
@@ -3769,10 +3775,10 @@ func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source
 
 	// FailingPeriods
 	if source.FailingPeriods != nil {
-		var failingPeriod Condition_FailingPeriods_STATUS
-		err := failingPeriod.AssignProperties_From_Condition_FailingPeriods_STATUS(source.FailingPeriods)
+		var failingPeriod ConditionFailingPeriods_STATUS
+		err := failingPeriod.AssignProperties_From_ConditionFailingPeriods_STATUS(source.FailingPeriods)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_From_ConditionFailingPeriods_STATUS() to populate field FailingPeriods")
 		}
 		condition.FailingPeriods = &failingPeriod
 	} else {
@@ -3794,7 +3800,7 @@ func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source
 	// Operator
 	if source.Operator != nil {
 		operator := *source.Operator
-		operatorTemp := genruntime.ToEnum(operator, condition_Operator_STATUS_Values)
+		operatorTemp := genruntime.ToEnum(operator, conditionOperator_STATUS_Values)
 		condition.Operator = &operatorTemp
 	} else {
 		condition.Operator = nil
@@ -3817,7 +3823,7 @@ func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source
 	// TimeAggregation
 	if source.TimeAggregation != nil {
 		timeAggregation := *source.TimeAggregation
-		timeAggregationTemp := genruntime.ToEnum(timeAggregation, condition_TimeAggregation_STATUS_Values)
+		timeAggregationTemp := genruntime.ToEnum(timeAggregation, timeAggregation_STATUS_Values)
 		condition.TimeAggregation = &timeAggregationTemp
 	} else {
 		condition.TimeAggregation = nil
@@ -3861,10 +3867,10 @@ func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destinat
 
 	// FailingPeriods
 	if condition.FailingPeriods != nil {
-		var failingPeriod storage.Condition_FailingPeriods_STATUS
-		err := condition.FailingPeriods.AssignProperties_To_Condition_FailingPeriods_STATUS(&failingPeriod)
+		var failingPeriod storage.ConditionFailingPeriods_STATUS
+		err := condition.FailingPeriods.AssignProperties_To_ConditionFailingPeriods_STATUS(&failingPeriod)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_To_ConditionFailingPeriods_STATUS() to populate field FailingPeriods")
 		}
 		destination.FailingPeriods = &failingPeriod
 	} else {
@@ -3924,35 +3930,111 @@ func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destinat
 	return nil
 }
 
+// Type of managed service identity.
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
-type Identity_Type string
+type MicrosoftCommonIdentityType string
 
 const (
-	Identity_Type_None           = Identity_Type("None")
-	Identity_Type_SystemAssigned = Identity_Type("SystemAssigned")
-	Identity_Type_UserAssigned   = Identity_Type("UserAssigned")
+	MicrosoftCommonIdentityType_None           = MicrosoftCommonIdentityType("None")
+	MicrosoftCommonIdentityType_SystemAssigned = MicrosoftCommonIdentityType("SystemAssigned")
+	MicrosoftCommonIdentityType_UserAssigned   = MicrosoftCommonIdentityType("UserAssigned")
 )
 
-// Mapping from string to Identity_Type
-var identity_Type_Values = map[string]Identity_Type{
-	"none":           Identity_Type_None,
-	"systemassigned": Identity_Type_SystemAssigned,
-	"userassigned":   Identity_Type_UserAssigned,
+// Mapping from string to MicrosoftCommonIdentityType
+var microsoftCommonIdentityType_Values = map[string]MicrosoftCommonIdentityType{
+	"none":           MicrosoftCommonIdentityType_None,
+	"systemassigned": MicrosoftCommonIdentityType_SystemAssigned,
+	"userassigned":   MicrosoftCommonIdentityType_UserAssigned,
 }
 
-type Identity_Type_STATUS string
+// Type of managed service identity.
+type MicrosoftCommonIdentityType_STATUS string
 
 const (
-	Identity_Type_STATUS_None           = Identity_Type_STATUS("None")
-	Identity_Type_STATUS_SystemAssigned = Identity_Type_STATUS("SystemAssigned")
-	Identity_Type_STATUS_UserAssigned   = Identity_Type_STATUS("UserAssigned")
+	MicrosoftCommonIdentityType_STATUS_None           = MicrosoftCommonIdentityType_STATUS("None")
+	MicrosoftCommonIdentityType_STATUS_SystemAssigned = MicrosoftCommonIdentityType_STATUS("SystemAssigned")
+	MicrosoftCommonIdentityType_STATUS_UserAssigned   = MicrosoftCommonIdentityType_STATUS("UserAssigned")
 )
 
-// Mapping from string to Identity_Type_STATUS
-var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
-	"none":           Identity_Type_STATUS_None,
-	"systemassigned": Identity_Type_STATUS_SystemAssigned,
-	"userassigned":   Identity_Type_STATUS_UserAssigned,
+// Mapping from string to MicrosoftCommonIdentityType_STATUS
+var microsoftCommonIdentityType_STATUS_Values = map[string]MicrosoftCommonIdentityType_STATUS{
+	"none":           MicrosoftCommonIdentityType_STATUS_None,
+	"systemassigned": MicrosoftCommonIdentityType_STATUS_SystemAssigned,
+	"userassigned":   MicrosoftCommonIdentityType_STATUS_UserAssigned,
+}
+
+// Properties of the user assigned identity.
+type MicrosoftCommonUserIdentityProperties_STATUS struct {
+	// ClientId: The client ID of resource identity.
+	ClientId *string `json:"clientId,omitempty"`
+
+	// PrincipalId: The principal ID of resource identity.
+	PrincipalId *string `json:"principalId,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &MicrosoftCommonUserIdentityProperties_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (properties *MicrosoftCommonUserIdentityProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.MicrosoftCommonUserIdentityProperties_STATUS{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (properties *MicrosoftCommonUserIdentityProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.MicrosoftCommonUserIdentityProperties_STATUS)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.MicrosoftCommonUserIdentityProperties_STATUS, got %T", armInput)
+	}
+
+	// Set property "ClientId":
+	if typedInput.ClientId != nil {
+		clientId := *typedInput.ClientId
+		properties.ClientId = &clientId
+	}
+
+	// Set property "PrincipalId":
+	if typedInput.PrincipalId != nil {
+		principalId := *typedInput.PrincipalId
+		properties.PrincipalId = &principalId
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_MicrosoftCommonUserIdentityProperties_STATUS populates our MicrosoftCommonUserIdentityProperties_STATUS from the provided source MicrosoftCommonUserIdentityProperties_STATUS
+func (properties *MicrosoftCommonUserIdentityProperties_STATUS) AssignProperties_From_MicrosoftCommonUserIdentityProperties_STATUS(source *storage.MicrosoftCommonUserIdentityProperties_STATUS) error {
+
+	// ClientId
+	properties.ClientId = genruntime.ClonePointerToString(source.ClientId)
+
+	// PrincipalId
+	properties.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_MicrosoftCommonUserIdentityProperties_STATUS populates the provided destination MicrosoftCommonUserIdentityProperties_STATUS from our MicrosoftCommonUserIdentityProperties_STATUS
+func (properties *MicrosoftCommonUserIdentityProperties_STATUS) AssignProperties_To_MicrosoftCommonUserIdentityProperties_STATUS(destination *storage.MicrosoftCommonUserIdentityProperties_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(properties.ClientId)
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(properties.PrincipalId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type SystemData_CreatedByType_STATUS string
@@ -4023,108 +4105,9 @@ func (details *UserAssignedIdentityDetails) AssignProperties_To_UserAssignedIden
 	return nil
 }
 
-// User assigned identity properties.
-type UserIdentityProperties_STATUS struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &UserIdentityProperties_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *UserIdentityProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.UserIdentityProperties_STATUS{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (properties *UserIdentityProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.UserIdentityProperties_STATUS)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.UserIdentityProperties_STATUS, got %T", armInput)
-	}
-
-	// Set property "ClientId":
-	if typedInput.ClientId != nil {
-		clientId := *typedInput.ClientId
-		properties.ClientId = &clientId
-	}
-
-	// Set property "PrincipalId":
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		properties.PrincipalId = &principalId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_UserIdentityProperties_STATUS populates our UserIdentityProperties_STATUS from the provided source UserIdentityProperties_STATUS
-func (properties *UserIdentityProperties_STATUS) AssignProperties_From_UserIdentityProperties_STATUS(source *storage.UserIdentityProperties_STATUS) error {
-
-	// ClientId
-	properties.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	properties.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_UserIdentityProperties_STATUS populates the provided destination UserIdentityProperties_STATUS from our UserIdentityProperties_STATUS
-func (properties *UserIdentityProperties_STATUS) AssignProperties_To_UserIdentityProperties_STATUS(destination *storage.UserIdentityProperties_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(properties.ClientId)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(properties.PrincipalId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"DynamicThresholdCriterion","StaticThresholdCriterion"}
-type Condition_CriterionType string
-
-const (
-	Condition_CriterionType_DynamicThresholdCriterion = Condition_CriterionType("DynamicThresholdCriterion")
-	Condition_CriterionType_StaticThresholdCriterion  = Condition_CriterionType("StaticThresholdCriterion")
-)
-
-// Mapping from string to Condition_CriterionType
-var condition_CriterionType_Values = map[string]Condition_CriterionType{
-	"dynamicthresholdcriterion": Condition_CriterionType_DynamicThresholdCriterion,
-	"staticthresholdcriterion":  Condition_CriterionType_StaticThresholdCriterion,
-}
-
-type Condition_CriterionType_STATUS string
-
-const (
-	Condition_CriterionType_STATUS_DynamicThresholdCriterion = Condition_CriterionType_STATUS("DynamicThresholdCriterion")
-	Condition_CriterionType_STATUS_StaticThresholdCriterion  = Condition_CriterionType_STATUS("StaticThresholdCriterion")
-)
-
-// Mapping from string to Condition_CriterionType_STATUS
-var condition_CriterionType_STATUS_Values = map[string]Condition_CriterionType_STATUS{
-	"dynamicthresholdcriterion": Condition_CriterionType_STATUS_DynamicThresholdCriterion,
-	"staticthresholdcriterion":  Condition_CriterionType_STATUS_StaticThresholdCriterion,
-}
-
-type Condition_FailingPeriods struct {
+// The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant
+// only for rules of the kind LogAlert.
+type ConditionFailingPeriods struct {
 	// MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
 	// numberOfEvaluationPeriods. Default value is 1
 	MinFailingPeriodsToAlert *int `json:"minFailingPeriodsToAlert,omitempty"`
@@ -4134,14 +4117,14 @@ type Condition_FailingPeriods struct {
 	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Condition_FailingPeriods{}
+var _ genruntime.ARMTransformer = &ConditionFailingPeriods{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (periods *Condition_FailingPeriods) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (periods *ConditionFailingPeriods) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if periods == nil {
 		return nil, nil
 	}
-	result := &arm.Condition_FailingPeriods{}
+	result := &arm.ConditionFailingPeriods{}
 
 	// Set property "MinFailingPeriodsToAlert":
 	if periods.MinFailingPeriodsToAlert != nil {
@@ -4158,15 +4141,15 @@ func (periods *Condition_FailingPeriods) ConvertToARM(resolved genruntime.Conver
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (periods *Condition_FailingPeriods) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Condition_FailingPeriods{}
+func (periods *ConditionFailingPeriods) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ConditionFailingPeriods{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (periods *Condition_FailingPeriods) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Condition_FailingPeriods)
+func (periods *ConditionFailingPeriods) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ConditionFailingPeriods)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Condition_FailingPeriods, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ConditionFailingPeriods, got %T", armInput)
 	}
 
 	// Set property "MinFailingPeriodsToAlert":
@@ -4185,8 +4168,8 @@ func (periods *Condition_FailingPeriods) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignProperties_From_Condition_FailingPeriods populates our Condition_FailingPeriods from the provided source Condition_FailingPeriods
-func (periods *Condition_FailingPeriods) AssignProperties_From_Condition_FailingPeriods(source *storage.Condition_FailingPeriods) error {
+// AssignProperties_From_ConditionFailingPeriods populates our ConditionFailingPeriods from the provided source ConditionFailingPeriods
+func (periods *ConditionFailingPeriods) AssignProperties_From_ConditionFailingPeriods(source *storage.ConditionFailingPeriods) error {
 
 	// MinFailingPeriodsToAlert
 	periods.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(source.MinFailingPeriodsToAlert)
@@ -4198,8 +4181,8 @@ func (periods *Condition_FailingPeriods) AssignProperties_From_Condition_Failing
 	return nil
 }
 
-// AssignProperties_To_Condition_FailingPeriods populates the provided destination Condition_FailingPeriods from our Condition_FailingPeriods
-func (periods *Condition_FailingPeriods) AssignProperties_To_Condition_FailingPeriods(destination *storage.Condition_FailingPeriods) error {
+// AssignProperties_To_ConditionFailingPeriods populates the provided destination ConditionFailingPeriods from our ConditionFailingPeriods
+func (periods *ConditionFailingPeriods) AssignProperties_To_ConditionFailingPeriods(destination *storage.ConditionFailingPeriods) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4220,7 +4203,9 @@ func (periods *Condition_FailingPeriods) AssignProperties_To_Condition_FailingPe
 	return nil
 }
 
-type Condition_FailingPeriods_STATUS struct {
+// The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant
+// only for rules of the kind LogAlert.
+type ConditionFailingPeriods_STATUS struct {
 	// MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
 	// numberOfEvaluationPeriods. Default value is 1
 	MinFailingPeriodsToAlert *int `json:"minFailingPeriodsToAlert,omitempty"`
@@ -4230,18 +4215,18 @@ type Condition_FailingPeriods_STATUS struct {
 	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &Condition_FailingPeriods_STATUS{}
+var _ genruntime.FromARMConverter = &ConditionFailingPeriods_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (periods *Condition_FailingPeriods_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Condition_FailingPeriods_STATUS{}
+func (periods *ConditionFailingPeriods_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ConditionFailingPeriods_STATUS{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (periods *Condition_FailingPeriods_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Condition_FailingPeriods_STATUS)
+func (periods *ConditionFailingPeriods_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ConditionFailingPeriods_STATUS)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Condition_FailingPeriods_STATUS, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ConditionFailingPeriods_STATUS, got %T", armInput)
 	}
 
 	// Set property "MinFailingPeriodsToAlert":
@@ -4260,8 +4245,8 @@ func (periods *Condition_FailingPeriods_STATUS) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignProperties_From_Condition_FailingPeriods_STATUS populates our Condition_FailingPeriods_STATUS from the provided source Condition_FailingPeriods_STATUS
-func (periods *Condition_FailingPeriods_STATUS) AssignProperties_From_Condition_FailingPeriods_STATUS(source *storage.Condition_FailingPeriods_STATUS) error {
+// AssignProperties_From_ConditionFailingPeriods_STATUS populates our ConditionFailingPeriods_STATUS from the provided source ConditionFailingPeriods_STATUS
+func (periods *ConditionFailingPeriods_STATUS) AssignProperties_From_ConditionFailingPeriods_STATUS(source *storage.ConditionFailingPeriods_STATUS) error {
 
 	// MinFailingPeriodsToAlert
 	periods.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(source.MinFailingPeriodsToAlert)
@@ -4273,8 +4258,8 @@ func (periods *Condition_FailingPeriods_STATUS) AssignProperties_From_Condition_
 	return nil
 }
 
-// AssignProperties_To_Condition_FailingPeriods_STATUS populates the provided destination Condition_FailingPeriods_STATUS from our Condition_FailingPeriods_STATUS
-func (periods *Condition_FailingPeriods_STATUS) AssignProperties_To_Condition_FailingPeriods_STATUS(destination *storage.Condition_FailingPeriods_STATUS) error {
+// AssignProperties_To_ConditionFailingPeriods_STATUS populates the provided destination ConditionFailingPeriods_STATUS from our ConditionFailingPeriods_STATUS
+func (periods *ConditionFailingPeriods_STATUS) AssignProperties_To_ConditionFailingPeriods_STATUS(destination *storage.ConditionFailingPeriods_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4295,86 +4280,49 @@ func (periods *Condition_FailingPeriods_STATUS) AssignProperties_To_Condition_Fa
 	return nil
 }
 
+// The criteria operator. Relevant and required only for rules of the kind LogAlert.
 // +kubebuilder:validation:Enum={"Equals","GreaterOrLessThan","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual"}
-type Condition_Operator string
+type ConditionOperator string
 
 const (
-	Condition_Operator_Equals             = Condition_Operator("Equals")
-	Condition_Operator_GreaterOrLessThan  = Condition_Operator("GreaterOrLessThan")
-	Condition_Operator_GreaterThan        = Condition_Operator("GreaterThan")
-	Condition_Operator_GreaterThanOrEqual = Condition_Operator("GreaterThanOrEqual")
-	Condition_Operator_LessThan           = Condition_Operator("LessThan")
-	Condition_Operator_LessThanOrEqual    = Condition_Operator("LessThanOrEqual")
+	ConditionOperator_Equals             = ConditionOperator("Equals")
+	ConditionOperator_GreaterOrLessThan  = ConditionOperator("GreaterOrLessThan")
+	ConditionOperator_GreaterThan        = ConditionOperator("GreaterThan")
+	ConditionOperator_GreaterThanOrEqual = ConditionOperator("GreaterThanOrEqual")
+	ConditionOperator_LessThan           = ConditionOperator("LessThan")
+	ConditionOperator_LessThanOrEqual    = ConditionOperator("LessThanOrEqual")
 )
 
-// Mapping from string to Condition_Operator
-var condition_Operator_Values = map[string]Condition_Operator{
-	"equals":             Condition_Operator_Equals,
-	"greaterorlessthan":  Condition_Operator_GreaterOrLessThan,
-	"greaterthan":        Condition_Operator_GreaterThan,
-	"greaterthanorequal": Condition_Operator_GreaterThanOrEqual,
-	"lessthan":           Condition_Operator_LessThan,
-	"lessthanorequal":    Condition_Operator_LessThanOrEqual,
+// Mapping from string to ConditionOperator
+var conditionOperator_Values = map[string]ConditionOperator{
+	"equals":             ConditionOperator_Equals,
+	"greaterorlessthan":  ConditionOperator_GreaterOrLessThan,
+	"greaterthan":        ConditionOperator_GreaterThan,
+	"greaterthanorequal": ConditionOperator_GreaterThanOrEqual,
+	"lessthan":           ConditionOperator_LessThan,
+	"lessthanorequal":    ConditionOperator_LessThanOrEqual,
 }
 
-type Condition_Operator_STATUS string
+// The criteria operator. Relevant and required only for rules of the kind LogAlert.
+type ConditionOperator_STATUS string
 
 const (
-	Condition_Operator_STATUS_Equals             = Condition_Operator_STATUS("Equals")
-	Condition_Operator_STATUS_GreaterOrLessThan  = Condition_Operator_STATUS("GreaterOrLessThan")
-	Condition_Operator_STATUS_GreaterThan        = Condition_Operator_STATUS("GreaterThan")
-	Condition_Operator_STATUS_GreaterThanOrEqual = Condition_Operator_STATUS("GreaterThanOrEqual")
-	Condition_Operator_STATUS_LessThan           = Condition_Operator_STATUS("LessThan")
-	Condition_Operator_STATUS_LessThanOrEqual    = Condition_Operator_STATUS("LessThanOrEqual")
+	ConditionOperator_STATUS_Equals             = ConditionOperator_STATUS("Equals")
+	ConditionOperator_STATUS_GreaterOrLessThan  = ConditionOperator_STATUS("GreaterOrLessThan")
+	ConditionOperator_STATUS_GreaterThan        = ConditionOperator_STATUS("GreaterThan")
+	ConditionOperator_STATUS_GreaterThanOrEqual = ConditionOperator_STATUS("GreaterThanOrEqual")
+	ConditionOperator_STATUS_LessThan           = ConditionOperator_STATUS("LessThan")
+	ConditionOperator_STATUS_LessThanOrEqual    = ConditionOperator_STATUS("LessThanOrEqual")
 )
 
-// Mapping from string to Condition_Operator_STATUS
-var condition_Operator_STATUS_Values = map[string]Condition_Operator_STATUS{
-	"equals":             Condition_Operator_STATUS_Equals,
-	"greaterorlessthan":  Condition_Operator_STATUS_GreaterOrLessThan,
-	"greaterthan":        Condition_Operator_STATUS_GreaterThan,
-	"greaterthanorequal": Condition_Operator_STATUS_GreaterThanOrEqual,
-	"lessthan":           Condition_Operator_STATUS_LessThan,
-	"lessthanorequal":    Condition_Operator_STATUS_LessThanOrEqual,
-}
-
-// +kubebuilder:validation:Enum={"Average","Count","Maximum","Minimum","Total"}
-type Condition_TimeAggregation string
-
-const (
-	Condition_TimeAggregation_Average = Condition_TimeAggregation("Average")
-	Condition_TimeAggregation_Count   = Condition_TimeAggregation("Count")
-	Condition_TimeAggregation_Maximum = Condition_TimeAggregation("Maximum")
-	Condition_TimeAggregation_Minimum = Condition_TimeAggregation("Minimum")
-	Condition_TimeAggregation_Total   = Condition_TimeAggregation("Total")
-)
-
-// Mapping from string to Condition_TimeAggregation
-var condition_TimeAggregation_Values = map[string]Condition_TimeAggregation{
-	"average": Condition_TimeAggregation_Average,
-	"count":   Condition_TimeAggregation_Count,
-	"maximum": Condition_TimeAggregation_Maximum,
-	"minimum": Condition_TimeAggregation_Minimum,
-	"total":   Condition_TimeAggregation_Total,
-}
-
-type Condition_TimeAggregation_STATUS string
-
-const (
-	Condition_TimeAggregation_STATUS_Average = Condition_TimeAggregation_STATUS("Average")
-	Condition_TimeAggregation_STATUS_Count   = Condition_TimeAggregation_STATUS("Count")
-	Condition_TimeAggregation_STATUS_Maximum = Condition_TimeAggregation_STATUS("Maximum")
-	Condition_TimeAggregation_STATUS_Minimum = Condition_TimeAggregation_STATUS("Minimum")
-	Condition_TimeAggregation_STATUS_Total   = Condition_TimeAggregation_STATUS("Total")
-)
-
-// Mapping from string to Condition_TimeAggregation_STATUS
-var condition_TimeAggregation_STATUS_Values = map[string]Condition_TimeAggregation_STATUS{
-	"average": Condition_TimeAggregation_STATUS_Average,
-	"count":   Condition_TimeAggregation_STATUS_Count,
-	"maximum": Condition_TimeAggregation_STATUS_Maximum,
-	"minimum": Condition_TimeAggregation_STATUS_Minimum,
-	"total":   Condition_TimeAggregation_STATUS_Total,
+// Mapping from string to ConditionOperator_STATUS
+var conditionOperator_STATUS_Values = map[string]ConditionOperator_STATUS{
+	"equals":             ConditionOperator_STATUS_Equals,
+	"greaterorlessthan":  ConditionOperator_STATUS_GreaterOrLessThan,
+	"greaterthan":        ConditionOperator_STATUS_GreaterThan,
+	"greaterthanorequal": ConditionOperator_STATUS_GreaterThanOrEqual,
+	"lessthan":           ConditionOperator_STATUS_LessThan,
+	"lessthanorequal":    ConditionOperator_STATUS_LessThanOrEqual,
 }
 
 // Dimension splitting and filtering definition
@@ -4385,7 +4333,7 @@ type Dimension struct {
 
 	// +kubebuilder:validation:Required
 	// Operator: Operator for dimension values
-	Operator *Dimension_Operator `json:"operator,omitempty"`
+	Operator *DimensionOperator `json:"operator,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Values: List of dimension values
@@ -4411,7 +4359,7 @@ func (dimension *Dimension) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if dimension.Operator != nil {
 		var temp string
 		temp = string(*dimension.Operator)
-		operator := arm.Dimension_Operator(temp)
+		operator := arm.DimensionOperator(temp)
 		result.Operator = &operator
 	}
 
@@ -4444,7 +4392,7 @@ func (dimension *Dimension) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	if typedInput.Operator != nil {
 		var temp string
 		temp = string(*typedInput.Operator)
-		operator := Dimension_Operator(temp)
+		operator := DimensionOperator(temp)
 		dimension.Operator = &operator
 	}
 
@@ -4466,7 +4414,7 @@ func (dimension *Dimension) AssignProperties_From_Dimension(source *storage.Dime
 	// Operator
 	if source.Operator != nil {
 		operator := *source.Operator
-		operatorTemp := genruntime.ToEnum(operator, dimension_Operator_Values)
+		operatorTemp := genruntime.ToEnum(operator, dimensionOperator_Values)
 		dimension.Operator = &operatorTemp
 	} else {
 		dimension.Operator = nil
@@ -4515,7 +4463,7 @@ type Dimension_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Operator: Operator for dimension values
-	Operator *Dimension_Operator_STATUS `json:"operator,omitempty"`
+	Operator *DimensionOperator_STATUS `json:"operator,omitempty"`
 
 	// Values: List of dimension values
 	Values []string `json:"values,omitempty"`
@@ -4545,7 +4493,7 @@ func (dimension *Dimension_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Operator != nil {
 		var temp string
 		temp = string(*typedInput.Operator)
-		operator := Dimension_Operator_STATUS(temp)
+		operator := DimensionOperator_STATUS(temp)
 		dimension.Operator = &operator
 	}
 
@@ -4567,7 +4515,7 @@ func (dimension *Dimension_STATUS) AssignProperties_From_Dimension_STATUS(source
 	// Operator
 	if source.Operator != nil {
 		operator := *source.Operator
-		operatorTemp := genruntime.ToEnum(operator, dimension_Operator_STATUS_Values)
+		operatorTemp := genruntime.ToEnum(operator, dimensionOperator_STATUS_Values)
 		dimension.Operator = &operatorTemp
 	} else {
 		dimension.Operator = nil
@@ -4610,31 +4558,103 @@ func (dimension *Dimension_STATUS) AssignProperties_To_Dimension_STATUS(destinat
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Exclude","Include"}
-type Dimension_Operator string
+// Specifies the type of threshold criteria. Previously undocumented values might be returned
+// +kubebuilder:validation:Enum={"DynamicThresholdCriterion","StaticThresholdCriterion"}
+type MicrosoftCommonCriterionType string
 
 const (
-	Dimension_Operator_Exclude = Dimension_Operator("Exclude")
-	Dimension_Operator_Include = Dimension_Operator("Include")
+	MicrosoftCommonCriterionType_DynamicThresholdCriterion = MicrosoftCommonCriterionType("DynamicThresholdCriterion")
+	MicrosoftCommonCriterionType_StaticThresholdCriterion  = MicrosoftCommonCriterionType("StaticThresholdCriterion")
 )
 
-// Mapping from string to Dimension_Operator
-var dimension_Operator_Values = map[string]Dimension_Operator{
-	"exclude": Dimension_Operator_Exclude,
-	"include": Dimension_Operator_Include,
+// Mapping from string to MicrosoftCommonCriterionType
+var microsoftCommonCriterionType_Values = map[string]MicrosoftCommonCriterionType{
+	"dynamicthresholdcriterion": MicrosoftCommonCriterionType_DynamicThresholdCriterion,
+	"staticthresholdcriterion":  MicrosoftCommonCriterionType_StaticThresholdCriterion,
 }
 
-type Dimension_Operator_STATUS string
+// Specifies the type of threshold criteria. Previously undocumented values might be returned
+type MicrosoftCommonCriterionType_STATUS string
 
 const (
-	Dimension_Operator_STATUS_Exclude = Dimension_Operator_STATUS("Exclude")
-	Dimension_Operator_STATUS_Include = Dimension_Operator_STATUS("Include")
+	MicrosoftCommonCriterionType_STATUS_DynamicThresholdCriterion = MicrosoftCommonCriterionType_STATUS("DynamicThresholdCriterion")
+	MicrosoftCommonCriterionType_STATUS_StaticThresholdCriterion  = MicrosoftCommonCriterionType_STATUS("StaticThresholdCriterion")
 )
 
-// Mapping from string to Dimension_Operator_STATUS
-var dimension_Operator_STATUS_Values = map[string]Dimension_Operator_STATUS{
-	"exclude": Dimension_Operator_STATUS_Exclude,
-	"include": Dimension_Operator_STATUS_Include,
+// Mapping from string to MicrosoftCommonCriterionType_STATUS
+var microsoftCommonCriterionType_STATUS_Values = map[string]MicrosoftCommonCriterionType_STATUS{
+	"dynamicthresholdcriterion": MicrosoftCommonCriterionType_STATUS_DynamicThresholdCriterion,
+	"staticthresholdcriterion":  MicrosoftCommonCriterionType_STATUS_StaticThresholdCriterion,
+}
+
+// Aggregation type. Relevant and required only for rules of the kind LogAlert.
+// +kubebuilder:validation:Enum={"Average","Count","Maximum","Minimum","Total"}
+type TimeAggregation string
+
+const (
+	TimeAggregation_Average = TimeAggregation("Average")
+	TimeAggregation_Count   = TimeAggregation("Count")
+	TimeAggregation_Maximum = TimeAggregation("Maximum")
+	TimeAggregation_Minimum = TimeAggregation("Minimum")
+	TimeAggregation_Total   = TimeAggregation("Total")
+)
+
+// Mapping from string to TimeAggregation
+var timeAggregation_Values = map[string]TimeAggregation{
+	"average": TimeAggregation_Average,
+	"count":   TimeAggregation_Count,
+	"maximum": TimeAggregation_Maximum,
+	"minimum": TimeAggregation_Minimum,
+	"total":   TimeAggregation_Total,
+}
+
+// Aggregation type. Relevant and required only for rules of the kind LogAlert.
+type TimeAggregation_STATUS string
+
+const (
+	TimeAggregation_STATUS_Average = TimeAggregation_STATUS("Average")
+	TimeAggregation_STATUS_Count   = TimeAggregation_STATUS("Count")
+	TimeAggregation_STATUS_Maximum = TimeAggregation_STATUS("Maximum")
+	TimeAggregation_STATUS_Minimum = TimeAggregation_STATUS("Minimum")
+	TimeAggregation_STATUS_Total   = TimeAggregation_STATUS("Total")
+)
+
+// Mapping from string to TimeAggregation_STATUS
+var timeAggregation_STATUS_Values = map[string]TimeAggregation_STATUS{
+	"average": TimeAggregation_STATUS_Average,
+	"count":   TimeAggregation_STATUS_Count,
+	"maximum": TimeAggregation_STATUS_Maximum,
+	"minimum": TimeAggregation_STATUS_Minimum,
+	"total":   TimeAggregation_STATUS_Total,
+}
+
+// Operator for dimension values
+// +kubebuilder:validation:Enum={"Exclude","Include"}
+type DimensionOperator string
+
+const (
+	DimensionOperator_Exclude = DimensionOperator("Exclude")
+	DimensionOperator_Include = DimensionOperator("Include")
+)
+
+// Mapping from string to DimensionOperator
+var dimensionOperator_Values = map[string]DimensionOperator{
+	"exclude": DimensionOperator_Exclude,
+	"include": DimensionOperator_Include,
+}
+
+// Operator for dimension values
+type DimensionOperator_STATUS string
+
+const (
+	DimensionOperator_STATUS_Exclude = DimensionOperator_STATUS("Exclude")
+	DimensionOperator_STATUS_Include = DimensionOperator_STATUS("Include")
+)
+
+// Mapping from string to DimensionOperator_STATUS
+var dimensionOperator_STATUS_Values = map[string]DimensionOperator_STATUS{
+	"exclude": DimensionOperator_STATUS_Exclude,
+	"include": DimensionOperator_STATUS_Include,
 }
 
 func init() {

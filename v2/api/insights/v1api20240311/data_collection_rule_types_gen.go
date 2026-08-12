@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionRules_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}
 type DataCollectionRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -239,7 +239,7 @@ func (rule *DataCollectionRule) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionRules_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}
 type DataCollectionRuleList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -280,10 +280,10 @@ type DataCollectionRule_Spec struct {
 	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
 
 	// Kind: The kind of the resource.
-	Kind *DataCollectionRule_Kind_Spec `json:"kind,omitempty"`
+	Kind *KnownDataCollectionRuleResourceKind `json:"kind,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Location: The geo-location where the resource lives.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
@@ -332,7 +332,7 @@ func (rule *DataCollectionRule_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if rule.Kind != nil {
 		var temp string
 		temp = string(*rule.Kind)
-		kind := arm.DataCollectionRule_Kind_Spec(temp)
+		kind := arm.KnownDataCollectionRuleResourceKind(temp)
 		result.Kind = &kind
 	}
 
@@ -557,7 +557,7 @@ func (rule *DataCollectionRule_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Kind != nil {
 		var temp string
 		temp = string(*typedInput.Kind)
-		kind := DataCollectionRule_Kind_Spec(temp)
+		kind := KnownDataCollectionRuleResourceKind(temp)
 		rule.Kind = &kind
 	}
 
@@ -774,7 +774,7 @@ func (rule *DataCollectionRule_Spec) AssignProperties_From_DataCollectionRule_Sp
 	// Kind
 	if source.Kind != nil {
 		kind := *source.Kind
-		kindTemp := genruntime.ToEnum(kind, dataCollectionRule_Kind_Spec_Values)
+		kindTemp := genruntime.ToEnum(kind, knownDataCollectionRuleResourceKind_Values)
 		rule.Kind = &kindTemp
 	} else {
 		rule.Kind = nil
@@ -1125,7 +1125,7 @@ func (rule *DataCollectionRule_Spec) Initialize_From_DataCollectionRuleResource_
 
 	// Kind
 	if source.Kind != nil {
-		kind := genruntime.ToEnum(string(*source.Kind), dataCollectionRule_Kind_Spec_Values)
+		kind := genruntime.ToEnum(string(*source.Kind), knownDataCollectionRuleResourceKind_Values)
 		rule.Kind = &kind
 	} else {
 		rule.Kind = nil
@@ -1224,7 +1224,8 @@ type DataCollectionRuleResource_STATUS struct {
 	// Etag: Resource entity tag (ETag).
 	Etag *string `json:"etag,omitempty"`
 
-	// Id: Fully qualified ID of the resource.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: Managed service identity of the resource.
@@ -1237,19 +1238,19 @@ type DataCollectionRuleResource_STATUS struct {
 	IngestionQuotas *IngestionQuotas_STATUS `json:"ingestionQuotas,omitempty"`
 
 	// Kind: The kind of the resource.
-	Kind *DataCollectionRuleResource_Kind_STATUS `json:"kind,omitempty"`
+	Kind *KnownDataCollectionRuleResourceKind_STATUS `json:"kind,omitempty"`
 
-	// Location: The geo-location where the resource lives.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// Metadata: Metadata about the resource
 	Metadata *Metadata_STATUS `json:"metadata,omitempty"`
 
-	// Name: The name of the resource.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: The resource provisioning state.
-	ProvisioningState *DataCollectionRule_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *KnownDataCollectionRuleProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// References: Defines all the references that may be used in other sections of the DCR
 	References *ReferencesSpec_STATUS `json:"references,omitempty"`
@@ -1260,13 +1261,13 @@ type DataCollectionRuleResource_STATUS struct {
 	// StreamDeclarations: Declaration of custom streams used in this rule.
 	StreamDeclarations map[string]StreamDeclaration_STATUS `json:"streamDeclarations,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: The type of the resource.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -1487,7 +1488,7 @@ func (resource *DataCollectionRuleResource_STATUS) PopulateFromARM(owner genrunt
 	if typedInput.Kind != nil {
 		var temp string
 		temp = string(*typedInput.Kind)
-		kind := DataCollectionRuleResource_Kind_STATUS(temp)
+		kind := KnownDataCollectionRuleResourceKind_STATUS(temp)
 		resource.Kind = &kind
 	}
 
@@ -1523,7 +1524,7 @@ func (resource *DataCollectionRuleResource_STATUS) PopulateFromARM(owner genrunt
 		if typedInput.Properties.ProvisioningState != nil {
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
-			provisioningState := DataCollectionRule_ProvisioningState_STATUS(temp)
+			provisioningState := KnownDataCollectionRuleProvisioningState_STATUS(temp)
 			resource.ProvisioningState = &provisioningState
 		}
 	}
@@ -1722,7 +1723,7 @@ func (resource *DataCollectionRuleResource_STATUS) AssignProperties_From_DataCol
 	// Kind
 	if source.Kind != nil {
 		kind := *source.Kind
-		kindTemp := genruntime.ToEnum(kind, dataCollectionRuleResource_Kind_STATUS_Values)
+		kindTemp := genruntime.ToEnum(kind, knownDataCollectionRuleResourceKind_STATUS_Values)
 		resource.Kind = &kindTemp
 	} else {
 		resource.Kind = nil
@@ -1749,7 +1750,7 @@ func (resource *DataCollectionRuleResource_STATUS) AssignProperties_From_DataCol
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
-		provisioningStateTemp := genruntime.ToEnum(provisioningState, dataCollectionRule_ProvisioningState_STATUS_Values)
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, knownDataCollectionRuleProvisioningState_STATUS_Values)
 		resource.ProvisioningState = &provisioningStateTemp
 	} else {
 		resource.ProvisioningState = nil
@@ -2262,41 +2263,6 @@ func (settings *AgentSettingsSpec_STATUS) AssignProperties_To_AgentSettingsSpec_
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Linux","Windows"}
-type DataCollectionRule_Kind_Spec string
-
-const (
-	DataCollectionRule_Kind_Spec_Linux   = DataCollectionRule_Kind_Spec("Linux")
-	DataCollectionRule_Kind_Spec_Windows = DataCollectionRule_Kind_Spec("Windows")
-)
-
-// Mapping from string to DataCollectionRule_Kind_Spec
-var dataCollectionRule_Kind_Spec_Values = map[string]DataCollectionRule_Kind_Spec{
-	"linux":   DataCollectionRule_Kind_Spec_Linux,
-	"windows": DataCollectionRule_Kind_Spec_Windows,
-}
-
-type DataCollectionRule_ProvisioningState_STATUS string
-
-const (
-	DataCollectionRule_ProvisioningState_STATUS_Canceled  = DataCollectionRule_ProvisioningState_STATUS("Canceled")
-	DataCollectionRule_ProvisioningState_STATUS_Creating  = DataCollectionRule_ProvisioningState_STATUS("Creating")
-	DataCollectionRule_ProvisioningState_STATUS_Deleting  = DataCollectionRule_ProvisioningState_STATUS("Deleting")
-	DataCollectionRule_ProvisioningState_STATUS_Failed    = DataCollectionRule_ProvisioningState_STATUS("Failed")
-	DataCollectionRule_ProvisioningState_STATUS_Succeeded = DataCollectionRule_ProvisioningState_STATUS("Succeeded")
-	DataCollectionRule_ProvisioningState_STATUS_Updating  = DataCollectionRule_ProvisioningState_STATUS("Updating")
-)
-
-// Mapping from string to DataCollectionRule_ProvisioningState_STATUS
-var dataCollectionRule_ProvisioningState_STATUS_Values = map[string]DataCollectionRule_ProvisioningState_STATUS{
-	"canceled":  DataCollectionRule_ProvisioningState_STATUS_Canceled,
-	"creating":  DataCollectionRule_ProvisioningState_STATUS_Creating,
-	"deleting":  DataCollectionRule_ProvisioningState_STATUS_Deleting,
-	"failed":    DataCollectionRule_ProvisioningState_STATUS_Failed,
-	"succeeded": DataCollectionRule_ProvisioningState_STATUS_Succeeded,
-	"updating":  DataCollectionRule_ProvisioningState_STATUS_Updating,
-}
-
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DataCollectionRuleOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
@@ -2391,19 +2357,6 @@ func (operator *DataCollectionRuleOperatorSpec) AssignProperties_To_DataCollecti
 
 	// No error
 	return nil
-}
-
-type DataCollectionRuleResource_Kind_STATUS string
-
-const (
-	DataCollectionRuleResource_Kind_STATUS_Linux   = DataCollectionRuleResource_Kind_STATUS("Linux")
-	DataCollectionRuleResource_Kind_STATUS_Windows = DataCollectionRuleResource_Kind_STATUS("Windows")
-)
-
-// Mapping from string to DataCollectionRuleResource_Kind_STATUS
-var dataCollectionRuleResource_Kind_STATUS_Values = map[string]DataCollectionRuleResource_Kind_STATUS{
-	"linux":   DataCollectionRuleResource_Kind_STATUS_Linux,
-	"windows": DataCollectionRuleResource_Kind_STATUS_Windows,
 }
 
 // Definition of which streams are sent to which destinations.
@@ -6417,6 +6370,57 @@ func (quotas *IngestionQuotas_STATUS) AssignProperties_To_IngestionQuotas_STATUS
 	return nil
 }
 
+// The resource provisioning state.
+type KnownDataCollectionRuleProvisioningState_STATUS string
+
+const (
+	KnownDataCollectionRuleProvisioningState_STATUS_Canceled  = KnownDataCollectionRuleProvisioningState_STATUS("Canceled")
+	KnownDataCollectionRuleProvisioningState_STATUS_Creating  = KnownDataCollectionRuleProvisioningState_STATUS("Creating")
+	KnownDataCollectionRuleProvisioningState_STATUS_Deleting  = KnownDataCollectionRuleProvisioningState_STATUS("Deleting")
+	KnownDataCollectionRuleProvisioningState_STATUS_Failed    = KnownDataCollectionRuleProvisioningState_STATUS("Failed")
+	KnownDataCollectionRuleProvisioningState_STATUS_Succeeded = KnownDataCollectionRuleProvisioningState_STATUS("Succeeded")
+	KnownDataCollectionRuleProvisioningState_STATUS_Updating  = KnownDataCollectionRuleProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to KnownDataCollectionRuleProvisioningState_STATUS
+var knownDataCollectionRuleProvisioningState_STATUS_Values = map[string]KnownDataCollectionRuleProvisioningState_STATUS{
+	"canceled":  KnownDataCollectionRuleProvisioningState_STATUS_Canceled,
+	"creating":  KnownDataCollectionRuleProvisioningState_STATUS_Creating,
+	"deleting":  KnownDataCollectionRuleProvisioningState_STATUS_Deleting,
+	"failed":    KnownDataCollectionRuleProvisioningState_STATUS_Failed,
+	"succeeded": KnownDataCollectionRuleProvisioningState_STATUS_Succeeded,
+	"updating":  KnownDataCollectionRuleProvisioningState_STATUS_Updating,
+}
+
+// The kind of the resource.
+// +kubebuilder:validation:Enum={"Linux","Windows"}
+type KnownDataCollectionRuleResourceKind string
+
+const (
+	KnownDataCollectionRuleResourceKind_Linux   = KnownDataCollectionRuleResourceKind("Linux")
+	KnownDataCollectionRuleResourceKind_Windows = KnownDataCollectionRuleResourceKind("Windows")
+)
+
+// Mapping from string to KnownDataCollectionRuleResourceKind
+var knownDataCollectionRuleResourceKind_Values = map[string]KnownDataCollectionRuleResourceKind{
+	"linux":   KnownDataCollectionRuleResourceKind_Linux,
+	"windows": KnownDataCollectionRuleResourceKind_Windows,
+}
+
+// The kind of the resource.
+type KnownDataCollectionRuleResourceKind_STATUS string
+
+const (
+	KnownDataCollectionRuleResourceKind_STATUS_Linux   = KnownDataCollectionRuleResourceKind_STATUS("Linux")
+	KnownDataCollectionRuleResourceKind_STATUS_Windows = KnownDataCollectionRuleResourceKind_STATUS("Windows")
+)
+
+// Mapping from string to KnownDataCollectionRuleResourceKind_STATUS
+var knownDataCollectionRuleResourceKind_STATUS_Values = map[string]KnownDataCollectionRuleResourceKind_STATUS{
+	"linux":   KnownDataCollectionRuleResourceKind_STATUS_Linux,
+	"windows": KnownDataCollectionRuleResourceKind_STATUS_Windows,
+}
+
 // This section defines all the references that may be used in other sections of the DCR
 type ReferencesSpec struct {
 	// ApplicationInsights: Application Insights references to be used on OTel metrics/logs enrichment
@@ -7210,7 +7214,7 @@ func (destination *AdxDestination_STATUS) AssignProperties_To_AdxDestination_STA
 type AgentSetting struct {
 	// Name: The name of the setting.
 	// Must be part of the list of supported settings
-	Name *AgentSetting_Name `json:"name,omitempty"`
+	Name *KnownAgentSettingName `json:"name,omitempty"`
 
 	// Value: The value of the setting
 	Value *string `json:"value,omitempty"`
@@ -7229,7 +7233,7 @@ func (setting *AgentSetting) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if setting.Name != nil {
 		var temp string
 		temp = string(*setting.Name)
-		name := arm.AgentSetting_Name(temp)
+		name := arm.KnownAgentSettingName(temp)
 		result.Name = &name
 	}
 
@@ -7257,7 +7261,7 @@ func (setting *AgentSetting) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	if typedInput.Name != nil {
 		var temp string
 		temp = string(*typedInput.Name)
-		name := AgentSetting_Name(temp)
+		name := KnownAgentSettingName(temp)
 		setting.Name = &name
 	}
 
@@ -7277,7 +7281,7 @@ func (setting *AgentSetting) AssignProperties_From_AgentSetting(source *storage.
 	// Name
 	if source.Name != nil {
 		name := *source.Name
-		nameTemp := genruntime.ToEnum(name, agentSetting_Name_Values)
+		nameTemp := genruntime.ToEnum(name, knownAgentSettingName_Values)
 		setting.Name = &nameTemp
 	} else {
 		setting.Name = nil
@@ -7322,7 +7326,7 @@ func (setting *AgentSetting) Initialize_From_AgentSetting_STATUS(source *AgentSe
 
 	// Name
 	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), agentSetting_Name_Values)
+		name := genruntime.ToEnum(string(*source.Name), knownAgentSettingName_Values)
 		setting.Name = &name
 	} else {
 		setting.Name = nil
@@ -7339,7 +7343,7 @@ func (setting *AgentSetting) Initialize_From_AgentSetting_STATUS(source *AgentSe
 type AgentSetting_STATUS struct {
 	// Name: The name of the setting.
 	// Must be part of the list of supported settings
-	Name *AgentSetting_Name_STATUS `json:"name,omitempty"`
+	Name *KnownAgentSettingName_STATUS `json:"name,omitempty"`
 
 	// Value: The value of the setting
 	Value *string `json:"value,omitempty"`
@@ -7363,7 +7367,7 @@ func (setting *AgentSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 	if typedInput.Name != nil {
 		var temp string
 		temp = string(*typedInput.Name)
-		name := AgentSetting_Name_STATUS(temp)
+		name := KnownAgentSettingName_STATUS(temp)
 		setting.Name = &name
 	}
 
@@ -7383,7 +7387,7 @@ func (setting *AgentSetting_STATUS) AssignProperties_From_AgentSetting_STATUS(so
 	// Name
 	if source.Name != nil {
 		name := *source.Name
-		nameTemp := genruntime.ToEnum(name, agentSetting_Name_STATUS_Values)
+		nameTemp := genruntime.ToEnum(name, knownAgentSettingName_STATUS_Values)
 		setting.Name = &nameTemp
 	} else {
 		setting.Name = nil
@@ -7771,7 +7775,7 @@ type ColumnDefinition struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the column data.
-	Type *ColumnDefinition_Type `json:"type,omitempty"`
+	Type *KnownColumnDefinitionType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ColumnDefinition{}
@@ -7793,7 +7797,7 @@ func (definition *ColumnDefinition) ConvertToARM(resolved genruntime.ConvertToAR
 	if definition.Type != nil {
 		var temp string
 		temp = string(*definition.Type)
-		typeVar := arm.ColumnDefinition_Type(temp)
+		typeVar := arm.KnownColumnDefinitionType(temp)
 		result.Type = &typeVar
 	}
 	return result, nil
@@ -7821,7 +7825,7 @@ func (definition *ColumnDefinition) PopulateFromARM(owner genruntime.ArbitraryOw
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := ColumnDefinition_Type(temp)
+		typeVar := KnownColumnDefinitionType(temp)
 		definition.Type = &typeVar
 	}
 
@@ -7838,7 +7842,7 @@ func (definition *ColumnDefinition) AssignProperties_From_ColumnDefinition(sourc
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, columnDefinition_Type_Values)
+		typeTemp := genruntime.ToEnum(typeVar, knownColumnDefinitionType_Values)
 		definition.Type = &typeTemp
 	} else {
 		definition.Type = nil
@@ -7883,7 +7887,7 @@ func (definition *ColumnDefinition) Initialize_From_ColumnDefinition_STATUS(sour
 
 	// Type
 	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), columnDefinition_Type_Values)
+		typeVar := genruntime.ToEnum(string(*source.Type), knownColumnDefinitionType_Values)
 		definition.Type = &typeVar
 	} else {
 		definition.Type = nil
@@ -7899,7 +7903,7 @@ type ColumnDefinition_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Type: The type of the column data.
-	Type *ColumnDefinition_Type_STATUS `json:"type,omitempty"`
+	Type *KnownColumnDefinitionType_STATUS `json:"type,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ColumnDefinition_STATUS{}
@@ -7926,7 +7930,7 @@ func (definition *ColumnDefinition_STATUS) PopulateFromARM(owner genruntime.Arbi
 	if typedInput.Type != nil {
 		var temp string
 		temp = string(*typedInput.Type)
-		typeVar := ColumnDefinition_Type_STATUS(temp)
+		typeVar := KnownColumnDefinitionType_STATUS(temp)
 		definition.Type = &typeVar
 	}
 
@@ -7943,7 +7947,7 @@ func (definition *ColumnDefinition_STATUS) AssignProperties_From_ColumnDefinitio
 	// Type
 	if source.Type != nil {
 		typeVar := *source.Type
-		typeTemp := genruntime.ToEnum(typeVar, columnDefinition_Type_STATUS_Values)
+		typeTemp := genruntime.ToEnum(typeVar, knownColumnDefinitionType_STATUS_Values)
 		definition.Type = &typeTemp
 	} else {
 		definition.Type = nil
@@ -8408,7 +8412,7 @@ type EtwProviderDataSource struct {
 	Keyword *string `json:"keyword,omitempty"`
 
 	// LogLevel: Minimal level of detail to be logged
-	LogLevel *EtwProviderDataSource_LogLevel `json:"logLevel,omitempty"`
+	LogLevel *KnownEtwProviderDataSourceLogLevel `json:"logLevel,omitempty"`
 
 	// Name: A friendly name for the data source.
 	// This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -8420,7 +8424,7 @@ type EtwProviderDataSource struct {
 
 	// +kubebuilder:validation:Required
 	// ProviderType: Provider type specification: By Manifest GUID or by Event Source name
-	ProviderType *EtwProviderDataSource_ProviderType `json:"providerType,omitempty"`
+	ProviderType *KnownEtwProviderType `json:"providerType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Streams: List of streams that this data source will be sent to
@@ -8451,7 +8455,7 @@ func (source *EtwProviderDataSource) ConvertToARM(resolved genruntime.ConvertToA
 	if source.LogLevel != nil {
 		var temp string
 		temp = string(*source.LogLevel)
-		logLevel := arm.EtwProviderDataSource_LogLevel(temp)
+		logLevel := arm.KnownEtwProviderDataSourceLogLevel(temp)
 		result.LogLevel = &logLevel
 	}
 
@@ -8471,7 +8475,7 @@ func (source *EtwProviderDataSource) ConvertToARM(resolved genruntime.ConvertToA
 	if source.ProviderType != nil {
 		var temp string
 		temp = string(*source.ProviderType)
-		providerType := arm.EtwProviderDataSource_ProviderType(temp)
+		providerType := arm.KnownEtwProviderType(temp)
 		result.ProviderType = &providerType
 	}
 
@@ -8509,7 +8513,7 @@ func (source *EtwProviderDataSource) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.LogLevel != nil {
 		var temp string
 		temp = string(*typedInput.LogLevel)
-		logLevel := EtwProviderDataSource_LogLevel(temp)
+		logLevel := KnownEtwProviderDataSourceLogLevel(temp)
 		source.LogLevel = &logLevel
 	}
 
@@ -8529,7 +8533,7 @@ func (source *EtwProviderDataSource) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.ProviderType != nil {
 		var temp string
 		temp = string(*typedInput.ProviderType)
-		providerType := EtwProviderDataSource_ProviderType(temp)
+		providerType := KnownEtwProviderType(temp)
 		source.ProviderType = &providerType
 	}
 
@@ -8554,7 +8558,7 @@ func (source *EtwProviderDataSource) AssignProperties_From_EtwProviderDataSource
 	// LogLevel
 	if origin.LogLevel != nil {
 		logLevel := *origin.LogLevel
-		logLevelTemp := genruntime.ToEnum(logLevel, etwProviderDataSource_LogLevel_Values)
+		logLevelTemp := genruntime.ToEnum(logLevel, knownEtwProviderDataSourceLogLevel_Values)
 		source.LogLevel = &logLevelTemp
 	} else {
 		source.LogLevel = nil
@@ -8569,7 +8573,7 @@ func (source *EtwProviderDataSource) AssignProperties_From_EtwProviderDataSource
 	// ProviderType
 	if origin.ProviderType != nil {
 		providerType := *origin.ProviderType
-		providerTypeTemp := genruntime.ToEnum(providerType, etwProviderDataSource_ProviderType_Values)
+		providerTypeTemp := genruntime.ToEnum(providerType, knownEtwProviderType_Values)
 		source.ProviderType = &providerTypeTemp
 	} else {
 		source.ProviderType = nil
@@ -8640,7 +8644,7 @@ func (source *EtwProviderDataSource) Initialize_From_EtwProviderDataSource_STATU
 
 	// LogLevel
 	if origin.LogLevel != nil {
-		logLevel := genruntime.ToEnum(string(*origin.LogLevel), etwProviderDataSource_LogLevel_Values)
+		logLevel := genruntime.ToEnum(string(*origin.LogLevel), knownEtwProviderDataSourceLogLevel_Values)
 		source.LogLevel = &logLevel
 	} else {
 		source.LogLevel = nil
@@ -8654,7 +8658,7 @@ func (source *EtwProviderDataSource) Initialize_From_EtwProviderDataSource_STATU
 
 	// ProviderType
 	if origin.ProviderType != nil {
-		providerType := genruntime.ToEnum(string(*origin.ProviderType), etwProviderDataSource_ProviderType_Values)
+		providerType := genruntime.ToEnum(string(*origin.ProviderType), knownEtwProviderType_Values)
 		source.ProviderType = &providerType
 	} else {
 		source.ProviderType = nil
@@ -8676,7 +8680,7 @@ type EtwProviderDataSource_STATUS struct {
 	Keyword *string `json:"keyword,omitempty"`
 
 	// LogLevel: Minimal level of detail to be logged
-	LogLevel *EtwProviderDataSource_LogLevel_STATUS `json:"logLevel,omitempty"`
+	LogLevel *KnownEtwProviderDataSourceLogLevel_STATUS `json:"logLevel,omitempty"`
 
 	// Name: A friendly name for the data source.
 	// This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -8686,7 +8690,7 @@ type EtwProviderDataSource_STATUS struct {
 	Provider *string `json:"provider,omitempty"`
 
 	// ProviderType: Provider type specification: By Manifest GUID or by Event Source name
-	ProviderType *EtwProviderDataSource_ProviderType_STATUS `json:"providerType,omitempty"`
+	ProviderType *KnownEtwProviderType_STATUS `json:"providerType,omitempty"`
 
 	// Streams: List of streams that this data source will be sent to
 	Streams []string `json:"streams,omitempty"`
@@ -8721,7 +8725,7 @@ func (source *EtwProviderDataSource_STATUS) PopulateFromARM(owner genruntime.Arb
 	if typedInput.LogLevel != nil {
 		var temp string
 		temp = string(*typedInput.LogLevel)
-		logLevel := EtwProviderDataSource_LogLevel_STATUS(temp)
+		logLevel := KnownEtwProviderDataSourceLogLevel_STATUS(temp)
 		source.LogLevel = &logLevel
 	}
 
@@ -8741,7 +8745,7 @@ func (source *EtwProviderDataSource_STATUS) PopulateFromARM(owner genruntime.Arb
 	if typedInput.ProviderType != nil {
 		var temp string
 		temp = string(*typedInput.ProviderType)
-		providerType := EtwProviderDataSource_ProviderType_STATUS(temp)
+		providerType := KnownEtwProviderType_STATUS(temp)
 		source.ProviderType = &providerType
 	}
 
@@ -8766,7 +8770,7 @@ func (source *EtwProviderDataSource_STATUS) AssignProperties_From_EtwProviderDat
 	// LogLevel
 	if origin.LogLevel != nil {
 		logLevel := *origin.LogLevel
-		logLevelTemp := genruntime.ToEnum(logLevel, etwProviderDataSource_LogLevel_STATUS_Values)
+		logLevelTemp := genruntime.ToEnum(logLevel, knownEtwProviderDataSourceLogLevel_STATUS_Values)
 		source.LogLevel = &logLevelTemp
 	} else {
 		source.LogLevel = nil
@@ -8781,7 +8785,7 @@ func (source *EtwProviderDataSource_STATUS) AssignProperties_From_EtwProviderDat
 	// ProviderType
 	if origin.ProviderType != nil {
 		providerType := *origin.ProviderType
-		providerTypeTemp := genruntime.ToEnum(providerType, etwProviderDataSource_ProviderType_STATUS_Values)
+		providerTypeTemp := genruntime.ToEnum(providerType, knownEtwProviderType_STATUS_Values)
 		source.ProviderType = &providerTypeTemp
 	} else {
 		source.ProviderType = nil
@@ -10066,7 +10070,7 @@ type LogFilesDataSource struct {
 
 	// +kubebuilder:validation:Required
 	// Format: The data format of the log files
-	Format *LogFilesDataSource_Format `json:"format,omitempty"`
+	Format *KnownLogFilesDataSourceFormat `json:"format,omitempty"`
 
 	// Name: A friendly name for the data source.
 	// This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -10103,7 +10107,7 @@ func (source *LogFilesDataSource) ConvertToARM(resolved genruntime.ConvertToARMR
 	if source.Format != nil {
 		var temp string
 		temp = string(*source.Format)
-		format := arm.LogFilesDataSource_Format(temp)
+		format := arm.KnownLogFilesDataSourceFormat(temp)
 		result.Format = &format
 	}
 
@@ -10157,7 +10161,7 @@ func (source *LogFilesDataSource) PopulateFromARM(owner genruntime.ArbitraryOwne
 	if typedInput.Format != nil {
 		var temp string
 		temp = string(*typedInput.Format)
-		format := LogFilesDataSource_Format(temp)
+		format := KnownLogFilesDataSourceFormat(temp)
 		source.Format = &format
 	}
 
@@ -10202,7 +10206,7 @@ func (source *LogFilesDataSource) AssignProperties_From_LogFilesDataSource(origi
 	// Format
 	if origin.Format != nil {
 		format := *origin.Format
-		formatTemp := genruntime.ToEnum(format, logFilesDataSource_Format_Values)
+		formatTemp := genruntime.ToEnum(format, knownLogFilesDataSourceFormat_Values)
 		source.Format = &formatTemp
 	} else {
 		source.Format = nil
@@ -10289,7 +10293,7 @@ func (source *LogFilesDataSource) Initialize_From_LogFilesDataSource_STATUS(orig
 
 	// Format
 	if origin.Format != nil {
-		format := genruntime.ToEnum(string(*origin.Format), logFilesDataSource_Format_Values)
+		format := genruntime.ToEnum(string(*origin.Format), knownLogFilesDataSourceFormat_Values)
 		source.Format = &format
 	} else {
 		source.Format = nil
@@ -10326,7 +10330,7 @@ type LogFilesDataSource_STATUS struct {
 	FilePatterns []string `json:"filePatterns,omitempty"`
 
 	// Format: The data format of the log files
-	Format *LogFilesDataSource_Format_STATUS `json:"format,omitempty"`
+	Format *KnownLogFilesDataSourceFormat_STATUS `json:"format,omitempty"`
 
 	// Name: A friendly name for the data source.
 	// This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -10367,7 +10371,7 @@ func (source *LogFilesDataSource_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Format != nil {
 		var temp string
 		temp = string(*typedInput.Format)
-		format := LogFilesDataSource_Format_STATUS(temp)
+		format := KnownLogFilesDataSourceFormat_STATUS(temp)
 		source.Format = &format
 	}
 
@@ -10412,7 +10416,7 @@ func (source *LogFilesDataSource_STATUS) AssignProperties_From_LogFilesDataSourc
 	// Format
 	if origin.Format != nil {
 		format := *origin.Format
-		formatTemp := genruntime.ToEnum(format, logFilesDataSource_Format_STATUS_Values)
+		formatTemp := genruntime.ToEnum(format, knownLogFilesDataSourceFormat_STATUS_Values)
 		source.Format = &formatTemp
 	} else {
 		source.Format = nil
@@ -11079,7 +11083,10 @@ func (destination *MonitoringAccountDestination_STATUS) AssignProperties_To_Moni
 // Enables Otel logs to be collected by this data collection rule.
 type OtelLogsDataSource struct {
 	// EnrichWithReference: Specifies the reference alias to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -11096,7 +11103,7 @@ type OtelLogsDataSource struct {
 
 	// +kubebuilder:validation:Required
 	// Streams: List of streams that this data source will be sent to.
-	Streams []OtelLogsDataSource_Streams `json:"streams,omitempty"`
+	Streams []KnownOtelLogsDataSourceStreams `json:"streams,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &OtelLogsDataSource{}
@@ -11145,7 +11152,7 @@ func (source *OtelLogsDataSource) ConvertToARM(resolved genruntime.ConvertToARMR
 	for _, item := range source.Streams {
 		var temp string
 		temp = string(item)
-		result.Streams = append(result.Streams, arm.OtelLogsDataSource_Streams(temp))
+		result.Streams = append(result.Streams, arm.KnownOtelLogsDataSourceStreams(temp))
 	}
 	return result, nil
 }
@@ -11200,7 +11207,7 @@ func (source *OtelLogsDataSource) PopulateFromARM(owner genruntime.ArbitraryOwne
 	for _, item := range typedInput.Streams {
 		var temp string
 		temp = string(item)
-		source.Streams = append(source.Streams, OtelLogsDataSource_Streams(temp))
+		source.Streams = append(source.Streams, KnownOtelLogsDataSourceStreams(temp))
 	}
 
 	// No error
@@ -11241,9 +11248,9 @@ func (source *OtelLogsDataSource) AssignProperties_From_OtelLogsDataSource(origi
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelLogsDataSource_Streams, len(origin.Streams))
+		streamList := make([]KnownOtelLogsDataSourceStreams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, otelLogsDataSource_Streams_Values)
+			streamList[streamIndex] = genruntime.ToEnum(streamItem, knownOtelLogsDataSourceStreams_Values)
 		}
 		source.Streams = streamList
 	} else {
@@ -11344,9 +11351,9 @@ func (source *OtelLogsDataSource) Initialize_From_OtelLogsDataSource_STATUS(orig
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelLogsDataSource_Streams, len(origin.Streams))
+		streamList := make([]KnownOtelLogsDataSourceStreams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			stream := genruntime.ToEnum(string(streamItem), otelLogsDataSource_Streams_Values)
+			stream := genruntime.ToEnum(string(streamItem), knownOtelLogsDataSourceStreams_Values)
 			streamList[streamIndex] = stream
 		}
 		source.Streams = streamList
@@ -11361,7 +11368,10 @@ func (source *OtelLogsDataSource) Initialize_From_OtelLogsDataSource_STATUS(orig
 // Enables Otel logs to be collected by this data collection rule.
 type OtelLogsDataSource_STATUS struct {
 	// EnrichWithReference: Specifies the reference alias to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -11377,7 +11387,7 @@ type OtelLogsDataSource_STATUS struct {
 	ResourceAttributeRouting *OtelDataSourceResourceAttributeRouting_STATUS `json:"resourceAttributeRouting,omitempty"`
 
 	// Streams: List of streams that this data source will be sent to.
-	Streams []OtelLogsDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []KnownOtelLogsDataSourceStreams_STATUS `json:"streams,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &OtelLogsDataSource_STATUS{}
@@ -11432,7 +11442,7 @@ func (source *OtelLogsDataSource_STATUS) PopulateFromARM(owner genruntime.Arbitr
 	for _, item := range typedInput.Streams {
 		var temp string
 		temp = string(item)
-		source.Streams = append(source.Streams, OtelLogsDataSource_Streams_STATUS(temp))
+		source.Streams = append(source.Streams, KnownOtelLogsDataSourceStreams_STATUS(temp))
 	}
 
 	// No error
@@ -11473,9 +11483,9 @@ func (source *OtelLogsDataSource_STATUS) AssignProperties_From_OtelLogsDataSourc
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelLogsDataSource_Streams_STATUS, len(origin.Streams))
+		streamList := make([]KnownOtelLogsDataSourceStreams_STATUS, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, otelLogsDataSource_Streams_STATUS_Values)
+			streamList[streamIndex] = genruntime.ToEnum(streamItem, knownOtelLogsDataSourceStreams_STATUS_Values)
 		}
 		source.Streams = streamList
 	} else {
@@ -11544,7 +11554,10 @@ func (source *OtelLogsDataSource_STATUS) AssignProperties_To_OtelLogsDataSource_
 
 type OtelLogsDirectDataSource struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -11557,7 +11570,7 @@ type OtelLogsDirectDataSource struct {
 
 	// +kubebuilder:validation:Required
 	// Streams: List of streams that this data source will be sent to.
-	Streams []OtelLogsDirectDataSource_Streams `json:"streams,omitempty"`
+	Streams []KnownOtelLogsDirectDataSourceStreams `json:"streams,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &OtelLogsDirectDataSource{}
@@ -11596,7 +11609,7 @@ func (source *OtelLogsDirectDataSource) ConvertToARM(resolved genruntime.Convert
 	for _, item := range source.Streams {
 		var temp string
 		temp = string(item)
-		result.Streams = append(result.Streams, arm.OtelLogsDirectDataSource_Streams(temp))
+		result.Streams = append(result.Streams, arm.KnownOtelLogsDirectDataSourceStreams(temp))
 	}
 	return result, nil
 }
@@ -11640,7 +11653,7 @@ func (source *OtelLogsDirectDataSource) PopulateFromARM(owner genruntime.Arbitra
 	for _, item := range typedInput.Streams {
 		var temp string
 		temp = string(item)
-		source.Streams = append(source.Streams, OtelLogsDirectDataSource_Streams(temp))
+		source.Streams = append(source.Streams, KnownOtelLogsDirectDataSourceStreams(temp))
 	}
 
 	// No error
@@ -11669,9 +11682,9 @@ func (source *OtelLogsDirectDataSource) AssignProperties_From_OtelLogsDirectData
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelLogsDirectDataSource_Streams, len(origin.Streams))
+		streamList := make([]KnownOtelLogsDirectDataSourceStreams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, otelLogsDirectDataSource_Streams_Values)
+			streamList[streamIndex] = genruntime.ToEnum(streamItem, knownOtelLogsDirectDataSourceStreams_Values)
 		}
 		source.Streams = streamList
 	} else {
@@ -11748,9 +11761,9 @@ func (source *OtelLogsDirectDataSource) Initialize_From_OtelLogsDirectDataSource
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelLogsDirectDataSource_Streams, len(origin.Streams))
+		streamList := make([]KnownOtelLogsDirectDataSourceStreams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			stream := genruntime.ToEnum(string(streamItem), otelLogsDirectDataSource_Streams_Values)
+			stream := genruntime.ToEnum(string(streamItem), knownOtelLogsDirectDataSourceStreams_Values)
 			streamList[streamIndex] = stream
 		}
 		source.Streams = streamList
@@ -11764,7 +11777,10 @@ func (source *OtelLogsDirectDataSource) Initialize_From_OtelLogsDirectDataSource
 
 type OtelLogsDirectDataSource_STATUS struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -11776,7 +11792,7 @@ type OtelLogsDirectDataSource_STATUS struct {
 	ReplaceResourceIdWithReference *bool `json:"replaceResourceIdWithReference,omitempty"`
 
 	// Streams: List of streams that this data source will be sent to.
-	Streams []OtelLogsDirectDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []KnownOtelLogsDirectDataSourceStreams_STATUS `json:"streams,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &OtelLogsDirectDataSource_STATUS{}
@@ -11820,7 +11836,7 @@ func (source *OtelLogsDirectDataSource_STATUS) PopulateFromARM(owner genruntime.
 	for _, item := range typedInput.Streams {
 		var temp string
 		temp = string(item)
-		source.Streams = append(source.Streams, OtelLogsDirectDataSource_Streams_STATUS(temp))
+		source.Streams = append(source.Streams, KnownOtelLogsDirectDataSourceStreams_STATUS(temp))
 	}
 
 	// No error
@@ -11849,9 +11865,9 @@ func (source *OtelLogsDirectDataSource_STATUS) AssignProperties_From_OtelLogsDir
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelLogsDirectDataSource_Streams_STATUS, len(origin.Streams))
+		streamList := make([]KnownOtelLogsDirectDataSourceStreams_STATUS, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, otelLogsDirectDataSource_Streams_STATUS_Values)
+			streamList[streamIndex] = genruntime.ToEnum(streamItem, knownOtelLogsDirectDataSourceStreams_STATUS_Values)
 		}
 		source.Streams = streamList
 	} else {
@@ -11909,7 +11925,10 @@ func (source *OtelLogsDirectDataSource_STATUS) AssignProperties_To_OtelLogsDirec
 // Definition of OTel metrics configuration.
 type OtelMetricsDataSource struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -12122,7 +12141,10 @@ func (source *OtelMetricsDataSource) Initialize_From_OtelMetricsDataSource_STATU
 // Definition of OTel metrics configuration.
 type OtelMetricsDataSource_STATUS struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -12262,7 +12284,10 @@ func (source *OtelMetricsDataSource_STATUS) AssignProperties_To_OtelMetricsDataS
 // Definition of OTel metrics configuration.
 type OtelMetricsDirectDataSource struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -12414,7 +12439,10 @@ func (source *OtelMetricsDirectDataSource) Initialize_From_OtelMetricsDirectData
 // Definition of OTel metrics configuration.
 type OtelMetricsDirectDataSource_STATUS struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -12515,7 +12543,10 @@ func (source *OtelMetricsDirectDataSource_STATUS) AssignProperties_To_OtelMetric
 // Enables Otel Traces to be collected by this data collection rule.
 type OtelTracesDataSource struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -12534,7 +12565,7 @@ type OtelTracesDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []OtelTracesDataSource_Streams `json:"streams,omitempty"`
+	Streams []KnownOtelTracesDataSourceStreams `json:"streams,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &OtelTracesDataSource{}
@@ -12583,7 +12614,7 @@ func (source *OtelTracesDataSource) ConvertToARM(resolved genruntime.ConvertToAR
 	for _, item := range source.Streams {
 		var temp string
 		temp = string(item)
-		result.Streams = append(result.Streams, arm.OtelTracesDataSource_Streams(temp))
+		result.Streams = append(result.Streams, arm.KnownOtelTracesDataSourceStreams(temp))
 	}
 	return result, nil
 }
@@ -12638,7 +12669,7 @@ func (source *OtelTracesDataSource) PopulateFromARM(owner genruntime.ArbitraryOw
 	for _, item := range typedInput.Streams {
 		var temp string
 		temp = string(item)
-		source.Streams = append(source.Streams, OtelTracesDataSource_Streams(temp))
+		source.Streams = append(source.Streams, KnownOtelTracesDataSourceStreams(temp))
 	}
 
 	// No error
@@ -12679,9 +12710,9 @@ func (source *OtelTracesDataSource) AssignProperties_From_OtelTracesDataSource(o
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelTracesDataSource_Streams, len(origin.Streams))
+		streamList := make([]KnownOtelTracesDataSourceStreams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, otelTracesDataSource_Streams_Values)
+			streamList[streamIndex] = genruntime.ToEnum(streamItem, knownOtelTracesDataSourceStreams_Values)
 		}
 		source.Streams = streamList
 	} else {
@@ -12782,9 +12813,9 @@ func (source *OtelTracesDataSource) Initialize_From_OtelTracesDataSource_STATUS(
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelTracesDataSource_Streams, len(origin.Streams))
+		streamList := make([]KnownOtelTracesDataSourceStreams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			stream := genruntime.ToEnum(string(streamItem), otelTracesDataSource_Streams_Values)
+			stream := genruntime.ToEnum(string(streamItem), knownOtelTracesDataSourceStreams_Values)
 			streamList[streamIndex] = stream
 		}
 		source.Streams = streamList
@@ -12799,7 +12830,10 @@ func (source *OtelTracesDataSource) Initialize_From_OtelTracesDataSource_STATUS(
 // Enables Otel Traces to be collected by this data collection rule.
 type OtelTracesDataSource_STATUS struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -12817,7 +12851,7 @@ type OtelTracesDataSource_STATUS struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []OtelTracesDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []KnownOtelTracesDataSourceStreams_STATUS `json:"streams,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &OtelTracesDataSource_STATUS{}
@@ -12872,7 +12906,7 @@ func (source *OtelTracesDataSource_STATUS) PopulateFromARM(owner genruntime.Arbi
 	for _, item := range typedInput.Streams {
 		var temp string
 		temp = string(item)
-		source.Streams = append(source.Streams, OtelTracesDataSource_Streams_STATUS(temp))
+		source.Streams = append(source.Streams, KnownOtelTracesDataSourceStreams_STATUS(temp))
 	}
 
 	// No error
@@ -12913,9 +12947,9 @@ func (source *OtelTracesDataSource_STATUS) AssignProperties_From_OtelTracesDataS
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelTracesDataSource_Streams_STATUS, len(origin.Streams))
+		streamList := make([]KnownOtelTracesDataSourceStreams_STATUS, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, otelTracesDataSource_Streams_STATUS_Values)
+			streamList[streamIndex] = genruntime.ToEnum(streamItem, knownOtelTracesDataSourceStreams_STATUS_Values)
 		}
 		source.Streams = streamList
 	} else {
@@ -12985,7 +13019,10 @@ func (source *OtelTracesDataSource_STATUS) AssignProperties_To_OtelTracesDataSou
 // Enables Otel Traces to be collected by this data collection rule.
 type OtelTracesDirectDataSource struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -13000,7 +13037,7 @@ type OtelTracesDirectDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []OtelTracesDirectDataSource_Streams `json:"streams,omitempty"`
+	Streams []KnownOtelTracesDirectDataSourceStreams `json:"streams,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &OtelTracesDirectDataSource{}
@@ -13039,7 +13076,7 @@ func (source *OtelTracesDirectDataSource) ConvertToARM(resolved genruntime.Conve
 	for _, item := range source.Streams {
 		var temp string
 		temp = string(item)
-		result.Streams = append(result.Streams, arm.OtelTracesDirectDataSource_Streams(temp))
+		result.Streams = append(result.Streams, arm.KnownOtelTracesDirectDataSourceStreams(temp))
 	}
 	return result, nil
 }
@@ -13083,7 +13120,7 @@ func (source *OtelTracesDirectDataSource) PopulateFromARM(owner genruntime.Arbit
 	for _, item := range typedInput.Streams {
 		var temp string
 		temp = string(item)
-		source.Streams = append(source.Streams, OtelTracesDirectDataSource_Streams(temp))
+		source.Streams = append(source.Streams, KnownOtelTracesDirectDataSourceStreams(temp))
 	}
 
 	// No error
@@ -13112,9 +13149,9 @@ func (source *OtelTracesDirectDataSource) AssignProperties_From_OtelTracesDirect
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelTracesDirectDataSource_Streams, len(origin.Streams))
+		streamList := make([]KnownOtelTracesDirectDataSourceStreams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, otelTracesDirectDataSource_Streams_Values)
+			streamList[streamIndex] = genruntime.ToEnum(streamItem, knownOtelTracesDirectDataSourceStreams_Values)
 		}
 		source.Streams = streamList
 	} else {
@@ -13191,9 +13228,9 @@ func (source *OtelTracesDirectDataSource) Initialize_From_OtelTracesDirectDataSo
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelTracesDirectDataSource_Streams, len(origin.Streams))
+		streamList := make([]KnownOtelTracesDirectDataSourceStreams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			stream := genruntime.ToEnum(string(streamItem), otelTracesDirectDataSource_Streams_Values)
+			stream := genruntime.ToEnum(string(streamItem), knownOtelTracesDirectDataSourceStreams_Values)
 			streamList[streamIndex] = stream
 		}
 		source.Streams = streamList
@@ -13208,7 +13245,10 @@ func (source *OtelTracesDirectDataSource) Initialize_From_OtelTracesDirectDataSo
 // Enables Otel Traces to be collected by this data collection rule.
 type OtelTracesDirectDataSource_STATUS struct {
 	// EnrichWithReference: Specifies the reference to enrich the telemetry signal with.
-	EnrichWithReference          *string  `json:"enrichWithReference,omitempty"`
+	EnrichWithReference *string `json:"enrichWithReference,omitempty"`
+
+	// EnrichWithResourceAttributes: Specifies the list of resource attributes that need to be added as labels/dimensions to
+	// the telemetry data for further enrichment.
 	EnrichWithResourceAttributes []string `json:"enrichWithResourceAttributes,omitempty"`
 
 	// Name: A friendly name for the data source.
@@ -13222,7 +13262,7 @@ type OtelTracesDirectDataSource_STATUS struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []OtelTracesDirectDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []KnownOtelTracesDirectDataSourceStreams_STATUS `json:"streams,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &OtelTracesDirectDataSource_STATUS{}
@@ -13266,7 +13306,7 @@ func (source *OtelTracesDirectDataSource_STATUS) PopulateFromARM(owner genruntim
 	for _, item := range typedInput.Streams {
 		var temp string
 		temp = string(item)
-		source.Streams = append(source.Streams, OtelTracesDirectDataSource_Streams_STATUS(temp))
+		source.Streams = append(source.Streams, KnownOtelTracesDirectDataSourceStreams_STATUS(temp))
 	}
 
 	// No error
@@ -13295,9 +13335,9 @@ func (source *OtelTracesDirectDataSource_STATUS) AssignProperties_From_OtelTrace
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]OtelTracesDirectDataSource_Streams_STATUS, len(origin.Streams))
+		streamList := make([]KnownOtelTracesDirectDataSourceStreams_STATUS, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, otelTracesDirectDataSource_Streams_STATUS_Values)
+			streamList[streamIndex] = genruntime.ToEnum(streamItem, knownOtelTracesDirectDataSourceStreams_STATUS_Values)
 		}
 		source.Streams = streamList
 	} else {
@@ -13678,7 +13718,7 @@ type PerformanceCountersOTelDataSource struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []PerformanceCountersOTelDataSource_Streams `json:"streams,omitempty"`
+	Streams []KnownPerformanceCountersOTelDataSourceStreams `json:"streams,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &PerformanceCountersOTelDataSource{}
@@ -13711,7 +13751,7 @@ func (source *PerformanceCountersOTelDataSource) ConvertToARM(resolved genruntim
 	for _, item := range source.Streams {
 		var temp string
 		temp = string(item)
-		result.Streams = append(result.Streams, arm.PerformanceCountersOTelDataSource_Streams(temp))
+		result.Streams = append(result.Streams, arm.KnownPerformanceCountersOTelDataSourceStreams(temp))
 	}
 	return result, nil
 }
@@ -13749,7 +13789,7 @@ func (source *PerformanceCountersOTelDataSource) PopulateFromARM(owner genruntim
 	for _, item := range typedInput.Streams {
 		var temp string
 		temp = string(item)
-		source.Streams = append(source.Streams, PerformanceCountersOTelDataSource_Streams(temp))
+		source.Streams = append(source.Streams, KnownPerformanceCountersOTelDataSourceStreams(temp))
 	}
 
 	// No error
@@ -13770,9 +13810,9 @@ func (source *PerformanceCountersOTelDataSource) AssignProperties_From_Performan
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]PerformanceCountersOTelDataSource_Streams, len(origin.Streams))
+		streamList := make([]KnownPerformanceCountersOTelDataSourceStreams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, performanceCountersOTelDataSource_Streams_Values)
+			streamList[streamIndex] = genruntime.ToEnum(streamItem, knownPerformanceCountersOTelDataSourceStreams_Values)
 		}
 		source.Streams = streamList
 	} else {
@@ -13833,9 +13873,9 @@ func (source *PerformanceCountersOTelDataSource) Initialize_From_PerformanceCoun
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]PerformanceCountersOTelDataSource_Streams, len(origin.Streams))
+		streamList := make([]KnownPerformanceCountersOTelDataSourceStreams, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			stream := genruntime.ToEnum(string(streamItem), performanceCountersOTelDataSource_Streams_Values)
+			stream := genruntime.ToEnum(string(streamItem), knownPerformanceCountersOTelDataSourceStreams_Values)
 			streamList[streamIndex] = stream
 		}
 		source.Streams = streamList
@@ -13864,7 +13904,7 @@ type PerformanceCountersOTelDataSource_STATUS struct {
 	// Streams: List of streams that this data source will be sent to.
 	// A stream indicates what schema will be used for this data and usually what table in Log Analytics the data will be sent
 	// to.
-	Streams []PerformanceCountersOTelDataSource_Streams_STATUS `json:"streams,omitempty"`
+	Streams []KnownPerformanceCountersOTelDataSourceStreams_STATUS `json:"streams,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &PerformanceCountersOTelDataSource_STATUS{}
@@ -13902,7 +13942,7 @@ func (source *PerformanceCountersOTelDataSource_STATUS) PopulateFromARM(owner ge
 	for _, item := range typedInput.Streams {
 		var temp string
 		temp = string(item)
-		source.Streams = append(source.Streams, PerformanceCountersOTelDataSource_Streams_STATUS(temp))
+		source.Streams = append(source.Streams, KnownPerformanceCountersOTelDataSourceStreams_STATUS(temp))
 	}
 
 	// No error
@@ -13923,9 +13963,9 @@ func (source *PerformanceCountersOTelDataSource_STATUS) AssignProperties_From_Pe
 
 	// Streams
 	if origin.Streams != nil {
-		streamList := make([]PerformanceCountersOTelDataSource_Streams_STATUS, len(origin.Streams))
+		streamList := make([]KnownPerformanceCountersOTelDataSourceStreams_STATUS, len(origin.Streams))
 		for streamIndex, streamItem := range origin.Streams {
-			streamList[streamIndex] = genruntime.ToEnum(streamItem, performanceCountersOTelDataSource_Streams_STATUS_Values)
+			streamList[streamIndex] = genruntime.ToEnum(streamItem, knownPerformanceCountersOTelDataSourceStreams_STATUS_Values)
 		}
 		source.Streams = streamList
 	} else {
@@ -14994,10 +15034,10 @@ func (destination *StorageTableDestination_STATUS) AssignProperties_To_StorageTa
 // Only collected from Linux machines.
 type SyslogDataSource struct {
 	// FacilityNames: The list of facility names.
-	FacilityNames []SyslogDataSource_FacilityNames `json:"facilityNames,omitempty"`
+	FacilityNames []KnownSyslogDataSourceFacilityNames `json:"facilityNames,omitempty"`
 
 	// LogLevels: The log levels to collect.
-	LogLevels []SyslogDataSource_LogLevels `json:"logLevels,omitempty"`
+	LogLevels []KnownSyslogDataSourceLogLevels `json:"logLevels,omitempty"`
 
 	// Name: A friendly name for the data source.
 	// This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -15026,14 +15066,14 @@ func (source *SyslogDataSource) ConvertToARM(resolved genruntime.ConvertToARMRes
 	for _, item := range source.FacilityNames {
 		var temp string
 		temp = string(item)
-		result.FacilityNames = append(result.FacilityNames, arm.SyslogDataSource_FacilityNames(temp))
+		result.FacilityNames = append(result.FacilityNames, arm.KnownSyslogDataSourceFacilityNames(temp))
 	}
 
 	// Set property "LogLevels":
 	for _, item := range source.LogLevels {
 		var temp string
 		temp = string(item)
-		result.LogLevels = append(result.LogLevels, arm.SyslogDataSource_LogLevels(temp))
+		result.LogLevels = append(result.LogLevels, arm.KnownSyslogDataSourceLogLevels(temp))
 	}
 
 	// Set property "Name":
@@ -15071,14 +15111,14 @@ func (source *SyslogDataSource) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	for _, item := range typedInput.FacilityNames {
 		var temp string
 		temp = string(item)
-		source.FacilityNames = append(source.FacilityNames, SyslogDataSource_FacilityNames(temp))
+		source.FacilityNames = append(source.FacilityNames, KnownSyslogDataSourceFacilityNames(temp))
 	}
 
 	// Set property "LogLevels":
 	for _, item := range typedInput.LogLevels {
 		var temp string
 		temp = string(item)
-		source.LogLevels = append(source.LogLevels, SyslogDataSource_LogLevels(temp))
+		source.LogLevels = append(source.LogLevels, KnownSyslogDataSourceLogLevels(temp))
 	}
 
 	// Set property "Name":
@@ -15107,9 +15147,9 @@ func (source *SyslogDataSource) AssignProperties_From_SyslogDataSource(origin *s
 
 	// FacilityNames
 	if origin.FacilityNames != nil {
-		facilityNameList := make([]SyslogDataSource_FacilityNames, len(origin.FacilityNames))
+		facilityNameList := make([]KnownSyslogDataSourceFacilityNames, len(origin.FacilityNames))
 		for facilityNameIndex, facilityNameItem := range origin.FacilityNames {
-			facilityNameList[facilityNameIndex] = genruntime.ToEnum(facilityNameItem, syslogDataSource_FacilityNames_Values)
+			facilityNameList[facilityNameIndex] = genruntime.ToEnum(facilityNameItem, knownSyslogDataSourceFacilityNames_Values)
 		}
 		source.FacilityNames = facilityNameList
 	} else {
@@ -15118,9 +15158,9 @@ func (source *SyslogDataSource) AssignProperties_From_SyslogDataSource(origin *s
 
 	// LogLevels
 	if origin.LogLevels != nil {
-		logLevelList := make([]SyslogDataSource_LogLevels, len(origin.LogLevels))
+		logLevelList := make([]KnownSyslogDataSourceLogLevels, len(origin.LogLevels))
 		for logLevelIndex, logLevelItem := range origin.LogLevels {
-			logLevelList[logLevelIndex] = genruntime.ToEnum(logLevelItem, syslogDataSource_LogLevels_Values)
+			logLevelList[logLevelIndex] = genruntime.ToEnum(logLevelItem, knownSyslogDataSourceLogLevels_Values)
 		}
 		source.LogLevels = logLevelList
 	} else {
@@ -15192,9 +15232,9 @@ func (source *SyslogDataSource) Initialize_From_SyslogDataSource_STATUS(origin *
 
 	// FacilityNames
 	if origin.FacilityNames != nil {
-		facilityNameList := make([]SyslogDataSource_FacilityNames, len(origin.FacilityNames))
+		facilityNameList := make([]KnownSyslogDataSourceFacilityNames, len(origin.FacilityNames))
 		for facilityNameIndex, facilityNameItem := range origin.FacilityNames {
-			facilityName := genruntime.ToEnum(string(facilityNameItem), syslogDataSource_FacilityNames_Values)
+			facilityName := genruntime.ToEnum(string(facilityNameItem), knownSyslogDataSourceFacilityNames_Values)
 			facilityNameList[facilityNameIndex] = facilityName
 		}
 		source.FacilityNames = facilityNameList
@@ -15204,9 +15244,9 @@ func (source *SyslogDataSource) Initialize_From_SyslogDataSource_STATUS(origin *
 
 	// LogLevels
 	if origin.LogLevels != nil {
-		logLevelList := make([]SyslogDataSource_LogLevels, len(origin.LogLevels))
+		logLevelList := make([]KnownSyslogDataSourceLogLevels, len(origin.LogLevels))
 		for logLevelIndex, logLevelItem := range origin.LogLevels {
-			logLevel := genruntime.ToEnum(string(logLevelItem), syslogDataSource_LogLevels_Values)
+			logLevel := genruntime.ToEnum(string(logLevelItem), knownSyslogDataSourceLogLevels_Values)
 			logLevelList[logLevelIndex] = logLevel
 		}
 		source.LogLevels = logLevelList
@@ -15231,10 +15271,10 @@ func (source *SyslogDataSource) Initialize_From_SyslogDataSource_STATUS(origin *
 // Only collected from Linux machines.
 type SyslogDataSource_STATUS struct {
 	// FacilityNames: The list of facility names.
-	FacilityNames []SyslogDataSource_FacilityNames_STATUS `json:"facilityNames,omitempty"`
+	FacilityNames []KnownSyslogDataSourceFacilityNames_STATUS `json:"facilityNames,omitempty"`
 
 	// LogLevels: The log levels to collect.
-	LogLevels []SyslogDataSource_LogLevels_STATUS `json:"logLevels,omitempty"`
+	LogLevels []KnownSyslogDataSourceLogLevels_STATUS `json:"logLevels,omitempty"`
 
 	// Name: A friendly name for the data source.
 	// This name should be unique across all data sources (regardless of type) within the data collection rule.
@@ -15268,14 +15308,14 @@ func (source *SyslogDataSource_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	for _, item := range typedInput.FacilityNames {
 		var temp string
 		temp = string(item)
-		source.FacilityNames = append(source.FacilityNames, SyslogDataSource_FacilityNames_STATUS(temp))
+		source.FacilityNames = append(source.FacilityNames, KnownSyslogDataSourceFacilityNames_STATUS(temp))
 	}
 
 	// Set property "LogLevels":
 	for _, item := range typedInput.LogLevels {
 		var temp string
 		temp = string(item)
-		source.LogLevels = append(source.LogLevels, SyslogDataSource_LogLevels_STATUS(temp))
+		source.LogLevels = append(source.LogLevels, KnownSyslogDataSourceLogLevels_STATUS(temp))
 	}
 
 	// Set property "Name":
@@ -15304,9 +15344,9 @@ func (source *SyslogDataSource_STATUS) AssignProperties_From_SyslogDataSource_ST
 
 	// FacilityNames
 	if origin.FacilityNames != nil {
-		facilityNameList := make([]SyslogDataSource_FacilityNames_STATUS, len(origin.FacilityNames))
+		facilityNameList := make([]KnownSyslogDataSourceFacilityNames_STATUS, len(origin.FacilityNames))
 		for facilityNameIndex, facilityNameItem := range origin.FacilityNames {
-			facilityNameList[facilityNameIndex] = genruntime.ToEnum(facilityNameItem, syslogDataSource_FacilityNames_STATUS_Values)
+			facilityNameList[facilityNameIndex] = genruntime.ToEnum(facilityNameItem, knownSyslogDataSourceFacilityNames_STATUS_Values)
 		}
 		source.FacilityNames = facilityNameList
 	} else {
@@ -15315,9 +15355,9 @@ func (source *SyslogDataSource_STATUS) AssignProperties_From_SyslogDataSource_ST
 
 	// LogLevels
 	if origin.LogLevels != nil {
-		logLevelList := make([]SyslogDataSource_LogLevels_STATUS, len(origin.LogLevels))
+		logLevelList := make([]KnownSyslogDataSourceLogLevels_STATUS, len(origin.LogLevels))
 		for logLevelIndex, logLevelItem := range origin.LogLevels {
-			logLevelList[logLevelIndex] = genruntime.ToEnum(logLevelItem, syslogDataSource_LogLevels_STATUS_Values)
+			logLevelList[logLevelIndex] = genruntime.ToEnum(logLevelItem, knownSyslogDataSourceLogLevels_STATUS_Values)
 		}
 		source.LogLevels = logLevelList
 	} else {
@@ -15657,7 +15697,7 @@ type WindowsFirewallLogsDataSource struct {
 	Name *string `json:"name,omitempty"`
 
 	// ProfileFilter: Firewall logs profile filter
-	ProfileFilter []WindowsFirewallLogsDataSource_ProfileFilter `json:"profileFilter,omitempty"`
+	ProfileFilter []KnownWindowsFirewallLogsDataSourceProfileFilter `json:"profileFilter,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Streams: Firewall logs streams
@@ -15683,7 +15723,7 @@ func (source *WindowsFirewallLogsDataSource) ConvertToARM(resolved genruntime.Co
 	for _, item := range source.ProfileFilter {
 		var temp string
 		temp = string(item)
-		result.ProfileFilter = append(result.ProfileFilter, arm.WindowsFirewallLogsDataSource_ProfileFilter(temp))
+		result.ProfileFilter = append(result.ProfileFilter, arm.KnownWindowsFirewallLogsDataSourceProfileFilter(temp))
 	}
 
 	// Set property "Streams":
@@ -15715,7 +15755,7 @@ func (source *WindowsFirewallLogsDataSource) PopulateFromARM(owner genruntime.Ar
 	for _, item := range typedInput.ProfileFilter {
 		var temp string
 		temp = string(item)
-		source.ProfileFilter = append(source.ProfileFilter, WindowsFirewallLogsDataSource_ProfileFilter(temp))
+		source.ProfileFilter = append(source.ProfileFilter, KnownWindowsFirewallLogsDataSourceProfileFilter(temp))
 	}
 
 	// Set property "Streams":
@@ -15735,9 +15775,9 @@ func (source *WindowsFirewallLogsDataSource) AssignProperties_From_WindowsFirewa
 
 	// ProfileFilter
 	if origin.ProfileFilter != nil {
-		profileFilterList := make([]WindowsFirewallLogsDataSource_ProfileFilter, len(origin.ProfileFilter))
+		profileFilterList := make([]KnownWindowsFirewallLogsDataSourceProfileFilter, len(origin.ProfileFilter))
 		for profileFilterIndex, profileFilterItem := range origin.ProfileFilter {
-			profileFilterList[profileFilterIndex] = genruntime.ToEnum(profileFilterItem, windowsFirewallLogsDataSource_ProfileFilter_Values)
+			profileFilterList[profileFilterIndex] = genruntime.ToEnum(profileFilterItem, knownWindowsFirewallLogsDataSourceProfileFilter_Values)
 		}
 		source.ProfileFilter = profileFilterList
 	} else {
@@ -15792,9 +15832,9 @@ func (source *WindowsFirewallLogsDataSource) Initialize_From_WindowsFirewallLogs
 
 	// ProfileFilter
 	if origin.ProfileFilter != nil {
-		profileFilterList := make([]WindowsFirewallLogsDataSource_ProfileFilter, len(origin.ProfileFilter))
+		profileFilterList := make([]KnownWindowsFirewallLogsDataSourceProfileFilter, len(origin.ProfileFilter))
 		for profileFilterIndex, profileFilterItem := range origin.ProfileFilter {
-			profileFilter := genruntime.ToEnum(string(profileFilterItem), windowsFirewallLogsDataSource_ProfileFilter_Values)
+			profileFilter := genruntime.ToEnum(string(profileFilterItem), knownWindowsFirewallLogsDataSourceProfileFilter_Values)
 			profileFilterList[profileFilterIndex] = profileFilter
 		}
 		source.ProfileFilter = profileFilterList
@@ -15816,7 +15856,7 @@ type WindowsFirewallLogsDataSource_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// ProfileFilter: Firewall logs profile filter
-	ProfileFilter []WindowsFirewallLogsDataSource_ProfileFilter_STATUS `json:"profileFilter,omitempty"`
+	ProfileFilter []KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS `json:"profileFilter,omitempty"`
 
 	// Streams: Firewall logs streams
 	Streams []string `json:"streams,omitempty"`
@@ -15846,7 +15886,7 @@ func (source *WindowsFirewallLogsDataSource_STATUS) PopulateFromARM(owner genrun
 	for _, item := range typedInput.ProfileFilter {
 		var temp string
 		temp = string(item)
-		source.ProfileFilter = append(source.ProfileFilter, WindowsFirewallLogsDataSource_ProfileFilter_STATUS(temp))
+		source.ProfileFilter = append(source.ProfileFilter, KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS(temp))
 	}
 
 	// Set property "Streams":
@@ -15866,9 +15906,9 @@ func (source *WindowsFirewallLogsDataSource_STATUS) AssignProperties_From_Window
 
 	// ProfileFilter
 	if origin.ProfileFilter != nil {
-		profileFilterList := make([]WindowsFirewallLogsDataSource_ProfileFilter_STATUS, len(origin.ProfileFilter))
+		profileFilterList := make([]KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS, len(origin.ProfileFilter))
 		for profileFilterIndex, profileFilterItem := range origin.ProfileFilter {
-			profileFilterList[profileFilterIndex] = genruntime.ToEnum(profileFilterItem, windowsFirewallLogsDataSource_ProfileFilter_STATUS_Values)
+			profileFilterList[profileFilterIndex] = genruntime.ToEnum(profileFilterItem, knownWindowsFirewallLogsDataSourceProfileFilter_STATUS_Values)
 		}
 		source.ProfileFilter = profileFilterList
 	} else {
@@ -15913,150 +15953,6 @@ func (source *WindowsFirewallLogsDataSource_STATUS) AssignProperties_To_WindowsF
 
 	// No error
 	return nil
-}
-
-// +kubebuilder:validation:Enum={"MaxDiskQuotaInMB","Tags","UseTimeReceivedForForwardedEvents"}
-type AgentSetting_Name string
-
-const (
-	AgentSetting_Name_MaxDiskQuotaInMB                  = AgentSetting_Name("MaxDiskQuotaInMB")
-	AgentSetting_Name_Tags                              = AgentSetting_Name("Tags")
-	AgentSetting_Name_UseTimeReceivedForForwardedEvents = AgentSetting_Name("UseTimeReceivedForForwardedEvents")
-)
-
-// Mapping from string to AgentSetting_Name
-var agentSetting_Name_Values = map[string]AgentSetting_Name{
-	"maxdiskquotainmb":                  AgentSetting_Name_MaxDiskQuotaInMB,
-	"tags":                              AgentSetting_Name_Tags,
-	"usetimereceivedforforwardedevents": AgentSetting_Name_UseTimeReceivedForForwardedEvents,
-}
-
-type AgentSetting_Name_STATUS string
-
-const (
-	AgentSetting_Name_STATUS_MaxDiskQuotaInMB                  = AgentSetting_Name_STATUS("MaxDiskQuotaInMB")
-	AgentSetting_Name_STATUS_Tags                              = AgentSetting_Name_STATUS("Tags")
-	AgentSetting_Name_STATUS_UseTimeReceivedForForwardedEvents = AgentSetting_Name_STATUS("UseTimeReceivedForForwardedEvents")
-)
-
-// Mapping from string to AgentSetting_Name_STATUS
-var agentSetting_Name_STATUS_Values = map[string]AgentSetting_Name_STATUS{
-	"maxdiskquotainmb":                  AgentSetting_Name_STATUS_MaxDiskQuotaInMB,
-	"tags":                              AgentSetting_Name_STATUS_Tags,
-	"usetimereceivedforforwardedevents": AgentSetting_Name_STATUS_UseTimeReceivedForForwardedEvents,
-}
-
-// +kubebuilder:validation:Enum={"boolean","datetime","dynamic","int","long","real","string"}
-type ColumnDefinition_Type string
-
-const (
-	ColumnDefinition_Type_Boolean  = ColumnDefinition_Type("boolean")
-	ColumnDefinition_Type_Datetime = ColumnDefinition_Type("datetime")
-	ColumnDefinition_Type_Dynamic  = ColumnDefinition_Type("dynamic")
-	ColumnDefinition_Type_Int      = ColumnDefinition_Type("int")
-	ColumnDefinition_Type_Long     = ColumnDefinition_Type("long")
-	ColumnDefinition_Type_Real     = ColumnDefinition_Type("real")
-	ColumnDefinition_Type_String   = ColumnDefinition_Type("string")
-)
-
-// Mapping from string to ColumnDefinition_Type
-var columnDefinition_Type_Values = map[string]ColumnDefinition_Type{
-	"boolean":  ColumnDefinition_Type_Boolean,
-	"datetime": ColumnDefinition_Type_Datetime,
-	"dynamic":  ColumnDefinition_Type_Dynamic,
-	"int":      ColumnDefinition_Type_Int,
-	"long":     ColumnDefinition_Type_Long,
-	"real":     ColumnDefinition_Type_Real,
-	"string":   ColumnDefinition_Type_String,
-}
-
-type ColumnDefinition_Type_STATUS string
-
-const (
-	ColumnDefinition_Type_STATUS_Boolean  = ColumnDefinition_Type_STATUS("boolean")
-	ColumnDefinition_Type_STATUS_Datetime = ColumnDefinition_Type_STATUS("datetime")
-	ColumnDefinition_Type_STATUS_Dynamic  = ColumnDefinition_Type_STATUS("dynamic")
-	ColumnDefinition_Type_STATUS_Int      = ColumnDefinition_Type_STATUS("int")
-	ColumnDefinition_Type_STATUS_Long     = ColumnDefinition_Type_STATUS("long")
-	ColumnDefinition_Type_STATUS_Real     = ColumnDefinition_Type_STATUS("real")
-	ColumnDefinition_Type_STATUS_String   = ColumnDefinition_Type_STATUS("string")
-)
-
-// Mapping from string to ColumnDefinition_Type_STATUS
-var columnDefinition_Type_STATUS_Values = map[string]ColumnDefinition_Type_STATUS{
-	"boolean":  ColumnDefinition_Type_STATUS_Boolean,
-	"datetime": ColumnDefinition_Type_STATUS_Datetime,
-	"dynamic":  ColumnDefinition_Type_STATUS_Dynamic,
-	"int":      ColumnDefinition_Type_STATUS_Int,
-	"long":     ColumnDefinition_Type_STATUS_Long,
-	"real":     ColumnDefinition_Type_STATUS_Real,
-	"string":   ColumnDefinition_Type_STATUS_String,
-}
-
-// +kubebuilder:validation:Enum={"Critical","Error","Informational","Verbose","Warning"}
-type EtwProviderDataSource_LogLevel string
-
-const (
-	EtwProviderDataSource_LogLevel_Critical      = EtwProviderDataSource_LogLevel("Critical")
-	EtwProviderDataSource_LogLevel_Error         = EtwProviderDataSource_LogLevel("Error")
-	EtwProviderDataSource_LogLevel_Informational = EtwProviderDataSource_LogLevel("Informational")
-	EtwProviderDataSource_LogLevel_Verbose       = EtwProviderDataSource_LogLevel("Verbose")
-	EtwProviderDataSource_LogLevel_Warning       = EtwProviderDataSource_LogLevel("Warning")
-)
-
-// Mapping from string to EtwProviderDataSource_LogLevel
-var etwProviderDataSource_LogLevel_Values = map[string]EtwProviderDataSource_LogLevel{
-	"critical":      EtwProviderDataSource_LogLevel_Critical,
-	"error":         EtwProviderDataSource_LogLevel_Error,
-	"informational": EtwProviderDataSource_LogLevel_Informational,
-	"verbose":       EtwProviderDataSource_LogLevel_Verbose,
-	"warning":       EtwProviderDataSource_LogLevel_Warning,
-}
-
-type EtwProviderDataSource_LogLevel_STATUS string
-
-const (
-	EtwProviderDataSource_LogLevel_STATUS_Critical      = EtwProviderDataSource_LogLevel_STATUS("Critical")
-	EtwProviderDataSource_LogLevel_STATUS_Error         = EtwProviderDataSource_LogLevel_STATUS("Error")
-	EtwProviderDataSource_LogLevel_STATUS_Informational = EtwProviderDataSource_LogLevel_STATUS("Informational")
-	EtwProviderDataSource_LogLevel_STATUS_Verbose       = EtwProviderDataSource_LogLevel_STATUS("Verbose")
-	EtwProviderDataSource_LogLevel_STATUS_Warning       = EtwProviderDataSource_LogLevel_STATUS("Warning")
-)
-
-// Mapping from string to EtwProviderDataSource_LogLevel_STATUS
-var etwProviderDataSource_LogLevel_STATUS_Values = map[string]EtwProviderDataSource_LogLevel_STATUS{
-	"critical":      EtwProviderDataSource_LogLevel_STATUS_Critical,
-	"error":         EtwProviderDataSource_LogLevel_STATUS_Error,
-	"informational": EtwProviderDataSource_LogLevel_STATUS_Informational,
-	"verbose":       EtwProviderDataSource_LogLevel_STATUS_Verbose,
-	"warning":       EtwProviderDataSource_LogLevel_STATUS_Warning,
-}
-
-// +kubebuilder:validation:Enum={"EventSource","Manifest"}
-type EtwProviderDataSource_ProviderType string
-
-const (
-	EtwProviderDataSource_ProviderType_EventSource = EtwProviderDataSource_ProviderType("EventSource")
-	EtwProviderDataSource_ProviderType_Manifest    = EtwProviderDataSource_ProviderType("Manifest")
-)
-
-// Mapping from string to EtwProviderDataSource_ProviderType
-var etwProviderDataSource_ProviderType_Values = map[string]EtwProviderDataSource_ProviderType{
-	"eventsource": EtwProviderDataSource_ProviderType_EventSource,
-	"manifest":    EtwProviderDataSource_ProviderType_Manifest,
-}
-
-type EtwProviderDataSource_ProviderType_STATUS string
-
-const (
-	EtwProviderDataSource_ProviderType_STATUS_EventSource = EtwProviderDataSource_ProviderType_STATUS("EventSource")
-	EtwProviderDataSource_ProviderType_STATUS_Manifest    = EtwProviderDataSource_ProviderType_STATUS("Manifest")
-)
-
-// Mapping from string to EtwProviderDataSource_ProviderType_STATUS
-var etwProviderDataSource_ProviderType_STATUS_Values = map[string]EtwProviderDataSource_ProviderType_STATUS{
-	"eventsource": EtwProviderDataSource_ProviderType_STATUS_EventSource,
-	"manifest":    EtwProviderDataSource_ProviderType_STATUS_Manifest,
 }
 
 type EventHubDataSource struct {
@@ -16280,31 +16176,519 @@ func (source *EventHubDataSource_STATUS) AssignProperties_To_EventHubDataSource_
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"json","text"}
-type LogFilesDataSource_Format string
+// The name of the setting.
+// Must be part of the list of supported settings
+// +kubebuilder:validation:Enum={"MaxDiskQuotaInMB","Tags","UseTimeReceivedForForwardedEvents"}
+type KnownAgentSettingName string
 
 const (
-	LogFilesDataSource_Format_Json = LogFilesDataSource_Format("json")
-	LogFilesDataSource_Format_Text = LogFilesDataSource_Format("text")
+	KnownAgentSettingName_MaxDiskQuotaInMB                  = KnownAgentSettingName("MaxDiskQuotaInMB")
+	KnownAgentSettingName_Tags                              = KnownAgentSettingName("Tags")
+	KnownAgentSettingName_UseTimeReceivedForForwardedEvents = KnownAgentSettingName("UseTimeReceivedForForwardedEvents")
 )
 
-// Mapping from string to LogFilesDataSource_Format
-var logFilesDataSource_Format_Values = map[string]LogFilesDataSource_Format{
-	"json": LogFilesDataSource_Format_Json,
-	"text": LogFilesDataSource_Format_Text,
+// Mapping from string to KnownAgentSettingName
+var knownAgentSettingName_Values = map[string]KnownAgentSettingName{
+	"maxdiskquotainmb":                  KnownAgentSettingName_MaxDiskQuotaInMB,
+	"tags":                              KnownAgentSettingName_Tags,
+	"usetimereceivedforforwardedevents": KnownAgentSettingName_UseTimeReceivedForForwardedEvents,
 }
 
-type LogFilesDataSource_Format_STATUS string
+// The name of the setting.
+// Must be part of the list of supported settings
+type KnownAgentSettingName_STATUS string
 
 const (
-	LogFilesDataSource_Format_STATUS_Json = LogFilesDataSource_Format_STATUS("json")
-	LogFilesDataSource_Format_STATUS_Text = LogFilesDataSource_Format_STATUS("text")
+	KnownAgentSettingName_STATUS_MaxDiskQuotaInMB                  = KnownAgentSettingName_STATUS("MaxDiskQuotaInMB")
+	KnownAgentSettingName_STATUS_Tags                              = KnownAgentSettingName_STATUS("Tags")
+	KnownAgentSettingName_STATUS_UseTimeReceivedForForwardedEvents = KnownAgentSettingName_STATUS("UseTimeReceivedForForwardedEvents")
 )
 
-// Mapping from string to LogFilesDataSource_Format_STATUS
-var logFilesDataSource_Format_STATUS_Values = map[string]LogFilesDataSource_Format_STATUS{
-	"json": LogFilesDataSource_Format_STATUS_Json,
-	"text": LogFilesDataSource_Format_STATUS_Text,
+// Mapping from string to KnownAgentSettingName_STATUS
+var knownAgentSettingName_STATUS_Values = map[string]KnownAgentSettingName_STATUS{
+	"maxdiskquotainmb":                  KnownAgentSettingName_STATUS_MaxDiskQuotaInMB,
+	"tags":                              KnownAgentSettingName_STATUS_Tags,
+	"usetimereceivedforforwardedevents": KnownAgentSettingName_STATUS_UseTimeReceivedForForwardedEvents,
+}
+
+// The type of the column data.
+// +kubebuilder:validation:Enum={"boolean","datetime","dynamic","int","long","real","string"}
+type KnownColumnDefinitionType string
+
+const (
+	KnownColumnDefinitionType_Boolean  = KnownColumnDefinitionType("boolean")
+	KnownColumnDefinitionType_Datetime = KnownColumnDefinitionType("datetime")
+	KnownColumnDefinitionType_Dynamic  = KnownColumnDefinitionType("dynamic")
+	KnownColumnDefinitionType_Int      = KnownColumnDefinitionType("int")
+	KnownColumnDefinitionType_Long     = KnownColumnDefinitionType("long")
+	KnownColumnDefinitionType_Real     = KnownColumnDefinitionType("real")
+	KnownColumnDefinitionType_String   = KnownColumnDefinitionType("string")
+)
+
+// Mapping from string to KnownColumnDefinitionType
+var knownColumnDefinitionType_Values = map[string]KnownColumnDefinitionType{
+	"boolean":  KnownColumnDefinitionType_Boolean,
+	"datetime": KnownColumnDefinitionType_Datetime,
+	"dynamic":  KnownColumnDefinitionType_Dynamic,
+	"int":      KnownColumnDefinitionType_Int,
+	"long":     KnownColumnDefinitionType_Long,
+	"real":     KnownColumnDefinitionType_Real,
+	"string":   KnownColumnDefinitionType_String,
+}
+
+// The type of the column data.
+type KnownColumnDefinitionType_STATUS string
+
+const (
+	KnownColumnDefinitionType_STATUS_Boolean  = KnownColumnDefinitionType_STATUS("boolean")
+	KnownColumnDefinitionType_STATUS_Datetime = KnownColumnDefinitionType_STATUS("datetime")
+	KnownColumnDefinitionType_STATUS_Dynamic  = KnownColumnDefinitionType_STATUS("dynamic")
+	KnownColumnDefinitionType_STATUS_Int      = KnownColumnDefinitionType_STATUS("int")
+	KnownColumnDefinitionType_STATUS_Long     = KnownColumnDefinitionType_STATUS("long")
+	KnownColumnDefinitionType_STATUS_Real     = KnownColumnDefinitionType_STATUS("real")
+	KnownColumnDefinitionType_STATUS_String   = KnownColumnDefinitionType_STATUS("string")
+)
+
+// Mapping from string to KnownColumnDefinitionType_STATUS
+var knownColumnDefinitionType_STATUS_Values = map[string]KnownColumnDefinitionType_STATUS{
+	"boolean":  KnownColumnDefinitionType_STATUS_Boolean,
+	"datetime": KnownColumnDefinitionType_STATUS_Datetime,
+	"dynamic":  KnownColumnDefinitionType_STATUS_Dynamic,
+	"int":      KnownColumnDefinitionType_STATUS_Int,
+	"long":     KnownColumnDefinitionType_STATUS_Long,
+	"real":     KnownColumnDefinitionType_STATUS_Real,
+	"string":   KnownColumnDefinitionType_STATUS_String,
+}
+
+// Minimal level of detail to be logged
+// +kubebuilder:validation:Enum={"Critical","Error","Informational","Verbose","Warning"}
+type KnownEtwProviderDataSourceLogLevel string
+
+const (
+	KnownEtwProviderDataSourceLogLevel_Critical      = KnownEtwProviderDataSourceLogLevel("Critical")
+	KnownEtwProviderDataSourceLogLevel_Error         = KnownEtwProviderDataSourceLogLevel("Error")
+	KnownEtwProviderDataSourceLogLevel_Informational = KnownEtwProviderDataSourceLogLevel("Informational")
+	KnownEtwProviderDataSourceLogLevel_Verbose       = KnownEtwProviderDataSourceLogLevel("Verbose")
+	KnownEtwProviderDataSourceLogLevel_Warning       = KnownEtwProviderDataSourceLogLevel("Warning")
+)
+
+// Mapping from string to KnownEtwProviderDataSourceLogLevel
+var knownEtwProviderDataSourceLogLevel_Values = map[string]KnownEtwProviderDataSourceLogLevel{
+	"critical":      KnownEtwProviderDataSourceLogLevel_Critical,
+	"error":         KnownEtwProviderDataSourceLogLevel_Error,
+	"informational": KnownEtwProviderDataSourceLogLevel_Informational,
+	"verbose":       KnownEtwProviderDataSourceLogLevel_Verbose,
+	"warning":       KnownEtwProviderDataSourceLogLevel_Warning,
+}
+
+// Minimal level of detail to be logged
+type KnownEtwProviderDataSourceLogLevel_STATUS string
+
+const (
+	KnownEtwProviderDataSourceLogLevel_STATUS_Critical      = KnownEtwProviderDataSourceLogLevel_STATUS("Critical")
+	KnownEtwProviderDataSourceLogLevel_STATUS_Error         = KnownEtwProviderDataSourceLogLevel_STATUS("Error")
+	KnownEtwProviderDataSourceLogLevel_STATUS_Informational = KnownEtwProviderDataSourceLogLevel_STATUS("Informational")
+	KnownEtwProviderDataSourceLogLevel_STATUS_Verbose       = KnownEtwProviderDataSourceLogLevel_STATUS("Verbose")
+	KnownEtwProviderDataSourceLogLevel_STATUS_Warning       = KnownEtwProviderDataSourceLogLevel_STATUS("Warning")
+)
+
+// Mapping from string to KnownEtwProviderDataSourceLogLevel_STATUS
+var knownEtwProviderDataSourceLogLevel_STATUS_Values = map[string]KnownEtwProviderDataSourceLogLevel_STATUS{
+	"critical":      KnownEtwProviderDataSourceLogLevel_STATUS_Critical,
+	"error":         KnownEtwProviderDataSourceLogLevel_STATUS_Error,
+	"informational": KnownEtwProviderDataSourceLogLevel_STATUS_Informational,
+	"verbose":       KnownEtwProviderDataSourceLogLevel_STATUS_Verbose,
+	"warning":       KnownEtwProviderDataSourceLogLevel_STATUS_Warning,
+}
+
+// Provider type specification: By Manifest GUID or by Event Source name
+// +kubebuilder:validation:Enum={"EventSource","Manifest"}
+type KnownEtwProviderType string
+
+const (
+	KnownEtwProviderType_EventSource = KnownEtwProviderType("EventSource")
+	KnownEtwProviderType_Manifest    = KnownEtwProviderType("Manifest")
+)
+
+// Mapping from string to KnownEtwProviderType
+var knownEtwProviderType_Values = map[string]KnownEtwProviderType{
+	"eventsource": KnownEtwProviderType_EventSource,
+	"manifest":    KnownEtwProviderType_Manifest,
+}
+
+// Provider type specification: By Manifest GUID or by Event Source name
+type KnownEtwProviderType_STATUS string
+
+const (
+	KnownEtwProviderType_STATUS_EventSource = KnownEtwProviderType_STATUS("EventSource")
+	KnownEtwProviderType_STATUS_Manifest    = KnownEtwProviderType_STATUS("Manifest")
+)
+
+// Mapping from string to KnownEtwProviderType_STATUS
+var knownEtwProviderType_STATUS_Values = map[string]KnownEtwProviderType_STATUS{
+	"eventsource": KnownEtwProviderType_STATUS_EventSource,
+	"manifest":    KnownEtwProviderType_STATUS_Manifest,
+}
+
+// The data format of the log files
+// +kubebuilder:validation:Enum={"json","text"}
+type KnownLogFilesDataSourceFormat string
+
+const (
+	KnownLogFilesDataSourceFormat_Json = KnownLogFilesDataSourceFormat("json")
+	KnownLogFilesDataSourceFormat_Text = KnownLogFilesDataSourceFormat("text")
+)
+
+// Mapping from string to KnownLogFilesDataSourceFormat
+var knownLogFilesDataSourceFormat_Values = map[string]KnownLogFilesDataSourceFormat{
+	"json": KnownLogFilesDataSourceFormat_Json,
+	"text": KnownLogFilesDataSourceFormat_Text,
+}
+
+// The data format of the log files
+type KnownLogFilesDataSourceFormat_STATUS string
+
+const (
+	KnownLogFilesDataSourceFormat_STATUS_Json = KnownLogFilesDataSourceFormat_STATUS("json")
+	KnownLogFilesDataSourceFormat_STATUS_Text = KnownLogFilesDataSourceFormat_STATUS("text")
+)
+
+// Mapping from string to KnownLogFilesDataSourceFormat_STATUS
+var knownLogFilesDataSourceFormat_STATUS_Values = map[string]KnownLogFilesDataSourceFormat_STATUS{
+	"json": KnownLogFilesDataSourceFormat_STATUS_Json,
+	"text": KnownLogFilesDataSourceFormat_STATUS_Text,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft-OTel-Logs"}
+type KnownOtelLogsDataSourceStreams string
+
+const KnownOtelLogsDataSourceStreams_MicrosoftOTelLogs = KnownOtelLogsDataSourceStreams("Microsoft-OTel-Logs")
+
+// Mapping from string to KnownOtelLogsDataSourceStreams
+var knownOtelLogsDataSourceStreams_Values = map[string]KnownOtelLogsDataSourceStreams{
+	"microsoft-otel-logs": KnownOtelLogsDataSourceStreams_MicrosoftOTelLogs,
+}
+
+type KnownOtelLogsDataSourceStreams_STATUS string
+
+const KnownOtelLogsDataSourceStreams_STATUS_MicrosoftOTelLogs = KnownOtelLogsDataSourceStreams_STATUS("Microsoft-OTel-Logs")
+
+// Mapping from string to KnownOtelLogsDataSourceStreams_STATUS
+var knownOtelLogsDataSourceStreams_STATUS_Values = map[string]KnownOtelLogsDataSourceStreams_STATUS{
+	"microsoft-otel-logs": KnownOtelLogsDataSourceStreams_STATUS_MicrosoftOTelLogs,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft-OTel-Logs"}
+type KnownOtelLogsDirectDataSourceStreams string
+
+const KnownOtelLogsDirectDataSourceStreams_MicrosoftOTelLogs = KnownOtelLogsDirectDataSourceStreams("Microsoft-OTel-Logs")
+
+// Mapping from string to KnownOtelLogsDirectDataSourceStreams
+var knownOtelLogsDirectDataSourceStreams_Values = map[string]KnownOtelLogsDirectDataSourceStreams{
+	"microsoft-otel-logs": KnownOtelLogsDirectDataSourceStreams_MicrosoftOTelLogs,
+}
+
+type KnownOtelLogsDirectDataSourceStreams_STATUS string
+
+const KnownOtelLogsDirectDataSourceStreams_STATUS_MicrosoftOTelLogs = KnownOtelLogsDirectDataSourceStreams_STATUS("Microsoft-OTel-Logs")
+
+// Mapping from string to KnownOtelLogsDirectDataSourceStreams_STATUS
+var knownOtelLogsDirectDataSourceStreams_STATUS_Values = map[string]KnownOtelLogsDirectDataSourceStreams_STATUS{
+	"microsoft-otel-logs": KnownOtelLogsDirectDataSourceStreams_STATUS_MicrosoftOTelLogs,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft-OTel-Traces-Events","Microsoft-OTel-Traces-Resources","Microsoft-OTel-Traces-Spans"}
+type KnownOtelTracesDataSourceStreams string
+
+const (
+	KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesEvents    = KnownOtelTracesDataSourceStreams("Microsoft-OTel-Traces-Events")
+	KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesResources = KnownOtelTracesDataSourceStreams("Microsoft-OTel-Traces-Resources")
+	KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesSpans     = KnownOtelTracesDataSourceStreams("Microsoft-OTel-Traces-Spans")
+)
+
+// Mapping from string to KnownOtelTracesDataSourceStreams
+var knownOtelTracesDataSourceStreams_Values = map[string]KnownOtelTracesDataSourceStreams{
+	"microsoft-otel-traces-events":    KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesEvents,
+	"microsoft-otel-traces-resources": KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesResources,
+	"microsoft-otel-traces-spans":     KnownOtelTracesDataSourceStreams_MicrosoftOTelTracesSpans,
+}
+
+type KnownOtelTracesDataSourceStreams_STATUS string
+
+const (
+	KnownOtelTracesDataSourceStreams_STATUS_MicrosoftOTelTracesEvents    = KnownOtelTracesDataSourceStreams_STATUS("Microsoft-OTel-Traces-Events")
+	KnownOtelTracesDataSourceStreams_STATUS_MicrosoftOTelTracesResources = KnownOtelTracesDataSourceStreams_STATUS("Microsoft-OTel-Traces-Resources")
+	KnownOtelTracesDataSourceStreams_STATUS_MicrosoftOTelTracesSpans     = KnownOtelTracesDataSourceStreams_STATUS("Microsoft-OTel-Traces-Spans")
+)
+
+// Mapping from string to KnownOtelTracesDataSourceStreams_STATUS
+var knownOtelTracesDataSourceStreams_STATUS_Values = map[string]KnownOtelTracesDataSourceStreams_STATUS{
+	"microsoft-otel-traces-events":    KnownOtelTracesDataSourceStreams_STATUS_MicrosoftOTelTracesEvents,
+	"microsoft-otel-traces-resources": KnownOtelTracesDataSourceStreams_STATUS_MicrosoftOTelTracesResources,
+	"microsoft-otel-traces-spans":     KnownOtelTracesDataSourceStreams_STATUS_MicrosoftOTelTracesSpans,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft-OTel-Traces-Events","Microsoft-OTel-Traces-Resources","Microsoft-OTel-Traces-Spans"}
+type KnownOtelTracesDirectDataSourceStreams string
+
+const (
+	KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesEvents    = KnownOtelTracesDirectDataSourceStreams("Microsoft-OTel-Traces-Events")
+	KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesResources = KnownOtelTracesDirectDataSourceStreams("Microsoft-OTel-Traces-Resources")
+	KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesSpans     = KnownOtelTracesDirectDataSourceStreams("Microsoft-OTel-Traces-Spans")
+)
+
+// Mapping from string to KnownOtelTracesDirectDataSourceStreams
+var knownOtelTracesDirectDataSourceStreams_Values = map[string]KnownOtelTracesDirectDataSourceStreams{
+	"microsoft-otel-traces-events":    KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesEvents,
+	"microsoft-otel-traces-resources": KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesResources,
+	"microsoft-otel-traces-spans":     KnownOtelTracesDirectDataSourceStreams_MicrosoftOTelTracesSpans,
+}
+
+type KnownOtelTracesDirectDataSourceStreams_STATUS string
+
+const (
+	KnownOtelTracesDirectDataSourceStreams_STATUS_MicrosoftOTelTracesEvents    = KnownOtelTracesDirectDataSourceStreams_STATUS("Microsoft-OTel-Traces-Events")
+	KnownOtelTracesDirectDataSourceStreams_STATUS_MicrosoftOTelTracesResources = KnownOtelTracesDirectDataSourceStreams_STATUS("Microsoft-OTel-Traces-Resources")
+	KnownOtelTracesDirectDataSourceStreams_STATUS_MicrosoftOTelTracesSpans     = KnownOtelTracesDirectDataSourceStreams_STATUS("Microsoft-OTel-Traces-Spans")
+)
+
+// Mapping from string to KnownOtelTracesDirectDataSourceStreams_STATUS
+var knownOtelTracesDirectDataSourceStreams_STATUS_Values = map[string]KnownOtelTracesDirectDataSourceStreams_STATUS{
+	"microsoft-otel-traces-events":    KnownOtelTracesDirectDataSourceStreams_STATUS_MicrosoftOTelTracesEvents,
+	"microsoft-otel-traces-resources": KnownOtelTracesDirectDataSourceStreams_STATUS_MicrosoftOTelTracesResources,
+	"microsoft-otel-traces-spans":     KnownOtelTracesDirectDataSourceStreams_STATUS_MicrosoftOTelTracesSpans,
+}
+
+// +kubebuilder:validation:Enum={"Microsoft-OtelPerfMetrics"}
+type KnownPerformanceCountersOTelDataSourceStreams string
+
+const KnownPerformanceCountersOTelDataSourceStreams_MicrosoftOtelPerfMetrics = KnownPerformanceCountersOTelDataSourceStreams("Microsoft-OtelPerfMetrics")
+
+// Mapping from string to KnownPerformanceCountersOTelDataSourceStreams
+var knownPerformanceCountersOTelDataSourceStreams_Values = map[string]KnownPerformanceCountersOTelDataSourceStreams{
+	"microsoft-otelperfmetrics": KnownPerformanceCountersOTelDataSourceStreams_MicrosoftOtelPerfMetrics,
+}
+
+type KnownPerformanceCountersOTelDataSourceStreams_STATUS string
+
+const KnownPerformanceCountersOTelDataSourceStreams_STATUS_MicrosoftOtelPerfMetrics = KnownPerformanceCountersOTelDataSourceStreams_STATUS("Microsoft-OtelPerfMetrics")
+
+// Mapping from string to KnownPerformanceCountersOTelDataSourceStreams_STATUS
+var knownPerformanceCountersOTelDataSourceStreams_STATUS_Values = map[string]KnownPerformanceCountersOTelDataSourceStreams_STATUS{
+	"microsoft-otelperfmetrics": KnownPerformanceCountersOTelDataSourceStreams_STATUS_MicrosoftOtelPerfMetrics,
+}
+
+// +kubebuilder:validation:Enum={"alert","audit","auth","authpriv","clock","cron","daemon","ftp","kern","local0","local1","local2","local3","local4","local5","local6","local7","lpr","mail","mark","news","nopri","ntp","*","syslog","user","uucp"}
+type KnownSyslogDataSourceFacilityNames string
+
+const (
+	KnownSyslogDataSourceFacilityNames_Alert    = KnownSyslogDataSourceFacilityNames("alert")
+	KnownSyslogDataSourceFacilityNames_Audit    = KnownSyslogDataSourceFacilityNames("audit")
+	KnownSyslogDataSourceFacilityNames_Auth     = KnownSyslogDataSourceFacilityNames("auth")
+	KnownSyslogDataSourceFacilityNames_Authpriv = KnownSyslogDataSourceFacilityNames("authpriv")
+	KnownSyslogDataSourceFacilityNames_Clock    = KnownSyslogDataSourceFacilityNames("clock")
+	KnownSyslogDataSourceFacilityNames_Cron     = KnownSyslogDataSourceFacilityNames("cron")
+	KnownSyslogDataSourceFacilityNames_Daemon   = KnownSyslogDataSourceFacilityNames("daemon")
+	KnownSyslogDataSourceFacilityNames_Ftp      = KnownSyslogDataSourceFacilityNames("ftp")
+	KnownSyslogDataSourceFacilityNames_Kern     = KnownSyslogDataSourceFacilityNames("kern")
+	KnownSyslogDataSourceFacilityNames_Local0   = KnownSyslogDataSourceFacilityNames("local0")
+	KnownSyslogDataSourceFacilityNames_Local1   = KnownSyslogDataSourceFacilityNames("local1")
+	KnownSyslogDataSourceFacilityNames_Local2   = KnownSyslogDataSourceFacilityNames("local2")
+	KnownSyslogDataSourceFacilityNames_Local3   = KnownSyslogDataSourceFacilityNames("local3")
+	KnownSyslogDataSourceFacilityNames_Local4   = KnownSyslogDataSourceFacilityNames("local4")
+	KnownSyslogDataSourceFacilityNames_Local5   = KnownSyslogDataSourceFacilityNames("local5")
+	KnownSyslogDataSourceFacilityNames_Local6   = KnownSyslogDataSourceFacilityNames("local6")
+	KnownSyslogDataSourceFacilityNames_Local7   = KnownSyslogDataSourceFacilityNames("local7")
+	KnownSyslogDataSourceFacilityNames_Lpr      = KnownSyslogDataSourceFacilityNames("lpr")
+	KnownSyslogDataSourceFacilityNames_Mail     = KnownSyslogDataSourceFacilityNames("mail")
+	KnownSyslogDataSourceFacilityNames_Mark     = KnownSyslogDataSourceFacilityNames("mark")
+	KnownSyslogDataSourceFacilityNames_News     = KnownSyslogDataSourceFacilityNames("news")
+	KnownSyslogDataSourceFacilityNames_Nopri    = KnownSyslogDataSourceFacilityNames("nopri")
+	KnownSyslogDataSourceFacilityNames_Ntp      = KnownSyslogDataSourceFacilityNames("ntp")
+	KnownSyslogDataSourceFacilityNames_Star     = KnownSyslogDataSourceFacilityNames("*")
+	KnownSyslogDataSourceFacilityNames_Syslog   = KnownSyslogDataSourceFacilityNames("syslog")
+	KnownSyslogDataSourceFacilityNames_User     = KnownSyslogDataSourceFacilityNames("user")
+	KnownSyslogDataSourceFacilityNames_Uucp     = KnownSyslogDataSourceFacilityNames("uucp")
+)
+
+// Mapping from string to KnownSyslogDataSourceFacilityNames
+var knownSyslogDataSourceFacilityNames_Values = map[string]KnownSyslogDataSourceFacilityNames{
+	"alert":    KnownSyslogDataSourceFacilityNames_Alert,
+	"audit":    KnownSyslogDataSourceFacilityNames_Audit,
+	"auth":     KnownSyslogDataSourceFacilityNames_Auth,
+	"authpriv": KnownSyslogDataSourceFacilityNames_Authpriv,
+	"clock":    KnownSyslogDataSourceFacilityNames_Clock,
+	"cron":     KnownSyslogDataSourceFacilityNames_Cron,
+	"daemon":   KnownSyslogDataSourceFacilityNames_Daemon,
+	"ftp":      KnownSyslogDataSourceFacilityNames_Ftp,
+	"kern":     KnownSyslogDataSourceFacilityNames_Kern,
+	"local0":   KnownSyslogDataSourceFacilityNames_Local0,
+	"local1":   KnownSyslogDataSourceFacilityNames_Local1,
+	"local2":   KnownSyslogDataSourceFacilityNames_Local2,
+	"local3":   KnownSyslogDataSourceFacilityNames_Local3,
+	"local4":   KnownSyslogDataSourceFacilityNames_Local4,
+	"local5":   KnownSyslogDataSourceFacilityNames_Local5,
+	"local6":   KnownSyslogDataSourceFacilityNames_Local6,
+	"local7":   KnownSyslogDataSourceFacilityNames_Local7,
+	"lpr":      KnownSyslogDataSourceFacilityNames_Lpr,
+	"mail":     KnownSyslogDataSourceFacilityNames_Mail,
+	"mark":     KnownSyslogDataSourceFacilityNames_Mark,
+	"news":     KnownSyslogDataSourceFacilityNames_News,
+	"nopri":    KnownSyslogDataSourceFacilityNames_Nopri,
+	"ntp":      KnownSyslogDataSourceFacilityNames_Ntp,
+	"*":        KnownSyslogDataSourceFacilityNames_Star,
+	"syslog":   KnownSyslogDataSourceFacilityNames_Syslog,
+	"user":     KnownSyslogDataSourceFacilityNames_User,
+	"uucp":     KnownSyslogDataSourceFacilityNames_Uucp,
+}
+
+type KnownSyslogDataSourceFacilityNames_STATUS string
+
+const (
+	KnownSyslogDataSourceFacilityNames_STATUS_Alert    = KnownSyslogDataSourceFacilityNames_STATUS("alert")
+	KnownSyslogDataSourceFacilityNames_STATUS_Audit    = KnownSyslogDataSourceFacilityNames_STATUS("audit")
+	KnownSyslogDataSourceFacilityNames_STATUS_Auth     = KnownSyslogDataSourceFacilityNames_STATUS("auth")
+	KnownSyslogDataSourceFacilityNames_STATUS_Authpriv = KnownSyslogDataSourceFacilityNames_STATUS("authpriv")
+	KnownSyslogDataSourceFacilityNames_STATUS_Clock    = KnownSyslogDataSourceFacilityNames_STATUS("clock")
+	KnownSyslogDataSourceFacilityNames_STATUS_Cron     = KnownSyslogDataSourceFacilityNames_STATUS("cron")
+	KnownSyslogDataSourceFacilityNames_STATUS_Daemon   = KnownSyslogDataSourceFacilityNames_STATUS("daemon")
+	KnownSyslogDataSourceFacilityNames_STATUS_Ftp      = KnownSyslogDataSourceFacilityNames_STATUS("ftp")
+	KnownSyslogDataSourceFacilityNames_STATUS_Kern     = KnownSyslogDataSourceFacilityNames_STATUS("kern")
+	KnownSyslogDataSourceFacilityNames_STATUS_Local0   = KnownSyslogDataSourceFacilityNames_STATUS("local0")
+	KnownSyslogDataSourceFacilityNames_STATUS_Local1   = KnownSyslogDataSourceFacilityNames_STATUS("local1")
+	KnownSyslogDataSourceFacilityNames_STATUS_Local2   = KnownSyslogDataSourceFacilityNames_STATUS("local2")
+	KnownSyslogDataSourceFacilityNames_STATUS_Local3   = KnownSyslogDataSourceFacilityNames_STATUS("local3")
+	KnownSyslogDataSourceFacilityNames_STATUS_Local4   = KnownSyslogDataSourceFacilityNames_STATUS("local4")
+	KnownSyslogDataSourceFacilityNames_STATUS_Local5   = KnownSyslogDataSourceFacilityNames_STATUS("local5")
+	KnownSyslogDataSourceFacilityNames_STATUS_Local6   = KnownSyslogDataSourceFacilityNames_STATUS("local6")
+	KnownSyslogDataSourceFacilityNames_STATUS_Local7   = KnownSyslogDataSourceFacilityNames_STATUS("local7")
+	KnownSyslogDataSourceFacilityNames_STATUS_Lpr      = KnownSyslogDataSourceFacilityNames_STATUS("lpr")
+	KnownSyslogDataSourceFacilityNames_STATUS_Mail     = KnownSyslogDataSourceFacilityNames_STATUS("mail")
+	KnownSyslogDataSourceFacilityNames_STATUS_Mark     = KnownSyslogDataSourceFacilityNames_STATUS("mark")
+	KnownSyslogDataSourceFacilityNames_STATUS_News     = KnownSyslogDataSourceFacilityNames_STATUS("news")
+	KnownSyslogDataSourceFacilityNames_STATUS_Nopri    = KnownSyslogDataSourceFacilityNames_STATUS("nopri")
+	KnownSyslogDataSourceFacilityNames_STATUS_Ntp      = KnownSyslogDataSourceFacilityNames_STATUS("ntp")
+	KnownSyslogDataSourceFacilityNames_STATUS_Star     = KnownSyslogDataSourceFacilityNames_STATUS("*")
+	KnownSyslogDataSourceFacilityNames_STATUS_Syslog   = KnownSyslogDataSourceFacilityNames_STATUS("syslog")
+	KnownSyslogDataSourceFacilityNames_STATUS_User     = KnownSyslogDataSourceFacilityNames_STATUS("user")
+	KnownSyslogDataSourceFacilityNames_STATUS_Uucp     = KnownSyslogDataSourceFacilityNames_STATUS("uucp")
+)
+
+// Mapping from string to KnownSyslogDataSourceFacilityNames_STATUS
+var knownSyslogDataSourceFacilityNames_STATUS_Values = map[string]KnownSyslogDataSourceFacilityNames_STATUS{
+	"alert":    KnownSyslogDataSourceFacilityNames_STATUS_Alert,
+	"audit":    KnownSyslogDataSourceFacilityNames_STATUS_Audit,
+	"auth":     KnownSyslogDataSourceFacilityNames_STATUS_Auth,
+	"authpriv": KnownSyslogDataSourceFacilityNames_STATUS_Authpriv,
+	"clock":    KnownSyslogDataSourceFacilityNames_STATUS_Clock,
+	"cron":     KnownSyslogDataSourceFacilityNames_STATUS_Cron,
+	"daemon":   KnownSyslogDataSourceFacilityNames_STATUS_Daemon,
+	"ftp":      KnownSyslogDataSourceFacilityNames_STATUS_Ftp,
+	"kern":     KnownSyslogDataSourceFacilityNames_STATUS_Kern,
+	"local0":   KnownSyslogDataSourceFacilityNames_STATUS_Local0,
+	"local1":   KnownSyslogDataSourceFacilityNames_STATUS_Local1,
+	"local2":   KnownSyslogDataSourceFacilityNames_STATUS_Local2,
+	"local3":   KnownSyslogDataSourceFacilityNames_STATUS_Local3,
+	"local4":   KnownSyslogDataSourceFacilityNames_STATUS_Local4,
+	"local5":   KnownSyslogDataSourceFacilityNames_STATUS_Local5,
+	"local6":   KnownSyslogDataSourceFacilityNames_STATUS_Local6,
+	"local7":   KnownSyslogDataSourceFacilityNames_STATUS_Local7,
+	"lpr":      KnownSyslogDataSourceFacilityNames_STATUS_Lpr,
+	"mail":     KnownSyslogDataSourceFacilityNames_STATUS_Mail,
+	"mark":     KnownSyslogDataSourceFacilityNames_STATUS_Mark,
+	"news":     KnownSyslogDataSourceFacilityNames_STATUS_News,
+	"nopri":    KnownSyslogDataSourceFacilityNames_STATUS_Nopri,
+	"ntp":      KnownSyslogDataSourceFacilityNames_STATUS_Ntp,
+	"*":        KnownSyslogDataSourceFacilityNames_STATUS_Star,
+	"syslog":   KnownSyslogDataSourceFacilityNames_STATUS_Syslog,
+	"user":     KnownSyslogDataSourceFacilityNames_STATUS_User,
+	"uucp":     KnownSyslogDataSourceFacilityNames_STATUS_Uucp,
+}
+
+// +kubebuilder:validation:Enum={"Alert","Critical","Debug","Emergency","Error","Info","Notice","*","Warning"}
+type KnownSyslogDataSourceLogLevels string
+
+const (
+	KnownSyslogDataSourceLogLevels_Alert     = KnownSyslogDataSourceLogLevels("Alert")
+	KnownSyslogDataSourceLogLevels_Critical  = KnownSyslogDataSourceLogLevels("Critical")
+	KnownSyslogDataSourceLogLevels_Debug     = KnownSyslogDataSourceLogLevels("Debug")
+	KnownSyslogDataSourceLogLevels_Emergency = KnownSyslogDataSourceLogLevels("Emergency")
+	KnownSyslogDataSourceLogLevels_Error     = KnownSyslogDataSourceLogLevels("Error")
+	KnownSyslogDataSourceLogLevels_Info      = KnownSyslogDataSourceLogLevels("Info")
+	KnownSyslogDataSourceLogLevels_Notice    = KnownSyslogDataSourceLogLevels("Notice")
+	KnownSyslogDataSourceLogLevels_Star      = KnownSyslogDataSourceLogLevels("*")
+	KnownSyslogDataSourceLogLevels_Warning   = KnownSyslogDataSourceLogLevels("Warning")
+)
+
+// Mapping from string to KnownSyslogDataSourceLogLevels
+var knownSyslogDataSourceLogLevels_Values = map[string]KnownSyslogDataSourceLogLevels{
+	"alert":     KnownSyslogDataSourceLogLevels_Alert,
+	"critical":  KnownSyslogDataSourceLogLevels_Critical,
+	"debug":     KnownSyslogDataSourceLogLevels_Debug,
+	"emergency": KnownSyslogDataSourceLogLevels_Emergency,
+	"error":     KnownSyslogDataSourceLogLevels_Error,
+	"info":      KnownSyslogDataSourceLogLevels_Info,
+	"notice":    KnownSyslogDataSourceLogLevels_Notice,
+	"*":         KnownSyslogDataSourceLogLevels_Star,
+	"warning":   KnownSyslogDataSourceLogLevels_Warning,
+}
+
+type KnownSyslogDataSourceLogLevels_STATUS string
+
+const (
+	KnownSyslogDataSourceLogLevels_STATUS_Alert     = KnownSyslogDataSourceLogLevels_STATUS("Alert")
+	KnownSyslogDataSourceLogLevels_STATUS_Critical  = KnownSyslogDataSourceLogLevels_STATUS("Critical")
+	KnownSyslogDataSourceLogLevels_STATUS_Debug     = KnownSyslogDataSourceLogLevels_STATUS("Debug")
+	KnownSyslogDataSourceLogLevels_STATUS_Emergency = KnownSyslogDataSourceLogLevels_STATUS("Emergency")
+	KnownSyslogDataSourceLogLevels_STATUS_Error     = KnownSyslogDataSourceLogLevels_STATUS("Error")
+	KnownSyslogDataSourceLogLevels_STATUS_Info      = KnownSyslogDataSourceLogLevels_STATUS("Info")
+	KnownSyslogDataSourceLogLevels_STATUS_Notice    = KnownSyslogDataSourceLogLevels_STATUS("Notice")
+	KnownSyslogDataSourceLogLevels_STATUS_Star      = KnownSyslogDataSourceLogLevels_STATUS("*")
+	KnownSyslogDataSourceLogLevels_STATUS_Warning   = KnownSyslogDataSourceLogLevels_STATUS("Warning")
+)
+
+// Mapping from string to KnownSyslogDataSourceLogLevels_STATUS
+var knownSyslogDataSourceLogLevels_STATUS_Values = map[string]KnownSyslogDataSourceLogLevels_STATUS{
+	"alert":     KnownSyslogDataSourceLogLevels_STATUS_Alert,
+	"critical":  KnownSyslogDataSourceLogLevels_STATUS_Critical,
+	"debug":     KnownSyslogDataSourceLogLevels_STATUS_Debug,
+	"emergency": KnownSyslogDataSourceLogLevels_STATUS_Emergency,
+	"error":     KnownSyslogDataSourceLogLevels_STATUS_Error,
+	"info":      KnownSyslogDataSourceLogLevels_STATUS_Info,
+	"notice":    KnownSyslogDataSourceLogLevels_STATUS_Notice,
+	"*":         KnownSyslogDataSourceLogLevels_STATUS_Star,
+	"warning":   KnownSyslogDataSourceLogLevels_STATUS_Warning,
+}
+
+// +kubebuilder:validation:Enum={"Domain","Private","Public"}
+type KnownWindowsFirewallLogsDataSourceProfileFilter string
+
+const (
+	KnownWindowsFirewallLogsDataSourceProfileFilter_Domain  = KnownWindowsFirewallLogsDataSourceProfileFilter("Domain")
+	KnownWindowsFirewallLogsDataSourceProfileFilter_Private = KnownWindowsFirewallLogsDataSourceProfileFilter("Private")
+	KnownWindowsFirewallLogsDataSourceProfileFilter_Public  = KnownWindowsFirewallLogsDataSourceProfileFilter("Public")
+)
+
+// Mapping from string to KnownWindowsFirewallLogsDataSourceProfileFilter
+var knownWindowsFirewallLogsDataSourceProfileFilter_Values = map[string]KnownWindowsFirewallLogsDataSourceProfileFilter{
+	"domain":  KnownWindowsFirewallLogsDataSourceProfileFilter_Domain,
+	"private": KnownWindowsFirewallLogsDataSourceProfileFilter_Private,
+	"public":  KnownWindowsFirewallLogsDataSourceProfileFilter_Public,
+}
+
+type KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS string
+
+const (
+	KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS_Domain  = KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS("Domain")
+	KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS_Private = KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS("Private")
+	KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS_Public  = KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS("Public")
+)
+
+// Mapping from string to KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS
+var knownWindowsFirewallLogsDataSourceProfileFilter_STATUS_Values = map[string]KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS{
+	"domain":  KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS_Domain,
+	"private": KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS_Private,
+	"public":  KnownWindowsFirewallLogsDataSourceProfileFilter_STATUS_Public,
 }
 
 // Settings for different log file formats
@@ -16691,131 +17075,12 @@ func (routing *OtelDataSourceResourceAttributeRouting_STATUS) AssignProperties_T
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Microsoft-OTel-Logs"}
-type OtelLogsDataSource_Streams string
-
-const OtelLogsDataSource_Streams_MicrosoftOTelLogs = OtelLogsDataSource_Streams("Microsoft-OTel-Logs")
-
-// Mapping from string to OtelLogsDataSource_Streams
-var otelLogsDataSource_Streams_Values = map[string]OtelLogsDataSource_Streams{
-	"microsoft-otel-logs": OtelLogsDataSource_Streams_MicrosoftOTelLogs,
-}
-
-type OtelLogsDataSource_Streams_STATUS string
-
-const OtelLogsDataSource_Streams_STATUS_MicrosoftOTelLogs = OtelLogsDataSource_Streams_STATUS("Microsoft-OTel-Logs")
-
-// Mapping from string to OtelLogsDataSource_Streams_STATUS
-var otelLogsDataSource_Streams_STATUS_Values = map[string]OtelLogsDataSource_Streams_STATUS{
-	"microsoft-otel-logs": OtelLogsDataSource_Streams_STATUS_MicrosoftOTelLogs,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-OTel-Logs"}
-type OtelLogsDirectDataSource_Streams string
-
-const OtelLogsDirectDataSource_Streams_MicrosoftOTelLogs = OtelLogsDirectDataSource_Streams("Microsoft-OTel-Logs")
-
-// Mapping from string to OtelLogsDirectDataSource_Streams
-var otelLogsDirectDataSource_Streams_Values = map[string]OtelLogsDirectDataSource_Streams{
-	"microsoft-otel-logs": OtelLogsDirectDataSource_Streams_MicrosoftOTelLogs,
-}
-
-type OtelLogsDirectDataSource_Streams_STATUS string
-
-const OtelLogsDirectDataSource_Streams_STATUS_MicrosoftOTelLogs = OtelLogsDirectDataSource_Streams_STATUS("Microsoft-OTel-Logs")
-
-// Mapping from string to OtelLogsDirectDataSource_Streams_STATUS
-var otelLogsDirectDataSource_Streams_STATUS_Values = map[string]OtelLogsDirectDataSource_Streams_STATUS{
-	"microsoft-otel-logs": OtelLogsDirectDataSource_Streams_STATUS_MicrosoftOTelLogs,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-OTel-Traces-Events","Microsoft-OTel-Traces-Resources","Microsoft-OTel-Traces-Spans"}
-type OtelTracesDataSource_Streams string
-
-const (
-	OtelTracesDataSource_Streams_MicrosoftOTelTracesEvents    = OtelTracesDataSource_Streams("Microsoft-OTel-Traces-Events")
-	OtelTracesDataSource_Streams_MicrosoftOTelTracesResources = OtelTracesDataSource_Streams("Microsoft-OTel-Traces-Resources")
-	OtelTracesDataSource_Streams_MicrosoftOTelTracesSpans     = OtelTracesDataSource_Streams("Microsoft-OTel-Traces-Spans")
-)
-
-// Mapping from string to OtelTracesDataSource_Streams
-var otelTracesDataSource_Streams_Values = map[string]OtelTracesDataSource_Streams{
-	"microsoft-otel-traces-events":    OtelTracesDataSource_Streams_MicrosoftOTelTracesEvents,
-	"microsoft-otel-traces-resources": OtelTracesDataSource_Streams_MicrosoftOTelTracesResources,
-	"microsoft-otel-traces-spans":     OtelTracesDataSource_Streams_MicrosoftOTelTracesSpans,
-}
-
-type OtelTracesDataSource_Streams_STATUS string
-
-const (
-	OtelTracesDataSource_Streams_STATUS_MicrosoftOTelTracesEvents    = OtelTracesDataSource_Streams_STATUS("Microsoft-OTel-Traces-Events")
-	OtelTracesDataSource_Streams_STATUS_MicrosoftOTelTracesResources = OtelTracesDataSource_Streams_STATUS("Microsoft-OTel-Traces-Resources")
-	OtelTracesDataSource_Streams_STATUS_MicrosoftOTelTracesSpans     = OtelTracesDataSource_Streams_STATUS("Microsoft-OTel-Traces-Spans")
-)
-
-// Mapping from string to OtelTracesDataSource_Streams_STATUS
-var otelTracesDataSource_Streams_STATUS_Values = map[string]OtelTracesDataSource_Streams_STATUS{
-	"microsoft-otel-traces-events":    OtelTracesDataSource_Streams_STATUS_MicrosoftOTelTracesEvents,
-	"microsoft-otel-traces-resources": OtelTracesDataSource_Streams_STATUS_MicrosoftOTelTracesResources,
-	"microsoft-otel-traces-spans":     OtelTracesDataSource_Streams_STATUS_MicrosoftOTelTracesSpans,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-OTel-Traces-Events","Microsoft-OTel-Traces-Resources","Microsoft-OTel-Traces-Spans"}
-type OtelTracesDirectDataSource_Streams string
-
-const (
-	OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesEvents    = OtelTracesDirectDataSource_Streams("Microsoft-OTel-Traces-Events")
-	OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesResources = OtelTracesDirectDataSource_Streams("Microsoft-OTel-Traces-Resources")
-	OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesSpans     = OtelTracesDirectDataSource_Streams("Microsoft-OTel-Traces-Spans")
-)
-
-// Mapping from string to OtelTracesDirectDataSource_Streams
-var otelTracesDirectDataSource_Streams_Values = map[string]OtelTracesDirectDataSource_Streams{
-	"microsoft-otel-traces-events":    OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesEvents,
-	"microsoft-otel-traces-resources": OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesResources,
-	"microsoft-otel-traces-spans":     OtelTracesDirectDataSource_Streams_MicrosoftOTelTracesSpans,
-}
-
-type OtelTracesDirectDataSource_Streams_STATUS string
-
-const (
-	OtelTracesDirectDataSource_Streams_STATUS_MicrosoftOTelTracesEvents    = OtelTracesDirectDataSource_Streams_STATUS("Microsoft-OTel-Traces-Events")
-	OtelTracesDirectDataSource_Streams_STATUS_MicrosoftOTelTracesResources = OtelTracesDirectDataSource_Streams_STATUS("Microsoft-OTel-Traces-Resources")
-	OtelTracesDirectDataSource_Streams_STATUS_MicrosoftOTelTracesSpans     = OtelTracesDirectDataSource_Streams_STATUS("Microsoft-OTel-Traces-Spans")
-)
-
-// Mapping from string to OtelTracesDirectDataSource_Streams_STATUS
-var otelTracesDirectDataSource_Streams_STATUS_Values = map[string]OtelTracesDirectDataSource_Streams_STATUS{
-	"microsoft-otel-traces-events":    OtelTracesDirectDataSource_Streams_STATUS_MicrosoftOTelTracesEvents,
-	"microsoft-otel-traces-resources": OtelTracesDirectDataSource_Streams_STATUS_MicrosoftOTelTracesResources,
-	"microsoft-otel-traces-spans":     OtelTracesDirectDataSource_Streams_STATUS_MicrosoftOTelTracesSpans,
-}
-
-// +kubebuilder:validation:Enum={"Microsoft-OtelPerfMetrics"}
-type PerformanceCountersOTelDataSource_Streams string
-
-const PerformanceCountersOTelDataSource_Streams_MicrosoftOtelPerfMetrics = PerformanceCountersOTelDataSource_Streams("Microsoft-OtelPerfMetrics")
-
-// Mapping from string to PerformanceCountersOTelDataSource_Streams
-var performanceCountersOTelDataSource_Streams_Values = map[string]PerformanceCountersOTelDataSource_Streams{
-	"microsoft-otelperfmetrics": PerformanceCountersOTelDataSource_Streams_MicrosoftOtelPerfMetrics,
-}
-
-type PerformanceCountersOTelDataSource_Streams_STATUS string
-
-const PerformanceCountersOTelDataSource_Streams_STATUS_MicrosoftOtelPerfMetrics = PerformanceCountersOTelDataSource_Streams_STATUS("Microsoft-OtelPerfMetrics")
-
-// Mapping from string to PerformanceCountersOTelDataSource_Streams_STATUS
-var performanceCountersOTelDataSource_Streams_STATUS_Values = map[string]PerformanceCountersOTelDataSource_Streams_STATUS{
-	"microsoft-otelperfmetrics": PerformanceCountersOTelDataSource_Streams_STATUS_MicrosoftOtelPerfMetrics,
-}
-
 type StorageBlob struct {
 	// BlobUrl: Url of the storage blob
 	BlobUrl *string `json:"blobUrl,omitempty"`
 
 	// LookupType: The type of lookup to perform on the blob
-	LookupType *StorageBlob_LookupType `json:"lookupType,omitempty"`
+	LookupType *KnownStorageBlobLookupType `json:"lookupType,omitempty"`
 
 	// Name: The name of the enrichment data source used as an alias when referencing this data source in data flows
 	Name *string `json:"name,omitempty"`
@@ -16843,7 +17108,7 @@ func (blob *StorageBlob) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if blob.LookupType != nil {
 		var temp string
 		temp = string(*blob.LookupType)
-		lookupType := arm.StorageBlob_LookupType(temp)
+		lookupType := arm.KnownStorageBlobLookupType(temp)
 		result.LookupType = &lookupType
 	}
 
@@ -16887,7 +17152,7 @@ func (blob *StorageBlob) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	if typedInput.LookupType != nil {
 		var temp string
 		temp = string(*typedInput.LookupType)
-		lookupType := StorageBlob_LookupType(temp)
+		lookupType := KnownStorageBlobLookupType(temp)
 		blob.LookupType = &lookupType
 	}
 
@@ -16912,7 +17177,7 @@ func (blob *StorageBlob) AssignProperties_From_StorageBlob(source *storage.Stora
 	// LookupType
 	if source.LookupType != nil {
 		lookupType := *source.LookupType
-		lookupTypeTemp := genruntime.ToEnum(lookupType, storageBlob_LookupType_Values)
+		lookupTypeTemp := genruntime.ToEnum(lookupType, knownStorageBlobLookupType_Values)
 		blob.LookupType = &lookupTypeTemp
 	} else {
 		blob.LookupType = nil
@@ -16979,7 +17244,7 @@ func (blob *StorageBlob) Initialize_From_StorageBlob_STATUS(source *StorageBlob_
 
 	// LookupType
 	if source.LookupType != nil {
-		lookupType := genruntime.ToEnum(string(*source.LookupType), storageBlob_LookupType_Values)
+		lookupType := genruntime.ToEnum(string(*source.LookupType), knownStorageBlobLookupType_Values)
 		blob.LookupType = &lookupType
 	} else {
 		blob.LookupType = nil
@@ -17005,7 +17270,7 @@ type StorageBlob_STATUS struct {
 	BlobUrl *string `json:"blobUrl,omitempty"`
 
 	// LookupType: The type of lookup to perform on the blob
-	LookupType *StorageBlob_LookupType_STATUS `json:"lookupType,omitempty"`
+	LookupType *KnownStorageBlobLookupType_STATUS `json:"lookupType,omitempty"`
 
 	// Name: The name of the enrichment data source used as an alias when referencing this data source in data flows
 	Name *string `json:"name,omitempty"`
@@ -17038,7 +17303,7 @@ func (blob *StorageBlob_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	if typedInput.LookupType != nil {
 		var temp string
 		temp = string(*typedInput.LookupType)
-		lookupType := StorageBlob_LookupType_STATUS(temp)
+		lookupType := KnownStorageBlobLookupType_STATUS(temp)
 		blob.LookupType = &lookupType
 	}
 
@@ -17067,7 +17332,7 @@ func (blob *StorageBlob_STATUS) AssignProperties_From_StorageBlob_STATUS(source 
 	// LookupType
 	if source.LookupType != nil {
 		lookupType := *source.LookupType
-		lookupTypeTemp := genruntime.ToEnum(lookupType, storageBlob_LookupType_STATUS_Values)
+		lookupTypeTemp := genruntime.ToEnum(lookupType, knownStorageBlobLookupType_STATUS_Values)
 		blob.LookupType = &lookupTypeTemp
 	} else {
 		blob.LookupType = nil
@@ -17116,224 +17381,40 @@ func (blob *StorageBlob_STATUS) AssignProperties_To_StorageBlob_STATUS(destinati
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"alert","audit","auth","authpriv","clock","cron","daemon","ftp","kern","local0","local1","local2","local3","local4","local5","local6","local7","lpr","mail","mark","news","nopri","ntp","*","syslog","user","uucp"}
-type SyslogDataSource_FacilityNames string
+// The type of lookup to perform on the blob
+// +kubebuilder:validation:Enum={"Cidr","String"}
+type KnownStorageBlobLookupType string
 
 const (
-	SyslogDataSource_FacilityNames_Alert    = SyslogDataSource_FacilityNames("alert")
-	SyslogDataSource_FacilityNames_Audit    = SyslogDataSource_FacilityNames("audit")
-	SyslogDataSource_FacilityNames_Auth     = SyslogDataSource_FacilityNames("auth")
-	SyslogDataSource_FacilityNames_Authpriv = SyslogDataSource_FacilityNames("authpriv")
-	SyslogDataSource_FacilityNames_Clock    = SyslogDataSource_FacilityNames("clock")
-	SyslogDataSource_FacilityNames_Cron     = SyslogDataSource_FacilityNames("cron")
-	SyslogDataSource_FacilityNames_Daemon   = SyslogDataSource_FacilityNames("daemon")
-	SyslogDataSource_FacilityNames_Ftp      = SyslogDataSource_FacilityNames("ftp")
-	SyslogDataSource_FacilityNames_Kern     = SyslogDataSource_FacilityNames("kern")
-	SyslogDataSource_FacilityNames_Local0   = SyslogDataSource_FacilityNames("local0")
-	SyslogDataSource_FacilityNames_Local1   = SyslogDataSource_FacilityNames("local1")
-	SyslogDataSource_FacilityNames_Local2   = SyslogDataSource_FacilityNames("local2")
-	SyslogDataSource_FacilityNames_Local3   = SyslogDataSource_FacilityNames("local3")
-	SyslogDataSource_FacilityNames_Local4   = SyslogDataSource_FacilityNames("local4")
-	SyslogDataSource_FacilityNames_Local5   = SyslogDataSource_FacilityNames("local5")
-	SyslogDataSource_FacilityNames_Local6   = SyslogDataSource_FacilityNames("local6")
-	SyslogDataSource_FacilityNames_Local7   = SyslogDataSource_FacilityNames("local7")
-	SyslogDataSource_FacilityNames_Lpr      = SyslogDataSource_FacilityNames("lpr")
-	SyslogDataSource_FacilityNames_Mail     = SyslogDataSource_FacilityNames("mail")
-	SyslogDataSource_FacilityNames_Mark     = SyslogDataSource_FacilityNames("mark")
-	SyslogDataSource_FacilityNames_News     = SyslogDataSource_FacilityNames("news")
-	SyslogDataSource_FacilityNames_Nopri    = SyslogDataSource_FacilityNames("nopri")
-	SyslogDataSource_FacilityNames_Ntp      = SyslogDataSource_FacilityNames("ntp")
-	SyslogDataSource_FacilityNames_Star     = SyslogDataSource_FacilityNames("*")
-	SyslogDataSource_FacilityNames_Syslog   = SyslogDataSource_FacilityNames("syslog")
-	SyslogDataSource_FacilityNames_User     = SyslogDataSource_FacilityNames("user")
-	SyslogDataSource_FacilityNames_Uucp     = SyslogDataSource_FacilityNames("uucp")
+	KnownStorageBlobLookupType_Cidr   = KnownStorageBlobLookupType("Cidr")
+	KnownStorageBlobLookupType_String = KnownStorageBlobLookupType("String")
 )
 
-// Mapping from string to SyslogDataSource_FacilityNames
-var syslogDataSource_FacilityNames_Values = map[string]SyslogDataSource_FacilityNames{
-	"alert":    SyslogDataSource_FacilityNames_Alert,
-	"audit":    SyslogDataSource_FacilityNames_Audit,
-	"auth":     SyslogDataSource_FacilityNames_Auth,
-	"authpriv": SyslogDataSource_FacilityNames_Authpriv,
-	"clock":    SyslogDataSource_FacilityNames_Clock,
-	"cron":     SyslogDataSource_FacilityNames_Cron,
-	"daemon":   SyslogDataSource_FacilityNames_Daemon,
-	"ftp":      SyslogDataSource_FacilityNames_Ftp,
-	"kern":     SyslogDataSource_FacilityNames_Kern,
-	"local0":   SyslogDataSource_FacilityNames_Local0,
-	"local1":   SyslogDataSource_FacilityNames_Local1,
-	"local2":   SyslogDataSource_FacilityNames_Local2,
-	"local3":   SyslogDataSource_FacilityNames_Local3,
-	"local4":   SyslogDataSource_FacilityNames_Local4,
-	"local5":   SyslogDataSource_FacilityNames_Local5,
-	"local6":   SyslogDataSource_FacilityNames_Local6,
-	"local7":   SyslogDataSource_FacilityNames_Local7,
-	"lpr":      SyslogDataSource_FacilityNames_Lpr,
-	"mail":     SyslogDataSource_FacilityNames_Mail,
-	"mark":     SyslogDataSource_FacilityNames_Mark,
-	"news":     SyslogDataSource_FacilityNames_News,
-	"nopri":    SyslogDataSource_FacilityNames_Nopri,
-	"ntp":      SyslogDataSource_FacilityNames_Ntp,
-	"*":        SyslogDataSource_FacilityNames_Star,
-	"syslog":   SyslogDataSource_FacilityNames_Syslog,
-	"user":     SyslogDataSource_FacilityNames_User,
-	"uucp":     SyslogDataSource_FacilityNames_Uucp,
+// Mapping from string to KnownStorageBlobLookupType
+var knownStorageBlobLookupType_Values = map[string]KnownStorageBlobLookupType{
+	"cidr":   KnownStorageBlobLookupType_Cidr,
+	"string": KnownStorageBlobLookupType_String,
 }
 
-type SyslogDataSource_FacilityNames_STATUS string
+// The type of lookup to perform on the blob
+type KnownStorageBlobLookupType_STATUS string
 
 const (
-	SyslogDataSource_FacilityNames_STATUS_Alert    = SyslogDataSource_FacilityNames_STATUS("alert")
-	SyslogDataSource_FacilityNames_STATUS_Audit    = SyslogDataSource_FacilityNames_STATUS("audit")
-	SyslogDataSource_FacilityNames_STATUS_Auth     = SyslogDataSource_FacilityNames_STATUS("auth")
-	SyslogDataSource_FacilityNames_STATUS_Authpriv = SyslogDataSource_FacilityNames_STATUS("authpriv")
-	SyslogDataSource_FacilityNames_STATUS_Clock    = SyslogDataSource_FacilityNames_STATUS("clock")
-	SyslogDataSource_FacilityNames_STATUS_Cron     = SyslogDataSource_FacilityNames_STATUS("cron")
-	SyslogDataSource_FacilityNames_STATUS_Daemon   = SyslogDataSource_FacilityNames_STATUS("daemon")
-	SyslogDataSource_FacilityNames_STATUS_Ftp      = SyslogDataSource_FacilityNames_STATUS("ftp")
-	SyslogDataSource_FacilityNames_STATUS_Kern     = SyslogDataSource_FacilityNames_STATUS("kern")
-	SyslogDataSource_FacilityNames_STATUS_Local0   = SyslogDataSource_FacilityNames_STATUS("local0")
-	SyslogDataSource_FacilityNames_STATUS_Local1   = SyslogDataSource_FacilityNames_STATUS("local1")
-	SyslogDataSource_FacilityNames_STATUS_Local2   = SyslogDataSource_FacilityNames_STATUS("local2")
-	SyslogDataSource_FacilityNames_STATUS_Local3   = SyslogDataSource_FacilityNames_STATUS("local3")
-	SyslogDataSource_FacilityNames_STATUS_Local4   = SyslogDataSource_FacilityNames_STATUS("local4")
-	SyslogDataSource_FacilityNames_STATUS_Local5   = SyslogDataSource_FacilityNames_STATUS("local5")
-	SyslogDataSource_FacilityNames_STATUS_Local6   = SyslogDataSource_FacilityNames_STATUS("local6")
-	SyslogDataSource_FacilityNames_STATUS_Local7   = SyslogDataSource_FacilityNames_STATUS("local7")
-	SyslogDataSource_FacilityNames_STATUS_Lpr      = SyslogDataSource_FacilityNames_STATUS("lpr")
-	SyslogDataSource_FacilityNames_STATUS_Mail     = SyslogDataSource_FacilityNames_STATUS("mail")
-	SyslogDataSource_FacilityNames_STATUS_Mark     = SyslogDataSource_FacilityNames_STATUS("mark")
-	SyslogDataSource_FacilityNames_STATUS_News     = SyslogDataSource_FacilityNames_STATUS("news")
-	SyslogDataSource_FacilityNames_STATUS_Nopri    = SyslogDataSource_FacilityNames_STATUS("nopri")
-	SyslogDataSource_FacilityNames_STATUS_Ntp      = SyslogDataSource_FacilityNames_STATUS("ntp")
-	SyslogDataSource_FacilityNames_STATUS_Star     = SyslogDataSource_FacilityNames_STATUS("*")
-	SyslogDataSource_FacilityNames_STATUS_Syslog   = SyslogDataSource_FacilityNames_STATUS("syslog")
-	SyslogDataSource_FacilityNames_STATUS_User     = SyslogDataSource_FacilityNames_STATUS("user")
-	SyslogDataSource_FacilityNames_STATUS_Uucp     = SyslogDataSource_FacilityNames_STATUS("uucp")
+	KnownStorageBlobLookupType_STATUS_Cidr   = KnownStorageBlobLookupType_STATUS("Cidr")
+	KnownStorageBlobLookupType_STATUS_String = KnownStorageBlobLookupType_STATUS("String")
 )
 
-// Mapping from string to SyslogDataSource_FacilityNames_STATUS
-var syslogDataSource_FacilityNames_STATUS_Values = map[string]SyslogDataSource_FacilityNames_STATUS{
-	"alert":    SyslogDataSource_FacilityNames_STATUS_Alert,
-	"audit":    SyslogDataSource_FacilityNames_STATUS_Audit,
-	"auth":     SyslogDataSource_FacilityNames_STATUS_Auth,
-	"authpriv": SyslogDataSource_FacilityNames_STATUS_Authpriv,
-	"clock":    SyslogDataSource_FacilityNames_STATUS_Clock,
-	"cron":     SyslogDataSource_FacilityNames_STATUS_Cron,
-	"daemon":   SyslogDataSource_FacilityNames_STATUS_Daemon,
-	"ftp":      SyslogDataSource_FacilityNames_STATUS_Ftp,
-	"kern":     SyslogDataSource_FacilityNames_STATUS_Kern,
-	"local0":   SyslogDataSource_FacilityNames_STATUS_Local0,
-	"local1":   SyslogDataSource_FacilityNames_STATUS_Local1,
-	"local2":   SyslogDataSource_FacilityNames_STATUS_Local2,
-	"local3":   SyslogDataSource_FacilityNames_STATUS_Local3,
-	"local4":   SyslogDataSource_FacilityNames_STATUS_Local4,
-	"local5":   SyslogDataSource_FacilityNames_STATUS_Local5,
-	"local6":   SyslogDataSource_FacilityNames_STATUS_Local6,
-	"local7":   SyslogDataSource_FacilityNames_STATUS_Local7,
-	"lpr":      SyslogDataSource_FacilityNames_STATUS_Lpr,
-	"mail":     SyslogDataSource_FacilityNames_STATUS_Mail,
-	"mark":     SyslogDataSource_FacilityNames_STATUS_Mark,
-	"news":     SyslogDataSource_FacilityNames_STATUS_News,
-	"nopri":    SyslogDataSource_FacilityNames_STATUS_Nopri,
-	"ntp":      SyslogDataSource_FacilityNames_STATUS_Ntp,
-	"*":        SyslogDataSource_FacilityNames_STATUS_Star,
-	"syslog":   SyslogDataSource_FacilityNames_STATUS_Syslog,
-	"user":     SyslogDataSource_FacilityNames_STATUS_User,
-	"uucp":     SyslogDataSource_FacilityNames_STATUS_Uucp,
-}
-
-// +kubebuilder:validation:Enum={"Alert","Critical","Debug","Emergency","Error","Info","Notice","*","Warning"}
-type SyslogDataSource_LogLevels string
-
-const (
-	SyslogDataSource_LogLevels_Alert     = SyslogDataSource_LogLevels("Alert")
-	SyslogDataSource_LogLevels_Critical  = SyslogDataSource_LogLevels("Critical")
-	SyslogDataSource_LogLevels_Debug     = SyslogDataSource_LogLevels("Debug")
-	SyslogDataSource_LogLevels_Emergency = SyslogDataSource_LogLevels("Emergency")
-	SyslogDataSource_LogLevels_Error     = SyslogDataSource_LogLevels("Error")
-	SyslogDataSource_LogLevels_Info      = SyslogDataSource_LogLevels("Info")
-	SyslogDataSource_LogLevels_Notice    = SyslogDataSource_LogLevels("Notice")
-	SyslogDataSource_LogLevels_Star      = SyslogDataSource_LogLevels("*")
-	SyslogDataSource_LogLevels_Warning   = SyslogDataSource_LogLevels("Warning")
-)
-
-// Mapping from string to SyslogDataSource_LogLevels
-var syslogDataSource_LogLevels_Values = map[string]SyslogDataSource_LogLevels{
-	"alert":     SyslogDataSource_LogLevels_Alert,
-	"critical":  SyslogDataSource_LogLevels_Critical,
-	"debug":     SyslogDataSource_LogLevels_Debug,
-	"emergency": SyslogDataSource_LogLevels_Emergency,
-	"error":     SyslogDataSource_LogLevels_Error,
-	"info":      SyslogDataSource_LogLevels_Info,
-	"notice":    SyslogDataSource_LogLevels_Notice,
-	"*":         SyslogDataSource_LogLevels_Star,
-	"warning":   SyslogDataSource_LogLevels_Warning,
-}
-
-type SyslogDataSource_LogLevels_STATUS string
-
-const (
-	SyslogDataSource_LogLevels_STATUS_Alert     = SyslogDataSource_LogLevels_STATUS("Alert")
-	SyslogDataSource_LogLevels_STATUS_Critical  = SyslogDataSource_LogLevels_STATUS("Critical")
-	SyslogDataSource_LogLevels_STATUS_Debug     = SyslogDataSource_LogLevels_STATUS("Debug")
-	SyslogDataSource_LogLevels_STATUS_Emergency = SyslogDataSource_LogLevels_STATUS("Emergency")
-	SyslogDataSource_LogLevels_STATUS_Error     = SyslogDataSource_LogLevels_STATUS("Error")
-	SyslogDataSource_LogLevels_STATUS_Info      = SyslogDataSource_LogLevels_STATUS("Info")
-	SyslogDataSource_LogLevels_STATUS_Notice    = SyslogDataSource_LogLevels_STATUS("Notice")
-	SyslogDataSource_LogLevels_STATUS_Star      = SyslogDataSource_LogLevels_STATUS("*")
-	SyslogDataSource_LogLevels_STATUS_Warning   = SyslogDataSource_LogLevels_STATUS("Warning")
-)
-
-// Mapping from string to SyslogDataSource_LogLevels_STATUS
-var syslogDataSource_LogLevels_STATUS_Values = map[string]SyslogDataSource_LogLevels_STATUS{
-	"alert":     SyslogDataSource_LogLevels_STATUS_Alert,
-	"critical":  SyslogDataSource_LogLevels_STATUS_Critical,
-	"debug":     SyslogDataSource_LogLevels_STATUS_Debug,
-	"emergency": SyslogDataSource_LogLevels_STATUS_Emergency,
-	"error":     SyslogDataSource_LogLevels_STATUS_Error,
-	"info":      SyslogDataSource_LogLevels_STATUS_Info,
-	"notice":    SyslogDataSource_LogLevels_STATUS_Notice,
-	"*":         SyslogDataSource_LogLevels_STATUS_Star,
-	"warning":   SyslogDataSource_LogLevels_STATUS_Warning,
-}
-
-// +kubebuilder:validation:Enum={"Domain","Private","Public"}
-type WindowsFirewallLogsDataSource_ProfileFilter string
-
-const (
-	WindowsFirewallLogsDataSource_ProfileFilter_Domain  = WindowsFirewallLogsDataSource_ProfileFilter("Domain")
-	WindowsFirewallLogsDataSource_ProfileFilter_Private = WindowsFirewallLogsDataSource_ProfileFilter("Private")
-	WindowsFirewallLogsDataSource_ProfileFilter_Public  = WindowsFirewallLogsDataSource_ProfileFilter("Public")
-)
-
-// Mapping from string to WindowsFirewallLogsDataSource_ProfileFilter
-var windowsFirewallLogsDataSource_ProfileFilter_Values = map[string]WindowsFirewallLogsDataSource_ProfileFilter{
-	"domain":  WindowsFirewallLogsDataSource_ProfileFilter_Domain,
-	"private": WindowsFirewallLogsDataSource_ProfileFilter_Private,
-	"public":  WindowsFirewallLogsDataSource_ProfileFilter_Public,
-}
-
-type WindowsFirewallLogsDataSource_ProfileFilter_STATUS string
-
-const (
-	WindowsFirewallLogsDataSource_ProfileFilter_STATUS_Domain  = WindowsFirewallLogsDataSource_ProfileFilter_STATUS("Domain")
-	WindowsFirewallLogsDataSource_ProfileFilter_STATUS_Private = WindowsFirewallLogsDataSource_ProfileFilter_STATUS("Private")
-	WindowsFirewallLogsDataSource_ProfileFilter_STATUS_Public  = WindowsFirewallLogsDataSource_ProfileFilter_STATUS("Public")
-)
-
-// Mapping from string to WindowsFirewallLogsDataSource_ProfileFilter_STATUS
-var windowsFirewallLogsDataSource_ProfileFilter_STATUS_Values = map[string]WindowsFirewallLogsDataSource_ProfileFilter_STATUS{
-	"domain":  WindowsFirewallLogsDataSource_ProfileFilter_STATUS_Domain,
-	"private": WindowsFirewallLogsDataSource_ProfileFilter_STATUS_Private,
-	"public":  WindowsFirewallLogsDataSource_ProfileFilter_STATUS_Public,
+// Mapping from string to KnownStorageBlobLookupType_STATUS
+var knownStorageBlobLookupType_STATUS_Values = map[string]KnownStorageBlobLookupType_STATUS{
+	"cidr":   KnownStorageBlobLookupType_STATUS_Cidr,
+	"string": KnownStorageBlobLookupType_STATUS_String,
 }
 
 // Settings for text log files
 type LogFileTextSettings struct {
 	// +kubebuilder:validation:Required
 	// RecordStartTimestampFormat: One of the supported timestamp formats
-	RecordStartTimestampFormat *LogFileTextSettings_RecordStartTimestampFormat `json:"recordStartTimestampFormat,omitempty"`
+	RecordStartTimestampFormat *KnownLogFileTextSettingsRecordStartTimestampFormat `json:"recordStartTimestampFormat,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &LogFileTextSettings{}
@@ -17349,7 +17430,7 @@ func (settings *LogFileTextSettings) ConvertToARM(resolved genruntime.ConvertToA
 	if settings.RecordStartTimestampFormat != nil {
 		var temp string
 		temp = string(*settings.RecordStartTimestampFormat)
-		recordStartTimestampFormat := arm.LogFileTextSettings_RecordStartTimestampFormat(temp)
+		recordStartTimestampFormat := arm.KnownLogFileTextSettingsRecordStartTimestampFormat(temp)
 		result.RecordStartTimestampFormat = &recordStartTimestampFormat
 	}
 	return result, nil
@@ -17371,7 +17452,7 @@ func (settings *LogFileTextSettings) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.RecordStartTimestampFormat != nil {
 		var temp string
 		temp = string(*typedInput.RecordStartTimestampFormat)
-		recordStartTimestampFormat := LogFileTextSettings_RecordStartTimestampFormat(temp)
+		recordStartTimestampFormat := KnownLogFileTextSettingsRecordStartTimestampFormat(temp)
 		settings.RecordStartTimestampFormat = &recordStartTimestampFormat
 	}
 
@@ -17385,7 +17466,7 @@ func (settings *LogFileTextSettings) AssignProperties_From_LogFileTextSettings(s
 	// RecordStartTimestampFormat
 	if source.RecordStartTimestampFormat != nil {
 		recordStartTimestampFormat := *source.RecordStartTimestampFormat
-		recordStartTimestampFormatTemp := genruntime.ToEnum(recordStartTimestampFormat, logFileTextSettings_RecordStartTimestampFormat_Values)
+		recordStartTimestampFormatTemp := genruntime.ToEnum(recordStartTimestampFormat, knownLogFileTextSettingsRecordStartTimestampFormat_Values)
 		settings.RecordStartTimestampFormat = &recordStartTimestampFormatTemp
 	} else {
 		settings.RecordStartTimestampFormat = nil
@@ -17424,7 +17505,7 @@ func (settings *LogFileTextSettings) Initialize_From_LogFileTextSettings_STATUS(
 
 	// RecordStartTimestampFormat
 	if source.RecordStartTimestampFormat != nil {
-		recordStartTimestampFormat := genruntime.ToEnum(string(*source.RecordStartTimestampFormat), logFileTextSettings_RecordStartTimestampFormat_Values)
+		recordStartTimestampFormat := genruntime.ToEnum(string(*source.RecordStartTimestampFormat), knownLogFileTextSettingsRecordStartTimestampFormat_Values)
 		settings.RecordStartTimestampFormat = &recordStartTimestampFormat
 	} else {
 		settings.RecordStartTimestampFormat = nil
@@ -17437,7 +17518,7 @@ func (settings *LogFileTextSettings) Initialize_From_LogFileTextSettings_STATUS(
 // Settings for text log files
 type LogFileTextSettings_STATUS struct {
 	// RecordStartTimestampFormat: One of the supported timestamp formats
-	RecordStartTimestampFormat *LogFileTextSettings_RecordStartTimestampFormat_STATUS `json:"recordStartTimestampFormat,omitempty"`
+	RecordStartTimestampFormat *KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS `json:"recordStartTimestampFormat,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &LogFileTextSettings_STATUS{}
@@ -17458,7 +17539,7 @@ func (settings *LogFileTextSettings_STATUS) PopulateFromARM(owner genruntime.Arb
 	if typedInput.RecordStartTimestampFormat != nil {
 		var temp string
 		temp = string(*typedInput.RecordStartTimestampFormat)
-		recordStartTimestampFormat := LogFileTextSettings_RecordStartTimestampFormat_STATUS(temp)
+		recordStartTimestampFormat := KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS(temp)
 		settings.RecordStartTimestampFormat = &recordStartTimestampFormat
 	}
 
@@ -17472,7 +17553,7 @@ func (settings *LogFileTextSettings_STATUS) AssignProperties_From_LogFileTextSet
 	// RecordStartTimestampFormat
 	if source.RecordStartTimestampFormat != nil {
 		recordStartTimestampFormat := *source.RecordStartTimestampFormat
-		recordStartTimestampFormatTemp := genruntime.ToEnum(recordStartTimestampFormat, logFileTextSettings_RecordStartTimestampFormat_STATUS_Values)
+		recordStartTimestampFormatTemp := genruntime.ToEnum(recordStartTimestampFormat, knownLogFileTextSettingsRecordStartTimestampFormat_STATUS_Values)
 		settings.RecordStartTimestampFormat = &recordStartTimestampFormatTemp
 	} else {
 		settings.RecordStartTimestampFormat = nil
@@ -17506,86 +17587,61 @@ func (settings *LogFileTextSettings_STATUS) AssignProperties_To_LogFileTextSetti
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Cidr","String"}
-type StorageBlob_LookupType string
-
-const (
-	StorageBlob_LookupType_Cidr   = StorageBlob_LookupType("Cidr")
-	StorageBlob_LookupType_String = StorageBlob_LookupType("String")
-)
-
-// Mapping from string to StorageBlob_LookupType
-var storageBlob_LookupType_Values = map[string]StorageBlob_LookupType{
-	"cidr":   StorageBlob_LookupType_Cidr,
-	"string": StorageBlob_LookupType_String,
-}
-
-type StorageBlob_LookupType_STATUS string
-
-const (
-	StorageBlob_LookupType_STATUS_Cidr   = StorageBlob_LookupType_STATUS("Cidr")
-	StorageBlob_LookupType_STATUS_String = StorageBlob_LookupType_STATUS("String")
-)
-
-// Mapping from string to StorageBlob_LookupType_STATUS
-var storageBlob_LookupType_STATUS_Values = map[string]StorageBlob_LookupType_STATUS{
-	"cidr":   StorageBlob_LookupType_STATUS_Cidr,
-	"string": StorageBlob_LookupType_STATUS_String,
-}
-
+// One of the supported timestamp formats
 // +kubebuilder:validation:Enum={"dd/MMM/yyyy:HH:mm:ss zzz","ddMMyy HH:mm:ss","ISO 8601","M/D/YYYY HH:MM:SS AM/PM","MMM d hh:mm:ss","Mon DD, YYYY HH:MM:SS","YYYY-MM-DD HH:MM:SS","yyMMdd HH:mm:ss","yyyy-MM-ddTHH:mm:ssK"}
-type LogFileTextSettings_RecordStartTimestampFormat string
+type KnownLogFileTextSettingsRecordStartTimestampFormat string
 
 const (
-	LogFileTextSettings_RecordStartTimestampFormat_DdMMMYyyyHHMmSsZzz = LogFileTextSettings_RecordStartTimestampFormat("dd/MMM/yyyy:HH:mm:ss zzz")
-	LogFileTextSettings_RecordStartTimestampFormat_DdMMyyHHMmSs       = LogFileTextSettings_RecordStartTimestampFormat("ddMMyy HH:mm:ss")
-	LogFileTextSettings_RecordStartTimestampFormat_ISO8601            = LogFileTextSettings_RecordStartTimestampFormat("ISO 8601")
-	LogFileTextSettings_RecordStartTimestampFormat_MDYYYYHHMMSSAMPM   = LogFileTextSettings_RecordStartTimestampFormat("M/D/YYYY HH:MM:SS AM/PM")
-	LogFileTextSettings_RecordStartTimestampFormat_MMMDHhMmSs         = LogFileTextSettings_RecordStartTimestampFormat("MMM d hh:mm:ss")
-	LogFileTextSettings_RecordStartTimestampFormat_MonDDYYYYHHMMSS    = LogFileTextSettings_RecordStartTimestampFormat("Mon DD, YYYY HH:MM:SS")
-	LogFileTextSettings_RecordStartTimestampFormat_YYYYMMDDHHMMSS     = LogFileTextSettings_RecordStartTimestampFormat("YYYY-MM-DD HH:MM:SS")
-	LogFileTextSettings_RecordStartTimestampFormat_YyMMddHHMmSs       = LogFileTextSettings_RecordStartTimestampFormat("yyMMdd HH:mm:ss")
-	LogFileTextSettings_RecordStartTimestampFormat_YyyyMMDdTHHMmSsK   = LogFileTextSettings_RecordStartTimestampFormat("yyyy-MM-ddTHH:mm:ssK")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_DdMMMYyyyHHMmSsZzz = KnownLogFileTextSettingsRecordStartTimestampFormat("dd/MMM/yyyy:HH:mm:ss zzz")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_DdMMyyHHMmSs       = KnownLogFileTextSettingsRecordStartTimestampFormat("ddMMyy HH:mm:ss")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_ISO8601            = KnownLogFileTextSettingsRecordStartTimestampFormat("ISO 8601")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_MDYYYYHHMMSSAMPM   = KnownLogFileTextSettingsRecordStartTimestampFormat("M/D/YYYY HH:MM:SS AM/PM")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_MMMDHhMmSs         = KnownLogFileTextSettingsRecordStartTimestampFormat("MMM d hh:mm:ss")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_MonDDYYYYHHMMSS    = KnownLogFileTextSettingsRecordStartTimestampFormat("Mon DD, YYYY HH:MM:SS")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_YYYYMMDDHHMMSS     = KnownLogFileTextSettingsRecordStartTimestampFormat("YYYY-MM-DD HH:MM:SS")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_YyMMddHHMmSs       = KnownLogFileTextSettingsRecordStartTimestampFormat("yyMMdd HH:mm:ss")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_YyyyMMDdTHHMmSsK   = KnownLogFileTextSettingsRecordStartTimestampFormat("yyyy-MM-ddTHH:mm:ssK")
 )
 
-// Mapping from string to LogFileTextSettings_RecordStartTimestampFormat
-var logFileTextSettings_RecordStartTimestampFormat_Values = map[string]LogFileTextSettings_RecordStartTimestampFormat{
-	"dd/mmm/yyyy:hh:mm:ss zzz": LogFileTextSettings_RecordStartTimestampFormat_DdMMMYyyyHHMmSsZzz,
-	"ddmmyy hh:mm:ss":          LogFileTextSettings_RecordStartTimestampFormat_DdMMyyHHMmSs,
-	"iso 8601":                 LogFileTextSettings_RecordStartTimestampFormat_ISO8601,
-	"m/d/yyyy hh:mm:ss am/pm":  LogFileTextSettings_RecordStartTimestampFormat_MDYYYYHHMMSSAMPM,
-	"mmm d hh:mm:ss":           LogFileTextSettings_RecordStartTimestampFormat_MMMDHhMmSs,
-	"mon dd, yyyy hh:mm:ss":    LogFileTextSettings_RecordStartTimestampFormat_MonDDYYYYHHMMSS,
-	"yyyy-mm-dd hh:mm:ss":      LogFileTextSettings_RecordStartTimestampFormat_YYYYMMDDHHMMSS,
-	"yymmdd hh:mm:ss":          LogFileTextSettings_RecordStartTimestampFormat_YyMMddHHMmSs,
-	"yyyy-mm-ddthh:mm:ssk":     LogFileTextSettings_RecordStartTimestampFormat_YyyyMMDdTHHMmSsK,
+// Mapping from string to KnownLogFileTextSettingsRecordStartTimestampFormat
+var knownLogFileTextSettingsRecordStartTimestampFormat_Values = map[string]KnownLogFileTextSettingsRecordStartTimestampFormat{
+	"dd/mmm/yyyy:hh:mm:ss zzz": KnownLogFileTextSettingsRecordStartTimestampFormat_DdMMMYyyyHHMmSsZzz,
+	"ddmmyy hh:mm:ss":          KnownLogFileTextSettingsRecordStartTimestampFormat_DdMMyyHHMmSs,
+	"iso 8601":                 KnownLogFileTextSettingsRecordStartTimestampFormat_ISO8601,
+	"m/d/yyyy hh:mm:ss am/pm":  KnownLogFileTextSettingsRecordStartTimestampFormat_MDYYYYHHMMSSAMPM,
+	"mmm d hh:mm:ss":           KnownLogFileTextSettingsRecordStartTimestampFormat_MMMDHhMmSs,
+	"mon dd, yyyy hh:mm:ss":    KnownLogFileTextSettingsRecordStartTimestampFormat_MonDDYYYYHHMMSS,
+	"yyyy-mm-dd hh:mm:ss":      KnownLogFileTextSettingsRecordStartTimestampFormat_YYYYMMDDHHMMSS,
+	"yymmdd hh:mm:ss":          KnownLogFileTextSettingsRecordStartTimestampFormat_YyMMddHHMmSs,
+	"yyyy-mm-ddthh:mm:ssk":     KnownLogFileTextSettingsRecordStartTimestampFormat_YyyyMMDdTHHMmSsK,
 }
 
-type LogFileTextSettings_RecordStartTimestampFormat_STATUS string
+// One of the supported timestamp formats
+type KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS string
 
 const (
-	LogFileTextSettings_RecordStartTimestampFormat_STATUS_DdMMMYyyyHHMmSsZzz = LogFileTextSettings_RecordStartTimestampFormat_STATUS("dd/MMM/yyyy:HH:mm:ss zzz")
-	LogFileTextSettings_RecordStartTimestampFormat_STATUS_DdMMyyHHMmSs       = LogFileTextSettings_RecordStartTimestampFormat_STATUS("ddMMyy HH:mm:ss")
-	LogFileTextSettings_RecordStartTimestampFormat_STATUS_ISO8601            = LogFileTextSettings_RecordStartTimestampFormat_STATUS("ISO 8601")
-	LogFileTextSettings_RecordStartTimestampFormat_STATUS_MDYYYYHHMMSSAMPM   = LogFileTextSettings_RecordStartTimestampFormat_STATUS("M/D/YYYY HH:MM:SS AM/PM")
-	LogFileTextSettings_RecordStartTimestampFormat_STATUS_MMMDHhMmSs         = LogFileTextSettings_RecordStartTimestampFormat_STATUS("MMM d hh:mm:ss")
-	LogFileTextSettings_RecordStartTimestampFormat_STATUS_MonDDYYYYHHMMSS    = LogFileTextSettings_RecordStartTimestampFormat_STATUS("Mon DD, YYYY HH:MM:SS")
-	LogFileTextSettings_RecordStartTimestampFormat_STATUS_YYYYMMDDHHMMSS     = LogFileTextSettings_RecordStartTimestampFormat_STATUS("YYYY-MM-DD HH:MM:SS")
-	LogFileTextSettings_RecordStartTimestampFormat_STATUS_YyMMddHHMmSs       = LogFileTextSettings_RecordStartTimestampFormat_STATUS("yyMMdd HH:mm:ss")
-	LogFileTextSettings_RecordStartTimestampFormat_STATUS_YyyyMMDdTHHMmSsK   = LogFileTextSettings_RecordStartTimestampFormat_STATUS("yyyy-MM-ddTHH:mm:ssK")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_DdMMMYyyyHHMmSsZzz = KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS("dd/MMM/yyyy:HH:mm:ss zzz")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_DdMMyyHHMmSs       = KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS("ddMMyy HH:mm:ss")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_ISO8601            = KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS("ISO 8601")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_MDYYYYHHMMSSAMPM   = KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS("M/D/YYYY HH:MM:SS AM/PM")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_MMMDHhMmSs         = KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS("MMM d hh:mm:ss")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_MonDDYYYYHHMMSS    = KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS("Mon DD, YYYY HH:MM:SS")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_YYYYMMDDHHMMSS     = KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS("YYYY-MM-DD HH:MM:SS")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_YyMMddHHMmSs       = KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS("yyMMdd HH:mm:ss")
+	KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_YyyyMMDdTHHMmSsK   = KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS("yyyy-MM-ddTHH:mm:ssK")
 )
 
-// Mapping from string to LogFileTextSettings_RecordStartTimestampFormat_STATUS
-var logFileTextSettings_RecordStartTimestampFormat_STATUS_Values = map[string]LogFileTextSettings_RecordStartTimestampFormat_STATUS{
-	"dd/mmm/yyyy:hh:mm:ss zzz": LogFileTextSettings_RecordStartTimestampFormat_STATUS_DdMMMYyyyHHMmSsZzz,
-	"ddmmyy hh:mm:ss":          LogFileTextSettings_RecordStartTimestampFormat_STATUS_DdMMyyHHMmSs,
-	"iso 8601":                 LogFileTextSettings_RecordStartTimestampFormat_STATUS_ISO8601,
-	"m/d/yyyy hh:mm:ss am/pm":  LogFileTextSettings_RecordStartTimestampFormat_STATUS_MDYYYYHHMMSSAMPM,
-	"mmm d hh:mm:ss":           LogFileTextSettings_RecordStartTimestampFormat_STATUS_MMMDHhMmSs,
-	"mon dd, yyyy hh:mm:ss":    LogFileTextSettings_RecordStartTimestampFormat_STATUS_MonDDYYYYHHMMSS,
-	"yyyy-mm-dd hh:mm:ss":      LogFileTextSettings_RecordStartTimestampFormat_STATUS_YYYYMMDDHHMMSS,
-	"yymmdd hh:mm:ss":          LogFileTextSettings_RecordStartTimestampFormat_STATUS_YyMMddHHMmSs,
-	"yyyy-mm-ddthh:mm:ssk":     LogFileTextSettings_RecordStartTimestampFormat_STATUS_YyyyMMDdTHHMmSsK,
+// Mapping from string to KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS
+var knownLogFileTextSettingsRecordStartTimestampFormat_STATUS_Values = map[string]KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS{
+	"dd/mmm/yyyy:hh:mm:ss zzz": KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_DdMMMYyyyHHMmSsZzz,
+	"ddmmyy hh:mm:ss":          KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_DdMMyyHHMmSs,
+	"iso 8601":                 KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_ISO8601,
+	"m/d/yyyy hh:mm:ss am/pm":  KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_MDYYYYHHMMSSAMPM,
+	"mmm d hh:mm:ss":           KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_MMMDHhMmSs,
+	"mon dd, yyyy hh:mm:ss":    KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_MonDDYYYYHHMMSS,
+	"yyyy-mm-dd hh:mm:ss":      KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_YYYYMMDDHHMMSS,
+	"yymmdd hh:mm:ss":          KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_YyMMddHHMmSs,
+	"yyyy-mm-ddthh:mm:ssk":     KnownLogFileTextSettingsRecordStartTimestampFormat_STATUS_YyyyMMDdTHHMmSsK,
 }
 
 func init() {

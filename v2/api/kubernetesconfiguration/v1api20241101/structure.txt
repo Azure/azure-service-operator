@@ -36,23 +36,17 @@ Extension: Resource
 │   │   │   └── ReleaseNamespace: *string
 │   │   └── Namespace: *Object (1 property)
 │   │       └── TargetNamespace: *string
-│   ├── SystemData: *Object (6 properties)
-│   │   ├── CreatedAt: *string
-│   │   ├── CreatedBy: *string
-│   │   ├── CreatedByType: *Enum (4 values)
-│   │   │   ├── "Application"
-│   │   │   ├── "Key"
-│   │   │   ├── "ManagedIdentity"
-│   │   │   └── "User"
-│   │   ├── LastModifiedAt: *string
-│   │   ├── LastModifiedBy: *string
-│   │   └── LastModifiedByType: *Enum (4 values)
-│   │       ├── "Application"
-│   │       ├── "Key"
-│   │       ├── "ManagedIdentity"
-│   │       └── "User"
+│   ├── Statuses: Object (5 properties)[]
+│   │   ├── Code: *string
+│   │   ├── DisplayStatus: *string
+│   │   ├── Level: *Enum (3 values)
+│   │   │   ├── "Error"
+│   │   │   ├── "Information"
+│   │   │   └── "Warning"
+│   │   ├── Message: *string
+│   │   └── Time: *string
 │   └── Version: *string
-└── Status: Object (21 properties)
+└── Status: Object (22 properties)
     ├── AksAssignedIdentity: *Object (3 properties)
     │   ├── PrincipalId: *string
     │   ├── TenantId: *string
@@ -95,6 +89,13 @@ Extension: Resource
     │   ├── PromotionCode: *string
     │   ├── Publisher: *string
     │   └── Version: *string
+    ├── ProvisioningState: *Enum (6 values)
+    │   ├── "Canceled"
+    │   ├── "Creating"
+    │   ├── "Deleting"
+    │   ├── "Failed"
+    │   ├── "Succeeded"
+    │   └── "Updating"
     ├── ReleaseTrain: *string
     ├── Scope: *Object (2 properties)
     │   ├── Cluster: *Object (1 property)
@@ -234,7 +235,7 @@ FluxConfiguration: Resource
 │   │   └── "OCIRepository"
 │   ├── Suspend: *bool
 │   └── WaitForReconciliation: *bool
-└── Status: Object (23 properties)
+└── Status: Object (24 properties)
     ├── AzureBlob: *Object (7 properties)
     │   ├── ContainerName: *string
     │   ├── LocalAuthRef: *string
@@ -362,6 +363,21 @@ FluxConfiguration: Resource
     │       ├── Status: *string
     │       └── Type: *string
     ├── Suspend: *bool
+    ├── SystemData: *Object (6 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *Enum (4 values)
+    │   │   ├── "Application"
+    │   │   ├── "Key"
+    │   │   ├── "ManagedIdentity"
+    │   │   └── "User"
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   └── LastModifiedByType: *Enum (4 values)
+    │       ├── "Application"
+    │       ├── "Key"
+    │       ├── "ManagedIdentity"
+    │       └── "User"
     ├── Type: *string
     └── WaitForReconciliation: *bool
 

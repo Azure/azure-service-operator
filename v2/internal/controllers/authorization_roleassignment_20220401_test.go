@@ -12,7 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
-	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401"
+	authorization "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401"
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1api20181130"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"

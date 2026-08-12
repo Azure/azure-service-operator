@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20201201/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -343,13 +343,6 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_From_Redis_LinkedServe
 	// Conditions
 	server.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
-	// GeoReplicatedPrimaryHostName
-	if source.GeoReplicatedPrimaryHostName != nil {
-		propertyBag.Add("GeoReplicatedPrimaryHostName", *source.GeoReplicatedPrimaryHostName)
-	} else {
-		propertyBag.Remove("GeoReplicatedPrimaryHostName")
-	}
-
 	// Id
 	server.Id = genruntime.ClonePointerToString(source.Id)
 
@@ -361,13 +354,6 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_From_Redis_LinkedServe
 
 	// Name
 	server.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrimaryHostName
-	if source.PrimaryHostName != nil {
-		propertyBag.Add("PrimaryHostName", *source.PrimaryHostName)
-	} else {
-		propertyBag.Remove("PrimaryHostName")
-	}
 
 	// ProvisioningState
 	server.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
@@ -406,19 +392,6 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_To_Redis_LinkedServer_
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(server.Conditions)
 
-	// GeoReplicatedPrimaryHostName
-	if propertyBag.Contains("GeoReplicatedPrimaryHostName") {
-		var geoReplicatedPrimaryHostName string
-		err := propertyBag.Pull("GeoReplicatedPrimaryHostName", &geoReplicatedPrimaryHostName)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'GeoReplicatedPrimaryHostName' from propertyBag")
-		}
-
-		destination.GeoReplicatedPrimaryHostName = &geoReplicatedPrimaryHostName
-	} else {
-		destination.GeoReplicatedPrimaryHostName = nil
-	}
-
 	// Id
 	destination.Id = genruntime.ClonePointerToString(server.Id)
 
@@ -430,19 +403,6 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_To_Redis_LinkedServer_
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(server.Name)
-
-	// PrimaryHostName
-	if propertyBag.Contains("PrimaryHostName") {
-		var primaryHostName string
-		err := propertyBag.Pull("PrimaryHostName", &primaryHostName)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'PrimaryHostName' from propertyBag")
-		}
-
-		destination.PrimaryHostName = &primaryHostName
-	} else {
-		destination.PrimaryHostName = nil
-	}
 
 	// ProvisioningState
 	destination.ProvisioningState = genruntime.ClonePointerToString(server.ProvisioningState)

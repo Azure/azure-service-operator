@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-11-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
 type AvailabilitySet struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (availabilitySet *AvailabilitySet) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-11-01/ComputeRP.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2024-11-01/ComputeRP.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
 type AvailabilitySetList struct {
 	metav1.TypeMeta `json:",inline"`

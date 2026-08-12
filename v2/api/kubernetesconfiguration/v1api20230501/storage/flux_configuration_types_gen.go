@@ -659,6 +659,7 @@ type FluxConfiguration_STATUS struct {
 	StatusUpdatedAt                *string                                   `json:"statusUpdatedAt,omitempty"`
 	Statuses                       []ObjectStatusDefinition_STATUS           `json:"statuses,omitempty"`
 	Suspend                        *bool                                     `json:"suspend,omitempty"`
+	SystemData                     *SystemData_STATUS                        `json:"systemData,omitempty"`
 	Type                           *string                                   `json:"type,omitempty"`
 	WaitForReconciliation          *bool                                     `json:"waitForReconciliation,omitempty"`
 }
@@ -856,6 +857,18 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_From_FluxConfigu
 		configuration.Suspend = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		configuration.SystemData = &systemDatum
+	} else {
+		configuration.SystemData = nil
+	}
+
 	// Type
 	configuration.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -1028,6 +1041,18 @@ func (configuration *FluxConfiguration_STATUS) AssignProperties_To_FluxConfigura
 		destination.Suspend = &suspend
 	} else {
 		destination.Suspend = nil
+	}
+
+	// SystemData
+	if configuration.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := configuration.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
 	}
 
 	// Type

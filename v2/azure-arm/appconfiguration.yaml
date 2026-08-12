@@ -3,6 +3,7 @@ typeTransformers:
     property: SystemData
     remove: true
     because: This property should be marked readonly in Swagger
+
 groupModelConfiguration:
   2022-05-01:
     ConfigurationStore:

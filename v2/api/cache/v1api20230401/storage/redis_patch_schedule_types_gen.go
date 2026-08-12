@@ -4,7 +4,7 @@
 package storage
 
 import (
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20230801/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20230401/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"

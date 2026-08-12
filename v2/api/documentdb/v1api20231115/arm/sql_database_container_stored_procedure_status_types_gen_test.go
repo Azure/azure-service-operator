@@ -19,6 +19,11 @@ import (
 
 func Test_SqlDatabaseContainerStoredProcedure_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -100,6 +105,11 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseContainerStoredProcedure_STATUS(g
 
 func Test_SqlStoredProcedureGetProperties_Resource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -165,6 +175,11 @@ func AddIndependentPropertyGeneratorsForSqlStoredProcedureGetProperties_Resource
 
 func Test_SqlStoredProcedureGetProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

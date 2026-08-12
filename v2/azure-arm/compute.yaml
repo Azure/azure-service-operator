@@ -40,6 +40,7 @@ typeTransformers:
     property: DiskState
     remove: true
     because: This property should have been marked readonly but wasn't.
+
 groupModelConfiguration:
   2020-09-30:
     CreationData:
@@ -202,14 +203,14 @@ groupModelConfiguration:
       $supportedFrom: v2.3.0
     EncryptionSetIdentity_UserAssignedIdentities_STATUS:
       $renameTo: UserAssignedIdentitiesValue_STATUS
+    EncryptionSetProperties:
+      FederatedClientId:
+        $importConfigMapMode: optional
     SourceVault:
       Id:
         $referenceType: arm
     KeyForDiskEncryptionSet:
       KeyUrl:
-        $importConfigMapMode: optional
-    EncryptionSetProperties:
-      FederatedClientId:
         $importConfigMapMode: optional
   2024-03-02:
     CreationData:
@@ -217,6 +218,20 @@ groupModelConfiguration:
         $referenceType: arm
       ElasticSanResourceId:
         $referenceType: arm
+    CommonArchitecture:
+      $renameTo: Architecture
+    CommonArchitecture_STATUS:
+      $renameTo: Architecture_STATUS
+    CommonHyperVGeneration:
+      $renameTo: HyperVGeneration
+    CommonHyperVGeneration_STATUS:
+      $renameTo: HyperVGeneration_STATUS
+    CommonOperatingSystemTypes:
+      $renameTo: OperatingSystemTypes
+    CommonOperatingSystemTypes_STATUS:
+      $renameTo: OperatingSystemTypes_STATUS
+    CommonUserAssignedIdentitiesValue_STATUS:
+      $renameTo: UserAssignedIdentitiesValue_STATUS
     Disk:
       $exportAs: Disk
       $supportedFrom: v2.9.0

@@ -134,7 +134,7 @@ func (tv *TypeVisitor[C]) VisitDefinition(td TypeDefinition, ctx C) (TypeDefinit
 }
 
 func (tv *TypeVisitor[C]) VisitDefinitions(definitions TypeDefinitionSet, ctx C) (TypeDefinitionSet, error) {
-	result := make(TypeDefinitionSet)
+	result := make(TypeDefinitionSet, len(definitions))
 	var errs []error
 	for _, d := range definitions {
 		def, err := tv.VisitDefinition(d, ctx)

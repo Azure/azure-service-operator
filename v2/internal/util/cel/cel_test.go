@@ -394,6 +394,54 @@ func Test_CompileAndRunAndCheck(t *testing.T) {
 			expression:  `self.spec.transformMap`,
 			expectedStr: "test",
 		},
+		{
+			name:        "parseResourceID returns subscription ID",
+			self:        newSimpleResource(),
+			expression:  `aso.parseResourceId(self.status.id).subscriptionId`,
+			expectedStr: "12345",
+		},
+		{
+			name:        "parseResourceID returns resource group name",
+			self:        newSimpleResource(),
+			expression:  `aso.parseResourceId(self.status.id).resourceGroupName`,
+			expectedStr: "myrg",
+		},
+		{
+			name:        "parseResourceID returns resource name",
+			self:        newSimpleResource(),
+			expression:  `aso.parseResourceId(self.status.id).name`,
+			expectedStr: "mysimpleresource",
+		},
+		{
+			name:        "parseResourceID returns resource type namespace",
+			self:        newSimpleResource(),
+			expression:  `aso.parseResourceId(self.status.id).resourceType.namespace`,
+			expectedStr: "Microsoft.Simple",
+		},
+		{
+			name:        "parseResourceID returns resource type",
+			self:        newSimpleResource(),
+			expression:  `aso.parseResourceId(self.status.id).resourceType.type`,
+			expectedStr: "simpleResource",
+		},
+		{
+			name:        "parseResourceID with string literal",
+			self:        newSimpleResource(),
+			expression:  `aso.parseResourceId("/subscriptions/sub123/resourceGroups/rg456/providers/Microsoft.Network/virtualNetworks/myVnet").name`,
+			expectedStr: "myVnet",
+		},
+		{
+			name:        "parseResourceID returns parent subscription ID",
+			self:        newSimpleResource(),
+			expression:  `aso.parseResourceId(self.status.id).parent.subscriptionId`,
+			expectedStr: "12345",
+		},
+		{
+			name:        "parseResourceID invalid ID returns error",
+			self:        newSimpleResource(),
+			expression:  `aso.parseResourceId("not-a-valid-id").name`,
+			expectedErr: "aso.parseResourceId: invalid resource ID",
+		},
 	}
 
 	for _, c := range cases {

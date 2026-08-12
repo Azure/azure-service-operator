@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20220301.VirtualMachineScaleSet
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/virtualMachineScaleSet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachineScaleSet.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}
 type VirtualMachineScaleSet struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -247,7 +247,7 @@ func (scaleSet *VirtualMachineScaleSet) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20220301.VirtualMachineScaleSet
 // Generator information:
-// - Generated from: /compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/virtualMachineScaleSet.json
+// - Generated from: /compute/resource-manager/Microsoft.Compute/Compute/stable/2022-03-01/virtualMachineScaleSet.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}
 type VirtualMachineScaleSetList struct {
 	metav1.TypeMeta `json:",inline"`

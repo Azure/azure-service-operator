@@ -19,6 +19,11 @@ import (
 
 func Test_CassandraCluster_Properties_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -106,6 +111,11 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_Properties_Spec(gens map[st
 
 func Test_CassandraCluster_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -186,6 +196,11 @@ func AddRelatedPropertyGeneratorsForCassandraCluster_Spec(gens map[string]gopter
 
 func Test_Certificate_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -246,6 +261,11 @@ func AddIndependentPropertyGeneratorsForCertificate(gens map[string]gopter.Gen) 
 
 func Test_ManagedCassandraManagedServiceIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -307,6 +327,11 @@ func AddIndependentPropertyGeneratorsForManagedCassandraManagedServiceIdentity(g
 
 func Test_SeedNode_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

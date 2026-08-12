@@ -4,27 +4,26 @@
 package arm
 
 type Autoscalesetting_STATUS struct {
-	// Id: Azure resource Id
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	// Location: Resource location
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Name: Azure resource name
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// Properties: The autoscale setting of the resource.
 	Properties *AutoscaleSetting_STATUS `json:"properties,omitempty"`
 
-	// SystemData: The system metadata related to the response.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
-	// Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping
-	// this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	// greater in length than 128 characters and a value no greater in length than 256 characters.
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
-	// Type: Azure resource type
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -80,7 +79,7 @@ type AutoscaleNotification_STATUS struct {
 	Email *EmailNotification_STATUS `json:"email,omitempty"`
 
 	// Operation: the operation associated with the notification and its value must be "scale"
-	Operation *AutoscaleNotification_Operation_STATUS `json:"operation,omitempty"`
+	Operation *OperationType_STATUS `json:"operation,omitempty"`
 
 	// Webhooks: the collection of webhook notifications.
 	Webhooks []WebhookNotification_STATUS `json:"webhooks,omitempty"`
@@ -112,7 +111,7 @@ type PredictiveAutoscalePolicy_STATUS struct {
 	ScaleLookAheadTime *string `json:"scaleLookAheadTime,omitempty"`
 
 	// ScaleMode: the predictive autoscale mode
-	ScaleMode *PredictiveAutoscalePolicy_ScaleMode_STATUS `json:"scaleMode,omitempty"`
+	ScaleMode *PredictiveAutoscalePolicyScaleMode_STATUS `json:"scaleMode,omitempty"`
 }
 
 type SystemData_CreatedByType_STATUS string
@@ -149,15 +148,6 @@ var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModi
 	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
-type AutoscaleNotification_Operation_STATUS string
-
-const AutoscaleNotification_Operation_STATUS_Scale = AutoscaleNotification_Operation_STATUS("Scale")
-
-// Mapping from string to AutoscaleNotification_Operation_STATUS
-var autoscaleNotification_Operation_STATUS_Values = map[string]AutoscaleNotification_Operation_STATUS{
-	"scale": AutoscaleNotification_Operation_STATUS_Scale,
-}
-
 // Email notification of an autoscale event.
 type EmailNotification_STATUS struct {
 	// CustomEmails: the custom e-mails list. This value can be null or empty, in which case this attribute will be ignored.
@@ -170,19 +160,29 @@ type EmailNotification_STATUS struct {
 	SendToSubscriptionCoAdministrators *bool `json:"sendToSubscriptionCoAdministrators,omitempty"`
 }
 
-type PredictiveAutoscalePolicy_ScaleMode_STATUS string
+type OperationType_STATUS string
+
+const OperationType_STATUS_Scale = OperationType_STATUS("Scale")
+
+// Mapping from string to OperationType_STATUS
+var operationType_STATUS_Values = map[string]OperationType_STATUS{
+	"scale": OperationType_STATUS_Scale,
+}
+
+// the predictive autoscale mode
+type PredictiveAutoscalePolicyScaleMode_STATUS string
 
 const (
-	PredictiveAutoscalePolicy_ScaleMode_STATUS_Disabled     = PredictiveAutoscalePolicy_ScaleMode_STATUS("Disabled")
-	PredictiveAutoscalePolicy_ScaleMode_STATUS_Enabled      = PredictiveAutoscalePolicy_ScaleMode_STATUS("Enabled")
-	PredictiveAutoscalePolicy_ScaleMode_STATUS_ForecastOnly = PredictiveAutoscalePolicy_ScaleMode_STATUS("ForecastOnly")
+	PredictiveAutoscalePolicyScaleMode_STATUS_Disabled     = PredictiveAutoscalePolicyScaleMode_STATUS("Disabled")
+	PredictiveAutoscalePolicyScaleMode_STATUS_Enabled      = PredictiveAutoscalePolicyScaleMode_STATUS("Enabled")
+	PredictiveAutoscalePolicyScaleMode_STATUS_ForecastOnly = PredictiveAutoscalePolicyScaleMode_STATUS("ForecastOnly")
 )
 
-// Mapping from string to PredictiveAutoscalePolicy_ScaleMode_STATUS
-var predictiveAutoscalePolicy_ScaleMode_STATUS_Values = map[string]PredictiveAutoscalePolicy_ScaleMode_STATUS{
-	"disabled":     PredictiveAutoscalePolicy_ScaleMode_STATUS_Disabled,
-	"enabled":      PredictiveAutoscalePolicy_ScaleMode_STATUS_Enabled,
-	"forecastonly": PredictiveAutoscalePolicy_ScaleMode_STATUS_ForecastOnly,
+// Mapping from string to PredictiveAutoscalePolicyScaleMode_STATUS
+var predictiveAutoscalePolicyScaleMode_STATUS_Values = map[string]PredictiveAutoscalePolicyScaleMode_STATUS{
+	"disabled":     PredictiveAutoscalePolicyScaleMode_STATUS_Disabled,
+	"enabled":      PredictiveAutoscalePolicyScaleMode_STATUS_Enabled,
+	"forecastonly": PredictiveAutoscalePolicyScaleMode_STATUS_ForecastOnly,
 }
 
 // The repeating times at which this profile begins. This element is not used if the FixedDate element is used.
@@ -190,7 +190,7 @@ type Recurrence_STATUS struct {
 	// Frequency: the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning
 	// each week will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the
 	// week. The frequency property specifies that the schedule is repeated weekly.
-	Frequency *Recurrence_Frequency_STATUS `json:"frequency,omitempty"`
+	Frequency *RecurrenceFrequency_STATUS `json:"frequency,omitempty"`
 
 	// Schedule: the scheduling constraints for when the profile begins.
 	Schedule *RecurrentSchedule_STATUS `json:"schedule,omitempty"`
@@ -281,17 +281,17 @@ type MetricTrigger_STATUS struct {
 	MetricResourceUri *string `json:"metricResourceUri,omitempty"`
 
 	// Operator: the operator that is used to compare the metric data and the threshold.
-	Operator *MetricTrigger_Operator_STATUS `json:"operator,omitempty"`
+	Operator *ComparisonOperationType_STATUS `json:"operator,omitempty"`
 
 	// Statistic: the metric statistic type. How the metrics from multiple instances are combined.
-	Statistic *MetricTrigger_Statistic_STATUS `json:"statistic,omitempty"`
+	Statistic *MetricStatisticType_STATUS `json:"statistic,omitempty"`
 
 	// Threshold: the threshold of the metric that triggers the scale action.
 	Threshold *float64 `json:"threshold,omitempty"`
 
 	// TimeAggregation: time aggregation type. How the data that is collected should be combined over time. The default value
 	// is Average.
-	TimeAggregation *MetricTrigger_TimeAggregation_STATUS `json:"timeAggregation,omitempty"`
+	TimeAggregation *TimeAggregationType_STATUS `json:"timeAggregation,omitempty"`
 
 	// TimeGrain: the granularity of metrics the rule monitors. Must be one of the predefined values returned from metric
 	// definitions for the metric. Must be between 12 hours and 1 minute.
@@ -302,30 +302,33 @@ type MetricTrigger_STATUS struct {
 	TimeWindow *string `json:"timeWindow,omitempty"`
 }
 
+// the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week
+// will have the same set of profiles. For example, to set a daily schedule, set schedule to every day of the week. The
+// frequency property specifies that the schedule is repeated weekly.
 // +kubebuilder:validation:Enum={"Day","Hour","Minute","Month","None","Second","Week","Year"}
-type Recurrence_Frequency_STATUS string
+type RecurrenceFrequency_STATUS string
 
 const (
-	Recurrence_Frequency_STATUS_Day    = Recurrence_Frequency_STATUS("Day")
-	Recurrence_Frequency_STATUS_Hour   = Recurrence_Frequency_STATUS("Hour")
-	Recurrence_Frequency_STATUS_Minute = Recurrence_Frequency_STATUS("Minute")
-	Recurrence_Frequency_STATUS_Month  = Recurrence_Frequency_STATUS("Month")
-	Recurrence_Frequency_STATUS_None   = Recurrence_Frequency_STATUS("None")
-	Recurrence_Frequency_STATUS_Second = Recurrence_Frequency_STATUS("Second")
-	Recurrence_Frequency_STATUS_Week   = Recurrence_Frequency_STATUS("Week")
-	Recurrence_Frequency_STATUS_Year   = Recurrence_Frequency_STATUS("Year")
+	RecurrenceFrequency_STATUS_Day    = RecurrenceFrequency_STATUS("Day")
+	RecurrenceFrequency_STATUS_Hour   = RecurrenceFrequency_STATUS("Hour")
+	RecurrenceFrequency_STATUS_Minute = RecurrenceFrequency_STATUS("Minute")
+	RecurrenceFrequency_STATUS_Month  = RecurrenceFrequency_STATUS("Month")
+	RecurrenceFrequency_STATUS_None   = RecurrenceFrequency_STATUS("None")
+	RecurrenceFrequency_STATUS_Second = RecurrenceFrequency_STATUS("Second")
+	RecurrenceFrequency_STATUS_Week   = RecurrenceFrequency_STATUS("Week")
+	RecurrenceFrequency_STATUS_Year   = RecurrenceFrequency_STATUS("Year")
 )
 
-// Mapping from string to Recurrence_Frequency_STATUS
-var recurrence_Frequency_STATUS_Values = map[string]Recurrence_Frequency_STATUS{
-	"day":    Recurrence_Frequency_STATUS_Day,
-	"hour":   Recurrence_Frequency_STATUS_Hour,
-	"minute": Recurrence_Frequency_STATUS_Minute,
-	"month":  Recurrence_Frequency_STATUS_Month,
-	"none":   Recurrence_Frequency_STATUS_None,
-	"second": Recurrence_Frequency_STATUS_Second,
-	"week":   Recurrence_Frequency_STATUS_Week,
-	"year":   Recurrence_Frequency_STATUS_Year,
+// Mapping from string to RecurrenceFrequency_STATUS
+var recurrenceFrequency_STATUS_Values = map[string]RecurrenceFrequency_STATUS{
+	"day":    RecurrenceFrequency_STATUS_Day,
+	"hour":   RecurrenceFrequency_STATUS_Hour,
+	"minute": RecurrenceFrequency_STATUS_Minute,
+	"month":  RecurrenceFrequency_STATUS_Month,
+	"none":   RecurrenceFrequency_STATUS_None,
+	"second": RecurrenceFrequency_STATUS_Second,
+	"week":   RecurrenceFrequency_STATUS_Week,
+	"year":   RecurrenceFrequency_STATUS_Year,
 }
 
 // The scheduling constraints for when the profile begins.
@@ -373,112 +376,75 @@ type ScaleAction_STATUS struct {
 	Cooldown *string `json:"cooldown,omitempty"`
 
 	// Direction: the scale direction. Whether the scaling action increases or decreases the number of instances.
-	Direction *ScaleAction_Direction_STATUS `json:"direction,omitempty"`
+	Direction *ScaleDirection_STATUS `json:"direction,omitempty"`
 
 	// Type: the type of action that should occur when the scale rule fires.
-	Type *ScaleAction_Type_STATUS `json:"type,omitempty"`
+	Type *ScaleType_STATUS `json:"type,omitempty"`
 
 	// Value: the number of instances that are involved in the scaling action. This value must be 1 or greater. The default
 	// value is 1.
 	Value *string `json:"value,omitempty"`
 }
 
+// the operator that is used to compare the metric data and the threshold.
 // +kubebuilder:validation:Enum={"Equals","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","NotEquals"}
-type MetricTrigger_Operator_STATUS string
+type ComparisonOperationType_STATUS string
 
 const (
-	MetricTrigger_Operator_STATUS_Equals             = MetricTrigger_Operator_STATUS("Equals")
-	MetricTrigger_Operator_STATUS_GreaterThan        = MetricTrigger_Operator_STATUS("GreaterThan")
-	MetricTrigger_Operator_STATUS_GreaterThanOrEqual = MetricTrigger_Operator_STATUS("GreaterThanOrEqual")
-	MetricTrigger_Operator_STATUS_LessThan           = MetricTrigger_Operator_STATUS("LessThan")
-	MetricTrigger_Operator_STATUS_LessThanOrEqual    = MetricTrigger_Operator_STATUS("LessThanOrEqual")
-	MetricTrigger_Operator_STATUS_NotEquals          = MetricTrigger_Operator_STATUS("NotEquals")
+	ComparisonOperationType_STATUS_Equals             = ComparisonOperationType_STATUS("Equals")
+	ComparisonOperationType_STATUS_GreaterThan        = ComparisonOperationType_STATUS("GreaterThan")
+	ComparisonOperationType_STATUS_GreaterThanOrEqual = ComparisonOperationType_STATUS("GreaterThanOrEqual")
+	ComparisonOperationType_STATUS_LessThan           = ComparisonOperationType_STATUS("LessThan")
+	ComparisonOperationType_STATUS_LessThanOrEqual    = ComparisonOperationType_STATUS("LessThanOrEqual")
+	ComparisonOperationType_STATUS_NotEquals          = ComparisonOperationType_STATUS("NotEquals")
 )
 
-// Mapping from string to MetricTrigger_Operator_STATUS
-var metricTrigger_Operator_STATUS_Values = map[string]MetricTrigger_Operator_STATUS{
-	"equals":             MetricTrigger_Operator_STATUS_Equals,
-	"greaterthan":        MetricTrigger_Operator_STATUS_GreaterThan,
-	"greaterthanorequal": MetricTrigger_Operator_STATUS_GreaterThanOrEqual,
-	"lessthan":           MetricTrigger_Operator_STATUS_LessThan,
-	"lessthanorequal":    MetricTrigger_Operator_STATUS_LessThanOrEqual,
-	"notequals":          MetricTrigger_Operator_STATUS_NotEquals,
+// Mapping from string to ComparisonOperationType_STATUS
+var comparisonOperationType_STATUS_Values = map[string]ComparisonOperationType_STATUS{
+	"equals":             ComparisonOperationType_STATUS_Equals,
+	"greaterthan":        ComparisonOperationType_STATUS_GreaterThan,
+	"greaterthanorequal": ComparisonOperationType_STATUS_GreaterThanOrEqual,
+	"lessthan":           ComparisonOperationType_STATUS_LessThan,
+	"lessthanorequal":    ComparisonOperationType_STATUS_LessThanOrEqual,
+	"notequals":          ComparisonOperationType_STATUS_NotEquals,
 }
 
+// the metric statistic type. How the metrics from multiple instances are combined.
 // +kubebuilder:validation:Enum={"Average","Count","Max","Min","Sum"}
-type MetricTrigger_Statistic_STATUS string
+type MetricStatisticType_STATUS string
 
 const (
-	MetricTrigger_Statistic_STATUS_Average = MetricTrigger_Statistic_STATUS("Average")
-	MetricTrigger_Statistic_STATUS_Count   = MetricTrigger_Statistic_STATUS("Count")
-	MetricTrigger_Statistic_STATUS_Max     = MetricTrigger_Statistic_STATUS("Max")
-	MetricTrigger_Statistic_STATUS_Min     = MetricTrigger_Statistic_STATUS("Min")
-	MetricTrigger_Statistic_STATUS_Sum     = MetricTrigger_Statistic_STATUS("Sum")
+	MetricStatisticType_STATUS_Average = MetricStatisticType_STATUS("Average")
+	MetricStatisticType_STATUS_Count   = MetricStatisticType_STATUS("Count")
+	MetricStatisticType_STATUS_Max     = MetricStatisticType_STATUS("Max")
+	MetricStatisticType_STATUS_Min     = MetricStatisticType_STATUS("Min")
+	MetricStatisticType_STATUS_Sum     = MetricStatisticType_STATUS("Sum")
 )
 
-// Mapping from string to MetricTrigger_Statistic_STATUS
-var metricTrigger_Statistic_STATUS_Values = map[string]MetricTrigger_Statistic_STATUS{
-	"average": MetricTrigger_Statistic_STATUS_Average,
-	"count":   MetricTrigger_Statistic_STATUS_Count,
-	"max":     MetricTrigger_Statistic_STATUS_Max,
-	"min":     MetricTrigger_Statistic_STATUS_Min,
-	"sum":     MetricTrigger_Statistic_STATUS_Sum,
+// Mapping from string to MetricStatisticType_STATUS
+var metricStatisticType_STATUS_Values = map[string]MetricStatisticType_STATUS{
+	"average": MetricStatisticType_STATUS_Average,
+	"count":   MetricStatisticType_STATUS_Count,
+	"max":     MetricStatisticType_STATUS_Max,
+	"min":     MetricStatisticType_STATUS_Min,
+	"sum":     MetricStatisticType_STATUS_Sum,
 }
 
-// +kubebuilder:validation:Enum={"Average","Count","Last","Maximum","Minimum","Total"}
-type MetricTrigger_TimeAggregation_STATUS string
-
-const (
-	MetricTrigger_TimeAggregation_STATUS_Average = MetricTrigger_TimeAggregation_STATUS("Average")
-	MetricTrigger_TimeAggregation_STATUS_Count   = MetricTrigger_TimeAggregation_STATUS("Count")
-	MetricTrigger_TimeAggregation_STATUS_Last    = MetricTrigger_TimeAggregation_STATUS("Last")
-	MetricTrigger_TimeAggregation_STATUS_Maximum = MetricTrigger_TimeAggregation_STATUS("Maximum")
-	MetricTrigger_TimeAggregation_STATUS_Minimum = MetricTrigger_TimeAggregation_STATUS("Minimum")
-	MetricTrigger_TimeAggregation_STATUS_Total   = MetricTrigger_TimeAggregation_STATUS("Total")
-)
-
-// Mapping from string to MetricTrigger_TimeAggregation_STATUS
-var metricTrigger_TimeAggregation_STATUS_Values = map[string]MetricTrigger_TimeAggregation_STATUS{
-	"average": MetricTrigger_TimeAggregation_STATUS_Average,
-	"count":   MetricTrigger_TimeAggregation_STATUS_Count,
-	"last":    MetricTrigger_TimeAggregation_STATUS_Last,
-	"maximum": MetricTrigger_TimeAggregation_STATUS_Maximum,
-	"minimum": MetricTrigger_TimeAggregation_STATUS_Minimum,
-	"total":   MetricTrigger_TimeAggregation_STATUS_Total,
-}
-
+// the scale direction. Whether the scaling action increases or decreases the number of instances.
 // +kubebuilder:validation:Enum={"Decrease","Increase","None"}
-type ScaleAction_Direction_STATUS string
+type ScaleDirection_STATUS string
 
 const (
-	ScaleAction_Direction_STATUS_Decrease = ScaleAction_Direction_STATUS("Decrease")
-	ScaleAction_Direction_STATUS_Increase = ScaleAction_Direction_STATUS("Increase")
-	ScaleAction_Direction_STATUS_None     = ScaleAction_Direction_STATUS("None")
+	ScaleDirection_STATUS_Decrease = ScaleDirection_STATUS("Decrease")
+	ScaleDirection_STATUS_Increase = ScaleDirection_STATUS("Increase")
+	ScaleDirection_STATUS_None     = ScaleDirection_STATUS("None")
 )
 
-// Mapping from string to ScaleAction_Direction_STATUS
-var scaleAction_Direction_STATUS_Values = map[string]ScaleAction_Direction_STATUS{
-	"decrease": ScaleAction_Direction_STATUS_Decrease,
-	"increase": ScaleAction_Direction_STATUS_Increase,
-	"none":     ScaleAction_Direction_STATUS_None,
-}
-
-// +kubebuilder:validation:Enum={"ChangeCount","ExactCount","PercentChangeCount","ServiceAllowedNextValue"}
-type ScaleAction_Type_STATUS string
-
-const (
-	ScaleAction_Type_STATUS_ChangeCount             = ScaleAction_Type_STATUS("ChangeCount")
-	ScaleAction_Type_STATUS_ExactCount              = ScaleAction_Type_STATUS("ExactCount")
-	ScaleAction_Type_STATUS_PercentChangeCount      = ScaleAction_Type_STATUS("PercentChangeCount")
-	ScaleAction_Type_STATUS_ServiceAllowedNextValue = ScaleAction_Type_STATUS("ServiceAllowedNextValue")
-)
-
-// Mapping from string to ScaleAction_Type_STATUS
-var scaleAction_Type_STATUS_Values = map[string]ScaleAction_Type_STATUS{
-	"changecount":             ScaleAction_Type_STATUS_ChangeCount,
-	"exactcount":              ScaleAction_Type_STATUS_ExactCount,
-	"percentchangecount":      ScaleAction_Type_STATUS_PercentChangeCount,
-	"serviceallowednextvalue": ScaleAction_Type_STATUS_ServiceAllowedNextValue,
+// Mapping from string to ScaleDirection_STATUS
+var scaleDirection_STATUS_Values = map[string]ScaleDirection_STATUS{
+	"decrease": ScaleDirection_STATUS_Decrease,
+	"increase": ScaleDirection_STATUS_Increase,
+	"none":     ScaleDirection_STATUS_None,
 }
 
 // Specifies an auto scale rule metric dimension.
@@ -488,22 +454,66 @@ type ScaleRuleMetricDimension_STATUS struct {
 
 	// Operator: the dimension operator. Only 'Equals' and 'NotEquals' are supported. 'Equals' being equal to any of the
 	// values. 'NotEquals' being not equal to all of the values
-	Operator *ScaleRuleMetricDimension_Operator_STATUS `json:"Operator,omitempty"`
+	Operator *ScaleRuleMetricDimensionOperationType_STATUS `json:"Operator,omitempty"`
 
 	// Values: list of dimension values. For example: ["App1","App2"].
 	Values []string `json:"Values,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Equals","NotEquals"}
-type ScaleRuleMetricDimension_Operator_STATUS string
+// the type of action that should occur when the scale rule fires.
+// +kubebuilder:validation:Enum={"ChangeCount","ExactCount","PercentChangeCount","ServiceAllowedNextValue"}
+type ScaleType_STATUS string
 
 const (
-	ScaleRuleMetricDimension_Operator_STATUS_Equals    = ScaleRuleMetricDimension_Operator_STATUS("Equals")
-	ScaleRuleMetricDimension_Operator_STATUS_NotEquals = ScaleRuleMetricDimension_Operator_STATUS("NotEquals")
+	ScaleType_STATUS_ChangeCount             = ScaleType_STATUS("ChangeCount")
+	ScaleType_STATUS_ExactCount              = ScaleType_STATUS("ExactCount")
+	ScaleType_STATUS_PercentChangeCount      = ScaleType_STATUS("PercentChangeCount")
+	ScaleType_STATUS_ServiceAllowedNextValue = ScaleType_STATUS("ServiceAllowedNextValue")
 )
 
-// Mapping from string to ScaleRuleMetricDimension_Operator_STATUS
-var scaleRuleMetricDimension_Operator_STATUS_Values = map[string]ScaleRuleMetricDimension_Operator_STATUS{
-	"equals":    ScaleRuleMetricDimension_Operator_STATUS_Equals,
-	"notequals": ScaleRuleMetricDimension_Operator_STATUS_NotEquals,
+// Mapping from string to ScaleType_STATUS
+var scaleType_STATUS_Values = map[string]ScaleType_STATUS{
+	"changecount":             ScaleType_STATUS_ChangeCount,
+	"exactcount":              ScaleType_STATUS_ExactCount,
+	"percentchangecount":      ScaleType_STATUS_PercentChangeCount,
+	"serviceallowednextvalue": ScaleType_STATUS_ServiceAllowedNextValue,
+}
+
+// time aggregation type. How the data that is collected should be combined over time. The default value is Average.
+// +kubebuilder:validation:Enum={"Average","Count","Last","Maximum","Minimum","Total"}
+type TimeAggregationType_STATUS string
+
+const (
+	TimeAggregationType_STATUS_Average = TimeAggregationType_STATUS("Average")
+	TimeAggregationType_STATUS_Count   = TimeAggregationType_STATUS("Count")
+	TimeAggregationType_STATUS_Last    = TimeAggregationType_STATUS("Last")
+	TimeAggregationType_STATUS_Maximum = TimeAggregationType_STATUS("Maximum")
+	TimeAggregationType_STATUS_Minimum = TimeAggregationType_STATUS("Minimum")
+	TimeAggregationType_STATUS_Total   = TimeAggregationType_STATUS("Total")
+)
+
+// Mapping from string to TimeAggregationType_STATUS
+var timeAggregationType_STATUS_Values = map[string]TimeAggregationType_STATUS{
+	"average": TimeAggregationType_STATUS_Average,
+	"count":   TimeAggregationType_STATUS_Count,
+	"last":    TimeAggregationType_STATUS_Last,
+	"maximum": TimeAggregationType_STATUS_Maximum,
+	"minimum": TimeAggregationType_STATUS_Minimum,
+	"total":   TimeAggregationType_STATUS_Total,
+}
+
+// the dimension operator. Only 'Equals' and 'NotEquals' are supported. 'Equals' being equal to any of the values.
+// 'NotEquals' being not equal to all of the values
+// +kubebuilder:validation:Enum={"Equals","NotEquals"}
+type ScaleRuleMetricDimensionOperationType_STATUS string
+
+const (
+	ScaleRuleMetricDimensionOperationType_STATUS_Equals    = ScaleRuleMetricDimensionOperationType_STATUS("Equals")
+	ScaleRuleMetricDimensionOperationType_STATUS_NotEquals = ScaleRuleMetricDimensionOperationType_STATUS("NotEquals")
+)
+
+// Mapping from string to ScaleRuleMetricDimensionOperationType_STATUS
+var scaleRuleMetricDimensionOperationType_STATUS_Values = map[string]ScaleRuleMetricDimensionOperationType_STATUS{
+	"equals":    ScaleRuleMetricDimensionOperationType_STATUS_Equals,
+	"notequals": ScaleRuleMetricDimensionOperationType_STATUS_NotEquals,
 }

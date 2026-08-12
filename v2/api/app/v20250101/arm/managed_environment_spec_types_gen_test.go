@@ -19,6 +19,11 @@ import (
 
 func Test_AppLogsConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -94,6 +99,11 @@ func AddRelatedPropertyGeneratorsForAppLogsConfiguration(gens map[string]gopter.
 
 func Test_CertificateKeyVaultProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -156,6 +166,11 @@ func AddIndependentPropertyGeneratorsForCertificateKeyVaultProperties(gens map[s
 
 func Test_CustomDomainConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -233,6 +248,11 @@ func AddRelatedPropertyGeneratorsForCustomDomainConfiguration(gens map[string]go
 
 func Test_LogAnalyticsConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -295,6 +315,11 @@ func AddIndependentPropertyGeneratorsForLogAnalyticsConfiguration(gens map[strin
 
 func Test_ManagedEnvironment_Properties_PeerAuthentication_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -356,6 +381,11 @@ func AddRelatedPropertyGeneratorsForManagedEnvironment_Properties_PeerAuthentica
 
 func Test_ManagedEnvironment_Properties_PeerTrafficConfiguration_Encryption_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -417,6 +447,11 @@ func AddIndependentPropertyGeneratorsForManagedEnvironment_Properties_PeerTraffi
 
 func Test_ManagedEnvironment_Properties_PeerTrafficConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -478,6 +513,11 @@ func AddRelatedPropertyGeneratorsForManagedEnvironment_Properties_PeerTrafficCon
 
 func Test_ManagedEnvironment_Properties_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -561,6 +601,11 @@ func AddRelatedPropertyGeneratorsForManagedEnvironment_Properties_Spec(gens map[
 
 func Test_ManagedEnvironment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -642,6 +687,11 @@ func AddRelatedPropertyGeneratorsForManagedEnvironment_Spec(gens map[string]gopt
 
 func Test_Mtls_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -702,6 +752,11 @@ func AddIndependentPropertyGeneratorsForMtls(gens map[string]gopter.Gen) {
 
 func Test_VnetConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -766,6 +821,11 @@ func AddIndependentPropertyGeneratorsForVnetConfiguration(gens map[string]gopter
 
 func Test_WorkloadProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

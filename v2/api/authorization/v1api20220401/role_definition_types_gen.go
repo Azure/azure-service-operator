@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json
 // - ARM URI: /{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}
 type RoleDefinition struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +51,36 @@ var _ conversion.Convertible = &RoleDefinition{}
 
 // ConvertFrom populates our RoleDefinition from the provided hub RoleDefinition
 func (definition *RoleDefinition) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RoleDefinition)
-	if !ok {
-		return fmt.Errorf("expected authorization/v1api20220401/storage/RoleDefinition but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RoleDefinition
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return definition.AssignProperties_From_RoleDefinition(source)
+	err = definition.AssignProperties_From_RoleDefinition(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to definition")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RoleDefinition from our RoleDefinition
 func (definition *RoleDefinition) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RoleDefinition)
-	if !ok {
-		return fmt.Errorf("expected authorization/v1api20220401/storage/RoleDefinition but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RoleDefinition
+	err := definition.AssignProperties_To_RoleDefinition(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from definition")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return definition.AssignProperties_To_RoleDefinition(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RoleDefinition{}
@@ -87,17 +101,6 @@ func (definition *RoleDefinition) SecretDestinationExpressions() []*core.Destina
 		return nil
 	}
 	return definition.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RoleDefinition{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (definition *RoleDefinition) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RoleDefinition_STATUS); ok {
-		return definition.Spec.Initialize_From_RoleDefinition_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RoleDefinition_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RoleDefinition{}
@@ -237,7 +240,7 @@ func (definition *RoleDefinition) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/stable/2022-04-01/authorization-RoleDefinitionsCalls.json
 // - ARM URI: /{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}
 type RoleDefinitionList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -580,38 +583,6 @@ func (definition *RoleDefinition_Spec) AssignProperties_To_RoleDefinition_Spec(d
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RoleDefinition_STATUS populates our RoleDefinition_Spec from the provided source RoleDefinition_STATUS
-func (definition *RoleDefinition_Spec) Initialize_From_RoleDefinition_STATUS(source *RoleDefinition_STATUS) error {
-
-	// Description
-	definition.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Permissions
-	if source.Permissions != nil {
-		permissionList := make([]Permission, len(source.Permissions))
-		for permissionIndex, permissionItem := range source.Permissions {
-			var permission Permission
-			err := permission.Initialize_From_Permission_STATUS(&permissionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_Permission_STATUS() to populate field Permissions")
-			}
-			permissionList[permissionIndex] = permission
-		}
-		definition.Permissions = permissionList
-	} else {
-		definition.Permissions = nil
-	}
-
-	// RoleName
-	definition.RoleName = genruntime.ClonePointerToString(source.RoleName)
-
-	// Type
-	definition.Type = genruntime.ClonePointerToString(source.PropertiesType)
 
 	// No error
 	return nil
@@ -1092,25 +1063,6 @@ func (permission *Permission) AssignProperties_To_Permission(destination *storag
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Permission_STATUS populates our Permission from the provided source Permission_STATUS
-func (permission *Permission) Initialize_From_Permission_STATUS(source *Permission_STATUS) error {
-
-	// Actions
-	permission.Actions = genruntime.CloneSliceOfString(source.Actions)
-
-	// DataActions
-	permission.DataActions = genruntime.CloneSliceOfString(source.DataActions)
-
-	// NotActions
-	permission.NotActions = genruntime.CloneSliceOfString(source.NotActions)
-
-	// NotDataActions
-	permission.NotDataActions = genruntime.CloneSliceOfString(source.NotDataActions)
 
 	// No error
 	return nil

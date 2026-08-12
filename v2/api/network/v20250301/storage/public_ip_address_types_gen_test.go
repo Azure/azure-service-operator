@@ -19,6 +19,11 @@ import (
 
 func Test_DdosSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -93,6 +98,11 @@ func AddRelatedPropertyGeneratorsForDdosSettings(gens map[string]gopter.Gen) {
 
 func Test_DdosSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -168,6 +178,11 @@ func AddRelatedPropertyGeneratorsForDdosSettings_STATUS(gens map[string]gopter.G
 
 func Test_IPConfiguration_STATUS_PublicIPAddress_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -229,6 +244,11 @@ func AddIndependentPropertyGeneratorsForIPConfiguration_STATUS_PublicIPAddress_S
 
 func Test_IpTag_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -290,6 +310,11 @@ func AddIndependentPropertyGeneratorsForIpTag(gens map[string]gopter.Gen) {
 
 func Test_IpTag_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -351,6 +376,11 @@ func AddIndependentPropertyGeneratorsForIpTag_STATUS(gens map[string]gopter.Gen)
 
 func Test_NatGatewaySpec_PublicIPAddress_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -406,6 +436,11 @@ func NatGatewaySpec_PublicIPAddress_SubResourceEmbeddedGenerator() gopter.Gen {
 
 func Test_NatGateway_STATUS_PublicIPAddress_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -467,6 +502,11 @@ func AddIndependentPropertyGeneratorsForNatGateway_STATUS_PublicIPAddress_SubRes
 
 func Test_PublicIPAddress_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -528,6 +568,11 @@ func AddRelatedPropertyGeneratorsForPublicIPAddress(gens map[string]gopter.Gen) 
 
 func Test_PublicIPAddressDnsSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -592,6 +637,11 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressDnsSettings(gens map[stri
 
 func Test_PublicIPAddressDnsSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -656,6 +706,11 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressDnsSettings_STATUS(gens m
 
 func Test_PublicIPAddressOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -711,6 +766,11 @@ func PublicIPAddressOperatorSpecGenerator() gopter.Gen {
 
 func Test_PublicIPAddressSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -772,6 +832,11 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressSku(gens map[string]gopte
 
 func Test_PublicIPAddressSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -834,6 +899,11 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressSku_STATUS(gens map[strin
 
 func Test_PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -889,6 +959,11 @@ func PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedGenerator() gopter.G
 
 func Test_PublicIPAddress_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -987,6 +1062,11 @@ func AddRelatedPropertyGeneratorsForPublicIPAddress_STATUS(gens map[string]gopte
 
 func Test_PublicIPAddress_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

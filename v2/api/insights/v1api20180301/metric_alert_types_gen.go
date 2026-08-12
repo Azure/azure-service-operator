@@ -27,7 +27,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2018-03-01/metricAlert_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}
 type MetricAlert struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -239,7 +239,7 @@ func (alert *MetricAlert) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/metricAlert_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2018-03-01/metricAlert_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/metricAlerts/{ruleName}
 type MetricAlertList struct {
 	metav1.TypeMeta `json:",inline"`

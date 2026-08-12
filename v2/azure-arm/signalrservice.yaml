@@ -4,6 +4,7 @@ typeTransformers:
     target:
       required: true
     because: This property should be marked required in Swagger
+
 groupModelConfiguration:
   2021-10-01:
     SignalR:

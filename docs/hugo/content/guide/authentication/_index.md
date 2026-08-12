@@ -39,6 +39,103 @@ _resource scope_ takes precedence over _namespace scope_ which takes precedence 
 > The namespace is the security boundary. ASO will not allow users to read secrets from other namespaces. We recommend
 > using separate namespaces for separate environments (dev, test, prod, etc) for this reason
 
+## Using ASO to create its own credentials
+
+It is possible to use ASO to create its own [namespace-scoped]( {{< relref "credential-scope#namespace-scope" >}} ) or 
+[resource-scoped]({{< relref "credential-scope#resource-scope" >}}) credentials.
+
+Achieving this requires two things:
+
+1. A namespace for managing credentials, complete with `aso-credential` (namespace-scoped) or [global credential (not recommended)]( {{< relref "credential-scope#global-scope" >}} )
+   that has permission to create `managedidentity.azure.com/UserAssignedIdentity` and `authorization.azure.com/RoleAssignment` resources. This namespace will be used
+   to create/manage the credentials.
+2. An operator such as [kubernetes-reflector](https://github.com/emberstack/kubernetes-reflector), used to mirror the credential into the target namespace, which will use the credential
+
+Here's an example where the management namespace creates a `resources.azure.com/ResourceGroup`, `managedidentity.azure.com/UserAssignedIdentity` and `authorization.azure.com/RoleAssignment` 
+granting the identity Contributor on the resource group.
+
+{{% alert title="Note" %}}
+ASO does not support creating secrets in namespaces other than the namespace the corresponding resource is in.
+{{% /alert %}}
+
+{{% alert title="Note" %}}
+The secret written by `secretExpressions` must **not** be named `aso-credential` in the management namespace, as that
+would conflict with the existing namespace-scoped credential that ASO uses to manage resources there.
+Use a different name (e.g. `sample-identity-credential`) and have reflector mirror it into the target namespace
+under the name `aso-credential`.
+{{% /alert %}}
+
+```yaml
+apiVersion: resources.azure.com/v1api20200601
+kind: ResourceGroup
+metadata:
+  name: aso-sample-rg
+  namespace: management
+spec:
+  location: westcentralus
+---
+apiVersion: managedidentity.azure.com/v1api20230131
+kind: UserAssignedIdentity
+metadata:
+  name: sample-identity
+  namespace: management
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  operatorSpec:
+    secretExpressions:
+      - name: sample-identity-credential
+        key: AZURE_SUBSCRIPTION_ID
+        value: "aso.parseResourceId(self.status.id).subscriptionId"
+        annotations:
+          reflector.v1.k8s.emberstack.com/reflection-allowed: '"true"'
+          reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: '"app-namespace"'
+      - name: sample-identity-credential
+        key: AZURE_TENANT_ID
+        value: "self.status.tenantId"
+      - name: sample-identity-credential
+        key: AZURE_CLIENT_ID
+        value: "self.status.clientId"
+      - name: sample-identity-credential
+        key: USE_WORKLOAD_IDENTITY_AUTH
+        value: "string(true)"
+---
+apiVersion: authorization.azure.com/v1api20220401
+kind: RoleAssignment
+metadata:
+  name: sample-identity-contributor
+  namespace: management
+spec:
+  owner:
+    name: aso-sample-rg
+    group: resources.azure.com
+    kind: ResourceGroup
+  principalIdFromConfig:
+    name: sample-identity-settings
+    key: principalId
+  roleDefinitionReference:
+    wellKnownName: Contributor
+```
+
+Once the resources are provisioned, a user in `app-namespace` can mirror the credential by creating a stub secret 
+with the `reflects` annotation:
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aso-credential
+  namespace: app-namespace
+  annotations:
+    reflector.v1.k8s.emberstack.com/reflects: "management/sample-identity-credential"
+```
+
+[kubernetes-reflector](https://github.com/emberstack/kubernetes-reflector) will automatically populate this secret
+with the contents of `sample-identity-credential` from the `management` namespace. Since the destination secret is 
+named `aso-credential`, ASO will use it as the namespace-scoped credential for resources in `app-namespace`, 
+allowing them to manage Azure resources using workload identity.
+
 ## Using multiple operators with a single credential per operator
 
 > **This mode is not recommended unless you _really_ need it**

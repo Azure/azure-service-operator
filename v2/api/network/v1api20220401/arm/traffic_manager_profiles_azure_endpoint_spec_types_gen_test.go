@@ -19,6 +19,11 @@ import (
 
 func Test_EndpointProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -112,6 +117,11 @@ func AddRelatedPropertyGeneratorsForEndpointProperties(gens map[string]gopter.Ge
 
 func Test_EndpointPropertiesCustomHeadersItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -174,6 +184,11 @@ func AddIndependentPropertyGeneratorsForEndpointPropertiesCustomHeadersItem(gens
 
 func Test_EndpointPropertiesSubnetsItem_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -237,6 +252,11 @@ func AddIndependentPropertyGeneratorsForEndpointPropertiesSubnetsItem(gens map[s
 
 func Test_TrafficManagerProfilesAzureEndpoint_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

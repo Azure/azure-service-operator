@@ -302,7 +302,7 @@ func (in *Workbook_STATUS) DeepCopyInto(out *Workbook_STATUS) {
 	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
-		*out = new(Workbook_Kind_STATUS)
+		*out = new(ApplicationInsightsCommonTypesWorkbookSharedTypeKind_STATUS)
 		**out = **in
 	}
 	if in.Location != nil {

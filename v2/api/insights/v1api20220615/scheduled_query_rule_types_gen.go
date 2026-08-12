@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-06-15/scheduledQueryRule_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-06-15/scheduledQueryRule_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}
 type ScheduledQueryRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -238,7 +238,7 @@ func (rule *ScheduledQueryRule) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-06-15/scheduledQueryRule_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-06-15/scheduledQueryRule_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}
 type ScheduledQueryRuleList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -2553,7 +2553,7 @@ type Condition struct {
 
 	// FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
 	// alert. Relevant only for rules of the kind LogAlert.
-	FailingPeriods *Condition_FailingPeriods `json:"failingPeriods,omitempty"`
+	FailingPeriods *ConditionFailingPeriods `json:"failingPeriods,omitempty"`
 
 	// MetricMeasureColumn: The column containing the metric measure number. Relevant only for rules of the kind LogAlert.
 	MetricMeasureColumn *string `json:"metricMeasureColumn,omitempty"`
@@ -2603,7 +2603,7 @@ func (condition *Condition) ConvertToARM(resolved genruntime.ConvertToARMResolve
 		if err != nil {
 			return nil, err
 		}
-		failingPeriods := *failingPeriods_ARM.(*arm.Condition_FailingPeriods)
+		failingPeriods := *failingPeriods_ARM.(*arm.ConditionFailingPeriods)
 		result.FailingPeriods = &failingPeriods
 	}
 
@@ -2683,7 +2683,7 @@ func (condition *Condition) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 
 	// Set property "FailingPeriods":
 	if typedInput.FailingPeriods != nil {
-		var failingPeriods1 Condition_FailingPeriods
+		var failingPeriods1 ConditionFailingPeriods
 		err := failingPeriods1.PopulateFromARM(owner, *typedInput.FailingPeriods)
 		if err != nil {
 			return err
@@ -2759,10 +2759,10 @@ func (condition *Condition) AssignProperties_From_Condition(source *storage.Cond
 
 	// FailingPeriods
 	if source.FailingPeriods != nil {
-		var failingPeriod Condition_FailingPeriods
-		err := failingPeriod.AssignProperties_From_Condition_FailingPeriods(source.FailingPeriods)
+		var failingPeriod ConditionFailingPeriods
+		err := failingPeriod.AssignProperties_From_ConditionFailingPeriods(source.FailingPeriods)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Condition_FailingPeriods() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_From_ConditionFailingPeriods() to populate field FailingPeriods")
 		}
 		condition.FailingPeriods = &failingPeriod
 	} else {
@@ -2839,10 +2839,10 @@ func (condition *Condition) AssignProperties_To_Condition(destination *storage.C
 
 	// FailingPeriods
 	if condition.FailingPeriods != nil {
-		var failingPeriod storage.Condition_FailingPeriods
-		err := condition.FailingPeriods.AssignProperties_To_Condition_FailingPeriods(&failingPeriod)
+		var failingPeriod storage.ConditionFailingPeriods
+		err := condition.FailingPeriods.AssignProperties_To_ConditionFailingPeriods(&failingPeriod)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_To_ConditionFailingPeriods() to populate field FailingPeriods")
 		}
 		destination.FailingPeriods = &failingPeriod
 	} else {
@@ -2922,10 +2922,10 @@ func (condition *Condition) Initialize_From_Condition_STATUS(source *Condition_S
 
 	// FailingPeriods
 	if source.FailingPeriods != nil {
-		var failingPeriod Condition_FailingPeriods
-		err := failingPeriod.Initialize_From_Condition_FailingPeriods_STATUS(source.FailingPeriods)
+		var failingPeriod ConditionFailingPeriods
+		err := failingPeriod.Initialize_From_ConditionFailingPeriods_STATUS(source.FailingPeriods)
 		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling Initialize_From_ConditionFailingPeriods_STATUS() to populate field FailingPeriods")
 		}
 		condition.FailingPeriods = &failingPeriod
 	} else {
@@ -2976,7 +2976,7 @@ type Condition_STATUS struct {
 
 	// FailingPeriods: The minimum number of violations required within the selected lookback time window required to raise an
 	// alert. Relevant only for rules of the kind LogAlert.
-	FailingPeriods *Condition_FailingPeriods_STATUS `json:"failingPeriods,omitempty"`
+	FailingPeriods *ConditionFailingPeriods_STATUS `json:"failingPeriods,omitempty"`
 
 	// MetricMeasureColumn: The column containing the metric measure number. Relevant only for rules of the kind LogAlert.
 	MetricMeasureColumn *string `json:"metricMeasureColumn,omitempty"`
@@ -3028,7 +3028,7 @@ func (condition *Condition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property "FailingPeriods":
 	if typedInput.FailingPeriods != nil {
-		var failingPeriods1 Condition_FailingPeriods_STATUS
+		var failingPeriods1 ConditionFailingPeriods_STATUS
 		err := failingPeriods1.PopulateFromARM(owner, *typedInput.FailingPeriods)
 		if err != nil {
 			return err
@@ -3108,10 +3108,10 @@ func (condition *Condition_STATUS) AssignProperties_From_Condition_STATUS(source
 
 	// FailingPeriods
 	if source.FailingPeriods != nil {
-		var failingPeriod Condition_FailingPeriods_STATUS
-		err := failingPeriod.AssignProperties_From_Condition_FailingPeriods_STATUS(source.FailingPeriods)
+		var failingPeriod ConditionFailingPeriods_STATUS
+		err := failingPeriod.AssignProperties_From_ConditionFailingPeriods_STATUS(source.FailingPeriods)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_From_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_From_ConditionFailingPeriods_STATUS() to populate field FailingPeriods")
 		}
 		condition.FailingPeriods = &failingPeriod
 	} else {
@@ -3183,10 +3183,10 @@ func (condition *Condition_STATUS) AssignProperties_To_Condition_STATUS(destinat
 
 	// FailingPeriods
 	if condition.FailingPeriods != nil {
-		var failingPeriod storage.Condition_FailingPeriods_STATUS
-		err := condition.FailingPeriods.AssignProperties_To_Condition_FailingPeriods_STATUS(&failingPeriod)
+		var failingPeriod storage.ConditionFailingPeriods_STATUS
+		err := condition.FailingPeriods.AssignProperties_To_ConditionFailingPeriods_STATUS(&failingPeriod)
 		if err != nil {
-			return eris.Wrap(err, "calling AssignProperties_To_Condition_FailingPeriods_STATUS() to populate field FailingPeriods")
+			return eris.Wrap(err, "calling AssignProperties_To_ConditionFailingPeriods_STATUS() to populate field FailingPeriods")
 		}
 		destination.FailingPeriods = &failingPeriod
 	} else {
@@ -3274,190 +3274,6 @@ var systemData_LastModifiedByType_STATUS_Values = map[string]SystemData_LastModi
 	"user":            SystemData_LastModifiedByType_STATUS_User,
 }
 
-type Condition_FailingPeriods struct {
-	// MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
-	// numberOfEvaluationPeriods. Default value is 1
-	MinFailingPeriodsToAlert *int `json:"minFailingPeriodsToAlert,omitempty"`
-
-	// NumberOfEvaluationPeriods: The number of aggregated lookback points. The lookback time window is calculated based on the
-	// aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1
-	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Condition_FailingPeriods{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (periods *Condition_FailingPeriods) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if periods == nil {
-		return nil, nil
-	}
-	result := &arm.Condition_FailingPeriods{}
-
-	// Set property "MinFailingPeriodsToAlert":
-	if periods.MinFailingPeriodsToAlert != nil {
-		minFailingPeriodsToAlert := *periods.MinFailingPeriodsToAlert
-		result.MinFailingPeriodsToAlert = &minFailingPeriodsToAlert
-	}
-
-	// Set property "NumberOfEvaluationPeriods":
-	if periods.NumberOfEvaluationPeriods != nil {
-		numberOfEvaluationPeriods := *periods.NumberOfEvaluationPeriods
-		result.NumberOfEvaluationPeriods = &numberOfEvaluationPeriods
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (periods *Condition_FailingPeriods) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Condition_FailingPeriods{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (periods *Condition_FailingPeriods) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Condition_FailingPeriods)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Condition_FailingPeriods, got %T", armInput)
-	}
-
-	// Set property "MinFailingPeriodsToAlert":
-	if typedInput.MinFailingPeriodsToAlert != nil {
-		minFailingPeriodsToAlert := *typedInput.MinFailingPeriodsToAlert
-		periods.MinFailingPeriodsToAlert = &minFailingPeriodsToAlert
-	}
-
-	// Set property "NumberOfEvaluationPeriods":
-	if typedInput.NumberOfEvaluationPeriods != nil {
-		numberOfEvaluationPeriods := *typedInput.NumberOfEvaluationPeriods
-		periods.NumberOfEvaluationPeriods = &numberOfEvaluationPeriods
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Condition_FailingPeriods populates our Condition_FailingPeriods from the provided source Condition_FailingPeriods
-func (periods *Condition_FailingPeriods) AssignProperties_From_Condition_FailingPeriods(source *storage.Condition_FailingPeriods) error {
-
-	// MinFailingPeriodsToAlert
-	periods.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(source.MinFailingPeriodsToAlert)
-
-	// NumberOfEvaluationPeriods
-	periods.NumberOfEvaluationPeriods = genruntime.ClonePointerToInt(source.NumberOfEvaluationPeriods)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Condition_FailingPeriods populates the provided destination Condition_FailingPeriods from our Condition_FailingPeriods
-func (periods *Condition_FailingPeriods) AssignProperties_To_Condition_FailingPeriods(destination *storage.Condition_FailingPeriods) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MinFailingPeriodsToAlert
-	destination.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(periods.MinFailingPeriodsToAlert)
-
-	// NumberOfEvaluationPeriods
-	destination.NumberOfEvaluationPeriods = genruntime.ClonePointerToInt(periods.NumberOfEvaluationPeriods)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Condition_FailingPeriods_STATUS populates our Condition_FailingPeriods from the provided source Condition_FailingPeriods_STATUS
-func (periods *Condition_FailingPeriods) Initialize_From_Condition_FailingPeriods_STATUS(source *Condition_FailingPeriods_STATUS) error {
-
-	// MinFailingPeriodsToAlert
-	periods.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(source.MinFailingPeriodsToAlert)
-
-	// NumberOfEvaluationPeriods
-	periods.NumberOfEvaluationPeriods = genruntime.ClonePointerToInt(source.NumberOfEvaluationPeriods)
-
-	// No error
-	return nil
-}
-
-type Condition_FailingPeriods_STATUS struct {
-	// MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
-	// numberOfEvaluationPeriods. Default value is 1
-	MinFailingPeriodsToAlert *int `json:"minFailingPeriodsToAlert,omitempty"`
-
-	// NumberOfEvaluationPeriods: The number of aggregated lookback points. The lookback time window is calculated based on the
-	// aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1
-	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &Condition_FailingPeriods_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (periods *Condition_FailingPeriods_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &arm.Condition_FailingPeriods_STATUS{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (periods *Condition_FailingPeriods_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(arm.Condition_FailingPeriods_STATUS)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.Condition_FailingPeriods_STATUS, got %T", armInput)
-	}
-
-	// Set property "MinFailingPeriodsToAlert":
-	if typedInput.MinFailingPeriodsToAlert != nil {
-		minFailingPeriodsToAlert := *typedInput.MinFailingPeriodsToAlert
-		periods.MinFailingPeriodsToAlert = &minFailingPeriodsToAlert
-	}
-
-	// Set property "NumberOfEvaluationPeriods":
-	if typedInput.NumberOfEvaluationPeriods != nil {
-		numberOfEvaluationPeriods := *typedInput.NumberOfEvaluationPeriods
-		periods.NumberOfEvaluationPeriods = &numberOfEvaluationPeriods
-	}
-
-	// No error
-	return nil
-}
-
-// AssignProperties_From_Condition_FailingPeriods_STATUS populates our Condition_FailingPeriods_STATUS from the provided source Condition_FailingPeriods_STATUS
-func (periods *Condition_FailingPeriods_STATUS) AssignProperties_From_Condition_FailingPeriods_STATUS(source *storage.Condition_FailingPeriods_STATUS) error {
-
-	// MinFailingPeriodsToAlert
-	periods.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(source.MinFailingPeriodsToAlert)
-
-	// NumberOfEvaluationPeriods
-	periods.NumberOfEvaluationPeriods = genruntime.ClonePointerToInt(source.NumberOfEvaluationPeriods)
-
-	// No error
-	return nil
-}
-
-// AssignProperties_To_Condition_FailingPeriods_STATUS populates the provided destination Condition_FailingPeriods_STATUS from our Condition_FailingPeriods_STATUS
-func (periods *Condition_FailingPeriods_STATUS) AssignProperties_To_Condition_FailingPeriods_STATUS(destination *storage.Condition_FailingPeriods_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MinFailingPeriodsToAlert
-	destination.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(periods.MinFailingPeriodsToAlert)
-
-	// NumberOfEvaluationPeriods
-	destination.NumberOfEvaluationPeriods = genruntime.ClonePointerToInt(periods.NumberOfEvaluationPeriods)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // +kubebuilder:validation:Enum={"Equals","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual"}
 type Condition_Operator string
 
@@ -3534,6 +3350,190 @@ var condition_TimeAggregation_STATUS_Values = map[string]Condition_TimeAggregati
 	"maximum": Condition_TimeAggregation_STATUS_Maximum,
 	"minimum": Condition_TimeAggregation_STATUS_Minimum,
 	"total":   Condition_TimeAggregation_STATUS_Total,
+}
+
+type ConditionFailingPeriods struct {
+	// MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
+	// numberOfEvaluationPeriods. Default value is 1
+	MinFailingPeriodsToAlert *int `json:"minFailingPeriodsToAlert,omitempty"`
+
+	// NumberOfEvaluationPeriods: The number of aggregated lookback points. The lookback time window is calculated based on the
+	// aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1
+	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ConditionFailingPeriods{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (periods *ConditionFailingPeriods) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if periods == nil {
+		return nil, nil
+	}
+	result := &arm.ConditionFailingPeriods{}
+
+	// Set property "MinFailingPeriodsToAlert":
+	if periods.MinFailingPeriodsToAlert != nil {
+		minFailingPeriodsToAlert := *periods.MinFailingPeriodsToAlert
+		result.MinFailingPeriodsToAlert = &minFailingPeriodsToAlert
+	}
+
+	// Set property "NumberOfEvaluationPeriods":
+	if periods.NumberOfEvaluationPeriods != nil {
+		numberOfEvaluationPeriods := *periods.NumberOfEvaluationPeriods
+		result.NumberOfEvaluationPeriods = &numberOfEvaluationPeriods
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (periods *ConditionFailingPeriods) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ConditionFailingPeriods{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (periods *ConditionFailingPeriods) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ConditionFailingPeriods)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ConditionFailingPeriods, got %T", armInput)
+	}
+
+	// Set property "MinFailingPeriodsToAlert":
+	if typedInput.MinFailingPeriodsToAlert != nil {
+		minFailingPeriodsToAlert := *typedInput.MinFailingPeriodsToAlert
+		periods.MinFailingPeriodsToAlert = &minFailingPeriodsToAlert
+	}
+
+	// Set property "NumberOfEvaluationPeriods":
+	if typedInput.NumberOfEvaluationPeriods != nil {
+		numberOfEvaluationPeriods := *typedInput.NumberOfEvaluationPeriods
+		periods.NumberOfEvaluationPeriods = &numberOfEvaluationPeriods
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ConditionFailingPeriods populates our ConditionFailingPeriods from the provided source ConditionFailingPeriods
+func (periods *ConditionFailingPeriods) AssignProperties_From_ConditionFailingPeriods(source *storage.ConditionFailingPeriods) error {
+
+	// MinFailingPeriodsToAlert
+	periods.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(source.MinFailingPeriodsToAlert)
+
+	// NumberOfEvaluationPeriods
+	periods.NumberOfEvaluationPeriods = genruntime.ClonePointerToInt(source.NumberOfEvaluationPeriods)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ConditionFailingPeriods populates the provided destination ConditionFailingPeriods from our ConditionFailingPeriods
+func (periods *ConditionFailingPeriods) AssignProperties_To_ConditionFailingPeriods(destination *storage.ConditionFailingPeriods) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// MinFailingPeriodsToAlert
+	destination.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(periods.MinFailingPeriodsToAlert)
+
+	// NumberOfEvaluationPeriods
+	destination.NumberOfEvaluationPeriods = genruntime.ClonePointerToInt(periods.NumberOfEvaluationPeriods)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Initialize_From_ConditionFailingPeriods_STATUS populates our ConditionFailingPeriods from the provided source ConditionFailingPeriods_STATUS
+func (periods *ConditionFailingPeriods) Initialize_From_ConditionFailingPeriods_STATUS(source *ConditionFailingPeriods_STATUS) error {
+
+	// MinFailingPeriodsToAlert
+	periods.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(source.MinFailingPeriodsToAlert)
+
+	// NumberOfEvaluationPeriods
+	periods.NumberOfEvaluationPeriods = genruntime.ClonePointerToInt(source.NumberOfEvaluationPeriods)
+
+	// No error
+	return nil
+}
+
+type ConditionFailingPeriods_STATUS struct {
+	// MinFailingPeriodsToAlert: The number of violations to trigger an alert. Should be smaller or equal to
+	// numberOfEvaluationPeriods. Default value is 1
+	MinFailingPeriodsToAlert *int `json:"minFailingPeriodsToAlert,omitempty"`
+
+	// NumberOfEvaluationPeriods: The number of aggregated lookback points. The lookback time window is calculated based on the
+	// aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1
+	NumberOfEvaluationPeriods *int `json:"numberOfEvaluationPeriods,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &ConditionFailingPeriods_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (periods *ConditionFailingPeriods_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ConditionFailingPeriods_STATUS{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (periods *ConditionFailingPeriods_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ConditionFailingPeriods_STATUS)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ConditionFailingPeriods_STATUS, got %T", armInput)
+	}
+
+	// Set property "MinFailingPeriodsToAlert":
+	if typedInput.MinFailingPeriodsToAlert != nil {
+		minFailingPeriodsToAlert := *typedInput.MinFailingPeriodsToAlert
+		periods.MinFailingPeriodsToAlert = &minFailingPeriodsToAlert
+	}
+
+	// Set property "NumberOfEvaluationPeriods":
+	if typedInput.NumberOfEvaluationPeriods != nil {
+		numberOfEvaluationPeriods := *typedInput.NumberOfEvaluationPeriods
+		periods.NumberOfEvaluationPeriods = &numberOfEvaluationPeriods
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ConditionFailingPeriods_STATUS populates our ConditionFailingPeriods_STATUS from the provided source ConditionFailingPeriods_STATUS
+func (periods *ConditionFailingPeriods_STATUS) AssignProperties_From_ConditionFailingPeriods_STATUS(source *storage.ConditionFailingPeriods_STATUS) error {
+
+	// MinFailingPeriodsToAlert
+	periods.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(source.MinFailingPeriodsToAlert)
+
+	// NumberOfEvaluationPeriods
+	periods.NumberOfEvaluationPeriods = genruntime.ClonePointerToInt(source.NumberOfEvaluationPeriods)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ConditionFailingPeriods_STATUS populates the provided destination ConditionFailingPeriods_STATUS from our ConditionFailingPeriods_STATUS
+func (periods *ConditionFailingPeriods_STATUS) AssignProperties_To_ConditionFailingPeriods_STATUS(destination *storage.ConditionFailingPeriods_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// MinFailingPeriodsToAlert
+	destination.MinFailingPeriodsToAlert = genruntime.ClonePointerToInt(periods.MinFailingPeriodsToAlert)
+
+	// NumberOfEvaluationPeriods
+	destination.NumberOfEvaluationPeriods = genruntime.ClonePointerToInt(periods.NumberOfEvaluationPeriods)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Dimension splitting and filtering definition

@@ -9,39 +9,34 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
 func Test_ResourceGroupProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceGroupProperties_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceGroupProperties_STATUS, ResourceGroupProperties_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, RunJSONSerializationTestForResourceGroupProperties_STATUS)
 }
 
 // RunJSONSerializationTestForResourceGroupProperties_STATUS runs a test to see if a specific instance of ResourceGroupProperties_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceGroupProperties_STATUS(subject ResourceGroupProperties_STATUS) string {
+func RunJSONSerializationTestForResourceGroupProperties_STATUS(t *rapid.T) {
+	subject := ResourceGroupProperties_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceGroupProperties_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -50,59 +45,55 @@ func RunJSONSerializationTestForResourceGroupProperties_STATUS(subject ResourceG
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceGroupProperties_STATUS instances for property testing - lazily instantiated by
 // ResourceGroupProperties_STATUSGenerator()
-var resourceGroupProperties_STATUSGenerator gopter.Gen
+var resourceGroupProperties_STATUSGenerator *rapid.Generator[ResourceGroupProperties_STATUS]
 
 // ResourceGroupProperties_STATUSGenerator returns a generator of ResourceGroupProperties_STATUS instances for property testing.
-func ResourceGroupProperties_STATUSGenerator() gopter.Gen {
+func ResourceGroupProperties_STATUSGenerator() *rapid.Generator[ResourceGroupProperties_STATUS] {
 	if resourceGroupProperties_STATUSGenerator != nil {
 		return resourceGroupProperties_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceGroupProperties_STATUS(generators)
-	resourceGroupProperties_STATUSGenerator = gen.Struct(reflect.TypeOf(ResourceGroupProperties_STATUS{}), generators)
+	provisioningState := rapid.Ptr(rapid.String(), true)
+
+	resourceGroupProperties_STATUSGenerator = rapid.Custom(func(t *rapid.T) ResourceGroupProperties_STATUS {
+		var result ResourceGroupProperties_STATUS
+		result.ProvisioningState = provisioningState.Draw(t, "ProvisioningState")
+		return result
+	})
 
 	return resourceGroupProperties_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForResourceGroupProperties_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceGroupProperties_STATUS(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_ResourceGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceGroup_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceGroup_STATUS, ResourceGroup_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, RunJSONSerializationTestForResourceGroup_STATUS)
 }
 
 // RunJSONSerializationTestForResourceGroup_STATUS runs a test to see if a specific instance of ResourceGroup_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceGroup_STATUS(subject ResourceGroup_STATUS) string {
+func RunJSONSerializationTestForResourceGroup_STATUS(t *rapid.T) {
+	subject := ResourceGroup_STATUSGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceGroup_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -111,51 +102,37 @@ func RunJSONSerializationTestForResourceGroup_STATUS(subject ResourceGroup_STATU
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceGroup_STATUS instances for property testing - lazily instantiated by
 // ResourceGroup_STATUSGenerator()
-var resourceGroup_STATUSGenerator gopter.Gen
+var resourceGroup_STATUSGenerator *rapid.Generator[ResourceGroup_STATUS]
 
 // ResourceGroup_STATUSGenerator returns a generator of ResourceGroup_STATUS instances for property testing.
-// We first initialize resourceGroup_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ResourceGroup_STATUSGenerator() gopter.Gen {
+func ResourceGroup_STATUSGenerator() *rapid.Generator[ResourceGroup_STATUS] {
 	if resourceGroup_STATUSGenerator != nil {
 		return resourceGroup_STATUSGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceGroup_STATUS(generators)
-	resourceGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(ResourceGroup_STATUS{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	properties := rapid.Ptr(ResourceGroupProperties_STATUSGenerator(), true)
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceGroup_STATUS(generators)
-	AddRelatedPropertyGeneratorsForResourceGroup_STATUS(generators)
-	resourceGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(ResourceGroup_STATUS{}), generators)
+	resourceGroup_STATUSGenerator = rapid.Custom(func(t *rapid.T) ResourceGroup_STATUS {
+		var result ResourceGroup_STATUS
+		result.Id = ptrString.Draw(t, "Id")
+		result.Location = ptrString.Draw(t, "Location")
+		result.ManagedBy = ptrString.Draw(t, "ManagedBy")
+		result.Name = ptrString.Draw(t, "Name")
+		result.Properties = properties.Draw(t, "Properties")
+		result.Tags = tags.Draw(t, "Tags")
+		result.Type = ptrString.Draw(t, "Type")
+		return result
+	})
 
 	return resourceGroup_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForResourceGroup_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForResourceGroup_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForResourceGroup_STATUS(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ResourceGroupProperties_STATUSGenerator())
 }

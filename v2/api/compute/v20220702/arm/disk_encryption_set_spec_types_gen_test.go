@@ -19,6 +19,11 @@ import (
 
 func Test_DiskEncryptionSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -99,6 +104,11 @@ func AddRelatedPropertyGeneratorsForDiskEncryptionSet_Spec(gens map[string]gopte
 
 func Test_EncryptionSetIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -180,6 +190,11 @@ func AddRelatedPropertyGeneratorsForEncryptionSetIdentity(gens map[string]gopter
 
 func Test_EncryptionSetProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -257,6 +272,11 @@ func AddRelatedPropertyGeneratorsForEncryptionSetProperties(gens map[string]gopt
 
 func Test_KeyForDiskEncryptionSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -332,6 +352,11 @@ func AddRelatedPropertyGeneratorsForKeyForDiskEncryptionSet(gens map[string]gopt
 
 func Test_SourceVault_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -392,6 +417,11 @@ func AddIndependentPropertyGeneratorsForSourceVault(gens map[string]gopter.Gen) 
 
 func Test_UserAssignedIdentityDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

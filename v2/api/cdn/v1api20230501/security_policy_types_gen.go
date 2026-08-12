@@ -51,22 +51,36 @@ var _ conversion.Convertible = &SecurityPolicy{}
 
 // ConvertFrom populates our SecurityPolicy from the provided hub SecurityPolicy
 func (policy *SecurityPolicy) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.SecurityPolicy)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/SecurityPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.SecurityPolicy
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return policy.AssignProperties_From_SecurityPolicy(source)
+	err = policy.AssignProperties_From_SecurityPolicy(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to policy")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub SecurityPolicy from our SecurityPolicy
 func (policy *SecurityPolicy) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.SecurityPolicy)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/SecurityPolicy but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.SecurityPolicy
+	err := policy.AssignProperties_To_SecurityPolicy(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from policy")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return policy.AssignProperties_To_SecurityPolicy(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &SecurityPolicy{}
@@ -87,17 +101,6 @@ func (policy *SecurityPolicy) SecretDestinationExpressions() []*core.Destination
 		return nil
 	}
 	return policy.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &SecurityPolicy{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (policy *SecurityPolicy) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*SecurityPolicy_STATUS); ok {
-		return policy.Spec.Initialize_From_SecurityPolicy_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type SecurityPolicy_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &SecurityPolicy{}
@@ -473,25 +476,6 @@ func (policy *SecurityPolicy_Spec) AssignProperties_To_SecurityPolicy_Spec(desti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SecurityPolicy_STATUS populates our SecurityPolicy_Spec from the provided source SecurityPolicy_STATUS
-func (policy *SecurityPolicy_Spec) Initialize_From_SecurityPolicy_STATUS(source *SecurityPolicy_STATUS) error {
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter SecurityPolicyPropertiesParameters
-		err := parameter.Initialize_From_SecurityPolicyPropertiesParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SecurityPolicyPropertiesParameters_STATUS() to populate field Parameters")
-		}
-		policy.Parameters = &parameter
-	} else {
-		policy.Parameters = nil
 	}
 
 	// No error
@@ -1044,25 +1028,6 @@ func (parameters *SecurityPolicyPropertiesParameters) AssignProperties_To_Securi
 	return nil
 }
 
-// Initialize_From_SecurityPolicyPropertiesParameters_STATUS populates our SecurityPolicyPropertiesParameters from the provided source SecurityPolicyPropertiesParameters_STATUS
-func (parameters *SecurityPolicyPropertiesParameters) Initialize_From_SecurityPolicyPropertiesParameters_STATUS(source *SecurityPolicyPropertiesParameters_STATUS) error {
-
-	// WebApplicationFirewall
-	if source.WebApplicationFirewall != nil {
-		var webApplicationFirewall SecurityPolicyWebApplicationFirewallParameters
-		err := webApplicationFirewall.Initialize_From_SecurityPolicyWebApplicationFirewallParameters_STATUS(source.WebApplicationFirewall)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SecurityPolicyWebApplicationFirewallParameters_STATUS() to populate field WebApplicationFirewall")
-		}
-		parameters.WebApplicationFirewall = &webApplicationFirewall
-	} else {
-		parameters.WebApplicationFirewall = nil
-	}
-
-	// No error
-	return nil
-}
-
 type SecurityPolicyPropertiesParameters_STATUS struct {
 	// WebApplicationFirewall: Mutually exclusive with all other properties
 	WebApplicationFirewall *SecurityPolicyWebApplicationFirewallParameters_STATUS `json:"webApplicationFirewall,omitempty"`
@@ -1329,49 +1294,6 @@ func (parameters *SecurityPolicyWebApplicationFirewallParameters) AssignProperti
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SecurityPolicyWebApplicationFirewallParameters_STATUS populates our SecurityPolicyWebApplicationFirewallParameters from the provided source SecurityPolicyWebApplicationFirewallParameters_STATUS
-func (parameters *SecurityPolicyWebApplicationFirewallParameters) Initialize_From_SecurityPolicyWebApplicationFirewallParameters_STATUS(source *SecurityPolicyWebApplicationFirewallParameters_STATUS) error {
-
-	// Associations
-	if source.Associations != nil {
-		associationList := make([]SecurityPolicyWebApplicationFirewallAssociation, len(source.Associations))
-		for associationIndex, associationItem := range source.Associations {
-			var association SecurityPolicyWebApplicationFirewallAssociation
-			err := association.Initialize_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(&associationItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS() to populate field Associations")
-			}
-			associationList[associationIndex] = association
-		}
-		parameters.Associations = associationList
-	} else {
-		parameters.Associations = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), securityPolicyWebApplicationFirewallParameters_Type_Values)
-		parameters.Type = &typeVar
-	} else {
-		parameters.Type = nil
-	}
-
-	// WafPolicy
-	if source.WafPolicy != nil {
-		var wafPolicy ResourceReference
-		err := wafPolicy.Initialize_From_ResourceReference_STATUS(source.WafPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field WafPolicy")
-		}
-		parameters.WafPolicy = &wafPolicy
-	} else {
-		parameters.WafPolicy = nil
 	}
 
 	// No error
@@ -1657,32 +1579,6 @@ func (association *SecurityPolicyWebApplicationFirewallAssociation) AssignProper
 	return nil
 }
 
-// Initialize_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS populates our SecurityPolicyWebApplicationFirewallAssociation from the provided source SecurityPolicyWebApplicationFirewallAssociation_STATUS
-func (association *SecurityPolicyWebApplicationFirewallAssociation) Initialize_From_SecurityPolicyWebApplicationFirewallAssociation_STATUS(source *SecurityPolicyWebApplicationFirewallAssociation_STATUS) error {
-
-	// Domains
-	if source.Domains != nil {
-		domainList := make([]ActivatedResourceReference, len(source.Domains))
-		for domainIndex, domainItem := range source.Domains {
-			var domain ActivatedResourceReference
-			err := domain.Initialize_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(&domainItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded() to populate field Domains")
-			}
-			domainList[domainIndex] = domain
-		}
-		association.Domains = domainList
-	} else {
-		association.Domains = nil
-	}
-
-	// PatternsToMatch
-	association.PatternsToMatch = genruntime.CloneSliceOfString(source.PatternsToMatch)
-
-	// No error
-	return nil
-}
-
 // settings for security policy patterns to match
 type SecurityPolicyWebApplicationFirewallAssociation_STATUS struct {
 	// Domains: List of domains.
@@ -1803,6 +1699,65 @@ const SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_WebApplicationF
 // Mapping from string to SecurityPolicyWebApplicationFirewallParameters_Type_STATUS
 var securityPolicyWebApplicationFirewallParameters_Type_STATUS_Values = map[string]SecurityPolicyWebApplicationFirewallParameters_Type_STATUS{
 	"webapplicationfirewall": SecurityPolicyWebApplicationFirewallParameters_Type_STATUS_WebApplicationFirewall,
+}
+
+// Reference to another resource along with its state.
+type ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded struct {
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected arm.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded, got %T", armInput)
+	}
+
+	// Set property "Id":
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		embedded.Id = &id
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded populates our ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded from the provided source ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
+func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) AssignProperties_From_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(source *storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) error {
+
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded populates the provided destination ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded from our ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded
+func (embedded *ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) AssignProperties_To_ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded(destination *storage.ActivatedResourceReference_STATUS_Profiles_SecurityPolicy_SubResourceEmbedded) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {

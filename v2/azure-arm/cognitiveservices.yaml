@@ -3,6 +3,7 @@ typeTransformers:
     property: CurrentCapacity
     remove: true
     because: This property should have been marked readonly but wasn't.
+
 groupModelConfiguration:
   2025-06-01:
     Account:
@@ -17,6 +18,9 @@ groupModelConfiguration:
     Accounts_Deployment:
       $exportAs: Deployment
       $supportedFrom: v2.15.0
+    Accounts_Project:
+      $exportAs: Project
+      $supportedFrom: v2.20.0
     ApiProperties:
       AadTenantId:
         $importConfigMapMode: optional

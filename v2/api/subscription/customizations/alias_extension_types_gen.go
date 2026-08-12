@@ -4,8 +4,10 @@
 package customizations
 
 import (
-	v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
-	storage "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
+	subscription_v1api20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001"
+	subscription_v1api20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v1api20211001/storage"
+	subscription_v20211001 "github.com/Azure/azure-service-operator/v2/api/subscription/v20211001"
+	subscription_v20211001s "github.com/Azure/azure-service-operator/v2/api/subscription/v20211001/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -15,6 +17,8 @@ type AliasExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *AliasExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20211001.Alias{},
-		&storage.Alias{}}
+		&subscription_v1api20211001.Alias{},
+		&subscription_v1api20211001s.Alias{},
+		&subscription_v20211001.Alias{},
+		&subscription_v20211001s.Alias{}}
 }

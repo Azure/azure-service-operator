@@ -1,5 +1,7 @@
 | Type Definitions in package "kubernetesconfiguration" | v1api20230501 | v1api20241101 |
 |-------------------------------------------------------|---------------|---------------|
+| AKSIdentityType                                       |               | v1api20241101 |
+| AKSIdentityType_STATUS                                |               | v1api20241101 |
 | APIVersion                                            | v1api20230501 | v1api20241101 |
 | AzureBlobDefinition                                   | v1api20230501 | v1api20241101 |
 | AzureBlobDefinition_STATUS                            | v1api20230501 | v1api20241101 |
@@ -9,14 +11,20 @@
 | ErrorDetail_STATUS                                    | v1api20230501 | v1api20241101 |
 | ErrorDetail_STATUS_Unrolled                           | v1api20230501 | v1api20241101 |
 | Extension                                             | v1api20230501 | v1api20241101 |
+| ExtensionProperties                                   |               | v1api20241101 |
+| ExtensionPropertiesAksAssignedIdentity                |               | v1api20241101 |
+| ExtensionPropertiesAksAssignedIdentity_STATUS         |               | v1api20241101 |
+| ExtensionProperties_STATUS                            |               | v1api20241101 |
+| ExtensionStatus                                       |               | v1api20241101 |
+| ExtensionStatus_Level                                 |               | v1api20241101 |
 | ExtensionStatus_Level_STATUS                          | v1api20230501 | v1api20241101 |
 | ExtensionStatus_STATUS                                | v1api20230501 | v1api20241101 |
-| Extension_Properties_AksAssignedIdentity_STATUS       | v1api20230501 | v1api20241101 |
-| Extension_Properties_AksAssignedIdentity_Spec         | v1api20230501 | v1api20241101 |
-| Extension_Properties_AksAssignedIdentity_Type_STATUS  | v1api20230501 | v1api20241101 |
-| Extension_Properties_AksAssignedIdentity_Type_Spec    | v1api20230501 | v1api20241101 |
-| Extension_Properties_STATUS                           | v1api20230501 | v1api20241101 |
-| Extension_Properties_Spec                             | v1api20230501 | v1api20241101 |
+| Extension_Properties_AksAssignedIdentity_STATUS       | v1api20230501 |               |
+| Extension_Properties_AksAssignedIdentity_Spec         | v1api20230501 |               |
+| Extension_Properties_AksAssignedIdentity_Type_STATUS  | v1api20230501 |               |
+| Extension_Properties_AksAssignedIdentity_Type_Spec    | v1api20230501 |               |
+| Extension_Properties_STATUS                           | v1api20230501 |               |
+| Extension_Properties_Spec                             | v1api20230501 |               |
 | Extension_STATUS                                      | v1api20230501 | v1api20241101 |
 | Extension_Spec                                        | v1api20230501 | v1api20241101 |
 | FluxComplianceStateDefinition_STATUS                  | v1api20230501 | v1api20241101 |
@@ -56,6 +64,7 @@
 | PostBuildDefinition                                   | v1api20230501 | v1api20241101 |
 | PostBuildDefinition_STATUS                            | v1api20230501 | v1api20241101 |
 | ProvisioningStateDefinition_STATUS                    | v1api20230501 |               |
+| ProvisioningState_STATUS                              |               | v1api20241101 |
 | RepositoryRefDefinition                               | v1api20230501 | v1api20241101 |
 | RepositoryRefDefinition_STATUS                        | v1api20230501 | v1api20241101 |
 | Scope                                                 | v1api20230501 | v1api20241101 |
@@ -72,10 +81,10 @@
 | SourceKindDefinition_STATUS                           | v1api20230501 | v1api20241101 |
 | SubstituteFromDefinition                              | v1api20230501 | v1api20241101 |
 | SubstituteFromDefinition_STATUS                       | v1api20230501 | v1api20241101 |
-| SystemData                                            | v1api20230501 | v1api20241101 |
-| SystemData_CreatedByType                              | v1api20230501 | v1api20241101 |
+| SystemData                                            | v1api20230501 |               |
+| SystemData_CreatedByType                              | v1api20230501 |               |
 | SystemData_CreatedByType_STATUS                       | v1api20230501 | v1api20241101 |
-| SystemData_LastModifiedByType                         | v1api20230501 | v1api20241101 |
+| SystemData_LastModifiedByType                         | v1api20230501 |               |
 | SystemData_LastModifiedByType_STATUS                  | v1api20230501 | v1api20241101 |
 | SystemData_STATUS                                     | v1api20230501 | v1api20241101 |
 | TlsConfigDefinition                                   |               | v1api20241101 |

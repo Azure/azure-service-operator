@@ -21,6 +21,11 @@ import (
 
 func Test_DataCollectionRuleAssociation_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -64,6 +69,11 @@ func RunResourceConversionTestForDataCollectionRuleAssociation(subject DataColle
 
 func Test_DataCollectionRuleAssociation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -106,6 +116,11 @@ func RunPropertyAssignmentTestForDataCollectionRuleAssociation(subject DataColle
 
 func Test_DataCollectionRuleAssociation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -168,6 +183,11 @@ func AddRelatedPropertyGeneratorsForDataCollectionRuleAssociation(gens map[strin
 
 func Test_DataCollectionRuleAssociationOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -210,6 +230,11 @@ func RunPropertyAssignmentTestForDataCollectionRuleAssociationOperatorSpec(subje
 
 func Test_DataCollectionRuleAssociationOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -265,6 +290,11 @@ func DataCollectionRuleAssociationOperatorSpecGenerator() gopter.Gen {
 
 func Test_DataCollectionRuleAssociationProxyOnlyResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -307,6 +337,11 @@ func RunPropertyAssignmentTestForDataCollectionRuleAssociationProxyOnlyResource_
 
 func Test_DataCollectionRuleAssociationProxyOnlyResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -396,6 +431,11 @@ func AddRelatedPropertyGeneratorsForDataCollectionRuleAssociationProxyOnlyResour
 
 func Test_DataCollectionRuleAssociation_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -438,6 +478,11 @@ func RunPropertyAssignmentTestForDataCollectionRuleAssociation_Spec(subject Data
 
 func Test_DataCollectionRuleAssociation_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

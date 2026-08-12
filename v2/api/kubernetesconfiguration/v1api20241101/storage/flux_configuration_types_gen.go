@@ -239,6 +239,7 @@ type FluxConfiguration_STATUS struct {
 	StatusUpdatedAt                *string                                   `json:"statusUpdatedAt,omitempty"`
 	Statuses                       []ObjectStatusDefinition_STATUS           `json:"statuses,omitempty"`
 	Suspend                        *bool                                     `json:"suspend,omitempty"`
+	SystemData                     *SystemData_STATUS                        `json:"systemData,omitempty"`
 	Type                           *string                                   `json:"type,omitempty"`
 	WaitForReconciliation          *bool                                     `json:"waitForReconciliation,omitempty"`
 }

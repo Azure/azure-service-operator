@@ -19,6 +19,11 @@ import (
 
 func Test_Database_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -93,6 +98,11 @@ func AddRelatedPropertyGeneratorsForDatabase_Spec(gens map[string]gopter.Gen) {
 
 func Test_ReadWriteDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -169,6 +179,11 @@ func AddRelatedPropertyGeneratorsForReadWriteDatabase(gens map[string]gopter.Gen
 
 func Test_ReadWriteDatabaseProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

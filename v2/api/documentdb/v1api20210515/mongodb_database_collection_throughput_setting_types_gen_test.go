@@ -21,6 +21,11 @@ import (
 
 func Test_AutoUpgradePolicyResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -63,6 +68,11 @@ func RunPropertyAssignmentTestForAutoUpgradePolicyResource(subject AutoUpgradePo
 
 func Test_AutoUpgradePolicyResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -124,6 +134,11 @@ func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResource(gens map[string]go
 
 func Test_AutoUpgradePolicyResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -166,6 +181,11 @@ func RunPropertyAssignmentTestForAutoUpgradePolicyResource_STATUS(subject AutoUp
 
 func Test_AutoUpgradePolicyResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -227,6 +247,11 @@ func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResource_STATUS(gens map[st
 
 func Test_AutoscaleSettingsResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -269,6 +294,11 @@ func RunPropertyAssignmentTestForAutoscaleSettingsResource(subject AutoscaleSett
 
 func Test_AutoscaleSettingsResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -344,6 +374,11 @@ func AddRelatedPropertyGeneratorsForAutoscaleSettingsResource(gens map[string]go
 
 func Test_AutoscaleSettingsResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -386,6 +421,11 @@ func RunPropertyAssignmentTestForAutoscaleSettingsResource_STATUS(subject Autosc
 
 func Test_AutoscaleSettingsResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -462,6 +502,11 @@ func AddRelatedPropertyGeneratorsForAutoscaleSettingsResource_STATUS(gens map[st
 
 func Test_MongodbDatabaseCollectionThroughputSetting_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -505,6 +550,11 @@ func RunResourceConversionTestForMongodbDatabaseCollectionThroughputSetting(subj
 
 func Test_MongodbDatabaseCollectionThroughputSetting_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -547,6 +597,11 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting(subj
 
 func Test_MongodbDatabaseCollectionThroughputSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -609,6 +664,11 @@ func AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting(g
 
 func Test_MongodbDatabaseCollectionThroughputSettingOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -651,6 +711,11 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSettingOpera
 
 func Test_MongodbDatabaseCollectionThroughputSettingOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -706,6 +771,11 @@ func MongodbDatabaseCollectionThroughputSettingOperatorSpecGenerator() gopter.Ge
 
 func Test_MongodbDatabaseCollectionThroughputSetting_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -748,6 +818,11 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting_STAT
 
 func Test_MongodbDatabaseCollectionThroughputSetting_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -829,6 +904,11 @@ func AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting_S
 
 func Test_MongodbDatabaseCollectionThroughputSetting_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -871,6 +951,11 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting_Spec
 
 func Test_MongodbDatabaseCollectionThroughputSetting_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -950,6 +1035,11 @@ func AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting_S
 
 func Test_ThroughputPolicyResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -992,6 +1082,11 @@ func RunPropertyAssignmentTestForThroughputPolicyResource(subject ThroughputPoli
 
 func Test_ThroughputPolicyResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1054,6 +1149,11 @@ func AddIndependentPropertyGeneratorsForThroughputPolicyResource(gens map[string
 
 func Test_ThroughputPolicyResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1096,6 +1196,11 @@ func RunPropertyAssignmentTestForThroughputPolicyResource_STATUS(subject Through
 
 func Test_ThroughputPolicyResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1158,6 +1263,11 @@ func AddIndependentPropertyGeneratorsForThroughputPolicyResource_STATUS(gens map
 
 func Test_ThroughputSettingsGetProperties_Resource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1200,6 +1310,11 @@ func RunPropertyAssignmentTestForThroughputSettingsGetProperties_Resource_STATUS
 
 func Test_ThroughputSettingsGetProperties_Resource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1280,6 +1395,11 @@ func AddRelatedPropertyGeneratorsForThroughputSettingsGetProperties_Resource_STA
 
 func Test_ThroughputSettingsResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1322,6 +1442,11 @@ func RunPropertyAssignmentTestForThroughputSettingsResource(subject ThroughputSe
 
 func Test_ThroughputSettingsResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3

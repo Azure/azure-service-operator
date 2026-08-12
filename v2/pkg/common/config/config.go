@@ -107,4 +107,7 @@ const (
 	// When disabled, any attempt to specify these settings in a credential will cause reconciliation to fail.
 	// This defaults to false for security reasons.
 	AllowMultiEnvManagement = "ALLOW_MULTI_ENV_MANAGEMENT"
+	// EntraAppID is the client ID of the Entra application used to authenticate with Entra.
+	// NOTE: This is required when using Entra authentication, but optional otherwise.
+	EntraAppID = "ENTRA_APP_ID"
 )

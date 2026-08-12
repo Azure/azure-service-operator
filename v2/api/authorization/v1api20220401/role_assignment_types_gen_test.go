@@ -5,7 +5,8 @@ package v1api20220401
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	authorization_v1api20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_RoleAssignment_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -36,7 +42,7 @@ func RunResourceConversionTestForRoleAssignment(subject RoleAssignment) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RoleAssignment
+	var hub authorization_v20220401s.RoleAssignment
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -63,6 +69,11 @@ func RunResourceConversionTestForRoleAssignment(subject RoleAssignment) string {
 
 func Test_RoleAssignment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,7 +89,7 @@ func RunPropertyAssignmentTestForRoleAssignment(subject RoleAssignment) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleAssignment
+	var other authorization_v1api20220401s.RoleAssignment
 	err := copied.AssignProperties_To_RoleAssignment(&other)
 	if err != nil {
 		return err.Error()
@@ -105,6 +116,11 @@ func RunPropertyAssignmentTestForRoleAssignment(subject RoleAssignment) string {
 
 func Test_RoleAssignment_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -166,6 +182,11 @@ func AddRelatedPropertyGeneratorsForRoleAssignment(gens map[string]gopter.Gen) {
 
 func Test_RoleAssignmentOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -181,7 +202,7 @@ func RunPropertyAssignmentTestForRoleAssignmentOperatorSpec(subject RoleAssignme
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleAssignmentOperatorSpec
+	var other authorization_v1api20220401s.RoleAssignmentOperatorSpec
 	err := copied.AssignProperties_To_RoleAssignmentOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -208,6 +229,11 @@ func RunPropertyAssignmentTestForRoleAssignmentOperatorSpec(subject RoleAssignme
 
 func Test_RoleAssignmentOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -269,6 +295,11 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentOperatorSpec(gens map[stri
 
 func Test_RoleAssignment_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -284,7 +315,7 @@ func RunPropertyAssignmentTestForRoleAssignment_STATUS(subject RoleAssignment_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleAssignment_STATUS
+	var other authorization_v1api20220401s.RoleAssignment_STATUS
 	err := copied.AssignProperties_To_RoleAssignment_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -311,6 +342,11 @@ func RunPropertyAssignmentTestForRoleAssignment_STATUS(subject RoleAssignment_ST
 
 func Test_RoleAssignment_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -353,6 +389,9 @@ func RunJSONSerializationTestForRoleAssignment_STATUS(subject RoleAssignment_STA
 var roleAssignment_STATUSGenerator gopter.Gen
 
 // RoleAssignment_STATUSGenerator returns a generator of RoleAssignment_STATUS instances for property testing.
+// We first initialize roleAssignment_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func RoleAssignment_STATUSGenerator() gopter.Gen {
 	if roleAssignment_STATUSGenerator != nil {
 		return roleAssignment_STATUSGenerator
@@ -360,6 +399,12 @@ func RoleAssignment_STATUSGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForRoleAssignment_STATUS(generators)
+	roleAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRoleAssignment_STATUS(generators)
+	AddRelatedPropertyGeneratorsForRoleAssignment_STATUS(generators)
 	roleAssignment_STATUSGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUS{}), generators)
 
 	return roleAssignment_STATUSGenerator
@@ -389,8 +434,18 @@ func AddIndependentPropertyGeneratorsForRoleAssignment_STATUS(gens map[string]go
 	gens["UpdatedOn"] = gen.PtrOf(gen.AlphaString())
 }
 
+// AddRelatedPropertyGeneratorsForRoleAssignment_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRoleAssignment_STATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
+}
+
 func Test_RoleAssignment_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -406,7 +461,7 @@ func RunPropertyAssignmentTestForRoleAssignment_Spec(subject RoleAssignment_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleAssignment_Spec
+	var other authorization_v1api20220401s.RoleAssignment_Spec
 	err := copied.AssignProperties_To_RoleAssignment_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -433,6 +488,11 @@ func RunPropertyAssignmentTestForRoleAssignment_Spec(subject RoleAssignment_Spec
 
 func Test_RoleAssignment_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -514,4 +574,129 @@ func AddIndependentPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopt
 // AddRelatedPropertyGeneratorsForRoleAssignment_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRoleAssignment_Spec(gens map[string]gopter.Gen) {
 	gens["OperatorSpec"] = gen.PtrOf(RoleAssignmentOperatorSpecGenerator())
+}
+
+func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SystemData_STATUS to SystemData_STATUS via AssignProperties_To_SystemData_STATUS & AssignProperties_From_SystemData_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSystemData_STATUS, SystemData_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSystemData_STATUS tests if a specific instance of SystemData_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSystemData_STATUS(subject SystemData_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other authorization_v1api20220401s.SystemData_STATUS
+	err := copied.AssignProperties_To_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SystemData_STATUS
+	err = actual.AssignProperties_From_SystemData_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of SystemData_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSystemData_STATUS, SystemData_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSystemData_STATUS runs a test to see if a specific instance of SystemData_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSystemData_STATUS(subject SystemData_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual SystemData_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of SystemData_STATUS instances for property testing - lazily instantiated by SystemData_STATUSGenerator()
+var systemData_STATUSGenerator gopter.Gen
+
+// SystemData_STATUSGenerator returns a generator of SystemData_STATUS instances for property testing.
+func SystemData_STATUSGenerator() gopter.Gen {
+	if systemData_STATUSGenerator != nil {
+		return systemData_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSystemData_STATUS(generators)
+	systemData_STATUSGenerator = gen.Struct(reflect.TypeOf(SystemData_STATUS{}), generators)
+
+	return systemData_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSystemData_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter.Gen) {
+	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemData_CreatedByType_STATUS_Application,
+		SystemData_CreatedByType_STATUS_Key,
+		SystemData_CreatedByType_STATUS_ManagedIdentity,
+		SystemData_CreatedByType_STATUS_User))
+	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
+	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemData_LastModifiedByType_STATUS_Application,
+		SystemData_LastModifiedByType_STATUS_Key,
+		SystemData_LastModifiedByType_STATUS_ManagedIdentity,
+		SystemData_LastModifiedByType_STATUS_User))
 }

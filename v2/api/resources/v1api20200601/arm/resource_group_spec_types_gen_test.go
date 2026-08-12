@@ -9,39 +9,34 @@ import (
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
 	"github.com/kylelemons/godebug/diff"
-	"github.com/leanovate/gopter"
-	"github.com/leanovate/gopter/gen"
-	"github.com/leanovate/gopter/prop"
-	"os"
-	"reflect"
+	"pgregory.net/rapid"
 	"testing"
 )
 
 func Test_ResourceGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 80
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ResourceGroup_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceGroup_Spec, ResourceGroup_SpecGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+
+	if testing.Short() {
+		return
+	}
+
+	rapid.Check(t, RunJSONSerializationTestForResourceGroup_Spec)
 }
 
 // RunJSONSerializationTestForResourceGroup_Spec runs a test to see if a specific instance of ResourceGroup_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceGroup_Spec(subject ResourceGroup_Spec) string {
+func RunJSONSerializationTestForResourceGroup_Spec(t *rapid.T) {
+	subject := ResourceGroup_SpecGenerator().Draw(t, "subject")
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Deserialize back into memory
 	var actual ResourceGroup_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
-		return err.Error()
+		t.Fatal(err)
 	}
 
 	// Check for outcome
@@ -50,34 +45,33 @@ func RunJSONSerializationTestForResourceGroup_Spec(subject ResourceGroup_Spec) s
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
 		result := diff.Diff(subjectFmt, actualFmt)
-		return result
+		t.Error(result)
 	}
-
-	return ""
 }
 
 // Generator of ResourceGroup_Spec instances for property testing - lazily instantiated by ResourceGroup_SpecGenerator()
-var resourceGroup_SpecGenerator gopter.Gen
+var resourceGroup_SpecGenerator *rapid.Generator[ResourceGroup_Spec]
 
 // ResourceGroup_SpecGenerator returns a generator of ResourceGroup_Spec instances for property testing.
-func ResourceGroup_SpecGenerator() gopter.Gen {
+func ResourceGroup_SpecGenerator() *rapid.Generator[ResourceGroup_Spec] {
 	if resourceGroup_SpecGenerator != nil {
 		return resourceGroup_SpecGenerator
 	}
 
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForResourceGroup_Spec(generators)
-	resourceGroup_SpecGenerator = gen.Struct(reflect.TypeOf(ResourceGroup_Spec{}), generators)
+	ptrString := rapid.Ptr(rapid.String(), true)
+	name := rapid.String()
+	tags := rapid.MapOf(
+		rapid.String(),
+		rapid.String())
+
+	resourceGroup_SpecGenerator = rapid.Custom(func(t *rapid.T) ResourceGroup_Spec {
+		var result ResourceGroup_Spec
+		result.Location = ptrString.Draw(t, "Location")
+		result.ManagedBy = ptrString.Draw(t, "ManagedBy")
+		result.Name = name.Draw(t, "Name")
+		result.Tags = tags.Draw(t, "Tags")
+		return result
+	})
 
 	return resourceGroup_SpecGenerator
-}
-
-// AddIndependentPropertyGeneratorsForResourceGroup_Spec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForResourceGroup_Spec(gens map[string]gopter.Gen) {
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(
-		gen.AlphaString(),
-		gen.AlphaString())
 }

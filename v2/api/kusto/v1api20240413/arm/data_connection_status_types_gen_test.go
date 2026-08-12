@@ -19,6 +19,11 @@ import (
 
 func Test_CosmosDbDataConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -95,6 +100,11 @@ func AddIndependentPropertyGeneratorsForCosmosDbDataConnectionProperties_STATUS(
 
 func Test_CosmosDbDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -174,6 +184,11 @@ func AddRelatedPropertyGeneratorsForCosmosDbDataConnection_STATUS(gens map[strin
 
 func Test_DataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -258,6 +273,11 @@ func AddRelatedPropertyGeneratorsForDataConnection_STATUS(gens map[string]gopter
 
 func Test_EventGridConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -354,6 +374,11 @@ func AddIndependentPropertyGeneratorsForEventGridConnectionProperties_STATUS(gen
 
 func Test_EventGridDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -433,6 +458,11 @@ func AddRelatedPropertyGeneratorsForEventGridDataConnection_STATUS(gens map[stri
 
 func Test_EventHubConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -528,6 +558,11 @@ func AddIndependentPropertyGeneratorsForEventHubConnectionProperties_STATUS(gens
 
 func Test_EventHubDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -607,6 +642,11 @@ func AddRelatedPropertyGeneratorsForEventHubDataConnection_STATUS(gens map[strin
 
 func Test_IotHubConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -700,6 +740,11 @@ func AddIndependentPropertyGeneratorsForIotHubConnectionProperties_STATUS(gens m
 
 func Test_IotHubDataConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

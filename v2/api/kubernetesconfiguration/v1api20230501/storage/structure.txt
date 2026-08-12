@@ -209,7 +209,7 @@ FluxConfiguration: Resource
 │   ├── SourceKind: *string
 │   ├── Suspend: *bool
 │   └── WaitForReconciliation: *bool
-└── Status: Object (24 properties)
+└── Status: Object (25 properties)
     ├── AzureBlob: *Object (8 properties)
     │   ├── ContainerName: *string
     │   ├── LocalAuthRef: *string
@@ -310,6 +310,14 @@ FluxConfiguration: Resource
     │       ├── Status: *string
     │       └── Type: *string
     ├── Suspend: *bool
+    ├── SystemData: *Object (7 properties)
+    │   ├── CreatedAt: *string
+    │   ├── CreatedBy: *string
+    │   ├── CreatedByType: *string
+    │   ├── LastModifiedAt: *string
+    │   ├── LastModifiedBy: *string
+    │   ├── LastModifiedByType: *string
+    │   └── PropertyBag: genruntime.PropertyBag
     ├── Type: *string
     └── WaitForReconciliation: *bool
 
@@ -406,8 +414,6 @@ augmentConversionForServicePrincipalDefinition_STATUS: Interface
 augmentConversionForSubstituteFromDefinition: Interface
 
 augmentConversionForSubstituteFromDefinition_STATUS: Interface
-
-augmentConversionForSystemData: Interface
 
 augmentConversionForSystemData_STATUS: Interface
 

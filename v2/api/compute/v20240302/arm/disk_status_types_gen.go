@@ -333,7 +333,7 @@ type EncryptionSettingsCollection_STATUS struct {
 	EncryptionSettingsVersion *string `json:"encryptionSettingsVersion,omitempty"`
 }
 
-// The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
+// The hypervisor generation of the Virtual Machine.
 type HyperVGeneration_STATUS string
 
 const (
@@ -363,7 +363,8 @@ var networkAccessPolicy_STATUS_Values = map[string]NetworkAccessPolicy_STATUS{
 	"denyall":      NetworkAccessPolicy_STATUS_DenyAll,
 }
 
-// The Operating System type.
+// This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or
+// a specialized VHD. Possible values are: Windows, Linux.
 type OperatingSystemTypes_STATUS string
 
 const (

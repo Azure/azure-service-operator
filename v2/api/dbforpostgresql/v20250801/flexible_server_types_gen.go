@@ -5204,7 +5204,7 @@ var replicationRole_STATUS_Values = map[string]ReplicationRole_STATUS{
 	"primary":         ReplicationRole_STATUS_Primary,
 }
 
-// Possible states of a server.
+// State of a server.
 type ServerState_STATUS string
 
 const (
@@ -6691,22 +6691,26 @@ var highAvailability_Mode_STATUS_Values = map[string]HighAvailability_Mode_STATU
 type HighAvailabilityState_STATUS string
 
 const (
-	HighAvailabilityState_STATUS_CreatingStandby = HighAvailabilityState_STATUS("CreatingStandby")
-	HighAvailabilityState_STATUS_FailingOver     = HighAvailabilityState_STATUS("FailingOver")
-	HighAvailabilityState_STATUS_Healthy         = HighAvailabilityState_STATUS("Healthy")
-	HighAvailabilityState_STATUS_NotEnabled      = HighAvailabilityState_STATUS("NotEnabled")
-	HighAvailabilityState_STATUS_RemovingStandby = HighAvailabilityState_STATUS("RemovingStandby")
-	HighAvailabilityState_STATUS_ReplicatingData = HighAvailabilityState_STATUS("ReplicatingData")
+	HighAvailabilityState_STATUS_ComputeUpdatingByFailover = HighAvailabilityState_STATUS("ComputeUpdatingByFailover")
+	HighAvailabilityState_STATUS_CreatingStandby           = HighAvailabilityState_STATUS("CreatingStandby")
+	HighAvailabilityState_STATUS_FailingOver               = HighAvailabilityState_STATUS("FailingOver")
+	HighAvailabilityState_STATUS_Healthy                   = HighAvailabilityState_STATUS("Healthy")
+	HighAvailabilityState_STATUS_NotEnabled                = HighAvailabilityState_STATUS("NotEnabled")
+	HighAvailabilityState_STATUS_RecreatingStandby         = HighAvailabilityState_STATUS("RecreatingStandby")
+	HighAvailabilityState_STATUS_RemovingStandby           = HighAvailabilityState_STATUS("RemovingStandby")
+	HighAvailabilityState_STATUS_ReplicatingData           = HighAvailabilityState_STATUS("ReplicatingData")
 )
 
 // Mapping from string to HighAvailabilityState_STATUS
 var highAvailabilityState_STATUS_Values = map[string]HighAvailabilityState_STATUS{
-	"creatingstandby": HighAvailabilityState_STATUS_CreatingStandby,
-	"failingover":     HighAvailabilityState_STATUS_FailingOver,
-	"healthy":         HighAvailabilityState_STATUS_Healthy,
-	"notenabled":      HighAvailabilityState_STATUS_NotEnabled,
-	"removingstandby": HighAvailabilityState_STATUS_RemovingStandby,
-	"replicatingdata": HighAvailabilityState_STATUS_ReplicatingData,
+	"computeupdatingbyfailover": HighAvailabilityState_STATUS_ComputeUpdatingByFailover,
+	"creatingstandby":           HighAvailabilityState_STATUS_CreatingStandby,
+	"failingover":               HighAvailabilityState_STATUS_FailingOver,
+	"healthy":                   HighAvailabilityState_STATUS_Healthy,
+	"notenabled":                HighAvailabilityState_STATUS_NotEnabled,
+	"recreatingstandby":         HighAvailabilityState_STATUS_RecreatingStandby,
+	"removingstandby":           HighAvailabilityState_STATUS_RemovingStandby,
+	"replicatingdata":           HighAvailabilityState_STATUS_ReplicatingData,
 }
 
 // Types of identities associated with a server.
@@ -6775,9 +6779,7 @@ var microsoftEntraAuth_STATUS_Values = map[string]MicrosoftEntraAuth_STATUS{
 	"enabled":  MicrosoftEntraAuth_STATUS_Enabled,
 }
 
-// Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will
-// be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover
-// means that the read replica will roles with the primary server.
+// Type of operation to apply on the read replica. This property is write only.
 // +kubebuilder:validation:Enum={"Standalone","Switchover"}
 type ReadReplicaPromoteMode string
 
@@ -6792,9 +6794,7 @@ var readReplicaPromoteMode_Values = map[string]ReadReplicaPromoteMode{
 	"switchover": ReadReplicaPromoteMode_Switchover,
 }
 
-// Type of operation to apply on the read replica. This property is write only. Standalone means that the read replica will
-// be promoted to a standalone server, and will become a completely independent entity from the replication set. Switchover
-// means that the read replica will roles with the primary server.
+// Type of operation to apply on the read replica. This property is write only.
 type ReadReplicaPromoteMode_STATUS string
 
 const (
@@ -6840,7 +6840,7 @@ var readReplicaPromoteOption_STATUS_Values = map[string]ReadReplicaPromoteOption
 }
 
 // Indicates the replication state of a read replica. This property is returned only when the target server is a read
-// replica. Possible  values are Active, Broken, Catchup, Provisioning, Reconfiguring, and Updating
+// replica.
 type ReplicationState_STATUS string
 
 const (
@@ -6924,8 +6924,8 @@ var skuTier_STATUS_Values = map[string]SkuTier_STATUS{
 	"memoryoptimized": SkuTier_STATUS_MemoryOptimized,
 }
 
-// Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and
-// conditions allow for automatically growing storage size.
+// Indicates if the server is configured to automatically grow storage size when available space is nearing zero and
+// conditions allow for automatic growing storage size.
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageAutoGrow string
 
@@ -6940,8 +6940,8 @@ var storageAutoGrow_Values = map[string]StorageAutoGrow{
 	"enabled":  StorageAutoGrow_Enabled,
 }
 
-// Flag to enable or disable the automatic growth of storage size of a server when available space is nearing zero and
-// conditions allow for automatically growing storage size.
+// Indicates if the server is configured to automatically grow storage size when available space is nearing zero and
+// conditions allow for automatic growing storage size.
 type StorageAutoGrow_STATUS string
 
 const (
@@ -6955,8 +6955,7 @@ var storageAutoGrow_STATUS_Values = map[string]StorageAutoGrow_STATUS{
 	"enabled":  StorageAutoGrow_STATUS_Enabled,
 }
 
-// Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified,
-// it defaults to Premium_LRS.
+// Type of storage assigned to a server. If not specified, it defaults to Premium_LRS.
 // +kubebuilder:validation:Enum={"PremiumV2_LRS","Premium_LRS","UltraSSD_LRS"}
 type StorageType string
 
@@ -6973,8 +6972,7 @@ var storageType_Values = map[string]StorageType{
 	"ultrassd_lrs":  StorageType_UltraSSD_LRS,
 }
 
-// Type of storage assigned to a server. Allowed values are Premium_LRS, PremiumV2_LRS, or UltraSSD_LRS. If not specified,
-// it defaults to Premium_LRS.
+// Type of storage assigned to a server. If not specified, it defaults to Premium_LRS.
 type StorageType_STATUS string
 
 const (

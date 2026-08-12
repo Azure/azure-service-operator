@@ -195,11 +195,13 @@ FlexibleServer: Resource
     │   │   ├── "SameZone"
     │   │   └── "ZoneRedundant"
     │   ├── StandbyAvailabilityZone: *string
-    │   └── State: *Enum (6 values)
+    │   └── State: *Enum (8 values)
+    │       ├── "ComputeUpdatingByFailover"
     │       ├── "CreatingStandby"
     │       ├── "FailingOver"
     │       ├── "Healthy"
     │       ├── "NotEnabled"
+    │       ├── "RecreatingStandby"
     │       ├── "RemovingStandby"
     │       └── "ReplicatingData"
     ├── Id: *string
@@ -330,8 +332,9 @@ FlexibleServer: Resource
 
 FlexibleServersAdministrator: Resource
 ├── Owner: FlexibleServer
-├── Spec: Object (8 properties)
+├── Spec: Object (9 properties)
 │   ├── AzureName: string
+│   ├── AzureNameFromConfig: *genruntime.ConfigMapReference
 │   ├── OperatorSpec: *Object (2 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   └── SecretExpressions: *core.DestinationExpression[]

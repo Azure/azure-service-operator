@@ -5,6 +5,7 @@ typeTransformers:
       name: string
       optional: true
     because: The enum restrictions on this type are incomplete. Storage allows a,b,c but doesn't document that in the enum.
+
 groupModelConfiguration:
   $payloadType: explicitCollections
   2021-04-01:

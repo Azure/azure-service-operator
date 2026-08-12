@@ -130,6 +130,9 @@ type ManagedClusterAgentPoolProfileProperties struct {
 	// NodeCustomizationProfile: Settings to determine the node customization used to provision nodes in a pool.
 	NodeCustomizationProfile *NodeCustomizationProfile `json:"nodeCustomizationProfile,omitempty"`
 
+	// NodeImageVersion: The version of node image
+	NodeImageVersion *string `json:"nodeImageVersion,omitempty"`
+
 	// NodeInitializationTaints: Taints added on the nodes during creation that will not be reconciled by AKS. These taints
 	// will not be reconciled by AKS and can be removed with a kubectl call. This field can be modified after node pool is
 	// created, but nodes will not be recreated with new taints until another operation that requires recreation (e.g. node
@@ -253,6 +256,7 @@ type ManagedClusterAgentPoolProfileProperties struct {
 	WorkloadRuntime *WorkloadRuntime `json:"workloadRuntime,omitempty"`
 }
 
+// Artifact streaming profile for the agent pool.
 type AgentPoolArtifactStreamingProfile struct {
 	// Enabled: Artifact streaming speeds up the cold-start of containers on a node through on-demand image loading. To use
 	// this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false.

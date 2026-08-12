@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v20200801preview/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -26,7 +25,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20200801preview.RoleAssignment
 // Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
 // - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &RoleAssignment{}
 
 // ConvertFrom populates our RoleAssignment from the provided hub RoleAssignment
 func (assignment *RoleAssignment) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected authorization/v1api20220401/storage/RoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RoleAssignment
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return assignment.AssignProperties_From_RoleAssignment(source)
+	err = assignment.AssignProperties_From_RoleAssignment(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to assignment")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RoleAssignment from our RoleAssignment
 func (assignment *RoleAssignment) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RoleAssignment)
-	if !ok {
-		return fmt.Errorf("expected authorization/v1api20220401/storage/RoleAssignment but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RoleAssignment
+	err := assignment.AssignProperties_To_RoleAssignment(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from assignment")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return assignment.AssignProperties_To_RoleAssignment(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RoleAssignment{}
@@ -245,7 +258,7 @@ func (assignment *RoleAssignment) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20200801preview.RoleAssignment
 // Generator information:
-// - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
+// - Generated from: /authorization/resource-manager/Microsoft.Authorization/Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
 // - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 type RoleAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`

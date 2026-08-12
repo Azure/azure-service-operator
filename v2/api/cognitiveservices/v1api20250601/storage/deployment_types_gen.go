@@ -4,6 +4,8 @@
 package storage
 
 import (
+	"fmt"
+	storage "github.com/Azure/azure-service-operator/v2/api/cognitiveservices/v20250601/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -12,15 +14,12 @@ import (
 	"github.com/rotisserie/eris"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 )
-
-// +kubebuilder:rbac:groups=cognitiveservices.azure.com,resources=deployments,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=cognitiveservices.azure.com,resources={deployments/status,deployments/finalizers},verbs=get;update;patch
 
 // +kubebuilder:object:root=true
 // +kubebuilder:resource:categories={azure,cognitiveservices}
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +45,28 @@ func (deployment *Deployment) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (deployment *Deployment) SetConditions(conditions conditions.Conditions) {
 	deployment.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &Deployment{}
+
+// ConvertFrom populates our Deployment from the provided hub Deployment
+func (deployment *Deployment) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*storage.Deployment)
+	if !ok {
+		return fmt.Errorf("expected cognitiveservices/v20250601/storage/Deployment but received %T instead", hub)
+	}
+
+	return deployment.AssignProperties_From_Deployment(source)
+}
+
+// ConvertTo populates the provided hub Deployment from our Deployment
+func (deployment *Deployment) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*storage.Deployment)
+	if !ok {
+		return fmt.Errorf("expected cognitiveservices/v20250601/storage/Deployment but received %T instead", hub)
+	}
+
+	return deployment.AssignProperties_To_Deployment(destination)
 }
 
 var _ configmaps.Exporter = &Deployment{}
@@ -143,8 +164,75 @@ func (deployment *Deployment) SetStatus(status genruntime.ConvertibleStatus) err
 	return nil
 }
 
-// Hub marks that this Deployment is the hub type for conversion
-func (deployment *Deployment) Hub() {}
+// AssignProperties_From_Deployment populates our Deployment from the provided source Deployment
+func (deployment *Deployment) AssignProperties_From_Deployment(source *storage.Deployment) error {
+
+	// ObjectMeta
+	deployment.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec Deployment_Spec
+	err := spec.AssignProperties_From_Deployment_Spec(&source.Spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_Deployment_Spec() to populate field Spec")
+	}
+	deployment.Spec = spec
+
+	// Status
+	var status Deployment_STATUS
+	err = status.AssignProperties_From_Deployment_STATUS(&source.Status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_From_Deployment_STATUS() to populate field Status")
+	}
+	deployment.Status = status
+
+	// Invoke the augmentConversionForDeployment interface (if implemented) to customize the conversion
+	var deploymentAsAny any = deployment
+	if augmentedDeployment, ok := deploymentAsAny.(augmentConversionForDeployment); ok {
+		err := augmentedDeployment.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Deployment populates the provided destination Deployment from our Deployment
+func (deployment *Deployment) AssignProperties_To_Deployment(destination *storage.Deployment) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *deployment.ObjectMeta.DeepCopy()
+
+	// Spec
+	var spec storage.Deployment_Spec
+	err := deployment.Spec.AssignProperties_To_Deployment_Spec(&spec)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_Deployment_Spec() to populate field Spec")
+	}
+	destination.Spec = spec
+
+	// Status
+	var status storage.Deployment_STATUS
+	err = deployment.Status.AssignProperties_To_Deployment_STATUS(&status)
+	if err != nil {
+		return eris.Wrap(err, "calling AssignProperties_To_Deployment_STATUS() to populate field Status")
+	}
+	destination.Status = status
+
+	// Invoke the augmentConversionForDeployment interface (if implemented) to customize the conversion
+	var deploymentAsAny any = deployment
+	if augmentedDeployment, ok := deploymentAsAny.(augmentConversionForDeployment); ok {
+		err := augmentedDeployment.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (deployment *Deployment) OriginalGVK() *schema.GroupVersionKind {
@@ -164,6 +252,11 @@ type DeploymentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Deployment `json:"items"`
+}
+
+type augmentConversionForDeployment interface {
+	AssignPropertiesFrom(src *storage.Deployment) error
+	AssignPropertiesTo(dst *storage.Deployment) error
 }
 
 // Storage version of v1api20250601.Deployment_Spec
@@ -189,20 +282,206 @@ var _ genruntime.ConvertibleSpec = &Deployment_Spec{}
 
 // ConvertSpecFrom populates our Deployment_Spec from the provided source
 func (deployment *Deployment_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == deployment {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	src, ok := source.(*storage.Deployment_Spec)
+	if ok {
+		// Populate our instance from source
+		return deployment.AssignProperties_From_Deployment_Spec(src)
 	}
 
-	return source.ConvertSpecTo(deployment)
+	// Convert to an intermediate form
+	src = &storage.Deployment_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = deployment.AssignProperties_From_Deployment_Spec(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
 }
 
 // ConvertSpecTo populates the provided destination from our Deployment_Spec
 func (deployment *Deployment_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == deployment {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	dst, ok := destination.(*storage.Deployment_Spec)
+	if ok {
+		// Populate destination from our instance
+		return deployment.AssignProperties_To_Deployment_Spec(dst)
 	}
 
-	return destination.ConvertSpecFrom(deployment)
+	// Convert to an intermediate form
+	dst = &storage.Deployment_Spec{}
+	err := deployment.AssignProperties_To_Deployment_Spec(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Deployment_Spec populates our Deployment_Spec from the provided source Deployment_Spec
+func (deployment *Deployment_Spec) AssignProperties_From_Deployment_Spec(source *storage.Deployment_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AzureName
+	deployment.AzureName = source.AzureName
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec DeploymentOperatorSpec
+		err := operatorSpec.AssignProperties_From_DeploymentOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DeploymentOperatorSpec() to populate field OperatorSpec")
+		}
+		deployment.OperatorSpec = &operatorSpec
+	} else {
+		deployment.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	deployment.OriginalVersion = source.OriginalVersion
+
+	// Owner
+	if source.Owner != nil {
+		owner := source.Owner.Copy()
+		deployment.Owner = &owner
+	} else {
+		deployment.Owner = nil
+	}
+
+	// Properties
+	if source.Properties != nil {
+		var property DeploymentProperties
+		err := property.AssignProperties_From_DeploymentProperties(source.Properties)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DeploymentProperties() to populate field Properties")
+		}
+		deployment.Properties = &property
+	} else {
+		deployment.Properties = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku
+		err := sku.AssignProperties_From_Sku(source.Sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_Sku() to populate field Sku")
+		}
+		deployment.Sku = &sku
+	} else {
+		deployment.Sku = nil
+	}
+
+	// Tags
+	deployment.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		deployment.PropertyBag = propertyBag
+	} else {
+		deployment.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeployment_Spec interface (if implemented) to customize the conversion
+	var deploymentAsAny any = deployment
+	if augmentedDeployment, ok := deploymentAsAny.(augmentConversionForDeployment_Spec); ok {
+		err := augmentedDeployment.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Deployment_Spec populates the provided destination Deployment_Spec from our Deployment_Spec
+func (deployment *Deployment_Spec) AssignProperties_To_Deployment_Spec(destination *storage.Deployment_Spec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(deployment.PropertyBag)
+
+	// AzureName
+	destination.AzureName = deployment.AzureName
+
+	// OperatorSpec
+	if deployment.OperatorSpec != nil {
+		var operatorSpec storage.DeploymentOperatorSpec
+		err := deployment.OperatorSpec.AssignProperties_To_DeploymentOperatorSpec(&operatorSpec)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DeploymentOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
+	// OriginalVersion
+	destination.OriginalVersion = deployment.OriginalVersion
+
+	// Owner
+	if deployment.Owner != nil {
+		owner := deployment.Owner.Copy()
+		destination.Owner = &owner
+	} else {
+		destination.Owner = nil
+	}
+
+	// Properties
+	if deployment.Properties != nil {
+		var property storage.DeploymentProperties
+		err := deployment.Properties.AssignProperties_To_DeploymentProperties(&property)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DeploymentProperties() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Sku
+	if deployment.Sku != nil {
+		var sku storage.Sku
+		err := deployment.Sku.AssignProperties_To_Sku(&sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_Sku() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(deployment.Tags)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeployment_Spec interface (if implemented) to customize the conversion
+	var deploymentAsAny any = deployment
+	if augmentedDeployment, ok := deploymentAsAny.(augmentConversionForDeployment_Spec); ok {
+		err := augmentedDeployment.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20250601.Deployment_STATUS
@@ -223,20 +502,218 @@ var _ genruntime.ConvertibleStatus = &Deployment_STATUS{}
 
 // ConvertStatusFrom populates our Deployment_STATUS from the provided source
 func (deployment *Deployment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == deployment {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	src, ok := source.(*storage.Deployment_STATUS)
+	if ok {
+		// Populate our instance from source
+		return deployment.AssignProperties_From_Deployment_STATUS(src)
 	}
 
-	return source.ConvertStatusTo(deployment)
+	// Convert to an intermediate form
+	src = &storage.Deployment_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = deployment.AssignProperties_From_Deployment_STATUS(src)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
 }
 
 // ConvertStatusTo populates the provided destination from our Deployment_STATUS
 func (deployment *Deployment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == deployment {
-		return eris.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	dst, ok := destination.(*storage.Deployment_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return deployment.AssignProperties_To_Deployment_STATUS(dst)
 	}
 
-	return destination.ConvertStatusFrom(deployment)
+	// Convert to an intermediate form
+	dst = &storage.Deployment_STATUS{}
+	err := deployment.AssignProperties_To_Deployment_STATUS(dst)
+	if err != nil {
+		return eris.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return eris.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignProperties_From_Deployment_STATUS populates our Deployment_STATUS from the provided source Deployment_STATUS
+func (deployment *Deployment_STATUS) AssignProperties_From_Deployment_STATUS(source *storage.Deployment_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	deployment.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Etag
+	deployment.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// Id
+	deployment.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	deployment.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Properties
+	if source.Properties != nil {
+		var property DeploymentProperties_STATUS
+		err := property.AssignProperties_From_DeploymentProperties_STATUS(source.Properties)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DeploymentProperties_STATUS() to populate field Properties")
+		}
+		deployment.Properties = &property
+	} else {
+		deployment.Properties = nil
+	}
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku_STATUS
+		err := sku.AssignProperties_From_Sku_STATUS(source.Sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_Sku_STATUS() to populate field Sku")
+		}
+		deployment.Sku = &sku
+	} else {
+		deployment.Sku = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignProperties_From_SystemData_STATUS(source.SystemData)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_SystemData_STATUS() to populate field SystemData")
+		}
+		deployment.SystemData = &systemDatum
+	} else {
+		deployment.SystemData = nil
+	}
+
+	// Tags
+	deployment.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	deployment.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		deployment.PropertyBag = propertyBag
+	} else {
+		deployment.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeployment_STATUS interface (if implemented) to customize the conversion
+	var deploymentAsAny any = deployment
+	if augmentedDeployment, ok := deploymentAsAny.(augmentConversionForDeployment_STATUS); ok {
+		err := augmentedDeployment.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_Deployment_STATUS populates the provided destination Deployment_STATUS from our Deployment_STATUS
+func (deployment *Deployment_STATUS) AssignProperties_To_Deployment_STATUS(destination *storage.Deployment_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(deployment.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(deployment.Conditions)
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(deployment.Etag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(deployment.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(deployment.Name)
+
+	// Properties
+	if deployment.Properties != nil {
+		var property storage.DeploymentProperties_STATUS
+		err := deployment.Properties.AssignProperties_To_DeploymentProperties_STATUS(&property)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DeploymentProperties_STATUS() to populate field Properties")
+		}
+		destination.Properties = &property
+	} else {
+		destination.Properties = nil
+	}
+
+	// Sku
+	if deployment.Sku != nil {
+		var sku storage.Sku_STATUS
+		err := deployment.Sku.AssignProperties_To_Sku_STATUS(&sku)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_Sku_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// SystemData
+	if deployment.SystemData != nil {
+		var systemDatum storage.SystemData_STATUS
+		err := deployment.SystemData.AssignProperties_To_SystemData_STATUS(&systemDatum)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_SystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(deployment.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(deployment.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeployment_STATUS interface (if implemented) to customize the conversion
+	var deploymentAsAny any = deployment
+	if augmentedDeployment, ok := deploymentAsAny.(augmentConversionForDeployment_STATUS); ok {
+		err := augmentedDeployment.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForDeployment_Spec interface {
+	AssignPropertiesFrom(src *storage.Deployment_Spec) error
+	AssignPropertiesTo(dst *storage.Deployment_Spec) error
+}
+
+type augmentConversionForDeployment_STATUS interface {
+	AssignPropertiesFrom(src *storage.Deployment_STATUS) error
+	AssignPropertiesTo(dst *storage.Deployment_STATUS) error
 }
 
 // Storage version of v1api20250601.DeploymentOperatorSpec
@@ -245,6 +722,120 @@ type DeploymentOperatorSpec struct {
 	ConfigMapExpressions []*core.DestinationExpression `json:"configMapExpressions,omitempty"`
 	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SecretExpressions    []*core.DestinationExpression `json:"secretExpressions,omitempty"`
+}
+
+// AssignProperties_From_DeploymentOperatorSpec populates our DeploymentOperatorSpec from the provided source DeploymentOperatorSpec
+func (operator *DeploymentOperatorSpec) AssignProperties_From_DeploymentOperatorSpec(source *storage.DeploymentOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConfigMapExpressions
+	if source.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(source.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range source.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		operator.ConfigMapExpressions = configMapExpressionList
+	} else {
+		operator.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if source.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(source.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range source.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		operator.SecretExpressions = secretExpressionList
+	} else {
+		operator.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		operator.PropertyBag = propertyBag
+	} else {
+		operator.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForDeploymentOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeploymentOperatorSpec populates the provided destination DeploymentOperatorSpec from our DeploymentOperatorSpec
+func (operator *DeploymentOperatorSpec) AssignProperties_To_DeploymentOperatorSpec(destination *storage.DeploymentOperatorSpec) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(operator.PropertyBag)
+
+	// ConfigMapExpressions
+	if operator.ConfigMapExpressions != nil {
+		configMapExpressionList := make([]*core.DestinationExpression, len(operator.ConfigMapExpressions))
+		for configMapExpressionIndex, configMapExpressionItem := range operator.ConfigMapExpressions {
+			if configMapExpressionItem != nil {
+				configMapExpression := *configMapExpressionItem.DeepCopy()
+				configMapExpressionList[configMapExpressionIndex] = &configMapExpression
+			} else {
+				configMapExpressionList[configMapExpressionIndex] = nil
+			}
+		}
+		destination.ConfigMapExpressions = configMapExpressionList
+	} else {
+		destination.ConfigMapExpressions = nil
+	}
+
+	// SecretExpressions
+	if operator.SecretExpressions != nil {
+		secretExpressionList := make([]*core.DestinationExpression, len(operator.SecretExpressions))
+		for secretExpressionIndex, secretExpressionItem := range operator.SecretExpressions {
+			if secretExpressionItem != nil {
+				secretExpression := *secretExpressionItem.DeepCopy()
+				secretExpressionList[secretExpressionIndex] = &secretExpression
+			} else {
+				secretExpressionList[secretExpressionIndex] = nil
+			}
+		}
+		destination.SecretExpressions = secretExpressionList
+	} else {
+		destination.SecretExpressions = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentOperatorSpec interface (if implemented) to customize the conversion
+	var operatorAsAny any = operator
+	if augmentedOperator, ok := operatorAsAny.(augmentConversionForDeploymentOperatorSpec); ok {
+		err := augmentedOperator.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20250601.DeploymentProperties
@@ -258,6 +849,152 @@ type DeploymentProperties struct {
 	ScaleSettings           *DeploymentScaleSettings    `json:"scaleSettings,omitempty"`
 	SpilloverDeploymentName *string                     `json:"spilloverDeploymentName,omitempty"`
 	VersionUpgradeOption    *string                     `json:"versionUpgradeOption,omitempty"`
+}
+
+// AssignProperties_From_DeploymentProperties populates our DeploymentProperties from the provided source DeploymentProperties
+func (properties *DeploymentProperties) AssignProperties_From_DeploymentProperties(source *storage.DeploymentProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CapacitySettings
+	if source.CapacitySettings != nil {
+		var capacitySetting DeploymentCapacitySettings
+		err := capacitySetting.AssignProperties_From_DeploymentCapacitySettings(source.CapacitySettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DeploymentCapacitySettings() to populate field CapacitySettings")
+		}
+		properties.CapacitySettings = &capacitySetting
+	} else {
+		properties.CapacitySettings = nil
+	}
+
+	// Model
+	if source.Model != nil {
+		var model DeploymentModel
+		err := model.AssignProperties_From_DeploymentModel(source.Model)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DeploymentModel() to populate field Model")
+		}
+		properties.Model = &model
+	} else {
+		properties.Model = nil
+	}
+
+	// ParentDeploymentName
+	properties.ParentDeploymentName = genruntime.ClonePointerToString(source.ParentDeploymentName)
+
+	// RaiPolicyName
+	properties.RaiPolicyName = genruntime.ClonePointerToString(source.RaiPolicyName)
+
+	// ScaleSettings
+	if source.ScaleSettings != nil {
+		var scaleSetting DeploymentScaleSettings
+		err := scaleSetting.AssignProperties_From_DeploymentScaleSettings(source.ScaleSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DeploymentScaleSettings() to populate field ScaleSettings")
+		}
+		properties.ScaleSettings = &scaleSetting
+	} else {
+		properties.ScaleSettings = nil
+	}
+
+	// SpilloverDeploymentName
+	properties.SpilloverDeploymentName = genruntime.ClonePointerToString(source.SpilloverDeploymentName)
+
+	// VersionUpgradeOption
+	properties.VersionUpgradeOption = genruntime.ClonePointerToString(source.VersionUpgradeOption)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForDeploymentProperties); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeploymentProperties populates the provided destination DeploymentProperties from our DeploymentProperties
+func (properties *DeploymentProperties) AssignProperties_To_DeploymentProperties(destination *storage.DeploymentProperties) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// CapacitySettings
+	if properties.CapacitySettings != nil {
+		var capacitySetting storage.DeploymentCapacitySettings
+		err := properties.CapacitySettings.AssignProperties_To_DeploymentCapacitySettings(&capacitySetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DeploymentCapacitySettings() to populate field CapacitySettings")
+		}
+		destination.CapacitySettings = &capacitySetting
+	} else {
+		destination.CapacitySettings = nil
+	}
+
+	// Model
+	if properties.Model != nil {
+		var model storage.DeploymentModel
+		err := properties.Model.AssignProperties_To_DeploymentModel(&model)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DeploymentModel() to populate field Model")
+		}
+		destination.Model = &model
+	} else {
+		destination.Model = nil
+	}
+
+	// ParentDeploymentName
+	destination.ParentDeploymentName = genruntime.ClonePointerToString(properties.ParentDeploymentName)
+
+	// RaiPolicyName
+	destination.RaiPolicyName = genruntime.ClonePointerToString(properties.RaiPolicyName)
+
+	// ScaleSettings
+	if properties.ScaleSettings != nil {
+		var scaleSetting storage.DeploymentScaleSettings
+		err := properties.ScaleSettings.AssignProperties_To_DeploymentScaleSettings(&scaleSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DeploymentScaleSettings() to populate field ScaleSettings")
+		}
+		destination.ScaleSettings = &scaleSetting
+	} else {
+		destination.ScaleSettings = nil
+	}
+
+	// SpilloverDeploymentName
+	destination.SpilloverDeploymentName = genruntime.ClonePointerToString(properties.SpilloverDeploymentName)
+
+	// VersionUpgradeOption
+	destination.VersionUpgradeOption = genruntime.ClonePointerToString(properties.VersionUpgradeOption)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentProperties interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForDeploymentProperties); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20250601.DeploymentProperties_STATUS
@@ -279,6 +1016,257 @@ type DeploymentProperties_STATUS struct {
 	VersionUpgradeOption     *string                            `json:"versionUpgradeOption,omitempty"`
 }
 
+// AssignProperties_From_DeploymentProperties_STATUS populates our DeploymentProperties_STATUS from the provided source DeploymentProperties_STATUS
+func (properties *DeploymentProperties_STATUS) AssignProperties_From_DeploymentProperties_STATUS(source *storage.DeploymentProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CallRateLimit
+	if source.CallRateLimit != nil {
+		var callRateLimit CallRateLimit_STATUS
+		err := callRateLimit.AssignProperties_From_CallRateLimit_STATUS(source.CallRateLimit)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CallRateLimit_STATUS() to populate field CallRateLimit")
+		}
+		properties.CallRateLimit = &callRateLimit
+	} else {
+		properties.CallRateLimit = nil
+	}
+
+	// Capabilities
+	properties.Capabilities = genruntime.CloneMapOfStringToString(source.Capabilities)
+
+	// CapacitySettings
+	if source.CapacitySettings != nil {
+		var capacitySetting DeploymentCapacitySettings_STATUS
+		err := capacitySetting.AssignProperties_From_DeploymentCapacitySettings_STATUS(source.CapacitySettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DeploymentCapacitySettings_STATUS() to populate field CapacitySettings")
+		}
+		properties.CapacitySettings = &capacitySetting
+	} else {
+		properties.CapacitySettings = nil
+	}
+
+	// CurrentCapacity
+	properties.CurrentCapacity = genruntime.ClonePointerToInt(source.CurrentCapacity)
+
+	// DynamicThrottlingEnabled
+	if source.DynamicThrottlingEnabled != nil {
+		dynamicThrottlingEnabled := *source.DynamicThrottlingEnabled
+		properties.DynamicThrottlingEnabled = &dynamicThrottlingEnabled
+	} else {
+		properties.DynamicThrottlingEnabled = nil
+	}
+
+	// Model
+	if source.Model != nil {
+		var model DeploymentModel_STATUS
+		err := model.AssignProperties_From_DeploymentModel_STATUS(source.Model)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DeploymentModel_STATUS() to populate field Model")
+		}
+		properties.Model = &model
+	} else {
+		properties.Model = nil
+	}
+
+	// ParentDeploymentName
+	properties.ParentDeploymentName = genruntime.ClonePointerToString(source.ParentDeploymentName)
+
+	// ProvisioningState
+	properties.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// RaiPolicyName
+	properties.RaiPolicyName = genruntime.ClonePointerToString(source.RaiPolicyName)
+
+	// RateLimits
+	if source.RateLimits != nil {
+		rateLimitList := make([]ThrottlingRule_STATUS, len(source.RateLimits))
+		for rateLimitIndex, rateLimitItem := range source.RateLimits {
+			var rateLimit ThrottlingRule_STATUS
+			err := rateLimit.AssignProperties_From_ThrottlingRule_STATUS(&rateLimitItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_ThrottlingRule_STATUS() to populate field RateLimits")
+			}
+			rateLimitList[rateLimitIndex] = rateLimit
+		}
+		properties.RateLimits = rateLimitList
+	} else {
+		properties.RateLimits = nil
+	}
+
+	// ScaleSettings
+	if source.ScaleSettings != nil {
+		var scaleSetting DeploymentScaleSettings_STATUS
+		err := scaleSetting.AssignProperties_From_DeploymentScaleSettings_STATUS(source.ScaleSettings)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_DeploymentScaleSettings_STATUS() to populate field ScaleSettings")
+		}
+		properties.ScaleSettings = &scaleSetting
+	} else {
+		properties.ScaleSettings = nil
+	}
+
+	// SpilloverDeploymentName
+	properties.SpilloverDeploymentName = genruntime.ClonePointerToString(source.SpilloverDeploymentName)
+
+	// VersionUpgradeOption
+	properties.VersionUpgradeOption = genruntime.ClonePointerToString(source.VersionUpgradeOption)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		properties.PropertyBag = propertyBag
+	} else {
+		properties.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForDeploymentProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeploymentProperties_STATUS populates the provided destination DeploymentProperties_STATUS from our DeploymentProperties_STATUS
+func (properties *DeploymentProperties_STATUS) AssignProperties_To_DeploymentProperties_STATUS(destination *storage.DeploymentProperties_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+
+	// CallRateLimit
+	if properties.CallRateLimit != nil {
+		var callRateLimit storage.CallRateLimit_STATUS
+		err := properties.CallRateLimit.AssignProperties_To_CallRateLimit_STATUS(&callRateLimit)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CallRateLimit_STATUS() to populate field CallRateLimit")
+		}
+		destination.CallRateLimit = &callRateLimit
+	} else {
+		destination.CallRateLimit = nil
+	}
+
+	// Capabilities
+	destination.Capabilities = genruntime.CloneMapOfStringToString(properties.Capabilities)
+
+	// CapacitySettings
+	if properties.CapacitySettings != nil {
+		var capacitySetting storage.DeploymentCapacitySettings_STATUS
+		err := properties.CapacitySettings.AssignProperties_To_DeploymentCapacitySettings_STATUS(&capacitySetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DeploymentCapacitySettings_STATUS() to populate field CapacitySettings")
+		}
+		destination.CapacitySettings = &capacitySetting
+	} else {
+		destination.CapacitySettings = nil
+	}
+
+	// CurrentCapacity
+	destination.CurrentCapacity = genruntime.ClonePointerToInt(properties.CurrentCapacity)
+
+	// DynamicThrottlingEnabled
+	if properties.DynamicThrottlingEnabled != nil {
+		dynamicThrottlingEnabled := *properties.DynamicThrottlingEnabled
+		destination.DynamicThrottlingEnabled = &dynamicThrottlingEnabled
+	} else {
+		destination.DynamicThrottlingEnabled = nil
+	}
+
+	// Model
+	if properties.Model != nil {
+		var model storage.DeploymentModel_STATUS
+		err := properties.Model.AssignProperties_To_DeploymentModel_STATUS(&model)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DeploymentModel_STATUS() to populate field Model")
+		}
+		destination.Model = &model
+	} else {
+		destination.Model = nil
+	}
+
+	// ParentDeploymentName
+	destination.ParentDeploymentName = genruntime.ClonePointerToString(properties.ParentDeploymentName)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(properties.ProvisioningState)
+
+	// RaiPolicyName
+	destination.RaiPolicyName = genruntime.ClonePointerToString(properties.RaiPolicyName)
+
+	// RateLimits
+	if properties.RateLimits != nil {
+		rateLimitList := make([]storage.ThrottlingRule_STATUS, len(properties.RateLimits))
+		for rateLimitIndex, rateLimitItem := range properties.RateLimits {
+			var rateLimit storage.ThrottlingRule_STATUS
+			err := rateLimitItem.AssignProperties_To_ThrottlingRule_STATUS(&rateLimit)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_ThrottlingRule_STATUS() to populate field RateLimits")
+			}
+			rateLimitList[rateLimitIndex] = rateLimit
+		}
+		destination.RateLimits = rateLimitList
+	} else {
+		destination.RateLimits = nil
+	}
+
+	// ScaleSettings
+	if properties.ScaleSettings != nil {
+		var scaleSetting storage.DeploymentScaleSettings_STATUS
+		err := properties.ScaleSettings.AssignProperties_To_DeploymentScaleSettings_STATUS(&scaleSetting)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_DeploymentScaleSettings_STATUS() to populate field ScaleSettings")
+		}
+		destination.ScaleSettings = &scaleSetting
+	} else {
+		destination.ScaleSettings = nil
+	}
+
+	// SpilloverDeploymentName
+	destination.SpilloverDeploymentName = genruntime.ClonePointerToString(properties.SpilloverDeploymentName)
+
+	// VersionUpgradeOption
+	destination.VersionUpgradeOption = genruntime.ClonePointerToString(properties.VersionUpgradeOption)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentProperties_STATUS interface (if implemented) to customize the conversion
+	var propertiesAsAny any = properties
+	if augmentedProperties, ok := propertiesAsAny.(augmentConversionForDeploymentProperties_STATUS); ok {
+		err := augmentedProperties.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForDeploymentOperatorSpec interface {
+	AssignPropertiesFrom(src *storage.DeploymentOperatorSpec) error
+	AssignPropertiesTo(dst *storage.DeploymentOperatorSpec) error
+}
+
+type augmentConversionForDeploymentProperties interface {
+	AssignPropertiesFrom(src *storage.DeploymentProperties) error
+	AssignPropertiesTo(dst *storage.DeploymentProperties) error
+}
+
+type augmentConversionForDeploymentProperties_STATUS interface {
+	AssignPropertiesFrom(src *storage.DeploymentProperties_STATUS) error
+	AssignPropertiesTo(dst *storage.DeploymentProperties_STATUS) error
+}
+
 // Storage version of v1api20250601.DeploymentCapacitySettings
 // Internal use only.
 type DeploymentCapacitySettings struct {
@@ -287,12 +1275,136 @@ type DeploymentCapacitySettings struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignProperties_From_DeploymentCapacitySettings populates our DeploymentCapacitySettings from the provided source DeploymentCapacitySettings
+func (settings *DeploymentCapacitySettings) AssignProperties_From_DeploymentCapacitySettings(source *storage.DeploymentCapacitySettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DesignatedCapacity
+	settings.DesignatedCapacity = genruntime.ClonePointerToInt(source.DesignatedCapacity)
+
+	// Priority
+	settings.Priority = genruntime.ClonePointerToInt(source.Priority)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentCapacitySettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDeploymentCapacitySettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeploymentCapacitySettings populates the provided destination DeploymentCapacitySettings from our DeploymentCapacitySettings
+func (settings *DeploymentCapacitySettings) AssignProperties_To_DeploymentCapacitySettings(destination *storage.DeploymentCapacitySettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// DesignatedCapacity
+	destination.DesignatedCapacity = genruntime.ClonePointerToInt(settings.DesignatedCapacity)
+
+	// Priority
+	destination.Priority = genruntime.ClonePointerToInt(settings.Priority)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentCapacitySettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDeploymentCapacitySettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20250601.DeploymentCapacitySettings_STATUS
 // Internal use only.
 type DeploymentCapacitySettings_STATUS struct {
 	DesignatedCapacity *int                   `json:"designatedCapacity,omitempty"`
 	Priority           *int                   `json:"priority,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_DeploymentCapacitySettings_STATUS populates our DeploymentCapacitySettings_STATUS from the provided source DeploymentCapacitySettings_STATUS
+func (settings *DeploymentCapacitySettings_STATUS) AssignProperties_From_DeploymentCapacitySettings_STATUS(source *storage.DeploymentCapacitySettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DesignatedCapacity
+	settings.DesignatedCapacity = genruntime.ClonePointerToInt(source.DesignatedCapacity)
+
+	// Priority
+	settings.Priority = genruntime.ClonePointerToInt(source.Priority)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentCapacitySettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDeploymentCapacitySettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeploymentCapacitySettings_STATUS populates the provided destination DeploymentCapacitySettings_STATUS from our DeploymentCapacitySettings_STATUS
+func (settings *DeploymentCapacitySettings_STATUS) AssignProperties_To_DeploymentCapacitySettings_STATUS(destination *storage.DeploymentCapacitySettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// DesignatedCapacity
+	destination.DesignatedCapacity = genruntime.ClonePointerToInt(settings.DesignatedCapacity)
+
+	// Priority
+	destination.Priority = genruntime.ClonePointerToInt(settings.Priority)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentCapacitySettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDeploymentCapacitySettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20250601.DeploymentModel
@@ -315,6 +1427,176 @@ type DeploymentModel struct {
 	VersionFromConfig *genruntime.ConfigMapReference `json:"versionFromConfig,omitempty" optionalConfigMapPair:"Version"`
 }
 
+// AssignProperties_From_DeploymentModel populates our DeploymentModel from the provided source DeploymentModel
+func (model *DeploymentModel) AssignProperties_From_DeploymentModel(source *storage.DeploymentModel) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Format
+	model.Format = genruntime.ClonePointerToString(source.Format)
+
+	// FormatFromConfig
+	if source.FormatFromConfig != nil {
+		formatFromConfig := source.FormatFromConfig.Copy()
+		model.FormatFromConfig = &formatFromConfig
+	} else {
+		model.FormatFromConfig = nil
+	}
+
+	// Name
+	model.Name = genruntime.ClonePointerToString(source.Name)
+
+	// NameFromConfig
+	if source.NameFromConfig != nil {
+		nameFromConfig := source.NameFromConfig.Copy()
+		model.NameFromConfig = &nameFromConfig
+	} else {
+		model.NameFromConfig = nil
+	}
+
+	// Publisher
+	model.Publisher = genruntime.ClonePointerToString(source.Publisher)
+
+	// PublisherFromConfig
+	if source.PublisherFromConfig != nil {
+		publisherFromConfig := source.PublisherFromConfig.Copy()
+		model.PublisherFromConfig = &publisherFromConfig
+	} else {
+		model.PublisherFromConfig = nil
+	}
+
+	// SourceAccountReference
+	if source.SourceAccountReference != nil {
+		sourceAccountReference := source.SourceAccountReference.Copy()
+		model.SourceAccountReference = &sourceAccountReference
+	} else {
+		model.SourceAccountReference = nil
+	}
+
+	// SourceReference
+	if source.SourceReference != nil {
+		sourceReference := source.SourceReference.Copy()
+		model.SourceReference = &sourceReference
+	} else {
+		model.SourceReference = nil
+	}
+
+	// Version
+	model.Version = genruntime.ClonePointerToString(source.Version)
+
+	// VersionFromConfig
+	if source.VersionFromConfig != nil {
+		versionFromConfig := source.VersionFromConfig.Copy()
+		model.VersionFromConfig = &versionFromConfig
+	} else {
+		model.VersionFromConfig = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		model.PropertyBag = propertyBag
+	} else {
+		model.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentModel interface (if implemented) to customize the conversion
+	var modelAsAny any = model
+	if augmentedModel, ok := modelAsAny.(augmentConversionForDeploymentModel); ok {
+		err := augmentedModel.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeploymentModel populates the provided destination DeploymentModel from our DeploymentModel
+func (model *DeploymentModel) AssignProperties_To_DeploymentModel(destination *storage.DeploymentModel) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(model.PropertyBag)
+
+	// Format
+	destination.Format = genruntime.ClonePointerToString(model.Format)
+
+	// FormatFromConfig
+	if model.FormatFromConfig != nil {
+		formatFromConfig := model.FormatFromConfig.Copy()
+		destination.FormatFromConfig = &formatFromConfig
+	} else {
+		destination.FormatFromConfig = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(model.Name)
+
+	// NameFromConfig
+	if model.NameFromConfig != nil {
+		nameFromConfig := model.NameFromConfig.Copy()
+		destination.NameFromConfig = &nameFromConfig
+	} else {
+		destination.NameFromConfig = nil
+	}
+
+	// Publisher
+	destination.Publisher = genruntime.ClonePointerToString(model.Publisher)
+
+	// PublisherFromConfig
+	if model.PublisherFromConfig != nil {
+		publisherFromConfig := model.PublisherFromConfig.Copy()
+		destination.PublisherFromConfig = &publisherFromConfig
+	} else {
+		destination.PublisherFromConfig = nil
+	}
+
+	// SourceAccountReference
+	if model.SourceAccountReference != nil {
+		sourceAccountReference := model.SourceAccountReference.Copy()
+		destination.SourceAccountReference = &sourceAccountReference
+	} else {
+		destination.SourceAccountReference = nil
+	}
+
+	// SourceReference
+	if model.SourceReference != nil {
+		sourceReference := model.SourceReference.Copy()
+		destination.SourceReference = &sourceReference
+	} else {
+		destination.SourceReference = nil
+	}
+
+	// Version
+	destination.Version = genruntime.ClonePointerToString(model.Version)
+
+	// VersionFromConfig
+	if model.VersionFromConfig != nil {
+		versionFromConfig := model.VersionFromConfig.Copy()
+		destination.VersionFromConfig = &versionFromConfig
+	} else {
+		destination.VersionFromConfig = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentModel interface (if implemented) to customize the conversion
+	var modelAsAny any = model
+	if augmentedModel, ok := modelAsAny.(augmentConversionForDeploymentModel); ok {
+		err := augmentedModel.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20250601.DeploymentModel_STATUS
 // Properties of Cognitive Services account deployment model.
 type DeploymentModel_STATUS struct {
@@ -328,12 +1610,184 @@ type DeploymentModel_STATUS struct {
 	Version       *string                `json:"version,omitempty"`
 }
 
+// AssignProperties_From_DeploymentModel_STATUS populates our DeploymentModel_STATUS from the provided source DeploymentModel_STATUS
+func (model *DeploymentModel_STATUS) AssignProperties_From_DeploymentModel_STATUS(source *storage.DeploymentModel_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CallRateLimit
+	if source.CallRateLimit != nil {
+		var callRateLimit CallRateLimit_STATUS
+		err := callRateLimit.AssignProperties_From_CallRateLimit_STATUS(source.CallRateLimit)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_From_CallRateLimit_STATUS() to populate field CallRateLimit")
+		}
+		model.CallRateLimit = &callRateLimit
+	} else {
+		model.CallRateLimit = nil
+	}
+
+	// Format
+	model.Format = genruntime.ClonePointerToString(source.Format)
+
+	// Name
+	model.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Publisher
+	model.Publisher = genruntime.ClonePointerToString(source.Publisher)
+
+	// Source
+	model.Source = genruntime.ClonePointerToString(source.Source)
+
+	// SourceAccount
+	model.SourceAccount = genruntime.ClonePointerToString(source.SourceAccount)
+
+	// Version
+	model.Version = genruntime.ClonePointerToString(source.Version)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		model.PropertyBag = propertyBag
+	} else {
+		model.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentModel_STATUS interface (if implemented) to customize the conversion
+	var modelAsAny any = model
+	if augmentedModel, ok := modelAsAny.(augmentConversionForDeploymentModel_STATUS); ok {
+		err := augmentedModel.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeploymentModel_STATUS populates the provided destination DeploymentModel_STATUS from our DeploymentModel_STATUS
+func (model *DeploymentModel_STATUS) AssignProperties_To_DeploymentModel_STATUS(destination *storage.DeploymentModel_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(model.PropertyBag)
+
+	// CallRateLimit
+	if model.CallRateLimit != nil {
+		var callRateLimit storage.CallRateLimit_STATUS
+		err := model.CallRateLimit.AssignProperties_To_CallRateLimit_STATUS(&callRateLimit)
+		if err != nil {
+			return eris.Wrap(err, "calling AssignProperties_To_CallRateLimit_STATUS() to populate field CallRateLimit")
+		}
+		destination.CallRateLimit = &callRateLimit
+	} else {
+		destination.CallRateLimit = nil
+	}
+
+	// Format
+	destination.Format = genruntime.ClonePointerToString(model.Format)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(model.Name)
+
+	// Publisher
+	destination.Publisher = genruntime.ClonePointerToString(model.Publisher)
+
+	// Source
+	destination.Source = genruntime.ClonePointerToString(model.Source)
+
+	// SourceAccount
+	destination.SourceAccount = genruntime.ClonePointerToString(model.SourceAccount)
+
+	// Version
+	destination.Version = genruntime.ClonePointerToString(model.Version)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentModel_STATUS interface (if implemented) to customize the conversion
+	var modelAsAny any = model
+	if augmentedModel, ok := modelAsAny.(augmentConversionForDeploymentModel_STATUS); ok {
+		err := augmentedModel.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1api20250601.DeploymentScaleSettings
 // Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.)
 type DeploymentScaleSettings struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ScaleType   *string                `json:"scaleType,omitempty"`
+}
+
+// AssignProperties_From_DeploymentScaleSettings populates our DeploymentScaleSettings from the provided source DeploymentScaleSettings
+func (settings *DeploymentScaleSettings) AssignProperties_From_DeploymentScaleSettings(source *storage.DeploymentScaleSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Capacity
+	settings.Capacity = genruntime.ClonePointerToInt(source.Capacity)
+
+	// ScaleType
+	settings.ScaleType = genruntime.ClonePointerToString(source.ScaleType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentScaleSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDeploymentScaleSettings); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeploymentScaleSettings populates the provided destination DeploymentScaleSettings from our DeploymentScaleSettings
+func (settings *DeploymentScaleSettings) AssignProperties_To_DeploymentScaleSettings(destination *storage.DeploymentScaleSettings) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// Capacity
+	destination.Capacity = genruntime.ClonePointerToInt(settings.Capacity)
+
+	// ScaleType
+	destination.ScaleType = genruntime.ClonePointerToString(settings.ScaleType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentScaleSettings interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDeploymentScaleSettings); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20250601.DeploymentScaleSettings_STATUS
@@ -343,6 +1797,74 @@ type DeploymentScaleSettings_STATUS struct {
 	Capacity       *int                   `json:"capacity,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ScaleType      *string                `json:"scaleType,omitempty"`
+}
+
+// AssignProperties_From_DeploymentScaleSettings_STATUS populates our DeploymentScaleSettings_STATUS from the provided source DeploymentScaleSettings_STATUS
+func (settings *DeploymentScaleSettings_STATUS) AssignProperties_From_DeploymentScaleSettings_STATUS(source *storage.DeploymentScaleSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ActiveCapacity
+	settings.ActiveCapacity = genruntime.ClonePointerToInt(source.ActiveCapacity)
+
+	// Capacity
+	settings.Capacity = genruntime.ClonePointerToInt(source.Capacity)
+
+	// ScaleType
+	settings.ScaleType = genruntime.ClonePointerToString(source.ScaleType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		settings.PropertyBag = propertyBag
+	} else {
+		settings.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentScaleSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDeploymentScaleSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_DeploymentScaleSettings_STATUS populates the provided destination DeploymentScaleSettings_STATUS from our DeploymentScaleSettings_STATUS
+func (settings *DeploymentScaleSettings_STATUS) AssignProperties_To_DeploymentScaleSettings_STATUS(destination *storage.DeploymentScaleSettings_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
+
+	// ActiveCapacity
+	destination.ActiveCapacity = genruntime.ClonePointerToInt(settings.ActiveCapacity)
+
+	// Capacity
+	destination.Capacity = genruntime.ClonePointerToInt(settings.Capacity)
+
+	// ScaleType
+	destination.ScaleType = genruntime.ClonePointerToString(settings.ScaleType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForDeploymentScaleSettings_STATUS interface (if implemented) to customize the conversion
+	var settingsAsAny any = settings
+	if augmentedSettings, ok := settingsAsAny.(augmentConversionForDeploymentScaleSettings_STATUS); ok {
+		err := augmentedSettings.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1api20250601.ThrottlingRule_STATUS
@@ -356,11 +1878,265 @@ type ThrottlingRule_STATUS struct {
 	RenewalPeriod            *float64                     `json:"renewalPeriod,omitempty"`
 }
 
+// AssignProperties_From_ThrottlingRule_STATUS populates our ThrottlingRule_STATUS from the provided source ThrottlingRule_STATUS
+func (rule *ThrottlingRule_STATUS) AssignProperties_From_ThrottlingRule_STATUS(source *storage.ThrottlingRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Count
+	if source.Count != nil {
+		count := *source.Count
+		rule.Count = &count
+	} else {
+		rule.Count = nil
+	}
+
+	// DynamicThrottlingEnabled
+	if source.DynamicThrottlingEnabled != nil {
+		dynamicThrottlingEnabled := *source.DynamicThrottlingEnabled
+		rule.DynamicThrottlingEnabled = &dynamicThrottlingEnabled
+	} else {
+		rule.DynamicThrottlingEnabled = nil
+	}
+
+	// Key
+	rule.Key = genruntime.ClonePointerToString(source.Key)
+
+	// MatchPatterns
+	if source.MatchPatterns != nil {
+		matchPatternList := make([]RequestMatchPattern_STATUS, len(source.MatchPatterns))
+		for matchPatternIndex, matchPatternItem := range source.MatchPatterns {
+			var matchPattern RequestMatchPattern_STATUS
+			err := matchPattern.AssignProperties_From_RequestMatchPattern_STATUS(&matchPatternItem)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_From_RequestMatchPattern_STATUS() to populate field MatchPatterns")
+			}
+			matchPatternList[matchPatternIndex] = matchPattern
+		}
+		rule.MatchPatterns = matchPatternList
+	} else {
+		rule.MatchPatterns = nil
+	}
+
+	// MinCount
+	if source.MinCount != nil {
+		minCount := *source.MinCount
+		rule.MinCount = &minCount
+	} else {
+		rule.MinCount = nil
+	}
+
+	// RenewalPeriod
+	if source.RenewalPeriod != nil {
+		renewalPeriod := *source.RenewalPeriod
+		rule.RenewalPeriod = &renewalPeriod
+	} else {
+		rule.RenewalPeriod = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForThrottlingRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForThrottlingRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_ThrottlingRule_STATUS populates the provided destination ThrottlingRule_STATUS from our ThrottlingRule_STATUS
+func (rule *ThrottlingRule_STATUS) AssignProperties_To_ThrottlingRule_STATUS(destination *storage.ThrottlingRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Count
+	if rule.Count != nil {
+		count := *rule.Count
+		destination.Count = &count
+	} else {
+		destination.Count = nil
+	}
+
+	// DynamicThrottlingEnabled
+	if rule.DynamicThrottlingEnabled != nil {
+		dynamicThrottlingEnabled := *rule.DynamicThrottlingEnabled
+		destination.DynamicThrottlingEnabled = &dynamicThrottlingEnabled
+	} else {
+		destination.DynamicThrottlingEnabled = nil
+	}
+
+	// Key
+	destination.Key = genruntime.ClonePointerToString(rule.Key)
+
+	// MatchPatterns
+	if rule.MatchPatterns != nil {
+		matchPatternList := make([]storage.RequestMatchPattern_STATUS, len(rule.MatchPatterns))
+		for matchPatternIndex, matchPatternItem := range rule.MatchPatterns {
+			var matchPattern storage.RequestMatchPattern_STATUS
+			err := matchPatternItem.AssignProperties_To_RequestMatchPattern_STATUS(&matchPattern)
+			if err != nil {
+				return eris.Wrap(err, "calling AssignProperties_To_RequestMatchPattern_STATUS() to populate field MatchPatterns")
+			}
+			matchPatternList[matchPatternIndex] = matchPattern
+		}
+		destination.MatchPatterns = matchPatternList
+	} else {
+		destination.MatchPatterns = nil
+	}
+
+	// MinCount
+	if rule.MinCount != nil {
+		minCount := *rule.MinCount
+		destination.MinCount = &minCount
+	} else {
+		destination.MinCount = nil
+	}
+
+	// RenewalPeriod
+	if rule.RenewalPeriod != nil {
+		renewalPeriod := *rule.RenewalPeriod
+		destination.RenewalPeriod = &renewalPeriod
+	} else {
+		destination.RenewalPeriod = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForThrottlingRule_STATUS interface (if implemented) to customize the conversion
+	var ruleAsAny any = rule
+	if augmentedRule, ok := ruleAsAny.(augmentConversionForThrottlingRule_STATUS); ok {
+		err := augmentedRule.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForDeploymentCapacitySettings interface {
+	AssignPropertiesFrom(src *storage.DeploymentCapacitySettings) error
+	AssignPropertiesTo(dst *storage.DeploymentCapacitySettings) error
+}
+
+type augmentConversionForDeploymentCapacitySettings_STATUS interface {
+	AssignPropertiesFrom(src *storage.DeploymentCapacitySettings_STATUS) error
+	AssignPropertiesTo(dst *storage.DeploymentCapacitySettings_STATUS) error
+}
+
+type augmentConversionForDeploymentModel interface {
+	AssignPropertiesFrom(src *storage.DeploymentModel) error
+	AssignPropertiesTo(dst *storage.DeploymentModel) error
+}
+
+type augmentConversionForDeploymentModel_STATUS interface {
+	AssignPropertiesFrom(src *storage.DeploymentModel_STATUS) error
+	AssignPropertiesTo(dst *storage.DeploymentModel_STATUS) error
+}
+
+type augmentConversionForDeploymentScaleSettings interface {
+	AssignPropertiesFrom(src *storage.DeploymentScaleSettings) error
+	AssignPropertiesTo(dst *storage.DeploymentScaleSettings) error
+}
+
+type augmentConversionForDeploymentScaleSettings_STATUS interface {
+	AssignPropertiesFrom(src *storage.DeploymentScaleSettings_STATUS) error
+	AssignPropertiesTo(dst *storage.DeploymentScaleSettings_STATUS) error
+}
+
+type augmentConversionForThrottlingRule_STATUS interface {
+	AssignPropertiesFrom(src *storage.ThrottlingRule_STATUS) error
+	AssignPropertiesTo(dst *storage.ThrottlingRule_STATUS) error
+}
+
 // Storage version of v1api20250601.RequestMatchPattern_STATUS
 type RequestMatchPattern_STATUS struct {
 	Method      *string                `json:"method,omitempty"`
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignProperties_From_RequestMatchPattern_STATUS populates our RequestMatchPattern_STATUS from the provided source RequestMatchPattern_STATUS
+func (pattern *RequestMatchPattern_STATUS) AssignProperties_From_RequestMatchPattern_STATUS(source *storage.RequestMatchPattern_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Method
+	pattern.Method = genruntime.ClonePointerToString(source.Method)
+
+	// Path
+	pattern.Path = genruntime.ClonePointerToString(source.Path)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		pattern.PropertyBag = propertyBag
+	} else {
+		pattern.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRequestMatchPattern_STATUS interface (if implemented) to customize the conversion
+	var patternAsAny any = pattern
+	if augmentedPattern, ok := patternAsAny.(augmentConversionForRequestMatchPattern_STATUS); ok {
+		err := augmentedPattern.AssignPropertiesFrom(source)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesFrom() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignProperties_To_RequestMatchPattern_STATUS populates the provided destination RequestMatchPattern_STATUS from our RequestMatchPattern_STATUS
+func (pattern *RequestMatchPattern_STATUS) AssignProperties_To_RequestMatchPattern_STATUS(destination *storage.RequestMatchPattern_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(pattern.PropertyBag)
+
+	// Method
+	destination.Method = genruntime.ClonePointerToString(pattern.Method)
+
+	// Path
+	destination.Path = genruntime.ClonePointerToString(pattern.Path)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// Invoke the augmentConversionForRequestMatchPattern_STATUS interface (if implemented) to customize the conversion
+	var patternAsAny any = pattern
+	if augmentedPattern, ok := patternAsAny.(augmentConversionForRequestMatchPattern_STATUS); ok {
+		err := augmentedPattern.AssignPropertiesTo(destination)
+		if err != nil {
+			return eris.Wrap(err, "calling augmented AssignPropertiesTo() for conversion")
+		}
+	}
+
+	// No error
+	return nil
+}
+
+type augmentConversionForRequestMatchPattern_STATUS interface {
+	AssignPropertiesFrom(src *storage.RequestMatchPattern_STATUS) error
+	AssignPropertiesTo(dst *storage.RequestMatchPattern_STATUS) error
 }
 
 func init() {

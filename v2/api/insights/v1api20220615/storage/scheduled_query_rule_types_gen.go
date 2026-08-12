@@ -28,7 +28,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1api20220615.ScheduledQueryRule
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-06-15/scheduledQueryRule_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-06-15/scheduledQueryRule_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}
 type ScheduledQueryRule struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -159,7 +159,7 @@ func (rule *ScheduledQueryRule) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Storage version of v1api20220615.ScheduledQueryRule
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2022-06-15/scheduledQueryRule_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2022-06-15/scheduledQueryRule_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/scheduledQueryRules/{ruleName}
 type ScheduledQueryRuleList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -424,13 +424,13 @@ type augmentConversionForSystemData_STATUS interface {
 // Storage version of v1api20220615.Condition
 // A condition of the scheduled query rule.
 type Condition struct {
-	Dimensions          []Dimension               `json:"dimensions,omitempty"`
-	FailingPeriods      *Condition_FailingPeriods `json:"failingPeriods,omitempty"`
-	MetricMeasureColumn *string                   `json:"metricMeasureColumn,omitempty"`
-	MetricName          *string                   `json:"metricName,omitempty"`
-	Operator            *string                   `json:"operator,omitempty"`
-	PropertyBag         genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	Query               *string                   `json:"query,omitempty"`
+	Dimensions          []Dimension              `json:"dimensions,omitempty"`
+	FailingPeriods      *ConditionFailingPeriods `json:"failingPeriods,omitempty"`
+	MetricMeasureColumn *string                  `json:"metricMeasureColumn,omitempty"`
+	MetricName          *string                  `json:"metricName,omitempty"`
+	Operator            *string                  `json:"operator,omitempty"`
+	PropertyBag         genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
+	Query               *string                  `json:"query,omitempty"`
 
 	// ResourceIdColumnReference: The column containing the resource id. The content of the column must be a uri formatted as
 	// resource id. Relevant only for rules of the kind LogAlert.
@@ -442,27 +442,27 @@ type Condition struct {
 // Storage version of v1api20220615.Condition_STATUS
 // A condition of the scheduled query rule.
 type Condition_STATUS struct {
-	Dimensions          []Dimension_STATUS               `json:"dimensions,omitempty"`
-	FailingPeriods      *Condition_FailingPeriods_STATUS `json:"failingPeriods,omitempty"`
-	MetricMeasureColumn *string                          `json:"metricMeasureColumn,omitempty"`
-	MetricName          *string                          `json:"metricName,omitempty"`
-	Operator            *string                          `json:"operator,omitempty"`
-	PropertyBag         genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-	Query               *string                          `json:"query,omitempty"`
-	ResourceIdColumn    *string                          `json:"resourceIdColumn,omitempty"`
-	Threshold           *float64                         `json:"threshold,omitempty"`
-	TimeAggregation     *string                          `json:"timeAggregation,omitempty"`
+	Dimensions          []Dimension_STATUS              `json:"dimensions,omitempty"`
+	FailingPeriods      *ConditionFailingPeriods_STATUS `json:"failingPeriods,omitempty"`
+	MetricMeasureColumn *string                         `json:"metricMeasureColumn,omitempty"`
+	MetricName          *string                         `json:"metricName,omitempty"`
+	Operator            *string                         `json:"operator,omitempty"`
+	PropertyBag         genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
+	Query               *string                         `json:"query,omitempty"`
+	ResourceIdColumn    *string                         `json:"resourceIdColumn,omitempty"`
+	Threshold           *float64                        `json:"threshold,omitempty"`
+	TimeAggregation     *string                         `json:"timeAggregation,omitempty"`
 }
 
-// Storage version of v1api20220615.Condition_FailingPeriods
-type Condition_FailingPeriods struct {
+// Storage version of v1api20220615.ConditionFailingPeriods
+type ConditionFailingPeriods struct {
 	MinFailingPeriodsToAlert  *int                   `json:"minFailingPeriodsToAlert,omitempty"`
 	NumberOfEvaluationPeriods *int                   `json:"numberOfEvaluationPeriods,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1api20220615.Condition_FailingPeriods_STATUS
-type Condition_FailingPeriods_STATUS struct {
+// Storage version of v1api20220615.ConditionFailingPeriods_STATUS
+type ConditionFailingPeriods_STATUS struct {
 	MinFailingPeriodsToAlert  *int                   `json:"minFailingPeriodsToAlert,omitempty"`
 	NumberOfEvaluationPeriods *int                   `json:"numberOfEvaluationPeriods,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`

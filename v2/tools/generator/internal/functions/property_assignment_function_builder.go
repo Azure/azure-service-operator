@@ -163,6 +163,7 @@ func (builder *PropertyAssignmentFunctionBuilder) Build(
 	packageReferences := astmodel.NewPackageReferenceSet(
 		astmodel.ErisReference,
 		astmodel.GenRuntimeReference,
+		astmodel.APIExtensionsReference,
 		builder.otherDefinition.Name().PackageReference(),
 		compatPkg,
 	)

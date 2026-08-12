@@ -75,6 +75,9 @@ groupModelConfiguration:
     ManagedClusters_MaintenanceConfiguration:
       $exportAs: MaintenanceConfiguration
       $supportedFrom: v2.11.0
+    ManagedClusterAADProfile:
+      ServerAppSecret:
+        $importSecretMode: required
     UserAssignedIdentity:
       ClientId:
         $importConfigMapMode: optional
@@ -102,6 +105,9 @@ groupModelConfiguration:
     ManagedCluster_Spec:
       Tags:
         $payloadType: explicitEmptyCollections
+    ManagedClusterAADProfile:
+      ServerAppSecret:
+        $importSecretMode: required
     ManagedClusterAgentPoolProfile:
       NodeLabels:
         $payloadType: explicitEmptyCollections

@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/ApplicationInsights/stable/2017-10-01/componentFeaturesAndPricing_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/pricingPlans/current
 type PricingPlan struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -237,7 +237,7 @@ func (plan *PricingPlan) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/preview/2017-10-01/componentFeaturesAndPricing_API.json
+// - Generated from: /applicationinsights/resource-manager/Microsoft.Insights/ApplicationInsights/stable/2017-10-01/componentFeaturesAndPricing_API.json
 // - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/microsoft.insights/components/{resourceName}/pricingPlans/current
 type PricingPlanList struct {
 	metav1.TypeMeta `json:",inline"`

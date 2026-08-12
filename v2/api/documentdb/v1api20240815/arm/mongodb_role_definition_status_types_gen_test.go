@@ -19,6 +19,11 @@ import (
 
 func Test_MongoRoleDefinitionResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -96,6 +101,11 @@ func AddRelatedPropertyGeneratorsForMongoRoleDefinitionResource_STATUS(gens map[
 
 func Test_MongodbRoleDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -173,6 +183,11 @@ func AddRelatedPropertyGeneratorsForMongodbRoleDefinition_STATUS(gens map[string
 
 func Test_Privilege_Resource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -235,6 +250,11 @@ func AddIndependentPropertyGeneratorsForPrivilege_Resource_STATUS(gens map[strin
 
 func Test_Privilege_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -309,6 +329,11 @@ func AddRelatedPropertyGeneratorsForPrivilege_STATUS(gens map[string]gopter.Gen)
 
 func Test_Role_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

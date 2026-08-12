@@ -3,13 +3,15 @@
 // Licensed under the MIT license.
 package arm
 
+import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+
 // The top level Workspace resource container.
 type Workspace_STATUS struct {
 	// Etag: The etag of the workspace.
 	Etag *string `json:"etag,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	// Id: Fully qualified resource ID for the resource. E.g.
+	// "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
@@ -24,7 +26,7 @@ type Workspace_STATUS struct {
 	// Properties: Workspace properties.
 	Properties *WorkspaceProperties_STATUS `json:"properties,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
@@ -43,7 +45,7 @@ type Identity_STATUS struct {
 	TenantId *string `json:"tenantId,omitempty"`
 
 	// Type: Type of managed service identity.
-	Type *Identity_Type_STATUS `json:"type,omitempty"`
+	Type *IdentityType_STATUS `json:"type,omitempty"`
 
 	// UserAssignedIdentities: The list of user identities associated with the resource. The user identity dictionary key
 	// references will be ARM resource ids in the form:
@@ -101,13 +103,13 @@ type WorkspaceProperties_STATUS struct {
 	PrivateLinkScopedResources []PrivateLinkScopedResource_STATUS `json:"privateLinkScopedResources,omitempty"`
 
 	// ProvisioningState: The provisioning state of the workspace.
-	ProvisioningState *WorkspaceProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *WorkspaceEntityStatus_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Log Analytics ingestion.
-	PublicNetworkAccessForIngestion *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForIngestion,omitempty"`
+	PublicNetworkAccessForIngestion *WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS `json:"publicNetworkAccessForIngestion,omitempty"`
 
 	// PublicNetworkAccessForQuery: The network access type for accessing Log Analytics query.
-	PublicNetworkAccessForQuery *PublicNetworkAccessType_STATUS `json:"publicNetworkAccessForQuery,omitempty"`
+	PublicNetworkAccessForQuery *WorkspaceProperties_PublicNetworkAccessForQuery_STATUS `json:"publicNetworkAccessForQuery,omitempty"`
 
 	// Replication: workspace replication properties.
 	Replication *WorkspaceReplicationProperties_STATUS `json:"replication,omitempty"`
@@ -123,19 +125,20 @@ type WorkspaceProperties_STATUS struct {
 	WorkspaceCapping *WorkspaceCapping_STATUS `json:"workspaceCapping,omitempty"`
 }
 
-type Identity_Type_STATUS string
+// Type of managed service identity.
+type IdentityType_STATUS string
 
 const (
-	Identity_Type_STATUS_None           = Identity_Type_STATUS("None")
-	Identity_Type_STATUS_SystemAssigned = Identity_Type_STATUS("SystemAssigned")
-	Identity_Type_STATUS_UserAssigned   = Identity_Type_STATUS("UserAssigned")
+	IdentityType_STATUS_None           = IdentityType_STATUS("None")
+	IdentityType_STATUS_SystemAssigned = IdentityType_STATUS("SystemAssigned")
+	IdentityType_STATUS_UserAssigned   = IdentityType_STATUS("UserAssigned")
 )
 
-// Mapping from string to Identity_Type_STATUS
-var identity_Type_STATUS_Values = map[string]Identity_Type_STATUS{
-	"none":           Identity_Type_STATUS_None,
-	"systemassigned": Identity_Type_STATUS_SystemAssigned,
-	"userassigned":   Identity_Type_STATUS_UserAssigned,
+// Mapping from string to IdentityType_STATUS
+var identityType_STATUS_Values = map[string]IdentityType_STATUS{
+	"none":           IdentityType_STATUS_None,
+	"systemassigned": IdentityType_STATUS_SystemAssigned,
+	"userassigned":   IdentityType_STATUS_UserAssigned,
 }
 
 // The private link scope resource reference.
@@ -145,22 +148,6 @@ type PrivateLinkScopedResource_STATUS struct {
 
 	// ScopeId: The private link scope unique Identifier.
 	ScopeId *string `json:"scopeId,omitempty"`
-}
-
-// The network access type for operating on the Log Analytics Workspace. By default it is Enabled
-type PublicNetworkAccessType_STATUS string
-
-const (
-	PublicNetworkAccessType_STATUS_Disabled           = PublicNetworkAccessType_STATUS("Disabled")
-	PublicNetworkAccessType_STATUS_Enabled            = PublicNetworkAccessType_STATUS("Enabled")
-	PublicNetworkAccessType_STATUS_SecuredByPerimeter = PublicNetworkAccessType_STATUS("SecuredByPerimeter")
-)
-
-// Mapping from string to PublicNetworkAccessType_STATUS
-var publicNetworkAccessType_STATUS_Values = map[string]PublicNetworkAccessType_STATUS{
-	"disabled":           PublicNetworkAccessType_STATUS_Disabled,
-	"enabled":            PublicNetworkAccessType_STATUS_Enabled,
-	"securedbyperimeter": PublicNetworkAccessType_STATUS_SecuredByPerimeter,
 }
 
 type SystemData_CreatedByType_STATUS string
@@ -212,10 +199,34 @@ type WorkspaceCapping_STATUS struct {
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 
 	// DataIngestionStatus: The status of data ingestion for this workspace.
-	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus_STATUS `json:"dataIngestionStatus,omitempty"`
+	DataIngestionStatus *DataIngestionStatus_STATUS `json:"dataIngestionStatus,omitempty"`
 
 	// QuotaNextResetTime: The time when the quota will be rest.
 	QuotaNextResetTime *string `json:"quotaNextResetTime,omitempty"`
+}
+
+// The provisioning state of the workspace.
+type WorkspaceEntityStatus_STATUS string
+
+const (
+	WorkspaceEntityStatus_STATUS_Canceled            = WorkspaceEntityStatus_STATUS("Canceled")
+	WorkspaceEntityStatus_STATUS_Creating            = WorkspaceEntityStatus_STATUS("Creating")
+	WorkspaceEntityStatus_STATUS_Deleting            = WorkspaceEntityStatus_STATUS("Deleting")
+	WorkspaceEntityStatus_STATUS_Failed              = WorkspaceEntityStatus_STATUS("Failed")
+	WorkspaceEntityStatus_STATUS_ProvisioningAccount = WorkspaceEntityStatus_STATUS("ProvisioningAccount")
+	WorkspaceEntityStatus_STATUS_Succeeded           = WorkspaceEntityStatus_STATUS("Succeeded")
+	WorkspaceEntityStatus_STATUS_Updating            = WorkspaceEntityStatus_STATUS("Updating")
+)
+
+// Mapping from string to WorkspaceEntityStatus_STATUS
+var workspaceEntityStatus_STATUS_Values = map[string]WorkspaceEntityStatus_STATUS{
+	"canceled":            WorkspaceEntityStatus_STATUS_Canceled,
+	"creating":            WorkspaceEntityStatus_STATUS_Creating,
+	"deleting":            WorkspaceEntityStatus_STATUS_Deleting,
+	"failed":              WorkspaceEntityStatus_STATUS_Failed,
+	"provisioningaccount": WorkspaceEntityStatus_STATUS_ProvisioningAccount,
+	"succeeded":           WorkspaceEntityStatus_STATUS_Succeeded,
+	"updating":            WorkspaceEntityStatus_STATUS_Updating,
 }
 
 // The failover state of the replication.
@@ -224,11 +235,13 @@ type WorkspaceFailoverProperties_STATUS struct {
 	LastModifiedDate *string `json:"lastModifiedDate,omitempty"`
 
 	// State: The failover state of the replication.
-	State *WorkspaceFailoverProperties_State_STATUS `json:"state,omitempty"`
+	State *WorkspaceFailoverState_STATUS `json:"state,omitempty"`
 }
 
 // Workspace features.
 type WorkspaceFeatures_STATUS struct {
+	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
+
 	// Associations: List of associations for the workspace. Indicates if the workspace is associated with any of the following
 	// experiences: MDC, Sentinel, SentinelGraph, etc.
 	Associations []string `json:"associations,omitempty"`
@@ -252,27 +265,34 @@ type WorkspaceFeatures_STATUS struct {
 	UnifiedSentinelBillingOnly *bool `json:"unifiedSentinelBillingOnly,omitempty"`
 }
 
-type WorkspaceProperties_ProvisioningState_STATUS string
+type WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS string
 
 const (
-	WorkspaceProperties_ProvisioningState_STATUS_Canceled            = WorkspaceProperties_ProvisioningState_STATUS("Canceled")
-	WorkspaceProperties_ProvisioningState_STATUS_Creating            = WorkspaceProperties_ProvisioningState_STATUS("Creating")
-	WorkspaceProperties_ProvisioningState_STATUS_Deleting            = WorkspaceProperties_ProvisioningState_STATUS("Deleting")
-	WorkspaceProperties_ProvisioningState_STATUS_Failed              = WorkspaceProperties_ProvisioningState_STATUS("Failed")
-	WorkspaceProperties_ProvisioningState_STATUS_ProvisioningAccount = WorkspaceProperties_ProvisioningState_STATUS("ProvisioningAccount")
-	WorkspaceProperties_ProvisioningState_STATUS_Succeeded           = WorkspaceProperties_ProvisioningState_STATUS("Succeeded")
-	WorkspaceProperties_ProvisioningState_STATUS_Updating            = WorkspaceProperties_ProvisioningState_STATUS("Updating")
+	WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS_Disabled           = WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS("Disabled")
+	WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS_Enabled            = WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS("Enabled")
+	WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS_SecuredByPerimeter = WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS("SecuredByPerimeter")
 )
 
-// Mapping from string to WorkspaceProperties_ProvisioningState_STATUS
-var workspaceProperties_ProvisioningState_STATUS_Values = map[string]WorkspaceProperties_ProvisioningState_STATUS{
-	"canceled":            WorkspaceProperties_ProvisioningState_STATUS_Canceled,
-	"creating":            WorkspaceProperties_ProvisioningState_STATUS_Creating,
-	"deleting":            WorkspaceProperties_ProvisioningState_STATUS_Deleting,
-	"failed":              WorkspaceProperties_ProvisioningState_STATUS_Failed,
-	"provisioningaccount": WorkspaceProperties_ProvisioningState_STATUS_ProvisioningAccount,
-	"succeeded":           WorkspaceProperties_ProvisioningState_STATUS_Succeeded,
-	"updating":            WorkspaceProperties_ProvisioningState_STATUS_Updating,
+// Mapping from string to WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS
+var workspaceProperties_PublicNetworkAccessForIngestion_STATUS_Values = map[string]WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS{
+	"disabled":           WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS_Disabled,
+	"enabled":            WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS_Enabled,
+	"securedbyperimeter": WorkspaceProperties_PublicNetworkAccessForIngestion_STATUS_SecuredByPerimeter,
+}
+
+type WorkspaceProperties_PublicNetworkAccessForQuery_STATUS string
+
+const (
+	WorkspaceProperties_PublicNetworkAccessForQuery_STATUS_Disabled           = WorkspaceProperties_PublicNetworkAccessForQuery_STATUS("Disabled")
+	WorkspaceProperties_PublicNetworkAccessForQuery_STATUS_Enabled            = WorkspaceProperties_PublicNetworkAccessForQuery_STATUS("Enabled")
+	WorkspaceProperties_PublicNetworkAccessForQuery_STATUS_SecuredByPerimeter = WorkspaceProperties_PublicNetworkAccessForQuery_STATUS("SecuredByPerimeter")
+)
+
+// Mapping from string to WorkspaceProperties_PublicNetworkAccessForQuery_STATUS
+var workspaceProperties_PublicNetworkAccessForQuery_STATUS_Values = map[string]WorkspaceProperties_PublicNetworkAccessForQuery_STATUS{
+	"disabled":           WorkspaceProperties_PublicNetworkAccessForQuery_STATUS_Disabled,
+	"enabled":            WorkspaceProperties_PublicNetworkAccessForQuery_STATUS_Enabled,
+	"securedbyperimeter": WorkspaceProperties_PublicNetworkAccessForQuery_STATUS_SecuredByPerimeter,
 }
 
 // Workspace replication properties.
@@ -291,7 +311,7 @@ type WorkspaceReplicationProperties_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// ProvisioningState: The provisioning state of the replication.
-	ProvisioningState *WorkspaceReplicationProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *WorkspaceReplicationState_STATUS `json:"provisioningState,omitempty"`
 }
 
 // The SKU (tier) of a workspace.
@@ -304,97 +324,101 @@ type WorkspaceSku_STATUS struct {
 	LastSkuUpdate *string `json:"lastSkuUpdate,omitempty"`
 
 	// Name: The name of the SKU.
-	Name *WorkspaceSku_Name_STATUS `json:"name,omitempty"`
+	Name *WorkspaceSkuNameEnum_STATUS `json:"name,omitempty"`
 }
 
-type WorkspaceCapping_DataIngestionStatus_STATUS string
+// The status of data ingestion for this workspace.
+type DataIngestionStatus_STATUS string
 
 const (
-	WorkspaceCapping_DataIngestionStatus_STATUS_ApproachingQuota      = WorkspaceCapping_DataIngestionStatus_STATUS("ApproachingQuota")
-	WorkspaceCapping_DataIngestionStatus_STATUS_ForceOff              = WorkspaceCapping_DataIngestionStatus_STATUS("ForceOff")
-	WorkspaceCapping_DataIngestionStatus_STATUS_ForceOn               = WorkspaceCapping_DataIngestionStatus_STATUS("ForceOn")
-	WorkspaceCapping_DataIngestionStatus_STATUS_OverQuota             = WorkspaceCapping_DataIngestionStatus_STATUS("OverQuota")
-	WorkspaceCapping_DataIngestionStatus_STATUS_RespectQuota          = WorkspaceCapping_DataIngestionStatus_STATUS("RespectQuota")
-	WorkspaceCapping_DataIngestionStatus_STATUS_SubscriptionSuspended = WorkspaceCapping_DataIngestionStatus_STATUS("SubscriptionSuspended")
+	DataIngestionStatus_STATUS_ApproachingQuota      = DataIngestionStatus_STATUS("ApproachingQuota")
+	DataIngestionStatus_STATUS_ForceOff              = DataIngestionStatus_STATUS("ForceOff")
+	DataIngestionStatus_STATUS_ForceOn               = DataIngestionStatus_STATUS("ForceOn")
+	DataIngestionStatus_STATUS_OverQuota             = DataIngestionStatus_STATUS("OverQuota")
+	DataIngestionStatus_STATUS_RespectQuota          = DataIngestionStatus_STATUS("RespectQuota")
+	DataIngestionStatus_STATUS_SubscriptionSuspended = DataIngestionStatus_STATUS("SubscriptionSuspended")
 )
 
-// Mapping from string to WorkspaceCapping_DataIngestionStatus_STATUS
-var workspaceCapping_DataIngestionStatus_STATUS_Values = map[string]WorkspaceCapping_DataIngestionStatus_STATUS{
-	"approachingquota":      WorkspaceCapping_DataIngestionStatus_STATUS_ApproachingQuota,
-	"forceoff":              WorkspaceCapping_DataIngestionStatus_STATUS_ForceOff,
-	"forceon":               WorkspaceCapping_DataIngestionStatus_STATUS_ForceOn,
-	"overquota":             WorkspaceCapping_DataIngestionStatus_STATUS_OverQuota,
-	"respectquota":          WorkspaceCapping_DataIngestionStatus_STATUS_RespectQuota,
-	"subscriptionsuspended": WorkspaceCapping_DataIngestionStatus_STATUS_SubscriptionSuspended,
+// Mapping from string to DataIngestionStatus_STATUS
+var dataIngestionStatus_STATUS_Values = map[string]DataIngestionStatus_STATUS{
+	"approachingquota":      DataIngestionStatus_STATUS_ApproachingQuota,
+	"forceoff":              DataIngestionStatus_STATUS_ForceOff,
+	"forceon":               DataIngestionStatus_STATUS_ForceOn,
+	"overquota":             DataIngestionStatus_STATUS_OverQuota,
+	"respectquota":          DataIngestionStatus_STATUS_RespectQuota,
+	"subscriptionsuspended": DataIngestionStatus_STATUS_SubscriptionSuspended,
 }
 
-type WorkspaceFailoverProperties_State_STATUS string
+// The failover state of the replication.
+type WorkspaceFailoverState_STATUS string
 
 const (
-	WorkspaceFailoverProperties_State_STATUS_Activating   = WorkspaceFailoverProperties_State_STATUS("Activating")
-	WorkspaceFailoverProperties_State_STATUS_Active       = WorkspaceFailoverProperties_State_STATUS("Active")
-	WorkspaceFailoverProperties_State_STATUS_Deactivating = WorkspaceFailoverProperties_State_STATUS("Deactivating")
-	WorkspaceFailoverProperties_State_STATUS_Failed       = WorkspaceFailoverProperties_State_STATUS("Failed")
-	WorkspaceFailoverProperties_State_STATUS_Inactive     = WorkspaceFailoverProperties_State_STATUS("Inactive")
+	WorkspaceFailoverState_STATUS_Activating   = WorkspaceFailoverState_STATUS("Activating")
+	WorkspaceFailoverState_STATUS_Active       = WorkspaceFailoverState_STATUS("Active")
+	WorkspaceFailoverState_STATUS_Deactivating = WorkspaceFailoverState_STATUS("Deactivating")
+	WorkspaceFailoverState_STATUS_Failed       = WorkspaceFailoverState_STATUS("Failed")
+	WorkspaceFailoverState_STATUS_Inactive     = WorkspaceFailoverState_STATUS("Inactive")
 )
 
-// Mapping from string to WorkspaceFailoverProperties_State_STATUS
-var workspaceFailoverProperties_State_STATUS_Values = map[string]WorkspaceFailoverProperties_State_STATUS{
-	"activating":   WorkspaceFailoverProperties_State_STATUS_Activating,
-	"active":       WorkspaceFailoverProperties_State_STATUS_Active,
-	"deactivating": WorkspaceFailoverProperties_State_STATUS_Deactivating,
-	"failed":       WorkspaceFailoverProperties_State_STATUS_Failed,
-	"inactive":     WorkspaceFailoverProperties_State_STATUS_Inactive,
+// Mapping from string to WorkspaceFailoverState_STATUS
+var workspaceFailoverState_STATUS_Values = map[string]WorkspaceFailoverState_STATUS{
+	"activating":   WorkspaceFailoverState_STATUS_Activating,
+	"active":       WorkspaceFailoverState_STATUS_Active,
+	"deactivating": WorkspaceFailoverState_STATUS_Deactivating,
+	"failed":       WorkspaceFailoverState_STATUS_Failed,
+	"inactive":     WorkspaceFailoverState_STATUS_Inactive,
 }
 
-type WorkspaceReplicationProperties_ProvisioningState_STATUS string
+// The provisioning state of the replication.
+type WorkspaceReplicationState_STATUS string
 
 const (
-	WorkspaceReplicationProperties_ProvisioningState_STATUS_Canceled          = WorkspaceReplicationProperties_ProvisioningState_STATUS("Canceled")
-	WorkspaceReplicationProperties_ProvisioningState_STATUS_DisableRequested  = WorkspaceReplicationProperties_ProvisioningState_STATUS("DisableRequested")
-	WorkspaceReplicationProperties_ProvisioningState_STATUS_Disabling         = WorkspaceReplicationProperties_ProvisioningState_STATUS("Disabling")
-	WorkspaceReplicationProperties_ProvisioningState_STATUS_EnableRequested   = WorkspaceReplicationProperties_ProvisioningState_STATUS("EnableRequested")
-	WorkspaceReplicationProperties_ProvisioningState_STATUS_Enabling          = WorkspaceReplicationProperties_ProvisioningState_STATUS("Enabling")
-	WorkspaceReplicationProperties_ProvisioningState_STATUS_Failed            = WorkspaceReplicationProperties_ProvisioningState_STATUS("Failed")
-	WorkspaceReplicationProperties_ProvisioningState_STATUS_RollbackRequested = WorkspaceReplicationProperties_ProvisioningState_STATUS("RollbackRequested")
-	WorkspaceReplicationProperties_ProvisioningState_STATUS_RollingBack       = WorkspaceReplicationProperties_ProvisioningState_STATUS("RollingBack")
-	WorkspaceReplicationProperties_ProvisioningState_STATUS_Succeeded         = WorkspaceReplicationProperties_ProvisioningState_STATUS("Succeeded")
+	WorkspaceReplicationState_STATUS_Canceled          = WorkspaceReplicationState_STATUS("Canceled")
+	WorkspaceReplicationState_STATUS_DisableRequested  = WorkspaceReplicationState_STATUS("DisableRequested")
+	WorkspaceReplicationState_STATUS_Disabling         = WorkspaceReplicationState_STATUS("Disabling")
+	WorkspaceReplicationState_STATUS_EnableRequested   = WorkspaceReplicationState_STATUS("EnableRequested")
+	WorkspaceReplicationState_STATUS_Enabling          = WorkspaceReplicationState_STATUS("Enabling")
+	WorkspaceReplicationState_STATUS_Failed            = WorkspaceReplicationState_STATUS("Failed")
+	WorkspaceReplicationState_STATUS_RollbackRequested = WorkspaceReplicationState_STATUS("RollbackRequested")
+	WorkspaceReplicationState_STATUS_RollingBack       = WorkspaceReplicationState_STATUS("RollingBack")
+	WorkspaceReplicationState_STATUS_Succeeded         = WorkspaceReplicationState_STATUS("Succeeded")
 )
 
-// Mapping from string to WorkspaceReplicationProperties_ProvisioningState_STATUS
-var workspaceReplicationProperties_ProvisioningState_STATUS_Values = map[string]WorkspaceReplicationProperties_ProvisioningState_STATUS{
-	"canceled":          WorkspaceReplicationProperties_ProvisioningState_STATUS_Canceled,
-	"disablerequested":  WorkspaceReplicationProperties_ProvisioningState_STATUS_DisableRequested,
-	"disabling":         WorkspaceReplicationProperties_ProvisioningState_STATUS_Disabling,
-	"enablerequested":   WorkspaceReplicationProperties_ProvisioningState_STATUS_EnableRequested,
-	"enabling":          WorkspaceReplicationProperties_ProvisioningState_STATUS_Enabling,
-	"failed":            WorkspaceReplicationProperties_ProvisioningState_STATUS_Failed,
-	"rollbackrequested": WorkspaceReplicationProperties_ProvisioningState_STATUS_RollbackRequested,
-	"rollingback":       WorkspaceReplicationProperties_ProvisioningState_STATUS_RollingBack,
-	"succeeded":         WorkspaceReplicationProperties_ProvisioningState_STATUS_Succeeded,
+// Mapping from string to WorkspaceReplicationState_STATUS
+var workspaceReplicationState_STATUS_Values = map[string]WorkspaceReplicationState_STATUS{
+	"canceled":          WorkspaceReplicationState_STATUS_Canceled,
+	"disablerequested":  WorkspaceReplicationState_STATUS_DisableRequested,
+	"disabling":         WorkspaceReplicationState_STATUS_Disabling,
+	"enablerequested":   WorkspaceReplicationState_STATUS_EnableRequested,
+	"enabling":          WorkspaceReplicationState_STATUS_Enabling,
+	"failed":            WorkspaceReplicationState_STATUS_Failed,
+	"rollbackrequested": WorkspaceReplicationState_STATUS_RollbackRequested,
+	"rollingback":       WorkspaceReplicationState_STATUS_RollingBack,
+	"succeeded":         WorkspaceReplicationState_STATUS_Succeeded,
 }
 
-type WorkspaceSku_Name_STATUS string
+// The name of the SKU.
+type WorkspaceSkuNameEnum_STATUS string
 
 const (
-	WorkspaceSku_Name_STATUS_CapacityReservation = WorkspaceSku_Name_STATUS("CapacityReservation")
-	WorkspaceSku_Name_STATUS_Free                = WorkspaceSku_Name_STATUS("Free")
-	WorkspaceSku_Name_STATUS_LACluster           = WorkspaceSku_Name_STATUS("LACluster")
-	WorkspaceSku_Name_STATUS_PerGB2018           = WorkspaceSku_Name_STATUS("PerGB2018")
-	WorkspaceSku_Name_STATUS_PerNode             = WorkspaceSku_Name_STATUS("PerNode")
-	WorkspaceSku_Name_STATUS_Premium             = WorkspaceSku_Name_STATUS("Premium")
-	WorkspaceSku_Name_STATUS_Standalone          = WorkspaceSku_Name_STATUS("Standalone")
-	WorkspaceSku_Name_STATUS_Standard            = WorkspaceSku_Name_STATUS("Standard")
+	WorkspaceSkuNameEnum_STATUS_CapacityReservation = WorkspaceSkuNameEnum_STATUS("CapacityReservation")
+	WorkspaceSkuNameEnum_STATUS_Free                = WorkspaceSkuNameEnum_STATUS("Free")
+	WorkspaceSkuNameEnum_STATUS_LACluster           = WorkspaceSkuNameEnum_STATUS("LACluster")
+	WorkspaceSkuNameEnum_STATUS_PerGB2018           = WorkspaceSkuNameEnum_STATUS("PerGB2018")
+	WorkspaceSkuNameEnum_STATUS_PerNode             = WorkspaceSkuNameEnum_STATUS("PerNode")
+	WorkspaceSkuNameEnum_STATUS_Premium             = WorkspaceSkuNameEnum_STATUS("Premium")
+	WorkspaceSkuNameEnum_STATUS_Standalone          = WorkspaceSkuNameEnum_STATUS("Standalone")
+	WorkspaceSkuNameEnum_STATUS_Standard            = WorkspaceSkuNameEnum_STATUS("Standard")
 )
 
-// Mapping from string to WorkspaceSku_Name_STATUS
-var workspaceSku_Name_STATUS_Values = map[string]WorkspaceSku_Name_STATUS{
-	"capacityreservation": WorkspaceSku_Name_STATUS_CapacityReservation,
-	"free":                WorkspaceSku_Name_STATUS_Free,
-	"lacluster":           WorkspaceSku_Name_STATUS_LACluster,
-	"pergb2018":           WorkspaceSku_Name_STATUS_PerGB2018,
-	"pernode":             WorkspaceSku_Name_STATUS_PerNode,
-	"premium":             WorkspaceSku_Name_STATUS_Premium,
-	"standalone":          WorkspaceSku_Name_STATUS_Standalone,
-	"standard":            WorkspaceSku_Name_STATUS_Standard,
+// Mapping from string to WorkspaceSkuNameEnum_STATUS
+var workspaceSkuNameEnum_STATUS_Values = map[string]WorkspaceSkuNameEnum_STATUS{
+	"capacityreservation": WorkspaceSkuNameEnum_STATUS_CapacityReservation,
+	"free":                WorkspaceSkuNameEnum_STATUS_Free,
+	"lacluster":           WorkspaceSkuNameEnum_STATUS_LACluster,
+	"pergb2018":           WorkspaceSkuNameEnum_STATUS_PerGB2018,
+	"pernode":             WorkspaceSkuNameEnum_STATUS_PerNode,
+	"premium":             WorkspaceSkuNameEnum_STATUS_Premium,
+	"standalone":          WorkspaceSkuNameEnum_STATUS_Standalone,
+	"standard":            WorkspaceSkuNameEnum_STATUS_Standard,
 }

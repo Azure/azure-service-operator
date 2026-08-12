@@ -10,7 +10,8 @@ Workspace: Resource
 │   ├── AzureName: string
 │   ├── DefaultDataCollectionRuleResourceReference: *genruntime.ResourceReference
 │   ├── Etag: *string
-│   ├── Features: *Object (6 properties)
+│   ├── Features: *Object (7 properties)
+│   │   ├── AdditionalProperties: map[string]v1.JSON
 │   │   ├── ClusterResourceReference: *genruntime.ResourceReference
 │   │   ├── DisableLocalAuth: *bool
 │   │   ├── EnableDataExport: *bool
@@ -61,7 +62,8 @@ Workspace: Resource
     │   ├── LastModifiedDate: *string
     │   ├── PropertyBag: genruntime.PropertyBag
     │   └── State: *string
-    ├── Features: *Object (8 properties)
+    ├── Features: *Object (9 properties)
+    │   ├── AdditionalProperties: map[string]v1.JSON
     │   ├── Associations: string[]
     │   ├── ClusterResourceId: *string
     │   ├── DisableLocalAuth: *bool

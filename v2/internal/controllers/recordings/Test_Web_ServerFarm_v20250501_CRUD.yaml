@@ -1,0 +1,558 @@
+---
+version: 2
+interactions:
+    - id: 0
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 93
+        host: management.azure.com
+        body: '{"location":"westus2","name":"asotest-rg-tklbze","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+        form:
+            api-version:
+                - "2020-06-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "93"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 70d32122d0f654b882255eb963c20b15f3497134d6e90a3c19801536e0e3503c
+            Test-Request-Hash:
+                - 70d32122d0f654b882255eb963c20b15f3497134d6e90a3c19801536e0e3503c
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze?api-version=2020-06-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 276
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze","name":"asotest-rg-tklbze","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 7C583C8640D94E179683F51FEA845D19 Ref B: SYD03EDGE1922 Ref C: 2026-07-19T22:51:35Z'
+        status: 201 Created
+        code: 201
+        duration: 3.859118788s
+    - id: 1
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze?api-version=2020-06-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 276
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze","name":"asotest-rg-tklbze","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "276"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 924D3464F9A545C1926A922B6CB87C74 Ref B: SYD03EDGE1922 Ref C: 2026-07-19T22:51:43Z'
+        status: 200 OK
+        code: 200
+        duration: 507.984816ms
+    - id: 2
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 159
+        host: management.azure.com
+        body: '{"kind":"functionapp","location":"northeurope","name":"asotest-appservice-mmcmas","properties":{"reserved":true},"sku":{"name":"FC1","tier":"FlexConsumption"}}'
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "159"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 04671063988880f768147da9498725d6b44df39de6630e936a0003dd6f25f576
+            Test-Request-Hash:
+                - 04671063988880f768147da9498725d6b44df39de6630e936a0003dd6f25f576
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas?api-version=2025-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1889
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas","name":"asotest-appservice-mmcmas","type":"Microsoft.Web/serverfarms","kind":"functionapp","location":"northeurope","properties":{"serverFarmId":55920,"name":"asotest-appservice-mmcmas","sku":{"name":"FC1","tier":"FlexConsumption","size":"FC1","family":"FC","capacity":0},"workerSize":"Small","workerSizeId":0,"workerTierName":null,"numberOfWorkers":0,"currentWorkerSize":"Small","currentWorkerSizeId":0,"currentNumberOfWorkers":0,"status":"Ready","webSpace":"flex-84bd1afc376cc8286afc1448004ce4cff8bd937e026a0aa2a5812409b7da3a36-webspace","subscription":"00000000-0000-0000-0000-000000000000","adminSiteName":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"maximumNumberOfWorkers":0,"planName":"VirtualDedicatedPlan","adminRuntimeSiteName":null,"computeMode":"Dynamic","siteMode":null,"geoRegion":"North Europe","perSiteScaling":false,"elasticScaleEnabled":false,"maximumElasticWorkerCount":1,"numberOfSites":0,"hostingEnvironmentId":null,"isSpot":false,"spotExpirationTime":null,"freeOfferExpirationTime":null,"tags":null,"kind":"functionapp","resourceGroup":"asotest-rg-tklbze","reserved":true,"isXenon":false,"hyperV":false,"mdmId":"waws-prod-db3-313_55920","targetWorkerCount":0,"targetWorkerSizeId":0,"targetWorkerSku":null,"provisioningState":"Succeeded","webSiteId":null,"existingServerFarmIds":null,"kubeEnvironmentProfile":null,"zoneRedundant":false,"maximumNumberOfZones":3,"currentNumberOfZonesUtilized":0,"migrateToVMSS":null,"vnetConnectionsUsed":null,"vnetConnectionsMax":null,"createdTime":"2026-07-19T22:51:53.95","asyncScalingEnabled":false,"isCustomMode":false,"powerState":"Running","eligibleLogCategories":""},"sku":{"name":"FC1","tier":"FlexConsumption","size":"FC1","family":"FC","capacity":0}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1889"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/5ac1d57f-8675-4ff3-840b-7e08fe2d5917
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 8E54FD8AF0714CB0ADF20729EF186D17 Ref B: SYD03EDGE1922 Ref C: 2026-07-19T22:51:50Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 3.998673115s
+    - id: 3
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas?api-version=2025-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1798
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas","name":"asotest-appservice-mmcmas","type":"Microsoft.Web/serverfarms","kind":"functionapp","location":"North Europe","properties":{"serverFarmId":55920,"name":"asotest-appservice-mmcmas","workerSize":"Small","workerSizeId":0,"workerTierName":null,"numberOfWorkers":0,"currentWorkerSize":"Small","currentWorkerSizeId":0,"currentNumberOfWorkers":0,"status":"Ready","webSpace":"flex-84bd1afc376cc8286afc1448004ce4cff8bd937e026a0aa2a5812409b7da3a36-webspace","subscription":"00000000-0000-0000-0000-000000000000","adminSiteName":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"maximumNumberOfWorkers":0,"planName":"VirtualDedicatedPlan","adminRuntimeSiteName":null,"computeMode":"Dynamic","siteMode":null,"geoRegion":"North Europe","perSiteScaling":false,"elasticScaleEnabled":false,"maximumElasticWorkerCount":1,"numberOfSites":0,"hostingEnvironmentId":null,"isSpot":false,"spotExpirationTime":null,"freeOfferExpirationTime":null,"tags":null,"kind":"functionapp","resourceGroup":"asotest-rg-tklbze","reserved":true,"isXenon":false,"hyperV":false,"mdmId":"waws-prod-db3-313_55920","targetWorkerCount":0,"targetWorkerSizeId":0,"targetWorkerSku":null,"provisioningState":"Succeeded","webSiteId":null,"existingServerFarmIds":null,"kubeEnvironmentProfile":null,"zoneRedundant":false,"maximumNumberOfZones":3,"currentNumberOfZonesUtilized":0,"migrateToVMSS":null,"vnetConnectionsUsed":0,"vnetConnectionsMax":2,"createdTime":"2026-07-19T22:51:53.95","asyncScalingEnabled":false,"isCustomMode":false,"powerState":"Running","eligibleLogCategories":""},"sku":{"name":"FC1","tier":"FlexConsumption","size":"FC1","family":"FC","capacity":0}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1798"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: FAFA90177E924982B44FF3A21552B249 Ref B: SYD03EDGE1922 Ref C: 2026-07-19T22:51:58Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 606.014171ms
+    - id: 4
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 190
+        host: management.azure.com
+        body: '{"kind":"functionapp","location":"northeurope","name":"asotest-appservice-mmcmas","properties":{"reserved":true},"sku":{"name":"FC1","tier":"FlexConsumption"},"tags":{"cost-center":"12345"}}'
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+            Content-Length:
+                - "190"
+            Content-Type:
+                - application/json
+            Test-Request-Canonical-Hash:
+                - 725dbc274c9f1db7e7d74297e3b13fd7c59b1f7400bff5dd7005f1eb8826ec47
+            Test-Request-Hash:
+                - 725dbc274c9f1db7e7d74297e3b13fd7c59b1f7400bff5dd7005f1eb8826ec47
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas?api-version=2025-05-01
+        method: PUT
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1931
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas","name":"asotest-appservice-mmcmas","type":"Microsoft.Web/serverfarms","kind":"functionapp","location":"northeurope","tags":{"cost-center":"12345"},"properties":{"serverFarmId":55920,"name":"asotest-appservice-mmcmas","sku":{"name":"FC1","tier":"FlexConsumption","size":"FC1","family":"FC","capacity":0},"workerSize":"Small","workerSizeId":0,"workerTierName":null,"numberOfWorkers":0,"currentWorkerSize":"Small","currentWorkerSizeId":0,"currentNumberOfWorkers":0,"status":"Ready","webSpace":"flex-84bd1afc376cc8286afc1448004ce4cff8bd937e026a0aa2a5812409b7da3a36-webspace","subscription":"00000000-0000-0000-0000-000000000000","adminSiteName":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"maximumNumberOfWorkers":0,"planName":"VirtualDedicatedPlan","adminRuntimeSiteName":null,"computeMode":"Dynamic","siteMode":null,"geoRegion":"North Europe","perSiteScaling":false,"elasticScaleEnabled":false,"maximumElasticWorkerCount":0,"numberOfSites":0,"hostingEnvironmentId":null,"isSpot":false,"spotExpirationTime":null,"freeOfferExpirationTime":null,"tags":{"cost-center":"12345"},"kind":"functionapp","resourceGroup":"asotest-rg-tklbze","reserved":true,"isXenon":false,"hyperV":false,"mdmId":"waws-prod-db3-313_55920","targetWorkerCount":0,"targetWorkerSizeId":0,"targetWorkerSku":"","provisioningState":"Succeeded","webSiteId":null,"existingServerFarmIds":null,"kubeEnvironmentProfile":null,"zoneRedundant":false,"maximumNumberOfZones":3,"currentNumberOfZonesUtilized":0,"migrateToVMSS":null,"vnetConnectionsUsed":0,"vnetConnectionsMax":2,"createdTime":"2026-07-19T22:51:53.95","asyncScalingEnabled":false,"isCustomMode":false,"powerState":"Running","eligibleLogCategories":""},"sku":{"name":"FC1","tier":"FlexConsumption","size":"FC1","family":"FC","capacity":0}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1931"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/b216de1d-93c2-480e-9302-44886b5681bd
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Writes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: 4B67C857C0C042418C71C876A2650BA5 Ref B: SYD03EDGE1922 Ref C: 2026-07-19T22:52:05Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 1.681119713s
+    - id: 5
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas?api-version=2025-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1846
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas","name":"asotest-appservice-mmcmas","type":"Microsoft.Web/serverfarms","kind":"functionapp","location":"North Europe","tags":{"cost-center":"12345"},"properties":{"serverFarmId":55920,"name":"asotest-appservice-mmcmas","workerSize":"Small","workerSizeId":0,"workerTierName":null,"numberOfWorkers":0,"currentWorkerSize":"Small","currentWorkerSizeId":0,"currentNumberOfWorkers":0,"status":"Ready","webSpace":"flex-84bd1afc376cc8286afc1448004ce4cff8bd937e026a0aa2a5812409b7da3a36-webspace","subscription":"00000000-0000-0000-0000-000000000000","adminSiteName":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"maximumNumberOfWorkers":0,"planName":"VirtualDedicatedPlan","adminRuntimeSiteName":null,"computeMode":"Dynamic","siteMode":null,"geoRegion":"North Europe","perSiteScaling":false,"elasticScaleEnabled":false,"maximumElasticWorkerCount":0,"numberOfSites":0,"hostingEnvironmentId":null,"isSpot":false,"spotExpirationTime":null,"freeOfferExpirationTime":null,"tags":{"cost-center":"12345"},"kind":"functionapp","resourceGroup":"asotest-rg-tklbze","reserved":true,"isXenon":false,"hyperV":false,"mdmId":"waws-prod-db3-313_55920","targetWorkerCount":0,"targetWorkerSizeId":0,"targetWorkerSku":"","provisioningState":"Succeeded","webSiteId":null,"existingServerFarmIds":null,"kubeEnvironmentProfile":null,"zoneRedundant":false,"maximumNumberOfZones":3,"currentNumberOfZonesUtilized":0,"migrateToVMSS":null,"vnetConnectionsUsed":0,"vnetConnectionsMax":2,"createdTime":"2026-07-19T22:51:53.95","asyncScalingEnabled":false,"isCustomMode":false,"powerState":"Running","eligibleLogCategories":""},"sku":{"name":"FC1","tier":"FlexConsumption","size":"FC1","family":"FC","capacity":0}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1846"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 29337913603A4401B338567E3C882414 Ref B: SYD03EDGE1922 Ref C: 2026-07-19T22:52:09Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 414.919917ms
+    - id: 6
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas?api-version=2025-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 1846
+        body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas","name":"asotest-appservice-mmcmas","type":"Microsoft.Web/serverfarms","kind":"functionapp","location":"North Europe","tags":{"cost-center":"12345"},"properties":{"serverFarmId":55920,"name":"asotest-appservice-mmcmas","workerSize":"Small","workerSizeId":0,"workerTierName":null,"numberOfWorkers":0,"currentWorkerSize":"Small","currentWorkerSizeId":0,"currentNumberOfWorkers":0,"status":"Ready","webSpace":"flex-84bd1afc376cc8286afc1448004ce4cff8bd937e026a0aa2a5812409b7da3a36-webspace","subscription":"00000000-0000-0000-0000-000000000000","adminSiteName":null,"hostingEnvironment":null,"hostingEnvironmentProfile":null,"maximumNumberOfWorkers":0,"planName":"VirtualDedicatedPlan","adminRuntimeSiteName":null,"computeMode":"Dynamic","siteMode":null,"geoRegion":"North Europe","perSiteScaling":false,"elasticScaleEnabled":false,"maximumElasticWorkerCount":0,"numberOfSites":0,"hostingEnvironmentId":null,"isSpot":false,"spotExpirationTime":null,"freeOfferExpirationTime":null,"tags":{"cost-center":"12345"},"kind":"functionapp","resourceGroup":"asotest-rg-tklbze","reserved":true,"isXenon":false,"hyperV":false,"mdmId":"waws-prod-db3-313_55920","targetWorkerCount":0,"targetWorkerSizeId":0,"targetWorkerSku":"","provisioningState":"Succeeded","webSiteId":null,"existingServerFarmIds":null,"kubeEnvironmentProfile":null,"zoneRedundant":false,"maximumNumberOfZones":3,"currentNumberOfZonesUtilized":0,"migrateToVMSS":null,"vnetConnectionsUsed":0,"vnetConnectionsMax":2,"createdTime":"2026-07-19T22:51:53.95","asyncScalingEnabled":false,"isCustomMode":false,"powerState":"Running","eligibleLogCategories":""},"sku":{"name":"FC1","tier":"FlexConsumption","size":"FC1","family":"FC","capacity":0}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "1846"
+            Content-Type:
+                - application/json
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16500"
+            X-Msedge-Ref:
+                - 'Ref A: 1236E9CF654E4C11A0FF4324123396EE Ref B: SYD03EDGE1922 Ref C: 2026-07-19T22:52:11Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 21.158645211s
+    - id: 7
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas?api-version=2025-05-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Aspnet-Version:
+                - 4.0.30319
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Operation-Identifier:
+                - tenantId=00000000-0000-0000-0000-000000000000,objectId=1ae5915d-78fe-468d-affb-c275790fa149/westus2/44feaf5b-e73a-40dd-88b2-28871edd7a11
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: FD75267D05574A8F95951AC97EEBC46D Ref B: SYD03EDGE1922 Ref C: 2026-07-19T22:52:58Z'
+            X-Powered-By:
+                - ASP.NET
+        status: 200 OK
+        code: 200
+        duration: 2.214542054s
+    - id: 8
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2025-05-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze/providers/Microsoft.Web/serverfarms/asotest-appservice-mmcmas?api-version=2025-05-01
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 240
+        body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Web/serverFarms/asotest-appservice-mmcmas'' under resource group ''asotest-rg-tklbze'' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"}}'
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "240"
+            Content-Type:
+                - application/json; charset=utf-8
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Failure-Cause:
+                - gateway
+            X-Msedge-Ref:
+                - 'Ref A: 369F8FBDADCD4BEDB8293A6D92204914 Ref B: SYD03EDGE1922 Ref C: 2026-07-19T22:53:07Z'
+        status: 404 Not Found
+        code: 404
+        duration: 221.694711ms
+    - id: 9
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+        headers:
+            Accept:
+                - application/json
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-tklbze?api-version=2020-06-01
+        method: DELETE
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Location:
+                - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUS0xCWkUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639200983880684797&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=T1-b3GEMAp2Z2iB9Xa61bGRvTFB2VBkILwUFmE-LmPHjUytJDCyOhkSAwf1wqiSa4mzUKf_zJIHmgX3NF1esVrZZ_nCmMDvEhY8MhVXmNyKw2xDph2IFxjbLJS3Pfj1lSCjkrC6QXVdHafq5NcE3QGpBFf61XudNa1PAnMWqc_muRKGfJ709vJeSoALEhvgnzEyCahAHraVBWsKmgJSeArh6J6M6KfPu34sheSVzxSXtdqvAgKfq0re4JAo-BEEetXWJRJY1gDdY8t7lDdUPIkcxz3332WsG2EJDjgDEuoPJD6dm1ATRzrinjx-08nmwGHg4GlV6Ca5pJ9Vlyp3pMw&h=ZSZgP3UTq-7cVZLyZwX0NTuzhjpNWjWDyfPvoKD4R7Y
+            Pragma:
+                - no-cache
+            Retry-After:
+                - "15"
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Deletes:
+                - "11999"
+            X-Msedge-Ref:
+                - 'Ref A: CB0F1A2B0DB54CA8B866A992F71ED15A Ref B: SYD03EDGE1922 Ref C: 2026-07-19T22:53:07Z'
+        status: 202 Accepted
+        code: 202
+        duration: 425.584827ms
+    - id: 10
+      request:
+        proto: HTTP/1.1
+        proto_major: 1
+        proto_minor: 1
+        content_length: 0
+        host: management.azure.com
+        form:
+            api-version:
+                - "2020-06-01"
+            c:
+                - MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT
+            h:
+                - ZSZgP3UTq-7cVZLyZwX0NTuzhjpNWjWDyfPvoKD4R7Y
+            s:
+                - T1-b3GEMAp2Z2iB9Xa61bGRvTFB2VBkILwUFmE-LmPHjUytJDCyOhkSAwf1wqiSa4mzUKf_zJIHmgX3NF1esVrZZ_nCmMDvEhY8MhVXmNyKw2xDph2IFxjbLJS3Pfj1lSCjkrC6QXVdHafq5NcE3QGpBFf61XudNa1PAnMWqc_muRKGfJ709vJeSoALEhvgnzEyCahAHraVBWsKmgJSeArh6J6M6KfPu34sheSVzxSXtdqvAgKfq0re4JAo-BEEetXWJRJY1gDdY8t7lDdUPIkcxz3332WsG2EJDjgDEuoPJD6dm1ATRzrinjx-08nmwGHg4GlV6Ca5pJ9Vlyp3pMw
+            t:
+                - "639200983880684797"
+        url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRUS0xCWkUtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiIsImpvYlN0b3JhZ2VBY2NvdW50IjoiL2NzbS9zdG9yYWdlYWNjb3VudHMvZ2xvYmFsL3JwZmRsam9iMDBwcm9kbXdoMDEifQ?api-version=2020-06-01&t=639200983880684797&c=MIIHlDCCBnygAwIBAgIQAcfN_Jd6ViGd1-EkFH97aDANBgkqhkiG9w0BAQsFADA2MTQwMgYDVQQDEytDQ01FIEcxIFRMUyBSU0EgMjA0OCBTSEEyNTYgMjA0OSBFVVMyIENBIDAxMB4XDTI2MDQwOTA0MzUxMFoXDTI2MTAwNDEwMzUxMFowQDE-MDwGA1UEAxM1YXN5bmNvcGVyYXRpb25zaWduaW5nY2VydGlmaWNhdGUubWFuYWdlbWVudC5henVyZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC9nzXnnnT0V5cDY5fHgY6fvt0f5K67TLY5rf3kXsgNDiGJL9Ub1_cJuWgTTjGYmxaPP6HFz_YOLdMBGPkVhZavejw0qLifjw8nEBivhzrnSlLVzv8ThjIxvzYq7Pixu564lZgpE4tktNQwXrbdQ8_M_ltt8Ia4jO8Wc47QJt-BIUGY10RRyuDzAEGrQRCDbQB1Kyo6IjF95ihEDSUcGthqOIsbqMERKgZokdpO3a8ikGNKVtOb3zrePXR71iCDdkdamGIsPVfGxaBtUDO5vqdKugYbOQDFCYaQdk7x3VINyRpvZXpU4-B41mD-vXX5Rm_X9BL0jN1rjSRIFvfK3YkxAgMBAAGjggSSMIIEjjCBnQYDVR0gBIGVMIGSMAwGCisGAQQBgjd7AQEwZgYKKwYBBAGCN3sCAjBYMFYGCCsGAQUFBwICMEoeSAAzADMAZQAwADEAOQAyADEALQA0AGQANgA0AC0ANABmADgAYwAtAGEAMAA1ADUALQA1AGIAZABhAGYAZgBkADUAZQAzADMAZDAMBgorBgEEAYI3ewMCMAwGCisGAQQBgjd7BAIwDAYDVR0TAQH_BAIwADAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDgYDVR0PAQH_BAQDAgWgMB0GA1UdDgQWBBRktXyyceQOrjzGGHfthVAJlrP3gjAfBgNVHSMEGDAWgBT87D7bqnwfgh4FuKEG-UPnArMKuTCCAbIGA1UdHwSCAakwggGlMGmgZ6BlhmNodHRwOi8vcHJpbWFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwa6BpoGeGZWh0dHA6Ly9zZWNvbmRhcnktY2RuLnBraS5jb3JlLndpbmRvd3MubmV0L2Vhc3R1czIvY3Jscy9jY21lZWFzdHVzMnBraS9jY21lZWFzdHVzMmljYTAxLzcyL2N1cnJlbnQuY3JsMFqgWKBWhlRodHRwOi8vY3JsLm1pY3Jvc29mdC5jb20vZWFzdHVzMi9jcmxzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvNzIvY3VycmVudC5jcmwwb6BtoGuGaWh0dHA6Ly9jY21lZWFzdHVzMnBraS5lYXN0dXMyLnBraS5jb3JlLndpbmRvd3MubmV0L2NlcnRpZmljYXRlQXV0aG9yaXRpZXMvY2NtZWVhc3R1czJpY2EwMS83Mi9jdXJyZW50LmNybDCCAbcGCCsGAQUFBwEBBIIBqTCCAaUwbAYIKwYBBQUHMAKGYGh0dHA6Ly9wcmltYXJ5LWNkbi5wa2kuY29yZS53aW5kb3dzLm5ldC9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBuBggrBgEFBQcwAoZiaHR0cDovL3NlY29uZGFyeS1jZG4ucGtpLmNvcmUud2luZG93cy5uZXQvZWFzdHVzMi9jYWNlcnRzL2NjbWVlYXN0dXMycGtpL2NjbWVlYXN0dXMyaWNhMDEvY2VydC5jZXIwXQYIKwYBBQUHMAKGUWh0dHA6Ly9jcmwubWljcm9zb2Z0LmNvbS9lYXN0dXMyL2NhY2VydHMvY2NtZWVhc3R1czJwa2kvY2NtZWVhc3R1czJpY2EwMS9jZXJ0LmNlcjBmBggrBgEFBQcwAoZaaHR0cDovL2NjbWVlYXN0dXMycGtpLmVhc3R1czIucGtpLmNvcmUud2luZG93cy5uZXQvY2VydGlmaWNhdGVBdXRob3JpdGllcy9jY21lZWFzdHVzMmljYTAxMA0GCSqGSIb3DQEBCwUAA4IBAQBx5I6Sofmi5yGOz0alPqrZuIh1Qv1Gc7iCefJl7OITobABfs9PqLqAUqQ0NZt02K2ag8zFQWRLn3xJESxYpGcBV7meAUTJOJhRHdvwqFTOMyPwYKbVpl-gdceRQV0J4MdXD1EG8ZfrQqJh4yTpH9fs1bJNlNwJZx_jinURgGNM3AvMcEe8RipqTE4QFDEFqJqWftJzvHLBetVu8Z6AGm5099Z3hgXzQkneb6E4dITNtuFdibgZ_w2TYC64wJ1VSMZoWDioo50604N9fZooi7RvEeWH1iooHPyFIUtevrquxTYiMdLAwbW0FzEjba2h2TLxHn3wd3uzwLiJoLGRIzBT&s=T1-b3GEMAp2Z2iB9Xa61bGRvTFB2VBkILwUFmE-LmPHjUytJDCyOhkSAwf1wqiSa4mzUKf_zJIHmgX3NF1esVrZZ_nCmMDvEhY8MhVXmNyKw2xDph2IFxjbLJS3Pfj1lSCjkrC6QXVdHafq5NcE3QGpBFf61XudNa1PAnMWqc_muRKGfJ709vJeSoALEhvgnzEyCahAHraVBWsKmgJSeArh6J6M6KfPu34sheSVzxSXtdqvAgKfq0re4JAo-BEEetXWJRJY1gDdY8t7lDdUPIkcxz3332WsG2EJDjgDEuoPJD6dm1ATRzrinjx-08nmwGHg4GlV6Ca5pJ9Vlyp3pMw&h=ZSZgP3UTq-7cVZLyZwX0NTuzhjpNWjWDyfPvoKD4R7Y
+        method: GET
+      response:
+        proto: HTTP/2.0
+        proto_major: 2
+        proto_minor: 0
+        content_length: 0
+        body: ""
+        headers:
+            Cache-Control:
+                - no-cache
+            Content-Length:
+                - "0"
+            Expires:
+                - "-1"
+            Pragma:
+                - no-cache
+            Strict-Transport-Security:
+                - max-age=31536000; includeSubDomains
+            X-Cache:
+                - CONFIG_NOCACHE
+            X-Content-Type-Options:
+                - nosniff
+            X-Ms-Ratelimit-Remaining-Subscription-Global-Reads:
+                - "16499"
+            X-Msedge-Ref:
+                - 'Ref A: 67FFACFBA82A4546AAEFBD9EC7085571 Ref B: SYD03EDGE1922 Ref C: 2026-07-19T22:53:25Z'
+        status: 200 OK
+        code: 200
+        duration: 813.429789ms

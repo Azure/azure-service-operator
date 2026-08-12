@@ -19,6 +19,11 @@ import (
 
 func Test_ActionGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -82,6 +87,11 @@ func AddIndependentPropertyGeneratorsForActionGroup_STATUS(gens map[string]gopte
 
 func Test_ActionList_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -142,6 +152,11 @@ func AddRelatedPropertyGeneratorsForActionList_STATUS(gens map[string]gopter.Gen
 
 func Test_ActivityLogAlert_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -223,6 +238,11 @@ func AddRelatedPropertyGeneratorsForActivityLogAlert_STATUS(gens map[string]gopt
 
 func Test_AlertRuleAllOfCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -284,6 +304,11 @@ func AddRelatedPropertyGeneratorsForAlertRuleAllOfCondition_STATUS(gens map[stri
 
 func Test_AlertRuleAnyOfOrLeafCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -361,6 +386,11 @@ func AddRelatedPropertyGeneratorsForAlertRuleAnyOfOrLeafCondition_STATUS(gens ma
 
 func Test_AlertRuleLeafCondition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -424,6 +454,11 @@ func AddIndependentPropertyGeneratorsForAlertRuleLeafCondition_STATUS(gens map[s
 
 func Test_AlertRuleProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

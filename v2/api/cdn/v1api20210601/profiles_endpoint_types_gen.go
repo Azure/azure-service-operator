@@ -51,22 +51,36 @@ var _ conversion.Convertible = &ProfilesEndpoint{}
 
 // ConvertFrom populates our ProfilesEndpoint from the provided hub ProfilesEndpoint
 func (endpoint *ProfilesEndpoint) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.ProfilesEndpoint)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20210601/storage/ProfilesEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.ProfilesEndpoint
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return endpoint.AssignProperties_From_ProfilesEndpoint(source)
+	err = endpoint.AssignProperties_From_ProfilesEndpoint(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to endpoint")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub ProfilesEndpoint from our ProfilesEndpoint
 func (endpoint *ProfilesEndpoint) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.ProfilesEndpoint)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20210601/storage/ProfilesEndpoint but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.ProfilesEndpoint
+	err := endpoint.AssignProperties_To_ProfilesEndpoint(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from endpoint")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return endpoint.AssignProperties_To_ProfilesEndpoint(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &ProfilesEndpoint{}
@@ -87,17 +101,6 @@ func (endpoint *ProfilesEndpoint) SecretDestinationExpressions() []*core.Destina
 		return nil
 	}
 	return endpoint.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &ProfilesEndpoint{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (endpoint *ProfilesEndpoint) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*ProfilesEndpoint_STATUS); ok {
-		return endpoint.Spec.Initialize_From_ProfilesEndpoint_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type ProfilesEndpoint_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &ProfilesEndpoint{}
@@ -1124,171 +1127,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignProperties_To_ProfilesEndpoint_Spec
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ProfilesEndpoint_STATUS populates our ProfilesEndpoint_Spec from the provided source ProfilesEndpoint_STATUS
-func (endpoint *ProfilesEndpoint_Spec) Initialize_From_ProfilesEndpoint_STATUS(source *ProfilesEndpoint_STATUS) error {
-
-	// ContentTypesToCompress
-	endpoint.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
-
-	// DefaultOriginGroup
-	if source.DefaultOriginGroup != nil {
-		var defaultOriginGroup ResourceReference
-		err := defaultOriginGroup.Initialize_From_ResourceReference_STATUS(source.DefaultOriginGroup)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field DefaultOriginGroup")
-		}
-		endpoint.DefaultOriginGroup = &defaultOriginGroup
-	} else {
-		endpoint.DefaultOriginGroup = nil
-	}
-
-	// DeliveryPolicy
-	if source.DeliveryPolicy != nil {
-		var deliveryPolicy EndpointProperties_DeliveryPolicy
-		err := deliveryPolicy.Initialize_From_EndpointProperties_DeliveryPolicy_STATUS(source.DeliveryPolicy)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EndpointProperties_DeliveryPolicy_STATUS() to populate field DeliveryPolicy")
-		}
-		endpoint.DeliveryPolicy = &deliveryPolicy
-	} else {
-		endpoint.DeliveryPolicy = nil
-	}
-
-	// GeoFilters
-	if source.GeoFilters != nil {
-		geoFilterList := make([]GeoFilter, len(source.GeoFilters))
-		for geoFilterIndex, geoFilterItem := range source.GeoFilters {
-			var geoFilter GeoFilter
-			err := geoFilter.Initialize_From_GeoFilter_STATUS(&geoFilterItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_GeoFilter_STATUS() to populate field GeoFilters")
-			}
-			geoFilterList[geoFilterIndex] = geoFilter
-		}
-		endpoint.GeoFilters = geoFilterList
-	} else {
-		endpoint.GeoFilters = nil
-	}
-
-	// IsCompressionEnabled
-	if source.IsCompressionEnabled != nil {
-		isCompressionEnabled := *source.IsCompressionEnabled
-		endpoint.IsCompressionEnabled = &isCompressionEnabled
-	} else {
-		endpoint.IsCompressionEnabled = nil
-	}
-
-	// IsHttpAllowed
-	if source.IsHttpAllowed != nil {
-		isHttpAllowed := *source.IsHttpAllowed
-		endpoint.IsHttpAllowed = &isHttpAllowed
-	} else {
-		endpoint.IsHttpAllowed = nil
-	}
-
-	// IsHttpsAllowed
-	if source.IsHttpsAllowed != nil {
-		isHttpsAllowed := *source.IsHttpsAllowed
-		endpoint.IsHttpsAllowed = &isHttpsAllowed
-	} else {
-		endpoint.IsHttpsAllowed = nil
-	}
-
-	// Location
-	endpoint.Location = genruntime.ClonePointerToString(source.Location)
-
-	// OptimizationType
-	if source.OptimizationType != nil {
-		optimizationType := genruntime.ToEnum(string(*source.OptimizationType), optimizationType_Values)
-		endpoint.OptimizationType = &optimizationType
-	} else {
-		endpoint.OptimizationType = nil
-	}
-
-	// OriginGroups
-	if source.OriginGroups != nil {
-		originGroupList := make([]DeepCreatedOriginGroup, len(source.OriginGroups))
-		for originGroupIndex, originGroupItem := range source.OriginGroups {
-			var originGroup DeepCreatedOriginGroup
-			err := originGroup.Initialize_From_DeepCreatedOriginGroup_STATUS(&originGroupItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_DeepCreatedOriginGroup_STATUS() to populate field OriginGroups")
-			}
-			originGroupList[originGroupIndex] = originGroup
-		}
-		endpoint.OriginGroups = originGroupList
-	} else {
-		endpoint.OriginGroups = nil
-	}
-
-	// OriginHostHeader
-	endpoint.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
-
-	// OriginPath
-	endpoint.OriginPath = genruntime.ClonePointerToString(source.OriginPath)
-
-	// Origins
-	if source.Origins != nil {
-		originList := make([]DeepCreatedOrigin, len(source.Origins))
-		for originIndex, originItem := range source.Origins {
-			var origin DeepCreatedOrigin
-			err := origin.Initialize_From_DeepCreatedOrigin_STATUS(&originItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_DeepCreatedOrigin_STATUS() to populate field Origins")
-			}
-			originList[originIndex] = origin
-		}
-		endpoint.Origins = originList
-	} else {
-		endpoint.Origins = nil
-	}
-
-	// ProbePath
-	endpoint.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
-
-	// QueryStringCachingBehavior
-	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := genruntime.ToEnum(string(*source.QueryStringCachingBehavior), queryStringCachingBehavior_Values)
-		endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
-	} else {
-		endpoint.QueryStringCachingBehavior = nil
-	}
-
-	// Tags
-	endpoint.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// UrlSigningKeys
-	if source.UrlSigningKeys != nil {
-		urlSigningKeyList := make([]UrlSigningKey, len(source.UrlSigningKeys))
-		for urlSigningKeyIndex, urlSigningKeyItem := range source.UrlSigningKeys {
-			var urlSigningKey UrlSigningKey
-			err := urlSigningKey.Initialize_From_UrlSigningKey_STATUS(&urlSigningKeyItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_UrlSigningKey_STATUS() to populate field UrlSigningKeys")
-			}
-			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
-		}
-		endpoint.UrlSigningKeys = urlSigningKeyList
-	} else {
-		endpoint.UrlSigningKeys = nil
-	}
-
-	// WebApplicationFirewallPolicyLink
-	if source.WebApplicationFirewallPolicyLink != nil {
-		var webApplicationFirewallPolicyLink EndpointProperties_WebApplicationFirewallPolicyLink
-		err := webApplicationFirewallPolicyLink.Initialize_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(source.WebApplicationFirewallPolicyLink)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS() to populate field WebApplicationFirewallPolicyLink")
-		}
-		endpoint.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
-	} else {
-		endpoint.WebApplicationFirewallPolicyLink = nil
 	}
 
 	// No error
@@ -2664,56 +2502,6 @@ func (origin *DeepCreatedOrigin) AssignProperties_To_DeepCreatedOrigin(destinati
 	return nil
 }
 
-// Initialize_From_DeepCreatedOrigin_STATUS populates our DeepCreatedOrigin from the provided source DeepCreatedOrigin_STATUS
-func (origin *DeepCreatedOrigin) Initialize_From_DeepCreatedOrigin_STATUS(source *DeepCreatedOrigin_STATUS) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		origin.Enabled = &enabled
-	} else {
-		origin.Enabled = nil
-	}
-
-	// HostName
-	origin.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// HttpPort
-	origin.HttpPort = genruntime.ClonePointerToInt(source.HttpPort)
-
-	// HttpsPort
-	origin.HttpsPort = genruntime.ClonePointerToInt(source.HttpsPort)
-
-	// Name
-	origin.Name = genruntime.ClonePointerToString(source.Name)
-
-	// OriginHostHeader
-	origin.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
-
-	// Priority
-	origin.Priority = genruntime.ClonePointerToInt(source.Priority)
-
-	// PrivateLinkAlias
-	origin.PrivateLinkAlias = genruntime.ClonePointerToString(source.PrivateLinkAlias)
-
-	// PrivateLinkApprovalMessage
-	origin.PrivateLinkApprovalMessage = genruntime.ClonePointerToString(source.PrivateLinkApprovalMessage)
-
-	// PrivateLinkResourceReference
-	if source.PrivateLinkResourceId != nil {
-		privateLinkResourceReference := genruntime.CreateResourceReferenceFromARMID(*source.PrivateLinkResourceId)
-		origin.PrivateLinkResourceReference = &privateLinkResourceReference
-	} else {
-		origin.PrivateLinkResourceReference = nil
-	}
-
-	// Weight
-	origin.Weight = genruntime.ClonePointerToInt(source.Weight)
-
-	// No error
-	return nil
-}
-
 // The main origin of CDN content which is added when creating a CDN endpoint.
 type DeepCreatedOrigin_STATUS struct {
 	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
@@ -3283,59 +3071,6 @@ func (group *DeepCreatedOriginGroup) AssignProperties_To_DeepCreatedOriginGroup(
 	return nil
 }
 
-// Initialize_From_DeepCreatedOriginGroup_STATUS populates our DeepCreatedOriginGroup from the provided source DeepCreatedOriginGroup_STATUS
-func (group *DeepCreatedOriginGroup) Initialize_From_DeepCreatedOriginGroup_STATUS(source *DeepCreatedOriginGroup_STATUS) error {
-
-	// HealthProbeSettings
-	if source.HealthProbeSettings != nil {
-		var healthProbeSetting HealthProbeParameters
-		err := healthProbeSetting.Initialize_From_HealthProbeParameters_STATUS(source.HealthProbeSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HealthProbeParameters_STATUS() to populate field HealthProbeSettings")
-		}
-		group.HealthProbeSettings = &healthProbeSetting
-	} else {
-		group.HealthProbeSettings = nil
-	}
-
-	// Name
-	group.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Origins
-	if source.Origins != nil {
-		originList := make([]ResourceReference, len(source.Origins))
-		for originIndex, originItem := range source.Origins {
-			var origin ResourceReference
-			err := origin.Initialize_From_ResourceReference_STATUS(&originItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field Origins")
-			}
-			originList[originIndex] = origin
-		}
-		group.Origins = originList
-	} else {
-		group.Origins = nil
-	}
-
-	// ResponseBasedOriginErrorDetectionSettings
-	if source.ResponseBasedOriginErrorDetectionSettings != nil {
-		var responseBasedOriginErrorDetectionSetting ResponseBasedOriginErrorDetectionParameters
-		err := responseBasedOriginErrorDetectionSetting.Initialize_From_ResponseBasedOriginErrorDetectionParameters_STATUS(source.ResponseBasedOriginErrorDetectionSettings)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResponseBasedOriginErrorDetectionParameters_STATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
-		}
-		group.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
-	} else {
-		group.ResponseBasedOriginErrorDetectionSettings = nil
-	}
-
-	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = genruntime.ClonePointerToInt(source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes)
-
-	// No error
-	return nil
-}
-
 // The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the
 // origin group based on origin health.
 type DeepCreatedOriginGroup_STATUS struct {
@@ -3675,32 +3410,6 @@ func (policy *EndpointProperties_DeliveryPolicy) AssignProperties_To_EndpointPro
 	return nil
 }
 
-// Initialize_From_EndpointProperties_DeliveryPolicy_STATUS populates our EndpointProperties_DeliveryPolicy from the provided source EndpointProperties_DeliveryPolicy_STATUS
-func (policy *EndpointProperties_DeliveryPolicy) Initialize_From_EndpointProperties_DeliveryPolicy_STATUS(source *EndpointProperties_DeliveryPolicy_STATUS) error {
-
-	// Description
-	policy.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Rules
-	if source.Rules != nil {
-		ruleList := make([]DeliveryRule, len(source.Rules))
-		for ruleIndex, ruleItem := range source.Rules {
-			var rule DeliveryRule
-			err := rule.Initialize_From_DeliveryRule_STATUS(&ruleItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_DeliveryRule_STATUS() to populate field Rules")
-			}
-			ruleList[ruleIndex] = rule
-		}
-		policy.Rules = ruleList
-	} else {
-		policy.Rules = nil
-	}
-
-	// No error
-	return nil
-}
-
 type EndpointProperties_DeliveryPolicy_STATUS struct {
 	// Description: User-friendly description of the policy.
 	Description *string `json:"description,omitempty"`
@@ -3927,21 +3636,6 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignPropertie
 	return nil
 }
 
-// Initialize_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS populates our EndpointProperties_WebApplicationFirewallPolicyLink from the provided source EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
-func (link *EndpointProperties_WebApplicationFirewallPolicyLink) Initialize_From_EndpointProperties_WebApplicationFirewallPolicyLink_STATUS(source *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		reference := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		link.Reference = &reference
-	} else {
-		link.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -4127,27 +3821,6 @@ func (filter *GeoFilter) AssignProperties_To_GeoFilter(destination *storage.GeoF
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_GeoFilter_STATUS populates our GeoFilter from the provided source GeoFilter_STATUS
-func (filter *GeoFilter) Initialize_From_GeoFilter_STATUS(source *GeoFilter_STATUS) error {
-
-	// Action
-	if source.Action != nil {
-		action := genruntime.ToEnum(string(*source.Action), geoFilter_Action_Values)
-		filter.Action = &action
-	} else {
-		filter.Action = nil
-	}
-
-	// CountryCodes
-	filter.CountryCodes = genruntime.CloneSliceOfString(source.CountryCodes)
-
-	// RelativePath
-	filter.RelativePath = genruntime.ClonePointerToString(source.RelativePath)
 
 	// No error
 	return nil
@@ -4516,21 +4189,6 @@ func (reference *ResourceReference) AssignProperties_To_ResourceReference(destin
 	return nil
 }
 
-// Initialize_From_ResourceReference_STATUS populates our ResourceReference from the provided source ResourceReference_STATUS
-func (reference *ResourceReference) Initialize_From_ResourceReference_STATUS(source *ResourceReference_STATUS) error {
-
-	// Reference
-	if source.Id != nil {
-		referenceTemp := genruntime.CreateResourceReferenceFromARMID(*source.Id)
-		reference.Reference = &referenceTemp
-	} else {
-		reference.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Reference to another resource.
 type ResourceReference_STATUS struct {
 	// Id: Resource ID.
@@ -4709,28 +4367,6 @@ func (signingKey *UrlSigningKey) AssignProperties_To_UrlSigningKey(destination *
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UrlSigningKey_STATUS populates our UrlSigningKey from the provided source UrlSigningKey_STATUS
-func (signingKey *UrlSigningKey) Initialize_From_UrlSigningKey_STATUS(source *UrlSigningKey_STATUS) error {
-
-	// KeyId
-	signingKey.KeyId = genruntime.ClonePointerToString(source.KeyId)
-
-	// KeySourceParameters
-	if source.KeySourceParameters != nil {
-		var keySourceParameter KeyVaultSigningKeyParameters
-		err := keySourceParameter.Initialize_From_KeyVaultSigningKeyParameters_STATUS(source.KeySourceParameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_KeyVaultSigningKeyParameters_STATUS() to populate field KeySourceParameters")
-		}
-		signingKey.KeySourceParameters = &keySourceParameter
-	} else {
-		signingKey.KeySourceParameters = nil
 	}
 
 	// No error
@@ -5037,51 +4673,6 @@ func (rule *DeliveryRule) AssignProperties_To_DeliveryRule(destination *storage.
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRule_STATUS populates our DeliveryRule from the provided source DeliveryRule_STATUS
-func (rule *DeliveryRule) Initialize_From_DeliveryRule_STATUS(source *DeliveryRule_STATUS) error {
-
-	// Actions
-	if source.Actions != nil {
-		actionList := make([]DeliveryRuleAction, len(source.Actions))
-		for actionIndex, actionItem := range source.Actions {
-			var action DeliveryRuleAction
-			err := action.Initialize_From_DeliveryRuleAction_STATUS(&actionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_DeliveryRuleAction_STATUS() to populate field Actions")
-			}
-			actionList[actionIndex] = action
-		}
-		rule.Actions = actionList
-	} else {
-		rule.Actions = nil
-	}
-
-	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]DeliveryRuleCondition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			var condition DeliveryRuleCondition
-			err := condition.Initialize_From_DeliveryRuleCondition_STATUS(&conditionItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_DeliveryRuleCondition_STATUS() to populate field Conditions")
-			}
-			conditionList[conditionIndex] = condition
-		}
-		rule.Conditions = conditionList
-	} else {
-		rule.Conditions = nil
-	}
-
-	// Name
-	rule.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Order
-	rule.Order = genruntime.ClonePointerToInt(source.Order)
 
 	// No error
 	return nil
@@ -5441,35 +5032,6 @@ func (parameters *HealthProbeParameters) AssignProperties_To_HealthProbeParamete
 	return nil
 }
 
-// Initialize_From_HealthProbeParameters_STATUS populates our HealthProbeParameters from the provided source HealthProbeParameters_STATUS
-func (parameters *HealthProbeParameters) Initialize_From_HealthProbeParameters_STATUS(source *HealthProbeParameters_STATUS) error {
-
-	// ProbeIntervalInSeconds
-	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
-
-	// ProbePath
-	parameters.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
-
-	// ProbeProtocol
-	if source.ProbeProtocol != nil {
-		probeProtocol := genruntime.ToEnum(string(*source.ProbeProtocol), healthProbeParameters_ProbeProtocol_Values)
-		parameters.ProbeProtocol = &probeProtocol
-	} else {
-		parameters.ProbeProtocol = nil
-	}
-
-	// ProbeRequestType
-	if source.ProbeRequestType != nil {
-		probeRequestType := genruntime.ToEnum(string(*source.ProbeRequestType), healthProbeParameters_ProbeRequestType_Values)
-		parameters.ProbeRequestType = &probeRequestType
-	} else {
-		parameters.ProbeRequestType = nil
-	}
-
-	// No error
-	return nil
-}
-
 // The JSON object that contains the properties to send health probes to origin.
 type HealthProbeParameters_STATUS struct {
 	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
@@ -5794,36 +5356,6 @@ func (parameters *KeyVaultSigningKeyParameters) AssignProperties_To_KeyVaultSign
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_KeyVaultSigningKeyParameters_STATUS populates our KeyVaultSigningKeyParameters from the provided source KeyVaultSigningKeyParameters_STATUS
-func (parameters *KeyVaultSigningKeyParameters) Initialize_From_KeyVaultSigningKeyParameters_STATUS(source *KeyVaultSigningKeyParameters_STATUS) error {
-
-	// ResourceGroupName
-	parameters.ResourceGroupName = genruntime.ClonePointerToString(source.ResourceGroupName)
-
-	// SecretName
-	parameters.SecretName = genruntime.ClonePointerToString(source.SecretName)
-
-	// SecretVersion
-	parameters.SecretVersion = genruntime.ClonePointerToString(source.SecretVersion)
-
-	// SubscriptionId
-	parameters.SubscriptionId = genruntime.ClonePointerToString(source.SubscriptionId)
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), keyVaultSigningKeyParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// VaultName
-	parameters.VaultName = genruntime.ClonePointerToString(source.VaultName)
 
 	// No error
 	return nil
@@ -6156,40 +5688,6 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignProperties_
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ResponseBasedOriginErrorDetectionParameters_STATUS populates our ResponseBasedOriginErrorDetectionParameters from the provided source ResponseBasedOriginErrorDetectionParameters_STATUS
-func (parameters *ResponseBasedOriginErrorDetectionParameters) Initialize_From_ResponseBasedOriginErrorDetectionParameters_STATUS(source *ResponseBasedOriginErrorDetectionParameters_STATUS) error {
-
-	// HttpErrorRanges
-	if source.HttpErrorRanges != nil {
-		httpErrorRangeList := make([]HttpErrorRangeParameters, len(source.HttpErrorRanges))
-		for httpErrorRangeIndex, httpErrorRangeItem := range source.HttpErrorRanges {
-			var httpErrorRange HttpErrorRangeParameters
-			err := httpErrorRange.Initialize_From_HttpErrorRangeParameters_STATUS(&httpErrorRangeItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_HttpErrorRangeParameters_STATUS() to populate field HttpErrorRanges")
-			}
-			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
-		}
-		parameters.HttpErrorRanges = httpErrorRangeList
-	} else {
-		parameters.HttpErrorRanges = nil
-	}
-
-	// ResponseBasedDetectedErrorTypes
-	if source.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorType := genruntime.ToEnum(string(*source.ResponseBasedDetectedErrorTypes), responseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_Values)
-		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorType
-	} else {
-		parameters.ResponseBasedDetectedErrorTypes = nil
-	}
-
-	// ResponseBasedFailoverThresholdPercentage
-	parameters.ResponseBasedFailoverThresholdPercentage = genruntime.ClonePointerToInt(source.ResponseBasedFailoverThresholdPercentage)
 
 	// No error
 	return nil
@@ -6807,121 +6305,6 @@ func (action *DeliveryRuleAction) AssignProperties_To_DeliveryRuleAction(destina
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleAction_STATUS populates our DeliveryRuleAction from the provided source DeliveryRuleAction_STATUS
-func (action *DeliveryRuleAction) Initialize_From_DeliveryRuleAction_STATUS(source *DeliveryRuleAction_STATUS) error {
-
-	// CacheExpiration
-	if source.CacheExpiration != nil {
-		var cacheExpiration DeliveryRuleCacheExpirationAction
-		err := cacheExpiration.Initialize_From_DeliveryRuleCacheExpirationAction_STATUS(source.CacheExpiration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleCacheExpirationAction_STATUS() to populate field CacheExpiration")
-		}
-		action.CacheExpiration = &cacheExpiration
-	} else {
-		action.CacheExpiration = nil
-	}
-
-	// CacheKeyQueryString
-	if source.CacheKeyQueryString != nil {
-		var cacheKeyQueryString DeliveryRuleCacheKeyQueryStringAction
-		err := cacheKeyQueryString.Initialize_From_DeliveryRuleCacheKeyQueryStringAction_STATUS(source.CacheKeyQueryString)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleCacheKeyQueryStringAction_STATUS() to populate field CacheKeyQueryString")
-		}
-		action.CacheKeyQueryString = &cacheKeyQueryString
-	} else {
-		action.CacheKeyQueryString = nil
-	}
-
-	// ModifyRequestHeader
-	if source.ModifyRequestHeader != nil {
-		var modifyRequestHeader DeliveryRuleRequestHeaderAction
-		err := modifyRequestHeader.Initialize_From_DeliveryRuleRequestHeaderAction_STATUS(source.ModifyRequestHeader)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleRequestHeaderAction_STATUS() to populate field ModifyRequestHeader")
-		}
-		action.ModifyRequestHeader = &modifyRequestHeader
-	} else {
-		action.ModifyRequestHeader = nil
-	}
-
-	// ModifyResponseHeader
-	if source.ModifyResponseHeader != nil {
-		var modifyResponseHeader DeliveryRuleResponseHeaderAction
-		err := modifyResponseHeader.Initialize_From_DeliveryRuleResponseHeaderAction_STATUS(source.ModifyResponseHeader)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleResponseHeaderAction_STATUS() to populate field ModifyResponseHeader")
-		}
-		action.ModifyResponseHeader = &modifyResponseHeader
-	} else {
-		action.ModifyResponseHeader = nil
-	}
-
-	// OriginGroupOverride
-	if source.OriginGroupOverride != nil {
-		var originGroupOverride OriginGroupOverrideAction
-		err := originGroupOverride.Initialize_From_OriginGroupOverrideAction_STATUS(source.OriginGroupOverride)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OriginGroupOverrideAction_STATUS() to populate field OriginGroupOverride")
-		}
-		action.OriginGroupOverride = &originGroupOverride
-	} else {
-		action.OriginGroupOverride = nil
-	}
-
-	// RouteConfigurationOverride
-	if source.RouteConfigurationOverride != nil {
-		var routeConfigurationOverride DeliveryRuleRouteConfigurationOverrideAction
-		err := routeConfigurationOverride.Initialize_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS(source.RouteConfigurationOverride)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS() to populate field RouteConfigurationOverride")
-		}
-		action.RouteConfigurationOverride = &routeConfigurationOverride
-	} else {
-		action.RouteConfigurationOverride = nil
-	}
-
-	// UrlRedirect
-	if source.UrlRedirect != nil {
-		var urlRedirect UrlRedirectAction
-		err := urlRedirect.Initialize_From_UrlRedirectAction_STATUS(source.UrlRedirect)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UrlRedirectAction_STATUS() to populate field UrlRedirect")
-		}
-		action.UrlRedirect = &urlRedirect
-	} else {
-		action.UrlRedirect = nil
-	}
-
-	// UrlRewrite
-	if source.UrlRewrite != nil {
-		var urlRewrite UrlRewriteAction
-		err := urlRewrite.Initialize_From_UrlRewriteAction_STATUS(source.UrlRewrite)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UrlRewriteAction_STATUS() to populate field UrlRewrite")
-		}
-		action.UrlRewrite = &urlRewrite
-	} else {
-		action.UrlRewrite = nil
-	}
-
-	// UrlSigning
-	if source.UrlSigning != nil {
-		var urlSigning UrlSigningAction
-		err := urlSigning.Initialize_From_UrlSigningAction_STATUS(source.UrlSigning)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UrlSigningAction_STATUS() to populate field UrlSigning")
-		}
-		action.UrlSigning = &urlSigning
-	} else {
-		action.UrlSigning = nil
 	}
 
 	// No error
@@ -8279,241 +7662,6 @@ func (condition *DeliveryRuleCondition) AssignProperties_To_DeliveryRuleConditio
 	return nil
 }
 
-// Initialize_From_DeliveryRuleCondition_STATUS populates our DeliveryRuleCondition from the provided source DeliveryRuleCondition_STATUS
-func (condition *DeliveryRuleCondition) Initialize_From_DeliveryRuleCondition_STATUS(source *DeliveryRuleCondition_STATUS) error {
-
-	// ClientPort
-	if source.ClientPort != nil {
-		var clientPort DeliveryRuleClientPortCondition
-		err := clientPort.Initialize_From_DeliveryRuleClientPortCondition_STATUS(source.ClientPort)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleClientPortCondition_STATUS() to populate field ClientPort")
-		}
-		condition.ClientPort = &clientPort
-	} else {
-		condition.ClientPort = nil
-	}
-
-	// Cookies
-	if source.Cookies != nil {
-		var cookie DeliveryRuleCookiesCondition
-		err := cookie.Initialize_From_DeliveryRuleCookiesCondition_STATUS(source.Cookies)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleCookiesCondition_STATUS() to populate field Cookies")
-		}
-		condition.Cookies = &cookie
-	} else {
-		condition.Cookies = nil
-	}
-
-	// HostName
-	if source.HostName != nil {
-		var hostName DeliveryRuleHostNameCondition
-		err := hostName.Initialize_From_DeliveryRuleHostNameCondition_STATUS(source.HostName)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleHostNameCondition_STATUS() to populate field HostName")
-		}
-		condition.HostName = &hostName
-	} else {
-		condition.HostName = nil
-	}
-
-	// HttpVersion
-	if source.HttpVersion != nil {
-		var httpVersion DeliveryRuleHttpVersionCondition
-		err := httpVersion.Initialize_From_DeliveryRuleHttpVersionCondition_STATUS(source.HttpVersion)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleHttpVersionCondition_STATUS() to populate field HttpVersion")
-		}
-		condition.HttpVersion = &httpVersion
-	} else {
-		condition.HttpVersion = nil
-	}
-
-	// IsDevice
-	if source.IsDevice != nil {
-		var isDevice DeliveryRuleIsDeviceCondition
-		err := isDevice.Initialize_From_DeliveryRuleIsDeviceCondition_STATUS(source.IsDevice)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleIsDeviceCondition_STATUS() to populate field IsDevice")
-		}
-		condition.IsDevice = &isDevice
-	} else {
-		condition.IsDevice = nil
-	}
-
-	// PostArgs
-	if source.PostArgs != nil {
-		var postArg DeliveryRulePostArgsCondition
-		err := postArg.Initialize_From_DeliveryRulePostArgsCondition_STATUS(source.PostArgs)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRulePostArgsCondition_STATUS() to populate field PostArgs")
-		}
-		condition.PostArgs = &postArg
-	} else {
-		condition.PostArgs = nil
-	}
-
-	// QueryString
-	if source.QueryString != nil {
-		var queryString DeliveryRuleQueryStringCondition
-		err := queryString.Initialize_From_DeliveryRuleQueryStringCondition_STATUS(source.QueryString)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleQueryStringCondition_STATUS() to populate field QueryString")
-		}
-		condition.QueryString = &queryString
-	} else {
-		condition.QueryString = nil
-	}
-
-	// RemoteAddress
-	if source.RemoteAddress != nil {
-		var remoteAddress DeliveryRuleRemoteAddressCondition
-		err := remoteAddress.Initialize_From_DeliveryRuleRemoteAddressCondition_STATUS(source.RemoteAddress)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleRemoteAddressCondition_STATUS() to populate field RemoteAddress")
-		}
-		condition.RemoteAddress = &remoteAddress
-	} else {
-		condition.RemoteAddress = nil
-	}
-
-	// RequestBody
-	if source.RequestBody != nil {
-		var requestBody DeliveryRuleRequestBodyCondition
-		err := requestBody.Initialize_From_DeliveryRuleRequestBodyCondition_STATUS(source.RequestBody)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleRequestBodyCondition_STATUS() to populate field RequestBody")
-		}
-		condition.RequestBody = &requestBody
-	} else {
-		condition.RequestBody = nil
-	}
-
-	// RequestHeader
-	if source.RequestHeader != nil {
-		var requestHeader DeliveryRuleRequestHeaderCondition
-		err := requestHeader.Initialize_From_DeliveryRuleRequestHeaderCondition_STATUS(source.RequestHeader)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleRequestHeaderCondition_STATUS() to populate field RequestHeader")
-		}
-		condition.RequestHeader = &requestHeader
-	} else {
-		condition.RequestHeader = nil
-	}
-
-	// RequestMethod
-	if source.RequestMethod != nil {
-		var requestMethod DeliveryRuleRequestMethodCondition
-		err := requestMethod.Initialize_From_DeliveryRuleRequestMethodCondition_STATUS(source.RequestMethod)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleRequestMethodCondition_STATUS() to populate field RequestMethod")
-		}
-		condition.RequestMethod = &requestMethod
-	} else {
-		condition.RequestMethod = nil
-	}
-
-	// RequestScheme
-	if source.RequestScheme != nil {
-		var requestScheme DeliveryRuleRequestSchemeCondition
-		err := requestScheme.Initialize_From_DeliveryRuleRequestSchemeCondition_STATUS(source.RequestScheme)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleRequestSchemeCondition_STATUS() to populate field RequestScheme")
-		}
-		condition.RequestScheme = &requestScheme
-	} else {
-		condition.RequestScheme = nil
-	}
-
-	// RequestUri
-	if source.RequestUri != nil {
-		var requestUri DeliveryRuleRequestUriCondition
-		err := requestUri.Initialize_From_DeliveryRuleRequestUriCondition_STATUS(source.RequestUri)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleRequestUriCondition_STATUS() to populate field RequestUri")
-		}
-		condition.RequestUri = &requestUri
-	} else {
-		condition.RequestUri = nil
-	}
-
-	// ServerPort
-	if source.ServerPort != nil {
-		var serverPort DeliveryRuleServerPortCondition
-		err := serverPort.Initialize_From_DeliveryRuleServerPortCondition_STATUS(source.ServerPort)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleServerPortCondition_STATUS() to populate field ServerPort")
-		}
-		condition.ServerPort = &serverPort
-	} else {
-		condition.ServerPort = nil
-	}
-
-	// SocketAddr
-	if source.SocketAddr != nil {
-		var socketAddr DeliveryRuleSocketAddrCondition
-		err := socketAddr.Initialize_From_DeliveryRuleSocketAddrCondition_STATUS(source.SocketAddr)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleSocketAddrCondition_STATUS() to populate field SocketAddr")
-		}
-		condition.SocketAddr = &socketAddr
-	} else {
-		condition.SocketAddr = nil
-	}
-
-	// SslProtocol
-	if source.SslProtocol != nil {
-		var sslProtocol DeliveryRuleSslProtocolCondition
-		err := sslProtocol.Initialize_From_DeliveryRuleSslProtocolCondition_STATUS(source.SslProtocol)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleSslProtocolCondition_STATUS() to populate field SslProtocol")
-		}
-		condition.SslProtocol = &sslProtocol
-	} else {
-		condition.SslProtocol = nil
-	}
-
-	// UrlFileExtension
-	if source.UrlFileExtension != nil {
-		var urlFileExtension DeliveryRuleUrlFileExtensionCondition
-		err := urlFileExtension.Initialize_From_DeliveryRuleUrlFileExtensionCondition_STATUS(source.UrlFileExtension)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleUrlFileExtensionCondition_STATUS() to populate field UrlFileExtension")
-		}
-		condition.UrlFileExtension = &urlFileExtension
-	} else {
-		condition.UrlFileExtension = nil
-	}
-
-	// UrlFileName
-	if source.UrlFileName != nil {
-		var urlFileName DeliveryRuleUrlFileNameCondition
-		err := urlFileName.Initialize_From_DeliveryRuleUrlFileNameCondition_STATUS(source.UrlFileName)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleUrlFileNameCondition_STATUS() to populate field UrlFileName")
-		}
-		condition.UrlFileName = &urlFileName
-	} else {
-		condition.UrlFileName = nil
-	}
-
-	// UrlPath
-	if source.UrlPath != nil {
-		var urlPath DeliveryRuleUrlPathCondition
-		err := urlPath.Initialize_From_DeliveryRuleUrlPathCondition_STATUS(source.UrlPath)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_DeliveryRuleUrlPathCondition_STATUS() to populate field UrlPath")
-		}
-		condition.UrlPath = &urlPath
-	} else {
-		condition.UrlPath = nil
-	}
-
-	// No error
-	return nil
-}
-
 // A condition for the delivery rule.
 type DeliveryRuleCondition_STATUS struct {
 	// ClientPort: Mutually exclusive with all other properties
@@ -9441,19 +8589,6 @@ func (parameters *HttpErrorRangeParameters) AssignProperties_To_HttpErrorRangePa
 	return nil
 }
 
-// Initialize_From_HttpErrorRangeParameters_STATUS populates our HttpErrorRangeParameters from the provided source HttpErrorRangeParameters_STATUS
-func (parameters *HttpErrorRangeParameters) Initialize_From_HttpErrorRangeParameters_STATUS(source *HttpErrorRangeParameters_STATUS) error {
-
-	// Begin
-	parameters.Begin = genruntime.ClonePointerToInt(source.Begin)
-
-	// End
-	parameters.End = genruntime.ClonePointerToInt(source.End)
-
-	// No error
-	return nil
-}
-
 // The JSON object that represents the range for http status codes
 type HttpErrorRangeParameters_STATUS struct {
 	// Begin: The inclusive start of the http status code range.
@@ -9716,33 +8851,6 @@ func (action *DeliveryRuleCacheExpirationAction) AssignProperties_To_DeliveryRul
 	return nil
 }
 
-// Initialize_From_DeliveryRuleCacheExpirationAction_STATUS populates our DeliveryRuleCacheExpirationAction from the provided source DeliveryRuleCacheExpirationAction_STATUS
-func (action *DeliveryRuleCacheExpirationAction) Initialize_From_DeliveryRuleCacheExpirationAction_STATUS(source *DeliveryRuleCacheExpirationAction_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleCacheExpirationAction_Name_Values)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter CacheExpirationActionParameters
-		err := parameter.Initialize_From_CacheExpirationActionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CacheExpirationActionParameters_STATUS() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleCacheExpirationAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
 	Name *DeliveryRuleCacheExpirationAction_Name_STATUS `json:"name,omitempty"`
@@ -9983,33 +9091,6 @@ func (action *DeliveryRuleCacheKeyQueryStringAction) AssignProperties_To_Deliver
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleCacheKeyQueryStringAction_STATUS populates our DeliveryRuleCacheKeyQueryStringAction from the provided source DeliveryRuleCacheKeyQueryStringAction_STATUS
-func (action *DeliveryRuleCacheKeyQueryStringAction) Initialize_From_DeliveryRuleCacheKeyQueryStringAction_STATUS(source *DeliveryRuleCacheKeyQueryStringAction_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleCacheKeyQueryStringAction_Name_Values)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter CacheKeyQueryStringActionParameters
-		err := parameter.Initialize_From_CacheKeyQueryStringActionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CacheKeyQueryStringActionParameters_STATUS() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
 	}
 
 	// No error
@@ -10262,33 +9343,6 @@ func (condition *DeliveryRuleClientPortCondition) AssignProperties_To_DeliveryRu
 	return nil
 }
 
-// Initialize_From_DeliveryRuleClientPortCondition_STATUS populates our DeliveryRuleClientPortCondition from the provided source DeliveryRuleClientPortCondition_STATUS
-func (condition *DeliveryRuleClientPortCondition) Initialize_From_DeliveryRuleClientPortCondition_STATUS(source *DeliveryRuleClientPortCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleClientPortCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter ClientPortMatchConditionParameters
-		err := parameter.Initialize_From_ClientPortMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ClientPortMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleClientPortCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleClientPortCondition_Name_STATUS `json:"name,omitempty"`
@@ -10529,33 +9583,6 @@ func (condition *DeliveryRuleCookiesCondition) AssignProperties_To_DeliveryRuleC
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleCookiesCondition_STATUS populates our DeliveryRuleCookiesCondition from the provided source DeliveryRuleCookiesCondition_STATUS
-func (condition *DeliveryRuleCookiesCondition) Initialize_From_DeliveryRuleCookiesCondition_STATUS(source *DeliveryRuleCookiesCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleCookiesCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter CookiesMatchConditionParameters
-		err := parameter.Initialize_From_CookiesMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CookiesMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
 	}
 
 	// No error
@@ -10808,33 +9835,6 @@ func (condition *DeliveryRuleHostNameCondition) AssignProperties_To_DeliveryRule
 	return nil
 }
 
-// Initialize_From_DeliveryRuleHostNameCondition_STATUS populates our DeliveryRuleHostNameCondition from the provided source DeliveryRuleHostNameCondition_STATUS
-func (condition *DeliveryRuleHostNameCondition) Initialize_From_DeliveryRuleHostNameCondition_STATUS(source *DeliveryRuleHostNameCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleHostNameCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter HostNameMatchConditionParameters
-		err := parameter.Initialize_From_HostNameMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HostNameMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleHostNameCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleHostNameCondition_Name_STATUS `json:"name,omitempty"`
@@ -11075,33 +10075,6 @@ func (condition *DeliveryRuleHttpVersionCondition) AssignProperties_To_DeliveryR
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleHttpVersionCondition_STATUS populates our DeliveryRuleHttpVersionCondition from the provided source DeliveryRuleHttpVersionCondition_STATUS
-func (condition *DeliveryRuleHttpVersionCondition) Initialize_From_DeliveryRuleHttpVersionCondition_STATUS(source *DeliveryRuleHttpVersionCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleHttpVersionCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter HttpVersionMatchConditionParameters
-		err := parameter.Initialize_From_HttpVersionMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HttpVersionMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
 	}
 
 	// No error
@@ -11354,33 +10327,6 @@ func (condition *DeliveryRuleIsDeviceCondition) AssignProperties_To_DeliveryRule
 	return nil
 }
 
-// Initialize_From_DeliveryRuleIsDeviceCondition_STATUS populates our DeliveryRuleIsDeviceCondition from the provided source DeliveryRuleIsDeviceCondition_STATUS
-func (condition *DeliveryRuleIsDeviceCondition) Initialize_From_DeliveryRuleIsDeviceCondition_STATUS(source *DeliveryRuleIsDeviceCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleIsDeviceCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter IsDeviceMatchConditionParameters
-		err := parameter.Initialize_From_IsDeviceMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_IsDeviceMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleIsDeviceCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleIsDeviceCondition_Name_STATUS `json:"name,omitempty"`
@@ -11621,33 +10567,6 @@ func (condition *DeliveryRulePostArgsCondition) AssignProperties_To_DeliveryRule
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRulePostArgsCondition_STATUS populates our DeliveryRulePostArgsCondition from the provided source DeliveryRulePostArgsCondition_STATUS
-func (condition *DeliveryRulePostArgsCondition) Initialize_From_DeliveryRulePostArgsCondition_STATUS(source *DeliveryRulePostArgsCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRulePostArgsCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter PostArgsMatchConditionParameters
-		err := parameter.Initialize_From_PostArgsMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_PostArgsMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
 	}
 
 	// No error
@@ -11900,33 +10819,6 @@ func (condition *DeliveryRuleQueryStringCondition) AssignProperties_To_DeliveryR
 	return nil
 }
 
-// Initialize_From_DeliveryRuleQueryStringCondition_STATUS populates our DeliveryRuleQueryStringCondition from the provided source DeliveryRuleQueryStringCondition_STATUS
-func (condition *DeliveryRuleQueryStringCondition) Initialize_From_DeliveryRuleQueryStringCondition_STATUS(source *DeliveryRuleQueryStringCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleQueryStringCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter QueryStringMatchConditionParameters
-		err := parameter.Initialize_From_QueryStringMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_QueryStringMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleQueryStringCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleQueryStringCondition_Name_STATUS `json:"name,omitempty"`
@@ -12167,33 +11059,6 @@ func (condition *DeliveryRuleRemoteAddressCondition) AssignProperties_To_Deliver
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleRemoteAddressCondition_STATUS populates our DeliveryRuleRemoteAddressCondition from the provided source DeliveryRuleRemoteAddressCondition_STATUS
-func (condition *DeliveryRuleRemoteAddressCondition) Initialize_From_DeliveryRuleRemoteAddressCondition_STATUS(source *DeliveryRuleRemoteAddressCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRemoteAddressCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RemoteAddressMatchConditionParameters
-		err := parameter.Initialize_From_RemoteAddressMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RemoteAddressMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
 	}
 
 	// No error
@@ -12446,33 +11311,6 @@ func (condition *DeliveryRuleRequestBodyCondition) AssignProperties_To_DeliveryR
 	return nil
 }
 
-// Initialize_From_DeliveryRuleRequestBodyCondition_STATUS populates our DeliveryRuleRequestBodyCondition from the provided source DeliveryRuleRequestBodyCondition_STATUS
-func (condition *DeliveryRuleRequestBodyCondition) Initialize_From_DeliveryRuleRequestBodyCondition_STATUS(source *DeliveryRuleRequestBodyCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestBodyCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RequestBodyMatchConditionParameters
-		err := parameter.Initialize_From_RequestBodyMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RequestBodyMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleRequestBodyCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleRequestBodyCondition_Name_STATUS `json:"name,omitempty"`
@@ -12713,33 +11551,6 @@ func (action *DeliveryRuleRequestHeaderAction) AssignProperties_To_DeliveryRuleR
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleRequestHeaderAction_STATUS populates our DeliveryRuleRequestHeaderAction from the provided source DeliveryRuleRequestHeaderAction_STATUS
-func (action *DeliveryRuleRequestHeaderAction) Initialize_From_DeliveryRuleRequestHeaderAction_STATUS(source *DeliveryRuleRequestHeaderAction_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestHeaderAction_Name_Values)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter HeaderActionParameters
-		err := parameter.Initialize_From_HeaderActionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HeaderActionParameters_STATUS() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
 	}
 
 	// No error
@@ -12992,33 +11803,6 @@ func (condition *DeliveryRuleRequestHeaderCondition) AssignProperties_To_Deliver
 	return nil
 }
 
-// Initialize_From_DeliveryRuleRequestHeaderCondition_STATUS populates our DeliveryRuleRequestHeaderCondition from the provided source DeliveryRuleRequestHeaderCondition_STATUS
-func (condition *DeliveryRuleRequestHeaderCondition) Initialize_From_DeliveryRuleRequestHeaderCondition_STATUS(source *DeliveryRuleRequestHeaderCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestHeaderCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RequestHeaderMatchConditionParameters
-		err := parameter.Initialize_From_RequestHeaderMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RequestHeaderMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleRequestHeaderCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleRequestHeaderCondition_Name_STATUS `json:"name,omitempty"`
@@ -13259,33 +12043,6 @@ func (condition *DeliveryRuleRequestMethodCondition) AssignProperties_To_Deliver
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleRequestMethodCondition_STATUS populates our DeliveryRuleRequestMethodCondition from the provided source DeliveryRuleRequestMethodCondition_STATUS
-func (condition *DeliveryRuleRequestMethodCondition) Initialize_From_DeliveryRuleRequestMethodCondition_STATUS(source *DeliveryRuleRequestMethodCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestMethodCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RequestMethodMatchConditionParameters
-		err := parameter.Initialize_From_RequestMethodMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RequestMethodMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
 	}
 
 	// No error
@@ -13538,33 +12295,6 @@ func (condition *DeliveryRuleRequestSchemeCondition) AssignProperties_To_Deliver
 	return nil
 }
 
-// Initialize_From_DeliveryRuleRequestSchemeCondition_STATUS populates our DeliveryRuleRequestSchemeCondition from the provided source DeliveryRuleRequestSchemeCondition_STATUS
-func (condition *DeliveryRuleRequestSchemeCondition) Initialize_From_DeliveryRuleRequestSchemeCondition_STATUS(source *DeliveryRuleRequestSchemeCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestSchemeCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RequestSchemeMatchConditionParameters
-		err := parameter.Initialize_From_RequestSchemeMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RequestSchemeMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleRequestSchemeCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleRequestSchemeCondition_Name_STATUS `json:"name,omitempty"`
@@ -13805,33 +12535,6 @@ func (condition *DeliveryRuleRequestUriCondition) AssignProperties_To_DeliveryRu
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleRequestUriCondition_STATUS populates our DeliveryRuleRequestUriCondition from the provided source DeliveryRuleRequestUriCondition_STATUS
-func (condition *DeliveryRuleRequestUriCondition) Initialize_From_DeliveryRuleRequestUriCondition_STATUS(source *DeliveryRuleRequestUriCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRequestUriCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RequestUriMatchConditionParameters
-		err := parameter.Initialize_From_RequestUriMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RequestUriMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
 	}
 
 	// No error
@@ -14084,33 +12787,6 @@ func (action *DeliveryRuleResponseHeaderAction) AssignProperties_To_DeliveryRule
 	return nil
 }
 
-// Initialize_From_DeliveryRuleResponseHeaderAction_STATUS populates our DeliveryRuleResponseHeaderAction from the provided source DeliveryRuleResponseHeaderAction_STATUS
-func (action *DeliveryRuleResponseHeaderAction) Initialize_From_DeliveryRuleResponseHeaderAction_STATUS(source *DeliveryRuleResponseHeaderAction_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleResponseHeaderAction_Name_Values)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter HeaderActionParameters
-		err := parameter.Initialize_From_HeaderActionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_HeaderActionParameters_STATUS() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleResponseHeaderAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
 	Name *DeliveryRuleResponseHeaderAction_Name_STATUS `json:"name,omitempty"`
@@ -14351,33 +13027,6 @@ func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignProperties_To_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS populates our DeliveryRuleRouteConfigurationOverrideAction from the provided source DeliveryRuleRouteConfigurationOverrideAction_STATUS
-func (action *DeliveryRuleRouteConfigurationOverrideAction) Initialize_From_DeliveryRuleRouteConfigurationOverrideAction_STATUS(source *DeliveryRuleRouteConfigurationOverrideAction_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleRouteConfigurationOverrideAction_Name_Values)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RouteConfigurationOverrideActionParameters
-		err := parameter.Initialize_From_RouteConfigurationOverrideActionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_RouteConfigurationOverrideActionParameters_STATUS() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
 	}
 
 	// No error
@@ -14630,33 +13279,6 @@ func (condition *DeliveryRuleServerPortCondition) AssignProperties_To_DeliveryRu
 	return nil
 }
 
-// Initialize_From_DeliveryRuleServerPortCondition_STATUS populates our DeliveryRuleServerPortCondition from the provided source DeliveryRuleServerPortCondition_STATUS
-func (condition *DeliveryRuleServerPortCondition) Initialize_From_DeliveryRuleServerPortCondition_STATUS(source *DeliveryRuleServerPortCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleServerPortCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter ServerPortMatchConditionParameters
-		err := parameter.Initialize_From_ServerPortMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ServerPortMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleServerPortCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleServerPortCondition_Name_STATUS `json:"name,omitempty"`
@@ -14897,33 +13519,6 @@ func (condition *DeliveryRuleSocketAddrCondition) AssignProperties_To_DeliveryRu
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleSocketAddrCondition_STATUS populates our DeliveryRuleSocketAddrCondition from the provided source DeliveryRuleSocketAddrCondition_STATUS
-func (condition *DeliveryRuleSocketAddrCondition) Initialize_From_DeliveryRuleSocketAddrCondition_STATUS(source *DeliveryRuleSocketAddrCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleSocketAddrCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter SocketAddrMatchConditionParameters
-		err := parameter.Initialize_From_SocketAddrMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SocketAddrMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
 	}
 
 	// No error
@@ -15176,33 +13771,6 @@ func (condition *DeliveryRuleSslProtocolCondition) AssignProperties_To_DeliveryR
 	return nil
 }
 
-// Initialize_From_DeliveryRuleSslProtocolCondition_STATUS populates our DeliveryRuleSslProtocolCondition from the provided source DeliveryRuleSslProtocolCondition_STATUS
-func (condition *DeliveryRuleSslProtocolCondition) Initialize_From_DeliveryRuleSslProtocolCondition_STATUS(source *DeliveryRuleSslProtocolCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleSslProtocolCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter SslProtocolMatchConditionParameters
-		err := parameter.Initialize_From_SslProtocolMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SslProtocolMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleSslProtocolCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleSslProtocolCondition_Name_STATUS `json:"name,omitempty"`
@@ -15443,33 +14011,6 @@ func (condition *DeliveryRuleUrlFileExtensionCondition) AssignProperties_To_Deli
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleUrlFileExtensionCondition_STATUS populates our DeliveryRuleUrlFileExtensionCondition from the provided source DeliveryRuleUrlFileExtensionCondition_STATUS
-func (condition *DeliveryRuleUrlFileExtensionCondition) Initialize_From_DeliveryRuleUrlFileExtensionCondition_STATUS(source *DeliveryRuleUrlFileExtensionCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleUrlFileExtensionCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlFileExtensionMatchConditionParameters
-		err := parameter.Initialize_From_UrlFileExtensionMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UrlFileExtensionMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
 	}
 
 	// No error
@@ -15722,33 +14263,6 @@ func (condition *DeliveryRuleUrlFileNameCondition) AssignProperties_To_DeliveryR
 	return nil
 }
 
-// Initialize_From_DeliveryRuleUrlFileNameCondition_STATUS populates our DeliveryRuleUrlFileNameCondition from the provided source DeliveryRuleUrlFileNameCondition_STATUS
-func (condition *DeliveryRuleUrlFileNameCondition) Initialize_From_DeliveryRuleUrlFileNameCondition_STATUS(source *DeliveryRuleUrlFileNameCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleUrlFileNameCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlFileNameMatchConditionParameters
-		err := parameter.Initialize_From_UrlFileNameMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UrlFileNameMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type DeliveryRuleUrlFileNameCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
 	Name *DeliveryRuleUrlFileNameCondition_Name_STATUS `json:"name,omitempty"`
@@ -15989,33 +14503,6 @@ func (condition *DeliveryRuleUrlPathCondition) AssignProperties_To_DeliveryRuleU
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_DeliveryRuleUrlPathCondition_STATUS populates our DeliveryRuleUrlPathCondition from the provided source DeliveryRuleUrlPathCondition_STATUS
-func (condition *DeliveryRuleUrlPathCondition) Initialize_From_DeliveryRuleUrlPathCondition_STATUS(source *DeliveryRuleUrlPathCondition_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), deliveryRuleUrlPathCondition_Name_Values)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlPathMatchConditionParameters
-		err := parameter.Initialize_From_UrlPathMatchConditionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UrlPathMatchConditionParameters_STATUS() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
 	}
 
 	// No error
@@ -16268,33 +14755,6 @@ func (action *OriginGroupOverrideAction) AssignProperties_To_OriginGroupOverride
 	return nil
 }
 
-// Initialize_From_OriginGroupOverrideAction_STATUS populates our OriginGroupOverrideAction from the provided source OriginGroupOverrideAction_STATUS
-func (action *OriginGroupOverrideAction) Initialize_From_OriginGroupOverrideAction_STATUS(source *OriginGroupOverrideAction_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), originGroupOverrideAction_Name_Values)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter OriginGroupOverrideActionParameters
-		err := parameter.Initialize_From_OriginGroupOverrideActionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OriginGroupOverrideActionParameters_STATUS() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type OriginGroupOverrideAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
 	Name *OriginGroupOverrideAction_Name_STATUS `json:"name,omitempty"`
@@ -16535,33 +14995,6 @@ func (action *UrlRedirectAction) AssignProperties_To_UrlRedirectAction(destinati
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UrlRedirectAction_STATUS populates our UrlRedirectAction from the provided source UrlRedirectAction_STATUS
-func (action *UrlRedirectAction) Initialize_From_UrlRedirectAction_STATUS(source *UrlRedirectAction_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), urlRedirectAction_Name_Values)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlRedirectActionParameters
-		err := parameter.Initialize_From_UrlRedirectActionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UrlRedirectActionParameters_STATUS() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
 	}
 
 	// No error
@@ -16814,33 +15247,6 @@ func (action *UrlRewriteAction) AssignProperties_To_UrlRewriteAction(destination
 	return nil
 }
 
-// Initialize_From_UrlRewriteAction_STATUS populates our UrlRewriteAction from the provided source UrlRewriteAction_STATUS
-func (action *UrlRewriteAction) Initialize_From_UrlRewriteAction_STATUS(source *UrlRewriteAction_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), urlRewriteAction_Name_Values)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlRewriteActionParameters
-		err := parameter.Initialize_From_UrlRewriteActionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UrlRewriteActionParameters_STATUS() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
 type UrlRewriteAction_STATUS struct {
 	// Name: The name of the action for the delivery rule.
 	Name *UrlRewriteAction_Name_STATUS `json:"name,omitempty"`
@@ -17081,33 +15487,6 @@ func (action *UrlSigningAction) AssignProperties_To_UrlSigningAction(destination
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UrlSigningAction_STATUS populates our UrlSigningAction from the provided source UrlSigningAction_STATUS
-func (action *UrlSigningAction) Initialize_From_UrlSigningAction_STATUS(source *UrlSigningAction_STATUS) error {
-
-	// Name
-	if source.Name != nil {
-		name := genruntime.ToEnum(string(*source.Name), urlSigningAction_Name_Values)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlSigningActionParameters
-		err := parameter.Initialize_From_UrlSigningActionParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UrlSigningActionParameters_STATUS() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
 	}
 
 	// No error
@@ -17406,40 +15785,6 @@ func (parameters *CacheExpirationActionParameters) AssignProperties_To_CacheExpi
 	return nil
 }
 
-// Initialize_From_CacheExpirationActionParameters_STATUS populates our CacheExpirationActionParameters from the provided source CacheExpirationActionParameters_STATUS
-func (parameters *CacheExpirationActionParameters) Initialize_From_CacheExpirationActionParameters_STATUS(source *CacheExpirationActionParameters_STATUS) error {
-
-	// CacheBehavior
-	if source.CacheBehavior != nil {
-		cacheBehavior := genruntime.ToEnum(string(*source.CacheBehavior), cacheExpirationActionParameters_CacheBehavior_Values)
-		parameters.CacheBehavior = &cacheBehavior
-	} else {
-		parameters.CacheBehavior = nil
-	}
-
-	// CacheDuration
-	parameters.CacheDuration = genruntime.ClonePointerToString(source.CacheDuration)
-
-	// CacheType
-	if source.CacheType != nil {
-		cacheType := genruntime.ToEnum(string(*source.CacheType), cacheExpirationActionParameters_CacheType_Values)
-		parameters.CacheType = &cacheType
-	} else {
-		parameters.CacheType = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), cacheExpirationActionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for the cache expiration action.
 type CacheExpirationActionParameters_STATUS struct {
 	// CacheBehavior: Caching behavior for the requests
@@ -17722,32 +16067,6 @@ func (parameters *CacheKeyQueryStringActionParameters) AssignProperties_To_Cache
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CacheKeyQueryStringActionParameters_STATUS populates our CacheKeyQueryStringActionParameters from the provided source CacheKeyQueryStringActionParameters_STATUS
-func (parameters *CacheKeyQueryStringActionParameters) Initialize_From_CacheKeyQueryStringActionParameters_STATUS(source *CacheKeyQueryStringActionParameters_STATUS) error {
-
-	// QueryParameters
-	parameters.QueryParameters = genruntime.ClonePointerToString(source.QueryParameters)
-
-	// QueryStringBehavior
-	if source.QueryStringBehavior != nil {
-		queryStringBehavior := genruntime.ToEnum(string(*source.QueryStringBehavior), cacheKeyQueryStringActionParameters_QueryStringBehavior_Values)
-		parameters.QueryStringBehavior = &queryStringBehavior
-	} else {
-		parameters.QueryStringBehavior = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), cacheKeyQueryStringActionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -18076,52 +16395,6 @@ func (parameters *ClientPortMatchConditionParameters) AssignProperties_To_Client
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ClientPortMatchConditionParameters_STATUS populates our ClientPortMatchConditionParameters from the provided source ClientPortMatchConditionParameters_STATUS
-func (parameters *ClientPortMatchConditionParameters) Initialize_From_ClientPortMatchConditionParameters_STATUS(source *ClientPortMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), clientPortMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), clientPortMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -18527,55 +16800,6 @@ func (parameters *CookiesMatchConditionParameters) AssignProperties_To_CookiesMa
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CookiesMatchConditionParameters_STATUS populates our CookiesMatchConditionParameters from the provided source CookiesMatchConditionParameters_STATUS
-func (parameters *CookiesMatchConditionParameters) Initialize_From_CookiesMatchConditionParameters_STATUS(source *CookiesMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), cookiesMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Selector
-	parameters.Selector = genruntime.ClonePointerToString(source.Selector)
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), cookiesMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -19391,35 +17615,6 @@ func (parameters *HeaderActionParameters) AssignProperties_To_HeaderActionParame
 	return nil
 }
 
-// Initialize_From_HeaderActionParameters_STATUS populates our HeaderActionParameters from the provided source HeaderActionParameters_STATUS
-func (parameters *HeaderActionParameters) Initialize_From_HeaderActionParameters_STATUS(source *HeaderActionParameters_STATUS) error {
-
-	// HeaderAction
-	if source.HeaderAction != nil {
-		headerAction := genruntime.ToEnum(string(*source.HeaderAction), headerActionParameters_HeaderAction_Values)
-		parameters.HeaderAction = &headerAction
-	} else {
-		parameters.HeaderAction = nil
-	}
-
-	// HeaderName
-	parameters.HeaderName = genruntime.ClonePointerToString(source.HeaderName)
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), headerActionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// Value
-	parameters.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for the request header action.
 type HeaderActionParameters_STATUS struct {
 	// HeaderAction: Action to perform
@@ -19757,52 +17952,6 @@ func (parameters *HostNameMatchConditionParameters) AssignProperties_To_HostName
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HostNameMatchConditionParameters_STATUS populates our HostNameMatchConditionParameters from the provided source HostNameMatchConditionParameters_STATUS
-func (parameters *HostNameMatchConditionParameters) Initialize_From_HostNameMatchConditionParameters_STATUS(source *HostNameMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), hostNameMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), hostNameMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -20187,52 +18336,6 @@ func (parameters *HttpVersionMatchConditionParameters) AssignProperties_To_HttpV
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_HttpVersionMatchConditionParameters_STATUS populates our HttpVersionMatchConditionParameters from the provided source HttpVersionMatchConditionParameters_STATUS
-func (parameters *HttpVersionMatchConditionParameters) Initialize_From_HttpVersionMatchConditionParameters_STATUS(source *HttpVersionMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), httpVersionMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), httpVersionMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -20643,61 +18746,6 @@ func (parameters *IsDeviceMatchConditionParameters) AssignProperties_To_IsDevice
 	return nil
 }
 
-// Initialize_From_IsDeviceMatchConditionParameters_STATUS populates our IsDeviceMatchConditionParameters from the provided source IsDeviceMatchConditionParameters_STATUS
-func (parameters *IsDeviceMatchConditionParameters) Initialize_From_IsDeviceMatchConditionParameters_STATUS(source *IsDeviceMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	if source.MatchValues != nil {
-		matchValueList := make([]IsDeviceMatchConditionParameters_MatchValues, len(source.MatchValues))
-		for matchValueIndex, matchValueItem := range source.MatchValues {
-			matchValue := genruntime.ToEnum(string(matchValueItem), isDeviceMatchConditionParameters_MatchValues_Values)
-			matchValueList[matchValueIndex] = matchValue
-		}
-		parameters.MatchValues = matchValueList
-	} else {
-		parameters.MatchValues = nil
-	}
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), isDeviceMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), isDeviceMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for IsDevice match conditions
 type IsDeviceMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
@@ -21042,33 +19090,6 @@ func (parameters *OriginGroupOverrideActionParameters) AssignProperties_To_Origi
 	return nil
 }
 
-// Initialize_From_OriginGroupOverrideActionParameters_STATUS populates our OriginGroupOverrideActionParameters from the provided source OriginGroupOverrideActionParameters_STATUS
-func (parameters *OriginGroupOverrideActionParameters) Initialize_From_OriginGroupOverrideActionParameters_STATUS(source *OriginGroupOverrideActionParameters_STATUS) error {
-
-	// OriginGroup
-	if source.OriginGroup != nil {
-		var originGroup ResourceReference
-		err := originGroup.Initialize_From_ResourceReference_STATUS(source.OriginGroup)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field OriginGroup")
-		}
-		parameters.OriginGroup = &originGroup
-	} else {
-		parameters.OriginGroup = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), originGroupOverrideActionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for the origin group override action.
 type OriginGroupOverrideActionParameters_STATUS struct {
 	// OriginGroup: defines the OriginGroup that would override the DefaultOriginGroup.
@@ -21407,55 +19428,6 @@ func (parameters *PostArgsMatchConditionParameters) AssignProperties_To_PostArgs
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_PostArgsMatchConditionParameters_STATUS populates our PostArgsMatchConditionParameters from the provided source PostArgsMatchConditionParameters_STATUS
-func (parameters *PostArgsMatchConditionParameters) Initialize_From_PostArgsMatchConditionParameters_STATUS(source *PostArgsMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), postArgsMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Selector
-	parameters.Selector = genruntime.ClonePointerToString(source.Selector)
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), postArgsMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -21861,52 +19833,6 @@ func (parameters *QueryStringMatchConditionParameters) AssignProperties_To_Query
 	return nil
 }
 
-// Initialize_From_QueryStringMatchConditionParameters_STATUS populates our QueryStringMatchConditionParameters from the provided source QueryStringMatchConditionParameters_STATUS
-func (parameters *QueryStringMatchConditionParameters) Initialize_From_QueryStringMatchConditionParameters_STATUS(source *QueryStringMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), queryStringMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), queryStringMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for QueryString match conditions
 type QueryStringMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
@@ -22292,52 +20218,6 @@ func (parameters *RemoteAddressMatchConditionParameters) AssignProperties_To_Rem
 	return nil
 }
 
-// Initialize_From_RemoteAddressMatchConditionParameters_STATUS populates our RemoteAddressMatchConditionParameters from the provided source RemoteAddressMatchConditionParameters_STATUS
-func (parameters *RemoteAddressMatchConditionParameters) Initialize_From_RemoteAddressMatchConditionParameters_STATUS(source *RemoteAddressMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), remoteAddressMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), remoteAddressMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for RemoteAddress match conditions
 type RemoteAddressMatchConditionParameters_STATUS struct {
 	// MatchValues: Match values to match against. The operator will apply to each value in here with OR semantics. If any of
@@ -22717,52 +20597,6 @@ func (parameters *RequestBodyMatchConditionParameters) AssignProperties_To_Reque
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RequestBodyMatchConditionParameters_STATUS populates our RequestBodyMatchConditionParameters from the provided source RequestBodyMatchConditionParameters_STATUS
-func (parameters *RequestBodyMatchConditionParameters) Initialize_From_RequestBodyMatchConditionParameters_STATUS(source *RequestBodyMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), requestBodyMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), requestBodyMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -23168,55 +21002,6 @@ func (parameters *RequestHeaderMatchConditionParameters) AssignProperties_To_Req
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RequestHeaderMatchConditionParameters_STATUS populates our RequestHeaderMatchConditionParameters from the provided source RequestHeaderMatchConditionParameters_STATUS
-func (parameters *RequestHeaderMatchConditionParameters) Initialize_From_RequestHeaderMatchConditionParameters_STATUS(source *RequestHeaderMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), requestHeaderMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Selector
-	parameters.Selector = genruntime.ClonePointerToString(source.Selector)
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), requestHeaderMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -23636,61 +21421,6 @@ func (parameters *RequestMethodMatchConditionParameters) AssignProperties_To_Req
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RequestMethodMatchConditionParameters_STATUS populates our RequestMethodMatchConditionParameters from the provided source RequestMethodMatchConditionParameters_STATUS
-func (parameters *RequestMethodMatchConditionParameters) Initialize_From_RequestMethodMatchConditionParameters_STATUS(source *RequestMethodMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	if source.MatchValues != nil {
-		matchValueList := make([]RequestMethodMatchConditionParameters_MatchValues, len(source.MatchValues))
-		for matchValueIndex, matchValueItem := range source.MatchValues {
-			matchValue := genruntime.ToEnum(string(matchValueItem), requestMethodMatchConditionParameters_MatchValues_Values)
-			matchValueList[matchValueIndex] = matchValue
-		}
-		parameters.MatchValues = matchValueList
-	} else {
-		parameters.MatchValues = nil
-	}
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), requestMethodMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), requestMethodMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -24119,61 +21849,6 @@ func (parameters *RequestSchemeMatchConditionParameters) AssignProperties_To_Req
 	return nil
 }
 
-// Initialize_From_RequestSchemeMatchConditionParameters_STATUS populates our RequestSchemeMatchConditionParameters from the provided source RequestSchemeMatchConditionParameters_STATUS
-func (parameters *RequestSchemeMatchConditionParameters) Initialize_From_RequestSchemeMatchConditionParameters_STATUS(source *RequestSchemeMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	if source.MatchValues != nil {
-		matchValueList := make([]RequestSchemeMatchConditionParameters_MatchValues, len(source.MatchValues))
-		for matchValueIndex, matchValueItem := range source.MatchValues {
-			matchValue := genruntime.ToEnum(string(matchValueItem), requestSchemeMatchConditionParameters_MatchValues_Values)
-			matchValueList[matchValueIndex] = matchValue
-		}
-		parameters.MatchValues = matchValueList
-	} else {
-		parameters.MatchValues = nil
-	}
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), requestSchemeMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), requestSchemeMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for RequestScheme match conditions
 type RequestSchemeMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
@@ -24576,52 +22251,6 @@ func (parameters *RequestUriMatchConditionParameters) AssignProperties_To_Reques
 	return nil
 }
 
-// Initialize_From_RequestUriMatchConditionParameters_STATUS populates our RequestUriMatchConditionParameters from the provided source RequestUriMatchConditionParameters_STATUS
-func (parameters *RequestUriMatchConditionParameters) Initialize_From_RequestUriMatchConditionParameters_STATUS(source *RequestUriMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), requestUriMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), requestUriMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for RequestUri match conditions
 type RequestUriMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
@@ -24972,45 +22601,6 @@ func (parameters *RouteConfigurationOverrideActionParameters) AssignProperties_T
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RouteConfigurationOverrideActionParameters_STATUS populates our RouteConfigurationOverrideActionParameters from the provided source RouteConfigurationOverrideActionParameters_STATUS
-func (parameters *RouteConfigurationOverrideActionParameters) Initialize_From_RouteConfigurationOverrideActionParameters_STATUS(source *RouteConfigurationOverrideActionParameters_STATUS) error {
-
-	// CacheConfiguration
-	if source.CacheConfiguration != nil {
-		var cacheConfiguration CacheConfiguration
-		err := cacheConfiguration.Initialize_From_CacheConfiguration_STATUS(source.CacheConfiguration)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CacheConfiguration_STATUS() to populate field CacheConfiguration")
-		}
-		parameters.CacheConfiguration = &cacheConfiguration
-	} else {
-		parameters.CacheConfiguration = nil
-	}
-
-	// OriginGroupOverride
-	if source.OriginGroupOverride != nil {
-		var originGroupOverride OriginGroupOverride
-		err := originGroupOverride.Initialize_From_OriginGroupOverride_STATUS(source.OriginGroupOverride)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_OriginGroupOverride_STATUS() to populate field OriginGroupOverride")
-		}
-		parameters.OriginGroupOverride = &originGroupOverride
-	} else {
-		parameters.OriginGroupOverride = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), routeConfigurationOverrideActionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -25374,52 +22964,6 @@ func (parameters *ServerPortMatchConditionParameters) AssignProperties_To_Server
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_ServerPortMatchConditionParameters_STATUS populates our ServerPortMatchConditionParameters from the provided source ServerPortMatchConditionParameters_STATUS
-func (parameters *ServerPortMatchConditionParameters) Initialize_From_ServerPortMatchConditionParameters_STATUS(source *ServerPortMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), serverPortMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), serverPortMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -25804,52 +23348,6 @@ func (parameters *SocketAddrMatchConditionParameters) AssignProperties_To_Socket
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SocketAddrMatchConditionParameters_STATUS populates our SocketAddrMatchConditionParameters from the provided source SocketAddrMatchConditionParameters_STATUS
-func (parameters *SocketAddrMatchConditionParameters) Initialize_From_SocketAddrMatchConditionParameters_STATUS(source *SocketAddrMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), socketAddrMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), socketAddrMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -26260,61 +23758,6 @@ func (parameters *SslProtocolMatchConditionParameters) AssignProperties_To_SslPr
 	return nil
 }
 
-// Initialize_From_SslProtocolMatchConditionParameters_STATUS populates our SslProtocolMatchConditionParameters from the provided source SslProtocolMatchConditionParameters_STATUS
-func (parameters *SslProtocolMatchConditionParameters) Initialize_From_SslProtocolMatchConditionParameters_STATUS(source *SslProtocolMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	if source.MatchValues != nil {
-		matchValueList := make([]SslProtocol, len(source.MatchValues))
-		for matchValueIndex, matchValueItem := range source.MatchValues {
-			matchValue := genruntime.ToEnum(string(matchValueItem), sslProtocol_Values)
-			matchValueList[matchValueIndex] = matchValue
-		}
-		parameters.MatchValues = matchValueList
-	} else {
-		parameters.MatchValues = nil
-	}
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), sslProtocolMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), sslProtocolMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for SslProtocol match conditions
 type SslProtocolMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
@@ -26717,52 +24160,6 @@ func (parameters *UrlFileExtensionMatchConditionParameters) AssignProperties_To_
 	return nil
 }
 
-// Initialize_From_UrlFileExtensionMatchConditionParameters_STATUS populates our UrlFileExtensionMatchConditionParameters from the provided source UrlFileExtensionMatchConditionParameters_STATUS
-func (parameters *UrlFileExtensionMatchConditionParameters) Initialize_From_UrlFileExtensionMatchConditionParameters_STATUS(source *UrlFileExtensionMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), urlFileExtensionMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), urlFileExtensionMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for UrlFileExtension match conditions
 type UrlFileExtensionMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
@@ -27147,52 +24544,6 @@ func (parameters *UrlFileNameMatchConditionParameters) AssignProperties_To_UrlFi
 	return nil
 }
 
-// Initialize_From_UrlFileNameMatchConditionParameters_STATUS populates our UrlFileNameMatchConditionParameters from the provided source UrlFileNameMatchConditionParameters_STATUS
-func (parameters *UrlFileNameMatchConditionParameters) Initialize_From_UrlFileNameMatchConditionParameters_STATUS(source *UrlFileNameMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), urlFileNameMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), urlFileNameMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for UrlFilename match conditions
 type UrlFileNameMatchConditionParameters_STATUS struct {
 	// MatchValues: The match value for the condition of the delivery rule
@@ -27571,52 +24922,6 @@ func (parameters *UrlPathMatchConditionParameters) AssignProperties_To_UrlPathMa
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UrlPathMatchConditionParameters_STATUS populates our UrlPathMatchConditionParameters from the provided source UrlPathMatchConditionParameters_STATUS
-func (parameters *UrlPathMatchConditionParameters) Initialize_From_UrlPathMatchConditionParameters_STATUS(source *UrlPathMatchConditionParameters_STATUS) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := genruntime.ToEnum(string(*source.Operator), urlPathMatchConditionParameters_Operator_Values)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]Transform, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			transform := genruntime.ToEnum(string(transformItem), transform_Values)
-			transformList[transformIndex] = transform
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), urlPathMatchConditionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -28061,49 +25366,6 @@ func (parameters *UrlRedirectActionParameters) AssignProperties_To_UrlRedirectAc
 	return nil
 }
 
-// Initialize_From_UrlRedirectActionParameters_STATUS populates our UrlRedirectActionParameters from the provided source UrlRedirectActionParameters_STATUS
-func (parameters *UrlRedirectActionParameters) Initialize_From_UrlRedirectActionParameters_STATUS(source *UrlRedirectActionParameters_STATUS) error {
-
-	// CustomFragment
-	parameters.CustomFragment = genruntime.ClonePointerToString(source.CustomFragment)
-
-	// CustomHostname
-	parameters.CustomHostname = genruntime.ClonePointerToString(source.CustomHostname)
-
-	// CustomPath
-	parameters.CustomPath = genruntime.ClonePointerToString(source.CustomPath)
-
-	// CustomQueryString
-	parameters.CustomQueryString = genruntime.ClonePointerToString(source.CustomQueryString)
-
-	// DestinationProtocol
-	if source.DestinationProtocol != nil {
-		destinationProtocol := genruntime.ToEnum(string(*source.DestinationProtocol), urlRedirectActionParameters_DestinationProtocol_Values)
-		parameters.DestinationProtocol = &destinationProtocol
-	} else {
-		parameters.DestinationProtocol = nil
-	}
-
-	// RedirectType
-	if source.RedirectType != nil {
-		redirectType := genruntime.ToEnum(string(*source.RedirectType), urlRedirectActionParameters_RedirectType_Values)
-		parameters.RedirectType = &redirectType
-	} else {
-		parameters.RedirectType = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), urlRedirectActionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for the url redirect action.
 type UrlRedirectActionParameters_STATUS struct {
 	// CustomFragment: Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include
@@ -28478,35 +25740,6 @@ func (parameters *UrlRewriteActionParameters) AssignProperties_To_UrlRewriteActi
 	return nil
 }
 
-// Initialize_From_UrlRewriteActionParameters_STATUS populates our UrlRewriteActionParameters from the provided source UrlRewriteActionParameters_STATUS
-func (parameters *UrlRewriteActionParameters) Initialize_From_UrlRewriteActionParameters_STATUS(source *UrlRewriteActionParameters_STATUS) error {
-
-	// Destination
-	parameters.Destination = genruntime.ClonePointerToString(source.Destination)
-
-	// PreserveUnmatchedPath
-	if source.PreserveUnmatchedPath != nil {
-		preserveUnmatchedPath := *source.PreserveUnmatchedPath
-		parameters.PreserveUnmatchedPath = &preserveUnmatchedPath
-	} else {
-		parameters.PreserveUnmatchedPath = nil
-	}
-
-	// SourcePattern
-	parameters.SourcePattern = genruntime.ClonePointerToString(source.SourcePattern)
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), urlRewriteActionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Defines the parameters for the url rewrite action.
 type UrlRewriteActionParameters_STATUS struct {
 	// Destination: Define the relative URL to which the above requests will be rewritten by.
@@ -28825,45 +26058,6 @@ func (parameters *UrlSigningActionParameters) AssignProperties_To_UrlSigningActi
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UrlSigningActionParameters_STATUS populates our UrlSigningActionParameters from the provided source UrlSigningActionParameters_STATUS
-func (parameters *UrlSigningActionParameters) Initialize_From_UrlSigningActionParameters_STATUS(source *UrlSigningActionParameters_STATUS) error {
-
-	// Algorithm
-	if source.Algorithm != nil {
-		algorithm := genruntime.ToEnum(string(*source.Algorithm), urlSigningActionParameters_Algorithm_Values)
-		parameters.Algorithm = &algorithm
-	} else {
-		parameters.Algorithm = nil
-	}
-
-	// ParameterNameOverride
-	if source.ParameterNameOverride != nil {
-		parameterNameOverrideList := make([]UrlSigningParamIdentifier, len(source.ParameterNameOverride))
-		for parameterNameOverrideIndex, parameterNameOverrideItem := range source.ParameterNameOverride {
-			var parameterNameOverride UrlSigningParamIdentifier
-			err := parameterNameOverride.Initialize_From_UrlSigningParamIdentifier_STATUS(&parameterNameOverrideItem)
-			if err != nil {
-				return eris.Wrap(err, "calling Initialize_From_UrlSigningParamIdentifier_STATUS() to populate field ParameterNameOverride")
-			}
-			parameterNameOverrideList[parameterNameOverrideIndex] = parameterNameOverride
-		}
-		parameters.ParameterNameOverride = parameterNameOverrideList
-	} else {
-		parameters.ParameterNameOverride = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := genruntime.ToEnum(string(*source.TypeName), urlSigningActionParameters_TypeName_Values)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
 	}
 
 	// No error
@@ -29214,43 +26408,6 @@ func (configuration *CacheConfiguration) AssignProperties_To_CacheConfiguration(
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_CacheConfiguration_STATUS populates our CacheConfiguration from the provided source CacheConfiguration_STATUS
-func (configuration *CacheConfiguration) Initialize_From_CacheConfiguration_STATUS(source *CacheConfiguration_STATUS) error {
-
-	// CacheBehavior
-	if source.CacheBehavior != nil {
-		cacheBehavior := genruntime.ToEnum(string(*source.CacheBehavior), cacheConfiguration_CacheBehavior_Values)
-		configuration.CacheBehavior = &cacheBehavior
-	} else {
-		configuration.CacheBehavior = nil
-	}
-
-	// CacheDuration
-	configuration.CacheDuration = genruntime.ClonePointerToString(source.CacheDuration)
-
-	// IsCompressionEnabled
-	if source.IsCompressionEnabled != nil {
-		isCompressionEnabled := genruntime.ToEnum(string(*source.IsCompressionEnabled), cacheConfiguration_IsCompressionEnabled_Values)
-		configuration.IsCompressionEnabled = &isCompressionEnabled
-	} else {
-		configuration.IsCompressionEnabled = nil
-	}
-
-	// QueryParameters
-	configuration.QueryParameters = genruntime.ClonePointerToString(source.QueryParameters)
-
-	// QueryStringCachingBehavior
-	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := genruntime.ToEnum(string(*source.QueryStringCachingBehavior), cacheConfiguration_QueryStringCachingBehavior_Values)
-		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
-	} else {
-		configuration.QueryStringCachingBehavior = nil
 	}
 
 	// No error
@@ -30060,33 +27217,6 @@ func (override *OriginGroupOverride) AssignProperties_To_OriginGroupOverride(des
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_OriginGroupOverride_STATUS populates our OriginGroupOverride from the provided source OriginGroupOverride_STATUS
-func (override *OriginGroupOverride) Initialize_From_OriginGroupOverride_STATUS(source *OriginGroupOverride_STATUS) error {
-
-	// ForwardingProtocol
-	if source.ForwardingProtocol != nil {
-		forwardingProtocol := genruntime.ToEnum(string(*source.ForwardingProtocol), originGroupOverride_ForwardingProtocol_Values)
-		override.ForwardingProtocol = &forwardingProtocol
-	} else {
-		override.ForwardingProtocol = nil
-	}
-
-	// OriginGroup
-	if source.OriginGroup != nil {
-		var originGroup ResourceReference
-		err := originGroup.Initialize_From_ResourceReference_STATUS(source.OriginGroup)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field OriginGroup")
-		}
-		override.OriginGroup = &originGroup
-	} else {
-		override.OriginGroup = nil
 	}
 
 	// No error
@@ -31558,24 +28688,6 @@ func (identifier *UrlSigningParamIdentifier) AssignProperties_To_UrlSigningParam
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UrlSigningParamIdentifier_STATUS populates our UrlSigningParamIdentifier from the provided source UrlSigningParamIdentifier_STATUS
-func (identifier *UrlSigningParamIdentifier) Initialize_From_UrlSigningParamIdentifier_STATUS(source *UrlSigningParamIdentifier_STATUS) error {
-
-	// ParamIndicator
-	if source.ParamIndicator != nil {
-		paramIndicator := genruntime.ToEnum(string(*source.ParamIndicator), urlSigningParamIdentifier_ParamIndicator_Values)
-		identifier.ParamIndicator = &paramIndicator
-	} else {
-		identifier.ParamIndicator = nil
-	}
-
-	// ParamName
-	identifier.ParamName = genruntime.ClonePointerToString(source.ParamName)
 
 	// No error
 	return nil

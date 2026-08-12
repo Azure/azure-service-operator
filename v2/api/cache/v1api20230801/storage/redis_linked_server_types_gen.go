@@ -4,8 +4,7 @@
 package storage
 
 import (
-	"fmt"
-	storage "github.com/Azure/azure-service-operator/v2/api/cache/v1api20241101/storage"
+	storage "github.com/Azure/azure-service-operator/v2/api/cache/v20230801/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -51,22 +50,36 @@ var _ conversion.Convertible = &RedisLinkedServer{}
 
 // ConvertFrom populates our RedisLinkedServer from the provided hub RedisLinkedServer
 func (server *RedisLinkedServer) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RedisLinkedServer)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20241101/storage/RedisLinkedServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RedisLinkedServer
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return server.AssignProperties_From_RedisLinkedServer(source)
+	err = server.AssignProperties_From_RedisLinkedServer(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to server")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RedisLinkedServer from our RedisLinkedServer
 func (server *RedisLinkedServer) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RedisLinkedServer)
-	if !ok {
-		return fmt.Errorf("expected cache/v1api20241101/storage/RedisLinkedServer but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RedisLinkedServer
+	err := server.AssignProperties_To_RedisLinkedServer(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from server")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return server.AssignProperties_To_RedisLinkedServer(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RedisLinkedServer{}
@@ -356,13 +369,6 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_From_Redis_LinkedServe
 	// ServerRole
 	server.ServerRole = genruntime.ClonePointerToString(source.ServerRole)
 
-	// SystemData
-	if source.SystemData != nil {
-		propertyBag.Add("SystemData", *source.SystemData)
-	} else {
-		propertyBag.Remove("SystemData")
-	}
-
 	// Type
 	server.Type = genruntime.ClonePointerToString(source.Type)
 
@@ -417,19 +423,6 @@ func (server *Redis_LinkedServer_STATUS) AssignProperties_To_Redis_LinkedServer_
 
 	// ServerRole
 	destination.ServerRole = genruntime.ClonePointerToString(server.ServerRole)
-
-	// SystemData
-	if propertyBag.Contains("SystemData") {
-		var systemDatum storage.SystemData_STATUS
-		err := propertyBag.Pull("SystemData", &systemDatum)
-		if err != nil {
-			return eris.Wrap(err, "pulling 'SystemData' from propertyBag")
-		}
-
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(server.Type)

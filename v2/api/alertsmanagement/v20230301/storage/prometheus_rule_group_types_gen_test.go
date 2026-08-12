@@ -19,6 +19,11 @@ import (
 
 func Test_PrometheusRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -105,6 +110,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRule(gens map[string]gopter.Gen) {
 
 func Test_PrometheusRuleGroup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -167,6 +177,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRuleGroup(gens map[string]gopter.G
 
 func Test_PrometheusRuleGroupAction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -230,6 +245,11 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction(gens map[strin
 
 func Test_PrometheusRuleGroupAction_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -294,6 +314,11 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleGroupAction_STATUS(gens ma
 
 func Test_PrometheusRuleGroupOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -349,6 +374,11 @@ func PrometheusRuleGroupOperatorSpecGenerator() gopter.Gen {
 
 func Test_PrometheusRuleGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -436,6 +466,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRuleGroup_STATUS(gens map[string]g
 
 func Test_PrometheusRuleGroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -521,6 +556,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRuleGroup_Spec(gens map[string]gop
 
 func Test_PrometheusRuleResolveConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -583,6 +623,11 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration(gens 
 
 func Test_PrometheusRuleResolveConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -645,6 +690,11 @@ func AddIndependentPropertyGeneratorsForPrometheusRuleResolveConfiguration_STATU
 
 func Test_PrometheusRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -732,6 +782,11 @@ func AddRelatedPropertyGeneratorsForPrometheusRule_STATUS(gens map[string]gopter
 
 func Test_SystemData_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

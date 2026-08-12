@@ -235,7 +235,8 @@ func (set TypeDefinitionSet) AddAllAllowDuplicates(otherDefinitions []TypeDefini
 
 // Where returns a new set of types including only those that satisfy the predicate
 func (set TypeDefinitionSet) Where(predicate func(definition TypeDefinition) bool) TypeDefinitionSet {
-	result := make(TypeDefinitionSet)
+	// Best-effort capacity: the result is at most as large as the source.
+	result := make(TypeDefinitionSet, len(set))
 	for _, t := range set {
 		if predicate(t) {
 			result[t.Name()] = t
@@ -268,14 +269,21 @@ func (set TypeDefinitionSet) Contains(name InternalTypeName) bool {
 // OverlayWith creates a new set containing all the type definitions from both this and the provided set. Any name
 // collisions are resolved in favour of the provided set. Returns a new independent set, leaving the original unmodified.
 func (set TypeDefinitionSet) OverlayWith(t TypeDefinitionSet) TypeDefinitionSet {
-	result := t.Copy()
-	result.AddTypes(set.Except(t))
+	// Single-pass merge: pre-allocate to the upper bound and copy both maps in.
+	// Entries from `t` overwrite entries from `set` to preserve the documented semantics.
+	result := make(TypeDefinitionSet, len(set)+len(t))
+	for k, v := range set {
+		result[k] = v
+	}
+	for k, v := range t {
+		result[k] = v
+	}
 	return result
 }
 
 // Names returns the names of all types in the set
 func (set TypeDefinitionSet) Names() TypeNameSet {
-	result := NewTypeNameSet()
+	result := make(TypeNameSet, len(set))
 	for name := range set {
 		result.Add(name)
 	}
@@ -293,8 +301,10 @@ func TypesDisjointUnion(s1 TypeDefinitionSet, s2 TypeDefinitionSet) TypeDefiniti
 
 // Copy makes an independent copy of this set of types
 func (set TypeDefinitionSet) Copy() TypeDefinitionSet {
-	result := make(TypeDefinitionSet)
-	result.AddTypes(set)
+	result := make(TypeDefinitionSet, len(set))
+	for name, def := range set {
+		result[name] = def
+	}
 	return result
 }
 
@@ -398,7 +408,7 @@ func (set TypeDefinitionSet) ResolveResourceSpecAndStatus(resourceDef TypeDefini
 // Only definitions returned by the func will be included in the results of the function. The func may return a nil
 // TypeDefinition if it doesn't want to include anything in the output set.
 func (set TypeDefinitionSet) Process(transformation func(definition TypeDefinition) (*TypeDefinition, error)) (TypeDefinitionSet, error) {
-	result := make(TypeDefinitionSet)
+	result := make(TypeDefinitionSet, len(set))
 
 	for _, def := range set {
 		d, err := transformation(def)

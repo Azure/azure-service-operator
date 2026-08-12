@@ -420,9 +420,6 @@ type ManagedClusterAADProfile_STATUS struct {
 	// ServerAppID: (DEPRECATED) The server AAD application ID. Learn more at https://aka.ms/aks/aad-legacy.
 	ServerAppID *string `json:"serverAppID,omitempty"`
 
-	// ServerAppSecret: (DEPRECATED) The server AAD application secret. Learn more at https://aka.ms/aks/aad-legacy.
-	ServerAppSecret *string `json:"serverAppSecret,omitempty"`
-
 	// TenantID: The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment
 	// subscription.
 	TenantID *string `json:"tenantID,omitempty"`
@@ -812,6 +809,7 @@ type ManagedClusterMetricsProfile_STATUS struct {
 	CostAnalysis *ManagedClusterCostAnalysis_STATUS `json:"costAnalysis,omitempty"`
 }
 
+// Node provisioning profile for the managed cluster.
 type ManagedClusterNodeProvisioningProfile_STATUS struct {
 	// DefaultNodePools: The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no
 	// effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default
@@ -1077,6 +1075,7 @@ type ManagedClusterWorkloadAutoScalerProfile_STATUS struct {
 	VerticalPodAutoscaler *ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler_STATUS `json:"verticalPodAutoscaler,omitempty"`
 }
 
+// User assigned identity properties.
 type ManagedServiceIdentityUserAssignedIdentitiesValue_STATUS struct {
 	// ClientId: The client id of user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -1099,7 +1098,7 @@ type PrivateLinkResource_STATUS struct {
 	// Id: The ID of the private link resource.
 	Id *string `json:"id,omitempty"`
 
-	// Name: The name of the private link resource.
+	// Name: The name of the private link resource. See [naming rules](https://aka.ms/search-naming-rules) for more details.
 	Name *string `json:"name,omitempty"`
 
 	// PrivateLinkServiceID: The private link service ID of the resource, this field is exposed only to NRP internally.
@@ -1499,6 +1498,7 @@ type ManagedClusterIngressProfileApplicationLoadBalancer_STATUS struct {
 	Identity *UserAssignedIdentity_STATUS `json:"identity,omitempty"`
 }
 
+// Configuration for the ingress managed gateway. See https://aka.ms/k8s-gateway-api for more details.
 type ManagedClusterIngressProfileGatewayConfiguration_STATUS struct {
 	// Installation: Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See
 	// https://aka.ms/k8s-gateway-api for more details.
@@ -1600,7 +1600,9 @@ type ManagedClusterPodIdentity_STATUS struct {
 	Name *string `json:"name,omitempty"`
 
 	// Namespace: The namespace of the pod identity.
-	Namespace        *string                                           `json:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty"`
+
+	// ProvisioningInfo: The provisioning information for the pod identity.
 	ProvisioningInfo *ManagedClusterPodIdentityProvisioningInfo_STATUS `json:"provisioningInfo,omitempty"`
 
 	// ProvisioningState: The current provisioning state of the pod identity.
@@ -2082,6 +2084,7 @@ type ManagedClusterAzureMonitorProfileKubeStateMetrics_STATUS struct {
 	MetricLabelsAllowlist *string `json:"metricLabelsAllowlist,omitempty"`
 }
 
+// Default domain profile for the managed cluster ingress profile.
 type ManagedClusterIngressDefaultDomainProfile_STATUS struct {
 	// DomainName: The unique fully qualified domain name assigned to the cluster. This will not change even if disabled then
 	// reenabled.
@@ -2091,6 +2094,7 @@ type ManagedClusterIngressDefaultDomainProfile_STATUS struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
+// Nginx ingress controller configuration for the managed cluster ingress profile.
 type ManagedClusterIngressProfileNginx_STATUS struct {
 	// DefaultIngressControllerType: Ingress type for the default NginxIngressController custom resource
 	DefaultIngressControllerType *NginxIngressControllerType_STATUS `json:"defaultIngressControllerType,omitempty"`
@@ -2152,6 +2156,7 @@ type ManagedClusterManagedOutboundIPProfile_STATUS struct {
 	Count *int `json:"count,omitempty"`
 }
 
+// Pod identity provisioning information.
 type ManagedClusterPodIdentityProvisioningInfo_STATUS struct {
 	// Error: Pod identity assignment error (if any).
 	Error *ManagedClusterPodIdentityProvisioningError_STATUS `json:"error,omitempty"`
@@ -2366,6 +2371,7 @@ type ManagedClusterPodIdentityProvisioningError_STATUS struct {
 	Error *ManagedClusterPodIdentityProvisioningErrorBody_STATUS `json:"error,omitempty"`
 }
 
+// Identity information used by Defender security gating to access container registries.
 type ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem_STATUS struct {
 	// AzureContainerRegistry: The container registry for which the identity will be used; the identity specified here should
 	// have a federated identity credential attached to it.

@@ -51,22 +51,36 @@ var _ conversion.Convertible = &RuleSet{}
 
 // ConvertFrom populates our RuleSet from the provided hub RuleSet
 func (ruleSet *RuleSet) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.RuleSet)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/RuleSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.RuleSet
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return ruleSet.AssignProperties_From_RuleSet(source)
+	err = ruleSet.AssignProperties_From_RuleSet(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to ruleSet")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub RuleSet from our RuleSet
 func (ruleSet *RuleSet) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.RuleSet)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/RuleSet but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.RuleSet
+	err := ruleSet.AssignProperties_To_RuleSet(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from ruleSet")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return ruleSet.AssignProperties_To_RuleSet(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &RuleSet{}
@@ -87,17 +101,6 @@ func (ruleSet *RuleSet) SecretDestinationExpressions() []*core.DestinationExpres
 		return nil
 	}
 	return ruleSet.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &RuleSet{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (ruleSet *RuleSet) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*RuleSet_STATUS); ok {
-		return ruleSet.Spec.Initialize_From_RuleSet_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type RuleSet_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &RuleSet{}
@@ -420,13 +423,6 @@ func (ruleSet *RuleSet_Spec) AssignProperties_To_RuleSet_Spec(destination *stora
 	} else {
 		destination.PropertyBag = nil
 	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_RuleSet_STATUS populates our RuleSet_Spec from the provided source RuleSet_STATUS
-func (ruleSet *RuleSet_Spec) Initialize_From_RuleSet_STATUS(source *RuleSet_STATUS) error {
 
 	// No error
 	return nil

@@ -26,7 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionRuleAssociations_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json
 // - ARM URI: /{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}
 type DataCollectionRuleAssociation struct {
 	metav1.TypeMeta   `json:",inline"`
@@ -237,7 +237,7 @@ func (association *DataCollectionRuleAssociation) OriginalGVK() *schema.GroupVer
 
 // +kubebuilder:object:root=true
 // Generator information:
-// - Generated from: /monitor/resource-manager/Microsoft.Insights/stable/2024-03-11/dataCollectionRuleAssociations_API.json
+// - Generated from: /monitor/resource-manager/Microsoft.Insights/Insights/stable/2024-03-11/dataCollection.json
 // - ARM URI: /{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}
 type DataCollectionRuleAssociationList struct {
 	metav1.TypeMeta `json:",inline"`
@@ -561,22 +561,23 @@ type DataCollectionRuleAssociationProxyOnlyResource_STATUS struct {
 	// Etag: Resource entity tag (ETag).
 	Etag *string `json:"etag,omitempty"`
 
-	// Id: Fully qualified ID of the resource.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Metadata: Metadata about the resource
 	Metadata *Metadata_STATUS `json:"metadata,omitempty"`
 
-	// Name: The name of the resource.
+	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
 	// ProvisioningState: The resource provisioning state.
-	ProvisioningState *DataCollectionRuleAssociation_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+	ProvisioningState *KnownDataCollectionRuleAssociationProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
+	// SystemData: Azure Resource Manager metadata containing createdBy and modifiedBy information.
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
-	// Type: The type of the resource.
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
 }
 
@@ -711,7 +712,7 @@ func (resource *DataCollectionRuleAssociationProxyOnlyResource_STATUS) PopulateF
 		if typedInput.Properties.ProvisioningState != nil {
 			var temp string
 			temp = string(*typedInput.Properties.ProvisioningState)
-			provisioningState := DataCollectionRuleAssociation_ProvisioningState_STATUS(temp)
+			provisioningState := KnownDataCollectionRuleAssociationProvisioningState_STATUS(temp)
 			resource.ProvisioningState = &provisioningState
 		}
 	}
@@ -776,7 +777,7 @@ func (resource *DataCollectionRuleAssociationProxyOnlyResource_STATUS) AssignPro
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := *source.ProvisioningState
-		provisioningStateTemp := genruntime.ToEnum(provisioningState, dataCollectionRuleAssociation_ProvisioningState_STATUS_Values)
+		provisioningStateTemp := genruntime.ToEnum(provisioningState, knownDataCollectionRuleAssociationProvisioningState_STATUS_Values)
 		resource.ProvisioningState = &provisioningStateTemp
 	} else {
 		resource.ProvisioningState = nil
@@ -873,27 +874,6 @@ func (resource *DataCollectionRuleAssociationProxyOnlyResource_STATUS) AssignPro
 	return nil
 }
 
-type DataCollectionRuleAssociation_ProvisioningState_STATUS string
-
-const (
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Canceled  = DataCollectionRuleAssociation_ProvisioningState_STATUS("Canceled")
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Creating  = DataCollectionRuleAssociation_ProvisioningState_STATUS("Creating")
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Deleting  = DataCollectionRuleAssociation_ProvisioningState_STATUS("Deleting")
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Failed    = DataCollectionRuleAssociation_ProvisioningState_STATUS("Failed")
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Succeeded = DataCollectionRuleAssociation_ProvisioningState_STATUS("Succeeded")
-	DataCollectionRuleAssociation_ProvisioningState_STATUS_Updating  = DataCollectionRuleAssociation_ProvisioningState_STATUS("Updating")
-)
-
-// Mapping from string to DataCollectionRuleAssociation_ProvisioningState_STATUS
-var dataCollectionRuleAssociation_ProvisioningState_STATUS_Values = map[string]DataCollectionRuleAssociation_ProvisioningState_STATUS{
-	"canceled":  DataCollectionRuleAssociation_ProvisioningState_STATUS_Canceled,
-	"creating":  DataCollectionRuleAssociation_ProvisioningState_STATUS_Creating,
-	"deleting":  DataCollectionRuleAssociation_ProvisioningState_STATUS_Deleting,
-	"failed":    DataCollectionRuleAssociation_ProvisioningState_STATUS_Failed,
-	"succeeded": DataCollectionRuleAssociation_ProvisioningState_STATUS_Succeeded,
-	"updating":  DataCollectionRuleAssociation_ProvisioningState_STATUS_Updating,
-}
-
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DataCollectionRuleAssociationOperatorSpec struct {
 	// ConfigMapExpressions: configures where to place operator written dynamic ConfigMaps (created with CEL expressions).
@@ -988,6 +968,28 @@ func (operator *DataCollectionRuleAssociationOperatorSpec) AssignProperties_To_D
 
 	// No error
 	return nil
+}
+
+// The resource provisioning state.
+type KnownDataCollectionRuleAssociationProvisioningState_STATUS string
+
+const (
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Canceled  = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Canceled")
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Creating  = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Creating")
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Deleting  = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Deleting")
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Failed    = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Failed")
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Succeeded = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Succeeded")
+	KnownDataCollectionRuleAssociationProvisioningState_STATUS_Updating  = KnownDataCollectionRuleAssociationProvisioningState_STATUS("Updating")
+)
+
+// Mapping from string to KnownDataCollectionRuleAssociationProvisioningState_STATUS
+var knownDataCollectionRuleAssociationProvisioningState_STATUS_Values = map[string]KnownDataCollectionRuleAssociationProvisioningState_STATUS{
+	"canceled":  KnownDataCollectionRuleAssociationProvisioningState_STATUS_Canceled,
+	"creating":  KnownDataCollectionRuleAssociationProvisioningState_STATUS_Creating,
+	"deleting":  KnownDataCollectionRuleAssociationProvisioningState_STATUS_Deleting,
+	"failed":    KnownDataCollectionRuleAssociationProvisioningState_STATUS_Failed,
+	"succeeded": KnownDataCollectionRuleAssociationProvisioningState_STATUS_Succeeded,
+	"updating":  KnownDataCollectionRuleAssociationProvisioningState_STATUS_Updating,
 }
 
 func init() {

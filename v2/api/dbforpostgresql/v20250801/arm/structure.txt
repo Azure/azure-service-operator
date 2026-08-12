@@ -65,11 +65,13 @@ FlexibleServer_STATUS: Object (9 properties)
 │   │   │   ├── "SameZone"
 │   │   │   └── "ZoneRedundant"
 │   │   ├── StandbyAvailabilityZone: *string
-│   │   └── State: *Enum (6 values)
+│   │   └── State: *Enum (8 values)
+│   │       ├── "ComputeUpdatingByFailover"
 │   │       ├── "CreatingStandby"
 │   │       ├── "FailingOver"
 │   │       ├── "Healthy"
 │   │       ├── "NotEnabled"
+│   │       ├── "RecreatingStandby"
 │   │       ├── "RemovingStandby"
 │   │       └── "ReplicatingData"
 │   ├── MaintenanceWindow: *Object (4 properties)

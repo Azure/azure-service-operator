@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Secret{}
 
 // ConvertFrom populates our Secret from the provided hub Secret
 func (secret *Secret) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Secret)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/Secret but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Secret
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return secret.AssignProperties_From_Secret(source)
+	err = secret.AssignProperties_From_Secret(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to secret")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Secret from our Secret
 func (secret *Secret) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Secret)
-	if !ok {
-		return fmt.Errorf("expected cdn/v1api20230501/storage/Secret but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Secret
+	err := secret.AssignProperties_To_Secret(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from secret")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return secret.AssignProperties_To_Secret(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Secret{}
@@ -87,17 +101,6 @@ func (secret *Secret) SecretDestinationExpressions() []*core.DestinationExpressi
 		return nil
 	}
 	return secret.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Secret{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (secret *Secret) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Secret_STATUS); ok {
-		return secret.Spec.Initialize_From_Secret_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Secret_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Secret{}
@@ -473,25 +476,6 @@ func (secret *Secret_Spec) AssignProperties_To_Secret_Spec(destination *storage.
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Secret_STATUS populates our Secret_Spec from the provided source Secret_STATUS
-func (secret *Secret_Spec) Initialize_From_Secret_STATUS(source *Secret_STATUS) error {
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter SecretParameters
-		err := parameter.Initialize_From_SecretParameters_STATUS(source.Parameters)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SecretParameters_STATUS() to populate field Parameters")
-		}
-		secret.Parameters = &parameter
-	} else {
-		secret.Parameters = nil
 	}
 
 	// No error
@@ -1152,61 +1136,6 @@ func (parameters *SecretParameters) AssignProperties_To_SecretParameters(destina
 	return nil
 }
 
-// Initialize_From_SecretParameters_STATUS populates our SecretParameters from the provided source SecretParameters_STATUS
-func (parameters *SecretParameters) Initialize_From_SecretParameters_STATUS(source *SecretParameters_STATUS) error {
-
-	// AzureFirstPartyManagedCertificate
-	if source.AzureFirstPartyManagedCertificate != nil {
-		var azureFirstPartyManagedCertificate AzureFirstPartyManagedCertificateParameters
-		err := azureFirstPartyManagedCertificate.Initialize_From_AzureFirstPartyManagedCertificateParameters_STATUS(source.AzureFirstPartyManagedCertificate)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_AzureFirstPartyManagedCertificateParameters_STATUS() to populate field AzureFirstPartyManagedCertificate")
-		}
-		parameters.AzureFirstPartyManagedCertificate = &azureFirstPartyManagedCertificate
-	} else {
-		parameters.AzureFirstPartyManagedCertificate = nil
-	}
-
-	// CustomerCertificate
-	if source.CustomerCertificate != nil {
-		var customerCertificate CustomerCertificateParameters
-		err := customerCertificate.Initialize_From_CustomerCertificateParameters_STATUS(source.CustomerCertificate)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_CustomerCertificateParameters_STATUS() to populate field CustomerCertificate")
-		}
-		parameters.CustomerCertificate = &customerCertificate
-	} else {
-		parameters.CustomerCertificate = nil
-	}
-
-	// ManagedCertificate
-	if source.ManagedCertificate != nil {
-		var managedCertificate ManagedCertificateParameters
-		err := managedCertificate.Initialize_From_ManagedCertificateParameters_STATUS(source.ManagedCertificate)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ManagedCertificateParameters_STATUS() to populate field ManagedCertificate")
-		}
-		parameters.ManagedCertificate = &managedCertificate
-	} else {
-		parameters.ManagedCertificate = nil
-	}
-
-	// UrlSigningKey
-	if source.UrlSigningKey != nil {
-		var urlSigningKey UrlSigningKeyParameters
-		err := urlSigningKey.Initialize_From_UrlSigningKeyParameters_STATUS(source.UrlSigningKey)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_UrlSigningKeyParameters_STATUS() to populate field UrlSigningKey")
-		}
-		parameters.UrlSigningKey = &urlSigningKey
-	} else {
-		parameters.UrlSigningKey = nil
-	}
-
-	// No error
-	return nil
-}
-
 type SecretParameters_STATUS struct {
 	// AzureFirstPartyManagedCertificate: Mutually exclusive with all other properties
 	AzureFirstPartyManagedCertificate *AzureFirstPartyManagedCertificateParameters_STATUS `json:"azureFirstPartyManagedCertificate,omitempty"`
@@ -1539,24 +1468,6 @@ func (parameters *AzureFirstPartyManagedCertificateParameters) AssignProperties_
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_AzureFirstPartyManagedCertificateParameters_STATUS populates our AzureFirstPartyManagedCertificateParameters from the provided source AzureFirstPartyManagedCertificateParameters_STATUS
-func (parameters *AzureFirstPartyManagedCertificateParameters) Initialize_From_AzureFirstPartyManagedCertificateParameters_STATUS(source *AzureFirstPartyManagedCertificateParameters_STATUS) error {
-
-	// SubjectAlternativeNames
-	parameters.SubjectAlternativeNames = genruntime.CloneSliceOfString(source.SubjectAlternativeNames)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), azureFirstPartyManagedCertificateParameters_Type_Values)
-		parameters.Type = &typeVar
-	} else {
-		parameters.Type = nil
 	}
 
 	// No error
@@ -1953,47 +1864,6 @@ func (parameters *CustomerCertificateParameters) AssignProperties_To_CustomerCer
 	return nil
 }
 
-// Initialize_From_CustomerCertificateParameters_STATUS populates our CustomerCertificateParameters from the provided source CustomerCertificateParameters_STATUS
-func (parameters *CustomerCertificateParameters) Initialize_From_CustomerCertificateParameters_STATUS(source *CustomerCertificateParameters_STATUS) error {
-
-	// SecretSource
-	if source.SecretSource != nil {
-		var secretSource ResourceReference
-		err := secretSource.Initialize_From_ResourceReference_STATUS(source.SecretSource)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field SecretSource")
-		}
-		parameters.SecretSource = &secretSource
-	} else {
-		parameters.SecretSource = nil
-	}
-
-	// SecretVersion
-	parameters.SecretVersion = genruntime.ClonePointerToString(source.SecretVersion)
-
-	// SubjectAlternativeNames
-	parameters.SubjectAlternativeNames = genruntime.CloneSliceOfString(source.SubjectAlternativeNames)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), customerCertificateParameters_Type_Values)
-		parameters.Type = &typeVar
-	} else {
-		parameters.Type = nil
-	}
-
-	// UseLatestVersion
-	if source.UseLatestVersion != nil {
-		useLatestVersion := *source.UseLatestVersion
-		parameters.UseLatestVersion = &useLatestVersion
-	} else {
-		parameters.UseLatestVersion = nil
-	}
-
-	// No error
-	return nil
-}
-
 type CustomerCertificateParameters_STATUS struct {
 	// CertificateAuthority: Certificate issuing authority.
 	CertificateAuthority *string `json:"certificateAuthority,omitempty"`
@@ -2303,21 +2173,6 @@ func (parameters *ManagedCertificateParameters) AssignProperties_To_ManagedCerti
 	return nil
 }
 
-// Initialize_From_ManagedCertificateParameters_STATUS populates our ManagedCertificateParameters from the provided source ManagedCertificateParameters_STATUS
-func (parameters *ManagedCertificateParameters) Initialize_From_ManagedCertificateParameters_STATUS(source *ManagedCertificateParameters_STATUS) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), managedCertificateParameters_Type_Values)
-		parameters.Type = &typeVar
-	} else {
-		parameters.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ManagedCertificateParameters_STATUS struct {
 	// ExpirationDate: Certificate expiration date.
 	ExpirationDate *string `json:"expirationDate,omitempty"`
@@ -2592,39 +2447,6 @@ func (parameters *UrlSigningKeyParameters) AssignProperties_To_UrlSigningKeyPara
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_UrlSigningKeyParameters_STATUS populates our UrlSigningKeyParameters from the provided source UrlSigningKeyParameters_STATUS
-func (parameters *UrlSigningKeyParameters) Initialize_From_UrlSigningKeyParameters_STATUS(source *UrlSigningKeyParameters_STATUS) error {
-
-	// KeyId
-	parameters.KeyId = genruntime.ClonePointerToString(source.KeyId)
-
-	// SecretSource
-	if source.SecretSource != nil {
-		var secretSource ResourceReference
-		err := secretSource.Initialize_From_ResourceReference_STATUS(source.SecretSource)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_ResourceReference_STATUS() to populate field SecretSource")
-		}
-		parameters.SecretSource = &secretSource
-	} else {
-		parameters.SecretSource = nil
-	}
-
-	// SecretVersion
-	parameters.SecretVersion = genruntime.ClonePointerToString(source.SecretVersion)
-
-	// Type
-	if source.Type != nil {
-		typeVar := genruntime.ToEnum(string(*source.Type), urlSigningKeyParameters_Type_Values)
-		parameters.Type = &typeVar
-	} else {
-		parameters.Type = nil
 	}
 
 	// No error

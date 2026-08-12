@@ -19,6 +19,11 @@ import (
 
 func Test_KeyVaultSecretReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -94,6 +99,11 @@ func AddRelatedPropertyGeneratorsForKeyVaultSecretReference(gens map[string]gopt
 
 func Test_KeyVaultSecretReference_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -169,6 +179,11 @@ func AddRelatedPropertyGeneratorsForKeyVaultSecretReference_STATUS(gens map[stri
 
 func Test_VirtualMachineScaleSetsExtension_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -231,6 +246,11 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension(gens map[st
 
 func Test_VirtualMachineScaleSetsExtensionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -286,6 +306,11 @@ func VirtualMachineScaleSetsExtensionOperatorSpecGenerator() gopter.Gen {
 
 func Test_VirtualMachineScaleSetsExtension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -372,6 +397,11 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsExtension_STATUS(gens
 
 func Test_VirtualMachineScaleSetsExtension_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

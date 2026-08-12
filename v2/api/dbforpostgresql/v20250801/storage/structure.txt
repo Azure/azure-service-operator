@@ -193,8 +193,9 @@ FlexibleServer: Resource
 
 FlexibleServersAdministrator: Resource
 ├── Owner: dbforpostgresql/v20250801.FlexibleServer
-├── Spec: Object (10 properties)
+├── Spec: Object (11 properties)
 │   ├── AzureName: string
+│   ├── AzureNameFromConfig: *genruntime.ConfigMapReference
 │   ├── OperatorSpec: *Object (3 properties)
 │   │   ├── ConfigMapExpressions: *core.DestinationExpression[]
 │   │   ├── PropertyBag: genruntime.PropertyBag

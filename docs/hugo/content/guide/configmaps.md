@@ -120,7 +120,7 @@ operatorSpec:
       name: identity-settings
       key: principalId
       annotations:
-        reflector.v1/reflection-allowed: "true"
+        my-annotation: foo
       labels:
         app: myapp
 ```
@@ -133,7 +133,7 @@ operatorSpec:
       key: principalId
       value: self.status.principalId
       annotations:
-        reflector.v1/reflection-allowed: '"true"'  # Static string value (CEL expression)
+        my-annotation: '"foo"' # Static string value (CEL expression)
       labels:
         principal-id: self.status.principalId  # Dynamic value from resource status
 ```

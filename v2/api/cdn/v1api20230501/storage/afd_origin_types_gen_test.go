@@ -5,6 +5,7 @@ package storage
 
 import (
 	"encoding/json"
+	storage "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -17,8 +18,108 @@ import (
 	"testing"
 )
 
+func Test_AfdOrigin_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOrigin to hub returns original",
+		prop.ForAll(RunResourceConversionTestForAfdOrigin, AfdOriginGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForAfdOrigin tests if a specific instance of AfdOrigin round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForAfdOrigin(subject AfdOrigin) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub storage.AfdOrigin
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual AfdOrigin
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_AfdOrigin_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOrigin to AfdOrigin via AssignProperties_To_AfdOrigin & AssignProperties_From_AfdOrigin returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOrigin, AfdOriginGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdOrigin tests if a specific instance of AfdOrigin can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOrigin(subject AfdOrigin) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdOrigin
+	err := copied.AssignProperties_To_AfdOrigin(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdOrigin
+	err = actual.AssignProperties_From_AfdOrigin(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AfdOrigin_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -78,8 +179,60 @@ func AddRelatedPropertyGeneratorsForAfdOrigin(gens map[string]gopter.Gen) {
 	gens["Status"] = AfdOrigin_STATUSGenerator()
 }
 
+func Test_AfdOriginOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOriginOperatorSpec to AfdOriginOperatorSpec via AssignProperties_To_AfdOriginOperatorSpec & AssignProperties_From_AfdOriginOperatorSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOriginOperatorSpec, AfdOriginOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdOriginOperatorSpec tests if a specific instance of AfdOriginOperatorSpec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOriginOperatorSpec(subject AfdOriginOperatorSpec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdOriginOperatorSpec
+	err := copied.AssignProperties_To_AfdOriginOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdOriginOperatorSpec
+	err = actual.AssignProperties_From_AfdOriginOperatorSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AfdOriginOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -133,8 +286,60 @@ func AfdOriginOperatorSpecGenerator() gopter.Gen {
 	return afdOriginOperatorSpecGenerator
 }
 
+func Test_AfdOrigin_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOrigin_STATUS to AfdOrigin_STATUS via AssignProperties_To_AfdOrigin_STATUS & AssignProperties_From_AfdOrigin_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOrigin_STATUS, AfdOrigin_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdOrigin_STATUS tests if a specific instance of AfdOrigin_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOrigin_STATUS(subject AfdOrigin_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdOrigin_STATUS
+	err := copied.AssignProperties_To_AfdOrigin_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdOrigin_STATUS
+	err = actual.AssignProperties_From_AfdOrigin_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AfdOrigin_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -222,8 +427,60 @@ func AddRelatedPropertyGeneratorsForAfdOrigin_STATUS(gens map[string]gopter.Gen)
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
+func Test_AfdOrigin_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from AfdOrigin_Spec to AfdOrigin_Spec via AssignProperties_To_AfdOrigin_Spec & AssignProperties_From_AfdOrigin_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAfdOrigin_Spec, AfdOrigin_SpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForAfdOrigin_Spec tests if a specific instance of AfdOrigin_Spec can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForAfdOrigin_Spec(subject AfdOrigin_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.AfdOrigin_Spec
+	err := copied.AssignProperties_To_AfdOrigin_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual AfdOrigin_Spec
+	err = actual.AssignProperties_From_AfdOrigin_Spec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_AfdOrigin_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -307,8 +564,60 @@ func AddRelatedPropertyGeneratorsForAfdOrigin_Spec(gens map[string]gopter.Gen) {
 	gens["SharedPrivateLinkResource"] = gen.PtrOf(SharedPrivateLinkResourcePropertiesGenerator())
 }
 
+func Test_SharedPrivateLinkResourceProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SharedPrivateLinkResourceProperties to SharedPrivateLinkResourceProperties via AssignProperties_To_SharedPrivateLinkResourceProperties & AssignProperties_From_SharedPrivateLinkResourceProperties returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSharedPrivateLinkResourceProperties, SharedPrivateLinkResourcePropertiesGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSharedPrivateLinkResourceProperties tests if a specific instance of SharedPrivateLinkResourceProperties can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSharedPrivateLinkResourceProperties(subject SharedPrivateLinkResourceProperties) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SharedPrivateLinkResourceProperties
+	err := copied.AssignProperties_To_SharedPrivateLinkResourceProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SharedPrivateLinkResourceProperties
+	err = actual.AssignProperties_From_SharedPrivateLinkResourceProperties(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SharedPrivateLinkResourceProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -385,8 +694,60 @@ func AddRelatedPropertyGeneratorsForSharedPrivateLinkResourceProperties(gens map
 	gens["PrivateLink"] = gen.PtrOf(ResourceReferenceGenerator())
 }
 
+func Test_SharedPrivateLinkResourceProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from SharedPrivateLinkResourceProperties_STATUS to SharedPrivateLinkResourceProperties_STATUS via AssignProperties_To_SharedPrivateLinkResourceProperties_STATUS & AssignProperties_From_SharedPrivateLinkResourceProperties_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSharedPrivateLinkResourceProperties_STATUS, SharedPrivateLinkResourceProperties_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSharedPrivateLinkResourceProperties_STATUS tests if a specific instance of SharedPrivateLinkResourceProperties_STATUS can be assigned to storage and back losslessly
+func RunPropertyAssignmentTestForSharedPrivateLinkResourceProperties_STATUS(subject SharedPrivateLinkResourceProperties_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other storage.SharedPrivateLinkResourceProperties_STATUS
+	err := copied.AssignProperties_To_SharedPrivateLinkResourceProperties_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual SharedPrivateLinkResourceProperties_STATUS
+	err = actual.AssignProperties_From_SharedPrivateLinkResourceProperties_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_SharedPrivateLinkResourceProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

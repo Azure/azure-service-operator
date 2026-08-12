@@ -26,6 +26,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	"github.com/Azure/azure-service-operator/v2/internal/crdmanagement"
+	asolabels "github.com/Azure/azure-service-operator/v2/pkg/common/labels"
 )
 
 type Cleaner struct {
@@ -64,7 +65,11 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		c.log.Info("Starting update")
 	}
 
-	appLabelRequirement, err := labels.NewRequirement(crdmanagement.ServiceOperatorAppLabel, selection.Equals, []string{crdmanagement.ServiceOperatorAppValue})
+	appLabelRequirement, err := labels.NewRequirement(
+		asolabels.ServiceOperatorAppLabel,
+		selection.Equals,
+		[]string{asolabels.ServiceOperatorAppValue},
+	)
 	if err != nil {
 		return err
 	}
@@ -75,7 +80,11 @@ func (c *Cleaner) Run(ctx context.Context) error {
 		return eris.Wrap(err, "failed to list CRDs")
 	}
 
-	versionLabelRequirement, err := labels.NewRequirement(crdmanagement.ServiceOperatorVersionLabelOld, selection.Exists, []string{})
+	versionLabelRequirement, err := labels.NewRequirement(
+		asolabels.ServiceOperatorVersionLabelOld,
+		selection.Exists,
+		[]string{},
+	)
 	if err != nil {
 		return err
 	}

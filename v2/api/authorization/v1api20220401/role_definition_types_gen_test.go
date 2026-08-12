@@ -5,7 +5,8 @@ package v1api20220401
 
 import (
 	"encoding/json"
-	storage "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	authorization_v1api20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v1api20220401/storage"
+	authorization_v20220401s "github.com/Azure/azure-service-operator/v2/api/authorization/v20220401/storage"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"github.com/kr/pretty"
@@ -20,6 +21,11 @@ import (
 
 func Test_Permission_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -35,7 +41,7 @@ func RunPropertyAssignmentTestForPermission(subject Permission) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Permission
+	var other authorization_v1api20220401s.Permission
 	err := copied.AssignProperties_To_Permission(&other)
 	if err != nil {
 		return err.Error()
@@ -62,6 +68,11 @@ func RunPropertyAssignmentTestForPermission(subject Permission) string {
 
 func Test_Permission_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -125,6 +136,11 @@ func AddIndependentPropertyGeneratorsForPermission(gens map[string]gopter.Gen) {
 
 func Test_Permission_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -140,7 +156,7 @@ func RunPropertyAssignmentTestForPermission_STATUS(subject Permission_STATUS) st
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.Permission_STATUS
+	var other authorization_v1api20220401s.Permission_STATUS
 	err := copied.AssignProperties_To_Permission_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -167,6 +183,11 @@ func RunPropertyAssignmentTestForPermission_STATUS(subject Permission_STATUS) st
 
 func Test_Permission_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -230,6 +251,11 @@ func AddIndependentPropertyGeneratorsForPermission_STATUS(gens map[string]gopter
 
 func Test_RoleDefinition_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	parameters.MinSuccessfulTests = 10
@@ -246,7 +272,7 @@ func RunResourceConversionTestForRoleDefinition(subject RoleDefinition) string {
 	copied := subject.DeepCopy()
 
 	// Convert to our hub version
-	var hub storage.RoleDefinition
+	var hub authorization_v20220401s.RoleDefinition
 	err := copied.ConvertTo(&hub)
 	if err != nil {
 		return err.Error()
@@ -273,6 +299,11 @@ func RunResourceConversionTestForRoleDefinition(subject RoleDefinition) string {
 
 func Test_RoleDefinition_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -288,7 +319,7 @@ func RunPropertyAssignmentTestForRoleDefinition(subject RoleDefinition) string {
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinition
+	var other authorization_v1api20220401s.RoleDefinition
 	err := copied.AssignProperties_To_RoleDefinition(&other)
 	if err != nil {
 		return err.Error()
@@ -315,6 +346,11 @@ func RunPropertyAssignmentTestForRoleDefinition(subject RoleDefinition) string {
 
 func Test_RoleDefinition_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -376,6 +412,11 @@ func AddRelatedPropertyGeneratorsForRoleDefinition(gens map[string]gopter.Gen) {
 
 func Test_RoleDefinitionOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -391,7 +432,7 @@ func RunPropertyAssignmentTestForRoleDefinitionOperatorSpec(subject RoleDefiniti
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinitionOperatorSpec
+	var other authorization_v1api20220401s.RoleDefinitionOperatorSpec
 	err := copied.AssignProperties_To_RoleDefinitionOperatorSpec(&other)
 	if err != nil {
 		return err.Error()
@@ -418,6 +459,11 @@ func RunPropertyAssignmentTestForRoleDefinitionOperatorSpec(subject RoleDefiniti
 
 func Test_RoleDefinitionOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -479,6 +525,11 @@ func AddIndependentPropertyGeneratorsForRoleDefinitionOperatorSpec(gens map[stri
 
 func Test_RoleDefinition_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -494,7 +545,7 @@ func RunPropertyAssignmentTestForRoleDefinition_STATUS(subject RoleDefinition_ST
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinition_STATUS
+	var other authorization_v1api20220401s.RoleDefinition_STATUS
 	err := copied.AssignProperties_To_RoleDefinition_STATUS(&other)
 	if err != nil {
 		return err.Error()
@@ -521,6 +572,11 @@ func RunPropertyAssignmentTestForRoleDefinition_STATUS(subject RoleDefinition_ST
 
 func Test_RoleDefinition_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -606,6 +662,11 @@ func AddRelatedPropertyGeneratorsForRoleDefinition_STATUS(gens map[string]gopter
 
 func Test_RoleDefinition_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -621,7 +682,7 @@ func RunPropertyAssignmentTestForRoleDefinition_Spec(subject RoleDefinition_Spec
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other storage.RoleDefinition_Spec
+	var other authorization_v1api20220401s.RoleDefinition_Spec
 	err := copied.AssignProperties_To_RoleDefinition_Spec(&other)
 	if err != nil {
 		return err.Error()
@@ -648,6 +709,11 @@ func RunPropertyAssignmentTestForRoleDefinition_Spec(subject RoleDefinition_Spec
 
 func Test_RoleDefinition_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

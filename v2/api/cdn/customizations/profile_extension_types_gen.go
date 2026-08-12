@@ -4,10 +4,14 @@
 package customizations
 
 import (
-	v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
-	v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
-	v20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
-	v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v1api20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601"
+	cdn_v1api20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20210601/storage"
+	cdn_v1api20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501"
+	cdn_v1api20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v1api20230501/storage"
+	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v20210601"
+	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v20210601/storage"
+	cdn_v20230501 "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501"
+	cdn_v20230501s "github.com/Azure/azure-service-operator/v2/api/cdn/v20230501/storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -17,8 +21,12 @@ type ProfileExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ProfileExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v20210601.Profile{},
-		&v20210601s.Profile{},
-		&v20230501.Profile{},
-		&v20230501s.Profile{}}
+		&cdn_v1api20210601.Profile{},
+		&cdn_v1api20210601s.Profile{},
+		&cdn_v1api20230501.Profile{},
+		&cdn_v1api20230501s.Profile{},
+		&cdn_v20210601.Profile{},
+		&cdn_v20210601s.Profile{},
+		&cdn_v20230501.Profile{},
+		&cdn_v20230501s.Profile{}}
 }

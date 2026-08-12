@@ -46,7 +46,7 @@ func (factory *Factory_Spec) GetType() string {
 // Identity properties of the factory resource.
 type FactoryIdentity struct {
 	// Type: The identity type.
-	Type                   *FactoryIdentity_Type                  `json:"type,omitempty"`
+	Type                   *FactoryIdentityType                   `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentityDetails `json:"userAssignedIdentities,omitempty"`
 }
 
@@ -59,7 +59,7 @@ type FactoryProperties struct {
 	GlobalParameters map[string]GlobalParameterSpecification `json:"globalParameters,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public network access is allowed for the data factory.
-	PublicNetworkAccess *FactoryProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// PurviewConfiguration: Purview information of the factory.
 	PurviewConfiguration *PurviewConfiguration `json:"purviewConfiguration,omitempty"`
@@ -84,34 +84,21 @@ type EncryptionConfiguration struct {
 	VaultBaseUrl *string `json:"vaultBaseUrl,omitempty"`
 }
 
+// The identity type.
 // +kubebuilder:validation:Enum={"SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
-type FactoryIdentity_Type string
+type FactoryIdentityType string
 
 const (
-	FactoryIdentity_Type_SystemAssigned             = FactoryIdentity_Type("SystemAssigned")
-	FactoryIdentity_Type_SystemAssignedUserAssigned = FactoryIdentity_Type("SystemAssigned,UserAssigned")
-	FactoryIdentity_Type_UserAssigned               = FactoryIdentity_Type("UserAssigned")
+	FactoryIdentityType_SystemAssigned             = FactoryIdentityType("SystemAssigned")
+	FactoryIdentityType_SystemAssignedUserAssigned = FactoryIdentityType("SystemAssigned,UserAssigned")
+	FactoryIdentityType_UserAssigned               = FactoryIdentityType("UserAssigned")
 )
 
-// Mapping from string to FactoryIdentity_Type
-var factoryIdentity_Type_Values = map[string]FactoryIdentity_Type{
-	"systemassigned":              FactoryIdentity_Type_SystemAssigned,
-	"systemassigned,userassigned": FactoryIdentity_Type_SystemAssignedUserAssigned,
-	"userassigned":                FactoryIdentity_Type_UserAssigned,
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type FactoryProperties_PublicNetworkAccess string
-
-const (
-	FactoryProperties_PublicNetworkAccess_Disabled = FactoryProperties_PublicNetworkAccess("Disabled")
-	FactoryProperties_PublicNetworkAccess_Enabled  = FactoryProperties_PublicNetworkAccess("Enabled")
-)
-
-// Mapping from string to FactoryProperties_PublicNetworkAccess
-var factoryProperties_PublicNetworkAccess_Values = map[string]FactoryProperties_PublicNetworkAccess{
-	"disabled": FactoryProperties_PublicNetworkAccess_Disabled,
-	"enabled":  FactoryProperties_PublicNetworkAccess_Enabled,
+// Mapping from string to FactoryIdentityType
+var factoryIdentityType_Values = map[string]FactoryIdentityType{
+	"systemassigned":              FactoryIdentityType_SystemAssigned,
+	"systemassigned,userassigned": FactoryIdentityType_SystemAssignedUserAssigned,
+	"userassigned":                FactoryIdentityType_UserAssigned,
 }
 
 type FactoryRepoConfiguration struct {
@@ -159,10 +146,25 @@ func (configuration *FactoryRepoConfiguration) UnmarshalJSON(data []byte) error 
 // Definition of a single parameter for an entity.
 type GlobalParameterSpecification struct {
 	// Type: Global Parameter type.
-	Type *GlobalParameterSpecification_Type `json:"type,omitempty"`
+	Type *GlobalParameterType `json:"type,omitempty"`
 
 	// Value: Value of parameter.
 	Value map[string]v1.JSON `json:"value,omitempty"`
+}
+
+// Whether or not public network access is allowed for the data factory.
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type PublicNetworkAccess string
+
+const (
+	PublicNetworkAccess_Disabled = PublicNetworkAccess("Disabled")
+	PublicNetworkAccess_Enabled  = PublicNetworkAccess("Enabled")
+)
+
+// Mapping from string to PublicNetworkAccess
+var publicNetworkAccess_Values = map[string]PublicNetworkAccess{
+	"disabled": PublicNetworkAccess_Disabled,
+	"enabled":  PublicNetworkAccess_Enabled,
 }
 
 // Purview configuration.
@@ -242,26 +244,27 @@ type FactoryVSTSConfiguration struct {
 	Type FactoryVSTSConfiguration_Type `json:"type,omitempty"`
 }
 
+// Global Parameter type.
 // +kubebuilder:validation:Enum={"Array","Bool","Float","Int","Object","String"}
-type GlobalParameterSpecification_Type string
+type GlobalParameterType string
 
 const (
-	GlobalParameterSpecification_Type_Array  = GlobalParameterSpecification_Type("Array")
-	GlobalParameterSpecification_Type_Bool   = GlobalParameterSpecification_Type("Bool")
-	GlobalParameterSpecification_Type_Float  = GlobalParameterSpecification_Type("Float")
-	GlobalParameterSpecification_Type_Int    = GlobalParameterSpecification_Type("Int")
-	GlobalParameterSpecification_Type_Object = GlobalParameterSpecification_Type("Object")
-	GlobalParameterSpecification_Type_String = GlobalParameterSpecification_Type("String")
+	GlobalParameterType_Array  = GlobalParameterType("Array")
+	GlobalParameterType_Bool   = GlobalParameterType("Bool")
+	GlobalParameterType_Float  = GlobalParameterType("Float")
+	GlobalParameterType_Int    = GlobalParameterType("Int")
+	GlobalParameterType_Object = GlobalParameterType("Object")
+	GlobalParameterType_String = GlobalParameterType("String")
 )
 
-// Mapping from string to GlobalParameterSpecification_Type
-var globalParameterSpecification_Type_Values = map[string]GlobalParameterSpecification_Type{
-	"array":  GlobalParameterSpecification_Type_Array,
-	"bool":   GlobalParameterSpecification_Type_Bool,
-	"float":  GlobalParameterSpecification_Type_Float,
-	"int":    GlobalParameterSpecification_Type_Int,
-	"object": GlobalParameterSpecification_Type_Object,
-	"string": GlobalParameterSpecification_Type_String,
+// Mapping from string to GlobalParameterType
+var globalParameterType_Values = map[string]GlobalParameterType{
+	"array":  GlobalParameterType_Array,
+	"bool":   GlobalParameterType_Bool,
+	"float":  GlobalParameterType_Float,
+	"int":    GlobalParameterType_Int,
+	"object": GlobalParameterType_Object,
+	"string": GlobalParameterType_String,
 }
 
 // +kubebuilder:validation:Enum={"FactoryGitHubConfiguration"}

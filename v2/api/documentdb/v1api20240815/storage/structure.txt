@@ -1084,3 +1084,5 @@ SqlRoleAssignment: Resource
     ├── Scope: *string
     └── Type: *string
 
+augmentConversionForSystemData_STATUS: Interface
+

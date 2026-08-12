@@ -10,7 +10,7 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	sql "github.com/Azure/azure-service-operator/v2/api/sql/v1api20211101"
+	sql "github.com/Azure/azure-service-operator/v2/api/sql/v20211101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"

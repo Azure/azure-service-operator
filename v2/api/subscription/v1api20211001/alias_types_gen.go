@@ -51,22 +51,36 @@ var _ conversion.Convertible = &Alias{}
 
 // ConvertFrom populates our Alias from the provided hub Alias
 func (alias *Alias) ConvertFrom(hub conversion.Hub) error {
-	source, ok := hub.(*storage.Alias)
-	if !ok {
-		return fmt.Errorf("expected subscription/v1api20211001/storage/Alias but received %T instead", hub)
+	// intermediate variable for conversion
+	var source storage.Alias
+
+	err := source.ConvertFrom(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from hub to source")
 	}
 
-	return alias.AssignProperties_From_Alias(source)
+	err = alias.AssignProperties_From_Alias(&source)
+	if err != nil {
+		return eris.Wrap(err, "converting from source to alias")
+	}
+
+	return nil
 }
 
 // ConvertTo populates the provided hub Alias from our Alias
 func (alias *Alias) ConvertTo(hub conversion.Hub) error {
-	destination, ok := hub.(*storage.Alias)
-	if !ok {
-		return fmt.Errorf("expected subscription/v1api20211001/storage/Alias but received %T instead", hub)
+	// intermediate variable for conversion
+	var destination storage.Alias
+	err := alias.AssignProperties_To_Alias(&destination)
+	if err != nil {
+		return eris.Wrap(err, "converting to destination from alias")
+	}
+	err = destination.ConvertTo(hub)
+	if err != nil {
+		return eris.Wrap(err, "converting from destination to hub")
 	}
 
-	return alias.AssignProperties_To_Alias(destination)
+	return nil
 }
 
 var _ configmaps.Exporter = &Alias{}
@@ -87,17 +101,6 @@ func (alias *Alias) SecretDestinationExpressions() []*core.DestinationExpression
 		return nil
 	}
 	return alias.Spec.OperatorSpec.SecretExpressions
-}
-
-var _ genruntime.ImportableResource = &Alias{}
-
-// InitializeSpec initializes the spec for this resource from the given status
-func (alias *Alias) InitializeSpec(status genruntime.ConvertibleStatus) error {
-	if s, ok := status.(*Alias_STATUS); ok {
-		return alias.Spec.Initialize_From_Alias_STATUS(s)
-	}
-
-	return fmt.Errorf("expected Status of type Alias_STATUS but received %T instead", status)
 }
 
 var _ genruntime.KubernetesResource = &Alias{}
@@ -434,25 +437,6 @@ func (alias *Alias_Spec) AssignProperties_To_Alias_Spec(destination *storage.Ali
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_Alias_STATUS populates our Alias_Spec from the provided source Alias_STATUS
-func (alias *Alias_Spec) Initialize_From_Alias_STATUS(source *Alias_STATUS) error {
-
-	// Properties
-	if source.Properties != nil {
-		var property PutAliasRequestProperties
-		err := property.Initialize_From_SubscriptionAliasResponseProperties_STATUS(source.Properties)
-		if err != nil {
-			return eris.Wrap(err, "calling Initialize_From_SubscriptionAliasResponseProperties_STATUS() to populate field Properties")
-		}
-		alias.Properties = &property
-	} else {
-		alias.Properties = nil
 	}
 
 	// No error
@@ -1006,33 +990,6 @@ func (properties *PutAliasRequestProperties) AssignProperties_To_PutAliasRequest
 		destination.PropertyBag = propertyBag
 	} else {
 		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Initialize_From_SubscriptionAliasResponseProperties_STATUS populates our PutAliasRequestProperties from the provided source SubscriptionAliasResponseProperties_STATUS
-func (properties *PutAliasRequestProperties) Initialize_From_SubscriptionAliasResponseProperties_STATUS(source *SubscriptionAliasResponseProperties_STATUS) error {
-
-	// BillingScope
-	properties.BillingScope = genruntime.ClonePointerToString(source.BillingScope)
-
-	// DisplayName
-	properties.DisplayName = genruntime.ClonePointerToString(source.DisplayName)
-
-	// ResellerId
-	properties.ResellerId = genruntime.ClonePointerToString(source.ResellerId)
-
-	// SubscriptionId
-	properties.SubscriptionId = genruntime.ClonePointerToString(source.SubscriptionId)
-
-	// Workload
-	if source.Workload != nil {
-		workload := genruntime.ToEnum(string(*source.Workload), workload_Values)
-		properties.Workload = &workload
-	} else {
-		properties.Workload = nil
 	}
 
 	// No error

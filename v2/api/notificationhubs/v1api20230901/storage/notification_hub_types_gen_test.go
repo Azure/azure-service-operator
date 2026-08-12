@@ -19,6 +19,11 @@ import (
 
 func Test_AdmCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -79,6 +84,11 @@ func AddRelatedPropertyGeneratorsForAdmCredential(gens map[string]gopter.Gen) {
 
 func Test_AdmCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -134,6 +144,11 @@ func AdmCredentialPropertiesGenerator() gopter.Gen {
 
 func Test_AdmCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -189,6 +204,11 @@ func AdmCredentialProperties_STATUSGenerator() gopter.Gen {
 
 func Test_AdmCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -250,6 +270,11 @@ func AddRelatedPropertyGeneratorsForAdmCredential_STATUS(gens map[string]gopter.
 
 func Test_ApnsCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -310,6 +335,11 @@ func AddRelatedPropertyGeneratorsForApnsCredential(gens map[string]gopter.Gen) {
 
 func Test_ApnsCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -365,6 +395,11 @@ func ApnsCredentialPropertiesGenerator() gopter.Gen {
 
 func Test_ApnsCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -420,6 +455,11 @@ func ApnsCredentialProperties_STATUSGenerator() gopter.Gen {
 
 func Test_ApnsCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -481,6 +521,11 @@ func AddRelatedPropertyGeneratorsForApnsCredential_STATUS(gens map[string]gopter
 
 func Test_BaiduCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -541,6 +586,11 @@ func AddRelatedPropertyGeneratorsForBaiduCredential(gens map[string]gopter.Gen) 
 
 func Test_BaiduCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -596,6 +646,11 @@ func BaiduCredentialPropertiesGenerator() gopter.Gen {
 
 func Test_BaiduCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -651,6 +706,11 @@ func BaiduCredentialProperties_STATUSGenerator() gopter.Gen {
 
 func Test_BaiduCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -712,6 +772,11 @@ func AddRelatedPropertyGeneratorsForBaiduCredential_STATUS(gens map[string]gopte
 
 func Test_BrowserCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -772,6 +837,11 @@ func AddRelatedPropertyGeneratorsForBrowserCredential(gens map[string]gopter.Gen
 
 func Test_BrowserCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -827,6 +897,11 @@ func BrowserCredentialPropertiesGenerator() gopter.Gen {
 
 func Test_BrowserCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -882,6 +957,11 @@ func BrowserCredentialProperties_STATUSGenerator() gopter.Gen {
 
 func Test_BrowserCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -943,6 +1023,11 @@ func AddRelatedPropertyGeneratorsForBrowserCredential_STATUS(gens map[string]gop
 
 func Test_GcmCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1003,6 +1088,11 @@ func AddRelatedPropertyGeneratorsForGcmCredential(gens map[string]gopter.Gen) {
 
 func Test_GcmCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1058,6 +1148,11 @@ func GcmCredentialPropertiesGenerator() gopter.Gen {
 
 func Test_GcmCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1113,6 +1208,11 @@ func GcmCredentialProperties_STATUSGenerator() gopter.Gen {
 
 func Test_GcmCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1174,6 +1274,11 @@ func AddRelatedPropertyGeneratorsForGcmCredential_STATUS(gens map[string]gopter.
 
 func Test_MpnsCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1234,6 +1339,11 @@ func AddRelatedPropertyGeneratorsForMpnsCredential(gens map[string]gopter.Gen) {
 
 func Test_MpnsCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1289,6 +1399,11 @@ func MpnsCredentialPropertiesGenerator() gopter.Gen {
 
 func Test_MpnsCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1344,6 +1459,11 @@ func MpnsCredentialProperties_STATUSGenerator() gopter.Gen {
 
 func Test_MpnsCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1405,6 +1525,11 @@ func AddRelatedPropertyGeneratorsForMpnsCredential_STATUS(gens map[string]gopter
 
 func Test_NotificationHub_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 20
 	parameters.MaxSize = 3
@@ -1466,6 +1591,11 @@ func AddRelatedPropertyGeneratorsForNotificationHub(gens map[string]gopter.Gen) 
 
 func Test_NotificationHubOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1521,6 +1651,11 @@ func NotificationHubOperatorSecretsGenerator() gopter.Gen {
 
 func Test_NotificationHubOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1582,6 +1717,11 @@ func AddRelatedPropertyGeneratorsForNotificationHubOperatorSpec(gens map[string]
 
 func Test_NotificationHubProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1665,6 +1805,11 @@ func AddRelatedPropertyGeneratorsForNotificationHubProperties(gens map[string]go
 
 func Test_NotificationHubProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1750,6 +1895,11 @@ func AddRelatedPropertyGeneratorsForNotificationHubProperties_STATUS(gens map[st
 
 func Test_NotificationHub_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1833,6 +1983,11 @@ func AddRelatedPropertyGeneratorsForNotificationHub_STATUS(gens map[string]gopte
 
 func Test_NotificationHub_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1915,6 +2070,11 @@ func AddRelatedPropertyGeneratorsForNotificationHub_Spec(gens map[string]gopter.
 
 func Test_WnsCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -1975,6 +2135,11 @@ func AddRelatedPropertyGeneratorsForWnsCredential(gens map[string]gopter.Gen) {
 
 func Test_WnsCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2030,6 +2195,11 @@ func WnsCredentialPropertiesGenerator() gopter.Gen {
 
 func Test_WnsCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2085,6 +2255,11 @@ func WnsCredentialProperties_STATUSGenerator() gopter.Gen {
 
 func Test_WnsCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2146,6 +2321,11 @@ func AddRelatedPropertyGeneratorsForWnsCredential_STATUS(gens map[string]gopter.
 
 func Test_XiaomiCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2206,6 +2386,11 @@ func AddRelatedPropertyGeneratorsForXiaomiCredential(gens map[string]gopter.Gen)
 
 func Test_XiaomiCredentialProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 100
 	parameters.MaxSize = 3
@@ -2261,6 +2446,11 @@ func XiaomiCredentialPropertiesGenerator() gopter.Gen {
 
 func Test_XiaomiCredentialProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2316,6 +2506,11 @@ func XiaomiCredentialProperties_STATUSGenerator() gopter.Gen {
 
 func Test_XiaomiCredential_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

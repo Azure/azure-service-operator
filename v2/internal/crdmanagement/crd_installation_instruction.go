@@ -14,9 +14,10 @@ import (
 type DiffResult string
 
 const (
-	NoDifference     = DiffResult("NoDifference")
-	SpecDifferent    = DiffResult("SpecDifferent")
-	VersionDifferent = DiffResult("VersionDifferent")
+	NoDifference      = DiffResult("NoDifference")
+	SpecDifferent     = DiffResult("SpecDifferent")
+	VersionDifferent  = DiffResult("VersionDifferent")
+	MetadataDifferent = DiffResult("MetadataDifferent")
 )
 
 func (i DiffResult) DiffReason(crd apiextensions.CustomResourceDefinition) string {
@@ -27,6 +28,8 @@ func (i DiffResult) DiffReason(crd apiextensions.CustomResourceDefinition) strin
 		return fmt.Sprintf("The spec was different between existing and goal CRD %q", makeMatchString(crd))
 	case VersionDifferent:
 		return fmt.Sprintf("The version was different between existing and goal CRD %q", makeMatchString(crd))
+	case MetadataDifferent:
+		return fmt.Sprintf("The metadata was different between existing and goal CRD %q", makeMatchString(crd))
 	default:
 		return fmt.Sprintf("Unknown DiffResult %q", i)
 	}

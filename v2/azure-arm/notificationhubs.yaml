@@ -7,6 +7,7 @@ typeTransformers:
     property: PrimaryKey;SecondaryKey
     remove: true
     because: This property should be marked readonly
+
 groupModelConfiguration:
   2023-09-01:
     Namespace:

@@ -19,6 +19,11 @@ import (
 
 func Test_AADAuthTypeWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -201,6 +206,11 @@ func AddIndependentPropertyGeneratorsForAADAuthTypeWorkspaceConnectionProperties
 
 func Test_AccessKeyAuthTypeWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -397,6 +407,11 @@ func AddRelatedPropertyGeneratorsForAccessKeyAuthTypeWorkspaceConnectionProperti
 
 func Test_AccountKeyAuthTypeWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -593,6 +608,11 @@ func AddRelatedPropertyGeneratorsForAccountKeyAuthTypeWorkspaceConnectionPropert
 
 func Test_ApiKeyAuthWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -789,6 +809,11 @@ func AddRelatedPropertyGeneratorsForApiKeyAuthWorkspaceConnectionProperties_STAT
 
 func Test_CustomKeysWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -985,6 +1010,11 @@ func AddRelatedPropertyGeneratorsForCustomKeysWorkspaceConnectionProperties_STAT
 
 func Test_CustomKeys_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1047,6 +1077,11 @@ func AddIndependentPropertyGeneratorsForCustomKeys_STATUS(gens map[string]gopter
 
 func Test_ManagedIdentityAuthTypeWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1243,6 +1278,11 @@ func AddRelatedPropertyGeneratorsForManagedIdentityAuthTypeWorkspaceConnectionPr
 
 func Test_NoneAuthTypeWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1425,6 +1465,11 @@ func AddIndependentPropertyGeneratorsForNoneAuthTypeWorkspaceConnectionPropertie
 
 func Test_OAuth2AuthTypeWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1621,6 +1666,11 @@ func AddRelatedPropertyGeneratorsForOAuth2AuthTypeWorkspaceConnectionProperties_
 
 func Test_PATAuthTypeWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -1817,6 +1867,11 @@ func AddRelatedPropertyGeneratorsForPATAuthTypeWorkspaceConnectionProperties_STA
 
 func Test_SASAuthTypeWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2013,6 +2068,11 @@ func AddRelatedPropertyGeneratorsForSASAuthTypeWorkspaceConnectionProperties_STA
 
 func Test_ServicePrincipalAuthTypeWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2209,6 +2269,11 @@ func AddRelatedPropertyGeneratorsForServicePrincipalAuthTypeWorkspaceConnectionP
 
 func Test_UsernamePasswordAuthTypeWorkspaceConnectionProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2405,6 +2470,11 @@ func AddRelatedPropertyGeneratorsForUsernamePasswordAuthTypeWorkspaceConnectionP
 
 func Test_WorkspaceConnectionAccessKey_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2466,6 +2536,11 @@ func AddIndependentPropertyGeneratorsForWorkspaceConnectionAccessKey_STATUS(gens
 
 func Test_WorkspaceConnectionAccountKey_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2521,6 +2596,11 @@ func WorkspaceConnectionAccountKey_STATUSGenerator() gopter.Gen {
 
 func Test_WorkspaceConnectionApiKey_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2576,6 +2656,11 @@ func WorkspaceConnectionApiKey_STATUSGenerator() gopter.Gen {
 
 func Test_WorkspaceConnectionManagedIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2638,6 +2723,11 @@ func AddIndependentPropertyGeneratorsForWorkspaceConnectionManagedIdentity_STATU
 
 func Test_WorkspaceConnectionOAuth2_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2702,6 +2792,11 @@ func AddIndependentPropertyGeneratorsForWorkspaceConnectionOAuth2_STATUS(gens ma
 
 func Test_WorkspaceConnectionPersonalAccessToken_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2757,6 +2852,11 @@ func WorkspaceConnectionPersonalAccessToken_STATUSGenerator() gopter.Gen {
 
 func Test_WorkspaceConnectionPropertiesV2_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2860,6 +2960,11 @@ func AddRelatedPropertyGeneratorsForWorkspaceConnectionPropertiesV2_STATUS(gens 
 
 func Test_WorkspaceConnectionServicePrincipal_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2922,6 +3027,11 @@ func AddIndependentPropertyGeneratorsForWorkspaceConnectionServicePrincipal_STAT
 
 func Test_WorkspaceConnectionSharedAccessSignature_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -2977,6 +3087,11 @@ func WorkspaceConnectionSharedAccessSignature_STATUSGenerator() gopter.Gen {
 
 func Test_WorkspaceConnectionUsernamePassword_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3
@@ -3038,6 +3153,11 @@ func AddIndependentPropertyGeneratorsForWorkspaceConnectionUsernamePassword_STAT
 
 func Test_WorkspacesConnection_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
+
+	if testing.Short() {
+		return
+	}
+
 	parameters := gopter.DefaultTestParameters()
 	parameters.MinSuccessfulTests = 80
 	parameters.MaxSize = 3

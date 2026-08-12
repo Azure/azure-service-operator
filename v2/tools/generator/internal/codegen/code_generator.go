@@ -8,13 +8,13 @@ package codegen
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"runtime/debug"
 	"time"
 
 	"github.com/go-logr/logr"
 	"github.com/rotisserie/eris"
 
-	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -194,6 +194,7 @@ func createAllPipelineStages(
 		pipeline.PruneResourcesWithLifecycleOwnedByParent(configuration).UsedFor(pipeline.ARMTarget),
 		pipeline.MakeOneOfDiscriminantRequired().UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyARMConversionInterface(idFactory, configuration.ObjectModelConfiguration).UsedFor(pipeline.ARMTarget),
+		pipeline.AddAzureNameFromConfig(configuration, idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ApplyKubernetesResourceInterface(idFactory, log).UsedFor(pipeline.ARMTarget),
 
 		// Effects the "flatten" property of Properties:
@@ -230,6 +231,7 @@ func createAllPipelineStages(
 		pipeline.CreateConversionGraph(configuration).UsedFor(pipeline.ARMTarget),
 
 		pipeline.InjectOriginalVersionProperty().UsedFor(pipeline.ARMTarget),
+		pipeline.InjectAzureNameFromConfigMethod(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentFunctions(configuration, idFactory, log).UsedFor(pipeline.ARMTarget),
 		pipeline.ImplementConvertibleSpecInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.ImplementConvertibleStatusInterface(idFactory).UsedFor(pipeline.ARMTarget),
@@ -269,7 +271,7 @@ func createAllPipelineStages(
 	}
 }
 
-// Generate produces the Go code corresponding to the configured JSON schema in the given output folder
+// Generate produces the Go code for the configured resources in the given output folder
 // ctx is used to cancel the generation process.
 // log is used to log progress.
 func (generator *CodeGenerator) Generate(
@@ -277,8 +279,7 @@ func (generator *CodeGenerator) Generate(
 	log logr.Logger,
 ) error {
 	log.V(1).Info(
-		"ASO Code Generator",
-		"version", version.BuildVersion,
+		"ASO Code Generator, running...",
 	)
 
 	if generator.debugSettings != nil {
@@ -325,16 +326,39 @@ func (generator *CodeGenerator) logStateChanges(
 ) {
 	duration := time.Since(start).Round(time.Millisecond)
 
-	defsAdded := newState.Definitions().Except(state.Definitions())
-	defsRemoved := state.Definitions().Except(newState.Definitions())
+	// Count added/removed definitions without allocating intermediate sets. Map identity
+	// short-circuit handles the very common case where the stage did not touch the
+	// definitions map at all.
+	added, removed := countDefinitionChanges(newState.Definitions(), state.Definitions())
 
 	log.Info(
 		stageDescription,
 		"elapsed", duration,
-		"added", len(defsAdded),
-		"removed", len(defsRemoved),
+		"added", added,
+		"removed", removed,
 		"totalDefs", len(newState.Definitions()),
 	)
+}
+
+// countDefinitionChanges returns the number of definitions added and removed when going
+// from the "before" set to the "after" set, without allocating any intermediate sets.
+// If both sets share the same underlying map (the common no-change case), the work is O(1).
+func countDefinitionChanges(after, before astmodel.TypeDefinitionSet) (added, removed int) {
+	if reflect.ValueOf(after).Pointer() == reflect.ValueOf(before).Pointer() {
+		return 0, 0
+	}
+
+	for name := range after {
+		if _, ok := before[name]; !ok {
+			added++
+		}
+	}
+	for name := range before {
+		if _, ok := after[name]; !ok {
+			removed++
+		}
+	}
+	return added, removed
 }
 
 // executeStage runs the given stage against the given state, returning the new state.
