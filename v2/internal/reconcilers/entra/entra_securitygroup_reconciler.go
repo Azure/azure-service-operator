@@ -30,6 +30,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/to"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/configmaps"
@@ -70,6 +71,7 @@ func (r *EntraSecurityGroupReconciler) CreateOrUpdate(
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
+	_ annotations.ReconcilePolicies,
 ) (ctrl.Result, error) {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {
@@ -317,6 +319,7 @@ func (r *EntraSecurityGroupReconciler) UpdateStatus(
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
+	_ annotations.ReconcilePolicies,
 ) error {
 	group, err := r.asSecurityGroup(obj)
 	if err != nil {

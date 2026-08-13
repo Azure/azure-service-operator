@@ -240,12 +240,12 @@ func (gr *GenericReconciler) createOrUpdate(ctx context.Context, log logr.Logger
 	reconcilePolicies := gr.mergeReconcilePolicy(ctx, log, metaObj)
 	ctx = reconcilers.WithReconcilePolicies(ctx, reconcilePolicies)
 	if !reconcilePolicies.Effective.AllowsModify() {
-		return ctrl.Result{}, gr.handleSkipReconcile(ctx, log, metaObj)
+		return ctrl.Result{}, gr.handleSkipReconcile(ctx, log, metaObj, reconcilePolicies)
 	}
 
 	conditions.SetCondition(metaObj, gr.PositiveConditions.Ready.Reconciling(metaObj.GetGeneration()))
 
-	return gr.Reconciler.CreateOrUpdate(ctx, log, gr.Recorder, metaObj)
+	return gr.Reconciler.CreateOrUpdate(ctx, log, gr.Recorder, metaObj, reconcilePolicies)
 }
 
 func (gr *GenericReconciler) delete(ctx context.Context, log logr.Logger, metaObj genruntime.MetaObject) (ctrl.Result, error) {
@@ -356,13 +356,19 @@ func (gr *GenericReconciler) CommitUpdate(
 	return nil
 }
 
-func (gr *GenericReconciler) handleSkipReconcile(ctx context.Context, log logr.Logger, obj genruntime.MetaObject) error {
+func (gr *GenericReconciler) handleSkipReconcile(
+	ctx context.Context,
+	log logr.Logger,
+	obj genruntime.MetaObject,
+	reconcilePolicies annotations.ReconcilePolicies,
+) error {
 	log.V(Status).Info(
 		"Skipping creation/update of resource due to policy",
-		annotations.ReconcilePolicy, reconcilers.ReconcilePolicyFromContext(ctx),
+		annotations.ReconcilePolicy,
+		reconcilePolicies.Effective,
 	)
 
-	err := gr.Reconciler.UpdateStatus(ctx, log, gr.Recorder, obj)
+	err := gr.Reconciler.UpdateStatus(ctx, log, gr.Recorder, obj, reconcilePolicies)
 	if err != nil {
 		return err
 	}

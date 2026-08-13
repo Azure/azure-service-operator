@@ -19,6 +19,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	asocel "github.com/Azure/azure-service-operator/v2/internal/util/cel"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
@@ -126,6 +127,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
+	_ annotations.ReconcilePolicies,
 ) (ctrl.Result, error) {
 	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {
@@ -182,6 +184,7 @@ func (r *AzureDeploymentReconciler) UpdateStatus(
 	log logr.Logger,
 	eventRecorder record.EventRecorder,
 	obj genruntime.MetaObject,
+	_ annotations.ReconcilePolicies,
 ) error {
 	instance, err := r.makeInstance(ctx, log, eventRecorder, obj)
 	if err != nil {

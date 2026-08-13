@@ -9,18 +9,23 @@ import (
 	"context"
 	"testing"
 
+	"github.com/benbjohnson/clock"
 	. "github.com/onsi/gomega"
 
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/client-go/tools/record"
+	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
 // Inherited decides whether a resource other than the one being reconciled may be touched, so unlike the
@@ -103,6 +108,129 @@ func Test_MergeReconcilePolicy_givenAnnotations_returnsExpectedPolicies(t *testi
 
 			g.Expect(policies.Effective).To(Equal(c.expectedEffective))
 			g.Expect(policies.Inherited).To(Equal(c.expectedInherited))
+		})
+	}
+}
+
+type policyRecordingReconciler struct {
+	createOrUpdatePolicies *annotations.ReconcilePolicies
+	updateStatusPolicies   *annotations.ReconcilePolicies
+}
+
+func (r *policyRecordingReconciler) CreateOrUpdate(
+	_ context.Context,
+	_ logr.Logger,
+	_ record.EventRecorder,
+	_ genruntime.MetaObject,
+	policies annotations.ReconcilePolicies,
+) (ctrl.Result, error) {
+	r.createOrUpdatePolicies = &policies
+	return ctrl.Result{}, nil
+}
+
+func (*policyRecordingReconciler) Delete(
+	_ context.Context,
+	_ logr.Logger,
+	_ record.EventRecorder,
+	_ genruntime.MetaObject,
+) (ctrl.Result, error) {
+	return ctrl.Result{}, nil
+}
+
+func (*policyRecordingReconciler) Claim(
+	_ context.Context,
+	_ logr.Logger,
+	_ record.EventRecorder,
+	_ genruntime.MetaObject,
+) error {
+	return nil
+}
+
+func (r *policyRecordingReconciler) UpdateStatus(
+	_ context.Context,
+	_ logr.Logger,
+	_ record.EventRecorder,
+	_ genruntime.MetaObject,
+	policies annotations.ReconcilePolicies,
+) error {
+	r.updateStatusPolicies = &policies
+	return nil
+}
+
+func Test_CreateOrUpdate_passesResolvedPoliciesToSelectedPath(t *testing.T) {
+	t.Parallel()
+
+	const namespace = "test-namespace"
+
+	cases := map[string]struct {
+		objectPolicy      string
+		expectCreate      bool
+		expectedEffective annotations.ReconcilePolicyValue
+	}{
+		"manage calls create or update": {
+			objectPolicy:      string(annotations.ReconcilePolicyManage),
+			expectCreate:      true,
+			expectedEffective: annotations.ReconcilePolicyManage,
+		},
+		"skip calls status only": {
+			objectPolicy:      string(annotations.ReconcilePolicySkip),
+			expectedEffective: annotations.ReconcilePolicySkip,
+		},
+	}
+
+	for name, c := range cases {
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+
+			s := runtime.NewScheme()
+			g.Expect(corev1.AddToScheme(s)).To(Succeed())
+
+			namespaceObject := &corev1.Namespace{
+				ObjectMeta: metav1.ObjectMeta{Name: namespace},
+			}
+			spy := &policyRecordingReconciler{}
+			reconciler := &GenericReconciler{
+				Reconciler: spy,
+				KubeClient: kubeclient.NewClient(
+					fake.NewClientBuilder().
+						WithScheme(s).
+						WithObjects(namespaceObject).
+						Build(),
+				),
+				Config: config.Values{
+					DefaultReconcilePolicy: annotations.ReconcilePolicyManage,
+				},
+				PositiveConditions: conditions.NewPositiveConditionBuilder(clock.New()),
+			}
+			obj := &resources.ResourceGroup{
+				ObjectMeta: metav1.ObjectMeta{
+					Name:        "rg",
+					Namespace:   namespace,
+					Annotations: policyAnnotation(c.objectPolicy),
+					Finalizers:  []string{genruntime.ReconcilerFinalizer},
+				},
+			}
+
+			result, err := reconciler.createOrUpdate(context.Background(), logr.Discard(), obj)
+
+			g.Expect(err).NotTo(HaveOccurred())
+			g.Expect(result).To(Equal(ctrl.Result{}))
+
+			expected := annotations.ReconcilePolicies{
+				Effective: c.expectedEffective,
+				Inherited: annotations.ReconcilePolicyManage,
+				Default:   annotations.ReconcilePolicyManage,
+			}
+			if c.expectCreate {
+				g.Expect(spy.createOrUpdatePolicies).NotTo(BeNil())
+				g.Expect(*spy.createOrUpdatePolicies).To(Equal(expected))
+				g.Expect(spy.updateStatusPolicies).To(BeNil())
+			} else {
+				g.Expect(spy.createOrUpdatePolicies).To(BeNil())
+				g.Expect(spy.updateStatusPolicies).NotTo(BeNil())
+				g.Expect(*spy.updateStatusPolicies).To(Equal(expected))
+			}
 		})
 	}
 }

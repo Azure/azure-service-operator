@@ -22,6 +22,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/pkg/common/annotations"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/core"
@@ -66,7 +67,7 @@ func (r *MySQLUserReconciler) asUser(obj genruntime.MetaObject) (*asomysql.User,
 	return typedObj, nil
 }
 
-func (r *MySQLUserReconciler) CreateOrUpdate(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) (ctrl.Result, error) {
+func (r *MySQLUserReconciler) CreateOrUpdate(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject, _ annotations.ReconcilePolicies) (ctrl.Result, error) {
 	user, err := r.asUser(obj)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -136,7 +137,7 @@ func (r *MySQLUserReconciler) Claim(ctx context.Context, log logr.Logger, eventR
 	return nil
 }
 
-func (r *MySQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject) error {
+func (r *MySQLUserReconciler) UpdateStatus(ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj genruntime.MetaObject, _ annotations.ReconcilePolicies) error {
 	user, err := r.asUser(obj)
 	if err != nil {
 		return err
