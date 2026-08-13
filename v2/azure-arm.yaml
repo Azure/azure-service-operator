@@ -59,6 +59,7 @@ imports:
   containerinstance: azure-arm/containerinstance.yaml
   containerregistry: azure-arm/containerregistry.yaml
   containerservice: azure-arm/containerservice.yaml
+  databasewatcher: azure-arm/databasewatcher.yaml
   datafactory: azure-arm/datafactory.yaml
   dataprotection: azure-arm/dataprotection.yaml
   dbformariadb: azure-arm/dbformariadb.yaml

@@ -1,0 +1,37 @@
+typeFilters:
+  - action: include
+    version: v*20241001preview
+    because: ARM only serves preview api-versions for Microsoft.DatabaseWatcher, so the stable 2025-01-02 version can't be used
+groupModelConfiguration:
+  2024-10-01-preview:
+    Watcher:
+      $exportAs: Watcher
+      $supportedFrom: v2.21.0
+    Watchers_Target:
+      $exportAs: Target
+      $supportedFrom: v2.21.0
+    Watchers_SharedPrivateLinkResource:
+      $exportAs: SharedPrivateLink
+      $supportedFrom: v2.21.0
+    Datastore: # a watcher points at a Kusto cluster the user creates separately
+      KustoClusterUri:
+        $importConfigMapMode: optional
+      KustoDataIngestionUri:
+        $importConfigMapMode: optional
+      KustoManagementUrl:
+        $importConfigMapMode: optional
+    SqlDbSingleDatabaseTargetProperties: # ConnectionServerName is the FQDN of a server created at runtime
+      ConnectionServerName:
+        $importConfigMapMode: optional
+    SqlDbElasticPoolTargetProperties:
+      ConnectionServerName:
+        $importConfigMapMode: optional
+    SqlMiTargetProperties:
+      ConnectionServerName:
+        $importConfigMapMode: optional
+    SqlVmTargetProperties:
+      ConnectionServerName:
+        $importConfigMapMode: optional
+    VaultSecret:
+      AkvTargetPassword:
+        $importSecretMode: never # the path to a Key Vault secret, not the secret itself
